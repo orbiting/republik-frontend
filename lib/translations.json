@@ -1,0 +1,70 @@
+{
+  "updated": "2017-10-04T13:17:59.942Z",
+  "title": "live",
+  "data": [
+    {
+      "key": "frontnav/magazine",
+      "value": "Magazin"
+    },
+    {
+      "key": "frontnav/discussion",
+      "value": "Diskussion"
+    },
+    {
+      "key": "magazine/pageTitle",
+      "value": "Magazin"
+    },
+    {
+      "key": "discussion/pageTitle",
+      "value": "Diskussion"
+    },
+    {
+      "key": "me/pageTitle",
+      "value": "Mein Konto"
+    },
+    {
+      "key": "withAuthorization/title",
+      "value": "Geschützter Bereich"
+    },
+    {
+      "key": "signIn/button",
+      "value": "anmelden"
+    },
+    {
+      "key": "signIn/email/label",
+      "value": "E-Mail-Adresse"
+    },
+    {
+      "key": "signIn/success",
+      "value": "Erfolgreich eingeloggt als {nameOrEmail} ({seconds}s)"
+    },
+    {
+      "key": "signIn/polling",
+      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br /> Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br />(Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)"
+    },
+    {
+      "key": "signIn/cancel",
+      "value": "abbrechen"
+    },
+    {
+      "key": "signIn/email/error/empty",
+      "value": "E-Mail fehlt"
+    },
+    {
+      "key": "signIn/email/error/invalid",
+      "value": "E-Mail ungültig"
+    },
+    {
+      "key": "signOut/label",
+      "value": "abmelden"
+    },
+    {
+      "key": "signOut/error",
+      "value": "Unbekannter Fehler"
+    },
+    {
+      "key": "me/signedinAs",
+      "value": "Sie sind angemeldet als: {nameOrEmail}"
+    }
+  ]
+}

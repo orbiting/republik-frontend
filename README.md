@@ -50,3 +50,5 @@ Your logo, fonts and colors? See [orbiting/styleguide](https://github.com/orbiti
 ## License
 
 The source code is «BSD 3-clause» licensed.
+
+The fonts are the property of their owners (GT America—GrilliType and Rubis—Nootype), and may not be reproduced without permission.

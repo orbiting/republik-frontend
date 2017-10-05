@@ -48,11 +48,14 @@
   },
   "devDependencies": {
     "babel-tape-runner": "^2.0.1",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
     "eslint-plugin-import": "^2.7.0",
     "faucet": "0.0.1",
     "gsheets": "^2.0.0",
     "lint-staged": "^4.0.4",
     "nodemon": "^1.11.0",
+    "react-test-renderer": "^16.0.0",
     "standard": "^10.0.3",
     "tape": "^4.8.0"
   },

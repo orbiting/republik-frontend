@@ -27,7 +27,7 @@ npm run dev
 
 Run a test locally:
 ```
-npm run tape lib/utils/name.test.js
+npm run tape components/Me/index.test.js
 ```
 
 Run all tests:

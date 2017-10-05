@@ -3,7 +3,6 @@ import { css } from 'glamor'
 import Router from 'next/router'
 import { compose } from 'redux'
 
-import { getInitials } from '../../lib/utils/name'
 import withMe from '../../lib/apollo/withMe'
 
 import {
@@ -144,7 +143,7 @@ class Header extends Component {
                 ? <img src={me.portrait.url} {...styles.portrait} />
                 : (
                   <span {...styles.initials}>
-                    {getInitials(me)}
+                    {me.initials}
                   </span>
                   )
               }

@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
     return {
       ...page,
       ...styles,
-      env: require('../lib/settings')
+      env: require('../lib/constants')
     }
   }
   constructor (props) {

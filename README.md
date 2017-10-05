@@ -27,7 +27,12 @@ npm run dev
 
 Run a test locally:
 ```
-npm run test lib/utils/name.test.js
+npm run tape lib/utils/name.test.js
+```
+
+Run all tests:
+```
+npm run test
 ```
 
 ### Piwik

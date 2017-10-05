@@ -9,6 +9,7 @@ configure({ adapter: new Adapter() })
 test('utils.createActionButton', assert => {
   assert.plan(1)
 
+  // TODO: Properly hook up withMe/withT here.
   const wrapper = shallow(
     <Me
       me={{name: 'Foo'}}

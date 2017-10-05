@@ -10,7 +10,7 @@ const DEV = process.env.NODE_ENV
 if (DEV || process.env.DOTENV) {
   dotenv.config()
 }
-const PORT = process.env.PORT || 3003
+const PORT = process.env.PORT || 3005
 
 const app = next({
   dev: DEV

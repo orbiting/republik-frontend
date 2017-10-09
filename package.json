@@ -47,12 +47,18 @@
       },
       "test": {
         "presets": [
-          "react",
           [
-            "env",
+            "next/babel",
             {
-              "targets": {
-                "node": true
+              "preset-env": {
+                "modules": "commonjs",
+                "targets": {
+                  "node": true
+                }
+              },
+              "transform-runtime": {
+                "useBuiltIns": true,
+                "polyfill": false
               }
             }
           ]
@@ -61,8 +67,6 @@
     }
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
     "babel-tape-runner": "^2.0.1",
     "cross-env": "^5.0.5",
     "enzyme": "^3.1.0",
@@ -85,7 +89,7 @@
     "express": "^4.15.4",
     "express-basic-auth": "^1.1.1",
     "glamor": "^2.20.39",
-    "next": "^4.0.0-beta.6",
+    "next": "^4.0.0",
     "next-routes": "^1.0.40",
     "prop-types": "^15.5.10",
     "react": "^16.0.0",

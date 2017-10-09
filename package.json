@@ -37,28 +37,12 @@
     "env": {
       "development": {
         "presets": [
-          "next/babel",
-          [
-            "env",
-            {
-              "targets": {
-                "node": true
-              }
-            }
-          ]
+          "next/babel"
         ]
       },
       "production": {
         "presets": [
-          "next/babel",
-          [
-            "env",
-            {
-              "targets": {
-                "node": true
-              }
-            }
-          ]
+          "next/babel"
         ]
       },
       "test": {

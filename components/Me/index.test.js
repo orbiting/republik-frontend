@@ -1,15 +1,11 @@
 import React from 'react'
 import test from 'tape'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { shallow } from '../../lib/utils/enzyme'
 import { Me } from '../Me'
 
-configure({ adapter: new Adapter() })
-
-test('utils.createActionButton', assert => {
+test('components.me', assert => {
   assert.plan(1)
 
-  // TODO: Properly hook up withMe/withT here.
   const wrapper = shallow(
     <Me
       me={{name: 'Foo'}}

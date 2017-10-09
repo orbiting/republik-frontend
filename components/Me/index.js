@@ -5,7 +5,7 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { H1 } from '@project-r/styleguide'
 
-class Me extends Component {
+export class Me extends Component {
   render () {
     const { me, t } = this.props
 

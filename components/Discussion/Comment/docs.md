@@ -1,4 +1,4 @@
-# `<Comment />`
+### `<Comment />`
 
 ```react
 <Comment
@@ -12,18 +12,16 @@
 />
 ```
 
-# `<CommentHeader />`
+### `<CommentHeader />`
 
-The only required props are name and timeago. The rest is optional.
-
-```react
+```react|noSource,span-2
 <CommentHeader
   name='Anonym'
   timeago='2h'
 />
 ```
 
-```react
+```react|noSource,span-2
 <CommentHeader
   name='Anonym'
   timeago='2h'
@@ -31,8 +29,7 @@ The only required props are name and timeago. The rest is optional.
 />
 ```
 
-
-```react
+```react|noSource,span-2
 <CommentHeader
   profilePicture={profilePicture}
   name='Jean Jacques Rousseau'
@@ -40,7 +37,7 @@ The only required props are name and timeago. The rest is optional.
 />
 ```
 
-```react
+```react|noSource,span-2
 <CommentHeader
   profilePicture={profilePicture}
   name='Paul Ullrich'
@@ -49,7 +46,7 @@ The only required props are name and timeago. The rest is optional.
 />
 ```
 
-```react
+```react|noSource,span-2
 <CommentHeader
   profilePicture={profilePicture}
   name='Paul Ullrich'
@@ -58,10 +55,9 @@ The only required props are name and timeago. The rest is optional.
 />
 ```
 
+### `<CommentActions />`
 
-# `<CommentActions />`
-
-```react
+```react|noSource
 <CommentActions
   score={8}
 

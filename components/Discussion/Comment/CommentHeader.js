@@ -1,5 +1,6 @@
 import React from 'react'
 import {css} from 'glamor'
+import {colors} from '@project-r/styleguide'
 import {fontFamilies} from '@project-r/styleguide/lib/theme/fonts'
 
 import {MdCheck} from 'react-icons/lib/md'
@@ -25,18 +26,22 @@ const commentHeaderStyles = {
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: '15px',
     lineHeight: '20px',
-    color: '#282828'
+    color: colors.text
   }),
   timeago: css({
     fontFamily: fontFamilies.sansSerifRegular,
     fontSize: '12px',
-    color: '#979797'
+    color: '#979797' // TODO: colors.lightText
   }),
   description: css({
     fontFamily: fontFamilies.sansSerifRegular,
     fontSize: '12px',
     lineHeight: '15px',
-    marginTop: '5px'
+    marginTop: '5px',
+    color: '#979797' // TODO: colors.lightText
+  }),
+  verifiedDescription: css({
+    color: colors.text
   }),
   verifiedCheck: css({
     display: 'inline-block',
@@ -56,7 +61,7 @@ export const CommentHeader = ({profilePicture, name, timeago, credential}) => (
         {name}
         {timeago && <span {...commentHeaderStyles.timeago}>・{timeago}</span>}
       </div>
-      {credential && <div {...commentHeaderStyles.description}>
+      {credential && <div {...commentHeaderStyles.description} {...(credential.verified ? commentHeaderStyles.verifiedDescription : {})}>
         {credential.description}
         {credential.verified && <MdCheck {...commentHeaderStyles.verifiedCheck} />}
       </div>}

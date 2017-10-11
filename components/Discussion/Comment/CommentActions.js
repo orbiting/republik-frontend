@@ -1,7 +1,8 @@
 import React from 'react'
 import {css} from 'glamor'
-import {MdShare, MdKeyboardArrowDown, MdKeyboardArrowUp, MdMoreVert} from 'react-icons/lib/md'
+import {MdShare, MdKeyboardArrowDown, MdKeyboardArrowUp} from 'react-icons/lib/md'
 import {Label} from '@project-r/styleguide'
+import MdMoreHoriz from '../../Icons/MdMoreHoriz'
 
 const commentActionsConfig = {
   height: 26
@@ -50,7 +51,7 @@ export const CommentActions = ({score, onAnswer, onUpvote, onDownvote}) => (
         <MdShare />
       </ActionButton>
       <ActionButton iconSize={18}>
-        <MdMoreVert />
+        <MdMoreHoriz />
       </ActionButton>
       <div {...commentActionsStyles.votes}>
         <ActionButton iconSize={commentActionsConfig.height} onClick={onUpvote}>
@@ -77,6 +78,7 @@ const actionButtonStyles = {
     fontSize: '18px',
     lineHeight: `${commentActionsConfig.height}px`,
     cursor: 'pointer',
+    margin: '0 4px',
 
     '& svg': {
       margin: '0 auto'

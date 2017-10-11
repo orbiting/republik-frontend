@@ -26,6 +26,16 @@ const pages = [
           ...require('../components/Discussion/Comment')
         },
         component: pageLoader(() => import("../components/Discussion/Comment/docs.md"))
+      },
+      {
+        path: '/discussion/comment-node',
+        title: "CommentNode",
+        imports: {
+          comments: {...require('../components/Discussion/CommentNode/comments')},
+          profilePicture: require('!!file-loader!./static/profilePicture.png'),
+          ...require('../components/Discussion/CommentNode')
+        },
+        component: pageLoader(() => import("../components/Discussion/CommentNode/docs.md"))
       }
     ]
   }

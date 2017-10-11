@@ -37,7 +37,6 @@ const commentHeaderStyles = {
     fontFamily: fontFamilies.sansSerifRegular,
     fontSize: '12px',
     lineHeight: '15px',
-    marginTop: '5px',
     color: '#979797' // TODO: colors.lightText
   }),
   verifiedDescription: css({

@@ -37,7 +37,7 @@ const commentActionsStyles = {
   })
 }
 
-export const CommentActions = ({score, onAnswer}) => (
+export const CommentActions = ({score, onAnswer, onUpvote, onDownvote}) => (
   <div {...commentActionsStyles.root}>
     <button {...commentActionsStyles.replyButton} onClick={onAnswer}>
       <Label>
@@ -53,11 +53,11 @@ export const CommentActions = ({score, onAnswer}) => (
         <MdMoreVert />
       </ActionButton>
       <div {...commentActionsStyles.votes}>
-        <ActionButton iconSize={commentActionsConfig.height}>
+        <ActionButton iconSize={commentActionsConfig.height} onClick={onUpvote}>
           <MdKeyboardArrowUp />
         </ActionButton>
         <Label>{score}</Label>
-        <ActionButton iconSize={commentActionsConfig.height}>
+        <ActionButton iconSize={commentActionsConfig.height} onClick={onDownvote}>
           <MdKeyboardArrowDown />
         </ActionButton>
       </div>

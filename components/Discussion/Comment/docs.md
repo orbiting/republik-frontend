@@ -8,7 +8,12 @@
     name: 'Paul Ullrich',
     credential: {description: 'Bundesrat', verified: true}
   }}
+  score={8}
   content='Ihr könnt ruhig über den Film Shades of Grey herziehen. Aber Mr. Grey ist verdammt heiss.'
+
+  onAnswer={() => {}}
+  onUpvote={() => {}}
+  onDownvote={() => {}}
 />
 ```
 

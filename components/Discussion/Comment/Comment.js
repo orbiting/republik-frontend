@@ -14,7 +14,7 @@ const commentStyles = {
   })
 }
 
-export const Comment = ({timeago, displayAuthor, content}) => (
+export const Comment = ({timeago, displayAuthor, score, content, onAnswer, onUpvote, onDownvote}) => (
   <div>
     <CommentHeader
       {...displayAuthor}
@@ -26,7 +26,10 @@ export const Comment = ({timeago, displayAuthor, content}) => (
     </div>
 
     <CommentActions
-      score={8}
+      score={score}
+      onAnswer={onAnswer}
+      onUpvote={onUpvote}
+      onDownvote={onDownvote}
     />
   </div>
 )

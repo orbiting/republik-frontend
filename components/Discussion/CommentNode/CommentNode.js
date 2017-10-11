@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import {css} from 'glamor'
 
 import {Comment} from '../Comment'
@@ -23,80 +23,74 @@ const commentNodeStyles = {
   })
 }
 
-const CommentNode = ({displayAuthor, score, content, comments: {nodes}}) => {
-  if (nodes.length === 0) {
-    return (
-      <div {...commentNodeStyles.root}>
-        <Comment
-          timeago='2h'
-          displayAuthor={displayAuthor}
-          score={score}
-          content={content}
-        />
-      </div>
-    )
-  } else {
-    const [firstChild, ...otherChildren] = nodes
+class Node extends PureComponent {
+  constructor (props) {
+    super(props)
 
-    return (
-      <div {...commentNodeStyles.root} {...commentNodeStyles.rootBorder}>
-        <Comment
-          timeago='2h'
-          displayAuthor={displayAuthor}
-          score={score}
-          content={content}
-        />
+    this.state = {
+      showComposer: false
+    }
 
-        {otherChildren.length > 0 && <div {...commentNodeStyles.childrenContainer}>
-          {otherChildren.map(n => (
-            <Node key={n.id} {...n} />
-          ))}
-        </div>}
+    this.onAnswer = () => {
+      this.setState({showComposer: true})
+    }
+  }
 
-        <Node
-          {...firstChild}
-        />
-      </div>
-    )
+  render () {
+    const {top, displayAuthor, score, content, comments: {nodes}} = this.props
+    const {showComposer} = this.state
+
+    if (nodes.length === 0) {
+      return (
+        <div {...commentNodeStyles.root}>
+          <Comment
+            timeago='2h'
+            displayAuthor={displayAuthor}
+            score={score}
+            content={content}
+
+            onAnswer={this.onAnswer}
+          />
+
+          {showComposer && <div>
+            Composer
+          </div>}
+        </div>
+      )
+    } else {
+      const [firstChild, ...otherChildren] = nodes
+
+      return (
+        <div {...commentNodeStyles.root} {...(top ? commentNodeStyles.rootBorder : {})}>
+          <Comment
+            timeago='2h'
+            displayAuthor={displayAuthor}
+            score={score}
+            content={content}
+
+            onAnswer={this.onAnswer}
+          />
+
+          {showComposer && <div>
+            Composer
+          </div>}
+
+          {otherChildren.length > 0 && <div {...commentNodeStyles.childrenContainer}>
+            {otherChildren.map(n => (
+              <Node top={!top} key={n.id} {...n} />
+            ))}
+          </div>}
+
+          <Node
+            {...firstChild}
+          />
+        </div>
+      )
+    }
   }
 }
 
-const Node = ({displayAuthor, score, content, comments: {nodes}}) => {
-  if (nodes.length === 0) {
-    return (
-      <div {...commentNodeStyles.root}>
-        <Comment
-          timeago='2h'
-          displayAuthor={displayAuthor}
-          score={score}
-          content={content}
-        />
-      </div>
-    )
-  } else {
-    const [firstChild, ...otherChildren] = nodes
-
-    return (
-      <div {...commentNodeStyles.root}>
-        <Comment
-          timeago='2h'
-          displayAuthor={displayAuthor}
-          score={score}
-          content={content}
-        />
-
-        {otherChildren.length > 0 && <div {...commentNodeStyles.childrenContainer}>
-          {otherChildren.map(n => (
-            <CommentNode key={n.id} {...n} />
-          ))}
-        </div>}
-
-        <Node
-          {...firstChild}
-        />
-      </div>
-    )
-  }
-}
+const CommentNode = (props) =>
+  <Node top {...props} />
 
 export default CommentNode

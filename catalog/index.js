@@ -36,6 +36,14 @@ const pages = [
           ...require('../components/Discussion/CommentNode')
         },
         component: pageLoader(() => import("../components/Discussion/CommentNode/docs.md"))
+      },
+      {
+        path: '/discussion/inline-comment-composer',
+        title: "InlineCommentComposer",
+        imports: {
+          ...require('../components/Discussion/InlineCommentComposer')
+        },
+        component: pageLoader(() => import("../components/Discussion/InlineCommentComposer/docs.md"))
       }
     ]
   }

@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import {css} from 'glamor'
 
 import {Comment} from '../Comment'
+import {InlineCommentComposer} from '../InlineCommentComposer'
 
 const commentNodeStyles = {
   root: css({
@@ -34,6 +35,10 @@ class Node extends PureComponent {
     this.onAnswer = () => {
       this.setState({showComposer: true})
     }
+
+    this.composerOnCancel = () => {
+      this.setState({showComposer: false})
+    }
   }
 
   render () {
@@ -53,7 +58,9 @@ class Node extends PureComponent {
           />
 
           {showComposer && <div>
-            Composer
+            <InlineCommentComposer
+              onCancel={this.composerOnCancel}
+            />
           </div>}
         </div>
       )
@@ -72,7 +79,9 @@ class Node extends PureComponent {
           />
 
           {showComposer && <div>
-            Composer
+            <InlineCommentComposer
+              onCancel={this.composerOnCancel}
+            />
           </div>}
 
           {otherChildren.length > 0 && <div {...commentNodeStyles.childrenContainer}>

@@ -42,8 +42,9 @@ class Node extends PureComponent {
   }
 
   render () {
-    const {top, displayAuthor, score, content, comments: {nodes}} = this.props
+    const {top, displayAuthor, score, content, comments} = this.props
     const {showComposer} = this.state
+    const nodes = comments === undefined ? [] : comments.nodes
 
     if (nodes.length === 0) {
       return (

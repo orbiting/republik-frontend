@@ -24,7 +24,7 @@ const styles = {
     width: TESTIMONIAL_IMAGE_SIZE
   },
   quote: {
-    ...fontStyles.serifBold36,
+    ...fontStyles.sansSerifRegular30,
     [mediaQueries.onlyS]: {
       ...fontStyles.serifBold24
     }

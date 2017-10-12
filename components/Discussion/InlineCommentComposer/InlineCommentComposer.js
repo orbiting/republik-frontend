@@ -8,7 +8,7 @@ const inlineCommentComposerStyles = {
   root: css({
   }),
   form: css({
-    background: '#F8F8F8',
+    background: '#F8F8F8', // TODO: colors.whiteSmoke
     marginTop: '1px'
   }),
   textArea: css({
@@ -27,7 +27,7 @@ const inlineCommentComposerStyles = {
     color: colors.text
   }),
   textAreaEmpty: css({
-    color: '#979797'
+    color: '#979797' // TODO: colors.lightText
   }),
   actions: css({
     display: 'flex',
@@ -57,7 +57,7 @@ const inlineCommentComposerStyles = {
     fontFamily: fontFamilies.sansRegular,
     fontSize: '16px',
     lineHeight: '26px',
-    color: '#B98C6C',
+    color: '#B98C6C', // TODO: colors.ocker
 
     alignSelf: 'stretch',
     display: 'flex',

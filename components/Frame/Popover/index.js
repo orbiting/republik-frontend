@@ -6,7 +6,7 @@ import {
   HEADER_HEIGHT_MOBILE,
   HEADER_HEIGHT,
   MENUBAR_HEIGHT
-} from '../constants'
+} from '../../constants'
 
 import { colors, mediaQueries, fontFamilies } from '@project-r/styleguide'
 

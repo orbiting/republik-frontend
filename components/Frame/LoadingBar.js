@@ -4,7 +4,7 @@ import track from '../../lib/piwik'
 
 import { css } from 'glamor'
 import { colors } from '@project-r/styleguide'
-import { ZINDEX_LOADINGBAR } from './constants'
+import { ZINDEX_LOADINGBAR } from '../constants'
 
 const styles = {
   loadingBar: css({

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-05T14:24:32.118Z",
+  "updated": "2017-10-11T17:06:53.974Z",
   "title": "live",
   "data": [
     {
@@ -69,6 +69,30 @@
     {
       "key": "me/signedinAs",
       "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "profile/discussion",
+      "value": "Diskussionsbeiträge"
+    },
+    {
+      "key": "testimonial/sequenceNumber",
+      "value": "Abo #{num}"
+    },
+    {
+      "key": "badge/crowdfunder",
+      "value": "Crowdfunder"
+    },
+    {
+      "key": "badge/patron",
+      "value": "Gönner"
+    },
+    {
+      "key": "badge/staff",
+      "value": "Fester Autor der Republik"
+    },
+    {
+      "key": "badge/freelancer",
+      "value": "Freier Autor der Republik"
     }
   ]
 }

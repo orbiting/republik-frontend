@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-16T12:50:37.413Z",
+  "updated": "2017-10-16T12:57:07.004Z",
   "title": "live",
   "data": [
     {
@@ -93,6 +93,10 @@
     {
       "key": "badge/freelancer",
       "value": "Freier Autor der Republik"
+    },
+    {
+      "key": "header/title",
+      "value": "Republik"
     },
     {
       "key": "footer/contact/title",

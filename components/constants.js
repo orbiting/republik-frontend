@@ -1,5 +1,5 @@
 export const HEADER_HEIGHT = 80
-export const HEADER_HEIGHT_MOBILE = 80
+export const HEADER_HEIGHT_MOBILE = 50
 export const MENUBAR_HEIGHT = 40
 export const TESTIMONIAL_IMAGE_SIZE = 238
 

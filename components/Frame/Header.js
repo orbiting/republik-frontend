@@ -6,8 +6,9 @@ import { compose } from 'redux'
 import withMe from '../../lib/apollo/withMe'
 
 import {
-  BrandMark,
-  colors
+  Logo,
+  colors,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import Toggle from './Toggle'
@@ -15,7 +16,7 @@ import Popover from './Popover'
 import MePopover from './Popover/Me'
 
 import LoadingBar from './LoadingBar'
-import { HEADER_HEIGHT, ZINDEX_HEADER } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from '../constants'
 
 const styles = {
   bar: css({
@@ -28,12 +29,14 @@ const styles = {
     left: 0,
     right: 0,
     backgroundColor: '#fff',
-    height: HEADER_HEIGHT,
+    height: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT
+    },
     borderBottom: `1px solid ${colors.divider}`,
     whiteSpace: 'nowrap'
   }),
   left: css({
-    paddingTop: 15,
     paddingLeft: 15,
     display: 'inline-block',
     minWidth: '75%',
@@ -45,12 +48,21 @@ const styles = {
     textAlign: 'right'
   }),
   logo: css({
-    width: 50,
     display: 'inline-block',
-    float: 'left',
-    marginRight: 20,
-    verticalAlign: 'top',
-    lineHeight: 0
+    marginTop: '15px',
+    [mediaQueries.mUp]: {
+      marginTop: '25px'
+    },
+    verticalAlign: 'middle'
+  }),
+  menu: css({
+    display: 'inline-block',
+    paddingLeft: '20px',
+    marginTop: '10px',
+    [mediaQueries.mUp]: {
+      marginTop: '20px'
+    },
+    verticalAlign: 'middle'
   }),
   repoName: css({
     marginLeft: 8,
@@ -65,15 +77,21 @@ const styles = {
   initials: css({
     display: 'inline-block',
     marginLeft: 5,
-    verticalAlign: 'top',
+    verticalAlign: 'center',
     textAlign: 'center',
     backgroundColor: '#ccc',
     color: '#000',
     textTransform: 'uppercase',
-    width: HEADER_HEIGHT - 1,
-    height: HEADER_HEIGHT - 1,
-    paddingTop: 28,
-    fontSize: 20
+    height: HEADER_HEIGHT_MOBILE - 1,
+    width: HEADER_HEIGHT_MOBILE - 1,
+    paddingTop: 16,
+    fontSize: 16,
+    [mediaQueries.mUp]: {
+      fontSize: 20,
+      height: HEADER_HEIGHT - 1,
+      paddingTop: 28,
+      width: HEADER_HEIGHT - 1
+    }
   })
 }
 
@@ -82,14 +100,33 @@ class Header extends Component {
     super(props)
 
     this.state = {
+      mobile: false,
       popover: null
     }
+
+    this.measure = () => {
+      const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (mobile !== this.state.mobile) {
+        this.setState(() => ({mobile}))
+      }
+    }
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this.measure)
+    this.measure()
+  }
+  componentDidUpdate () {
+    this.measure()
+  }
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.measure)
   }
   render () {
     const { url, me, children } = this.props
-    const { popover } = this.state
+    const { mobile, popover } = this.state
 
-    const { repository } = url.query
+    const logoHeight = mobile ? 18 : 30
 
     const barStyle = styles.bar
 
@@ -119,15 +156,11 @@ class Header extends Component {
                 }
               }}
             >
-              <BrandMark />
+              <Logo height={logoHeight} />
             </a>
-            {!!repository &&
-              <span {...styles.repoName}>
-                {repository}
-              </span>
-            }
-            <br />
-            {children}
+            <span {...styles.menu}>
+              {children}
+            </span>
           </div>
           {!!me && <div {...styles.right}>
             <a

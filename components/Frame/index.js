@@ -19,7 +19,7 @@ css.global('body', {
 const Index = ({ t, children, url, raw, nav }) =>
   <main>
     <Head>
-      <title>Project R – {t('app/name')}</title>
+      <title>{t('header/title')}</title>
     </Head>
     <Header url={url}>{nav}</Header>
     <div style={{paddingTop: HEADER_HEIGHT}}>

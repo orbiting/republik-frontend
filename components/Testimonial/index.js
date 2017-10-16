@@ -10,7 +10,11 @@ const styles = {
   container: css({
     paddingLeft: `${TESTIMONIAL_IMAGE_SIZE + 20}px`,
     height: `${TESTIMONIAL_IMAGE_SIZE}px`,
-    position: 'relative'
+    position: 'relative',
+    [mediaQueries.onlyS]: {
+      paddingLeft: 0,
+      height: 'auto'
+    }
   }),
   textContainer: css({
     position: 'relative'
@@ -21,13 +25,14 @@ const styles = {
     left: 0,
     position: 'absolute',
     top: 0,
-    width: TESTIMONIAL_IMAGE_SIZE
+    width: TESTIMONIAL_IMAGE_SIZE,
+    [mediaQueries.onlyS]: {
+      position: 'static'
+    }
   },
   quote: {
     ...fontStyles.serifBold36,
-    [mediaQueries.onlyS]: {
-      ...fontStyles.serifBold24
-    }
+    lineHeight: 1.42
   },
   sequenceNumber: css({
     ...fontStyles.serifBold16,
@@ -51,6 +56,25 @@ const styles = {
   }
 }
 
+const fontSizeBoost = length => {
+  if (length < 40) {
+    return 26
+  }
+  if (length < 50) {
+    return 17
+  }
+  if (length < 80) {
+    return 8
+  }
+  if (length < 100) {
+    return 4
+  }
+  if (length > 200) {
+    return -4
+  }
+  return 0
+}
+
 class Testimonial extends Component {
   render () {
     const { t, testimonial } = this.props
@@ -65,7 +89,14 @@ class Testimonial extends Component {
           />
           <div {...styles.textContainer}>
             {testimonial.quote && (
-              <p {...css(styles.quote)}>«{testimonial.quote}»</p>
+              <p
+                {...css(styles.quote)}
+                style={{
+                  fontSize: 24 + fontSizeBoost(testimonial.quote.length)
+                }}
+              >
+                «{testimonial.quote}»
+              </p>
             )}
           </div>
           <div {...styles.sequenceNumber}>

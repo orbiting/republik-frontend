@@ -27,7 +27,11 @@ const styles = {
     borderTop: `1px solid ${colors.divider}`,
     paddingTop: '80px',
     position: 'relative',
-    paddingLeft: `${TESTIMONIAL_IMAGE_SIZE + 20}px`
+    paddingLeft: `${TESTIMONIAL_IMAGE_SIZE + 20}px`,
+    [mediaQueries.onlyS]: {
+      paddingLeft: 0,
+      paddingTop: '10px'
+    }
   }),
   profileImage: {
     backgroundSize: 'cover',
@@ -36,8 +40,12 @@ const styles = {
   },
   sidebar: css({
     left: 0,
+    paddingBottom: '20px',
     position: 'absolute',
-    top: `${SIDEBAR_TOP}px`
+    top: `${SIDEBAR_TOP}px`,
+    [mediaQueries.onlyS]: {
+      position: 'static'
+    }
   }),
   role: css({...fontStyles.sansSerifMedium16}),
   badges: css({

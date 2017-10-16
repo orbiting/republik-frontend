@@ -78,7 +78,7 @@ const getProfile = gql`
       }
       facebookId
       twitterHandle
-      publicEmail
+      isEmailPublic
       publicUrl
       badges
       latestComments {
@@ -187,12 +187,12 @@ class Profile extends Component {
                       />
                     </div>
                   )}
-                  {profile.publicEmail && (
+                  {profile.isEmailPublic && (
                     <div {...styles.contact}>
                       <IconLink
                         icon='mail'
-                        text={profile.publicEmail}
-                        href={`mailto:${profile.publicEmail}`}
+                        text={profile.email}
+                        href={`mailto:${profile.email}`}
                       />
                     </div>
                   )}

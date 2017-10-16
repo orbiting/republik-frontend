@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-11T17:06:53.974Z",
+  "updated": "2017-10-16T12:50:37.413Z",
   "title": "live",
   "data": [
     {
@@ -93,6 +93,94 @@
     {
       "key": "badge/freelancer",
       "value": "Freier Autor der Republik"
+    },
+    {
+      "key": "footer/contact/title",
+      "value": "Kontakt"
+    },
+    {
+      "key": "footer/contact/name",
+      "value": "Republik \nProject R Genossenschaft "
+    },
+    {
+      "key": "footer/contact/address",
+      "value": "Sihlhallenstrasse 1 \n8004 Zürich \nSchweiz"
+    },
+    {
+      "key": "footer/contact/mail",
+      "value": "kontakt@republik.ch"
+    },
+    {
+      "key": "footer/about/title",
+      "value": "Über uns"
+    },
+    {
+      "key": "footer/crew",
+      "value": "Crew"
+    },
+    {
+      "key": "footer/events",
+      "value": "Veranstaltungen"
+    },
+    {
+      "key": "footer/updates",
+      "value": "Blog Crowdfunding"
+    },
+    {
+      "key": "footer/about/projecR",
+      "value": "Project R"
+    },
+    {
+      "key": "footer/about/manifest",
+      "value": "Manifest"
+    },
+    {
+      "key": "footer/about/en",
+      "value": "English Manifesto"
+    },
+    {
+      "key": "footer/legal/title",
+      "value": "Rechtliches"
+    },
+    {
+      "key": "footer/legal/tos",
+      "value": "AGB"
+    },
+    {
+      "key": "footer/legal/privacy",
+      "value": "Datenschutz"
+    },
+    {
+      "key": "footer/legal/statute",
+      "value": "Statuten"
+    },
+    {
+      "key": "footer/legal/imprint",
+      "value": "Impressum"
+    },
+    {
+      "key": "footer/media",
+      "value": "Medieninformationen"
+    },
+    {
+      "key": "footer/me/title",
+      "value": "Ihr Profil"
+    },
+    {
+      "key": "footer/me/signIn",
+      "value": "Bereits an Bord?"
+    },
+    {
+      "key": "footer/me/signedIn",
+      "value": "Ihre persönliche Übersicht"
+    },
+    {
+      "key": "footer/me/signOut",
+      "value": "Abmelden"
+    },
+    {
+      "key": "footer/me/claim",
+      "value": "Gutscheincode einlösen"
     }
   ]
 }

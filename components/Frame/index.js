@@ -2,6 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import { Container, fontFamilies } from '@project-r/styleguide'
 import Header from './Header'
+import Footer from './Footer'
 import { HEADER_HEIGHT } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -33,6 +34,7 @@ const Index = ({ t, children, url, raw, nav }) =>
         )
       }
     </div>
+    <Footer />
   </main>
 
 export default withT(Index)

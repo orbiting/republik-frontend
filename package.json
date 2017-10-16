@@ -15,7 +15,8 @@
     "test": "cross-env NODE_ENV=test babel-tape-runner \"?(lib|pages|components)/**/*.test.js\" | faucet",
     "standardize": "standard --fix",
     "precommit": "lint-staged",
-    "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json"
+    "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
+    "catalog-start": "catalog-start"
   },
   "repository": {
     "type": "git",
@@ -68,6 +69,7 @@
   },
   "devDependencies": {
     "babel-tape-runner": "^2.0.1",
+    "catalog": "^3.1.2",
     "cross-env": "^5.0.5",
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.0.1",

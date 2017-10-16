@@ -24,13 +24,13 @@ const styles = {
     width: TESTIMONIAL_IMAGE_SIZE
   },
   quote: {
-    ...fontStyles.sansSerifRegular30,
+    ...fontStyles.serifBold36,
     [mediaQueries.onlyS]: {
       ...fontStyles.serifBold24
     }
   },
   sequenceNumber: css({
-    ...fontStyles.serifBold17,
+    ...fontStyles.serifBold16,
     bottom: '10px',
     position: 'absolute',
     [mediaQueries.onlyS]: {

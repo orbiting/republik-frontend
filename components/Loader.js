@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {css} from 'glamor'
 
-import {HEADER_HEIGHT} from './Frame/constants'
+import {HEADER_HEIGHT} from './constants'
 import Spinner from './Spinner'
 import ErrorMessage from './ErrorMessage'
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
-import { NarrowContainer, fontFamilies } from '@project-r/styleguide'
+import { Container, fontFamilies } from '@project-r/styleguide'
 import Header from './Header'
-import { HEADER_HEIGHT } from './constants'
+import { HEADER_HEIGHT } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 
@@ -25,11 +25,11 @@ const Index = ({ t, children, url, raw, nav }) =>
       {raw
         ? children
         : (
-          <NarrowContainer>
+          <Container style={{maxWidth: '840px'}}>
             <div style={{paddingTop: 40, paddingBottom: 20}}>
               {children}
             </div>
-          </NarrowContainer>
+          </Container>
         )
       }
     </div>

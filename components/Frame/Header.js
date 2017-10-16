@@ -15,7 +15,7 @@ import Popover from './Popover'
 import MePopover from './Popover/Me'
 
 import LoadingBar from './LoadingBar'
-import { HEADER_HEIGHT, ZINDEX_HEADER } from './constants'
+import { HEADER_HEIGHT, ZINDEX_HEADER } from '../constants'
 
 const styles = {
   bar: css({

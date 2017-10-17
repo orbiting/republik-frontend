@@ -32,8 +32,7 @@ const menuStyle = css({
     height: `calc(100vh - ${M_HEADER_HEIGHT}px)`,
     width: '100vw',
     flexDirection: 'column',
-    padding: 20,
-    paddingTop: 50
+    padding: 20
   },
   [mediaQueries.mUp]: {
     display: 'block',

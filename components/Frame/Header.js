@@ -184,7 +184,7 @@ class Header extends Component {
           </div>}
           <Popover expanded={!!popover}>
             <MePopover me={me}>
-              <span style={{ float: 'right', marginTop: 5 }}>
+              <span style={{ position: 'absolute', right: '10px', top: '10px' }}>
                 <Toggle
                   expanded
                   onClick={() => this.setState({ popover: null })}

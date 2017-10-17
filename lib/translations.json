@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-16T12:57:07.004Z",
+  "updated": "2017-10-17T15:37:48.766Z",
   "title": "live",
   "data": [
     {
@@ -19,8 +19,12 @@
       "value": "Diskussion"
     },
     {
-      "key": "popover/myaccount",
+      "key": "Frame/Popover/myaccount",
       "value": "Mein Konto"
+    },
+    {
+      "key": "Frame/Popover/myprofile",
+      "value": "Mein Profil"
     },
     {
       "key": "me/pageTitle",

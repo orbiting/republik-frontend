@@ -64,9 +64,9 @@ const styles = {
   }
 }
 
-const getProfile = gql`
-  query getProfile($userId: ID!) {
-    profile(id: $userId) {
+const getPublicUser = gql`
+  query getPublicUser($userId: ID!) {
+    publicUser(id: $userId) {
       id
       name
       email
@@ -80,7 +80,6 @@ const getProfile = gql`
       }
       facebookId
       twitterHandle
-      isEmailPublic
       publicUrl
       badges
       latestComments {
@@ -139,7 +138,11 @@ class Profile extends Component {
   }
 
   render () {
-    const { data: { loading, error, profile }, t } = this.props
+    const { data: { loading, error, publicUser }, t } = this.props
+
+    if (!publicUser) {
+      return <div>Not found</div>
+    }
 
     return (
       <Loader
@@ -149,8 +152,8 @@ class Profile extends Component {
           return (
             <div>
               <div ref={this.innerRef} id='test'>
-                {profile.testimonial && (
-                  <Testimonial testimonial={profile.testimonial} />
+                {publicUser.testimonial && (
+                  <Testimonial testimonial={publicUser.testimonial} />
                 )}
               </div>
               <div {...styles.container}>
@@ -162,56 +165,56 @@ class Profile extends Component {
                     })
                     : styles.sidebar)}
                 >
-                  <Interaction.H3>{profile.testimonial.name}</Interaction.H3>
-                  <div {...styles.role}>{profile.testimonial.role}</div>
-                  {profile.badges && (
+                  <Interaction.H3>{publicUser.testimonial.name}</Interaction.H3>
+                  <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  {publicUser.badges && (
                     <div {...styles.badges}>
-                      {profile.badges.map(badge => (
+                      {publicUser.badges.map(badge => (
                         <Badge badge={badge} size={27} />
                       ))}
                     </div>
                   )}
-                  {profile.facebookId && (
+                  {publicUser.facebookId && (
                     <div {...styles.contact}>
                       <IconLink
                         icon='facebook'
-                        text={profile.facebookId}
-                        href={`${BASE_URL_FACEBOOK}/${profile.facebookId}`}
+                        text={publicUser.facebookId}
+                        href={`${BASE_URL_FACEBOOK}/${publicUser.facebookId}`}
                       />
                     </div>
                   )}
-                  {profile.twitterHandle && (
+                  {publicUser.twitterHandle && (
                     <div {...styles.contact}>
                       <IconLink
                         icon='twitter'
-                        text={profile.twitterHandle}
-                        href={`${BASE_URL_TWITTER}/${profile.twitterHandle}`}
+                        text={publicUser.twitterHandle}
+                        href={`${BASE_URL_TWITTER}/${publicUser.twitterHandle}`}
                       />
                     </div>
                   )}
-                  {profile.isEmailPublic && (
+                  {publicUser.email && (
                     <div {...styles.contact}>
                       <IconLink
                         icon='mail'
-                        text={profile.email}
-                        href={`mailto:${profile.email}`}
+                        text={publicUser.email}
+                        href={`mailto:${publicUser.email}`}
                       />
                     </div>
                   )}
-                  {profile.publicUrl && (
+                  {publicUser.publicUrl && (
                     <div {...styles.contact}>
                       <IconLink
                         icon='link'
-                        text={profile.publicUrl}
-                        href={profile.publicUrl}
+                        text={publicUser.publicUrl}
+                        href={publicUser.publicUrl}
                         target={'_blank'}
                       />
                     </div>
                   )}
                 </div>
                 <Interaction.H3>{t('profile/discussion')}</Interaction.H3>
-                {profile.latestComments.map(comment => (
-                  <p>{comment.content}</p>
+                {publicUser.latestComments.map(comment => (
+                  <p key={comment.id}>{comment.content}</p>
                 ))}
               </div>
             </div>
@@ -224,7 +227,7 @@ class Profile extends Component {
 
 export default compose(
   withT,
-  graphql(getProfile, {
+  graphql(getPublicUser, {
     options: props => ({
       variables: {
         userId: props.userId

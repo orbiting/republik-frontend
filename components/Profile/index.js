@@ -43,8 +43,10 @@ const styles = {
     paddingBottom: '20px',
     position: 'absolute',
     top: `${SIDEBAR_TOP}px`,
+    width: `${TESTIMONIAL_IMAGE_SIZE}px`,
     [mediaQueries.onlyS]: {
-      position: 'static'
+      position: 'static',
+      width: 'auto'
     }
   }),
   role: css({...fontStyles.sansSerifMedium16}),

@@ -20,8 +20,11 @@ const DEFAULT_PADDING = 5
 
 const styles = {
   link: {
+    maxWidth: '100%',
     textDecoration: 'none',
     verticalAlign: 'middle',
+    whiteSpace: 'nowrap',
+    width: '100%',
     ':hover > span:first-child': {
       opacity: 0.6
     },
@@ -36,7 +39,13 @@ const styles = {
     ':hover': {
       opacity: 0.6
     }
-  })
+  }),
+  text: {
+    display: 'inline-block',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    verticalAlign: 'middle'
+  }
 }
 
 const ICONS = {
@@ -54,18 +63,30 @@ const ICONS = {
 
 const IconLink = ({ href, target, fill, icon, size, text, padding }) => {
   const Icon = ICONS[icon]
+  const paddingValue = padding !== undefined ? padding : DEFAULT_PADDING
+  const sizeValue = size || DEFAULT_SIZE
   return (
     <a
       href={href}
       {...merge(styles.link, {
-        padding: `${padding !== undefined ? padding : DEFAULT_PADDING}px`
+        padding: `${paddingValue}px`
       })}
       target={target}
     >
       <span {...styles.icon}>
-        <Icon fill={fill} size={size || DEFAULT_SIZE} />
+        <Icon fill={fill} size={sizeValue} />
       </span>
-      {text && <span {...(href ? linkRule : {})}>&nbsp;{text}</span>}
+      {text && (
+        <span
+          {...merge(
+            styles.text,
+            { maxWidth: `calc(100% - ${sizeValue + 2 * paddingValue}px)` },
+            href ? linkRule : {}
+          )}
+        >
+          &nbsp;{text}
+        </span>
+      )}
     </a>
   )
 }

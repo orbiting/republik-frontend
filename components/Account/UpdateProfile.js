@@ -104,9 +104,6 @@ class Update extends Component {
       .map(key => errors[key])
       .filter(Boolean)
 
-    console.log('values')
-    console.log(values)
-
     return (
       <Loader
         loading={loading}

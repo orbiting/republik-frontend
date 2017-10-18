@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-17T15:37:48.766Z",
+  "updated": "2017-10-18T13:03:16.385Z",
   "title": "live",
   "data": [
     {
@@ -25,10 +25,6 @@
     {
       "key": "Frame/Popover/myprofile",
       "value": "Mein Profil"
-    },
-    {
-      "key": "me/pageTitle",
-      "value": "Willkommen an Bord, {name}"
     },
     {
       "key": "withAuthorization/title",
@@ -73,6 +69,198 @@
     {
       "key": "me/signedinAs",
       "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "pledge/contact/title",
+      "value": "Ihre Kontaktinformationen"
+    },
+    {
+      "key": "pledge/contact/signedinAs",
+      "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "pledge/contact/pastPledges/1",
+      "value": "Sie haben bereits einmal mitgemacht."
+    },
+    {
+      "key": "pledge/contact/pastPledges/other",
+      "value": "Sie haben bereits {count} mal mitgemacht."
+    },
+    {
+      "key": "pledge/contact/signOut",
+      "value": "abmelden"
+    },
+    {
+      "key": "pledge/contact/signIn/show",
+      "value": "Schon mal ausgefüllt?"
+    },
+    {
+      "key": "pledge/contact/signIn/hide",
+      "value": "Das erste Mal hier?"
+    },
+    {
+      "key": "pledge/contact/firstName/label",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "pledge/contact/firstName/error/empty",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "pledge/contact/lastName/label",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "pledge/contact/lastName/error/empty",
+      "value": "Nachname fehlt"
+    },
+    {
+      "key": "pledge/contact/email/label",
+      "value": "Ihre E-Mail"
+    },
+    {
+      "key": "pledge/contact/email/error/empty",
+      "value": "E-Mail fehlt"
+    },
+    {
+      "key": "pledge/contact/email/error/invalid",
+      "value": "E-Mail ungültig"
+    },
+    {
+      "key": "Account/empty/title",
+      "value": "Hallo {nameOrEmail}"
+    },
+    {
+      "key": "Account/lead",
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre Postadresse (brauchen wir leider) und Ihr Foto (brauchen wir nicht, würde uns aber freuen), Letzteres mit einem persönlichen Slogan (würde uns ebenfalls freuen).<br />\n<br />\nHier unser Slogan, in vier Worten: Lang lebe die Republik!"
+    },
+    {
+      "key": "Account/empty/text",
+      "value": "Möchten auch Sie uns unterstützen?"
+    },
+    {
+      "key": "Account/empty/button",
+      "value": "Jetzt mitmachen"
+    },
+    {
+      "key": "Account/title",
+      "value": "Willkommen an Bord, {name}"
+    },
+    {
+      "key": "Account/Update/address/label",
+      "value": "Adresse"
+    },
+    {
+      "key": "Account/Update/title",
+      "value": "Persönliche Angaben"
+    },
+    {
+      "key": "Account/Update/birthday/label",
+      "value": "Geburtsdatum"
+    },
+    {
+      "key": "Account/Update/phone/label",
+      "value": "Telefonnummer (Optional)"
+    },
+    {
+      "key": "Account/Update/birthday/hint",
+      "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R"
+    },
+    {
+      "key": "Account/Update/birthday/error/empty",
+      "value": "Geburtsdatum fehlt"
+    },
+    {
+      "key": "Account/Update/birthday/error/invalid",
+      "value": "Geburtsdatum ungültig"
+    },
+    {
+      "key": "Account/Update/submit",
+      "value": "Speichern"
+    },
+    {
+      "key": "Account/Update/updating",
+      "value": "speichert"
+    },
+    {
+      "key": "Account/Update/edit",
+      "value": "ändern"
+    },
+    {
+      "key": "Account/UpdateProfile/title",
+      "value": "Profilseite"
+    },
+    {
+      "key": "Account/UpdateProfile/titlePrivate",
+      "value": "Profilseite ist deaktiviert"
+    },
+    {
+      "key": "Account/AddressForm/title",
+      "value": "Ihre Adresse"
+    },
+    {
+      "key": "Account/AddressForm/name/label",
+      "value": "Anschrift"
+    },
+    {
+      "key": "Account/AddressForm/name/error/empty",
+      "value": "Anschrift fehlt"
+    },
+    {
+      "key": "Account/AddressForm/line1/label",
+      "value": "Strasse und Hausnummer"
+    },
+    {
+      "key": "Account/AddressForm/line1/error/empty",
+      "value": "Strasse und Hausnummer fehlen"
+    },
+    {
+      "key": "Account/AddressForm/line2/label",
+      "value": "Zusatz (Optional)"
+    },
+    {
+      "key": "Account/AddressForm/postalCode/label",
+      "value": "Postleitzahl"
+    },
+    {
+      "key": "Account/AddressForm/postalCode/error/empty",
+      "value": "Postleitzahl fehlt"
+    },
+    {
+      "key": "Account/AddressForm/city/label",
+      "value": "Ort"
+    },
+    {
+      "key": "Account/AddressForm/city/error/empty",
+      "value": "Ort fehlt"
+    },
+    {
+      "key": "Account/AddressForm/country/label",
+      "value": "Land"
+    },
+    {
+      "key": "Account/AddressForm/country/error/empty",
+      "value": "Land fehlt"
+    },
+    {
+      "key": "Account/ProfileForm/isPrivate/label",
+      "value": "Profilseite deaktivieren"
+    },
+    {
+      "key": "Account/ProfileForm/facebookId/label",
+      "value": "Facebook ID"
+    },
+    {
+      "key": "Account/ProfileForm/twitterHandle/label",
+      "value": "Twitter Handle"
+    },
+    {
+      "key": "Account/ProfileForm/publicUrl/label",
+      "value": "URL"
+    },
+    {
+      "key": "Account/ProfileForm/isEmailPublic/label",
+      "value": "E-Mail im Profil anzeigen"
     },
     {
       "key": "profile/discussion",

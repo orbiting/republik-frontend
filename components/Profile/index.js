@@ -5,11 +5,9 @@ import Loader from '../../components/Loader'
 import withT from '../../lib/withT'
 import { css, merge } from 'glamor'
 import Badge from './Badge'
+import PointerList from './PointerList'
 import Testimonial from '../Testimonial'
-import IconLink from '../IconLink'
 import {
-  BASE_URL_FACEBOOK,
-  BASE_URL_TWITTER,
   HEADER_HEIGHT,
   TESTIMONIAL_IMAGE_SIZE
 } from '../constants'
@@ -167,6 +165,7 @@ class Profile extends Component {
                 >
                   <Interaction.H3>{publicUser.testimonial.name}</Interaction.H3>
                   <div {...styles.role}>{publicUser.testimonial.role}</div>
+
                   {publicUser.badges && (
                     <div {...styles.badges}>
                       {publicUser.badges.map(badge => (
@@ -174,43 +173,7 @@ class Profile extends Component {
                       ))}
                     </div>
                   )}
-                  {publicUser.facebookId && (
-                    <div {...styles.contact}>
-                      <IconLink
-                        icon='facebook'
-                        text={publicUser.facebookId}
-                        href={`${BASE_URL_FACEBOOK}/${publicUser.facebookId}`}
-                      />
-                    </div>
-                  )}
-                  {publicUser.twitterHandle && (
-                    <div {...styles.contact}>
-                      <IconLink
-                        icon='twitter'
-                        text={publicUser.twitterHandle}
-                        href={`${BASE_URL_TWITTER}/${publicUser.twitterHandle}`}
-                      />
-                    </div>
-                  )}
-                  {publicUser.email && (
-                    <div {...styles.contact}>
-                      <IconLink
-                        icon='mail'
-                        text={publicUser.email}
-                        href={`mailto:${publicUser.email}`}
-                      />
-                    </div>
-                  )}
-                  {publicUser.publicUrl && (
-                    <div {...styles.contact}>
-                      <IconLink
-                        icon='link'
-                        text={publicUser.publicUrl}
-                        href={publicUser.publicUrl}
-                        target={'_blank'}
-                      />
-                    </div>
-                  )}
+                  <PointerList publicUser={publicUser} />
                 </div>
                 <Interaction.H3>{t('profile/discussion')}</Interaction.H3>
                 {publicUser.latestComments.map(comment => (

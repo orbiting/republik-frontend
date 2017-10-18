@@ -127,8 +127,6 @@ class UpdateMe extends Component {
       const errorMessages = Object.keys(errors)
         .map(key => errors[key])
         .filter(Boolean)
-      console.log('WWW')
-      console.log(errorMessages)
       errorMessages.length && this.startEditing()
     }
   }

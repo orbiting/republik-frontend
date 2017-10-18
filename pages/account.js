@@ -7,7 +7,7 @@ import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 
-const Index = ({ url, me }) => (
+const AccountPage = ({ url, me }) => (
   <Frame url={url} nav={<Nav route='' url={url} />}>
     {me ? <Me /> : <Marketing />}
   </Frame>
@@ -16,4 +16,4 @@ const Index = ({ url, me }) => (
 export default compose(
   withData,
   withMe
-)(Index)
+)(AccountPage)

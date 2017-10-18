@@ -22,7 +22,7 @@ const Me = ({ me, children, t }) => (
     <br />
     {me && (
       <div>
-        <Link route='me'>
+        <Link route='account'>
           <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
         </Link>
         <br />

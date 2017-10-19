@@ -5,11 +5,13 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
 import Loader from '../Loader'
+import Share from '../Share'
 import UpdateMe from './UpdateMe'
 import UpdateProfile from './UpdateProfile'
 import RawHtml from '../RawHtml'
 
-import { H1, Lead } from '@project-r/styleguide'
+import { H1, Lead, P } from '@project-r/styleguide'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 const Account = ({ loading, error, me, t, signOut }) => (
   <Loader
@@ -42,6 +44,17 @@ const Account = ({ loading, error, me, t, signOut }) => (
                   __html: t('Account/lead')
                 }}
               />
+              <P>
+                <Share
+                  url={`${PUBLIC_BASE_URL}/`}
+                  tweet={t('Account/share/tweetTemplate')}
+                  emailSubject={t('Account/share/emailSubject')}
+                  emailBody={t('Account/share/emailBody', {
+                    url: `${PUBLIC_BASE_URL}/`,
+                    backerName: me.name
+                  })}
+                  emailAttachUrl={false} />
+              </P>
             </div>
           )}
           <div style={{ marginBottom: 80 }} />

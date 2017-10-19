@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-19T10:28:33.250Z",
+  "updated": "2017-10-19T13:17:45.578Z",
   "title": "live",
   "data": [
     {
@@ -161,6 +161,18 @@
     {
       "key": "Account/title",
       "value": "Willkommen an Bord, {name}"
+    },
+    {
+      "key": "Account/share/tweetTemplate",
+      "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich."
+    },
+    {
+      "key": "Account/share/emailSubject",
+      "value": "Ein neues, unabhängiges Magazin"
+    },
+    {
+      "key": "Account/share/emailBody",
+      "value": "Hallo Werde Mitglied und Abonnent der Republik: {url} Herzliche Grüsse, {backerName}"
     },
     {
       "key": "Account/Update/address/label",

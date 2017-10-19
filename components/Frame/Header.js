@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import Router from 'next/router'
 import { compose } from 'redux'
 
@@ -27,14 +27,15 @@ const styles = {
     },
     top: 0,
     left: 0,
-    right: 0,
+    right: 0
+  }),
+  barOpaque: css({
     backgroundColor: '#fff',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
     },
-    borderBottom: `1px solid ${colors.divider}`,
-    whiteSpace: 'nowrap'
+    borderBottom: `1px solid ${colors.divider}`
   }),
   left: css({
     paddingLeft: 15,
@@ -100,8 +101,18 @@ class Header extends Component {
     super(props)
 
     this.state = {
+      opaque: !this.props.cover,
       mobile: false,
       popover: null
+    }
+
+    this.onScroll = () => {
+      const y = window.pageYOffset
+      const yOpaque = this.state.mobile ? 70 : 150
+      const opaque = y > yOpaque || !this.props.cover
+      if (opaque !== this.state.opaque) {
+        this.setState(() => ({opaque}))
+      }
     }
 
     this.measure = () => {
@@ -109,10 +120,12 @@ class Header extends Component {
       if (mobile !== this.state.mobile) {
         this.setState(() => ({mobile}))
       }
+      this.onScroll()
     }
   }
 
   componentDidMount () {
+    window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
   }
@@ -120,19 +133,23 @@ class Header extends Component {
     this.measure()
   }
   componentWillUnmount () {
+    window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const { url, me, children } = this.props
-    const { mobile, popover } = this.state
+    const { url, me, children, cover } = this.props
+    const { opaque, mobile, popover } = this.state
 
     const logoHeight = mobile ? 18 : 30
 
-    const barStyle = styles.bar
+    const barStyle = opaque
+      ? merge(styles.bar, styles.barOpaque)
+      : styles.bar
 
     return (
       <div>
         <div {...barStyle}>
+          {opaque &&
           <div {...styles.left}>
             <a
               {...styles.logo}
@@ -161,8 +178,8 @@ class Header extends Component {
             <span {...styles.menu}>
               {children}
             </span>
-          </div>
-          {!!me && <div {...styles.right}>
+          </div>}
+          {opaque && !!me && <div {...styles.right}>
             <a
               href='/'
               onClick={e => {
@@ -194,6 +211,11 @@ class Header extends Component {
           </Popover>
         </div>
         <LoadingBar />
+        {!!cover && (
+          <div {...styles.cover}>
+            {cover}
+          </div>
+        )}
       </div>
     )
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-18T13:03:16.385Z",
+  "updated": "2017-10-19T10:28:33.250Z",
   "title": "live",
   "data": [
     {
@@ -125,6 +125,22 @@
     {
       "key": "pledge/contact/email/error/invalid",
       "value": "E-Mail ungültig"
+    },
+    {
+      "key": "crew/pageTitle",
+      "value": "Crew – Republik"
+    },
+    {
+      "key": "crew/title",
+      "value": "Wer steckt dahinter?"
+    },
+    {
+      "key": "crew/description",
+      "value": "Die Crew stellt sich vor – jetzt Mitglied werden."
+    },
+    {
+      "key": "crew/lead",
+      "value": "Zur Aufbau-Crew gehören:"
     },
     {
       "key": "Account/empty/title",

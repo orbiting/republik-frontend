@@ -10,7 +10,7 @@ class Front extends Component {
 
     return (
       <div>
-        <H1>{t('magazine/pageTitle')}</H1>
+        <H1>{t('pages/magazine/title')}</H1>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React from 'react'
-import Head from 'next/head'
 import { Container, fontFamilies } from '@project-r/styleguide'
+import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import { HEADER_HEIGHT } from '../constants'
@@ -16,12 +16,10 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
-const Index = ({ t, children, url, raw, nav }) =>
+const Index = ({ t, children, url, raw, meta, nav, cover }) =>
   <main>
-    <Head>
-      <title>{t('header/title')}</title>
-    </Head>
-    <Header url={url}>{nav}</Header>
+    {!!meta && <Meta data={meta} />}
+    <Header url={url} cover={cover}>{nav}</Header>
     <div style={{paddingTop: HEADER_HEIGHT}}>
       {raw
         ? children

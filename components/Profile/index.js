@@ -163,8 +163,10 @@ class Profile extends Component {
                     })
                     : styles.sidebar)}
                 >
-                  <Interaction.H3>{publicUser.testimonial.name}</Interaction.H3>
-                  <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  <Interaction.H3>{publicUser.name}</Interaction.H3>
+                  {publicUser.testimonial && (
+                    <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  )}
 
                   {publicUser.badges && (
                     <div {...styles.badges}>

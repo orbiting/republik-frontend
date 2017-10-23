@@ -295,6 +295,7 @@ export const query = gql`
       id
       email
       publicUser {
+        id
         email
         facebookId
         twitterHandle

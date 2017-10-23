@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-19T14:32:06.738Z",
+  "updated": "2017-10-23T11:06:14.071Z",
   "title": "live",
   "data": [
     {
@@ -305,6 +305,94 @@
     {
       "key": "testimonial/sequenceNumber",
       "value": "Abo #{num}"
+    },
+    {
+      "key": "testimonial/title",
+      "value": "Jetzt ein Statement abgeben"
+    },
+    {
+      "key": "testimonial/description",
+      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtfoto auf unserer Community-Seite veröffentlichen."
+    },
+    {
+      "key": "testimonial/submit",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "testimonial/role/label",
+      "value": "Funktion"
+    },
+    {
+      "key": "testimonial/quote/label",
+      "value": "Statement"
+    },
+    {
+      "key": "testimonial/quote/error",
+      "value": "Statement fehlt"
+    },
+    {
+      "key": "testimonial/pickImage",
+      "value": "Porträtfoto auswählen"
+    },
+    {
+      "key": "testimonial/pickImage/invalidType",
+      "value": "Nur Fotos erlaubt (jpg, png, gif)"
+    },
+    {
+      "key": "testimonial/pickImage/readError",
+      "value": "Foto konnte nicht geladen werden"
+    },
+    {
+      "key": "testimonial/pickImage/tooBig",
+      "value": "Maximal 4 MB"
+    },
+    {
+      "key": "testimonial/pickImage/empty",
+      "value": "Sie müssen ein Foto hochladen"
+    },
+    {
+      "key": "testimonial/pickImage/update",
+      "value": "Porträtfoto ändern"
+    },
+    {
+      "key": "testimonial/quote/tooLong",
+      "value": "Statement, maximal 140 Zeichen"
+    },
+    {
+      "key": "testimonial/role/tooLong",
+      "value": "Funktion, maximal 60 Zeichen"
+    },
+    {
+      "key": "testimonial/update",
+      "value": "aktualisieren"
+    },
+    {
+      "key": "testimonial/unpublished",
+      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "testimonial/unpublish/user",
+      "value": "Statement zurücknehmen"
+    },
+    {
+      "key": "testimonial/viewLive",
+      "value": "Ansehen"
+    },
+    {
+      "key": "testimonial/unpublished/user",
+      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
+    },
+    {
+      "key": "api/testimonial/image/required",
+      "value": "Ein neues Testimonial braucht ein Bild."
+    },
+    {
+      "key": "api/testimonial/pledge/required",
+      "value": "Sie müssen uns zuerst unterstützen, bevor Sie ein Testimonial abgeben können."
+    },
+    {
+      "key": "api/testimonial/mail/subject",
+      "value": "Vielen Dank für das Testimonial"
     },
     {
       "key": "badge/crowdfunder",

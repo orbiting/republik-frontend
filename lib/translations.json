@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-23T11:06:14.071Z",
+  "updated": "2017-10-24T16:36:53.912Z",
   "title": "live",
   "data": [
     {
@@ -9,6 +9,10 @@
     {
       "key": "frontnav/discussion",
       "value": "Diskussion"
+    },
+    {
+      "key": "frontnav/community",
+      "value": "Community"
     },
     {
       "key": "pages/magazine/title",
@@ -77,6 +81,14 @@
     {
       "key": "me/signedinAs",
       "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "memberships/sequenceNumber/label",
+      "value": "Abo #{sequenceNumber}"
+    },
+    {
+      "key": "memberships/sequenceNumber/suffix",
+      "value": "#{sequenceNumber}"
     },
     {
       "key": "pledge/contact/title",
@@ -303,8 +315,28 @@
       "value": "Diskussionsbeiträge"
     },
     {
-      "key": "testimonial/sequenceNumber",
-      "value": "Abo #{num}"
+      "key": "testimonial/meta/pageTitle",
+      "value": "Community – Republik"
+    },
+    {
+      "key": "testimonial/meta/title",
+      "value": "Die ganze Community auf einen Blick"
+    },
+    {
+      "key": "testimonial/meta/description",
+      "value": "Jetzt unser Crowdfunding unterstützen."
+    },
+    {
+      "key": "testimonial/meta/single/title",
+      "value": "{name} unterstützt Republik"
+    },
+    {
+      "key": "testimonial/meta/single/pageTitle",
+      "value": "{name} – Community – Republik"
+    },
+    {
+      "key": "testimonial/meta/single/description",
+      "value": "Jetzt unser Crowdfunding unterstützen."
     },
     {
       "key": "testimonial/title",
@@ -381,6 +413,22 @@
     {
       "key": "testimonial/unpublished/user",
       "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
+    },
+    {
+      "key": "testimonial/search/label",
+      "value": "Suchen"
+    },
+    {
+      "key": "testimonial/search/videosOnly",
+      "value": "Nur Videos"
+    },
+    {
+      "key": "testimonial/search/seed",
+      "value": "Neu Mischen"
+    },
+    {
+      "key": "testimonial/infinite/endless",
+      "value": "Das waren {count} Statements. Alle weiteren Statements anschauen?"
     },
     {
       "key": "api/testimonial/image/required",
@@ -533,6 +581,66 @@
     {
       "key": "components/CommentComposer/CommentComposer/answer",
       "value": "Antworten"
+    },
+    {
+      "key": "timeago/justNow/other",
+      "value": "gerade eben"
+    },
+    {
+      "key": "timeago/seconds/1",
+      "value": "vor einer Sekunde"
+    },
+    {
+      "key": "timeago/seconds/other",
+      "value": "vor {count} Sekunden"
+    },
+    {
+      "key": "timeago/minutes/1",
+      "value": "vor einer Minute"
+    },
+    {
+      "key": "timeago/minutes/other",
+      "value": "vor {count} Minuten"
+    },
+    {
+      "key": "timeago/hours/1",
+      "value": "vor einer Stunden"
+    },
+    {
+      "key": "timeago/hours/other",
+      "value": "vor {count} Stunden"
+    },
+    {
+      "key": "timeago/days/1",
+      "value": "vor einem Tag"
+    },
+    {
+      "key": "timeago/days/other",
+      "value": "vor {count} Tagen"
+    },
+    {
+      "key": "timeago/weeks/1",
+      "value": "vor einer Woche"
+    },
+    {
+      "key": "timeago/weeks/other",
+      "value": "vor {count} Wochen"
+    },
+    {
+      "key": "timeago/months/1",
+      "value": "vor einem Monat"
+    },
+    {
+      "key": "timeago/months/other",
+      "value": "vor {count} Monaten"
+    },
+    {
+      "key": "timeago/years/1",
+      "value": "vor einem Jahr"
+    },
+    {
+      "key": "timeago/years/other",
+      "value": "vor {count} Jahren"
     }
   ]
 }

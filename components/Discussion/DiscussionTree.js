@@ -2,12 +2,14 @@ import React, {PureComponent} from 'react'
 import {compose} from 'redux'
 import {CommentTreeLoadMore, CommentTreeNode} from '@project-r/styleguide'
 import withT from '../../lib/withT'
+import timeago from '../../lib/timeago'
 import {withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 
 class DiscussionTree extends PureComponent {
   constructor (props) {
     super(props)
 
+    this.state = { now: Date.now() }
     this.fetchMore = () => {
       const {data: {discussion}, fetchMore} = this.props
       if (discussion) {
@@ -18,13 +20,18 @@ class DiscussionTree extends PureComponent {
 
   componentDidMount () {
     this.unsubscribe = this.props.subscribeToMore()
+    this.intervalId = setInterval(() => {
+      this.setState({ now: Date.now() })
+    }, 30 * 1000)
   }
   componentWillUnmount () {
     this.unsubscribe()
+    clearInterval(this.intervalId)
   }
 
   render () {
     const {t, data: {loading, error, me, discussion}} = this.props
+    const {now} = this.state
 
     if (loading || error) {
       return null
@@ -51,10 +58,8 @@ class DiscussionTree extends PureComponent {
         }
       })()
 
-      const now = Date.now()
-      const timeago = (createdAtString) => {
-        const createdAt = Date.parse(createdAtString)
-        return `${(now - createdAt)}ms`
+      const timeagoFromNow = (createdAtString) => {
+        return timeago(t, (now - Date.parse(createdAtString)) / 1000)
       }
 
       return [
@@ -65,7 +70,7 @@ class DiscussionTree extends PureComponent {
             t={t}
             displayAuthor={displayAuthor}
             comment={c}
-            timeago={timeago}
+            timeago={timeagoFromNow}
             upvoteComment={this.props.upvoteComment}
             downvoteComment={this.props.downvoteComment}
             submitComment={this.props.submitComment}

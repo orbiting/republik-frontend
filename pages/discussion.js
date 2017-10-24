@@ -2,18 +2,13 @@ import React from 'react'
 import {compose} from 'redux'
 import Frame from '../components/Frame'
 import Nav from '../components/Nav'
-import Discussion from '../components/Discussion'
-import Marketing from '../components/Marketing'
+import Discussion from '../components/Discussion/Discussion'
 import withData from '../lib/apollo/withData'
-import withMe from '../lib/apollo/withMe'
 
-const DiscussionPage = ({ url, me }) => (
+const DiscussionPage = ({ url }) => (
   <Frame url={url} nav={<Nav route='discussion' url={url} />}>
-    {me ? <Discussion /> : <Marketing />}
+    <Discussion discussionId={url.query.id} />
   </Frame>
 )
 
-export default compose(
-  withData,
-  withMe
-)(DiscussionPage)
+export default compose(withData)(DiscussionPage)

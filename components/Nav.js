@@ -11,7 +11,7 @@ const menu = [
   },
   {
     key: 'discussion',
-    route: 'discussion'
+    route: 'discussions'
   }
 ]
 

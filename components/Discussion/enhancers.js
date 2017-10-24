@@ -314,14 +314,14 @@ mutation submitCommentMutation($discussionId: ID!, $parentId: ID, $content: Stri
           if (parentId) {
             const insertResponse = (parent) => {
               if (parent.id === parentId) {
-                parent.comments.nodes = [...parent.comments.nodes, comment]
+                parent.comments.nodes = [comment, ...parent.comments.nodes]
               } else if (parent.comments && parent.comments.nodes) {
                 parent.comments.nodes.forEach(insertResponse)
               }
             }
             data.discussion.comments.nodes.forEach(insertResponse)
           } else {
-            data.discussion.comments.nodes = [...data.discussion.comments.nodes, comment]
+            data.discussion.comments.nodes = [comment, ...data.discussion.comments.nodes]
           }
 
           proxy.writeQuery({

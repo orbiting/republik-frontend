@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-23T11:06:14.071Z",
+  "updated": "2017-10-24T09:35:43.739Z",
   "title": "live",
   "data": [
     {
@@ -9,6 +9,10 @@
     {
       "key": "frontnav/discussion",
       "value": "Diskussion"
+    },
+    {
+      "key": "frontnav/community",
+      "value": "Community"
     },
     {
       "key": "pages/magazine/title",
@@ -77,6 +81,14 @@
     {
       "key": "me/signedinAs",
       "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "memberships/sequenceNumber/label",
+      "value": "Abo #{sequenceNumber}"
+    },
+    {
+      "key": "memberships/sequenceNumber/suffix",
+      "value": "#{sequenceNumber}"
     },
     {
       "key": "pledge/contact/title",
@@ -303,8 +315,28 @@
       "value": "Diskussionsbeiträge"
     },
     {
-      "key": "testimonial/sequenceNumber",
-      "value": "Abo #{num}"
+      "key": "testimonial/meta/pageTitle",
+      "value": "Community – Republik"
+    },
+    {
+      "key": "testimonial/meta/title",
+      "value": "Die ganze Community auf einen Blick"
+    },
+    {
+      "key": "testimonial/meta/description",
+      "value": "Jetzt unser Crowdfunding unterstützen."
+    },
+    {
+      "key": "testimonial/meta/single/title",
+      "value": "{name} unterstützt Republik"
+    },
+    {
+      "key": "testimonial/meta/single/pageTitle",
+      "value": "{name} – Community – Republik"
+    },
+    {
+      "key": "testimonial/meta/single/description",
+      "value": "Jetzt unser Crowdfunding unterstützen."
     },
     {
       "key": "testimonial/title",
@@ -381,6 +413,22 @@
     {
       "key": "testimonial/unpublished/user",
       "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
+    },
+    {
+      "key": "testimonial/search/label",
+      "value": "Suchen"
+    },
+    {
+      "key": "testimonial/search/videosOnly",
+      "value": "Nur Videos"
+    },
+    {
+      "key": "testimonial/search/seed",
+      "value": "Neu Mischen"
+    },
+    {
+      "key": "testimonial/infinite/endless",
+      "value": "Das waren {count} Statements. Alle weiteren Statements anschauen?"
     },
     {
       "key": "api/testimonial/image/required",

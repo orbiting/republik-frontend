@@ -1,19 +1,19 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import Share from '../Share'
 import VideoPlayer from '../VideoPlayer'
 
-import {
-  PUBLIC_BASE_URL
-} from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import {
-  Interaction, fontFamilies,
-  P as SerifP, colors
+  Interaction,
+  fontFamilies,
+  P as SerifP,
+  colors
 } from '@project-r/styleguide'
 
-const {H3, P} = Interaction
+const { H3, P } = Interaction
 
 const styles = {
   detail: css({
@@ -35,39 +35,57 @@ const styles = {
   })
 }
 
-const Detail = ({t, share, data: {id, name, role, quote, image, smImage, sequenceNumber, video}}) => (
+const Detail = ({
+  t,
+  share,
+  data: { id, name, role, quote, image, smImage, sequenceNumber, video }
+}) => (
   <div {...styles.detail}>
-    <div style={video ? {
-      maxWidth: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    } : {}}>
+    <div
+      style={
+        video ? (
+        {
+          maxWidth: 400,
+          marginLeft: 'auto',
+          marginRight: 'auto'
+        }
+        ) : (
+          {}
+        )
+      }
+    >
       <H3 {...styles.detailTitle}>
         {name} <span {...styles.detailRole}>{role}</span>
       </H3>
-      {video
-        ? (
-          <div style={{
+      {video ? (
+        <div
+          style={{
             marginBottom: 20,
             marginTop: 10
-          }}>
-            <VideoPlayer key={id} src={{...video, poster: image}} autoPlay />
-          </div>
-          )
-        : <SerifP>«{quote}»</SerifP>
-      }
-      {
-        !!sequenceNumber && <P {...styles.number}>{t('memberships/sequenceNumber/label', {
-          sequenceNumber
-        })}</P>
-      }
-      {share && <Share
-        download={smImage}
-        url={`${PUBLIC_BASE_URL}/community?id=${id}`}
-        emailSubject={t('testimonial/detail/share/emailSubject', {
-          name,
-          role
-        })} />}
+          }}
+        >
+          <VideoPlayer key={id} src={{ ...video, poster: image }} autoPlay />
+        </div>
+      ) : (
+        <SerifP>«{quote}»</SerifP>
+      )}
+      {!!sequenceNumber && (
+        <P {...styles.number}>
+          {t('memberships/sequenceNumber/label', {
+            sequenceNumber
+          })}
+        </P>
+      )}
+      {share && (
+        <Share
+          download={smImage}
+          url={`${PUBLIC_BASE_URL}/community?id=${id}`}
+          emailSubject={t('testimonial/detail/share/emailSubject', {
+            name,
+            role
+          })}
+        />
+      )}
     </div>
   </div>
 )

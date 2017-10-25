@@ -321,6 +321,7 @@ class Testimonial extends Component {
                     share={testimonial && testimonial.published && !isDirty}
                     data={{
                       id: testimonial && testimonial.id,
+                      userId: testimonial && testimonial.userId,
                       name: me.name,
                       role: values.role,
                       quote: values.quote
@@ -395,6 +396,7 @@ export const query = gql`
         email
         testimonial {
           id
+          userId
           name
           role
           quote

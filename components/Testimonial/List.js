@@ -342,6 +342,7 @@ class List extends Component {
 const query = gql`query testimonials($seed: Float, $search: String, $firstId: ID, $offset: Int, $limit: Int, $videosOnly: Boolean) {
   testimonials(seed: $seed, search: $search, firstId: $firstId, offset: $offset, limit: $limit, videosOnly: $videosOnly) {
     id
+    userId
     name
     role
     quote

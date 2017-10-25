@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-25T12:04:11.919Z",
+  "updated": "2017-10-25T13:42:50.380Z",
   "title": "live",
   "data": [
     {
@@ -560,7 +560,7 @@
     },
     {
       "key": "components/Discussion/OrderBy/VOTES",
-      "value": "Beliebeste"
+      "value": "Beliebteste"
     },
     {
       "key": "components/Discussion/OrderBy/HOT",

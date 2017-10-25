@@ -8,6 +8,7 @@ import Loader from '../Loader'
 import Share from '../Share'
 import UpdateMe from './UpdateMe'
 import UpdateProfile from './UpdateProfile'
+import UpdateTestimonial from './UpdateTestimonial'
 import RawHtml from '../RawHtml'
 
 import { H1, Lead, P } from '@project-r/styleguide'
@@ -61,10 +62,14 @@ const Account = ({ loading, error, me, t, signOut }) => (
           {(hasPledges || hasMemberships) &&
           !!me.name && (
             <div style={{ marginTop: 80 }}>
+              <UpdateTestimonial />
+              <br />
+              <UpdateProfile />
+              <br />
+              <br />
               <UpdateMe />
               <br />
               <br />
-              <UpdateProfile />
             </div>
           )}
         </div>

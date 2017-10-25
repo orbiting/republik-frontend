@@ -12,6 +12,10 @@ const menu = [
   {
     key: 'discussion',
     route: 'discussion'
+  },
+  {
+    key: 'community',
+    route: 'community'
   }
 ]
 

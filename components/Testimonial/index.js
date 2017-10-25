@@ -100,8 +100,8 @@ class Testimonial extends Component {
             )}
           </div>
           <div {...styles.sequenceNumber}>
-            {t('testimonial/sequenceNumber', {
-              num: testimonial.sequenceNumber
+            {t('memberships/sequenceNumber/label', {
+              sequenceNumber: testimonial.sequenceNumber
             })}
           </div>
           <div {...styles.actionBar}>

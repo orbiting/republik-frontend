@@ -75,6 +75,7 @@ const getPublicUser = gql`
         quote
         image
         sequenceNumber
+        published
       }
       facebookId
       twitterHandle
@@ -149,8 +150,8 @@ class Profile extends Component {
         render={() => {
           return (
             <div>
-              <div ref={this.innerRef} id='test'>
-                {publicUser.testimonial && (
+              <div ref={this.innerRef}>
+                {publicUser.testimonial && publicUser.testimonial.published && (
                   <Testimonial testimonial={publicUser.testimonial} />
                 )}
               </div>
@@ -163,8 +164,10 @@ class Profile extends Component {
                     })
                     : styles.sidebar)}
                 >
-                  <Interaction.H3>{publicUser.testimonial.name}</Interaction.H3>
-                  <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  <Interaction.H3>{publicUser.name}</Interaction.H3>
+                  {publicUser.testimonial && (
+                    <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  )}
 
                   {publicUser.badges && (
                     <div {...styles.badges}>

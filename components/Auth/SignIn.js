@@ -6,11 +6,12 @@ import {compose} from 'redux'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
-import {InlineSpinner} from '../Spinner'
 import RawHtml from '../RawHtml'
 
 import {
-  Button, Interaction,
+  Button,
+  InlineSpinner,
+  Interaction,
   Field
 } from '@project-r/styleguide'
 

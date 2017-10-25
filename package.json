@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "@project-r/styleguide": "^2.6.0",
+    "d3-array": "^1.1.1",
     "d3-format": "^1.2.0",
     "d3-time-format": "^2.0.5",
     "dotenv": "^4.0.0",
@@ -100,6 +101,7 @@
     "react-apollo": "^1.4.15",
     "react-dom": "^16.0.0",
     "react-icons": "^2.2.7",
+    "react-textarea-autosize": "^5.1.0",
     "redux": "^3.7.2",
     "subscriptions-transport-ws": "^0.8.2"
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-24T09:35:43.739Z",
+  "updated": "2017-10-25T12:04:11.919Z",
   "title": "live",
   "data": [
     {
@@ -235,6 +235,10 @@
       "value": "ändern"
     },
     {
+      "key": "Account/Update/viewLive",
+      "value": "ansehen"
+    },
+    {
       "key": "Account/UpdateProfile/title",
       "value": "Profilseite"
     },
@@ -408,7 +412,7 @@
     },
     {
       "key": "testimonial/viewLive",
-      "value": "Ansehen"
+      "value": "ansehen"
     },
     {
       "key": "testimonial/unpublished/user",

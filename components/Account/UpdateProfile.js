@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
+// import Link from 'next/link'
 import { compose } from 'redux'
 import { InlineSpinner } from '../Spinner'
 import Loader from '../Loader'
 import PointerList from '../Profile/PointerList'
 import RawHtml from '../RawHtml'
+import { Link } from '../../lib/routes'
 import { errorToString } from '../../lib/utils/errors'
 
 import withT from '../../lib/withT'
@@ -15,7 +17,8 @@ import {
   Interaction,
   Button,
   A,
-  colors
+  colors,
+  linkRule
 } from '@project-r/styleguide'
 
 const { H2 } = Interaction
@@ -133,7 +136,12 @@ class Update extends Component {
                     <br />
                   </div>
                 )}
-
+                <Link route='profile' params={{userId: me.id}}>
+                  <a {...linkRule}>
+                    {t('Account/Update/viewLive')}
+                  </a>
+                </Link>
+                {' – '}
                 <A
                   href='#'
                   onClick={e => {

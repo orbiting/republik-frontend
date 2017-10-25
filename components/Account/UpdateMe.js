@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {gql, graphql} from 'react-apollo'
 import {compose} from 'redux'
-import {InlineSpinner} from '../Spinner'
 import {intersperse} from '../../lib/utils/helpers'
 import Loader from '../Loader'
 import {errorToString} from '../../lib/utils/errors'
@@ -11,7 +10,7 @@ import withT from '../../lib/withT'
 import AddressForm, {COUNTRIES, fields as addressFields} from './AddressForm'
 
 import {
-  FieldSet, Interaction, Label, Button, A, colors
+  FieldSet, InlineSpinner, Interaction, Label, Button, A, colors
 } from '@project-r/styleguide'
 
 const {H2, P} = Interaction

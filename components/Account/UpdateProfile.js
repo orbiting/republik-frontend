@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
-// import Link from 'next/link'
 import { compose } from 'redux'
-import { InlineSpinner } from '../Spinner'
 import Loader from '../Loader'
 import PointerList from '../Profile/PointerList'
 import RawHtml from '../RawHtml'
@@ -14,6 +12,7 @@ import withT from '../../lib/withT'
 import {
   Checkbox,
   FieldSet,
+  InlineSpinner,
   Interaction,
   Button,
   A,

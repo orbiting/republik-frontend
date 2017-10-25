@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import {compose} from 'redux'
 import {CommentTreeLoadMore, CommentTreeNode} from '@project-r/styleguide'
+import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
 import {withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
@@ -33,53 +34,58 @@ class DiscussionTree extends PureComponent {
     const {t, data: {loading, error, me, discussion}} = this.props
     const {now} = this.state
 
-    if (loading || error) {
-      return null
-    } else {
-      const displayAuthor = {
-        publicPicture: me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image,
-        name: me.name,
-        credential: discussion.userPreference && discussion.userPreference.credential
-      }
+    return (
+      <Loader
+        loading={loading}
+        error={error}
+        message={'Loading…'}
+        render={() => {
+          const displayAuthor = {
+            publicPicture: me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image,
+            name: me.name,
+            credential: discussion.userPreference && discussion.userPreference.credential
+          }
 
-      const {totalCount, pageInfo, nodes} = discussion.comments
-      const tail = (() => {
-        if (pageInfo && pageInfo.hasNextPage) {
-          return (
-            <CommentTreeLoadMore
-              key='loadMore'
-              t={t}
-              count={totalCount - (nodes ? nodes.length : 0)}
-              onClick={this.fetchMore}
-            />
-          )
-        } else {
-          return null
-        }
-      })()
+          const {totalCount, pageInfo, nodes} = discussion.comments
+          const tail = (() => {
+            if (pageInfo && pageInfo.hasNextPage) {
+              return (
+                <CommentTreeLoadMore
+                  key='loadMore'
+                  t={t}
+                  count={totalCount - (nodes ? nodes.length : 0)}
+                  onClick={this.fetchMore}
+                />
+              )
+            } else {
+              return null
+            }
+          })()
 
-      const timeagoFromNow = (createdAtString) => {
-        return timeago(t, (now - Date.parse(createdAtString)) / 1000)
-      }
+          const timeagoFromNow = (createdAtString) => {
+            return timeago(t, (now - Date.parse(createdAtString)) / 1000)
+          }
 
-      return [
-        ...discussion.comments.nodes.map((comment, index) => (
-          <CommentTreeNode
-            key={index}
-            top
-            t={t}
-            displayAuthor={displayAuthor}
-            comment={comment}
-            timeago={timeagoFromNow}
-            upvoteComment={this.props.upvoteComment}
-            downvoteComment={this.props.downvoteComment}
-            submitComment={this.props.submitComment}
-            fetchMore={this.props.fetchMore}
-          />
-        )),
-        tail
-      ]
-    }
+          return [
+            ...discussion.comments.nodes.map((comment, index) => (
+              <CommentTreeNode
+                key={index}
+                top
+                t={t}
+                displayAuthor={displayAuthor}
+                comment={comment}
+                timeago={timeagoFromNow}
+                upvoteComment={this.props.upvoteComment}
+                downvoteComment={this.props.downvoteComment}
+                submitComment={this.props.submitComment}
+                fetchMore={this.props.fetchMore}
+              />
+            )),
+            tail
+          ]
+        }}
+      />
+    )
   }
 }
 

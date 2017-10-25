@@ -33,7 +33,7 @@ class DiscussionIndex extends PureComponent {
               value={title}
               onChange={(_, title) => this.setState({title})}
             />
-            <Button style={{marginLeft: 20}} primay onClick={() => { this.createDiscussion(title) }}>Erstellen</Button>
+            <Button style={{marginLeft: 20}} primary onClick={() => { this.createDiscussion(title) }}>Erstellen</Button>
           </div>
 
           <H2>Alle Diskussionen</H2>
@@ -73,7 +73,6 @@ mutation createDiscussion($title: String!) {
         variables: {title},
         update: (proxy, {data: {createDiscussion}}) => {
           const data = proxy.readQuery({query: discussionsQuery})
-          console.log(data)
           data.discussions.push({__typename: 'Discussion', id: createDiscussion, title})
           proxy.writeQuery({query: discussionsQuery, data})
         }

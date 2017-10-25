@@ -1,7 +1,16 @@
 import {gql, graphql} from 'react-apollo'
 
 const meQuery = gql`
-query meQuery($discussionId: ID!) {
+query discussionMe($discussionId: ID!) {
+  me {
+    id
+    name
+    publicUser {
+      testimonial {
+        image(size: SHARE)
+      }
+    }
+  }
   discussion(id: $discussionId) {
     id
     userPreference {
@@ -12,15 +21,6 @@ query meQuery($discussionId: ID!) {
       }
     }
   }
-  me {
-    id
-    name
-    publicUser {
-      testimonial {
-        image(size: SHARE)
-      }
-    }
-  }
 }
 `
 export const withMe = graphql(meQuery, {
@@ -28,7 +28,7 @@ export const withMe = graphql(meQuery, {
 })
 
 export const fetchMoreQuery = gql`
-query fetchMoreQuery($discussionId: ID!, $orderBy: DiscussionOrder!, $parentId: ID, $after: String) {
+query discussionFetchMore($discussionId: ID!, $orderBy: DiscussionOrder!, $parentId: ID, $after: String) {
   discussion(id: $discussionId) {
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 1) {
       ...ConnectionInfo
@@ -67,8 +67,9 @@ fragment Comment on Comment {
 `
 
 export const commentsSubscription = gql`
-subscription($discussionId: ID!) {
+subscription discussionComments($discussionId: ID!) {
   comments(discussionId: $discussionId) {
+    id
     parent {
       id
     }
@@ -77,7 +78,7 @@ subscription($discussionId: ID!) {
 `
 
 const rootQuery = gql`
-query rootQuery($discussionId: ID!, $orderBy: DiscussionOrder!) {
+query discussion($discussionId: ID!, $orderBy: DiscussionOrder!) {
   me {
     id
     name
@@ -141,6 +142,18 @@ fragment Comment on Comment {
 }
 `
 
+// Find the comment with the given ID and invoke the callback with it as
+// the first argument.
+const modifyComment = (comment, id, onComment) => {
+  if (comment.id === id) {
+    onComment(comment)
+  } else if (comment.comments && comment.comments.nodes) {
+    comment.comments.nodes.forEach(child => {
+      modifyComment(child, id, onComment)
+    })
+  }
+}
+
 export const withData = graphql(rootQuery, {
   variables: ({discussionId, orderBy}) => ({discussionId, orderBy}),
   props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
@@ -162,23 +175,29 @@ export const withData = graphql(rootQuery, {
           // In the fetchMoreQuery we don't fetch the child comment nodes. But the
           // rootQuery expects there 'nodes' exist in the first three or so levels.
           // Set it to an empty array to make apollo not freak out.
-          nodes.forEach(c => { c.comments.nodes = [] })
+          nodes.forEach(({comments}) => { comments.nodes = [] })
+
+          const insertNodes = (parent) => {
+            if (!parent.comments) { parent.comments = {} }
+
+            // When inserting the new nodes, filter out any comments which we
+            // already have (which have been inserted through the `submitComment`
+            // mutation or which have arrived through a subscription).
+            const currentNodes = parent.comments.nodes || []
+            const newNodes = nodes.filter(x => !currentNodes.some(y => y.id === x.id))
+
+            parent.comments = {
+              __typename: 'CommentConnection',
+              totalCount,
+              pageInfo,
+              nodes: [...currentNodes, ...newNodes]
+            }
+          }
 
           if (parentId) {
-            const insertResponse = (parent) => {
-              if (parent.id === parentId) {
-                parent.comments.totalCount = totalCount
-                parent.comments.pageInfo = pageInfo
-                parent.comments.nodes = [...parent.comments.nodes, ...nodes]
-              } else if (parent.comments && parent.comments.nodes) {
-                parent.comments.nodes.forEach(insertResponse)
-              }
-            }
-            result.discussion.comments.nodes.forEach(insertResponse)
+            modifyComment(result.discussion, parentId, insertNodes)
           } else {
-            result.discussion.comments.totalCount = totalCount
-            result.discussion.comments.pageInfo = pageInfo
-            result.discussion.comments.nodes = [...result.discussion.comments.nodes, ...nodes]
+            insertNodes(result.discussion)
           }
         }
 
@@ -189,26 +208,45 @@ export const withData = graphql(rootQuery, {
       document: commentsSubscription,
       variables: {discussionId},
       updateQuery: (previousResult, { subscriptionData: {data: {comments: comment}}, variables }) => {
-        // clone()
+        if (!comment) {
+          // In which situations does this happen?
+          return previousResult
+        }
+
+        const {id, parent} = comment
+
+        // clone() the result object
         const result = JSON.parse(JSON.stringify(previousResult))
 
-        if (comment) {
-          const {parent} = comment
-          if (parent) {
-            const parentId = parent.id
-            const insertResponse = (parent) => {
-              if (parent.id === parentId) {
-                if (!parent.comments) { parent.comments = {} }
-                if (!parent.comments.pageInfo) { parent.comments.pageInfo = {} }
-                parent.comments.pageInfo.hasNextPage = true
-              } else if (parent.comments && parent.comments.nodes) {
-                parent.comments.nodes.forEach(insertResponse)
-              }
+        const bumpCommentCount = (parent) => {
+          if (!parent.comments) {
+            parent.comments = {
+              totalCount: 0,
+              nodes: []
             }
-            result.discussion.comments.nodes.forEach(insertResponse)
-          } else {
-            result.discussion.comments.pageInfo.hasNextPage = true
           }
+          if (!parent.comments.pageInfo) {
+            parent.comments.pageInfo = {
+              __typename: 'PageInfo',
+              hasNextPage: false,
+              endCursor: null
+            }
+          }
+          if (!parent.comments.nodes) {
+            parent.coments.nodes = []
+          }
+
+          // Bump the count only if the comment doesn't already exist in the list.
+          if (!parent.comments.nodes.some(comment => comment.id === id)) {
+            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
+            parent.comments.pageInfo.hasNextPage = true
+          }
+        }
+
+        if (parent) {
+          modifyComment(result.discussion, parent.id, bumpCommentCount)
+        } else {
+          bumpCommentCount(result.discussion)
         }
 
         return result
@@ -218,7 +256,7 @@ export const withData = graphql(rootQuery, {
 })
 
 export const upvoteComment = graphql(gql`
-mutation upvoteCommentMutation($commentId: ID!) {
+mutation discussionUpvoteComment($commentId: ID!) {
   upvoteComment(id: $commentId) {
     id
     upVotes
@@ -226,7 +264,6 @@ mutation upvoteCommentMutation($commentId: ID!) {
     score
     userVote
     updatedAt
-    hottnes
   }
 }
 `, {
@@ -236,7 +273,7 @@ mutation upvoteCommentMutation($commentId: ID!) {
 })
 
 export const downvoteComment = graphql(gql`
-mutation downvoteCommentMutation($commentId: ID!) {
+mutation discussionDownvoteComment($commentId: ID!) {
   downvoteComment(id: $commentId) {
     id
     upVotes
@@ -244,7 +281,6 @@ mutation downvoteCommentMutation($commentId: ID!) {
     score
     userVote
     updatedAt
-    hottnes
   }
 }
 `, {
@@ -254,7 +290,7 @@ mutation downvoteCommentMutation($commentId: ID!) {
 })
 
 export const submitComment = graphql(gql`
-mutation submitCommentMutation($discussionId: ID!, $parentId: ID, $content: String!) {
+mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: String!) {
   submitComment(discussionId: $discussionId, parentId: $parentId, content: $content) {
     id
     content
@@ -278,7 +314,7 @@ mutation submitCommentMutation($discussionId: ID!, $parentId: ID, $content: Stri
         optimisticResponse: {
           submitComment: {
             __typename: 'Comment',
-            id: '15253f1c-0a54-4d66-87c9-1fca73d51936',
+            id: '00000000-0000-0000-0000-000000000000',
             content,
             score: 0,
             displayAuthor: {
@@ -297,6 +333,8 @@ mutation submitCommentMutation($discussionId: ID!, $parentId: ID, $content: Stri
         update: (proxy, {data: {submitComment}}) => {
           const data = proxy.readQuery({query: rootQuery, variables: {discussionId, orderBy}})
 
+          // Insert empty structures for the 'comments' field. The rootQuery
+          // schema expects those to be present.
           const comment = {
             ...submitComment,
             comments: {
@@ -311,17 +349,23 @@ mutation submitCommentMutation($discussionId: ID!, $parentId: ID, $content: Stri
             }
           }
 
+          // Insert the newly created comment to the head of the given 'parent'
+          // (which can be either the Discussion object or a Comment).
+          const insertComment = (parent) => {
+            if (!parent.comments) { parent.comments = {} }
+
+            // If the comment already exists in the list (becuase it was delivered
+            // to the client through a subscription), remove it so that the new comment
+            // remains at the head of the list.
+            const currentNodes = (parent.comments.nodes || [])
+              .filter(comment => comment.id !== submitComment.id)
+            parent.comments.nodes = [comment, ...currentNodes]
+          }
+
           if (parentId) {
-            const insertResponse = (parent) => {
-              if (parent.id === parentId) {
-                parent.comments.nodes = [comment, ...parent.comments.nodes]
-              } else if (parent.comments && parent.comments.nodes) {
-                parent.comments.nodes.forEach(insertResponse)
-              }
-            }
-            data.discussion.comments.nodes.forEach(insertResponse)
+            modifyComment(data.discussion, parentId, insertComment)
           } else {
-            data.discussion.comments.nodes = [comment, ...data.discussion.comments.nodes]
+            insertComment(data.discussion)
           }
 
           proxy.writeQuery({

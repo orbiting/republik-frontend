@@ -63,13 +63,13 @@ class DiscussionTree extends PureComponent {
       }
 
       return [
-        ...discussion.comments.nodes.map((c, i) => (
+        ...discussion.comments.nodes.map((comment, index) => (
           <CommentTreeNode
-            key={i}
+            key={index}
             top
             t={t}
             displayAuthor={displayAuthor}
-            comment={c}
+            comment={comment}
             timeago={timeagoFromNow}
             upvoteComment={this.props.upvoteComment}
             downvoteComment={this.props.downvoteComment}

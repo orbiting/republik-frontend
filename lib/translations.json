@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-24T16:36:53.912Z",
+  "updated": "2017-10-25T12:04:11.919Z",
   "title": "live",
   "data": [
     {
@@ -235,6 +235,10 @@
       "value": "ändern"
     },
     {
+      "key": "Account/Update/viewLive",
+      "value": "ansehen"
+    },
+    {
       "key": "Account/UpdateProfile/title",
       "value": "Profilseite"
     },
@@ -408,7 +412,7 @@
     },
     {
       "key": "testimonial/viewLive",
-      "value": "Ansehen"
+      "value": "ansehen"
     },
     {
       "key": "testimonial/unpublished/user",
@@ -563,24 +567,24 @@
       "value": "Hottest"
     },
     {
-      "key": "components/CommentComposer/CommentComposerPlaceholder/teaser",
+      "key": "styleguide/CommentComposer/placeholder",
       "value": "Einen Kommentar verfassen…"
     },
     {
-      "key": "components/CommentTree/LoadMore/label",
+      "key": "styleguide/CommentComposer/answer",
+      "value": "Antworten"
+    },
+    {
+      "key": "styleguide/CommentActions/answer",
+      "value": "Antworten"
+    },
+    {
+      "key": "styleguide/CommentTreeLoadMore/label/1",
+      "value": "Eine weiterer Kommentar"
+    },
+    {
+      "key": "styleguide/CommentTreeLoadMore/label/other",
       "value": "{count} weitere Kommentare"
-    },
-    {
-      "key": "components/Comment/CommentActions/answer",
-      "value": "Antworten"
-    },
-    {
-      "key": "components/CommentComposer/CommentComposer/placeholder",
-      "value": "Einen Kommentar verfassen…"
-    },
-    {
-      "key": "components/CommentComposer/CommentComposer/answer",
-      "value": "Antworten"
     },
     {
       "key": "timeago/justNow/other",

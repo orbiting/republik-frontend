@@ -30,7 +30,7 @@ export const withMe = graphql(meQuery, {
 export const fetchMoreQuery = gql`
 query discussionFetchMore($discussionId: ID!, $orderBy: DiscussionOrder!, $parentId: ID, $after: String) {
   discussion(id: $discussionId) {
-    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 1) {
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 10) {
       ...ConnectionInfo
       nodes {
         ...Comment
@@ -97,7 +97,7 @@ query discussion($discussionId: ID!, $orderBy: DiscussionOrder!) {
         verified
       }
     }
-    comments(orderBy: $orderBy, first: 3) @connection(key: "comments", filter: ["orderBy"]) {
+    comments(orderBy: $orderBy, first: 20) @connection(key: "comments", filter: ["orderBy"]) {
       ...ConnectionInfo
       nodes {
         ...Comment

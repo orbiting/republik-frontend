@@ -200,7 +200,7 @@ class Testimonial extends Component {
     this.updateFields(this.props)
   }
   render () {
-    const {t, loading, error, testimonial, me} = this.props
+    const {t, loading, error, testimonial, me, style} = this.props
     const {
       values, dirty, errors,
       submitting,
@@ -241,7 +241,7 @@ class Testimonial extends Component {
 
     return (
       <Loader loading={loading} error={error} render={() => (
-        <div style={{marginBottom: 40}}>
+        <div style={style}>
           <H2>{t('testimonial/title')}</H2>
           <RawHtml type={P} dangerouslySetInnerHTML={{
             __html: t('testimonial/description')

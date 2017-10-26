@@ -99,7 +99,7 @@ class Update extends Component {
     this.autoEdit()
   }
   render () {
-    const { t, me, loading, error } = this.props
+    const { t, me, loading, error, style } = this.props
     const { values, dirty, errors, updating, isEditing } = this.state
 
     const errorMessages = Object.keys(errors)
@@ -111,7 +111,7 @@ class Update extends Component {
         loading={loading}
         error={error}
         render={() => (
-          <div>
+          <div style={style}>
             {!isEditing ? (
               <div>
                 <H2 style={{ marginBottom: 30 }}>

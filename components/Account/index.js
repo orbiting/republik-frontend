@@ -62,14 +62,9 @@ const Account = ({ loading, error, me, t, signOut }) => (
           {(hasPledges || hasMemberships) &&
           !!me.name && (
             <div style={{ marginTop: 80 }}>
-              <UpdateTestimonial />
-              <br />
-              <UpdateProfile />
-              <br />
-              <br />
+              <UpdateTestimonial style={{marginBottom: 40}} />
+              <UpdateProfile style={{marginBottom: 40}} />
               <UpdateMe />
-              <br />
-              <br />
             </div>
           )}
         </div>

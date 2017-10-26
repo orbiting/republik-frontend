@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-26T09:53:50.184Z",
+  "updated": "2017-10-26T10:46:23.745Z",
   "title": "live",
   "data": [
     {
@@ -320,11 +320,19 @@
     },
     {
       "key": "Account/ProfileForm/publicUrl/label",
-      "value": "URL"
+      "value": "Webseite"
+    },
+    {
+      "key": "Account/ProfileForm/publicUrl/error",
+      "value": "Bitte geben seine eine vollständige URL an"
     },
     {
       "key": "Account/ProfileForm/isEmailPublic/label",
       "value": "E-Mail im Profil anzeigen"
+    },
+    {
+      "key": "Account/submit/error/title",
+      "value": "Fehler"
     },
     {
       "key": "profile/discussion",

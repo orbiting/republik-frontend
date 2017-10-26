@@ -9,11 +9,8 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
 const Index = ({ url, me, t }) => {
-  const meta = {
-    title: t('pages/profile/title')
-  }
   return (
-    <Frame url={url} meta={meta} nav={<Nav route='' url={url} />}>
+    <Frame url={url} nav={<Nav route='' url={url} />}>
       {me ? <Profile userId={url.query.userId} /> : <Marketing />}
     </Frame>
   )

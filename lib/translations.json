@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-25T12:04:11.919Z",
+  "updated": "2017-10-26T09:53:50.184Z",
   "title": "live",
   "data": [
     {
@@ -27,8 +27,20 @@
       "value": "Mein Konto"
     },
     {
-      "key": "pages/profile/title",
-      "value": "Mein Profil"
+      "key": "pages/profile/pageTitle",
+      "value": "{name} – Profil"
+    },
+    {
+      "key": "pages/profile/empty/pageTitle",
+      "value": "Profil"
+    },
+    {
+      "key": "pages/profile/empty/title",
+      "value": "Diese Profilseite ist deaktiviert"
+    },
+    {
+      "key": "pages/profile/empty/content",
+      "value": "Auch Sie haben die volle Kontrolle über Ihre Profilseite unter {link}."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -317,6 +329,10 @@
     {
       "key": "profile/discussion",
       "value": "Diskussionsbeiträge"
+    },
+    {
+      "key": "profile/discussion/empty",
+      "value": "Noch keine Diskussionsbeiträge"
     },
     {
       "key": "testimonial/meta/pageTitle",

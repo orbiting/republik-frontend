@@ -67,7 +67,7 @@ class PointerList extends Component {
           <div {...styles.contact}>
             <IconLink
               icon='link'
-              text={publicUser.publicUrl}
+              text={publicUser.publicUrl.replace(/^https?:\/\/(www.)?/g, '')}
               href={publicUser.publicUrl}
               target={'_blank'}
             />

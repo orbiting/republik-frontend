@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
+import { Link } from '../../lib/routes'
 import Share from '../Share'
 import VideoPlayer from '../VideoPlayer'
 
@@ -10,7 +11,8 @@ import {
   Interaction,
   fontFamilies,
   P as SerifP,
-  colors
+  colors,
+  linkRule
 } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
@@ -38,7 +40,7 @@ const styles = {
 const Detail = ({
   t,
   share,
-  data: { id, name, role, quote, image, smImage, sequenceNumber, video }
+  data: { id, userId, name, role, quote, image, smImage, sequenceNumber, video }
 }) => (
   <div {...styles.detail}>
     <div
@@ -55,7 +57,14 @@ const Detail = ({
       }
     >
       <H3 {...styles.detailTitle}>
-        {name} <span {...styles.detailRole}>{role}</span>
+        {userId ? (
+          <Link route='profile' params={{ userId: userId }}>
+            <a {...linkRule}>{name}</a>
+          </Link>
+        ) : (
+          <span>{name}</span>
+        )}{' '}
+        <span {...styles.detailRole}>{role}</span>
       </H3>
       {video ? (
         <div

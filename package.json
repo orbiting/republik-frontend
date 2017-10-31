@@ -103,6 +103,7 @@
     "react-icons": "^2.2.7",
     "react-textarea-autosize": "^5.1.0",
     "redux": "^3.7.2",
-    "subscriptions-transport-ws": "^0.8.2"
+    "subscriptions-transport-ws": "^0.8.2",
+    "valid-url": "^1.0.9"
   }
 }

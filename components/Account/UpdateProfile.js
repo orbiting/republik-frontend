@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
 import { compose } from 'redux'
+import { isWebUri } from 'valid-url'
 import Loader from '../Loader'
 import PointerList from '../Profile/PointerList'
 import RawHtml from '../RawHtml'
@@ -33,7 +34,14 @@ const fields = t => [
   },
   {
     label: t('Account/ProfileForm/publicUrl/label'),
-    name: 'publicUrl'
+    name: 'publicUrl',
+    validator: (value) => (
+      (
+        !!value &&
+        !isWebUri(value) &&
+        t('Account/ProfileForm/publicUrl/error')
+      )
+    )
   }
 ]
 
@@ -99,7 +107,7 @@ class Update extends Component {
     this.autoEdit()
   }
   render () {
-    const { t, me, loading, error } = this.props
+    const { t, me, loading, error, style } = this.props
     const { values, dirty, errors, updating, isEditing } = this.state
 
     const errorMessages = Object.keys(errors)
@@ -111,7 +119,7 @@ class Update extends Component {
         loading={loading}
         error={error}
         render={() => (
-          <div>
+          <div style={style}>
             {!isEditing ? (
               <div>
                 <H2 style={{ marginBottom: 30 }}>
@@ -208,7 +216,7 @@ class Update extends Component {
                     {!!this.state.showErrors &&
                     errorMessages.length > 0 && (
                       <div style={{ color: colors.error, marginBottom: 40 }}>
-                        {t('pledge/submit/error/title')}
+                        {t('Account/submit/error/title')}
                         <br />
                         <ul>
                           {errorMessages.map((error, i) => (

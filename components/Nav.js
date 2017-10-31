@@ -6,10 +6,6 @@ import withT from '../lib/withT'
 
 const menu = [
   {
-    key: 'magazine',
-    route: 'index'
-  },
-  {
     key: 'discussion',
     route: 'discussions'
   },

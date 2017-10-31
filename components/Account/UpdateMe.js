@@ -136,7 +136,7 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render () {
-    const {t, me, loading, error} = this.props
+    const {t, me, loading, error, style} = this.props
     const {
       values, dirty, errors,
       updating, isEditing
@@ -148,7 +148,7 @@ class UpdateMe extends Component {
 
     return (
       <Loader loading={loading} error={error} render={() => (
-        <div>
+        <div style={style}>
           {!isEditing ? (
             <div>
               <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>

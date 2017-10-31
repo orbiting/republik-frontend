@@ -16,23 +16,40 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
-const Index = ({ t, children, url, raw, meta, nav, cover }) =>
-  <main>
-    {!!meta && <Meta data={meta} />}
-    <Header url={url} cover={cover}>{nav}</Header>
-    <div style={{paddingTop: HEADER_HEIGHT}}>
-      {raw
-        ? children
-        : (
-          <Container style={{maxWidth: '840px'}}>
-            <div style={{paddingTop: 40, paddingBottom: 20}}>
-              {children}
-            </div>
-          </Container>
-        )
-      }
+const styles = {
+  container: css({
+    minHeight: '100vh',
+    display: 'flex',
+    flexDirection: 'column'
+  }),
+  coverless: css({
+    paddingTop: HEADER_HEIGHT + 40
+  }),
+  bodyGrower: css({
+    flexGrow: 1
+  })
+}
+
+const Index = ({ t, children, url, raw, meta, nav, cover }) => (
+  <div {...styles.container}>
+    <div
+      {...styles.bodyGrower}
+      className={!cover ? styles.coverless : undefined}
+    >
+      {!!meta && <Meta data={meta} />}
+      <Header url={url} cover={cover}>
+        {nav}
+      </Header>
+      {raw ? (
+        children
+      ) : (
+        <Container style={{ maxWidth: '840px' }}>
+          <div style={{ paddingTop: 40, paddingBottom: 20 }}>{children}</div>
+        </Container>
+      )}
     </div>
     <Footer />
-  </main>
+  </div>
+)
 
 export default withT(Index)

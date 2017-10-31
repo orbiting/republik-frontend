@@ -5,16 +5,16 @@ import Loader from '../../components/Loader'
 import withT from '../../lib/withT'
 import { css, merge } from 'glamor'
 import Badge from './Badge'
+import { Link } from '../../lib/routes'
+import Meta from '../Frame/Meta'
 import PointerList from './PointerList'
 import Testimonial from '../Testimonial'
-import {
-  HEADER_HEIGHT,
-  TESTIMONIAL_IMAGE_SIZE
-} from '../constants'
+import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import {
   Interaction,
   colors,
   fontStyles,
+  linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -47,7 +47,7 @@ const styles = {
       width: 'auto'
     }
   }),
-  role: css({...fontStyles.sansSerifMedium16}),
+  role: css({ ...fontStyles.sansSerifMedium16 }),
   badges: css({
     margin: '20px 0 30px 0'
   }),
@@ -139,8 +139,27 @@ class Profile extends Component {
   render () {
     const { data: { loading, error, publicUser }, t } = this.props
 
+    const metaData = {
+      title: publicUser
+        ? t('pages/profile/pageTitle', { name: publicUser.name })
+        : t('pages/profile/empty/pageTitle')
+    }
     if (!publicUser) {
-      return <div>Not found</div>
+      return (
+        <div>
+          <Meta data={metaData} />
+          <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
+          <p>
+            {t.elements('pages/profile/empty/content', {
+              link: (
+                <Link route='account'>
+                  <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
+                </Link>
+              )
+            })}
+          </p>
+        </div>
+      )
     }
 
     return (
@@ -150,8 +169,10 @@ class Profile extends Component {
         render={() => {
           return (
             <div>
+              <Meta data={metaData} />
               <div ref={this.innerRef}>
-                {publicUser.testimonial && publicUser.testimonial.published && (
+                {publicUser.testimonial &&
+                publicUser.testimonial.published && (
                   <Testimonial testimonial={publicUser.testimonial} />
                 )}
               </div>
@@ -178,10 +199,17 @@ class Profile extends Component {
                   )}
                   <PointerList publicUser={publicUser} />
                 </div>
-                <Interaction.H3>{t('profile/discussion')}</Interaction.H3>
-                {publicUser.latestComments.map(comment => (
-                  <p key={comment.id}>{comment.content}</p>
-                ))}
+                {!publicUser.latestComments ||
+                !publicUser.latestComments.length ? (
+                  <p>{t('profile/discussion/empty')}</p>
+                ) : (
+                  <div>
+                    <Interaction.H3>{t('profile/discussion')}</Interaction.H3>
+                    {publicUser.latestComments.map(comment => (
+                      <p key={comment.id}>{comment.content}</p>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )

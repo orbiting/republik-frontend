@@ -53,6 +53,7 @@ class Discussion extends PureComponent {
         <DiscussionCommentComposer
           discussionId={discussionId}
           orderBy={orderBy}
+          parentId={null}
         />
 
         <div {...styles.orderByContainer}>

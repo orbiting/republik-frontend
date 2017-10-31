@@ -4,13 +4,7 @@ import {colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode} from 
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import {withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
-
-const countNode = comment =>
-  1 + (!comment.comments ? 0 : comment.comments.totalCount)
-
-const countNodes = nodes =>
-  !nodes ? 0 : nodes.reduce((a, comment) => a + countNode(comment), 0)
+import {countNodes, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 
 class DiscussionTreePortal extends PureComponent {
   constructor (props) {

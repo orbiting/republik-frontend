@@ -1,6 +1,12 @@
 import {gql, graphql} from 'react-apollo'
 import uuid from 'uuid/v4'
 
+export const countNode = comment =>
+  1 + (!comment.comments ? 0 : comment.comments.totalCount)
+
+export const countNodes = nodes =>
+  !nodes ? 0 : nodes.reduce((a, comment) => a + countNode(comment), 0)
+
 const meQuery = gql`
 query discussionMe($discussionId: ID!) {
   me {
@@ -180,7 +186,7 @@ export const withData = graphql(rootQuery, {
           return previousResult
         }
 
-        const {id, parent} = comment
+        const {parent} = comment
 
         // clone() the result object
         const result = JSON.parse(JSON.stringify(previousResult))
@@ -200,14 +206,14 @@ export const withData = graphql(rootQuery, {
             }
           }
           if (!parent.comments.nodes) {
-            parent.coments.nodes = []
+            parent.comments.nodes = []
           }
 
-          // Bump the count only if the comment doesn't already exist in the list.
-          if (!parent.comments.nodes.some(comment => comment.id === id)) {
-            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
-            parent.comments.pageInfo.hasNextPage = true
-          }
+          // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
+          // mutation callback deal with resetting this if the current user submitted the
+          // comment itself.
+          parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
+          parent.comments.pageInfo.hasNextPage = true
         }
 
         if (parent) {
@@ -257,8 +263,8 @@ mutation discussionDownvoteComment($commentId: ID!) {
 })
 
 export const submitComment = graphql(gql`
-mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: String!) {
-  submitComment(discussionId: $discussionId, parentId: $parentId, content: $content) {
+mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
+  submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
     id
     content
     score
@@ -330,22 +336,13 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
           const insertComment = (parent) => {
             if (!parent.comments) { parent.comments = {} }
 
-            const currentNodes = parent.comments.nodes || []
-            if (currentNodes.some(comment => comment.id === submitComment.id)) {
-              // The comment already exists in the list. This happens when it arrives
-              // through a subscription before we receive the mutation response.
-              parent.comments.nodes = [
-                comment,
-                ...currentNodes.filer(comment => comment.id !== submitComment.id)
-              ]
+            parent.comments.nodes = [comment, ...(parent.comments.nodes || [])]
 
-              parent.comments.totalCount = parent.comments.totalCount - 1
-              if (parent.comments.totalCount === 0) {
-                parent.comments.pageInfo.hasNextPage = false
-              }
-            } else {
-              // The comment is not in the client yet.
-              parent.comments.nodes = [comment, ...currentNodes]
+            // If the totalCount is greater than what we can count ourselves, it means
+            // the count was bumped inside the new comment subscription and we need to
+            // unset the 'hasNextPage' flag.
+            if (parent.comments.totalCount === countNodes(parent.comments.nodes)) {
+              parent.comments.pageInfo.hasNextPage = false
             }
           }
 

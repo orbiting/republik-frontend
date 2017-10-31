@@ -1,4 +1,5 @@
 import {gql, graphql} from 'react-apollo'
+import uuid from 'uuid/v4'
 
 const meQuery = gql`
 query discussionMe($discussionId: ID!) {
@@ -276,12 +277,16 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
 `, {
   props: ({ownProps: {discussionId, parentId: ownParentId, orderBy}, mutate}) => ({
     submitComment: (parentId, content) => {
+      // Generate a new UUID for the comment. We do this client-side so that we can
+      // properly handle subscription notifications.
+      const id = uuid()
+
       mutate({
-        variables: {discussionId, parentId, content},
+        variables: {discussionId, parentId, id, content},
         optimisticResponse: {
           submitComment: {
             __typename: 'Comment',
-            id: '00000000-0000-0000-0000-000000000000',
+            id,
             content,
             score: 0,
             userVote: null,
@@ -325,12 +330,23 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
           const insertComment = (parent) => {
             if (!parent.comments) { parent.comments = {} }
 
-            // If the comment already exists in the list (becuase it was delivered
-            // to the client through a subscription), remove it so that the new comment
-            // remains at the head of the list.
-            const currentNodes = (parent.comments.nodes || [])
-              .filter(comment => comment.id !== submitComment.id)
-            parent.comments.nodes = [comment, ...currentNodes]
+            const currentNodes = parent.comments.nodes || []
+            if (currentNodes.some(comment => comment.id === submitComment.id)) {
+              // The comment already exists in the list. This happens when it arrives
+              // through a subscription before we receive the mutation response.
+              parent.comments.nodes = [
+                comment,
+                ...currentNodes.filer(comment => comment.id !== submitComment.id)
+              ]
+
+              parent.comments.totalCount = parent.comments.totalCount - 1
+              if (parent.comments.totalCount === 0) {
+                parent.comments.pageInfo.hasNextPage = false
+              }
+            } else {
+              // The comment is not in the client yet.
+              parent.comments.nodes = [comment, ...currentNodes]
+            }
           }
 
           if (parentId) {

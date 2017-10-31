@@ -27,45 +27,6 @@ export const withMe = graphql(meQuery, {
   variables: ({discussionId}) => ({discussionId})
 })
 
-export const fetchMoreQuery = gql`
-query discussionFetchMore($discussionId: ID!, $orderBy: DiscussionOrder!, $parentId: ID, $after: String) {
-  discussion(id: $discussionId) {
-    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 10) {
-      ...ConnectionInfo
-      nodes {
-        ...Comment
-        comments {
-          ...ConnectionInfo
-        }
-      }
-    }
-  }
-}
-
-fragment ConnectionInfo on CommentConnection {
-  totalCount
-  pageInfo {
-    hasNextPage
-    endCursor
-  }
-}
-
-fragment Comment on Comment {
-  id
-  content
-  score
-  displayAuthor {
-    profilePicture
-    name
-    credential {
-      description
-      verified
-    }
-  }
-  createdAt
-}
-`
-
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
   comments(discussionId: $discussionId) {
@@ -78,7 +39,7 @@ subscription discussionComments($discussionId: ID!) {
 `
 
 const rootQuery = gql`
-query discussion($discussionId: ID!, $orderBy: DiscussionOrder!) {
+query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!) {
   me {
     id
     name
@@ -97,7 +58,7 @@ query discussion($discussionId: ID!, $orderBy: DiscussionOrder!) {
         verified
       }
     }
-    comments(orderBy: $orderBy, first: 20) @connection(key: "comments", filter: ["orderBy"]) {
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 20) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
       ...ConnectionInfo
       nodes {
         ...Comment
@@ -109,6 +70,9 @@ query discussion($discussionId: ID!, $orderBy: DiscussionOrder!) {
               ...ConnectionInfo
               nodes {
                 ...Comment
+                comments {
+                  ...ConnectionInfo
+                }
               }
             }
           }
@@ -130,6 +94,7 @@ fragment Comment on Comment {
   id
   content
   score
+  userVote
   displayAuthor {
     profilePicture
     name
@@ -155,12 +120,13 @@ const modifyComment = (comment, id, onComment) => {
 }
 
 export const withData = graphql(rootQuery, {
-  variables: ({discussionId, orderBy}) => ({discussionId, orderBy}),
+  variables: ({discussionId, parentId, after, orderBy}) => ({
+    discussionId, parentId, after, orderBy
+  }),
   props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
     fetchMore: (parentId, after) => fetchMore({
-      query: fetchMoreQuery,
-      variables: {discussionId, orderBy, parentId, after},
+      variables: {discussionId, parentId, after, orderBy},
       updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
         // previousResult is immutable. We clone the whole object, then recursively
         // iterate through the comments until we find the parent comment to which
@@ -295,6 +261,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
     id
     content
     score
+    userVote
     displayAuthor {
       profilePicture
       name
@@ -307,7 +274,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
   }
 }
 `, {
-  props: ({ownProps: {discussionId, orderBy}, mutate}) => ({
+  props: ({ownProps: {discussionId, parentId: ownParentId, orderBy}, mutate}) => ({
     submitComment: (parentId, content) => {
       mutate({
         variables: {discussionId, parentId, content},
@@ -317,6 +284,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
             id: '00000000-0000-0000-0000-000000000000',
             content,
             score: 0,
+            userVote: null,
             displayAuthor: {
               __typename: 'DisplayUser',
               profilePicture: null,
@@ -331,7 +299,10 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
           }
         },
         update: (proxy, {data: {submitComment}}) => {
-          const data = proxy.readQuery({query: rootQuery, variables: {discussionId, orderBy}})
+          const data = proxy.readQuery({
+            query: rootQuery,
+            variables: {discussionId, parentId: ownParentId, orderBy}
+          })
 
           // Insert empty structures for the 'comments' field. The rootQuery
           // schema expects those to be present.
@@ -370,7 +341,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $content: St
 
           proxy.writeQuery({
             query: rootQuery,
-            variables: {discussionId, orderBy},
+            variables: {discussionId, parentId: ownParentId, orderBy},
             data
           })
         }

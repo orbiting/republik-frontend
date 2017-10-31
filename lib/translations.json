@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-25T13:42:50.380Z",
+  "updated": "2017-10-27T11:42:40.402Z",
   "title": "live",
   "data": [
     {
@@ -27,8 +27,20 @@
       "value": "Mein Konto"
     },
     {
-      "key": "pages/profile/title",
-      "value": "Mein Profil"
+      "key": "pages/profile/pageTitle",
+      "value": "{name} – Profil"
+    },
+    {
+      "key": "pages/profile/empty/pageTitle",
+      "value": "Profil"
+    },
+    {
+      "key": "pages/profile/empty/title",
+      "value": "Diese Profilseite ist deaktiviert"
+    },
+    {
+      "key": "pages/profile/empty/content",
+      "value": "Auch Sie haben die volle Kontrolle über Ihre Profilseite unter {link}."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -308,15 +320,27 @@
     },
     {
       "key": "Account/ProfileForm/publicUrl/label",
-      "value": "URL"
+      "value": "Webseite"
+    },
+    {
+      "key": "Account/ProfileForm/publicUrl/error",
+      "value": "Bitte geben Sie eine vollständige URL an"
     },
     {
       "key": "Account/ProfileForm/isEmailPublic/label",
       "value": "E-Mail im Profil anzeigen"
     },
     {
+      "key": "Account/submit/error/title",
+      "value": "Fehler"
+    },
+    {
       "key": "profile/discussion",
       "value": "Diskussionsbeiträge"
+    },
+    {
+      "key": "profile/discussion/empty",
+      "value": "Noch keine Diskussionsbeiträge"
     },
     {
       "key": "testimonial/meta/pageTitle",
@@ -585,6 +609,10 @@
     {
       "key": "styleguide/CommentTreeLoadMore/label/other",
       "value": "{count} weitere Kommentare"
+    },
+    {
+      "key": "styleguide/CommentTreeCollapse/label",
+      "value": "ausblenden"
     },
     {
       "key": "timeago/justNow/other",

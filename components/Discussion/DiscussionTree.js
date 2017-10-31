@@ -1,22 +1,117 @@
 import React, {PureComponent} from 'react'
 import {compose} from 'redux'
-import {CommentTreeLoadMore, CommentTreeNode} from '@project-r/styleguide'
+import {colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode} from '@project-r/styleguide'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
 import {withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 
-class DiscussionTree extends PureComponent {
+class DiscussionTreePortal extends PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = {isExpanded: false}
+    this.toggle = () => {
+      this.setState({isExpanded: !this.state.isExpanded})
+    }
+  }
+
+  render () {
+    const {t, count, ...props} = this.props
+
+    if (this.state.isExpanded) {
+      return (
+        <div>
+          <CommentTreeCollapse
+            t={t}
+            onClick={this.toggle}
+          />
+
+          <DiscussionTree
+            {...props}
+            visualDepth={1}
+            top={false}
+            head={false}
+            tail={false}
+            t={t}
+          />
+          <div
+            style={{marginTop: '-2px', borderTop: `2px solid ${colors.primary}`}}
+          />
+        </div>
+      )
+    }
+
+    return (
+      <CommentTreeLoadMore
+        t={t}
+        visualDepth={this.props.visualDepth - 1}
+        count={count}
+        onClick={this.toggle}
+      />
+    )
+  }
+}
+
+class DiscussionTreeRenderer extends PureComponent {
   constructor (props) {
     super(props)
 
     this.state = { now: Date.now() }
+
+    // Fetch more comments at the root level of this 'Discussion' tree.
     this.fetchMore = () => {
       const {data: {discussion}, fetchMore} = this.props
       if (discussion) {
         fetchMore(null, discussion.comments.pageInfo.endCursor)
       }
     }
+
+    // Fetch more replies to the given comment.
+    this.fetchMoreReplies = ({id, comments}) => {
+      const {fetchMore} = this.props
+      if (comments && comments.pageInfo) {
+        fetchMore(id, comments.pageInfo.endCursor)
+      } else {
+        fetchMore(id, undefined)
+      }
+    }
+
+    const More = ({visualDepth, logicalDepth, comment}) => {
+      const {t, discussionId, orderBy} = this.props
+      const {comments} = comment
+
+      if (comments && comments.totalCount > 0) {
+        const {totalCount, pageInfo, nodes = []} = comments
+        const count = totalCount - (nodes ? nodes.length : 0)
+
+        if (logicalDepth >= 3) {
+          return (
+            <DiscussionTreePortal
+              t={t}
+              discussionId={discussionId}
+              parentId={comment.id}
+              orderBy={orderBy}
+              count={count}
+              visualDepth={visualDepth}
+            />
+          )
+        } else if (pageInfo && pageInfo.hasNextPage) {
+          return (
+            <CommentTreeLoadMore
+              t={t}
+              visualDepth={visualDepth}
+              count={count}
+              onClick={() => this.fetchMoreReplies(comment)}
+            />
+          )
+        } else {
+          return null
+        }
+      } else {
+        return null
+      }
+    }
+    this.More = More
   }
 
   componentDidMount () {
@@ -31,8 +126,18 @@ class DiscussionTree extends PureComponent {
   }
 
   render () {
-    const {t, data: {loading, error, me, discussion}} = this.props
+    const {
+      logicalDepth = 0,
+      visualDepth = 0,
+      top = true,
+      t,
+      data: {loading, error, me, discussion}
+    } = this.props
+
     const {now} = this.state
+    const timeagoFromNow = (createdAtString) => {
+      return timeago(t, (now - Date.parse(createdAtString)) / 1000)
+    }
 
     return (
       <Loader
@@ -53,6 +158,7 @@ class DiscussionTree extends PureComponent {
                 <CommentTreeLoadMore
                   key='loadMore'
                   t={t}
+                  visualDepth={1}
                   count={totalCount - (nodes ? nodes.length : 0)}
                   onClick={this.fetchMore}
                 />
@@ -62,15 +168,15 @@ class DiscussionTree extends PureComponent {
             }
           })()
 
-          const timeagoFromNow = (createdAtString) => {
-            return timeago(t, (now - Date.parse(createdAtString)) / 1000)
-          }
-
           return [
             ...discussion.comments.nodes.map((comment, index) => (
               <CommentTreeNode
                 key={index}
-                top
+                logicalDepth={logicalDepth}
+                visualDepth={visualDepth}
+                top={top}
+                head={false}
+                tail={false}
                 t={t}
                 displayAuthor={displayAuthor}
                 comment={comment}
@@ -78,7 +184,7 @@ class DiscussionTree extends PureComponent {
                 upvoteComment={this.props.upvoteComment}
                 downvoteComment={this.props.downvoteComment}
                 submitComment={this.props.submitComment}
-                fetchMore={this.props.fetchMore}
+                More={this.More}
               />
             )),
             tail
@@ -89,10 +195,12 @@ class DiscussionTree extends PureComponent {
   }
 }
 
-export default compose(
+const DiscussionTree = compose(
   withT,
   withData,
   upvoteComment,
   downvoteComment,
   submitComment
-)(DiscussionTree)
+)(DiscussionTreeRenderer)
+
+export default DiscussionTree

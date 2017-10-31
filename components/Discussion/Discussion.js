@@ -63,6 +63,7 @@ class Discussion extends PureComponent {
 
         <DiscussionTree
           discussionId={discussionId}
+          parentId={null}
           orderBy={orderBy}
         />
       </div>

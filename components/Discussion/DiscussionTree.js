@@ -6,6 +6,12 @@ import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
 import {withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 
+const countNode = comment =>
+  1 + (!comment.comments ? 0 : comment.comments.totalCount)
+
+const countNodes = nodes =>
+  !nodes ? 0 : nodes.reduce((a, comment) => a + countNode(comment), 0)
+
 class DiscussionTreePortal extends PureComponent {
   constructor (props) {
     super(props)
@@ -81,8 +87,8 @@ class DiscussionTreeRenderer extends PureComponent {
       const {comments} = comment
 
       if (comments && comments.totalCount > 0) {
-        const {totalCount, pageInfo, nodes = []} = comments
-        const count = totalCount - (nodes ? nodes.length : 0)
+        const {totalCount, pageInfo} = comments
+        const count = totalCount
 
         if (logicalDepth >= 3) {
           return (
@@ -151,15 +157,16 @@ class DiscussionTreeRenderer extends PureComponent {
             credential: discussion.userPreference && discussion.userPreference.credential
           }
 
-          const {totalCount, pageInfo, nodes} = discussion.comments
+          // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
           const tail = (() => {
+            const {totalCount, pageInfo, nodes} = discussion.comments
             if (pageInfo && pageInfo.hasNextPage) {
               return (
                 <CommentTreeLoadMore
                   key='loadMore'
                   t={t}
                   visualDepth={1}
-                  count={totalCount - (nodes ? nodes.length : 0)}
+                  count={totalCount - countNodes(nodes)}
                   onClick={this.fetchMore}
                 />
               )

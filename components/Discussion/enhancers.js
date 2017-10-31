@@ -58,7 +58,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         verified
       }
     }
-    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 20) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 5) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
       ...ConnectionInfo
       nodes {
         ...Comment

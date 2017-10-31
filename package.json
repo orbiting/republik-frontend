@@ -104,6 +104,7 @@
     "react-textarea-autosize": "^5.1.0",
     "redux": "^3.7.2",
     "subscriptions-transport-ws": "^0.8.2",
+    "uuid": "^3.1.0",
     "valid-url": "^1.0.9"
   }
 }

@@ -145,11 +145,6 @@ export const withData = graphql(rootQuery, {
         if (discussion && discussion.comments) {
           const {totalCount, pageInfo, nodes} = discussion.comments
 
-          // In the fetchMoreQuery we don't fetch the child comment nodes. But the
-          // rootQuery expects there 'nodes' exist in the first three or so levels.
-          // Set it to an empty array to make apollo not freak out.
-          nodes.forEach(({comments}) => { comments.nodes = [] })
-
           const insertNodes = (parent) => {
             if (!parent.comments) { parent.comments = {} }
 

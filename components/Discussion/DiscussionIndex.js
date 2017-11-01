@@ -8,16 +8,23 @@ import withT from '../../lib/withT'
 class DiscussionIndex extends PureComponent {
   constructor (props) {
     super(props)
-    this.state = {title: ''}
-    this.createDiscussion = (title) => {
-      this.props.createDiscussion(title)
-      this.setState({title: ''})
+
+    this.state = {
+      title: '',
+      maxLength: undefined,
+      minInterval: undefined
+    }
+
+    this.createDiscussion = () => {
+      const {title, maxLength, minInterval} = this.state
+      this.props.createDiscussion(title, maxLength, minInterval)
+      this.setState({title: '', maxLength: undefined, minInterval: undefined})
     }
   }
 
   render () {
     const {t, data: {loading, error, discussions}} = this.props
-    const {title} = this.state
+    const {title, maxLength, minInterval} = this.state
 
     if (loading || error) {
       return null
@@ -27,13 +34,23 @@ class DiscussionIndex extends PureComponent {
           <H1>{t('discussion/pageTitle')}</H1>
 
           <H2>Neue Diskussion erstellen</H2>
-          <div style={{margin: '20px 0', display: 'flex'}}>
+          <div>
             <Field
               label='Titel'
               value={title}
               onChange={(_, title) => this.setState({title})}
             />
-            <Button style={{marginLeft: 20}} primary onClick={() => { this.createDiscussion(title) }}>Erstellen</Button>
+            <Field
+              label='Maximale länge'
+              value={maxLength}
+              onChange={(_, maxLength) => this.setState({maxLength: +maxLength})}
+            />
+            <Field
+              label='Minimales interval (sekunden)'
+              value={minInterval}
+              onChange={(_, minInterval) => this.setState({minInterval: +minInterval})}
+            />
+            <Button primary disabled={title === ''} onClick={this.createDiscussion}>Erstellen</Button>
           </div>
 
           <H2>Alle Diskussionen</H2>
@@ -63,14 +80,18 @@ export default compose(
 withT,
 graphql(discussionsQuery),
 graphql(gql`
-mutation createDiscussion($title: String!) {
-  createDiscussion(title: $title, anonymity: ALLOWED)
+mutation createDiscussion($title: String!, $maxLength: Int, $minInterval: Int) {
+  createDiscussion(title: $title, maxLength: $maxLength, minInterval: $minInterval, anonymity: ALLOWED)
 }
 `, {
   props: ({mutate}) => ({
-    createDiscussion: (title) => {
+    createDiscussion: (title, maxLength, minInterval) => {
       mutate({
-        variables: {title},
+        variables: {
+          title,
+          maxLength,
+          minInterval: minInterval === undefined ? undefined : minInterval * 1000
+        },
         update: (proxy, {data: {createDiscussion}}) => {
           const data = proxy.readQuery({query: discussionsQuery})
           data.discussions.push({__typename: 'Discussion', id: createDiscussion, title})

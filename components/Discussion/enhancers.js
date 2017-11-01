@@ -1,5 +1,6 @@
 import {gql, graphql} from 'react-apollo'
 import uuid from 'uuid/v4'
+import {errorToString} from '../../lib/utils/errors'
 
 export const countNode = comment =>
   1 + (!comment.comments ? 0 : comment.comments.totalCount)
@@ -357,6 +358,9 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
             data
           })
         }
+      }).catch(e => {
+        // Convert the Error object into a string, but keep the Promise rejected.
+        throw errorToString(e)
       })
     }
   })

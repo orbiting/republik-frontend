@@ -236,7 +236,9 @@ mutation discussionUpvoteComment($commentId: ID!) {
 }
 `, {
   props: ({mutate}) => ({
-    upvoteComment: (commentId) => { mutate({variables: {commentId}}) }
+    upvoteComment: (commentId) => {
+      return mutate({variables: {commentId}})
+    }
   })
 })
 
@@ -253,7 +255,9 @@ mutation discussionDownvoteComment($commentId: ID!) {
 }
 `, {
   props: ({mutate}) => ({
-    downvoteComment: (commentId) => { mutate({variables: {commentId}}) }
+    downvoteComment: (commentId) => {
+      return mutate({variables: {commentId}})
+    }
   })
 })
 
@@ -282,7 +286,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       // properly handle subscription notifications.
       const id = uuid()
 
-      mutate({
+      return mutate({
         variables: {discussionId, parentId, id, content},
         optimisticResponse: {
           submitComment: {

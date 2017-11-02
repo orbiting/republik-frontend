@@ -1,5 +1,5 @@
 {
-  "updated": "2017-10-27T11:42:40.402Z",
+  "updated": "2017-11-02T12:29:43.882Z",
   "title": "live",
   "data": [
     {
@@ -603,6 +603,10 @@
       "value": "Antworten"
     },
     {
+      "key": "styleguide/CommentTeaser/commentLink",
+      "value": "Zum Beitrag"
+    },
+    {
       "key": "styleguide/CommentTreeLoadMore/label/1",
       "value": "Eine weiterer Kommentar"
     },
@@ -636,7 +640,7 @@
     },
     {
       "key": "timeago/hours/1",
-      "value": "vor einer Stunden"
+      "value": "vor einer Stunde"
     },
     {
       "key": "timeago/hours/other",

@@ -7,6 +7,7 @@ import { css, merge } from 'glamor'
 import Badge from './Badge'
 import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
+import LatestComments from './LatestComments'
 import PointerList from './PointerList'
 import Testimonial from '../Testimonial'
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
@@ -63,7 +64,7 @@ const styles = {
 }
 
 const getPublicUser = gql`
-  query getPublicUser($userId: ID!) {
+  query getPublicUser($userId: ID!, $limit: Int!) {
     publicUser(id: $userId) {
       id
       name
@@ -81,9 +82,14 @@ const getPublicUser = gql`
       twitterHandle
       publicUrl
       badges
-      latestComments {
+      latestComments(limit: $limit) {
         id
         content
+        discussion {
+          id
+          title
+        }
+        createdAt
       }
     }
   }
@@ -199,17 +205,7 @@ class Profile extends Component {
                   )}
                   <PointerList publicUser={publicUser} />
                 </div>
-                {!publicUser.latestComments ||
-                !publicUser.latestComments.length ? (
-                  <p>{t('profile/discussion/empty')}</p>
-                ) : (
-                  <div>
-                    <Interaction.H3>{t('profile/discussion')}</Interaction.H3>
-                    {publicUser.latestComments.map(comment => (
-                      <p key={comment.id}>{comment.content}</p>
-                    ))}
-                  </div>
-                )}
+                <LatestComments comments={publicUser.latestComments} />
               </div>
             </div>
           )
@@ -224,7 +220,8 @@ export default compose(
   graphql(getPublicUser, {
     options: props => ({
       variables: {
-        userId: props.userId
+        userId: props.userId,
+        limit: 10
       }
     })
   })

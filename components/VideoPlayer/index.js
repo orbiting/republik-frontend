@@ -10,6 +10,11 @@ import {
 } from '@project-r/styleguide'
 
 import {
+  ZINDEX_VIDEOPLAYER_ICONS,
+  ZINDEX_VIDEOPLAYER_SCRUB
+} from '../constants'
+
+import {
   STATIC_BASE_URL
 } from '../../lib/constants'
 
@@ -63,13 +68,13 @@ const styles = {
   }),
   icons: css({
     position: 'absolute',
-    zIndex: 6,
+    zIndex: ZINDEX_VIDEOPLAYER_ICONS,
     right: 10,
     bottom: 10,
     cursor: 'pointer'
   }),
   scrub: css({
-    zIndex: 3,
+    zIndex: ZINDEX_VIDEOPLAYER_SCRUB,
     position: 'absolute',
     height: '10%',
     bottom: -PROGRESS_HEIGHT,

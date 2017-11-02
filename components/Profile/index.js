@@ -64,7 +64,7 @@ const styles = {
 }
 
 const getPublicUser = gql`
-  query getPublicUser($userId: ID!, $limit: Int!) {
+  query getPublicUser($userId: ID!, $limit: Int) {
     publicUser(id: $userId) {
       id
       name
@@ -220,8 +220,7 @@ export default compose(
   graphql(getPublicUser, {
     options: props => ({
       variables: {
-        userId: props.userId,
-        limit: 10
+        userId: props.userId
       }
     })
   })

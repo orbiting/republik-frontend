@@ -1,6 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
 
+import {
+  ZINDEX_FRAME_TOGGLE
+} from '../constants'
+
 const BLACK = '#282828'
 
 const toggleStyle = css({
@@ -10,7 +14,7 @@ const toggleStyle = css({
   top: -3,
   position: 'relative',
   cursor: 'pointer',
-  zIndex: 1,
+  zIndex: ZINDEX_FRAME_TOGGLE,
   '&, :hover, :focus': {
     backgroundColor: 'transparent',
     border: 'none',

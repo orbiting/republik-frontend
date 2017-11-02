@@ -220,7 +220,8 @@ export default compose(
   graphql(getPublicUser, {
     options: props => ({
       variables: {
-        userId: props.userId
+        userId: props.userId,
+        limit: 7
       }
     })
   })

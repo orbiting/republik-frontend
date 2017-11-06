@@ -84,7 +84,7 @@
     "tape": "^4.8.0"
   },
   "dependencies": {
-    "@project-r/styleguide": "^3.2.0",
+    "@project-r/styleguide": "^3.3.0",
     "d3-array": "^1.1.1",
     "d3-format": "^1.2.0",
     "d3-time-format": "^2.0.5",

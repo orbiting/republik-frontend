@@ -6,13 +6,13 @@ import {compose} from 'redux'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
-import RawHtml from '../RawHtml'
 
 import {
   Button,
   InlineSpinner,
   Interaction,
-  Field
+  Field,
+  RawHtml
 } from '@project-r/styleguide'
 
 import Poller from './Poller'

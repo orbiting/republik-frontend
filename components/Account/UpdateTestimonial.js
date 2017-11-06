@@ -11,7 +11,6 @@ import withMe from '../../lib/apollo/withMe'
 import ErrorMessage from '../ErrorMessage'
 import FieldSet from '../FieldSet'
 import Loader from '../Loader'
-import RawHtml from '../RawHtml'
 
 import { Item } from '../Testimonial/List'
 import Detail from '../Testimonial/Detail'
@@ -19,6 +18,7 @@ import Detail from '../Testimonial/Detail'
 import {
   InlineSpinner,
   Interaction,
+  RawHtml,
   Button,
   A,
   linkRule

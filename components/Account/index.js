@@ -9,9 +9,8 @@ import Share from '../Share'
 import UpdateMe from './UpdateMe'
 import UpdateProfile from './UpdateProfile'
 import UpdateTestimonial from './UpdateTestimonial'
-import RawHtml from '../RawHtml'
 
-import { H1, Lead, P } from '@project-r/styleguide'
+import { H1, Lead, P, RawHtml } from '@project-r/styleguide'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 const Account = ({ loading, error, me, t, signOut }) => (
@@ -40,7 +39,6 @@ const Account = ({ loading, error, me, t, signOut }) => (
             <div>
               <RawHtml
                 type={Lead}
-                style='serif'
                 dangerouslySetInnerHTML={{
                   __html: t('Account/lead')
                 }}

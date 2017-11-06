@@ -4,7 +4,6 @@ import { compose } from 'redux'
 import { isWebUri } from 'valid-url'
 import Loader from '../Loader'
 import PointerList from '../Profile/PointerList'
-import RawHtml from '../RawHtml'
 import { Link } from '../../lib/routes'
 import { errorToString } from '../../lib/utils/errors'
 
@@ -15,6 +14,7 @@ import {
   FieldSet,
   InlineSpinner,
   Interaction,
+  RawHtml,
   Button,
   A,
   colors,

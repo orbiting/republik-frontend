@@ -9,53 +9,47 @@ class DiscussionCommentComposer extends PureComponent {
     super(props)
 
     this.state = {
-      isFocused: false
+      state: 'idle', // idle | focused | submitting | error
+      error: undefined // If state == error then this is the error string.
     }
 
     this.onFocus = () => {
-      this.setState({isFocused: true})
+      this.setState({state: 'focused', error: undefined})
     }
 
     this.onCancel = () => {
-      this.setState({isFocused: false})
+      this.setState({state: 'idle', error: undefined})
     }
 
     this.submitComment = content => {
-      this.props.submitComment(undefined, content)
-      this.setState({isFocused: false})
+      this.setState({state: 'submitting'})
+      this.props.submitComment(undefined, content).then(
+        () => {
+          this.setState({
+            state: 'idle',
+            error: undefined
+          })
+        },
+        (e) => {
+          this.setState({
+            state: 'error',
+            error: e
+          })
+        }
+      )
     }
   }
 
   render () {
     const {t, data: {loading, error, discussion, me}} = this.props
-    const {isFocused} = this.state
+    const {state} = this.state
 
     if (loading || error || !me) {
       return null
     } else {
       const profilePicture = me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image
 
-      if (isFocused) {
-        const credential = (() => {
-          const {userPreference} = discussion
-          return userPreference ? userPreference.credential : undefined
-        })()
-
-        const displayAuthor = {
-          profilePicture,
-          name: me.name,
-          credential
-        }
-
-        return (
-          <CommentComposer
-            t={t}
-            displayAuthor={displayAuthor}
-            onCancel={this.onCancel}
-            submitComment={this.submitComment}
-          />
-        )
-      } else {
+      if (state === 'idle') {
         return (
           <CommentComposerPlaceholder
             t={t}
@@ -64,6 +58,27 @@ class DiscussionCommentComposer extends PureComponent {
           />
         )
       }
+
+      const credential = (() => {
+        const {userPreference} = discussion
+        return userPreference ? userPreference.credential : undefined
+      })()
+
+      const displayAuthor = {
+        profilePicture,
+        name: me.name,
+        credential
+      }
+
+      return (
+        <CommentComposer
+          t={t}
+          displayAuthor={displayAuthor}
+          error={this.state.error}
+          onCancel={this.onCancel}
+          submitComment={this.submitComment}
+        />
+      )
     }
   }
 }

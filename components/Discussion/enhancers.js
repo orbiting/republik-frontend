@@ -1,5 +1,6 @@
 import {gql, graphql} from 'react-apollo'
 import uuid from 'uuid/v4'
+import {errorToString} from '../../lib/utils/errors'
 
 export const countNode = comment =>
   1 + (!comment.comments ? 0 : comment.comments.totalCount)
@@ -236,7 +237,9 @@ mutation discussionUpvoteComment($commentId: ID!) {
 }
 `, {
   props: ({mutate}) => ({
-    upvoteComment: (commentId) => { mutate({variables: {commentId}}) }
+    upvoteComment: (commentId) => {
+      return mutate({variables: {commentId}})
+    }
   })
 })
 
@@ -253,7 +256,9 @@ mutation discussionDownvoteComment($commentId: ID!) {
 }
 `, {
   props: ({mutate}) => ({
-    downvoteComment: (commentId) => { mutate({variables: {commentId}}) }
+    downvoteComment: (commentId) => {
+      return mutate({variables: {commentId}})
+    }
   })
 })
 
@@ -282,7 +287,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       // properly handle subscription notifications.
       const id = uuid()
 
-      mutate({
+      return mutate({
         variables: {discussionId, parentId, id, content},
         optimisticResponse: {
           submitComment: {
@@ -353,6 +358,9 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
             data
           })
         }
+      }).catch(e => {
+        // Convert the Error object into a string, but keep the Promise rejected.
+        throw errorToString(e)
       })
     }
   })

@@ -8,6 +8,28 @@ export const countNode = comment =>
 export const countNodes = nodes =>
   !nodes ? 0 : nodes.reduce((a, comment) => a + countNode(comment), 0)
 
+// List of IDs (strings) of comments which the client has submitted but
+// not received a response for yet. We need this so we can ignore the
+// subscription event for those comments.
+let pendingCommentIDs = []
+
+// The empty??? constructors are functions which create empty objects
+// matching the corresponding GraphQL types. They are functions instead
+// of simple 'const's because we modify the objects in-place in the
+// code below.
+const emptyPageInfo = () => ({
+  __typename: 'PageInfo',
+  hasNextPage: false,
+  endCursor: null
+})
+
+const emptyCommentConnection = () => ({
+  __typename: 'CommentConnection',
+  totalCount: 0,
+  nodes: [],
+  pageInfo: emptyPageInfo()
+})
+
 const meQuery = gql`
 query discussionMe($discussionId: ID!) {
   me {
@@ -160,12 +182,9 @@ export const withData = graphql(rootQuery, {
             const currentNodes = parent.comments.nodes || []
             const newNodes = nodes.filter(x => !currentNodes.some(y => y.id === x.id))
 
-            parent.comments = {
-              __typename: 'CommentConnection',
-              totalCount,
-              pageInfo,
-              nodes: [...currentNodes, ...newNodes]
-            }
+            parent.comments.totalCount = totalCount
+            parent.comments.pageInfo = pageInfo
+            parent.comments.nodes = [...currentNodes, ...newNodes]
           }
 
           if (parentId) {
@@ -182,35 +201,36 @@ export const withData = graphql(rootQuery, {
       document: commentsSubscription,
       variables: {discussionId},
       updateQuery: (previousResult, { subscriptionData: {data: {comments: comment}}, variables }) => {
+        // In which situations does this happen?
         if (!comment) {
-          // In which situations does this happen?
           return previousResult
         }
 
-        // Given the parent 'CommentConnection' of the comment we want to insert, either update
-        // the comment (if the comment already exists in the list) or otherwise bump the count
-        // of the CommentConnection.
-        const go = (commentConnection) => {
-          if (!commentConnection.comments) {
-            commentConnection.comments = {
-              totalCount: 0,
-              nodes: []
-            }
+        // Ignore events for comments which were created by this client.
+        if (pendingCommentIDs.indexOf(comment.id) !== -1) {
+          return previousResult
+        }
+
+        // Given the parent object (either a Discussion or a Comment) of the comment we want
+        // to insert, either update the comment (if the comment already exists in the list)
+        // or otherwise bump the count of the CommentConnection and enable the hasNextPage flag.
+        const go = (parent) => {
+          if (!parent.comments) {
+            parent.comments = emptyCommentConnection()
           }
-          if (!commentConnection.comments.pageInfo) {
-            commentConnection.comments.pageInfo = {
-              __typename: 'PageInfo',
-              hasNextPage: false,
-              endCursor: null
-            }
+          if (!parent.comments.pageInfo) {
+            parent.comments.pageInfo = emptyPageInfo()
           }
-          if (!commentConnection.comments.nodes) {
-            commentConnection.comments.nodes = []
+          if (!parent.comments.nodes) {
+            parent.comments.nodes = []
           }
 
-          const existingComment = commentConnection.comments.nodes.find(c => c.id === comment.id)
+          const existingComment = parent.comments.nodes.find(c => c.id === comment.id)
           if (existingComment) {
             // Overwrite fields in 'existingComment' with whatever came fresh from the server.
+            //
+            // Would a deep-merge be better here? Currently all fields we fetch are primitive,
+            // so updating them shouldn't cause any issues.
             for (const k in comment) {
               existingComment[k] = comment[k]
             }
@@ -218,8 +238,8 @@ export const withData = graphql(rootQuery, {
             // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
             // mutation callback deal with resetting this if the current user submitted the
             // comment itself.
-            commentConnection.comments.totalCount = (commentConnection.comments.totalCount || 0) + 1
-            commentConnection.comments.pageInfo.hasNextPage = true
+            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
+            parent.comments.pageInfo.hasNextPage = true
           }
         }
 
@@ -298,13 +318,19 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       // Generate a new UUID for the comment. We do this client-side so that we can
       // properly handle subscription notifications.
       const id = uuid()
+      pendingCommentIDs = [id, ...pendingCommentIDs]
 
       return mutate({
         variables: {discussionId, parentId, id, content},
         optimisticResponse: {
           submitComment: {
             __typename: 'Comment',
-            id,
+
+            // Generate a temporary ID so that we don't remove the true id from
+            // the 'pendingCommentIDs' list during the optimistic update of the
+            // local cache.
+            id: `t-${id}`,
+
             content,
             score: 0,
             userVote: null,
@@ -331,31 +357,18 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           // schema expects those to be present.
           const comment = {
             ...submitComment,
-            comments: {
-              __typename: 'CommentConnection',
-              totalCount: 0,
-              pageInfo: {
-                __typename: 'PageInfo',
-                hasNextPage: false,
-                endCursor: null
-              },
-              nodes: []
-            }
+            comments: emptyCommentConnection()
           }
 
           // Insert the newly created comment to the head of the given 'parent'
           // (which can be either the Discussion object or a Comment).
           const insertComment = (parent) => {
-            if (!parent.comments) { parent.comments = {} }
+            if (!parent.comments) {
+              parent.comments = emptyCommentConnection()
+            }
 
             parent.comments.nodes = [comment, ...(parent.comments.nodes || [])]
-
-            // If the totalCount is greater than what we can count ourselves, it means
-            // the count was bumped inside the new comment subscription and we need to
-            // unset the 'hasNextPage' flag.
-            if (parent.comments.totalCount === countNodes(parent.comments.nodes)) {
-              parent.comments.pageInfo.hasNextPage = false
-            }
+            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
           }
 
           if (parentId) {
@@ -369,6 +382,8 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
             variables: {discussionId, parentId: ownParentId, orderBy},
             data
           })
+
+          pendingCommentIDs = pendingCommentIDs.filter(id => id !== submitComment.id)
         }
       }).catch(e => {
         // Convert the Error object into a string, but keep the Promise rejected.

@@ -5,6 +5,7 @@ import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
 import {maxLogicalDepth, countNodes, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
+import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {
   constructor (props) {
@@ -56,7 +57,22 @@ class DiscussionTreeRenderer extends PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = { now: Date.now() }
+    this.state = {
+      now: Date.now(),
+      showPreferences: false
+    }
+
+    this.showPreferences = () => {
+      this.setState({
+        showPreferences: true
+      })
+    }
+
+    this.closePreferences = () => {
+      this.setState({
+        showPreferences: false
+      })
+    }
 
     // Fetch more comments at the root level of this 'Discussion' tree.
     this.fetchMore = () => {
@@ -127,6 +143,7 @@ class DiscussionTreeRenderer extends PureComponent {
 
   render () {
     const {
+      discussionId,
       logicalDepth = 0,
       visualDepth = 0,
       top = true,
@@ -134,7 +151,7 @@ class DiscussionTreeRenderer extends PureComponent {
       data: {loading, error, me, discussion}
     } = this.props
 
-    const {now} = this.state
+    const {now, showPreferences} = this.state
     const timeagoFromNow = (createdAtString) => {
       return timeago(t, (now - Date.parse(createdAtString)) / 1000)
     }
@@ -164,9 +181,21 @@ class DiscussionTreeRenderer extends PureComponent {
                   onClick={this.fetchMore}
                 />
               )
-            } else {
-              return null
             }
+            return null
+          })()
+
+          const discussionPreferences = (() => {
+            if (showPreferences) {
+              return (
+                <DiscussionPreferences
+                  key='discussionPreferenes'
+                  discussionId={discussionId}
+                  onClose={this.closePreferences}
+                />
+              )
+            }
+            return null
           })()
 
           return [
@@ -182,13 +211,15 @@ class DiscussionTreeRenderer extends PureComponent {
                 displayAuthor={displayAuthor}
                 comment={comment}
                 timeago={timeagoFromNow}
+                onEditPreferences={this.showPreferences}
                 upvoteComment={this.props.upvoteComment}
                 downvoteComment={this.props.downvoteComment}
                 submitComment={this.props.submitComment}
                 More={this.More}
               />
             )),
-            tail
+            tail,
+            discussionPreferences
           ]
         }}
       />

@@ -53,9 +53,7 @@ query discussionMe($discussionId: ID!) {
   }
 }
 `
-export const withMe = graphql(meQuery, {
-  variables: ({discussionId}) => ({discussionId})
-})
+export const withMe = graphql(meQuery)
 
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
@@ -167,9 +165,6 @@ const modifyComment = (comment, id, onComment) => {
 }
 
 export const withData = graphql(rootQuery, {
-  variables: ({discussionId, parentId, after, orderBy}) => ({
-    discussionId, parentId, after, orderBy
-  }),
   props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
     fetchMore: (parentId, after) => fetchMore({
@@ -396,6 +391,80 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           })
 
           pendingCommentIDs = pendingCommentIDs.filter(id => id !== submitComment.id)
+        }
+      }).catch(e => {
+        // Convert the Error object into a string, but keep the Promise rejected.
+        throw errorToString(e)
+      })
+    }
+  })
+})
+
+const discussionPreferencesQuery = gql`
+query discussionPreferences($discussionId: ID!) {
+  me {
+    id
+    publicUser {
+      credentials {
+        description
+      }
+    }
+  }
+  discussion(id: $discussionId) {
+    id
+    rules {
+      maxLength
+      minInterval
+      anonymity
+    }
+    userPreference {
+      anonymity
+      credential {
+        description
+        verified
+      }
+    }
+  }
+}
+`
+export const withDiscussionPreferences = graphql(discussionPreferencesQuery)
+
+export const withSetDiscussionPreferences = graphql(gql`
+mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: DiscussionPreferencesInput!) {
+  setDiscussionPreferences(id: $discussionId, discussionPreferences: $discussionPreferences) {
+    anonymity
+    credential {
+      description
+      verified
+    }
+  }
+}
+`, {
+  props: ({ownProps: {discussionId}, mutate}) => ({
+    setDiscussionPreferences: (anonymity, credential) => {
+      return mutate({
+        variables: {
+          discussionId,
+          discussionPreferences: {
+            anonymity,
+            credential
+          }
+        },
+        update: (proxy, {data: {setDiscussionPreferences}}) => {
+          const immutableData = proxy.readQuery({
+            query: discussionPreferencesQuery,
+            variables: {discussionId}
+          })
+
+          // clone() the data object so that we can mutate it in-place.
+          const data = JSON.parse(JSON.stringify(immutableData))
+          data.discussion.userPreference = setDiscussionPreferences
+
+          proxy.writeQuery({
+            query: discussionPreferencesQuery,
+            variables: {discussionId},
+            data
+          })
         }
       }).catch(e => {
         // Convert the Error object into a string, but keep the Promise rejected.

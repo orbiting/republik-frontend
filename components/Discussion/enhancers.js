@@ -31,9 +31,7 @@ query discussionMe($discussionId: ID!) {
   }
 }
 `
-export const withMe = graphql(meQuery, {
-  variables: ({discussionId}) => ({discussionId})
-})
+export const withMe = graphql(meQuery)
 
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
@@ -129,9 +127,6 @@ const modifyComment = (comment, id, onComment) => {
 }
 
 export const withData = graphql(rootQuery, {
-  variables: ({discussionId, parentId, after, orderBy}) => ({
-    discussionId, parentId, after, orderBy
-  }),
   props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
     fetchMore: (parentId, after) => fetchMore({
@@ -394,9 +389,7 @@ query discussionPreferences($discussionId: ID!) {
   }
 }
 `
-export const withDiscussionPreferences = graphql(discussionPreferencesQuery, {
-  variables: ({discussionId}) => ({discussionId})
-})
+export const withDiscussionPreferences = graphql(discussionPreferencesQuery)
 
 export const withSetDiscussionPreferences = graphql(gql`
 mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: DiscussionPreferencesInput!) {

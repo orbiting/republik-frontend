@@ -39,6 +39,11 @@ export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
   comments(discussionId: $discussionId) {
     id
+    upVotes
+    downVotes
+    score
+    userVote
+    updatedAt
     parent {
       id
     }
@@ -182,40 +187,47 @@ export const withData = graphql(rootQuery, {
           return previousResult
         }
 
-        const {parent} = comment
-
-        // clone() the result object
-        const result = JSON.parse(JSON.stringify(previousResult))
-
-        const bumpCommentCount = (parent) => {
-          if (!parent.comments) {
-            parent.comments = {
+        // Given the parent 'CommentConnection' of the comment we want to insert, either update
+        // the comment (if the comment already exists in the list) or otherwise bump the count
+        // of the CommentConnection.
+        const go = (commentConnection) => {
+          if (!commentConnection.comments) {
+            commentConnection.comments = {
               totalCount: 0,
               nodes: []
             }
           }
-          if (!parent.comments.pageInfo) {
-            parent.comments.pageInfo = {
+          if (!commentConnection.comments.pageInfo) {
+            commentConnection.comments.pageInfo = {
               __typename: 'PageInfo',
               hasNextPage: false,
               endCursor: null
             }
           }
-          if (!parent.comments.nodes) {
-            parent.comments.nodes = []
+          if (!commentConnection.comments.nodes) {
+            commentConnection.comments.nodes = []
           }
 
-          // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
-          // mutation callback deal with resetting this if the current user submitted the
-          // comment itself.
-          parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
-          parent.comments.pageInfo.hasNextPage = true
+          const existingComment = commentConnection.comments.nodes.find(c => c.id === comment.id)
+          if (existingComment) {
+            // Overwrite fields in 'existingComment' with whatever came fresh from the server.
+            for (const k in comment) {
+              existingComment[k] = comment[k]
+            }
+          } else {
+            // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
+            // mutation callback deal with resetting this if the current user submitted the
+            // comment itself.
+            commentConnection.comments.totalCount = (commentConnection.comments.totalCount || 0) + 1
+            commentConnection.comments.pageInfo.hasNextPage = true
+          }
         }
 
-        if (parent) {
-          modifyComment(result.discussion, parent.id, bumpCommentCount)
+        const result = JSON.parse(JSON.stringify(previousResult))
+        if (comment.parent) {
+          modifyComment(result.discussion, comment.parent.id, go)
         } else {
-          bumpCommentCount(result.discussion)
+          go(result.discussion)
         }
 
         return result

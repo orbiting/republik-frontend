@@ -73,6 +73,12 @@ subscription discussionComments($discussionId: ID!) {
 }
 `
 
+// The (logical) depth to which the query below fetches the discussion tree.
+// This constant is exported because it's used in the 'DiscussionTreeRenderer'
+// component to decide whether to use 'fetchMore' or whether to create a new
+// connected component with its own root query.
+export const maxLogicalDepth = 3
+
 const rootQuery = gql`
 query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!) {
   me {
@@ -95,14 +101,20 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
     }
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 5) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
       ...ConnectionInfo
+
+      # Depth 1
       nodes {
         ...Comment
         comments {
           ...ConnectionInfo
+
+          # Depth 2
           nodes {
             ...Comment
             comments {
               ...ConnectionInfo
+
+              # Depth 3
               nodes {
                 ...Comment
                 comments {

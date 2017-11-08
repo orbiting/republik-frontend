@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-08T05:55:05.233Z",
+  "updated": "2017-11-08T10:50:06.945Z",
   "title": "live",
   "data": [
     {
@@ -693,6 +693,10 @@
     {
       "key": "components/DiscussionPreferences/newCredentialLabel",
       "value": "Neue Bezeichnung erstellen"
+    },
+    {
+      "key": "components/DiscussionPreferences/loading",
+      "value": "Loading…"
     }
   ]
 }

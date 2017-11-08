@@ -20,7 +20,7 @@ export const DiscussionPreferences = ({t, data: {loading, error, me, discussion}
     <Loader
       loading={loading}
       error={error}
-      message={'Loading…'}
+      message={t('components/DiscussionPreferences/loading')}
       render={() => {
         const {publicUser: {credentials}} = me
         const {rules, userPreference} = discussion

@@ -120,7 +120,7 @@ class DiscussionPreferencesEditor extends PureComponent {
       text: cred.description
     }))
 
-    // Append the credential string to the options if it dosen't appear in them
+    // Append the credential string to the options if it doesn't appear in them
     // (ie. user has entered a new one into the input field).
     if (descriptionOptions.indexOf(item => item.text === this.state.credential) === -1) {
       descriptionOptions.push({

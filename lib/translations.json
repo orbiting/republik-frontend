@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-02T12:29:43.882Z",
+  "updated": "2017-11-08T05:55:05.233Z",
   "title": "live",
   "data": [
     {
@@ -677,6 +677,22 @@
     {
       "key": "timeago/years/other",
       "value": "vor {count} Jahren"
+    },
+    {
+      "key": "components/DiscussionPreferences/save",
+      "value": "Speichern"
+    },
+    {
+      "key": "components/DiscussionPreferences/commentAnonymously",
+      "value": "Anonym kommentieren"
+    },
+    {
+      "key": "components/DiscussionPreferences/credentialLabel",
+      "value": "Bezeichnung"
+    },
+    {
+      "key": "components/DiscussionPreferences/newCredentialLabel",
+      "value": "Neue Bezeichnung erstellen"
     }
   ]
 }

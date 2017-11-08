@@ -4,7 +4,7 @@ import {colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode} from 
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import {maxLogicalDepth, countNodes, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
+import {maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {
@@ -147,6 +147,7 @@ class DiscussionTreeRenderer extends PureComponent {
   render () {
     const {
       discussionId,
+      discussionDisplayAuthor: displayAuthor,
       logicalDepth = 0,
       visualDepth = 0,
       top = true,
@@ -165,12 +166,6 @@ class DiscussionTreeRenderer extends PureComponent {
         error={error}
         message={'Loading…'}
         render={() => {
-          const displayAuthor = {
-            publicPicture: me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image,
-            name: me.name,
-            credential: discussion.userPreference && discussion.userPreference.credential
-          }
-
           // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
           const tail = (() => {
             const {totalCount, pageInfo, nodes} = discussion.comments
@@ -232,6 +227,7 @@ class DiscussionTreeRenderer extends PureComponent {
 
 const DiscussionTree = compose(
   withT,
+  withDiscussionDisplayAuthor,
   withData,
   upvoteComment,
   downvoteComment,

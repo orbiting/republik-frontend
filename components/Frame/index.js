@@ -13,6 +13,7 @@ css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
 
 css.global('body', {
+  width: '100%',
   fontFamily: fontFamilies.sansSerifRegular
 })
 

@@ -55,6 +55,74 @@ query discussionMe($discussionId: ID!) {
 `
 export const withMe = graphql(meQuery)
 
+// This function extends the props with the 'DisplayUser' that will be used
+// when the current user submits a new comment in the given discussion
+// (specified by its discussionId in the ownProps). The shape of the 'DisplayUser'
+// is determined based on the discussion rules, and the users' preferences.
+//
+// The prop is called 'discussionDisplayAuthor'.
+export const withDiscussionDisplayAuthor = graphql(gql`
+query discussionDisplayAuthor($discussionId: ID!) {
+  me {
+    id
+    name
+    publicUser {
+      testimonial {
+        image(size: SHARE)
+      }
+    }
+  }
+  discussion(id: $discussionId) {
+    id
+    rules {
+      anonymity
+    }
+    userPreference {
+      anonymity
+      credential {
+        description
+        verified
+      }
+    }
+  }
+}
+`, {
+  props: ({ownProps: {t}, data: {me, discussion}}) => {
+    if (!me || !discussion) {
+      return {}
+    }
+
+    const {rules, userPreference} = discussion
+
+    const anonymous = (() => {
+      switch (rules.anonymity) {
+        case 'ALLOWED': return userPreference ? userPreference.anonymity : false
+        case 'ENFORCED': return true
+        case 'FORBIDDEN': return false
+        default: return false
+      }
+    })()
+
+    if (anonymous) {
+      return {
+        discussionDisplayAuthor: {
+          name: t('discussion/displayUser/anonymous'),
+          credential: userPreference ? userPreference.credential : null,
+          profilePicture: null
+        }
+      }
+    }
+
+    return {
+      discussionDisplayAuthor: {
+        name: me.name,
+        credential: userPreference ? userPreference.credential : null,
+        profilePicture: me.publicUser.testimonial.image
+      }
+    }
+  }
+})
+
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
   comments(discussionId: $discussionId) {

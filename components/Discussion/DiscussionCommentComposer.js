@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {compose} from 'redux'
 import {CommentComposer, CommentComposerPlaceholder} from '@project-r/styleguide'
 import withT from '../../lib/withT'
-import {withMe, submitComment} from './enhancers'
+import {withMe, withDiscussionDisplayAuthor, submitComment} from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionCommentComposer extends PureComponent {
@@ -64,33 +64,20 @@ class DiscussionCommentComposer extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, data: {loading, error, discussion, me}} = this.props
+    const {t, discussionId, discussionDisplayAuthor: displayAuthor, data: {loading, error, me}} = this.props
     const {state, showPreferences} = this.state
 
     if (loading || error || !me) {
       return null
     } else {
-      const profilePicture = me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image
-
       if (state === 'idle') {
         return (
           <CommentComposerPlaceholder
             t={t}
-            profilePicture={profilePicture}
+            profilePicture={displayAuthor ? displayAuthor.profilePicture : null}
             onClick={this.onFocus}
           />
         )
-      }
-
-      const credential = (() => {
-        const {userPreference} = discussion
-        return userPreference ? userPreference.credential : undefined
-      })()
-
-      const displayAuthor = {
-        profilePicture,
-        name: me.name,
-        credential
       }
 
       return (
@@ -118,5 +105,6 @@ class DiscussionCommentComposer extends PureComponent {
 export default compose(
   withT,
   withMe,
+  withDiscussionDisplayAuthor,
   submitComment
 )(DiscussionCommentComposer)

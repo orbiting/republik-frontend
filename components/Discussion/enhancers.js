@@ -1,6 +1,8 @@
 import {gql, graphql} from 'react-apollo'
 import uuid from 'uuid/v4'
+import mkDebug from 'debug'
 import {errorToString} from '../../lib/utils/errors'
+const debug = mkDebug('discussion')
 
 export const countNode = comment =>
   1 + (!comment.comments ? 0 : comment.comments.totalCount)
@@ -88,6 +90,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
 }
 `, {
   props: ({ownProps: {t}, data: {me, discussion}}) => {
+    debug('discussionDisplayAuthor', discussion)
     if (!me || !discussion) {
       return {}
     }
@@ -235,47 +238,55 @@ const modifyComment = (comment, id, onComment) => {
 export const withData = graphql(rootQuery, {
   props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
-    fetchMore: (parentId, after) => fetchMore({
-      variables: {discussionId, parentId, after, orderBy},
-      updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
-        // previousResult is immutable. We clone the whole object, then recursively
-        // iterate through the comments until we find the parent comment to which
-        // to append the just fetched comments.
+    fetchMore: (parentId, after) => {
+      debug('fetchMore:init', {parentId, after})
+      return fetchMore({
+        variables: {discussionId, parentId, after, orderBy},
+        updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
+          debug('fetchMore:updateQuery:response', {parentId, after, discussion})
+          // previousResult is immutable. We clone the whole object, then recursively
+          // iterate through the comments until we find the parent comment to which
+          // to append the just fetched comments.
 
-        // clone()
-        const result = JSON.parse(JSON.stringify(previousResult))
+          // clone()
+          const result = JSON.parse(JSON.stringify(previousResult))
 
-        if (discussion && discussion.comments) {
-          const {totalCount, pageInfo, nodes} = discussion.comments
+          if (discussion && discussion.comments) {
+            const {totalCount, pageInfo, nodes} = discussion.comments
 
-          const insertNodes = (parent) => {
-            if (!parent.comments) { parent.comments = {} }
+            const insertNodes = (parent) => {
+              if (!parent.comments) { parent.comments = {} }
 
-            // When inserting the new nodes, filter out any comments which we
-            // already have (which have been inserted through the `submitComment`
-            // mutation or which have arrived through a subscription).
-            const currentNodes = parent.comments.nodes || []
-            const newNodes = nodes.filter(x => !currentNodes.some(y => y.id === x.id))
+              // When inserting the new nodes, filter out any comments which we
+              // already have (which have been inserted through the `submitComment`
+              // mutation or which have arrived through a subscription).
+              const currentNodes = parent.comments.nodes || []
+              const newNodes = nodes.filter(x => !currentNodes.some(y => y.id === x.id))
 
-            parent.comments.totalCount = totalCount
-            parent.comments.pageInfo = pageInfo
-            parent.comments.nodes = [...currentNodes, ...newNodes]
+              parent.comments.totalCount = totalCount
+              parent.comments.pageInfo = pageInfo
+              parent.comments.nodes = [...currentNodes, ...newNodes]
+
+              debug('fetchMore:updateQuery:insert', parent)
+            }
+
+            if (parentId) {
+              modifyComment(result.discussion, parentId, insertNodes)
+            } else {
+              insertNodes(result.discussion)
+            }
           }
 
-          if (parentId) {
-            modifyComment(result.discussion, parentId, insertNodes)
-          } else {
-            insertNodes(result.discussion)
-          }
+          return result
         }
-
-        return result
-      }
-    }),
+      })
+    },
     subscribeToMore: () => subscribeToMore({
       document: commentsSubscription,
       variables: {discussionId},
       updateQuery: (previousResult, { subscriptionData: {data: {comments: comment}}, variables }) => {
+        debug('subscribeToMore:updateQuery:event', {discussionId, comment})
+
         // In which situations does this happen?
         if (!comment) {
           return previousResult
@@ -309,12 +320,14 @@ export const withData = graphql(rootQuery, {
             for (const k in comment) {
               existingComment[k] = comment[k]
             }
+            debug('subscribeToMore:updateQuery:existingComment', existingComment)
           } else {
             // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
             // mutation callback deal with resetting this if the current user submitted the
             // comment itself.
             parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
             parent.comments.pageInfo.hasNextPage = true
+            debug('subscribeToMore:updateQuery:insert', parent)
           }
         }
 
@@ -395,6 +408,8 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       const id = uuid()
       pendingCommentIDs = [id, ...pendingCommentIDs]
 
+      debug('submitComment', {discussionId, parentId, content, id})
+
       return mutate({
         variables: {discussionId, parentId, id, content},
         optimisticResponse: {
@@ -423,6 +438,8 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           }
         },
         update: (proxy, {data: {submitComment}}) => {
+          debug('submitComment:update:response', {discussionId, parentId, submitComment})
+
           const data = proxy.readQuery({
             query: rootQuery,
             variables: {discussionId, parentId: ownParentId, orderBy}
@@ -451,6 +468,8 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           } else {
             insertComment(data.discussion)
           }
+
+          debug('submitComment:update:data', {discussionId, parentId, data})
 
           proxy.writeQuery({
             query: rootQuery,

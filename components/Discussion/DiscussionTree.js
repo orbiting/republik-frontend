@@ -4,7 +4,7 @@ import {colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode} from 
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import {countNodes, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
+import {maxLogicalDepth, countNodes, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {
@@ -100,7 +100,7 @@ class DiscussionTreeRenderer extends PureComponent {
         const {totalCount, pageInfo} = comments
         const count = totalCount
 
-        if (logicalDepth >= 3) {
+        if (logicalDepth >= maxLogicalDepth) {
           return (
             <DiscussionTreePortal
               t={t}

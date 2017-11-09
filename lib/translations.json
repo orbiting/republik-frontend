@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-08T10:50:06.945Z",
+  "updated": "2017-11-08T13:15:47.466Z",
   "title": "live",
   "data": [
     {
@@ -697,6 +697,10 @@
     {
       "key": "components/DiscussionPreferences/loading",
       "value": "Loading…"
+    },
+    {
+      "key": "discussion/displayUser/anonymous",
+      "value": "Anonym"
     }
   ]
 }

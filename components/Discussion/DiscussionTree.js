@@ -152,7 +152,7 @@ class DiscussionTreeRenderer extends PureComponent {
       visualDepth = 0,
       top = true,
       t,
-      data: {loading, error, me, discussion}
+      data: {loading, error, discussion}
     } = this.props
 
     const {now, showPreferences} = this.state

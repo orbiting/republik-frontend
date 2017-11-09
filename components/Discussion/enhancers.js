@@ -63,63 +63,26 @@ export const withMe = graphql(meQuery)
 // The prop is called 'discussionDisplayAuthor'.
 export const withDiscussionDisplayAuthor = graphql(gql`
 query discussionDisplayAuthor($discussionId: ID!) {
-  me {
-    id
-    name
-    publicUser {
-      testimonial {
-        image(size: SHARE)
-      }
-    }
-  }
   discussion(id: $discussionId) {
     id
-    rules {
-      anonymity
-    }
-    userPreference {
-      anonymity
+    displayAuthor {
+      id
+      name
       credential {
         description
         verified
       }
+      profilePicture
     }
   }
 }
 `, {
-  props: ({ownProps: {t}, data: {me, discussion}}) => {
-    if (!me || !discussion) {
+  props: ({ownProps: {t}, data: {discussion}}) => {
+    if (!discussion) {
       return {}
     }
 
-    const {rules, userPreference} = discussion
-
-    const anonymous = (() => {
-      switch (rules.anonymity) {
-        case 'ALLOWED': return userPreference ? userPreference.anonymity : false
-        case 'ENFORCED': return true
-        case 'FORBIDDEN': return false
-        default: return false
-      }
-    })()
-
-    if (anonymous) {
-      return {
-        discussionDisplayAuthor: {
-          name: t('discussion/displayUser/anonymous'),
-          credential: userPreference ? userPreference.credential : null,
-          profilePicture: null
-        }
-      }
-    }
-
-    return {
-      discussionDisplayAuthor: {
-        name: me.name,
-        credential: userPreference ? userPreference.credential : null,
-        profilePicture: me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image
-      }
-    }
+    return {discussionDisplayAuthor: discussion.displayAuthor}
   }
 })
 
@@ -500,10 +463,22 @@ export const withDiscussionPreferences = graphql(discussionPreferencesQuery)
 export const withSetDiscussionPreferences = graphql(gql`
 mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: DiscussionPreferencesInput!) {
   setDiscussionPreferences(id: $discussionId, discussionPreferences: $discussionPreferences) {
-    anonymity
-    credential {
-      description
-      verified
+    id
+    userPreference {
+      anonymity
+      credential {
+        description
+        verified
+      }
+    }
+    displayAuthor {
+      id
+      name
+      credential {
+        description
+        verified
+      }
+      profilePicture
     }
   }
 }
@@ -526,7 +501,8 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
 
           // clone() the data object so that we can mutate it in-place.
           const data = JSON.parse(JSON.stringify(immutableData))
-          data.discussion.userPreference = setDiscussionPreferences
+          data.discussion.userPreference = setDiscussionPreferences.userPreference
+          data.discussion.displayAuthor = setDiscussionPreferences.displayAuthor
 
           proxy.writeQuery({
             query: discussionPreferencesQuery,

@@ -30,7 +30,7 @@ class DiscussionTreePortal extends PureComponent {
           <DiscussionTree
             {...props}
             visualDepth={1}
-            top={false}
+            top
             head={false}
             tail={false}
             t={t}
@@ -45,7 +45,8 @@ class DiscussionTreePortal extends PureComponent {
     return (
       <CommentTreeLoadMore
         t={t}
-        visualDepth={this.props.visualDepth - 1}
+        visualDepth={this.props.visualDepth}
+        connected={this.props.connected}
         count={count}
         onClick={this.toggle}
       />
@@ -92,7 +93,7 @@ class DiscussionTreeRenderer extends PureComponent {
       }
     }
 
-    const More = ({visualDepth, logicalDepth, comment}) => {
+    const More = ({visualDepth, connected, logicalDepth, comment}) => {
       const {t, discussionId, orderBy} = this.props
       const {comments} = comment
 
@@ -109,6 +110,7 @@ class DiscussionTreeRenderer extends PureComponent {
               orderBy={orderBy}
               count={count}
               visualDepth={visualDepth}
+              connected={connected}
             />
           )
         } else if (pageInfo && pageInfo.hasNextPage) {
@@ -116,6 +118,7 @@ class DiscussionTreeRenderer extends PureComponent {
             <CommentTreeLoadMore
               t={t}
               visualDepth={visualDepth}
+              connected={connected}
               count={count}
               onClick={() => this.fetchMoreReplies(comment)}
             />

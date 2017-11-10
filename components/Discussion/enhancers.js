@@ -120,7 +120,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
       discussionDisplayAuthor: {
         name: me.name,
         credential: userPreference ? userPreference.credential : null,
-        profilePicture: me.publicUser.testimonial.image
+        profilePicture: me.publicUser && me.publicUser.testimonial && me.publicUser.testimonial.image
       }
     }
   }

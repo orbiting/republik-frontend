@@ -24,6 +24,7 @@ class DiscussionTreePortal extends PureComponent {
         <div>
           <CommentTreeCollapse
             t={t}
+            visualDepth={this.props.visualDepth}
             onClick={this.toggle}
           />
 

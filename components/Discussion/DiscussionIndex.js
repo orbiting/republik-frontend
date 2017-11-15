@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import {compose} from 'redux'
 import {gql, graphql} from 'react-apollo'
-import {H1, H2, Field, Button} from '@project-r/styleguide'
+import {H1, H2, A, Field, Button} from '@project-r/styleguide'
 import {Link} from '../../lib/routes'
 import withT from '../../lib/withT'
 
@@ -56,8 +56,8 @@ class DiscussionIndex extends PureComponent {
           <H2>Alle Diskussionen</H2>
           {discussions.map((d, i) => (
             <div key={i}>
-              <Link route='discussion' params={{id: d.id}}>
-                {d.title || d.id}
+              <Link passHref route='discussion' params={{id: d.id}}>
+                <A>{d.title || d.id}</A>
               </Link>
             </div>
           ))}

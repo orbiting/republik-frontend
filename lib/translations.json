@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-08T13:15:47.466Z",
+  "updated": "2017-11-20T17:44:38.583Z",
   "title": "live",
   "data": [
     {
@@ -101,6 +101,70 @@
     {
       "key": "memberships/sequenceNumber/suffix",
       "value": "#{sequenceNumber}"
+    },
+    {
+      "key": "marketing/headline",
+      "value": "Hier kommt eine Headline"
+    },
+    {
+      "key": "marketing/intro",
+      "value": "Die Republik ist eine kleine Rebellion. Für den Journalismus. Und gegen die Medienkonzerne. Denn die grossen Verlage verlassen die Publizistik:\n      Sie bauen sich in hohem Tempo in Internet-Handelshäuser um. Das ist eine\n      schlechte Nachricht für den Journalismus. Aber auch für die Demokratie.\n      Denn ohne vernünftige Informationen fällt man schlechte Entscheidungen.\n    <br />\n    <br />\n      Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür\n      braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie.\n      Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, etwas Geld in\n      unabhängigen Journalismus zu investieren."
+    },
+    {
+      "key": "marketing/cta/title",
+      "value": "Abo und Mitgliedschaft"
+    },
+    {
+      "key": "marketing/cta/subtitle",
+      "value": "CHF 240/Jahr"
+    },
+    {
+      "key": "marketing/cta/text",
+      "value": "Willkommen an Bord! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
+    },
+    {
+      "key": "marketing/cta/button/label",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "marketing/preview/title",
+      "value": "Preview bestellen"
+    },
+    {
+      "key": "marketing/preview/text",
+      "value": "Um einen ersten Eindruck von unseren Artikeln zu gewinnen, senden wir Ihnen gerne die fünf besten Artikel, die unsere Chefredakteurin empfiehlt per Mail zu."
+    },
+    {
+      "key": "marketing/preview/email/label",
+      "value": "Ihre E-Mail"
+    },
+    {
+      "key": "marketing/preview/email/error/empty",
+      "value": "E-Mail fehlt"
+    },
+    {
+      "key": "marketing/preview/email/error/invalid",
+      "value": "E-Mail ungültig"
+    },
+    {
+      "key": "marketing/offers/patron",
+      "value": "Für Gönner"
+    },
+    {
+      "key": "marketing/offers/other",
+      "value": "Für andere"
+    },
+    {
+      "key": "marketing/offers/lower",
+      "value": "Reduziert"
+    },
+    {
+      "key": "marketing/offers/voucher",
+      "value": "Voucher einlösen"
+    },
+    {
+      "key": "marketing/offers/monthly",
+      "value": "Monatsabo"
     },
     {
       "key": "pledge/contact/title",

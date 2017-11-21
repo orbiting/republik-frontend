@@ -7,8 +7,7 @@ import Play from './VideoPlayer/Icons/Play'
 import {scrollIt} from '../lib/utils/scroll'
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  MENUBAR_HEIGHT
+  HEADER_HEIGHT_MOBILE
 } from './constants'
 
 import {
@@ -163,7 +162,7 @@ class VideoCover extends Component {
             ) {
               this.setState(() => ({ended: true}), () => {
                 const topFixed = mobile
-                  ? HEADER_HEIGHT_MOBILE + MENUBAR_HEIGHT
+                  ? HEADER_HEIGHT_MOBILE
                   : HEADER_HEIGHT
                 const duration = 800
                 scrollIt(

@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'redux'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
-import Nav from '../components/Nav'
 import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
@@ -28,7 +27,6 @@ const IndexPage = ({ url, me, t }) => {
       raw
       url={url}
       meta={meta}
-      nav={<Nav route='/' url={url} />}
       cover={
         !me && (
           <VideoCover

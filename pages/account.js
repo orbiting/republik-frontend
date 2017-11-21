@@ -1,7 +1,6 @@
 import React from 'react'
 import { compose } from 'redux'
 import Frame from '../components/Frame'
-import Nav from '../components/Nav'
 import Account from '../components/Account'
 import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
@@ -13,7 +12,7 @@ const AccountPage = ({ url, me, t }) => {
     title: t('pages/account/title')
   }
   return (
-    <Frame url={url} meta={meta} nav={<Nav route='' url={url} />}>
+    <Frame url={url} meta={meta}>
       {me && me.id ? <Account /> : <Marketing />}
     </Frame>
   )

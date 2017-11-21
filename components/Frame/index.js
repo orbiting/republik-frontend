@@ -38,9 +38,7 @@ const Index = ({ t, children, url, raw, meta, nav, cover }) => (
       className={!cover ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      <Header url={url} cover={cover}>
-        {nav}
-      </Header>
+      <Header url={url} cover={cover} />
       {raw ? (
         children
       ) : (

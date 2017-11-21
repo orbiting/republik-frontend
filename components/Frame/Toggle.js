@@ -1,18 +1,12 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import {
-  ZINDEX_FRAME_TOGGLE
-} from '../constants'
+import { ZINDEX_FRAME_TOGGLE } from '../constants'
 
 const BLACK = '#282828'
+const INNER_SIZE = 24
 
-const toggleStyle = css({
-  width: 24,
-  height: 24,
-  padding: 3,
-  top: -3,
-  position: 'relative',
+const buttonStyle = css({
   cursor: 'pointer',
   zIndex: ZINDEX_FRAME_TOGGLE,
   '&, :hover, :focus': {
@@ -20,7 +14,15 @@ const toggleStyle = css({
     border: 'none',
     boxShadow: 'none',
     outline: 'none'
-  },
+  }
+})
+
+const toggleStyle = css({
+  padding: '3px',
+  width: INNER_SIZE,
+  height: INNER_SIZE,
+  position: 'relative',
+  cursor: 'pointer',
   '& span': {
     display: 'block',
     position: 'absolute',
@@ -46,31 +48,38 @@ const toggleStyle = css({
       top: 18
     }
   },
-  '&[aria-expanded=true] span:nth-child(1)': {
+  '[aria-expanded=true] > & span:nth-child(1)': {
     transform: 'rotate(45deg)',
     top: 3,
     left: 2
   },
-  '&[aria-expanded=true] span:nth-child(2)': {
+  '[aria-expanded=true] > & span:nth-child(2)': {
     width: 0,
     opacity: 0
   },
-  '&[aria-expanded=true] span:nth-child(3)': {
+  '[aria-expanded=true] > & span:nth-child(3)': {
     transform: 'rotate(-45deg)',
     top: 20,
     left: 2
   }
 })
 
-export default ({ expanded, onClick, id }) =>
-  <button
-    {...toggleStyle}
-    onClick={onClick}
-    aria-controls={id}
-    title={''}
-    aria-expanded={expanded}
-  >
-    <span />
-    <span />
-    <span />
-  </button>
+export default ({ expanded, onClick, id, size }) => {
+  const padding = size ? Math.floor((size - INNER_SIZE) / 2) : 0
+  return (
+    <button
+      {...buttonStyle}
+      style={{ padding }}
+      onClick={onClick}
+      aria-controls={id}
+      title={''}
+      aria-expanded={expanded}
+    >
+      <div {...toggleStyle}>
+        <span />
+        <span />
+        <span />
+      </div>
+    </button>
+  )
+}

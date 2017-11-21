@@ -1,6 +1,5 @@
-export const HEADER_HEIGHT = 80
-export const HEADER_HEIGHT_MOBILE = 50
-export const MENUBAR_HEIGHT = 0  // Bump up once we use a menu bar.
+export const HEADER_HEIGHT = 70
+export const HEADER_HEIGHT_MOBILE = 45
 export const TESTIMONIAL_IMAGE_SIZE = 238
 
 export const ZINDEX_LOADINGBAR = 30

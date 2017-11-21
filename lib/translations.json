@@ -1,17 +1,21 @@
 {
-  "updated": "2017-11-20T17:44:38.583Z",
+  "updated": "2017-11-21T16:39:36.028Z",
   "title": "live",
   "data": [
     {
-      "key": "frontnav/magazine",
+      "key": "nav/magazine",
       "value": "Magazin"
     },
     {
-      "key": "frontnav/discussion",
+      "key": "nav/feed",
+      "value": "Neues"
+    },
+    {
+      "key": "nav/discussion",
       "value": "Diskussion"
     },
     {
-      "key": "frontnav/community",
+      "key": "nav/community",
       "value": "Community"
     },
     {
@@ -89,6 +93,10 @@
     {
       "key": "signOut/error",
       "value": "Unbekannter Fehler"
+    },
+    {
+      "key": "me/signedOut",
+      "value": "Sie sind nicht angemeldet"
     },
     {
       "key": "me/signedinAs",

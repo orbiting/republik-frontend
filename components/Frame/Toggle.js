@@ -1,7 +1,11 @@
 import React from 'react'
 import { css } from 'glamor'
-
-import { ZINDEX_FRAME_TOGGLE } from '../constants'
+import { mediaQueries } from '@project-r/styleguide'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  ZINDEX_FRAME_TOGGLE
+} from '../constants'
 
 const BLACK = '#282828'
 const INNER_SIZE = 24
@@ -14,6 +18,10 @@ const buttonStyle = css({
     border: 'none',
     boxShadow: 'none',
     outline: 'none'
+  },
+  padding: `${Math.floor((HEADER_HEIGHT_MOBILE - INNER_SIZE) / 2)}px`,
+  [mediaQueries.mUp]: {
+    padding: `${Math.floor((HEADER_HEIGHT - INNER_SIZE) / 2)}px`
   }
 })
 
@@ -64,12 +72,10 @@ const toggleStyle = css({
   }
 })
 
-export default ({ expanded, onClick, id, size }) => {
-  const padding = size ? Math.floor((size - INNER_SIZE) / 2) : 0
+export default ({ expanded, onClick, id }) => {
   return (
     <button
       {...buttonStyle}
-      style={{ padding }}
       onClick={onClick}
       aria-controls={id}
       title={''}

@@ -18,6 +18,8 @@ import {
 
 const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
+const LOGO_WIDTH = 203
+const LOGO_WIDTH_MOBILE = 162
 
 const styles = {
   bar: css({
@@ -46,8 +48,10 @@ const styles = {
   logo: css({
     display: 'inline-block',
     marginTop: `${(HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE) / 2}px`,
+    width: `${LOGO_WIDTH_MOBILE}px`,
     [mediaQueries.mUp]: {
-      marginTop: `${(HEADER_HEIGHT - LOGO_HEIGHT) / 2}px`
+      marginTop: `${(HEADER_HEIGHT - LOGO_HEIGHT) / 2}px`,
+      width: `${LOGO_WIDTH}px`
     },
     verticalAlign: 'middle'
   }),
@@ -109,9 +113,8 @@ class Header extends Component {
   }
   render () {
     const { url, me, cover } = this.props
-    const { mobile, expanded } = this.state
+    const { expanded } = this.state
     const opaque = this.state.opaque || expanded
-    const logoHeight = mobile ? LOGO_HEIGHT_MOBILE : LOGO_HEIGHT
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
     return (
@@ -151,7 +154,7 @@ class Header extends Component {
                   }
                 }}
               >
-                <Logo height={logoHeight} />
+                <Logo />
               </a>
             </div>
           )}
@@ -160,7 +163,6 @@ class Header extends Component {
               <Toggle
                 expanded={!!expanded}
                 id='primary-menu'
-                size={mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
                 onClick={() => this.setState({ expanded: !expanded })}
               />
             </div>

@@ -25,7 +25,8 @@ const ShareButtons = ({
       text: discussionCount !== undefined ? discussionCount.toString() : '',
       fill: colors.social,
       size: 30,
-      fontSize: 19
+      textSize: 19,
+      textColor: colors.social
     },
     {
       target: '_blank',

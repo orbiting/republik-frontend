@@ -31,6 +31,7 @@ const ActionBar = props => (
       dossierUrl={'/foo'}
       discussionUrl={'/foo'}
       discussionCount={0}
+      emailSubject={'Foo'}
     />
   </div>
 )
@@ -88,12 +89,13 @@ class ArticlePage extends Component {
 
   render () {
     const { url, meta } = this.props
+    console.log(url)
     return (
       <Frame
         raw
         url={url}
         meta={meta}
-        secondaryNav={<ActionBar />}
+        secondaryNav={<ActionBar url={meta.url} />}
         showSecondary={this.state.showSecondary}
       >
         <Center>
@@ -115,7 +117,7 @@ class ArticlePage extends Component {
               </Editorial.AuthorLink>, 31 December 2017
             </Editorial.Credit>
             <div ref={this.barRef} {...styles.bar}>
-              <ActionBar />
+              <ActionBar url={meta.url} />
             </div>
           </TitleBlock>
           <Editorial.P>

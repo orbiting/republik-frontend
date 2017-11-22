@@ -84,6 +84,18 @@ const styles = {
     marginBottom: 20,
     border: 'none',
     borderBottom: `1px solid ${colors.divider}`
+  }),
+  since: css({
+    color: colors.lightText,
+    textAlign: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 32,
+    display: 'none',
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
+    }
   })
 }
 
@@ -194,6 +206,7 @@ class Footer extends Component {
           </div>
           <hr {...styles.hr} />
           <Logo fill={colors.secondary} width={140} />
+          <span {...styles.since}>{t('footer/since')}</span>
           <div {...styles.icons}>
             <IconLink
               icon='facebook'

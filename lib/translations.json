@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-21T16:39:36.028Z",
+  "updated": "2017-11-22T17:05:04.307Z",
   "title": "live",
   "data": [
     {
@@ -649,6 +649,10 @@
     {
       "key": "footer/me/claim",
       "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "footer/since",
+      "value": "Seit 2018."
     },
     {
       "key": "components/Discussion/OrderBy/DATE",

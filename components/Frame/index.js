@@ -31,14 +31,29 @@ const styles = {
   })
 }
 
-const Index = ({ t, children, url, raw, meta, nav, cover }) => (
+const Index = ({
+  t,
+  children,
+  url,
+  raw,
+  meta,
+  nav,
+  cover,
+  secondaryNav,
+  showSecondary
+}) => (
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
       className={!cover ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      <Header url={url} cover={cover} />
+      <Header
+        url={url}
+        cover={cover}
+        secondaryNav={secondaryNav}
+        showSecondary={showSecondary}
+      />
       {raw ? (
         children
       ) : (

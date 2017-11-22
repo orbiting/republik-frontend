@@ -3,31 +3,53 @@ import PropTypes from 'prop-types'
 
 import IconLink from './IconLink'
 
-import {
-  colors
-} from '@project-r/styleguide'
+import { colors } from '@project-r/styleguide'
 
 const ShareButtons = ({
-  url, tweet,
-  emailSubject, emailBody, emailAttachUrl,
+  url,
+  tweet,
+  emailSubject,
+  emailBody,
+  emailAttachUrl,
   download,
+  dossierUrl,
+  discussionUrl,
+  discussionCount,
   fill
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
+    discussionUrl && {
+      href: discussionUrl,
+      icon: 'discussion',
+      text: discussionCount !== undefined ? discussionCount.toString() : '',
+      fill: colors.social,
+      size: 30,
+      fontSize: 19
+    },
     {
       target: '_blank',
-      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        url
+      )}`,
       icon: 'facebook'
     },
     {
       target: '_blank',
-      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweet)}&url=${encodeURIComponent(url)}`,
+      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        tweet
+      )}&url=${encodeURIComponent(url)}`,
       icon: 'twitter'
     },
     {
-      href: `mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody + emailAttache)}`,
+      href: `mailto:?subject=${encodeURIComponent(
+        emailSubject
+      )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
       icon: 'mail'
+    },
+    dossierUrl && {
+      href: dossierUrl,
+      icon: 'dossier'
     },
     download && {
       target: '_blank',
@@ -39,9 +61,9 @@ const ShareButtons = ({
 
   return (
     <span>
-      {shareOptions.filter(Boolean).map((props, i) => (
-        <IconLink key={i} {...props} fill={fill} />
-      ))}
+      {shareOptions
+        .filter(Boolean)
+        .map((props, i) => <IconLink key={i} fill={fill} {...props} />)}
     </span>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css, merge } from 'glamor'
+import { linkRule } from '@project-r/styleguide'
 
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
@@ -70,8 +71,9 @@ const IconLink = ({
   icon,
   size,
   text,
-  padding,
-  fontSize
+  textSize,
+  textColor,
+  padding
 }) => {
   const Icon = ICONS[icon]
   const paddingValue = padding !== undefined ? padding : DEFAULT_PADDING
@@ -92,8 +94,9 @@ const IconLink = ({
           {...merge(
             styles.text,
             { maxWidth: `calc(100% - ${sizeValue + 2 * paddingValue}px)` },
-            fill ? { color: fill } : {},
-            fontSize ? { fontSize: fontSize } : {}
+            href && !textColor ? linkRule : {},
+            textColor ? { color: textColor } : {},
+            textSize ? { fontSize: textSize } : {}
           )}
         >
           &nbsp;{text}

@@ -43,7 +43,12 @@ const styles = {
   center: css({
     margin: '0 auto 0',
     padding: '0 60px',
-    textAlign: 'center'
+    textAlign: 'center',
+    opacity: 1,
+    transition: 'opacity .2s ease-in-out',
+    '[data-show-secondary] > &': {
+      opacity: 0
+    }
   }),
   logo: css({
     display: 'inline-block',
@@ -54,6 +59,13 @@ const styles = {
       width: `${LOGO_WIDTH}px`
     },
     verticalAlign: 'middle'
+  }),
+  user: css({
+    opacity: 1,
+    transition: 'opacity .2s ease-in-out',
+    '[data-show-secondary] > &': {
+      opacity: 0
+    }
   }),
   hamburger: css({
     background: '#fff',
@@ -67,6 +79,26 @@ const styles = {
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
       width: HEADER_HEIGHT - 2
+    }
+  }),
+  secondary: css({
+    position: 'absolute',
+    top: 0,
+    left: '15px',
+    display: 'inline-block',
+    height: HEADER_HEIGHT_MOBILE,
+    right: `${HEADER_HEIGHT_MOBILE}px`,
+    paddingTop: '8px',
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT,
+      right: `${HEADER_HEIGHT}px`,
+      paddingTop: '20px'
+    },
+    opacity: 0,
+    transition: 'opacity .2s ease-in-out',
+    '[data-show-secondary] > &': {
+      opacity: 1,
+      zIndex: 99
     }
   })
 }
@@ -112,23 +144,28 @@ class Header extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const { url, me, cover } = this.props
+    const { url, me, cover, secondaryNav, showSecondary } = this.props
     const { expanded } = this.state
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     return (
       <div>
-        <div {...barStyle}>
+        <div {...barStyle} {...data}>
+          {showSecondary &&
+          secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (
-            <User
-              me={me}
-              onclickHandler={() => {
-                this.setState(() => ({
-                  expanded: !expanded
-                }))
-              }}
-            />
+            <div {...styles.user}>
+              <User
+                me={me}
+                onclickHandler={() => {
+                  this.setState(() => ({
+                    expanded: !expanded
+                  }))
+                }}
+              />
+            </div>
           )}
           {opaque && (
             <div {...styles.center}>

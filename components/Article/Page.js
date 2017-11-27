@@ -118,7 +118,7 @@ class ArticlePage extends Component {
 
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}/${article.slug}`
+      url: `${PUBLIC_BASE_URL}/${article.meta.slug}`
     }
 
     return (

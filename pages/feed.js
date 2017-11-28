@@ -12,7 +12,7 @@ const FeedPage = ({ url, me, t }) => {
     title: t('pages/feed/title')
   }
   return (
-    <Frame url={url} meta={meta}>
+    <Frame raw url={url} meta={meta}>
       {me && me.id ? <Feed /> : <Marketing />}
     </Frame>
   )

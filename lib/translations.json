@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-22T17:05:04.307Z",
+  "updated": "2017-11-28T16:19:05.651Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,10 @@
     {
       "key": "discussion/pageTitle",
       "value": "Diskussion"
+    },
+    {
+      "key": "pages/feed/title",
+      "value": "Feed"
     },
     {
       "key": "pages/account/title",

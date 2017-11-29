@@ -17,7 +17,24 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
-import editorialSchema from '@project-r/styleguide/lib/templates/Editorial'
+
+import createEditorialSchema from '@project-r/styleguide/lib/templates/Editorial'
+import createMetaSchema from '@project-r/styleguide/lib/templates/Meta'
+
+const schemaCreators = {
+  editorial: createEditorialSchema,
+  meta: createMetaSchema
+}
+
+const getSchemaCreator = template => {
+  const key = template || Object.keys(schemaCreators)[0]
+  const schema = schemaCreators[key]
+
+  if (!schema) {
+    throw new Error(`Unkown Schema ${key}`)
+  }
+  return schema
+}
 
 const styles = {
   bar: css({
@@ -47,6 +64,7 @@ const getDocument = gql`
     article: document(slug: $slug) {
       content
       meta {
+        template
         slug
         title
         description
@@ -134,31 +152,15 @@ class ArticlePage extends Component {
             return <NarrowContainer><H1>404</H1></NarrowContainer>
           }
 
-          // tmp hack to injection action bar
-          const schemaWithActionBar = {
-            ...editorialSchema,
-            rules: editorialSchema.rules.map(rootRule => ({
-              ...rootRule,
-              rules: rootRule.rules.map(rule => {
-                if (rule.matchMdast({type: 'zone', identifier: 'TITLE'})) {
-                  return {
-                    ...rule,
-                    component: ({children, ...props}) => (
-                      <rule.component {...props}>
-                        {children}
-                        <div ref={this.barRef} {...styles.bar}>
-                          <ActionBar url={meta.url} />
-                        </div>
-                      </rule.component>
-                    )
-                  }
-                }
-                return rule
-              })
-            }))
-          }
+          const schema = getSchemaCreator(article.meta.template)({
+            titleBlockAppend: (
+              <div ref={this.barRef} {...styles.bar}>
+                <ActionBar url={meta.url} />
+              </div>
+            )
+          })
 
-          return renderMdast(article.content, schemaWithActionBar)
+          return renderMdast(article.content, schema)
         }} />
       </Frame>
     )

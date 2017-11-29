@@ -20,7 +20,7 @@ const FeedPage = ({ url, me, t }) => {
 
 export default compose(
   withData,
-  withAuthorization(['supporter', 'admin']),
+  withAuthorization(['admin']),
   withMe,
   withT
 )(FeedPage)

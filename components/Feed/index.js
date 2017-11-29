@@ -47,7 +47,7 @@ const getArticleRoute = (dateStr, slug) => {
 const Teaser = ({ meta }) => {
   // TODO: Pipe article format and teaser type through meta.
   return (
-    <TeaserFeed key={meta.slug} format={meta.format} type={meta.type}>
+    <TeaserFeed format={meta.format} type={meta.type}>
       <TeaserFeedHeadline.Editorial>
         <Link route={getArticleRoute(meta.publishDate, meta.slug)}>
           <a {...styles.link}>{meta.title}</a>
@@ -72,7 +72,10 @@ class Feed extends Component {
         render={() => {
           return (
             <Center>
-              {documents && documents.map(doc => <Teaser meta={doc.meta} />)}
+              {documents &&
+                documents.map(doc => (
+                  <Teaser meta={doc.meta} key={doc.meta.slug} />
+                ))}
             </Center>
           )
         }}

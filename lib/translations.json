@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-29T13:24:45.719Z",
+  "updated": "2017-11-29T16:23:04.728Z",
   "title": "live",
   "data": [
     {
@@ -59,7 +59,11 @@
       "value": "Mein Profil"
     },
     {
-      "key": "withAuthorization/title",
+      "key": "withAuthorization/signin",
+      "value": "Bitte anmelden"
+    },
+    {
+      "key": "withAuthorization/restricted",
       "value": "Geschützter Bereich"
     },
     {

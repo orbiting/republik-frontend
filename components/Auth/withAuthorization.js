@@ -1,10 +1,12 @@
 import React from 'react'
+import Frame from '../Frame'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import SignIn from './SignIn'
 import Me from './Me'
 import { css } from 'glamor'
 
-import { Interaction, BrandMark } from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 
 const styles = {
   center: css({
@@ -12,10 +14,6 @@ const styles = {
     maxWidth: '540px',
     margin: '20vh auto',
     padding: 20
-  }),
-  brandMark: css({
-    maxWidth: 40,
-    marginBottom: 20
   })
 }
 
@@ -25,28 +23,37 @@ export default authorizedRoles => Component =>
       const { me, t } = props
       if (
         me &&
-        me.roles &&
-        me.roles.some(role => authorizedRoles.indexOf(role) !== -1)
+        (!authorizedRoles ||
+          (me.roles &&
+            me.roles.some(role => authorizedRoles.indexOf(role) !== -1)))
       ) {
         return <Component {...props} />
       }
+      if (!me) {
+        return (
+          <Frame raw>
+            <div {...styles.center}>
+              <Interaction.H1>{t('withAuthorization/signinRequired')}</Interaction.H1>
+              <br />
+              <SignIn />
+            </div>
+          </Frame>
+        )
+      }
       return (
-        <div {...styles.center}>
-          <div {...styles.brandMark}>
-            <BrandMark />
-          </div>
-          <Interaction.H1>{t('withAuthorization/title')}</Interaction.H1>
-          {me && (
+        <Frame raw>
+          <div {...styles.center}>
+            <Interaction.H1>{t('withAuthorization/roleRequired')}</Interaction.H1>
             <Interaction.P>
               {t('withAuthorization/authorizedRoles', {
                 roles: authorizedRoles.join(', ')
               })}
               <br />
             </Interaction.P>
-          )}
-          <br />
-          <Me />
-        </div>
+            <br />
+            <Me />
+          </div>
+        </Frame>
       )
     })
   )

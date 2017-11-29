@@ -2,16 +2,39 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 import Frame from '../Frame'
 import ShareButtons from '../Share'
+import { gql, graphql } from 'react-apollo'
+import { compose } from 'redux'
+import Loader from '../Loader'
 
 import {
-  Center,
-  Editorial,
-  TitleBlock,
+  H1,
   colors,
-  mediaQueries
+  mediaQueries,
+  NarrowContainer
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
+
+import { renderMdast } from 'mdast-react-render'
+
+import createEditorialSchema from '@project-r/styleguide/lib/templates/Editorial'
+import createMetaSchema from '@project-r/styleguide/lib/templates/Meta'
+
+const schemaCreators = {
+  editorial: createEditorialSchema,
+  meta: createMetaSchema
+}
+
+const getSchemaCreator = template => {
+  const key = template || Object.keys(schemaCreators)[0]
+  const schema = schemaCreators[key]
+
+  if (!schema) {
+    throw new Error(`Unkown Schema ${key}`)
+  }
+  return schema
+}
 
 const styles = {
   bar: css({
@@ -35,6 +58,27 @@ const ActionBar = props => (
     />
   </div>
 )
+
+const getDocument = gql`
+  query getDocument($slug: String!) {
+    article: document(slug: $slug) {
+      content
+      meta {
+        template
+        slug
+        title
+        description
+        image
+        facebookDescription
+        facebookImage
+        facebookTitle
+        twitterDescription
+        twitterImage
+        twitterTitle
+      }
+    }
+  }
+`
 
 class ArticlePage extends Component {
   constructor (props) {
@@ -88,73 +132,61 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, meta } = this.props
-    console.log(url)
+    const { url, data, data: {article} } = this.props
+
+    const meta = article && {
+      ...article.meta,
+      url: `${PUBLIC_BASE_URL}/${article.meta.slug}`
+    }
+
     return (
       <Frame
         raw
         url={url}
         meta={meta}
-        secondaryNav={<ActionBar url={meta.url} />}
+        secondaryNav={meta ? <ActionBar url={meta.url} /> : null}
         showSecondary={this.state.showSecondary}
       >
-        <Center>
-          <TitleBlock>
-            <Editorial.Format>Neutrum</Editorial.Format>
-            <Editorial.Headline>
-              A demo page for navigation magic on&nbsp;scroll
-            </Editorial.Headline>
-            <Editorial.Lead>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-              nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-              erat, sed diam voluptua. At vero eos et accusam et justo duo
-              dolores.
-            </Editorial.Lead>
-            <Editorial.Credit>
-              An article by{' '}
-              <Editorial.AuthorLink href='#'>
-                Christof Moser
-              </Editorial.AuthorLink>, 31 December 2017
-            </Editorial.Credit>
-            <div ref={this.barRef} {...styles.bar}>
-              <ActionBar url={meta.url} />
-            </div>
-          </TitleBlock>
-          <Editorial.P>
-            One morning, when Gregor Samsa woke from troubled dreams, he found
-            himself transformed in his bed into a horrible vermin. He lay on his
-            armour-like back, and if he lifted his head a little he could see
-            his brown belly, slightly domed and divided by arches into stiff
-            sections. The bedding was hardly able to cover it and seemed ready
-            to slide off any moment. His many legs, pitifully thin compared with
-            the size of the rest of him, waved about helplessly as he looked.
-            "What's happened to me?" he thought.
-          </Editorial.P>
-          <Editorial.P>
-            One morning, when Gregor Samsa woke from troubled dreams, he found
-            himself transformed in his bed into a horrible vermin. He lay on his
-            armour-like back, and if he lifted his head a little he could see
-            his brown belly, slightly domed and divided by arches into stiff
-            sections. The bedding was hardly able to cover it and seemed ready
-            to slide off any moment. His many legs, pitifully thin compared with
-            the size of the rest of him, waved about helplessly as he looked.
-            "What's happened to me?" he thought.
-          </Editorial.P>
+        <Loader loading={data.loading} error={data.error} render={() => {
+          if (!article) {
+            return <NarrowContainer><H1>404</H1></NarrowContainer>
+          }
 
-          <Editorial.P>
-            One morning, when Gregor Samsa woke from troubled dreams, he found
-            himself transformed in his bed into a horrible vermin. He lay on his
-            armour-like back, and if he lifted his head a little he could see
-            his brown belly, slightly domed and divided by arches into stiff
-            sections. The bedding was hardly able to cover it and seemed ready
-            to slide off any moment. His many legs, pitifully thin compared with
-            the size of the rest of him, waved about helplessly as he looked.
-            "What's happened to me?" he thought.
-          </Editorial.P>
-        </Center>
+          const schema = getSchemaCreator(article.meta.template)({
+            titleBlockAppend: (
+              <div ref={this.barRef} {...styles.bar}>
+                <ActionBar url={meta.url} />
+              </div>
+            )
+          })
+
+          return renderMdast(article.content, schema)
+        }} />
       </Frame>
     )
   }
 }
 
-export default ArticlePage
+export default compose(
+  graphql(getDocument, {
+    options: ({url: {query}}) => ({
+      variables: {
+        slug: [
+          query.year,
+          query.month,
+          query.day,
+          query.slug
+        ].filter(Boolean).join('/')
+      }
+    }),
+    props: ({data, ownProps: {serverContext}}) => {
+      if (serverContext && !data.error && !data.loading && !data.article) {
+        serverContext.res.statusCode = 404
+      }
+
+      return {
+        data
+      }
+    }
+  })
+)(ArticlePage)

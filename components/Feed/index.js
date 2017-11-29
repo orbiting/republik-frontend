@@ -46,10 +46,8 @@ const getArticleRoute = (dateStr, slug) => {
 
 const Teaser = ({ meta }) => {
   // TODO: Pipe article format and teaser type through meta.
-  const format = meta.format || ''
-  const teaserType = meta.type || '' // 'editorial', 'social', 'meta'
   return (
-    <TeaserFeed key={meta.slug} format={format} type={teaserType}>
+    <TeaserFeed key={meta.slug} format={meta.format} type={meta.type}>
       <TeaserFeedHeadline.Editorial>
         <Link route={getArticleRoute(meta.publishDate, meta.slug)}>
           <a {...styles.link}>{meta.title}</a>

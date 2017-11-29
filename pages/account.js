@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'redux'
 import Frame from '../components/Frame'
 import Account from '../components/Account'
-import Marketing from '../components/Marketing'
+import withAuthorization from '../components/Auth/withAuthorization'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
@@ -13,9 +13,14 @@ const AccountPage = ({ url, me, t }) => {
   }
   return (
     <Frame url={url} meta={meta}>
-      {me && me.id ? <Account /> : <Marketing />}
+      <Account />
     </Frame>
   )
 }
 
-export default compose(withData, withMe, withT)(AccountPage)
+export default compose(
+  withData,
+  withAuthorization(['admin']),
+  withMe,
+  withT
+)(AccountPage)

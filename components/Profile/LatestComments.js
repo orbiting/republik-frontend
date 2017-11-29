@@ -15,7 +15,7 @@ export const timeagoFromNow = (t, createdAtString) => {
 }
 
 const LatestComments = ({ t, comments }) => {
-  const filteredComments = comments.filter(
+  const filteredComments = comments && comments.filter(
     comment => comment.discussion && comment.discussion.title
   )
   if (!filteredComments || !filteredComments.length) {

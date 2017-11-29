@@ -20,7 +20,7 @@ const AccountPage = ({ url, me, t }) => {
 
 export default compose(
   withData,
-  withAuthorization(['admin']),
+  withAuthorization(),
   withMe,
   withT
 )(AccountPage)

@@ -33,7 +33,7 @@ export default authorizedRoles => Component =>
         return (
           <Frame raw>
             <div {...styles.center}>
-              <Interaction.H1>{t('withAuthorization/signin')}</Interaction.H1>
+              <Interaction.H1>{t('withAuthorization/signinRequired')}</Interaction.H1>
               <br />
               <SignIn />
             </div>
@@ -43,7 +43,7 @@ export default authorizedRoles => Component =>
       return (
         <Frame raw>
           <div {...styles.center}>
-            <Interaction.H1>{t('withAuthorization/restricted')}</Interaction.H1>
+            <Interaction.H1>{t('withAuthorization/roleRequired')}</Interaction.H1>
             <Interaction.P>
               {t('withAuthorization/authorizedRoles', {
                 roles: authorizedRoles.join(', ')

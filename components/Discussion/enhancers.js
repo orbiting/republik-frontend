@@ -1,4 +1,5 @@
-import {gql, graphql} from 'react-apollo'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import {errorToString} from '../../lib/utils/errors'

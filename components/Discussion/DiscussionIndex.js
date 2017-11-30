@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import {compose} from 'redux'
-import {gql, graphql} from 'react-apollo'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import {H1, H2, A, Field, Button} from '@project-r/styleguide'
 import {Link} from '../../lib/routes'
 import withT from '../../lib/withT'

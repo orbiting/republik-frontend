@@ -36,12 +36,15 @@ const getDocuments = gql`
 `
 
 const publishDateFormat = timeFormat('%d. %B %Y')
-const urlDateFormat = timeFormat('%Y/%m/%d')
 
-const getArticleRoute = (dateStr, slug) => {
-  // TODO: Retrieve from backend.
-  const date = new Date(dateStr)
-  return `/${urlDateFormat(date)}/${slug}`
+const getArticleParams = path => {
+  const [year, month, day, slug] = path.split('/')
+  return {
+    year,
+    month,
+    day,
+    slug
+  }
 }
 
 const Teaser = ({ meta }) => {
@@ -49,7 +52,7 @@ const Teaser = ({ meta }) => {
   return (
     <TeaserFeed format={meta.format} type={meta.type}>
       <TeaserFeedHeadline.Editorial>
-        <Link route={getArticleRoute(meta.publishDate, meta.slug)}>
+        <Link route='article' params={getArticleParams(meta.slug)}>
           <a {...styles.link}>{meta.title}</a>
         </Link>
       </TeaserFeedHeadline.Editorial>

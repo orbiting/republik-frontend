@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-29T16:48:16.608Z",
+  "updated": "2017-11-30T09:35:31.471Z",
   "title": "live",
   "data": [
     {
@@ -68,7 +68,7 @@
     },
     {
       "key": "withAuthorization/authorizedRoles",
-      "value": "Für Abonnenten und Verleger"
+      "value": "Zugelassene Rollen: {roles}"
     },
     {
       "key": "signIn/button",

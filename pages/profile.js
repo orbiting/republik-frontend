@@ -17,7 +17,7 @@ const Index = ({ url, me, t }) => {
 
 export default compose(
   withData,
-  withAuthorization(['admin']),
+  withAuthorization(['member']),
   withMe,
   withT
 )(Index)

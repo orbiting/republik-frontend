@@ -1,4 +1,5 @@
-import {gql, graphql} from 'react-apollo'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import {errorToString} from '../../lib/utils/errors'
@@ -376,14 +377,11 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       return mutate({
         variables: {discussionId, parentId, id, content},
         optimisticResponse: {
+          __typename: 'Mutation',
           submitComment: {
             __typename: 'Comment',
-
-            // Generate a temporary ID so that we don't remove the true id from
-            // the 'pendingCommentIDs' list during the optimistic update of the
-            // local cache.
-            id: `t-${id}`,
-
+            optimistic: true, // skip removing from pendingCommentIDs
+            id,
             content,
             score: 0,
             userVote: null,
@@ -417,19 +415,27 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 
           // Insert the newly created comment to the head of the given 'parent'
           // (which can be either the Discussion object or a Comment).
-          const insertComment = (parent) => {
+          const replaceComment = (parent) => {
             if (!parent.comments) {
               parent.comments = emptyCommentConnection()
             }
+            const nodes = parent.comments.nodes || []
+            const existingComment = nodes.find(c => c.id === comment.id) || {}
 
-            parent.comments.nodes = [comment, ...(parent.comments.nodes || [])]
+            parent.comments.nodes = [
+              {
+                ...existingComment,
+                ...comment
+              },
+              ...nodes.filter(c => c.id !== comment.id)
+            ]
             parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
           }
 
           if (parentId) {
-            modifyComment(data.discussion, parentId, insertComment)
+            modifyComment(data.discussion, parentId, replaceComment)
           } else {
-            insertComment(data.discussion)
+            replaceComment(data.discussion)
           }
 
           debug('submitComment:update:data', {discussionId, parentId, data})
@@ -440,7 +446,9 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
             data
           })
 
-          pendingCommentIDs = pendingCommentIDs.filter(id => id !== submitComment.id)
+          if (!submitComment.optimistic) {
+            pendingCommentIDs = pendingCommentIDs.filter(id => id !== submitComment.id)
+          }
         }
       }).catch(e => {
         // Convert the Error object into a string, but keep the Promise rejected.

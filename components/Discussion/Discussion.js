@@ -13,7 +13,7 @@ const styles = {
   orderBy: css({
     ...fontStyles.sansSerifRegular16,
     color: colors.text,
-    '-webkit-appearance': 'none',
+    WebkitAppearance: 'none',
     background: 'transparent',
     border: 'none',
     padding: '0',

@@ -2,30 +2,21 @@ import React, { Component } from 'react'
 import { gql, graphql } from 'react-apollo'
 import { compose } from 'redux'
 import Loader from '../../components/Loader'
-import { css } from 'glamor'
 import { Link } from '../../lib/routes'
-import { timeFormat } from '../../lib/utils/format'
 
 import {
   Center,
-  TeaserFeed,
-  TeaserFeedHeadline,
-  TeaserFeedLead,
-  TeaserFeedCredit
+  TeaserFeed
 } from '@project-r/styleguide'
-
-const styles = {
-  link: css({
-    color: 'inherit',
-    textDecoration: 'none'
-  })
-}
 
 const getDocuments = gql`
   query getDocuments {
     documents {
       content
       meta {
+        kind
+        format
+        credits
         title
         description
         publishDate
@@ -34,8 +25,6 @@ const getDocuments = gql`
     }
   }
 `
-
-const publishDateFormat = timeFormat('%d. %B %Y')
 
 const getArticleParams = path => {
   const [year, month, day, slug] = path.split('/')
@@ -47,20 +36,16 @@ const getArticleParams = path => {
   }
 }
 
-const Teaser = ({ meta }) => {
-  // TODO: Pipe article format and teaser type through meta.
+const ArticleLink = ({ slug, children }) => {
+  const params = getArticleParams(slug)
+  // safety check for now
+  if (!params.slug) {
+    return children
+  }
   return (
-    <TeaserFeed format={meta.format} type={meta.type}>
-      <TeaserFeedHeadline.Editorial>
-        <Link route='article' params={getArticleParams(meta.slug)}>
-          <a {...styles.link}>{meta.title}</a>
-        </Link>
-      </TeaserFeedHeadline.Editorial>
-      <TeaserFeedLead>{meta.description}</TeaserFeedLead>
-      <TeaserFeedCredit>
-        {publishDateFormat(new Date(meta.publishDate))}
-      </TeaserFeedCredit>
-    </TeaserFeed>
+    <Link route='article' params={params}>
+      {children}
+    </Link>
   )
 }
 
@@ -77,7 +62,7 @@ class Feed extends Component {
             <Center>
               {documents &&
                 documents.map(doc => (
-                  <Teaser meta={doc.meta} key={doc.meta.slug} />
+                  <TeaserFeed {...doc.meta} Link={ArticleLink} key={doc.meta.slug} />
                 ))}
             </Center>
           )

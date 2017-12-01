@@ -18,12 +18,12 @@ import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
 
-import createEditorialSchema from '@project-r/styleguide/lib/templates/Editorial'
-import createMetaSchema from '@project-r/styleguide/lib/templates/Meta'
+import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
 
 const schemaCreators = {
-  editorial: createEditorialSchema,
-  meta: createMetaSchema
+  editorial: createArticleSchema,
+  meta: createArticleSchema,
+  article: createArticleSchema
 }
 
 const getSchemaCreator = template => {

@@ -35,9 +35,51 @@ Run all tests:
 npm run test
 ```
 
+### Pledge
+
+An online magazine is financed by people pledging to pay for it's content. And if a crowd forms around a maginze it becomes crowdfunded. Crowdfundings have a dedicated name in the backend. You can configure the currently active one via the environment. You can only point the front end at one crowdfunding at a time.
+
+```
+CROWDFUNDING_NAME=LAUNCH
+```
+
+Additionally you can configure a second `SALES_UP` crowdfunding. This can be used while the main crowdfunding is inactive but you still wish to sell something.
+
+```
+SALES_UP=PRESALE
+```
+
+#### Payment
+
+Payment provider configuration can be passed in via the environment. `PUBLIC_BASE_URL` is used for PostFinance and PayPal return urls.
+
+```
+PUBLIC_BASE_URL=https://example.com
+
+STRIPE_PUBLISHABLE_KEY=
+
+PF_PSPID=
+PF_FORM_ACTION=https://e-payment.postfinance.ch/ncol/test/orderstandard.asp
+
+PAYPAL_FORM_ACTION=https://www.sandbox.paypal.com/cgi-bin/webscr
+PAYPAL_BUSINESS=
+PAYPAL_DONATE_LINK=
+```
+
+#### Email
+
+Configure at which email address you're available for general questions, investor relations and payment issues:
+
+```
+EMAIL_CONTACT=contact@example.com
+EMAIL_IR=ir@example.com
+EMAIL_PAYMENT=payment@example.com
+```
+
 ### Piwik
 
 You can enable tracking by setting a base url and site id:
+
 ```
 PIWIK_URL_BASE=https://piwik.example.com
 PIWIK_SITE_ID=1

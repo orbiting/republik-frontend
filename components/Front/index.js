@@ -9,8 +9,8 @@ class Front extends Component {
     const { t } = this.props
 
     return (
-      <div>
-        <H1>{t('pages/magazine/title')}</H1>
+      <div style={{backgroundColor: '#ddd', padding: '20vh 0'}}>
+        <H1 style={{textAlign: 'center'}}>{t('pages/magazine/title')}</H1>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-01T14:57:16.267Z",
+  "updated": "2017-12-01T19:30:19.248Z",
   "title": "live",
   "data": [
     {
@@ -789,6 +789,426 @@
     {
       "key": "discussion/displayUser/anonymous",
       "value": "Anonym"
+    },
+    {
+      "key": "package/title",
+      "value": "Abo und Mitgliedschaft für ein Jahr"
+    },
+    {
+      "key": "package/customize/changePackage",
+      "value": "(ändern)"
+    },
+    {
+      "key": "package/customize/price/label",
+      "value": "Betrag"
+    },
+    {
+      "key": "package/customize/price/error",
+      "value": "Betrag, mindestens {formattedCHF}"
+    },
+    {
+      "key": "package/customize/option/error/max",
+      "value": "{label}, maximal {maxAmount}"
+    },
+    {
+      "key": "package/customize/option/error/min",
+      "value": "{label}, minimal {minAmount}"
+    },
+    {
+      "key": "package/customize/userPrice/reason/label",
+      "value": "Begründung"
+    },
+    {
+      "key": "package/customize/userPrice/reason/error",
+      "value": "Bitte begründen"
+    },
+    {
+      "key": "package/customize/userPrice/beforeReason",
+      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
+    },
+    {
+      "key": "package/customize/userPrice/beforePrice",
+      "value": "Wie viel könnten Sie zahlen pro Jahr?"
+    },
+    {
+      "key": "package/price",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "package/DONATE/title",
+      "value": "Spenden, sonst nichts"
+    },
+    {
+      "key": "package/DONATE/description",
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
+    },
+    {
+      "key": "package/ABO/userPrice/teaser",
+      "value": "Sie können sich den Betrag nicht leisten?"
+    },
+    {
+      "key": "package/ABO/title",
+      "value": "Für mich"
+    },
+    {
+      "key": "package/ABO/description",
+      "value": "Willkommen an Bord! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
+    },
+    {
+      "key": "package/ABO_GIVE/price",
+      "value": "ab {formattedCHF}"
+    },
+    {
+      "key": "package/ABO_GIVE/title",
+      "value": "Für andere"
+    },
+    {
+      "key": "package/ABO_GIVE/description",
+      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen zusätzlich für 20 Franken ein Notizbuch dazu zu schenken – damit diese nicht nur Cleveres lesen, sondern auch schreiben können."
+    },
+    {
+      "key": "package/BENEFACTOR/title",
+      "value": "Für Gönner"
+    },
+    {
+      "key": "package/BENEFACTOR/description",
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Wie alle werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Grosszügigkeit zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket: ein Manifest, einen besonderen Anstecker und ein signiertes Manual für Journalismus im 21. Jahrhundert."
+    },
+    {
+      "key": "package/choose",
+      "value": "Auswählen"
+    },
+    {
+      "key": "option/ABO/label/other",
+      "value": "Mitgliedschaften"
+    },
+    {
+      "key": "option/ABO/label/1",
+      "value": "Mitgliedschaft"
+    },
+    {
+      "key": "option/NOTEBOOK/label/other",
+      "value": "Notizbücher"
+    },
+    {
+      "key": "option/NOTEBOOK/label/1",
+      "value": "Notizbuch"
+    },
+    {
+      "key": "option/TOADBAG/label/other",
+      "value": "Taschen"
+    },
+    {
+      "key": "option/TOADBAG/label/1",
+      "value": "Tasche"
+    },
+    {
+      "key": "pledge/claim/signIn/before",
+      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
+    },
+    {
+      "key": "pledge/claim/signIn/button",
+      "value": "ändern"
+    },
+    {
+      "key": "pledge/claim/loading",
+      "value": "überprüfen"
+    },
+    {
+      "key": "pledge/title",
+      "value": "Mitmachen"
+    },
+    {
+      "key": "pledge/contact/title",
+      "value": "Ihre Kontaktinformationen"
+    },
+    {
+      "key": "pledge/contact/signedinAs",
+      "value": "Sie sind angemeldet als: {nameOrEmail}"
+    },
+    {
+      "key": "pledge/contact/pastPledges/1",
+      "value": "Sie haben bereits einmal mitgemacht."
+    },
+    {
+      "key": "pledge/contact/pastPledges/other",
+      "value": "Sie haben bereits {count} mal mitgemacht."
+    },
+    {
+      "key": "pledge/contact/signOut",
+      "value": "abmelden"
+    },
+    {
+      "key": "pledge/contact/signIn/show",
+      "value": "Schon mal ausgefüllt?"
+    },
+    {
+      "key": "pledge/contact/signIn/hide",
+      "value": "Das erste Mal hier?"
+    },
+    {
+      "key": "pledge/contact/firstName/label",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "pledge/contact/firstName/error/empty",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "pledge/contact/lastName/label",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "pledge/contact/lastName/error/empty",
+      "value": "Nachname fehlt"
+    },
+    {
+      "key": "pledge/contact/email/label",
+      "value": "Ihre E-Mail"
+    },
+    {
+      "key": "pledge/contact/email/error/empty",
+      "value": "E-Mail fehlt"
+    },
+    {
+      "key": "pledge/contact/email/error/invalid",
+      "value": "E-Mail ungültig"
+    },
+    {
+      "key": "pledge/submit/package/error",
+      "value": "Wählen Sie zuoberst ein Abonnement und eine Mitgliedschaft oder Spenden aus"
+    },
+    {
+      "key": "pledge/submit/payMethod/title",
+      "value": "Zahlungsart auswählen"
+    },
+    {
+      "key": "pledge/submit/payMethod/error",
+      "value": "Zahlungsart auswählen"
+    },
+    {
+      "key": "pledge/submit/payMethod/label",
+      "value": "Wählen Sie eine Zahlungsart:"
+    },
+    {
+      "key": "pledge/submit/secure",
+      "value": "Sichere Verbindung"
+    },
+    {
+      "key": "pledge/submit/stripe/prefered",
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
+    },
+    {
+      "key": "pledge/submit/stripe/js/loading",
+      "value": "Kreditkartenzahlung wird vorbereitet"
+    },
+    {
+      "key": "pledge/submit/stripe/js/failed",
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
+    },
+    {
+      "key": "pledge/submit/stripe/card/label",
+      "value": "Kreditkarten-Nummer"
+    },
+    {
+      "key": "pledge/submit/stripe/card/error/empty",
+      "value": "Kreditkarten-Nummer fehlt"
+    },
+    {
+      "key": "pledge/submit/stripe/card/error/invalid",
+      "value": "Kreditkarten-Nummer ungültig"
+    },
+    {
+      "key": "pledge/submit/stripe/month/label",
+      "value": "Ablauf Monat"
+    },
+    {
+      "key": "pledge/submit/stripe/month/error/empty",
+      "value": "Ablauf Monat fehlt"
+    },
+    {
+      "key": "pledge/submit/stripe/month/error/invalid",
+      "value": "Ablauf Monat ungültig"
+    },
+    {
+      "key": "pledge/submit/stripe/year/label",
+      "value": "Ablauf Jahr"
+    },
+    {
+      "key": "pledge/submit/stripe/year/error/empty",
+      "value": "Ablauf Jahr fehlt"
+    },
+    {
+      "key": "pledge/submit/stripe/year/error/invalid",
+      "value": "Ablauf Jahr ungültig"
+    },
+    {
+      "key": "pledge/submit/stripe/cvc/label",
+      "value": "Prüfnummer (CVC)"
+    },
+    {
+      "key": "pledge/submit/stripe/cvc/error/empty",
+      "value": "Prüfnummer (CVC) fehlt"
+    },
+    {
+      "key": "pledge/submit/stripe/cvc/error/invalid",
+      "value": "Prüfnummer (CVC) ungültig"
+    },
+    {
+      "key": "pledge/submit/emailVerify/note",
+      "value": "Diese E-Mail-Adresse wurde schon einmal verwendet. Falls das Ihre Adresse ist, klicken Sie bitte auf «anmelden»."
+    },
+    {
+      "key": "pledge/submit/emailVerify/done",
+      "value": "Vielen Dank für das Verifizieren Ihrer E-Mail-Adresse."
+    },
+    {
+      "key": "pledge/submit/error/title",
+      "value": "Fehler"
+    },
+    {
+      "key": "pledge/submit/button/pay",
+      "value": "{formattedChf} bezahlen"
+    },
+    {
+      "key": "pledge/submit/legal/label",
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+    },
+    {
+      "key": "pledge/submit/legal/error",
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+    },
+    {
+      "key": "pledge/submit/pay/method/STRIPE",
+      "value": "Visa/MasterCard"
+    },
+    {
+      "key": "pledge/submit/pay/method/PAYMENTSLIP",
+      "value": "Banküberweisung"
+    },
+    {
+      "key": "pledge/submit/pay/method/POSTFINANCECARD",
+      "value": "PostFinance Card"
+    },
+    {
+      "key": "pledge/submit/pay/method/PAYPAL",
+      "value": "PayPal"
+    },
+    {
+      "key": "pledge/submit/loading/submit",
+      "value": "einreichen"
+    },
+    {
+      "key": "pledge/submit/loading/stripe",
+      "value": "bezahlen"
+    },
+    {
+      "key": "pledge/submit/loading/stripe/3dsecure",
+      "value": "3-D Secure"
+    },
+    {
+      "key": "pledge/submit/loading/postfinance",
+      "value": "weiterleiten"
+    },
+    {
+      "key": "pledge/submit/loading/paypal",
+      "value": "weiterleiten"
+    },
+    {
+      "key": "pledge/submit/loading/pay",
+      "value": "verarbeiten"
+    },
+    {
+      "key": "pledge/recievePayment/pf/mailto/subject",
+      "value": "PostFinance {status}"
+    },
+    {
+      "key": "pledge/recievePayment/pf/mailto/body",
+      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPostFinance:\n{payload}"
+    },
+    {
+      "key": "pledge/recievePayment/pf/92",
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">zahlungen@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+    },
+    {
+      "key": "pledge/recievePayment/pf/invalid",
+      "value": "Die Zahlung ist ungültig. Versuchen Sie eine andere Zahlungsmethode."
+    },
+    {
+      "key": "pledge/recievePayment/pf/denied",
+      "value": "Die Zahlung wurde verweigert. Nutzen Sie eine andere Karte oder wählen Sie eine andere Zahlungsmethode."
+    },
+    {
+      "key": "pledge/recievePayment/pf/canceled",
+      "value": "Zahlung abgebrochen. Wählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+    },
+    {
+      "key": "pledge/recievePayment/pf/retry",
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, versuchen Sie es erneut oder wählen Sie eine andere Zahlungsmethode."
+    },
+    {
+      "key": "pledge/recievePayment/error",
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">zahlungen@republik.ch</a>."
+    },
+    {
+      "key": "pledge/recievePayment/noPledge",
+      "value": "Das Produkt nicht gefunden"
+    },
+    {
+      "key": "pledge/recievePayment/paypal/cancel",
+      "value": "Zahlung abgebrochen. Wählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+    },
+    {
+      "key": "pledge/recievePayment/paypal/deny",
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nWählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+    },
+    {
+      "key": "pledge/recievePayment/paypal/contactUs",
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">zahlungen@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+    },
+    {
+      "key": "pledge/recievePayment/paypal/mailto/subject",
+      "value": "PayPal {status}"
+    },
+    {
+      "key": "pledge/recievePayment/paypal/mailto/body",
+      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPayPal:\n{payload}"
+    },
+    {
+      "key": "pledge/recievePayment/3dsecure/failed",
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es nochmals oder wählen Sie ein anderes Zahlungsmittel."
+    },
+    {
+      "key": "pledge/3dsecure/payment_method_not_available",
+      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "pledge/3dsecure/processing_error",
+      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es erneut."
+    },
+    {
+      "key": "pledge/3dsecure/unkown",
+      "value": "Unbekannter Fehler beim Bezahlen."
+    },
+    {
+      "key": "pledge/3dsecure/redirect/failed",
+      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "pledge/submit/paymentslip/title",
+      "value": "Ihre Adresse"
+    },
+    {
+      "key": "pledge/submit/paymentslip/explanation",
+      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+    },
+    {
+      "key": "pledge/submit/paymentslip/emailInvoice",
+      "value": "Zahlungsanweisungen per E-Mail"
+    },
+    {
+      "key": "pledge/submit/paymentslip/paperInvoice",
+      "value": "Rechnung per Post"
     }
   ]
 }

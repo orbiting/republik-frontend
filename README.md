@@ -11,8 +11,8 @@ You need to have node (8.4.0+) installed.
 Bootstrap your .env file:
 ```
 PORT=3010
-API_BASE_URL=http://localhost:3020/graphql
-API_WS_BASE_URL=ws://localhost:3020/graphql
+API_URL=http://localhost:3020/graphql
+API_WS_URL=ws://localhost:3020/graphql
 ```
 
 This frontend needs an API, provided by [republik-backend](https://github.com/orbiting/republik-backend), running on the same TLD (for cookie sharing).

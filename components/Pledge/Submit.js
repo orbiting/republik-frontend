@@ -382,6 +382,9 @@ class Submit extends Component {
         cvc: values.cardCVC,
         exp_month: values.cardMonth,
         exp_year: values.cardYear
+      },
+      metadata: {
+        pledgeId
       }
     }, (status, source) => {
       if (status !== 200) {
@@ -418,6 +421,9 @@ class Submit extends Component {
           },
           redirect: {
             return_url: `${PUBLIC_BASE_URL}/pledge?pledgeId=${pledgeId}&stripe=1`
+          },
+          metadata: {
+            pledgeId
           }
         }, (status, source3d) => {
           if (status !== 200) {

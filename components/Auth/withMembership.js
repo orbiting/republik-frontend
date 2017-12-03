@@ -61,6 +61,17 @@ const UnauthorizedPage = withT(({t, me, roles = []}) => (
   </Frame>
 ))
 
+export const WithoutMembership = ({render}) => (
+  <EnsureAuthorization
+    roles={['member']}
+    unauthorized={render} />
+)
+export const WithMembership = ({render}) => (
+  <EnsureAuthorization
+    roles={['member']}
+    render={render} />
+)
+
 export default WrappedComponent => props => (
   <EnsureAuthorization
     roles={['member']}

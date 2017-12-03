@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-03T16:19:23.311Z",
+  "updated": "2017-12-03T17:00:50.728Z",
   "title": "live",
   "data": [
     {
@@ -1233,6 +1233,22 @@
     {
       "key": "pledge/submit/paymentslip/paperInvoice",
       "value": "Rechnung per Post"
+    },
+    {
+      "key": "article/payNote/before",
+      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Artikel ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!"
+    },
+    {
+      "key": "article/payNote/before/buyText",
+      "value": "Hier können Sie selber Mitglied werden."
+    },
+    {
+      "key": "article/payNote/after",
+      "value": "Wir hoffen der Artikel hat Ihenen gefallen. Wenn Sie mehr solche Artikel lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
+    },
+    {
+      "key": "article/payNote/after/buyText",
+      "value": "Mitglied werden! "
     }
   ]
 }

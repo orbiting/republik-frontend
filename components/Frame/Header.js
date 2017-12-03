@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { css, merge } from 'glamor'
 import Router from 'next/router'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import withMe from '../../lib/apollo/withMe'
 import { Logo, colors, mediaQueries } from '@project-r/styleguide'
 import Toggle from './Toggle'

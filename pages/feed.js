@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Feed from '../components/Feed'
 import withAuthorization from '../components/Auth/withAuthorization'

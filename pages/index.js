@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'

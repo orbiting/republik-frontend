@@ -37,7 +37,7 @@ class PledgePage extends Component {
     }
 
     return (
-      <Frame meta={meta} url={url} sidebar={false}>
+      <Frame meta={meta} url={url}>
         <NarrowContainer>
           {pledgeId ? (
             <PledgeReceivePayment

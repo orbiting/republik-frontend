@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { validate as isEmail } from 'email-validator'
 import { Button, Field } from '@project-r/styleguide'

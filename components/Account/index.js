@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { compose } from 'redux'
 import Loader from '../../components/Loader'
 import { Link } from '../../lib/routes'
 

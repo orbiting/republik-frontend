@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { css, merge } from 'glamor'
 import IconLink from '../IconLink'

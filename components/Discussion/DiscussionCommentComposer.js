@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react'
-import {compose} from 'redux'
-import {CommentComposer, CommentComposerPlaceholder} from '@project-r/styleguide'
+import { compose } from 'react-apollo'
+import { CommentComposer, CommentComposerPlaceholder } from '@project-r/styleguide'
 import withT from '../../lib/withT'
-import {withMe, withDiscussionDisplayAuthor, submitComment} from './enhancers'
+import { withMe, withDiscussionDisplayAuthor, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionCommentComposer extends PureComponent {

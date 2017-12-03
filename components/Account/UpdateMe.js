@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {compose} from 'redux'
 import {intersperse} from '../../lib/utils/helpers'
 import Loader from '../Loader'
 import {errorToString} from '../../lib/utils/errors'

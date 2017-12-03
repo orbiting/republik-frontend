@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'redux'
+import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import {
   Field,
@@ -13,7 +13,7 @@ import {
   OverlayBody
 } from '@project-r/styleguide'
 import Loader from '../Loader'
-import {withDiscussionPreferences, withSetDiscussionPreferences} from './enhancers'
+import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
 
 export const DiscussionPreferences = ({t, data: {loading, error, me, discussion}, onClose, setDiscussionPreferences}) => (
   <Overlay onClose={onClose}>

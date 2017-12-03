@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 import Frame from '../Frame'
 import ShareButtons from '../Share'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { compose } from 'redux'
 import Loader from '../Loader'
 
 import {

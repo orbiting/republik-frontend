@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import List, {generateSeed} from '../components/Testimonial/List'
 import withData from '../lib/apollo/withData'

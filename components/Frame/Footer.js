@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'

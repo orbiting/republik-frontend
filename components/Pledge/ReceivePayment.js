@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
 import { errorToString } from '../../lib/utils/errors'
-import { compose } from 'redux'
 
 import { withPay } from './Submit'
 import PledgeForm from './Form'

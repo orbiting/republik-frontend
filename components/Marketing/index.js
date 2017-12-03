@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from '../../lib/routes'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
 import Offers from './Offers'

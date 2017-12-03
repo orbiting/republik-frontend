@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-01T19:30:19.248Z",
+  "updated": "2017-12-03T16:19:23.311Z",
   "title": "live",
   "data": [
     {
@@ -59,16 +59,40 @@
       "value": "Mein Profil"
     },
     {
-      "key": "withAuthorization/signinRequired",
-      "value": "Bitte anmelden"
-    },
-    {
-      "key": "withAuthorization/roleRequired",
+      "key": "withAuthorization/title",
       "value": "Geschützter Bereich"
     },
     {
       "key": "withAuthorization/authorizedRoles",
       "value": "Zugelassene Rollen: {roles}"
+    },
+    {
+      "key": "withMembership/title",
+      "value": "Mitgliederbereich"
+    },
+    {
+      "key": "withMembership/signIn/note",
+      "value": "Noch nicht Mitglied? {buyLink}"
+    },
+    {
+      "key": "withMembership/signIn/note/buyText",
+      "value": "Jetzt beitreten!"
+    },
+    {
+      "key": "withMembership/signIn/home",
+      "value": "Mehr über die Republik erfahren."
+    },
+    {
+      "key": "withMembership/unauthorized",
+      "value": "Sie haben keine aktive Mitgliedschaft. {buyLink} oder {accountLink}?"
+    },
+    {
+      "key": "withMembership/unauthorized/buyText",
+      "value": "Jetzt kaufen"
+    },
+    {
+      "key": "withMembership/unauthorized/accountText",
+      "value": "Konto ansehen"
     },
     {
       "key": "signIn/button",

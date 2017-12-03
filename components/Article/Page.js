@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import Frame from '../Frame'
 import ShareButtons from '../Share'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
+import * as PayNote from './PayNote'
 
 import {
   H1,
@@ -160,7 +161,17 @@ class ArticlePage extends Component {
             )
           })
 
-          return renderMdast(article.content, schema)
+          return (
+            <Fragment>
+              <PayNote.Before />
+              {renderMdast(article.content, schema)}
+              <br />
+              <br />
+              <br />
+              <br />
+              <PayNote.After />
+            </Fragment>
+          )
         }} />
       </Frame>
     )

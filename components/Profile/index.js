@@ -10,7 +10,7 @@ import Meta from '../Frame/Meta'
 import LatestComments from './LatestComments'
 import PointerList from './PointerList'
 import Testimonial from '../Testimonial'
-import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../lib/constants'
+import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import {
   Interaction,
   colors,

@@ -59,7 +59,7 @@ class Feed extends Component {
         error={error}
         render={() => {
           return (
-            <Center>
+            <Center style={{padding: '80px 0 120px'}}>
               {documents &&
                 documents.map(doc => (
                   <TeaserFeed {...doc.meta} Link={ArticleLink} key={doc.meta.slug} />

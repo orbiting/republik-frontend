@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Frame from '../Frame'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -8,6 +8,20 @@ import { css } from 'glamor'
 
 import { Interaction } from '@project-r/styleguide'
 
+const checkRoles = (me, roles) => {
+  return !!(
+    me &&
+    (!roles || (
+      me.roles &&
+      me.roles.some(role =>
+        roles.indexOf(role) !== -1
+      )
+    ))
+  )
+}
+
+const Empty = () => null
+
 const styles = {
   center: css({
     width: '100%',
@@ -16,44 +30,56 @@ const styles = {
     padding: 20
   })
 }
+export const PageCenter = ({children}) => (
+  <div {...styles.center}>
+    {children}
+  </div>
+)
 
-export default authorizedRoles => Component =>
-  withT(
-    withMe(props => {
-      const { me, t } = props
-      if (
-        me &&
-        (!authorizedRoles ||
-          (me.roles &&
-            me.roles.some(role => authorizedRoles.indexOf(role) !== -1)))
-      ) {
-        return <Component {...props} />
-      }
-      if (!me) {
-        return (
-          <Frame raw>
-            <div {...styles.center}>
-              <Interaction.H1>{t('withAuthorization/signinRequired')}</Interaction.H1>
-              <br />
-              <SignIn />
-            </div>
-          </Frame>
-        )
-      }
-      return (
-        <Frame raw>
-          <div {...styles.center}>
-            <Interaction.H1>{t('withAuthorization/roleRequired')}</Interaction.H1>
-            <Interaction.P>
-              {t('withAuthorization/authorizedRoles', {
-                roles: authorizedRoles.join(', ')
-              })}
-              <br />
-            </Interaction.P>
+export const EnsureAuthorization = withMe(({
+  me,
+  roles,
+  render = Empty,
+  unauthorized = Empty
+}) => {
+  if (
+    checkRoles(me, roles)
+  ) {
+    return render()
+  } else {
+    return unauthorized({me})
+  }
+})
+
+const UnauthorizedPage = withT(({t, me, roles = []}) => (
+  <Frame raw>
+    <PageCenter>
+      {!me ? (
+        <Fragment>
+          <Interaction.H1>{t('withAuthorization/title')}</Interaction.H1>
+          <br />
+          <SignIn />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Interaction.H1>{t('withAuthorization/title')}</Interaction.H1>
+          <Interaction.P>
+            {t('withAuthorization/authorizedRoles', {
+              roles: roles.join(', ')
+            })}
             <br />
-            <Me />
-          </div>
-        </Frame>
-      )
-    })
-  )
+          </Interaction.P>
+          <br />
+          <Me />
+        </Fragment>
+      )}
+    </PageCenter>
+  </Frame>
+))
+
+export default roles => WrappedComponent => props => (
+  <EnsureAuthorization
+    roles={roles}
+    render={() => <WrappedComponent {...props} />}
+    unauthorized={({me}) => <UnauthorizedPage me={me} roles={roles} />} />
+)

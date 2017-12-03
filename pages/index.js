@@ -4,10 +4,10 @@ import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
-import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import VideoCover from '../components/VideoCover'
 import { STATIC_BASE_URL } from '../lib/constants'
+import { EnsureAuthorization } from '../components/Auth/withAuthorization'
 
 const endVideo = {
   hls:
@@ -18,28 +18,39 @@ const endVideo = {
   poster: `${STATIC_BASE_URL}/static/video/main.jpg`
 }
 
-const IndexPage = ({ url, me, t }) => {
+const IndexPage = ({ url, t }) => {
   const meta = {
     title: t('pages/magazine/title')
   }
   return (
-    <Frame
-      raw
-      url={url}
-      meta={meta}
-      cover={
-        !me && (
-          <VideoCover
-            src={endVideo}
-            endScroll={0.99}
-            autoPlay={!!url.query.play}
-          />
-        )
-      }
-    >
-      {me ? <Front /> : <Marketing />}
-    </Frame>
+    <EnsureAuthorization roles={['member']}
+      render={() => (
+        <Frame
+          raw
+          url={url}
+          meta={meta}
+        >
+          <Front />
+        </Frame>
+      )}
+      unauthorized={() => (
+        <Frame
+          raw
+          url={url}
+          meta={meta}
+          cover={
+            <VideoCover
+              src={endVideo}
+              endScroll={0.99}
+              cursor
+              autoPlay={!!url.query.play}
+            />
+          }
+        >
+          <Marketing />
+        </Frame>
+      )} />
   )
 }
 
-export default compose(withData, withMe, withT)(IndexPage)
+export default compose(withData, withT)(IndexPage)

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-11-30T09:35:31.471Z",
+  "updated": "2017-12-01T14:57:16.267Z",
   "title": "live",
   "data": [
     {
@@ -664,7 +664,7 @@
     },
     {
       "key": "footer/since",
-      "value": "Seit 2018."
+      "value": "seit 2018"
     },
     {
       "key": "components/Discussion/OrderBy/DATE",

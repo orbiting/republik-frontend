@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import Link from 'next/link'
 import { compose } from 'redux'
 
 import withT from '../../lib/withT'
@@ -8,6 +7,7 @@ import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import track from '../../lib/piwik'
+import { Link } from '../../lib/routes'
 
 import {
   Container,
@@ -139,15 +139,13 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
-              <Link href='/crew'>
+              <Link route='crew'>
                 <a>{t('footer/crew')}</a>
               </Link>
               <br />
-              <Link href='/events'>
-                <a>{t('footer/events')}</a>
-              </Link>
+              <a>{t('footer/events')}</a>
               <br />
-              <Link href='/media'>
+              <Link route='media'>
                 <a>{t('footer/media')}</a>
               </Link>
               <br />
@@ -165,31 +163,29 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>
-              <Link href='/legal/tos'>
+              <Link route='legal/tos'>
                 <a>{t('footer/legal/tos')}</a>
               </Link>
               <br />
-              <Link href='/legal/privacy'>
+              <Link route='legal/privacy'>
                 <a>{t('footer/legal/privacy')}</a>
               </Link>
               <br />
-              <Link href='/legal/statute'>
+              <Link route='legal/statute'>
                 <a>{t('footer/legal/statute')}</a>
               </Link>
               <br />
-              <Link href='/legal/imprint'>
+              <Link route='legal/imprint'>
                 <a>{t('footer/legal/imprint')}</a>
               </Link>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/me/title')}</div>
-              <Link href='/me'>
+              <Link route='account'>
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
-              <Link href='/claim'>
-                <a>{t('footer/me/claim')}</a>
-              </Link>
+              <a>{t('footer/me/claim')}</a>
               <br />
               {!!me && (
                 <a

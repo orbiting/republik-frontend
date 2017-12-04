@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { compose } from 'redux'
+import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -29,8 +29,7 @@ const styles = {
     borderTop: `1px solid ${colors.divider}`,
     backgroundColor: colors.secondaryBg,
     paddingTop: 30,
-    paddingBottom: 30,
-    marginTop: 100
+    paddingBottom: 30
   }),
   icons: css({
     float: 'right'

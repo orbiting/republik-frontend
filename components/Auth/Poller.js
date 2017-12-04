@@ -1,8 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {graphql} from 'react-apollo'
-import {meQuery} from '../../lib/apollo/withMe'
-import {compose} from 'redux'
+import { graphql, compose } from 'react-apollo'
+import { meQuery } from '../../lib/apollo/withMe'
 
 class Poller extends Component {
   constructor (props) {

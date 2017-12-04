@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {compose} from 'redux'
 import {intersperse} from '../../lib/utils/helpers'
 import Loader from '../Loader'
 import {errorToString} from '../../lib/utils/errors'
@@ -11,8 +10,10 @@ import withT from '../../lib/withT'
 import AddressForm, {COUNTRIES, fields as addressFields} from './AddressForm'
 
 import {
-  FieldSet, InlineSpinner, Interaction, Label, Button, A, colors
+  InlineSpinner, Interaction, Label, Button, A, colors
 } from '@project-r/styleguide'
+
+import FieldSet from '../FieldSet'
 
 const {H2, P} = Interaction
 

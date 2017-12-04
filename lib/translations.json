@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-03T17:00:50.728Z",
+  "updated": "2017-12-04T02:28:38.516Z",
   "title": "live",
   "data": [
     {
@@ -283,36 +283,8 @@
       "value": "Zur Aufbau-Crew gehören:"
     },
     {
-      "key": "Account/empty/title",
-      "value": "Hallo {nameOrEmail}"
-    },
-    {
-      "key": "Account/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre Postadresse (brauchen wir leider) und Ihr Foto (brauchen wir nicht, würde uns aber freuen), Letzteres mit einem persönlichen Slogan (würde uns ebenfalls freuen).<br />\n<br />\nHier unser Slogan, in vier Worten: Lang lebe die Republik!"
-    },
-    {
-      "key": "Account/empty/text",
-      "value": "Möchten auch Sie uns unterstützen?"
-    },
-    {
-      "key": "Account/empty/button",
-      "value": "Jetzt mitmachen"
-    },
-    {
       "key": "Account/title",
-      "value": "Willkommen an Bord, {name}"
-    },
-    {
-      "key": "Account/share/tweetTemplate",
-      "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich."
-    },
-    {
-      "key": "Account/share/emailSubject",
-      "value": "Ein neues, unabhängiges Magazin"
-    },
-    {
-      "key": "Account/share/emailBody",
-      "value": "Hallo Werde Mitglied und Abonnent der Republik: {url} Herzliche Grüsse, {backerName}"
+      "value": "Hallo {nameOrEmail}"
     },
     {
       "key": "Account/Update/address/label",
@@ -441,6 +413,66 @@
     {
       "key": "Account/submit/error/title",
       "value": "Fehler"
+    },
+    {
+      "key": "account/pledges/title",
+      "value": "Ihre Teilnahme"
+    },
+    {
+      "key": "account/pledges/label",
+      "value": "Erstellt {formattedDateTime}"
+    },
+    {
+      "key": "account/pledges/payment/method/STRIPE",
+      "value": "Kreditkarte"
+    },
+    {
+      "key": "account/pledges/payment/method/POSTFINANCECARD",
+      "value": "Postcard"
+    },
+    {
+      "key": "account/pledges/payment/method/PAYPAL",
+      "value": "PayPal"
+    },
+    {
+      "key": "account/pledges/payment/method/PAYMENTSLIP",
+      "value": "Banküberweisung"
+    },
+    {
+      "key": "account/pledges/payment/status/generic/WAITING",
+      "value": "{formattedTotal} ausstehend"
+    },
+    {
+      "key": "account/pledges/payment/status/generic/PAID",
+      "value": "{formattedTotal} bezahlt mit {method}"
+    },
+    {
+      "key": "account/pledges/payment/status/generic/WAITING_FOR_REFUND",
+      "value": "{formattedTotal} wird zurückerstattet"
+    },
+    {
+      "key": "account/pledges/payment/status/generic/REFUNDED",
+      "value": "{formattedTotal} zurückerstattet"
+    },
+    {
+      "key": "account/pledges/payment/status/generic/CANCELLED",
+      "value": "{formattedTotal} annulliert"
+    },
+    {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/WAITING",
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+    },
+    {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/PAID",
+      "value": "{formattedTotal} bezahlt"
+    },
+    {
+      "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/1",
+      "value": "Sie erhalten eine Rechnung per Post. Sollte der Brief verloren gehen, hier noch einmal alle Zahlungsinformationen auf einen Blick:"
+    },
+    {
+      "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
+      "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
       "key": "profile/discussion",
@@ -704,7 +736,7 @@
     },
     {
       "key": "styleguide/CommentComposer/placeholder",
-      "value": "Einen Kommentar verfassen…"
+      "value": "Einen Beitrag verfassen…"
     },
     {
       "key": "styleguide/CommentComposer/answer",
@@ -796,7 +828,7 @@
     },
     {
       "key": "components/DiscussionPreferences/commentAnonymously",
-      "value": "Anonym kommentieren"
+      "value": "Anonym teilnehmen"
     },
     {
       "key": "components/DiscussionPreferences/credentialLabel",
@@ -1152,43 +1184,43 @@
     },
     {
       "key": "pledge/recievePayment/pf/92",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">zahlungen@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/pf/invalid",
-      "value": "Die Zahlung ist ungültig. Versuchen Sie eine andere Zahlungsmethode."
+      "value": "Die Zahlung ist ungültig. Versuchen Sie bitte ein anderes Zahlungsmittel."
     },
     {
       "key": "pledge/recievePayment/pf/denied",
-      "value": "Die Zahlung wurde verweigert. Nutzen Sie eine andere Karte oder wählen Sie eine andere Zahlungsmethode."
+      "value": "Die Zahlung wurde verweigert. Nutzen Sie eine andere Karte oder wählen Sie ein anderes Zahlungsmittel."
     },
     {
       "key": "pledge/recievePayment/pf/canceled",
-      "value": "Zahlung abgebrochen. Wählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
     },
     {
       "key": "pledge/recievePayment/pf/retry",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, versuchen Sie es erneut oder wählen Sie eine andere Zahlungsmethode."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, versuchen Sie es bitte erneut oder wählen Sie ein anderes Zahlungsmittel."
     },
     {
       "key": "pledge/recievePayment/error",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">zahlungen@republik.ch</a>."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>."
     },
     {
       "key": "pledge/recievePayment/noPledge",
-      "value": "Das Produkt nicht gefunden"
+      "value": "Das Produkt wurde nicht gefunden."
     },
     {
       "key": "pledge/recievePayment/paypal/cancel",
-      "value": "Zahlung abgebrochen. Wählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
     },
     {
       "key": "pledge/recievePayment/paypal/deny",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nWählen Sie ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nWählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
     },
     {
       "key": "pledge/recievePayment/paypal/contactUs",
-      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">zahlungen@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/subject",
@@ -1200,15 +1232,15 @@
     },
     {
       "key": "pledge/recievePayment/3dsecure/failed",
-      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es nochmals oder wählen Sie ein anderes Zahlungsmittel."
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
     },
     {
       "key": "pledge/3dsecure/payment_method_not_available",
-      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es mit einem anderen Zahlungsmittel."
+      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
     },
     {
       "key": "pledge/3dsecure/processing_error",
-      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es erneut."
+      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
     },
     {
       "key": "pledge/3dsecure/unkown",
@@ -1216,7 +1248,7 @@
     },
     {
       "key": "pledge/3dsecure/redirect/failed",
-      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es mit einem anderen Zahlungsmittel."
+      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
     },
     {
       "key": "pledge/submit/paymentslip/title",
@@ -1236,7 +1268,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Artikel ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!"
+      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!"
     },
     {
       "key": "article/payNote/before/buyText",
@@ -1244,11 +1276,179 @@
     },
     {
       "key": "article/payNote/after",
-      "value": "Wir hoffen der Artikel hat Ihenen gefallen. Wenn Sie mehr solche Artikel lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
+      "value": "Wir hoffen der Beitrag hat Ihenen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
     },
     {
       "key": "article/payNote/after/buyText",
       "value": "Mitglied werden! "
+    },
+    {
+      "key": "merci/postpay/waiting",
+      "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br />Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br /> (Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)"
+    },
+    {
+      "key": "merci/postpay/reclaim",
+      "value": "Falsche E-Mail-Adresse?"
+    },
+    {
+      "key": "merci/claim/signIn/before",
+      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
+    },
+    {
+      "key": "merci/claim/signIn/button",
+      "value": "ändern"
+    },
+    {
+      "key": "merci/claim/loading",
+      "value": "überprüfen"
+    },
+    {
+      "key": "merci/signedOut/title",
+      "value": "Zur persönlichen Übersicht gehen"
+    },
+    {
+      "key": "merci/signedOut/signIn",
+      "value": "Bitte anmelden:"
+    },
+    {
+      "key": "merci/empty/title",
+      "value": "Hallo {nameOrEmail}"
+    },
+    {
+      "key": "merci/empty/text",
+      "value": "Möchten auch Sie uns unterstützen?"
+    },
+    {
+      "key": "merci/empty/button",
+      "value": "Jetzt mitmachen"
+    },
+    {
+      "key": "merci/title",
+      "value": "Willkommen an Bord, {name}"
+    },
+    {
+      "key": "merci/lead",
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre Postadresse (brauchen wir leider) und Ihr Foto (brauchen wir nicht, würde uns aber freuen), Letzteres mit einem persönlichen Slogan (würde uns ebenfalls freuen).<br />\n<br />\nHier unser Slogan, in vier Worten: Lang lebe die Republik!"
+    },
+    {
+      "key": "merci/share/tweetTemplate",
+      "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich."
+    },
+    {
+      "key": "merci/share/emailSubject",
+      "value": "Ein neues, unabhängiges Magazin"
+    },
+    {
+      "key": "merci/share/emailBody",
+      "value": "Hallo Werde Mitglied und Abonnent der Republik: {url} Herzliche Grüsse, {backerName}"
+    },
+    {
+      "key": "memberships/title/1",
+      "value": "Ihre Mitgliedschaft und Ihr Abonnement"
+    },
+    {
+      "key": "memberships/title/other",
+      "value": "Ihre Mitgliedschaften und Abonnements"
+    },
+    {
+      "key": "memberships/giver/giveable/show",
+      "value": "Abo und Mitgliedschaft verschenken?"
+    },
+    {
+      "key": "memberships/giver/given/notGive",
+      "value": "Sie haben das Abo und die Mitgliedschaft verschenkt."
+    },
+    {
+      "key": "memberships/giver/given/1",
+      "value": "Sie haben schon ein Abo und eine Mitgliedschaft verschenkt."
+    },
+    {
+      "key": "memberships/giver/given/other",
+      "value": "Sie haben schon {count} Abos und Mitgliedschaften verschenkt."
+    },
+    {
+      "key": "memberships/giver/description",
+      "value": "Empfänger:"
+    },
+    {
+      "key": "memberships/give/show",
+      "value": "Verschenken?"
+    },
+    {
+      "key": "memberships/give/hide",
+      "value": "behalten"
+    },
+    {
+      "key": "memberships/give/description/before/notGive",
+      "value": "Wollen Sie das Abo nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihr Abo und Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+    },
+    {
+      "key": "memberships/give/description/before/1",
+      "value": "Sie können das Abo und die Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+    },
+    {
+      "key": "memberships/give/description/before/other",
+      "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
+    },
+    {
+      "key": "memberships/give/description/after",
+      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
+    },
+    {
+      "key": "memberships/type/ABO",
+      "value": "Mitgliedschaft und Abonnement"
+    },
+    {
+      "key": "memberships/type/BENEFACTOR_ABO",
+      "value": "Gönner-Mitgliedschaft und -Abonnement"
+    },
+    {
+      "key": "memberships/type/REDUCED_ABO",
+      "value": "Mitgliedschaft und Abonnement (reduziert)"
+    },
+    {
+      "key": "memberships/label",
+      "value": "Erstellt {formattedDateTime}"
+    },
+    {
+      "key": "memberships/claim/lead",
+      "value": "Mitgliedschaft und Abonnement einlösen"
+    },
+    {
+      "key": "memberships/claim/voucherCode/label",
+      "value": "Gutscheincode"
+    },
+    {
+      "key": "memberships/claim/voucherCode/label/error/empty",
+      "value": "Gutscheincode fehlt"
+    },
+    {
+      "key": "memberships/claim/button",
+      "value": "einlösen"
+    },
+    {
+      "key": "memberships/claim/loading",
+      "value": "überprüfen"
+    },
+    {
+      "key": "memberships/claim/legal/label",
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+    },
+    {
+      "key": "memberships/claim/legal/error",
+      "value": "Sie müssen sich mit der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+    },
+    {
+      "key": "memberships/claim/error/title",
+      "value": "Fehler"
+    },
+    {
+      "key": "memberships/sequenceNumber/label",
+      "value": "Abo #{sequenceNumber}"
+    },
+    {
+      "key": "memberships/sequenceNumber/suffix",
+      "value": "#{sequenceNumber}"
     }
   ]
 }

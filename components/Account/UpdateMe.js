@@ -10,8 +10,10 @@ import withT from '../../lib/withT'
 import AddressForm, {COUNTRIES, fields as addressFields} from './AddressForm'
 
 import {
-  FieldSet, InlineSpinner, Interaction, Label, Button, A, colors
+  InlineSpinner, Interaction, Label, Button, A, colors
 } from '@project-r/styleguide'
+
+import FieldSet from '../FieldSet'
 
 const {H2, P} = Interaction
 

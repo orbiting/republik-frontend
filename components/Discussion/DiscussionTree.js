@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react'
-import {compose} from 'redux'
-import {colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode} from '@project-r/styleguide'
+import { compose } from 'react-apollo'
+import { colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode } from '@project-r/styleguide'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import {maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment} from './enhancers'
+import { maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {

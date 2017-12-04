@@ -1,13 +1,24 @@
-// TODO: Move autosize to styleguide and delete here.
 import React from 'react'
 import {css} from 'glamor'
+
 import AutosizeInput from 'react-textarea-autosize'
+import MaskedInput from 'react-maskedinput'
 
 import {
   FieldSet
 } from '@project-r/styleguide'
 
 export const styles = {
+  mask: css({
+    '::placeholder': {
+      color: 'transparent'
+    },
+    ':focus': {
+      '::placeholder': {
+        color: '#ccc'
+      }
+    }
+  }),
   autoSize: css({
     minHeight: 40,
     paddingTop: '7px !important',
@@ -15,7 +26,7 @@ export const styles = {
   })
 }
 
-const FieldSetWithAutoSize = props => (
+const FieldSetWithMaskAndAutoSize = props => (
   <FieldSet
     {...props}
     additionalFieldProps={field => {
@@ -27,10 +38,19 @@ const FieldSetWithAutoSize = props => (
             inputRef={ref} />
         )
       }
+      if (field.mask) {
+        fieldProps.renderInput = (inputProps) => (
+          <MaskedInput
+            {...inputProps}
+            {...styles.mask}
+            placeholderChar={field.maskChar || ' '}
+            mask={field.mask} />
+        )
+      }
       return fieldProps
     }} />
 )
 
-FieldSetWithAutoSize.utils = FieldSet.utils
+FieldSetWithMaskAndAutoSize.utils = FieldSet.utils
 
-export default FieldSetWithAutoSize
+export default FieldSetWithMaskAndAutoSize

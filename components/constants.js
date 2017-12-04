@@ -11,5 +11,3 @@ export const ZINDEX_FRAME_TOGGLE = 1
 
 export const BASE_URL_FACEBOOK = 'https://www.facebook.com'
 export const BASE_URL_TWITTER = 'https://twitter.com'
-
-export const EMAIL_CONTACT = 'kontakt@republik.ch'

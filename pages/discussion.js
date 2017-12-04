@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose} from 'redux'
+import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Discussion from '../components/Discussion/Discussion'
 import DiscussionIndex from '../components/Discussion/DiscussionIndex'

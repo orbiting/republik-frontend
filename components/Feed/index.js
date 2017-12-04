@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { compose } from 'redux'
 import Loader from '../../components/Loader'
 import { Link } from '../../lib/routes'
 
@@ -60,7 +59,7 @@ class Feed extends Component {
         error={error}
         render={() => {
           return (
-            <Center>
+            <Center style={{padding: '80px 0 120px'}}>
               {documents &&
                 documents.map(doc => (
                   <TeaserFeed {...doc.meta} Link={ArticleLink} key={doc.meta.slug} />

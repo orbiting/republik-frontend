@@ -24,7 +24,7 @@ const styles = {
     flexDirection: 'column'
   }),
   coverless: css({
-    paddingTop: HEADER_HEIGHT + 40
+    paddingTop: HEADER_HEIGHT
   }),
   bodyGrower: css({
     flexGrow: 1
@@ -58,7 +58,7 @@ const Index = ({
         children
       ) : (
         <Container style={{ maxWidth: '840px' }}>
-          <div style={{ paddingTop: 40, paddingBottom: 20 }}>{children}</div>
+          <div style={{ paddingTop: 80, paddingBottom: 120 }}>{children}</div>
         </Container>
       )}
     </div>

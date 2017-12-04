@@ -22,8 +22,6 @@ import {
 import Accordion from './Accordion'
 import Submit from './Submit'
 import CustomizePackage from './CustomizePackage'
-// to be replaced with new membership info
-// import {myThingsQuery} from '../Me/queries'
 
 const {H1, H2, P} = Interaction
 
@@ -146,7 +144,6 @@ class Pledge extends Component {
           query, me, t,
           crowdfunding,
           receiveError,
-          pastPledges = [],
           crowdfundingName
         } = this.props
 
@@ -216,13 +213,7 @@ class Pledge extends Component {
                     })
                   }}>{t('pledge/contact/signOut')}</A>
                   <br /><br />
-                  {' '}{pastPledges.length > 0 && (
-                    <A href='/merci' target='_blank'>
-                      {t.pluralize('pledge/contact/pastPledges', {
-                        count: pastPledges.length
-                      })}
-                    </A>
-                  )}
+                  {/* TODO: add active membership info */}
                   <br /><br />
                 </span>
               ) : (
@@ -345,21 +336,6 @@ const PledgeWithQueries = compose(
       }
     }
   }),
-  // graphql(myThingsQuery, {
-  //   props: ({ data }) => {
-  //     return {
-  //       pastPledges: (
-  //         (
-  //           !data.loading &&
-  //           !data.error &&
-  //           data.me &&
-  //           data.me.pledges &&
-  //           data.me.pledges.filter(pledge => pledge.status !== 'DRAFT')
-  //         ) || []
-  //       )
-  //     }
-  //   }
-  // }),
   withSignOut,
   withT,
   withMe

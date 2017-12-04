@@ -5,7 +5,7 @@ import Router from 'next/router'
 import track from '../../lib/piwik'
 import IconLink from '../IconLink'
 import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
-import { EMAIL_CONTACT } from '../constants'
+import { EMAIL_CONTACT } from '../../lib/constants'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })

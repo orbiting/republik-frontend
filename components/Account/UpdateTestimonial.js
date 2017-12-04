@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { compose } from 'redux'
 import { range } from 'd3-array'
 import { css } from 'glamor'
-import Link from 'next/link'
+import { Link } from '../../lib/routes'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -353,7 +353,7 @@ class Testimonial extends Component {
             }
             {testimonial && testimonial.published && (
               <div style={{marginTop: 20}}>
-                <Link href={`/community?id=${testimonial.id}`}>
+                <Link route='community' params={{id: testimonial.id}}>
                   <a {...linkRule}>
                     {t('testimonial/viewLive')}
                   </a>

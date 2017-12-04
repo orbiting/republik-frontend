@@ -37,6 +37,7 @@ export const gotoMerci = (query) => {
     pathname: '/account',
     query
   })
+  // TODO: Write update cache functions instead of reload navigation
   // Router.push({
   //   pathname: '/merci',
   //   query

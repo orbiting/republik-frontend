@@ -261,6 +261,7 @@ class PledgeReceivePayment extends Component {
       })
   }
   componentDidMount () {
+    // TODO: Test and re-enable psp payload purging after processing it
     // const {pledge} = this.props
     // if (!pledge) {
     //   return

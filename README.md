@@ -37,7 +37,7 @@ npm run test
 
 ### Pledge
 
-An online magazine is financed by people pledging to pay for it's content. And if a crowd forms around a maginze it becomes crowdfunded. Crowdfundings have a dedicated name in the backend. You can configure the currently active one via the environment. You can only point the front end at one crowdfunding at a time.
+An online magazine is financed by people pledging to pay for its content. And if a crowd forms around a magazine it becomes crowdfunded. Crowdfundings have a dedicated name in the backend. You can configure the currently active one via the environment. You can only point the front end at one crowdfunding at a time.
 
 ```
 CROWDFUNDING_NAME=LAUNCH

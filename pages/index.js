@@ -6,8 +6,13 @@ import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import VideoCover from '../components/VideoCover'
-import { STATIC_BASE_URL } from '../lib/constants'
 import { EnsureAuthorization } from '../components/Auth/withAuthorization'
+
+import {
+  STATIC_BASE_URL,
+  SALES_UP,
+  CROWDFUNDING_NAME
+} from '../lib/constants'
 
 const endVideo = {
   hls:
@@ -17,6 +22,8 @@ const endVideo = {
   subtitles: '/static/subtitles/main.vtt',
   poster: `${STATIC_BASE_URL}/static/video/main.jpg`
 }
+
+const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 const IndexPage = ({ url, t }) => {
   const meta = {
@@ -47,7 +54,7 @@ const IndexPage = ({ url, t }) => {
             />
           }
         >
-          <Marketing />
+          <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
         </Frame>
       )} />
   )

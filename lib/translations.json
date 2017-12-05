@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-04T02:28:38.516Z",
+  "updated": "2017-12-04T14:09:29.308Z",
   "title": "live",
   "data": [
     {
@@ -8,7 +8,7 @@
     },
     {
       "key": "nav/feed",
-      "value": "Neues"
+      "value": "Feed"
     },
     {
       "key": "nav/discussion",
@@ -32,7 +32,7 @@
     },
     {
       "key": "pages/account/title",
-      "value": "Mein Konto"
+      "value": "Konto ansehen"
     },
     {
       "key": "pages/profile/pageTitle",
@@ -52,11 +52,11 @@
     },
     {
       "key": "Frame/Popover/myaccount",
-      "value": "Mein Konto"
+      "value": "Konto"
     },
     {
       "key": "Frame/Popover/myprofile",
-      "value": "Mein Profil"
+      "value": "Profil"
     },
     {
       "key": "withAuthorization/title",
@@ -1449,6 +1449,42 @@
     {
       "key": "memberships/sequenceNumber/suffix",
       "value": "#{sequenceNumber}"
+    },
+    {
+      "key": "notifications/pageTitle",
+      "value": "Mitteilung – Republik"
+    },
+    {
+      "key": "notifications/email-confirmed/title",
+      "value": "E-Mail-Adresse ist bestätigt"
+    },
+    {
+      "key": "notifications/email-confirmed/text",
+      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+    },
+    {
+      "key": "notifications/invalid-token/title",
+      "value": "Ungültiger Link"
+    },
+    {
+      "key": "notifications/invalid-token/text",
+      "value": "Der von Ihnen aufgerufene Link ist nicht gültig. Links zur Anmeldung sind nur einmal gültig."
+    },
+    {
+      "key": "notifications/unavailable/title",
+      "value": "System nicht verfügbar"
+    },
+    {
+      "key": "notifications/unavailable/text",
+      "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
+    },
+    {
+      "key": "notifications/links/home",
+      "value": "Startseite"
+    },
+    {
+      "key": "notifications/links/merci",
+      "value": "Ihre persönliche Übersicht"
     }
   ]
 }

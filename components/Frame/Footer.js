@@ -184,7 +184,9 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
-              <a>{t('footer/me/claim')}</a>
+              <Link route='claim'>
+                <a>{t('footer/me/claim')}</a>
+              </Link>
               <br />
               {!!me && (
                 <a

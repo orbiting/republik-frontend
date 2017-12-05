@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-04T14:09:29.308Z",
+  "updated": "2017-12-05T15:22:46.866Z",
   "title": "live",
   "data": [
     {
@@ -191,24 +191,16 @@
       "value": "E-Mail ungültig"
     },
     {
-      "key": "marketing/offers/patron",
-      "value": "Für Gönner"
+      "key": "marketing/offers/title",
+      "value": "Weitere Angebote"
     },
     {
-      "key": "marketing/offers/other",
-      "value": "Für andere"
+      "key": "marketing/offers/claim",
+      "value": "Gutscheincode einlösen"
     },
     {
-      "key": "marketing/offers/lower",
+      "key": "marketing/offers/userPrice",
       "value": "Reduziert"
-    },
-    {
-      "key": "marketing/offers/voucher",
-      "value": "Voucher einlösen"
-    },
-    {
-      "key": "marketing/offers/monthly",
-      "value": "Monatsabo"
     },
     {
       "key": "pledge/contact/title",

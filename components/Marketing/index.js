@@ -80,7 +80,7 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ t }) => [
+const MarketingPage = ({ t, crowdfundingName }) => [
   <Container {...styles.intro} key='intro'>
     <Interaction.H1 {...css(styles.headline, { marginBottom: '30px' })}>
       {t('marketing/headline')}
@@ -104,7 +104,7 @@ const MarketingPage = ({ t }) => [
       <Interaction.P {...css(styles.text, styles.joinText)}>
         {t('marketing/cta/text')}
       </Interaction.P>
-      <Link route='pledge'>
+      <Link route='pledge' params={{package: 'ABO'}}>
         <Button primary block>
           {t('marketing/cta/button/label')}
         </Button>
@@ -122,9 +122,9 @@ const MarketingPage = ({ t }) => [
       </div>
       <div {...styles.offers}>
         <Interaction.H3 style={{ marginBottom: '17px' }}>
-          Weitere Angebote
+          {t('marketing/offers/title')}
         </Interaction.H3>
-        <Offers />
+        <Offers crowdfundingName={crowdfundingName} />
       </div>
     </div>
   </Container>

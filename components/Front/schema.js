@@ -173,15 +173,25 @@ const frontSplitTeaser = {
   },
   component: ({ children, attributes = {}, image, ...props }) => {
     const imageSrc = image || '/static/placeholder.png'
-    return <TeaserFrontSplit image={imageSrc} {...attributes} {...props}>
+    return <TeaserFrontSplit image={imageSrc} attributes={{
+      ...attributes,
+      onClick: () => {
+        if (props.url) {
+          window.location = props.url
+        }
+      }
+    }} {...props}>
       {children}
     </TeaserFrontSplit>
   },
   props (node) {
     linkColor = node.data.linkColor
-    return matchImageParagraph(node.children[0])
-      ? { image: node.children[0].children[0].url }
-      : {}
+    const image = matchImageParagraph(node.children[0]) && node.children[0].children[0].url
+
+    return {
+      ...node.data,
+      image
+    }
   },
   editorModule: 'teaser',
   editorOptions: {
@@ -301,15 +311,24 @@ const frontTileTeaser = {
   },
   component: ({ children, attributes = {}, image, ...props }) => {
     const imageSrc = image || '/static/placeholder.png'
-    return <TeaserFrontTile image={imageSrc} {...attributes} {...props}>
+    return <TeaserFrontTile image={imageSrc} attributes={{
+      ...attributes,
+      onClick: () => {
+        if (props.url) {
+          window.location = props.url
+        }
+      }
+    }} {...props}>
       {children}
     </TeaserFrontTile>
   },
   props (node) {
     linkColor = node.data.linkColor
-    return matchImageParagraph(node.children[0])
-      ? { image: node.children[0].children[0].url }
-      : {}
+    const image = matchImageParagraph(node.children[0]) && node.children[0].children[0].url
+    return {
+      ...node.data,
+      image
+    }
   },
   editorModule: 'teaser',
   editorOptions: {

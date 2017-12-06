@@ -32,13 +32,7 @@ const IndexPage = ({ url, t }) => {
   return (
     <EnsureAuthorization roles={['member']}
       render={() => (
-        <Frame
-          raw
-          url={url}
-          meta={meta}
-        >
-          <Front />
-        </Frame>
+        <Front url={url} />
       )}
       unauthorized={() => (
         <Frame

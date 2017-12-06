@@ -4,10 +4,13 @@ import gql from 'graphql-tag'
 
 import withT from '../../lib/withT'
 import Loader from '../Loader'
+import Frame from '../Frame'
 
 import schema from './schema'
 
 import { renderMdast } from 'mdast-react-render'
+
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 const getDocument = gql`
   query getFront($slug: String!) {
@@ -31,11 +34,23 @@ const getDocument = gql`
 
 class Front extends Component {
   render () {
-    const { data } = this.props
+    const { url, data, data: { front }, t } = this.props
+    const meta = front && {
+      ...front.meta,
+      url: `${PUBLIC_BASE_URL}/${front.meta.slug}`
+    }
 
-    return <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-      return renderMdast(data.front.content, schema)
-    }} />
+    return (
+      <Frame
+        raw
+        url={url}
+        meta={meta}
+      >
+        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
+          return renderMdast(front.content, schema)
+        }} />
+      </Frame>
+    )
   }
 }
 

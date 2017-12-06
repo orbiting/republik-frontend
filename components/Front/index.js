@@ -33,15 +33,9 @@ class Front extends Component {
   render () {
     const { data } = this.props
 
-    return <Loader loading={data.loading} error={data.error} render={() => {
+    return <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
       return renderMdast(data.front.content, schema)
     }} />
-    // return (
-    //   <div style={{backgroundColor: '#ddd', padding: '40vh 0', height: `calc(100vh - ${HEADER_HEIGHT}px)`}}>
-    //     <H1 style={{textAlign: 'center'}}>{t('pages/magazine/title')}</H1>
-
-    //   </div>
-    // )
   }
 }
 

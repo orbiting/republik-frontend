@@ -9,6 +9,7 @@ import UpdateMe from './UpdateMe'
 import UpdateProfile from './UpdateProfile'
 import UpdateTestimonial from './UpdateTestimonial'
 import PledgeList from './PledgeList'
+import SignIn from '../Auth/SignIn'
 
 import { H1, Interaction } from '@project-r/styleguide'
 
@@ -16,13 +17,25 @@ import query from './belongingsQuery'
 
 import ClaimedMemberships from './Memberships/List'
 
-const { H2 } = Interaction
+const { H2, P } = Interaction
 
 const Account = ({ loading, error, me, t, query, hasMemberships, hasPledges, merci }) => (
   <Loader
     loading={loading}
     error={error}
     render={() => {
+      if (!me) {
+        return (
+          <div>
+            <H1>{t('account/signedOut/title')}</H1>
+            <P>
+              {t('account/signedOut/signIn')}
+            </P>
+            <SignIn email={query.email} />
+          </div>
+        )
+      }
+
       const eligibleForTestimonial = hasMemberships || hasPledges
       return (
         <div>

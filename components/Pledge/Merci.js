@@ -7,7 +7,7 @@ import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
-import SignIn, { withSignIn } from '../Auth/SignIn'
+import { withSignIn } from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
 
 import Account from '../Account'
@@ -150,13 +150,7 @@ class Merci extends Component {
     }
     if (!me) {
       return (
-        <div>
-          <H1>{t('merci/signedOut/title')}</H1>
-          <P>
-            {t('merci/signedOut/signIn')}
-          </P>
-          <SignIn email={email} />
-        </div>
+        <Account query={query} merci />
       )
     }
 

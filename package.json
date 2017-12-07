@@ -118,6 +118,7 @@
     "react": "^16.2.0",
     "react-apollo": "^2.0.1",
     "react-dom": "^16.0.0",
+    "react-emoji-render": "^0.4.3",
     "react-icons": "^2.2.7",
     "react-maskedinput": "^4.0.0",
     "react-textarea-autosize": "^5.1.0",

@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import { Link } from '../../lib/routes'
+import Emoji from 'react-emoji-render'
 
 import { Center, TeaserFeed, Interaction } from '@project-r/styleguide'
 
@@ -107,7 +108,7 @@ class Feed extends Component {
             <Center style={{ padding: '80px 0 120px' }}>
               {greeting && (
                 <Interaction.H1 style={{ marginBottom: '40px' }}>
-                  {greeting.text}
+                  <Emoji text={greeting.text}/>
                 </Interaction.H1>
               )}
               {documents &&

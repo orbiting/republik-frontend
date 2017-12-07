@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-05T15:22:46.866Z",
+  "updated": "2017-12-07T16:25:09.657Z",
   "title": "live",
   "data": [
     {
@@ -273,6 +273,14 @@
     {
       "key": "crew/lead",
       "value": "Zur Aufbau-Crew gehören:"
+    },
+    {
+      "key": "account/signedOut/title",
+      "value": "Zur persönlichen Übersicht"
+    },
+    {
+      "key": "account/signedOut/signIn",
+      "value": "Bitte anmelden:"
     },
     {
       "key": "Account/title",
@@ -1293,14 +1301,6 @@
     {
       "key": "merci/claim/loading",
       "value": "überprüfen"
-    },
-    {
-      "key": "merci/signedOut/title",
-      "value": "Zur persönlichen Übersicht gehen"
-    },
-    {
-      "key": "merci/signedOut/signIn",
-      "value": "Bitte anmelden:"
     },
     {
       "key": "merci/empty/title",

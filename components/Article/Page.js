@@ -52,9 +52,9 @@ const ActionBar = props => (
     <ShareButtons
       {...props}
       fill={colors.text}
-      dossierUrl={'/foo'}
-      discussionUrl={'/foo'}
-      discussionCount={0}
+      // dossierUrl={'/foo'}
+      // discussionUrl={'/foo'}
+      // discussionCount={0}
       emailSubject={'Foo'}
     />
   </div>

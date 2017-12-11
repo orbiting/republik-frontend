@@ -6,6 +6,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
 import * as PayNote from './PayNote'
+import withT from '../../lib/withT'
 
 import {
   H1,
@@ -47,15 +48,17 @@ const styles = {
   })
 }
 
-const ActionBar = props => (
+const ActionBar = ({ title, t, url }) => (
   <div>
     <ShareButtons
-      {...props}
+      url={url}
       fill={colors.text}
       // dossierUrl={'/foo'}
       // discussionUrl={'/foo'}
       // discussionCount={0}
-      emailSubject={'Foo'}
+      emailSubject={t('article/share/emailSubject', {
+        title
+      })}
     />
   </div>
 )
@@ -133,7 +136,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, data, data: {article} } = this.props
+    const { url, t, data, data: {article} } = this.props
 
     const meta = article && {
       ...article.meta,
@@ -145,7 +148,7 @@ class ArticlePage extends Component {
         raw
         url={url}
         meta={meta}
-        secondaryNav={meta ? <ActionBar url={meta.url} /> : null}
+        secondaryNav={meta ? <ActionBar t={t} url={meta.url} title={meta.title} /> : null}
         showSecondary={this.state.showSecondary}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
@@ -156,7 +159,7 @@ class ArticlePage extends Component {
           const schema = getSchemaCreator(article.meta.template)({
             titleBlockAppend: (
               <div ref={this.barRef} {...styles.bar}>
-                <ActionBar url={meta.url} />
+                <ActionBar t={t} url={meta.url} title={meta.title} />
               </div>
             )
           })
@@ -179,6 +182,7 @@ class ArticlePage extends Component {
 }
 
 export default compose(
+  withT,
   graphql(getDocument, {
     options: ({url: {query}}) => ({
       variables: {

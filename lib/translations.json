@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-07T16:25:09.657Z",
+  "updated": "2017-12-11T15:28:24.315Z",
   "title": "live",
   "data": [
     {
@@ -1281,6 +1281,10 @@
     {
       "key": "article/payNote/after/buyText",
       "value": "Mitglied werden! "
+    },
+    {
+      "key": "article/share/emailSubject",
+      "value": "Republik: {title}"
     },
     {
       "key": "merci/postpay/waiting",

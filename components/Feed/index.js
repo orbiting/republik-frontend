@@ -12,7 +12,7 @@ const getDocuments = gql`
       text
       id
     }
-    documents {
+    documents(feed: true) {
       content
       meta {
         kind

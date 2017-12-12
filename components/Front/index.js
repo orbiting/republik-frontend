@@ -7,7 +7,7 @@ import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
-import Link from './Link'
+import Link from '../Link/Front'
 
 import { renderMdast } from 'mdast-react-render'
 

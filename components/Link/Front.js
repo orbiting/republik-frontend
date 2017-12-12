@@ -3,7 +3,7 @@ import { Link } from '../../lib/routes'
 import { parse } from 'url'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-import ArticleLink from '../Feed/ArticleLink'
+import ArticleLink from './Article'
 
 const PUBLIC_HOSTNAME = parse(PUBLIC_BASE_URL).hostname
 

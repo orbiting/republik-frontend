@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
-import ArticleLink from './ArticleLink'
+import ArticleLink from '../Link/Article'
 
 import { Center, TeaserFeed, Interaction } from '@project-r/styleguide'
 

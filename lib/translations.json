@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-11T15:28:24.315Z",
+  "updated": "2017-12-12T14:31:15.834Z",
   "title": "live",
   "data": [
     {
@@ -284,7 +284,7 @@
     },
     {
       "key": "Account/title",
-      "value": "Hallo {nameOrEmail}"
+      "value": "Willkommen zu Hause, {nameOrEmail}"
     },
     {
       "key": "Account/Update/address/label",
@@ -596,7 +596,8 @@
     },
     {
       "key": "testimonial/infinite/endless",
-      "value": "Das waren {count} Statements. Alle weiteren Statements anschauen?"
+      "value": "Das waren {count} Verleger und Verlegerinnen. Alle weiteren anschauen?",
+      "undefined": "Schöner wäre: Weitere xxx anschauen?"
     },
     {
       "key": "api/testimonial/image/required",
@@ -929,6 +930,14 @@
     {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Wie alle werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Grosszügigkeit zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket: ein Manifest, einen besonderen Anstecker und ein signiertes Manual für Journalismus im 21. Jahrhundert."
+    },
+    {
+      "key": "package/MONTHLY_ABO/title",
+      "value": "Monatsabo"
+    },
+    {
+      "key": "package/MONTHLY_ABO/description",
+      "value": "Willkommen an Bord! Sie erhalten vollen Zugriff auf unser Magazin. Bequem monatlich per Kreditkarte bezahlen und jederzeit kündbar."
     },
     {
       "key": "package/choose",

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-12T14:31:15.834Z",
+  "updated": "2017-12-12T15:50:51.886Z",
   "title": "live",
   "data": [
     {
@@ -1410,6 +1410,10 @@
     {
       "key": "memberships/type/REDUCED_ABO",
       "value": "Mitgliedschaft und Abonnement (reduziert)"
+    },
+    {
+      "key": "memberships/type/MONTHLY_ABO",
+      "value": "Monats-Abonnement"
     },
     {
       "key": "memberships/label",

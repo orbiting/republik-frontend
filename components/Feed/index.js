@@ -95,7 +95,6 @@ class Feed extends Component {
                     key={doc.meta.slug}
                   />
                 ))}
-              }
             </Center>
           )
         }}

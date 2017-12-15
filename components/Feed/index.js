@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
-import { Link } from '../../lib/routes'
+import ArticleLink from '../Link/Article'
 
 import { Center, TeaserFeed, Interaction } from '@project-r/styleguide'
 
@@ -12,7 +12,7 @@ const getDocuments = gql`
       text
       id
     }
-    documents {
+    documents(feed: true) {
       content
       meta {
         kind
@@ -35,29 +35,6 @@ const greetingSubscription = gql`
     }
   }
 `
-
-const getArticleParams = path => {
-  const [year, month, day, slug] = path.split('/')
-  return {
-    year,
-    month,
-    day,
-    slug
-  }
-}
-
-const ArticleLink = ({ slug, children }) => {
-  const params = getArticleParams(slug)
-  // safety check for now
-  if (!params.slug) {
-    return children
-  }
-  return (
-    <Link route='article' params={params}>
-      {children}
-    </Link>
-  )
-}
 
 class Feed extends Component {
   componentDidMount () {
@@ -118,7 +95,6 @@ class Feed extends Component {
                     key={doc.meta.slug}
                   />
                 ))}
-              }
             </Center>
           )
         }}

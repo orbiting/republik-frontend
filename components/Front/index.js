@@ -1,21 +1,80 @@
 import React, { Component } from 'react'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 
-import { compose } from 'react-apollo'
+import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
+
 import withT from '../../lib/withT'
-import { H1 } from '@project-r/styleguide'
+import Loader from '../Loader'
+import Frame from '../Frame'
+import Link from '../Link/Front'
 
-import { HEADER_HEIGHT } from '../constants'
+import { renderMdast } from 'mdast-react-render'
+
+import { PUBLIC_BASE_URL } from '../../lib/constants'
+
+const schema = createFrontSchema({
+  Link
+})
+
+const getDocument = gql`
+  query getFront($slug: String!) {
+    front: document(slug: $slug) {
+      content
+      meta {
+        slug
+        title
+        description
+        image
+        facebookDescription
+        facebookImage
+        facebookTitle
+        twitterDescription
+        twitterImage
+        twitterTitle
+      }
+    }
+  }
+`
 
 class Front extends Component {
   render () {
-    const { t } = this.props
+    const { url, data, data: { front }, t } = this.props
+    const meta = front && {
+      ...front.meta,
+      url: `${PUBLIC_BASE_URL}/${front.meta.slug}`
+    }
 
     return (
-      <div style={{backgroundColor: '#ddd', padding: '40vh 0', height: `calc(100vh - ${HEADER_HEIGHT}px)`}}>
-        <H1 style={{textAlign: 'center'}}>{t('pages/magazine/title')}</H1>
-      </div>
+      <Frame
+        raw
+        url={url}
+        meta={meta}
+      >
+        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
+          return renderMdast(front.content, schema)
+        }} />
+      </Frame>
     )
   }
 }
 
-export default compose(withT)(Front)
+export default compose(
+  withT,
+  graphql(getDocument, {
+    options: () => ({
+      variables: {
+        slug: 'front'
+      }
+    }),
+    props: ({data, ownProps: {serverContext}}) => {
+      if (serverContext && !data.error && !data.loading && !data.front) {
+        serverContext.res.statusCode = 503
+      }
+
+      return {
+        data
+      }
+    }
+  })
+)(Front)

@@ -86,7 +86,7 @@
     "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^5.15.0",
+    "@project-r/styleguide": "^5.18.1",
     "apollo-cache-inmemory": "^1.1.1",
     "apollo-client": "^2.0.3",
     "apollo-link": "^1.0.3",
@@ -111,7 +111,7 @@
     "isomorphic-unfetch": "^2.0.0",
     "load-script": "^1.0.0",
     "markdown-in-js": "^1.1.3",
-    "mdast-react-render": "^1.0.0",
+    "mdast-react-render": "^1.1.0",
     "next": "^4.1.4",
     "next-routes": "^1.1.0",
     "prop-types": "^15.5.10",

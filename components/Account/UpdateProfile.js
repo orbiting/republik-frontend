@@ -46,18 +46,12 @@ const fields = t => [
 ]
 
 const getValues = me => {
-  let publicUserState = {}
-  if (me.publicUser) {
-    publicUserState = {
-      facebookId: me.publicUser.facebookId || '',
-      twitterHandle: me.publicUser.twitterHandle || '',
-      isEmailPublic: !!me.publicUser.isEmailPublic,
-      publicUrl: me.publicUser.publicUrl || ''
-    }
-  }
   return {
-    ...publicUserState,
-    isPrivate: me.isPrivate
+    facebookId: me.facebookId || '',
+    twitterHandle: me.twitterHandle || '',
+    isEmailPublic: !!me.isEmailPublic,
+    publicUrl: me.publicUrl || '',
+    hasPublicProfile: me.hasPublicProfile
   }
 }
 
@@ -124,26 +118,19 @@ class Update extends Component {
               <div>
                 <H2 style={{ marginBottom: 30 }}>
                   {t(
-                    me.isPrivate
-                      ? 'Account/UpdateProfile/titlePrivate'
-                      : 'Account/UpdateProfile/title'
+                    me.hasPublicProfile
+                      ? 'Account/UpdateProfile/title'
+                      : 'Account/UpdateProfile/titlePrivate'
                   )}
                 </H2>
 
-                {!me.isPrivate && (
+                {me.hasPublicProfile && (
                   <div>
-                    <PointerList
-                      publicUser={{
-                        ...me.publicUser,
-                        email: me.publicUser.isEmailPublic
-                          ? me.publicUser.email
-                          : ''
-                      }}
-                    />
+                    <PointerList user={me} />
                     <br />
                   </div>
                 )}
-                <Link route='profile' params={{userId: me.id}}>
+                <Link route='profile' params={{slug: me.id}}>
                   <a {...linkRule}>
                     {t('Account/Update/viewLive')}
                   </a>
@@ -164,16 +151,16 @@ class Update extends Component {
                 <H2>{t('Account/UpdateProfile/title')}</H2>
                 <br />
                 <Checkbox
-                  checked={values.isPrivate}
+                  checked={values.hasPublicProfile}
                   onChange={(_, checked) => {
                     this.setState(() => ({
-                      values: { ...values, isPrivate: checked }
+                      values: { ...values, hasPublicProfile: checked }
                     }))
                   }}
                 >
                   <RawHtml
                     dangerouslySetInnerHTML={{
-                      __html: t('Account/ProfileForm/isPrivate/label')
+                      __html: t('Account/ProfileForm/hasPublicProfile/label')
                     }}
                   />
                 </Checkbox>
@@ -191,8 +178,8 @@ class Update extends Component {
                 <Checkbox
                   checked={this.state.values.isEmailPublic}
                   onChange={(_, checked) => {
-                    this.setState(() => ({
-                      values: { ...values, isEmailPublic: checked }
+                    this.setState(state => ({
+                      values: { ...state.values, isEmailPublic: checked }
                     }))
                   }}
                 >
@@ -255,7 +242,7 @@ class Update extends Component {
                               twitterHandle: values.twitterHandle,
                               publicUrl: values.publicUrl,
                               isEmailPublic: values.isEmailPublic,
-                              isPrivate: values.isPrivate
+                              hasPublicProfile: values.hasPublicProfile
                             })
                             .then(() => {
                               this.setState(() => ({
@@ -287,14 +274,14 @@ class Update extends Component {
 
 const mutation = gql`
   mutation updateMe(
-    $isPrivate: Boolean
+    $hasPublicProfile: Boolean
     $facebookId: String!
     $twitterHandle: String!
     $isEmailPublic: Boolean
     $publicUrl: String
   ) {
     updateMe(
-      isPrivate: $isPrivate
+      hasPublicProfile: $hasPublicProfile
       facebookId: $facebookId
       twitterHandle: $twitterHandle
       isEmailPublic: $isEmailPublic
@@ -309,15 +296,11 @@ export const query = gql`
     me {
       id
       email
-      publicUser {
-        id
-        email
-        facebookId
-        twitterHandle
-        publicUrl
-        isEmailPublic
-      }
-      isPrivate
+      facebookId
+      twitterHandle
+      publicUrl
+      isEmailPublic
+      hasPublicProfile
     }
   }
 `

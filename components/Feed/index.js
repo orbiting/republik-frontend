@@ -13,15 +13,17 @@ const getDocuments = gql`
       id
     }
     documents(feed: true) {
-      content
-      meta {
-        kind
-        format
-        credits
-        title
-        description
-        publishDate
-        slug
+      nodes {
+        content
+        meta {
+          kind
+          format
+          credits
+          title
+          description
+          publishDate
+          slug
+        }
       }
     }
   }
@@ -88,7 +90,7 @@ class Feed extends Component {
                 </Interaction.H1>
               )}
               {documents &&
-                documents.map(doc => (
+                documents.nodes.map(doc => (
                   <TeaserFeed
                     {...doc.meta}
                     Link={ArticleLink}

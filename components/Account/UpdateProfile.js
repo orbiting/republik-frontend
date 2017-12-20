@@ -124,7 +124,7 @@ class Update extends Component {
                   )}
                 </H2>
 
-                {!me.hasPublicProfile && (
+                {me.hasPublicProfile && (
                   <div>
                     <PointerList user={me} />
                     <br />
@@ -160,7 +160,7 @@ class Update extends Component {
                 >
                   <RawHtml
                     dangerouslySetInnerHTML={{
-                      __html: t('Account/ProfileForm/isPrivate/label')
+                      __html: t('Account/ProfileForm/hasPublicProfile/label')
                     }}
                   />
                 </Checkbox>
@@ -178,8 +178,8 @@ class Update extends Component {
                 <Checkbox
                   checked={this.state.values.isEmailPublic}
                   onChange={(_, checked) => {
-                    this.setState(() => ({
-                      values: { ...values, isEmailPublic: checked }
+                    this.setState(state => ({
+                      values: { ...state.values, isEmailPublic: checked }
                     }))
                   }}
                 >

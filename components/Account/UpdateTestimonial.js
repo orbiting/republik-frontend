@@ -390,25 +390,21 @@ export const query = gql`
     me {
       id
       name
-      publicUser {
+      email
+      testimonial {
         id
+        userId
         name
-        email
-        testimonial {
-          id
-          userId
-          name
-          role
-          quote
-          image
-          smImage
-          published
-          adminUnpublished
-          video {
-            hls
-            mp4
-            youtube
-          }
+        role
+        quote
+        image
+        smImage
+        published
+        adminUnpublished
+        video {
+          hls
+          mp4
+          youtube
         }
       }
     }
@@ -447,7 +443,7 @@ export default compose(
       error: data.error,
       testimonial: data.loading
         ? undefined
-        : data.me && data.me.publicUser && data.me.publicUser.testimonial
+        : data.me && data.me.testimonial
     })
   }),
   withT,

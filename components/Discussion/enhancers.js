@@ -38,10 +38,8 @@ query discussionMe($discussionId: ID!) {
   me {
     id
     name
-    publicUser {
-      testimonial {
-        image(size: SHARE)
-      }
+    testimonial {
+      image(size: SHARE)
     }
   }
   discussion(id: $discussionId) {
@@ -117,10 +115,8 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
   me {
     id
     name
-    publicUser {
-      testimonial {
-        image(size: SHARE)
-      }
+    testimonial {
+      image(size: SHARE)
     }
   }
   discussion(id: $discussionId) {
@@ -462,10 +458,8 @@ const discussionPreferencesQuery = gql`
 query discussionPreferences($discussionId: ID!) {
   me {
     id
-    publicUser {
-      credentials {
-        description
-      }
+    credentials {
+      description
     }
   }
   discussion(id: $discussionId) {

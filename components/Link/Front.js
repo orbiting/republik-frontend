@@ -24,7 +24,7 @@ export default ({ href, passHref, children }) => {
   // path or url is ours
   const isProfile = urlObject.pathname.match(/^\/~([^/]+)/)
   if (isProfile) {
-    return <Link route='profile' params={{userId: isProfile[1]}} passHref={passHref}>
+    return <Link route='profile' params={{slug: isProfile[1]}} passHref={passHref}>
       {children}
     </Link>
   }

@@ -64,11 +64,13 @@ const styles = {
 }
 
 const getPublicUser = gql`
-  query getPublicUser($userId: ID!, $limit: Int) {
-    publicUser(id: $userId) {
+  query getPublicUser($slug: String!) {
+    user(slug: $slug) {
       id
+      username
       name
       email
+      isEmailPublic
       testimonial {
         id
         name
@@ -82,7 +84,7 @@ const getPublicUser = gql`
       twitterHandle
       publicUrl
       badges
-      latestComments(limit: $limit) {
+      latestComments(limit: 7) {
         id
         content
         discussion {
@@ -143,14 +145,14 @@ class Profile extends Component {
   }
 
   render () {
-    const { data: { loading, error, publicUser }, t } = this.props
+    const { data: { loading, error, user }, t } = this.props
 
     const metaData = {
-      title: publicUser
-        ? t('pages/profile/pageTitle', { name: publicUser.name })
+      title: user
+        ? t('pages/profile/pageTitle', { name: user.name })
         : t('pages/profile/empty/pageTitle')
     }
-    if (!publicUser) {
+    if (!user) {
       return (
         <div>
           <Meta data={metaData} />
@@ -177,9 +179,9 @@ class Profile extends Component {
             <div>
               <Meta data={metaData} />
               <div ref={this.innerRef}>
-                {publicUser.testimonial &&
-                publicUser.testimonial.published && (
-                  <Testimonial testimonial={publicUser.testimonial} />
+                {user.testimonial &&
+                user.testimonial.published && (
+                  <Testimonial testimonial={user.testimonial} />
                 )}
               </div>
               <div {...styles.container}>
@@ -191,21 +193,21 @@ class Profile extends Component {
                     })
                     : styles.sidebar)}
                 >
-                  <Interaction.H3>{publicUser.name}</Interaction.H3>
-                  {publicUser.testimonial && (
-                    <div {...styles.role}>{publicUser.testimonial.role}</div>
+                  <Interaction.H3>{user.name}</Interaction.H3>
+                  {user.testimonial && (
+                    <div {...styles.role}>{user.testimonial.role}</div>
                   )}
 
-                  {publicUser.badges && (
+                  {user.badges && (
                     <div {...styles.badges}>
-                      {publicUser.badges.map(badge => (
+                      {user.badges.map(badge => (
                         <Badge badge={badge} size={27} />
                       ))}
                     </div>
                   )}
-                  <PointerList publicUser={publicUser} />
+                  <PointerList user={user} />
                 </div>
-                <LatestComments comments={publicUser.latestComments} />
+                <LatestComments comments={user.latestComments} />
               </div>
             </div>
           )
@@ -217,12 +219,5 @@ class Profile extends Component {
 
 export default compose(
   withT,
-  graphql(getPublicUser, {
-    options: props => ({
-      variables: {
-        userId: props.userId,
-        limit: 7
-      }
-    })
-  })
+  graphql(getPublicUser)
 )(Profile)

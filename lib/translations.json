@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-12T15:50:51.886Z",
+  "updated": "2017-12-20T14:39:52.088Z",
   "title": "live",
   "data": [
     {
@@ -148,11 +148,11 @@
     },
     {
       "key": "marketing/headline",
-      "value": "Hier kommt eine Headline"
+      "value": "Willkommen in der Chefetage!"
     },
     {
       "key": "marketing/intro",
-      "value": "Die Republik ist eine kleine Rebellion. Für den Journalismus. Und gegen die Medienkonzerne. Denn die grossen Verlage verlassen die Publizistik:\n      Sie bauen sich in hohem Tempo in Internet-Handelshäuser um. Das ist eine\n      schlechte Nachricht für den Journalismus. Aber auch für die Demokratie.\n      Denn ohne vernünftige Informationen fällt man schlechte Entscheidungen.\n    <br />\n    <br />\n      Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür\n      braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie.\n      Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, etwas Geld in\n      unabhängigen Journalismus zu investieren."
+      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt und komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie automatisch Verlegerin. (Zusammen mit aktuell xxxx Mitverlegern). Es wäre schön, Sie in der Teppichetage dabei zu haben!"
     },
     {
       "key": "marketing/cta/title",
@@ -164,7 +164,7 @@
     },
     {
       "key": "marketing/cta/text",
-      "value": "Willkommen an Bord! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
+      "value": "Willkommen in der Teppichetage! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik."
     },
     {
       "key": "marketing/cta/button/label",
@@ -176,7 +176,7 @@
     },
     {
       "key": "marketing/preview/text",
-      "value": "Um einen ersten Eindruck von unseren Artikeln zu gewinnen, senden wir Ihnen gerne die fünf besten Artikel, die unsere Chefredakteurin empfiehlt per Mail zu."
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne die fünf interessantesten Artikel der letzten Zeit per Mail zu."
     },
     {
       "key": "marketing/preview/email/label",
@@ -387,8 +387,8 @@
       "value": "Land fehlt"
     },
     {
-      "key": "Account/ProfileForm/isPrivate/label",
-      "value": "Profilseite deaktivieren"
+      "key": "Account/ProfileForm/hasPublicProfile/label",
+      "value": "Öffentliche Profilseite"
     },
     {
       "key": "Account/ProfileForm/facebookId/label",

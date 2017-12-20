@@ -47,7 +47,7 @@ const Nav = ({ me, children, t }) => (
             <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
           </Link>
           <br />
-          <Link route='profile' params={{ userId: me.id }}>
+          <Link route='profile' params={{ slug: me.username || me.id }}>
             <a {...linkRule}>{t('Frame/Popover/myprofile')}</a>
           </Link>
           <br />

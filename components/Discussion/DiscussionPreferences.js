@@ -22,7 +22,7 @@ export const DiscussionPreferences = ({t, data: {loading, error, me, discussion}
       error={error}
       message={t('components/DiscussionPreferences/loading')}
       render={() => {
-        const {publicUser: {credentials}} = me
+        const {credentials} = me
         const {rules, userPreference} = discussion
 
         return (

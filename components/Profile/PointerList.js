@@ -29,46 +29,48 @@ const styles = {
 
 class PointerList extends Component {
   render () {
-    const { publicUser } = this.props
-    if (!publicUser) {
+    const { user } = this.props
+    if (!user) {
       return null
     }
 
     return (
       <span>
-        {publicUser.facebookId && (
+        {user.facebookId && (
           <div {...styles.contact}>
             <IconLink
               icon='facebook'
-              text={publicUser.facebookId}
-              href={`${BASE_URL_FACEBOOK}/${publicUser.facebookId}`}
+              text={user.facebookId}
+              href={`${BASE_URL_FACEBOOK}/${user.facebookId}`}
             />
           </div>
         )}
-        {publicUser.twitterHandle && (
+        {user.twitterHandle && (
           <div {...styles.contact}>
             <IconLink
               icon='twitter'
-              text={publicUser.twitterHandle}
-              href={`${BASE_URL_TWITTER}/${publicUser.twitterHandle}`}
+              text={user.twitterHandle}
+              href={`${BASE_URL_TWITTER}/${user.twitterHandle}`}
             />
           </div>
         )}
-        {publicUser.email && (
+        {/* API will return email it's your own profile (or authorized roles) */}
+        {/* therefore we check isEmailPublic here as well */}
+        {user.email && user.isEmailPublic && (
           <div {...styles.contact}>
             <IconLink
               icon='mail'
-              text={publicUser.email}
-              href={`mailto:${publicUser.email}`}
+              text={user.email}
+              href={`mailto:${user.email}`}
             />
           </div>
         )}
-        {publicUser.publicUrl && (
+        {user.publicUrl && (
           <div {...styles.contact}>
             <IconLink
               icon='link'
-              text={publicUser.publicUrl.replace(/^https?:\/\/(www.)?/g, '')}
-              href={publicUser.publicUrl}
+              text={user.publicUrl.replace(/^https?:\/\/(www.)?/g, '')}
+              href={user.publicUrl}
               target={'_blank'}
             />
           </div>

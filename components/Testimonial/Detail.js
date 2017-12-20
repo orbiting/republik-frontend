@@ -58,7 +58,7 @@ const Detail = ({
     >
       <H3 {...styles.detailTitle}>
         {userId ? (
-          <Link route='profile' params={{ userId: userId }}>
+          <Link route='profile' params={{ slug: userId }}>
             <a {...linkRule}>{name}</a>
           </Link>
         ) : (

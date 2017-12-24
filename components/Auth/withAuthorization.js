@@ -20,8 +20,6 @@ const checkRoles = (me, roles) => {
   )
 }
 
-const Empty = () => null
-
 const styles = {
   center: css({
     width: '100%',
@@ -36,20 +34,13 @@ export const PageCenter = ({children}) => (
   </div>
 )
 
-export const EnsureAuthorization = withMe(({
-  me,
-  roles,
-  render = Empty,
-  unauthorized = Empty
-}) => {
-  if (
-    checkRoles(me, roles)
-  ) {
-    return render()
-  } else {
-    return unauthorized({me})
-  }
-})
+const withAuthorization = roles =>
+  WrappedComponent =>
+    withMe(({me, ...props}) =>
+      <WrappedComponent {...props}
+        me={me}
+        isAuthorized={checkRoles(me, roles)} />
+    )
 
 const UnauthorizedPage = withT(({t, me, roles = []}) => (
   <Frame raw>
@@ -77,9 +68,11 @@ const UnauthorizedPage = withT(({t, me, roles = []}) => (
   </Frame>
 ))
 
-export default roles => WrappedComponent => props => (
-  <EnsureAuthorization
-    roles={roles}
-    render={() => <WrappedComponent {...props} />}
-    unauthorized={({me}) => <UnauthorizedPage me={me} roles={roles} />} />
-)
+export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({isAuthorized, me, ...props}) => {
+  if (isAuthorized) {
+    return <WrappedComponent {...props} />
+  }
+  return <UnauthorizedPage me={me} />
+})
+
+export default withAuthorization

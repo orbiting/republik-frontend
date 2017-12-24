@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import Loader from '../../components/Loader'
-import withT from '../../lib/withT'
 import { css, merge } from 'glamor'
+
+import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
+
+import { Link, Router } from '../../lib/routes'
+
+import Loader from '../Loader'
+import Frame from '../Frame'
+
 import Badge from './Badge'
-import { Link } from '../../lib/routes'
-import Meta from '../Frame/Meta'
 import LatestComments from './LatestComments'
 import PointerList from './PointerList'
 import Testimonial from '../Testimonial'
+
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
+
 import {
   Interaction,
   colors,
@@ -147,79 +154,121 @@ class Profile extends Component {
   }
 
   render () {
-    const { data: { loading, error, user }, t } = this.props
+    const {
+      url,
+      t,
+      data: { loading, error, user }
+    } = this.props
 
     const metaData = {
       title: user
         ? t('pages/profile/pageTitle', { name: user.name })
         : t('pages/profile/empty/pageTitle')
     }
-    if (!user) {
-      return (
-        <div>
-          <Meta data={metaData} />
-          <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
-          <p>
-            {t.elements('pages/profile/empty/content', {
-              link: (
-                <Link route='account'>
-                  <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
-                </Link>
-              )
-            })}
-          </p>
-        </div>
-      )
-    }
 
     return (
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          return (
-            <div>
-              <Meta data={metaData} />
-              <div ref={this.innerRef}>
-                {user.testimonial &&
-                user.testimonial.published && (
-                  <Testimonial testimonial={user.testimonial} />
-                )}
-              </div>
-              <div {...styles.container}>
-                <div
-                  {...(this.state.sticky
-                    ? merge(styles.sidebar, styles.sticky, {
-                      top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
-                      left: `${this.x}px`
-                    })
-                    : styles.sidebar)}
-                >
-                  <Interaction.H3>{user.name}</Interaction.H3>
-                  {user.testimonial && (
-                    <div {...styles.role}>{user.testimonial.role}</div>
-                  )}
-
-                  {user.badges && (
-                    <div {...styles.badges}>
-                      {user.badges.map(badge => (
-                        <Badge badge={badge} size={27} />
-                      ))}
-                    </div>
-                  )}
-                  <PointerList user={user} />
+      <Frame url={url} meta={metaData}>
+        <Loader
+          loading={loading}
+          error={error}
+          render={() => {
+            if (!user) {
+              return (
+                <div>
+                  <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
+                  <p>
+                    {t.elements('pages/profile/empty/content', {
+                      link: (
+                        <Link route='account'>
+                          <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
+                        </Link>
+                      )
+                    })}
+                  </p>
                 </div>
-                <LatestComments comments={user.latestComments} />
+              )
+            }
+
+            return (
+              <div>
+                <div ref={this.innerRef}>
+                  {user.testimonial &&
+                  user.testimonial.published && (
+                    <Testimonial testimonial={user.testimonial} />
+                  )}
+                </div>
+                <div {...styles.container}>
+                  <div
+                    {...(this.state.sticky
+                      ? merge(styles.sidebar, styles.sticky, {
+                        top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
+                        left: `${this.x}px`
+                      })
+                      : styles.sidebar)}
+                  >
+                    <Interaction.H3>{user.name}</Interaction.H3>
+                    {user.testimonial && (
+                      <div {...styles.role}>{user.testimonial.role}</div>
+                    )}
+
+                    {user.badges && (
+                      <div {...styles.badges}>
+                        {user.badges.map(badge => (
+                          <Badge badge={badge} size={27} />
+                        ))}
+                      </div>
+                    )}
+                    <PointerList user={user} />
+                  </div>
+                  <LatestComments comments={user.latestComments} />
+                </div>
               </div>
-            </div>
-          )
-        }}
-      />
+            )
+          }}
+        />
+      </Frame>
     )
   }
 }
 
 export default compose(
   withT,
-  graphql(getPublicUser)
+  withMe,
+  graphql(getPublicUser, {
+    options: ({url}) => ({
+      variables: {
+        slug: url.query.slug
+      }
+    }),
+    props: ({data, ownProps: {serverContext, url, me}}) => {
+      const slug = url.query.slug
+      if (serverContext && !data.error && !data.loading && !data.user) {
+        serverContext.res.statusCode = 404
+      }
+      let redirect
+      if (slug === 'me') {
+        redirect = me
+      }
+      const username = data.user && data.user.username
+      if (username && username !== slug) {
+        redirect = data.user
+      }
+      if (redirect) {
+        const targetSlug = redirect.username || redirect.id
+        if (serverContext) {
+          serverContext.res.redirect(301, `/~${targetSlug}`)
+          serverContext.res.end()
+        } else {
+          Router.replaceRoute(
+            'profile',
+            {slug: targetSlug}
+          )
+        }
+      }
+
+      return {
+        data
+      }
+    }
+  })
 )(Profile)

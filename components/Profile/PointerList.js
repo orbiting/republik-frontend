@@ -55,8 +55,8 @@ class PointerList extends Component {
           </div>
         )}
         {/* API will return email if it's your own profile (or authorized roles) */}
-        {/* therefore we check isEmailPublic here as well */}
-        {user.email && user.isEmailPublic && (
+        {/* if emailAccessRole is admin we hide it here */}
+        {user.email && user.emailAccessRole !== 'ADMIN' && (
           <div {...styles.contact}>
             <IconLink
               icon='mail'

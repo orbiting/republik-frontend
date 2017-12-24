@@ -103,4 +103,6 @@ class Feed extends Component {
   }
 }
 
-export default compose(graphql(getDocuments))(Feed)
+export default compose(
+  graphql(getDocuments)
+)(Feed)

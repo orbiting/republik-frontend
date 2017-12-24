@@ -49,7 +49,7 @@ const getValues = me => {
   return {
     facebookId: me.facebookId || '',
     twitterHandle: me.twitterHandle || '',
-    isEmailPublic: !!me.isEmailPublic,
+    emailAccessRole: me.emailAccessRole,
     publicUrl: me.publicUrl || '',
     hasPublicProfile: me.hasPublicProfile
   }
@@ -176,16 +176,16 @@ class Update extends Component {
 
                 <br />
                 <Checkbox
-                  checked={this.state.values.isEmailPublic}
+                  checked={this.state.values.emailAccessRole}
                   onChange={(_, checked) => {
                     this.setState(state => ({
-                      values: { ...state.values, isEmailPublic: checked }
+                      values: { ...state.values, emailAccessRole: checked }
                     }))
                   }}
                 >
                   <RawHtml
                     dangerouslySetInnerHTML={{
-                      __html: t('Account/ProfileForm/isEmailPublic/label')
+                      __html: t('Account/ProfileForm/emailAccessRole/label')
                     }}
                   />
                 </Checkbox>
@@ -241,7 +241,7 @@ class Update extends Component {
                               facebookId: values.facebookId,
                               twitterHandle: values.twitterHandle,
                               publicUrl: values.publicUrl,
-                              isEmailPublic: values.isEmailPublic,
+                              emailAccessRole: values.emailAccessRole,
                               hasPublicProfile: values.hasPublicProfile
                             })
                             .then(() => {
@@ -277,14 +277,14 @@ const mutation = gql`
     $hasPublicProfile: Boolean
     $facebookId: String!
     $twitterHandle: String!
-    $isEmailPublic: Boolean
+    $emailAccessRole: AccessRole
     $publicUrl: String
   ) {
     updateMe(
       hasPublicProfile: $hasPublicProfile
       facebookId: $facebookId
       twitterHandle: $twitterHandle
-      isEmailPublic: $isEmailPublic
+      emailAccessRole: $emailAccessRole
       publicUrl: $publicUrl
     ) {
       id
@@ -299,7 +299,7 @@ export const query = gql`
       facebookId
       twitterHandle
       publicUrl
-      isEmailPublic
+      emailAccessRole
       hasPublicProfile
     }
   }

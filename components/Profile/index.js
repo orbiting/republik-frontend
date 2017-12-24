@@ -70,7 +70,9 @@ const getPublicUser = gql`
       username
       name
       email
-      isEmailPublic
+      emailAccessRole
+      portrait
+      hasPublicProfile
       testimonial {
         id
         name

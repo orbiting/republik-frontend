@@ -14,10 +14,8 @@ const getDocuments = gql`
     }
     documents(feed: true) {
       nodes {
-        content
         meta {
           kind
-          format
           credits
           title
           description

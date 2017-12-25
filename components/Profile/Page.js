@@ -18,7 +18,10 @@ import Testimonial from '../Testimonial'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
+import ArticleLink from '../Link/Article'
+
 import {
+  TeaserFeed,
   Interaction,
   colors,
   fontStyles,
@@ -93,6 +96,19 @@ const getPublicUser = gql`
       twitterHandle
       publicUrl
       badges
+      documents {
+        totalCount
+        nodes {
+          meta {
+            kind
+            credits
+            title
+            description
+            publishDate
+            slug
+          }
+        }
+      }
       latestComments(limit: 7) {
         id
         content
@@ -219,6 +235,16 @@ class Profile extends Component {
                       </div>
                     )}
                     <PointerList user={user} />
+                  </div>
+                  <div>
+                    {user.documents &&
+                      user.documents.nodes.map(doc => (
+                        <TeaserFeed
+                          {...doc.meta}
+                          Link={ArticleLink}
+                          key={doc.meta.slug}
+                        />
+                      ))}
                   </div>
                   <LatestComments comments={user.latestComments} />
                 </div>

@@ -266,6 +266,7 @@ const query = gql`
   query myProfile {
     me {
       id
+      name
       username
       email
       facebookId

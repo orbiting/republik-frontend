@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-25T23:27:31.949Z",
+  "updated": "2017-12-26T20:43:16.249Z",
   "title": "live",
   "data": [
     {
@@ -380,11 +380,11 @@
     },
     {
       "key": "Account/ProfileForm/facebookId/label",
-      "value": "Facebook ID"
+      "value": "Facebook"
     },
     {
       "key": "Account/ProfileForm/twitterHandle/label",
-      "value": "Twitter Handle"
+      "value": "Twitter"
     },
     {
       "key": "Account/ProfileForm/publicUrl/label",
@@ -591,9 +591,17 @@
       "value": "Neu Mischen"
     },
     {
+      "key": "testimonial/infinite/end",
+      "value": "Sie haben gerade {count} Statements angeschaut."
+    },
+    {
       "key": "testimonial/infinite/endless",
-      "value": "Das waren {count} Verleger und Verlegerinnen. Alle weiteren anschauen?",
+      "value": "Das waren {count} Verleger und Verlegerinnen. Weiteren {remaining} anschauen?",
       "undefined": "Schöner wäre: Weitere xxx anschauen?"
+    },
+    {
+      "key": "testimonial/detail/share/emailSubject",
+      "value": "{name} unterstützt Republik"
     },
     {
       "key": "api/testimonial/image/required",
@@ -1281,7 +1289,7 @@
     },
     {
       "key": "article/payNote/after",
-      "value": "Wir hoffen der Beitrag hat Ihenen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
+      "value": "Wir hoffen der Beitrag hat Ihnen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
     },
     {
       "key": "article/payNote/after/buyText",

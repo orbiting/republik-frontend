@@ -81,14 +81,13 @@ const getPublicUser = gql`
       emailAccessRole
       portrait
       hasPublicProfile
-      testimonial {
-        id
-        name
-        role
-        quote
-        image
-        sequenceNumber
-        published
+      statement
+      isListed
+      isAdminUnlisted
+      sequenceNumber
+      credentials {
+        description
+        verified
       }
       facebookId
       twitterHandle
@@ -194,7 +193,7 @@ class Profile extends Component {
                   <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
-                        <Link route='account'>
+                        <Link key='account' route='account'>
                           <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
                         </Link>
                       )

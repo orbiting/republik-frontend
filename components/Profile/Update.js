@@ -3,8 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { isWebUri } from 'valid-url'
 import Loader from '../Loader'
-import PointerList from '../Profile/PointerList'
-import { Link } from '../../lib/routes'
+import PointerList from './PointerList'
 import { errorToString } from '../../lib/utils/errors'
 
 import withT from '../../lib/withT'
@@ -13,15 +12,13 @@ import {
   Checkbox,
   FieldSet,
   InlineSpinner,
-  Interaction,
   RawHtml,
   Button,
   A,
-  colors,
-  linkRule
+  colors
 } from '@project-r/styleguide'
 
-const { H2 } = Interaction
+import UsernameField, { toUsername } from './UsernameField'
 
 const fields = t => [
   {
@@ -47,6 +44,7 @@ const fields = t => [
 
 const getValues = me => {
   return {
+    username: toUsername(me.username || me.name),
     facebookId: me.facebookId || '',
     twitterHandle: me.twitterHandle || '',
     emailAccessRole: me.emailAccessRole,
@@ -61,9 +59,7 @@ class Update extends Component {
     this.state = {
       isEditing: false,
       showErrors: false,
-      values: {
-        // country: COUNTRIES[0]
-      },
+      values: {},
       errors: {},
       dirty: {}
     }
@@ -116,26 +112,8 @@ class Update extends Component {
           <div style={style}>
             {!isEditing ? (
               <div>
-                <H2 style={{ marginBottom: 30 }}>
-                  {t(
-                    me.hasPublicProfile
-                      ? 'Account/UpdateProfile/title'
-                      : 'Account/UpdateProfile/titlePrivate'
-                  )}
-                </H2>
-
-                {me.hasPublicProfile && (
-                  <div>
-                    <PointerList user={me} />
-                    <br />
-                  </div>
-                )}
-                <Link route='profile' params={{slug: me.id}}>
-                  <a {...linkRule}>
-                    {t('Account/Update/viewLive')}
-                  </a>
-                </Link>
-                {' – '}
+                <PointerList user={me} />
+                <br />
                 <A
                   href='#'
                   onClick={e => {
@@ -148,8 +126,14 @@ class Update extends Component {
               </div>
             ) : (
               <div>
-                <H2>{t('Account/UpdateProfile/title')}</H2>
-                <br />
+                <UsernameField
+                  value={values.username}
+                  onChange={(_, value) => {
+                    this.setState(({values}) => ({
+                      values: {...values, username: value}
+                    }))
+                  }}
+                  />
                 <Checkbox
                   checked={values.hasPublicProfile}
                   onChange={(_, checked) => {
@@ -174,21 +158,6 @@ class Update extends Component {
                   fields={fields(t)}
                 />
 
-                <br />
-                <Checkbox
-                  checked={this.state.values.emailAccessRole}
-                  onChange={(_, checked) => {
-                    this.setState(state => ({
-                      values: { ...state.values, emailAccessRole: checked }
-                    }))
-                  }}
-                >
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: t('Account/ProfileForm/emailAccessRole/label')
-                    }}
-                  />
-                </Checkbox>
                 <br />
                 <br />
                 <br />
@@ -274,13 +243,15 @@ class Update extends Component {
 
 const mutation = gql`
   mutation updateMe(
+    $username: String
     $hasPublicProfile: Boolean
-    $facebookId: String!
-    $twitterHandle: String!
+    $facebookId: String
+    $twitterHandle: String
     $emailAccessRole: AccessRole
     $publicUrl: String
   ) {
     updateMe(
+      username: $username
       hasPublicProfile: $hasPublicProfile
       facebookId: $facebookId
       twitterHandle: $twitterHandle
@@ -291,10 +262,11 @@ const mutation = gql`
     }
   }
 `
-export const query = gql`
-  query myPublicUser {
+const query = gql`
+  query myProfile {
     me {
       id
+      username
       email
       facebookId
       twitterHandle

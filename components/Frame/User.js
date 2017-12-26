@@ -35,9 +35,12 @@ const styles = {
     width: '100%'
   }),
   portrait: css({
-    height: HEADER_HEIGHT - 1,
     marginLeft: 5,
-    verticalAlign: 'top'
+    verticalAlign: 'top',
+    height: `${HEADER_HEIGHT_MOBILE - 2 * BUTTON_PADDING_MOBILE}px`,
+    [mediaQueries.mUp]: {
+      height: `${HEADER_HEIGHT - 2 * BUTTON_PADDING}px`
+    }
   }),
   initials: css({
     display: 'inline-block',
@@ -73,8 +76,8 @@ export default ({ url, me, onclickHandler }) => (
         onclickHandler()
       }}
     >
-      {me && me.portrait && <img src={me.portrait.url} {...styles.portrait} />}
-      {me && me.initials && <span {...styles.initials}>{me.initials}</span>}
+      {me && me.portrait && <img src={me.portrait} {...styles.portrait} />}
+      {me && !me.portrait && me.initials && <span {...styles.initials}>{me.initials}</span>}
       {!me && (
         <span {...styles.anonymous}>
           <PersonIcon size={ICON_SIZE} fill={'#282828'} />

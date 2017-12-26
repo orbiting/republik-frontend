@@ -85,7 +85,7 @@ const styles = {
     borderBottom: `1px solid ${colors.divider}`
   }),
   since: css({
-    color: colors.lightText,
+    color: colors.secondary,
     textAlign: 'center',
     position: 'absolute',
     left: 0,

@@ -6,7 +6,6 @@ import withMe from '../../lib/apollo/withMe'
 
 import Loader from '../Loader'
 import UpdateMe from './UpdateMe'
-import UpdateProfile from './UpdateProfile'
 import UpdateTestimonial from './UpdateTestimonial'
 import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
@@ -48,7 +47,6 @@ const Account = ({ loading, error, me, t, query, hasMemberships, hasPledges, mer
           {eligibleForTestimonial &&
             <UpdateTestimonial style={{marginBottom: 40, marginTop: 40}} />
           }
-          <UpdateProfile style={{marginBottom: 40}} />
 
           {(hasPledges || !hasMemberships) && (
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>

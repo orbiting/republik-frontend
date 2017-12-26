@@ -1,5 +1,4 @@
 import React from 'react'
-import { css } from 'glamor'
 import { WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -7,30 +6,23 @@ import { Link } from '../../lib/routes'
 import {
   Container,
   Interaction,
-  linkRule,
-  colors
+  linkRule
 } from '@project-r/styleguide'
 
-const styles = {
-  box: css({
-    paddingTop: 30,
-    paddingBottom: 30,
-    backgroundColor: colors.primaryBg
-  })
-}
+import Box from '../Frame/Box'
 
-const Box = ({children, style}) => (
+const WithoutMembershipBox = ({children, style}) => (
   <WithoutMembership render={() => (
-    <div {...styles.box} style={style}>
+    <Box>
       <Container>
         {children}
       </Container>
-    </div>
+    </Box>
   )} />
 )
 
 export const Before = withT(({t}) => (
-  <Box>
+  <WithoutMembershipBox>
     <Interaction.P>
       {t.elements('article/payNote/before', {
         buyLink: (
@@ -40,11 +32,11 @@ export const Before = withT(({t}) => (
         )
       })}
     </Interaction.P>
-  </Box>
+  </WithoutMembershipBox>
 ))
 
 export const After = withT(({t}) => (
-  <Box>
+  <WithoutMembershipBox>
     <Interaction.P>
       {t.elements('article/payNote/after', {
         buyLink: (
@@ -54,5 +46,5 @@ export const After = withT(({t}) => (
         )
       })}
     </Interaction.P>
-  </Box>
+  </WithoutMembershipBox>
 ))

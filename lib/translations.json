@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-20T14:39:52.088Z",
+  "updated": "2017-12-25T23:27:31.949Z",
   "title": "live",
   "data": [
     {
@@ -327,18 +327,6 @@
       "value": "ändern"
     },
     {
-      "key": "Account/Update/viewLive",
-      "value": "ansehen"
-    },
-    {
-      "key": "Account/UpdateProfile/title",
-      "value": "Profilseite"
-    },
-    {
-      "key": "Account/UpdateProfile/titlePrivate",
-      "value": "Profilseite ist deaktiviert"
-    },
-    {
       "key": "Account/AddressForm/title",
       "value": "Ihre Adresse"
     },
@@ -481,6 +469,14 @@
     {
       "key": "profile/discussion/empty",
       "value": "Noch keine Diskussionsbeiträge"
+    },
+    {
+      "key": "profile/preview",
+      "value": "Dies ist eine Vorschau von Ihrem Profil. Füllen Sie es jetzt aus und publizieren Sie es."
+    },
+    {
+      "key": "profile/username/label",
+      "value": "Benutzername"
     },
     {
       "key": "testimonial/meta/pageTitle",

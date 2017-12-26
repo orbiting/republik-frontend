@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
@@ -9,16 +9,18 @@ import withMe from '../../lib/apollo/withMe'
 import { Link, Router } from '../../lib/routes'
 
 import Loader from '../Loader'
-import Frame from '../Frame'
+import Frame, { MainContainer } from '../Frame'
+import Box from '../Frame/Box'
 
 import Badge from './Badge'
 import LatestComments from './LatestComments'
 import PointerList from './PointerList'
+import Update from './Update'
+
+import ArticleLink from '../Link/Article'
 import Testimonial from '../Testimonial'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-
-import ArticleLink from '../Link/Article'
 
 import {
   TeaserFeed,
@@ -40,13 +42,9 @@ const styles = {
     [mediaQueries.onlyS]: {
       paddingLeft: 0,
       paddingTop: '10px'
-    }
+    },
+    paddingBottom: 60
   }),
-  profileImage: {
-    backgroundSize: 'cover',
-    height: TESTIMONIAL_IMAGE_SIZE,
-    width: TESTIMONIAL_IMAGE_SIZE
-  },
   sidebar: css({
     left: 0,
     paddingBottom: '20px',
@@ -173,6 +171,7 @@ class Profile extends Component {
     const {
       url,
       t,
+      me,
       data: { loading, error, user }
     } = this.props
 
@@ -183,14 +182,14 @@ class Profile extends Component {
     }
 
     return (
-      <Frame url={url} meta={metaData}>
+      <Frame url={url} meta={metaData} raw>
         <Loader
           loading={loading}
           error={error}
           render={() => {
             if (!user) {
               return (
-                <div>
+                <MainContainer>
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
                   <p>
                     {t.elements('pages/profile/empty/content', {
@@ -201,54 +200,65 @@ class Profile extends Component {
                       )
                     })}
                   </p>
-                </div>
+                </MainContainer>
               )
             }
 
             return (
-              <div>
-                <div ref={this.innerRef}>
-                  {user.testimonial &&
-                  user.testimonial.published && (
-                    <Testimonial testimonial={user.testimonial} />
-                  )}
-                </div>
-                <div {...styles.container}>
-                  <div
-                    {...(this.state.sticky
-                      ? merge(styles.sidebar, styles.sticky, {
-                        top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
-                        left: `${this.x}px`
-                      })
-                      : styles.sidebar)}
-                  >
-                    <Interaction.H3>{user.name}</Interaction.H3>
-                    {user.testimonial && (
-                      <div {...styles.role}>{user.testimonial.role}</div>
+              <Fragment>
+                {!user.hasPublicProfile && (
+                  <Box>
+                    <MainContainer>
+                      {t('profile/preview')}
+                    </MainContainer>
+                  </Box>
+                )}
+                <MainContainer>
+                  <div ref={this.innerRef}>
+                    {user.testimonial &&
+                    user.testimonial.published && (
+                      <Testimonial testimonial={user.testimonial} />
                     )}
+                  </div>
+                  <div {...styles.container}>
+                    <div
+                      {...(this.state.sticky
+                        ? merge(styles.sidebar, styles.sticky, {
+                          top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
+                          left: `${this.x}px`
+                        })
+                        : styles.sidebar)}
+                    >
+                      <Interaction.H3>{user.name}</Interaction.H3>
+                      {user.testimonial && (
+                        <div {...styles.role}>{user.testimonial.role}</div>
+                      )}
 
-                    {user.badges && (
-                      <div {...styles.badges}>
-                        {user.badges.map(badge => (
-                          <Badge badge={badge} size={27} />
+                      {user.badges && (
+                        <div {...styles.badges}>
+                          {user.badges.map(badge => (
+                            <Badge badge={badge} size={27} />
+                          ))}
+                        </div>
+                      )}
+                      {me && me.id === user.id
+                        ? <Update />
+                        : <PointerList user={user} />}
+                    </div>
+                    <div>
+                      {user.documents &&
+                        user.documents.nodes.map(doc => (
+                          <TeaserFeed
+                            {...doc.meta}
+                            Link={ArticleLink}
+                            key={doc.meta.slug}
+                          />
                         ))}
-                      </div>
-                    )}
-                    <PointerList user={user} />
+                    </div>
+                    <LatestComments comments={user.latestComments} />
                   </div>
-                  <div>
-                    {user.documents &&
-                      user.documents.nodes.map(doc => (
-                        <TeaserFeed
-                          {...doc.meta}
-                          Link={ArticleLink}
-                          key={doc.meta.slug}
-                        />
-                      ))}
-                  </div>
-                  <LatestComments comments={user.latestComments} />
-                </div>
-              </div>
+                </MainContainer>
+              </Fragment>
             )
           }}
         />

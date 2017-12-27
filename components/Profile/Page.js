@@ -12,15 +12,18 @@ import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
+import ArticleLink from '../Link/Article'
+import withMembership from '../Auth/withMembership'
+
+import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
+
 import Badge from './Badge'
 import LatestComments from './LatestComments'
 import PointerList from './PointerList'
 import Update from './Update'
-
-import ArticleLink from '../Link/Article'
-import Testimonial from '../Testimonial'
-
-import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
+import Portrait from './Portrait'
+import Statement from './Statement'
+import Biography from './Biography'
 
 import {
   TeaserFeed,
@@ -33,12 +36,15 @@ import {
 
 const SIDEBAR_TOP = 20
 
+const PORTRAIT_SIZE_M = TESTIMONIAL_IMAGE_SIZE
+const PORTRAIT_SIZE_S = 61
+
 const styles = {
   container: css({
     borderTop: `1px solid ${colors.divider}`,
-    paddingTop: '80px',
+    paddingTop: SIDEBAR_TOP + 5,
     position: 'relative',
-    paddingLeft: `${TESTIMONIAL_IMAGE_SIZE + 20}px`,
+    paddingLeft: `${PORTRAIT_SIZE_M + 20}px`,
     [mediaQueries.onlyS]: {
       paddingLeft: 0,
       paddingTop: '10px'
@@ -50,10 +56,39 @@ const styles = {
     paddingBottom: '20px',
     position: 'absolute',
     top: `${SIDEBAR_TOP}px`,
-    width: `${TESTIMONIAL_IMAGE_SIZE}px`,
+    width: `${PORTRAIT_SIZE_M}px`,
     [mediaQueries.onlyS]: {
       position: 'static',
       width: 'auto'
+    }
+  }),
+  head: css({
+    position: 'relative',
+    paddingTop: 20
+  }),
+  statement: css({
+    [mediaQueries.mUp]: {
+      float: 'right',
+      width: `calc(100% - ${PORTRAIT_SIZE_M + 20}px)`,
+      paddingBottom: 30
+    }
+  }),
+  portrait: css({
+    width: PORTRAIT_SIZE_S,
+    height: PORTRAIT_SIZE_S,
+    [mediaQueries.mUp]: {
+      width: PORTRAIT_SIZE_M,
+      height: PORTRAIT_SIZE_M
+    }
+
+  }),
+  headInfo: css({
+    ...fontStyles.sansSerifRegular16,
+    position: 'absolute',
+    bottom: 5,
+    left: PORTRAIT_SIZE_S + 10,
+    [mediaQueries.mUp]: {
+      left: PORTRAIT_SIZE_M + 20
     }
   }),
   credential: css({
@@ -84,6 +119,7 @@ const getPublicUser = gql`
       portrait
       hasPublicProfile
       statement
+      biography
       isListed
       isAdminUnlisted
       sequenceNumber
@@ -216,12 +252,18 @@ class Profile extends Component {
                   </Box>
                 )}
                 <MainContainer>
-                  <div ref={this.innerRef}>
-                    <Testimonial testimonial={{
-                      image: user.portrait,
-                      quote: user.statement,
-                      sequenceNumber: user.sequenceNumber
-                    }} />
+                  <div ref={this.innerRef} {...styles.head}>
+                    <p {...styles.statement}>
+                      <Statement user={user} />
+                    </p>
+                    <div {...styles.portrait}>
+                      <Portrait user={user} />
+                    </div>
+                    <div {...styles.headInfo}>
+                      {t('memberships/sequenceNumber/label', {
+                        sequenceNumber: user.sequenceNumber
+                      })}
+                    </div>
                   </div>
                   <div {...styles.container}>
                     <div
@@ -233,12 +275,11 @@ class Profile extends Component {
                         : styles.sidebar)}
                     >
                       <Interaction.H3>{user.name}</Interaction.H3>
-                      {user.credentials && user.credentials.map(credential => (
-                        <div {...styles.credential}>
+                      {user.credentials && user.credentials.map((credential, i) => (
+                        <div key={i} {...styles.credential}>
                           {credential.description}
                         </div>
                       ))}
-
                       {user.badges && (
                         <div {...styles.badges}>
                           {user.badges.map(badge => (
@@ -250,7 +291,15 @@ class Profile extends Component {
                         ? <Update />
                         : <PointerList user={user} />}
                     </div>
+                    <Biography user={user} />
                     <div>
+                      {user.documents && user.documents.totalCount &&
+                        <Interaction.H3 style={{marginBottom: 20}}>
+                          {t.pluralize('profile/documents/title', {
+                            count: user.documents.totalCount
+                          })}
+                        </Interaction.H3>
+                      }
                       {user.documents &&
                         user.documents.nodes.map(doc => (
                           <TeaserFeed
@@ -275,6 +324,7 @@ class Profile extends Component {
 export default compose(
   withT,
   withMe,
+  withMembership,
   graphql(getPublicUser, {
     options: ({url}) => ({
       variables: {

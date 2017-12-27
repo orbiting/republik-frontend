@@ -207,6 +207,7 @@ class Update extends Component {
                           this.setState(() => ({ updating: true }))
                           this.props
                             .update({
+                              username: values.username,
                               facebookId: values.facebookId,
                               twitterHandle: values.twitterHandle,
                               publicUrl: values.publicUrl,
@@ -216,7 +217,8 @@ class Update extends Component {
                             .then(() => {
                               this.setState(() => ({
                                 updating: false,
-                                isEditing: false
+                                isEditing: false,
+                                error: undefined
                               }))
                             })
                             .catch(error => {

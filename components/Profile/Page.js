@@ -56,7 +56,9 @@ const styles = {
       width: 'auto'
     }
   }),
-  role: css({ ...fontStyles.sansSerifMedium16 }),
+  credential: css({
+    ...fontStyles.sansSerifRegular16
+  }),
   badges: css({
     margin: '20px 0 30px 0'
   }),
@@ -189,6 +191,7 @@ class Profile extends Component {
             if (!user) {
               return (
                 <MainContainer>
+                  <br /><br />
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
                   <p>
                     {t.elements('pages/profile/empty/content', {
@@ -214,10 +217,11 @@ class Profile extends Component {
                 )}
                 <MainContainer>
                   <div ref={this.innerRef}>
-                    {user.testimonial &&
-                    user.testimonial.published && (
-                      <Testimonial testimonial={user.testimonial} />
-                    )}
+                    <Testimonial testimonial={{
+                      image: user.portrait,
+                      quote: user.statement,
+                      sequenceNumber: user.sequenceNumber
+                    }} />
                   </div>
                   <div {...styles.container}>
                     <div
@@ -229,9 +233,11 @@ class Profile extends Component {
                         : styles.sidebar)}
                     >
                       <Interaction.H3>{user.name}</Interaction.H3>
-                      {user.testimonial && (
-                        <div {...styles.role}>{user.testimonial.role}</div>
-                      )}
+                      {user.credentials && user.credentials.map(credential => (
+                        <div {...styles.credential}>
+                          {credential.description}
+                        </div>
+                      ))}
 
                       {user.badges && (
                         <div {...styles.badges}>

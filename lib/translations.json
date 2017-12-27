@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-27T10:53:02.627Z",
+  "updated": "2017-12-27T22:36:10.637Z",
   "title": "live",
   "data": [
     {
@@ -375,34 +375,6 @@
       "value": "Land fehlt"
     },
     {
-      "key": "Account/ProfileForm/hasPublicProfile/label",
-      "value": "Öffentliche Profilseite"
-    },
-    {
-      "key": "Account/ProfileForm/facebookId/label",
-      "value": "Facebook"
-    },
-    {
-      "key": "Account/ProfileForm/twitterHandle/label",
-      "value": "Twitter"
-    },
-    {
-      "key": "Account/ProfileForm/publicUrl/label",
-      "value": "Webseite"
-    },
-    {
-      "key": "Account/ProfileForm/publicUrl/error",
-      "value": "Bitte geben Sie eine vollständige URL an"
-    },
-    {
-      "key": "Account/ProfileForm/isEmailPublic/label",
-      "value": "E-Mail im Profil anzeigen"
-    },
-    {
-      "key": "Account/submit/error/title",
-      "value": "Fehler"
-    },
-    {
       "key": "account/pledges/title",
       "value": "Ihre Teilnahme"
     },
@@ -477,6 +449,54 @@
     {
       "key": "profile/comments/title/1",
       "value": "Ein Diskussionsbeitrag"
+    },
+    {
+      "key": "profile/edit/start",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "profile/edit/cancel",
+      "value": "abbrechen"
+    },
+    {
+      "key": "profile/edit/save",
+      "value": "ändern"
+    },
+    {
+      "key": "profile/edit/publish",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "profile/edit/unpublish",
+      "value": "Profil zurücknehmen"
+    },
+    {
+      "key": "profile/edit/updating",
+      "value": "speichert"
+    },
+    {
+      "key": "profile/edit/errors",
+      "value": "Fehler:"
+    },
+    {
+      "key": "profile/contact/facebook/label",
+      "value": "Facebook"
+    },
+    {
+      "key": "profile/contact/twitter/label",
+      "value": "Twitter"
+    },
+    {
+      "key": "profile/contact/publicUrl/label",
+      "value": "Webseite"
+    },
+    {
+      "key": "profile/contact/publicUrl/error",
+      "value": "Webseite, ungültig"
+    },
+    {
+      "key": "Account/ProfileForm/isEmailPublic/label",
+      "value": "E-Mail im Profil anzeigen"
     },
     {
       "key": "profile/preview",

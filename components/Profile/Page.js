@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 
 import withT from '../../lib/withT'
-import withMe from '../../lib/apollo/withMe'
 
 import { Link, Router } from '../../lib/routes'
 
@@ -19,11 +18,11 @@ import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
 import Badge from './Badge'
 import LatestComments from './LatestComments'
-import PointerList from './PointerList'
-import Update from './Update'
+import Contact from './Contact'
 import Portrait from './Portrait'
 import Statement from './Statement'
 import Biography from './Biography'
+import Edit from './Edit'
 
 import {
   TeaserFeed,
@@ -31,7 +30,8 @@ import {
   colors,
   fontStyles,
   linkRule,
-  mediaQueries
+  mediaQueries,
+  FieldSet
 } from '@project-r/styleguide'
 
 const SIDEBAR_TOP = 20
@@ -161,7 +161,12 @@ class Profile extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sticky: false
+      sticky: false,
+      isEditing: false,
+      showErrors: false,
+      values: {},
+      errors: {},
+      dirty: {}
     }
 
     this.onScroll = () => {
@@ -208,7 +213,6 @@ class Profile extends Component {
     const {
       url,
       t,
-      me,
       data: { loading, error, user }
     } = this.props
 
@@ -242,6 +246,15 @@ class Profile extends Component {
               )
             }
 
+            const {
+              isEditing,
+              values, errors, dirty
+            } = this.state
+
+            const onChange = fields => {
+              this.setState(FieldSet.utils.mergeFields(fields))
+            }
+
             return (
               <Fragment>
                 {!user.hasPublicProfile && (
@@ -254,10 +267,22 @@ class Profile extends Component {
                 <MainContainer>
                   <div ref={this.innerRef} {...styles.head}>
                     <p {...styles.statement}>
-                      <Statement user={user} />
+                      <Statement
+                        user={user}
+                        isEditing={isEditing}
+                        onChange={onChange}
+                        values={values}
+                        errors={errors}
+                        dirty={dirty} />
                     </p>
                     <div {...styles.portrait}>
-                      <Portrait user={user} />
+                      <Portrait
+                        user={user}
+                        isEditing={isEditing}
+                        onChange={onChange}
+                        values={values}
+                        errors={errors}
+                        dirty={dirty} />
                     </div>
                     <div {...styles.headInfo}>
                       {t('memberships/sequenceNumber/label', {
@@ -287,11 +312,24 @@ class Profile extends Component {
                           ))}
                         </div>
                       )}
-                      {me && me.id === user.id
-                        ? <Update />
-                        : <PointerList user={user} />}
+                      <Contact
+                        user={user}
+                        isEditing={isEditing}
+                        onChange={onChange}
+                        values={values}
+                        errors={errors}
+                        dirty={dirty} />
+                      <Edit
+                        user={user}
+                        state={this.state}
+                        setState={this.setState.bind(this)} />
                     </div>
-                    <Biography user={user} />
+                    <Biography
+                      user={user}
+                      isEditing={isEditing}
+                      values={values}
+                      errors={errors}
+                      dirty={dirty} />
                     <div>
                       {user.documents && user.documents.totalCount &&
                         <Interaction.H3 style={{marginBottom: 20}}>
@@ -323,7 +361,6 @@ class Profile extends Component {
 
 export default compose(
   withT,
-  withMe,
   withMembership,
   graphql(getPublicUser, {
     options: ({url}) => ({

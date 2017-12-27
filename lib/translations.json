@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-26T20:43:16.249Z",
+  "updated": "2017-12-27T10:53:02.627Z",
   "title": "live",
   "data": [
     {
@@ -463,12 +463,20 @@
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
-      "key": "profile/discussion",
-      "value": "Diskussionsbeiträge"
+      "key": "profile/documents/title/other",
+      "value": "{count} Beiträge"
     },
     {
-      "key": "profile/discussion/empty",
-      "value": "Noch keine Diskussionsbeiträge"
+      "key": "profile/documents/title/1",
+      "value": "Ein Beitrag"
+    },
+    {
+      "key": "profile/comments/title/other",
+      "value": "{count} Diskussionsbeiträge"
+    },
+    {
+      "key": "profile/comments/title/1",
+      "value": "Ein Diskussionsbeitrag"
     },
     {
       "key": "profile/preview",
@@ -596,8 +604,7 @@
     },
     {
       "key": "testimonial/infinite/endless",
-      "value": "Das waren {count} Verleger und Verlegerinnen. Weiteren {remaining} anschauen?",
-      "undefined": "Schöner wäre: Weitere xxx anschauen?"
+      "value": "Das waren {count} Verleger und Verlegerinnen. Weiteren {remaining} anschauen?"
     },
     {
       "key": "testimonial/detail/share/emailSubject",

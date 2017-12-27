@@ -7,13 +7,9 @@ import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
-import LinkIcon from 'react-icons/lib/md/link'
+import LinkIcon from './Icons/Web'
 import MailIcon from 'react-icons/lib/md/mail-outline'
-import PersonIcon from 'react-icons/lib/md/person'
-import PersonOutlineIcon from 'react-icons/lib/md/person-outline'
 import ShareIcon from 'react-icons/lib/md/share'
-import StarIcon from 'react-icons/lib/md/star'
-import StarBorderIcon from 'react-icons/lib/md/star-border'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 
 const DEFAULT_SIZE = 24
@@ -56,11 +52,7 @@ const ICONS = {
   dossier: FolderIcon,
   link: LinkIcon,
   mail: MailIcon,
-  author: PersonIcon,
-  freelancer: PersonOutlineIcon,
   share: ShareIcon,
-  crowdfunder: StarBorderIcon,
-  patron: StarIcon,
   twitter: TwitterIcon
 }
 

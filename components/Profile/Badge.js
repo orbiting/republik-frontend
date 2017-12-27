@@ -4,24 +4,12 @@ import { colors } from '@project-r/styleguide'
 import IconLink from '../IconLink'
 import withT from '../../lib/withT'
 
-// Using icons for demo reasons. These may eventually be replaced by images.
+// currently unused, example:
 const BADGES = {
-  CROWDFUNDER: {
-    translation: 'badge/crowdfunder',
-    icon: 'crowdfunder'
-  },
-  PATRON: {
-    translation: 'badge/patron',
-    icon: 'patron'
-  },
-  STAFF: {
-    translation: 'badge/staff',
-    icon: 'author'
-  },
-  FREELANCER: {
-    translation: 'badge/freelancer',
-    icon: 'freelancer'
-  }
+  // CROWDFUNDER: {
+  //   translation: 'badge/crowdfunder',
+  //   icon: 'crowdfunder'
+  // }
 }
 
 const styles = {
@@ -38,6 +26,9 @@ const styles = {
 
 const Badge = ({ t, badge, size }) => {
   const badgeData = BADGES[badge]
+  if (!badgeData) {
+    return null
+  }
   return (
     <span
       {...merge(styles.badge, {

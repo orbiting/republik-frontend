@@ -74,7 +74,7 @@ class UsernameField extends Component {
     const { values } = this.props
     if (values.username) {
       this.check()
-    } else if (values.username !== undefined) {
+    } else {
       const { onChange, user } = this.props
       onChange({
         values: {

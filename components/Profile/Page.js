@@ -118,6 +118,8 @@ const getPublicUser = gql`
       isListed
       isAdminUnlisted
       sequenceNumber
+      pgpPublicKey
+      pgpPublicKeyId
       credentials {
         description
         verified

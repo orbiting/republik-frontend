@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T14:54:30.501Z",
+  "updated": "2017-12-28T15:13:08.621Z",
   "title": "live",
   "data": [
     {
@@ -533,6 +533,10 @@
     {
       "key": "profile/contact/email/access/label",
       "value": "E-Mail freigeben für"
+    },
+    {
+      "key": "profile/contact/pgpPublicKey/label",
+      "value": "PGP Public Key"
     },
     {
       "key": "profile/contact/phoneNumber/label",

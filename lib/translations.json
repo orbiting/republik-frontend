@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T02:08:07.985Z",
+  "updated": "2017-12-28T12:05:52.961Z",
   "title": "live",
   "data": [
     {
@@ -523,6 +523,26 @@
       "value": "Benutzername"
     },
     {
+      "key": "profile/portrait/choose",
+      "value": "Porträtfoto auswählen"
+    },
+    {
+      "key": "profile/portrait/invalidType",
+      "value": "Nur Fotos erlaubt (jpg, png, gif)"
+    },
+    {
+      "key": "profile/portrait/readError",
+      "value": "Foto konnte nicht geladen werden"
+    },
+    {
+      "key": "profile/portrait/tooBig",
+      "value": "Maximal 6 MB"
+    },
+    {
+      "key": "profile/portrait/update",
+      "value": "Porträtfoto ändern"
+    },
+    {
       "key": "testimonial/meta/pageTitle",
       "value": "Community – Republik"
     },
@@ -561,30 +581,6 @@
     {
       "key": "testimonial/role/label",
       "value": "Funktion"
-    },
-    {
-      "key": "testimonial/pickImage",
-      "value": "Porträtfoto auswählen"
-    },
-    {
-      "key": "testimonial/pickImage/invalidType",
-      "value": "Nur Fotos erlaubt (jpg, png, gif)"
-    },
-    {
-      "key": "testimonial/pickImage/readError",
-      "value": "Foto konnte nicht geladen werden"
-    },
-    {
-      "key": "testimonial/pickImage/tooBig",
-      "value": "Maximal 4 MB"
-    },
-    {
-      "key": "testimonial/pickImage/empty",
-      "value": "Sie müssen ein Foto hochladen"
-    },
-    {
-      "key": "testimonial/pickImage/update",
-      "value": "Porträtfoto ändern"
     },
     {
       "key": "testimonial/role/tooLong",

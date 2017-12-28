@@ -38,7 +38,10 @@ const Badge = ({ t, badge, size }) => {
       })}
       title={t(badgeData.translation)}
     >
-      <IconLink icon={badgeData.icon} size={size - 8} padding={0} />
+      <IconLink
+        icon={badgeData.icon}
+        size={size - 8}
+        style={{padding: 0}} />
     </span>
   )
 }

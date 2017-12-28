@@ -157,6 +157,7 @@ const mutation = gql`
     $phoneNumber: String
     $phoneNumberNote: String
     $phoneNumberAccessRole: AccessRole
+    $pgpPublicKey: String
   ) {
     updateMe(
       username: $username
@@ -171,6 +172,7 @@ const mutation = gql`
       phoneNumber: $phoneNumber
       phoneNumberNote: $phoneNumberNote
       phoneNumberAccessRole: $phoneNumberAccessRole
+      pgpPublicKey: $pgpPublicKey
     ) {
       id
       username
@@ -185,6 +187,8 @@ const mutation = gql`
       phoneNumber
       phoneNumberNote
       phoneNumberAccessRole
+      pgpPublicKey
+      pgpPublicKeyId
     }
   }
 `

@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import { isWebUri } from 'valid-url'
 
 import IconLink from '../IconLink'
-import FieldSet from '../FieldSet'
+import FieldSet, { styles as fieldSetStyles} from '../FieldSet'
 
 import UsernameField from './UsernameField'
 
@@ -78,6 +78,26 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
             }
           })
         }} />
+      <FieldSet
+        values={values}
+        errors={errors}
+        dirty={dirty}
+        onChange={onChange}
+        additionalFieldProps={() => {
+          return {
+            renderInput: (props) => (
+              <textarea row={1}
+                {...fieldSetStyles.autoSize}
+                {...props} />
+            )
+          }
+        }}
+        fields={[
+          {
+            label: t('profile/contact/pgpPublicKey/label'),
+            name: 'pgpPublicKey'
+          }
+        ]} />
       {!!user.phoneNumber && (
         <Fragment>
           <FieldSet
@@ -140,13 +160,21 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
           />
         )}
       </div>
+      {user.pgpPublicKeyId &&
+        <IconLink
+          href={`/pgp/${user.username || user.id}.asc`}
+          icon='key'
+          size={20}
+          title={t('profile/contact/pgpPublicKey/label')}
+          style={{paddingBottom: 5, paddingLeft: 0}}>
+          {user.pgpPublicKeyId.toUpperCase()}
+        </IconLink>}
       {user.email &&
         <Label style={{display: 'block', marginBottom: 20}}>
           {t(`profile/contact/access/${user.emailAccessRole}/note`, {
             field: t('profile/contact/email/label')
           }, '')}
         </Label>}
-
       {user.phoneNumber && <Fragment>
         <Interaction.P>
           <a

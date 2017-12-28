@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css, merge } from 'glamor'
-import { linkRule } from '@project-r/styleguide'
+import { css } from 'glamor'
 
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
@@ -11,18 +10,22 @@ import LinkIcon from './Icons/Web'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
+import KeyIcon from 'react-icons/lib/fa/key'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
 
 const styles = {
-  link: {
+  link: css({
+    color: 'inherit',
+    display: 'inline-block',
     maxWidth: '100%',
     textDecoration: 'none',
     verticalAlign: 'middle',
     whiteSpace: 'nowrap',
-    width: '100%',
-    ':hover > span': {
+    paddingLeft: DEFAULT_PADDING,
+    paddingRight: DEFAULT_PADDING,
+    ':hover > *': {
       opacity: 0.6
     },
     ':first-child': {
@@ -31,18 +34,13 @@ const styles = {
     ':last-child': {
       paddingRight: 0
     }
-  },
-  icon: css({
-    ':hover': {
-      opacity: 0.6
-    }
   }),
-  text: {
+  text: css({
     display: 'inline-block',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     verticalAlign: 'middle'
-  }
+  })
 }
 
 const ICONS = {
@@ -53,7 +51,8 @@ const ICONS = {
   link: LinkIcon,
   mail: MailIcon,
   share: ShareIcon,
-  twitter: TwitterIcon
+  twitter: TwitterIcon,
+  key: KeyIcon
 }
 
 const IconLink = ({
@@ -61,37 +60,25 @@ const IconLink = ({
   target,
   fill,
   icon,
-  size,
-  text,
-  textSize,
-  textColor,
-  padding
+  children,
+  size = DEFAULT_SIZE,
+  style,
+  title
 }) => {
   const Icon = ICONS[icon]
-  const paddingValue = padding !== undefined ? padding : DEFAULT_PADDING
-  const sizeValue = size || DEFAULT_SIZE
+
   return (
     <a
+      {...styles.link}
       href={href}
-      {...merge(styles.link, {
-        padding: `${paddingValue}px`
-      })}
+      style={style}
       target={target}
+      title={title}
     >
-      <span {...styles.icon}>
-        <Icon fill={fill} size={sizeValue} />
-      </span>
-      {text && (
-        <span
-          {...merge(
-            styles.text,
-            { maxWidth: `calc(100% - ${sizeValue + 2 * paddingValue}px)` },
-            href && !textColor ? linkRule : {},
-            textColor ? { color: textColor } : {},
-            textSize ? { fontSize: textSize } : {}
-          )}
-        >
-          &nbsp;{text}
+      <Icon fill={fill} size={size} />
+      {children && (
+        <span {...styles.text}>
+          &nbsp;{children}
         </span>
       )}
     </a>

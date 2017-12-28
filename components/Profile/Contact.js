@@ -41,14 +41,10 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   if (isEditing) {
     return <Fragment>
       <UsernameField
-        value={values.username}
-        onChange={(_, value) => {
-          onChange({
-            values: {
-              username: value || null
-            }
-          })
-        }} />
+        user={user}
+        values={values}
+        errors={errors}
+        onChange={onChange} />
       <FieldSet
         values={values}
         errors={errors}

@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T12:58:42.268Z",
+  "updated": "2017-12-28T13:28:33.709Z",
   "title": "live",
   "data": [
     {
@@ -521,6 +521,10 @@
     {
       "key": "profile/username/label",
       "value": "Benutzername"
+    },
+    {
+      "key": "profile/username/note",
+      "value": "a-z, 0-9 und . erlaubt"
     },
     {
       "key": "profile/portrait/choose",

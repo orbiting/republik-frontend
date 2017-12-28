@@ -57,9 +57,11 @@ const styles = {
     }
   }),
   mainColumn: css({
-    float: 'left',
-    paddingLeft: 20,
-    width: `calc(100% - ${PORTRAIT_SIZE_M}px)`
+    [mediaQueries.mUp]: {
+      float: 'left',
+      paddingLeft: 20,
+      width: `calc(100% - ${PORTRAIT_SIZE_M}px)`
+    }
   }),
   head: css({
     position: 'relative',
@@ -392,6 +394,7 @@ class Profile extends Component {
                       </div>
                       <LatestComments comments={user.latestComments} />
                     </div>
+                    <div style={{clear: 'both'}} />
                   </div>
                 </MainContainer>
               </Fragment>

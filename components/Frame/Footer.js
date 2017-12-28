@@ -12,7 +12,6 @@ import { Link } from '../../lib/routes'
 import {
   Container,
   Logo,
-  colors,
   mediaQueries,
   fontFamilies
 } from '@project-r/styleguide'
@@ -22,12 +21,19 @@ import IconLink from '../IconLink'
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
 
+// TODO: Move negative colors to styleguide.
+const negativeColors = {
+  primaryBg: '#191919',
+  text: '#f0f0f0',
+  lightText: '#828282',
+  divider: '#5b5b5b'
+}
+
 const styles = {
   bg: css({
     position: 'relative',
     zIndex: 10, // goes over sidebar
-    borderTop: `1px solid ${colors.divider}`,
-    backgroundColor: colors.secondaryBg,
+    backgroundColor: negativeColors.primaryBg,
     paddingTop: 30,
     paddingBottom: 30
   }),
@@ -53,8 +59,7 @@ const styles = {
     marginBottom: 10,
     fontSize: 12,
     lineHeight: '18px',
-    fontFamily: fontFamilies.sansSerifRegular,
-    color: colors.secondary,
+    color: negativeColors.text,
     float: 'left',
     width: '50%',
     [mediaQueries.mUp]: {
@@ -65,27 +70,29 @@ const styles = {
       width: '25%'
     },
     '& a': {
+      fontFamily: fontFamilies.sansSerifRegular,
       textDecoration: 'none',
-      color: colors.secondary,
+      color: negativeColors.text,
       ':visited': {
-        color: colors.secondary
+        color: negativeColors.text
       },
       ':hover': {
-        color: colors.primary
+        color: negativeColors.lightText
       }
     }
   }),
   title: css({
+    color: negativeColors.lightText,
     fontFamily: fontFamilies.sansSerifMedium
   }),
   hr: css({
     marginTop: 20,
     marginBottom: 20,
     border: 'none',
-    borderBottom: `1px solid ${colors.divider}`
+    borderBottom: `1px solid ${negativeColors.divider}`
   }),
   since: css({
-    color: colors.secondary,
+    color: negativeColors.lightText,
     textAlign: 'center',
     position: 'absolute',
     left: 0,
@@ -202,20 +209,20 @@ class Footer extends Component {
             </div>
           </div>
           <hr {...styles.hr} />
-          <Logo fill={colors.secondary} width={140} />
+          <Logo fill={negativeColors.text} width={140} />
           <span {...styles.since}>{t('footer/since')}</span>
           <div {...styles.icons}>
             <IconLink
               icon='facebook'
               href='https://www.facebook.com/RepublikMagazin'
               target='_blank'
-              fill={colors.secondary}
+              fill={negativeColors.text}
             />
             <IconLink
               icon='twitter'
               href='https://twitter.com/RepublikMagazin'
               target='_blank'
-              fill={colors.secondary}
+              fill={negativeColors.text}
             />
           </div>
         </Container>

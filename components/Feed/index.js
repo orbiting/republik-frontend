@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
+import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import ArticleLink from '../Link/Article'
 
-import { Center, TeaserFeed, Interaction } from '@project-r/styleguide'
+import { Center, TeaserFeed, Interaction, mediaQueries } from '@project-r/styleguide'
+
+const styles = {
+  container: css({
+    padding: '80px 15px 120px',
+    [mediaQueries.mUp]: {
+      padding: '80px 0 120px'
+    }
+  })
+}
 
 const getDocuments = gql`
   query getDocuments {
@@ -81,7 +91,7 @@ class Feed extends Component {
         error={error}
         render={() => {
           return (
-            <Center style={{ padding: '80px 0 120px' }}>
+            <Center {...styles.container}>
               {greeting && (
                 <Interaction.H1 style={{ marginBottom: '40px' }}>
                   {greeting.text}

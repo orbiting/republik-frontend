@@ -2,16 +2,19 @@ const server = require('express').Router()
 const { createApolloFetch } = require('apollo-fetch')
 
 server.get('/pgp/:userSlug.asc', async (req, res) => {
-  const fetch = createApolloFetch({
+  const apolloFetch = createApolloFetch({
     uri: process.env.API_URL
   })
-  fetch.use(({ request, options }, next) => {
-    options.headers = req.headers
+  apolloFetch.use(({ request, options }, next) => {
+    if (!options.headers) {
+      options.headers = {}
+    }
+    options.headers.cookie = req.headers.cookie
 
     next()
   })
 
-  const response = await fetch({
+  const response = await apolloFetch({
     query: `
       query pgpPublicKey($slug: String!) {
         user(slug: $slug) {

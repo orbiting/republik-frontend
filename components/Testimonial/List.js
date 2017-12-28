@@ -250,7 +250,6 @@ class List extends Component {
                 if (onSelect(id) === false) {
                   return
                 }
-                console.log('open', row, typeof row)
                 this.setState((state) => ({
                   open: {
                     ...state.open,

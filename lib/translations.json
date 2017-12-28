@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T12:05:52.961Z",
+  "updated": "2017-12-28T12:58:42.268Z",
   "title": "live",
   "data": [
     {
@@ -516,7 +516,7 @@
     },
     {
       "key": "profile/preview",
-      "value": "Dies ist eine Vorschau von Ihrem Profil. Füllen Sie es jetzt aus und publizieren Sie es."
+      "value": "Dies ist eine Vorschau von Ihrem Profil. Füllen Sie es jetzt aus und veröffentlichen Sie es."
     },
     {
       "key": "profile/username/label",

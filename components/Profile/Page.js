@@ -37,7 +37,7 @@ import {
 const SIDEBAR_TOP = 20
 
 const PORTRAIT_SIZE_M = TESTIMONIAL_IMAGE_SIZE
-const PORTRAIT_SIZE_S = 61
+const PORTRAIT_SIZE_S = 101
 
 const styles = {
   container: css({
@@ -80,7 +80,6 @@ const styles = {
       width: PORTRAIT_SIZE_M,
       height: PORTRAIT_SIZE_M
     }
-
   }),
   headInfo: css({
     ...fontStyles.sansSerifRegular16,
@@ -96,16 +95,7 @@ const styles = {
   }),
   badges: css({
     margin: '20px 0 30px 0'
-  }),
-  contact: css({
-    ...fontStyles.sansSerifRegular14,
-    '& + &': {
-      marginTop: '5px'
-    }
-  }),
-  sticky: {
-    position: 'fixed'
-  }
+  })
 }
 
 const getPublicUser = gql`
@@ -161,6 +151,7 @@ class Profile extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isMobile: false,
       sticky: false,
       isEditing: false,
       showErrors: false,
@@ -186,6 +177,10 @@ class Profile extends Component {
       this.inner = ref
     }
     this.measure = () => {
+      const isMobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (isMobile !== this.state.isMobile) {
+        this.setState({isMobile})
+      }
       if (this.inner) {
         const rect = this.inner.getBoundingClientRect()
         this.y = window.pageYOffset + rect.top
@@ -193,6 +188,19 @@ class Profile extends Component {
         this.x = window.pageXOffset + rect.left
       }
       this.onScroll()
+    }
+
+    this.startEditing = () => {
+      const { me, data: { user } } = this.props
+      const { isEditing } = this.state
+      if (!isEditing && me && me.id === user.id) {
+        this.setState({isEditing: true, values: user})
+        window.scrollTo(0, 0)
+      }
+    }
+    this.onChange = fields => {
+      this.startEditing()
+      this.setState(FieldSet.utils.mergeFields(fields))
     }
   }
 
@@ -213,7 +221,6 @@ class Profile extends Component {
     const {
       url,
       t,
-      me,
       data: { loading, error, user }
     } = this.props
 
@@ -249,15 +256,9 @@ class Profile extends Component {
 
             const {
               isEditing,
-              values, errors, dirty
+              values, errors, dirty,
+              isMobile
             } = this.state
-
-            const onChange = fields => {
-              if (!isEditing && me && me.id === user.id) {
-                this.setState({isEditing: true, values: user})
-              }
-              this.setState(FieldSet.utils.mergeFields(fields))
-            }
 
             return (
               <Fragment>
@@ -274,7 +275,7 @@ class Profile extends Component {
                       <Statement
                         user={user}
                         isEditing={isEditing}
-                        onChange={onChange}
+                        onChange={this.onChange}
                         values={values}
                         errors={errors}
                         dirty={dirty} />
@@ -283,7 +284,7 @@ class Profile extends Component {
                       <Portrait
                         user={user}
                         isEditing={isEditing}
-                        onChange={onChange}
+                        onChange={this.onChange}
                         values={values}
                         errors={errors}
                         dirty={dirty} />
@@ -296,12 +297,14 @@ class Profile extends Component {
                   </div>
                   <div {...styles.container}>
                     <div
-                      {...(this.state.sticky
-                        ? merge(styles.sidebar, styles.sticky, {
+                      {...styles.sidebar}
+                      style={this.state.sticky && !isEditing
+                        ? {
+                          position: 'fixed',
                           top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
                           left: `${this.x}px`
-                        })
-                        : styles.sidebar)}
+                        }
+                        : {}}
                     >
                       <Interaction.H3>{user.name}</Interaction.H3>
                       {user.credentials && user.credentials.map((credential, i) => (
@@ -319,22 +322,30 @@ class Profile extends Component {
                       <Contact
                         user={user}
                         isEditing={isEditing}
-                        onChange={onChange}
+                        onChange={this.onChange}
                         values={values}
                         errors={errors}
                         dirty={dirty} />
-                      <Edit
+                      {!isMobile && <Edit
                         user={user}
                         state={this.state}
-                        setState={this.setState.bind(this)} />
+                        setState={this.setState.bind(this)}
+                        startEditing={this.startEditing} />}
                     </div>
                     <Biography
                       user={user}
                       isEditing={isEditing}
-                      onChange={onChange}
+                      onChange={this.onChange}
                       values={values}
                       errors={errors}
                       dirty={dirty} />
+                    {isMobile && <div style={{marginBottom: 40}}>
+                      <Edit
+                        user={user}
+                        state={this.state}
+                        setState={this.setState.bind(this)}
+                        startEditing={this.startEditing} />
+                    </div>}
                     <div>
                       {user.documents && user.documents.totalCount &&
                         <Interaction.H3 style={{marginBottom: 20}}>

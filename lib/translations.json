@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T17:55:39.593Z",
+  "updated": "2017-12-28T22:01:50.403Z",
   "title": "live",
   "data": [
     {
@@ -552,7 +552,7 @@
     },
     {
       "key": "profile/contact/isListed/label",
-      "value": "Portrait und Statement der Community-Seite anzeigen"
+      "value": "Portrait und Statement auf der Community-Seite anzeigen"
     },
     {
       "key": "profile/contact/isAdminUnlisted/note",

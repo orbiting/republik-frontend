@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -108,6 +108,9 @@ const getPublicUser = gql`
       name
       email
       emailAccessRole
+      phoneNumber
+      phoneNumberNote
+      phoneNumberAccessRole
       portrait
       hasPublicProfile
       statement

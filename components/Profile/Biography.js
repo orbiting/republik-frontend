@@ -1,6 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
 
+import withT from '../../lib/withT'
+
+import FieldSet from '../FieldSet'
+
 import {
   fontStyles
 } from '@project-r/styleguide'
@@ -14,8 +18,25 @@ const styles = {
   })
 }
 
-export default ({ user }) => (
-  <p {...styles.text}>
-    {user.biography}
-  </p>
-)
+const fields = t => [
+  {
+    label: t('profile/biography/label'),
+    name: 'biography',
+    autoSize: true
+  }
+]
+
+export default withT(({ user, isEditing, t, ...props }) => {
+  if (!user.biography && !isEditing) {
+    return null
+  }
+  return (
+    <p {...styles.text}>
+      {isEditing
+        ? <FieldSet
+          {...props}
+          fields={fields(t)} />
+        : user.biography}
+    </p>
+  )
+})

@@ -54,8 +54,7 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
         errors={errors}
         dirty={dirty}
         onChange={onChange}
-        fields={fields(t)}
-      />
+        fields={fields(t)} />
     </Fragment>
   }
 

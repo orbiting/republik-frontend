@@ -1,6 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
 
+import withT from '../../lib/withT'
+
+import FieldSet from '../FieldSet'
+
 import {
   fontFamilies
 } from '@project-r/styleguide'
@@ -32,8 +36,19 @@ const fontSizeBoost = length => {
   return 0
 }
 
-export default ({user}) => {
-  if (!user.statement) {
+const fields = t => [
+  {
+    label: t('profile/statement/label'),
+    name: 'statement',
+    autoSize: true,
+    validator: value =>
+      (!value.trim() && t('profile/statement/error')) ||
+      (value.trim().length >= 140 && t('profile/statement/tooLong'))
+  }
+]
+
+export default withT(({t, user, isEditing, ...props}) => {
+  if (!user.statement && !isEditing) {
     return null
   }
   return (
@@ -43,7 +58,11 @@ export default ({user}) => {
         fontSize: 24 + fontSizeBoost(user.statement.length)
       }}
     >
-      «{user.statement}»
+      {isEditing
+        ? <FieldSet
+          {...props}
+          fields={fields(t)} />
+        : `«${user.statement}»`}
     </span>
   )
-}
+})

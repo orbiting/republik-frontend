@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-27T22:36:10.637Z",
+  "updated": "2017-12-28T02:08:07.985Z",
   "title": "live",
   "data": [
     {
@@ -499,6 +499,22 @@
       "value": "E-Mail im Profil anzeigen"
     },
     {
+      "key": "profile/biography/label",
+      "value": "Biografie"
+    },
+    {
+      "key": "profile/statement/label",
+      "value": "Statement"
+    },
+    {
+      "key": "profile/statement/error",
+      "value": "Statement fehlt"
+    },
+    {
+      "key": "profile/statement/tooLong",
+      "value": "Statement, maximal 140 Zeichen"
+    },
+    {
       "key": "profile/preview",
       "value": "Dies ist eine Vorschau von Ihrem Profil. Füllen Sie es jetzt aus und publizieren Sie es."
     },
@@ -547,14 +563,6 @@
       "value": "Funktion"
     },
     {
-      "key": "testimonial/quote/label",
-      "value": "Statement"
-    },
-    {
-      "key": "testimonial/quote/error",
-      "value": "Statement fehlt"
-    },
-    {
       "key": "testimonial/pickImage",
       "value": "Porträtfoto auswählen"
     },
@@ -577,10 +585,6 @@
     {
       "key": "testimonial/pickImage/update",
       "value": "Porträtfoto ändern"
-    },
-    {
-      "key": "testimonial/quote/tooLong",
-      "value": "Statement, maximal 140 Zeichen"
     },
     {
       "key": "testimonial/role/tooLong",

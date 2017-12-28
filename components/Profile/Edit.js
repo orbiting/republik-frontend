@@ -8,8 +8,6 @@ import withMe from '../../lib/apollo/withMe'
 
 import { errorToString } from '../../lib/utils/errors'
 
-import { toUsername } from './UsernameField'
-
 import {
   InlineSpinner,
   Button,
@@ -37,7 +35,7 @@ const EditLink = ({children, onClick, ...props}) =>
     {children}
   </a>
 
-const Edit = ({me, user, t, state, setState, update}) => {
+const Edit = ({me, user, t, state, setState, startEditing, update}) => {
   const {
     isEditing
   } = state
@@ -46,14 +44,20 @@ const Edit = ({me, user, t, state, setState, update}) => {
   }
   if (!isEditing) {
     return (
-      <EditLink onClick={() => {
-        setState({
-          isEditing: true,
-          values: user
-        })
-      }}>
-        {t('profile/edit/start')}
-      </EditLink>
+      <Fragment>
+        {!user.hasPublicProfile && user.username && <Button block primary onClick={() => {
+          update({
+            hasPublicProfile: true
+          })
+        }}>
+          {t('profile/edit/publish')}
+        </Button>}
+        <EditLink onClick={() => {
+          startEditing()
+        }}>
+          {t('profile/edit/start')}
+        </EditLink>
+      </Fragment>
     )
   }
   if (state.updating) {
@@ -61,7 +65,7 @@ const Edit = ({me, user, t, state, setState, update}) => {
       <Fragment>
         <InlineSpinner />
         <br />
-        {t('Account/Update/updating')}
+        {t('profile/edit/updating')}
       </Fragment>
     )
   }
@@ -188,7 +192,8 @@ export default compose(
             setState(() => ({
               updating: false,
               isEditing: false,
-              error: undefined
+              error: undefined,
+              values: {}
             }))
           })
           .catch(error => {

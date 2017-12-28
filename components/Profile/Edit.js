@@ -49,15 +49,7 @@ const Edit = ({me, user, t, state, setState, update}) => {
       <EditLink onClick={() => {
         setState({
           isEditing: true,
-          values: {
-            ...user,
-            username:
-              user.username ||
-              toUsername([
-                user.firstName && user.firstName[0],
-                user.lastName
-              ].filter(Boolean).join(''))
-          }
+          values: user
         })
       }}>
         {t('profile/edit/start')}
@@ -157,6 +149,7 @@ const mutation = gql`
     $publicUrl: String
     $biography: String
     $statement: String
+    $portrait: String
   ) {
     updateMe(
       username: $username
@@ -167,6 +160,7 @@ const mutation = gql`
       publicUrl: $publicUrl
       biography: $biography
       statement: $statement
+      portrait: $portrait
     ) {
       id
       username
@@ -177,6 +171,7 @@ const mutation = gql`
       publicUrl
       biography
       statement
+      portrait
     }
   }
 `

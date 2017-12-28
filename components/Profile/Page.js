@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import { Link, Router } from '../../lib/routes'
 
@@ -12,7 +13,6 @@ import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
 import ArticleLink from '../Link/Article'
-import withMembership from '../Auth/withMembership'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
@@ -213,6 +213,7 @@ class Profile extends Component {
     const {
       url,
       t,
+      me,
       data: { loading, error, user }
     } = this.props
 
@@ -252,6 +253,9 @@ class Profile extends Component {
             } = this.state
 
             const onChange = fields => {
+              if (!isEditing && me && me.id === user.id) {
+                this.setState({isEditing: true, values: user})
+              }
               this.setState(FieldSet.utils.mergeFields(fields))
             }
 
@@ -362,7 +366,7 @@ class Profile extends Component {
 
 export default compose(
   withT,
-  withMembership,
+  withMe,
   graphql(getPublicUser, {
     options: ({url}) => ({
       variables: {

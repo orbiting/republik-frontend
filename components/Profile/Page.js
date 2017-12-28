@@ -42,25 +42,24 @@ const PORTRAIT_SIZE_S = 101
 const styles = {
   container: css({
     borderTop: `1px solid ${colors.divider}`,
-    paddingTop: SIDEBAR_TOP + 5,
     position: 'relative',
-    paddingLeft: `${PORTRAIT_SIZE_M + 20}px`,
-    [mediaQueries.onlyS]: {
-      paddingLeft: 0,
-      paddingTop: '10px'
-    },
-    paddingBottom: 60
+    paddingBottom: 60,
+    paddingTop: 10,
+    [mediaQueries.mUp]: {
+      paddingTop: SIDEBAR_TOP + 5
+    }
   }),
   sidebar: css({
-    left: 0,
     paddingBottom: '20px',
-    position: 'absolute',
-    top: `${SIDEBAR_TOP}px`,
-    width: `${PORTRAIT_SIZE_M}px`,
-    [mediaQueries.onlyS]: {
-      position: 'static',
-      width: 'auto'
+    [mediaQueries.mUp]: {
+      float: 'left',
+      width: PORTRAIT_SIZE_M
     }
+  }),
+  mainColumn: css({
+    float: 'left',
+    paddingLeft: 20,
+    width: `calc(100% - ${PORTRAIT_SIZE_M}px)`
   }),
   head: css({
     position: 'relative',
@@ -317,80 +316,82 @@ class Profile extends Component {
                         dirty={dirty} />
                     </div>
                     <div {...styles.headInfo}>
-                      {t('memberships/sequenceNumber/label', {
+                      {!!user.sequenceNumber && t('memberships/sequenceNumber/label', {
                         sequenceNumber: user.sequenceNumber
                       })}
                     </div>
                   </div>
                   <div {...styles.container}>
-                    <div
-                      {...styles.sidebar}
-                      style={this.state.sticky && !isEditing
+                    <div {...styles.sidebar}>
+                      <div style={this.state.sticky && !isEditing
                         ? {
                           position: 'fixed',
                           top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
-                          left: `${this.x}px`
+                          left: `${this.x}px`,
+                          width: PORTRAIT_SIZE_M
                         }
-                        : {}}
-                    >
-                      <Interaction.H3>{user.name}</Interaction.H3>
-                      {user.credentials && user.credentials.map((credential, i) => (
-                        <div key={i} {...styles.credential}>
-                          {credential.description}
-                        </div>
-                      ))}
-                      {user.badges && (
-                        <div {...styles.badges}>
-                          {user.badges.map(badge => (
-                            <Badge badge={badge} size={27} />
-                          ))}
-                        </div>
-                      )}
-                      <Contact
+                        : {}}>
+                        <Interaction.H3>{user.name}</Interaction.H3>
+                        {user.credentials && user.credentials.map((credential, i) => (
+                          <div key={i} {...styles.credential}>
+                            {credential.description}
+                          </div>
+                        ))}
+                        {user.badges && (
+                          <div {...styles.badges}>
+                            {user.badges.map(badge => (
+                              <Badge badge={badge} size={27} />
+                            ))}
+                          </div>
+                        )}
+                        <Contact
+                          user={user}
+                          isEditing={isEditing}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty} />
+                        {!isMobile && <Edit
+                          user={user}
+                          state={this.state}
+                          setState={this.setState.bind(this)}
+                          startEditing={this.startEditing} />}
+                      </div>
+                    </div>
+                    <div {...styles.mainColumn}>
+                      <Biography
                         user={user}
                         isEditing={isEditing}
                         onChange={this.onChange}
                         values={values}
                         errors={errors}
                         dirty={dirty} />
-                      {!isMobile && <Edit
-                        user={user}
-                        state={this.state}
-                        setState={this.setState.bind(this)}
-                        startEditing={this.startEditing} />}
+                      {isMobile && <div style={{marginBottom: 40}}>
+                        <Edit
+                          user={user}
+                          state={this.state}
+                          setState={this.setState.bind(this)}
+                          startEditing={this.startEditing} />
+                      </div>}
+                      <div>
+                        {user.documents && !!user.documents.totalCount &&
+                          <Interaction.H3 style={{marginBottom: 20}}>
+                            {t.pluralize('profile/documents/title', {
+                              count: user.documents.totalCount
+                            })}
+                          </Interaction.H3>
+                        }
+                        {user.documents &&
+                          user.documents.nodes.map(doc => (
+                            <TeaserFeed
+                              {...doc.meta}
+                              Link={ArticleLink}
+                              key={doc.meta.slug}
+                            />
+                          ))}
+                      </div>
+                      <LatestComments comments={user.latestComments} />
                     </div>
-                    <Biography
-                      user={user}
-                      isEditing={isEditing}
-                      onChange={this.onChange}
-                      values={values}
-                      errors={errors}
-                      dirty={dirty} />
-                    {isMobile && <div style={{marginBottom: 40}}>
-                      <Edit
-                        user={user}
-                        state={this.state}
-                        setState={this.setState.bind(this)}
-                        startEditing={this.startEditing} />
-                    </div>}
-                    <div>
-                      {user.documents && user.documents.totalCount &&
-                        <Interaction.H3 style={{marginBottom: 20}}>
-                          {t.pluralize('profile/documents/title', {
-                            count: user.documents.totalCount
-                          })}
-                        </Interaction.H3>
-                      }
-                      {user.documents &&
-                        user.documents.nodes.map(doc => (
-                          <TeaserFeed
-                            {...doc.meta}
-                            Link={ArticleLink}
-                            key={doc.meta.slug}
-                          />
-                        ))}
-                    </div>
-                    <LatestComments comments={user.latestComments} />
                   </div>
                 </MainContainer>
               </Fragment>

@@ -7,6 +7,7 @@ import withT from '../../lib/withT'
 const styles = {
   img: css({
     display: 'block',
+    backgroundColor: '#E2E8E6',
     width: '100%',
     height: '100%',
     backgroundSize: 'cover',
@@ -58,10 +59,13 @@ const readFile = (file) => {
 
 export default withT(({t, user, isEditing, values, errors, onChange}) => {
   const preview = isEditing && values.portraitPreview
+  const imgUrl = preview || user.portrait
   const img = (
     <span {...styles.img} {...(preview && styles.preview)}
       style={{
-        backgroundImage: `url(${preview || user.portrait})`
+        backgroundImage: imgUrl
+          ? `url(${imgUrl})`
+          : undefined
       }} />
   )
 

@@ -1,12 +1,12 @@
-# Republik Frontend (alpha)
+# Republik Frontend
 
-This is the repo of the digital magazine [Republik](https://www.republik.ch/en) that will launch in 2018.
+The front-end of [republik.ch](https://www.republik.ch/en) to be launched on January 15th 2018.
 
 ## Usage
 
 ### Quick start
 
-You need to have node (8.4.0+) installed.
+You need to have node 8.9+ installed.
 
 Bootstrap your .env file:
 ```

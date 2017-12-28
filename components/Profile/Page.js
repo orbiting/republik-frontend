@@ -213,7 +213,7 @@ class Profile extends Component {
     }
     this.autoEditStart = () => {
       const { data: { user } } = this.props
-      if (!user.username) {
+      if (user && !user.username) {
         this.startEditing() // will check if it's me
       }
     }

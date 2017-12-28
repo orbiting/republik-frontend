@@ -12,7 +12,8 @@ import UsernameField from './UsernameField'
 import {
   Dropdown,
   Label,
-  Interaction
+  Interaction,
+  Checkbox
 } from '@project-r/styleguide'
 
 const styles = {
@@ -56,6 +57,34 @@ const AccessRoleDropdown = ({t, ...props}) => (
 const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   if (isEditing) {
     return <Fragment>
+      <br />
+      {user.isAdminUnlisted &&
+        <Label>
+          {t('profile/contact/isAdminUnlisted/note')}
+          <br /><br />
+        </Label>
+      }
+      <div style={{opacity: user.isAdminUnlisted ? 0.5 : 1}}>
+        <Checkbox
+          checked={values.isListed}
+          disabled={(
+            !(
+              (user.statement || values.statement) &&
+              (user.portrait || values.portrait)
+            )
+          )}
+          onChange={(_, checked) => {
+            onChange({
+              values: {
+                isListed: checked
+              }
+            })
+          }}
+        >
+          {t('profile/contact/isListed/label')}
+        </Checkbox>
+      </div>
+      <br /><br />
       <UsernameField
         user={user}
         values={values}

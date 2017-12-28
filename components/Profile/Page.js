@@ -113,6 +113,7 @@ const getPublicUser = gql`
       phoneNumberAccessRole
       portrait
       hasPublicProfile
+      isEligibleForProfile
       statement
       biography
       isListed
@@ -213,7 +214,7 @@ class Profile extends Component {
     }
     this.autoEditStart = () => {
       const { data: { user } } = this.props
-      if (user && !user.username) {
+      if (user && !user.username && user.isEligibleForProfile) {
         this.startEditing() // will check if it's me
       }
     }
@@ -288,7 +289,10 @@ class Profile extends Component {
                 {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      {t('profile/preview')}
+                      {t(user.isEligibleForProfile
+                        ? 'profile/preview'
+                        : 'profile/preview/notEligible'
+                      )}
                     </MainContainer>
                   </Box>
                 )}

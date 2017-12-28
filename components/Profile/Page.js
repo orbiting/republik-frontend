@@ -103,6 +103,8 @@ const getPublicUser = gql`
     user(slug: $slug) {
       id
       username
+      firstName
+      lastName
       name
       email
       emailAccessRole
@@ -204,6 +206,12 @@ class Profile extends Component {
         window.scrollTo(0, 0)
       }
     }
+    this.autoEditStart = () => {
+      const { data: { user } } = this.props
+      if (!user.username) {
+        this.startEditing() // will check if it's me
+      }
+    }
     this.onChange = fields => {
       this.startEditing()
       this.setState(FieldSet.utils.mergeFields(fields))
@@ -214,9 +222,13 @@ class Profile extends Component {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
+    this.autoEditStart()
   }
-  componentDidUpdate () {
+  componentDidUpdate (prevProps) {
     this.measure()
+    if (!prevProps.data.user) {
+      this.autoEditStart()
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)

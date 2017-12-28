@@ -45,7 +45,7 @@ const Edit = ({me, user, t, state, setState, startEditing, update}) => {
   if (!isEditing) {
     return (
       <Fragment>
-        {!user.hasPublicProfile && user.username && <Button block primary onClick={() => {
+        {!user.hasPublicProfile && user.isEligibleForProfile && user.username && <Button block primary onClick={() => {
           update({
             hasPublicProfile: true
           })
@@ -92,7 +92,11 @@ const Edit = ({me, user, t, state, setState, startEditing, update}) => {
           {state.error}
         </div>
       )}
-      <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
+      <div style={{
+        opacity: errorMessages.length || (!user.hasPublicProfile && !user.isEligibleForProfile)
+          ? 0.5
+          : 1
+      }}>
         <Button block primary={!user.hasPublicProfile} onClick={() => {
           if (errorMessages.length) {
             setState(state =>

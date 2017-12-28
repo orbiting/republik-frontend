@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T16:57:23.909Z",
+  "updated": "2017-12-28T17:55:39.593Z",
   "title": "live",
   "data": [
     {
@@ -556,7 +556,7 @@
     },
     {
       "key": "profile/contact/isAdminUnlisted/note",
-      "value": "Leider können wir Sie auf Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+      "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
     },
     {
       "key": "profile/biography/label",
@@ -576,7 +576,11 @@
     },
     {
       "key": "profile/preview",
-      "value": "Dies ist eine Vorschau von Ihrem Profil. Füllen Sie es jetzt aus und veröffentlichen Sie es."
+      "value": "Dies ist eine Vorschau Ihres Profils. Füllen Sie es jetzt aus und veröffentlichen Sie es."
+    },
+    {
+      "key": "profile/preview/notEligible",
+      "value": "Wenn sie uns unterstützen – zum Beispiel in dem Sie eine Mitgliedschaft kaufen – können sie Ihr eigenes Profil veröffentlichen"
     },
     {
       "key": "profile/username/label",

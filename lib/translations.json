@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T15:13:08.621Z",
+  "updated": "2017-12-28T16:57:23.909Z",
   "title": "live",
   "data": [
     {
@@ -549,6 +549,14 @@
     {
       "key": "profile/contact/phoneNumber/access/label",
       "value": "Telefonnummer freigeben für"
+    },
+    {
+      "key": "profile/contact/isListed/label",
+      "value": "Portrait und Statement der Community-Seite anzeigen"
+    },
+    {
+      "key": "profile/contact/isAdminUnlisted/note",
+      "value": "Leider können wir Sie auf Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
     },
     {
       "key": "profile/biography/label",

@@ -42,8 +42,7 @@ const fields = t => [
     name: 'statement',
     autoSize: true,
     validator: value =>
-      (!value.trim() && t('profile/statement/error')) ||
-      (value.trim().length >= 140 && t('profile/statement/tooLong'))
+      value.trim().length >= 140 && t('profile/statement/tooLong')
   }
 ]
 

@@ -155,6 +155,8 @@ const mutation = gql`
     $twitterHandle: String
     $emailAccessRole: AccessRole
     $publicUrl: String
+    $biography: String
+    $statement: String
   ) {
     updateMe(
       username: $username
@@ -163,6 +165,8 @@ const mutation = gql`
       twitterHandle: $twitterHandle
       emailAccessRole: $emailAccessRole
       publicUrl: $publicUrl
+      biography: $biography
+      statement: $statement
     ) {
       id
       username
@@ -171,6 +175,8 @@ const mutation = gql`
       twitterHandle
       emailAccessRole
       publicUrl
+      biography
+      statement
     }
   }
 `

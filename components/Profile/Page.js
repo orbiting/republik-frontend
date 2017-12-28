@@ -327,6 +327,7 @@ class Profile extends Component {
                     <Biography
                       user={user}
                       isEditing={isEditing}
+                      onChange={onChange}
                       values={values}
                       errors={errors}
                       dirty={dirty} />

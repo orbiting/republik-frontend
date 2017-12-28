@@ -154,6 +154,9 @@ const mutation = gql`
     $biography: String
     $statement: String
     $portrait: String
+    $phoneNumber: String
+    $phoneNumberNote: String
+    $phoneNumberAccessRole: AccessRole
   ) {
     updateMe(
       username: $username
@@ -165,6 +168,9 @@ const mutation = gql`
       biography: $biography
       statement: $statement
       portrait: $portrait
+      phoneNumber: $phoneNumber
+      phoneNumberNote: $phoneNumberNote
+      phoneNumberAccessRole: $phoneNumberAccessRole
     ) {
       id
       username
@@ -176,6 +182,9 @@ const mutation = gql`
       biography
       statement
       portrait
+      phoneNumber
+      phoneNumberNote
+      phoneNumberAccessRole
     }
   }
 `

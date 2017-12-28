@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T13:28:33.709Z",
+  "updated": "2017-12-28T14:54:30.501Z",
   "title": "live",
   "data": [
     {
@@ -497,6 +497,54 @@
     {
       "key": "Account/ProfileForm/isEmailPublic/label",
       "value": "E-Mail im Profil anzeigen"
+    },
+    {
+      "key": "profile/contact/access/ADMIN",
+      "value": "Nur Administration"
+    },
+    {
+      "key": "profile/contact/access/ADMIN/note",
+      "value": "{field} ist nur für die Administration einsehbar"
+    },
+    {
+      "key": "profile/contact/access/EDITOR",
+      "value": "Redaktion"
+    },
+    {
+      "key": "profile/contact/access/EDITOR/note",
+      "value": "{field} ist für die Redaktion einsehbar"
+    },
+    {
+      "key": "profile/contact/access/MEMBER",
+      "value": "Mitglieder"
+    },
+    {
+      "key": "profile/contact/access/MEMBER/note",
+      "value": "{field} ist für Mitglieder einsehbar"
+    },
+    {
+      "key": "profile/contact/access/PUBLIC",
+      "value": "Öffentlichkeit"
+    },
+    {
+      "key": "profile/contact/email/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "profile/contact/email/access/label",
+      "value": "E-Mail freigeben für"
+    },
+    {
+      "key": "profile/contact/phoneNumber/label",
+      "value": "Telefonnummer"
+    },
+    {
+      "key": "profile/contact/phoneNumberNote/label",
+      "value": "Verfügbarkeit"
+    },
+    {
+      "key": "profile/contact/phoneNumber/access/label",
+      "value": "Telefonnummer freigeben für"
     },
     {
       "key": "profile/biography/label",

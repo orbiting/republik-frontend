@@ -9,6 +9,12 @@ import FieldSet from '../FieldSet'
 
 import UsernameField from './UsernameField'
 
+import {
+  Dropdown,
+  Label,
+  Interaction
+} from '@project-r/styleguide'
+
 const styles = {
   icons: css({
     padding: '15px 0'
@@ -37,6 +43,16 @@ const fields = t => [
   }
 ]
 
+const AccessRoleDropdown = ({t, ...props}) => (
+  <Dropdown
+    items={['ADMIN', 'EDITOR', 'MEMBER', 'PUBLIC'].map(value => ({
+      value: value,
+      text: t(`profile/contact/access/${value}`)
+    }))}
+    {...props}
+  />
+)
+
 const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   if (isEditing) {
     return <Fragment>
@@ -51,39 +67,104 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
         dirty={dirty}
         onChange={onChange}
         fields={fields(t)} />
+      <AccessRoleDropdown
+        t={t}
+        label={t('profile/contact/email/access/label')}
+        value={values.emailAccessRole}
+        onChange={item => {
+          onChange({
+            values: {
+              emailAccessRole: item.value
+            }
+          })
+        }} />
+      {!!user.phoneNumber && (
+        <Fragment>
+          <FieldSet
+            values={values}
+            errors={errors}
+            dirty={dirty}
+            onChange={onChange}
+            fields={[
+              {
+                label: t('profile/contact/phoneNumber/label'),
+                name: 'phoneNumber'
+              },
+              {
+                label: t('profile/contact/phoneNumberNote/label'),
+                name: 'phoneNumberNote'
+              }
+            ]} />
+          <AccessRoleDropdown
+            t={t}
+            label={t('profile/contact/phoneNumber/access/label')}
+            value={values.phoneNumberAccessRole}
+            onChange={item => {
+              onChange({
+                values: {
+                  phoneNumberAccessRole: item.value
+                }
+              })
+            }} />
+        </Fragment>
+      )}
     </Fragment>
   }
 
   return (
-    <div {...styles.icons}>
-      {user.facebookId && (
-        <IconLink
-          icon='facebook'
-          href={`https://www.facebook.com/${user.facebookId}`}
-        />
-      )}
-      {user.twitterHandle && (
-        <IconLink
-          icon='twitter'
-          href={`https://twitter.com/${user.twitterHandle}`}
-        />
-      )}
-      {/* API will return email if it's your own profile (or authorized roles) */}
-      {/* if emailAccessRole is admin we hide it here */}
-      {user.email && user.emailAccessRole !== 'ADMIN' && (
-        <IconLink
-          icon='mail'
-          href={`mailto:${user.email}`}
-        />
-      )}
-      {user.publicUrl && (
-        <IconLink
-          icon='link'
-          href={user.publicUrl}
-          target={'_blank'}
-        />
-      )}
-    </div>
+    <Fragment>
+      <div {...styles.icons}>
+        {user.facebookId && (
+          <IconLink
+            icon='facebook'
+            href={`https://www.facebook.com/${user.facebookId}`}
+          />
+        )}
+        {user.twitterHandle && (
+          <IconLink
+            icon='twitter'
+            href={`https://twitter.com/${user.twitterHandle}`}
+          />
+        )}
+        {user.email && (
+          <IconLink
+            icon='mail'
+            href={`mailto:${user.email}`}
+          />
+        )}
+        {user.publicUrl && (
+          <IconLink
+            icon='link'
+            href={user.publicUrl}
+            target={'_blank'}
+          />
+        )}
+      </div>
+      {user.email &&
+        <Label style={{display: 'block', marginBottom: 20}}>
+          {t(`profile/contact/access/${user.emailAccessRole}/note`, {
+            field: t('profile/contact/email/label')
+          }, '')}
+        </Label>}
+
+      {user.phoneNumber && <Fragment>
+        <Interaction.P>
+          <a
+            href={`tel:${user.phoneNumber}`}
+            style={{color: 'inherit', textDecoration: 'none'}}>
+            {user.phoneNumber}
+          </a>
+          <Label style={{display: 'block', marginBottom: 5}}>
+            {user.phoneNumberNote}
+          </Label>
+        </Interaction.P>
+        <Label style={{display: 'block', marginBottom: 20}}>
+          {t(`profile/contact/access/${user.phoneNumberAccessRole}/note`, {
+            field: t('profile/contact/phoneNumber/label')
+          }, '')}
+        </Label>
+      </Fragment>}
+    </Fragment>
   )
 }
 

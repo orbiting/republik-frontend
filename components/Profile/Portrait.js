@@ -18,8 +18,7 @@ const styles = {
   dropzone: css({
     position: 'relative',
     width: '100%',
-    height: '100%',
-    cursor: 'pointer'
+    height: '100%'
   }),
   note: css({
     position: 'absolute',
@@ -87,6 +86,10 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
     <Dropzone
       disablePreview
       className={styles.dropzone.toString()}
+      style={{
+        cursor: isEditing
+          ? 'pointer' : 'auto'
+      }}
       accept='image/jpeg, image/png, image/gif'
       onDrop={(accepted, rejected) => {
         if (accepted.length) {

@@ -54,7 +54,7 @@ export default withT(({t, user, isEditing, ...props}) => {
     <span
       {...css(styles.quote)}
       style={{
-        fontSize: 24 + fontSizeBoost(user.statement.length)
+        fontSize: 24 + fontSizeBoost((user.statement || '').length)
       }}
     >
       {isEditing

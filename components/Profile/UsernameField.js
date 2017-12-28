@@ -76,14 +76,18 @@ class UsernameField extends Component {
       this.check()
     } else {
       const { onChange, user } = this.props
-      onChange({
-        values: {
-          username: toUsername([
-            user.firstName && user.firstName[0],
-            user.lastName
-          ].filter(Boolean).join(''))
-        }
-      })
+      const username = toUsername([
+        user.firstName && user.firstName[0],
+        user.lastName
+      ].filter(Boolean).join(''))
+
+      if (username) {
+        onChange({
+          values: {
+            username: username
+          }
+        })
+      }
     }
   }
   componentDidUpdate (prevProps) {

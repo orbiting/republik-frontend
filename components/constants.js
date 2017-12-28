@@ -8,6 +8,3 @@ export const ZINDEX_SIDEBAR = 10
 export const ZINDEX_VIDEOPLAYER_ICONS = 6
 export const ZINDEX_VIDEOPLAYER_SCRUB = 3
 export const ZINDEX_FRAME_TOGGLE = 1
-
-export const BASE_URL_FACEBOOK = 'https://www.facebook.com'
-export const BASE_URL_TWITTER = 'https://twitter.com'

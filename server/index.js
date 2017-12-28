@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 const next = require('next')
 const routes = require('../lib/routes')
 
+const pgp = require('./pgp')
+
 const DEV = process.env.NODE_ENV
   ? process.env.NODE_ENV !== 'production'
   : true
@@ -38,6 +40,7 @@ app.prepare().then(() => {
     }))
   }
 
+  server.use(pgp)
   server.use(handler)
 
   server.listen(PORT, (err) => {

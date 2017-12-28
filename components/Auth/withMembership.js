@@ -7,7 +7,7 @@ import { Link } from '../../lib/routes'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 
-import { EnsureAuthorization, PageCenter } from './withAuthorization'
+import withAuthorization, { PageCenter } from './withAuthorization'
 
 const UnauthorizedPage = withT(({t, me, roles = []}) => (
   <Frame raw>
@@ -61,20 +61,28 @@ const UnauthorizedPage = withT(({t, me, roles = []}) => (
   </Frame>
 ))
 
-export const WithoutMembership = ({render}) => (
-  <EnsureAuthorization
-    roles={['member']}
-    unauthorized={render} />
-)
-export const WithMembership = ({render}) => (
-  <EnsureAuthorization
-    roles={['member']}
-    render={render} />
-)
+export const WithoutMembership = withAuthorization(['member'])(({
+  isAuthorized, render
+}) => {
+  if (!isAuthorized) {
+    return render()
+  }
+  return null
+})
+export const WithMembership = withAuthorization(['member'])(({
+  isAuthorized, render
+}) => {
+  if (isAuthorized) {
+    return render()
+  }
+  return null
+})
 
-export default WrappedComponent => props => (
-  <EnsureAuthorization
-    roles={['member']}
-    render={() => <WrappedComponent {...props} />}
-    unauthorized={({me}) => <UnauthorizedPage me={me} />} />
-)
+export const enforceMembership = WrappedComponent => withAuthorization(['member'])(({isAuthorized, me, ...props}) => {
+  if (isAuthorized) {
+    return <WrappedComponent {...props} />
+  }
+  return <UnauthorizedPage me={me} />
+})
+
+export default withAuthorization(['member'])

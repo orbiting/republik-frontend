@@ -30,7 +30,9 @@ const FieldSetWithMaskAndAutoSize = props => (
   <FieldSet
     {...props}
     additionalFieldProps={field => {
-      const fieldProps = {}
+      const fieldProps = props.additionalFieldProps
+        ? props.additionalFieldProps(field)
+        : {}
       if (field.autoSize) {
         fieldProps.renderInput = ({ref, ...inputProps}) => (
           <AutosizeInput {...styles.autoSize}

@@ -166,12 +166,14 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
         {user.facebookId && (
           <IconLink
             icon='facebook'
+            target='_blank'
             href={`https://www.facebook.com/${user.facebookId}`}
           />
         )}
         {user.twitterHandle && (
           <IconLink
             icon='twitter'
+            target='_blank'
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
@@ -185,7 +187,7 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
           <IconLink
             icon='link'
             href={user.publicUrl}
-            target={'_blank'}
+            target='_blank'
           />
         )}
       </div>

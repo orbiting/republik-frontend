@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import PropTypes from 'prop-types'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -24,7 +25,7 @@ const styles = {
 
 const EditLink = ({children, onClick, ...props}) =>
   <a
-    href='#'
+    href='#edit'
     onClick={(e) => {
       e.preventDefault()
       onClick(e)
@@ -145,6 +146,16 @@ const Edit = ({me, user, t, state, setState, startEditing, update}) => {
       </EditLink>
     </Fragment>
   )
+}
+
+Edit.propTypes = {
+  me: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  state: PropTypes.object.isRequired,
+  setState: PropTypes.func.isRequired,
+  startEditing: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 }
 
 const mutation = gql`

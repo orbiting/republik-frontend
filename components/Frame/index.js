@@ -31,6 +31,11 @@ const styles = {
   })
 }
 
+export const MainContainer = ({children}) =>
+  <Container style={{ maxWidth: '840px' }}>
+    {children}
+  </Container>
+
 const Index = ({
   t,
   children,
@@ -57,9 +62,9 @@ const Index = ({
       {raw ? (
         children
       ) : (
-        <Container style={{ maxWidth: '840px' }}>
+        <MainContainer>
           <div style={{ paddingTop: 80, paddingBottom: 120 }}>{children}</div>
-        </Container>
+        </MainContainer>
       )}
     </div>
     <Footer />

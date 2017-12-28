@@ -38,9 +38,7 @@ query discussionMe($discussionId: ID!) {
   me {
     id
     name
-    testimonial {
-      image(size: SHARE)
-    }
+    portrait(size: SHARE)
   }
   discussion(id: $discussionId) {
     id
@@ -115,9 +113,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
   me {
     id
     name
-    testimonial {
-      image(size: SHARE)
-    }
+    portrait(size: SHARE)
   }
   discussion(id: $discussionId) {
     id

@@ -6,7 +6,7 @@ import Marketing from '../components/Marketing'
 import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import VideoCover from '../components/VideoCover'
-import { EnsureAuthorization } from '../components/Auth/withAuthorization'
+import withMembership from '../components/Auth/withMembership'
 
 import {
   STATIC_BASE_URL,
@@ -25,33 +25,34 @@ const endVideo = {
 
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
-const IndexPage = ({ url, t }) => {
+const IndexPage = ({ url, t, isAuthorized }) => {
   const meta = {
     title: t('pages/magazine/title')
   }
+  if (isAuthorized) {
+    return <Front url={url} />
+  }
   return (
-    <EnsureAuthorization roles={['member']}
-      render={() => (
-        <Front url={url} />
-      )}
-      unauthorized={() => (
-        <Frame
-          raw
-          url={url}
-          meta={meta}
-          cover={
-            <VideoCover
-              src={endVideo}
-              endScroll={0.99}
-              cursor
-              autoPlay={!!url.query.play}
-            />
-          }
-        >
-          <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
-        </Frame>
-      )} />
+    <Frame
+      raw
+      url={url}
+      meta={meta}
+      cover={
+        <VideoCover
+          src={endVideo}
+          endScroll={0.99}
+          cursor
+          autoPlay={!!url.query.play}
+        />
+      }
+    >
+      <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
+    </Frame>
   )
 }
 
-export default compose(withData, withT)(IndexPage)
+export default compose(
+  withData,
+  withMembership,
+  withT
+)(IndexPage)

@@ -40,7 +40,7 @@ const styles = {
 const Detail = ({
   t,
   share,
-  data: { id, userId, name, role, quote, image, smImage, sequenceNumber, video }
+  data: { id, username, hasPublicProfile, name, credentials, statement, portrait, sequenceNumber, video }
 }) => (
   <div {...styles.detail}>
     <div
@@ -57,14 +57,18 @@ const Detail = ({
       }
     >
       <H3 {...styles.detailTitle}>
-        {userId ? (
-          <Link route='profile' params={{ slug: userId }}>
-            <a {...linkRule}>{name}</a>
+        {hasPublicProfile ? (
+          <Link route='profile' params={{ slug: username || id }}>
+            <a {...linkRule} style={{color: 'inherit'}}>
+              {name}
+            </a>
           </Link>
         ) : (
           <span>{name}</span>
         )}{' '}
-        <span {...styles.detailRole}>{role}</span>
+        <span {...styles.detailRole}>
+          {credentials[0] && credentials[0].description}
+        </span>
       </H3>
       {video ? (
         <div
@@ -73,10 +77,10 @@ const Detail = ({
             marginTop: 10
           }}
         >
-          <VideoPlayer key={id} src={{ ...video, poster: image }} autoPlay />
+          <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
       ) : (
-        <SerifP>«{quote}»</SerifP>
+        <SerifP>«{statement}»</SerifP>
       )}
       {!!sequenceNumber && (
         <P {...styles.number}>
@@ -87,11 +91,10 @@ const Detail = ({
       )}
       {share && (
         <Share
-          download={smImage}
+          // ToDo: download={smImage}
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
           emailSubject={t('testimonial/detail/share/emailSubject', {
-            name,
-            role
+            name
           })}
         />
       )}

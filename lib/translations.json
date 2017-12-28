@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-20T14:39:52.088Z",
+  "updated": "2017-12-28T17:55:39.593Z",
   "title": "live",
   "data": [
     {
@@ -327,18 +327,6 @@
       "value": "ändern"
     },
     {
-      "key": "Account/Update/viewLive",
-      "value": "ansehen"
-    },
-    {
-      "key": "Account/UpdateProfile/title",
-      "value": "Profilseite"
-    },
-    {
-      "key": "Account/UpdateProfile/titlePrivate",
-      "value": "Profilseite ist deaktiviert"
-    },
-    {
       "key": "Account/AddressForm/title",
       "value": "Ihre Adresse"
     },
@@ -385,34 +373,6 @@
     {
       "key": "Account/AddressForm/country/error/empty",
       "value": "Land fehlt"
-    },
-    {
-      "key": "Account/ProfileForm/hasPublicProfile/label",
-      "value": "Öffentliche Profilseite"
-    },
-    {
-      "key": "Account/ProfileForm/facebookId/label",
-      "value": "Facebook ID"
-    },
-    {
-      "key": "Account/ProfileForm/twitterHandle/label",
-      "value": "Twitter Handle"
-    },
-    {
-      "key": "Account/ProfileForm/publicUrl/label",
-      "value": "Webseite"
-    },
-    {
-      "key": "Account/ProfileForm/publicUrl/error",
-      "value": "Bitte geben Sie eine vollständige URL an"
-    },
-    {
-      "key": "Account/ProfileForm/isEmailPublic/label",
-      "value": "E-Mail im Profil anzeigen"
-    },
-    {
-      "key": "Account/submit/error/title",
-      "value": "Fehler"
     },
     {
       "key": "account/pledges/title",
@@ -475,12 +435,180 @@
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
-      "key": "profile/discussion",
-      "value": "Diskussionsbeiträge"
+      "key": "profile/documents/title/other",
+      "value": "{count} Beiträge"
     },
     {
-      "key": "profile/discussion/empty",
-      "value": "Noch keine Diskussionsbeiträge"
+      "key": "profile/documents/title/1",
+      "value": "Ein Beitrag"
+    },
+    {
+      "key": "profile/comments/title/other",
+      "value": "{count} Diskussionsbeiträge"
+    },
+    {
+      "key": "profile/comments/title/1",
+      "value": "Ein Diskussionsbeitrag"
+    },
+    {
+      "key": "profile/edit/start",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "profile/edit/cancel",
+      "value": "abbrechen"
+    },
+    {
+      "key": "profile/edit/save",
+      "value": "ändern"
+    },
+    {
+      "key": "profile/edit/publish",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "profile/edit/unpublish",
+      "value": "Profil zurücknehmen"
+    },
+    {
+      "key": "profile/edit/updating",
+      "value": "speichert"
+    },
+    {
+      "key": "profile/edit/errors",
+      "value": "Fehler:"
+    },
+    {
+      "key": "profile/contact/facebook/label",
+      "value": "Facebook"
+    },
+    {
+      "key": "profile/contact/twitter/label",
+      "value": "Twitter"
+    },
+    {
+      "key": "profile/contact/publicUrl/label",
+      "value": "Webseite"
+    },
+    {
+      "key": "profile/contact/publicUrl/error",
+      "value": "Webseite, ungültig"
+    },
+    {
+      "key": "Account/ProfileForm/isEmailPublic/label",
+      "value": "E-Mail im Profil anzeigen"
+    },
+    {
+      "key": "profile/contact/access/ADMIN",
+      "value": "Nur Administration"
+    },
+    {
+      "key": "profile/contact/access/ADMIN/note",
+      "value": "{field} ist nur für die Administration einsehbar"
+    },
+    {
+      "key": "profile/contact/access/EDITOR",
+      "value": "Redaktion"
+    },
+    {
+      "key": "profile/contact/access/EDITOR/note",
+      "value": "{field} ist für die Redaktion einsehbar"
+    },
+    {
+      "key": "profile/contact/access/MEMBER",
+      "value": "Mitglieder"
+    },
+    {
+      "key": "profile/contact/access/MEMBER/note",
+      "value": "{field} ist für Mitglieder einsehbar"
+    },
+    {
+      "key": "profile/contact/access/PUBLIC",
+      "value": "Öffentlichkeit"
+    },
+    {
+      "key": "profile/contact/email/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "profile/contact/email/access/label",
+      "value": "E-Mail freigeben für"
+    },
+    {
+      "key": "profile/contact/pgpPublicKey/label",
+      "value": "PGP Public Key"
+    },
+    {
+      "key": "profile/contact/phoneNumber/label",
+      "value": "Telefonnummer"
+    },
+    {
+      "key": "profile/contact/phoneNumberNote/label",
+      "value": "Verfügbarkeit"
+    },
+    {
+      "key": "profile/contact/phoneNumber/access/label",
+      "value": "Telefonnummer freigeben für"
+    },
+    {
+      "key": "profile/contact/isListed/label",
+      "value": "Portrait und Statement der Community-Seite anzeigen"
+    },
+    {
+      "key": "profile/contact/isAdminUnlisted/note",
+      "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "profile/biography/label",
+      "value": "Biografie"
+    },
+    {
+      "key": "profile/statement/label",
+      "value": "Statement"
+    },
+    {
+      "key": "profile/statement/error",
+      "value": "Statement fehlt"
+    },
+    {
+      "key": "profile/statement/tooLong",
+      "value": "Statement, maximal 140 Zeichen"
+    },
+    {
+      "key": "profile/preview",
+      "value": "Dies ist eine Vorschau Ihres Profils. Füllen Sie es jetzt aus und veröffentlichen Sie es."
+    },
+    {
+      "key": "profile/preview/notEligible",
+      "value": "Wenn sie uns unterstützen – zum Beispiel in dem Sie eine Mitgliedschaft kaufen – können sie Ihr eigenes Profil veröffentlichen"
+    },
+    {
+      "key": "profile/username/label",
+      "value": "Benutzername"
+    },
+    {
+      "key": "profile/username/note",
+      "value": "a-z, 0-9 und . erlaubt"
+    },
+    {
+      "key": "profile/portrait/choose",
+      "value": "Porträtfoto auswählen"
+    },
+    {
+      "key": "profile/portrait/invalidType",
+      "value": "Nur Fotos erlaubt (jpg, png, gif)"
+    },
+    {
+      "key": "profile/portrait/readError",
+      "value": "Foto konnte nicht geladen werden"
+    },
+    {
+      "key": "profile/portrait/tooBig",
+      "value": "Maximal 6 MB"
+    },
+    {
+      "key": "profile/portrait/update",
+      "value": "Porträtfoto ändern"
     },
     {
       "key": "testimonial/meta/pageTitle",
@@ -523,42 +651,6 @@
       "value": "Funktion"
     },
     {
-      "key": "testimonial/quote/label",
-      "value": "Statement"
-    },
-    {
-      "key": "testimonial/quote/error",
-      "value": "Statement fehlt"
-    },
-    {
-      "key": "testimonial/pickImage",
-      "value": "Porträtfoto auswählen"
-    },
-    {
-      "key": "testimonial/pickImage/invalidType",
-      "value": "Nur Fotos erlaubt (jpg, png, gif)"
-    },
-    {
-      "key": "testimonial/pickImage/readError",
-      "value": "Foto konnte nicht geladen werden"
-    },
-    {
-      "key": "testimonial/pickImage/tooBig",
-      "value": "Maximal 4 MB"
-    },
-    {
-      "key": "testimonial/pickImage/empty",
-      "value": "Sie müssen ein Foto hochladen"
-    },
-    {
-      "key": "testimonial/pickImage/update",
-      "value": "Porträtfoto ändern"
-    },
-    {
-      "key": "testimonial/quote/tooLong",
-      "value": "Statement, maximal 140 Zeichen"
-    },
-    {
       "key": "testimonial/role/tooLong",
       "value": "Funktion, maximal 60 Zeichen"
     },
@@ -595,9 +687,16 @@
       "value": "Neu Mischen"
     },
     {
+      "key": "testimonial/infinite/end",
+      "value": "Sie haben gerade {count} Statements angeschaut."
+    },
+    {
       "key": "testimonial/infinite/endless",
-      "value": "Das waren {count} Verleger und Verlegerinnen. Alle weiteren anschauen?",
-      "undefined": "Schöner wäre: Weitere xxx anschauen?"
+      "value": "Das waren {count} Verleger und Verlegerinnen. Weiteren {remaining} anschauen?"
+    },
+    {
+      "key": "testimonial/detail/share/emailSubject",
+      "value": "{name} unterstützt Republik"
     },
     {
       "key": "api/testimonial/image/required",
@@ -1285,7 +1384,7 @@
     },
     {
       "key": "article/payNote/after",
-      "value": "Wir hoffen der Beitrag hat Ihenen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
+      "value": "Wir hoffen der Beitrag hat Ihnen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
     },
     {
       "key": "article/payNote/after/buyText",

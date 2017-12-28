@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Feed from '../components/Feed'
-import withMembership from '../components/Auth/withMembership'
+import { enforceMembership } from '../components/Auth/withMembership'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
@@ -20,7 +20,7 @@ const FeedPage = ({ url, me, t }) => {
 
 export default compose(
   withData,
-  withMembership,
+  enforceMembership,
   withMe,
   withT
 )(FeedPage)

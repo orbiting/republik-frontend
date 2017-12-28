@@ -98,7 +98,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
       onDrop={(accepted, rejected) => {
         if (accepted.length) {
           const file = accepted[0]
-          if (file.size && file.size > 6200000) {
+          if (file.size && file.size > 6.5 * 1024 * 1024) {
             onChange({
               errors: {
                 portrait: t('profile/portrait/tooBig')

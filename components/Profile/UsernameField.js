@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
 
 import {
-  Field
+  Field,
+  Label
 } from '@project-r/styleguide'
 
 const diacritics = [
@@ -28,7 +29,7 @@ const diacriticsMap = diacritics.reduce(
   {}
 )
 
-export const toUsername = string => string
+const toUsername = string => string
   .toLowerCase()
   .replace(/[^\u0000-\u007E]/g, a => diacriticsMap[a] || a)
   .replace(/[^.0-9a-z]+/g, ' ')
@@ -42,69 +43,81 @@ query checkUsername($value: String) {
 `
 
 class UsernameField extends Component {
-  constructor (...args) {
-    super(...args)
-    this.state = {}
-  }
   check () {
-    const { client, value } = this.props
+    const { client, values, onChange } = this.props
+    if (!values.username) {
+      return
+    }
     client
       .query({
         query,
-        variables: { value }
+        variables: {
+          value: values.username
+        }
       })
       .then(({ data }) => {
-        this.setState({error: undefined})
+        onChange({
+          errors: {
+            username: undefined
+          }
+        })
       })
       .catch(error => {
-        this.setState({
-          error: errorToString(error)
+        onChange({
+          errors: {
+            username: errorToString(error)
+          }
         })
       })
   }
   componentWillMount () {
-    this.check()
+    const { values } = this.props
+    if (values.username) {
+      this.check()
+    } else if (values.username !== undefined) {
+      const { onChange, user } = this.props
+      onChange({
+        values: {
+          username: toUsername([
+            user.firstName && user.firstName[0],
+            user.lastName
+          ].filter(Boolean).join(''))
+        }
+      })
+    }
   }
   componentDidUpdate (prevProps) {
-    if (prevProps.value !== this.props.value) {
+    if (prevProps.values.username !== this.props.values.username) {
       this.check()
     }
   }
   render () {
-    const { t, client, ...props } = this.props
-    const { error } = this.state
+    const { t, onChange, values, errors } = this.props
 
-    return <Field
-      label={t('profile/username/label')}
-      error={error}
-      {...props} />
+    return <Fragment>
+      <Field
+        label={t('profile/username/label')}
+        error={errors.username}
+        value={values.username}
+        onChange={(_, value) => {
+          onChange({
+            values: {
+              username: value
+                ? toUsername(value)
+                : null
+            }
+          })
+        }} />
+      <Label style={{display: 'block', marginTop: -10, marginBottom: 10}}>
+        {t('profile/username/note')}
+      </Label>
+    </Fragment>
   }
 }
 
 // TMP: Waiting for fix:
 // - https://github.com/apollographql/apollo-client/issues/2703
-// - once ready: rm class and replace with below
-// const UsernameField = compose(
-//   withT,
-//   graphql(query, {
-//     options: ({value}) => {
-//       return {
-//         errorPolicy: 'all',
-//         variables: {
-//           value
-//         }
-//       }
-//     },
-//     props: ({ data, ownProps: { t } }) => {
-//       return {
-//         label: t('profile/username/label'),
-//         error: data.error
-//           ? errorToString(data.error)
-//           : ''
-//       }
-//     }
-//   })
-// )(Field)
+// - once ready: rm class and replace with graphql connected function
 
 export default compose(
   withT,

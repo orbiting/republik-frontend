@@ -194,7 +194,13 @@ class Profile extends Component {
       const { me, data: { user } } = this.props
       const { isEditing } = this.state
       if (!isEditing && me && me.id === user.id) {
-        this.setState({isEditing: true, values: user})
+        this.setState({
+          isEditing: true,
+          values: {
+            ...user,
+            portrait: undefined
+          }
+        })
         window.scrollTo(0, 0)
       }
     }

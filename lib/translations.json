@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T22:01:50.403Z",
+  "updated": "2017-12-28T23:48:25.456Z",
   "title": "live",
   "data": [
     {
@@ -536,7 +536,11 @@
     },
     {
       "key": "profile/contact/pgpPublicKey/label",
-      "value": "PGP Public Key"
+      "value": "PGP-Public-Key"
+    },
+    {
+      "key": "profile/contact/pgpPublicKey/error/private",
+      "value": "Dies ist ein privater PGP-Key, diesen sollten Sie nie auf eine Webseite hochladen. Bitte geben Sie Ihren Public-Key an."
     },
     {
       "key": "profile/contact/phoneNumber/label",

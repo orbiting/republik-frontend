@@ -111,7 +111,19 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
         values={values}
         errors={errors}
         dirty={dirty}
-        onChange={onChange}
+        onChange={fields => {
+          const { pgpPublicKey } = fields.values
+          if (pgpPublicKey && pgpPublicKey.match(/PGP PRIVATE KEY/)) {
+            onChange({
+              values: {
+                pgpPublicKey: ''
+              }
+            })
+            window.alert(t('profile/contact/pgpPublicKey/error/private'))
+            return
+          }
+          onChange(fields)
+        }}
         additionalFieldProps={() => {
           return {
             renderInput: (props) => (

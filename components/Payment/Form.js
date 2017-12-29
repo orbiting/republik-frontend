@@ -5,7 +5,7 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
-  Interaction, Label,
+  Interaction, Label, A,
   colors, fontFamilies,
   Loader
 } from '@project-r/styleguide'
@@ -147,13 +147,22 @@ class PaymentForm extends Component {
       values,
       onChange
     } = this.props
-    if (!loadingPaymentSources && !values.paymentMethod) {
+    if (
+      !loadingPaymentSources &&
+      (
+        !values.paymentMethod ||
+        (allowedMethods && allowedMethods.indexOf(values.paymentMethod) === -1)
+      )
+    ) {
       const chargablePaymentSource =
         paymentSources &&
         paymentSources.find(ps => (
           ps.status === 'CHARGEABLE' && ps.isDefault
         ))
-      if (chargablePaymentSource) {
+      const stripeAllowed = allowedMethods
+        ? allowedMethods.indexOf('STRIPE') !== -1
+        : true
+      if (chargablePaymentSource && stripeAllowed) {
         onChange({
           values: {
             paymentMethod: 'STRIPE',
@@ -163,7 +172,7 @@ class PaymentForm extends Component {
       } else {
         onChange({
           values: {
-            paymentMethod: allowedMethods.indexOf('STRIPE') !== -1
+            paymentMethod: stripeAllowed
               ? 'STRIPE'
               : allowedMethods[0],
             paymentSource: undefined
@@ -185,25 +194,37 @@ class PaymentForm extends Component {
       loadingPaymentSources
     } = this.props
     const { paymentMethod } = values
+    const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
+
+    const hasChoice = visibleMethods.length > 1
+    const onlyStripe = (
+      !hasChoice &&
+      visibleMethods[0] === 'STRIPE'
+    )
 
     const paymentMethodForm = !values.paymentSource && paymentMethod
 
     return (
       <div>
-        <H2>{t('pledge/submit/payMethod/title')}</H2>
+        <H2>
+          {t(`payment/title${!hasChoice ? '/single' : ''}`)}
+        </H2>
         <div {...styles.secure}>
           <LockIcon /> {t('pledge/submit/secure')}
         </div>
         <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
-          const chargablePaymentSources =
-            paymentSources &&
-            paymentSources.filter(ps => (
+          const chargablePaymentSources = paymentSources
+            ? paymentSources.filter(ps => (
               ps.status === 'CHARGEABLE' && ps.isDefault
             ))
+            : []
+          const hasChargablePaymentSources = !!chargablePaymentSources.length
+
+          const showMethods = !hasChargablePaymentSources || this.state.showMethods
 
           return (
             <P>
-              {!!chargablePaymentSources && (
+              {hasChargablePaymentSources && (
                 <Fragment>
                   <Label>{t('payment/method/existing')}</Label><br />
                   {chargablePaymentSources.map((paymentSource, i) => {
@@ -234,6 +255,9 @@ class PaymentForm extends Component {
                           onChange={(event) => {
                             event.preventDefault()
                             const value = event.target.value
+                            this.setState({
+                              showMethods: false
+                            })
                             onChange({
                               values: {
                                 paymentMethod: 'STRIPE',
@@ -262,26 +286,49 @@ class PaymentForm extends Component {
                   <br />
                 </Fragment>
               )}
-              <Label>
-                {t(chargablePaymentSources ? 'payment/method/new' : 'payment/method/choose')}
-              </Label><br />
-              {PAYMENT_METHODS
+              {!hasChargablePaymentSources && hasChoice && (
+                <Label>
+                  {t('payment/method/choose')}
+                </Label>
+              )}
+              {hasChargablePaymentSources && !showMethods && (
+                <Label><A href='#show' onClick={(e) => {
+                  e.preventDefault()
+                  this.setState({
+                    showMethods: true
+                  })
+                  onChange({
+                    values: {
+                      paymentSource: undefined
+                    }
+                  })
+                }}>
+                  {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
+                </A></Label>
+              )}
+              {hasChargablePaymentSources && showMethods && (
+                <Label>
+                  {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
+                </Label>
+              )}
+              {(hasChoice || hasChargablePaymentSources) && <br />}
+              {showMethods && PAYMENT_METHODS
                 .filter(pm => (
                   !pm.disabled &&
-                  (!allowedMethods || allowedMethods.indexOf(pm.key) !== -1)
+                  visibleMethods.indexOf(pm.key) !== -1
                 ))
                 .map((pm) => (
                   <label key={pm.key}
                     {...styles.paymentMethod}
                     style={{
                       backgroundColor: pm.bgColor,
-                      opacity: allowedMethods && paymentMethod === pm.key && !values.paymentSource
+                      opacity: paymentMethod === pm.key && !values.paymentSource
                         ? 1 : 0.4
                     }}>
                     <input
                       type='radio'
                       name='paymentMethod'
-                      disabled={!allowedMethods || pm.disabled}
+                      disabled={pm.disabled}
                       onChange={(event) => {
                         event.preventDefault()
                         const value = event.target.value
@@ -352,7 +399,7 @@ class PaymentForm extends Component {
           <form method='post' onSubmit={(e) => {
             e.preventDefault()
           }}>
-            <Label>{t('pledge/submit/stripe/prefered')}</Label>
+            <Label>{t(`payment/stripe/${onlyStripe ? 'only' : 'prefered'}`)}</Label>
             <FieldSet
               values={values}
               errors={errors}

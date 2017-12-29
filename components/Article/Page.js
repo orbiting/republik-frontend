@@ -21,11 +21,13 @@ import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { renderMdast } from 'mdast-react-render'
 
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
+import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
-  article: createArticleSchema
+  article: createArticleSchema,
+  editorialNewsletter: createNewsletterSchema
 }
 
 const getSchemaCreator = template => {

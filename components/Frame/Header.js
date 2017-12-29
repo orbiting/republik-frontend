@@ -88,11 +88,11 @@ const styles = {
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
     right: `${HEADER_HEIGHT_MOBILE}px`,
-    paddingTop: '8px',
+    paddingTop: '11px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
       right: `${HEADER_HEIGHT}px`,
-      paddingTop: '20px'
+      paddingTop: '24px'
     },
     opacity: 0,
     transition: 'opacity .2s ease-in-out',

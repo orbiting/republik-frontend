@@ -35,7 +35,9 @@ const styles = {
     zIndex: 10, // goes over sidebar
     backgroundColor: negativeColors.primaryBg,
     paddingTop: 30,
-    paddingBottom: 30
+    paddingBottom: 30,
+    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased'
   }),
   icons: css({
     float: 'right'

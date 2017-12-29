@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-29T17:35:09.932Z",
+  "updated": "2017-12-29T22:06:16.973Z",
   "title": "live",
   "data": [
     {
@@ -1071,16 +1071,36 @@
       "value": "Tasche"
     },
     {
+      "key": "payment/title",
+      "value": "Zahlungsart auswählen"
+    },
+    {
+      "key": "payment/title/single",
+      "value": "Bezahlung"
+    },
+    {
       "key": "payment/method/choose",
-      "value": "Wählen Sie eine Zahlungsart:"
+      "value": "Wählen Sie eine Zahlungsart"
     },
     {
       "key": "payment/method/existing",
-      "value": "Gespeicherte Zahlungsart:"
+      "value": "Gespeicherte Kreditkarte"
     },
     {
       "key": "payment/method/new",
-      "value": "Neue Zahlungsart nutzen:"
+      "value": "Neue Kreditkarte oder Zahlungsart"
+    },
+    {
+      "key": "payment/method/new/stripe",
+      "value": "Neue Kreditkarte erfassen"
+    },
+    {
+      "key": "payment/stripe/prefered",
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
+    },
+    {
+      "key": "payment/stripe/only",
+      "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar."
     },
     {
       "key": "pledge/claim/signIn/before",
@@ -1159,10 +1179,6 @@
       "value": "Wählen Sie zuoberst ein Abonnement und eine Mitgliedschaft oder Spenden aus"
     },
     {
-      "key": "pledge/submit/payMethod/title",
-      "value": "Zahlungsart auswählen"
-    },
-    {
       "key": "pledge/submit/payMethod/error",
       "value": "Zahlungsart auswählen"
     },
@@ -1173,10 +1189,6 @@
     {
       "key": "pledge/submit/secure",
       "value": "Sichere Verbindung"
-    },
-    {
-      "key": "pledge/submit/stripe/prefered",
-      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
     },
     {
       "key": "pledge/submit/stripe/js/loading",

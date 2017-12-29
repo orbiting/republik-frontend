@@ -8,6 +8,7 @@ import { Link } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
+import { WithMembership } from '../Auth/withMembership'
 import ErrorMessage from '../ErrorMessage'
 
 import Account from '../Account'
@@ -154,6 +155,8 @@ class Merci extends Component {
       )
     }
 
+    const buttonStyle = {marginBottom: 10, marginRight: 10}
+
     return (
       <Fragment>
         <H1>{t('merci/title', {
@@ -162,7 +165,24 @@ class Merci extends Component {
         <RawHtml type={Lead} dangerouslySetInnerHTML={{
           __html: t('merci/lead')
         }} />
+        <WithMembership render={() => (
+          <div style={{marginTop: 10}}>
+            <Link route='index'>
+              <Button primary style={buttonStyle}>
+                {t('merci/action/read')}
+              </Button>
+            </Link>
+            {!me.hasPublicProfile && (
+              <Link route='profile' params={{slug: me.username || me.id}}>
+                <Button style={buttonStyle}>
+                  {t('merci/action/profile')}
+                </Button>
+              </Link>
+            )}
+          </div>
+        )} />
         <P style={{marginBottom: 80}}>
+          {t('merci/share/lead')}<br />
           <Share
             url={`${PUBLIC_BASE_URL}/`}
             tweet={t('merci/share/tweetTemplate')}

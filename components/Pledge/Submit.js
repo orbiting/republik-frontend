@@ -71,7 +71,9 @@ class Submit extends Component {
       this.state.pledgeId = props.basePledge.id
     }
     this.paymentRef = (ref) => {
-      this.payment = ref
+      this.payment = ref && ref.getWrappedInstance
+        ? ref.getWrappedInstance()
+        : ref
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -278,6 +280,15 @@ class Submit extends Component {
       loading: t('pledge/submit/loading/stripe')
     }))
 
+    if (values.paymentSource) {
+      this.pay({
+        pledgeId,
+        method: 'STRIPE',
+        sourceId: values.paymentSource
+      })
+      return
+    }
+
     loadStripe().then(stripe => {
       stripe.source.create({
         type: 'card',
@@ -418,6 +429,7 @@ class Submit extends Component {
         <PaymentForm
           ref={this.paymentRef}
           t={t}
+          me={me}
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,
@@ -430,7 +442,10 @@ class Submit extends Component {
             this.setState(state => {
               const nextState = FieldSet.utils.mergeFields(fields)(state)
 
-              if (state.values.paymentMethod !== nextState.values.paymentMethod) {
+              if (
+                state.values.paymentMethod !== nextState.values.paymentMethod ||
+                state.values.paymentSource !== nextState.values.paymentSource
+              ) {
                 nextState.showErrors = false
                 nextState.errors = {}
               }

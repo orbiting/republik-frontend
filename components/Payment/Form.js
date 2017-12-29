@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 import {
   Interaction, Label,
-  colors, fontFamilies
+  colors, fontFamilies,
+  Loader
 } from '@project-r/styleguide'
-
-import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
 
@@ -25,6 +25,10 @@ import loadStripe from './stripe'
 
 import LockIcon from './Icons/Lock'
 import * as PSPIcons from './Icons/PSP'
+
+import { format } from 'd3-format'
+
+const pad2 = format('02')
 
 const PAYMENT_METHODS = [
   {
@@ -68,6 +72,8 @@ const PAYMENT_METHODS = [
   }
 ]
 
+const PAYMENT_METHOD_HEIGHT = 64
+
 const styles = {
   secure: css({
     fontFamily: fontFamilies.sansSerifMedium,
@@ -85,22 +91,29 @@ const styles = {
     color: '#000',
     display: 'inline-block',
     border: `1px solid ${colors.secondary}`,
+    height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
     padding: 10,
     cursor: 'pointer',
     marginRight: 10,
     marginBottom: 10,
     lineHeight: 0,
-    height: 62,
     verticalAlign: 'top',
-
     '& input': {
       display: 'none'
     }
   }),
-  paymentMethodTextOnly: css({
-    lineHeight: '40px'
+  paymentMethodText: css({
+    lineHeight: '40px',
+    verticalAlign: 'middle'
   }),
-  paymentMethodTextWithIcon: css({
+  paymentMethodSourceText: css({
+    display: 'inline-block',
+    paddingLeft: 15,
+    paddingRight: 10,
+    lineHeight: '20px',
+    verticalAlign: 'middle'
+  }),
+  paymentMethodHiddenText: css({
     position: 'absolute',
     left: -10000,
     top: 'auto'
@@ -120,6 +133,45 @@ class PaymentForm extends Component {
       this.payPalForm = ref
     }
   }
+  componentDidMount () {
+    this.autoSelect()
+  }
+  componentDidUpdate () {
+    this.autoSelect()
+  }
+  autoSelect () {
+    const {
+      paymentSources,
+      loadingPaymentSources,
+      allowedMethods,
+      values,
+      onChange
+    } = this.props
+    if (!loadingPaymentSources && !values.paymentMethod) {
+      const chargablePaymentSource =
+        paymentSources &&
+        paymentSources.find(ps => (
+          ps.status === 'CHARGEABLE' && ps.isDefault
+        ))
+      if (chargablePaymentSource) {
+        onChange({
+          values: {
+            paymentMethod: 'STRIPE',
+            paymentSource: chargablePaymentSource.id
+          }
+        })
+      } else {
+        onChange({
+          values: {
+            paymentMethod: allowedMethods.indexOf('STRIPE') !== -1
+              ? 'STRIPE'
+              : allowedMethods[0],
+            paymentSource: undefined
+          }
+        })
+      }
+    }
+  }
   render () {
     const {
       t,
@@ -128,9 +180,13 @@ class PaymentForm extends Component {
       values,
       errors,
       dirty,
-      onChange
+      onChange,
+      paymentSources,
+      loadingPaymentSources
     } = this.props
     const { paymentMethod } = values
+
+    const paymentMethodForm = !values.paymentSource && paymentMethod
 
     return (
       <div>
@@ -138,44 +194,120 @@ class PaymentForm extends Component {
         <div {...styles.secure}>
           <LockIcon /> {t('pledge/submit/secure')}
         </div>
-        <P>
-          <Label>{t('pledge/submit/payMethod/label')}</Label><br />
-          {PAYMENT_METHODS
-            .filter(pm => !pm.disabled && (!allowedMethods || allowedMethods.indexOf(pm.key) !== -1))
-            .map((pm) => (
-              <label key={pm.key}
-                {...styles.paymentMethod}
-                style={{
-                  backgroundColor: pm.bgColor,
-                  opacity: allowedMethods && paymentMethod === pm.key ? 1 : 0.4
-                }}>
-                <input
-                  type='radio'
-                  name='paymentMethod'
-                  disabled={!allowedMethods || pm.disabled}
-                  onChange={(event) => {
-                    event.preventDefault()
-                    const value = event.target.value
+        <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
+          const chargablePaymentSources =
+            paymentSources &&
+            paymentSources.filter(ps => (
+              ps.status === 'CHARGEABLE' && ps.isDefault
+            ))
 
-                    onChange({
-                      values: {
-                        paymentMethod: value
-                      }
-                    })
-                  }}
-                  value={pm.key}
-                  checked={paymentMethod === pm.key} />
-                {pm.Icon ? <pm.Icon state={this.state} values={values} /> : null}
-                <span {...(pm.Icon
-                  ? styles.paymentMethodTextWithIcon
-                  : styles.paymentMethodTextOnly
-                )}>
-                  {t(`pledge/submit/pay/method/${pm.key}`)}
-                </span>
-              </label>
-            ))}
-        </P>
-        {(paymentMethod === 'PAYMENTSLIP') && (
+          return (
+            <P>
+              {!!chargablePaymentSources && (
+                <Fragment>
+                  <Label>{t('payment/method/existing')}</Label><br />
+                  {chargablePaymentSources.map((paymentSource, i) => {
+                    const Icon = (
+                      (paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
+                      (paymentSource.brand === 'MasterCard' && <PSPIcons.Mastercard />)
+                    )
+
+                    const disabled = paymentSource.status !== 'CHARGEABLE'
+                    const color = disabled
+                      ? colors.error
+                      : undefined
+
+                    return (
+                      <label key={i}
+                        {...styles.paymentMethod}
+                        style={{
+                          opacity: values.paymentSource === paymentSource.id
+                            ? 1
+                            : 0.4,
+                          borderColor: color,
+                          color
+                        }}>
+                        <input
+                          type='radio'
+                          name='paymentMethod'
+                          disabled={disabled}
+                          onChange={(event) => {
+                            event.preventDefault()
+                            const value = event.target.value
+                            onChange({
+                              values: {
+                                paymentMethod: 'STRIPE',
+                                paymentSource: value
+                              }
+                            })
+                          }}
+                          value={paymentSource.id}
+                          checked={values.paymentSource === paymentSource.id} />
+                        {Icon && Icon}
+                        {Icon && <span {...styles.paymentMethodHiddenText}>
+                          {paymentSource.brand}
+                        </span>}
+                        <span {...styles.paymentMethodSourceText}>
+                          {!Icon && paymentSource.brand}
+                          {'**** '}
+                          {paymentSource.last4}
+                          <br />
+                          {pad2(paymentSource.expMonth)}
+                          /
+                          {paymentSource.expYear}
+                        </span>
+                      </label>
+                    )
+                  })}
+                  <br />
+                </Fragment>
+              )}
+              <Label>
+                {t(chargablePaymentSources ? 'payment/method/new' : 'payment/method/choose')}
+              </Label><br />
+              {PAYMENT_METHODS
+                .filter(pm => (
+                  !pm.disabled &&
+                  (!allowedMethods || allowedMethods.indexOf(pm.key) !== -1)
+                ))
+                .map((pm) => (
+                  <label key={pm.key}
+                    {...styles.paymentMethod}
+                    style={{
+                      backgroundColor: pm.bgColor,
+                      opacity: allowedMethods && paymentMethod === pm.key && !values.paymentSource
+                        ? 1 : 0.4
+                    }}>
+                    <input
+                      type='radio'
+                      name='paymentMethod'
+                      disabled={!allowedMethods || pm.disabled}
+                      onChange={(event) => {
+                        event.preventDefault()
+                        const value = event.target.value
+
+                        onChange({
+                          values: {
+                            paymentMethod: value,
+                            paymentSource: undefined
+                          }
+                        })
+                      }}
+                      value={pm.key}
+                      checked={paymentMethod === pm.key && !values.paymentSource} />
+                    {pm.Icon ? <pm.Icon state={this.state} values={values} /> : null}
+                    <span {...(pm.Icon
+                      ? styles.paymentMethodHiddenText
+                      : styles.paymentMethodText
+                    )}>
+                      {t(`pledge/submit/pay/method/${pm.key}`)}
+                    </span>
+                  </label>
+                ))}
+            </P>
+          )
+        }} />
+        {(paymentMethodForm === 'PAYMENTSLIP') && (
           <div>
             <Label>
               {t('pledge/submit/paymentslip/explanation')}
@@ -216,7 +348,7 @@ class PaymentForm extends Component {
             <br />
           </div>
         )}
-        {(paymentMethod === 'STRIPE') && (
+        {(paymentMethodForm === 'STRIPE') && (
           <form method='post' onSubmit={(e) => {
             e.preventDefault()
           }}>
@@ -338,7 +470,7 @@ class PaymentForm extends Component {
             <br /><br />
           </form>
         )}
-        {(paymentMethod === 'POSTFINANCECARD') && (
+        {(paymentMethodForm === 'POSTFINANCECARD') && (
           <form ref={this.postFinanceFormRef} method='post' action={PF_FORM_ACTION}>
             {
               postfinance.getParams({
@@ -356,7 +488,7 @@ class PaymentForm extends Component {
             }
           </form>
         )}
-        {(paymentMethod === 'PAYPAL') && (
+        {(paymentMethodForm === 'PAYPAL') && (
           <form ref={this.payPalFormRef} method='post' action={PAYPAL_FORM_ACTION}>
             {
               paypal.getParams({
@@ -409,4 +541,35 @@ PaymentForm.propTypes = {
 // - receiveError
 // - context
 
-export default PaymentForm
+const myPaymentSources = gql`
+query {
+  me {
+    id
+    paymentSources {
+      id
+      status
+      brand
+      last4
+      expMonth
+      expYear
+      isDefault
+    }
+  }
+}
+`
+
+// all HOCs must support getWrappedInstance here
+export default compose(
+  graphql(myPaymentSources, {
+    skip: props => !props.me,
+    withRef: true,
+    options: {
+      fetchPolicy: 'network-only',
+      ssr: false
+    },
+    props: ({data}) => ({
+      paymentSources: data.me && data.me.paymentSources,
+      loadingPaymentSources: data.loading
+    })
+  })
+)(PaymentForm)

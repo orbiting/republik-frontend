@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T23:48:25.456Z",
+  "updated": "2017-12-29T17:35:09.932Z",
   "title": "live",
   "data": [
     {
@@ -1071,6 +1071,18 @@
       "value": "Tasche"
     },
     {
+      "key": "payment/method/choose",
+      "value": "Wählen Sie eine Zahlungsart:"
+    },
+    {
+      "key": "payment/method/existing",
+      "value": "Gespeicherte Zahlungsart:"
+    },
+    {
+      "key": "payment/method/new",
+      "value": "Neue Zahlungsart nutzen:"
+    },
+    {
       "key": "pledge/claim/signIn/before",
       "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
     },
@@ -1448,7 +1460,7 @@
     },
     {
       "key": "merci/share/emailBody",
-      "value": "Hallo Werde Mitglied und Abonnent der Republik: {url} Herzliche Grüsse, {backerName}"
+      "value": "Hallo\n\nWerde Mitglied und Abonnent der Republik: {url}\n\nHerzliche Grüsse, {backerName}"
     },
     {
       "key": "memberships/title/1",

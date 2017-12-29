@@ -1,9 +1,9 @@
 import React from 'react'
-import { Container, fontFamilies } from '@project-r/styleguide'
+import { Container, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
-import { HEADER_HEIGHT } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 
@@ -24,7 +24,10 @@ const styles = {
     flexDirection: 'column'
   }),
   coverless: css({
-    paddingTop: HEADER_HEIGHT
+    paddingTop: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      paddingTop: HEADER_HEIGHT
+    }
   }),
   bodyGrower: css({
     flexGrow: 1

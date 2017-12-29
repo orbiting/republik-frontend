@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-29T22:06:16.973Z",
+  "updated": "2017-12-29T22:34:46.239Z",
   "title": "live",
   "data": [
     {
@@ -1460,7 +1460,19 @@
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre Postadresse (brauchen wir leider) und Ihr Foto (brauchen wir nicht, würde uns aber freuen), Letzteres mit einem persönlichen Slogan (würde uns ebenfalls freuen).<br />\n<br />\nHier unser Slogan, in vier Worten: Lang lebe die Republik!"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Mitgliedschaft, Ihre Einkäufe und Ihre Postadresse (brauchen wir leider).<br />\n"
+    },
+    {
+      "key": "merci/action/read",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "merci/action/profile",
+      "value": "Ihr Profil anlegen"
+    },
+    {
+      "key": "merci/share/lead",
+      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!"
     },
     {
       "key": "merci/share/tweetTemplate",

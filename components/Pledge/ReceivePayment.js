@@ -10,7 +10,7 @@ import { errorToString } from '../../lib/utils/errors'
 import { withPay } from './Submit'
 import PledgeForm from './Form'
 import { gotoMerci } from './Merci'
-import loadStripe from './stripe'
+import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
 

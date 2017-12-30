@@ -88,11 +88,11 @@ const styles = {
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
     right: `${HEADER_HEIGHT_MOBILE}px`,
-    paddingTop: '8px',
+    paddingTop: '11px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
       right: `${HEADER_HEIGHT}px`,
-      paddingTop: '20px'
+      paddingTop: '24px'
     },
     opacity: 0,
     transition: 'opacity .2s ease-in-out',
@@ -150,6 +150,9 @@ class Header extends Component {
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
+    // The logo acts as a toggle between front and feed page.
+    const logoLinkPath = url.pathname === '/' ? '/feed' : '/'
+
     return (
       <div>
         <div {...barStyle} {...data}>
@@ -171,7 +174,7 @@ class Header extends Component {
             <div {...styles.center}>
               <a
                 {...styles.logo}
-                href='/'
+                href={logoLinkPath}
                 onClick={e => {
                   if (
                     e.currentTarget.nodeName === 'A' &&
@@ -184,11 +187,7 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/') {
-                    window.scrollTo(0, 0)
-                  } else {
-                    Router.push('/').then(() => window.scrollTo(0, 0))
-                  }
+                  Router.push(logoLinkPath).then(() => window.scrollTo(0, 0))
                 }}
               >
                 <Logo />

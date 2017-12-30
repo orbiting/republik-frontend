@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-30T00:46:41.481Z",
+  "updated": "2017-12-30T01:32:09.715Z",
   "title": "live",
   "data": [
     {
@@ -1569,6 +1569,22 @@
     {
       "key": "memberships/latestPeriod/overdue",
       "value": "Überfällig seit dem {formattedEndDate}."
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/cancel/link",
+      "value": "Abo kündigen"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/reactivate",
+      "value": "Abo reaktivieren"
+    },
+    {
+      "key": "memberships/manage/cancel/button",
+      "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/manage/cancel/reason",
+      "value": "Warum möchten Sie künden?"
     },
     {
       "key": "memberships/claim/lead",

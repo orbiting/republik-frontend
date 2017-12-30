@@ -43,11 +43,12 @@ const Account = ({ loading, error, me, t, query, hasMemberships, hasPledges, mer
           </H1>}
           <MembershipList highlightId={query.id} />
 
+          <UpdateMe />
+
           {(hasPledges || !hasMemberships) && (
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
           )}
           <PledgeList highlightId={query.id} />
-          <UpdateMe />
         </div>
       )
     }}

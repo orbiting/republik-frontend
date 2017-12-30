@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-29T22:34:46.239Z",
+  "updated": "2017-12-30T00:46:41.481Z",
   "title": "live",
   "data": [
     {
@@ -375,12 +375,12 @@
       "value": "Land fehlt"
     },
     {
-      "key": "account/pledges/title",
-      "value": "Ihre Teilnahme"
+      "key": "account/item/label",
+      "value": "Erstellt am {formattedDate} um {formattedTime}"
     },
     {
-      "key": "account/pledges/label",
-      "value": "Erstellt {formattedDateTime}"
+      "key": "account/pledges/title",
+      "value": "Ihre Einkäufe"
     },
     {
       "key": "account/pledges/payment/method/STRIPE",
@@ -1555,8 +1555,20 @@
       "value": "Monats-Abonnement"
     },
     {
-      "key": "memberships/label",
-      "value": "Erstellt {formattedDateTime}"
+      "key": "memberships/latestPeriod/renew/true",
+      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}."
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false",
+      "value": "Läuft am {formattedEndDate} aus."
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
+      "value": "Ihr Abo wird am {formattedEndDate} automatisch erneuert."
+    },
+    {
+      "key": "memberships/latestPeriod/overdue",
+      "value": "Überfällig seit dem {formattedEndDate}."
     },
     {
       "key": "memberships/claim/lead",

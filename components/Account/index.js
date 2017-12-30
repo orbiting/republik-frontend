@@ -13,7 +13,7 @@ import { H1, Interaction } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
 
-import ClaimedMemberships from './Memberships/List'
+import MembershipList from './Memberships/List'
 
 const { H2, P } = Interaction
 
@@ -41,7 +41,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, hasPledges, mer
               nameOrEmail: me.name || me.email
             })}
           </H1>}
-          <ClaimedMemberships />
+          <MembershipList highlightId={query.id} />
 
           {(hasPledges || !hasMemberships) && (
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>

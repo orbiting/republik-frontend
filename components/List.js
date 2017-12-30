@@ -3,14 +3,13 @@ import {css} from 'glamor'
 
 import {
   colors,
-  fontFamilies
+  fontFamilies,
+  fontStyles
 } from '@project-r/styleguide'
 
 const styles = {
   list: css({
-    fontFamily: fontFamilies.sansSerifRegular,
-    fontSize: 17,
-    lineHeight: '25px',
+    ...fontStyles.sansSerifRegular16,
     listStyle: 'none',
     margin: '10px 0',
     padding: 0
@@ -24,7 +23,7 @@ const styles = {
   }),
   highlight: css({
     fontFamily: fontFamilies.sansSerifMedium,
-    fontWeight: 'normla'
+    fontWeight: 'normal'
   })
 }
 

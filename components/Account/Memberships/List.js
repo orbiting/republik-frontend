@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../../lib/withT'
 
 import {
-  Interaction, Label, Loader
+  Interaction, Loader
 } from '@project-r/styleguide'
 
-import List, { Item } from '../../List'
+import { Item as AccountItem, P } from '../Elements'
 
 import { timeFormat } from '../../../lib/utils/format'
 
@@ -15,7 +15,7 @@ import query from '../belongingsQuery'
 
 const {H2} = Interaction
 
-const dateTimeFormat = timeFormat('%d. %B %Y %H:%M')
+const dayFormat = timeFormat('%d. %B %Y')
 
 class MembershipsList extends Component {
   constructor (props) {
@@ -25,7 +25,8 @@ class MembershipsList extends Component {
   render () {
     const {
       memberships, t,
-      loading, error
+      loading, error,
+      highlightId
     } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
@@ -38,27 +39,40 @@ class MembershipsList extends Component {
             <H2>{t.pluralize('memberships/title', {
               count: memberships.length
             })}</H2>
-            <List>
-              {memberships.map(membership => {
-                const createdAt = new Date(membership.createdAt)
+            {memberships.map(membership => {
+              const createdAt = new Date(membership.createdAt)
+              const latestPeriod = membership.periods[0]
+              const formattedEndDate = dayFormat(new Date(latestPeriod.endDate))
 
-                return (
-                  <Item key={membership.id}>
-                    {t(
+              return (
+                <AccountItem key={membership.id}
+                  highlighted={highlightId === membership.pledge.id}
+                  createdAt={createdAt}
+                  title={[
+                    t(
                       `memberships/type/${membership.type.name}`,
                       {},
                       membership.type.name
+                    ),
+                    `(${t('memberships/sequenceNumber/suffix', membership)})`
+                  ].join(' ')}>
+                  <P>
+                    {membership.active && !membership.overdue && t.first(
+                      [
+                        `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
+                        `memberships/latestPeriod/renew/${membership.renew}`
+                      ],
+                      { formattedEndDate },
+                      ''
                     )}
-                    {' '}({t('memberships/sequenceNumber/suffix', membership)})<br />
-                    <Label>
-                      {t('memberships/label', {
-                        formattedDateTime: dateTimeFormat(createdAt)
-                      })}
-                    </Label>
-                  </Item>
-                )
-              })}
-            </List>
+                    {membership.overdue && t(
+                      'memberships/latestPeriod/overdue',
+                      { formattedEndDate }
+                    )}
+                  </P>
+                </AccountItem>
+              )
+            })}
           </div>
         )
       }} />

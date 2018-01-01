@@ -9,9 +9,9 @@ import { Center, TeaserFeed, Interaction, mediaQueries } from '@project-r/styleg
 
 const styles = {
   container: css({
-    padding: '80px 15px 120px',
+    padding: '15px 15px 120px',
     [mediaQueries.mUp]: {
-      padding: '80px 0 120px'
+      padding: '40px 0 120px'
     }
   })
 }

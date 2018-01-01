@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-01T15:14:02.614Z",
+  "updated": "2018-01-01T15:23:37.167Z",
   "title": "live",
   "data": [
     {
@@ -377,6 +377,10 @@
     {
       "key": "account/paymentSource/3dsecure",
       "value": "3-D Secure"
+    },
+    {
+      "key": "account/paymentSource/3dsecure/failed",
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals."
     },
     {
       "key": "account/paymentSource/saving",

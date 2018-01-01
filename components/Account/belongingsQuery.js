@@ -15,6 +15,14 @@ query myBelongings {
       overdue
       pledge {
         id
+        options {
+          price
+          reward {
+            ... on MembershipType {
+              name
+            }
+          }
+        }
       }
       periods {
         beginDate

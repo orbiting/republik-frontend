@@ -1,5 +1,6 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
+import { max } from 'd3-array'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -20,7 +21,7 @@ import PaymentSources from './PaymentSources'
 
 const { H2, P } = Interaction
 
-const Account = ({ loading, error, me, t, query, hasMemberships, hasMonthlyMembership, hasPledges, merci }) => (
+const Account = ({ loading, error, me, t, query, hasMemberships, recurringAmount, hasPledges, merci }) => (
   <Loader
     loading={loading}
     error={error}
@@ -46,8 +47,8 @@ const Account = ({ loading, error, me, t, query, hasMemberships, hasMonthlyMembe
           </H1>}
           <MembershipList highlightId={query.id} />
 
-          {hasMonthlyMembership &&
-            <PaymentSources query={query} />}
+          {recurringAmount > 0 &&
+            <PaymentSources query={query} total={recurringAmount} />}
 
           <UpdateMe />
 
@@ -85,11 +86,15 @@ export default compose(
           !!data.me.pledges.length
         ),
         hasMemberships,
-        hasMonthlyMembership: (
-          hasMemberships &&
-          !!data.me.memberships
-            .find(m => m.type.name === 'MONTHLY_ABO')
-        )
+        recurringAmount: hasMemberships
+          ? max(
+            data.me.memberships.map(m => {
+              const recurringOptions = m.pledge.options
+                .filter(o => o.reward && o.reward.name === 'MONTHLY_ABO')
+              return max(recurringOptions.map(o => o.price)) || 0
+            })
+          )
+          : 0
       }
     }
   })

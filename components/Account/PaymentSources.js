@@ -60,12 +60,13 @@ class PaymentSources extends Component {
       })
   }
   createStripeSource () {
-    const { me, t } = this.props
+    const { me, t, total } = this.props
     this.setState({
       loading: t('account/paymentSource/saving'),
       remoteError: undefined
     })
     this.payment.createStripeSource({
+      total,
       metadata: {
         userId: me.id
       },

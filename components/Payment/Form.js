@@ -90,6 +90,7 @@ const styles = {
     fontSize: 14,
     color: '#000',
     display: 'inline-block',
+    backgroundColor: '#fff',
     border: `1px solid ${colors.secondary}`,
     height: PAYMENT_METHOD_HEIGHT - 2, // 2px borders
     padding: 10,
@@ -181,6 +182,80 @@ class PaymentForm extends Component {
       }
     }
   }
+  createStripeSource ({total, metadata, on3DSecure, returnUrl}) {
+    const { values, t } = this.props
+    return loadStripe().then(stripe => {
+      return new Promise((resolve, reject) => {
+        stripe.source.create({
+          type: 'card',
+          currency: 'CHF',
+          amount: total,
+          usage: 'reusable',
+          card: {
+            number: values.cardNumber,
+            cvc: values.cardCVC,
+            exp_month: values.cardMonth,
+            exp_year: values.cardYear
+          },
+          metadata
+        }, (status, source) => {
+          if (status !== 200) {
+            // source.error.type
+            // source.error.param
+            // source.error.message
+            // see https://stripe.com/docs/api#errors
+            // - never happens because we use client validation
+            // - only when charging some additional errors can happen
+            //   those are handled server side in the pay mutation
+            // - if it happens, we simply display the English message
+            // test cards https://stripe.com/docs/testing#cards
+            reject(source.error.message)
+            return
+          }
+
+          if (source.card.three_d_secure !== 'required') {
+            resolve(source)
+            return
+          }
+
+          if (on3DSecure) {
+            on3DSecure()
+          }
+          stripe.source.create({
+            type: 'three_d_secure',
+            currency: 'CHF',
+            amount: total,
+            three_d_secure: {
+              card: source.id
+            },
+            redirect: {
+              return_url: returnUrl
+            },
+            metadata
+          }, (status, source3d) => {
+            if (status !== 200) {
+              reject(t.first([
+                `pledge/3dsecure/${source3d.error.code}`,
+                'pledge/3dsecure/unkown'
+              ]))
+              return
+            }
+            if (source3d.redirect.status === 'succeeded') {
+              // can charge immediately
+              resolve(source3d)
+            } else if (source3d.redirect.status === 'failed') {
+              // no support or bank 3D Secure down
+              reject(
+                t('pledge/3dsecure/redirect/failed')
+              )
+            } else {
+              window.location = source3d.redirect.url
+            }
+          })
+        })
+      })
+    })
+  }
   render () {
     const {
       t,
@@ -191,7 +266,8 @@ class PaymentForm extends Component {
       dirty,
       onChange,
       paymentSources,
-      loadingPaymentSources
+      loadingPaymentSources,
+      onlyChargable
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
@@ -213,21 +289,21 @@ class PaymentForm extends Component {
           <LockIcon /> {t('pledge/submit/secure')}
         </div>
         <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
-          const chargablePaymentSources = paymentSources
+          const visiblePaymentSources = paymentSources
             ? paymentSources.filter(ps => (
-              ps.status === 'CHARGEABLE' && ps.isDefault
+              (!onlyChargable || ps.status === 'CHARGEABLE') && ps.isDefault
             ))
             : []
-          const hasChargablePaymentSources = !!chargablePaymentSources.length
+          const hasVisiblePaymentSources = !!visiblePaymentSources.length
 
-          const showMethods = !hasChargablePaymentSources || this.state.showMethods
+          const showMethods = !hasVisiblePaymentSources || values.newSource
 
           return (
             <P>
-              {hasChargablePaymentSources && (
+              {hasVisiblePaymentSources && (
                 <Fragment>
                   <Label>{t('payment/method/existing')}</Label><br />
-                  {chargablePaymentSources.map((paymentSource, i) => {
+                  {visiblePaymentSources.map((paymentSource, i) => {
                     const Icon = (
                       (paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
                       (paymentSource.brand === 'MasterCard' && <PSPIcons.Mastercard />)
@@ -255,11 +331,9 @@ class PaymentForm extends Component {
                           onChange={(event) => {
                             event.preventDefault()
                             const value = event.target.value
-                            this.setState({
-                              showMethods: false
-                            })
                             onChange({
                               values: {
+                                newSource: false,
                                 paymentMethod: 'STRIPE',
                                 paymentSource: value
                               }
@@ -286,19 +360,17 @@ class PaymentForm extends Component {
                   <br />
                 </Fragment>
               )}
-              {!hasChargablePaymentSources && hasChoice && (
+              {!hasVisiblePaymentSources && hasChoice && (
                 <Label>
                   {t('payment/method/choose')}
                 </Label>
               )}
-              {hasChargablePaymentSources && !showMethods && (
+              {hasVisiblePaymentSources && !showMethods && (
                 <Label><A href='#show' onClick={(e) => {
                   e.preventDefault()
-                  this.setState({
-                    showMethods: true
-                  })
                   onChange({
                     values: {
+                      newSource: true,
                       paymentSource: undefined
                     }
                   })
@@ -306,12 +378,12 @@ class PaymentForm extends Component {
                   {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
                 </A></Label>
               )}
-              {hasChargablePaymentSources && showMethods && (
+              {hasVisiblePaymentSources && showMethods && (
                 <Label>
                   {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
                 </Label>
               )}
-              {(hasChoice || hasChargablePaymentSources) && <br />}
+              {(hasChoice || hasVisiblePaymentSources) && <br />}
               {showMethods && PAYMENT_METHODS
                 .filter(pm => (
                   !pm.disabled &&
@@ -365,7 +437,6 @@ class PaymentForm extends Component {
               errors={errors}
               dirty={dirty}
               onChange={onChange} />
-            <br />
             { /* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}
@@ -392,7 +463,6 @@ class PaymentForm extends Component {
                 {t('pledge/submit/paymentslip/paperInvoice')}
               </Radio>
             </div> */ }
-            <br />
           </div>
         )}
         {(paymentMethodForm === 'STRIPE') && (
@@ -514,7 +584,6 @@ class PaymentForm extends Component {
                 }
                 onChange(nextState)
               }} />
-            <br /><br />
           </form>
         )}
         {(paymentMethodForm === 'POSTFINANCECARD') && (
@@ -557,6 +626,7 @@ class PaymentForm extends Component {
 
 PaymentForm.propTypes = {
   t: PropTypes.func.isRequired,
+  loadSources: PropTypes.bool.isRequired,
   allowedMethods: PropTypes.arrayOf(
     PropTypes.oneOf(PAYMENT_METHODS.map(method => method.key))
   ),
@@ -566,7 +636,10 @@ PaymentForm.propTypes = {
     total: PropTypes.number,
     pfAliasId: PropTypes.string,
     pfSHA: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  values: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  dirty: PropTypes.object.isRequired
   // return: PropTypes.shape({
   //   route: PropTypes.string.isRequired,
   //   params: PropTypes.object
@@ -588,8 +661,8 @@ PaymentForm.propTypes = {
 // - receiveError
 // - context
 
-const myPaymentSources = gql`
-query {
+export const query = gql`
+query myPaymentSources {
   me {
     id
     paymentSources {
@@ -607,8 +680,8 @@ query {
 
 // all HOCs must support getWrappedInstance here
 export default compose(
-  graphql(myPaymentSources, {
-    skip: props => !props.me,
+  graphql(query, {
+    skip: props => !props.loadSources,
     withRef: true,
     options: {
       fetchPolicy: 'network-only',

@@ -16,8 +16,8 @@ import {
 const dayFormat = timeFormat('%d. %B %Y')
 
 class Manage extends Component {
-  constructor (props) {
-    super(props)
+  constructor (...args) {
+    super(...args)
     this.state = {
       isCancelling: false,
       values: {},

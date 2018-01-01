@@ -66,12 +66,13 @@ const ActionBar = ({ title, t, url }) => (
 )
 
 const getDocument = gql`
-  query getDocument($slug: String!) {
-    article: document(slug: $slug) {
+  query getDocument($path: String!) {
+    article: document(path: $path) {
       content
       meta {
         template
         slug
+        path
         title
         description
         image
@@ -142,7 +143,7 @@ class ArticlePage extends Component {
 
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}/${article.meta.slug}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path || '/'+article.meta.slug}`
     }
 
     return (
@@ -188,7 +189,7 @@ export default compose(
   graphql(getDocument, {
     options: ({url: {query}}) => ({
       variables: {
-        slug: [
+        path: '/'+[
           query.year,
           query.month,
           query.day,

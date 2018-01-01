@@ -221,7 +221,7 @@ class PledgeReceivePayment extends Component {
       .catch(() => {
         this.setState(() => ({
           processing: false,
-          receiveError: t('pledge/submit/stripe/js/failed')
+          receiveError: t('payment/stripe/js/failed')
         }))
       })
   }

@@ -110,7 +110,7 @@ class PaymentSources extends Component {
       .catch(() => {
         this.setState(() => ({
           loading: false,
-          remoteError: t('pledge/submit/stripe/js/failed')
+          remoteError: t('payment/stripe/js/failed')
         }))
       })
   }

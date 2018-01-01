@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-30T01:32:09.715Z",
+  "updated": "2018-01-01T15:14:02.614Z",
   "title": "live",
   "data": [
     {
@@ -373,6 +373,22 @@
     {
       "key": "Account/AddressForm/country/error/empty",
       "value": "Land fehlt"
+    },
+    {
+      "key": "account/paymentSource/3dsecure",
+      "value": "3-D Secure"
+    },
+    {
+      "key": "account/paymentSource/saving",
+      "value": "verifizieren"
+    },
+    {
+      "key": "account/paymentSource/save",
+      "value": "speichern"
+    },
+    {
+      "key": "account/paymentSource/error",
+      "value": "Fehler"
     },
     {
       "key": "account/item/label",

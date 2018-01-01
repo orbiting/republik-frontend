@@ -30,7 +30,6 @@ import {
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
-import loadStripe from '../Payment/stripe'
 
 const {P} = Interaction
 
@@ -207,7 +206,7 @@ class Submit extends Component {
       loading: t('pledge/submit/loading/paypal'),
       pledgeId: pledgeId
     }), () => {
-      this.payPalForm.submit()
+      this.payment.payPalForm.submit()
     })
   }
   payWithPostFinance (pledgeId, pledgeResponse) {
@@ -220,7 +219,7 @@ class Submit extends Component {
       pfAliasId: pledgeResponse.pfAliasId,
       pfSHA: pledgeResponse.pfSHA
     }), () => {
-      this.postFinanceForm.submit()
+      this.payment.postFinanceForm.submit()
     })
   }
   payWithPaymentSlip (pledgeId) {
@@ -289,93 +288,23 @@ class Submit extends Component {
       return
     }
 
-    loadStripe().then(stripe => {
-      stripe.source.create({
-        type: 'card',
-        currency: 'CHF',
-        amount: total,
-        usage: 'reusable',
-        card: {
-          number: values.cardNumber,
-          cvc: values.cardCVC,
-          exp_month: values.cardMonth,
-          exp_year: values.cardYear
-        },
-        metadata: {
-          pledgeId
-        }
-      }, (status, source) => {
-        if (status !== 200) {
-          // source.error.type
-          // source.error.param
-          // source.error.message
-          // see https://stripe.com/docs/api#errors
-          // - never happens because we use client validation
-          // - only when charging some additional errors can happen
-          //   those are handled server side in the pay mutation
-          // - if it happens, we simply display the English message
-          // test cards https://stripe.com/docs/testing#cards
-          this.setState(() => ({
-            loading: false,
-            paymentError: source.error.message
-          }))
-          return
-        }
+    this.payment.createStripeSource({
+      total,
+      metadata: {
+        pledgeId
+      },
+      on3DSecure: () => {
+        this.setState({
+          loading: t('pledge/submit/loading/stripe/3dsecure')
+        })
+      },
+      returnUrl: `${PUBLIC_BASE_URL}/pledge?pledgeId=${pledgeId}&stripe=1`
+    })
+      .then(source => {
         this.setState({
           loading: false,
           paymentError: undefined
         })
-
-        if (source.card.three_d_secure === 'required') {
-          this.setState(() => ({
-            loading: t('pledge/submit/loading/stripe/3dsecure')
-          }))
-          stripe.source.create({
-            type: 'three_d_secure',
-            currency: 'CHF',
-            amount: total,
-            three_d_secure: {
-              card: source.id
-            },
-            redirect: {
-              return_url: `${PUBLIC_BASE_URL}/pledge?pledgeId=${pledgeId}&stripe=1`
-            },
-            metadata: {
-              pledgeId
-            }
-          }, (status, source3d) => {
-            if (status !== 200) {
-              this.setState(() => ({
-                loading: false,
-                paymentError: t.first([
-                  `pledge/3dsecure/${source3d.error.code}`,
-                  'pledge/3dsecure/unkown'
-                ])
-              }))
-              return
-            }
-            if (source3d.redirect.status === 'succeeded') {
-              // can charge immediately
-              this.pay({
-                pledgeId,
-                method: 'STRIPE',
-                sourceId: source3d.id,
-                pspPayload: JSON.stringify(source3d)
-              })
-            } else if (source3d.redirect.status === 'failed') {
-              // no support or bank 3D Secure down
-              this.setState(() => ({
-                loading: false,
-                paymentError: t('pledge/3dsecure/redirect/failed')
-              }))
-            } else {
-              window.location = source3d.redirect.url
-            }
-          })
-
-          return
-        }
-
         this.pay({
           pledgeId,
           method: 'STRIPE',
@@ -383,13 +312,12 @@ class Submit extends Component {
           pspPayload: JSON.stringify(source)
         })
       })
-    })
-    .catch(() => {
-      this.setState(() => ({
-        loading: false,
-        paymentError: t('pledge/submit/stripe/js/failed')
-      }))
-    })
+      .catch(error => {
+        this.setState({
+          loading: false,
+          paymentError: error
+        })
+      })
   }
   getErrorMessages () {
     const {
@@ -429,7 +357,8 @@ class Submit extends Component {
         <PaymentForm
           ref={this.paymentRef}
           t={t}
-          me={me}
+          loadSources={!!me}
+          onlyChargable
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,

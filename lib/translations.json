@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-01T17:35:26.791Z",
+  "updated": "2018-01-02T14:44:03.360Z",
   "title": "live",
   "data": [
     {
@@ -299,12 +299,20 @@
       "value": "Geburtsdatum"
     },
     {
+      "key": "Account/Update/birthday/label/optional",
+      "value": "Geburtsdatum (Optional)"
+    },
+    {
       "key": "Account/Update/phone/label",
       "value": "Telefonnummer (Optional)"
     },
     {
-      "key": "Account/Update/birthday/hint",
+      "key": "Account/Update/birthday/hint/statute",
       "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R"
+    },
+    {
+      "key": "Account/Update/birthday/hint/plain",
+      "value": "TT.MM.JJJJ"
     },
     {
       "key": "Account/Update/birthday/error/empty",
@@ -1335,11 +1343,19 @@
       "value": "{formattedChf} bezahlen"
     },
     {
-      "key": "pledge/submit/legal/label",
+      "key": "pledge/submit/legal/label/statute",
       "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/error",
+      "key": "pledge/submit/legal/label/plain",
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden."
+    },
+    {
+      "key": "pledge/submit/legal/error/statute",
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+    },
+    {
+      "key": "pledge/submit/legal/error/plain",
       "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {

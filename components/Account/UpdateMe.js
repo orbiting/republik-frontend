@@ -20,7 +20,7 @@ const {H2, P} = Interaction
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
-const fields = (t) => [
+const fields = (t, acceptedStatue) => [
   {
     label: t('pledge/contact/firstName/label'),
     name: 'firstName',
@@ -40,7 +40,9 @@ const fields = (t) => [
     name: 'phoneNumber'
   },
   {
-    label: t('Account/Update/birthday/label'),
+    label: t(acceptedStatue
+      ? 'Account/Update/birthday/label'
+      : 'Account/Update/birthday/label/optional'),
     name: 'birthday',
     mask: '11.11.1111',
     maskChar: '_',
@@ -49,10 +51,11 @@ const fields = (t) => [
       return (
         (
           (
-            value.trim().length <= 0 &&
+            value.trim().length <= 0 && acceptedStatue &&
             t('Account/Update/birthday/error/empty')
           ) ||
           (
+            value.trim().length &&
             (
               parsedDate === null ||
               parsedDate > (new Date()) ||
@@ -138,7 +141,13 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render () {
-    const {t, me, loading, error, style} = this.props
+    const {
+      t, me,
+      loading,
+      error,
+      style,
+      acceptedStatue
+    } = this.props
     const {
       values, dirty, errors,
       updating, isEditing
@@ -163,10 +172,10 @@ class UpdateMe extends Component {
                   (_, i) => <br key={i} />
                 )}
               </P>
-              <P>
+              {!!me.birthday && <P>
                 <Label key='birthday'>{t('Account/Update/birthday/label')}</Label><br />
                 {me.birthday}
-              </P>
+              </P>}
               <P>
                 <Label>{t('Account/Update/address/label')}</Label><br />
               </P>
@@ -199,9 +208,11 @@ class UpdateMe extends Component {
                 onChange={(fields) => {
                   this.setState(FieldSet.utils.mergeFields(fields))
                 }}
-                fields={fields(t)} />
+                fields={fields(t, acceptedStatue)} />
               <Label style={{marginTop: -8, display: 'block'}}>
-                {t('Account/Update/birthday/hint')}
+                {t(acceptedStatue
+                  ? 'Account/Update/birthday/hint/statute'
+                  : 'Account/Update/birthday/hint/plain')}
               </Label>
               <br /><br />
               <br />
@@ -258,7 +269,9 @@ class UpdateMe extends Component {
                         firstName: values.firstName,
                         lastName: values.lastName,
                         phoneNumber: values.phoneNumber,
-                        birthday: values.birthday,
+                        birthday: values.birthday && values.birthday.length
+                          ? values.birthday.trim()
+                          : null,
                         address: {
                           name: values.name,
                           line1: values.line1,
@@ -290,7 +303,7 @@ class UpdateMe extends Component {
   }
 }
 
-const mutation = gql`mutation updateMe($birthday: Date!, $firstName: String!, $lastName: String!, $phoneNumber: String, $address: AddressInput!) {
+const mutation = gql`mutation updateMe($birthday: Date, $firstName: String!, $lastName: String!, $phoneNumber: String, $address: AddressInput!) {
   updateMe(birthday: $birthday, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, address: $address) {
     id
   }

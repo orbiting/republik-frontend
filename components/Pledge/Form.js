@@ -70,6 +70,9 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     return {
+      requiresStatutes: pkg
+        ? pkg.name !== 'MONTHLY_ABO' && pkg.name !== 'DONATE'
+        : undefined,
       paymentMethods: pkg ? pkg.paymentMethods : undefined,
       total: values.price || undefined,
       user: {

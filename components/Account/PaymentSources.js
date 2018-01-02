@@ -192,7 +192,18 @@ class PaymentSources extends Component {
               style={{opacity: errorMessages.length ? 0.5 : 1}}
               onClick={() => {
                 if (errorMessages.length) {
-                  this.setState({showErrors: true})
+                  this.setState(state => {
+                    const dirty = {}
+                    Object.keys(state.errors).forEach(field => {
+                      if (state.errors[field]) {
+                        dirty[field] = true
+                      }
+                    })
+                    return {
+                      dirty,
+                      showErrors: true
+                    }
+                  })
                   return
                 }
                 this.createStripeSource()

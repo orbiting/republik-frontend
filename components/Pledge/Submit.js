@@ -309,7 +309,7 @@ class Submit extends Component {
           pledgeId,
           method: 'STRIPE',
           sourceId: source.id,
-          pspPayload: JSON.stringify(source)
+          pspPayload: source
         })
       })
       .catch(error => {
@@ -496,7 +496,7 @@ const submitPledge = gql`
 `
 
 const payPledge = gql`
-  mutation payPledge($pledgeId: ID!, $method: PaymentMethod!, $sourceId: String, $pspPayload: String, $address: AddressInput, $paperInvoice: Boolean) {
+  mutation payPledge($pledgeId: ID!, $method: PaymentMethod!, $sourceId: String, $pspPayload: JSON, $address: AddressInput, $paperInvoice: Boolean) {
     payPledge(pledgePayment: {pledgeId: $pledgeId, method: $method, sourceId: $sourceId, pspPayload: $pspPayload, address: $address, paperInvoice: $paperInvoice}) {
       pledgeId
       userId

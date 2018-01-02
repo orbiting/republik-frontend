@@ -176,7 +176,8 @@ class PaymentForm extends Component {
             paymentMethod: stripeAllowed
               ? 'STRIPE'
               : allowedMethods[0],
-            paymentSource: undefined
+            paymentSource: undefined,
+            newSource: true
           }
         })
       }

@@ -39,7 +39,7 @@ class PaymentSources extends Component {
     }
   }
   addSource (source) {
-    this.props.addSource(source.id)
+    this.props.addSource(source)
       .then(() => {
         this.setState({
           loading: false,
@@ -221,8 +221,8 @@ class PaymentSources extends Component {
 }
 
 const addSource = gql`
-mutation addPaymentSource($sourceId: String!) {
-  addPaymentSource(sourceId: $sourceId) {
+mutation addPaymentSource($sourceId: String!, $pspPayload: JSON!) {
+  addPaymentSource(sourceId: $sourceId, pspPayload: $pspPayload) {
     id
     last4
     brand
@@ -239,10 +239,11 @@ export default compose(
   withMe,
   graphql(addSource, {
     props: ({mutate}) => ({
-      addSource: sourceId => {
+      addSource: source => {
         return mutate({
           variables: {
-            sourceId
+            sourceId: source.id,
+            pspPayload: source
           },
           refetchQueries: [{
             query

@@ -150,8 +150,8 @@ class Header extends Component {
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
-    // The logo acts as a toggle between front and feed page.
-    const logoLinkPath = url.pathname === '/' ? '/feed' : '/'
+    // The logo acts as a toggle between front and feed page when user's logged in.
+    const logoLinkPath = url.pathname === '/' && me ? '/feed' : '/'
 
     return (
       <div>
@@ -187,7 +187,11 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  Router.push(logoLinkPath).then(() => window.scrollTo(0, 0))
+                  if (url.pathname === '/' && !me) {
+                    window.scrollTo(0, 0)
+                  } else {
+                    Router.push(logoLinkPath).then(() => window.scrollTo(0, 0))
+                  }
                 }}
               >
                 <Logo />

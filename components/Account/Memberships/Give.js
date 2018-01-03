@@ -1,32 +1,14 @@
 import React, { Component } from 'react'
-import { css, merge } from 'glamor'
 
 import withT from '../../../lib/withT'
 
 import {
-  RawHtml,
-  linkRule,
-  fontFamilies
+  RawHtml
 } from '@project-r/styleguide'
 
 import List, { Item } from '../../List'
 
-const styles = {
-  a: merge(linkRule, {
-    fontSize: 17,
-    lineHeight: '25px',
-    fontFamily: fontFamilies.sansSerifMedium
-  }),
-  p: css({
-    margin: 0,
-    fontSize: 17,
-    lineHeight: '25px',
-    fontFamily: fontFamilies.sansSerifRegular
-  })
-}
-
-const A = ({children, ...props}) => <a {...props} {...styles.a}>{children}</a>
-const P = ({children, ...props}) => <p {...props} {...styles.p}>{children}</p>
+import { A, P } from '../Elements'
 
 class MembershipGiver extends Component {
   constructor (props) {

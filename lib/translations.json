@@ -1,5 +1,5 @@
 {
-  "updated": "2017-12-28T23:48:25.456Z",
+  "updated": "2018-01-02T14:44:03.360Z",
   "title": "live",
   "data": [
     {
@@ -299,12 +299,20 @@
       "value": "Geburtsdatum"
     },
     {
+      "key": "Account/Update/birthday/label/optional",
+      "value": "Geburtsdatum (Optional)"
+    },
+    {
       "key": "Account/Update/phone/label",
       "value": "Telefonnummer (Optional)"
     },
     {
-      "key": "Account/Update/birthday/hint",
+      "key": "Account/Update/birthday/hint/statute",
       "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R"
+    },
+    {
+      "key": "Account/Update/birthday/hint/plain",
+      "value": "TT.MM.JJJJ"
     },
     {
       "key": "Account/Update/birthday/error/empty",
@@ -375,12 +383,32 @@
       "value": "Land fehlt"
     },
     {
-      "key": "account/pledges/title",
-      "value": "Ihre Teilnahme"
+      "key": "account/paymentSource/3dsecure",
+      "value": "3-D Secure"
     },
     {
-      "key": "account/pledges/label",
-      "value": "Erstellt {formattedDateTime}"
+      "key": "account/paymentSource/3dsecure/failed",
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals."
+    },
+    {
+      "key": "account/paymentSource/saving",
+      "value": "verifizieren"
+    },
+    {
+      "key": "account/paymentSource/save",
+      "value": "speichern"
+    },
+    {
+      "key": "account/paymentSource/error",
+      "value": "Fehler"
+    },
+    {
+      "key": "account/item/label",
+      "value": "Erstellt am {formattedDate} um {formattedTime}"
+    },
+    {
+      "key": "account/pledges/title",
+      "value": "Ihre Einkäufe"
     },
     {
       "key": "account/pledges/payment/method/STRIPE",
@@ -1071,6 +1099,150 @@
       "value": "Tasche"
     },
     {
+      "key": "payment/title",
+      "value": "Zahlungsart auswählen"
+    },
+    {
+      "key": "payment/title/single",
+      "value": "Bezahlung"
+    },
+    {
+      "key": "payment/secure",
+      "value": "Sichere Verbindung"
+    },
+    {
+      "key": "payment/insecure",
+      "value": "Unsichere Verbindung"
+    },
+    {
+      "key": "payment/method/STRIPE",
+      "value": "Visa/MasterCard"
+    },
+    {
+      "key": "payment/method/PAYMENTSLIP",
+      "value": "Banküberweisung"
+    },
+    {
+      "key": "payment/method/POSTFINANCECARD",
+      "value": "PostFinance Card"
+    },
+    {
+      "key": "payment/method/PAYPAL",
+      "value": "PayPal"
+    },
+    {
+      "key": "payment/method/choose",
+      "value": "Wählen Sie eine Zahlungsart"
+    },
+    {
+      "key": "payment/method/existing",
+      "value": "Gespeicherte Kreditkarte"
+    },
+    {
+      "key": "payment/method/new",
+      "value": "Neue Kreditkarte oder Zahlungsart"
+    },
+    {
+      "key": "payment/method/new/stripe",
+      "value": "Neue Kreditkarte erfassen"
+    },
+    {
+      "key": "payment/stripe/prefered",
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
+    },
+    {
+      "key": "payment/stripe/only",
+      "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar."
+    },
+    {
+      "key": "payment/stripe/js/loading",
+      "value": "Kreditkartenzahlung wird vorbereitet"
+    },
+    {
+      "key": "payment/stripe/js/failed",
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
+    },
+    {
+      "key": "payment/stripe/card/label",
+      "value": "Kreditkarten-Nummer"
+    },
+    {
+      "key": "payment/stripe/card/error/empty",
+      "value": "Kreditkarten-Nummer fehlt"
+    },
+    {
+      "key": "payment/stripe/card/error/invalid",
+      "value": "Kreditkarten-Nummer ungültig"
+    },
+    {
+      "key": "payment/stripe/month/label",
+      "value": "Ablauf Monat"
+    },
+    {
+      "key": "payment/stripe/month/error/empty",
+      "value": "Ablauf Monat fehlt"
+    },
+    {
+      "key": "payment/stripe/month/error/invalid",
+      "value": "Ablauf Monat ungültig"
+    },
+    {
+      "key": "payment/stripe/year/label",
+      "value": "Ablauf Jahr"
+    },
+    {
+      "key": "payment/stripe/year/error/empty",
+      "value": "Ablauf Jahr fehlt"
+    },
+    {
+      "key": "payment/stripe/year/error/invalid",
+      "value": "Ablauf Jahr ungültig"
+    },
+    {
+      "key": "payment/stripe/cvc/label",
+      "value": "Prüfnummer (CVC)"
+    },
+    {
+      "key": "payment/stripe/cvc/error/empty",
+      "value": "Prüfnummer (CVC) fehlt"
+    },
+    {
+      "key": "payment/stripe/cvc/error/invalid",
+      "value": "Prüfnummer (CVC) ungültig"
+    },
+    {
+      "key": "payment/stripe/3dsecure/payment_method_not_available",
+      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "payment/stripe/3dsecure/processing_error",
+      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
+    },
+    {
+      "key": "payment/stripe/3dsecure/unkown",
+      "value": "Unbekannter Fehler beim Bezahlen."
+    },
+    {
+      "key": "payment/stripe/3dsecure/redirect/failed",
+      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "payment/paymentslip/title",
+      "value": "Ihre Adresse"
+    },
+    {
+      "key": "payment/paymentslip/explanation",
+      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+    },
+    {
+      "key": "payment/paymentslip/emailInvoice",
+      "value": "Zahlungsanweisungen per E-Mail"
+    },
+    {
+      "key": "payment/paymentslip/paperInvoice",
+      "value": "Rechnung per Post"
+    },
+    {
       "key": "pledge/claim/signIn/before",
       "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
     },
@@ -1147,80 +1319,12 @@
       "value": "Wählen Sie zuoberst ein Abonnement und eine Mitgliedschaft oder Spenden aus"
     },
     {
-      "key": "pledge/submit/payMethod/title",
-      "value": "Zahlungsart auswählen"
-    },
-    {
       "key": "pledge/submit/payMethod/error",
       "value": "Zahlungsart auswählen"
     },
     {
       "key": "pledge/submit/payMethod/label",
       "value": "Wählen Sie eine Zahlungsart:"
-    },
-    {
-      "key": "pledge/submit/secure",
-      "value": "Sichere Verbindung"
-    },
-    {
-      "key": "pledge/submit/stripe/prefered",
-      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
-    },
-    {
-      "key": "pledge/submit/stripe/js/loading",
-      "value": "Kreditkartenzahlung wird vorbereitet"
-    },
-    {
-      "key": "pledge/submit/stripe/js/failed",
-      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
-    },
-    {
-      "key": "pledge/submit/stripe/card/label",
-      "value": "Kreditkarten-Nummer"
-    },
-    {
-      "key": "pledge/submit/stripe/card/error/empty",
-      "value": "Kreditkarten-Nummer fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/card/error/invalid",
-      "value": "Kreditkarten-Nummer ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/month/label",
-      "value": "Ablauf Monat"
-    },
-    {
-      "key": "pledge/submit/stripe/month/error/empty",
-      "value": "Ablauf Monat fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/month/error/invalid",
-      "value": "Ablauf Monat ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/year/label",
-      "value": "Ablauf Jahr"
-    },
-    {
-      "key": "pledge/submit/stripe/year/error/empty",
-      "value": "Ablauf Jahr fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/year/error/invalid",
-      "value": "Ablauf Jahr ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/label",
-      "value": "Prüfnummer (CVC)"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/error/empty",
-      "value": "Prüfnummer (CVC) fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/error/invalid",
-      "value": "Prüfnummer (CVC) ungültig"
     },
     {
       "key": "pledge/submit/emailVerify/note",
@@ -1239,28 +1343,20 @@
       "value": "{formattedChf} bezahlen"
     },
     {
-      "key": "pledge/submit/legal/label",
+      "key": "pledge/submit/legal/label/statute",
       "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/error",
+      "key": "pledge/submit/legal/label/plain",
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden."
+    },
+    {
+      "key": "pledge/submit/legal/error/statute",
       "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {
-      "key": "pledge/submit/pay/method/STRIPE",
-      "value": "Visa/MasterCard"
-    },
-    {
-      "key": "pledge/submit/pay/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
-    },
-    {
-      "key": "pledge/submit/pay/method/POSTFINANCECARD",
-      "value": "PostFinance Card"
-    },
-    {
-      "key": "pledge/submit/pay/method/PAYPAL",
-      "value": "PayPal"
+      "key": "pledge/submit/legal/error/plain",
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {
       "key": "pledge/submit/loading/submit",
@@ -1347,38 +1443,6 @@
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
     },
     {
-      "key": "pledge/3dsecure/payment_method_not_available",
-      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
-      "key": "pledge/3dsecure/processing_error",
-      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
-    },
-    {
-      "key": "pledge/3dsecure/unkown",
-      "value": "Unbekannter Fehler beim Bezahlen."
-    },
-    {
-      "key": "pledge/3dsecure/redirect/failed",
-      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
-      "key": "pledge/submit/paymentslip/title",
-      "value": "Ihre Adresse"
-    },
-    {
-      "key": "pledge/submit/paymentslip/explanation",
-      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
-    },
-    {
-      "key": "pledge/submit/paymentslip/emailInvoice",
-      "value": "Zahlungsanweisungen per E-Mail"
-    },
-    {
-      "key": "pledge/submit/paymentslip/paperInvoice",
-      "value": "Rechnung per Post"
-    },
-    {
       "key": "article/payNote/before",
       "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!"
     },
@@ -1436,7 +1500,19 @@
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre Postadresse (brauchen wir leider) und Ihr Foto (brauchen wir nicht, würde uns aber freuen), Letzteres mit einem persönlichen Slogan (würde uns ebenfalls freuen).<br />\n<br />\nHier unser Slogan, in vier Worten: Lang lebe die Republik!"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Mitgliedschaft, Ihre Einkäufe und Ihre Postadresse (brauchen wir leider).<br />\n"
+    },
+    {
+      "key": "merci/action/read",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "merci/action/profile",
+      "value": "Ihr Profil anlegen"
+    },
+    {
+      "key": "merci/share/lead",
+      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!"
     },
     {
       "key": "merci/share/tweetTemplate",
@@ -1448,7 +1524,7 @@
     },
     {
       "key": "merci/share/emailBody",
-      "value": "Hallo Werde Mitglied und Abonnent der Republik: {url} Herzliche Grüsse, {backerName}"
+      "value": "Hallo\n\nWerde Mitglied und Abonnent der Republik: {url}\n\nHerzliche Grüsse, {backerName}"
     },
     {
       "key": "memberships/title/1",
@@ -1519,8 +1595,36 @@
       "value": "Monats-Abonnement"
     },
     {
-      "key": "memberships/label",
-      "value": "Erstellt {formattedDateTime}"
+      "key": "memberships/latestPeriod/renew/true",
+      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}."
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false",
+      "value": "Läuft am {formattedEndDate} aus."
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
+      "value": "Ihr Abo wird am {formattedEndDate} automatisch erneuert."
+    },
+    {
+      "key": "memberships/latestPeriod/overdue",
+      "value": "Überfällig seit dem {formattedEndDate}."
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/cancel/link",
+      "value": "Abo kündigen"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/reactivate",
+      "value": "Abo reaktivieren"
+    },
+    {
+      "key": "memberships/manage/cancel/button",
+      "value": "Kündigung abschicken"
+    },
+    {
+      "key": "memberships/manage/cancel/reason",
+      "value": "Warum möchten Sie künden?"
     },
     {
       "key": "memberships/claim/lead",

@@ -189,12 +189,13 @@ export default compose(
   graphql(getDocument, {
     options: ({url: {query}}) => ({
       variables: {
-        path: '/'+[
+        path: [
+          '',
           query.year,
           query.month,
           query.day,
           query.slug
-        ].filter(Boolean).join('/')
+        ].join('/')
       }
     }),
     props: ({data, ownProps: {serverContext}}) => {

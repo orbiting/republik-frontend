@@ -1,39 +1,20 @@
 import React, { Component } from 'react'
-import { css, merge } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 
-import { timeFormat, chfFormat } from '../../lib/utils/format'
+import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 
 import List, { Item } from '../List'
+import { Item as AccountItem } from './Elements'
 
 import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
 import {
-  Interaction,
-  RawHtml,
-  Label,
-  colors
+  RawHtml
 } from '@project-r/styleguide'
-
-const {H3} = Interaction
-
-const dateTimeFormat = timeFormat('%d. %B %Y %H:%M')
-
-const styles = {
-  pledge: css({
-    padding: 10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 30
-  }),
-  pledgeHighlighted: css({
-    backgroundColor: colors.primaryBg
-  })
-}
 
 class PledgeList extends Component {
   componentDidMount () {
@@ -71,18 +52,10 @@ class PledgeList extends Component {
       const createdAt = new Date(pledge.createdAt)
 
       return (
-        <div key={pledge.id} {...merge(
-          styles.pledge,
-          highlightId === pledge.id && styles.pledgeHighlighted
-        )}>
-          <H3 style={{marginBottom: 0}}>
-            {t(`package/${pledge.package.name}/title`)}
-          </H3>
-          <Label>
-            {t('account/pledges/label', {
-              formattedDateTime: dateTimeFormat(createdAt)
-            })}
-          </Label>
+        <AccountItem key={pledge.id}
+          highlighted={highlightId === pledge.id}
+          title={t(`package/${pledge.package.name}/title`)}
+          createdAt={createdAt}>
           <List>
             {!!options.length && options.map((option, i) => (
               <Item key={`option-${i}`}>
@@ -121,7 +94,7 @@ class PledgeList extends Component {
           <GiveMemberships
             memberships={pledge.memberships}
             isGivePackage={pledge.package.name === 'ABO_GIVE'} />
-        </div>
+        </AccountItem>
       )
     })
   }

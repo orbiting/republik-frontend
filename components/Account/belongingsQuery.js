@@ -10,6 +10,24 @@ query myBelongings {
       voucherCode
       createdAt
       sequenceNumber
+      renew
+      active
+      overdue
+      pledge {
+        id
+        options {
+          price
+          reward {
+            ... on MembershipType {
+              name
+            }
+          }
+        }
+      }
+      periods {
+        beginDate
+        endDate
+      }
       type {
         name
       }

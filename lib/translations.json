@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-01T15:23:37.167Z",
+  "updated": "2018-01-02T14:44:03.360Z",
   "title": "live",
   "data": [
     {
@@ -299,12 +299,20 @@
       "value": "Geburtsdatum"
     },
     {
+      "key": "Account/Update/birthday/label/optional",
+      "value": "Geburtsdatum (Optional)"
+    },
+    {
       "key": "Account/Update/phone/label",
       "value": "Telefonnummer (Optional)"
     },
     {
-      "key": "Account/Update/birthday/hint",
+      "key": "Account/Update/birthday/hint/statute",
       "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R"
+    },
+    {
+      "key": "Account/Update/birthday/hint/plain",
+      "value": "TT.MM.JJJJ"
     },
     {
       "key": "Account/Update/birthday/error/empty",
@@ -1099,6 +1107,30 @@
       "value": "Bezahlung"
     },
     {
+      "key": "payment/secure",
+      "value": "Sichere Verbindung"
+    },
+    {
+      "key": "payment/insecure",
+      "value": "Unsichere Verbindung"
+    },
+    {
+      "key": "payment/method/STRIPE",
+      "value": "Visa/MasterCard"
+    },
+    {
+      "key": "payment/method/PAYMENTSLIP",
+      "value": "Banküberweisung"
+    },
+    {
+      "key": "payment/method/POSTFINANCECARD",
+      "value": "PostFinance Card"
+    },
+    {
+      "key": "payment/method/PAYPAL",
+      "value": "PayPal"
+    },
+    {
       "key": "payment/method/choose",
       "value": "Wählen Sie eine Zahlungsart"
     },
@@ -1121,6 +1153,94 @@
     {
       "key": "payment/stripe/only",
       "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar."
+    },
+    {
+      "key": "payment/stripe/js/loading",
+      "value": "Kreditkartenzahlung wird vorbereitet"
+    },
+    {
+      "key": "payment/stripe/js/failed",
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
+    },
+    {
+      "key": "payment/stripe/card/label",
+      "value": "Kreditkarten-Nummer"
+    },
+    {
+      "key": "payment/stripe/card/error/empty",
+      "value": "Kreditkarten-Nummer fehlt"
+    },
+    {
+      "key": "payment/stripe/card/error/invalid",
+      "value": "Kreditkarten-Nummer ungültig"
+    },
+    {
+      "key": "payment/stripe/month/label",
+      "value": "Ablauf Monat"
+    },
+    {
+      "key": "payment/stripe/month/error/empty",
+      "value": "Ablauf Monat fehlt"
+    },
+    {
+      "key": "payment/stripe/month/error/invalid",
+      "value": "Ablauf Monat ungültig"
+    },
+    {
+      "key": "payment/stripe/year/label",
+      "value": "Ablauf Jahr"
+    },
+    {
+      "key": "payment/stripe/year/error/empty",
+      "value": "Ablauf Jahr fehlt"
+    },
+    {
+      "key": "payment/stripe/year/error/invalid",
+      "value": "Ablauf Jahr ungültig"
+    },
+    {
+      "key": "payment/stripe/cvc/label",
+      "value": "Prüfnummer (CVC)"
+    },
+    {
+      "key": "payment/stripe/cvc/error/empty",
+      "value": "Prüfnummer (CVC) fehlt"
+    },
+    {
+      "key": "payment/stripe/cvc/error/invalid",
+      "value": "Prüfnummer (CVC) ungültig"
+    },
+    {
+      "key": "payment/stripe/3dsecure/payment_method_not_available",
+      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "payment/stripe/3dsecure/processing_error",
+      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
+    },
+    {
+      "key": "payment/stripe/3dsecure/unkown",
+      "value": "Unbekannter Fehler beim Bezahlen."
+    },
+    {
+      "key": "payment/stripe/3dsecure/redirect/failed",
+      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+    },
+    {
+      "key": "payment/paymentslip/title",
+      "value": "Ihre Adresse"
+    },
+    {
+      "key": "payment/paymentslip/explanation",
+      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+    },
+    {
+      "key": "payment/paymentslip/emailInvoice",
+      "value": "Zahlungsanweisungen per E-Mail"
+    },
+    {
+      "key": "payment/paymentslip/paperInvoice",
+      "value": "Rechnung per Post"
     },
     {
       "key": "pledge/claim/signIn/before",
@@ -1207,66 +1327,6 @@
       "value": "Wählen Sie eine Zahlungsart:"
     },
     {
-      "key": "pledge/submit/secure",
-      "value": "Sichere Verbindung"
-    },
-    {
-      "key": "pledge/submit/stripe/js/loading",
-      "value": "Kreditkartenzahlung wird vorbereitet"
-    },
-    {
-      "key": "pledge/submit/stripe/js/failed",
-      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
-    },
-    {
-      "key": "pledge/submit/stripe/card/label",
-      "value": "Kreditkarten-Nummer"
-    },
-    {
-      "key": "pledge/submit/stripe/card/error/empty",
-      "value": "Kreditkarten-Nummer fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/card/error/invalid",
-      "value": "Kreditkarten-Nummer ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/month/label",
-      "value": "Ablauf Monat"
-    },
-    {
-      "key": "pledge/submit/stripe/month/error/empty",
-      "value": "Ablauf Monat fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/month/error/invalid",
-      "value": "Ablauf Monat ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/year/label",
-      "value": "Ablauf Jahr"
-    },
-    {
-      "key": "pledge/submit/stripe/year/error/empty",
-      "value": "Ablauf Jahr fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/year/error/invalid",
-      "value": "Ablauf Jahr ungültig"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/label",
-      "value": "Prüfnummer (CVC)"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/error/empty",
-      "value": "Prüfnummer (CVC) fehlt"
-    },
-    {
-      "key": "pledge/submit/stripe/cvc/error/invalid",
-      "value": "Prüfnummer (CVC) ungültig"
-    },
-    {
       "key": "pledge/submit/emailVerify/note",
       "value": "Diese E-Mail-Adresse wurde schon einmal verwendet. Falls das Ihre Adresse ist, klicken Sie bitte auf «anmelden»."
     },
@@ -1283,28 +1343,20 @@
       "value": "{formattedChf} bezahlen"
     },
     {
-      "key": "pledge/submit/legal/label",
+      "key": "pledge/submit/legal/label/statute",
       "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/error",
+      "key": "pledge/submit/legal/label/plain",
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden."
+    },
+    {
+      "key": "pledge/submit/legal/error/statute",
       "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {
-      "key": "pledge/submit/pay/method/STRIPE",
-      "value": "Visa/MasterCard"
-    },
-    {
-      "key": "pledge/submit/pay/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
-    },
-    {
-      "key": "pledge/submit/pay/method/POSTFINANCECARD",
-      "value": "PostFinance Card"
-    },
-    {
-      "key": "pledge/submit/pay/method/PAYPAL",
-      "value": "PayPal"
+      "key": "pledge/submit/legal/error/plain",
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {
       "key": "pledge/submit/loading/submit",
@@ -1389,38 +1441,6 @@
     {
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
-    },
-    {
-      "key": "pledge/3dsecure/payment_method_not_available",
-      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
-      "key": "pledge/3dsecure/processing_error",
-      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
-    },
-    {
-      "key": "pledge/3dsecure/unkown",
-      "value": "Unbekannter Fehler beim Bezahlen."
-    },
-    {
-      "key": "pledge/3dsecure/redirect/failed",
-      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
-    },
-    {
-      "key": "pledge/submit/paymentslip/title",
-      "value": "Ihre Adresse"
-    },
-    {
-      "key": "pledge/submit/paymentslip/explanation",
-      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
-    },
-    {
-      "key": "pledge/submit/paymentslip/emailInvoice",
-      "value": "Zahlungsanweisungen per E-Mail"
-    },
-    {
-      "key": "pledge/submit/paymentslip/paperInvoice",
-      "value": "Rechnung per Post"
     },
     {
       "key": "article/payNote/before",

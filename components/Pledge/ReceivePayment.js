@@ -51,7 +51,7 @@ class PledgeReceivePayment extends Component {
           method: 'pay',
           argument: {
             method: 'POSTFINANCECARD',
-            pspPayload: JSON.stringify(query)
+            pspPayload: query
           }
         }
       } else {
@@ -123,7 +123,7 @@ class PledgeReceivePayment extends Component {
           method: 'pay',
           argument: {
             method: 'PAYPAL',
-            pspPayload: JSON.stringify(query)
+            pspPayload: query
           }
         }
       } else {
@@ -206,7 +206,7 @@ class PledgeReceivePayment extends Component {
             if (source.status === 'chargeable') {
               this.pay({
                 method: 'STRIPE',
-                pspPayload: JSON.stringify(source),
+                pspPayload: source,
                 sourceId: source.id
               })
             } else {
@@ -221,7 +221,7 @@ class PledgeReceivePayment extends Component {
       .catch(() => {
         this.setState(() => ({
           processing: false,
-          receiveError: t('pledge/submit/stripe/js/failed')
+          receiveError: t('payment/stripe/js/failed')
         }))
       })
   }

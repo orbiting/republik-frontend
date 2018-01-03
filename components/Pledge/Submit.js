@@ -309,7 +309,7 @@ class Submit extends Component {
           pledgeId,
           method: 'STRIPE',
           sourceId: source.id,
-          pspPayload: JSON.stringify(source)
+          pspPayload: source
         })
       })
       .catch(error => {
@@ -324,7 +324,10 @@ class Submit extends Component {
       legal,
       values
     } = this.state
-    const {t, options} = this.props
+    const {
+      t, options,
+      requiresStatutes
+    } = this.props
 
     return ([
       options.length < 1 && t('pledge/submit/package/error')
@@ -333,7 +336,9 @@ class Submit extends Component {
       .concat(objectValues(this.state.errors))
       .concat([
         !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        !legal && t('pledge/submit/legal/error')
+        !legal && t(requiresStatutes
+          ? 'pledge/submit/legal/error/statute'
+          : 'pledge/submit/legal/error/plain')
       ])
       .filter(Boolean)
   }
@@ -347,7 +352,8 @@ class Submit extends Component {
     } = this.state
     const {
       me, user, t,
-      paymentMethods
+      paymentMethods,
+      requiresStatutes
     } = this.props
 
     const errorMessages = this.getErrorMessages()
@@ -438,7 +444,10 @@ class Submit extends Component {
                 this.setState(() => ({legal: checked}))
               }}>
               <RawHtml dangerouslySetInnerHTML={{
-                __html: t('pledge/submit/legal/label')
+                __html: t(requiresStatutes
+                  ? 'pledge/submit/legal/label/statute'
+                  : 'pledge/submit/legal/label/plain'
+                )
               }} />
             </Checkbox>
             <br /><br />
@@ -487,7 +496,7 @@ const submitPledge = gql`
 `
 
 const payPledge = gql`
-  mutation payPledge($pledgeId: ID!, $method: PaymentMethod!, $sourceId: String, $pspPayload: String, $address: AddressInput, $paperInvoice: Boolean) {
+  mutation payPledge($pledgeId: ID!, $method: PaymentMethod!, $sourceId: String, $pspPayload: JSON, $address: AddressInput, $paperInvoice: Boolean) {
     payPledge(pledgePayment: {pledgeId: $pledgeId, method: $method, sourceId: $sourceId, pspPayload: $pspPayload, address: $address, paperInvoice: $paperInvoice}) {
       pledgeId
       userId

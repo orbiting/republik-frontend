@@ -21,7 +21,7 @@ import PaymentSources from './PaymentSources'
 
 const { H2, P } = Interaction
 
-const Account = ({ loading, error, me, t, query, hasMemberships, recurringAmount, hasPledges, merci }) => (
+const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci }) => (
   <Loader
     loading={loading}
     error={error}
@@ -50,7 +50,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, recurringAmount
           {recurringAmount > 0 &&
             <PaymentSources query={query} total={recurringAmount} />}
 
-          <UpdateMe />
+          <UpdateMe acceptedStatue={acceptedStatue} />
 
           {(hasPledges || !hasMemberships) && (
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
@@ -77,13 +77,21 @@ export default compose(
         data.me.memberships &&
         !!data.me.memberships.length
       )
+      const hasPledges = (
+        isReady &&
+        data.me.pledges &&
+        !!data.me.pledges.length
+      )
       return {
         loading: data.loading,
         error: data.error,
-        hasPledges: (
-          isReady &&
-          data.me.pledges &&
-          !!data.me.pledges.length
+        hasPledges,
+        acceptedStatue: (
+          hasPledges &&
+          !!data.me.pledges.find(pledge => (
+            pledge.package.name !== 'MONTHLY_ABO' &&
+            pledge.package.name !== 'DONATE'
+          ))
         ),
         hasMemberships,
         recurringAmount: hasMemberships

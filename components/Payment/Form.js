@@ -176,7 +176,8 @@ class PaymentForm extends Component {
             paymentMethod: stripeAllowed
               ? 'STRIPE'
               : allowedMethods[0],
-            paymentSource: undefined
+            paymentSource: undefined,
+            newSource: true
           }
         })
       }
@@ -235,8 +236,8 @@ class PaymentForm extends Component {
           }, (status, source3d) => {
             if (status !== 200) {
               reject(t.first([
-                `pledge/3dsecure/${source3d.error.code}`,
-                'pledge/3dsecure/unkown'
+                `payment/stripe/${source3d.error.code}`,
+                'payment/stripe/unkown'
               ]))
               return
             }
@@ -246,7 +247,7 @@ class PaymentForm extends Component {
             } else if (source3d.redirect.status === 'failed') {
               // no support or bank 3D Secure down
               reject(
-                t('pledge/3dsecure/redirect/failed')
+                t('payment/stripe/redirect/failed')
               )
             } else {
               window.location = source3d.redirect.url
@@ -286,7 +287,7 @@ class PaymentForm extends Component {
           {t(`payment/title${!hasChoice ? '/single' : ''}`)}
         </H2>
         <div {...styles.secure}>
-          <LockIcon /> {t('pledge/submit/secure')}
+          <LockIcon /> {t('payment/secure')}
         </div>
         <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
           const visiblePaymentSources = paymentSources
@@ -419,7 +420,7 @@ class PaymentForm extends Component {
                       ? styles.paymentMethodHiddenText
                       : styles.paymentMethodText
                     )}>
-                      {t(`pledge/submit/pay/method/${pm.key}`)}
+                      {t(`payment/method/${pm.key}`)}
                     </span>
                   </label>
                 ))}
@@ -429,9 +430,9 @@ class PaymentForm extends Component {
         {(paymentMethodForm === 'PAYMENTSLIP') && (
           <div>
             <Label>
-              {t('pledge/submit/paymentslip/explanation')}
+              {t('payment/paymentslip/explanation')}
             </Label><br /><br />
-            <Label>{t('pledge/submit/paymentslip/title')}</Label>
+            <Label>{t('payment/paymentslip/title')}</Label>
             <AddressForm
               values={values}
               errors={errors}
@@ -447,7 +448,7 @@ class PaymentForm extends Component {
                     }
                   })
                 }}>
-                {t('pledge/submit/paymentslip/emailInvoice')}
+                {t('payment/paymentslip/emailInvoice')}
               </Radio>
             </div>
             <div>
@@ -460,7 +461,7 @@ class PaymentForm extends Component {
                     }
                   })
                 }}>
-                {t('pledge/submit/paymentslip/paperInvoice')}
+                {t('payment/paymentslip/paperInvoice')}
               </Radio>
             </div> */ }
           </div>
@@ -476,43 +477,43 @@ class PaymentForm extends Component {
               dirty={dirty}
               fields={[
                 {
-                  label: t('pledge/submit/stripe/card/label'),
+                  label: t('payment/stripe/card/label'),
                   name: 'cardNumber',
                   autoComplete: 'cc-number',
                   mask: '1111 1111 1111 1111',
                   validator: (value) => (
                     (
                       !value &&
-                      t('pledge/submit/stripe/card/error/empty')
+                      t('payment/stripe/card/error/empty')
                     ) || (
                       !!this.state.stripe &&
                       !this.state.stripe.card.validateCardNumber(value) &&
-                      t('pledge/submit/stripe/card/error/invalid')
+                      t('payment/stripe/card/error/invalid')
                     )
                   )
                 },
                 {
-                  label: t('pledge/submit/stripe/month/label'),
+                  label: t('payment/stripe/month/label'),
                   name: 'cardMonth',
                   autoComplete: 'cc-exp-month'
                 },
                 {
-                  label: t('pledge/submit/stripe/year/label'),
+                  label: t('payment/stripe/year/label'),
                   name: 'cardYear',
                   autoComplete: 'cc-exp-year'
                 },
                 {
-                  label: t('pledge/submit/stripe/cvc/label'),
+                  label: t('payment/stripe/cvc/label'),
                   name: 'cardCVC',
                   autoComplete: 'cc-csc',
                   validator: (value) => (
                     (
                       !value &&
-                      t('pledge/submit/stripe/cvc/error/empty')
+                      t('payment/stripe/cvc/error/empty')
                     ) || (
                       !!this.state.stripe &&
                       !this.state.stripe.card.validateCVC(value) &&
-                      t('pledge/submit/stripe/cvc/error/invalid')
+                      t('payment/stripe/cvc/error/invalid')
                     )
                   )
                 }
@@ -524,7 +525,7 @@ class PaymentForm extends Component {
                 ) {
                   onChange({
                     errors: {
-                      stripe: t('pledge/submit/stripe/js/loading')
+                      stripe: t('payment/stripe/js/loading')
                     }
                   })
                   if (this.state.loadingStripe) {
@@ -551,7 +552,7 @@ class PaymentForm extends Component {
                       }))
                       onChange({
                         errors: {
-                          stripe: t('pledge/submit/stripe/js/failed')
+                          stripe: t('payment/stripe/js/failed')
                         }
                       })
                     })
@@ -572,14 +573,14 @@ class PaymentForm extends Component {
                   !!this.state.stripe &&
                   !this.state.stripe.card.validateExpiry(month, year)
                 ) {
-                  nextState.errors.cardMonth = t('pledge/submit/stripe/month/error/invalid')
-                  nextState.errors.cardYear = t('pledge/submit/stripe/year/error/invalid')
+                  nextState.errors.cardMonth = t('payment/stripe/month/error/invalid')
+                  nextState.errors.cardYear = t('payment/stripe/year/error/invalid')
                 } else {
                   nextState.errors.cardMonth = (
-                    !month && t('pledge/submit/stripe/month/error/empty')
+                    !month && t('payment/stripe/month/error/empty')
                   )
                   nextState.errors.cardYear = (
-                    !year && t('pledge/submit/stripe/year/error/empty')
+                    !year && t('payment/stripe/year/error/empty')
                   )
                 }
                 onChange(nextState)

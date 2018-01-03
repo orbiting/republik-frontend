@@ -30,7 +30,7 @@ export default ({ href, passHref, children }) => {
   }
   const isArticle = urlObject.pathname.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^/]+/)
   if (isArticle) {
-    return <ArticleLink slug={urlObject.pathname.replace(/^\//, '')} passHref={passHref}>
+    return <ArticleLink path={urlObject.pathname} passHref={passHref}>
       {children}
     </ArticleLink>
   }

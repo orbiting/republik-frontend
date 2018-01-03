@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from '../../lib/routes'
 
 const getArticleParams = path => {
-  const [year, month, day, slug] = path.split('/')
+  const [year, month, day, slug] = path.split('/').filter(Boolean)
   return {
     year,
     month,
@@ -11,8 +11,8 @@ const getArticleParams = path => {
   }
 }
 
-export default ({ slug, children, passHref }) => {
-  const params = getArticleParams(slug)
+export default ({ slug, path, children, passHref }) => {
+  const params = getArticleParams(path || slug)
   // safety check for now
   if (!params.slug) {
     return children

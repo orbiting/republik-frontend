@@ -18,11 +18,11 @@ const schema = createFrontSchema({
 })
 
 const getDocument = gql`
-  query getFront($slug: String!) {
-    front: document(slug: $slug) {
+  query getFront($path: String!) {
+    front: document(path: $path) {
       content
       meta {
-        slug
+        path
         title
         description
         image
@@ -42,7 +42,7 @@ class Front extends Component {
     const { url, data, data: { front }, t } = this.props
     const meta = front && {
       ...front.meta,
-      url: `${PUBLIC_BASE_URL}/${front.meta.slug}`
+      url: `${PUBLIC_BASE_URL}${front.meta.path}`
     }
 
     return (
@@ -64,7 +64,7 @@ export default compose(
   graphql(getDocument, {
     options: () => ({
       variables: {
-        slug: 'front'
+        path: '/'
       }
     }),
     props: ({data, ownProps: {serverContext}}) => {

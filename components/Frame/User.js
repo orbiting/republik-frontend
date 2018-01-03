@@ -35,7 +35,6 @@ const styles = {
     width: '100%'
   }),
   portrait: css({
-    marginLeft: 5,
     verticalAlign: 'top',
     height: `${HEADER_HEIGHT_MOBILE - 2 * BUTTON_PADDING_MOBILE}px`,
     [mediaQueries.mUp]: {

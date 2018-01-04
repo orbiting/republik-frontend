@@ -192,7 +192,7 @@ const modifyComment = (comment, id, onComment) => {
 }
 
 export const withData = graphql(rootQuery, {
-  props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
+  props: ({ownProps: {discussionId, orderBy, parentId}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
     fetchMore: (parentId, after) => {
       debug('fetchMore:init', {parentId, after})
@@ -239,9 +239,22 @@ export const withData = graphql(rootQuery, {
     },
     subscribeToMore: () => subscribeToMore({
       document: commentsSubscription,
-      variables: {discussionId},
+      variables: {discussionId, parentId},
       updateQuery: (previousResult, { subscriptionData: {data: {comments: comment}}, variables }) => {
-        debug('subscribeToMore:updateQuery:event', {discussionId, comment})
+        debug('subscribeToMore:updateQuery:event', {discussionId, parentId, comment})
+        const getCounts = node => node.comments && node.comments.nodes
+          ? [
+            node.comments.totalCount,
+            node.comments.nodes.map(getCounts).reduce(
+              (r, n) => r.concat(n),
+              []
+            )
+          ]
+          : null
+        debug(
+          'subscribeToMore:updateQuery:counts:before',
+          JSON.stringify(getCounts(previousResult.discussion))
+        )
 
         // In which situations does this happen?
         if (!comment) {
@@ -290,9 +303,14 @@ export const withData = graphql(rootQuery, {
         const result = JSON.parse(JSON.stringify(previousResult))
         if (comment.parent) {
           modifyComment(result.discussion, comment.parent.id, go)
-        } else {
+        } else if (parentId === null) {
           go(result.discussion)
         }
+
+        debug(
+          'subscribeToMore:updateQuery:count:after',
+          JSON.stringify(getCounts(result.discussion))
+        )
 
         return result
       }

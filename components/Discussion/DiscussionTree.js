@@ -135,7 +135,7 @@ class DiscussionTreeRenderer extends PureComponent {
   }
 
   componentDidMount () {
-    this.unsubscribe = this.props.subscribeToMore()
+    this.unsubscribe = this.props.subscribe()
     this.intervalId = setInterval(() => {
       this.setState({ now: Date.now() })
     }, 30 * 1000)

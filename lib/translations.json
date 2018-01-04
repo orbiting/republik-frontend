@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-02T14:44:03.360Z",
+  "updated": "2018-01-04T17:46:41.812Z",
   "title": "live",
   "data": [
     {
@@ -405,6 +405,26 @@
     {
       "key": "account/item/label",
       "value": "Erstellt am {formattedDate} um {formattedTime}"
+    },
+    {
+      "key": "account/newsletterSubscriptions/title",
+      "value": "Ihre Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/noMembership",
+      "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren."
+    },
+    {
+      "key": "account/newsletterSubscriptions/daily/label",
+      "value": "Republik – Das tägliche Update"
+    },
+    {
+      "key": "account/newsletterSubscriptions/weekly/label",
+      "value": "Republik – Der Wochenendüberblick"
+    },
+    {
+      "key": "account/newsletterSubscriptions/projectr/label",
+      "value": "Project R – Unregelmässige Updates"
     },
     {
       "key": "account/pledges/title",
@@ -1500,7 +1520,7 @@
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Mitgliedschaft, Ihre Einkäufe und Ihre Postadresse (brauchen wir leider).<br />\n"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Mitgliedschaft, Ihre Postadresse, Ihre Einkäufe und Ihre Newsletter.<br />\n"
     },
     {
       "key": "merci/action/read",
@@ -1701,6 +1721,114 @@
     {
       "key": "notifications/links/merci",
       "value": "Ihre persönliche Übersicht"
+    },
+    {
+      "key": "events/pageTitle",
+      "value": "Veranstaltungen – Republik"
+    },
+    {
+      "key": "events/title",
+      "value": "Alle Veranstaltungen im Überblick"
+    },
+    {
+      "key": "events/metaDescription",
+      "value": "Das digitale Magazin von Project R – jetzt Mitglied werden."
+    },
+    {
+      "key": "events/upcoming",
+      "value": "Kommende Veranstaltungen"
+    },
+    {
+      "key": "events/past",
+      "value": "Vergangene Veranstaltungen"
+    },
+    {
+      "key": "events/404",
+      "value": "Ereignis nicht gefunden"
+    },
+    {
+      "key": "events/all",
+      "value": "Alle Ereignisse"
+    },
+    {
+      "key": "events/labels/description",
+      "value": "Was"
+    },
+    {
+      "key": "events/labels/date",
+      "value": "Wann"
+    },
+    {
+      "key": "events/labels/location",
+      "value": "Wo"
+    },
+    {
+      "key": "updates/pageTitle",
+      "value": "Neues – Republik"
+    },
+    {
+      "key": "updates/title",
+      "value": "Neuigkeiten zum Crowdfunding"
+    },
+    {
+      "key": "updates/metaDescription",
+      "value": "Das digitale Magazin von Project R – jetzt unser Crowdfunding unterstützen."
+    },
+    {
+      "key": "updates/404",
+      "value": "Update nicht gefunden"
+    },
+    {
+      "key": "updates/all",
+      "value": "Alle Meldungen"
+    },
+    {
+      "key": "faq/pageTitle",
+      "value": "Fragen – Republik"
+    },
+    {
+      "key": "faq/title",
+      "value": "Antworten auf die häufigsten Fragen"
+    },
+    {
+      "key": "faq/metaDescription",
+      "value": "Jetzt Mitglied werden."
+    },
+    {
+      "key": "faq/before/title",
+      "value": "FAQ – Ihre häufigsten Fragen"
+    },
+    {
+      "key": "faq/before/support/title",
+      "value": "Support"
+    },
+    {
+      "key": "faq/before/support/text",
+      "value": "Bei allen technischen Problemen helfen wir Ihnen gerne so schnell wie möglich per Mail: <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a>"
+    },
+    {
+      "key": "faq/form/title",
+      "value": "Haben Sie noch eine Frage?"
+    },
+    {
+      "key": "faq/form/question/label",
+      "value": "Ihre Frage"
+    },
+    {
+      "key": "faq/form/question/error",
+      "value": "Ihre Frage, mind. 5 Zeichen"
+    },
+    {
+      "key": "faq/form/question/submit",
+      "value": "Abschicken"
+    },
+    {
+      "key": "faq/form/merci/title",
+      "value": "Vielen Dank für Ihren Input."
+    },
+    {
+      "key": "faq/form/merci/text",
+      "value": "Sie lesen von uns."
     }
   ]
 }

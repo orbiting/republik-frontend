@@ -5,11 +5,7 @@ import { css } from 'glamor'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 
-import {
-  InlineSpinner,
-  Interaction,
-  Checkbox
-} from '@project-r/styleguide'
+import { InlineSpinner, Interaction, Checkbox } from '@project-r/styleguide'
 
 const { H2 } = Interaction
 
@@ -69,40 +65,44 @@ class NewsletterSubscriptions extends Component {
             <H2 {...styles.headline} id='newsletter'>
               {t('account/newsletterSubscriptions/title')}
             </H2>
-            {newsletters.map(({ name, subscribed }) => (
-              <p key={name}>
-                <Checkbox
-                  checked={subscribed}
-                  disabled={mutating[name]}
-                  onChange={(_, checked) => {
-                    this.setState(state => ({
-                      mutating: {
-                        ...state.mutating,
-                        [name]: true
-                      }
-                    }))
-                    const finish = () => {
-                      this.setState(state => ({
-                        mutating: {
-                          ...state.mutating,
-                          [name]: false
+            {newsletters.map(({ name, subscribed, isEligible }) => (
+              <Fragment>
+                {isEligible && (
+                  <p key={name}>
+                    <Checkbox
+                      checked={subscribed}
+                      disabled={mutating[name]}
+                      onChange={(_, checked) => {
+                        this.setState(state => ({
+                          mutating: {
+                            ...state.mutating,
+                            [name]: true
+                          }
+                        }))
+                        const finish = () => {
+                          this.setState(state => ({
+                            mutating: {
+                              ...state.mutating,
+                              [name]: false
+                            }
+                          }))
                         }
-                      }))
-                    }
-                    updateNewsletterSubscription({
-                      id: name,
-                      subscribed: checked
-                    }).then(finish)
-                  }}
-                >
-                  {t(`account/newsletterSubscriptions/${name}/label`)}
-                  {mutating[name] && (
-                    <span {...styles.spinnerWrapper}>
-                      <InlineSpinner size={24} />
-                    </span>
-                  )}
-                </Checkbox>
-              </p>
+                        updateNewsletterSubscription({
+                          id: name,
+                          subscribed: checked
+                        }).then(finish)
+                      }}
+                    >
+                      {t(`account/newsletterSubscriptions/${name}/label`)}
+                      {mutating[name] && (
+                        <span {...styles.spinnerWrapper}>
+                          <InlineSpinner size={24} />
+                        </span>
+                      )}
+                    </Checkbox>
+                  </p>
+                )}
+              </Fragment>
             ))}
           </Fragment>
         )}

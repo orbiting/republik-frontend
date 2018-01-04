@@ -27,8 +27,9 @@ const emptyPageInfo = () => ({
   endCursor: null
 })
 
-const emptyCommentConnection = () => ({
+const emptyCommentConnection = comment => ({
   __typename: 'CommentConnection',
+  id: comment.id,
   totalCount: 0,
   nodes: [],
   pageInfo: emptyPageInfo()
@@ -117,28 +118,13 @@ const fragments = {
     }
   `,
   // local only
-  // used for reading and updating parent totalCount and hasNextPage
-  commentCounts: gql`
-    fragment CommentCounts on Comment {
+  // used for reading and updating totalCount and hasNextPage
+  connectionCounts: gql`
+    fragment ConnectionCounts on CommentConnection {
       id
-      comments {
-        totalCount
-        pageInfo {
-          hasNextPage
-        }
-      }
-    }
-  `,
-  // used for reading and updating root totalCount and hasNextPage
-  discussionCounts: gql`
-    fragment DiscussionCounts on Discussion {
-      id
-      # WARNING: arguments need to be alpha sorted here for cache keys
-      comments(orderBy: $orderBy, parentId: $parentId) {
-        totalCount
-        pageInfo {
-          hasNextPage
-        }
+      totalCount
+      pageInfo {
+        hasNextPage
       }
     }
   `
@@ -207,6 +193,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
 }
 
 fragment ConnectionInfo on CommentConnection {
+  id
   totalCount
   pageInfo {
     hasNextPage
@@ -300,8 +287,19 @@ graphql(rootQuery, {
           }
           debug('subscribe:event', {discussionId, comment})
 
-          const existingComment = false // ToDo: mutation type != CREATED
+          const readConnection = id =>
+            client.readFragment({
+              id: dataIdFromObject({
+                __typename: 'CommentConnection',
+                id: id
+              }),
+              fragment: fragments.connectionCounts
+            })
+
+          // ToDo: mutation type != CREATED
+          const existingComment = !!readConnection(comment.id)
           if (existingComment) {
+            // needed? maybe happens automatically by id
             debug('subscribe:event:update', {discussionId, comment})
             client.writeFragment({
               id: dataIdFromObject(comment),
@@ -311,74 +309,34 @@ graphql(rootQuery, {
             return
           }
 
-          const parents = comment.parentIds.map(parentId => {
-            return client.readFragment({
-              id: dataIdFromObject({
-                __typename: 'Comment',
-                id: parentId
-              }),
-              fragment: fragments.commentCounts
-            })
-          }).filter(Boolean)
-
+          const parentConnections = comment.parentIds
+            .map(readConnection)
+            .filter(Boolean)
           const isRoot = !comment.parentIds.length
-          if (parents.length || isRoot) {
-            // ToDo: Update all possibly cached orderBys or force fetch on change
-            const id = dataIdFromObject({
-              __typename: 'Discussion',
-              id: discussionId
-            })
-            const variables = {
-              parentId,
-              orderBy
-            }
-            const discussion = client.readFragment({
-              id,
-              fragment: fragments.discussionCounts,
-              variables
-            })
-            const pageInfo = discussion.comments.pageInfo
-            const data = {
-              ...discussion,
-              comments: {
-                ...discussion.comments,
-                totalCount: discussion.comments.totalCount + 1,
-                pageInfo: {
-                  ...pageInfo,
-                  hasNextPage: isRoot ? true : pageInfo.hasNextPage
-                }
-              }
-            }
-            debug('subscribe:event:total', {discussionId, data})
-
-            client.writeFragment({
-              id,
-              fragment: fragments.discussionCounts,
-              variables,
-              data
-            })
+          if (
+            parentConnections.length || // known comment, rm once we have real parent ids array
+            isRoot
+          ) {
+            parentConnections.unshift(readConnection(discussionId))
           }
 
-          parents.forEach((parent, index) => {
-            const pageInfo = parent.comments.pageInfo
+          parentConnections.forEach((connection, index) => {
+            const pageInfo = connection.pageInfo
             const data = {
-              ...parent,
-              comments: {
-                ...parent.comments,
-                totalCount: parent.comments.totalCount + 1,
-                pageInfo: {
-                  ...pageInfo,
-                  hasNextPage: index === parents.length - 1
-                    ? true
-                    : pageInfo.hasNextPage
-                }
+              ...connection,
+              totalCount: connection.totalCount + 1,
+              pageInfo: {
+                ...pageInfo,
+                hasNextPage: index === parentConnections.length - 1
+                  ? true
+                  : pageInfo.hasNextPage
               }
             }
             debug('subscribe:event:total', {discussionId, data})
 
             client.writeFragment({
-              id: dataIdFromObject(parent),
-              fragment: fragments.commentCounts,
+              id: dataIdFromObject(connection),
+              fragment: fragments.connectionCounts,
               data
             })
           })
@@ -450,6 +408,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       }
     }
     createdAt
+    updatedAt
   }
 }
 `, {
@@ -499,15 +458,12 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           // schema expects those to be present.
           const comment = {
             ...submitComment,
-            comments: emptyCommentConnection()
+            comments: emptyCommentConnection(submitComment)
           }
 
           // Insert the newly created comment to the head of the given 'parent'
           // (which can be either the Discussion object or a Comment).
           const replaceComment = (parent) => {
-            if (!parent.comments) {
-              parent.comments = emptyCommentConnection()
-            }
             const nodes = parent.comments.nodes || []
             const existingComment = nodes.find(c => c.id === comment.id) || {}
 

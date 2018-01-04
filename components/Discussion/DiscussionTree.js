@@ -165,7 +165,6 @@ class DiscussionTreeRenderer extends PureComponent {
       <Loader
         loading={loading}
         error={error}
-        message={'Loading…'}
         render={() => {
           // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
           const tail = (() => {

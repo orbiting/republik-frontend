@@ -1,8 +1,9 @@
-import { graphql } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
-import {errorToString} from '../../lib/utils/errors'
+import { errorToString } from '../../lib/utils/errors'
+import { dataIdFromObject } from '../../lib/apollo/initApollo'
 const debug = mkDebug('discussion')
 
 export const countNode = comment =>
@@ -86,20 +87,71 @@ query discussionDisplayAuthor($discussionId: ID!) {
   }
 })
 
+const fragments = {
+  comment: gql`
+    fragment Comment on Comment {
+      id
+      content
+      score
+      userVote
+      displayAuthor {
+        profilePicture
+        name
+        credential {
+          description
+          verified
+        }
+      }
+      updatedAt
+      createdAt
+    }
+  `,
+  // only the updatable parts
+  subscriptionComment: gql`
+    fragment SubscriptionComment on Comment {
+      id
+      content
+      score
+      userVote
+      updatedAt
+    }
+  `,
+  // local only
+  // used for reading and updating parent totalCount and hasNextPage
+  commentCounts: gql`
+    fragment CommentCounts on Comment {
+      id
+      comments {
+        totalCount
+        pageInfo {
+          hasNextPage
+        }
+      }
+    }
+  `,
+  // used for reading and updating root totalCount and hasNextPage
+  discussionCounts: gql`
+    fragment DiscussionCounts on Discussion {
+      id
+      # WARNING: arguments need to be alpha sorted here for cache keys
+      comments(orderBy: $orderBy, parentId: $parentId) {
+        totalCount
+        pageInfo {
+          hasNextPage
+        }
+      }
+    }
+  `
+}
+
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
-  comments(discussionId: $discussionId) {
-    id
-    upVotes
-    downVotes
-    score
-    userVote
-    updatedAt
-    parent {
-      id
-    }
+  comment: comments(discussionId: $discussionId) {
+    ...SubscriptionComment
+    parentIds
   }
 }
+${fragments.subscriptionComment}
 `
 
 // The (logical) depth to which the query below fetches the discussion tree.
@@ -162,21 +214,7 @@ fragment ConnectionInfo on CommentConnection {
   }
 }
 
-fragment Comment on Comment {
-  id
-  content
-  score
-  userVote
-  displayAuthor {
-    profilePicture
-    name
-    credential {
-      description
-      verified
-    }
-  }
-  createdAt
-}
+${fragments.comment}
 `
 
 // Find the comment with the given ID and invoke the callback with it as
@@ -191,8 +229,10 @@ const modifyComment = (comment, id, onComment) => {
   }
 }
 
-export const withData = graphql(rootQuery, {
-  props: ({ownProps: {discussionId, orderBy, parentId}, data: {fetchMore, subscribeToMore, ...data}}) => ({
+export const withData = compose(
+withApollo,
+graphql(rootQuery, {
+  props: ({ownProps: {discussionId, orderBy, client, parentId}, data: {fetchMore, subscribeToMore, ...data}}) => ({
     data,
     fetchMore: (parentId, after) => {
       debug('fetchMore:init', {parentId, after})
@@ -237,86 +277,124 @@ export const withData = graphql(rootQuery, {
         }
       })
     },
-    subscribeToMore: () => subscribeToMore({
-      document: commentsSubscription,
-      variables: {discussionId, parentId},
-      updateQuery: (previousResult, { subscriptionData: {data: {comments: comment}}, variables }) => {
-        debug('subscribeToMore:updateQuery:event', {discussionId, parentId, comment})
-        const getCounts = node => node.comments && node.comments.nodes
-          ? [
-            node.comments.totalCount,
-            node.comments.nodes.map(getCounts).reduce(
-              (r, n) => r.concat(n),
-              []
-            )
-          ]
-          : null
-        debug(
-          'subscribeToMore:updateQuery:counts:before',
-          JSON.stringify(getCounts(previousResult.discussion))
-        )
-
-        // In which situations does this happen?
-        if (!comment) {
-          return previousResult
-        }
-
-        // Ignore events for comments which were created by this client.
-        if (pendingCommentIDs.indexOf(comment.id) !== -1) {
-          return previousResult
-        }
-
-        // Given the parent object (either a Discussion or a Comment) of the comment we want
-        // to insert, either update the comment (if the comment already exists in the list)
-        // or otherwise bump the count of the CommentConnection and enable the hasNextPage flag.
-        const go = (parent) => {
-          if (!parent.comments) {
-            parent.comments = emptyCommentConnection()
-          }
-          if (!parent.comments.pageInfo) {
-            parent.comments.pageInfo = emptyPageInfo()
-          }
-          if (!parent.comments.nodes) {
-            parent.comments.nodes = []
-          }
-
-          const existingComment = parent.comments.nodes.find(c => c.id === comment.id)
-          if (existingComment) {
-            // Overwrite fields in 'existingComment' with whatever came fresh from the server.
-            //
-            // Would a deep-merge be better here? Currently all fields we fetch are primitive,
-            // so updating them shouldn't cause any issues.
-            for (const k in comment) {
-              existingComment[k] = comment[k]
-            }
-            debug('subscribeToMore:updateQuery:existingComment', existingComment)
-          } else {
-            // Bump the total count and set the 'hasNextPage' flag. Let the 'submitComment'
-            // mutation callback deal with resetting this if the current user submitted the
-            // comment itself.
-            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
-            parent.comments.pageInfo.hasNextPage = true
-            debug('subscribeToMore:updateQuery:insert', parent)
-          }
-        }
-
-        const result = JSON.parse(JSON.stringify(previousResult))
-        if (comment.parent) {
-          modifyComment(result.discussion, comment.parent.id, go)
-        } else if (parentId === null) {
-          go(result.discussion)
-        }
-
-        debug(
-          'subscribeToMore:updateQuery:count:after',
-          JSON.stringify(getCounts(result.discussion))
-        )
-
-        return result
+    subscribe: () => {
+      // only root subscribes and updates cache fragments
+      if (parentId) {
+        // no-op unsubscribe
+        return () => {}
       }
-    })
+      debug('subscribe:init', {discussionId})
+      const subscribtion = client.subscribe({
+        query: commentsSubscription,
+        variables: {discussionId}
+      }).subscribe({
+        next ({data, errors}) {
+          if (errors) {
+            debug('subscribe:event:errors', {discussionId, errors})
+            return
+          }
+          const comment = data.comment
+          // Ignore events for comments which were created by this client.
+          if (pendingCommentIDs.indexOf(comment.id) !== -1) {
+            return
+          }
+          debug('subscribe:event', {discussionId, comment})
+
+          const existingComment = false // ToDo: mutation type != CREATED
+          if (existingComment) {
+            debug('subscribe:event:update', {discussionId, comment})
+            client.writeFragment({
+              id: dataIdFromObject(comment),
+              fragment: fragments.subscriptionComment,
+              data: comment
+            })
+            return
+          }
+
+          const parents = comment.parentIds.map(parentId => {
+            return client.readFragment({
+              id: dataIdFromObject({
+                __typename: 'Comment',
+                id: parentId
+              }),
+              fragment: fragments.commentCounts
+            })
+          }).filter(Boolean)
+
+          const isRoot = !comment.parentIds.length
+          if (parents.length || isRoot) {
+            // ToDo: Update all possibly cached orderBys or force fetch on change
+            const id = dataIdFromObject({
+              __typename: 'Discussion',
+              id: discussionId
+            })
+            const variables = {
+              parentId,
+              orderBy
+            }
+            const discussion = client.readFragment({
+              id,
+              fragment: fragments.discussionCounts,
+              variables
+            })
+            const pageInfo = discussion.comments.pageInfo
+            const data = {
+              ...discussion,
+              comments: {
+                ...discussion.comments,
+                totalCount: discussion.comments.totalCount + 1,
+                pageInfo: {
+                  ...pageInfo,
+                  hasNextPage: isRoot ? true : pageInfo.hasNextPage
+                }
+              }
+            }
+            debug('subscribe:event:total', {discussionId, data})
+
+            client.writeFragment({
+              id,
+              fragment: fragments.discussionCounts,
+              variables,
+              data
+            })
+          }
+
+          parents.forEach((parent, index) => {
+            const pageInfo = parent.comments.pageInfo
+            const data = {
+              ...parent,
+              comments: {
+                ...parent.comments,
+                totalCount: parent.comments.totalCount + 1,
+                pageInfo: {
+                  ...pageInfo,
+                  hasNextPage: index === parents.length - 1
+                    ? true
+                    : pageInfo.hasNextPage
+                }
+              }
+            }
+            debug('subscribe:event:total', {discussionId, data})
+
+            client.writeFragment({
+              id: dataIdFromObject(parent),
+              fragment: fragments.commentCounts,
+              data
+            })
+          })
+        },
+        error (...args) {
+          debug('subscribe:error', {discussionId, args})
+        }
+      })
+      return () => {
+        debug('subscribe:end', {discussionId})
+        subscribtion.unsubscribe()
+      }
+    }
   })
 })
+)
 
 export const upvoteComment = graphql(gql`
 mutation discussionUpvoteComment($commentId: ID!) {
@@ -405,7 +483,8 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
                 verified: false
               }
             },
-            createdAt: (new Date()).toISOString()
+            createdAt: (new Date()).toISOString(),
+            updatedAt: (new Date()).toISOString()
           }
         },
         update: (proxy, {data: {submitComment}}) => {

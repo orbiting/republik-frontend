@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-04T10:48:09.384Z",
+  "updated": "2018-01-04T13:00:16.915Z",
   "title": "live",
   "data": [
     {
@@ -409,6 +409,10 @@
     {
       "key": "account/newsletterSubscriptions/title",
       "value": "Ihre Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/noMembership",
+      "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren."
     },
     {
       "key": "account/newsletterSubscriptions/daily/label",

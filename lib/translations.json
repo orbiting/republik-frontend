@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-02T14:44:03.360Z",
+  "updated": "2018-01-04T10:48:09.384Z",
   "title": "live",
   "data": [
     {
@@ -405,6 +405,22 @@
     {
       "key": "account/item/label",
       "value": "Erstellt am {formattedDate} um {formattedTime}"
+    },
+    {
+      "key": "account/newsletterSubscriptions/title",
+      "value": "Ihre Newsletter"
+    },
+    {
+      "key": "account/newsletterSubscriptions/daily/label",
+      "value": "Republik – Das tägliche Update"
+    },
+    {
+      "key": "account/newsletterSubscriptions/weekly/label",
+      "value": "Republik – Der Wochenendüberblick"
+    },
+    {
+      "key": "account/newsletterSubscriptions/projectr/label",
+      "value": "Project R – Unregelmässige Updates"
     },
     {
       "key": "account/pledges/title",

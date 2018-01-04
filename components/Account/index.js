@@ -8,6 +8,7 @@ import withMe from '../../lib/apollo/withMe'
 import Loader from '../Loader'
 import UpdateMe from './UpdateMe'
 import PledgeList from './PledgeList'
+import NewsletterSubscriptions from './NewsletterSubscriptions'
 import SignIn from '../Auth/SignIn'
 
 import {
@@ -56,6 +57,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
           )}
           <PledgeList highlightId={query.id} />
+          <NewsletterSubscriptions acceptedStatue={acceptedStatue} />
         </div>
       )
     }}

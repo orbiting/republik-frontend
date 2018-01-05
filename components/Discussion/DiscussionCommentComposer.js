@@ -90,6 +90,7 @@ class DiscussionCommentComposer extends PureComponent {
             onEditPreferences={this.showPreferences}
             onCancel={this.onCancel}
             submitComment={this.submitComment}
+            submitLabel={t('submitComment/rootSubmitLabel')}
           />
           {showPreferences && (
             <DiscussionPreferences

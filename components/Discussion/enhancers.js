@@ -4,6 +4,7 @@ import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
 import { dataIdFromObject } from '../../lib/apollo/initApollo'
+import withMe from '../../lib/apollo/withMe'
 const debug = mkDebug('discussion')
 
 export const countNode = comment =>
@@ -11,11 +12,6 @@ export const countNode = comment =>
 
 export const countNodes = nodes =>
   !nodes ? 0 : nodes.reduce((a, comment) => a + countNode(comment), 0)
-
-// List of IDs (strings) of comments which the client has submitted but
-// not received a response for yet. We need this so we can ignore the
-// subscription event for those comments.
-let pendingCommentIDs = []
 
 // The empty??? constructors are functions which create empty objects
 // matching the corresponding GraphQL types. They are functions instead
@@ -102,37 +98,46 @@ const fragments = {
       createdAt
     }
   `,
-  // only the updatable parts
-  subscriptionComment: gql`
-    fragment SubscriptionComment on Comment {
-      id
-      content
-      score
-      userVote
-      updatedAt
-    }
-  `,
-  // local only
-  // used for reading and updating totalCount and hasNextPage
-  connectionCounts: gql`
-    fragment ConnectionCounts on CommentConnection {
+  connectionInfo: gql`
+    fragment ConnectionInfo on CommentConnection {
       id
       totalCount
       pageInfo {
         hasNextPage
+        endCursor
       }
     }
   `
 }
 
+// local only
+// used for inserting single nodes
+fragments.connectionNodes = gql`
+fragment ConnectionNodes on CommentConnection {
+  id
+  nodes {
+    ...Comment
+    comments {
+      ...ConnectionInfo
+      # we need to set an empty array here
+      nodes {
+        id
+      }
+    }
+  }
+}
+${fragments.comment}
+${fragments.connectionInfo}
+`
+
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
   comment: comments(discussionId: $discussionId) {
-    ...SubscriptionComment
+    ...Comment
     parentIds
   }
 }
-${fragments.subscriptionComment}
+${fragments.comment}
 `
 
 // The (logical) depth to which the query below fetches the discussion tree.
@@ -187,15 +192,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
   }
 }
 
-fragment ConnectionInfo on CommentConnection {
-  id
-  totalCount
-  pageInfo {
-    hasNextPage
-    endCursor
-  }
-}
-
+${fragments.connectionInfo}
 ${fragments.comment}
 `
 
@@ -211,7 +208,98 @@ const modifyComment = (comment, id, onComment) => {
   }
 }
 
+const upsertComment = (proxy, discussionId, comment, {prepend = false}) => {
+  const readConnection = id =>
+    proxy.readFragment({
+      id: dataIdFromObject({
+        __typename: 'CommentConnection',
+        id: id
+      }),
+      fragment: fragments.connectionInfo
+    })
+
+  const existingComment = !!readConnection(comment.id)
+  if (existingComment) {
+    // needed? maybe happens automatically by id
+    debug('upsertComment:update', {discussionId, comment})
+    proxy.writeFragment({
+      id: dataIdFromObject(comment),
+      fragment: fragments.comment,
+      data: comment
+    })
+    return
+  }
+
+  const parentConnections = comment.parentIds
+    .map(readConnection)
+    .filter(Boolean)
+
+  // TMP: workaround for comments with unkown parent
+  // - rm once backend returns all parent ids up to the root
+  if (
+    comment.parentIds.length && !parentConnections.length
+  ) {
+    return
+  }
+
+  parentConnections.unshift(readConnection(discussionId))
+
+  parentConnections.forEach((connection, index) => {
+    const directParent = index === parentConnections.length - 1
+
+    const pageInfo = connection.pageInfo
+    const data = {
+      ...connection,
+      totalCount: connection.totalCount + 1,
+      pageInfo: {
+        ...pageInfo,
+        hasNextPage: directParent && !prepend
+          ? true
+          : pageInfo.hasNextPage
+      }
+    }
+    debug('upsertComment:total', {discussionId, data})
+
+    proxy.writeFragment({
+      id: dataIdFromObject(connection),
+      fragment: fragments.connectionInfo,
+      data
+    })
+    if (directParent && prepend) {
+      const connectionNodes = proxy.readFragment({
+        id: dataIdFromObject(connection),
+        fragment: fragments.connectionNodes,
+        fragmentName: 'ConnectionNodes'
+      })
+
+      // insert empty comment connection
+      // - expected by queries and mutations
+      const insertComment = {
+        ...comment,
+        comments: emptyCommentConnection(comment)
+      }
+
+      const data = {
+        ...connectionNodes,
+        nodes: [
+          insertComment,
+          ...connectionNodes.nodes
+        ]
+      }
+      debug('upsertComment:prepend', {discussionId, commentId: insertComment.id, data})
+
+      proxy.writeFragment({
+        id: dataIdFromObject(connection),
+        fragment: fragments.connectionNodes,
+        fragmentName: 'ConnectionNodes',
+        data
+      })
+    }
+  })
+}
+
 export const withData = compose(
+withMe,
 withApollo,
 graphql(rootQuery, {
   props: ({ownProps: {discussionId, orderBy, client, parentId}, data: {fetchMore, subscribeToMore, ...data}}) => ({
@@ -276,65 +364,9 @@ graphql(rootQuery, {
             return
           }
           const comment = data.comment
-          // Ignore events for comments which were created by this client.
-          if (pendingCommentIDs.indexOf(comment.id) !== -1) {
-            return
-          }
           debug('subscribe:event', {discussionId, comment})
 
-          const readConnection = id =>
-            client.readFragment({
-              id: dataIdFromObject({
-                __typename: 'CommentConnection',
-                id: id
-              }),
-              fragment: fragments.connectionCounts
-            })
-
-          // ToDo: mutation type != CREATED
-          const existingComment = !!readConnection(comment.id)
-          if (existingComment) {
-            // needed? maybe happens automatically by id
-            debug('subscribe:event:update', {discussionId, comment})
-            client.writeFragment({
-              id: dataIdFromObject(comment),
-              fragment: fragments.subscriptionComment,
-              data: comment
-            })
-            return
-          }
-
-          const parentConnections = comment.parentIds
-            .map(readConnection)
-            .filter(Boolean)
-          const isRoot = !comment.parentIds.length
-          if (
-            parentConnections.length || // known comment, rm once we have real parent ids array
-            isRoot
-          ) {
-            parentConnections.unshift(readConnection(discussionId))
-          }
-
-          parentConnections.forEach((connection, index) => {
-            const pageInfo = connection.pageInfo
-            const data = {
-              ...connection,
-              totalCount: connection.totalCount + 1,
-              pageInfo: {
-                ...pageInfo,
-                hasNextPage: index === parentConnections.length - 1
-                  ? true
-                  : pageInfo.hasNextPage
-              }
-            }
-            debug('subscribe:event:total', {discussionId, data})
-
-            client.writeFragment({
-              id: dataIdFromObject(connection),
-              fragment: fragments.connectionCounts,
-              data
-            })
-          })
+          upsertComment(client, discussionId, comment)
         },
         error (...args) {
           debug('subscribe:error', {discussionId, args})
@@ -352,14 +384,10 @@ graphql(rootQuery, {
 export const upvoteComment = graphql(gql`
 mutation discussionUpvoteComment($commentId: ID!) {
   upvoteComment(id: $commentId) {
-    id
-    upVotes
-    downVotes
-    score
-    userVote
-    updatedAt
+    ...Comment
   }
 }
+${fragments.comment}
 `, {
   props: ({mutate}) => ({
     upvoteComment: (commentId) => {
@@ -371,14 +399,10 @@ mutation discussionUpvoteComment($commentId: ID!) {
 export const downvoteComment = graphql(gql`
 mutation discussionDownvoteComment($commentId: ID!) {
   downvoteComment(id: $commentId) {
-    id
-    upVotes
-    downVotes
-    score
-    userVote
-    updatedAt
+    ...Comment
   }
 }
+${fragments.comment}
 `, {
   props: ({mutate}) => ({
     downvoteComment: (commentId) => {
@@ -390,29 +414,17 @@ mutation discussionDownvoteComment($commentId: ID!) {
 export const submitComment = graphql(gql`
 mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
-    id
-    content
-    score
-    userVote
-    displayAuthor {
-      profilePicture
-      name
-      credential {
-        description
-        verified
-      }
-    }
-    createdAt
-    updatedAt
+    ...Comment
+    parentIds
   }
 }
+${fragments.comment}
 `, {
   props: ({ownProps: {discussionId, parentId: ownParentId, orderBy}, mutate}) => ({
     submitComment: (parentId, content) => {
       // Generate a new UUID for the comment. We do this client-side so that we can
       // properly handle subscription notifications.
       const id = uuid()
-      pendingCommentIDs = [id, ...pendingCommentIDs]
 
       debug('submitComment', {discussionId, parentId, content, id})
 
@@ -422,7 +434,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
           __typename: 'Mutation',
           submitComment: {
             __typename: 'Comment',
-            optimistic: true, // skip removing from pendingCommentIDs
+            parentIds: [parentId].filter(Boolean),
             id,
             content,
             score: 0,
@@ -444,51 +456,9 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
         update: (proxy, {data: {submitComment}}) => {
           debug('submitComment:update:response', {discussionId, parentId, submitComment})
 
-          const data = proxy.readQuery({
-            query: rootQuery,
-            variables: {discussionId, parentId: ownParentId, orderBy}
+          upsertComment(proxy, discussionId, submitComment, {
+            prepend: true
           })
-
-          // Insert empty structures for the 'comments' field. The rootQuery
-          // schema expects those to be present.
-          const comment = {
-            ...submitComment,
-            comments: emptyCommentConnection(submitComment)
-          }
-
-          // Insert the newly created comment to the head of the given 'parent'
-          // (which can be either the Discussion object or a Comment).
-          const replaceComment = (parent) => {
-            const nodes = parent.comments.nodes || []
-            const existingComment = nodes.find(c => c.id === comment.id) || {}
-
-            parent.comments.nodes = [
-              {
-                ...existingComment,
-                ...comment
-              },
-              ...nodes.filter(c => c !== existingComment)
-            ]
-            parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
-          }
-
-          if (parentId) {
-            modifyComment(data.discussion, parentId, replaceComment)
-          } else {
-            replaceComment(data.discussion)
-          }
-
-          debug('submitComment:update:data', {discussionId, parentId, data})
-
-          proxy.writeQuery({
-            query: rootQuery,
-            variables: {discussionId, parentId: ownParentId, orderBy},
-            data
-          })
-
-          if (!submitComment.optimistic) {
-            pendingCommentIDs = pendingCommentIDs.filter(id => id !== submitComment.id)
-          }
         }
       }).catch(e => {
         // Convert the Error object into a string, but keep the Promise rejected.

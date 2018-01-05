@@ -6,6 +6,7 @@ import { errorToString } from '../../lib/utils/errors'
 import { dataIdFromObject } from '../../lib/apollo/initApollo'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import withAuthorization from '../Auth/withAuthorization'
 const debug = mkDebug('discussion')
 
 export const countNode = comment =>
@@ -85,8 +86,11 @@ const fragments = {
     fragment Comment on Comment {
       id
       content
+      published
+      adminUnpublished
       score
       userVote
+      userCanEdit
       displayAuthor {
         id
         name
@@ -438,6 +442,47 @@ ${fragments.comment}
   props: ({mutate}) => ({
     downvoteComment: (commentId) => {
       return mutate({variables: {commentId}})
+    }
+  })
+})
+
+export const isAdmin = withAuthorization(['admin', 'editor'], 'isAdmin')
+
+export const unpublishComment = graphql(gql`
+mutation discussionUnpublishComment($commentId: ID!) {
+  unpublishComment(id: $commentId) {
+    ...Comment
+  }
+}
+${fragments.comment}
+`, {
+  props: ({mutate}) => ({
+    unpublishComment: (commentId) => {
+      return mutate({variables: {commentId}})
+    }
+  })
+})
+
+export const editComment = graphql(gql`
+mutation discussionEditComment($commentId: ID!, $content: String!) {
+  editComment(id: $commentId, content: $content) {
+    ...Comment
+  }
+}
+${fragments.comment}
+`, {
+  props: ({mutate}) => ({
+    editComment: (comment, content) => {
+      return mutate({
+        variables: {commentId: comment.id, content},
+        optimisticResponse: {
+          __typename: 'Mutation',
+          submitComment: {
+            ...comment,
+            content
+          }
+        }
+      })
     }
   })
 })

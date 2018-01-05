@@ -517,6 +517,9 @@ ${fragments.comment}
           submitComment: {
             id,
             content,
+            published: true,
+            adminUnpublished: false,
+            userCanEdit: true,
             score: 0,
             userVote: null,
             displayAuthor: discussionDisplayAuthor,

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-02T14:44:03.360Z",
+  "updated": "2018-01-05T12:40:16.190Z",
   "title": "live",
   "data": [
     {
@@ -48,7 +48,11 @@
     },
     {
       "key": "pages/profile/empty/content",
-      "value": "Auch Sie haben die volle Kontrolle über Ihre Profilseite unter {link}."
+      "value": "Auch Sie haben die volle Kontrolle über Ihre {link}."
+    },
+    {
+      "key": "pages/profile/empty/content/linktext",
+      "value": "Profilseite"
     },
     {
       "key": "Frame/Popover/myaccount",

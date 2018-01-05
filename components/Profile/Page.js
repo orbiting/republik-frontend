@@ -246,6 +246,7 @@ class Profile extends Component {
     const {
       url,
       t,
+      me,
       data: { loading, error, user }
     } = this.props
 
@@ -269,8 +270,8 @@ class Profile extends Component {
                   <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
-                        <Link key='account' route='account'>
-                          <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
+                        <Link route='profile' params={{ slug: me.username || me.id }}>
+                          <a {...linkRule}>{t('pages/profile/empty/content/linktext')}</a>
                         </Link>
                       )
                     })}

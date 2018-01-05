@@ -4,7 +4,7 @@ import { colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode } fro
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import { maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment } from './enhancers'
+import { maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment, editComment, unpublishComment, isAdmin } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {
@@ -213,6 +213,9 @@ class DiscussionTreeRenderer extends PureComponent {
                 upvoteComment={this.props.upvoteComment}
                 downvoteComment={this.props.downvoteComment}
                 submitComment={this.props.submitComment}
+                editComment={this.props.editComment}
+                unpublishComment={this.props.unpublishComment}
+                isAdmin={this.props.isAdmin}
                 More={this.More}
               />
             )),
@@ -231,7 +234,10 @@ const DiscussionTree = compose(
   withData,
   upvoteComment,
   downvoteComment,
-  submitComment
+  submitComment,
+  editComment,
+  unpublishComment,
+  isAdmin
 )(DiscussionTreeRenderer)
 
 export default DiscussionTree

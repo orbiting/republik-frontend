@@ -388,7 +388,14 @@ graphql(rootQuery, {
           const comment = data.comment
           debug('subscribe:event', {discussionId, comment})
 
-          upsertComment(client.cache, discussionId, comment)
+          // workaround for https://github.com/apollographql/apollo-client/issues/2222
+          const proxyWithOptimisticReadSupport = {
+            readFragment: (...args) => client.cache.readFragment(...args),
+            readQuery: (...args) => client.cache.readQuery(...args),
+            writeFragment: (...args) => client.writeFragment(...args),
+            writeQuery: (...args) => client.writeQuery(...args)
+          }
+          upsertComment(proxyWithOptimisticReadSupport, discussionId, comment)
         },
         error (...args) {
           debug('subscribe:error', {discussionId, args})

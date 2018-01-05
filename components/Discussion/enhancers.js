@@ -212,7 +212,7 @@ const modifyComment = (comment, id, onComment) => {
 
 const upsertDebug = mkDebug('discussion:upsertComment')
 
-const upsertComment = (proxy, discussionId, comment, {prepend = false} = {}) => {
+const upsertComment = (proxy, discussionId, comment, {prepend = false, subscription} = {}) => {
   upsertDebug('start', {discussionId, commentId: comment.id, prepend})
 
   const readConnection = id =>
@@ -269,7 +269,7 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false} = {}) => 
   // - already bumped totals optimistically
   // - once the update comes through it will write
   //   the changes permanently with prepend
-  if (existingOptimisticComment && !prepend) {
+  if (existingOptimisticComment && subscription) {
     return
   }
 
@@ -376,7 +376,7 @@ graphql(rootQuery, {
         return () => {}
       }
       debug('subscribe:init', {discussionId})
-      const subscribtion = client.subscribe({
+      const subscription = client.subscribe({
         query: commentsSubscription,
         variables: {discussionId}
       }).subscribe({
@@ -395,7 +395,9 @@ graphql(rootQuery, {
             writeFragment: (...args) => client.writeFragment(...args),
             writeQuery: (...args) => client.writeQuery(...args)
           }
-          upsertComment(proxyWithOptimisticReadSupport, discussionId, comment)
+          upsertComment(proxyWithOptimisticReadSupport, discussionId, comment, {
+            subscription: true
+          })
         },
         error (...args) {
           debug('subscribe:error', {discussionId, args})
@@ -403,7 +405,7 @@ graphql(rootQuery, {
       })
       return () => {
         debug('subscribe:end', {discussionId})
-        subscribtion.unsubscribe()
+        subscription.unsubscribe()
       }
     }
   })

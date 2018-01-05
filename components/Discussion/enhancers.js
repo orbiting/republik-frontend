@@ -324,6 +324,9 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false, subscript
   }
 }
 
+// Convert the Error object into a string, but keep the Promise rejected.
+const toRejectedString = e => Promise.reject(errorToString(e))
+
 export const withData = compose(
 withMe,
 withApollo,
@@ -426,7 +429,7 @@ ${fragments.comment}
 `, {
   props: ({mutate}) => ({
     upvoteComment: (commentId) => {
-      return mutate({variables: {commentId}})
+      return mutate({variables: {commentId}}).catch(toRejectedString)
     }
   })
 })
@@ -441,7 +444,7 @@ ${fragments.comment}
 `, {
   props: ({mutate}) => ({
     downvoteComment: (commentId) => {
-      return mutate({variables: {commentId}})
+      return mutate({variables: {commentId}}).catch(toRejectedString)
     }
   })
 })
@@ -458,7 +461,7 @@ ${fragments.comment}
 `, {
   props: ({mutate}) => ({
     unpublishComment: (commentId) => {
-      return mutate({variables: {commentId}})
+      return mutate({variables: {commentId}}).catch(toRejectedString)
     }
   })
 })
@@ -482,7 +485,7 @@ ${fragments.comment}
             content
           }
         }
-      })
+      }).catch(toRejectedString)
     }
   })
 })
@@ -536,10 +539,7 @@ ${fragments.comment}
             prepend: true
           })
         }
-      }).catch(e => {
-        // Convert the Error object into a string, but keep the Promise rejected.
-        throw errorToString(e)
-      })
+      }).catch(toRejectedString)
     }
   })
 })
@@ -622,10 +622,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
             data
           })
         }
-      }).catch(e => {
-        // Convert the Error object into a string, but keep the Promise rejected.
-        throw errorToString(e)
-      })
+      }).catch(toRejectedString)
     }
   })
 })

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-05T15:43:15.219Z",
+  "updated": "2018-01-05T20:33:11.765Z",
   "title": "live",
   "data": [
     {
@@ -419,15 +419,15 @@
       "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren."
     },
     {
-      "key": "account/newsletterSubscriptions/daily/label",
+      "key": "account/newsletterSubscriptions/DAILY/label",
       "value": "Republik – Das tägliche Update"
     },
     {
-      "key": "account/newsletterSubscriptions/weekly/label",
+      "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenendüberblick"
     },
     {
-      "key": "account/newsletterSubscriptions/projectr/label",
+      "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Unregelmässige Updates"
     },
     {
@@ -903,6 +903,22 @@
       "value": "antworten"
     },
     {
+      "key": "styleguide/CommentActions/unpublish",
+      "value": "entfernen"
+    },
+    {
+      "key": "styleguide/CommentActions/edit",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "styleguide/CommentActions/upvote",
+      "value": "+1"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote",
+      "value": "-1"
+    },
+    {
       "key": "styleguide/CommentTeaser/commentLink",
       "value": "Zum Beitrag"
     },
@@ -917,6 +933,22 @@
     {
       "key": "styleguide/CommentTreeCollapse/label",
       "value": "ausblenden"
+    },
+    {
+      "key": "styleguide/comment/edit/submit",
+      "value": "bearbeiten"
+    },
+    {
+      "key": "styleguide/comment/unpublished",
+      "value": "(unveröffentlicht)"
+    },
+    {
+      "key": "styleguide/comment/unpublished/userCanEdit",
+      "value": "Bearbeiten Sie den Beitrag um ihn erneut zu publizieren."
+    },
+    {
+      "key": "styleguide/comment/adminUnpublished",
+      "value": "Leider mussen wir Ihren Beitrag unveröffentlichen. Wenden sie sich an kontakt@republik.ch."
     },
     {
       "key": "timeago/justNow/other",

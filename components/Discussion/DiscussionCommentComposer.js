@@ -47,7 +47,7 @@ class DiscussionCommentComposer extends PureComponent {
         state: 'submitting'
       })
 
-      this.props.submitComment(undefined, content).then(
+      this.props.submitComment(null, content).then(
         () => {
           this.setState({
             state: 'idle',

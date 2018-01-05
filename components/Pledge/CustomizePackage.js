@@ -152,8 +152,8 @@ class CustomizePackage extends Component {
     const hasNotebook = !!pkg.options.find(option => (
       option.reward && option.reward.name === 'NOTEBOOK'
     ))
-    const hasToadbag = !!pkg.options.find(option => (
-      option.reward && option.reward.name === 'TOADBAG'
+    const hasTotebag = !!pkg.options.find(option => (
+      option.reward && option.reward.name === 'TOTEBAG'
     ))
 
     const onPriceChange = (_, value, shouldValidate) => {
@@ -195,11 +195,11 @@ class CustomizePackage extends Component {
           </A>
         </div>
         <P style={{marginBottom: 10}}>
-          {hasNotebook && hasToadbag && (
+          {hasNotebook && hasTotebag && (
             <img {...styles.packageImage}
               src={`${STATIC_BASE_URL}/static/packages/moleskine_totebag.jpg`} />
           )}
-          {hasNotebook && !hasToadbag && (
+          {hasNotebook && !hasTotebag && (
             <img {...styles.packageImage}
               src={`${STATIC_BASE_URL}/static/packages/moleskine.jpg`} />
           )}

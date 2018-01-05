@@ -35,13 +35,8 @@ const emptyCommentConnection = comment => ({
   pageInfo: emptyPageInfo()
 })
 
-const meQuery = gql`
-query discussionMe($discussionId: ID!) {
-  me {
-    id
-    name
-    portrait(size: SHARE)
-  }
+const myPreferences = gql`
+query discussionPreference($discussionId: ID!) {
   discussion(id: $discussionId) {
     id
     userPreference {
@@ -54,7 +49,7 @@ query discussionMe($discussionId: ID!) {
   }
 }
 `
-export const withMe = graphql(meQuery)
+export const withMyPreferences = graphql(myPreferences)
 
 // This function extends the props with the 'DisplayUser' that will be used
 // when the current user submits a new comment in the given discussion
@@ -472,7 +467,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
                 ...existingComment,
                 ...comment
               },
-              ...nodes.filter(c => c.id !== comment.id)
+              ...nodes.filter(c => c !== existingComment)
             ]
             parent.comments.totalCount = (parent.comments.totalCount || 0) + 1
           }

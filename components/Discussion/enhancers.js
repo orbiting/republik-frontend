@@ -102,6 +102,7 @@ const fragments = {
       }
       updatedAt
       createdAt
+      parentIds
     }
   `,
   connectionInfo: gql`
@@ -138,9 +139,11 @@ ${fragments.connectionInfo}
 
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
-  comment: comments(discussionId: $discussionId) {
-    ...Comment
-    parentIds
+  comment(discussionId: $discussionId) {
+    mutation
+    node {
+      ...Comment
+    }
   }
 }
 ${fragments.comment}
@@ -228,32 +231,19 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false, subscript
       fragment: fragments.connectionInfo
     })
 
-  const parentConnections = comment.parentIds
+  const parentConnections = [discussionId].concat(comment.parentIds)
     .map(readConnection)
     .filter(Boolean)
-
-  // TMP: workaround for comments with unkown parent
-  // - rm once backend returns all parent ids up to the root
-  if (
-    comment.parentIds.length && !parentConnections.length
-  ) {
-    return
-  }
-
-  parentConnections.unshift(readConnection(discussionId))
+  const directParentConnection = parentConnections[parentConnections.length - 1]
 
   const parentConnectionOptimistic = proxy.readFragment({
-    id: dataIdFromObject(
-      parentConnections[parentConnections.length - 1]
-    ),
+    id: dataIdFromObject(directParentConnection),
     fragment: fragments.connectionNodes,
     fragmentName: 'ConnectionNodes'
   }, true)
   const existingOptimisticComment = parentConnectionOptimistic.nodes.find(n => n.id === comment.id)
   const parentConnection = proxy.readFragment({
-    id: dataIdFromObject(
-      parentConnections[parentConnections.length - 1]
-    ),
+    id: dataIdFromObject(directParentConnection),
     fragment: fragments.connectionNodes,
     fragmentName: 'ConnectionNodes'
   })
@@ -277,8 +267,8 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false, subscript
     return
   }
 
-  parentConnections.forEach((connection, index) => {
-    const directParent = index === parentConnections.length - 1
+  parentConnections.forEach(connection => {
+    const directParent = connection === directParentConnection
 
     const pageInfo = connection.pageInfo
     const data = {
@@ -392,9 +382,12 @@ graphql(rootQuery, {
             debug('subscribe:event:errors', {discussionId, errors})
             return
           }
-          const comment = data.comment
-          debug('subscribe:event', {discussionId, comment})
+          const { node: comment, mutation } = data.comment
+          debug('subscribe:event', {discussionId, mutation, comment})
 
+          if (mutation !== 'CREATED') {
+            return
+          }
           // workaround for https://github.com/apollographql/apollo-client/issues/2222
           const proxyWithOptimisticReadSupport = {
             readFragment: (...args) => client.cache.readFragment(...args),
@@ -497,13 +490,12 @@ graphql(gql`
 mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
     ...Comment
-    parentIds
   }
 }
 ${fragments.comment}
 `, {
   props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, discussionDisplayAuthor}, mutate}) => ({
-    submitComment: (parentId, content) => {
+    submitComment: (parent, content) => {
       if (!discussionDisplayAuthor) {
         return Promise.reject(t('submitComment/noDisplayAuthor'))
       }
@@ -511,6 +503,7 @@ ${fragments.comment}
       // properly handle subscription notifications.
       const id = uuid()
 
+      const parentId = parent ? parent.id : null
       debug('submitComment', {discussionId, parentId, content, id})
 
       return mutate({
@@ -528,8 +521,10 @@ ${fragments.comment}
             displayAuthor: discussionDisplayAuthor,
             createdAt: (new Date()).toISOString(),
             updatedAt: (new Date()).toISOString(),
-            __typename: 'Comment',
-            parentIds: [parentId].filter(Boolean)
+            parentIds: parent
+              ? [parentId].concat(parent.parentIds)
+              : [],
+            __typename: 'Comment'
           }
         },
         update: (proxy, {data: {submitComment}}) => {

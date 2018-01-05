@@ -5,6 +5,7 @@ import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
 import { dataIdFromObject } from '../../lib/apollo/initApollo'
 import withMe from '../../lib/apollo/withMe'
+import withT from '../../lib/withT'
 const debug = mkDebug('discussion')
 
 export const countNode = comment =>
@@ -87,12 +88,13 @@ const fragments = {
       score
       userVote
       displayAuthor {
-        profilePicture
+        id
         name
         credential {
           description
           verified
         }
+        profilePicture
       }
       updatedAt
       createdAt
@@ -208,7 +210,11 @@ const modifyComment = (comment, id, onComment) => {
   }
 }
 
-const upsertComment = (proxy, discussionId, comment, {prepend = false}) => {
+const upsertDebug = mkDebug('discussion:upsertComment')
+
+const upsertComment = (proxy, discussionId, comment, {prepend = false} = {}) => {
+  upsertDebug('start', {discussionId, commentId: comment.id, prepend})
+
   const readConnection = id =>
     proxy.readFragment({
       id: dataIdFromObject({
@@ -217,18 +223,6 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false}) => {
       }),
       fragment: fragments.connectionInfo
     })
-
-  const existingComment = !!readConnection(comment.id)
-  if (existingComment) {
-    // needed? maybe happens automatically by id
-    debug('upsertComment:update', {discussionId, comment})
-    proxy.writeFragment({
-      id: dataIdFromObject(comment),
-      fragment: fragments.comment,
-      data: comment
-    })
-    return
-  }
 
   const parentConnections = comment.parentIds
     .map(readConnection)
@@ -244,6 +238,41 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false}) => {
 
   parentConnections.unshift(readConnection(discussionId))
 
+  const parentConnectionOptimistic = proxy.readFragment({
+    id: dataIdFromObject(
+      parentConnections[parentConnections.length - 1]
+    ),
+    fragment: fragments.connectionNodes,
+    fragmentName: 'ConnectionNodes'
+  }, true)
+  const existingOptimisticComment = parentConnectionOptimistic.nodes.find(n => n.id === comment.id)
+  const parentConnection = proxy.readFragment({
+    id: dataIdFromObject(
+      parentConnections[parentConnections.length - 1]
+    ),
+    fragment: fragments.connectionNodes,
+    fragmentName: 'ConnectionNodes'
+  })
+
+  const existingComment = parentConnection.nodes.find(n => n.id === comment.id)
+  upsertDebug('existing', !!existingComment, 'optimistic', !!existingOptimisticComment)
+  if (existingComment) {
+    proxy.writeFragment({
+      id: dataIdFromObject(comment),
+      fragment: fragments.comment,
+      data: comment
+    })
+    return
+  }
+
+  // got a subscription for a comment in optimistic state
+  // - already bumped totals optimistically
+  // - once the update comes through it will write
+  //   the changes permanently with prepend
+  if (existingOptimisticComment && !prepend) {
+    return
+  }
+
   parentConnections.forEach((connection, index) => {
     const directParent = index === parentConnections.length - 1
 
@@ -258,44 +287,37 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false}) => {
           : pageInfo.hasNextPage
       }
     }
-    debug('upsertComment:total', {discussionId, data})
+    upsertDebug('inc connection', {connectionId: connection.id, data})
 
     proxy.writeFragment({
       id: dataIdFromObject(connection),
       fragment: fragments.connectionInfo,
       data
     })
-    if (directParent && prepend) {
-      const connectionNodes = proxy.readFragment({
-        id: dataIdFromObject(connection),
-        fragment: fragments.connectionNodes,
-        fragmentName: 'ConnectionNodes'
-      })
-
-      // insert empty comment connection
-      // - expected by queries and mutations
-      const insertComment = {
-        ...comment,
-        comments: emptyCommentConnection(comment)
-      }
-
-      const data = {
-        ...connectionNodes,
-        nodes: [
-          insertComment,
-          ...connectionNodes.nodes
-        ]
-      }
-      debug('upsertComment:prepend', {discussionId, commentId: insertComment.id, data})
-
-      proxy.writeFragment({
-        id: dataIdFromObject(connection),
-        fragment: fragments.connectionNodes,
-        fragmentName: 'ConnectionNodes',
-        data
-      })
-    }
   })
+
+  if (prepend) {
+    const insertComment = {
+      ...comment,
+      comments: emptyCommentConnection(comment)
+    }
+
+    const data = {
+      ...parentConnection,
+      nodes: [
+        insertComment,
+        ...parentConnection.nodes
+      ]
+    }
+    upsertDebug('prepend', {connectionId: data.id, data})
+
+    proxy.writeFragment({
+      id: dataIdFromObject(parentConnection),
+      fragment: fragments.connectionNodes,
+      fragmentName: 'ConnectionNodes',
+      data
+    })
+  }
 }
 
 export const withData = compose(
@@ -366,7 +388,7 @@ graphql(rootQuery, {
           const comment = data.comment
           debug('subscribe:event', {discussionId, comment})
 
-          upsertComment(client, discussionId, comment)
+          upsertComment(client.cache, discussionId, comment)
         },
         error (...args) {
           debug('subscribe:error', {discussionId, args})
@@ -411,7 +433,10 @@ ${fragments.comment}
   })
 })
 
-export const submitComment = graphql(gql`
+export const submitComment = compose(
+withT,
+withDiscussionDisplayAuthor,
+graphql(gql`
 mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
     ...Comment
@@ -420,8 +445,11 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 }
 ${fragments.comment}
 `, {
-  props: ({ownProps: {discussionId, parentId: ownParentId, orderBy}, mutate}) => ({
+  props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, discussionDisplayAuthor}, mutate}) => ({
     submitComment: (parentId, content) => {
+      if (!discussionDisplayAuthor) {
+        return Promise.reject(t('submitComment/noDisplayAuthor'))
+      }
       // Generate a new UUID for the comment. We do this client-side so that we can
       // properly handle subscription notifications.
       const id = uuid()
@@ -433,24 +461,15 @@ ${fragments.comment}
         optimisticResponse: {
           __typename: 'Mutation',
           submitComment: {
-            __typename: 'Comment',
-            parentIds: [parentId].filter(Boolean),
             id,
             content,
             score: 0,
             userVote: null,
-            displayAuthor: {
-              __typename: 'DisplayUser',
-              profilePicture: null,
-              name: '',
-              credential: {
-                __typename: 'Credential',
-                description: '',
-                verified: false
-              }
-            },
+            displayAuthor: discussionDisplayAuthor,
             createdAt: (new Date()).toISOString(),
-            updatedAt: (new Date()).toISOString()
+            updatedAt: (new Date()).toISOString(),
+            __typename: 'Comment',
+            parentIds: [parentId].filter(Boolean)
           }
         },
         update: (proxy, {data: {submitComment}}) => {
@@ -467,6 +486,7 @@ ${fragments.comment}
     }
   })
 })
+)
 
 const discussionPreferencesQuery = gql`
 query discussionPreferences($discussionId: ID!) {

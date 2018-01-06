@@ -57,7 +57,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
             <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
           )}
           <PledgeList highlightId={query.id} />
-          <NewsletterSubscriptions hasMemberships={hasMemberships} />
+          <NewsletterSubscriptions />
         </div>
       )
     }}

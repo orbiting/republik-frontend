@@ -26,25 +26,6 @@ const styles = {
   })
 }
 
-// TODO: Remove mock response once backend is ready.
-const mockResponse = [
-  {
-    name: 'daily',
-    subscribed: false,
-    isEligible: true
-  },
-  {
-    name: 'weekly',
-    subscribed: true,
-    isEligible: true
-  },
-  {
-    name: 'projectr',
-    subscribed: true,
-    isEligible: true
-  }
-]
-
 class NewsletterSubscriptions extends Component {
   constructor (props) {
     super(props)
@@ -54,16 +35,12 @@ class NewsletterSubscriptions extends Component {
   }
 
   render () {
-    const {
-      t,
-      me,
-      loading,
-      error,
-      hasMemberships,
-      updateNewsletterSubscription
-    } = this.props
-    const newsletters = me.newsletters || mockResponse
+    const { t, me, loading, error, updateNewsletterSubscription } = this.props
+    const newsletters = me.newsletters
     const { mutating } = this.state
+    const hasNonEligibleSubscription = newsletters.some(
+      newsletter => !newsletter.isEligible
+    )
 
     return (
       <Loader
@@ -74,8 +51,8 @@ class NewsletterSubscriptions extends Component {
             <H2 {...styles.headline} id='newsletter'>
               {t('account/newsletterSubscriptions/title')}
             </H2>
-            {!hasMemberships && (
-              <Box style={{padding: 15}}>
+            {hasNonEligibleSubscription && (
+              <Box style={{ padding: 15 }}>
                 <P>{t('account/newsletterSubscriptions/noMembership')}</P>
               </Box>
             )}
@@ -100,7 +77,7 @@ class NewsletterSubscriptions extends Component {
                       }))
                     }
                     updateNewsletterSubscription({
-                      id: name,
+                      name,
                       subscribed: checked
                     }).then(finish)
                   }}
@@ -122,10 +99,15 @@ class NewsletterSubscriptions extends Component {
 }
 
 const mutation = gql`
-  mutation updateNewsletterSubscription($id: ID!, $subscribed: Boolean!) {
-    updateNewsletterSubscription(id: $id, subscribed: $subscribed) {
+  mutation updateNewsletterSubscription(
+    $name: NewsletterName!
+    $subscribed: Boolean!
+  ) {
+    updateNewsletterSubscription(name: $name, subscribed: $subscribed) {
       id
+      name
       subscribed
+      isEligible
     }
   }
 `
@@ -147,10 +129,10 @@ const query = gql`
 export default compose(
   graphql(mutation, {
     props: ({ mutate }) => ({
-      updateNewsletterSubscription: ({ id, subscribed }) =>
+      updateNewsletterSubscription: ({ name, subscribed }) =>
         mutate({
           variables: {
-            id,
+            name,
             subscribed
           }
         })

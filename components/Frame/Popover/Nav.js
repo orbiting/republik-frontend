@@ -19,7 +19,8 @@ const styles = {
     ...fontStyles.sansSerifRegular21,
     paddingTop: '20px',
     [mediaQueries.mUp]: {
-      display: 'flex'
+      display: 'flex',
+      justifyContent: 'space-between'
     }
   }),
   section: css({
@@ -33,6 +34,10 @@ const styles = {
         borderTop: 'none',
         margin: '0 50px',
         padding: '0 50px'
+      },
+      '&:last-child': {
+        marginRight: 0,
+        paddingRight: '20px'
       }
     }
   })

@@ -48,7 +48,11 @@
     },
     {
       "key": "pages/profile/empty/content",
-      "value": "Auch Sie haben die volle Kontrolle über Ihre Profilseite unter {link}."
+      "value": "Auch Sie haben die volle Kontrolle über Ihre {link}."
+    },
+    {
+      "key": "pages/profile/empty/content/linktext",
+      "value": "Profilseite"
     },
     {
       "key": "Frame/Popover/myaccount",

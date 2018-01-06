@@ -31,6 +31,14 @@ const styles = {
   }),
   bodyGrower: css({
     flexGrow: 1
+  }),
+  content: css({
+    paddingTop: 40,
+    paddingBottom: 60,
+    [mediaQueries.mUp]: {
+      paddingTop: 80,
+      paddingBottom: 120
+    }
   })
 }
 
@@ -66,7 +74,7 @@ const Index = ({
         children
       ) : (
         <MainContainer>
-          <div style={{ paddingTop: 80, paddingBottom: 120 }}>{children}</div>
+          <div {...styles.content}>{children}</div>
         </MainContainer>
       )}
     </div>

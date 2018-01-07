@@ -143,7 +143,7 @@ class ArticlePage extends Component {
 
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path || '/'+article.meta.slug}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path || `/${article.meta.slug}`}`
     }
 
     return (
@@ -187,15 +187,9 @@ class ArticlePage extends Component {
 export default compose(
   withT,
   graphql(getDocument, {
-    options: ({url: {query}}) => ({
+    options: ({url: {asPath}}) => ({
       variables: {
-        path: [
-          '',
-          query.year,
-          query.month,
-          query.day,
-          query.slug
-        ].join('/')
+        path: asPath.split('?')[0]
       }
     }),
     props: ({data, ownProps: {serverContext}}) => {

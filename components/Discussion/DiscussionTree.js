@@ -4,7 +4,7 @@ import { colors, CommentTreeLoadMore, CommentTreeCollapse, CommentTreeNode } fro
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
-import { maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment } from './enhancers'
+import { maxLogicalDepth, countNodes, withDiscussionDisplayAuthor, withData, downvoteComment, upvoteComment, submitComment, editComment, unpublishComment, isAdmin } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionTreePortal extends PureComponent {
@@ -135,7 +135,7 @@ class DiscussionTreeRenderer extends PureComponent {
   }
 
   componentDidMount () {
-    this.unsubscribe = this.props.subscribeToMore()
+    this.unsubscribe = this.props.subscribe()
     this.intervalId = setInterval(() => {
       this.setState({ now: Date.now() })
     }, 30 * 1000)
@@ -165,7 +165,6 @@ class DiscussionTreeRenderer extends PureComponent {
       <Loader
         loading={loading}
         error={error}
-        message={'Loading…'}
         render={() => {
           // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
           const tail = (() => {
@@ -214,6 +213,9 @@ class DiscussionTreeRenderer extends PureComponent {
                 upvoteComment={this.props.upvoteComment}
                 downvoteComment={this.props.downvoteComment}
                 submitComment={this.props.submitComment}
+                editComment={this.props.editComment}
+                unpublishComment={this.props.unpublishComment}
+                isAdmin={this.props.isAdmin}
                 More={this.More}
               />
             )),
@@ -232,7 +234,10 @@ const DiscussionTree = compose(
   withData,
   upvoteComment,
   downvoteComment,
-  submitComment
+  submitComment,
+  editComment,
+  unpublishComment,
+  isAdmin
 )(DiscussionTreeRenderer)
 
 export default DiscussionTree

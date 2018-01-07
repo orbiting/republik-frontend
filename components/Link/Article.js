@@ -2,12 +2,13 @@ import React from 'react'
 import { Link } from '../../lib/routes'
 
 const getArticleParams = path => {
-  const [year, month, day, slug] = path.split('/').filter(Boolean)
+  const [year, month, day, slug, suffix] = path.split('/').filter(Boolean)
   return {
     year,
     month,
     day,
-    slug
+    slug,
+    suffix
   }
 }
 

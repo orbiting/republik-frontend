@@ -34,12 +34,12 @@ export const PageCenter = ({children}) => (
   </div>
 )
 
-const withAuthorization = roles =>
+const withAuthorization = (roles, key = 'isAuthorized') =>
   WrappedComponent =>
     withMe(({me, ...props}) =>
       <WrappedComponent {...props}
         me={me}
-        isAuthorized={checkRoles(me, roles)} />
+        {...{[key]: checkRoles(me, roles)}} />
     )
 
 const UnauthorizedPage = withT(({t, me, roles = []}) => (

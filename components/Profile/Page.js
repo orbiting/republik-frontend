@@ -17,7 +17,7 @@ import ArticleLink from '../Link/Article'
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
 import Badge from './Badge'
-import LatestComments from './LatestComments'
+import Comments from './Comments'
 import Contact from './Contact'
 import Portrait from './Portrait'
 import Statement from './Statement'
@@ -143,14 +143,17 @@ const getPublicUser = gql`
           }
         }
       }
-      latestComments(limit: 7) {
-        id
-        content
-        discussion {
+      comments {
+        totalCount
+        nodes {
           id
-          title
+          content
+          discussion {
+            id
+            title
+          }
+          createdAt
         }
-        createdAt
       }
     }
   }
@@ -246,6 +249,7 @@ class Profile extends Component {
     const {
       url,
       t,
+      me,
       data: { loading, error, user }
     } = this.props
 
@@ -269,8 +273,8 @@ class Profile extends Component {
                   <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
-                        <Link key='account' route='account'>
-                          <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
+                        <Link route='profile' params={{ slug: me.username || me.id }}>
+                          <a {...linkRule}>{t('pages/profile/empty/content/linktext')}</a>
                         </Link>
                       )
                     })}
@@ -392,7 +396,7 @@ class Profile extends Component {
                             />
                           ))}
                       </div>
-                      <LatestComments comments={user.latestComments} />
+                      <Comments comments={user.comments} />
                     </div>
                     <div style={{clear: 'both'}} />
                   </div>

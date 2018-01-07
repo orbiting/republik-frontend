@@ -242,13 +242,14 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false, subscript
     fragmentName: 'ConnectionNodes'
   }, true)
   const existingOptimisticComment = parentConnectionOptimistic.nodes.find(n => n.id === comment.id)
+
   const parentConnection = proxy.readFragment({
     id: dataIdFromObject(directParentConnection),
     fragment: fragments.connectionNodes,
     fragmentName: 'ConnectionNodes'
   })
-
   const existingComment = parentConnection.nodes.find(n => n.id === comment.id)
+
   upsertDebug('existing', !!existingComment, 'optimistic', !!existingOptimisticComment)
   if (existingComment) {
     proxy.writeFragment({
@@ -270,7 +271,7 @@ const upsertComment = (proxy, discussionId, comment, {prepend = false, subscript
   parentConnections.forEach(connection => {
     const directParent = connection === directParentConnection
 
-    const pageInfo = connection.pageInfo
+    const pageInfo = connection.pageInfo || emptyPageInfo()
     const data = {
       ...connection,
       totalCount: connection.totalCount + 1,
@@ -504,7 +505,10 @@ ${fragments.comment}
       const id = uuid()
 
       const parentId = parent ? parent.id : null
-      debug('submitComment', {discussionId, parentId, content, id})
+      const parentIds = parent
+        ? [parentId].concat(parent.parentIds)
+        : []
+      debug('submitComment', {discussionId, parentIds, content, id})
 
       return mutate({
         variables: {discussionId, parentId, id, content},
@@ -521,9 +525,7 @@ ${fragments.comment}
             displayAuthor: discussionDisplayAuthor,
             createdAt: (new Date()).toISOString(),
             updatedAt: (new Date()).toISOString(),
-            parentIds: parent
-              ? [parentId].concat(parent.parentIds)
-              : [],
+            parentIds,
             __typename: 'Comment'
           }
         },

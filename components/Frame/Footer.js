@@ -145,6 +145,7 @@ class Footer extends Component {
               {intersperse(t('footer/contact/name').split('\n'), (item, i) => (
                 <br key={i} />
               ))}
+              <br />
               <a
                 href='https://www.google.ch/maps/place/Sihlhallenstrasse+1,+8004+Zürich'
                 target='_blank'

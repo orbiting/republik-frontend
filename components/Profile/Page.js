@@ -31,7 +31,8 @@ import {
   fontStyles,
   linkRule,
   mediaQueries,
-  FieldSet
+  FieldSet,
+  RawHtml
 } from '@project-r/styleguide'
 
 const SIDEBAR_TOP = 20
@@ -271,7 +272,7 @@ class Profile extends Component {
                 <MainContainer>
                   <br /><br />
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
-                  <p>
+                  {!!me && <p>
                     {t.elements('pages/profile/empty/content', {
                       link: (
                         <Link route='profile' params={{ slug: me.username || me.id }}>
@@ -279,7 +280,7 @@ class Profile extends Component {
                         </Link>
                       )
                     })}
-                  </p>
+                  </p>}
                 </MainContainer>
               )
             }
@@ -295,10 +296,12 @@ class Profile extends Component {
                 {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      {t(user.isEligibleForProfile
-                        ? 'profile/preview'
-                        : 'profile/preview/notEligible'
-                      )}
+                      <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
+                        __html: t(user.isEligibleForProfile
+                          ? 'profile/preview'
+                          : 'profile/preview/notEligible'
+                        )
+                      }} />
                     </MainContainer>
                   </Box>
                 )}

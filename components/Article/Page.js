@@ -8,11 +8,14 @@ import Loader from '../Loader'
 import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
 
+import Discussion from '../Discussion/Discussion'
+
 import {
   H1,
   colors,
   mediaQueries,
-  NarrowContainer
+  NarrowContainer,
+  Center
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -21,12 +24,16 @@ import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { renderMdast } from 'mdast-react-render'
 
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
+import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
+import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
   article: createArticleSchema,
+  format: createFormatSchema,
+  discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema
 }
 
@@ -82,6 +89,21 @@ const getDocument = gql`
         twitterDescription
         twitterImage
         twitterTitle
+        discussionId
+        discussion {
+          meta {
+            path
+            discussionId
+          }
+        }
+        format {
+          meta {
+            path
+            title
+            color
+            kind
+          }
+        }
       }
     }
   }
@@ -171,6 +193,9 @@ class ArticlePage extends Component {
             <Fragment>
               <PayNote.Before />
               {renderMdast(article.content, schema)}
+              {meta.discussionId && <Center>
+                <Discussion discussionId={meta.discussionId} />
+              </Center>}
               <br />
               <br />
               <br />

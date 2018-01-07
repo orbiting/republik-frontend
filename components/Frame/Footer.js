@@ -165,7 +165,9 @@ class Footer extends Component {
                 <a>{t('footer/crew')}</a>
               </Link>
               <br />
-              <a>{t('footer/events')}</a>
+              <Link route='events'>
+                <a>{t('footer/events')}</a>
+              </Link>
               <br />
               <Link route='media'>
                 <a>{t('footer/media')}</a>

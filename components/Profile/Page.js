@@ -151,6 +151,7 @@ const getPublicUser = gql`
           discussion {
             id
             title
+            documentPath
           }
           createdAt
         }

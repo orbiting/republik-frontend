@@ -26,8 +26,8 @@ const Comments = ({ t, comments }) => {
             title={discussion.title}
             content={comment.content}
             timeago={timeagoFromNow(t, comment.createdAt)}
-            commentUrl={discussion.path
-              ? `${discussion.path}?focus=${comment.id}`
+            commentUrl={discussion.documentPath
+              ? `${discussion.documentPath}?focus=${comment.id}`
               : `discussion?id=${discussion.id}&focus=${comment.id}`}
             lineClamp={3}
             t={t}

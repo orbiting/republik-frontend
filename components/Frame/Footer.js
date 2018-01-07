@@ -10,6 +10,7 @@ import track from '../../lib/piwik'
 import { Link } from '../../lib/routes'
 
 import {
+  BrandMark,
   Container,
   Logo,
   mediaQueries,
@@ -100,9 +101,22 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 32,
+    [mediaQueries.mUp]: {
+      display: 'inline-block'
+    }
+  }),
+  logo: css({
     display: 'none',
     [mediaQueries.mUp]: {
       display: 'inline-block'
+    }
+  }),
+  brandmark: css({
+    display: 'inline-block',
+    marginTop: '1px',
+    width: '20px',
+    [mediaQueries.mUp]: {
+      display: 'none'
     }
   })
 }
@@ -151,7 +165,9 @@ class Footer extends Component {
                 <a>{t('footer/crew')}</a>
               </Link>
               <br />
-              <a>{t('footer/events')}</a>
+              <Link route='events'>
+                <a>{t('footer/events')}</a>
+              </Link>
               <br />
               <Link route='media'>
                 <a>{t('footer/media')}</a>
@@ -211,7 +227,12 @@ class Footer extends Component {
             </div>
           </div>
           <hr {...styles.hr} />
-          <Logo fill={negativeColors.text} width={140} />
+          <div {...styles.logo}>
+            <Logo fill={negativeColors.text} width={140} />
+          </div>
+          <div {...styles.brandmark}>
+            <BrandMark fill={negativeColors.text} />
+          </div>
           <span {...styles.since}>{t('footer/since')}</span>
           <div {...styles.icons}>
             <IconLink

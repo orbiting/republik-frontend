@@ -2,7 +2,8 @@ import React, {PureComponent} from 'react'
 import { compose } from 'react-apollo'
 import { CommentComposer, CommentComposerPlaceholder } from '@project-r/styleguide'
 import withT from '../../lib/withT'
-import { withMe, withDiscussionDisplayAuthor, submitComment } from './enhancers'
+import withMe from '../../lib/apollo/withMe'
+import { withMyPreferences, withDiscussionDisplayAuthor, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionCommentComposer extends PureComponent {
@@ -46,7 +47,7 @@ class DiscussionCommentComposer extends PureComponent {
         state: 'submitting'
       })
 
-      this.props.submitComment(undefined, content).then(
+      this.props.submitComment(null, content).then(
         () => {
           this.setState({
             state: 'idle',
@@ -64,7 +65,7 @@ class DiscussionCommentComposer extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, discussionDisplayAuthor: displayAuthor, data: {loading, error, me}} = this.props
+    const {t, discussionId, discussionDisplayAuthor: displayAuthor, me, data: {loading, error}} = this.props
     const {state, showPreferences} = this.state
 
     if (loading || error || !me) {
@@ -89,6 +90,7 @@ class DiscussionCommentComposer extends PureComponent {
             onEditPreferences={this.showPreferences}
             onCancel={this.onCancel}
             submitComment={this.submitComment}
+            submitLabel={t('submitComment/rootSubmitLabel')}
           />
           {showPreferences && (
             <DiscussionPreferences
@@ -105,6 +107,7 @@ class DiscussionCommentComposer extends PureComponent {
 export default compose(
   withT,
   withMe,
+  withMyPreferences,
   withDiscussionDisplayAuthor,
   submitComment
 )(DiscussionCommentComposer)

@@ -1,1730 +1,3766 @@
 {
-  "updated": "2018-01-05T15:57:03.400Z",
+  "updated": "2018-01-06T22:42:34.492Z",
   "title": "live",
   "data": [
     {
       "key": "nav/magazine",
-      "value": "Magazin"
+      "value": "Magazin",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "nav/feed",
-      "value": "Feed"
+      "value": "Feed",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "nav/discussion",
-      "value": "Diskussion"
+      "value": "Diskussion",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "nav/community",
-      "value": "Community"
+      "value": "Community",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/magazine/title",
-      "value": "Magazin"
+      "value": "Magazin",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "discussion/pageTitle",
-      "value": "Diskussion"
+      "value": "Debatten",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "soon legacy?"
     },
     {
       "key": "pages/feed/title",
-      "value": "Feed"
+      "value": "Feed",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/account/title",
-      "value": "Konto ansehen"
+      "value": "Konto",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/profile/pageTitle",
-      "value": "{name} – Profil"
+      "value": "{name} – Profil",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/profile/empty/pageTitle",
-      "value": "Profil"
+      "value": "Profil",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Diese Profilseite ist deaktiviert"
+      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/profile/empty/content",
-      "value": "Auch Sie haben die volle Kontrolle über Ihre {link}."
+      "value": "Um Ihre eigene Profilseite zu bearbeiten, klicken Sie hier: {link}.",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pages/profile/empty/content/linktext",
-      "value": "Profilseite"
+      "value": "Profilseite",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Frame/Popover/myaccount",
-      "value": "Konto"
+      "value": "Konto",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Frame/Popover/myprofile",
-      "value": "Profil"
+      "value": "Profil",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "withAuthorization/title",
-      "value": "Geschützter Bereich"
+      "value": "Geschützter Bereich",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "withAuthorization/authorizedRoles",
-      "value": "Zugelassene Rollen: {roles}"
+      "value": "Zugelassene Rollen: {roles}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "withMembership/title",
-      "value": "Mitgliederbereich"
+      "value": "Verlegerbereich",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/signIn/note",
-      "value": "Noch nicht Mitglied? {buyLink}"
+      "value": "Noch nicht Verlegerin? {buyLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/signIn/note/buyText",
-      "value": "Jetzt beitreten!"
+      "value": "Jetzt beitreten!",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/signIn/home",
-      "value": "Mehr über die Republik erfahren."
+      "value": "Mehr über die Republik erfahren.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/unauthorized",
-      "value": "Sie haben keine aktive Mitgliedschaft. {buyLink} oder {accountLink}?"
+      "value": "Sie haben keine aktive Mitgliedschaft. {buyLink} oder {accountLink}?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/unauthorized/buyText",
-      "value": "Jetzt kaufen"
+      "value": "Jetzt kaufen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "withMembership/unauthorized/accountText",
-      "value": "Konto ansehen"
+      "value": "Konto ansehen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "wann sehe ich das?"
     },
     {
       "key": "signIn/button",
-      "value": "anmelden"
+      "value": "anmelden",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/email/label",
-      "value": "E-Mail-Adresse"
+      "value": "E-Mail-Adresse",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/success",
-      "value": "Erfolgreich eingeloggt als {nameOrEmail} ({seconds}s)"
+      "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/polling",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br /> Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br />(Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)"
+      "value": "Vielen Dank! \n\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter: <b>«{phrase}»</b>.<br /><br /> \n\nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n\nMerci!",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Braucht einen Link"
     },
     {
       "key": "signIn/cancel",
-      "value": "abbrechen"
+      "value": "abbrechen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signOut/label",
-      "value": "abmelden"
+      "value": "abmelden",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signOut/error",
-      "value": "Unbekannter Fehler"
+      "value": "Unbekannter Fehler",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "me/signedOut",
-      "value": "Sie sind nicht angemeldet"
+      "value": "Sie sind nicht angemeldet",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "(Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie und beim ersten Mal gegeben haben.) - [bei der Anmeldun, klein unter dem Status, dass man nicht angemeldet ist]\n"
     },
     {
       "key": "me/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
+      "value": "Sie sind angemeldet als: {nameOrEmail}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/sequenceNumber/label",
-      "value": "Abo #{sequenceNumber}"
+      "value": "Abo #{sequenceNumber}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
+      "value": "#{sequenceNumber}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/headline",
-      "value": "Willkommen in der Chefetage!"
+      "value": "Willkommen in der Republik!",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Chefetage versteht niemand"
     },
     {
       "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt und komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie automatisch Verlegerin. (Zusammen mit aktuell xxxx Mitverlegern). Es wäre schön, Sie in der Teppichetage dabei zu haben!"
+      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell xxxx Mitverlegern). Es wäre schön, Sie an Bord zu haben!",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wäre mega schön, wenn wir den Zähler drin haben könnten... Hab Task auf Trello erfasst. Und Teppichetage finden alle blöd."
     },
     {
       "key": "marketing/cta/title",
-      "value": "Abo und Mitgliedschaft"
+      "value": "Abo und Mitgliedschaft",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/cta/subtitle",
-      "value": "CHF 240/Jahr"
+      "value": "CHF 240/Jahr",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/cta/text",
-      "value": "Willkommen in der Teppichetage! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik."
+      "value": "Willkommen in der Republik! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Teppichetage geht nicht."
     },
     {
       "key": "marketing/cta/button/label",
-      "value": "Mitglied werden"
+      "value": "An Bord kommen",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/preview/title",
-      "value": "Preview bestellen"
+      "value": "Preview bestellen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne die fünf interessantesten Artikel der letzten Zeit per Mail zu."
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne ein eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu.",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wollen wir eine fixe Anzahl versprechen?"
     },
     {
       "key": "marketing/preview/email/label",
-      "value": "Ihre E-Mail"
+      "value": "Ihre E-Mail",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/preview/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/preview/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/offers/title",
-      "value": "Weitere Angebote"
+      "value": "Weitere Angebote",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/offers/claim",
-      "value": "Gutscheincode einlösen"
+      "value": "Gutscheincode einlösen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/offers/userPrice",
-      "value": "Reduziert"
+      "value": "Kann-Mir-Den-Preis-Nicht-Leisten-Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/title",
-      "value": "Ihre Kontaktinformationen"
+      "value": "Ihre Kontaktinformationen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
+      "value": "Sie sind angemeldet als: {nameOrEmail}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/pastPledges/1",
-      "value": "Sie haben bereits einmal mitgemacht."
+      "value": "Sie haben bereits einmal mitgemacht.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wollen wir das 'mitmachen' als Begriff beibehalten?"
     },
     {
       "key": "pledge/contact/pastPledges/other",
-      "value": "Sie haben bereits {count} mal mitgemacht."
+      "value": "Sie haben bereits {count} mal mitgemacht.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signOut",
-      "value": "abmelden"
+      "value": "abmelden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signIn/show",
-      "value": "Schon mal ausgefüllt?"
+      "value": "Schon mal ausgefüllt?",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signIn/hide",
-      "value": "Das erste Mal hier?"
+      "value": "Das erste Mal hier?",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/firstName/label",
-      "value": "Ihr Vorname"
+      "value": "Ihr Vorname",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/firstName/error/empty",
-      "value": "Vorname fehlt"
+      "value": "Vorname fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/lastName/label",
-      "value": "Ihr Nachname"
+      "value": "Ihr Nachname",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/lastName/error/empty",
-      "value": "Nachname fehlt"
+      "value": "Nachname fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/label",
-      "value": "Ihre E-Mail"
+      "value": "Ihre E-Mail",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "crew/pageTitle",
-      "value": "Crew – Republik"
+      "value": "Crew – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "crew/title",
-      "value": "Wer steckt dahinter?"
+      "value": "Wer steckt dahinter?",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "crew/description",
-      "value": "Die Crew stellt sich vor – jetzt Mitglied werden."
+      "value": "Die Crew stellt sich vor – jetzt Mitglied werden.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "crew/lead",
-      "value": "Zur Aufbau-Crew gehören:"
+      "value": "Zur Crew gehören:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/signedOut/title",
-      "value": "Zur persönlichen Übersicht"
+      "value": "Zur persönlichen Übersicht",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Zum persönlichen Konto?"
     },
     {
       "key": "account/signedOut/signIn",
-      "value": "Bitte anmelden:"
+      "value": "Bitte anmelden:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/title",
-      "value": "Willkommen zu Hause, {nameOrEmail}"
+      "value": "Willkommen zu Hause, {nameOrEmail}",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/address/label",
-      "value": "Adresse"
+      "value": "Adresse",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/title",
-      "value": "Persönliche Angaben"
+      "value": "Persönliche Angaben",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/label",
-      "value": "Geburtsdatum"
+      "value": "Geburtsdatum",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/label/optional",
-      "value": "Geburtsdatum (Optional)"
+      "value": "Geburtsdatum (Optional)",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/phone/label",
-      "value": "Telefonnummer (Optional)"
+      "value": "Telefonnummer (Optional)",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/hint/statute",
-      "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R"
+      "value": "TT.MM.JJJJ, notwendig für Ihre Mitgliedschaft bei Project R",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Das muss raus, ahhh!"
     },
     {
       "key": "Account/Update/birthday/hint/plain",
-      "value": "TT.MM.JJJJ"
+      "value": "TT.MM.JJJJ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Das auch."
     },
     {
       "key": "Account/Update/birthday/error/empty",
-      "value": "Geburtsdatum fehlt"
+      "value": "Geburtsdatum fehlt",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Das auch."
     },
     {
       "key": "Account/Update/birthday/error/invalid",
-      "value": "Geburtsdatum ungültig"
+      "value": "Geburtsdatum ungültig",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Das auch."
     },
     {
       "key": "Account/Update/submit",
-      "value": "Speichern"
+      "value": "Speichern",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/updating",
-      "value": "speichert"
+      "value": "speichert",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/edit",
-      "value": "ändern"
+      "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": null,
+      "value": null,
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Willkommen, name oder email\n\nLeider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n\n- Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben. <b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)\n\n- Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben. <b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)\n\n- Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. Folgen Sie diesem Link: {LinkPledge}\n\n- Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> Folgen Sie diesem Link: {LinkPledge}\n\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n\nDanke für Ihre Mühe!"
     },
     {
       "key": "Account/AddressForm/title",
-      "value": "Ihre Adresse"
+      "value": "Ihre Adresse",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/name/label",
-      "value": "Anschrift"
+      "value": "Anschrift",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/name/error/empty",
-      "value": "Anschrift fehlt"
+      "value": "Anschrift fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/line1/label",
-      "value": "Strasse und Hausnummer"
+      "value": "Strasse und Hausnummer",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/line1/error/empty",
-      "value": "Strasse und Hausnummer fehlen"
+      "value": "Strasse und Hausnummer fehlen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/line2/label",
-      "value": "Zusatz (Optional)"
+      "value": "Zusatz (Optional)",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/postalCode/label",
-      "value": "Postleitzahl"
+      "value": "Postleitzahl",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/postalCode/error/empty",
-      "value": "Postleitzahl fehlt"
+      "value": "Postleitzahl fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/city/label",
-      "value": "Ort"
+      "value": "Ort",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/city/error/empty",
-      "value": "Ort fehlt"
+      "value": "Ort fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/country/label",
-      "value": "Land"
+      "value": "Land",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/country/error/empty",
-      "value": "Land fehlt"
+      "value": "Land fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/paymentSource/3dsecure",
-      "value": "3-D Secure"
+      "value": "3-D Secure",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/paymentSource/3dsecure/failed",
-      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals."
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/paymentSource/saving",
-      "value": "verifizieren"
+      "value": "verifizieren",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/paymentSource/save",
-      "value": "speichern"
+      "value": "speichern",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/paymentSource/error",
-      "value": "Fehler"
+      "value": "Fehler",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/item/label",
-      "value": "Erstellt am {formattedDate} um {formattedTime}"
+      "value": "Erstellt am {formattedDate} um {formattedTime}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "Ihre Newsletter"
+      "value": "Ihre Newsletter",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/newsletterSubscriptions/noMembership",
-      "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren."
+      "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/label",
-      "value": "Republik – Das tägliche Update"
+      "value": "Republik – Das tägliche Update",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
-      "key": "account/newsletterSubscriptions/WEEKLY/label",
-      "value": "Republik – Der Wochenendüberblick"
+      "key": "n",
+      "value": "Republik – Der Wochenendüberblick",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
-      "value": "Project R – Unregelmässige Updates"
+      "value": "Project R – Unregelmässige Updates",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/title",
-      "value": "Ihre Einkäufe"
+      "value": "Ihre Einkäufe",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/method/STRIPE",
-      "value": "Kreditkarte"
+      "value": "Kreditkarte",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/method/POSTFINANCECARD",
-      "value": "Postcard"
+      "value": "Postcard",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/method/PAYPAL",
-      "value": "PayPal"
+      "value": "PayPal",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Banküberweisung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/generic/WAITING",
-      "value": "{formattedTotal} ausstehend"
+      "value": "{formattedTotal} ausstehend",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/generic/PAID",
-      "value": "{formattedTotal} bezahlt mit {method}"
+      "value": "{formattedTotal} bezahlt mit {method}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/generic/WAITING_FOR_REFUND",
-      "value": "{formattedTotal} wird zurückerstattet"
+      "value": "{formattedTotal} wird zurückerstattet",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/generic/REFUNDED",
-      "value": "{formattedTotal} zurückerstattet"
+      "value": "{formattedTotal} zurückerstattet",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/generic/CANCELLED",
-      "value": "{formattedTotal} annulliert"
+      "value": "{formattedTotal} annulliert",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/WAITING",
-      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PAID",
-      "value": "{formattedTotal} bezahlt"
+      "value": "{formattedTotal} bezahlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/1",
-      "value": "Sie erhalten eine Rechnung per Post. Sollte der Brief verloren gehen, hier noch einmal alle Zahlungsinformationen auf einen Blick:"
+      "value": "Sie erhalten eine Rechnung per Post. Sollte der Brief verloren gehen, hier noch einmal alle Zahlungsinformationen auf einen Blick:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
-      "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
+      "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/documents/title/other",
-      "value": "{count} Beiträge"
+      "value": "{count} Beiträge",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/documents/title/1",
-      "value": "Ein Beitrag"
+      "value": "Ein Beitrag",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/comments/title/other",
-      "value": "{count} Diskussionsbeiträge"
+      "value": "{count} Diskussionsbeiträge",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/comments/title/1",
-      "value": "Ein Diskussionsbeitrag"
+      "value": "Ein Diskussionsbeitrag",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/start",
-      "value": "bearbeiten"
+      "value": "bearbeiten",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/cancel",
-      "value": "abbrechen"
+      "value": "abbrechen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/save",
-      "value": "ändern"
+      "value": "ändern",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/publish",
-      "value": "veröffentlichen"
+      "value": "veröffentlichen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/unpublish",
-      "value": "Profil zurücknehmen"
+      "value": "Profil zurücknehmen",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/updating",
-      "value": "speichert"
+      "value": "speichert",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/edit/errors",
-      "value": "Fehler:"
+      "value": "Fehler:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/facebook/label",
-      "value": "Facebook"
+      "value": "Facebook",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/twitter/label",
-      "value": "Twitter"
+      "value": "Twitter",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/publicUrl/label",
-      "value": "Webseite"
+      "value": "Webseite",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/publicUrl/error",
-      "value": "Webseite, ungültig"
+      "value": "Webseite, ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "Account/ProfileForm/isEmailPublic/label",
-      "value": "E-Mail im Profil anzeigen"
+      "value": "E-Mail im Profil anzeigen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/ADMIN",
-      "value": "Nur Administration"
+      "value": "Nur Administration",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/ADMIN/note",
-      "value": "{field} ist nur für die Administration einsehbar"
+      "value": "{field} ist nur für die Administration einsehbar",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/EDITOR",
-      "value": "Redaktion"
+      "value": "Redaktion",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/EDITOR/note",
-      "value": "{field} ist für die Redaktion einsehbar"
+      "value": "{field} ist für die Redaktion einsehbar",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/MEMBER",
-      "value": "Mitglieder"
+      "value": "Mitglieder",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/MEMBER/note",
-      "value": "{field} ist für Mitglieder einsehbar"
+      "value": "{field} ist für Mitglieder einsehbar",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/access/PUBLIC",
-      "value": "Öffentlichkeit"
+      "value": "Öffentlichkeit",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/email/label",
-      "value": "E-Mail"
+      "value": "E-Mail",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/email/access/label",
-      "value": "E-Mail freigeben für"
+      "value": "E-Mail freigeben für",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/pgpPublicKey/label",
-      "value": "PGP-Public-Key"
+      "value": "PGP-Public-Key",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/pgpPublicKey/error/private",
-      "value": "Dies ist ein privater PGP-Key, diesen sollten Sie nie auf eine Webseite hochladen. Bitte geben Sie Ihren Public-Key an."
+      "value": "Dies ist ein privater PGP-Key, diesen sollten Sie nie auf eine Webseite hochladen. Bitte geben Sie Ihren Public-Key an.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/contact/phoneNumber/label",
-      "value": "Telefonnummer"
+      "value": "Telefonnummer",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "profile/contact/phoneNumberNote/label",
-      "value": "Verfügbarkeit"
+      "value": "Verfügbarkeit",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "profile/contact/phoneNumber/access/label",
-      "value": "Telefonnummer freigeben für"
+      "value": "Telefonnummer freigeben für",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "profile/contact/isListed/label",
-      "value": "Portrait und Statement auf der Community-Seite anzeigen"
+      "value": "Portrait und Statement auf der Community-Seite anzeigen",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Brauchen das wording"
     },
     {
       "key": "profile/contact/isAdminUnlisted/note",
-      "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+      "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/biography/label",
-      "value": "Biografie"
+      "value": "Steckbrief",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/statement/label",
-      "value": "Statement"
+      "value": "Statement",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Brauchen wording"
     },
     {
       "key": "profile/statement/error",
-      "value": "Statement fehlt"
+      "value": "Statement fehlt",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Brauchen wording"
     },
     {
       "key": "profile/statement/tooLong",
-      "value": "Statement, maximal 140 Zeichen"
+      "value": "Statement, maximal 140 Zeichen",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Brauchen wording"
     },
     {
       "key": "profile/preview",
-      "value": "Dies ist eine Vorschau Ihres Profils. Füllen Sie es jetzt aus und veröffentlichen Sie es."
+      "value": "Dies ist Ihre Profilseite. Sie ist noch weiss und unberührt wie frisch gefallener Schnee. Sie haben hier die Möglichkeit, ein Foto, ein Statement und einen kurzen Steckbrief zu sich selbst zu veröffentlichen. Was ideal ist für die Debatten mit Ihren Mitverlegerinnen. </ br> (Übrigens: Sie können mittels Ihrem Foto ein wenig die Redaktion steuern. Denn im zentralen Sitzungszimmer der Republik laufen die Fotos aller Verleger und Verlegerinnen in Endlosschlaufe, um die Journalisten daran zu erinnern, für wen Sie arbeitet. (Bis jetzt haben das xxx Verleger und Verlegerinnen getan.) Die Folge: Mit einem freundlichen Foto können Sie die Redaktion beruhigen, mit einem strengen sie zur Arbeit treiben.)",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/preview/notEligible",
-      "value": "Wenn sie uns unterstützen – zum Beispiel in dem Sie eine Mitgliedschaft kaufen – können sie Ihr eigenes Profil veröffentlichen"
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {link}",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "achtung link!"
     },
     {
       "key": "profile/username/label",
-      "value": "Benutzername"
+      "value": "Benutzername",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/username/note",
-      "value": "a-z, 0-9 und . erlaubt"
+      "value": "a-z, 0-9 und . erlaubt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/portrait/choose",
-      "value": "Porträtfoto auswählen"
+      "value": "Porträtfoto auswählen",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Foto oder Bild?"
     },
     {
       "key": "profile/portrait/invalidType",
-      "value": "Nur Fotos erlaubt (jpg, png, gif)"
+      "value": "Nur Fotos erlaubt (jpg, png, gif)",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Foto oder Bild?"
     },
     {
       "key": "profile/portrait/readError",
-      "value": "Foto konnte nicht geladen werden"
+      "value": "Foto konnte nicht geladen werden",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Foto oder Bild?"
     },
     {
       "key": "profile/portrait/tooBig",
-      "value": "Maximal 6 MB"
+      "value": "Maximal 6 MB",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Foto oder Bild?"
     },
     {
       "key": "profile/portrait/update",
-      "value": "Porträtfoto ändern"
+      "value": "Porträtfoto ändern",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Foto oder Bild?"
     },
     {
       "key": "testimonial/meta/pageTitle",
-      "value": "Community – Republik"
+      "value": "Community – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/title",
-      "value": "Die ganze Community auf einen Blick"
+      "value": "Die ganze Community auf einen Blick",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/description",
-      "value": "Jetzt unser Crowdfunding unterstützen."
+      "value": "Jetzt unser Crowdfunding unterstützen.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/single/title",
-      "value": "{name} unterstützt Republik"
+      "value": "{name} unterstützt Republik",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/single/pageTitle",
-      "value": "{name} – Community – Republik"
+      "value": "{name} – Community – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/single/description",
-      "value": "Jetzt unser Crowdfunding unterstützen."
+      "value": "Jetzt unser Crowdfunding unterstützen.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/title",
-      "value": "Jetzt ein Statement abgeben"
+      "value": "Jetzt ein Statement abgeben",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/description",
-      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtfoto auf unserer Community-Seite veröffentlichen."
+      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtfoto auf unserer Community-Seite veröffentlichen.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/submit",
-      "value": "veröffentlichen"
+      "value": "veröffentlichen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "testimonial/role/label",
-      "value": "Funktion"
+      "value": "Funktion",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/role/tooLong",
-      "value": "Funktion, maximal 60 Zeichen"
+      "value": "Funktion, maximal 60 Zeichen",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/update",
-      "value": "aktualisieren"
+      "value": "aktualisieren",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/unpublished",
-      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/unpublish/user",
-      "value": "Statement zurücknehmen"
+      "value": "Statement zurücknehmen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/viewLive",
-      "value": "ansehen"
+      "value": "ansehen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/unpublished/user",
-      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
+      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/search/label",
-      "value": "Suchen"
+      "value": "Suchen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/search/videosOnly",
-      "value": "Nur Videos"
+      "value": "Nur Videos",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "testimonial/search/seed",
-      "value": "Neu Mischen"
+      "value": "Neu Mischen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/infinite/end",
-      "value": "Sie haben gerade {count} Statements angeschaut."
+      "value": "Sie haben gerade {count} Statements angeschaut.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/infinite/endless",
-      "value": "Das waren {count} Verleger und Verlegerinnen. Weiteren {remaining} anschauen?"
+      "value": "Das waren {count} Verleger und Verlegerinnen. Weitere {remaining} anschauen?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wording"
     },
     {
       "key": "testimonial/detail/share/emailSubject",
-      "value": "{name} unterstützt Republik"
+      "value": "{name} unterstützt Republik",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "api/testimonial/image/required",
-      "value": "Ein neues Testimonial braucht ein Bild."
+      "value": "Ein neues Testimonial braucht ein Bild.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "api/testimonial/pledge/required",
-      "value": "Sie müssen uns zuerst unterstützen, bevor Sie ein Testimonial abgeben können."
+      "value": "Sie müssen uns zuerst unterstützen, bevor Sie ein Testimonial abgeben können.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "api/testimonial/mail/subject",
-      "value": "Vielen Dank für das Testimonial"
+      "value": "Vielen Dank für das Testimonial",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "badge/crowdfunder",
-      "value": "Crowdfunder"
+      "value": "Crowdfunder",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not relevant now"
     },
     {
       "key": "badge/patron",
-      "value": "Gönner"
+      "value": "Gönner",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not relevant now"
     },
     {
       "key": "badge/staff",
-      "value": "Fester Autor der Republik"
+      "value": "Fester Autor der Republik",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not relevant now"
     },
     {
       "key": "badge/freelancer",
-      "value": "Freier Autor der Republik"
+      "value": "Freier Autor der Republik",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not relevant now"
     },
     {
       "key": "header/title",
-      "value": "Republik"
+      "value": "Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/contact/title",
-      "value": "Kontakt"
+      "value": "Kontakt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/contact/name",
-      "value": "Republik \nProject R Genossenschaft "
+      "value": "Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/contact/address",
-      "value": "Sihlhallenstrasse 1 \n8004 Zürich \nSchweiz"
+      "value": "Sihlhallenstrasse 1 \n8004 Zürich \nSchweiz",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/contact/mail",
-      "value": "kontakt@republik.ch"
+      "value": "kontakt@republik.ch",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/about/title",
-      "value": "Über uns"
+      "value": "Über uns",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/crew",
-      "value": "Crew"
+      "value": "Crew",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/events",
-      "value": "Veranstaltungen"
+      "value": "Veranstaltungen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/updates",
-      "value": "Blog Crowdfunding"
+      "value": "Blog Crowdfunding",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/about/projecR",
-      "value": "Project R"
+      "value": "Project R",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/about/manifest",
-      "value": "Manifest"
+      "value": "Manifest",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/about/en",
-      "value": "English Manifesto"
+      "value": "English Manifesto",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/legal/title",
-      "value": "Rechtliches"
+      "value": "Rechtliches",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/legal/tos",
-      "value": "AGB"
+      "value": "AGB",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/legal/privacy",
-      "value": "Datenschutz"
+      "value": "Datenschutz",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/legal/statute",
-      "value": "Statuten"
+      "value": "Statuten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/legal/imprint",
-      "value": "Impressum"
+      "value": "Impressum",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/media",
-      "value": "Medieninformationen"
+      "value": "Medieninformationen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "not now"
     },
     {
       "key": "footer/me/title",
-      "value": "Ihr Profil"
+      "value": "Ihr Profil",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "footer/me/signIn",
-      "value": "Bereits an Bord?"
+      "value": "Bereits an Bord?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "footer/me/signedIn",
-      "value": "Ihre persönliche Übersicht"
+      "value": "Ihre persönliche Übersicht",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "footer/me/signOut",
-      "value": "Abmelden"
+      "value": "Abmelden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "footer/me/claim",
-      "value": "Gutscheincode einlösen"
+      "value": "Gutscheincode einlösen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "footer/since",
-      "value": "seit 2018"
+      "value": "seit 2018",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/Discussion/OrderBy/DATE",
-      "value": "Neueste"
+      "value": "Neueste",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/Discussion/OrderBy/VOTES",
-      "value": "Beliebteste"
+      "value": "Beliebteste",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/Discussion/OrderBy/HOT",
-      "value": "Hottest"
+      "value": "Hottest",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentComposer/placeholder",
-      "value": "Einen Beitrag verfassen…"
+      "value": "Einen Beitrag verfassen…",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentComposer/answer",
-      "value": "Antworten"
+      "value": "antworten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentActions/answer",
-      "value": "Antworten"
+      "value": "antworten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/CommentActions/unpublish",
+      "value": "unveröffentlichen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/CommentActions/edit",
+      "value": "bearbeiten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/CommentActions/upvote",
+      "value": "+1",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/CommentActions/downvote",
+      "value": "-1",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentTeaser/commentLink",
-      "value": "Zum Beitrag"
+      "value": "Zum Beitrag",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/1",
-      "value": "Eine weiterer Kommentar"
+      "value": "Eine weiterer Kommentar",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/other",
-      "value": "{count} weitere Kommentare"
+      "value": "{count} weitere Kommentare",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "styleguide/CommentTreeCollapse/label",
-      "value": "ausblenden"
+      "value": "ausblenden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/comment/header/updated",
+      "value": "editiert",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/comment/edit/submit",
+      "value": "bearbeiten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/comment/unpublished",
+      "value": "(unveröffentlicht)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/comment/unpublished/userCanEdit",
+      "value": "Bearbeiten Sie den Beitrag um ihn erneut zu publizieren.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "styleguide/comment/adminUnpublished",
+      "value": "Leider mussen wir Ihren Beitrag unveröffentlichen. Wenden sie sich an kontakt@republik.ch.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/justNow/other",
-      "value": "gerade eben"
+      "value": "gerade eben",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/seconds/1",
-      "value": "vor einer Sekunde"
+      "value": "vor einer Sekunde",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/seconds/other",
-      "value": "vor {count} Sekunden"
+      "value": "vor {count} Sekunden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/minutes/1",
-      "value": "vor einer Minute"
+      "value": "vor einer Minute",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/minutes/other",
-      "value": "vor {count} Minuten"
+      "value": "vor {count} Minuten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/hours/1",
-      "value": "vor einer Stunde"
+      "value": "vor einer Stunde",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/hours/other",
-      "value": "vor {count} Stunden"
+      "value": "vor {count} Stunden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/days/1",
-      "value": "vor einem Tag"
+      "value": "vor einem Tag",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/days/other",
-      "value": "vor {count} Tagen"
+      "value": "vor {count} Tagen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/weeks/1",
-      "value": "vor einer Woche"
+      "value": "vor einer Woche",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/weeks/other",
-      "value": "vor {count} Wochen"
+      "value": "vor {count} Wochen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/months/1",
-      "value": "vor einem Monat"
+      "value": "vor einem Monat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/months/other",
-      "value": "vor {count} Monaten"
+      "value": "vor {count} Monaten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/years/1",
-      "value": "vor einem Jahr"
+      "value": "vor einem Jahr",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "timeago/years/other",
-      "value": "vor {count} Jahren"
+      "value": "vor {count} Jahren",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/DiscussionPreferences/save",
-      "value": "Speichern"
+      "value": "Speichern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/DiscussionPreferences/commentAnonymously",
-      "value": "Anonym teilnehmen"
+      "value": "Anonym teilnehmen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/DiscussionPreferences/credentialLabel",
-      "value": "Bezeichnung"
+      "value": "Bezeichnung",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/DiscussionPreferences/newCredentialLabel",
-      "value": "Neue Bezeichnung erstellen"
+      "value": "Neue Bezeichnung erstellen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "components/DiscussionPreferences/loading",
-      "value": "Loading…"
+      "value": "Loading…",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "discussion/displayUser/anonymous",
-      "value": "Anonym"
+      "value": "Anonym",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "submitComment/rootSubmitLabel",
+      "value": "publizieren",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "submitComment/noDisplayAuthor",
+      "value": "Noch nicht bereit, versuchen sie es erneut in einigen Sekunden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/title",
-      "value": "Abo und Mitgliedschaft für ein Jahr"
+      "value": "Abo und Mitgliedschaft für ein Jahr",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/changePackage",
-      "value": "(ändern)"
+      "value": "(ändern)",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/price/label",
-      "value": "Betrag"
+      "value": "Betrag",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/price/error",
-      "value": "Betrag, mindestens {formattedCHF}"
+      "value": "Betrag, mindestens {formattedCHF}",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/option/error/max",
-      "value": "{label}, maximal {maxAmount}"
+      "value": "{label}, maximal {maxAmount}",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/option/error/min",
-      "value": "{label}, minimal {minAmount}"
+      "value": "{label}, minimal {minAmount}",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/userPrice/reason/label",
-      "value": "Begründung"
+      "value": "Begründung",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/userPrice/reason/error",
-      "value": "Bitte begründen"
+      "value": "Bitte begründen",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/userPrice/beforeReason",
-      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
+      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. ",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/customize/userPrice/beforePrice",
-      "value": "Wie viel könnten Sie zahlen pro Jahr?"
+      "value": "Wie viel können Sie zahlen pro Jahr?",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/price",
-      "value": "{formattedCHF}"
+      "value": "{formattedCHF}",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/DONATE/title",
-      "value": "Spenden, sonst nichts"
+      "value": "Spenden, sonst nichts",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/DONATE/description",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet.",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO/userPrice/teaser",
-      "value": "Sie können sich den Betrag nicht leisten?"
+      "value": "Sie können sich den Betrag nicht leisten?",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO/title",
-      "value": "Für mich"
+      "value": "Abo und Mitgliedschaft für ein Jahr",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO/description",
-      "value": "Willkommen an Bord! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
+      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik.",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF}"
+      "value": "ab {formattedCHF}",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO_GIVE/title",
-      "value": "Für andere"
+      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen für 20 Franken etwas Handfestes dazu zu schenken. Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch (damit die Empfänger nicht nur Cleveres lesen, sondern auch schreiben können).",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen zusätzlich für 20 Franken ein Notizbuch dazu zu schenken – damit diese nicht nur Cleveres lesen, sondern auch schreiben können."
+      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen zusätzlich für 20 Franken ein Notizbuch dazu zu schenken – damit diese nicht nur Cleveres lesen, sondern auch schreiben können.",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Für Gönner"
+      "value": "Gönner-Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Wie alle werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Grosszügigkeit zu revanchieren, schicken wir Ihnen das Start-up-Verleger-Paket: ein Manifest, einen besonderen Anstecker und ein signiertes Manual für Journalismus im 21. Jahrhundert."
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. </ br> Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n\n",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Achtung HTML!"
     },
     {
       "key": "package/MONTHLY_ABO/title",
-      "value": "Monatsabo"
+      "value": "Monats-Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/MONTHLY_ABO/description",
-      "value": "Willkommen an Bord! Sie erhalten vollen Zugriff auf unser Magazin. Bequem monatlich per Kreditkarte bezahlen und jederzeit kündbar."
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verleger oder Verlegerin der Republik. (Keine Angst: Sie können beides jederzeit kündigen.)",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/choose",
-      "value": "Auswählen"
+      "value": "Auswählen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/ABO/label/other",
-      "value": "Mitgliedschaften"
+      "value": "Mitgliedschaften",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/ABO/label/1",
-      "value": "Mitgliedschaft"
+      "value": "Mitgliedschaft",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/NOTEBOOK/label/other",
-      "value": "Notizbücher"
+      "value": "Notizbücher",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/NOTEBOOK/label/1",
-      "value": "Notizbuch"
+      "value": "Notizbuch",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/TOTEBAG/label/other",
-      "value": "Taschen"
+      "value": "Taschen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "option/TOTEBAG/label/1",
-      "value": "Tasche"
+      "value": "Tasche",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/title",
-      "value": "Zahlungsart auswählen"
+      "value": "Zahlungsart auswählen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/title/single",
-      "value": "Bezahlung"
+      "value": "Bezahlung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/secure",
-      "value": "Sichere Verbindung"
+      "value": "Sichere Verbindung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/insecure",
-      "value": "Unsichere Verbindung"
+      "value": "Unsichere Verbindung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/STRIPE",
-      "value": "Visa/MasterCard"
+      "value": "Visa/MasterCard",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/PAYMENTSLIP",
-      "value": "Banküberweisung"
+      "value": "Banküberweisung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/POSTFINANCECARD",
-      "value": "PostFinance Card"
+      "value": "PostFinance Card",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/PAYPAL",
-      "value": "PayPal"
+      "value": "PayPal",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/choose",
-      "value": "Wählen Sie eine Zahlungsart"
+      "value": "Wählen Sie eine Zahlungsart",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/existing",
-      "value": "Gespeicherte Kreditkarte"
+      "value": "Gespeicherte Kreditkarte",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/new",
-      "value": "Neue Kreditkarte oder Zahlungsart"
+      "value": "Neue Kreditkarte oder Zahlungsart",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/method/new/stripe",
-      "value": "Neue Kreditkarte erfassen"
+      "value": "Neue Kreditkarte erfassen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/prefered",
-      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/only",
-      "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar."
+      "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/js/loading",
-      "value": "Kreditkartenzahlung wird vorbereitet"
+      "value": "Kreditkartenzahlung wird vorbereitet",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/js/failed",
-      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie eine andere Zahlungsart."
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie bitte eine andere Zahlungsart.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/card/label",
-      "value": "Kreditkarten-Nummer"
+      "value": "Kreditkarten-Nummer",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/card/error/empty",
-      "value": "Kreditkarten-Nummer fehlt"
+      "value": "Kreditkarten-Nummer fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/card/error/invalid",
-      "value": "Kreditkarten-Nummer ungültig"
+      "value": "Kreditkarten-Nummer ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/month/label",
-      "value": "Ablauf Monat"
+      "value": "Ablauf Monat",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/month/error/empty",
-      "value": "Ablauf Monat fehlt"
+      "value": "Ablauf Monat fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/month/error/invalid",
-      "value": "Ablauf Monat ungültig"
+      "value": "Ablauf Monat ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/year/label",
-      "value": "Ablauf Jahr"
+      "value": "Ablauf Jahr",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/year/error/empty",
-      "value": "Ablauf Jahr fehlt"
+      "value": "Ablauf Jahr fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/year/error/invalid",
-      "value": "Ablauf Jahr ungültig"
+      "value": "Ablauf Jahr ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/cvc/label",
-      "value": "Prüfnummer (CVC)"
+      "value": "Prüfnummer (CVC)",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/cvc/error/empty",
-      "value": "Prüfnummer (CVC) fehlt"
+      "value": "Prüfnummer (CVC) fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/cvc/error/invalid",
-      "value": "Prüfnummer (CVC) ungültig"
+      "value": "Prüfnummer (CVC) ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/3dsecure/payment_method_not_available",
-      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+      "value": "Das Zahlungsmittel ist zurzeit nicht verfügbar, versuchen Sie es bitte mit einem anderen Zahlungsmittel.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/3dsecure/processing_error",
-      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut."
+      "value": "Unerwarteter Fehler beim Bezahlen. Versuchen Sie es bitte erneut.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/3dsecure/unkown",
-      "value": "Unbekannter Fehler beim Bezahlen."
+      "value": "Unbekannter Fehler beim Bezahlen.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/stripe/3dsecure/redirect/failed",
-      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel."
+      "value": "3-D Secure Ihrer Bank ist nicht verfügbar. Versuchen Sie es bitte mit einem anderen Zahlungsmittel.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/paymentslip/title",
-      "value": "Ihre Adresse"
+      "value": "Ihre Adresse",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/paymentslip/explanation",
-      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen."
+      "value": "Wir verschicken keine Einzahlungsscheine per Post. Sie erhalten die Zahlungsanweisungen per E-Mail. Ihre Adresse brauchen wir aus administrativen Gründen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/paymentslip/emailInvoice",
-      "value": "Zahlungsanweisungen per E-Mail"
+      "value": "Zahlungsanweisungen per E-Mail",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "payment/paymentslip/paperInvoice",
-      "value": "Rechnung per Post"
+      "value": "Rechnung per Post",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/claim/signIn/before",
-      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
+      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/claim/signIn/button",
-      "value": "ändern"
+      "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/claim/loading",
-      "value": "überprüfen"
+      "value": "überprüfen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/title",
-      "value": "Mitmachen"
+      "value": "Willkommen an Bord!",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/title",
-      "value": "Ihre Kontaktinformationen"
+      "value": "Ihre Kontaktinformationen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
+      "value": "Sie sind angemeldet als: {nameOrEmail}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Unbedingt: Name and Email! - oder nur Email"
     },
     {
       "key": "pledge/contact/pastPledges/1",
-      "value": "Sie haben bereits einmal mitgemacht."
+      "value": "Sie haben bereits einmal mitgemacht.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "pledge/contact/pastPledges/other",
-      "value": "Sie haben bereits {count} mal mitgemacht."
+      "value": "Sie haben bereits {count} mal mitgemacht.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "legacy?"
     },
     {
       "key": "pledge/contact/signOut",
-      "value": "abmelden"
+      "value": "abmelden",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signIn/show",
-      "value": "Schon mal ausgefüllt?"
+      "value": "Schon man ausgefüllt?\n",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signIn/hide",
-      "value": "Das erste Mal hier?"
+      "value": "Das erste Mal hier?",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/firstName/label",
-      "value": "Ihr Vorname"
+      "value": "Ihr Vorname",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/firstName/error/empty",
-      "value": "Vorname fehlt"
+      "value": "Vorname fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/lastName/label",
-      "value": "Ihr Nachname"
+      "value": "Ihr Nachname",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/lastName/error/empty",
-      "value": "Nachname fehlt"
+      "value": "Nachname fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/label",
-      "value": "Ihre E-Mail"
+      "value": "Ihre E-Mail",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail ungültig",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/package/error",
-      "value": "Wählen Sie zuoberst ein Abonnement und eine Mitgliedschaft oder Spenden aus"
+      "value": "Wählen Sie zuoberst ein Abonnement und eine Mitgliedschaft oder Spenden aus",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/payMethod/error",
-      "value": "Zahlungsart auswählen"
+      "value": "Zahlungsart auswählen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/payMethod/label",
-      "value": "Wählen Sie eine Zahlungsart:"
+      "value": "Wählen Sie eine Zahlungsart:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/emailVerify/note",
-      "value": "Diese E-Mail-Adresse wurde schon einmal verwendet. Falls das Ihre Adresse ist, klicken Sie bitte auf «anmelden»."
+      "value": "Diese E-Mail-Adresse wurde schon einmal verwendet. Falls das Ihre Adresse ist, klicken Sie bitte auf «anmelden».",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/emailVerify/done",
-      "value": "Vielen Dank für das Verifizieren Ihrer E-Mail-Adresse."
+      "value": "Vielen Dank für das Verifizieren Ihrer E-Mail-Adresse.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/error/title",
-      "value": "Fehler"
+      "value": "Fehler",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/button/pay",
-      "value": "{formattedChf} bezahlen"
+      "value": "{formattedChf} bezahlen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/legal/label/statute",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/legal/label/plain",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/legal/error/statute",
-      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/legal/error/plain",
-      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/submit",
-      "value": "einreichen"
+      "value": "einreichen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/stripe",
-      "value": "bezahlen"
+      "value": "bezahlen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/stripe/3dsecure",
-      "value": "3-D Secure"
+      "value": "3-D Secure",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/postfinance",
-      "value": "weiterleiten"
+      "value": "weiterleiten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/paypal",
-      "value": "weiterleiten"
+      "value": "weiterleiten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/submit/loading/pay",
-      "value": "verarbeiten"
+      "value": "verarbeiten",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/mailto/subject",
-      "value": "PostFinance {status}"
+      "value": "PostFinance {status}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/mailto/body",
-      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPostFinance:\n{payload}"
+      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPostFinance:\n{payload}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/92",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/invalid",
-      "value": "Die Zahlung ist ungültig. Versuchen Sie bitte ein anderes Zahlungsmittel."
+      "value": "Die Zahlung ist ungültig. Versuchen Sie bitte ein anderes Zahlungsmittel.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/denied",
-      "value": "Die Zahlung wurde verweigert. Nutzen Sie eine andere Karte oder wählen Sie ein anderes Zahlungsmittel."
+      "value": "Die Zahlung wurde verweigert. Nutzen Sie eine andere Karte oder wählen Sie ein anderes Zahlungsmittel.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/canceled",
-      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/pf/retry",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, versuchen Sie es bitte erneut oder wählen Sie ein anderes Zahlungsmittel."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, versuchen Sie es bitte erneut oder wählen Sie ein anderes Zahlungsmittel.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/error",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/noPledge",
-      "value": "Das Produkt wurde nicht gefunden."
+      "value": "Das Produkt wurde nicht gefunden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/paypal/cancel",
-      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung abgebrochen. Wählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/paypal/deny",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nWählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nWählen Sie bitte ein anderes Zahlungsmittel, um Ihre Bestellung abzuschliessen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/paypal/contactUs",
-      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/subject",
-      "value": "PayPal {status}"
+      "value": "PayPal {status}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/body",
-      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPayPal:\n{payload}"
+      "value": "Liebe Republik,\n\nLasst uns über Geld sprechen.\n\nBuchungsreferenz:\n{pledgeId}\n\nPayPal:\n{payload}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "pledge/recievePayment/3dsecure/failed",
-      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
+      "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "article/payNote/before",
-      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!"
+      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Waiting for Const"
     },
     {
       "key": "article/payNote/before/buyText",
-      "value": "Hier können Sie selber Mitglied werden."
+      "value": "Hier können Sie selber Mitglied werden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Waiting for Const"
     },
     {
       "key": "article/payNote/after",
-      "value": "Wir hoffen der Beitrag hat Ihnen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}"
+      "value": "Wir hoffen der Beitrag hat Ihnen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Waiting for Const"
     },
     {
       "key": "article/payNote/after/buyText",
-      "value": "Mitglied werden! "
+      "value": "Mitglied werden! ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Waiting for Const"
     },
     {
       "key": "article/share/emailSubject",
-      "value": "Republik: {title}"
+      "value": "Republik: {title}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/postpay/waiting",
-      "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br />Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br /> (Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)"
+      "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br />Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br /> (Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/postpay/reclaim",
-      "value": "Falsche E-Mail-Adresse?"
+      "value": "Falsche E-Mail-Adresse?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/claim/signIn/before",
-      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:"
+      "value": "Geben Sie Ihre richtige E-Mail-Adresse ein:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/claim/signIn/button",
-      "value": "ändern"
+      "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/claim/loading",
-      "value": "überprüfen"
+      "value": "überprüfen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/empty/title",
-      "value": "Hallo {nameOrEmail}"
+      "value": "Hallo {nameOrEmail}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/empty/text",
-      "value": "Möchten auch Sie uns unterstützen?"
+      "value": "Möchten auch Sie uns unterstützen?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/empty/button",
-      "value": "Jetzt mitmachen"
+      "value": "Jetzt mitmachen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/title",
-      "value": "Willkommen an Bord, {name}"
+      "value": "Willkommen an Bord, {name}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Mitgliedschaft, Ihre Postadresse, Ihre Einkäufe und Ihre Newsletter.<br />\n"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />\n",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": "Ist das so?"
     },
     {
       "key": "merci/action/read",
-      "value": "Magazin lesen"
+      "value": "Magazin lesen",
+      "Clara ok": "x",
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/action/profile",
-      "value": "Ihr Profil anlegen"
+      "value": "Ihr Profil anlegen",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/share/lead",
-      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!"
+      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!",
+      "Clara ok": null,
+      "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/share/tweetTemplate",
-      "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich."
+      "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/share/emailSubject",
-      "value": "Ein neues, unabhängiges Magazin"
+      "value": "Ein neues, unabhängiges Magazin",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "merci/share/emailBody",
-      "value": "Hallo\n\nWerde Mitglied und Abonnent der Republik: {url}\n\nHerzliche Grüsse, {backerName}"
+      "value": "Hallo\n\nWerde Mitglied und Abonnent der Republik: {url}\n\nHerzliche Grüsse, {backerName}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/title/1",
-      "value": "Ihre Mitgliedschaft und Ihr Abonnement"
+      "value": "Ihr Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/title/other",
-      "value": "Ihre Mitgliedschaften und Abonnements"
+      "value": "Ihre Abonnements",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/giver/giveable/show",
-      "value": "Abo und Mitgliedschaft verschenken?"
+      "value": "Abo und Mitgliedschaft verschenken?",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/giver/given/notGive",
-      "value": "Sie haben das Abo und die Mitgliedschaft verschenkt."
+      "value": "Sie haben das Abo und die Mitgliedschaft verschenkt.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/giver/given/1",
-      "value": "Sie haben schon ein Abo und eine Mitgliedschaft verschenkt."
+      "value": "Sie haben schon ein Abo und eine Mitgliedschaft verschenkt.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/giver/given/other",
-      "value": "Sie haben schon {count} Abos und Mitgliedschaften verschenkt."
+      "value": "Sie haben schon {count} Abos und Mitgliedschaften verschenkt.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/giver/description",
-      "value": "Empfänger:"
+      "value": "Empfänger:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/show",
-      "value": "Verschenken?"
+      "value": "Verschenken?",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/hide",
-      "value": "behalten"
+      "value": "behalten",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/description/before/notGive",
-      "value": "Wollen Sie das Abo nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihr Abo und Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+      "value": "Wollen Sie das Abonnement nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihr Abo und Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/description/before/1",
-      "value": "Sie können das Abo und die Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+      "value": "Sie können das Abo und die Mitgliedschaft mit folgendem Gutscheincode verschenken:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/description/before/other",
-      "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
+      "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/give/description/after",
-      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
+      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/type/ABO",
-      "value": "Mitgliedschaft und Abonnement"
+      "value": "Mitgliedschaft und Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/type/BENEFACTOR_ABO",
-      "value": "Gönner-Mitgliedschaft und -Abonnement"
+      "value": "Gönner-Mitgliedschaft und -Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/type/REDUCED_ABO",
-      "value": "Mitgliedschaft und Abonnement (reduziert)"
+      "value": "Mitgliedschaft und Abonnement (reduziert)",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/type/MONTHLY_ABO",
-      "value": "Monats-Abonnement"
+      "value": "Monats-Abonnement",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}."
+      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus."
+      "value": "Läuft am {formattedEndDate} aus.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
-      "value": "Ihr Abo wird am {formattedEndDate} automatisch erneuert."
+      "value": "Ihr Abonnement wird am {formattedEndDate} automatisch erneuert.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/latestPeriod/overdue",
-      "value": "Überfällig seit dem {formattedEndDate}."
+      "value": "Überfällig seit dem {formattedEndDate}.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
-      "value": "Abo kündigen"
+      "value": "Abonnement kündigen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",
-      "value": "Abo reaktivieren"
+      "value": "Abonnement reaktivieren",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/manage/cancel/button",
-      "value": "Kündigung abschicken"
+      "value": "Kündigung abschicken",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/manage/cancel/reason",
-      "value": "Warum möchten Sie künden?"
+      "value": "Warum möchten Sie künden?",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/lead",
-      "value": "Mitgliedschaft und Abonnement einlösen"
+      "value": "Willkommen ab Bord! Hier können Sie Ihren Gutscheincode einlösen.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/voucherCode/label",
-      "value": "Gutscheincode"
+      "value": "Gutscheincode",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/voucherCode/label/error/empty",
-      "value": "Gutscheincode fehlt"
+      "value": "Gutscheincode fehlt",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/button",
-      "value": "einlösen"
+      "value": "Einlösen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/loading",
-      "value": "überprüfen"
+      "value": "überprüfen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/legal/label",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "waiting for answer from legal dep"
     },
     {
       "key": "memberships/claim/legal/error",
-      "value": "Sie müssen sich mit der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+      "value": "Sie müssen sich mit der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "waiting for answer from legal dep"
     },
     {
       "key": "memberships/claim/error/title",
-      "value": "Fehler"
+      "value": "Fehler",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/sequenceNumber/label",
-      "value": "Abo #{sequenceNumber}"
+      "value": "Abo #{sequenceNumber}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
+      "value": "#{sequenceNumber}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "notifications/pageTitle",
-      "value": "Mitteilung – Republik"
+      "value": "Mitteilung – Republik",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/email-confirmed/title",
-      "value": "E-Mail-Adresse ist bestätigt"
+      "value": "E-Mail-Adresse ist bestätigt",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/invalid-token/title",
-      "value": "Ungültiger Link"
+      "value": "Ungültiger Link",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/invalid-token/text",
-      "value": "Der von Ihnen aufgerufene Link ist nicht gültig. Links zur Anmeldung sind nur einmal gültig."
+      "value": "Der von Ihnen aufgerufene Link ist nicht gültig. Links zur Anmeldung sind nur einmal gültig.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/unavailable/title",
-      "value": "System nicht verfügbar"
+      "value": "System nicht verfügbar",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/unavailable/text",
-      "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
+      "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/links/home",
-      "value": "Startseite"
+      "value": "Startseite",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
     },
     {
       "key": "notifications/links/merci",
-      "value": "Ihre persönliche Übersicht"
+      "value": "Ihre persönliche Übersicht",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": "Wo kommt das?"
+    },
+    {
+      "key": "events/pageTitle",
+      "value": "Veranstaltungen – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/title",
+      "value": "Alle Veranstaltungen im Überblick",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/metaDescription",
+      "value": "Das digitale Magazin von Project R – jetzt Mitglied werden.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/upcoming",
+      "value": "Kommende Veranstaltungen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/past",
+      "value": "Vergangene Veranstaltungen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/404",
+      "value": "Ereignis nicht gefunden",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/all",
+      "value": "Alle Ereignisse",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/labels/description",
+      "value": "Was",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/labels/date",
+      "value": "Wann",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "events/labels/location",
+      "value": "Wo",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "updates/pageTitle",
+      "value": "Neues – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "updates/title",
+      "value": "Neuigkeiten zum Crowdfunding",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "updates/metaDescription",
+      "value": "Das digitale Magazin von Project R – jetzt Mitglied werden.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "updates/404",
+      "value": "Update nicht gefunden",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "updates/all",
+      "value": "Alle Meldungen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/pageTitle",
+      "value": "Fragen – Republik",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/title",
+      "value": "Antworten auf die häufigsten Fragen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/metaDescription",
+      "value": "Jetzt Mitglied werden.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/before/title",
+      "value": "FAQ – Ihre häufigsten Fragen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/before/support/title",
+      "value": "Erste-Hilfe-Abteilung",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/before/support/text",
+      "value": "Bei allen technischen Problemen helfen wir Ihnen gerne so schnell wie möglich per Mail: <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a>",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/title",
+      "value": "Haben Sie noch eine Frage?",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/question/label",
+      "value": "Ihre Frage",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/question/error",
+      "value": "Ihre Frage, mind. 5 Zeichen",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/question/submit",
+      "value": "Abschicken",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/merci/title",
+      "value": "Vielen Dank für Ihren Input.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "faq/form/merci/text",
+      "value": "Sie lesen von uns.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     }
   ]
 }

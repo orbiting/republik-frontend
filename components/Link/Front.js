@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '../../lib/routes'
+import routes, { Link } from '../../lib/routes'
 import { parse } from 'url'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
@@ -21,18 +21,13 @@ export default ({ href, passHref, children }) => {
     // do nothing if url has a hostname and it's not ours
     return children
   }
-  // path or url is ours
-  const isProfile = urlObject.pathname.match(/^\/~([^/]+)/)
-  if (isProfile) {
-    return <Link route='profile' params={{slug: isProfile[1]}} passHref={passHref}>
+  const path = urlObject.pathname
+
+  const result = routes.match(path)
+  if (result.route && result.route.name && result.params) {
+    return <Link route={result.route.name} params={result.params} passHref={passHref}>
       {children}
     </Link>
-  }
-  const isArticle = urlObject.pathname.match(/^\/\d{4}\/\d{2}\/\d{2}\/[^/]+/)
-  if (isArticle) {
-    return <ArticleLink path={urlObject.pathname} passHref={passHref}>
-      {children}
-    </ArticleLink>
   }
 
   // unrecognized links are handled by regular a tags

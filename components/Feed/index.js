@@ -30,7 +30,7 @@ const getDocuments = gql`
           title
           description
           publishDate
-          slug
+          path
         }
       }
     }

@@ -2,8 +2,9 @@ import React from 'react'
 import routes, { Link } from '../../lib/routes'
 import { parse } from 'url'
 
+import PathLink from './Path'
+
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-import ArticleLink from './Article'
 
 const PUBLIC_HOSTNAME = parse(PUBLIC_BASE_URL).hostname
 
@@ -23,13 +24,8 @@ export default ({ href, passHref, children }) => {
   }
   const path = urlObject.pathname
 
-  const result = routes.match(path)
-  if (result.route && result.route.name && result.params) {
-    return <Link route={result.route.name} params={result.params} passHref={passHref}>
-      {children}
-    </Link>
-  }
-
-  // unrecognized links are handled by regular a tags
-  return children
+  return <PathLink
+    path={path}
+    passHref={passHref}
+    children={children} />
 }

@@ -12,7 +12,7 @@ import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
-import ArticleLink from '../Link/Article'
+import PathLink from '../Link/Path'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
@@ -140,7 +140,7 @@ const getPublicUser = gql`
             title
             description
             publishDate
-            slug
+            path
           }
         }
       }
@@ -395,7 +395,7 @@ class Profile extends Component {
                           user.documents.nodes.map(doc => (
                             <TeaserFeed
                               {...doc.meta}
-                              Link={ArticleLink}
+                              Link={PathLink}
                               key={doc.meta.slug}
                             />
                           ))}

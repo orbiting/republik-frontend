@@ -1,25 +1,40 @@
 import React from 'react'
 import { Link } from '../../lib/routes'
 
-const getArticleParams = path => {
-  const [year, month, day, slug, suffix] = path.split('/').filter(Boolean)
+const getLinkProps = path => {
+  const segments = path.split('/').filter(Boolean)
+  // format & dossier
+  if (segments.length === 2) {
+    const [route, slug] = segments
+    return {
+      route,
+      params: {
+        slug
+      }
+    }
+  }
+
+  const [year, month, day, slug, suffix] = segments
   return {
-    year,
-    month,
-    day,
-    slug,
-    suffix
+    route: 'article',
+    params: {
+      year,
+      month,
+      day,
+      slug,
+      suffix
+    }
   }
 }
 
-export default ({ slug, path, children, passHref }) => {
-  const params = getArticleParams(path || slug)
-  // safety check for now
-  if (!params.slug) {
+export default ({ path, children, passHref }) => {
+  const props = getLinkProps(path)
+  // safety check
+  if (!props.params.slug) {
     return children
   }
   return (
-    <Link route='article' params={params} passHref={passHref}>
+    <Link route={props.route} params={props.params} passHref={passHref}>
       {children}
     </Link>
   )

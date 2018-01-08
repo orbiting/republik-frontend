@@ -133,7 +133,7 @@ class Manage extends Component {
     const { t, membership, highlighted } = this.props
     const createdAt = new Date(membership.createdAt)
     const latestPeriod = membership.periods[0]
-    const formattedEndDate = dayFormat(new Date(latestPeriod.endDate))
+    const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
 
     return (
       <AccountItem
@@ -147,7 +147,7 @@ class Manage extends Component {
           ),
           `(${t('memberships/sequenceNumber/suffix', membership)})`
         ].join(' ')}>
-        <P>
+        {!!latestPeriod && <P>
           {membership.active && !membership.overdue && t.first(
             [
               `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
@@ -160,7 +160,7 @@ class Manage extends Component {
             'memberships/latestPeriod/overdue',
             { formattedEndDate }
           )}
-        </P>
+        </P>}
         {this.renderActions()}
       </AccountItem>
     )

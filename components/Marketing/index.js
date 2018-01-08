@@ -117,7 +117,6 @@ const MarketingPage = ({ t, crowdfundingName }) => [
         <Interaction.H3 style={{ marginBottom: '17px' }}>
           {t('marketing/preview/title')}
         </Interaction.H3>
-        <Interaction.P>{t('marketing/preview/text')}</Interaction.P>
         <PreviewForm />
       </div>
       <div {...styles.offers}>

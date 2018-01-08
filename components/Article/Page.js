@@ -192,7 +192,10 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               <PayNote.Before />
-              {renderMdast(article.content, schema)}
+              {renderMdast({
+                ...article.content,
+                format: meta.format
+              }, schema)}
               {meta.discussionId && <Center>
                 <Discussion discussionId={meta.discussionId} />
               </Center>}

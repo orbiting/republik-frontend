@@ -158,7 +158,7 @@ class UpdateMe extends Component {
       .filter(Boolean)
 
     return (
-      <Loader loading={loading} error={error} render={() => (
+      <Loader loading={loading || !me} error={error} render={() => (
         <div style={style}>
           {!isEditing ? (
             <div>

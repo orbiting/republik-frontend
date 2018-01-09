@@ -191,9 +191,11 @@ class ArticlePage extends Component {
             )
           })
 
+          const isFormat = meta.template === 'format'
+
           return (
             <Fragment>
-              <PayNote.Before />
+              {!isFormat && <PayNote.Before />}
               {renderMdast({
                 ...article.content,
                 format: meta.format
@@ -201,12 +203,12 @@ class ArticlePage extends Component {
               {meta.discussionId && <Center>
                 <Discussion discussionId={meta.discussionId} />
               </Center>}
-              {meta.template === 'format' && <Feed formatId={article.id} />}
+              {isFormat && <Feed formatId={article.id} />}
               <br />
               <br />
               <br />
               <br />
-              <PayNote.After />
+              {!isFormat && <PayNote.After />}
             </Fragment>
           )
         }} />

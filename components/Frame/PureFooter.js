@@ -82,8 +82,7 @@ class Footer extends Component {
 
         <address {...styles.address} style={{ marginBottom: 20 }}>
           <A href='https://goo.gl/maps/j1F8cXQhrmo' target='_blank'>
-            Republik<br />
-            c/o Hotel Rothaus<br />
+            Republik AG<br />
             Sihlhallenstrasse 1<br />
             8004 Zürich<br />
             {!!en && (

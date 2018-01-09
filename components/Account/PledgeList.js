@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
+import Link from 'next/link'
 
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
@@ -13,7 +14,8 @@ import GiveMemberships from './Memberships/Give'
 import query from './belongingsQuery'
 
 import {
-  RawHtml
+  RawHtml,
+  linkRule
 } from '@project-r/styleguide'
 
 class PledgeList extends Component {
@@ -45,58 +47,65 @@ class PledgeList extends Component {
   render () {
     const { pledges, t, highlightId } = this.props
 
-    return pledges.map(pledge => {
-      const options = pledge.options.filter(option => (
-        option.amount && option.minAmount !== option.maxAmount
-      ))
-      const createdAt = new Date(pledge.createdAt)
+    return <Fragment>
+      {pledges.map(pledge => {
+        const options = pledge.options.filter(option => (
+          option.amount && option.minAmount !== option.maxAmount
+        ))
+        const createdAt = new Date(pledge.createdAt)
 
-      return (
-        <AccountItem key={pledge.id}
-          highlighted={highlightId === pledge.id}
-          title={t(`package/${pledge.package.name}/title`)}
-          createdAt={createdAt}>
-          <List>
-            {!!options.length && options.map((option, i) => (
-              <Item key={`option-${i}`}>
-                {option.amount}
-                {' '}
-                {t.pluralize(`option/${option.reward.name}/label`, {
-                  count: option.amount
-                }, option.reward.name)}
-              </Item>
-            ))}
-            {
-              pledge.payments.map((payment, i) => (
-                <Item key={`payment-${i}`}>
-                  {payment.method === 'PAYMENTSLIP' && payment.status === 'WAITING' && (
-                    <span>
-                      <RawHtml dangerouslySetInnerHTML={{
-                        __html: t(`account/pledges/payment/PAYMENTSLIP/paperInvoice/${+(payment.paperInvoice)}`)
-                      }} />
-                      <br /><br />
-                    </span>
-                  )}
-                  <RawHtml dangerouslySetInnerHTML={{
-                    __html: t.first([
-                      `account/pledges/payment/status/${payment.method}/${payment.status}`,
-                      `account/pledges/payment/status/generic/${payment.status}`
-                    ], {
-                      formattedTotal: chfFormat(payment.total / 100),
-                      hrid: payment.hrid,
-                      method: t(`account/pledges/payment/method/${payment.method}`)
-                    })
-                  }} />
+        return (
+          <AccountItem key={pledge.id}
+            highlighted={highlightId === pledge.id}
+            title={t(`package/${pledge.package.name}/title`)}
+            createdAt={createdAt}>
+            <List>
+              {!!options.length && options.map((option, i) => (
+                <Item key={`option-${i}`}>
+                  {option.amount}
+                  {' '}
+                  {t.pluralize(`option/${option.reward.name}/label`, {
+                    count: option.amount
+                  }, option.reward.name)}
                 </Item>
-              ))
-            }
-          </List>
-          <GiveMemberships
-            memberships={pledge.memberships}
-            isGivePackage={pledge.package.name === 'ABO_GIVE'} />
-        </AccountItem>
-      )
-    })
+              ))}
+              {
+                pledge.payments.map((payment, i) => (
+                  <Item key={`payment-${i}`}>
+                    {payment.method === 'PAYMENTSLIP' && payment.status === 'WAITING' && (
+                      <span>
+                        <RawHtml dangerouslySetInnerHTML={{
+                          __html: t(`account/pledges/payment/PAYMENTSLIP/paperInvoice/${+(payment.paperInvoice)}`)
+                        }} />
+                        <br /><br />
+                      </span>
+                    )}
+                    <RawHtml dangerouslySetInnerHTML={{
+                      __html: t.first([
+                        `account/pledges/payment/status/${payment.method}/${payment.status}`,
+                        `account/pledges/payment/status/generic/${payment.status}`
+                      ], {
+                        formattedTotal: chfFormat(payment.total / 100),
+                        hrid: payment.hrid,
+                        method: t(`account/pledges/payment/method/${payment.method}`)
+                      })
+                    }} />
+                  </Item>
+                ))
+              }
+            </List>
+            <GiveMemberships
+              memberships={pledge.memberships}
+              isGivePackage={pledge.package.name === 'ABO_GIVE'} />
+          </AccountItem>
+        )
+      })}
+      <Link href={{ pathname: '/pledge', query: {package: 'ABO_GIVE'} }}>
+        <a {...linkRule} style={{ display: 'block', marginTop: '-30px' }}>
+          {t('memberships/giver/giveable/show')}
+        </a>
+      </Link>
+    </Fragment>
   }
 }
 

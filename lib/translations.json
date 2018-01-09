@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-07T22:59:25.163Z",
+  "updated": "2018-01-08T19:14:31.915Z",
   "title": "live",
   "data": [
     {
@@ -356,7 +356,7 @@
     },
     {
       "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne ein eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu.",
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -382,6 +382,22 @@
       "key": "marketing/preview/email/error/invalid",
       "value": "E-Mail ungültig",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/preview/button/label",
+      "value": "Bestellen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/preview/success",
+      "value": "Wir haben Ihnen eine kleine Sammlung von Artikeln per Mail zugeschickt.",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

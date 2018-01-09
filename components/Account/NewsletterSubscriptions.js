@@ -36,63 +36,66 @@ class NewsletterSubscriptions extends Component {
 
   render () {
     const { t, me, loading, error, updateNewsletterSubscription } = this.props
-    const newsletters = me.newsletters
-    const { mutating } = this.state
-    const hasNonEligibleSubscription = newsletters.some(
-      newsletter => !newsletter.isEligible
-    )
 
     return (
       <Loader
         loading={loading}
         error={error}
-        render={() => (
-          <Fragment>
-            <H2 {...styles.headline} id='newsletter'>
-              {t('account/newsletterSubscriptions/title')}
-            </H2>
-            {hasNonEligibleSubscription && (
-              <Box style={{ padding: 15 }}>
-                <P>{t('account/newsletterSubscriptions/noMembership')}</P>
-              </Box>
-            )}
-            {newsletters.map(({ name, subscribed, isEligible }) => (
-              <p key={name}>
-                <Checkbox
-                  checked={subscribed}
-                  disabled={!isEligible || mutating[name]}
-                  onChange={(_, checked) => {
-                    this.setState(state => ({
-                      mutating: {
-                        ...state.mutating,
-                        [name]: true
-                      }
-                    }))
-                    const finish = () => {
+        render={() => {
+          const newsletters = me.newsletters
+          const { mutating } = this.state
+          const hasNonEligibleSubscription = newsletters.some(
+            newsletter => !newsletter.isEligible
+          )
+
+          return (
+            <Fragment>
+              <H2 {...styles.headline} id='newsletter'>
+                {t('account/newsletterSubscriptions/title')}
+              </H2>
+              {hasNonEligibleSubscription && (
+                <Box style={{ padding: 15 }}>
+                  <P>{t('account/newsletterSubscriptions/noMembership')}</P>
+                </Box>
+              )}
+              {newsletters.map(({ name, subscribed, isEligible }) => (
+                <p key={name}>
+                  <Checkbox
+                    checked={subscribed}
+                    disabled={!isEligible || mutating[name]}
+                    onChange={(_, checked) => {
                       this.setState(state => ({
                         mutating: {
                           ...state.mutating,
-                          [name]: false
+                          [name]: true
                         }
                       }))
-                    }
-                    updateNewsletterSubscription({
-                      name,
-                      subscribed: checked
-                    }).then(finish)
-                  }}
-                >
-                  {t(`account/newsletterSubscriptions/${name}/label`)}
-                  {mutating[name] && (
-                    <span {...styles.spinnerWrapper}>
-                      <InlineSpinner size={24} />
-                    </span>
-                  )}
-                </Checkbox>
-              </p>
-            ))}
-          </Fragment>
-        )}
+                      const finish = () => {
+                        this.setState(state => ({
+                          mutating: {
+                            ...state.mutating,
+                            [name]: false
+                          }
+                        }))
+                      }
+                      updateNewsletterSubscription({
+                        name,
+                        subscribed: checked
+                      }).then(finish)
+                    }}
+                  >
+                    {t(`account/newsletterSubscriptions/${name}/label`)}
+                    {mutating[name] && (
+                      <span {...styles.spinnerWrapper}>
+                        <InlineSpinner size={24} />
+                      </span>
+                    )}
+                  </Checkbox>
+                </p>
+              ))}
+            </Fragment>
+          )
+        }}
       />
     )
   }

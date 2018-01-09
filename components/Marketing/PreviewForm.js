@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import withMe from '../../lib/apollo/withMe'
 import { withSignIn } from '../Auth/SignIn'
 import withT from '../../lib/withT'
+import ErrorMessage from '../ErrorMessage'
 import FieldSet from '../FieldSet'
 import Loader from '../Loader'
 import Poller from '../Auth/Poller'
@@ -18,7 +19,8 @@ class PreviewForm extends Component {
       success: undefined,
       values: {},
       errors: {},
-      dirty: {}
+      dirty: {},
+      serverError: undefined
     }
   }
 
@@ -83,6 +85,7 @@ class PreviewForm extends Component {
       values,
       dirty,
       errors,
+      serverError,
       polling,
       success,
       phrase
@@ -134,6 +137,7 @@ class PreviewForm extends Component {
               {t('marketing/preview/button/label')}
             </Button>
           </div>
+          {!!serverError && <ErrorMessage error={serverError} />}
         </Fragment>
       )
     }
@@ -164,6 +168,7 @@ class PreviewForm extends Component {
         >
           {t('marketing/preview/button/label')}
         </Button>
+        {!!serverError && <ErrorMessage error={serverError} />}
       </Fragment>
     )
   }

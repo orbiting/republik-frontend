@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-09T17:57:33.891Z",
+  "updated": "2018-01-09T18:57:09.819Z",
   "title": "live",
   "data": [
     {
@@ -62,6 +62,14 @@
       "key": "pages/account/title",
       "value": "Konto",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "pages/signin/title",
+      "value": "Anmelden",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

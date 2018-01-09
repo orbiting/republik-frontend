@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-09T15:53:46.549Z",
+  "updated": "2018-01-09T17:57:33.891Z",
   "title": "live",
   "data": [
     {
@@ -891,7 +891,7 @@
       "Bemerkung": null
     },
     {
-      "key": "n",
+      "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenendüberblick",
       "Clara ok": null,
       "Braucht Const": "x",

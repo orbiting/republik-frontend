@@ -27,7 +27,7 @@ export default withData(({url}) => {
         Für Auskünfte kontaktieren Sie Susanne&nbsp;Sugimoto, Geschäftsführung und Kommunikation:
       </P>
       <P>
-        <A href='tel:+41788977028'>+41 79 787 47 65</A><br />
+        <A href='tel:+41788977028'>+41 79 787 47 65</A>{' / '}
         <A href='mailto:susanne.sugimoto@republik.ch'>
           susanne.sugimoto@republik.ch
         </A>
@@ -38,9 +38,9 @@ export default withData(({url}) => {
         </A>
       </P>
       <P>
-        Republik ist ein Projekt der 
+        Republik ist ein Projekt der{' '}
         <A href='https://project-r.construction'>
-          Project R Genossenschaft
+           Project R Genossenschaft
         </A>
         .
       </P>

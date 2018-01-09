@@ -205,7 +205,7 @@ class Pledge extends Component {
               {me ? (
                 <span>
                   {t('pledge/contact/signedinAs', {
-                    nameOrEmail: me.name || me.email
+                    nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
                   })}
                   {' '}<A href='#' onClick={(e) => {
                     e.preventDefault()

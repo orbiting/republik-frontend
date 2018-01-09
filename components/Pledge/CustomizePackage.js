@@ -174,12 +174,7 @@ class CustomizePackage extends Component {
 
     return (
       <div>
-        <div {...styles.title}>
-          {pkg.name === 'DONATE' || pkg.name === 'MONTHLY_ABO'
-            ? <span>&nbsp;</span>
-            : t('package/title')}
-        </div>
-        <div style={{marginBottom: 10}}>
+        <div style={{marginTop: 20, marginBottom: 10}}>
           <span {...styles.packageTitle}>{t(`package/${pkg.name}/title`)}</span>
           {' '}
           <A href='/pledge' onClick={event => {

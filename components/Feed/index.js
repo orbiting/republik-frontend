@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
-import PathLink from '../Link/Path'
+import Link from '../Link/Href'
 
 import { Center, TeaserFeed, Interaction, mediaQueries } from '@project-r/styleguide'
 
@@ -25,12 +25,21 @@ const getDocuments = gql`
     documents(feed: true) {
       nodes {
         meta {
-          kind
           credits
           title
           description
           publishDate
           path
+          kind
+          color
+          format {
+            meta {
+              path
+              title
+              color
+              kind
+            }
+          }
         }
       }
     }
@@ -101,7 +110,7 @@ class Feed extends Component {
                 documents.nodes.map(doc => (
                   <TeaserFeed
                     {...doc.meta}
-                    Link={PathLink}
+                    Link={Link}
                     key={doc.meta.path}
                   />
                 ))}

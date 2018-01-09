@@ -1,5 +1,4 @@
 import React from 'react'
-import routes, { Link } from '../../lib/routes'
 import { parse } from 'url'
 
 import PathLink from './Path'

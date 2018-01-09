@@ -12,7 +12,7 @@ import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
-import PathLink from '../Link/Path'
+import HrefLink from '../Link/Href'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
@@ -395,8 +395,8 @@ class Profile extends Component {
                           user.documents.nodes.map(doc => (
                             <TeaserFeed
                               {...doc.meta}
-                              Link={PathLink}
-                              key={doc.meta.slug}
+                              Link={HrefLink}
+                              key={doc.meta.path}
                             />
                           ))}
                       </div>

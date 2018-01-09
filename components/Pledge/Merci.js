@@ -182,7 +182,6 @@ class Merci extends Component {
           </div>
         )} />
         <P style={{marginBottom: 80}}>
-          {t('merci/share/lead')}<br />
           <Share
             url={`${PUBLIC_BASE_URL}/`}
             tweet={t('merci/share/tweetTemplate')}

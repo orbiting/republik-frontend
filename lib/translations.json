@@ -3163,14 +3163,6 @@
       "Bemerkung": null
     },
     {
-      "key": "merci/share/lead",
-      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!",
-      "Clara ok": null,
-      "Braucht Const": "x",
-      "Korrektorat": null,
-      "Bemerkung": "Makes no sense, maybe just kill it..."
-    },
-    {
       "key": "merci/share/tweetTemplate",
       "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich.",
       "Clara ok": "x",

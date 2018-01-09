@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-09T02:36:14.895Z",
+  "updated": "2018-01-09T15:53:46.549Z",
   "title": "live",
   "data": [
     {
@@ -398,6 +398,14 @@
       "key": "marketing/preview/email/error/invalid",
       "value": "E-Mail ungültig",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/preview/button/label",
+      "value": "Bestellen",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
@@ -3116,7 +3124,7 @@
     },
     {
       "key": "format/feed/payNote",
-      "value": "Sie brauchen eine Mitgliedschaft um die Beiträge zu lesen.",
+      "value": "Sie brauchen eine Mitgliedschaft, um die Beiträge zu lesen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3257,14 +3265,6 @@
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": null
-    },
-    {
-      "key": "merci/share/lead",
-      "value": "Hier unser Slogan, in vier Worten: Lang lebe die Republik!",
-      "Clara ok": null,
-      "Braucht Const": "x",
-      "Korrektorat": null,
-      "Bemerkung": "Just kill it"
     },
     {
       "key": "merci/share/tweetTemplate",

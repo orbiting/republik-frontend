@@ -42,8 +42,8 @@ const withAuthorization = (roles, key = 'isAuthorized') =>
         {...{[key]: checkRoles(me, roles)}} />
     )
 
-const UnauthorizedPage = withT(({t, me, roles = []}) => (
-  <Frame raw>
+const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
+  <Frame url={url} raw>
     <PageCenter>
       {!me ? (
         <Fragment>
@@ -72,7 +72,7 @@ export const enforceAuthorization = roles => WrappedComponent => withAuthorizati
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} />
+  return <UnauthorizedPage me={me} url={props.url} />
 })
 
 export default withAuthorization

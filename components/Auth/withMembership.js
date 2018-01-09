@@ -9,8 +9,8 @@ import { Interaction, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 
-const UnauthorizedPage = withT(({t, me, roles = []}) => (
-  <Frame raw>
+const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
+  <Frame url={url} raw>
     <PageCenter>
       {!me ? (
         <Fragment>
@@ -82,7 +82,7 @@ export const enforceMembership = WrappedComponent => withAuthorization(['member'
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} />
+  return <UnauthorizedPage me={me} url={props.url} />
 })
 
 export default withAuthorization(['member'])

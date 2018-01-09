@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-07T22:59:25.163Z",
+  "updated": "2018-01-09T02:36:14.895Z",
   "title": "live",
   "data": [
     {
@@ -8,7 +8,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "nav/feed",
@@ -141,58 +141,58 @@
     {
       "key": "withMembership/title",
       "value": "Verlegerbereich",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/signIn/note",
       "value": "Noch nicht Verlegerin? {buyLink}",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/signIn/note/buyText",
       "value": "Jetzt beitreten!",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/signIn/home",
       "value": "Mehr über die Republik erfahren.",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/unauthorized",
       "value": "Sie haben keine aktive Mitgliedschaft. {buyLink} oder {accountLink}?",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/unauthorized/buyText",
       "value": "Jetzt kaufen",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "withMembership/unauthorized/accountText",
       "value": "Konto ansehen",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "wann sehe ich das?"
+      "Bemerkung": null
     },
     {
       "key": "signIn/button",
@@ -220,11 +220,19 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter: <b>«{phrase}»</b>.<br /><br /> \n\nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n\nMerci!",
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.<br /><br />\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />  <b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n<br /><br />\nMerci!",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "Braucht einen Link und saubere Formatierung"
+    },
+    {
+      "key": "signIn/polling/short",
+      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie übrigens folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren\n Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/cancel",
@@ -269,10 +277,18 @@
     {
       "key": "me/signedOut",
       "value": "Sie sind nicht angemeldet",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "(Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie und beim ersten Mal gegeben haben.) - [bei der Anmeldun, klein unter dem Status, dass man nicht angemeldet ist]\n"
+      "Bemerkung": null
+    },
+    {
+      "key": "me/signedOut/hint",
+      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "me/signedinAs",
@@ -304,7 +320,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Chefetage versteht niemand"
+      "Bemerkung": null
     },
     {
       "key": "marketing/intro",
@@ -336,7 +352,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Teppichetage geht nicht."
+      "Bemerkung": null
     },
     {
       "key": "marketing/cta/button/label",
@@ -356,11 +372,11 @@
     },
     {
       "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne ein eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu.",
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wollen wir eine fixe Anzahl versprechen?"
+      "Bemerkung": null
     },
     {
       "key": "marketing/preview/email/label",
@@ -387,6 +403,14 @@
       "Bemerkung": null
     },
     {
+      "key": "marketing/preview/success",
+      "value": "Wir haben Ihnen eine kleine Sammlung von Artikeln per Mail zugeschickt.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "marketing/offers/title",
       "value": "Weitere Angebote",
       "Clara ok": "x",
@@ -407,6 +431,14 @@
       "value": "Kann-Mir-Den-Preis-Nicht-Leisten-Abonnement",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/noActiveMembership",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {AccountLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -675,12 +707,12 @@
       "Bemerkung": null
     },
     {
-      "key": null,
-      "value": null,
-      "Clara ok": null,
+      "key": "Account/noActiveMembership",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n\n- Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben. <b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)\n\n- Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben. <b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)\n\n- Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. Folgen Sie diesem Link: {LinkPledge}\n\n- Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> Folgen Sie diesem Link: {LinkPledge}\n\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n\nDanke für Ihre Mühe!",
+      "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Willkommen, name oder email\n\nLeider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n\n- Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben. <b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)\n\n- Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben. <b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)\n\n- Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. Folgen Sie diesem Link: {LinkPledge}\n\n- Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> Folgen Sie diesem Link: {LinkPledge}\n\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n\nDanke für Ihre Mühe!"
+      "Bemerkung": null
     },
     {
       "key": "Account/AddressForm/title",
@@ -1272,7 +1304,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wäre noch cool, wenn man hier die aktuelle Anzahl Community-Portrais anzeigen könnte."
+      "Bemerkung": "Wäre noch cool, wenn man hier die aktuelle Anzahl Community-Portrais anzeigen könnte. Kürzer...."
     },
     {
       "key": "profile/preview/notEligible",
@@ -2203,6 +2235,14 @@
       "Bemerkung": null
     },
     {
+      "key": "package/DONATE/description/short",
+      "value": null,
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "package/ABO/userPrice/teaser",
       "value": "Sie können sich den Betrag nicht leisten?",
       "Clara ok": "x",
@@ -2223,6 +2263,14 @@
       "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik.",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "package/ABO/description/short",
+      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -2251,6 +2299,14 @@
       "Bemerkung": null
     },
     {
+      "key": "package/ABO_GIVE/description/short",
+      "value": "Verschenken Sie für ein Jahr die Republik.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "package/BENEFACTOR/title",
       "value": "Gönner-Abonnement",
       "Clara ok": "x",
@@ -2260,11 +2316,19 @@
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. </ br> Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n\n",
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. <br /> Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": "Achtung HTML!"
+    },
+    {
+      "key": "package/BENEFACTOR/description/short",
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "package/MONTHLY_ABO/title",
@@ -2279,6 +2343,14 @@
       "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verleger oder Verlegerin der Republik. (Keine Angst: Sie können beides jederzeit kündigen.)",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "package/MONTHLY_ABO/description/short",
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin - und können jederzeit künden.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -2672,7 +2744,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Unbedingt: Name and Email! - oder nur Email"
+      "Bemerkung": "Hier wäre Name and E-Mail nice. Vielleicht {name} ({email})"
     },
     {
       "key": "pledge/contact/pastPledges/1",
@@ -2680,7 +2752,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/pastPledges/other",
@@ -2688,7 +2760,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/signOut",
@@ -3027,6 +3099,30 @@
       "Bemerkung": null
     },
     {
+      "key": "format/feed/title/1",
+      "value": "Ein Beitrag",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "format/feed/title/other",
+      "value": "{count} Beiträge",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "format/feed/payNote",
+      "value": "Sie brauchen eine Mitgliedschaft um die Beiträge zu lesen.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "article/payNote/before",
       "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!",
       "Clara ok": null,
@@ -3168,7 +3264,7 @@
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Makes no sense, maybe just kill it..."
+      "Bemerkung": "Just kill it"
     },
     {
       "key": "merci/share/tweetTemplate",
@@ -3477,74 +3573,74 @@
     {
       "key": "notifications/pageTitle",
       "value": "Mitteilung – Republik",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/email-confirmed/title",
       "value": "E-Mail-Adresse ist bestätigt",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/email-confirmed/text",
       "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen.",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/invalid-token/title",
       "value": "Ungültiger Link",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/invalid-token/text",
       "value": "Der von Ihnen aufgerufene Link ist nicht gültig. Links zur Anmeldung sind nur einmal gültig.",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/unavailable/title",
       "value": "System nicht verfügbar",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/unavailable/text",
       "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>.",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/links/home",
       "value": "Startseite",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "notifications/links/merci",
       "value": "Ihre persönliche Übersicht",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wo kommt das?"
+      "Bemerkung": null
     },
     {
       "key": "events/pageTitle",

@@ -28,31 +28,27 @@ export default withData(({url}) => {
       </P>
       <P>
         <A href='tel:+41788977028'>+41 79 787 47 65</A><br />
-        <A href='mailto:susanne.sugimoto@project-r.construction'>
-          susanne.sugimoto@project-r.construction
+        <A href='mailto:susanne.sugimoto@republik.ch'>
+          susanne.sugimoto@republik.ch
         </A>
       </P>
       <P style={{margin: '20px 0'}}>
-        <A download href={`${STATIC_BASE_URL}/static/media/170427_1841.zip`}>
+        <A href='https://drive.google.com/open?id=14YQ_IR6HRoXUwrfjc_KJQ_lGjMXjaFO1'>
           Medienbilder und Logo herunterladen
-        </A><br />
-        (Stand 27. April 18 Uhr)
+        </A>
       </P>
       <P>
-        Republik ist ein Projekt von Project R.
-      </P>
-      <H2 style={{marginTop: 20}}>
-        Über Project&nbsp;R
-      </H2>
-      <P>
-        Die Project R Genossenschaft nimmt sich der Weiterentwicklung und Stärkung des Journalismus an. Dazu gehören Projekte wie der Bau einer digitalen Open-Source-Infrastruktur, das Durchführen von Veranstaltungen und Debatten, das Entwickeln neuer journalistischer Formate sowie die Ausbildung von jungen Journalistinnen und Journalisten.
+        Republik ist ein Projekt der 
+        <A href='https://project-r.construction'>
+          Project R Genossenschaft
+        </A>
+        .
       </P>
       <H2 style={{marginTop: 20}}>
         Anschrift
       </H2>
       <P>
-        Republik<br />
-        c/o Hotel Rothaus<br />
+        Republik AG<br />
         Sihlhallenstrasse 1<br />
         8004 Zürich
       </P>

@@ -22,7 +22,8 @@ class PreviewForm extends Component {
     }
   }
 
-  handleEmail (value, shouldValidate, t) {
+  handleEmail (value, shouldValidate) {
+    const {t} = this.props
     this.setState(
       FieldSet.utils.mergeField({
         field: 'email',
@@ -67,7 +68,9 @@ class PreviewForm extends Component {
     this.props
       .requestPreview(me.email)
       .then(() => {
-        console.log('done')
+        this.setState(() => ({
+          loading: false
+        }))
       })
       .catch(catchError)
   }
@@ -113,6 +116,10 @@ class PreviewForm extends Component {
       return <Loader loading />
     }
 
+    if (success) {
+      return <Interaction.P>{t('marketing/preview/success')}</Interaction.P>
+    }
+
     if (me) {
       return (
         <Fragment>
@@ -120,21 +127,14 @@ class PreviewForm extends Component {
           <div style={{ marginTop: 20 }}>
             <Button
               onClick={() => {
-                if (loading) {
-                  return
-                }
                 this.requestPreview()
               }}
             >
-              Bestellen
+              {t('marketing/preview/button/label')}
             </Button>
           </div>
         </Fragment>
       )
-    }
-
-    if (success) {
-      return <Interaction.P>{t('marketing/preview/success')}</Interaction.P>
     }
 
     return (
@@ -146,7 +146,7 @@ class PreviewForm extends Component {
           label={t('marketing/preview/email/label')}
           error={dirty && errors.email}
           onChange={(_, value, shouldValidate) => {
-            this.handleEmail(value, shouldValidate, t)
+            this.handleEmail(value, shouldValidate)
           }}
           value={values.email}
         />
@@ -158,13 +158,10 @@ class PreviewForm extends Component {
               }))
               return
             }
-            if (loading) {
-              return
-            }
             this.requestPreview()
           }}
         >
-          Bestellen
+          {t('marketing/preview/button/label')}
         </Button>
       </Fragment>
     )

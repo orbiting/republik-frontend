@@ -9,6 +9,7 @@ import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
+import Feed from '../Feed/Format'
 
 import {
   H1,
@@ -75,6 +76,7 @@ const ActionBar = ({ title, t, url }) => (
 const getDocument = gql`
   query getDocument($path: String!) {
     article: document(path: $path) {
+      id
       content
       meta {
         template
@@ -189,18 +191,24 @@ class ArticlePage extends Component {
             )
           })
 
+          const isFormat = meta.template === 'format'
+
           return (
             <Fragment>
-              <PayNote.Before />
-              {renderMdast(article.content, schema)}
+              {!isFormat && <PayNote.Before />}
+              {renderMdast({
+                ...article.content,
+                format: meta.format
+              }, schema)}
               {meta.discussionId && <Center>
                 <Discussion discussionId={meta.discussionId} />
               </Center>}
+              {isFormat && <Feed formatId={article.id} />}
               <br />
               <br />
               <br />
               <br />
-              <PayNote.After />
+              {!isFormat && <PayNote.After />}
             </Fragment>
           )
         }} />

@@ -7,9 +7,7 @@ import withT from '../../lib/withT'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { InlineSpinner, Interaction, Checkbox } from '@project-r/styleguide'
-
-const { H2 } = Interaction
+import { InlineSpinner, Checkbox } from '@project-r/styleguide'
 
 const styles = {
   headline: css({
@@ -26,6 +24,10 @@ const styles = {
   })
 }
 
+const ErrorContainer = ({ children }) => (
+  <div style={{ marginTop: 20 }}>{children}</div>
+)
+
 class NewsletterSubscriptions extends Component {
   constructor (props) {
     super(props)
@@ -41,6 +43,7 @@ class NewsletterSubscriptions extends Component {
       <Loader
         loading={loading}
         error={error}
+        ErrorContainer={ErrorContainer}
         render={() => {
           const newsletters = me.newsletters
           const { mutating } = this.state
@@ -50,9 +53,6 @@ class NewsletterSubscriptions extends Component {
 
           return (
             <Fragment>
-              <H2 {...styles.headline} id='newsletter'>
-                {t('account/newsletterSubscriptions/title')}
-              </H2>
               {hasNonEligibleSubscription && (
                 <Box style={{ padding: 15 }}>
                   <P>{t('account/newsletterSubscriptions/noMembership')}</P>

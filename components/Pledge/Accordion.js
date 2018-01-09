@@ -138,8 +138,7 @@ class Accordion extends Component {
     ].concat(this.props.links || [])
 
     return (
-      <div>
-        <div {...styles.title}>{t('package/title')}</div>
+      <div style={{marginTop: 20}}>
         {
           packages.map((pkg, i) => {
             const isActive = activeIndex === i

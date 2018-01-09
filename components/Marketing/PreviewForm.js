@@ -67,9 +67,10 @@ class PreviewForm extends Component {
 
     this.props
       .requestPreview(me.email)
-      .then(() => {
+      .then(({data}) => {
         this.setState(() => ({
-          loading: false
+          loading: false,
+          success: data.requestPreview.success
         }))
       })
       .catch(catchError)
@@ -169,20 +170,18 @@ class PreviewForm extends Component {
 }
 
 const requestPreview = gql`
-  mutation requestPreview($email: String!) {
-    requestPreview(email: $email)
+  mutation requestPreview {
+    requestPreview {
+      success
+    }
   }
 `
 
 export default compose(
   graphql(requestPreview, {
     props: ({ mutate }) => ({
-      requestPreview: email =>
-        mutate({
-          variables: {
-            email
-          }
-        })
+      requestPreview: () =>
+        mutate()
     })
   }),
   withSignIn,

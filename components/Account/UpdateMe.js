@@ -40,9 +40,7 @@ const fields = (t, acceptedStatue) => [
     name: 'phoneNumber'
   },
   {
-    label: t(acceptedStatue
-      ? 'Account/Update/birthday/label'
-      : 'Account/Update/birthday/label/optional'),
+    label: t('Account/Update/birthday/label/optional'),
     name: 'birthday',
     mask: '11.11.1111',
     maskChar: '_',
@@ -50,10 +48,6 @@ const fields = (t, acceptedStatue) => [
       const parsedDate = birthdayParse(value)
       return (
         (
-          (
-            value.trim().length <= 0 && acceptedStatue &&
-            t('Account/Update/birthday/error/empty')
-          ) ||
           (
             value.trim().length &&
             (
@@ -210,9 +204,7 @@ class UpdateMe extends Component {
                 }}
                 fields={fields(t, acceptedStatue)} />
               <Label style={{marginTop: -8, display: 'block'}}>
-                {t(acceptedStatue
-                  ? 'Account/Update/birthday/hint/statute'
-                  : 'Account/Update/birthday/hint/plain')}
+                {t('Account/Update/birthday/hint/plain')}
               </Label>
               <br /><br />
               <br />

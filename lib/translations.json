@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T09:37:05.033Z",
+  "updated": "2018-01-10T09:54:13.216Z",
   "title": "live",
   "data": [
     {
@@ -100,7 +100,7 @@
     },
     {
       "key": "pages/profile/empty/content",
-      "value": "Um Ihre eigene Profilseite zu bearbeiten, klicken Sie hier: {link}.",
+      "value": "Meine eigene {link}",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -108,7 +108,7 @@
     },
     {
       "key": "pages/profile/empty/content/linktext",
-      "value": "Profilseite",
+      "value": "Profilseite aktivieren oder bearbeiten",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,

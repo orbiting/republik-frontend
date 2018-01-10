@@ -2,7 +2,7 @@ import React from 'react'
 import withData from '../lib/apollo/withData'
 
 import Frame from '../components/Frame'
-import ErrorComponent from '../components/Error'
+import StatusError from '../components/StatusError'
 
 class ErrorPage extends React.Component {
   static getInitialProps ({ res, err }) {
@@ -16,7 +16,7 @@ class ErrorPage extends React.Component {
     const { url, statusCode, serverContext } = this.props
     return (
       <Frame url={url} raw>
-        <ErrorComponent url={url} statusCode={statusCode} serverContext={serverContext} />
+        <StatusError url={url} statusCode={statusCode} serverContext={serverContext} />
       </Frame>
     )
   }

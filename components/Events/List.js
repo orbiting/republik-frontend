@@ -10,7 +10,7 @@ import Meta from '../Frame/Meta'
 import { Content } from '../Frame'
 
 import withT from '../../lib/withT'
-import ErrorComponent from '../Error'
+import StatusError from '../StatusError'
 import { parseDate } from '../../lib/utils/format'
 
 import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
@@ -73,7 +73,7 @@ const Overview = compose(
       if (event) {
         if (event === 404) {
           return (
-            <ErrorComponent
+            <StatusError
               url={url}
               statusCode={404}
               serverContext={serverContext} />

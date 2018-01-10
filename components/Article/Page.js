@@ -10,7 +10,7 @@ import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
-import ErrorComponent from '../Error'
+import StatusError from '../StatusError'
 
 import {
   colors,
@@ -179,7 +179,7 @@ class ArticlePage extends Component {
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
-            return <ErrorComponent
+            return <StatusError
               url={url}
               statusCode={404}
               serverContext={this.props.serverContext} />

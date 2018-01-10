@@ -28,13 +28,29 @@ const styles = {
       paddingBottom: 120
     }
   }),
+  cta: css({
+    marginBottom: 44,
+    '& > button': {
+      display: 'block',
+      marginBottom: 20,
+      width: '100%'
+    },
+    [mediaQueries.mUp]: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: 90,
+      '& > button': {
+        width: '48%'
+      }
+    }
+  }),
   intro: css({
     maxWidth: MAX_WIDTH,
-    paddingTop: '35px',
+    paddingTop: '44px',
     paddingBottom: '35px',
     [mediaQueries.mUp]: {
-      paddingTop: '100px',
-      paddingBottom: '100px'
+      paddingTop: '90px',
+      paddingBottom: '90px'
     }
   }),
   text: css({
@@ -92,7 +108,19 @@ const styles = {
 const MarketingPage = ({ t, crowdfundingName, data }) => (
   <div {...styles.container}>
     <Container {...styles.intro} key='intro'>
-      <Interaction.H1 {...css(styles.headline, { marginBottom: '30px' })}>
+      <div {...styles.cta}>
+        <Link route='anmelden'>
+          <Button>
+            {t('marketing/signin/button/label')}
+          </Button>
+        </Link>
+        <Link route='pledge' params={{package: 'ABO'}}>
+          <Button primary>
+            {t('marketing/join/button/label')}
+          </Button>
+        </Link>
+      </div>
+      <Interaction.H1 {...css(styles.headline, { marginBottom: '30px', textAlign: 'center' })}>
         {t('marketing/headline')}
       </Interaction.H1>
       <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
@@ -104,7 +132,7 @@ const MarketingPage = ({ t, crowdfundingName, data }) => (
           />
         </P>
       )} />
-    </Container>,
+    </Container>
     <div {...styles.join} key='join'>
       <Container style={{ maxWidth: MAX_WIDTH }}>
         <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
@@ -122,7 +150,7 @@ const MarketingPage = ({ t, crowdfundingName, data }) => (
           </Button>
         </Link>
       </Container>
-    </div>,
+    </div>
     <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
       <div {...styles.more}>
         <div {...styles.preview}>

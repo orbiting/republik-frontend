@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T11:50:14.430Z",
+  "updated": "2018-01-10T16:16:21.941Z",
   "title": "live",
   "data": [
     {
@@ -361,6 +361,22 @@
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": "Wäre mega schön, wenn wir den Zähler drin haben könnten (muss aber wirklich nicht live sein!)... Hab Task auf Trello erfasst. Und Teppichetage finden alle blöd."
+    },
+    {
+      "key": "marketing/signin/button/label",
+      "value": "Anmelden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/join/button/label",
+      "value": "Mitglied werden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "marketing/cta/title",

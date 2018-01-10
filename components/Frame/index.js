@@ -46,6 +46,8 @@ export const MainContainer = ({children}) =>
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
+export const Content = ({children}) =>
+  <div {...styles.content}>{children}</div>
 
 const Index = ({
   t,
@@ -74,7 +76,7 @@ const Index = ({
         children
       ) : (
         <MainContainer>
-          <div {...styles.content}>{children}</div>
+          <Content>{children}</Content>
         </MainContainer>
       )}
     </div>

@@ -13,6 +13,7 @@ import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
 import HrefLink from '../Link/Href'
+import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
@@ -269,8 +270,10 @@ class Profile extends Component {
           render={() => {
             if (!user) {
               return (
-                <MainContainer>
-                  <br /><br />
+                <StatusError
+                  url={url}
+                  statusCode={404}
+                  serverContext={this.props.serverContext}>
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
                   {!!me && <p>
                     {t.elements('pages/profile/empty/content', {
@@ -281,7 +284,7 @@ class Profile extends Component {
                       )
                     })}
                   </p>}
-                </MainContainer>
+                </StatusError>
               )
             }
 
@@ -425,9 +428,6 @@ export default compose(
     }),
     props: ({data, ownProps: {serverContext, url, me}}) => {
       const slug = url.query.slug
-      if (serverContext && !data.error && !data.loading && !data.user) {
-        serverContext.res.statusCode = 404
-      }
       let redirect
       if (slug === 'me') {
         redirect = me

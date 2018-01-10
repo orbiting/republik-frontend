@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T09:54:13.216Z",
+  "updated": "2018-01-10T11:50:14.430Z",
   "title": "live",
   "data": [
     {
@@ -356,7 +356,7 @@
     },
     {
       "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell xxxx Mitverlegern). Es wäre schön, Sie an Bord zu haben!",
+      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern). Es wäre schön, Sie an Bord zu haben!",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,

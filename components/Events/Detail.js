@@ -121,7 +121,7 @@ const Event = withT(({
         {!!where && <hr {...styles.hr} />}
         <P>
           <Share
-            url={`${PUBLIC_BASE_URL}/events/${slug}`}
+            url={`${PUBLIC_BASE_URL}/veranstaltung/${slug}`}
             emailSubject={title}
             tweet={title} />
         </P>

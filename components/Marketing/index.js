@@ -127,7 +127,7 @@ const MarketingPage = ({ t, crowdfundingName }) => (
           }}
         />
       </P>
-    </Container>,
+    </Container>
     <div {...styles.join} key='join'>
       <Container style={{ maxWidth: MAX_WIDTH }}>
         <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>

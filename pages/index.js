@@ -37,6 +37,7 @@ const IndexPage = ({ url, t, isAuthorized }) => {
       raw
       url={url}
       meta={meta}
+      headerInline
       cover={
         <VideoCover
           src={endVideo}

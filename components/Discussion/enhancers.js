@@ -33,22 +33,6 @@ const emptyCommentConnection = comment => ({
   pageInfo: emptyPageInfo()
 })
 
-const myPreferences = gql`
-query discussionPreference($discussionId: ID!) {
-  discussion(id: $discussionId) {
-    id
-    userPreference {
-      anonymity
-      credential {
-        description
-        verified
-      }
-    }
-  }
-}
-`
-export const withMyPreferences = graphql(myPreferences)
-
 // This function extends the props with the 'DisplayUser' that will be used
 // when the current user submits a new comment in the given discussion
 // (specified by its discussionId in the ownProps). The shape of the 'DisplayUser'

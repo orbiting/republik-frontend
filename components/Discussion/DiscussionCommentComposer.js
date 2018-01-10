@@ -3,7 +3,7 @@ import { compose } from 'react-apollo'
 import { CommentComposer, CommentComposerPlaceholder } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { withMyPreferences, withDiscussionDisplayAuthor, submitComment } from './enhancers'
+import { withDiscussionDisplayAuthor, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 
 class DiscussionCommentComposer extends PureComponent {
@@ -65,10 +65,10 @@ class DiscussionCommentComposer extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, discussionDisplayAuthor: displayAuthor, me, data: {loading, error}} = this.props
+    const {t, discussionId, discussionDisplayAuthor: displayAuthor, me} = this.props
     const {state, showPreferences} = this.state
 
-    if (loading || error || !me) {
+    if (!me) {
       return null
     } else {
       if (state === 'idle') {
@@ -107,7 +107,6 @@ class DiscussionCommentComposer extends PureComponent {
 export default compose(
   withT,
   withMe,
-  withMyPreferences,
   withDiscussionDisplayAuthor,
   submitComment
 )(DiscussionCommentComposer)

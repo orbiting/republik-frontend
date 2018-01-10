@@ -7,11 +7,13 @@ import { css } from 'glamor'
 
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
+import { Content } from '../Frame'
 
 import withT from '../../lib/withT'
+import ErrorComponent from '../Error'
 import { parseDate } from '../../lib/utils/format'
 
-import { Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
+import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
 
 import { CONTENT_PADDING } from '../constants'
 
@@ -49,17 +51,11 @@ const query = gql`
 const Overview = compose(
   withT,
   graphql(query, {
-    props: ({ data, ownProps: { slug, t, serverContext } }) => {
-      let error = data.error
+    props: ({ data, ownProps: { url: { query: { slug } }, t } }) => {
+      const error = data.error
       let event
       if (slug && data.events && !error) {
-        event = data.events.find(event => event.slug === slug)
-        if (!event) {
-          error = t('events/404')
-          if (serverContext) {
-            serverContext.res.statusCode = 404
-          }
-        }
+        event = data.events.find(event => event.slug === slug) || 404
       }
       return {
         loading: data.loading,
@@ -69,27 +65,37 @@ const Overview = compose(
       }
     }
   })
-)(({ events, event, t, loading, error }) => (
+)(({ events, event, t, loading, error, url, serverContext }) => (
   <Loader
     loading={loading}
     error={error}
     render={() => {
       if (event) {
+        if (event === 404) {
+          return (
+            <ErrorComponent
+              url={url}
+              statusCode={404}
+              serverContext={serverContext} />
+          )
+        }
         return (
-          <div>
-            <Meta
-              data={{
-                title: event.title,
-                description: event.metaDescription,
-                url: `${PUBLIC_BASE_URL}/events/${event.slug}`,
-                image: `${STATIC_BASE_URL}/static/social-media/events.png`
-              }}
-            />
-            <Event data={event} />
-            <Link route='events'>
-              <a {...linkRule}>{t('events/all')}</a>
-            </Link>
-          </div>
+          <NarrowContainer>
+            <Content>
+              <Meta
+                data={{
+                  title: event.title,
+                  description: event.metaDescription,
+                  url: `${PUBLIC_BASE_URL}/events/${event.slug}`,
+                  image: `${STATIC_BASE_URL}/static/social-media/events.png`
+                }}
+              />
+              <Event data={event} />
+              <Link route='events'>
+                <a {...linkRule}>{t('events/all')}</a>
+              </Link>
+            </Content>
+          </NarrowContainer>
         )
       }
 
@@ -101,24 +107,26 @@ const Overview = compose(
         return today > parseDate(event.date)
       })
       return (
-        <div>
-          <Meta
-            data={{
-              title: t('events/pageTitle'),
-              description: t('events/metaDescription'),
-              url: `${PUBLIC_BASE_URL}/events`,
-              image: `${STATIC_BASE_URL}/static/social-media/events.png`
-            }}
-          />
-          {!!upcoming.length && (
-            <H3 {...styles.sectionTitle}>{t('events/upcoming')}</H3>
-          )}
-          {upcoming.map(event => <Event key={event.slug} data={event} />)}
-          {!!past.length && (
-            <H3 {...styles.sectionTitle}>{t('events/past')}</H3>
-          )}
-          {past.map(event => <Event key={event.slug} data={event} />)}
-        </div>
+        <NarrowContainer>
+          <Content>
+            <Meta
+              data={{
+                title: t('events/pageTitle'),
+                description: t('events/metaDescription'),
+                url: `${PUBLIC_BASE_URL}/events`,
+                image: `${STATIC_BASE_URL}/static/social-media/events.png`
+              }}
+            />
+            {!!upcoming.length && (
+              <H3 {...styles.sectionTitle}>{t('events/upcoming')}</H3>
+            )}
+            {upcoming.map(event => <Event key={event.slug} data={event} />)}
+            {!!past.length && (
+              <H3 {...styles.sectionTitle}>{t('events/past')}</H3>
+            )}
+            {past.map(event => <Event key={event.slug} data={event} />)}
+          </Content>
+        </NarrowContainer>
       )
     }}
   />

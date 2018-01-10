@@ -25,13 +25,13 @@ Die Verarbeitung personenbezogener Daten (zum Beispiel Name, E-Mail-Adresse) ein
 
 Werden jedoch personenbezogene Daten von Unionsbürgern/-innen bearbeitet, kommt die europäische Datenschutzgrundverordnung DSGVO (EU/2016/679) zur Anwendung. Da Letztere zum Teil weitreichendere Rechte und Pflichten zugunsten der betroffenen Person festhält, werden diese auch auf betroffene Personen, die in der Schweiz wohnhaft sind, angewendet. 
 
-**1. Integrierender Bestandteil**
+## 1. Integrierender Bestandteil
 
 Die Datenschutzerklärung ist integrierender Bestandteil der allgemeinen Geschäftsbedingungen der Verantwortlichen und wird auf den Websites www.republik.ch und www.project-r.construction publiziert. 
 
 Mit der Nutzung der Website www.republik.ch oder dem Anklicken der Checkbox erklären die betroffenen Personen ihr Einverständnis mit der vorliegenden Datenschutzerklärung.
 
-**2. Name und Anschrift des für die Verarbeitung Verantwortlichen**
+## 2. Name und Anschrift des für die Verarbeitung Verantwortlichen
 
 Die Verantwortlichen der Websites www.republik.ch und www.project-r.construction sind die Republik AG und die Project R Genossenschaft mit den folgenden Kontaktdaten:
 
@@ -51,7 +51,7 @@ Tel.: +41 79 787 47 65
 E-Mail: office@project-r.construction
 Website: www.project-r.construction
 
-**3. Cookies**
+## 3. Cookies
 
 Die Websites www.republik.ch und www.project-r.construction verwenden Cookies. Cookies sind Textdateien, welche über einen Internetbrowser auf einem Computersystem abgelegt und gespeichert werden. Zahlreiche Internetseiten und Server verwenden Cookies. 
 
@@ -63,7 +63,7 @@ Die betroffene Person kann die Setzung von Cookies durch unsere Internetseite je
 
 Es ist möglich, dass die Website www.republik.ch ohne Cookies nicht korrekt funktioniert.
 
-**4. Erfassung von allgemeinen Daten und Informationen**
+## 4. Erfassung von allgemeinen Daten und Informationen
 
 Die Websites www.republik.ch und www.project-r.construction der Verantwortlichen erfassen mit jedem Aufruf der Internetseiten durch eine betroffene Person oder ein automatisiertes System eine Reihe von allgemeinen Daten und Informationen. Diese allgemeinen Daten und Informationen werden in den Logfiles des Servers gespeichert. Erfasst werden können 
 
@@ -87,7 +87,7 @@ Diese anonym erhobenen Daten und Informationen werden durch die Verantwortlichen
 
 Wenn Besucher/-innen «do not track» eingeschaltet haben, werden nur Daten in der Session getrackt, wenn Besucher/-innen sich einloggen. 
 
-**5. Registrierung auf den Websites www.republik.ch und www.project-r.construction**
+## 5. Registrierung auf den Websites www.republik.ch und www.project-r.construction
 
 Die betroffene Person hat die Möglichkeit, sich auf der Internetseite der Verantwortlichen unter Angabe von personenbezogenen Daten zu registrieren. Eine Registrierung ist unter anderem notwendig, um ein Abonnement des digitalen Magazins «Republik» zu kaufen, Newsletters zu abonnieren, Mitglied bei der Project R Genossenschaft zu werden oder durch eine Spende Unterstützer/-in der Project R Genossenschaft zu werden. 
 
@@ -103,25 +103,25 @@ Durch eine Registrierung auf den Websites der Verantwortlichen werden ferner die
 
 Die Registrierung der betroffenen Person unter freiwilliger Angabe personenbezogener Daten dient den Verantwortlichen dazu, der betroffenen Person Inhalte oder Leistungen anzubieten, die aufgrund der Natur der Sache nur registrierten Benutzern angeboten werden können. Registrierten Personen steht die Möglichkeit frei, die bei der Registrierung angegebenen personenbezogenen Daten jederzeit abzuändern oder vollständig aus dem Datenbestand der Verantwortlichen löschen zu lassen.
 
-**6. Kontaktmöglichkeit über die Internetseite**
+## 6. Kontaktmöglichkeit über die Internetseite
 
 Die Websites der Verantwortlichen enthalten eine schnelle elektronische Kontaktaufnahme. Sofern eine betroffene Person per E-Mail oder über ein Kontaktformular den Kontakt mit den Verantwortlichen aufnimmt, werden die von der betroffenen Person übermittelten personenbezogenen Daten automatisch gespeichert. 
 
 Solche auf freiwilliger Basis von einer betroffenen Person an die Verantwortlichen übermittelten personenbezogenen Daten werden für Zwecke der Bearbeitung oder der Kontaktaufnahme mit der betroffenen Person gespeichert. Es erfolgt keine Weitergabe dieser personenbezogenen Daten an Dritte.
 
-**7. Kommentar- und Debattierfunktion auf der Internetseite**
+## 7. Kommentar- und Debattierfunktion auf der Internetseite
 
 Die Verantwortlichen bieten den Besucher/-innen der Internetseite www.republik.ch die Möglichkeit, individuelle Kommentare zu einzelnen Magazinbeiträgen zu hinterlassen sowie Debatten zu bestimmten Themen zu führen. Diese Kommentare können in der Regel von Dritten kommentiert werden.
 
 Hinterlässt eine betroffene Person einen Kommentar in dem auf dieser Internetseite veröffentlichten Artikel, werden neben dem von der betroffenen Person hinterlassenen Kommentar auch Angaben zum Zeitpunkt der Kommentareingabe sowie der Name (Klarnamen-Pflicht) der betroffenen Person gespeichert und veröffentlicht. Ferner wird die vom Internet-Service-Provider (ISP) der betroffenen Person vergebene IP-Adresse mitprotokolliert. Diese Speicherung der IP-Adresse erfolgt aus Sicherheitsgründen und für den Fall, dass die betroffene Person durch einen abgegebenen Kommentar die Rechte Dritter verletzt oder rechtswidrige Inhalte postet. Es erfolgt keine Weitergabe dieser erhobenen personenbezogenen Daten an Dritte, sofern eine solche Weitergabe nicht gesetzlich vorgeschrieben ist oder der Verteidigung der Rechte der Verantwortlichen dient.
 
-**8. Routinemässige Löschung und Sperrung von personenbezogenen Daten**
+## 8. Routinemässige Löschung und Sperrung von personenbezogenen Daten
 
 Die Verantwortlichen verarbeiten und speichern personenbezogene Daten der betroffenen Person nur für den Zeitraum, der zur Erreichung des Speicherungszwecks erforderlich ist, oder sofern dies durch gesetzliche Vorgaben, welchen die Verantwortlichen unterliegen, vorgesehen wurde.
 
 Entfällt der Speicherungszweck oder läuft eine allfällige gesetzlich gesetzte Speicherfrist ab, werden die personenbezogenen Daten routinemässig und entsprechend den gesetzlichen Vorschriften gesperrt oder gelöscht.
 
-**9. Rechtsgrundlage der Verarbeitung**
+## 9. Rechtsgrundlage der Verarbeitung
 
 Es werden keine Daten ohne gesetzliche Grundlage bearbeitet. Als Rechtsgrundlage dienen 
 
@@ -130,13 +130,13 @@ Es werden keine Daten ohne gesetzliche Grundlage bearbeitet. Als Rechtsgrundlage
 - die rechtlichen Verpflichtungen oder der Schutz von lebenswichtigen Interessen der betroffenen Person oder einer anderen natürlichen Person,
 - die Wahrung eines berechtigten Interesses der Verantwortlichen (z. B. wirtschaftliche Interessen) oder eines Dritten.
 
-**10. Rechte der betroffenen Person**
+## 10. Rechte der betroffenen Person
 
-a)    Recht auf Bestätigung
+a) Recht auf Bestätigung
 
 Jede betroffene Person hat das Recht, von den Verantwortlichen eine Bestätigung darüber zu verlangen, ob sie betreffende personenbezogene Daten verarbeitet werden. Möchte eine betroffene Person dieses Bestätigungsrecht in Anspruch nehmen, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden. 
 
-b)    Recht auf Auskunft
+b) Recht auf Auskunft
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, jederzeit von den Verantwortlichen unentgeltliche Auskunft über die zu seiner Person gespeicherten personenbezogenen Daten und eine Kopie dieser Auskunft zu erhalten. Es wird Auskunft erteilt über:
 
@@ -151,13 +151,13 @@ Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Rech
   - das Bestehen einer automatisierten Entscheidungsfindung einschliesslich Profiling und aussagekräftiger Informationen über die involvierte Logik sowie die Tragweite und die angestrebten Auswirkungen einer derartigen Verarbeitung für die betroffene Person.
   Möchte eine betroffene Person dieses Auskunftsrecht in Anspruch nehmen, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden.
         
-c)    Recht auf Berichtigung
+c) Recht auf Berichtigung
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, die unverzügliche Berichtigung sie betreffender unrichtiger personenbezogener Daten und, unter Berücksichtigung der Zwecke der Verarbeitung, die Vervollständigung unvollständiger personenbezogener Daten zu verlangen.
 
 Möchte eine betroffene Person dieses Berichtigungsrecht in Anspruch nehmen, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden.
 
-d)    Recht auf Löschung (Recht auf Vergessen werden)
+d) Recht auf Löschung (Recht auf Vergessen werden)
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, von den Verantwortlichen zu verlangen, dass die sie betreffenden personenbezogenen Daten unverzüglich gelöscht werden, sofern einer der folgenden Gründe zutrifft und soweit die Verarbeitung nicht erforderlich ist:
 
@@ -171,7 +171,7 @@ Sofern einer der oben genannten Gründe zutrifft und eine betroffene Person die 
 
 Wurden die personenbezogenen Daten von den Verantwortlichen öffentlich gemacht und sind die Verantwortlichen zur Löschung der personenbezogenen Daten verpflichtet, so treffen die Verantwortlichen unter Berücksichtigung der verfügbaren Technologie und der Implementierungskosten angemessene Massnahmen, auch technischer Art, um andere für die Datenverarbeitung Verantwortliche, welche die veröffentlichten personenbezogenen Daten verarbeiten, darüber in Kenntnis zu setzen, dass die betroffene Person von diesen anderen für die Datenverarbeitung Verantwortlichen die Löschung sämtlicher Links zu diesen personenbezogenen Daten oder von Kopien oder Replikationen dieser personenbezogenen Daten verlangt hat, soweit die Verarbeitung nicht erforderlich ist.
 
-e)    Recht auf Einschränkung der Verarbeitung
+e) Recht auf Einschränkung der Verarbeitung
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, von den Verantwortlichen die Einschränkung der Verarbeitung zu verlangen, wenn eine der folgenden Voraussetzungen gegeben ist:
 
@@ -182,7 +182,7 @@ Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Rech
 
 Sofern eine der oben genannten Voraussetzungen gegeben ist und eine betroffene Person die Einschränkung von personenbezogenen Daten, die bei den Verantwortlichen gespeichert sind, verlangen möchte, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden. 
 
-f)     Recht auf Datenübertragbarkeit
+f) Recht auf Datenübertragbarkeit
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, die sie betreffenden personenbezogenen Daten, welche durch die betroffene Person den Verantwortlichen bereitgestellt wurden, in einem strukturierten, gängigen und maschinenlesbaren Format zu erhalten. 
 
@@ -192,7 +192,7 @@ Ferner kann die betroffene Person verlangen, dass die personenbezogenen Daten di
 
 Zur Geltendmachung des Rechts auf Datenübertragbarkeit kann sich die betroffene Person jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden.
 
-g)    Recht auf Widerspruch
+g) Recht auf Widerspruch
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, jederzeit gegen die Verarbeitung sie betreffender personenbezogener Daten Widerspruch einzulegen. Dies gilt auch für ein auf diese Bestimmungen gestütztes Profiling.
 
@@ -200,7 +200,7 @@ Die Verantwortlichen verarbeiten die personenbezogenen Daten im Falle des Widers
 
 Zur Ausübung des Rechts auf Widerspruch kann sich die betroffene Person direkt an die Mitarbeiter/-innen der Verantwortlichen wenden.
 
-h)    Automatisierte Entscheidungen im Einzelfall einschliesslich Profiling
+h) Automatisierte Entscheidungen im Einzelfall einschliesslich Profiling
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, nicht einer ausschliesslich auf einer automatisierten Verarbeitung – einschliesslich Profiling – beruhenden Entscheidung unterworfen zu werden, die ihr gegenüber rechtliche Wirkung entfaltet oder sie in ähnlicher Weise erheblich beeinträchtigt, sofern die Entscheidung 
 
@@ -211,16 +211,16 @@ Ist die Entscheidung für den Abschluss oder die Erfüllung eines Vertrags zwisc
 
 Möchte die betroffene Person Rechte mit Bezug auf automatisierte Entscheidungen geltend machen, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden.
 
-i)      Recht auf Widerruf einer datenschutzrechtlichen Einwilligung
+i) Recht auf Widerruf einer datenschutzrechtlichen Einwilligung
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, eine Einwilligung zur Verarbeitung personenbezogener Daten jederzeit zu widerrufen.
 Möchte die betroffene Person ihr Recht auf Widerruf einer Einwilligung geltend machen, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden.
 
-j)      Recht auf Beschwerde bei einer Aufsichtsbehörde 
+j) Recht auf Beschwerde bei einer Aufsichtsbehörde 
 
 Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Recht, bei der ortsansässigen und für den Datenschutz der Bürger zuständigen Aufsichtsbehörde zu den Datenschutzverstössen der Verantwortlichen Beschwerde einzureichen.
 
-**11. Sonstiges**
+## 11. Sonstiges
 
 Wir klären Sie darüber auf, dass die Speicherung und Bereitstellung personenbezogener Daten zum Teil gesetzlich vorgeschrieben ist (z. B.  wegen Steuervorschriften) oder sich auch aus vertraglichen Regelungen (z. B. für Angaben zum Vertragspartner) ergeben kann. Mitunter kann es zu einem Vertragsschluss erforderlich sein, dass eine betroffene Person den Verantwortlichen personenbezogene Daten zur Verfügung stellt, die in der Folge durch die Verantwortlichen verarbeitet werden müssen. Die betroffene Person ist beispielsweise verpflichtet, den Verantwortlichen personenbezogene Daten bereitzustellen, wenn die Verantwortlichen mit der betroffenen Person einen Vertrag abschliessen. Eine Nichtbereitstellung der personenbezogenen Daten hätte zur Folge, dass der Vertrag mit dem Betroffenen nicht geschlossen werden könnte. 
 

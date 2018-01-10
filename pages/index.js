@@ -42,7 +42,8 @@ const IndexPage = ({ url, t, isAuthorized }) => {
           src={endVideo}
           endScroll={0.99}
           cursor
-          autoPlay={!!url.query.play}
+          limited
+          autoPlay
         />
       }
     >

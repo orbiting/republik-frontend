@@ -21,6 +21,12 @@ const MAX_WIDTH = '1005px'
 
 // TODO: revisit special font sizes with design.
 const styles = {
+  container: css({
+    paddingBottom: 60,
+    [mediaQueries.mUp]: {
+      paddingBottom: 120
+    }
+  }),
   intro: css({
     maxWidth: MAX_WIDTH,
     paddingTop: '35px',
@@ -82,56 +88,58 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ t, crowdfundingName, data }) => [
-  <Container {...styles.intro} key='intro'>
-    <Interaction.H1 {...css(styles.headline, { marginBottom: '30px' })}>
-      {t('marketing/headline')}
-    </Interaction.H1>
-    <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-      <P {...styles.text}>
-        <RawHtml
-          dangerouslySetInnerHTML={{
-            __html: t('marketing/intro', {count: data.statistics.memberCount})
-          }}
-        />
-      </P>
-    )} />
-  </Container>,
-  <div {...styles.join} key='join'>
-    <Container style={{ maxWidth: MAX_WIDTH }}>
-      <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
-        {t('marketing/cta/title')}
-      </Interaction.P>
-      <Interaction.H1 {...css(styles.headline, { color: colors.primary })}>
-        {t('marketing/cta/subtitle')}
+const MarketingPage = ({ t, crowdfundingName, data }) => (
+  <div {...styles.container}>
+    <Container {...styles.intro} key='intro'>
+      <Interaction.H1 {...css(styles.headline, { marginBottom: '30px' })}>
+        {t('marketing/headline')}
       </Interaction.H1>
-      <Interaction.P {...css(styles.text, styles.joinText)}>
-        {t('marketing/cta/text')}
-      </Interaction.P>
-      <Link route='pledge' params={{package: 'ABO'}}>
-        <Button primary block>
-          {t('marketing/cta/button/label')}
-        </Button>
-      </Link>
+      <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
+        <P {...styles.text}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/intro', {count: data.statistics.memberCount})
+            }}
+          />
+        </P>
+      )} />
+    </Container>,
+    <div {...styles.join} key='join'>
+      <Container style={{ maxWidth: MAX_WIDTH }}>
+        <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
+          {t('marketing/cta/title')}
+        </Interaction.P>
+        <Interaction.H1 {...css(styles.headline, { color: colors.primary })}>
+          {t('marketing/cta/subtitle')}
+        </Interaction.H1>
+        <Interaction.P {...css(styles.text, styles.joinText)}>
+          {t('marketing/cta/text')}
+        </Interaction.P>
+        <Link route='pledge' params={{package: 'ABO'}}>
+          <Button primary block>
+            {t('marketing/cta/button/label')}
+          </Button>
+        </Link>
+      </Container>
+    </div>,
+    <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
+      <div {...styles.more}>
+        <div {...styles.preview}>
+          <Interaction.H3 style={{ marginBottom: '17px' }}>
+            {t('marketing/preview/title')}
+          </Interaction.H3>
+          <PreviewForm />
+        </div>
+        <div {...styles.offers}>
+          <Interaction.H3 style={{ marginBottom: '17px' }}>
+            {t('marketing/offers/title')}
+          </Interaction.H3>
+          <Offers crowdfundingName={crowdfundingName} />
+        </div>
+      </div>
     </Container>
-  </div>,
-  <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
-    <div {...styles.more}>
-      <div {...styles.preview}>
-        <Interaction.H3 style={{ marginBottom: '17px' }}>
-          {t('marketing/preview/title')}
-        </Interaction.H3>
-        <PreviewForm />
-      </div>
-      <div {...styles.offers}>
-        <Interaction.H3 style={{ marginBottom: '17px' }}>
-          {t('marketing/offers/title')}
-        </Interaction.H3>
-        <Offers crowdfundingName={crowdfundingName} />
-      </div>
-    </div>
-  </Container>
-]
+  </div>
+)
 
 const query = gql`
 query statistics {

@@ -97,7 +97,7 @@ class PreviewForm extends Component {
           <RawHtml
             type={Interaction.P}
             dangerouslySetInnerHTML={{
-              __html: t('signIn/polling', {
+              __html: t('signIn/polling/short', {
                 phrase,
                 email: values.email
               })

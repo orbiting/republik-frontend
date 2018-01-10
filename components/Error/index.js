@@ -60,7 +60,7 @@ export default compose(
 
       if (redirection) {
         const [pathname, query] = url.asPath.split('?')
-        const withQuery = redirectionPathWithQuery.indexOf(pathname) !== -1
+        const withQuery = query && redirectionPathWithQuery.indexOf(pathname) !== -1
         const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
         if (serverContext) {
           serverContext.res.redirect(

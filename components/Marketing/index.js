@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from '../../lib/routes'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
 import Offers from './Offers'
@@ -98,7 +99,7 @@ const MarketingPage = ({ t, crowdfundingName, data }) => (
         <P {...styles.text}>
           <RawHtml
             dangerouslySetInnerHTML={{
-              __html: t('marketing/intro', {count: data.statistics.memberCount})
+              __html: t('marketing/intro', {count: countFormat(data.statistics.memberCount)})
             }}
           />
         </P>

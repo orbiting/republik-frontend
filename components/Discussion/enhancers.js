@@ -490,7 +490,7 @@ ${fragments.comment}
 
       const parentId = parent ? parent.id : null
       const parentIds = parent
-        ? [parentId].concat(parent.parentIds)
+        ? parent.parentIds.concat(parentId)
         : []
       debug('submitComment', {discussionId, parentIds, content, id})
 

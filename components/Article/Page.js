@@ -10,12 +10,11 @@ import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
+import StatusError from '../StatusError'
 
 import {
-  H1,
   colors,
   mediaQueries,
-  NarrowContainer,
   Center
 } from '@project-r/styleguide'
 
@@ -180,7 +179,10 @@ class ArticlePage extends Component {
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
-            return <NarrowContainer><H1>404</H1></NarrowContainer>
+            return <StatusError
+              url={url}
+              statusCode={404}
+              serverContext={this.props.serverContext} />
           }
 
           const schema = getSchemaCreator(article.meta.template)({
@@ -224,15 +226,6 @@ export default compose(
       variables: {
         path: asPath.split('?')[0]
       }
-    }),
-    props: ({data, ownProps: {serverContext}}) => {
-      if (serverContext && !data.error && !data.loading && !data.article) {
-        serverContext.res.statusCode = 404
-      }
-
-      return {
-        data
-      }
-    }
+    })
   })
 )(ArticlePage)

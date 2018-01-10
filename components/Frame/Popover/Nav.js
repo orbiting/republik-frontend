@@ -77,7 +77,7 @@ const Nav = ({ me, children, t }) => (
             <a {...linkRule}>{t('nav/feed')}</a>
           </Link>
           <br />
-          <Link route='discussions'>
+          <Link route='discussion'>
             <a {...linkRule}>{t('nav/discussion')}</a>
           </Link>
           <br />

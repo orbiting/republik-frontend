@@ -24,7 +24,6 @@ const LOGO_WIDTH_MOBILE = 162
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
-    position: 'fixed',
     '@media print': {
       position: 'absolute'
     },
@@ -111,7 +110,7 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: false
+      sticky: !this.props.inline
     }
 
     this.onScroll = () => {
@@ -165,6 +164,9 @@ class Header extends Component {
     const { expanded, sticky } = this.state
     const opaque = this.state.opaque || expanded || inline
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const marginBottom = sticky
+      ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+      : undefined
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     // The logo acts as a toggle between front and feed page when user's logged in.
@@ -172,19 +174,8 @@ class Header extends Component {
 
     return (
       <div ref={this.setRef}>
-        {!!cover && inline && <div {...styles.cover} style={sticky
-          ? {
-            marginBottom: this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-          }
-          : {}}>{cover}</div>}
-        <div {...barStyle} {...data} style={sticky
-          ? {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0
-          }
-          : inline ? { position: 'relative' } : {}}>
+        {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
+        <div {...barStyle} {...data} style={{ position: sticky || !inline ? 'fixed' : 'relative' }}>
           {showSecondary &&
           secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (

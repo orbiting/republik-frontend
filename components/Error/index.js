@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -9,9 +9,10 @@ import Loader from '../Loader'
 import Me from '../Auth/Me'
 import Meta from '../Frame/Meta'
 
+import ErrorFrame from './Frame'
+
 import {
-  Interaction,
-  NarrowContainer
+  Interaction
 } from '@project-r/styleguide'
 
 const getRedirect = gql`
@@ -25,17 +26,14 @@ query getRedirect($path: String!) {
 
 const ErrorComponent = ({statusCode, t, loading, children}) => (
   <Loader loading={loading} render={() => (
-    <NarrowContainer style={{marginTop: 60}}>
+    <Fragment>
       <Meta data={{title: statusCode}} />
-      <Interaction.H1>{statusCode}</Interaction.H1>
-      <br />
-      <br />
-      <br />
-      {children || <Interaction.P>{t(`error/${statusCode}`, undefined, null)}</Interaction.P>}
-      <br />
-      <br />
-      <Me />
-    </NarrowContainer>
+      <ErrorFrame statusCode={statusCode}>
+        {children || <Interaction.P>{t(`error/${statusCode}`, undefined, null)}</Interaction.P>}
+        <div style={{height: 60}} />
+        <Me />
+      </ErrorFrame>
+    </Fragment>
   )} />
 )
 

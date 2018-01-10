@@ -145,5 +145,3 @@ export default compose(
   withT,
   graphql(query)
 )(MarketingPage)
-
-// export default compose(withT)(MarketingPage)

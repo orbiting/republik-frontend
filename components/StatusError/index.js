@@ -24,7 +24,7 @@ query getRedirect($path: String!) {
 }
 `
 
-const ErrorComponent = ({statusCode, t, loading, children}) => (
+const StatusError = ({statusCode, t, loading, children}) => (
   <Loader loading={loading} render={() => (
     <Fragment>
       <Meta data={{title: statusCode}} />
@@ -86,4 +86,4 @@ export default compose(
       }
     }
   })
-)(ErrorComponent)
+)(StatusError)

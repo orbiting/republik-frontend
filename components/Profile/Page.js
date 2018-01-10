@@ -13,7 +13,7 @@ import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 
 import HrefLink from '../Link/Href'
-import ErrorComponent from '../Error'
+import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 
@@ -270,7 +270,7 @@ class Profile extends Component {
           render={() => {
             if (!user) {
               return (
-                <ErrorComponent
+                <StatusError
                   url={url}
                   statusCode={404}
                   serverContext={this.props.serverContext}>
@@ -284,7 +284,7 @@ class Profile extends Component {
                       )
                     })}
                   </p>}
-                </ErrorComponent>
+                </StatusError>
               )
             }
 

@@ -102,7 +102,7 @@ class PledgeList extends Component {
       })}
       <Link href={{ pathname: '/pledge', query: {package: 'ABO_GIVE'} }}>
         <a {...linkRule}>
-          {t('memberships/giver/giveable/show')}
+          {t('account/pledges/ABO_GIVE/promo')}
         </a>
       </Link>
     </Fragment>

@@ -24,7 +24,6 @@ const LOGO_WIDTH_MOBILE = 162
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
-    position: 'fixed',
     '@media print': {
       position: 'absolute'
     },
@@ -110,7 +109,8 @@ class Header extends Component {
     this.state = {
       opaque: !this.props.cover,
       mobile: false,
-      expanded: false
+      expanded: false,
+      sticky: !this.props.inline
     }
 
     this.onScroll = () => {
@@ -120,6 +120,13 @@ class Header extends Component {
       if (opaque !== this.state.opaque) {
         this.setState(() => ({ opaque }))
       }
+
+      if (this.props.inline && this.ref) {
+        const sticky = y + HEADER_HEIGHT > this.y + this.barHeight
+        if (sticky !== this.state.sticky) {
+          this.setState(() => ({ sticky }))
+        }
+      }
     }
 
     this.measure = () => {
@@ -127,7 +134,16 @@ class Header extends Component {
       if (mobile !== this.state.mobile) {
         this.setState(() => ({ mobile }))
       }
+      if (this.props.inline && this.ref) {
+        const rect = this.ref.getBoundingClientRect()
+        this.y = window.pageYOffset + rect.top
+        this.barHeight = rect.height
+      }
       this.onScroll()
+    }
+
+    this.setRef = ref => {
+      this.ref = ref
     }
   }
 
@@ -144,18 +160,22 @@ class Header extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const { url, me, cover, secondaryNav, showSecondary } = this.props
-    const { expanded } = this.state
-    const opaque = this.state.opaque || expanded
+    const { url, me, cover, secondaryNav, showSecondary, inline } = this.props
+    const { expanded, sticky } = this.state
+    const opaque = this.state.opaque || expanded || inline
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const marginBottom = sticky
+      ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+      : undefined
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     // The logo acts as a toggle between front and feed page when user's logged in.
     const logoLinkPath = url.pathname === '/' && me ? '/feed' : '/'
 
     return (
-      <div>
-        <div {...barStyle} {...data}>
+      <div ref={this.setRef}>
+        {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
+        <div {...barStyle} {...data} style={{ position: sticky || !inline ? 'fixed' : 'relative' }}>
           {showSecondary &&
           secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (
@@ -213,7 +233,7 @@ class Header extends Component {
         </div>
 
         <LoadingBar />
-        {!!cover && <div {...styles.cover}>{cover}</div>}
+        {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
       </div>
     )
   }

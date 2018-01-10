@@ -108,16 +108,16 @@ class VideoCover extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const {src, cursor} = this.props
+    const {src, cursor, limited} = this.props
     const {
       playing, ended,
       videoHeight, windowHeight,
       mobile, cover
     } = this.state
 
-    const limitedHeight = (!playing || !videoHeight)
+    const limitedHeight = (!!limited || !playing || !videoHeight)
     const heightStyle = {
-      height: playing && !ended ? windowHeight : videoHeight,
+      height: playing && !ended && !limitedHeight ? windowHeight : videoHeight,
       maxHeight: limitedHeight ? `${MAX_HEIGHT_VH}vh` : undefined
     }
     return (

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-09T18:57:09.819Z",
+  "updated": "2018-01-10T09:37:05.033Z",
   "title": "live",
   "data": [
     {
@@ -305,6 +305,30 @@
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "Hier wäre Name and E-Mail nice. Vielleicht {name} ({email})"
+    },
+    {
+      "key": "error/404",
+      "value": "Nicht gefunden",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "error/503",
+      "value": "System nicht verfügbar",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "error/503",
+      "value": "Systemfehler",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "memberships/sequenceNumber/label",
@@ -1022,6 +1046,14 @@
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "account/pledges/ABO_GIVE/promo",
+      "value": "Schenken Sie Ihren Freunden und Feinden die Republik",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
@@ -3691,14 +3723,6 @@
       "Bemerkung": null
     },
     {
-      "key": "events/404",
-      "value": "Ereignis nicht gefunden",
-      "Clara ok": "x",
-      "Braucht Const": null,
-      "Korrektorat": null,
-      "Bemerkung": null
-    },
-    {
       "key": "events/all",
       "value": "Alle Ereignisse",
       "Clara ok": "x",
@@ -3755,8 +3779,8 @@
       "Bemerkung": null
     },
     {
-      "key": "updates/404",
-      "value": "Update nicht gefunden",
+      "key": null,
+      "value": null,
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,

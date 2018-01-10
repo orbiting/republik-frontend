@@ -37,6 +37,12 @@ const ErrorComponent = ({statusCode, t, loading, children}) => (
   )} />
 )
 
+const redirectionPathWithQuery = [
+  '/pledge',
+  '/notifications',
+  '/merci'
+]
+
 export default compose(
   withT,
   graphql(getRedirect, {
@@ -53,14 +59,20 @@ export default compose(
         data.redirection
 
       if (redirection) {
+        const [pathname, query] = url.asPath.split('?')
+        const withQuery = redirectionPathWithQuery.indexOf(pathname) !== -1
+        const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
         if (serverContext) {
-          serverContext.res.redirect(redirection.status || 302, redirection.target)
+          serverContext.res.redirect(
+            redirection.status || 302,
+            target
+          )
           serverContext.res.end()
         } else {
           if (redirection.status === 301) {
-            Router.replaceRoute(redirection.target)
+            Router.replaceRoute(target)
           } else {
-            Router.pushRoute(redirection.target)
+            Router.pushRoute(target)
           }
         }
       } else {

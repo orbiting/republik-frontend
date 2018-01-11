@@ -37,7 +37,7 @@ const styles = {
 
 const {H1, P} = Interaction
 
-export default withData(withT(({url: {query: { type, context, email, token }}, t}) => {
+export default withData(withT(({ url: { query: { type, context, email, token } }, t, requestInfo }) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
@@ -80,7 +80,11 @@ export default withData(withT(({url: {query: { type, context, email, token }}, t
           )}
           {isDisplayTokenAuthorization && (
             <div {...styles.me}>
-              <TokenAuthorization email={email} token={token} />
+              <TokenAuthorization
+                email={email}
+                token={token}
+                requestInfo={requestInfo}
+              />
             </div>
           )}
           {links.length > 0 && (

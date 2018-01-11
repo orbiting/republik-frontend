@@ -18,7 +18,7 @@ class SigninPage extends Component {
       return
     }
     if (me) {
-      Router.push('/account')
+      Router.push('/konto')
     }
   }
 

@@ -89,6 +89,20 @@ PIWIK_SITE_ID=1
 
 Your logo, fonts and colors? See [orbiting/styleguide](https://github.com/orbiting/styleguide#theming)
 
+### Curtain
+
+You can configure a curtain message, to show a teaser website.
+
+```
+CURTAIN_MESSAGE=""
+```
+
+Additionally you can configure a backdoor URL. Opening that URL sets a cookie which allows to circumvent the countdown page.
+
+```
+CURTAIN_BACKDOOR_URL=/iftah-ya-simsim
+```
+
 ## License
 
 The source code is «BSD 3-clause» licensed.

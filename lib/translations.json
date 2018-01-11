@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T15:10:34.945Z",
+  "updated": "2018-01-11T15:50:13.028Z",
   "title": "live",
   "data": [
     {
@@ -1803,6 +1803,14 @@
       "Bemerkung": "not now"
     },
     {
+      "key": "footer/shareholder",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "footer/legal/imprint",
       "value": "Impressum",
       "Clara ok": null,
@@ -3182,6 +3190,54 @@
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel.",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/pageTitle",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/title",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/description",
+      "value": "Aufteilung der Stimmen in der Republik AG",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/table/title",
+      "value": "Alle Aktionärinnen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact",
+      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact/email",
+      "value": "susanne.sugimoto@republik.ch",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

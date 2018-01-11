@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T16:16:21.941Z",
+  "updated": "2018-01-10T23:32:06.340Z",
   "title": "live",
   "data": [
     {
@@ -927,6 +927,14 @@
       "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
       "Clara ok": null,
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "account/newsletterSubscriptions/unsubscribed",
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können. Danach erhalten Sie wieder unsere Newsletter.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },

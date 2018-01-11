@@ -4,7 +4,7 @@ import withT from '../../lib/withT'
 import {colors, fontStyles} from '@project-r/styleguide'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
-import DiscussionTree from './DiscussionTree'
+import Comments from './Comments'
 
 const styles = {
   orderByContainer: css({
@@ -62,7 +62,7 @@ class Discussion extends PureComponent {
           <OrderBy value='HOT' />
         </div>
 
-        <DiscussionTree
+        <Comments
           discussionId={discussionId}
           parentId={null}
           orderBy={orderBy}

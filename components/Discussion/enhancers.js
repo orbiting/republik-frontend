@@ -65,7 +65,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
   }
 })
 
-const fragments = {
+export const fragments = {
   comment: gql`
     fragment Comment on Comment {
       id
@@ -468,6 +468,47 @@ ${fragments.comment}
   })
 })
 
+export const query = gql`
+query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!) {
+  me {
+    id
+    name
+    portrait
+  }
+  discussion(id: $discussionId) {
+    id
+    userPreference {
+      anonymity
+      credential {
+        description
+        verified
+      }
+    }
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 5, flatDepth: 3) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
+      totalCount
+      directTotalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        ...Comment
+        comments {
+          totalCount
+          directTotalCount
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+        }
+      }
+    }
+  }
+}
+
+${fragments.comment}
+`
+
 export const submitComment = compose(
 withT,
 withDiscussionDisplayAuthor,
@@ -492,7 +533,6 @@ ${fragments.comment}
       const parentIds = parent
         ? parent.parentIds.concat(parentId)
         : []
-      debug('submitComment', {discussionId, parentIds, content, id})
 
       return mutate({
         variables: {discussionId, parentId, id, content},
@@ -514,10 +554,41 @@ ${fragments.comment}
           }
         },
         update: (proxy, {data: {submitComment}}) => {
-          debug('submitComment:update:response', {discussionId, parentId, submitComment})
+          const data = proxy.readQuery({
+            query: query,
+            variables: {discussionId, parentId: ownParentId, orderBy}
+          })
 
-          upsertComment(proxy, discussionId, submitComment, {
-            prepend: true
+          const comment = {
+            ...submitComment,
+            comments: {
+              __typename: 'CommentConnection',
+              totalCount: 0,
+              directTotalCount: 0,
+              pageInfo: emptyPageInfo()
+            }
+          }
+
+          const nodes = [].concat(data.discussion.comments.nodes)
+
+          const insertIndex = parentId
+            ? nodes.findIndex(n => n.id === parentId) + 1
+            : 0
+          nodes.splice(insertIndex, 0, comment)
+
+          proxy.writeQuery({
+            query: query,
+            variables: {discussionId, parentId: ownParentId, orderBy},
+            data: {
+              ...data,
+              discussion: {
+                ...data.discussion,
+                comments: {
+                  ...data.discussion.comments,
+                  nodes
+                }
+              }
+            }
           })
         }
       }).catch(toRejectedString)

@@ -8,6 +8,7 @@ import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
 
 import Me from '../components/Auth/Me'
+import TokenAuthorization from '../components/Auth/TokenAuthorization'
 
 import {
   Interaction, NarrowContainer, Logo, linkRule, RawHtml
@@ -36,13 +37,22 @@ const styles = {
 
 const {H1, P} = Interaction
 
-export default withData(withT(({url: {query: {type, context, email}}, t}) => {
+export default withData(withT(({url: {query: { type, context, email, token }}, t}) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
       label: t('notifications/links/merci')
     }
   ].filter(Boolean)
+
+  const isDisplayMe = (
+    type === 'invalid-token' &&
+    (['signIn', 'pledge'].indexOf(context) !== -1)
+  )
+  const isDisplayTokenAuthorization = (
+    type === 'token-authorization' &&
+    !!token
+  )
 
   return (
     <div>
@@ -63,26 +73,27 @@ export default withData(withT(({url: {query: {type, context, email}}, t}) => {
           <RawHtml type={P} dangerouslySetInnerHTML={{
             __html: t(`notifications/${type}/text`, undefined, '')
           }} />
-          {(
-            type === 'invalid-token' &&
-            (
-              context === 'signIn' ||
-              context === 'pledge'
-            )
-          ) && (
+          {isDisplayMe && (
             <div {...styles.me}>
               <Me email={email} />
             </div>
           )}
-          {links.length > 0 && <P {...styles.link}>
-            {intersperse(links.map((link, i) => (
-              <Link key={i} route={link.route} params={link.params}>
-                <a {...linkRule}>
-                  {link.label}
-                </a>
-              </Link>
-            )), () => ' – ')}
-          </P>}
+          {isDisplayTokenAuthorization && (
+            <div {...styles.me}>
+              <TokenAuthorization email={email} token={token} />
+            </div>
+          )}
+          {links.length > 0 && (
+            <P {...styles.link}>
+              {intersperse(links.map((link, i) => (
+                <Link key={i} route={link.route} params={link.params}>
+                  <a {...linkRule}>
+                    {link.label}
+                  </a>
+                </Link>
+              )), () => ' – ')}
+            </P>
+          )}
         </div>
       </NarrowContainer>
     </div>

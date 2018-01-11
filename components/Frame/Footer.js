@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -210,8 +210,14 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
-              <Link route='claim'>
-                <a>{t('footer/me/claim')}</a>
+              {!!me && <Fragment>
+                <Link route='profile' params={{ slug: me.username || me.id }}>
+                  <a>{t('footer/me/profile')}</a>
+                </Link>
+                <br />
+              </Fragment>}
+              <Link route='faq'>
+                <a>{t('footer/me/faq')}</a>
               </Link>
               <br />
               {!!me && (

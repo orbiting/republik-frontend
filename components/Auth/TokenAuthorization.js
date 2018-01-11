@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { Button, P, Label, H2, H1, Loader } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
+import { Router } from '../../lib/routes'
 
 const TokenAuthorization = ({ t, unauthorizedSession, email, token, error, loading, requestInfo, authorize }) => {
   const { country, city, ipAddress, userAgent, countryFlag } = unauthorizedSession || {}
@@ -26,13 +27,13 @@ const TokenAuthorization = ({ t, unauthorizedSession, email, token, error, loadi
   if (process.browser) {
     console.debug(reqKey, sessionKey, `same device: ${isSameDevice}`)
     if (error) {
-      Router.replace({
-        pathname: '/notifications',
-        query: {
+      Router.replaceRoute(
+        'notifications',
+        {
           type: 'invalid-token',
           emailFromQuery: email
         }
-      })
+      )
     } else if (isSameDevice) {
       // auto trigger token authorization
       authorize()

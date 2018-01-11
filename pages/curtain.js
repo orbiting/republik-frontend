@@ -1,12 +1,12 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 import Head from 'next/head'
 
 import {
   NarrowContainer, Logo, mediaQueries, fontStyles
 } from '@project-r/styleguide'
 
-import PureFooter, {SPACE} from '../components/Frame/PureFooter'
+import PureFooter, { SPACE } from '../components/Frame/PureFooter'
 
 import {
   PUBLIC_BASE_URL, CURTAIN_MESSAGE
@@ -39,11 +39,13 @@ const styles = {
   }),
   message: css({
     color: '#fff',
-    margin: '200px 0',
     textAlign: 'center',
     ...fontStyles.sansSerifRegular21,
+    padding: 10,
+    marginTop: 100,
+    marginBottom: -SPACE,
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
+      marginTop: 200
     }
   })
 }

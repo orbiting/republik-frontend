@@ -200,6 +200,10 @@ class Footer extends Component {
                 <a>{t('footer/legal/statute')}</a>
               </Link>
               <br />
+              <Link route='shareholder'>
+                <a>{t('footer/shareholder')}</a>
+              </Link>
+              <br />
               <Link route='legal/imprint'>
                 <a>{t('footer/legal/imprint')}</a>
               </Link>

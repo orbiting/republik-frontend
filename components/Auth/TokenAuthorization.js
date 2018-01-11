@@ -1,16 +1,29 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { Button, P, Label, H2, H1 } from '@project-r/styleguide'
+import Router from 'next/router'
+import { Button, P, Label, H2, H1, Loader } from '@project-r/styleguide'
 import withT from '../../lib/withT'
+import { meQuery } from '../../lib/apollo/withMe'
 
-const TokenAuthorization = ({ t, unauthorizedSession, email, token }) => {
+const TokenAuthorization = ({ t, unauthorizedSession, email, token, error, loading, requestInfo, authorize }) => {
   const { country, city, ipAddress, userAgent, countryFlag } = unauthorizedSession || {}
+
+  const { userAgent: reqUserAgent, ipAddress: reqIpAddress } = requestInfo
+  const reqKey = `${reqUserAgent}${reqIpAddress}`
+  const sessionKey = `${userAgent}${ipAddress}`
+  const isSameDevice = (sessionKey === reqKey)
+  console.debug(reqKey, sessionKey, `same device: ${isSameDevice}`)
+  if (process.browser && isSameDevice && !error) {
+    authorize()
+  }
+
   return (
     <React.Fragment>
       <H1>{t('notifications/authorization/title')}</H1>
       <P>{t('notifications/authorization/text', { email })}</P>
-      {ipAddress && (
+      <Loader loading={loading} error={error} />
+      {(ipAddress && !isSameDevice) && (
         <React.Fragment>
           <div>
             <H2>{t('notifications/authorization/location')}</H2>
@@ -22,7 +35,7 @@ const TokenAuthorization = ({ t, unauthorizedSession, email, token }) => {
             <Label>{userAgent}</Label>
           </div>
           <br />
-          <Button primary onClick={() => {}}>
+          <Button primary onClick={authorize}>
             {t('notifications/authorization/button')}
           </Button>
         </React.Fragment>
@@ -50,18 +63,42 @@ export const unauthorizedSessionQuery = gql`
 `
 
 export default compose(
+  withT,
+  graphql(authorizeSession, {
+    props: ({ ownProps: { email, token }, mutate, ...test }) => ({
+      authorize: () => {
+        mutate({
+          variables: { email, token },
+          refetchQueries: [{query: meQuery}]
+        }).then(({ data }) => {
+          Router.replace({
+            pathname: '/notifications',
+            query: {
+              type: 'email-confirmed',
+              email
+            }
+          })
+        })
+        .catch(error => {
+          console.log(error)
+          Router.replace({
+            pathname: '/notifications',
+            query: {
+              type: 'invalid-token',
+              emailFromQuery: email
+            }
+          })
+        })
+      }
+    })
+  }),
   graphql(unauthorizedSessionQuery, {
     props: ({ data }) => {
       return {
-        unauthorizedSession: data.unauthorizedSession
+        unauthorizedSession: data.unauthorizedSession,
+        loading: data.loading,
+        error: data.error
       }
     }
-  }),
-  graphql(authorizeSession, {
-    props: ({ email, token, mutate }) => ({
-      authorize: () =>
-        mutate({ email, token })
-    })
-  }),
-  withT
+  })
 )(TokenAuthorization)

@@ -5,6 +5,8 @@ import {H1, H2, A, Field, Button} from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
+import HrefLink from '../Link/Href'
+
 class DiscussionIndex extends PureComponent {
   constructor (props) {
     super(props)
@@ -54,13 +56,24 @@ class DiscussionIndex extends PureComponent {
           </div>
 
           <H2>Alle Diskussionen</H2>
-          {discussions.map((d, i) => (
-            <div key={i}>
-              <Link passHref route='discussion' params={{id: d.id}}>
-                <A>{d.title || d.id}</A>
+          {discussions.map((d, i) => {
+            const children = <A>{d.title || d.id}</A>
+            let link
+            if (d.documentPath) {
+              link = <HrefLink href={d.documentPath} passHref>
+                {children}
+              </HrefLink>
+            } else {
+              link = <Link passHref route='discussion' params={{id: d.id}}>
+                {children}
               </Link>
-            </div>
-          ))}
+            }
+            return (
+              <div key={i}>
+                {link}
+              </div>
+            )
+          })}
         </div>
       )
     }
@@ -72,6 +85,7 @@ query discussions {
   discussions {
     id
     title
+    documentPath
   }
 }
 `

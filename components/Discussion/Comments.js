@@ -139,6 +139,7 @@ class Comments extends PureComponent {
                   )
                 }
 
+                const appendAfter = comment
                 const needsClosure = accumulator.pendingClosure
                   .filter(pending => comment.parentIds.indexOf(pending.id) === -1)
                 needsClosure.forEach(comment => {
@@ -151,7 +152,7 @@ class Comments extends PureComponent {
                         t={t}
                         visualDepth={comment.parentIds.length + 1}
                         count={comment.comments.totalCount - count}
-                        onClick={() => fetchMore(comment.id, comment.comments.pageInfo.endCursor)}
+                        onClick={() => fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})}
                       />
                     )
                   }
@@ -187,7 +188,7 @@ export default compose(
   graphql(query, {
     props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
       data,
-      fetchMore: (parentId, after) => {
+      fetchMore: (parentId, after, {appendAfter} = {}) => {
         return fetchMore({
           variables: {discussionId, parentId, after, orderBy},
           updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
@@ -205,10 +206,10 @@ export default compose(
             if (!parentId) {
               nodes = nodes.concat(newNodes)
             } else {
-              const index = nodes.indexOf(nodeIndex[parentId])
-              const parent = nodes[index]
+              const parentIndex = nodes.indexOf(nodeIndex[parentId])
+              const parent = nodes[parentIndex]
               nodes = [
-                ...nodes.slice(0, index),
+                ...nodes.slice(0, parentIndex),
                 {
                   ...parent,
                   comments: {
@@ -216,9 +217,13 @@ export default compose(
                     nodes: undefined
                   }
                 },
-                ...newNodes,
-                ...nodes.slice(index + 1)
+                ...nodes.slice(parentIndex + 1)
               ]
+              let appendIndex = parentIndex
+              if (appendAfter) {
+                appendIndex = nodes.indexOf(nodeIndex[appendAfter.id])
+              }
+              nodes.splice(appendIndex + 1, 0, ...newNodes)
             }
 
             return {

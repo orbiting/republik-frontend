@@ -37,7 +37,7 @@ const styles = {
 
 const {H1, P} = Interaction
 
-export default withData(withT(({ url: { query: { type, context, email, token } }, t, requestInfo }) => {
+const Page = withT(({ url: { query: { type, context, email, token } }, t, requestInfo }) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
@@ -102,4 +102,21 @@ export default withData(withT(({ url: { query: { type, context, email, token } }
       </NarrowContainer>
     </div>
   )
-}))
+})
+
+Page.getInitialProps = ({ req }) => {
+  if (!req) {
+    return {}
+  }
+  // we need this information to authorize sessions
+  const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+  return {
+    requestInfo: {
+      userAgent: req.headers['user-agent'],
+      ipAddress
+    }
+  }
+}
+
+export default withData(Page)

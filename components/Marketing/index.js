@@ -46,8 +46,7 @@ const styles = {
     paddingTop: '44px',
     paddingBottom: '35px',
     [mediaQueries.mUp]: {
-      paddingTop: '90px',
-      paddingBottom: '90px'
+      paddingBottom: '70px'
     }
   }),
   text: css({

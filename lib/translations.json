@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T16:16:21.941Z",
+  "updated": "2018-01-11T17:38:34.578Z",
   "title": "live",
   "data": [
     {
@@ -92,7 +92,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert",
+      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -219,6 +219,14 @@
       "Bemerkung": null
     },
     {
+      "key": "signIn/hint",
+      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "signIn/success",
       "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)",
       "Clara ok": null,
@@ -228,11 +236,27 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.<br /><br />\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />  <b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n<br /><br />\nMerci!",
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />\n<b>«{phrase}»</b>\n<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "Braucht einen Link und saubere Formatierung"
+    },
+    {
+      "key": "signIn/polling/signInLink",
+      "value": "Sollte das der Fall sein, versuchen Sie es {signInLink}.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "signIn/polling/signInLink/text",
+      "value": "hier nochmal",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/polling/short",
@@ -285,14 +309,6 @@
     {
       "key": "me/signedOut",
       "value": "Sie sind nicht angemeldet",
-      "Clara ok": "x",
-      "Braucht Const": null,
-      "Korrektorat": null,
-      "Bemerkung": null
-    },
-    {
-      "key": "me/signedOut/hint",
-      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -927,6 +943,14 @@
       "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
       "Clara ok": null,
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "account/newsletterSubscriptions/unsubscribed",
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können. Danach erhalten Sie wieder unsere Newsletter.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -1795,6 +1819,14 @@
       "Bemerkung": "not now"
     },
     {
+      "key": "footer/shareholder",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "footer/legal/imprint",
       "value": "Impressum",
       "Clara ok": null,
@@ -1812,7 +1844,7 @@
     },
     {
       "key": "footer/me/title",
-      "value": "Ihr Profil",
+      "value": "Meine Republik",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1828,11 +1860,19 @@
     },
     {
       "key": "footer/me/signedIn",
-      "value": "Ihre persönliche Übersicht",
+      "value": "Konto",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/profile",
+      "value": "Profil",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/me/signOut",
@@ -1849,6 +1889,14 @@
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/faq",
+      "value": "FAQ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/since",
@@ -2300,7 +2348,7 @@
     },
     {
       "key": "package/DONATE/description/short",
-      "value": null,
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3163,6 +3211,54 @@
       "Bemerkung": null
     },
     {
+      "key": "shareholder/pageTitle",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/title",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/description",
+      "value": "Aufteilung der Stimmen in der Republik AG",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/table/title",
+      "value": "Alle Aktionärinnen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact",
+      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact/email",
+      "value": "susanne.sugimoto@republik.ch",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "format/feed/title/1",
       "value": "Ein Beitrag",
       "Clara ok": null,
@@ -3902,6 +3998,54 @@
       "key": "faq/form/merci/text",
       "value": "Sie lesen von uns.",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/title",
+      "value": "Sign-in Request",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/text",
+      "value": "Somebody wants to sign in at republik.ch with your e-mail address {email}. If that's not you, contact us at support@republik.ch",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location",
+      "value": "Origin",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location/unknown",
+      "value": "Unknown Location",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/device",
+      "value": "Device",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/button",
+      "value": "Authorize",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

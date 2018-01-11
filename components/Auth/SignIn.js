@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
@@ -12,7 +13,10 @@ import {
   InlineSpinner,
   Interaction,
   Field,
-  RawHtml
+  Label,
+  RawHtml,
+  colors,
+  linkRule
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -36,6 +40,9 @@ const styles = {
     minWidth: 140,
     maxWidth: 160,
     textAlign: 'center'
+  }),
+  hint: css({
+    color: colors.lightText
   })
 }
 
@@ -65,6 +72,15 @@ class SignIn extends Component {
               email
             })
           }} />
+          <P key='link'>
+            {t.elements('signIn/polling/signInLink', {
+              signInLink: (
+                <Link route='signin'>
+                  <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
+                </Link>
+              )
+            })}
+          </P>
           <Poller onSuccess={(me, ms) => {
             this.setState(() => ({
               polling: false,
@@ -135,6 +151,7 @@ class SignIn extends Component {
               }}>{label || t('signIn/button')}</Button>}
           </div>
         </div>
+        <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>
     )

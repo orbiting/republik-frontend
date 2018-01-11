@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import {validate as isEmail} from 'email-validator'
 import AutosizeInput from 'react-textarea-autosize'
 
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
@@ -15,7 +16,7 @@ import FieldSet, {styles as fieldSetStyles} from '../FieldSet'
 import Poller from '../Auth/Poller'
 
 import {
-  Interaction, RawHtml, InlineSpinner, Field, Button, A
+  Interaction, RawHtml, InlineSpinner, Field, Button, A, linkRule
 } from '@project-r/styleguide'
 
 import {H2} from './List'
@@ -212,6 +213,15 @@ class QuestionForm extends Component {
                   email: values.email
                 })
               }} />
+              <P key='link'>
+                {t.elements('signIn/polling/signInLink', {
+                  signInLink: (
+                    <Link route='signin'>
+                      <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
+                    </Link>
+                  )
+                })}
+              </P>
               <Poller onSuccess={() => {
                 this.setState(() => ({
                   polling: false

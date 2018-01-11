@@ -2,9 +2,6 @@ const express = require('express')
 const basicAuth = require('express-basic-auth')
 const dotenv = require('dotenv')
 const next = require('next')
-const routes = require('../lib/routes')
-
-const pgp = require('./pgp')
 
 const DEV = process.env.NODE_ENV
   ? process.env.NODE_ENV !== 'production'
@@ -12,7 +9,16 @@ const DEV = process.env.NODE_ENV
 if (DEV || process.env.DOTENV) {
   dotenv.config()
 }
+
+const routes = require('../lib/routes')
+
+const pgp = require('./pgp')
+
 const PORT = process.env.PORT || 3005
+
+const {
+  CURTAIN_MESSAGE
+} = process.env
 
 const app = next({
   dev: DEV
@@ -29,6 +35,41 @@ app.prepare().then(() => {
         return res.redirect(process.env.PUBLIC_BASE_URL + req.url)
       }
       return next()
+    })
+  }
+
+  // only attach middle-ware if we're not already past it
+  if (CURTAIN_MESSAGE) {
+    const ALLOWED_PATHS = [
+      '/_next',
+      '/_webpack/',
+      '/__webpack_hmr',
+      '/static/',
+      '/manifest'
+    ]
+
+    server.use((req, res, next) => {
+      const BACKDOOR_URL = process.env.CURTAIN_BACKDOOR_URL || ''
+      if (req.url === BACKDOOR_URL) {
+        res.cookie('OpenSesame', BACKDOOR_URL, { maxAge: 2880000, httpOnly: true })
+        return res.redirect('/').end()
+      }
+
+      const cookies = (
+        req.headers.cookie &&
+        require('cookie').parse(req.headers.cookie)
+      ) || {}
+      if (
+        cookies['OpenSesame'] === BACKDOOR_URL ||
+        ALLOWED_PATHS.some(path => req.url.startsWith(path))
+      ) {
+        return next()
+      }
+
+      if (req.url !== '/') {
+        res.statusCode = 503
+      }
+      return app.render(req, res, '/curtain', {})
     })
   }
 

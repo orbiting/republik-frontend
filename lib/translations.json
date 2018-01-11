@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T16:36:34.098Z",
+  "updated": "2018-01-11T17:38:34.578Z",
   "title": "live",
   "data": [
     {
@@ -236,11 +236,27 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.<br /><br />\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />  <b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n<br /><br />\nMerci!",
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />\n<b>«{phrase}»</b>\n<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "Braucht einen Link und saubere Formatierung"
+    },
+    {
+      "key": "signIn/polling/signInLink",
+      "value": "Sollte das der Fall sein, versuchen Sie es {signInLink}.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "signIn/polling/signInLink/text",
+      "value": "hier nochmal",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/polling/short",

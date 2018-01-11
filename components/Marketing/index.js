@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from '../../lib/routes'
-import { compose } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+import { countFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
@@ -10,6 +12,7 @@ import {
   Button,
   Container,
   Interaction,
+  Loader,
   P,
   RawHtml,
   colors,
@@ -98,6 +101,7 @@ const styles = {
   })
 }
 
+const MarketingPage = ({ me, t, crowdfundingName, data }) => (
 const MarketingPage = ({ me, t, crowdfundingName }) => (
   <div {...styles.container}>
     <Container {...styles.intro} key='intro'>
@@ -120,13 +124,15 @@ const MarketingPage = ({ me, t, crowdfundingName }) => (
       <Interaction.H1 {...css(styles.headline, { marginBottom: '30px', textAlign: 'center' })}>
         {t('marketing/headline')}
       </Interaction.H1>
-      <P {...styles.text}>
-        <RawHtml
-          dangerouslySetInnerHTML={{
-            __html: t('marketing/intro')
-          }}
-        />
-      </P>
+      <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
+        <P {...styles.text}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/intro', {count: countFormat(data.membershipStats.count)})
+            }}
+          />
+        </P>
+      )} />
     </Container>
     <div {...styles.join} key='join'>
       <Container style={{ maxWidth: MAX_WIDTH }}>
@@ -165,4 +171,16 @@ const MarketingPage = ({ me, t, crowdfundingName }) => (
   </div>
 )
 
-export default compose(withMe, withT)(MarketingPage)
+const query = gql`
+query membershipStats {
+  membershipStats {
+    count
+  }
+}
+`
+
+export default compose(
+  withMe,
+  withT,
+  graphql(query)
+)(MarketingPage)

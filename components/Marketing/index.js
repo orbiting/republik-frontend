@@ -107,7 +107,7 @@ const MarketingPage = ({ me, t, crowdfundingName }) => (
         })}
       >
         {!me && (
-          <Link route='anmelden'>
+          <Link route='signin'>
             <Button block>{t('marketing/signin/button/label')}</Button>
           </Link>
         )}

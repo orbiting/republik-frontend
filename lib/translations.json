@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T16:16:21.941Z",
+  "updated": "2018-01-11T11:49:35.275Z",
   "title": "live",
   "data": [
     {
@@ -92,7 +92,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert",
+      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -927,6 +927,14 @@
       "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
       "Clara ok": null,
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "account/newsletterSubscriptions/unsubscribed",
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können. Danach erhalten Sie wieder unsere Newsletter.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -1812,7 +1820,7 @@
     },
     {
       "key": "footer/me/title",
-      "value": "Ihr Profil",
+      "value": "Meine Republik",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1828,11 +1836,19 @@
     },
     {
       "key": "footer/me/signedIn",
-      "value": "Ihre persönliche Übersicht",
+      "value": "Konto",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/profile",
+      "value": "Profil",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/me/signOut",
@@ -1849,6 +1865,14 @@
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/faq",
+      "value": "FAQ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/since",

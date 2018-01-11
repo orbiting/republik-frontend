@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from '../../lib/routes'
 import { compose } from 'react-apollo'
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
 import Offers from './Offers'
@@ -29,21 +30,17 @@ const styles = {
     marginBottom: 44,
     '& > button': {
       display: 'block',
-      marginBottom: 20,
-      width: '100%'
+      marginBottom: 20
     },
     [mediaQueries.mUp]: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: 90,
-      '& > button': {
-        width: '48%'
-      }
+      marginBottom: 90
     }
   }),
   intro: css({
     maxWidth: MAX_WIDTH,
-    paddingTop: '44px',
+    paddingTop: '20px',
     paddingBottom: '35px',
     [mediaQueries.mUp]: {
       paddingBottom: '70px'
@@ -101,17 +98,21 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ t, crowdfundingName }) => (
+const MarketingPage = ({ me, t, crowdfundingName }) => (
   <div {...styles.container}>
     <Container {...styles.intro} key='intro'>
-      <div {...styles.cta}>
-        <Link route='anmelden'>
-          <Button>
-            {t('marketing/signin/button/label')}
-          </Button>
-        </Link>
+      <div
+        {...css(styles.cta, {
+          [mediaQueries.mUp]: { '& > button': { width: me ? '100%' : '49%' } }
+        })}
+      >
+        {!me && (
+          <Link route='anmelden'>
+            <Button block>{t('marketing/signin/button/label')}</Button>
+          </Link>
+        )}
         <Link route='pledge' params={{package: 'ABO'}}>
-          <Button primary>
+          <Button primary block>
             {t('marketing/join/button/label')}
           </Button>
         </Link>
@@ -164,4 +165,4 @@ const MarketingPage = ({ t, crowdfundingName }) => (
   </div>
 )
 
-export default compose(withT)(MarketingPage)
+export default compose(withMe, withT)(MarketingPage)

@@ -45,13 +45,10 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t, reques
     }
   ].filter(Boolean)
 
-  const isDisplayMe = (
+  const displayTokenAuthorization = type === 'token-authorization'
+  const displayMe = displayTokenAuthorization || (
     type === 'invalid-token' &&
-    (['signIn', 'pledge'].indexOf(context) !== -1)
-  )
-  const isDisplayTokenAuthorization = (
-    type === 'token-authorization' &&
-    !!token
+    (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
   )
 
   return (
@@ -70,21 +67,23 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t, reques
           <H1>
             {t(`notifications/${type}/title`, undefined, '')}
           </H1>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t(`notifications/${type}/text`, undefined, '')
-          }} />
-          {isDisplayMe && (
+          {displayTokenAuthorization
+            ? (
+              <div {...styles.me}>
+                <TokenAuthorization
+                  email={email}
+                  token={token}
+                  requestInfo={requestInfo}
+                />
+              </div>
+            )
+            : <RawHtml type={P} dangerouslySetInnerHTML={{
+              __html: t(`notifications/${type}/text`, undefined, '')
+            }} />
+          }
+          {displayMe && (
             <div {...styles.me}>
               <Me email={email} />
-            </div>
-          )}
-          {isDisplayTokenAuthorization && (
-            <div {...styles.me}>
-              <TokenAuthorization
-                email={email}
-                token={token}
-                requestInfo={requestInfo}
-              />
             </div>
           )}
           {links.length > 0 && (

@@ -2,15 +2,17 @@ import React, { Fragment, Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Button, InlineSpinner, P, Label, H2, H1, Loader } from '@project-r/styleguide'
+import { Button, InlineSpinner, Interaction, Label, Loader } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 import { Router } from '../../lib/routes'
 
+const { P } = Interaction
+
 const goTo = (type, email) => Router.replaceRoute(
   'notifications',
-  { type, emailFromQuery: email }
+  { type, email, context: 'authorization' }
 )
 
 class TokenAuthorization extends Component {
@@ -59,33 +61,31 @@ class TokenAuthorization extends Component {
     } = this.props
 
     return (
-      <Fragment>
-        <H1>{t('notifications/authorization/title')}</H1>
-        <P>{t('notifications/authorization/text', { email })}</P>
-        <Loader loading={loading || error || isCurrent} render={() => {
-          const { country, city, ipAddress, userAgent, countryFlag } = unauthorizedSession
+      <Loader loading={loading || error || isCurrent} render={() => {
+        const { country, city, ipAddress, userAgent } = unauthorizedSession
 
-          return (
-            <Fragment>
-              <div>
-                <H2>{t('notifications/authorization/location')}</H2>
-                <H1>{countryFlag}</H1>
-                <Label>{country || t('notifications/authorization/location/unknown')}</Label>
-                <Label>{city}</Label>
-                <H2>{t('notifications/authorization/device')}</H2>
-                <P>{ipAddress}</P>
-                <Label>{userAgent}</Label>
-              </div>
-              <br />
-              {this.state.authorizing
-                ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
-                : <Button primary onClick={() => this.authorize()}>
-                  {t('notifications/authorization/button')}
-                </Button>}
-            </Fragment>
-          )
-        }} />
-      </Fragment>
+        return (
+          <Fragment>
+            <P>{t('notifications/authorization/text', { email })}</P>
+            <Label>{t('notifications/authorization/location')}</Label>
+            <P>
+              {country || t('notifications/authorization/location/unknown')}<br />
+              {city}
+            </P>
+            <Label>{t('notifications/authorization/device')}</Label>
+            <P>
+              {ipAddress}<br />
+              {userAgent}
+            </P>
+            <br />
+            {this.state.authorizing
+              ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
+              : <Button primary onClick={() => this.authorize()}>
+                {t('notifications/authorization/button')}
+              </Button>}
+          </Fragment>
+        )
+      }} />
     )
   }
 }
@@ -102,7 +102,6 @@ const unauthorizedSessionQuery = gql`
       ipAddress
       userAgent
       country
-      countryFlag
       city
       isCurrent
     }

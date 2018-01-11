@@ -7,6 +7,7 @@ import Loader from '../../Loader'
 import ErrorMessage from '../../ErrorMessage'
 import { gotoMerci } from '../../Pledge/Merci'
 
+import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import { validate as isEmail } from 'email-validator'
@@ -19,7 +20,7 @@ import { withSignIn } from '../../Auth/SignIn'
 
 import {
   Field, Button, Checkbox, Interaction,
-  RawHtml, colors
+  RawHtml, colors, linkRule
 } from '@project-r/styleguide'
 
 const {H2, P} = Interaction
@@ -177,6 +178,15 @@ class ClaimMembership extends Component {
               email: values.email
             })
           }} />
+          <P key='link'>
+            {t.elements('signIn/polling/signInLink', {
+              signInLink: (
+                <Link route='signin'>
+                  <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
+                </Link>
+              )
+            })}
+          </P>
           <Poller onSuccess={() => {
             this.setState(() => ({
               polling: false

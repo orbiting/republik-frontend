@@ -35,7 +35,7 @@ export const gotoMerci = (query) => {
   // - couldn't clear myAddress query,
   //   possibly because id-less address type
   window.location = format({
-    pathname: '/account',
+    pathname: '/konto',
     query
   })
   // TODO: Write update cache functions instead of reload navigation

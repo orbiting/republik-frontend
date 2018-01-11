@@ -14,7 +14,7 @@ const styles = {
     '& > li': {
       borderTop: `1px solid ${colors.divider}`,
       display: 'block',
-      padding: '10px 0',
+      padding: '10px 30px 10px 0',
       position: 'relative'
     },
     '& > li a': {
@@ -31,9 +31,10 @@ const styles = {
     }
   }),
   icon: css({
+    marginTop: '-14px',
     position: 'absolute',
     right: '5px',
-    verticalAlign: 'middle'
+    top: '50%'
   })
 }
 
@@ -56,7 +57,9 @@ const List = ({ t, data }) => (
             <Link route={route} params={params}>
               <a>
                 {label}{' '}
-                <ChevronRightIcon size={30} {...styles.icon} />
+                <span {...styles.icon}>
+                  <ChevronRightIcon size={30} />
+                </span>
               </a>
             </Link>
           </li>

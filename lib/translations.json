@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T15:50:13.028Z",
+  "updated": "2018-01-11T16:14:18.607Z",
   "title": "live",
   "data": [
     {
@@ -219,6 +219,14 @@
       "Bemerkung": null
     },
     {
+      "key": "signIn/hint",
+      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "signIn/success",
       "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)",
       "Clara ok": null,
@@ -285,14 +293,6 @@
     {
       "key": "me/signedOut",
       "value": "Sie sind nicht angemeldet",
-      "Clara ok": "x",
-      "Braucht Const": null,
-      "Korrektorat": null,
-      "Bemerkung": null
-    },
-    {
-      "key": "me/signedOut/hint",
-      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,

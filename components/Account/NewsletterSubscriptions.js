@@ -45,7 +45,7 @@ class NewsletterSubscriptions extends Component {
         error={error}
         ErrorContainer={ErrorContainer}
         render={() => {
-          const { subscriptions, status } = me.newsletterProfile
+          const { subscriptions, status } = me.newsletterSettings
           const { mutating } = this.state
           const hasNonEligibleSubscription = subscriptions.some(
             newsletter => !newsletter.isEligible
@@ -123,10 +123,10 @@ const mutation = gql`
 `
 
 const query = gql`
-  query myNewsletterSubscriptions {
+  query myNewsletterSettings {
     me {
       id
-      newsletterProfile {
+      newsletterSettings {
         status
         subscriptions {
           id

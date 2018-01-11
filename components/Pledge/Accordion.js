@@ -193,7 +193,7 @@ class Accordion extends Component {
                       {t.first(
                         [
                           `package/${crowdfundingName}/${pkg.name}/description`,
-                          `package/${pkg.name}/description`
+                          `package/${pkg.name}/description/short`
                         ]
                       )}
                     </p>

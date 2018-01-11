@@ -102,7 +102,6 @@ const styles = {
 }
 
 const MarketingPage = ({ me, t, crowdfundingName, data }) => (
-const MarketingPage = ({ me, t, crowdfundingName }) => (
   <div {...styles.container}>
     <Container {...styles.intro} key='intro'>
       <div

@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Button, P, Label, H2, H1, Loader } from '@project-r/styleguide'
+import { Button, InlineSpinner, P, Label, H2, H1, Loader } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
@@ -14,22 +14,31 @@ const goTo = (type, email) => Router.replaceRoute(
 )
 
 class TokenAuthorization extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+  authorize () {
+    const {
+      email,
+      authorize
+    } = this.props
+    this.setState({
+      authorizing: true
+    })
+    authorize()
+      .then(() => goTo('email-confirmed', email))
+      .catch(error => goTo('invalid-token', email, error))
+  }
   autoAutherize () {
     const {
       isCurrent,
       email,
-      authorize,
       error
     } = this.props
 
-    if (!this.pending && isCurrent) {
-      this.pending = authorize()
-        .then(() => {
-          goTo('email-confirmed', email)
-        })
-        .catch(error => {
-          goTo('invalid-token', email, error)
-        })
+    if (!this.state.authorizing && isCurrent) {
+      this.authorize()
     } else if (error) {
       goTo('invalid-token', email, error)
     }
@@ -46,8 +55,7 @@ class TokenAuthorization extends Component {
       unauthorizedSession,
       isCurrent,
       email,
-      error, loading,
-      authorize
+      error, loading
     } = this.props
 
     return (
@@ -69,9 +77,11 @@ class TokenAuthorization extends Component {
                 <Label>{userAgent}</Label>
               </div>
               <br />
-              <Button primary onClick={authorize}>
-                {t('notifications/authorization/button')}
-              </Button>
+              {this.state.authorizing
+                ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
+                : <Button primary onClick={() => this.authorize()}>
+                  {t('notifications/authorization/button')}
+                </Button>}
             </Fragment>
           )
         }} />

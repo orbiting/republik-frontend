@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T11:49:35.275Z",
+  "updated": "2018-01-11T15:10:34.945Z",
   "title": "live",
   "data": [
     {
@@ -2324,7 +2324,7 @@
     },
     {
       "key": "package/DONATE/description/short",
-      "value": null,
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3926,6 +3926,54 @@
       "key": "faq/form/merci/text",
       "value": "Sie lesen von uns.",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/title",
+      "value": "Sign-in Request",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/text",
+      "value": "Somebody wants to sign in at republik.ch with your e-mail address {email}. If that's not you, contact us at support@republik.ch",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location",
+      "value": "Origin",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location/unknown",
+      "value": "Unknown Location",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/device",
+      "value": "Device",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/button",
+      "value": "Authorize",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

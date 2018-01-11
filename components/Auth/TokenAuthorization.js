@@ -9,20 +9,41 @@ import { meQuery } from '../../lib/apollo/withMe'
 const TokenAuthorization = ({ t, unauthorizedSession, email, token, error, loading, requestInfo, authorize }) => {
   const { country, city, ipAddress, userAgent, countryFlag } = unauthorizedSession || {}
 
+  if (error) {
+    Router.replace({
+      pathname: '/notifications',
+      query: {
+        type: 'invalid-token',
+        emailFromQuery: email
+      }
+    })
+  }
+
   const { userAgent: reqUserAgent, ipAddress: reqIpAddress } = requestInfo
   const reqKey = `${reqUserAgent}${reqIpAddress}`
   const sessionKey = `${userAgent}${ipAddress}`
   const isSameDevice = (sessionKey === reqKey)
-  console.debug(reqKey, sessionKey, `same device: ${isSameDevice}`)
-  if (process.browser && isSameDevice && !error) {
-    authorize()
+  if (process.browser) {
+    console.debug(reqKey, sessionKey, `same device: ${isSameDevice}`)
+    if (error) {
+      Router.replace({
+        pathname: '/notifications',
+        query: {
+          type: 'invalid-token',
+          emailFromQuery: email
+        }
+      })
+    } else if (isSameDevice) {
+      // auto trigger token authorization
+      authorize()
+    }
   }
 
   return (
     <React.Fragment>
       <H1>{t('notifications/authorization/title')}</H1>
       <P>{t('notifications/authorization/text', { email })}</P>
-      <Loader loading={loading} error={error} />
+      <Loader loading={loading} />
       {(ipAddress && !isSameDevice) && (
         <React.Fragment>
           <div>

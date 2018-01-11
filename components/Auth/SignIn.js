@@ -12,7 +12,9 @@ import {
   InlineSpinner,
   Interaction,
   Field,
-  RawHtml
+  Label,
+  RawHtml,
+  colors
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -36,6 +38,9 @@ const styles = {
     minWidth: 140,
     maxWidth: 160,
     textAlign: 'center'
+  }),
+  hint: css({
+    color: colors.lightText
   })
 }
 
@@ -135,6 +140,7 @@ class SignIn extends Component {
               }}>{label || t('signIn/button')}</Button>}
           </div>
         </div>
+        <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>
     )

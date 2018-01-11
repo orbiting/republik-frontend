@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T14:34:23.493Z",
+  "updated": "2018-01-11T16:36:34.098Z",
   "title": "live",
   "data": [
     {
@@ -219,6 +219,14 @@
       "Bemerkung": null
     },
     {
+      "key": "signIn/hint",
+      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "signIn/success",
       "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)",
       "Clara ok": null,
@@ -285,14 +293,6 @@
     {
       "key": "me/signedOut",
       "value": "Sie sind nicht angemeldet",
-      "Clara ok": "x",
-      "Braucht Const": null,
-      "Korrektorat": null,
-      "Bemerkung": null
-    },
-    {
-      "key": "me/signedOut/hint",
-      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1803,6 +1803,14 @@
       "Bemerkung": "not now"
     },
     {
+      "key": "footer/shareholder",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "footer/legal/imprint",
       "value": "Impressum",
       "Clara ok": null,
@@ -2324,7 +2332,7 @@
     },
     {
       "key": "package/DONATE/description/short",
-      "value": null,
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3182,6 +3190,54 @@
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel.",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/pageTitle",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/title",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/description",
+      "value": "Aufteilung der Stimmen in der Republik AG",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/table/title",
+      "value": "Alle Aktionärinnen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact",
+      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact/email",
+      "value": "susanne.sugimoto@republik.ch",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

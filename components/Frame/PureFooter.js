@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
 import Router from 'next/router'
@@ -6,6 +6,7 @@ import track from '../../lib/piwik'
 import IconLink from '../IconLink'
 import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
 import { EMAIL_CONTACT } from '../../lib/constants'
+import { Link } from '../../lib/routes'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })

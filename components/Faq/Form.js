@@ -210,11 +210,11 @@ class QuestionForm extends Component {
             <div>
               <P>
                 <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
-                  phrase,
-                  email: values.email,
-                  signInLink: (
+                  phrase: <b key='phrase'>{phrase}</b>,
+                  email: <b key='email'>{values.email}</b>,
+                  link: (
                     <Link route='signin'>
-                      <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
+                      <a {...linkRule}>{t('signIn/polling/link')}</a>
                     </Link>
                   )
                 }} />

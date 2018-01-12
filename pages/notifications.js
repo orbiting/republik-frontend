@@ -11,6 +11,10 @@ import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
 
 import {
+  CURTAIN_MESSAGE
+} from '../lib/constants'
+
+import {
   Interaction, NarrowContainer, Logo, linkRule, RawHtml
 } from '@project-r/styleguide'
 
@@ -34,6 +38,8 @@ const styles = {
     marginBottom: 80
   })
 }
+
+const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
@@ -59,9 +65,12 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
       </Head>
       <NarrowContainer>
         <div {...styles.logo}>
-          <Link route='index'>
-            <a><Logo /></a>
-          </Link>
+          {hasCurtain
+            ? <Logo />
+            : <Link route='index'>
+              <a><Logo /></a>
+            </Link>
+          }
         </div>
         <div {...styles.text}>
           <H1>
@@ -85,7 +94,7 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
               <Me email={email} />
             </div>
           )}
-          {links.length > 0 && (
+          {!hasCurtain && links.length > 0 && (
             <P {...styles.link}>
               {intersperse(links.map((link, i) => (
                 <Link key={i} route={link.route} params={link.params}>

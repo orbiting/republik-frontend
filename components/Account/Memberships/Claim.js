@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import Loader from '../../Loader'
+import RawHtmlElements from '../../RawHtmlElements'
 import ErrorMessage from '../../ErrorMessage'
 import { gotoMerci } from '../../Pledge/Merci'
 
@@ -172,20 +173,16 @@ class ClaimMembership extends Component {
     if (polling) {
       return (
         <div>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t('signIn/polling', {
+          <P>
+            <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
               phrase,
-              email: values.email
-            })
-          }} />
-          <P key='link'>
-            {t.elements('signIn/polling/signInLink', {
+              email: values.email,
               signInLink: (
                 <Link route='signin'>
                   <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
                 </Link>
               )
-            })}
+            }} />
           </P>
           <Poller onSuccess={() => {
             this.setState(() => ({

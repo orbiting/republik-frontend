@@ -120,20 +120,20 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
   <Fragment>
     <div {...styles.container}>
       {me && (
-      <div {...styles.noMember} key='noMember'>
-        <Container style={{ maxWidth: MAX_WIDTH }}>
-          <Interaction.P>
-            {t.elements('marketing/noActiveMembership', {
-              link: (
-                <Link route='account'>
-                  <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
-                </Link>
-              )
-            })}
-          </Interaction.P>
-        </Container>
-      </div>
-    )}
+        <div {...styles.noMember}>
+          <Container style={{ maxWidth: MAX_WIDTH }}>
+            <Interaction.P>
+              {t.elements('marketing/noActiveMembership', {
+                link: (
+                  <Link route='account' key='account'>
+                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
+                  </Link>
+                )
+              })}
+            </Interaction.P>
+          </Container>
+        </div>
+      )}
       <Container {...styles.intro} key='intro'>
         {!me && (
         <div {...styles.cta}>

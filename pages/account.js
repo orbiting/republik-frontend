@@ -12,7 +12,7 @@ const AccountPage = ({ url, t }) => {
   }
   const postPledge = url.query.id || url.query.claim
   return (
-    <Frame url={url} meta={meta}>
+    <Frame url={url} meta={meta} raw>
       {postPledge
         ? <Merci query={url.query} />
         : <Account query={url.query} />}

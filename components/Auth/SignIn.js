@@ -70,7 +70,7 @@ class SignIn extends Component {
             phrase: <b key='phrase'>{phrase}</b>,
             email: <b key='email'>{email}</b>,
             link: (
-              <Link route='signin'>
+              <Link route='signin' key='signin'>
                 <a {...linkRule}>{t('signIn/polling/link')}</a>
               </Link>
             )

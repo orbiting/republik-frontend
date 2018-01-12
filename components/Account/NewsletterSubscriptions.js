@@ -154,7 +154,7 @@ export default compose(
   }),
   graphql(query, {
     props: ({ data }) => ({
-      loading: data.loading,
+      loading: data.loading || !data.me,
       error: data.error,
       me: data.loading ? undefined : data.me
     })

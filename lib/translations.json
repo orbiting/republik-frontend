@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-12T18:44:00.576Z",
+  "updated": "2018-01-12T19:48:42.583Z",
   "title": "live",
   "data": [
     {
@@ -779,6 +779,22 @@
       "Bemerkung": null
     },
     {
+      "key": "Account/Update/email/hint",
+      "value": "Wenn Sie Ihre E-Mail Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen Adresse anmelden. Das bedingt, dass Sie Zugang zum Posteingang der neuen E-Mail Adresse haben. ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/updating",
+      "value": "Neue E-Mail wird gespeichert ...",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "Account/noActiveMembership",
       "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n<br /><br />\nDanke für Ihre Mühe!",
       "Clara ok": "x",
@@ -1500,11 +1516,19 @@
     },
     {
       "key": "profile/preview/notEligible",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {link}",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in {link}.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": "achtung link!"
+    },
+    {
+      "key": "profile/preview/notEligible/link",
+      "value": "Ihrem Konto",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/username/label",

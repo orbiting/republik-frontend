@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { Fragment} from 'react'
 import { compose, graphql } from 'react-apollo'
 import { max } from 'd3-array'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
+import { Content, MainContainer } from '../Frame'
 import Loader from '../Loader'
+import UserGuidance from './UserGuidance'
 import UpdateMe from './UpdateMe'
 import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
@@ -29,39 +31,46 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
     render={() => {
       if (!me) {
         return (
-          <div>
-            <H1>{t('account/signedOut/title')}</H1>
-            <P>
-              {t('account/signedOut/signIn')}
-            </P>
-            <SignIn email={query.email} />
-          </div>
+          <MainContainer>
+            <Content>
+              <H1>{t('account/signedOut/title')}</H1>
+              <P>
+                {t('account/signedOut/signIn')}
+              </P>
+              <SignIn email={query.email} />
+            </Content>
+          </MainContainer>
         )
       }
 
       return (
-        <div>
-          {!merci && <H1>
-            {t('Account/title', {
-              nameOrEmail: me.name || me.email
-            })}
-          </H1>}
-          <MembershipList highlightId={query.id} />
+        <Fragment>
+          {!hasMemberships && <UserGuidance />}
+          <MainContainer>
+            <Content>
+              {!merci && <H1>
+                {t('Account/title', {
+                  nameOrEmail: me.name || me.email
+                })}
+              </H1>}
+              <MembershipList highlightId={query.id} />
 
-          {recurringAmount > 0 &&
-            <PaymentSources query={query} total={recurringAmount} />}
+              {recurringAmount > 0 &&
+                <PaymentSources query={query} total={recurringAmount} />}
 
-          <UpdateMe acceptedStatue={acceptedStatue} />
+              <UpdateMe acceptedStatue={acceptedStatue} />
 
-          {(hasPledges || !hasMemberships) && (
-            <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
-          )}
-          <PledgeList highlightId={query.id} />
-          <H2 style={{marginTop: 80}} id='newsletter'>
-            {t('account/newsletterSubscriptions/title')}
-          </H2>
-          <NewsletterSubscriptions />
-        </div>
+              {(hasPledges || !hasMemberships) && (
+                <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
+              )}
+              <PledgeList highlightId={query.id} />
+              <H2 style={{marginTop: 80}} id='newsletter'>
+                {t('account/newsletterSubscriptions/title')}
+              </H2>
+              <NewsletterSubscriptions />
+            </Content>
+          </MainContainer>
+        </Fragment>
       )
     }}
   />

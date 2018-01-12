@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import { css, merge } from 'glamor'
-import Router from 'next/router'
 import { compose } from 'react-apollo'
+
 import withMe from '../../lib/apollo/withMe'
+import { Router } from '../../lib/routes'
+
 import { Logo, colors, mediaQueries } from '@project-r/styleguide'
+
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
@@ -170,7 +173,8 @@ class Header extends Component {
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     // The logo acts as a toggle between front and feed page when user's logged in.
-    const logoLinkPath = url.pathname === '/' && me ? '/feed' : '/'
+    const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
+    const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
 
     return (
       <div ref={this.setRef}>
@@ -210,7 +214,7 @@ class Header extends Component {
                   if (url.pathname === '/' && !me) {
                     window.scrollTo(0, 0)
                   } else {
-                    Router.push(logoLinkPath).then(() => window.scrollTo(0, 0))
+                    Router.pushRoute(logoRoute).then(() => window.scrollTo(0, 0))
                   }
                 }}
               >

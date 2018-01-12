@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-12T14:00:57.233Z",
+  "updated": "2018-01-12T17:09:50.620Z",
   "title": "live",
   "data": [
     {
@@ -780,9 +780,113 @@
     },
     {
       "key": "Account/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n\n- Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben. <b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)\n\n- Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben. <b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)\n\n- Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. Folgen Sie diesem Link: {LinkPledge}\n\n- Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> Folgen Sie diesem Link: {LinkPledge}\n\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n\nDanke für Ihre Mühe!",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n<br /><br />\nDanke für Ihre Mühe!",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/before",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution",
+      "value": "Lösung:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue1",
+      "value": "Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution1",
+      "value": "{solution} Probieren Sie Ihre {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/signOutLink",
+      "value": "anderen E-Mail-Adressen hier",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue2",
+      "value": "Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution2",
+      "value": "{solution}  Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue3",
+      "value": "Sie haben noch kein Abonnement. ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution3",
+      "value": "{solution} Sie können in wenigen Minuten eines haben. {pledgeLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/pledgeLink",
+      "value": "Folgen Sie diesem Link",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue4",
+      "value": "Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution4",
+      "value": "{solution} {pledgeLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/after",
+      "value": "Danke für Ihre Mühe!",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -1892,7 +1996,7 @@
     },
     {
       "key": "footer/me/faq",
-      "value": "FAQ",
+      "value": "Fragen",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

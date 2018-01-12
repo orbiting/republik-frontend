@@ -45,7 +45,8 @@ app.prepare().then(() => {
       '/_webpack/',
       '/__webpack_hmr',
       '/static/',
-      '/manifest'
+      '/manifest',
+      '/mitteilung'
     ]
 
     server.use((req, res, next) => {

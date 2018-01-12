@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-12T00:53:55.971Z",
+  "updated": "2018-01-12T13:22:31.644Z",
   "title": "live",
   "data": [
     {
@@ -508,7 +508,15 @@
     },
     {
       "key": "marketing/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {AccountLink}",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in Ihrem {link}.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/noActiveMembership/link",
+      "value": "Konto",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { compose } from 'react-apollo'
-import Router from 'next/router'
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
 import Loader from '../components/Loader'
@@ -9,16 +8,17 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 import { Container } from '@project-r/styleguide'
+import { Router } from '../lib/routes'
 
 class SigninPage extends Component {
   componentDidUpdate () {
     const { isAuthorized, me } = this.props
     if (isAuthorized) {
-      Router.push('/')
+      Router.pushRoute('index')
       return
     }
     if (me) {
-      Router.push('/konto')
+      Router.pushRoute('account')
     }
   }
 

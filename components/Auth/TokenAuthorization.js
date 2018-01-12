@@ -162,6 +162,10 @@ export default compose(
         loading: data.loading,
         error: data.error
       }
+    },
+    options: {
+      // no server rendering for proper echo
+      ssr: false
     }
   })
 )(TokenAuthorization)

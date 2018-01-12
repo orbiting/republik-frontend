@@ -6,7 +6,7 @@ import {
   NarrowContainer, Logo, mediaQueries, fontStyles
 } from '@project-r/styleguide'
 
-import PureFooter, { SPACE } from '../components/Frame/PureFooter'
+import { SPACE } from '../components/Frame/PureFooter'
 
 import {
   PUBLIC_BASE_URL, CURTAIN_MESSAGE
@@ -42,11 +42,7 @@ const styles = {
     textAlign: 'center',
     ...fontStyles.sansSerifRegular21,
     padding: 10,
-    marginTop: 100,
-    marginBottom: -SPACE,
-    [mediaQueries.mUp]: {
-      marginTop: 200
-    }
+    marginTop: 40
   })
 }
 
@@ -81,8 +77,6 @@ export default ({url}) => {
           <div {...styles.message}>
             {CURTAIN_MESSAGE}
           </div>
-
-          <PureFooter inverted url={url} />
         </div>
       </NarrowContainer>
     </div>

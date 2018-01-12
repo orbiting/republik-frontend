@@ -3,10 +3,10 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
 import {max} from 'd3-array'
-import Router from 'next/router'
 
 import Meta from '../Frame/Meta'
 
+import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Play from '../VideoPlayer/Icons/Play'
@@ -434,9 +434,9 @@ class Container extends Component {
               // keep it around for the query
               clearedFocus: id
             }), () => {
-              Router.push(
-                '/community',
-                '/community',
+              Router.pushRoute(
+                'community',
+                {},
                 {shallow: true}
               )
             })

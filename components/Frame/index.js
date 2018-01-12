@@ -58,7 +58,8 @@ const Index = ({
   nav,
   cover,
   secondaryNav,
-  showSecondary
+  showSecondary,
+  headerInline
 }) => (
   <div {...styles.container}>
     <div
@@ -71,6 +72,7 @@ const Index = ({
         cover={cover}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
+        inline={headerInline}
       />
       {raw ? (
         children

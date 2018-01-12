@@ -3,16 +3,20 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
+import RawHtmlElements from '../RawHtmlElements'
 
 import {
   Button,
   InlineSpinner,
   Interaction,
   Field,
-  RawHtml
+  Label,
+  colors,
+  linkRule
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -36,6 +40,9 @@ const styles = {
     minWidth: 140,
     maxWidth: 160,
     textAlign: 'center'
+  }),
+  hint: css({
+    color: colors.lightText
   })
 }
 
@@ -58,12 +65,15 @@ class SignIn extends Component {
     } = this.state
     if (polling) {
       return (
-        <div>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t('signIn/polling', {
-              phrase,
-              email
-            })
+        <P>
+          <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
+            phrase: <b key='phrase'>{phrase}</b>,
+            email: <b key='email'>{email}</b>,
+            link: (
+              <Link route='signin' key='signin'>
+                <a {...linkRule}>{t('signIn/polling/link')}</a>
+              </Link>
+            )
           }} />
           <Poller onSuccess={(me, ms) => {
             this.setState(() => ({
@@ -74,7 +84,7 @@ class SignIn extends Component {
               })
             }))
           }} />
-        </div>
+        </P>
       )
     }
     if (success) {
@@ -135,6 +145,7 @@ class SignIn extends Component {
               }}>{label || t('signIn/button')}</Button>}
           </div>
         </div>
+        <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>
     )

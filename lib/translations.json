@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-10T16:16:21.941Z",
+  "updated": "2018-01-12T19:48:42.583Z",
   "title": "live",
   "data": [
     {
@@ -92,7 +92,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert",
+      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -219,6 +219,14 @@
       "Bemerkung": null
     },
     {
+      "key": "signIn/hint",
+      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "signIn/success",
       "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)",
       "Clara ok": null,
@@ -228,11 +236,19 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link.<br /><br />\n\nIn dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />  <b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: <b>{email}</b>\n<br /><br />\nSollte das der Fall sein, versuchen Sie es hier nochmal: {signInLink}.\n<br /><br />\nMerci!",
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "Braucht einen Link und saubere Formatierung"
+    },
+    {
+      "key": "signIn/polling/link",
+      "value": "hier nochmal",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "signIn/polling/short",
@@ -285,14 +301,6 @@
     {
       "key": "me/signedOut",
       "value": "Sie sind nicht angemeldet",
-      "Clara ok": "x",
-      "Braucht Const": null,
-      "Korrektorat": null,
-      "Bemerkung": null
-    },
-    {
-      "key": "me/signedOut/hint",
-      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -492,7 +500,15 @@
     },
     {
       "key": "marketing/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {AccountLink}",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in Ihrem {link}.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "marketing/noActiveMembership/link",
+      "value": "Konto",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -763,10 +779,130 @@
       "Bemerkung": null
     },
     {
+      "key": "Account/Update/email/hint",
+      "value": "Wenn Sie Ihre E-Mail Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen Adresse anmelden. Das bedingt, dass Sie Zugang zum Posteingang der neuen E-Mail Adresse haben. ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/updating",
+      "value": "Neue E-Mail wird gespeichert ...",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "Account/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n\n- Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben. <b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)\n\n- Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben. <b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)\n\n- Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. Folgen Sie diesem Link: {LinkPledge}\n\n- Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> Folgen Sie diesem Link: {LinkPledge}\n\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n\nDanke für Ihre Mühe!",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben:\n<br /><br />\n<ul>\n<li>Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.<br /><b>Lösung:</b> Probieren Sie Ihre anderen E-Mail-Adressen hier: {signInLink} (<b>Tipp:</b> mit grosser Wahrscheinlcihkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)</li>\n<li>Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.<br /><b>Lösung:</b> Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)</li>\n<li>Sie haben noch kein Abonnement. <b>Lösung:</b> Sie können in wenigen Minuten eines haben. {pledgeLink}<br />\n<li>Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement. <b>Lösung:</b> {pledgeLink}</li>\n</ul>\n<br /><br />\nLiegt Ihr Fall komplexer, dann melden Sie sich bei unserer Erste-Hilfe-Abteilung: kontakt@republik.ch. Wir werden versuchen, Ihnen so schnell wie möglich weiter zu helfen. \n<br /><br />\nDanke für Ihre Mühe!",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/before",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution",
+      "value": "Lösung:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue1",
+      "value": "Sie haben ein gültiges Abonnement. Aber Sie haben die falsche E-Mail-Adresse eingegeben. Der Computer erkennt nur das E-Mail, das Sie uns beim ersten Mal gegeben haben.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution1",
+      "value": "{solution} Melden Sie sich mit einer Ihrer {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/signOutLink",
+      "value": "anderen E-Mail-Adressen neu an",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue2",
+      "value": "Ihr Abonnement ist ausgelaufen. Wir freuen uns, Sie nach einer kurzen Pause wieder an Bord zu haben.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution2",
+      "value": "{solution}  Sie können das problemlos weiter unten auf dieser Seite tun. (Dort finden Sie auch alle Details zu Ihren früheren Abonnements.)",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue3",
+      "value": "Sie haben noch kein Abonnement. ",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution3",
+      "value": "{solution} Sie können in wenigen Minuten eines haben. {pledgeLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/pledgeLink",
+      "value": "Folgen Sie diesem Link",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/issue4",
+      "value": "Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender – das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/solution4",
+      "value": "{solution} {pledgeLink}",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/noActiveMembership/after",
+      "value": "Danke für Ihre Mühe!",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -927,6 +1063,14 @@
       "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
       "Clara ok": null,
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "account/newsletterSubscriptions/unsubscribed",
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können. Danach erhalten Sie wieder unsere Newsletter.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -1372,11 +1516,19 @@
     },
     {
       "key": "profile/preview/notEligible",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {link}",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in {link}.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": "achtung link!"
+    },
+    {
+      "key": "profile/preview/notEligible/link",
+      "value": "Ihrem Konto",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/username/label",
@@ -1795,6 +1947,14 @@
       "Bemerkung": "not now"
     },
     {
+      "key": "footer/shareholder",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "footer/legal/imprint",
       "value": "Impressum",
       "Clara ok": null,
@@ -1812,7 +1972,7 @@
     },
     {
       "key": "footer/me/title",
-      "value": "Ihr Profil",
+      "value": "Meine Republik",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1828,11 +1988,19 @@
     },
     {
       "key": "footer/me/signedIn",
-      "value": "Ihre persönliche Übersicht",
+      "value": "Konto",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/profile",
+      "value": "Profil",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/me/signOut",
@@ -1849,6 +2017,14 @@
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": "legacy?"
+    },
+    {
+      "key": "footer/me/faq",
+      "value": "Fragen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "footer/since",
@@ -2147,6 +2323,14 @@
       "Bemerkung": null
     },
     {
+      "key": "components/DiscussionPreferences/commentAnonymously/disclaimer",
+      "value": "Ihre Identität ist für administrative Zwecke nachvollziehbar. Whistleblowerin? Schreiben Sie der Redaktion auf Signal, eine PGP-Mail oder via der guten, alten Post.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "components/DiscussionPreferences/credentialLabel",
       "value": "Bezeichnung",
       "Clara ok": null,
@@ -2165,6 +2349,22 @@
     {
       "key": "components/DiscussionPreferences/loading",
       "value": "Loading…",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "components/DiscussionPreferences/explain",
+      "value": "Sie können hier einstellen wie Sie an dieser Diskussion teilnehmen wollen. Diese Einstellungen gelten für all Ihre Beiträge in dieser Diskussion.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "components/DiscussionPreferences/credentialAnonymityWarning",
+      "value": "Achtung: Diese Bezeichnung ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2300,7 +2500,7 @@
     },
     {
       "key": "package/DONATE/description/short",
-      "value": null,
+      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3163,6 +3363,54 @@
       "Bemerkung": null
     },
     {
+      "key": "shareholder/pageTitle",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/title",
+      "value": "Aktionariat",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/description",
+      "value": "Aufteilung der Stimmen in der Republik AG",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/table/title",
+      "value": "Alle Aktionärinnen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact",
+      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "shareholder/contact/email",
+      "value": "susanne.sugimoto@republik.ch",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "format/feed/title/1",
       "value": "Ein Beitrag",
       "Clara ok": null,
@@ -3902,6 +4150,70 @@
       "key": "faq/form/merci/text",
       "value": "Sie lesen von uns.",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/title",
+      "value": "Bestätigen Sie Ihre Anmeldung",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/text/before",
+      "value": "Folgendes Gerät möchte Zugriff auf Ihr Republik-Konto ({email}):",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/text/after",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich an kontakt@republik.ch.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location",
+      "value": "Standort",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/location/unknown",
+      "value": "Unbekannt",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/device",
+      "value": "Gerät",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/button",
+      "value": "Zugriff erteilen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/ip",
+      "value": "IP-Adresse",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

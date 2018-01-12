@@ -8,6 +8,11 @@ import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
 
 import Me from '../components/Auth/Me'
+import TokenAuthorization from '../components/Auth/TokenAuthorization'
+
+import {
+  CURTAIN_MESSAGE
+} from '../lib/constants'
 
 import {
   Interaction, NarrowContainer, Logo, linkRule, RawHtml
@@ -34,15 +39,23 @@ const styles = {
   })
 }
 
+const hasCurtain = !!CURTAIN_MESSAGE
+
 const {H1, P} = Interaction
 
-export default withData(withT(({url: {query: {type, context, email}}, t}) => {
+const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
       label: t('notifications/links/merci')
     }
   ].filter(Boolean)
+
+  const displayTokenAuthorization = type === 'token-authorization'
+  const displayMe = (
+    type === 'invalid-token' &&
+    (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
+  )
 
   return (
     <div>
@@ -52,39 +65,50 @@ export default withData(withT(({url: {query: {type, context, email}}, t}) => {
       </Head>
       <NarrowContainer>
         <div {...styles.logo}>
-          <Link route='index'>
-            <a><Logo /></a>
-          </Link>
+          {hasCurtain
+            ? <Logo />
+            : <Link route='index'>
+              <a><Logo /></a>
+            </Link>
+          }
         </div>
         <div {...styles.text}>
           <H1>
             {t(`notifications/${type}/title`, undefined, '')}
           </H1>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t(`notifications/${type}/text`, undefined, '')
-          }} />
-          {(
-            type === 'invalid-token' &&
-            (
-              context === 'signIn' ||
-              context === 'pledge'
+          {displayTokenAuthorization
+            ? (
+              <div {...styles.me}>
+                <TokenAuthorization
+                  email={email}
+                  token={token}
+                />
+              </div>
             )
-          ) && (
+            : <RawHtml type={P} dangerouslySetInnerHTML={{
+              __html: t(`notifications/${type}/text`, undefined, '')
+            }} />
+          }
+          {displayMe && (
             <div {...styles.me}>
               <Me email={email} />
             </div>
           )}
-          {links.length > 0 && <P {...styles.link}>
-            {intersperse(links.map((link, i) => (
-              <Link key={i} route={link.route} params={link.params}>
-                <a {...linkRule}>
-                  {link.label}
-                </a>
-              </Link>
-            )), () => ' – ')}
-          </P>}
+          {!hasCurtain && links.length > 0 && (
+            <P {...styles.link}>
+              {intersperse(links.map((link, i) => (
+                <Link key={i} route={link.route} params={link.params}>
+                  <a {...linkRule}>
+                    {link.label}
+                  </a>
+                </Link>
+              )), () => ' – ')}
+            </P>
+          )}
         </div>
       </NarrowContainer>
     </div>
   )
-}))
+})
+
+export default withData(Page)

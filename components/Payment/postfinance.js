@@ -39,19 +39,19 @@ export const getParams = ({
     },
     {
       key: 'ACCEPTURL',
-      value: `${PUBLIC_BASE_URL}/pledge`
+      value: `${PUBLIC_BASE_URL}/angebote`
     },
     {
       key: 'EXCEPTIONURL',
-      value: `${PUBLIC_BASE_URL}/pledge`
+      value: `${PUBLIC_BASE_URL}/angebote`
     },
     {
       key: 'DECLINEURL',
-      value: `${PUBLIC_BASE_URL}/pledge`
+      value: `${PUBLIC_BASE_URL}/angebote`
     },
     {
       key: 'CANCELURL',
-      value: `${PUBLIC_BASE_URL}/pledge`
+      value: `${PUBLIC_BASE_URL}/angebote`
     },
     {
       key: 'USERID',

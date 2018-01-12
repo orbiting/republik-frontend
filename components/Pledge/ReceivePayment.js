@@ -267,10 +267,10 @@ class PledgeReceivePayment extends Component {
     //   return
     // }
     // const url = {
-    //   pathname: '/pledge',
-    //   query: this.queryFromPledge()
+    //   route: '/angebote',
+    //   params: this.queryFromPledge()
     // }
-    // Router.replace(url, url, {shallow: true})
+    // Router.replaceRoute(route, params, {shallow: true})
 
     const {action} = this.state
     if (action) {

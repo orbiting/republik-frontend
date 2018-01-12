@@ -45,20 +45,25 @@ class NewsletterSubscriptions extends Component {
         error={error}
         ErrorContainer={ErrorContainer}
         render={() => {
-          const newsletters = me.newsletters
+          const { subscriptions, status } = me.newsletterSettings
           const { mutating } = this.state
-          const hasNonEligibleSubscription = newsletters.some(
+          const hasNonEligibleSubscription = subscriptions.some(
             newsletter => !newsletter.isEligible
           )
 
           return (
             <Fragment>
+              {status !== 'subscribed' && (
+                <Box style={{ margin: '10px 0', padding: 15 }}>
+                  <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+                </Box>
+              )}
               {hasNonEligibleSubscription && (
-                <Box style={{ padding: 15 }}>
+                <Box style={{ margin: '10px 0', padding: 15 }}>
                   <P>{t('account/newsletterSubscriptions/noMembership')}</P>
                 </Box>
               )}
-              {newsletters.map(({ name, subscribed, isEligible }) => (
+              {subscriptions.map(({ name, subscribed, isEligible }) => (
                 <p key={name}>
                   <Checkbox
                     checked={subscribed}
@@ -80,7 +85,8 @@ class NewsletterSubscriptions extends Component {
                       }
                       updateNewsletterSubscription({
                         name,
-                        subscribed: checked
+                        subscribed: checked,
+                        status
                       }).then(finish)
                     }}
                   >
@@ -105,8 +111,9 @@ const mutation = gql`
   mutation updateNewsletterSubscription(
     $name: NewsletterName!
     $subscribed: Boolean!
+    $status: String!
   ) {
-    updateNewsletterSubscription(name: $name, subscribed: $subscribed) {
+    updateNewsletterSubscription(name: $name, subscribed: $subscribed, status: $status) {
       id
       name
       subscribed
@@ -116,14 +123,17 @@ const mutation = gql`
 `
 
 const query = gql`
-  query myNewsletterSubscriptions {
+  query myNewsletterSettings {
     me {
       id
-      newsletters {
-        id
-        name
-        subscribed
-        isEligible
+      newsletterSettings {
+        status
+        subscriptions {
+          id
+          name
+          subscribed
+          isEligible
+        }
       }
     }
   }
@@ -132,18 +142,19 @@ const query = gql`
 export default compose(
   graphql(mutation, {
     props: ({ mutate }) => ({
-      updateNewsletterSubscription: ({ name, subscribed }) =>
+      updateNewsletterSubscription: ({ name, subscribed, status }) =>
         mutate({
           variables: {
             name,
-            subscribed
+            subscribed,
+            status
           }
         })
     })
   }),
   graphql(query, {
     props: ({ data }) => ({
-      loading: data.loading,
+      loading: data.loading || !data.me,
       error: data.error,
       me: data.loading ? undefined : data.me
     })

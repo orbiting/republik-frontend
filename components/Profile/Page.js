@@ -299,12 +299,20 @@ class Profile extends Component {
                 {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
-                        __html: t(user.isEligibleForProfile
-                          ? 'profile/preview'
-                          : 'profile/preview/notEligible'
-                        )
-                      }} />
+                      {user.isEligibleForProfile &&
+                        <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
+                          __html: t('profile/preview')
+                        }} />}
+                      {!user.isEligibleForProfile && <Interaction.P>
+                        {t.elements('profile/preview/notEligible',
+                          {
+                            link: (
+                              <Link route='account' key='account'>
+                                <a {...linkRule}>{t('profile/preview/notEligible/link')}</a>
+                              </Link>
+                            )
+                          }
+                        )}</Interaction.P>}
                     </MainContainer>
                   </Box>
                 )}

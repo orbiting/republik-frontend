@@ -10,7 +10,9 @@ import {
   OverlayToolbar,
   OverlayToolbarClose,
   OverlayToolbarConfirm,
-  OverlayBody
+  OverlayBody,
+  Interaction,
+  Label
 } from '@project-r/styleguide'
 import Loader from '../Loader'
 import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
@@ -129,6 +131,9 @@ class DiscussionPreferencesEditor extends PureComponent {
       })
     }
 
+    const existingCredential = credentials.find(c => c.description === this.state.credential)
+    const isListedCredential = existingCredential && existingCredential.isListed
+
     return (
       <div>
         <OverlayToolbar>
@@ -137,15 +142,20 @@ class DiscussionPreferencesEditor extends PureComponent {
         </OverlayToolbar>
 
         <OverlayBody>
-          <div style={{marginBottom: 12}}>
+          <Interaction.P>
+            {t('components/DiscussionPreferences/explain')}
+          </Interaction.P>
+          <br />
+          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && <div style={{marginBottom: 12}}>
             <Checkbox
               disabled={anonymity.disabled}
               checked={anonymity.value}
-              onChange={this.onChangeAnonymity}
-            >
+              onChange={this.onChangeAnonymity}>
               {t('components/DiscussionPreferences/commentAnonymously')}
             </Checkbox>
-          </div>
+            <br style={{clear: 'both'}} />
+            <Label>{t('components/DiscussionPreferences/commentAnonymously/disclaimer')}</Label>
+          </div>}
 
           <Dropdown
             label={t('components/DiscussionPreferences/credentialLabel')}
@@ -161,6 +171,9 @@ class DiscussionPreferencesEditor extends PureComponent {
             value={this.state.credential}
             onChange={(_, value) => { this.setState({credential: value}) }}
           />
+          {isListedCredential && this.state.anonymity && (
+            <Label>{t('components/DiscussionPreferences/credentialAnonymityWarning')}</Label>
+          )}
         </OverlayBody>
       </div>
     )

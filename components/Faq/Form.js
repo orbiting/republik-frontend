@@ -4,18 +4,20 @@ import gql from 'graphql-tag'
 import {validate as isEmail} from 'email-validator'
 import AutosizeInput from 'react-textarea-autosize'
 
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
 import {withSignOut} from '../Auth/SignOut'
 import {withSignIn} from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
+import RawHtmlElements from '../RawHtmlElements'
 import FieldSet, {styles as fieldSetStyles} from '../FieldSet'
 
 import Poller from '../Auth/Poller'
 
 import {
-  Interaction, RawHtml, InlineSpinner, Field, Button, A
+  Interaction, InlineSpinner, Field, Button, A, linkRule
 } from '@project-r/styleguide'
 
 import {H2} from './List'
@@ -206,12 +208,17 @@ class QuestionForm extends Component {
 
           {!!polling && (
             <div>
-              <RawHtml type={P} dangerouslySetInnerHTML={{
-                __html: t('signIn/polling', {
-                  phrase,
-                  email: values.email
-                })
-              }} />
+              <P>
+                <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
+                  phrase: <b key='phrase'>{phrase}</b>,
+                  email: <b key='email'>{values.email}</b>,
+                  link: (
+                    <Link route='signin'>
+                      <a {...linkRule}>{t('signIn/polling/link')}</a>
+                    </Link>
+                  )
+                }} />
+              </P>
               <Poller onSuccess={() => {
                 this.setState(() => ({
                   polling: false

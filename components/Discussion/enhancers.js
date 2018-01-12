@@ -532,6 +532,8 @@ query discussionPreferences($discussionId: ID!) {
     id
     credentials {
       description
+      verified
+      isListed
     }
   }
   discussion(id: $discussionId) {

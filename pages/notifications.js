@@ -37,7 +37,7 @@ const styles = {
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query: { type, context, email, token } }, t, requestInfo }) => {
+const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
@@ -46,7 +46,7 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t, reques
   ].filter(Boolean)
 
   const displayTokenAuthorization = type === 'token-authorization'
-  const displayMe = displayTokenAuthorization || (
+  const displayMe = (
     type === 'invalid-token' &&
     (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
   )
@@ -73,7 +73,6 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t, reques
                 <TokenAuthorization
                   email={email}
                   token={token}
-                  requestInfo={requestInfo}
                 />
               </div>
             )
@@ -102,20 +101,5 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t, reques
     </div>
   )
 })
-
-Page.getInitialProps = ({ req }) => {
-  if (!req) {
-    return {}
-  }
-  // we need this information to authorize sessions
-  const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
-  return {
-    requestInfo: {
-      userAgent: req.headers['user-agent'],
-      ipAddress
-    }
-  }
-}
 
 export default withData(Page)

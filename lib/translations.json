@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-11T17:38:34.578Z",
+  "updated": "2018-01-12T00:53:55.971Z",
   "title": "live",
   "data": [
     {
@@ -4004,15 +4004,23 @@
     },
     {
       "key": "notifications/authorization/title",
-      "value": "Sign-in Request",
+      "value": "Bestätigen Sie Ihre Anmeldung",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
     {
-      "key": "notifications/authorization/text",
-      "value": "Somebody wants to sign in at republik.ch with your e-mail address {email}. If that's not you, contact us at support@republik.ch",
+      "key": "notifications/authorization/text/before",
+      "value": "Folgendes Gerät möchte Zugriff auf Ihr Republik-Konto ({email}):",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/text/after",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich an kontakt@republik.ch.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -4020,7 +4028,7 @@
     },
     {
       "key": "notifications/authorization/location",
-      "value": "Origin",
+      "value": "Standort",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -4028,7 +4036,7 @@
     },
     {
       "key": "notifications/authorization/location/unknown",
-      "value": "Unknown Location",
+      "value": "Unbekannt",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -4036,7 +4044,7 @@
     },
     {
       "key": "notifications/authorization/device",
-      "value": "Device",
+      "value": "Gerät",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -4044,7 +4052,15 @@
     },
     {
       "key": "notifications/authorization/button",
-      "value": "Authorize",
+      "value": "Zugriff erteilen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "notifications/authorization/ip",
+      "value": "IP-Adresse",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

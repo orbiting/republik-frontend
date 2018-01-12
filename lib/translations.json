@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-12T17:09:50.620Z",
+  "updated": "2018-01-12T20:05:08.682Z",
   "title": "live",
   "data": [
     {
@@ -756,7 +756,7 @@
     },
     {
       "key": "Account/Update/submit",
-      "value": "Speichern",
+      "value": "speichern",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -773,6 +773,86 @@
     {
       "key": "Account/Update/edit",
       "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "api/email/change/exists",
+      "value": "Diese E-Mail Adresse existiert bereits.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/edit",
+      "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/cancel",
+      "value": "abbrechen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/submit",
+      "value": "speichern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/confirm",
+      "value": "Sind Sie sicher, dass die neue Adresse für Ihr Republik-Konto {email} lauten soll?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/hint",
+      "value": "Bitte beachten Sie, dass wenn Sie Ihre E-Mail Adresse ändern, Sie auf allen Geräten abgemeldet werden und sich danach ausschliesslich mit der neuen Adresse anmelden können .",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/error/invalid",
+      "value": "Das ist keine gültige E-Mail Adresse",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/empty",
+      "value": "Keine E-Mail Adresse ist doch jetzt auch keine Lösung.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/label",
+      "value": "E-Mail",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/updating",
+      "value": "Neue E-Mail wird gespeichert ...",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -812,7 +892,7 @@
     },
     {
       "key": "Account/noActiveMembership/solution1",
-      "value": "{solution} Probieren Sie Ihre {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse auf der Sie auch unseren Newsletter erhalten.)",
+      "value": "{solution} Melden Sie sich mit einer Ihrer {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -820,7 +900,7 @@
     },
     {
       "key": "Account/noActiveMembership/signOutLink",
-      "value": "anderen E-Mail-Adressen hier",
+      "value": "anderen E-Mail-Adressen neu an",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -868,7 +948,7 @@
     },
     {
       "key": "Account/noActiveMembership/issue4",
-      "value": "Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender - das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement.",
+      "value": "Sie sind bei uns dabei. Aber ausschliesslich als Spenderin oder Spender – das freut uns. Aber um uns zu lesen, brauchen Sie zusätzlich noch ein reguläres Abonnement.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1500,11 +1580,19 @@
     },
     {
       "key": "profile/preview/notEligible",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie hier: {link}",
+      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in {link}.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
       "Bemerkung": "achtung link!"
+    },
+    {
+      "key": "profile/preview/notEligible/link",
+      "value": "Ihrem Konto",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
     },
     {
       "key": "profile/username/label",
@@ -2299,6 +2387,14 @@
       "Bemerkung": null
     },
     {
+      "key": "components/DiscussionPreferences/commentAnonymously/disclaimer",
+      "value": "Ihre Identität ist für administrative Zwecke nachvollziehbar. Whistleblowerin? Schreiben Sie der Redaktion auf Signal, eine PGP-Mail oder via der guten, alten Post.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "components/DiscussionPreferences/credentialLabel",
       "value": "Bezeichnung",
       "Clara ok": null,
@@ -2317,6 +2413,22 @@
     {
       "key": "components/DiscussionPreferences/loading",
       "value": "Loading…",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "components/DiscussionPreferences/explain",
+      "value": "Sie können hier einstellen wie Sie an dieser Diskussion teilnehmen wollen. Diese Einstellungen gelten für all Ihre Beiträge in dieser Diskussion.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "components/DiscussionPreferences/credentialAnonymityWarning",
+      "value": "Achtung: Diese Bezeichnung ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

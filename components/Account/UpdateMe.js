@@ -186,15 +186,26 @@ class UpdateMe extends Component {
     return (
       <Loader loading={loading || !me} error={error} render={() => {
         if (isEditingEmail) {
+          if (updating) {
+            return (
+              <div style={{textAlign: 'center'}}>
+                <InlineSpinner />
+                <br />
+                {t('Account/Update/email/updating')}
+              </div>
+            )
+          }
           return (
             <div style={style}>
               <div>
                 <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
-                <P>{t('Account/Update/email/new/hint')}</P>
+                <P>{t('Account/Update/email/hint')}</P>
+                <br />
+                <br />
                 <Field
                   name='email'
                   type='email'
-                  label={t('Account/Update/email/new/label')}
+                  label={t('Account/Update/email/label')}
                   error={errors.email}
                   onChange={(_, value, shouldValidate) => {
                     this.setState(() => ({
@@ -202,8 +213,8 @@ class UpdateMe extends Component {
                         email: value
                       },
                       errors: {
-                        email: (value.trim().length <= 0 && t('Account/Update/email/new/empty')) ||
-                              (!isEmail(value) && t('Account/Update/email/new/error/invalid'))
+                        email: (value.trim().length <= 0 && t('Account/Update/email/empty')) ||
+                              (!isEmail(value) && t('Account/Update/email/error/invalid'))
                       },
                       dirty: {
                         email: shouldValidate
@@ -213,7 +224,7 @@ class UpdateMe extends Component {
                   value={values.email} />
 
                 <Button disabled={!!errors.email} onClick={() => {
-                  if (!window.confirm(t('Account/Update/email/new/confirm', { email: values.email }))) {
+                  if (!window.confirm(t('Account/Update/email/confirm', { email: values.email }))) {
                     return
                   }
                   if (errorMessages.length) {
@@ -246,7 +257,7 @@ class UpdateMe extends Component {
                       }
                     }))
                   })
-                }}>{t('Account/Update/email/new/submit')}</Button>
+                }}>{t('Account/Update/email/submit')}</Button>
                 <CancelLink
                   onClick={e => {
                     e.preventDefault()
@@ -265,6 +276,24 @@ class UpdateMe extends Component {
             {!isEditing ? (
               <div>
                 <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
+                {!isEditingEmail &&
+                  <Fragment>
+                    <P>
+                      <Label key='birthday'>{t('Account/Update/email/label')}</Label><br />
+                      {me.email}
+                    </P>
+                    <br />
+                    <A href='#' onClick={(e) => {
+                      e.preventDefault()
+                      this.startEditingEmail()
+                    }}>
+                      {t('Account/Update/email/edit')}
+                    </A>
+                    <br />
+                    <br />
+                    <br />
+                  </Fragment>
+                }
                 <P>
                   {intersperse(
                   [
@@ -274,21 +303,6 @@ class UpdateMe extends Component {
                   (_, i) => <br key={i} />
                 )}
                 </P>
-                {!isEditingEmail &&
-                <Fragment>
-                  <P>
-                    <Label key='birthday'>{t('Account/Update/email/label')}</Label><br />
-                    {me.email}
-                  </P>
-                  <A href='#' onClick={(e) => {
-                    e.preventDefault()
-                    this.startEditingEmail()
-                  }}>
-                    {t('Account/Update/email/edit')}
-                  </A>
-                  <br />
-                </Fragment>
-              }
                 {!!me.birthday && <P>
                   <Label key='birthday'>{t('Account/Update/birthday/label')}</Label><br />
                   {me.birthday}

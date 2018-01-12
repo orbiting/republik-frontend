@@ -1,16 +1,17 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {intersperse} from '../../lib/utils/helpers'
 import Loader from '../Loader'
 import {errorToString} from '../../lib/utils/errors'
 import {swissTime} from '../../lib/utils/format'
+import {validate as isEmail} from 'email-validator'
 
 import withT from '../../lib/withT'
 import AddressForm, {COUNTRIES, fields as addressFields} from './AddressForm'
 
 import {
-  InlineSpinner, Interaction, Label, Button, A, colors
+  InlineSpinner, Interaction, Label, Button, A, colors, Field
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
@@ -89,10 +90,26 @@ const getValues = (me) => {
   }
 }
 
+const getEmailValues = me => ({
+  email: me.email
+})
+
+const CancelLink = ({children, onClick, ...props}) =>
+  <A
+    onClick={(e) => {
+      e.preventDefault()
+      onClick(e)
+    }}
+    {...props}
+    style={{display: 'block', marginTop: 5, cursor: 'pointer'}}>
+    {children}
+  </A>
+
 class UpdateMe extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isEditingEmail: false,
       isEditing: false,
       showErrors: false,
       values: {
@@ -111,6 +128,22 @@ class UpdateMe extends Component {
         ...getValues(me)
       }
     }))
+  }
+  startEditingEmail () {
+    const {me} = this.props
+    this.setState((state) => ({
+      isEditingEmail: true,
+      values: {
+        ...state.values,
+        ...getEmailValues(me)
+      }
+    }))
+  }
+  cancelEditing () {
+    this.setState({
+      isEditing: false,
+      isEditingEmail: false
+    })
   }
   autoEdit () {
     if (this.props.me && !this.checked) {
@@ -144,37 +177,127 @@ class UpdateMe extends Component {
     } = this.props
     const {
       values, dirty, errors,
-      updating, isEditing
+      updating, isEditing, isEditingEmail
     } = this.state
 
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
       .filter(Boolean)
-
     return (
-      <Loader loading={loading || !me} error={error} render={() => (
-        <div style={style}>
-          {!isEditing ? (
-            <div>
-              <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
-              <P>
-                {intersperse(
+      <Loader loading={loading || !me} error={error} render={() => {
+        if (isEditingEmail) {
+          return (
+            <div style={style}>
+              <div>
+                <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
+                <P>{t('Account/Update/email/new/hint')}</P>
+                <Field
+                  name='email'
+                  type='email'
+                  label={t('Account/Update/email/new/label')}
+                  error={errors.email}
+                  onChange={(_, value, shouldValidate) => {
+                    this.setState(() => ({
+                      values: {
+                        email: value
+                      },
+                      errors: {
+                        email: (value.trim().length <= 0 && t('Account/Update/email/new/empty')) ||
+                              (!isEmail(value) && t('Account/Update/email/new/error/invalid'))
+                      },
+                      dirty: {
+                        email: shouldValidate
+                      }
+                    }))
+                  }}
+                  value={values.email} />
+
+                <Button disabled={!!errors.email} onClick={() => {
+                  if (!window.confirm(t('Account/Update/email/new/confirm', { email: values.email }))) {
+                    return
+                  }
+                  if (errorMessages.length) {
+                    this.setState((state) => Object.keys(state.errors).reduce(
+                        (nextState, key) => {
+                          nextState.dirty[key] = true
+                          return nextState
+                        },
+                      {
+                        showErrors: true,
+                        dirty: {}
+                      }
+                      ))
+                    return
+                  }
+                  this.setState(() => ({updating: true}))
+                  this.props.updateEmail({
+                    email: values.email,
+                    userId: me.id
+                  }).then(() => {
+                    this.setState(() => ({
+                      updating: false,
+                      isEditingEmail: false
+                    }))
+                  }).catch((error) => {
+                    this.setState(() => ({
+                      updating: false,
+                      errors: {
+                        email: errorToString(error)
+                      }
+                    }))
+                  })
+                }}>{t('Account/Update/email/new/submit')}</Button>
+                <CancelLink
+                  onClick={e => {
+                    e.preventDefault()
+                    this.cancelEditing()
+                  }}
+                >
+                  {t('Account/Update/cancel')}
+                </CancelLink>
+              </div>
+            </div>
+          )
+        }
+
+        return (
+          <div style={style}>
+            {!isEditing ? (
+              <div>
+                <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
+                <P>
+                  {intersperse(
                   [
                     me.name,
                     me.phoneNumber
                   ].filter(Boolean),
                   (_, i) => <br key={i} />
                 )}
-              </P>
-              {!!me.birthday && <P>
-                <Label key='birthday'>{t('Account/Update/birthday/label')}</Label><br />
-                {me.birthday}
-              </P>}
-              <P>
-                <Label>{t('Account/Update/address/label')}</Label><br />
-              </P>
-              <P>
-                {!!me.address && intersperse(
+                </P>
+                {!isEditingEmail &&
+                <Fragment>
+                  <P>
+                    <Label key='birthday'>{t('Account/Update/email/label')}</Label><br />
+                    {me.email}
+                  </P>
+                  <A href='#' onClick={(e) => {
+                    e.preventDefault()
+                    this.startEditingEmail()
+                  }}>
+                    {t('Account/Update/email/edit')}
+                  </A>
+                  <br />
+                </Fragment>
+              }
+                {!!me.birthday && <P>
+                  <Label key='birthday'>{t('Account/Update/birthday/label')}</Label><br />
+                  {me.birthday}
+                </P>}
+                <P>
+                  <Label>{t('Account/Update/address/label')}</Label><br />
+                </P>
+                <P>
+                  {!!me.address && intersperse(
                   [
                     me.address.name,
                     me.address.line1,
@@ -184,18 +307,19 @@ class UpdateMe extends Component {
                   ].filter(Boolean),
                   (_, i) => <br key={i} />
                 )}
-              </P>
-              <br />
-              <A href='#' onClick={(e) => {
-                e.preventDefault()
-                this.startEditing()
-              }}>{t('Account/Update/edit')}</A>
-            </div>
+                </P>
+                <br />
+                <A href='#' onClick={(e) => {
+                  e.preventDefault()
+                  this.startEditing()
+                }}>{t('Account/Update/edit')}</A>
+              </div>
           ) : (
             <div>
               <H2>{t('Account/Update/title')}</H2>
               <br />
               <FieldSet
+
                 values={values}
                 errors={errors}
                 dirty={dirty}
@@ -284,13 +408,22 @@ class UpdateMe extends Component {
                         }))
                       })
                     }}>{t('Account/Update/submit')}</Button>
+                    <CancelLink
+                      onClick={e => {
+                        e.preventDefault()
+                        this.cancelEditing()
+                      }}
+                    >
+                      {t('Account/Update/cancel')}
+                    </CancelLink>
                   </div>
                 </div>
               )}
             </div>
           )}
-        </div>
-      )} />
+          </div>
+        )
+      }} />
     )
   }
 }
@@ -300,6 +433,20 @@ const mutation = gql`mutation updateMe($birthday: Date, $firstName: String!, $la
     id
   }
 }`
+
+const emailMutation = gql`
+  mutation updateEmail(
+    $userId: ID!
+    $email: String!
+  ) {
+    updateEmail(
+      userId: $userId
+      email: $email
+    ) {
+      id
+    }
+  }
+`
 export const query = gql`
   query myAddress {
     me {
@@ -331,6 +478,18 @@ export default compose(
           query
         }]
       })
+    })
+  }),
+  graphql(emailMutation, {
+    props: ({mutate}) => ({
+      updateEmail: variables => {
+        return mutate({
+          variables,
+          refetchQueries: [{
+            query
+          }]
+        })
+      }
     })
   }),
   graphql(query, {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment} from 'react'
 import { Link } from '../../lib/routes'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -16,6 +16,7 @@ import {
   P,
   RawHtml,
   colors,
+  linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -33,12 +34,16 @@ const styles = {
     marginBottom: 44,
     '& > button': {
       display: 'block',
-      marginBottom: 20
+      marginBottom: 20,
+      width: '100%'
     },
     [mediaQueries.mUp]: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginBottom: 90
+      marginBottom: 90,
+      '& > button': {
+        width: '49%'
+      }
     }
   }),
   intro: css({
@@ -63,6 +68,16 @@ const styles = {
     [mediaQueries.mUp]: {
       fontSize: '60px',
       lineHeight: '72px'
+    }
+  }),
+  noMember: css({
+    backgroundColor: colors.primaryBg,
+    textAlign: 'center',
+    padding: '18px 0',
+    marginBottom: '30px',
+    [mediaQueries.mUp]: {
+      padding: '30px 0',
+      marginBottom: '60px'
     }
   }),
   join: css({
@@ -102,72 +117,85 @@ const styles = {
 }
 
 const MarketingPage = ({ me, t, crowdfundingName, data }) => (
-  <div {...styles.container}>
-    <Container {...styles.intro} key='intro'>
-      <div
-        {...css(styles.cta, {
-          [mediaQueries.mUp]: { '& > button': { width: me ? '100%' : '49%' } }
-        })}
-      >
+  <Fragment>
+    <div {...styles.container}>
+      {me && (
+        <div {...styles.noMember}>
+          <Container style={{ maxWidth: MAX_WIDTH }}>
+            <Interaction.P>
+              {t.elements('marketing/noActiveMembership', {
+                link: (
+                  <Link route='account' key='account'>
+                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
+                  </Link>
+                )
+              })}
+            </Interaction.P>
+          </Container>
+        </div>
+      )}
+      <Container {...styles.intro} key='intro'>
         {!me && (
+        <div {...styles.cta}>
           <Link route='signin'>
-            <Button block>{t('marketing/signin/button/label')}</Button>
+            <Button>{t('marketing/signin/button/label')}</Button>
           </Link>
-        )}
-        <Link route='pledge' params={{package: 'ABO'}}>
-          <Button primary block>
-            {t('marketing/join/button/label')}
-          </Button>
-        </Link>
-      </div>
-      <Interaction.H1 {...css(styles.headline, { marginBottom: '30px', textAlign: 'center' })}>
-        {t('marketing/headline')}
-      </Interaction.H1>
-      <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-        <P {...styles.text}>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('marketing/intro', {count: countFormat(data.membershipStats.count)})
-            }}
-          />
-        </P>
-      )} />
-    </Container>
-    <div {...styles.join} key='join'>
-      <Container style={{ maxWidth: MAX_WIDTH }}>
-        <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
-          {t('marketing/cta/title')}
-        </Interaction.P>
-        <Interaction.H1 {...css(styles.headline, { color: colors.primary })}>
-          {t('marketing/cta/subtitle')}
+          <Link route='pledge' params={{package: 'ABO'}}>
+            <Button primary>
+              {t('marketing/join/button/label')}
+            </Button>
+          </Link>
+        </div>
+      )}
+        <Interaction.H1 {...css(styles.headline, { marginBottom: '30px', textAlign: 'center' })}>
+          {t('marketing/headline')}
         </Interaction.H1>
-        <Interaction.P {...css(styles.text, styles.joinText)}>
-          {t('marketing/cta/text')}
-        </Interaction.P>
-        <Link route='pledge' params={{package: 'ABO'}}>
-          <Button primary block>
-            {t('marketing/cta/button/label')}
-          </Button>
-        </Link>
+        <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
+          <P {...styles.text}>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('marketing/intro', {count: countFormat(data.membershipStats.count)})
+              }}
+          />
+          </P>
+      )} />
+      </Container>
+      <div {...styles.join} key='join'>
+        <Container style={{ maxWidth: MAX_WIDTH }}>
+          <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
+            {t('marketing/cta/title')}
+          </Interaction.P>
+          <Interaction.H1 {...css(styles.headline, { color: colors.primary })}>
+            {t('marketing/cta/subtitle')}
+          </Interaction.H1>
+          <Interaction.P {...css(styles.text, styles.joinText)}>
+            {t('marketing/cta/text')}
+          </Interaction.P>
+          <Link route='pledge' params={{package: 'ABO'}}>
+            <Button primary block>
+              {t('marketing/cta/button/label')}
+            </Button>
+          </Link>
+        </Container>
+      </div>
+      <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
+        <div {...styles.more}>
+          <div {...styles.preview}>
+            <Interaction.H3 style={{ marginBottom: '17px' }}>
+              {t('marketing/preview/title')}
+            </Interaction.H3>
+            <PreviewForm />
+          </div>
+          <div {...styles.offers}>
+            <Interaction.H3 style={{ marginBottom: '17px' }}>
+              {t('marketing/offers/title')}
+            </Interaction.H3>
+            <Offers crowdfundingName={crowdfundingName} />
+          </div>
+        </div>
       </Container>
     </div>
-    <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
-      <div {...styles.more}>
-        <div {...styles.preview}>
-          <Interaction.H3 style={{ marginBottom: '17px' }}>
-            {t('marketing/preview/title')}
-          </Interaction.H3>
-          <PreviewForm />
-        </div>
-        <div {...styles.offers}>
-          <Interaction.H3 style={{ marginBottom: '17px' }}>
-            {t('marketing/offers/title')}
-          </Interaction.H3>
-          <Offers crowdfundingName={crowdfundingName} />
-        </div>
-      </div>
-    </Container>
-  </div>
+  </Fragment>
 )
 
 const query = gql`

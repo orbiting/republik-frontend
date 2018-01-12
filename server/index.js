@@ -53,7 +53,7 @@ app.prepare().then(() => {
       const BACKDOOR_URL = process.env.CURTAIN_BACKDOOR_URL || ''
       if (req.url === BACKDOOR_URL) {
         res.cookie('OpenSesame', BACKDOOR_URL, { maxAge: 2880000, httpOnly: true })
-        return res.redirect('/').end()
+        return res.redirect('/')
       }
 
       const cookies = (

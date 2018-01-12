@@ -246,7 +246,7 @@ ${meta.url}
           <IP style={{marginBottom: 40}}>
             If you read German, you might want to consider becoming a member of the cooperative behind Republik and read our magazine for a whole year from January 2018 on:
             {' '}
-            <A href='/pledge'>Jetzt mitmachen</A>.
+            <A href='/angebote'>Jetzt mitmachen</A>.
           </IP>
 
           <H2>Donate</H2>

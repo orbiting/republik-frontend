@@ -101,6 +101,10 @@ const styles = {
   })
 }
 
+export const DEFAULT_VALUES = {
+  publicUrl: 'https://'
+}
+
 const getPublicUser = gql`
   query getPublicUser($slug: String!) {
     user(slug: $slug) {
@@ -213,6 +217,7 @@ class Profile extends Component {
           isEditing: true,
           values: {
             ...user,
+            publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
             portrait: undefined
           }
         })

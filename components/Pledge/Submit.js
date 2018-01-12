@@ -298,7 +298,7 @@ class Submit extends Component {
           loading: t('pledge/submit/loading/stripe/3dsecure')
         })
       },
-      returnUrl: `${PUBLIC_BASE_URL}/pledge?pledgeId=${pledgeId}&stripe=1`
+      returnUrl: `${PUBLIC_BASE_URL}/angebote?pledgeId=${pledgeId}&stripe=1`
     })
       .then(source => {
         this.setState({

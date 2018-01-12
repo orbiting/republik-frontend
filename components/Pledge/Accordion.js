@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import {css, merge} from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import Link from 'next/link'
+
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
 import {
   colors,
@@ -132,10 +133,11 @@ class Accordion extends Component {
 
     const links = [
       {
-        href: '/pledge?package=ABO&userPrice=1',
+        route: 'pledge',
+        params: {package: 'ABO', userPrice: 1},
         text: t('package/ABO/userPrice/teaser')
       }
-    ].concat(this.props.links || [])
+    ]
 
     return (
       <div style={{marginTop: 20}}>
@@ -154,11 +156,8 @@ class Accordion extends Component {
             )
 
             return (
-              <Link key={i} href={{
-                pathname: '/pledge',
-                query: {
-                  package: pkg.name
-                }
+              <Link key={i} route='pledge' params={{
+                package: pkg.name
               }}>
                 <a {...packageStyle}
                   onMouseOver={() => this.setState({
@@ -209,7 +208,7 @@ class Accordion extends Component {
         <div {...styles.links}>
           {
             links.map((link, i) => (
-              <Link key={i} href={link.href}>
+              <Link key={i} route={link.route} params={link.params}>
                 <a {...linkRule}>
                   {link.text}<br />
                 </a>

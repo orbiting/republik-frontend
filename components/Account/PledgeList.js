@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
-import Link from 'next/link'
 
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
+import { Link } from '../../lib/routes'
 
 import List, { Item } from '../List'
 import { Item as AccountItem } from './Elements'
@@ -100,7 +100,7 @@ class PledgeList extends Component {
           </AccountItem>
         )
       })}
-      <Link href={{ pathname: '/pledge', query: {package: 'ABO_GIVE'} }}>
+      <Link route='pledge' params={{package: 'ABO_GIVE'}}>
         <a {...linkRule}>
           {t('account/pledges/ABO_GIVE/promo')}
         </a>

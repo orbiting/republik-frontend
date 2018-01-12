@@ -50,11 +50,11 @@ export const getParams = ({
     },
     {
       key: 'return',
-      value: `${PUBLIC_BASE_URL}/pledge`
+      value: `${PUBLIC_BASE_URL}/angebote`
     },
     {
       key: 'cancel_return',
-      value: `${PUBLIC_BASE_URL}/pledge?item_name=${itemName}&st=Cancel`
+      value: `${PUBLIC_BASE_URL}/angebote?item_name=${itemName}&st=Cancel`
     },
     {
       key: 'bn',

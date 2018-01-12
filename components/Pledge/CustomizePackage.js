@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 
@@ -18,6 +17,8 @@ import {
 import {
   STATIC_BASE_URL
 } from '../../lib/constants'
+
+import { Router } from '../../lib/routes'
 
 const {P} = Interaction
 
@@ -177,14 +178,14 @@ class CustomizePackage extends Component {
         <div style={{marginTop: 20, marginBottom: 10}}>
           <span {...styles.packageTitle}>{t(`package/${pkg.name}/title`)}</span>
           {' '}
-          <A href='/pledge' onClick={event => {
+          <A href='/angebote' onClick={event => {
             event.preventDefault()
             onChange({
               values: {
                 price: undefined
               }
             })
-            Router.replace('/pledge', '/pledge', {shallow: true})
+            Router.replaceRoute('pledge', {}, {shallow: true})
           }}>
             {t('package/customize/changePackage')}
           </A>

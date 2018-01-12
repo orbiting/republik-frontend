@@ -7,6 +7,7 @@ import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
+import RawHtmlElements from '../RawHtmlElements'
 
 import {
   Button,
@@ -14,7 +15,6 @@ import {
   Interaction,
   Field,
   Label,
-  RawHtml,
   colors,
   linkRule
 } from '@project-r/styleguide'
@@ -65,22 +65,16 @@ class SignIn extends Component {
     } = this.state
     if (polling) {
       return (
-        <div>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t('signIn/polling', {
-              phrase,
-              email
-            })
+        <P>
+          <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
+            phrase,
+            email,
+            signInLink: (
+              <Link route='signin'>
+                <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
+              </Link>
+            )
           }} />
-          <P key='link'>
-            {t.elements('signIn/polling/signInLink', {
-              signInLink: (
-                <Link route='signin'>
-                  <a {...linkRule}>{t('signIn/polling/signInLink/text')}</a>
-                </Link>
-              )
-            })}
-          </P>
           <Poller onSuccess={(me, ms) => {
             this.setState(() => ({
               polling: false,
@@ -90,7 +84,7 @@ class SignIn extends Component {
               })
             }))
           }} />
-        </div>
+        </P>
       )
     }
     if (success) {

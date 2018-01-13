@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-13T03:33:21.040Z",
+  "updated": "2018-01-13T12:22:07.156Z",
   "title": "live",
   "data": [
     {
@@ -14,6 +14,14 @@
       "key": "nav/feed",
       "value": "Feed",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "nav/events",
+      "value": "Veranstaltungen",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null

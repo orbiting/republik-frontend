@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-13T00:20:25.942Z",
+  "updated": "2018-01-13T03:33:21.040Z",
   "title": "live",
   "data": [
     {
@@ -204,7 +204,7 @@
     },
     {
       "key": "signIn/button",
-      "value": "anmelden",
+      "value": "Anmelden",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -240,7 +240,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Braucht einen Link und saubere Formatierung"
+      "Bemerkung": null
     },
     {
       "key": "signIn/polling/link",
@@ -252,7 +252,7 @@
     },
     {
       "key": "signIn/polling/short",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie übrigens folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren\n Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n",
+      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie übrigens folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -368,7 +368,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wäre mega schön, wenn wir den Zähler drin haben könnten (muss aber wirklich nicht live sein!)... Hab Task auf Trello erfasst. Und Teppichetage finden alle blöd."
+      "Bemerkung": null
     },
     {
       "key": "marketing/signin/button/label",
@@ -468,7 +468,7 @@
     },
     {
       "key": "marketing/preview/success",
-      "value": "Wir haben Ihnen eine kleine Sammlung von Artikeln per Mail zugeschickt.",
+      "value": "Wir haben Ihnen eine kleine Sammlung von Beiträgen per Mail zugeschickt.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -780,7 +780,7 @@
     },
     {
       "key": "api/email/change/exists",
-      "value": "Diese E-Mail Adresse existiert bereits.",
+      "value": "Diese E-Mail ist schon besetzt. Sie können nur E-Mail-Adressen eingeben, die in unserem System noch nicht verwendet werden.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -812,7 +812,7 @@
     },
     {
       "key": "Account/Update/email/confirm",
-      "value": "Sind Sie sicher, dass die neue Adresse für Ihr Republik-Konto {email} lauten soll?",
+      "value": "Sind Sie sicher, dass die neue E-Mail-Adresse für Ihr Republik-Konto {email} lauten soll?",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -820,7 +820,7 @@
     },
     {
       "key": "Account/Update/email/hint",
-      "value": "Bitte beachten Sie, dass wenn Sie Ihre E-Mail Adresse ändern, Sie auf allen Geräten abgemeldet werden und sich danach ausschliesslich mit der neuen Adresse anmelden können .",
+      "value": "Achtung: wenn Sie Ihre E-Mail-Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen E-Mail anmelden!",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -828,7 +828,7 @@
     },
     {
       "key": "Account/Update/email/error/invalid",
-      "value": "Das ist keine gültige E-Mail Adresse",
+      "value": "Das ist keine gültige E-Mail-Adresse",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -836,7 +836,7 @@
     },
     {
       "key": "Account/Update/email/empty",
-      "value": "Geben Sie eine gültige E-Mail Adresse ein.",
+      "value": "Geben Sie eine gültige E-Mail-Adresse ein.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -844,7 +844,7 @@
     },
     {
       "key": "Account/Update/email/form/label",
-      "value": "Ihre neue E-Mail Adresse",
+      "value": "Ihre neue E-Mail-Adresse",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -852,7 +852,7 @@
     },
     {
       "key": "Account/Update/email/label",
-      "value": "Ihre E-Mail Adresse",
+      "value": "Ihre E-Mail-Adresse",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -860,7 +860,7 @@
     },
     {
       "key": "Account/Update/email/updating",
-      "value": "Neue E-Mail Adresse wird gespeichert ...",
+      "value": "Neue E-Mail-Adresse wird gespeichert",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -900,7 +900,7 @@
     },
     {
       "key": "Account/noActiveMembership/solution1",
-      "value": "{solution} Melden Sie sich mit einer Ihrer {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)",
+      "value": "{solution} Melden Sie sich mit einer {signOutLink} (Tipp: mit grosser Wahrscheinlichkeit ist es dieselbe Adresse, auf der Sie auch unseren Newsletter erhalten.)",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1140,7 +1140,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/unsubscribed",
-      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können. Danach erhalten Sie wieder unsere Newsletter.",
+      "value": "Sie haben sich von unseren Newslettern abgemeldet. Wenn Sie wieder einen Newsletter auswählen, erhalten Sie eine E-Mail, mit der Sie Ihre Neuanmeldung bestätigen können.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1272,7 +1272,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "account/pledges/payment/PAYMENTSLIP/paperInvoice/0",
@@ -1284,7 +1284,7 @@
     },
     {
       "key": "account/pledges/ABO_GIVE/promo",
-      "value": "Schenken Sie Ihren Freunden und Feinden die Republik",
+      "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1560,7 +1560,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Brauchen wording"
+      "Bemerkung": null
     },
     {
       "key": "profile/statement/error",
@@ -1568,7 +1568,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Brauchen wording"
+      "Bemerkung": null
     },
     {
       "key": "profile/statement/tooLong",
@@ -1576,7 +1576,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Brauchen wording"
+      "Bemerkung": null
     },
     {
       "key": "profile/preview",
@@ -1584,7 +1584,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "<br/> (Übrigens: Sie können mittels Ihrem Foto ein wenig die Redaktion steuern. Denn im zentralen Sitzungszimmer der Republik laufen die Fotos aller Verleger und Verlegerinnen in Endlosschlaufe, um die Journalisten daran zu erinnern, für wen Sie arbeitet. (Bis jetzt haben das xxx Verleger und Verlegerinnen getan.) Die Folge: Mit einem freundlichen Foto können Sie die Redaktion beruhigen, mit einem strengen sie zur Arbeit treiben.)"
+      "Bemerkung": null
     },
     {
       "key": "profile/preview/notEligible",
@@ -1592,7 +1592,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "achtung link!"
+      "Bemerkung": null
     },
     {
       "key": "profile/preview/notEligible/link",
@@ -1624,7 +1624,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Foto oder Bild?"
+      "Bemerkung": null
     },
     {
       "key": "profile/portrait/invalidType",
@@ -1632,7 +1632,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Foto oder Bild?"
+      "Bemerkung": null
     },
     {
       "key": "profile/portrait/readError",
@@ -1640,7 +1640,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Foto oder Bild?"
+      "Bemerkung": null
     },
     {
       "key": "profile/portrait/tooBig",
@@ -1648,7 +1648,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Foto oder Bild?"
+      "Bemerkung": null
     },
     {
       "key": "profile/portrait/update",
@@ -1656,7 +1656,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Foto oder Bild?"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/meta/pageTitle",
@@ -1712,7 +1712,7 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/description",
@@ -1736,15 +1736,15 @@
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/role/tooLong",
       "value": "Bezeichnung, maximal 60 Zeichen",
       "Clara ok": "x",
-      "Braucht Const": "x",
+      "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/update",
@@ -1752,7 +1752,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/unpublished",
@@ -1760,7 +1760,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/unpublish/user",
@@ -1768,7 +1768,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/viewLive",
@@ -1776,7 +1776,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/unpublished/user",
@@ -1784,7 +1784,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/search/label",
@@ -1792,7 +1792,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/search/videosOnly",
@@ -1800,7 +1800,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/search/seed",
@@ -1808,7 +1808,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/infinite/end",
@@ -1816,7 +1816,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/infinite/endless",
@@ -1824,13 +1824,13 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Wording"
+      "Bemerkung": null
     },
     {
       "key": "testimonial/detail/share/emailSubject",
       "value": "{name} unterstützt Republik",
       "Clara ok": null,
-      "Braucht Const": "x",
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -1856,7 +1856,7 @@
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "schicken wir das mail noch?"
+      "Bemerkung": null
     },
     {
       "key": "badge/crowdfunder",
@@ -1864,7 +1864,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not relevant now"
+      "Bemerkung": null
     },
     {
       "key": "badge/patron",
@@ -1872,7 +1872,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not relevant now"
+      "Bemerkung": null
     },
     {
       "key": "badge/staff",
@@ -1880,7 +1880,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not relevant now, und müsste noch eine weibliche Form geben"
+      "Bemerkung": null
     },
     {
       "key": "badge/freelancer",
@@ -1888,7 +1888,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not relevant now, und müsste noch eine weibliche Form geben"
+      "Bemerkung": null
     },
     {
       "key": "header/title",
@@ -1936,7 +1936,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/crew",
@@ -1944,7 +1944,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/events",
@@ -1952,7 +1952,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/updates",
@@ -1960,7 +1960,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/about/projecR",
@@ -1968,7 +1968,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/about/manifest",
@@ -1976,7 +1976,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/about/en",
@@ -1984,7 +1984,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/legal/title",
@@ -1992,7 +1992,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/legal/tos",
@@ -2000,7 +2000,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/legal/privacy",
@@ -2008,15 +2008,15 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/legal/statute",
-      "value": "Statuten",
+      "value": "Project R Statuten",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/shareholder",
@@ -2032,7 +2032,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/media",
@@ -2040,7 +2040,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "not now"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/title",
@@ -2048,7 +2048,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/signIn",
@@ -2056,7 +2056,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/signedIn",
@@ -2064,7 +2064,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/profile",
@@ -2080,7 +2080,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/claim",
@@ -2088,7 +2088,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "legacy?"
+      "Bemerkung": null
     },
     {
       "key": "footer/me/faq",
@@ -3044,7 +3044,7 @@
     },
     {
       "key": "pledge/claim/signIn/button",
-      "value": "ändern",
+      "value": "Ändern",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3108,7 +3108,7 @@
     },
     {
       "key": "pledge/contact/signIn/show",
-      "value": "Schon man ausgefüllt?\n",
+      "value": "Schon mal ausgefüllt?\n",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3572,7 +3572,7 @@
     },
     {
       "key": "merci/claim/signIn/button",
-      "value": "ändern",
+      "value": "Ändern",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3619,10 +3619,42 @@
       "Bemerkung": null
     },
     {
+      "key": "merci/title/newMember",
+      "value": "Willkommen an Bord, {name}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "merci/title/notNewMember",
+      "value": "Guten Tag, {name}",
+      "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "merci/lead",
       "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />\n",
       "Clara ok": null,
-      "Braucht Const": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "merci/lead/newMember",
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "merci/lead/notNewMember",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },

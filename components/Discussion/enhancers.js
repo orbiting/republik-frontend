@@ -554,10 +554,18 @@ ${fragments.comment}
           }
         },
         update: (proxy, {data: {submitComment}}) => {
+          debug('submitComment', submitComment.id, submitComment)
           const data = proxy.readQuery({
             query: query,
             variables: {discussionId, parentId: ownParentId, orderBy}
           })
+
+          const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
+          // subscriptions seem to make optimistic updates permanent
+          if (existing) {
+            debug('submitComment', 'existing', existing)
+            return
+          }
 
           const comment = {
             ...submitComment,

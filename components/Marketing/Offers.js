@@ -1,4 +1,5 @@
 import React from 'react'
+import { ascending } from 'd3-array'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 import { css } from 'glamor'
@@ -6,6 +7,7 @@ import { colors, mediaQueries, Loader } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { OFFER_SORT } from '../Pledge/Accordion' 
 
 const styles = {
   offer: css({
@@ -52,6 +54,7 @@ const List = ({ t, data }) => (
           {key: 'claim', label: t('marketing/offers/claim'), route: 'claim'},
           {key: 'userPrice', label: t('marketing/offers/userPrice'), params: {package: 'ABO', userPrice: 1}}
         ])
+        .sort((a, b) => ascending(OFFER_SORT[a.key], OFFER_SORT[b.key]))
         .map(({key, label, route = 'pledge', params}) => (
           <li key={key}>
             <Link route={route} params={params}>

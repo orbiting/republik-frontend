@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { ascending } from 'd3-array'
 import {css, merge} from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -13,6 +14,14 @@ import {
   fontFamilies,
   Loader
 } from '@project-r/styleguide'
+
+export const OFFER_SORT = {
+  ABO: 1,
+  MONTHLY_ABO: 2,
+  BENEFACTOR: 3,
+  ABO_GIVE: 4,
+  DONATE: 5
+}
 
 const styles = {
   title: css({
@@ -142,7 +151,9 @@ class Accordion extends Component {
     return (
       <div style={{marginTop: 20}}>
         {
-          packages.map((pkg, i) => {
+          [...packages]
+            .sort((a, b) => ascending(OFFER_SORT[a.name], OFFER_SORT[b.name]))
+            .map((pkg, i) => {
             const isActive = activeIndex === i
 
             const price = pkg.options.reduce(

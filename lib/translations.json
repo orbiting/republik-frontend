@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-13T03:33:21.040Z",
+  "updated": "2018-01-13T14:17:12.463Z",
   "title": "live",
   "data": [
     {
@@ -14,6 +14,14 @@
       "key": "nav/feed",
       "value": "Feed",
       "Clara ok": "x",
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "nav/events",
+      "value": "Veranstaltungen",
+      "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
@@ -220,7 +228,7 @@
     },
     {
       "key": "signIn/hint",
-      "value": "Achtung! Die Anmeldung funktioniert ausschliesslich mit der E-Mail-Adresse, die Sie uns beim ersten Mal gegeben haben.",
+      "value": "Die Anmeldung für den Zugang zu Ihrer Republik funktioniert nur mit der E-Mail-Adresse, mit der Sie sich bei uns angemeldet haben. Haben Sie Probleme? Melden Sie sich bei der Erste-Hilfe-Abteilung: kontakt@republik.ch.",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -236,7 +244,7 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie übrigens folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie kein Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}.",
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -252,7 +260,7 @@
     },
     {
       "key": "signIn/polling/short",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie übrigens folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n",
+      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -492,7 +500,7 @@
     },
     {
       "key": "marketing/offers/userPrice",
-      "value": "Kann-Mir-Den-Preis-Nicht-Leisten-Abonnement",
+      "value": "Kann-Mir-Das-Nicht-Leisten-Mitgliedschaft",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -820,7 +828,7 @@
     },
     {
       "key": "Account/Update/email/hint",
-      "value": "Achtung: wenn Sie Ihre E-Mail-Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen E-Mail anmelden!",
+      "value": "Achtung: Wenn Sie Ihre E-Mail-Adresse ändern, werden Sie auf allen Geräten abgemeldet und können sich danach ausschliesslich mit der neuen E-Mail anmelden!",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1132,7 +1140,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/noMembership",
-      "value": "Journalismus kostet. Deswegen können nur Mitglieder und Abonnenten die Republik-Newsletter abonnieren.",
+      "value": "Journalismus kostet. Deshalb können nur Mitglieder und Abonnentinnen die Republik-Newsletter abonnieren.",
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -1156,7 +1164,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
-      "value": "Republik – Der Wochenendüberblick",
+      "value": "Republik – Der Wochenüberblick",
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -1164,7 +1172,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
-      "value": "Project R – Unregelmässige Updates",
+      "value": "Project R – Wichtige Updates",
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -2396,7 +2404,7 @@
     },
     {
       "key": "components/DiscussionPreferences/commentAnonymously/disclaimer",
-      "value": "Ihre Identität ist für administrative Zwecke nachvollziehbar. Whistleblowerin? Schreiben Sie der Redaktion auf Signal, eine PGP-Mail oder via der guten, alten Post.",
+      "value": "Ihre Identität ist für administrative Zwecke nachvollziehbar. Whistleblowerin? Schreiben Sie der Redaktion via Signal, PGP-Mail oder der guten, alten Post.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2644,7 +2652,7 @@
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Gönner-Abonnement",
+      "value": "Gönner-Mitgliedschaft",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -2652,7 +2660,7 @@
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n",
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,

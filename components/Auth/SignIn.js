@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
-import { Link } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {validate as isEmail} from 'email-validator'
 import ErrorMessage from '../ErrorMessage'
@@ -70,9 +70,17 @@ class SignIn extends Component {
             phrase: <b key='phrase'>{phrase}</b>,
             email: <b key='email'>{email}</b>,
             link: (
-              <Link route='signin' key='signin'>
-                <a {...linkRule}>{t('signIn/polling/link')}</a>
-              </Link>
+              <a {...linkRule}
+                key='cancel'
+                style={{ cursor: 'pointer'}}
+                onClick={(e) => {
+                  e.preventDefault()
+                  this.setState(() => ({
+                    polling: false
+                  }))
+                  Router.pushRoute('signin')
+                }}
+              >{t('signIn/polling/link')}</a>
             )
           }} />
           <Poller onSuccess={(me, ms) => {

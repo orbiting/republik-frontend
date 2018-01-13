@@ -10,7 +10,6 @@ import {
   Interaction,
   colors,
   fontStyles,
-  linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -35,60 +34,122 @@ const styles = {
         margin: '0 50px',
         padding: '0 50px'
       },
+      '&:first-child': {
+        paddingLeft: '25px'
+      },
       '&:last-child': {
         marginRight: 0,
-        paddingRight: '20px'
+        paddingRight: '25px',
+        textAlign: 'right'
       }
+    }
+  }),
+  link: css({
+    textDecoration: 'none',
+    color: colors.text,
+    ':visited': {
+      color: colors.text
+    },
+    ':hover': {
+      color: colors.primary
+    },
+    cursor: 'pointer',
+    [mediaQueries.mUp]: {
+      fontSize: 48,
+      lineHeight: '80px'
     }
   })
 }
 
-const Nav = ({ me, children, t }) => (
-  <div {...styles.container}>
-    <div {...styles.section}>
-      {me && (
-        <div>
-          <Link route='account'>
-            <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
-          </Link>
-          <br />
-          <Link route='profile' params={{ slug: me.username || me.id }}>
-            <a {...linkRule}>{t('Frame/Popover/myprofile')}</a>
-          </Link>
-          <br />
-        </div>
-      )}
-      {me ? (
-        <SignOut />
-      ) : (
-        <div>
-          <Interaction.P style={{ marginBottom: '20px' }}>
-            {t('me/signedOut')}
-          </Interaction.P>
-          <SignIn />
-        </div>
-      )}
-      <br />
-    </div>
-    <div {...styles.section}>
-      {me && (
-        <div>
-          <Link route='feed'>
-            <a {...linkRule}>{t('nav/feed')}</a>
-          </Link>
-          <br />
-          <Link route='discussion'>
-            <a {...linkRule}>{t('nav/discussion')}</a>
-          </Link>
-          <br />
-        </div>
-      )}
-
-      <Link route='community'>
-        <a {...linkRule}>{t('nav/community')}</a>
-      </Link>
-    </div>
-  </div>
+const SignoutLink = ({children, ...props}) => (
+  <a {...styles.link} {...props}>{children}</a>
 )
+
+const NavLink = ({ route, translation, params, url, closeHandler }) => {
+  if (`/${route}` === url.pathname) {
+    return (
+      <a
+        {...styles.link}
+        style={{ cursor: 'pointer' }}
+        onClick={e => {
+          e.preventDefault()
+          closeHandler()
+        }}
+      >
+        {translation}
+      </a>
+    )
+  }
+  return (
+    <Link route={route} params={params}>
+      <a {...styles.link}>{translation}</a>
+    </Link>
+  )
+}
+
+const Nav = ({ me, url, closeHandler, children, t }) => {
+  return (
+    <div {...styles.container}>
+      <div {...styles.section}>
+        {me && (
+          <div>
+            <NavLink
+              route="account"
+              translation={t('Frame/Popover/myaccount')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+            <NavLink
+              route="profile"
+              params={{ slug: me.username || me.id }}
+              translation={t('Frame/Popover/myprofile')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </div>
+        )}
+        {me ? (
+          <SignOut Link={SignoutLink} />
+        ) : (
+          <div>
+            <Interaction.P style={{ marginBottom: '20px' }}>
+              {t('me/signedOut')}
+            </Interaction.P>
+            <SignIn />
+          </div>
+        )}
+        <br />
+      </div>
+      <div {...styles.section}>
+        {me && (
+          <div>
+            <NavLink
+              route="feed"
+              translation={t('nav/feed')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+            <NavLink
+              route="events"
+              translation={t('nav/events')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </div>
+        )}
+        <NavLink
+          route="community"
+          translation={t('nav/community')}
+          url={url}
+          closeHandler={closeHandler}
+        />
+      </div>
+    </div>
+  )
+}
 
 export default withT(Nav)

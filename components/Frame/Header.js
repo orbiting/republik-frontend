@@ -148,6 +148,10 @@ class Header extends Component {
     this.setRef = ref => {
       this.ref = ref
     }
+
+    this.close = () => {
+      this.setState({ expanded: false })
+    }
   }
 
   componentDidMount () {
@@ -232,7 +236,7 @@ class Header extends Component {
             </div>
           )}
           <Popover expanded={!!expanded}>
-            <NavPopover me={me} />
+            <NavPopover me={me} url={url} closeHandler={this.close} />
           </Popover>
         </div>
 

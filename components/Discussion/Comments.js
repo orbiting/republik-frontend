@@ -15,12 +15,17 @@ import {
   colors,
   CommentTreeLoadMore,
   CommentTreeCollapse,
-  CommentTreeRow
+  CommentTreeRow,
+  Label
 } from '@project-r/styleguide'
 
 import mkDebug from 'debug'
 
 const debug = mkDebug('comments')
+
+const SHOW_DEBUG = false
+
+const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
 
 class Comments extends PureComponent {
   constructor (...args) {
@@ -112,17 +117,34 @@ class Comments extends PureComponent {
 
           const accumulator = nodes
             .reduce((accumulator, comment, index, all) => {
-              const { counts } = accumulator
+              const next = all[index + 1]
+              const nextIsChild = next && next.parentIds.indexOf(comment.id) !== -1
+              const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
+              const prev = all[index - 1]
+              const prevIsParent = prev && comment.parentIds.indexOf(prev.id) !== -1
+              const prevIsThread = prevIsParent && prev.comments.directTotalCount === 1
+              // const prevIsSibling = prev && comment.parentIds.every(parentId => prev.parentIds.indexOf(parentId) !== -1)
 
-              // accumulator.list.push(<div>{comment.id}</div>)
+              const head = false // nextIsChild && !prevIsThread
+              const tail = false // !nextIsChild && prevIsThread
+              const otherChild = true || (
+                comment.parentIds.length === 0 ||
+                (prevIsParent && !prevIsThread)
+              )
+
+              SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
+                nextIsChild,
+                prevIsParent,
+                prevIsThread
+              }, null, 2)}</BlockLabel>)
               accumulator.list.push(
                 <CommentTreeRow
                   key={comment.id}
                   t={t}
-                  visualDepth={comment.parentIds.length + 1}
-                  head={false}
-                  tail={false}
-                  otherChild
+                  visualDepth={accumulator.visualDepth}
+                  head={head}
+                  tail={tail}
+                  otherChild={otherChild}
                   comment={comment}
                   displayAuthor={displayAuthor}
                   onEditPreferences={this.showPreferences}
@@ -135,30 +157,35 @@ class Comments extends PureComponent {
                   timeago={timeagoFromNow}
                 />
               )
-              accumulator.count += 1
 
+              const { counts } = accumulator
+              accumulator.count += 1
               comment.parentIds.forEach(id => {
                 counts[id] = (counts[id] || 0) + 1
               })
 
-              const next = all[index + 1]
-              const nextIsChild = next && next.parentIds.indexOf(comment.id) !== -1
               if (nextIsChild) {
-                accumulator.pendingClosure.push(comment)
-              }
-              if (!nextIsChild) {
-                const count = counts[comment.id] || 0
+                const increaseDepth = !nextIsThread
+                if (increaseDepth) {
+                  accumulator.visualDepth += 1
+                  SHOW_DEBUG && accumulator.list.push(<BlockLabel>inc</BlockLabel>)
+                }
+                accumulator.pendingClosure.push([
+                  comment,
+                  increaseDepth
+                ])
+              } else {
                 const subCount = (subIdMap[comment.id] || []).length
                 const total = comment.comments.totalCount + subCount
-                if (total > count) {
-                  accumulator.count += comment.comments.totalCount - count
+                if (total) {
+                  accumulator.count += comment.comments.totalCount
                   accumulator.list.push(
                     <CommentTreeLoadMore
                       key={`loadMore${comment.id}`}
                       t={t}
                       connected
-                      visualDepth={comment.parentIds.length + 1}
-                      count={total - count}
+                      visualDepth={accumulator.visualDepth}
+                      count={total}
                       onClick={() => {
                         fetchMore(comment.id, comment.comments.pageInfo.endCursor)
                           .then(() => {
@@ -171,8 +198,17 @@ class Comments extends PureComponent {
 
                 const appendAfter = comment
                 const needsClosure = accumulator.pendingClosure
-                  .filter(pending => !next || next.parentIds.indexOf(pending.id) === -1)
-                needsClosure.forEach(comment => {
+                  .filter(([pending]) =>
+                    !next ||
+                    next.parentIds.indexOf(pending.id) === -1
+                  )
+                  .reverse()
+
+                needsClosure.forEach(([comment, increaseDepth]) => {
+                  if (increaseDepth) {
+                    accumulator.visualDepth -= 1
+                    SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec</BlockLabel>)
+                  }
                   const count = counts[comment.id] || 0
                   const subCount = (subIdMap[comment.id] || []).length
                   if (comment.comments.directTotalCount + subCount > count) {
@@ -182,7 +218,7 @@ class Comments extends PureComponent {
                       <CommentTreeLoadMore
                         key={`loadMore${comment.id}`}
                         t={t}
-                        visualDepth={comment.parentIds.length + 1}
+                        visualDepth={accumulator.visualDepth}
                         count={comment.comments.totalCount + subCount - count}
                         onClick={() => {
                           fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
@@ -195,7 +231,7 @@ class Comments extends PureComponent {
                   }
                 })
                 accumulator.pendingClosure = accumulator.pendingClosure
-                  .filter(pending => needsClosure.indexOf(pending) === -1)
+                  .filter((pending) => needsClosure.indexOf(pending) === -1)
               }
 
               return accumulator
@@ -207,7 +243,7 @@ class Comments extends PureComponent {
               counts: {}
             })
 
-          // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
+          // discussion root load more
           const subCount = subIdMap.root.length
 
           const tailCount = totalCount - accumulator.count + subCount

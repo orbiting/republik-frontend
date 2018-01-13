@@ -11,8 +11,10 @@ import DiscussionPreferences from './DiscussionPreferences'
 
 import {
   CommentTreeLoadMore,
+  CommentTreeCollapse,
   CommentTreeRow,
-  Label
+  Label,
+  colors
 } from '@project-r/styleguide'
 
 import mkDebug from 'debug'
@@ -23,6 +25,19 @@ const SHOW_DEBUG = false
 
 const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
 
+const mergeCounts = (a, b) => {
+  return {
+    ...a,
+    ...Object.keys(b).reduce(
+      (merge, key) => {
+        merge[key] = (a[key] || 0) + b[key]
+        return merge
+      },
+      {}
+    )
+  }
+}
+
 class Comments extends PureComponent {
   constructor (...args) {
     super(...args)
@@ -32,7 +47,9 @@ class Comments extends PureComponent {
         root: []
       },
       now: Date.now(),
-      showPreferences: false
+      showPreferences: false,
+      maxVisualDepth: 3,
+      closedPortals: {}
     }
 
     this.showPreferences = () => {
@@ -87,7 +104,7 @@ class Comments extends PureComponent {
     this.unsubscribe()
     clearInterval(this.intervalId)
   }
-  renderComments (nodes) {
+  renderComments (nodes, options = {}) {
     const {
       discussionDisplayAuthor: displayAuthor,
       t,
@@ -96,20 +113,169 @@ class Comments extends PureComponent {
 
     const {
       now,
-      subIdMap
+      subIdMap,
+      maxVisualDepth,
+      closedPortals
     } = this.state
+
+    const {
+      pendingClosure = [],
+      count = 0,
+      counts = {},
+      moreCounts = {},
+      directCounts = {}
+    } = options
+    const initialState = {
+      list: [],
+      visualDepth: 1,
+      pendingClosure,
+      count,
+      counts,
+      moreCounts,
+      directCounts
+    }
 
     const timeagoFromNow = (createdAtString) => {
       return timeago(t, (now - Date.parse(createdAtString)) / 1000)
     }
 
+    const closePending = (accumulator, {next, appendAfter}) => {
+      const { counts, moreCounts, directCounts } = accumulator
+      const needsClosure = accumulator.pendingClosure
+        .filter(([pending]) =>
+          !next ||
+          next.parentIds.indexOf(pending.id) === -1
+        )
+        .reverse()
+
+      needsClosure.forEach(([comment, increasedDepth, isRoot]) => {
+        if (increasedDepth) {
+          accumulator.visualDepth -= 1
+          SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
+        }
+        const directCount = directCounts[comment.id] || 0
+        const subCount = (subIdMap[comment.id] || []).length
+        if (comment.comments.directTotalCount + subCount > directCount) {
+          const count = counts[comment.id] || 0
+          const moreCount = moreCounts[comment.id] || 0
+          const leftCount = comment.comments.totalCount - count - moreCount
+          comment.parentIds.forEach(id => {
+            moreCounts[id] = (moreCounts[id] || 0) + leftCount
+          })
+          accumulator.count += comment.comments.totalCount - count
+          accumulator.list.push(
+            <CommentTreeLoadMore
+              key={`loadMore${comment.id}`}
+              t={t}
+              connected={!isRoot}
+              visualDepth={isRoot ? 0 : accumulator.visualDepth}
+              count={leftCount + subCount}
+              onClick={() => {
+                fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
+                  .then(() => {
+                    this.clearSubIds(comment.id)
+                  })
+              }}
+            />
+          )
+        }
+      })
+      accumulator.pendingClosure = accumulator.pendingClosure
+        .filter((pending) => needsClosure.indexOf(pending) === -1)
+    }
+
     return nodes.reduce((accumulator, comment, index, all) => {
+      let prev = all[index - 1]
       const next = all[index + 1]
-      const nextIsChild = next && next.parentIds.indexOf(comment.id) !== -1
-      const nextIsThread = !!nextIsChild && comment.comments.directTotalCount === 1
-      const prev = all[index - 1]
-      const prevIsParent = prev && comment.parentIds.indexOf(prev.id) !== -1
-      const prevIsThread = !!prevIsParent && prev.comments.directTotalCount === 1
+
+      const { portal } = accumulator
+      if (portal) {
+        portal.nodes.push(comment)
+
+        const nextBelongsToPortal = next && portal.parentIds.every(parentId => next.parentIds.indexOf(parentId) !== -1)
+        if (nextBelongsToPortal) {
+          return accumulator
+        }
+        // close portal
+        const portalId = `portal${portal.parent.id}`
+        const portalAccumulator = this.renderComments(
+          portal.nodes,
+          {
+            pendingClosure: [
+              [portal.parent, false, true]
+            ]
+          }
+        )
+        if (closedPortals[portalId]) {
+          accumulator.list.push(
+            <CommentTreeLoadMore
+              key={`open${portalId}`}
+              t={t}
+              connected
+              visualDepth={portal.visualDepth}
+              count={portalAccumulator.count}
+              onClick={() => {
+                this.setState(({closedPortals}) => ({
+                  closedPortals: {
+                    ...closedPortals,
+                    [portalId]: false
+                  }
+                }))
+              }}
+            />
+          )
+        } else {
+          accumulator.list.push(
+            <Fragment key={portalId}>
+              <CommentTreeCollapse
+                t={t}
+                visualDepth={accumulator.visualDepth}
+                onClick={() => {
+                  this.setState(({closedPortals}) => ({
+                    closedPortals: {
+                      ...closedPortals,
+                      [portalId]: true
+                    }
+                  }))
+                }}
+              />
+              {portalAccumulator.list}
+              <div style={{
+                marginTop: '-2px',
+                borderTop: `2px solid ${colors.primary}`
+              }} />
+            </Fragment>
+
+          )
+        }
+        accumulator.count += portalAccumulator.count
+
+        accumulator.counts = mergeCounts(
+          accumulator.counts,
+          portalAccumulator.counts
+        )
+        accumulator.moreCounts = mergeCounts(
+          accumulator.moreCounts,
+          portalAccumulator.moreCounts
+        )
+        accumulator.directCounts = mergeCounts(
+          accumulator.directCounts,
+          portalAccumulator.directCounts
+        )
+        accumulator.portal = undefined
+
+        closePending(accumulator, {
+          next,
+          appendAfter: comment
+        })
+        return accumulator
+      }
+
+      const prevIsParent = !!prev && comment.parentIds.indexOf(prev.id) !== -1
+      const prevIsThread = prevIsParent && prev.comments.directTotalCount === 1
+
+      const nextIsChild = !!next && next.parentIds.indexOf(comment.id) !== -1
+      const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
 
       const subCount = (subIdMap[comment.id] || []).length
       const hasChildren = comment.comments.totalCount + subCount > 0
@@ -162,6 +328,17 @@ class Comments extends PureComponent {
       if (nextIsChild) {
         const increaseDepth = !nextIsThread
         if (increaseDepth) {
+          if (accumulator.visualDepth + 1 > maxVisualDepth) {
+            // open a portal
+            accumulator.portal = {
+              visualDepth: accumulator.visualDepth,
+              parent: comment,
+              parentIds: next.parentIds,
+              nodes: []
+            }
+            // return early
+            return accumulator
+          }
           accumulator.visualDepth += 1
           SHOW_DEBUG && accumulator.list.push(<BlockLabel>inc</BlockLabel>)
         }
@@ -169,83 +346,41 @@ class Comments extends PureComponent {
           comment,
           increaseDepth
         ])
-      } else {
-        if (hasChildren) {
-          comment.parentIds.forEach(id => {
-            moreCounts[id] = (moreCounts[id] || 0) + comment.comments.totalCount
-          })
-          accumulator.count += comment.comments.totalCount
-          accumulator.list.push(
-            <CommentTreeLoadMore
-              key={`loadMore${comment.id}`}
-              t={t}
-              connected
-              visualDepth={accumulator.visualDepth}
-              count={comment.comments.totalCount + subCount}
-              onClick={() => {
-                fetchMore(comment.id, comment.comments.pageInfo.endCursor)
-                  .then(() => {
-                    this.clearSubIds(comment.id)
-                  })
-              }}
-            />
-          )
-        }
 
-        const appendAfter = comment
-        const needsClosure = accumulator.pendingClosure
-          .filter(([pending]) =>
-            !next ||
-            next.parentIds.indexOf(pending.id) === -1
-          )
-          .reverse()
-
-        needsClosure.forEach(([comment, increaseDepth]) => {
-          if (increaseDepth) {
-            accumulator.visualDepth -= 1
-            SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
-          }
-          const directCount = directCounts[comment.id] || 0
-          const subCount = (subIdMap[comment.id] || []).length
-          if (comment.comments.directTotalCount + subCount > directCount) {
-            const count = counts[comment.id] || 0
-            const moreCount = moreCounts[comment.id] || 0
-            const leftCount = comment.comments.totalCount - count - moreCount
-            comment.parentIds.forEach(id => {
-              moreCounts[id] = (moreCounts[id] || 0) + leftCount
-            })
-            accumulator.count += comment.comments.totalCount - count
-            accumulator.list.push(
-              <CommentTreeLoadMore
-                key={`loadMore${comment.id}`}
-                t={t}
-                connected
-                visualDepth={accumulator.visualDepth}
-                count={leftCount + subCount}
-                onClick={() => {
-                  fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
-                    .then(() => {
-                      this.clearSubIds(comment.id)
-                    })
-                }}
-              />
-            )
-          }
-        })
-        accumulator.pendingClosure = accumulator.pendingClosure
-          .filter((pending) => needsClosure.indexOf(pending) === -1)
+        // return early
+        return accumulator
       }
 
+      // next not a child
+      if (hasChildren) {
+        comment.parentIds.forEach(id => {
+          moreCounts[id] = (moreCounts[id] || 0) + comment.comments.totalCount
+        })
+        accumulator.count += comment.comments.totalCount
+        accumulator.list.push(
+          <CommentTreeLoadMore
+            key={`loadMore${comment.id}`}
+            t={t}
+            connected
+            visualDepth={accumulator.visualDepth}
+            count={comment.comments.totalCount + subCount}
+            onClick={() => {
+              fetchMore(comment.id, comment.comments.pageInfo.endCursor)
+                .then(() => {
+                  this.clearSubIds(comment.id)
+                })
+            }}
+          />
+        )
+      }
+
+      closePending(accumulator, {
+        next,
+        appendAfter: comment
+      })
+
       return accumulator
-    }, {
-      count: 0,
-      visualDepth: 1,
-      list: [],
-      pendingClosure: [],
-      counts: {},
-      moreCounts: {},
-      directCounts: {}
-    })
+    }, initialState)
   }
   render () {
     const {
@@ -277,7 +412,7 @@ class Comments extends PureComponent {
             <CommentTreeLoadMore
               key='loadMore'
               t={t}
-              visualDepth={1}
+              visualDepth={0}
               count={tailCount}
               onClick={() => {
                 fetchMore(null, pageInfo.endCursor)

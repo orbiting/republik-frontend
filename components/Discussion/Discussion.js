@@ -64,6 +64,7 @@ class Discussion extends PureComponent {
         </div>
 
         <Comments
+          depth={1}
           key={orderBy}
           discussionId={discussionId}
           parentId={null}

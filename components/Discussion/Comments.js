@@ -459,7 +459,7 @@ export default compose(
       data,
       fetchMore: (parentId, after, {appendAfter} = {}) => {
         return fetchMore({
-          variables: {discussionId, parentId, after, orderBy},
+          variables: {discussionId, parentId, after, orderBy, depth: 3},
           updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
             let nodes = previousResult.discussion.comments.nodes
             const nodeIndex = nodes.reduce(

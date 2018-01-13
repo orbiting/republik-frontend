@@ -191,7 +191,7 @@ ${fragments.comment}
 })
 
 export const query = gql`
-query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!) {
+query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!, $depth: Int!) {
   me {
     id
     name
@@ -206,7 +206,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         verified
       }
     }
-    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: 3) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
       totalCount
       directTotalCount
       pageInfo {

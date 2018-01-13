@@ -85,10 +85,8 @@ class UpdateEmail extends Component {
   }
 
   startEditing () {
-    const { me } = this.props
     this.setState((state) => ({
-      isEditing: true,
-      value: getValue(me)
+      isEditing: true
     }))
   }
 

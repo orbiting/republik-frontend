@@ -154,7 +154,7 @@ class UpdateMe extends Component {
     return (
       <Loader loading={loading || !me} error={error} render={() => (
         <div style={style}>
-          <UpdateEmail t={t} me={me} />
+          <UpdateEmail me={me} />
           {!isEditing ? (
             <div>
               <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>

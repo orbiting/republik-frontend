@@ -9,6 +9,7 @@ import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
+import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 
@@ -57,18 +58,19 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPath, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
       // dossierUrl={'/foo'}
-      // discussionUrl={'/foo'}
-      // discussionCount={0}
       emailSubject={t('article/share/emailSubject', {
         title
       })}
     />
+    {discussionId &&
+      <DiscussionIconLink discussionId={discussionId} path={discussionPath} />
+    }
   </div>
 )
 
@@ -79,7 +81,6 @@ const getDocument = gql`
       content
       meta {
         template
-        slug
         path
         title
         description
@@ -166,15 +167,29 @@ class ArticlePage extends Component {
 
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path || `/${article.meta.slug}`}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`
     }
+
+    const discussion = meta && meta.discussion
+    const linkedDiscussionId = meta && (
+      meta.discussionId ||
+      (discussion && discussion.meta.discussionId)
+    )
+
+    const actionBar = meta && (
+      <ActionBar t={t}
+        url={meta.url}
+        title={meta.title}
+        discussionId={linkedDiscussionId}
+        discussionPath={discussion && discussion.meta.path} />
+    )
 
     return (
       <Frame
         raw
         url={url}
         meta={meta}
-        secondaryNav={meta ? <ActionBar t={t} url={meta.url} title={meta.title} /> : null}
+        secondaryNav={actionBar}
         showSecondary={this.state.showSecondary}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
@@ -188,7 +203,7 @@ class ArticlePage extends Component {
           const schema = getSchemaCreator(article.meta.template)({
             titleBlockAppend: (
               <div ref={this.barRef} {...styles.bar}>
-                <ActionBar t={t} url={meta.url} title={meta.title} />
+                {actionBar}
               </div>
             )
           })

@@ -15,7 +15,7 @@ import KeyIcon from 'react-icons/lib/fa/key'
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
 
-const styles = {
+export const styles = {
   link: css({
     color: 'inherit',
     display: 'inline-block',
@@ -25,7 +25,7 @@ const styles = {
     whiteSpace: 'nowrap',
     paddingLeft: DEFAULT_PADDING,
     paddingRight: DEFAULT_PADDING,
-    ':hover > *': {
+    '[href]:hover > *': {
       opacity: 0.6
     },
     ':first-child': {

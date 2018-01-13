@@ -43,52 +43,91 @@ const styles = {
   })
 }
 
-const Nav = ({ me, children, t }) => (
-  <div {...styles.container}>
-    <div {...styles.section}>
-      {me && (
-        <div>
-          <Link route='account'>
-            <a {...linkRule}>{t('Frame/Popover/myaccount')}</a>
-          </Link>
-          <br />
-          <Link route='profile' params={{ slug: me.username || me.id }}>
-            <a {...linkRule}>{t('Frame/Popover/myprofile')}</a>
-          </Link>
-          <br />
-        </div>
-      )}
-      {me ? (
-        <SignOut />
-      ) : (
-        <div>
-          <Interaction.P style={{ marginBottom: '20px' }}>
-            {t('me/signedOut')}
-          </Interaction.P>
-          <SignIn />
-        </div>
-      )}
-      <br />
-    </div>
-    <div {...styles.section}>
-      {me && (
-        <div>
-          <Link route='feed'>
-            <a {...linkRule}>{t('nav/feed')}</a>
-          </Link>
-          <br />
-          <Link route='events'>
-            <a {...linkRule}>{t('nav/events')}</a>
-          </Link>
-          <br />
-        </div>
-      )}
+const NavLink = ({ route, translation, params, url, closeHandler }) => {
+  if (`/${route}` === url.pathname) {
+    return (
+      <a
+        {...linkRule}
+        style={{ cursor: 'pointer' }}
+        onClick={e => {
+          e.preventDefault()
+          closeHandler()
+        }}
+      >
+        {translation}
+      </a>
+    )
+  }
+  return (
+    <Link route={route} params={params}>
+      <a {...linkRule}>{translation}</a>
+    </Link>
+  )
+}
 
-      <Link route='community'>
-        <a {...linkRule}>{t('nav/community')}</a>
-      </Link>
+const Nav = ({ me, url, closeHandler, children, t }) => {
+  return (
+    <div {...styles.container}>
+      <div {...styles.section}>
+        {me && (
+          <div>
+            <NavLink
+              route="account"
+              translation={t('Frame/Popover/myaccount')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+            <NavLink
+              route="profile"
+              params={{ slug: me.username || me.id }}
+              translation={t('Frame/Popover/myprofile')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </div>
+        )}
+        {me ? (
+          <SignOut />
+        ) : (
+          <div>
+            <Interaction.P style={{ marginBottom: '20px' }}>
+              {t('me/signedOut')}
+            </Interaction.P>
+            <SignIn />
+          </div>
+        )}
+        <br />
+      </div>
+      <div {...styles.section}>
+        {me && (
+          <div>
+            <NavLink
+              route="feed"
+              translation={t('nav/feed')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+            <NavLink
+              route="events"
+              translation={t('nav/events')}
+              url={url}
+              closeHandler={closeHandler}
+            />
+            <br />
+          </div>
+        )}
+        <NavLink
+          route="community"
+          translation={t('nav/community')}
+          url={url}
+          closeHandler={closeHandler}
+        />
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default withT(Nav)

@@ -10,7 +10,6 @@ import {
   Interaction,
   colors,
   fontStyles,
-  linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -35,19 +34,42 @@ const styles = {
         margin: '0 50px',
         padding: '0 50px'
       },
+      '&:first-child': {
+        paddingLeft: '25px'
+      },
       '&:last-child': {
         marginRight: 0,
-        paddingRight: '20px'
+        paddingRight: '25px',
+        textAlign: 'right'
       }
+    }
+  }),
+  link: css({
+    textDecoration: 'none',
+    color: colors.text,
+    ':visited': {
+      color: colors.text
+    },
+    ':hover': {
+      color: colors.primary
+    },
+    cursor: 'pointer',
+    [mediaQueries.mUp]: {
+      fontSize: 48,
+      lineHeight: '80px'
     }
   })
 }
+
+const SignoutLink = ({children, ...props}) => (
+  <a {...styles.link} {...props}>{children}</a>
+)
 
 const NavLink = ({ route, translation, params, url, closeHandler }) => {
   if (`/${route}` === url.pathname) {
     return (
       <a
-        {...linkRule}
+        {...styles.link}
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
@@ -60,7 +82,7 @@ const NavLink = ({ route, translation, params, url, closeHandler }) => {
   }
   return (
     <Link route={route} params={params}>
-      <a {...linkRule}>{translation}</a>
+      <a {...styles.link}>{translation}</a>
     </Link>
   )
 }
@@ -89,7 +111,7 @@ const Nav = ({ me, url, closeHandler, children, t }) => {
           </div>
         )}
         {me ? (
-          <SignOut />
+          <SignOut Link={SignoutLink} />
         ) : (
           <div>
             <Interaction.P style={{ marginBottom: '20px' }}>

@@ -209,12 +209,14 @@ class Comments extends PureComponent {
 
           // This is the 'CommentTreeLoadMore' element which loads more comments in the discussion root.
           const subCount = subIdMap.root.length
-          const tail = pageInfo && pageInfo.hasNextPage && (
+
+          const tailCount = totalCount - accumulator.count + subCount
+          const tail = tailCount > 0 && (
             <CommentTreeLoadMore
               key='loadMore'
               t={t}
               visualDepth={1}
-              count={totalCount - accumulator.count + subCount}
+              count={tailCount}
               onClick={() => {
                 fetchMore(null, pageInfo.endCursor)
                   .then(() => {

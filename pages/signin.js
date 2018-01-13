@@ -7,7 +7,6 @@ import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
-import { Container } from '@project-r/styleguide'
 import { Router } from '../lib/routes'
 
 class SigninPage extends Component {
@@ -29,11 +28,11 @@ class SigninPage extends Component {
     }
 
     return (
-      <Frame raw url={url} meta={meta}>
-        <Container style={{ marginTop: 100, maxWidth: 600 }}>
+      <Frame url={url} meta={meta}>
+        <div style={{ margin: '40px auto 0 auto', maxWidth: 600 }}>
           {/* TODO: some intro text. */}
           {!me ? <SignIn /> : <Loader loading />}
-        </Container>
+        </div>
       </Frame>
     )
   }

@@ -307,17 +307,23 @@ ${fragments.comment}
             : 0
           nodes.splice(insertIndex, 0, comment)
 
-          if (parentIndex) {
-            const parent = nodes[parentIndex]
-            nodes.splice(parentIndex, 1, {
-              ...parent,
+          submitComment.parentIds.forEach(pid => {
+            const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
+
+            if (pidIndex === -1) {
+              return
+            }
+            const node = nodes[pidIndex]
+            nodes.splice(pidIndex, 1, {
+              ...node,
               comments: {
-                ...parent.comments,
-                totalCount: parent.comments.totalCount + 1,
-                directTotalCount: parent.comments.directTotalCount + 1
+                ...node.comments,
+                totalCount: node.comments.totalCount + 1,
+                directTotalCount: node.comments.directTotalCount +
+                  pidIndex === parentIndex ? 1 : 0
               }
             })
-          }
+          })
 
           proxy.writeQuery({
             query: query,

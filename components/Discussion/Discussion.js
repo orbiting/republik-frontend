@@ -12,6 +12,7 @@ const styles = {
   }),
   orderBy: css({
     ...fontStyles.sansSerifRegular16,
+    outline: 'none',
     color: colors.text,
     WebkitAppearance: 'none',
     background: 'transparent',
@@ -63,6 +64,7 @@ class Discussion extends PureComponent {
         </div>
 
         <Comments
+          key={orderBy}
           discussionId={discussionId}
           parentId={null}
           orderBy={orderBy}

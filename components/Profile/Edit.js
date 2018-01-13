@@ -4,6 +4,8 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 import PropTypes from 'prop-types'
 
+import { DEFAULT_VALUES } from './Page'
+
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
@@ -116,6 +118,7 @@ const Edit = ({me, user, t, state, setState, startEditing, update}) => {
           }
           update({
             ...state.values,
+            publicUrl: state.values.publicUrl === DEFAULT_VALUES.publicUrl ? '' : state.values.publicUrl,
             hasPublicProfile: true
           })
         }}>

@@ -150,7 +150,6 @@ class UpdateMe extends Component {
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
       .filter(Boolean)
-
     return (
       <Loader loading={loading || !me} error={error} render={() => (
         <div style={style}>

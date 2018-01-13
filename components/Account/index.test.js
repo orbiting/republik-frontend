@@ -1,21 +1,20 @@
 import React from 'react'
 import test from 'tape'
-import { shallow } from '../../lib/utils/enzyme'
-import { Me } from '../Me'
+import { render } from '../../lib/utils/enzyme'
+import { Item } from './Elements'
 
-test('components.me', assert => {
+test('account elements', assert => {
   assert.plan(1)
 
-  const wrapper = shallow(
-    <Me
-      me={{name: 'Foo'}}
-      t={() => 'Bar'}
+  const wrapper = render(
+    <Item
+      createdAt={new Date(2018, 0, 15)}
     />
   )
 
   assert.equal(
-    wrapper.find('H1').exists(),
+    wrapper.text().indexOf('15. Januar 2018') !== -1,
     true,
-    'has an H1'
+    'renders formatted createdAt'
   )
 })

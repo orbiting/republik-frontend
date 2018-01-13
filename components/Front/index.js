@@ -42,6 +42,7 @@ class Front extends Component {
     const { url, data, data: { front }, t } = this.props
     const meta = front && {
       ...front.meta,
+      title: front.meta.title || t('pages/magazine/title'),
       url: `${PUBLIC_BASE_URL}${front.meta.path}`
     }
 

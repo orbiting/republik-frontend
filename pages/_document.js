@@ -25,7 +25,7 @@ export default class MyDocument extends Document {
   }
   render () {
     const { css, env: {
-      PIWIK_URL_BASE, PIWIK_SITE_ID
+      PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
     } } = this.props
     const piwik = (
       !!PIWIK_URL_BASE &&
@@ -53,6 +53,14 @@ export default class MyDocument extends Document {
             />
             : null}
           <meta name='author' content='Republik' />
+          <link rel='apple-touch-icon' sizes='180x180' href={`${PUBLIC_BASE_URL}/static/apple-touch-icon.png`} />
+          <link rel='icon' type='image/png' href={`${PUBLIC_BASE_URL}/static/favicon-32x32.png`} sizes='32x32' />
+          <link rel='icon' type='image/png' href={`${PUBLIC_BASE_URL}/static/favicon-16x16.png`} sizes='16x16' />
+          <link rel='manifest' href={`${PUBLIC_BASE_URL}/static/manifest.json`} />
+          <link rel='mask-icon' href={`${PUBLIC_BASE_URL}/static/safari-pinned-tab.svg`} color='#000000' />
+          <link rel='shortcut icon' href={`${PUBLIC_BASE_URL}/static/favicon.ico`} />
+          { /* browserconfig.xml can contain other static references, we skip cdnifing it */ }
+          <meta name='msapplication-config' content='/static/browserconfig.xml' />
         </Head>
         <body>
           <Main />

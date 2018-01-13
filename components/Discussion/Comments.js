@@ -398,7 +398,7 @@ class Comments extends PureComponent {
     return (
       <Loader
         loading={loading}
-        error={error}
+        error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const {totalCount, pageInfo, nodes} = discussion.comments
 

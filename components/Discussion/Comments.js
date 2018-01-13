@@ -305,7 +305,7 @@ class Comments extends PureComponent {
           comment={comment}
           displayAuthor={displayAuthor}
           onEditPreferences={this.showPreferences}
-          isAdmin={isAdmin}
+          isAdmin={this.props.isAdmin}
           submitComment={this.props.submitComment}
           editComment={this.props.editComment}
           upvoteComment={this.props.upvoteComment}

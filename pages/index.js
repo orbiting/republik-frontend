@@ -45,6 +45,7 @@ const IndexPage = ({ url, t, isAuthorized }) => {
           cursor
           limited
           autoPlay
+          loop
         />
       }
     >

@@ -108,7 +108,7 @@ class VideoCover extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const {src, cursor, limited} = this.props
+    const {src, cursor, limited, loop} = this.props
     const {
       playing, ended,
       videoHeight, windowHeight,
@@ -160,6 +160,11 @@ class VideoCover extends Component {
               videoHeight &&
               !(this.player && this.player.scrubbing)
             ) {
+              if (loop) {
+                this.player.progress = 0
+                this.player.play()
+                return
+              }
               this.setState(() => ({ended: true}), () => {
                 const topFixed = mobile
                   ? HEADER_HEIGHT_MOBILE

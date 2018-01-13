@@ -100,6 +100,11 @@ class Comments extends PureComponent {
       this.setState({ now: Date.now() })
     }, 30 * 1000)
   }
+  componentWillReceiveProps (nextProps) {
+    if (this.props.reload !== nextProps.reload) {
+      this.props.data.refetch()
+    }
+  }
   componentWillUnmount () {
     this.unsubscribe()
     clearInterval(this.intervalId)
@@ -139,7 +144,7 @@ class Comments extends PureComponent {
       return timeago(t, (now - Date.parse(createdAtString)) / 1000)
     }
 
-    const closePending = (accumulator, {next, appendAfter}) => {
+    const closePending = (accumulator, { next, appendAfter }) => {
       const { counts, moreCounts, directCounts } = accumulator
       const needsClosure = accumulator.pendingClosure
         .filter(([pending]) =>
@@ -178,6 +183,8 @@ class Comments extends PureComponent {
               }}
             />
           )
+        } else if (accumulator.visualDepth === 1) {
+          accumulator.list.push(<div style={{height: 10}} />)
         }
       })
       accumulator.pendingClosure = accumulator.pendingClosure
@@ -282,6 +289,11 @@ class Comments extends PureComponent {
 
       const head = (nextIsChild || hasChildren) && !prevIsThread
       const tail = prevIsThread && !(nextIsChild || hasChildren)
+      // const end = (
+      //   !(nextIsChild || hasChildren) && (
+      //     !next || next.parentIds.length < comment.parentIds.length
+      //   )
+      // )
       const otherChild = (
         !nextIsChild && !hasChildren && (
           (comment.parentIds.length === 0) ||
@@ -459,7 +471,7 @@ export default compose(
       data,
       fetchMore: (parentId, after, {appendAfter} = {}) => {
         return fetchMore({
-          variables: {discussionId, parentId, after, orderBy, depth: 3},
+          variables: {discussionId, parentId, after, orderBy, depth: parentId ? 3 : 1},
           updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
             let nodes = previousResult.discussion.comments.nodes
             const nodeIndex = nodes.reduce(

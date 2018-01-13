@@ -171,7 +171,7 @@ class Comments extends PureComponent {
 
                 const appendAfter = comment
                 const needsClosure = accumulator.pendingClosure
-                  .filter(pending => comment.parentIds.indexOf(pending.id) === -1)
+                  .filter(pending => !next || next.parentIds.indexOf(pending.id) === -1)
                 needsClosure.forEach(comment => {
                   const count = counts[comment.id] || 0
                   const subCount = (subIdMap[comment.id] || []).length

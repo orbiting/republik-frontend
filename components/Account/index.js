@@ -9,6 +9,8 @@ import { Content, MainContainer } from '../Frame'
 import Loader from '../Loader'
 import UserGuidance from './UserGuidance'
 import UpdateMe from './UpdateMe'
+import UpdateEmail from './UpdateEmail'
+
 import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import SignIn from '../Auth/SignIn'
@@ -58,6 +60,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
               {recurringAmount > 0 &&
                 <PaymentSources query={query} total={recurringAmount} />}
 
+              <UpdateEmail />
               <UpdateMe acceptedStatue={acceptedStatue} />
 
               {(hasPledges || !hasMemberships) && (

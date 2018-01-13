@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-12T19:24:18.986Z",
+  "updated": "2018-01-13T00:20:25.942Z",
   "title": "live",
   "data": [
     {
@@ -24,7 +24,7 @@
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": null
+      "Bemerkung": "Das muss eh raus..."
     },
     {
       "key": "nav/community",
@@ -536,7 +536,7 @@
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wollen wir das 'mitmachen' als Begriff beibehalten?"
+      "Bemerkung": null
     },
     {
       "key": "pledge/contact/pastPledges/other",
@@ -728,7 +728,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Das muss raus, ahhh!"
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/hint/plain",
@@ -736,7 +736,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Das auch."
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/error/empty",
@@ -744,7 +744,7 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Das auch."
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/birthday/error/invalid",
@@ -752,11 +752,11 @@
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "Das auch."
+      "Bemerkung": null
     },
     {
       "key": "Account/Update/submit",
-      "value": "Speichern",
+      "value": "speichern",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -773,6 +773,94 @@
     {
       "key": "Account/Update/edit",
       "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "api/email/change/exists",
+      "value": "Diese E-Mail Adresse existiert bereits.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/edit",
+      "value": "ändern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/cancel",
+      "value": "abbrechen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/submit",
+      "value": "speichern",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/confirm",
+      "value": "Sind Sie sicher, dass die neue Adresse für Ihr Republik-Konto {email} lauten soll?",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/hint",
+      "value": "Bitte beachten Sie, dass wenn Sie Ihre E-Mail Adresse ändern, Sie auf allen Geräten abgemeldet werden und sich danach ausschliesslich mit der neuen Adresse anmelden können .",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/error/invalid",
+      "value": "Das ist keine gültige E-Mail Adresse",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/empty",
+      "value": "Geben Sie eine gültige E-Mail Adresse ein.",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/form/label",
+      "value": "Ihre neue E-Mail Adresse",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/label",
+      "value": "Ihre E-Mail Adresse",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "Account/Update/email/updating",
+      "value": "Neue E-Mail Adresse wird gespeichert ...",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1492,11 +1580,11 @@
     },
     {
       "key": "profile/preview",
-      "value": "Dies ist Ihre Profilseite. Sie ist noch weiss und unberührt wie frisch gefallener Schnee. Sie haben hier die Möglichkeit, ein Foto, ein Statement und einen kurzen Steckbrief zu sich selbst zu veröffentlichen. Was ideal ist für die Debatten mit Ihren Mitverlegerinnen.<br/> (Übrigens: Sie können mittels Ihrem Foto ein wenig die Redaktion steuern. Denn im zentralen Sitzungszimmer der Republik laufen die Fotos aller Verleger und Verlegerinnen in Endlosschlaufe, um die Journalisten daran zu erinnern, für wen Sie arbeitet. (Bis jetzt haben das xxx Verleger und Verlegerinnen getan.) Die Folge: Mit einem freundlichen Foto können Sie die Redaktion beruhigen, mit einem strengen sie zur Arbeit treiben.)",
+      "value": "Dies ist Ihre Profilseite. Sie ist noch weiss und unberührt wie frisch gefallener Schnee. Sie haben hier die Möglichkeit, ein Foto, ein Statement und einen kurzen Steckbrief zu sich selbst zu veröffentlichen. Was ideal ist für die Debatten mit Ihren Mitverlegerinnen.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Wäre noch cool, wenn man hier die aktuelle Anzahl Community-Portrais anzeigen könnte. Kürzer...."
+      "Bemerkung": "<br/> (Übrigens: Sie können mittels Ihrem Foto ein wenig die Redaktion steuern. Denn im zentralen Sitzungszimmer der Republik laufen die Fotos aller Verleger und Verlegerinnen in Endlosschlaufe, um die Journalisten daran zu erinnern, für wen Sie arbeitet. (Bis jetzt haben das xxx Verleger und Verlegerinnen getan.) Die Folge: Mit einem freundlichen Foto können Sie die Redaktion beruhigen, mit einem strengen sie zur Arbeit treiben.)"
     },
     {
       "key": "profile/preview/notEligible",
@@ -1612,7 +1700,7 @@
     },
     {
       "key": "testimonial/meta/single/description",
-      "value": "Jetzt unser Mitglied werden.",
+      "value": "Jetzt Mitglied werden.",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -2068,7 +2156,7 @@
     },
     {
       "key": "styleguide/CommentActions/unpublish",
-      "value": "unveröffentlichen",
+      "value": "Beitrag zurückziehen",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2148,7 +2236,7 @@
     },
     {
       "key": "styleguide/comment/unpublished",
-      "value": "(unveröffentlicht)",
+      "value": "(unsichtbar)",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2164,7 +2252,7 @@
     },
     {
       "key": "styleguide/comment/adminUnpublished",
-      "value": "Leider mussen wir Ihren Beitrag unveröffentlichen. Wenden sie sich an kontakt@republik.ch.",
+      "value": "Leider mussen wir Ihren Beitrag verbergen. Wenden sie sich an kontakt@republik.ch.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2340,7 +2428,7 @@
     },
     {
       "key": "components/DiscussionPreferences/explain",
-      "value": "Sie können hier einstellen wie Sie an dieser Diskussion teilnehmen wollen. Diese Einstellungen gelten für all Ihre Beiträge in dieser Diskussion.",
+      "value": "Sie können hier einstellen, wie Sie an dieser Debatte teilnehmen wollen. Die Einstellungen gelten für alle Ihre Beiträge in dieser Debatte.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2348,7 +2436,7 @@
     },
     {
       "key": "components/DiscussionPreferences/credentialAnonymityWarning",
-      "value": "Achtung: Diese Bezeichnung ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen.",
+      "value": "Achtung: Die Bezeichnung ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2504,7 +2592,7 @@
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Was ist das? Hier muss man noch ein bisschen aufräumen. Ziel: es hat auf der /pledge/package page nur noch 2 titel (willkommen an bord und dann den konkreten titel, nicht mehr dieses klein gedruckte 'abo und mitgliedschaft für ein jahr')"
+      "Bemerkung": null
     },
     {
       "key": "package/ABO/description",
@@ -2564,11 +2652,11 @@
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. <br /> Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n",
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrem Gönner-Abonnement werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Achtung HTML!"
+      "Bemerkung": null
     },
     {
       "key": "package/BENEFACTOR/description/short",
@@ -3536,7 +3624,7 @@
       "Clara ok": null,
       "Braucht Const": "x",
       "Korrektorat": null,
-      "Bemerkung": "Need to understad it in Context, especially with NL-Settings"
+      "Bemerkung": null
     },
     {
       "key": "merci/action/read",
@@ -3821,18 +3909,18 @@
     {
       "key": "memberships/claim/legal/label",
       "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden.",
-      "Clara ok": null,
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "waiting for answer from legal dep"
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/legal/error",
-      "value": "Sie müssen sich mit der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären.",
-      "Clara ok": null,
+      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären.",
+      "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
-      "Bemerkung": "waiting for answer from legal dep"
+      "Bemerkung": null
     },
     {
       "key": "memberships/claim/error/title",
@@ -4156,7 +4244,7 @@
     },
     {
       "key": "notifications/authorization/text/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich an kontakt@republik.ch.",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

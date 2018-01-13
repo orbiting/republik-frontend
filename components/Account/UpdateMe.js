@@ -14,7 +14,6 @@ import {
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
-import UpdateEmail from './UpdateEmail'
 
 const {H2, P} = Interaction
 
@@ -154,7 +153,6 @@ class UpdateMe extends Component {
     return (
       <Loader loading={loading || !me} error={error} render={() => (
         <div style={style}>
-          <UpdateEmail me={me} />
           {!isEditing ? (
             <div>
               <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>

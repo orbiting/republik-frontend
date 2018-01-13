@@ -5,6 +5,7 @@ import {validate as isEmail} from 'email-validator'
 
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
 
 import {
@@ -13,7 +14,7 @@ import {
 
 const { P, H2 } = Interaction
 
-const getValue = me => me.email
+const getValue = me => me.email || ''
 
 const CancelLink = ({children, onClick, ...props}) =>
   <A
@@ -207,5 +208,6 @@ export default compose(
       }
     })
   }),
-  withT
+  withT,
+  withMe
 )(UpdateEmail)

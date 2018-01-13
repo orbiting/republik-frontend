@@ -1,7 +1,5 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
-
-import { errorToString } from '../../lib/utils/errors'
 
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
@@ -12,9 +10,7 @@ import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editCommen
 import DiscussionPreferences from './DiscussionPreferences'
 
 import {
-  colors,
   CommentTreeLoadMore,
-  CommentTreeCollapse,
   CommentTreeRow,
   Label
 } from '@project-r/styleguide'
@@ -119,19 +115,19 @@ class Comments extends PureComponent {
             .reduce((accumulator, comment, index, all) => {
               const next = all[index + 1]
               const nextIsChild = next && next.parentIds.indexOf(comment.id) !== -1
-              const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
+              const nextIsThread = !!nextIsChild && comment.comments.directTotalCount === 1
               const prev = all[index - 1]
               const prevIsParent = prev && comment.parentIds.indexOf(prev.id) !== -1
-              const prevIsThread = prevIsParent && prev.comments.directTotalCount === 1
+              const prevIsThread = !!prevIsParent && prev.comments.directTotalCount === 1
 
               const subCount = (subIdMap[comment.id] || []).length
-              const numChildren = comment.comments.totalCount + subCount
+              const hasChildren = comment.comments.totalCount + subCount > 0
               // const prevIsSibling = prev && comment.parentIds.every(parentId => prev.parentIds.indexOf(parentId) !== -1)
 
-              const head = (nextIsChild || !!numChildren) && !prevIsThread
-              const tail = prevIsThread && !(nextIsChild || !!numChildren)
+              const head = (nextIsChild || hasChildren) && !prevIsThread
+              const tail = prevIsThread && !(nextIsChild || hasChildren)
               const otherChild = (
-                !nextIsChild && !numChildren && (
+                !nextIsChild && !hasChildren && (
                   (comment.parentIds.length === 0) ||
                   (!prevIsThread && !nextIsThread)
                 )
@@ -163,11 +159,15 @@ class Comments extends PureComponent {
                 />
               )
 
-              const { counts } = accumulator
+              const { directCounts, moreCounts, counts } = accumulator
               accumulator.count += 1
               comment.parentIds.forEach(id => {
                 counts[id] = (counts[id] || 0) + 1
               })
+              const parentId = comment.parentIds[comment.parentIds.length - 1]
+              if (parentId) {
+                directCounts[parentId] = (directCounts[parentId] || 0) + 1
+              }
 
               if (nextIsChild) {
                 const increaseDepth = !nextIsThread
@@ -180,7 +180,10 @@ class Comments extends PureComponent {
                   increaseDepth
                 ])
               } else {
-                if (numChildren) {
+                if (hasChildren) {
+                  comment.parentIds.forEach(id => {
+                    moreCounts[id] = (moreCounts[id] || 0) + comment.comments.totalCount
+                  })
                   accumulator.count += comment.comments.totalCount
                   accumulator.list.push(
                     <CommentTreeLoadMore
@@ -188,7 +191,7 @@ class Comments extends PureComponent {
                       t={t}
                       connected
                       visualDepth={accumulator.visualDepth}
-                      count={numChildren}
+                      count={comment.comments.totalCount + subCount}
                       onClick={() => {
                         fetchMore(comment.id, comment.comments.pageInfo.endCursor)
                           .then(() => {
@@ -210,12 +213,17 @@ class Comments extends PureComponent {
                 needsClosure.forEach(([comment, increaseDepth]) => {
                   if (increaseDepth) {
                     accumulator.visualDepth -= 1
-                    SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec</BlockLabel>)
+                    SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
                   }
-                  const count = counts[comment.id] || 0
+                  const directCount = directCounts[comment.id] || 0
                   const subCount = (subIdMap[comment.id] || []).length
-                  if (comment.comments.directTotalCount + subCount > count) {
-                    // accumulator.list.push(<div>{comment.id} {count} {comment.comments.directTotalCount}</div>)
+                  if (comment.comments.directTotalCount + subCount > directCount) {
+                    const count = counts[comment.id] || 0
+                    const moreCount = moreCounts[comment.id] || 0
+                    const leftCount = comment.comments.totalCount - count - moreCount
+                    comment.parentIds.forEach(id => {
+                      moreCounts[id] = (moreCounts[id] || 0) + leftCount
+                    })
                     accumulator.count += comment.comments.totalCount - count
                     accumulator.list.push(
                       <CommentTreeLoadMore
@@ -223,7 +231,7 @@ class Comments extends PureComponent {
                         t={t}
                         connected
                         visualDepth={accumulator.visualDepth}
-                        count={comment.comments.totalCount + subCount - count}
+                        count={leftCount + subCount}
                         onClick={() => {
                           fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
                             .then(() => {
@@ -244,7 +252,9 @@ class Comments extends PureComponent {
               visualDepth: 1,
               list: [],
               pendingClosure: [],
-              counts: {}
+              counts: {},
+              moreCounts: {},
+              directCounts: {}
             })
 
           // discussion root load more
@@ -274,12 +284,14 @@ class Comments extends PureComponent {
             />
           )
 
-          return accumulator
-            .list
-            .concat(
-              tail,
-              discussionPreferences
-            )
+          return (
+            <Fragment>
+              {accumulator.list}
+              <br />
+              {tail}
+              {discussionPreferences}
+            </Fragment>
+          )
         }}
       />
     )

@@ -8,6 +8,7 @@ import IconLink from '../IconLink'
 import FieldSet, { styles as fieldSetStyles} from '../FieldSet'
 
 import UsernameField from './UsernameField'
+import { DEFAULT_VALUES } from './Page'
 
 import {
   Dropdown,
@@ -38,6 +39,7 @@ const fields = t => [
       (
         !!value &&
         !isWebUri(value) &&
+        value !== DEFAULT_VALUES.publicUrl &&
         t('profile/contact/publicUrl/error')
       )
     )
@@ -195,7 +197,7 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
             href={`mailto:${user.email}`}
           />
         )}
-        {user.publicUrl && (
+        {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
           <IconLink
             icon='link'
             href={user.publicUrl}

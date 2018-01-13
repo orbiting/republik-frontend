@@ -579,10 +579,23 @@ ${fragments.comment}
 
           const nodes = [].concat(data.discussion.comments.nodes)
 
+          const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
           const insertIndex = parentId
-            ? nodes.findIndex(n => n.id === parentId) + 1
+            ? parentIndex + 1
             : 0
           nodes.splice(insertIndex, 0, comment)
+
+          if (parentIndex) {
+            const parent = nodes[parentIndex]
+            nodes.splice(parentIndex, 1, {
+              ...parent,
+              comments: {
+                ...parent.comments,
+                totalCount: parent.comments.totalCount + 1,
+                directTotalCount: parent.comments.directTotalCount + 1
+              }
+            })
+          }
 
           proxy.writeQuery({
             query: query,
@@ -593,6 +606,8 @@ ${fragments.comment}
                 ...data.discussion,
                 comments: {
                   ...data.discussion.comments,
+                  totalCount: data.discussion.comments.totalCount +
+                    1,
                   nodes
                 }
               }

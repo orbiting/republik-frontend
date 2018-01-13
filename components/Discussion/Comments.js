@@ -123,19 +123,24 @@ class Comments extends PureComponent {
               const prev = all[index - 1]
               const prevIsParent = prev && comment.parentIds.indexOf(prev.id) !== -1
               const prevIsThread = prevIsParent && prev.comments.directTotalCount === 1
+
+              const subCount = (subIdMap[comment.id] || []).length
+              const numChildren = comment.comments.totalCount + subCount
               // const prevIsSibling = prev && comment.parentIds.every(parentId => prev.parentIds.indexOf(parentId) !== -1)
 
-              const head = false // nextIsChild && !prevIsThread
-              const tail = false // !nextIsChild && prevIsThread
-              const otherChild = true || (
-                comment.parentIds.length === 0 ||
-                (prevIsParent && !prevIsThread)
+              const head = (nextIsChild || !!numChildren) && !prevIsThread
+              const tail = prevIsThread && !(nextIsChild || !!numChildren)
+              const otherChild = (
+                !nextIsChild && !numChildren && (
+                  (comment.parentIds.length === 0) ||
+                  (!prevIsThread && !nextIsThread)
+                )
               )
 
               SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
-                nextIsChild,
-                prevIsParent,
-                prevIsThread
+                head,
+                tail,
+                otherChild
               }, null, 2)}</BlockLabel>)
               accumulator.list.push(
                 <CommentTreeRow
@@ -175,9 +180,7 @@ class Comments extends PureComponent {
                   increaseDepth
                 ])
               } else {
-                const subCount = (subIdMap[comment.id] || []).length
-                const total = comment.comments.totalCount + subCount
-                if (total) {
+                if (numChildren) {
                   accumulator.count += comment.comments.totalCount
                   accumulator.list.push(
                     <CommentTreeLoadMore
@@ -185,7 +188,7 @@ class Comments extends PureComponent {
                       t={t}
                       connected
                       visualDepth={accumulator.visualDepth}
-                      count={total}
+                      count={numChildren}
                       onClick={() => {
                         fetchMore(comment.id, comment.comments.pageInfo.endCursor)
                           .then(() => {
@@ -218,6 +221,7 @@ class Comments extends PureComponent {
                       <CommentTreeLoadMore
                         key={`loadMore${comment.id}`}
                         t={t}
+                        connected
                         visualDepth={accumulator.visualDepth}
                         count={comment.comments.totalCount + subCount - count}
                         onClick={() => {

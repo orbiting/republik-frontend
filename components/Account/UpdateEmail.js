@@ -7,6 +7,7 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
+import Loader from '../Loader'
 
 import {
   InlineSpinner, Button, A, Field, Interaction
@@ -14,7 +15,7 @@ import {
 
 const { P, H2 } = Interaction
 
-const getValue = me => me.email || ''
+
 
 const CancelLink = ({children, onClick, ...props}) =>
   <A
@@ -150,7 +151,8 @@ class UpdateEmail extends Component {
   render () {
     const {
       t,
-      me
+      me,
+      loading, error
     } = this.props
     const {
       updating, isEditing
@@ -169,14 +171,16 @@ class UpdateEmail extends Component {
     )
 
     return (
-      <div style={{marginBottom: 80}}>
-        <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>
-        <P>
-          {getValue(me)}
-        </P>
-        <br />
-        {body}
-      </div>
+      <Loader loading={loading || !me} error={error} render={() => (
+        <div style={{marginBottom: 80}}>
+          <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>
+          <P>
+            {me.email || ''}
+          </P>
+          <br />
+          {body}
+        </div>
+    )} />
     )
   }
 }

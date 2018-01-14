@@ -26,6 +26,7 @@ import Portrait from './Portrait'
 import Statement from './Statement'
 import Biography from './Biography'
 import Edit from './Edit'
+import Credentials from './Credentials'
 
 import {
   TeaserFeed,
@@ -112,9 +113,6 @@ const styles = {
     float: 'right',
     verticalAlign: 'middle'
   }),
-  credential: css({
-    ...fontStyles.sansSerifRegular16
-  }),
   badges: css({
     margin: '20px 0 30px 0'
   })
@@ -149,6 +147,7 @@ const getPublicUser = gql`
       pgpPublicKey
       pgpPublicKeyId
       credentials {
+        isListed
         description
         verified
       }
@@ -233,11 +232,13 @@ class Profile extends Component {
       const { me, data: { user } } = this.props
       const { isEditing } = this.state
       if (!isEditing && me && me.id === user.id) {
+        const credential = user.credentials && user.credentials.find(c => c.isListed)
         this.setState({
           isEditing: true,
           values: {
             ...user,
             publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
+            credential: credential && credential.description,
             portrait: undefined
           }
         })
@@ -391,11 +392,13 @@ class Profile extends Component {
                         }
                         : {}}>
                         <Interaction.H3>{user.name}</Interaction.H3>
-                        {user.credentials && user.credentials.map((credential, i) => (
-                          <div key={i} {...styles.credential}>
-                            {credential.description}
-                          </div>
-                        ))}
+                        <Credentials
+                          user={user}
+                          isEditing={isEditing}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty} />
                         {user.badges && (
                           <div {...styles.badges}>
                             {user.badges.map(badge => (

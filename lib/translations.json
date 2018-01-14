@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-14T04:50:04.538Z",
+  "updated": "2018-01-14T06:17:26.436Z",
   "title": "live",
   "data": [
     {
@@ -693,6 +693,18 @@
     {
       "key": "profile/edit/errors",
       "value": "Fehler:"
+    },
+    {
+      "key": "profile/credentials/label",
+      "value": "Funktion"
+    },
+    {
+      "key": "profile/credentials/errors/tooLong",
+      "value": "Funktion, maximal 40 Zeichen"
+    },
+    {
+      "key": "profile/credentials/private",
+      "value": "Funktionen aus den Diskussionen:"
     },
     {
       "key": "profile/contact/facebook/label",

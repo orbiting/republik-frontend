@@ -210,16 +210,56 @@ const mutation = gql`
       pgpPublicKey
       pgpPublicKeyId
       isListed
+      credentials {
+        isListed
+        description
+        verified
+      }
     }
   }
 `
 
+const publishCredential = gql`
+  mutation publishCredential($description: String) {
+    publishCredential(description: $description) {
+      isListed
+      description
+    }
+  }
+
+`
+
 export default compose(
-  graphql(mutation, {
+  graphql(publishCredential, {
     props: ({ mutate, ownProps: { setState } }) => ({
-      update: variables => {
+      publishCredential: description => {
+        return mutate({
+          variables: {
+            description
+          }
+        })
+      }
+    })
+  }),
+  graphql(mutation, {
+    props: ({ mutate, ownProps: { setState, publishCredential, user, ...rest } }) => ({
+      update: async variables => {
         setState({ updating: true })
-        mutate({
+
+        const credential = (user.credentials || []).find(c => c.isListed) || {}
+        if (variables.credential !== credential.description) {
+          try {
+            await publishCredential(variables.credential || null)
+          } catch (error) {
+            setState(() => ({
+              updating: false,
+              error: errorToString(error)
+            }))
+            return
+          }
+        }
+
+        return mutate({
           variables
         })
           .then(() => {

@@ -40,7 +40,10 @@ const styles = {
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
     },
-    borderBottom: `1px solid ${colors.divider}`
+    borderBottom: `1px solid ${colors.divider}`,
+    '@media print': {
+      borderBottom: 0
+    }
   }),
   center: css({
     margin: '0 auto 0',
@@ -63,6 +66,9 @@ const styles = {
     verticalAlign: 'middle'
   }),
   user: css({
+    '@media print': {
+      display: 'none'
+    },
     opacity: 1,
     transition: 'opacity .2s ease-in-out',
     '[data-show-secondary] > &': {
@@ -70,6 +76,9 @@ const styles = {
     }
   }),
   hamburger: css({
+    '@media print': {
+      display: 'none'
+    },
     background: '#fff',
     position: 'absolute',
     top: 0,

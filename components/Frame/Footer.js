@@ -32,6 +32,9 @@ const negativeColors = {
 
 const styles = {
   bg: css({
+    '@media print': {
+      display: 'none !important'
+    },
     position: 'relative',
     zIndex: 10, // goes over sidebar
     backgroundColor: negativeColors.primaryBg,

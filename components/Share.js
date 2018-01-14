@@ -1,9 +1,18 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { css } from 'glamor'
 
 import IconLink from './IconLink'
 
 import { colors } from '@project-r/styleguide'
+
+const styles = {
+  buttonGroup: css({
+    '@media print': {
+      display: 'none'
+    }
+  })
+}
 
 const ShareButtons = ({
   url,
@@ -60,11 +69,11 @@ const ShareButtons = ({
   ]
 
   return (
-    <Fragment>
+    <span {...styles.buttonGroup}>
       {shareOptions
         .filter(Boolean)
         .map((props, i) => <IconLink key={i} fill={fill} {...props} />)}
-    </Fragment>
+    </span>
   )
 }
 

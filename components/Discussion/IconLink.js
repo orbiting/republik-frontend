@@ -14,7 +14,10 @@ import {
 
 const styles = {
   a: css({
-    marginLeft: 10
+    marginLeft: 20,
+    '@media print': {
+      display: 'none'
+    }
   }),
   text: css({
     paddingLeft: 3,

@@ -9,7 +9,7 @@ import {
 import { SPACE } from '../components/Frame/PureFooter'
 
 import {
-  PUBLIC_BASE_URL
+  PUBLIC_BASE_URL, STATIC_BASE_URL
 } from '../lib/constants'
 
 const styles = {
@@ -54,7 +54,7 @@ export default ({url}) => {
   const meta = {
     title: 'Republik',
     description: 'Bald wieder verfügbar.',
-    image: `${PUBLIC_BASE_URL}/static/social-media/logo.png`,
+    image: `${STATIC_BASE_URL}/static/social-media/logo.png`,
     url: `${PUBLIC_BASE_URL}${url.pathname}`
   }
 

@@ -9,12 +9,11 @@ import VideoCover from '../components/VideoCover'
 import withMembership from '../components/Auth/withMembership'
 
 import {
-  STATIC_BASE_URL,
   SALES_UP,
-  CROWDFUNDING_NAME
+  CROWDFUNDING_NAME,
+  PUBLIC_BASE_URL,
+  STATIC_BASE_URL
 } from '../lib/constants'
-
-
 
 const endVideo = {
   hls:
@@ -28,7 +27,9 @@ const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 const IndexPage = ({ url, t, isAuthorized }) => {
   const meta = {
-    title: t('pages/magazine/title')
+    title: t('pages/magazine/title'),
+    image: `${STATIC_BASE_URL}/static/social-media/logo.png`,
+    url: `${PUBLIC_BASE_URL}/`
   }
   if (isAuthorized) {
     return <Front url={url} />

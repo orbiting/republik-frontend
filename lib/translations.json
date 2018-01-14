@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-14T07:34:28.030Z",
+  "updated": "2018-01-14T11:29:18.352Z",
   "title": "live",
   "data": [
     {
@@ -1088,7 +1088,7 @@
     },
     {
       "key": "components/Discussion/reload",
-      "value": "zurücksetzen"
+      "value": "neu laden"
     },
     {
       "key": "discussion/missing",
@@ -1136,7 +1136,7 @@
     },
     {
       "key": "styleguide/CommentTreeCollapse/label",
-      "value": "ausklappen"
+      "value": "einklappen"
     },
     {
       "key": "styleguide/comment/header/updated",

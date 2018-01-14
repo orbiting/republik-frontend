@@ -42,7 +42,8 @@ const styles = {
     },
     borderBottom: `1px solid ${colors.divider}`,
     '@media print': {
-      borderBottom: 0
+      borderBottom: 0,
+      backgroundColor: 'transparent'
     }
   }),
   center: css({

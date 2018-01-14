@@ -46,8 +46,8 @@ export const MainContainer = ({children}) =>
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
-export const Content = ({children}) =>
-  <div {...styles.content}>{children}</div>
+export const Content = ({children, style}) =>
+  <div {...styles.content} style={style}>{children}</div>
 
 const Index = ({
   t,

@@ -14,6 +14,8 @@ import ErrorMessage from '../ErrorMessage'
 import Account from '../Account'
 import Share from '../Share'
 
+import { Content, MainContainer } from '../Frame'
+
 import ClaimPledge from './Claim'
 
 import { EMAIL_CONTACT, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -66,35 +68,39 @@ class Merci extends Component {
     } = this.state
     if (query.claim) {
       return (
-        <ClaimPledge t={t} me={me} id={query.claim} />
+        <MainContainer><Content>
+          <ClaimPledge t={t} me={me} id={query.claim} />
+        </Content></MainContainer>
       )
     }
     if (polling) {
       return (
-        <P>
-          <RawHtml dangerouslySetInnerHTML={{
-            __html: t('merci/postpay/waiting', {
-              email,
-              phrase
-            })
-          }} />
-          <br />
-          <Poller onSuccess={() => {
-            this.setState({
-              polling: false
-            })
-          }} />
-          {!!query.id && (
-            <Link route='account' params={{claim: query.id}}>
-              <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
-            </Link>
-          )}
-        </P>
+        <MainContainer><Content>
+          <P>
+            <RawHtml dangerouslySetInnerHTML={{
+              __html: t('merci/postpay/waiting', {
+                email,
+                phrase
+              })
+            }} />
+            <br />
+            <Poller onSuccess={() => {
+              this.setState({
+                polling: false
+              })
+            }} />
+            {!!query.id && (
+              <Link route='account' params={{claim: query.id}}>
+                <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
+              </Link>
+            )}
+          </P>
+        </Content></MainContainer>
       )
     }
     if (signInError && email && query.id) {
       return (
-        <div>
+        <MainContainer><Content>
           <H1>{t('merci/postpay/signInError/title')}</H1>
           <RawHtml type={P} dangerouslySetInnerHTML={{
             __html: t('merci/postpay/signInError/text', {
@@ -146,7 +152,7 @@ class Merci extends Component {
           <Link route='account' params={{claim: query.id}}>
             <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
           </Link>
-        </div>
+        </Content></MainContainer>
       )
     }
     if (!me) {
@@ -159,39 +165,41 @@ class Merci extends Component {
 
     return (
       <Fragment>
-        <H1>{t('merci/title', {
-          name: me.name
-        })}</H1>
-        <RawHtml type={Lead} dangerouslySetInnerHTML={{
-          __html: t('merci/lead')
-        }} />
-        <WithMembership render={() => (
-          <div style={{marginTop: 10}}>
-            <Link route='index'>
-              <Button primary style={buttonStyle}>
-                {t('merci/action/read')}
-              </Button>
-            </Link>
-            {!me.hasPublicProfile && (
-              <Link route='profile' params={{slug: me.username || me.id}}>
-                <Button style={buttonStyle}>
-                  {t('merci/action/profile')}
+        <MainContainer><Content style={{paddingBottom: 0}}>
+          <H1>{t('merci/title', {
+            name: me.name
+          })}</H1>
+          <RawHtml type={Lead} dangerouslySetInnerHTML={{
+            __html: t('merci/lead')
+          }} />
+          <WithMembership render={() => (
+            <div style={{marginTop: 10}}>
+              <Link route='index'>
+                <Button primary style={buttonStyle}>
+                  {t('merci/action/read')}
                 </Button>
               </Link>
-            )}
-          </div>
-        )} />
-        <P style={{marginBottom: 80}}>
-          <Share
-            url={`${PUBLIC_BASE_URL}/`}
-            tweet={t('merci/share/tweetTemplate')}
-            emailSubject={t('merci/share/emailSubject')}
-            emailBody={t('merci/share/emailBody', {
-              url: `${PUBLIC_BASE_URL}/`,
-              backerName: me.name
-            })}
-            emailAttachUrl={false} />
-        </P>
+              {!me.hasPublicProfile && (
+                <Link route='profile' params={{slug: me.username || me.id}}>
+                  <Button style={buttonStyle}>
+                    {t('merci/action/profile')}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )} />
+          <P style={{marginBottom: 80}}>
+            <Share
+              url={`${PUBLIC_BASE_URL}/`}
+              tweet={t('merci/share/tweetTemplate')}
+              emailSubject={t('merci/share/emailSubject')}
+              emailBody={t('merci/share/emailBody', {
+                url: `${PUBLIC_BASE_URL}/`,
+                backerName: me.name
+              })}
+              emailAttachUrl={false} />
+          </P>
+        </Content></MainContainer>
         <Account query={query} merci />
       </Fragment>
     )

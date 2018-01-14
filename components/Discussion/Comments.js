@@ -140,7 +140,9 @@ class Comments extends PureComponent {
       discussionClosed
     } = this.props
 
-    const displayAuthor = discussionUserCanComment && !discussionClosed && discussionDisplayAuthor
+    const displayAuthor = (
+      discussionUserCanComment && !discussionClosed && discussionDisplayAuthor
+    ) || undefined
 
     const {
       now,

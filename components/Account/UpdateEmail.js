@@ -15,8 +15,6 @@ import {
 
 const { P, H2 } = Interaction
 
-
-
 const CancelLink = ({children, onClick, ...props}) =>
   <A
     onClick={(e) => {
@@ -158,21 +156,22 @@ class UpdateEmail extends Component {
       updating, isEditing
     } = this.state
 
-    const body = (
-      updating
-      ? (
-        <InlineLoader>
-          {t('Account/Update/email/updating')}
-        </InlineLoader>
-      )
-      : isEditing
-      ? this.renderForm()
-      : this.renderEditButton()
-    )
 
     return (
-      <Loader loading={loading || !me} error={error} render={() => (
-        <div style={{marginBottom: 80}}>
+      <Loader loading={loading || !me} error={error} render={() => {
+
+        const body = (
+          updating
+          ? (
+            <InlineLoader>
+            {t('Account/Update/email/updating')}
+            </InlineLoader>
+          )
+          : isEditing
+          ? this.renderForm()
+          : this.renderEditButton()
+        )
+        return <div style={{marginBottom: 80}}>
           <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>
           <P>
             {me.email || ''}
@@ -180,7 +179,7 @@ class UpdateEmail extends Component {
           <br />
           {body}
         </div>
-    )} />
+      }} />
     )
   }
 }

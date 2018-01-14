@@ -42,7 +42,9 @@ const styles = {
     textAlign: 'center'
   }),
   hint: css({
-    color: colors.lightText
+    color: colors.lightText,
+    display: 'block',
+    lineHeight: '20px'
   })
 }
 

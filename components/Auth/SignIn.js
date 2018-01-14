@@ -133,32 +133,34 @@ class SignIn extends Component {
 
     return (
       <div>
-        <form {...styles.form} onSubmit={submitForm}>
-          <div {...styles.input}>
-            <Field
-              name='email'
-              type='email'
-              label={t('signIn/email/label')}
-              error={dirty && error}
-              onChange={(_, value, shouldValidate) => {
-                this.setState(() => ({
-                  email: value,
-                  error: (
-                    (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
-                    (!isEmail(value) && t('signIn/email/error/invalid'))
-                  ),
-                  dirty: shouldValidate
-                }))
-              }}
-              value={email} />
-          </div>
-          <div {...styles.button}>
-            {loading ? <InlineSpinner /> : <Button
-              block
-              type='submit'
-              disabled={loading}>{label || t('signIn/button')}</Button>}
-          </div>
-        </form>
+        <div {...styles.form}>
+          <form onSubmit={submitForm}>
+            <div {...styles.input}>
+              <Field
+                name='email'
+                type='email'
+                label={t('signIn/email/label')}
+                error={dirty && error}
+                onChange={(_, value, shouldValidate) => {
+                  this.setState(() => ({
+                    email: value,
+                    error: (
+                      (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
+                      (!isEmail(value) && t('signIn/email/error/invalid'))
+                    ),
+                    dirty: shouldValidate
+                  }))
+                }}
+                value={email} />
+            </div>
+            <div {...styles.button}>
+              {loading ? <InlineSpinner /> : <Button
+                block
+                type='submit'
+                disabled={loading}>{label || t('signIn/button')}</Button>}
+            </div>
+          </form>
+        </div>
         <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>

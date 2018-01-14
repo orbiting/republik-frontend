@@ -133,8 +133,8 @@ class SignIn extends Component {
 
     return (
       <div>
-        <div {...styles.form}>
-          <form onSubmit={submitForm}>
+        <form onSubmit={submitForm}>
+          <div {...styles.form}>
             <div {...styles.input}>
               <Field
                 name='email'
@@ -159,8 +159,8 @@ class SignIn extends Component {
                 type='submit'
                 disabled={loading}>{label || t('signIn/button')}</Button>}
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
         <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>

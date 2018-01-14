@@ -1,6 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { colors, mediaQueries, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 
@@ -41,21 +41,6 @@ const styles = {
       height: `${HEADER_HEIGHT - 2 * BUTTON_PADDING}px`
     }
   }),
-  initials: css({
-    display: 'inline-block',
-    textAlign: 'center',
-    backgroundColor: '#ccc',
-    color: '#000',
-    textTransform: 'uppercase',
-    height: '100%',
-    lineHeight: `${HEADER_HEIGHT_MOBILE - 2 * BUTTON_PADDING_MOBILE}px`,
-    width: '100%',
-    fontSize: 14,
-    [mediaQueries.mUp]: {
-      fontSize: 20,
-      lineHeight: `${HEADER_HEIGHT - 2 * BUTTON_PADDING}px`
-    }
-  }),
   anonymous: css({
     display: 'inline-block',
     padding: `${(BUTTON_SIZE_MOBILE - ICON_SIZE) / 2}px`,
@@ -75,8 +60,7 @@ export default ({ url, me, onclickHandler }) => (
         onclickHandler()
       }}
     >
-      {me && me.portrait && <img src={me.portrait} {...styles.portrait} />}
-      {me && !me.portrait && me.initials && <span {...styles.initials}>{me.initials}</span>}
+      {me && <img src={me.portrait || DEFAULT_PROFILE_PICTURE} {...styles.portrait} />}
       {!me && (
         <span {...styles.anonymous}>
           <PersonIcon size={ICON_SIZE} fill={'#282828'} />

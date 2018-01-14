@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import IconLink from './IconLink'
@@ -19,15 +19,6 @@ const ShareButtons = ({
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
-    discussionUrl && {
-      href: discussionUrl,
-      icon: 'discussion',
-      text: discussionCount !== undefined ? discussionCount.toString() : '',
-      fill: colors.social,
-      size: 30,
-      textSize: 19,
-      textColor: colors.social
-    },
     {
       target: '_blank',
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
@@ -61,11 +52,11 @@ const ShareButtons = ({
   ]
 
   return (
-    <span>
+    <Fragment>
       {shareOptions
         .filter(Boolean)
         .map((props, i) => <IconLink key={i} fill={fill} {...props} />)}
-    </span>
+    </Fragment>
   )
 }
 

@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react'
 import {css} from 'glamor'
 import withT from '../../lib/withT'
-import {colors, fontStyles} from '@project-r/styleguide'
+import {A, colors, fontStyles} from '@project-r/styleguide'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
-import DiscussionTree from './DiscussionTree'
+import Comments from './Comments'
 
 const styles = {
   orderByContainer: css({
@@ -12,6 +12,7 @@ const styles = {
   }),
   orderBy: css({
     ...fontStyles.sansSerifRegular16,
+    outline: 'none',
     color: colors.text,
     WebkitAppearance: 'none',
     background: 'transparent',
@@ -30,20 +31,19 @@ class Discussion extends PureComponent {
     super(props)
 
     this.state = {
-      orderBy: 'DATE' // DiscussionOrder
-    }
-
-    this.orderBy = (orderBy) => () => {
-      this.setState({orderBy})
+      orderBy: 'DATE', // DiscussionOrder
+      reload: 0
     }
   }
 
   render () {
     const {t, discussionId} = this.props
-    const {orderBy} = this.state
+    const {orderBy, reload} = this.state
 
-    const OrderBy = ({value}) => (
-      <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={this.orderBy(value)}>
+    const OrderBy = ({children, value}) => (
+      <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
+        this.setState({orderBy: value})
+      }}>
         {t(`components/Discussion/OrderBy/${value}`)}
       </button>
     )
@@ -60,11 +60,21 @@ class Discussion extends PureComponent {
           <OrderBy value='DATE' />
           <OrderBy value='VOTES' />
           <OrderBy value='HOT' />
+          <A style={{float: 'right', lineHeight: '25px', cursor: 'pointer'}} href='' onClick={(e) => {
+            e.preventDefault()
+            this.setState(({ reload }) => ({ reload: reload + 1 }))
+          }}>
+            {t('components/Discussion/reload')}
+          </A>
+          <br style={{clear: 'both'}} />
         </div>
 
-        <DiscussionTree
+        <Comments
+          depth={1}
+          key={orderBy}
           discussionId={discussionId}
           parentId={null}
+          reload={reload}
           orderBy={orderBy}
         />
       </div>

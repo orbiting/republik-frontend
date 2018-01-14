@@ -1,13 +1,14 @@
-import { graphql, compose, withApollo } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
-import { dataIdFromObject } from '../../lib/apollo/initApollo'
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
 const debug = mkDebug('discussion')
+
+// Convert the Error object into a string, but keep the Promise rejected.
+const toRejectedString = e => Promise.reject(errorToString(e))
 
 export const countNode = comment =>
   1 + (!comment.comments ? 0 : comment.comments.totalCount)
@@ -25,14 +26,6 @@ const emptyPageInfo = () => ({
   endCursor: null
 })
 
-const emptyCommentConnection = comment => ({
-  __typename: 'CommentConnection',
-  id: comment.id,
-  totalCount: 0,
-  nodes: [],
-  pageInfo: emptyPageInfo()
-})
-
 // This function extends the props with the 'DisplayUser' that will be used
 // when the current user submits a new comment in the given discussion
 // (specified by its discussionId in the ownProps). The shape of the 'DisplayUser'
@@ -43,9 +36,12 @@ export const withDiscussionDisplayAuthor = graphql(gql`
 query discussionDisplayAuthor($discussionId: ID!) {
   discussion(id: $discussionId) {
     id
+    closed
+    userCanComment
     displayAuthor {
       id
       name
+      username
       credential {
         description
         verified
@@ -61,11 +57,15 @@ query discussionDisplayAuthor($discussionId: ID!) {
       return {}
     }
 
-    return {discussionDisplayAuthor: discussion.displayAuthor}
+    return {
+      discussionClosed: discussion.closed,
+      discussionUserCanComment: discussion.userCanComment,
+      discussionDisplayAuthor: discussion.displayAuthor
+    }
   }
 })
 
-const fragments = {
+export const fragments = {
   comment: gql`
     fragment Comment on Comment {
       id
@@ -78,6 +78,7 @@ const fragments = {
       displayAuthor {
         id
         name
+        username
         credential {
           description
           verified
@@ -101,26 +102,6 @@ const fragments = {
   `
 }
 
-// local only
-// used for inserting single nodes
-fragments.connectionNodes = gql`
-fragment ConnectionNodes on CommentConnection {
-  id
-  nodes {
-    ...Comment
-    comments {
-      ...ConnectionInfo
-      # we need to set an empty array here
-      nodes {
-        id
-      }
-    }
-  }
-}
-${fragments.comment}
-${fragments.connectionInfo}
-`
-
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
   comment(discussionId: $discussionId) {
@@ -130,62 +111,6 @@ subscription discussionComments($discussionId: ID!) {
     }
   }
 }
-${fragments.comment}
-`
-
-// The (logical) depth to which the query below fetches the discussion tree.
-// This constant is exported because it's used in the 'DiscussionTreeRenderer'
-// component to decide whether to use 'fetchMore' or whether to create a new
-// connected component with its own root query.
-export const maxLogicalDepth = 3
-
-const rootQuery = gql`
-query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!) {
-  me {
-    id
-    name
-    portrait(size: SHARE)
-  }
-  discussion(id: $discussionId) {
-    id
-    userPreference {
-      anonymity
-      credential {
-        description
-        verified
-      }
-    }
-    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 5) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
-      ...ConnectionInfo
-
-      # Depth 1
-      nodes {
-        ...Comment
-        comments {
-          ...ConnectionInfo
-
-          # Depth 2
-          nodes {
-            ...Comment
-            comments {
-              ...ConnectionInfo
-
-              # Depth 3
-              nodes {
-                ...Comment
-                comments {
-                  ...ConnectionInfo
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-${fragments.connectionInfo}
 ${fragments.comment}
 `
 
@@ -200,202 +125,6 @@ const modifyComment = (comment, id, onComment) => {
     })
   }
 }
-
-const upsertDebug = mkDebug('discussion:upsertComment')
-
-const upsertComment = (proxy, discussionId, comment, {prepend = false, subscription} = {}) => {
-  upsertDebug('start', {discussionId, commentId: comment.id, prepend})
-
-  const readConnection = id =>
-    proxy.readFragment({
-      id: dataIdFromObject({
-        __typename: 'CommentConnection',
-        id: id
-      }),
-      fragment: fragments.connectionInfo
-    })
-
-  const parentConnections = [discussionId].concat(comment.parentIds)
-    .map(readConnection)
-    .filter(Boolean)
-  const directParentConnection = parentConnections[parentConnections.length - 1]
-
-  const parentConnectionOptimistic = proxy.readFragment({
-    id: dataIdFromObject(directParentConnection),
-    fragment: fragments.connectionNodes,
-    fragmentName: 'ConnectionNodes'
-  }, true)
-  const existingOptimisticComment = parentConnectionOptimistic.nodes.find(n => n.id === comment.id)
-
-  const parentConnection = proxy.readFragment({
-    id: dataIdFromObject(directParentConnection),
-    fragment: fragments.connectionNodes,
-    fragmentName: 'ConnectionNodes'
-  })
-  const existingComment = parentConnection.nodes.find(n => n.id === comment.id)
-
-  upsertDebug('existing', !!existingComment, 'optimistic', !!existingOptimisticComment)
-  if (existingComment) {
-    proxy.writeFragment({
-      id: dataIdFromObject(comment),
-      fragment: fragments.comment,
-      data: comment
-    })
-    return
-  }
-
-  // got a subscription for a comment in optimistic state
-  // - already bumped totals optimistically
-  // - once the update comes through it will write
-  //   the changes permanently with prepend
-  if (existingOptimisticComment && subscription) {
-    return
-  }
-
-  parentConnections.forEach(connection => {
-    const directParent = connection === directParentConnection
-
-    const pageInfo = connection.pageInfo || emptyPageInfo()
-    const data = {
-      ...connection,
-      totalCount: connection.totalCount + 1,
-      pageInfo: {
-        ...pageInfo,
-        hasNextPage: directParent && !prepend
-          ? true
-          : pageInfo.hasNextPage
-      }
-    }
-    upsertDebug('inc connection', {connectionId: connection.id, data})
-
-    proxy.writeFragment({
-      id: dataIdFromObject(connection),
-      fragment: fragments.connectionInfo,
-      data
-    })
-  })
-
-  if (prepend) {
-    const insertComment = {
-      ...comment,
-      comments: emptyCommentConnection(comment)
-    }
-
-    const data = {
-      ...parentConnection,
-      nodes: [
-        insertComment,
-        ...parentConnection.nodes
-      ]
-    }
-    upsertDebug('prepend', {connectionId: data.id, data})
-
-    proxy.writeFragment({
-      id: dataIdFromObject(parentConnection),
-      fragment: fragments.connectionNodes,
-      fragmentName: 'ConnectionNodes',
-      data
-    })
-  }
-}
-
-// Convert the Error object into a string, but keep the Promise rejected.
-const toRejectedString = e => Promise.reject(errorToString(e))
-
-export const withData = compose(
-withMe,
-withApollo,
-graphql(rootQuery, {
-  props: ({ownProps: {discussionId, orderBy, client, parentId}, data: {fetchMore, subscribeToMore, ...data}}) => ({
-    data,
-    fetchMore: (parentId, after) => {
-      debug('fetchMore:init', {parentId, after})
-      return fetchMore({
-        variables: {discussionId, parentId, after, orderBy},
-        updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
-          debug('fetchMore:updateQuery:response', {parentId, after, discussion})
-          // previousResult is immutable. We clone the whole object, then recursively
-          // iterate through the comments until we find the parent comment to which
-          // to append the just fetched comments.
-
-          // clone()
-          const result = JSON.parse(JSON.stringify(previousResult))
-
-          if (discussion && discussion.comments) {
-            const {totalCount, pageInfo, nodes} = discussion.comments
-
-            const insertNodes = (parent) => {
-              if (!parent.comments) { parent.comments = {} }
-
-              // When inserting the new nodes, filter out any comments which we
-              // already have (which have been inserted through the `submitComment`
-              // mutation or which have arrived through a subscription).
-              const currentNodes = parent.comments.nodes || []
-              const newNodes = nodes.filter(x => !currentNodes.some(y => y.id === x.id))
-
-              parent.comments.totalCount = totalCount
-              parent.comments.pageInfo = pageInfo
-              parent.comments.nodes = [...currentNodes, ...newNodes]
-
-              debug('fetchMore:updateQuery:insert', parent)
-            }
-
-            if (parentId) {
-              modifyComment(result.discussion, parentId, insertNodes)
-            } else {
-              insertNodes(result.discussion)
-            }
-          }
-
-          return result
-        }
-      })
-    },
-    subscribe: () => {
-      // only root subscribes and updates cache fragments
-      if (parentId) {
-        // no-op unsubscribe
-        return () => {}
-      }
-      debug('subscribe:init', {discussionId})
-      const subscription = client.subscribe({
-        query: commentsSubscription,
-        variables: {discussionId}
-      }).subscribe({
-        next ({data, errors}) {
-          if (errors) {
-            debug('subscribe:event:errors', {discussionId, errors})
-            return
-          }
-          const { node: comment, mutation } = data.comment
-          debug('subscribe:event', {discussionId, mutation, comment})
-
-          if (mutation !== 'CREATED') {
-            return
-          }
-          // workaround for https://github.com/apollographql/apollo-client/issues/2222
-          const proxyWithOptimisticReadSupport = {
-            readFragment: (...args) => client.cache.readFragment(...args),
-            readQuery: (...args) => client.cache.readQuery(...args),
-            writeFragment: (...args) => client.writeFragment(...args),
-            writeQuery: (...args) => client.writeQuery(...args)
-          }
-          upsertComment(proxyWithOptimisticReadSupport, discussionId, comment, {
-            subscription: true
-          })
-        },
-        error (...args) {
-          debug('subscribe:error', {discussionId, args})
-        }
-      })
-      return () => {
-        debug('subscribe:end', {discussionId})
-        subscription.unsubscribe()
-      }
-    }
-  })
-})
-)
 
 export const upvoteComment = graphql(gql`
 mutation discussionUpvoteComment($commentId: ID!) {
@@ -468,6 +197,47 @@ ${fragments.comment}
   })
 })
 
+export const query = gql`
+query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: DiscussionOrder!, $depth: Int!) {
+  me {
+    id
+    name
+    portrait
+  }
+  discussion(id: $discussionId) {
+    id
+    userPreference {
+      anonymity
+      credential {
+        description
+        verified
+      }
+    }
+    comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth) @connection(key: "comments", filter: ["parentId", "orderBy"]) {
+      totalCount
+      directTotalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        ...Comment
+        comments {
+          totalCount
+          directTotalCount
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+        }
+      }
+    }
+  }
+}
+
+${fragments.comment}
+`
+
 export const submitComment = compose(
 withT,
 withDiscussionDisplayAuthor,
@@ -492,7 +262,6 @@ ${fragments.comment}
       const parentIds = parent
         ? parent.parentIds.concat(parentId)
         : []
-      debug('submitComment', {discussionId, parentIds, content, id})
 
       return mutate({
         variables: {discussionId, parentId, id, content},
@@ -514,10 +283,70 @@ ${fragments.comment}
           }
         },
         update: (proxy, {data: {submitComment}}) => {
-          debug('submitComment:update:response', {discussionId, parentId, submitComment})
+          debug('submitComment', submitComment.id, submitComment)
+          const data = proxy.readQuery({
+            query: query,
+            variables: {discussionId, parentId: ownParentId, orderBy}
+          })
 
-          upsertComment(proxy, discussionId, submitComment, {
-            prepend: true
+          const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
+          // subscriptions seem to make optimistic updates permanent
+          if (existing) {
+            debug('submitComment', 'existing', existing)
+            return
+          }
+
+          const comment = {
+            ...submitComment,
+            comments: {
+              __typename: 'CommentConnection',
+              totalCount: 0,
+              directTotalCount: 0,
+              pageInfo: emptyPageInfo()
+            }
+          }
+
+          const nodes = [].concat(data.discussion.comments.nodes)
+
+          const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
+          const insertIndex = parentId
+            ? parentIndex + 1
+            : 0
+          nodes.splice(insertIndex, 0, comment)
+
+          submitComment.parentIds.forEach(pid => {
+            const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
+
+            if (pidIndex === -1) {
+              return
+            }
+            const node = nodes[pidIndex]
+            nodes.splice(pidIndex, 1, {
+              ...node,
+              comments: {
+                ...node.comments,
+                totalCount: node.comments.totalCount + 1,
+                directTotalCount: node.comments.directTotalCount +
+                  pidIndex === parentIndex ? 1 : 0
+              }
+            })
+          })
+
+          proxy.writeQuery({
+            query: query,
+            variables: {discussionId, parentId: ownParentId, orderBy},
+            data: {
+              ...data,
+              discussion: {
+                ...data.discussion,
+                comments: {
+                  ...data.discussion.comments,
+                  totalCount: data.discussion.comments.totalCount +
+                    1,
+                  nodes
+                }
+              }
+            }
           })
         }
       }).catch(toRejectedString)
@@ -569,6 +398,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
     displayAuthor {
       id
       name
+      username
       credential {
         description
         verified

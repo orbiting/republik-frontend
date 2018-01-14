@@ -26,7 +26,7 @@ export const Before = withT(({t}) => (
     <Interaction.P>
       {t.elements('article/payNote/before', {
         buyLink: (
-          <Link route='pledge'>
+          <Link key='buy' route='pledge'>
             <a {...linkRule}>{t('article/payNote/before/buyText')}</a>
           </Link>
         )
@@ -40,7 +40,7 @@ export const After = withT(({t}) => (
     <Interaction.P>
       {t.elements('article/payNote/after', {
         buyLink: (
-          <Link route='pledge'>
+          <Link key='buy' route='pledge'>
             <a {...linkRule}>{t('article/payNote/after/buyText')}</a>
           </Link>
         )

@@ -133,10 +133,14 @@ class Comments extends PureComponent {
   }
   renderComments (nodes, options = {}) {
     const {
-      discussionDisplayAuthor: displayAuthor,
+      discussionDisplayAuthor,
       t,
-      fetchMore
+      fetchMore,
+      discussionUserCanComment,
+      discussionClosed
     } = this.props
+
+    const displayAuthor = discussionUserCanComment && !discussionClosed && discussionDisplayAuthor
 
     const {
       now,

@@ -1,10 +1,15 @@
 import React, {PureComponent} from 'react'
 import { compose } from 'react-apollo'
-import { CommentComposer, CommentComposerPlaceholder } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import { Link } from '../../lib/routes'
+
 import { withDiscussionDisplayAuthor, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
+
+import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
+
+import Box from '../Frame/Box'
 
 class DiscussionCommentComposer extends PureComponent {
   constructor (props) {
@@ -65,12 +70,34 @@ class DiscussionCommentComposer extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, discussionDisplayAuthor: displayAuthor, me} = this.props
+    const {
+      t, discussionId, discussionDisplayAuthor: displayAuthor, me,
+      discussionClosed,
+      discussionUserCanComment
+    } = this.props
     const {state, showPreferences} = this.state
 
-    if (!me) {
+    if (!me || discussionClosed) {
       return null
     } else {
+      if (!discussionUserCanComment) {
+        return (
+          <Box style={{padding: '15px 20px'}}>
+            <Interaction.P>
+              {t.elements('submitComment/notEligible', {
+                pledgeLink: (
+                  <Link route='pledge' key='pledge'>
+                    <a {...linkRule}>
+                      {t('submitComment/notEligible/pledgeText')}
+                    </a>
+                  </Link>
+                )
+              })}
+            </Interaction.P>
+          </Box>
+        )
+      }
+
       if (state === 'idle') {
         return (
           <CommentComposerPlaceholder

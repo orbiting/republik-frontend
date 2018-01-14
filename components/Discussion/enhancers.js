@@ -36,9 +36,12 @@ export const withDiscussionDisplayAuthor = graphql(gql`
 query discussionDisplayAuthor($discussionId: ID!) {
   discussion(id: $discussionId) {
     id
+    closed
+    userCanComment
     displayAuthor {
       id
       name
+      username
       credential {
         description
         verified
@@ -54,7 +57,11 @@ query discussionDisplayAuthor($discussionId: ID!) {
       return {}
     }
 
-    return {discussionDisplayAuthor: discussion.displayAuthor}
+    return {
+      discussionClosed: discussion.closed,
+      discussionUserCanComment: discussion.userCanComment,
+      discussionDisplayAuthor: discussion.displayAuthor
+    }
   }
 })
 
@@ -391,6 +398,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
     displayAuthor {
       id
       name
+      username
       credential {
         description
         verified

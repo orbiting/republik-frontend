@@ -5,6 +5,9 @@ import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
+
+import { DISCUSSION_POLL_INTERVAL_MS } from '../../lib/constants'
+
 const debug = mkDebug('discussion')
 
 // Convert the Error object into a string, but keep the Promise rejected.
@@ -463,38 +466,44 @@ query discussion($discussionId: ID!) {
 `
 
 export const withCount = graphql(countQuery, {
-  props: ({ ownProps: { discussionId }, data: { discussion, subscribeToMore } }) => ({
+  options: {
+    pollInterval: DISCUSSION_POLL_INTERVAL_MS
+  },
+  props: ({ ownProps: { discussionId, shouldUpdate }, data: { discussion, subscribeToMore } }) => ({
     count: discussion && discussion.comments.totalCount,
     subscribe: () => {
-      return subscribeToMore({
-        document: countSubscription,
-        variables: {
-          discussionId
-        },
-        onError (...args) {
-          debug('subscribe:onError', args)
-        },
-        updateQuery: (previousResult, { subscriptionData }) => {
-          const { node: comment, mutation } = subscriptionData.data.comment
+      // fall back to polling for now
+      return () => {}
 
-          debug('count:updateQuery', mutation, comment)
-          if (mutation !== 'CREATED') {
-            return previousResult
-          }
-          debug('count:inc', mutation, comment)
+      // return subscribeToMore({
+      //   document: countSubscription,
+      //   variables: {
+      //     discussionId
+      //   },
+      //   onError (...args) {
+      //     debug('count:onError', args)
+      //   },
+      //   updateQuery: (previousResult, { subscriptionData }) => {
+      //     const { node: comment, mutation } = subscriptionData.data.comment
 
-          return {
-            ...previousResult,
-            discussion: {
-              ...previousResult.discussion,
-              comments: {
-                ...previousResult.discussion.comments,
-                totalCount: previousResult.discussion.comments.totalCount + 1
-              }
-            }
-          }
-        }
-      })
+      //     debug('count:updateQuery', mutation, comment, {shouldUpdate})
+      //     if (mutation !== 'CREATED') {
+      //       return previousResult
+      //     }
+      //     debug('count:inc', mutation, comment)
+
+      //     return {
+      //       ...previousResult,
+      //       discussion: {
+      //         ...previousResult.discussion,
+      //         comments: {
+      //           ...previousResult.discussion.comments,
+      //           totalCount: previousResult.discussion.comments.totalCount + 1
+      //         }
+      //       }
+      //     }
+      //   }
+      // })
     }
   })
 })

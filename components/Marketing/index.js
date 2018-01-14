@@ -8,6 +8,9 @@ import withT from '../../lib/withT'
 import { css } from 'glamor'
 import Offers from './Offers'
 import PreviewForm from './PreviewForm'
+
+import { STATS_POLL_INTERVAL_MS } from '../../lib/constants'
+
 import {
   Button,
   Container,
@@ -209,5 +212,9 @@ query membershipStats {
 export default compose(
   withMe,
   withT,
-  graphql(query)
+  graphql(query, {
+    options: {
+      pollInterval: STATS_POLL_INTERVAL_MS
+    }
+  })
 )(MarketingPage)

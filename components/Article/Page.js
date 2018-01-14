@@ -58,7 +58,7 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPath, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, t, url }) => (
   <div>
     <ShareButtons
       url={url}
@@ -69,7 +69,7 @@ const ActionBar = ({ title, discussionId, discussionPath, t, url }) => (
       })}
     />
     {discussionId &&
-      <DiscussionIconLink discussionId={discussionId} path={discussionPath} />
+      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
     }
   </div>
 )
@@ -180,6 +180,7 @@ class ArticlePage extends Component {
       <ActionBar t={t}
         url={meta.url}
         title={meta.title}
+        discussionPage={!!meta.discussionId}
         discussionId={linkedDiscussionId}
         discussionPath={discussion && discussion.meta.path} />
     )

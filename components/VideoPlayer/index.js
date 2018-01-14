@@ -276,18 +276,21 @@ class VideoPlayer extends Component {
     this.video.removeEventListener('loadedmetadata', this.onLoadedMetaData)
   }
   render () {
-    const {src, hidePlay} = this.props
+    const {src, hidePlay, loop} = this.props
     const {
       playing, progress,
       muted, subtitles,
       loading
     } = this.state
 
+    const loopProp = loop ? {loop: true} : {}
+
     return (
       <div {...styles.wrapper}>
         <video {...styles.video}
           style={this.props.style}
           autoPlay={this.props.autoPlay}
+          {...loopProp}
           muted={muted}
           ref={this.ref}
           crossOrigin='anonymous'

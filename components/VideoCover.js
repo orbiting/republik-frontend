@@ -143,6 +143,7 @@ class VideoCover extends Component {
         </div>
         <VideoPlayer ref={this.ref} src={src}
           hidePlay={cover}
+          loop={loop}
           onPlay={() => {
             this.setState(() => ({
               playing: true
@@ -155,17 +156,16 @@ class VideoCover extends Component {
             }))
           }}
           onProgress={(progress) => {
+            if (loop && progress > this.props.endScroll) {
+              return
+            }
+
             if (
               progress > this.props.endScroll &&
               !ended &&
               videoHeight &&
               !(this.player && this.player.scrubbing)
             ) {
-              if (loop) {
-                this.player.progress = 0
-                this.player.play()
-                return
-              }
               this.setState(() => ({ended: true}), () => {
                 const topFixed = mobile
                   ? HEADER_HEIGHT_MOBILE

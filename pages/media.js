@@ -3,10 +3,6 @@ import withData from '../lib/apollo/withData'
 import Frame from '../components/Frame'
 
 import {
-  STATIC_BASE_URL
-} from '../lib/constants'
-
-import {
   A, Interaction
 } from '@project-r/styleguide'
 

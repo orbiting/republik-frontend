@@ -89,7 +89,7 @@ const Overview = compose(
             title: t('updates/title'),
             description: t('updates/metaDescription'),
             url: `${PUBLIC_BASE_URL}/updates`,
-            image: `${STATIC_BASE_URL}/static/social-media/updates.png`
+            image: `${STATIC_BASE_URL}/static/social-media/logo.png`
           }} />
           {updates.map(update => (
             <Update key={update.slug} data={update} />

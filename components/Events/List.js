@@ -87,7 +87,7 @@ const Overview = compose(
                   title: event.title,
                   description: event.metaDescription,
                   url: `${PUBLIC_BASE_URL}/veranstaltung/${event.slug}`,
-                  image: `${STATIC_BASE_URL}/static/social-media/events.png`
+                  image: `${STATIC_BASE_URL}/static/social-media/logo.png`
                 }}
               />
               <Event data={event} />
@@ -114,7 +114,7 @@ const Overview = compose(
                 title: t('events/pageTitle'),
                 description: t('events/metaDescription'),
                 url: `${PUBLIC_BASE_URL}/events`,
-                image: `${STATIC_BASE_URL}/static/social-media/events.png`
+                image: `${STATIC_BASE_URL}/static/social-media/logo.png`
               }}
             />
             {!!upcoming.length && (

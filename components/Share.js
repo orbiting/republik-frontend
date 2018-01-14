@@ -34,6 +34,14 @@ const ShareButtons = ({
       icon: 'twitter'
     },
     {
+      mobileOnly: true,
+      target: '_blank',
+      href: `https://api.whatsapp.com/send?text=${encodeURIComponent(
+        url
+      )}`,
+      icon: 'whatsapp'
+    },
+    {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,

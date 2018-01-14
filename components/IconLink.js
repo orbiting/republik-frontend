@@ -2,6 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
+import {
+  mediaQueries
+} from '@project-r/styleguide'
+
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
@@ -10,6 +14,7 @@ import LinkIcon from './Icons/Web'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
+import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
 import KeyIcon from 'react-icons/lib/fa/key'
 
 const DEFAULT_SIZE = 24
@@ -40,6 +45,11 @@ export const styles = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     verticalAlign: 'middle'
+  }),
+  mobileOnly: css({
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
   })
 }
 
@@ -52,6 +62,7 @@ const ICONS = {
   mail: MailIcon,
   share: ShareIcon,
   twitter: TwitterIcon,
+  whatsapp: WhatsappIcon,
   key: KeyIcon
 }
 
@@ -62,6 +73,7 @@ const IconLink = ({
   icon,
   children,
   size = DEFAULT_SIZE,
+  mobileOnly,
   style,
   title
 }) => {
@@ -70,6 +82,7 @@ const IconLink = ({
   return (
     <a
       {...styles.link}
+      {...(mobileOnly ? styles.mobileOnly : {})}
       href={href}
       style={style}
       target={target}

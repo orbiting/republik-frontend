@@ -100,9 +100,40 @@ class SignIn extends Component {
     if (success) {
       return <span>{success}</span>
     }
+
+    const submitForm = (event) => {
+      event.preventDefault()
+      if (error) {
+        this.setState(() => ({
+          dirty: true
+        }))
+        return
+      }
+      if (loading) {
+        return
+      }
+      this.setState(() => ({
+        loading: true
+      }))
+      this.props.signIn(email)
+        .then(({data}) => {
+          this.setState(() => ({
+            polling: true,
+            loading: false,
+            phrase: data.signIn.phrase
+          }))
+        })
+        .catch(error => {
+          this.setState(() => ({
+            serverError: error,
+            loading: false
+          }))
+        })
+    }
+
     return (
       <div>
-        <div {...styles.form}>
+        <form {...styles.form} onSubmit={submitForm}>
           <div {...styles.input}>
             <Field
               name='email'
@@ -124,37 +155,10 @@ class SignIn extends Component {
           <div {...styles.button}>
             {loading ? <InlineSpinner /> : <Button
               block
-              disabled={loading}
-              onClick={() => {
-                if (error) {
-                  this.setState(() => ({
-                    dirty: true
-                  }))
-                  return
-                }
-                if (loading) {
-                  return
-                }
-                this.setState(() => ({
-                  loading: true
-                }))
-                this.props.signIn(email)
-                  .then(({data}) => {
-                    this.setState(() => ({
-                      polling: true,
-                      loading: false,
-                      phrase: data.signIn.phrase
-                    }))
-                  })
-                  .catch(error => {
-                    this.setState(() => ({
-                      serverError: error,
-                      loading: false
-                    }))
-                  })
-              }}>{label || t('signIn/button')}</Button>}
+              type='submit'
+              disabled={loading}>{label || t('signIn/button')}</Button>}
           </div>
-        </div>
+        </form>
         <Label {...styles.hint}>{t('signIn/hint')}</Label>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>

@@ -63,6 +63,20 @@ class Comments extends PureComponent {
         showPreferences: false
       })
     }
+
+    this.submitComment = (parent, ...args) => {
+      return this.props.submitComment(parent, ...args)
+        .then(() => {
+          if (parent) {
+            this.setState(({ closedPortals }) => ({
+              closedPortals: {
+                ...closedPortals,
+                [parent.id]: false
+              }
+            }))
+          }
+        })
+    }
   }
   clearSubIds (parentId) {
     this.setState(({subIdMap}) => {
@@ -184,7 +198,7 @@ class Comments extends PureComponent {
             />
           )
         } else if (accumulator.visualDepth === 1) {
-          accumulator.list.push(<div style={{height: 10}} />)
+          accumulator.list.push(<div key={`br${comment.id}`} style={{height: 10}} />)
         }
       })
       accumulator.pendingClosure = accumulator.pendingClosure
@@ -204,7 +218,7 @@ class Comments extends PureComponent {
           return accumulator
         }
         // close portal
-        const portalId = `portal${portal.parent.id}`
+        const portalId = portal.parent.id
         const portalAccumulator = this.renderComments(
           portal.nodes,
           {
@@ -216,7 +230,7 @@ class Comments extends PureComponent {
         if (closedPortals[portalId]) {
           accumulator.list.push(
             <CommentTreeLoadMore
-              key={`open${portalId}`}
+              key={`openPortal${portalId}`}
               t={t}
               connected
               visualDepth={portal.visualDepth}
@@ -233,7 +247,7 @@ class Comments extends PureComponent {
           )
         } else {
           accumulator.list.push(
-            <Fragment key={portalId}>
+            <Fragment key={`portal${portalId}`}>
               <CommentTreeCollapse
                 t={t}
                 visualDepth={accumulator.visualDepth}
@@ -318,7 +332,7 @@ class Comments extends PureComponent {
           displayAuthor={displayAuthor}
           onEditPreferences={this.showPreferences}
           isAdmin={this.props.isAdmin}
-          submitComment={this.props.submitComment}
+          submitComment={this.submitComment}
           editComment={this.props.editComment}
           upvoteComment={this.props.upvoteComment}
           downvoteComment={this.props.downvoteComment}

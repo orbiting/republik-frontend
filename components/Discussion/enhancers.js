@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
-import { dataIdFromObject } from '../../lib/apollo/initApollo'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
 const debug = mkDebug('discussion')

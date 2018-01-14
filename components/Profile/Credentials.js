@@ -52,7 +52,8 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
         {t('profile/credentials/private')}
       </Label>}
       {privateCreds.concat(publicOnes).filter(c => c.description !== values.credential).map(c => (
-        <A key={c.description} href='#use' {...styles.credential} onClick={() => {
+        <A key={c.description} href='#use' {...styles.credential} onClick={(e) => {
+          e.preventDefault()
           onChange({
             values: {
               credential: c.description

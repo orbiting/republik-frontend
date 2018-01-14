@@ -17,6 +17,8 @@ import {
   colors
 } from '@project-r/styleguide'
 
+import { Link } from '../../lib/routes'
+
 import mkDebug from 'debug'
 
 const debug = mkDebug('comments')
@@ -24,6 +26,12 @@ const debug = mkDebug('comments')
 const SHOW_DEBUG = false
 
 const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
+
+const DisplayAuthorLink = ({displayAuthor, children, ...props}) => displayAuthor.username
+  ? <Link route='profile' params={{slug: displayAuthor.username}} {...props}>
+    {children}
+  </Link>
+  : children
 
 const mergeCounts = (a, b) => {
   return {
@@ -338,6 +346,7 @@ class Comments extends PureComponent {
           downvoteComment={this.props.downvoteComment}
           unpublishComment={this.props.unpublishComment}
           timeago={timeagoFromNow}
+          Link={DisplayAuthorLink}
         />
       )
 

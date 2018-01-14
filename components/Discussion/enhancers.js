@@ -71,6 +71,7 @@ export const fragments = {
       displayAuthor {
         id
         name
+        username
         credential {
           description
           verified

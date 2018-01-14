@@ -14,13 +14,14 @@ import {
   CROWDFUNDING_NAME
 } from '../lib/constants'
 
+
+
 const endVideo = {
   hls:
-    'https://player.vimeo.com/external/215798102.m3u8?s=b3730f7f6332985771865f3b85c13aeae93223b1',
+    'https://player.vimeo.com/external/250999239.m3u8?s=54d7c0e48ea4fcf914cfb34c580081f544618da2',
   mp4:
-    'https://player.vimeo.com/external/215798102.hd.mp4?s=bdc8421b7d1c2a04fcf9521655332e54c7c4c039&profile_id=175',
-  subtitles: '/static/subtitles/main.vtt',
-  poster: `${STATIC_BASE_URL}/static/video/main.jpg`
+    'https://player.vimeo.com/external/250999239.hd.mp4?s=7d6d2504261c5341158efe3d882a71eb23381302&profile_id=174',
+  poster: `${STATIC_BASE_URL}/static/video/front.jpg`
 }
 
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
@@ -42,9 +43,10 @@ const IndexPage = ({ url, t, isAuthorized }) => {
         <VideoCover
           src={endVideo}
           endScroll={0.99}
-          cursor
+          cursor={false}
           limited
           autoPlay
+          loop
         />
       }
     >

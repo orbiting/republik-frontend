@@ -25,11 +25,12 @@ const blinkBg = css.keyframes({
 
 const MAX_HEIGHT = 0.8
 const MAX_HEIGHT_VH = MAX_HEIGHT * 100
+const ASPECT_RATIO = 2 / 1
 
 const styles = {
   wrapper: css({
     position: 'relative',
-    height: `${(9 / 16) * 100}vw`,
+    height: `${(1 / ASPECT_RATIO) * 100}vw`,
     backgroundColor: '#000',
     transition: 'height 200ms'
   }),
@@ -44,12 +45,12 @@ const styles = {
   maxWidth: css({
     position: 'relative',
     margin: '0 auto',
-    maxWidth: `${MAX_HEIGHT_VH * (16 / 9)}vh`,
+    maxWidth: `${MAX_HEIGHT_VH * (ASPECT_RATIO)}vh`,
     overflow: 'hidden'
   }),
   poster: css({
     width: 'auto',
-    height: `${(9 / 16) * 100}vw`
+    height: `${(1 / ASPECT_RATIO) * 100}vw`
   }),
   cursor: css({
     position: 'absolute',
@@ -82,7 +83,7 @@ class VideoCover extends Component {
       this.setState(() => {
         const windowWidth = window.innerWidth
         const windowHeight = window.innerHeight
-        let videoHeight = windowWidth * (9 / 16)
+        let videoHeight = windowWidth * (1 / ASPECT_RATIO)
         return {
           mobile: windowWidth < mediaQueries.mBreakPoint,
           windowHeight,
@@ -108,7 +109,7 @@ class VideoCover extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const {src, cursor, limited} = this.props
+    const {src, cursor, limited, loop} = this.props
     const {
       playing, ended,
       videoHeight, windowHeight,
@@ -160,6 +161,11 @@ class VideoCover extends Component {
               videoHeight &&
               !(this.player && this.player.scrubbing)
             ) {
+              if (loop) {
+                this.player.progress = 0
+                this.player.play()
+                return
+              }
               this.setState(() => ({ended: true}), () => {
                 const topFixed = mobile
                   ? HEADER_HEIGHT_MOBILE

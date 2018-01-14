@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-14T04:18:15.922Z",
+  "updated": "2018-01-14T04:50:04.538Z",
   "title": "live",
   "data": [
     {
@@ -1244,11 +1244,11 @@
     },
     {
       "key": "submitComment/notEligible",
-      "value": "Nut Mitglieder können Beiträge schreiben. {pledgeLink}"
+      "value": "Ihr Interesse an dieser Republik-Debatte freut uns sehr. Wollen Sie daran teilnehmen? Werden Sie jetzt {link}."
     },
     {
       "key": "submitComment/notEligible/pledgeText",
-      "value": "Jetzt Mitglied werden"
+      "value": "Verleger und Abonnentin\n"
     },
     {
       "key": "submitComment/rootSubmitLabel",
@@ -2183,24 +2183,16 @@
       "value": "IP-Adresse"
     },
     {
-      "key": null,
-      "value": "Kleine Warnung: Wenn Sie dieses Video abspielen, erlauben {player} "
+      "key": "dnt",
+      "value": "Kleine Warnung: Wenn Sie dieses Video abspielen, können Daten über Ihr Nutzungsverhalten an {player} übermittelt werden – so, wie wenn Sie es direkt auf {player} schauen würden."
     },
     {
-      "key": null,
+      "key": "dnt",
       "value": "YouTube"
     },
     {
-      "key": null,
+      "key": "dnt",
       "value": "Vimeo"
-    },
-    {
-      "key": "submitComment/notEligible",
-      "value": "Nur Mitglieder und Abonnentinnen der Republik können an Debatten teilnehmen. Es freut uns jedoch, wenn Sie einen Blick "
-    },
-    {
-      "key": "submitComment/notEligible/link",
-      "value": null
     }
   ]
 }

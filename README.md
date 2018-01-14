@@ -13,6 +13,7 @@ Bootstrap your .env file:
 PORT=3010
 API_URL=http://localhost:3020/graphql
 API_WS_URL=ws://localhost:3020/graphql
+API_ASSETS_BASE_URL=https://assets.api.example.com
 ```
 
 This frontend needs an API, provided by [republik-backend](https://github.com/orbiting/republik-backend), running on the same TLD (for cookie sharing).

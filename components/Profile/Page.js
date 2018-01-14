@@ -11,11 +11,13 @@ import { Link, Router } from '../../lib/routes'
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
+import Share from '../Share'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
+import { PUBLIC_BASE_URL, API_ASSETS_BASE_URL } from '../../lib/constants'
 
 import Badge from './Badge'
 import Comments from './Comments'
@@ -88,10 +90,27 @@ const styles = {
     ...fontStyles.sansSerifRegular16,
     position: 'absolute',
     bottom: 5,
+    right: 0,
     left: PORTRAIT_SIZE_S + 10,
     [mediaQueries.mUp]: {
       left: PORTRAIT_SIZE_M + 20
     }
+  }),
+  headInfoNumber: css({
+    display: 'inline-block',
+    paddingTop: 3,
+    float: 'right',
+    marginRight: 10,
+    verticalAlign: 'middle',
+    [mediaQueries.mUp]: {
+      marginRight: 0,
+      float: 'left'
+    }
+  }),
+  headInfoShare: css({
+    display: 'inline-block',
+    float: 'right',
+    verticalAlign: 'middle'
   }),
   credential: css({
     ...fontStyles.sansSerifRegular16
@@ -112,6 +131,7 @@ const getPublicUser = gql`
       username
       firstName
       lastName
+      updatedAt
       name
       email
       emailAccessRole
@@ -262,6 +282,9 @@ class Profile extends Component {
     } = this.props
 
     const metaData = {
+      image: user && user.isListed
+        ? `${API_ASSETS_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
+        : '',
       title: user
         ? t('pages/profile/pageTitle', { name: user.name })
         : t('pages/profile/empty/pageTitle')
@@ -292,13 +315,11 @@ class Profile extends Component {
                 </StatusError>
               )
             }
-
             const {
               isEditing,
               values, errors, dirty,
               isMobile
             } = this.state
-
             return (
               <Fragment>
                 {!user.hasPublicProfile && (
@@ -342,9 +363,21 @@ class Profile extends Component {
                         dirty={dirty} />
                     </div>
                     <div {...styles.headInfo}>
-                      {!!user.sequenceNumber && t('memberships/sequenceNumber/label', {
-                        sequenceNumber: user.sequenceNumber
-                      })}
+                      {!!user.isListed &&
+                        <span {...styles.headInfoShare}>
+                          <Share
+                            emailSubject={t('testimonial/detail/share/emailSubject', {name: `${user.firstName} ${user.lastName}`})}
+                            url={`${PUBLIC_BASE_URL}/~${user.username}`}
+                            download={metaData.image}
+                          />
+                        </span>
+                      }
+                      {!!user.sequenceNumber && <span {...styles.headInfoNumber}>
+                        {t('memberships/sequenceNumber/label', {
+                          sequenceNumber: user.sequenceNumber
+                        })}
+                      </span>}
+                      <div style={{clear: 'both'}} />
                     </div>
                   </div>
                   <div {...styles.container}>

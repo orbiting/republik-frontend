@@ -54,10 +54,10 @@ const styles = {
   }),
   logo: css({
     display: 'inline-block',
-    marginTop: `${(HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE) / 2}px`,
+    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE) / 2)}px`,
     width: `${LOGO_WIDTH_MOBILE}px`,
     [mediaQueries.mUp]: {
-      marginTop: `${(HEADER_HEIGHT - LOGO_HEIGHT) / 2}px`,
+      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT) / 2)}px`,
       width: `${LOGO_WIDTH}px`
     },
     verticalAlign: 'middle'

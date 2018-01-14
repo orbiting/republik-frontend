@@ -26,13 +26,15 @@ const endVideo = {
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 const IndexPage = ({ url, t, isAuthorized }) => {
+  if (isAuthorized) {
+    // does it's own meta
+    return <Front url={url} />
+  }
   const meta = {
-    title: t('pages/magazine/title'),
+    title: t('pages/index/title'),
+    description: t('pages/index/description'),
     image: `${STATIC_BASE_URL}/static/social-media/logo.png`,
     url: `${PUBLIC_BASE_URL}/`
-  }
-  if (isAuthorized) {
-    return <Front url={url} />
   }
   return (
     <Frame

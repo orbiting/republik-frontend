@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-14T11:29:18.352Z",
+  "updated": "2018-01-14T13:51:47.177Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,14 @@
     {
       "key": "pages/magazine/title",
       "value": "Magazin"
+    },
+    {
+      "key": "pages/index/title",
+      "value": "Republik ist gestartet"
+    },
+    {
+      "key": "pages/index/description",
+      "value": "Kommen Sie jetzt an Bord."
     },
     {
       "key": "discussion/pageTitle",

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-13T14:17:12.463Z",
+  "updated": "2018-01-14T03:10:21.185Z",
   "title": "live",
   "data": [
     {
@@ -372,7 +372,7 @@
     },
     {
       "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern). Es wäre schön, Sie an Bord zu haben!",
+      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unserer Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern.) Es wäre schön, Sie an Bord zu haben!",
       "Clara ok": "x",
       "Braucht Const": "x",
       "Korrektorat": null,
@@ -1612,7 +1612,7 @@
     },
     {
       "key": "profile/username/label",
-      "value": "Benutzername",
+      "value": "Profil URL",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -1916,7 +1916,7 @@
     },
     {
       "key": "footer/contact/name",
-      "value": "Republik",
+      "value": "Republik AG",
       "Clara ok": "x",
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2083,6 +2083,14 @@
       "Bemerkung": null
     },
     {
+      "key": "footer/me/give",
+      "value": "Verschenken",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
       "key": "footer/me/signOut",
       "value": "Abmelden",
       "Clara ok": null,
@@ -2135,6 +2143,22 @@
       "value": "Hottest",
       "Clara ok": "x",
       "Braucht Const": "x",
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "components/Discussion/reload",
+      "value": "zurücksetzen",
+      "Clara ok": null,
+      "Braucht Const": null,
+      "Korrektorat": null,
+      "Bemerkung": null
+    },
+    {
+      "key": "discussion/missing",
+      "value": "Diese Diskussion fehlt in unserer Datenbank.",
+      "Clara ok": null,
+      "Braucht Const": null,
       "Korrektorat": null,
       "Bemerkung": null
     },
@@ -2204,7 +2228,7 @@
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/1",
-      "value": "Eine weiterer Kommentar",
+      "value": "Ein weiterer Beitrag",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2212,7 +2236,7 @@
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/other",
-      "value": "{count} weitere Kommentare",
+      "value": "{count} weitere Beiträge",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2220,7 +2244,7 @@
     },
     {
       "key": "styleguide/CommentTreeCollapse/label",
-      "value": "ausblenden",
+      "value": "ausklappen",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2252,7 +2276,7 @@
     },
     {
       "key": "styleguide/comment/unpublished/userCanEdit",
-      "value": "Bearbeiten Sie den Beitrag um ihn erneut zu publizieren.",
+      "value": "Bearbeiten Sie den Beitrag, um ihn erneut zu publizieren.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -2260,7 +2284,7 @@
     },
     {
       "key": "styleguide/comment/adminUnpublished",
-      "value": "Leider mussen wir Ihren Beitrag verbergen. Wenden sie sich an kontakt@republik.ch.",
+      "value": "Leider mussten wir Ihren Beitrag verbergen. Wenden Sie sich bitte an kontakt@republik.ch.",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3516,7 +3540,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Sehr geehrte Leserin, sehr geehrter Leser, dieser Beitrag ist für Sie zugänglich,  weil er grosszügigerweise mit Ihnen geteilt wurde. Eigentlich kostet Journalismus. {buyLink} Viel Spass beim Lesen!",
+      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 15500 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3532,7 +3556,7 @@
     },
     {
       "key": "article/payNote/after",
-      "value": "Wir hoffen der Beitrag hat Ihnen gefallen. Wenn Sie mehr solche Beiträge lesen wollen – und dabei die Demokratie retten – können Sie hier ganz schnell auch {buyLink}",
+      "value": "Schön, Sie hier unten wieder zu sehen. Es wäre eine Freude, Sie ebenfalls bei uns an Bord zu haben, als Leser und Verlegerin der Republik. {buyLink}",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,
@@ -3540,7 +3564,7 @@
     },
     {
       "key": "article/payNote/after/buyText",
-      "value": "Mitglied werden! ",
+      "value": "Tun Sie das hier!",
       "Clara ok": null,
       "Braucht Const": null,
       "Korrektorat": null,

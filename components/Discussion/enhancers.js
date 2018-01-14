@@ -439,3 +439,62 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
     }
   })
 })
+
+const countSubscription = gql`
+subscription discussionComments($discussionId: ID!) {
+  comment(discussionId: $discussionId) {
+    mutation
+    node {
+      id
+    }
+  }
+}
+`
+
+const countQuery = gql`
+query discussion($discussionId: ID!) {
+  discussion(id: $discussionId) {
+    id
+    comments(first: 0) {
+      totalCount
+    }
+  }
+}
+`
+
+export const withCount = graphql(countQuery, {
+  props: ({ ownProps: { discussionId }, data: { discussion, subscribeToMore } }) => ({
+    count: discussion && discussion.comments.totalCount,
+    subscribe: () => {
+      return subscribeToMore({
+        document: countSubscription,
+        variables: {
+          discussionId
+        },
+        onError (...args) {
+          debug('subscribe:onError', args)
+        },
+        updateQuery: (previousResult, { subscriptionData }) => {
+          const { node: comment, mutation } = subscriptionData.data.comment
+
+          debug('count:updateQuery', mutation, comment)
+          if (mutation !== 'CREATED') {
+            return previousResult
+          }
+          debug('count:inc', mutation, comment)
+
+          return {
+            ...previousResult,
+            discussion: {
+              ...previousResult.discussion,
+              comments: {
+                ...previousResult.discussion.comments,
+                totalCount: previousResult.discussion.comments.totalCount + 1
+              }
+            }
+          }
+        }
+      })
+    }
+  })
+})

@@ -1,20 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
+import {css} from 'glamor'
 
 import Link from '../Link/Href'
 
 import { styles as iconLinkStyles } from '../IconLink'
 import Icon from '../Icons/Discussion'
 
+import { withCount } from './enhancers'
+
 import {
-  colors
+  colors, fontStyles
 } from '@project-r/styleguide'
 
-const IconLink = ({ path }) => {
-  return <Link href={path} passHref>
-    <a {...iconLinkStyles.link}>
-      <Icon size={24} fill={colors.primary} />
-    </a>
-  </Link>
+const styles = {
+  a: css({
+    marginLeft: 10
+  }),
+  text: css({
+    paddingLeft: 3,
+    color: colors.primary,
+    ...fontStyles.sansSerifMedium16
+  })
 }
 
-export default IconLink
+class IconLink extends Component {
+  componentDidMount () {
+    this.unsubscribe = this.props.subscribe()
+  }
+  componentWillUnmount () {
+    this.unsubscribe()
+  }
+  render () {
+    const { path, count } = this.props
+    return <Link href={path} passHref>
+      <a {...iconLinkStyles.link} {...styles.a}>
+        <Icon size={24} fill={colors.primary} />
+        {count > 0 && (
+          <span {...iconLinkStyles.text} {...styles.text}>
+            &nbsp;{count}
+          </span>
+        )}
+      </a>
+    </Link>
+  }
+}
+
+export default withCount(IconLink)

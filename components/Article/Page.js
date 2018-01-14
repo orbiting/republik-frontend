@@ -201,6 +201,7 @@ class ArticlePage extends Component {
           }
 
           const schema = getSchemaCreator(article.meta.template)({
+            t,
             titleBlockAppend: (
               <div ref={this.barRef} {...styles.bar}>
                 {actionBar}

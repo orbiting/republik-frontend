@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-14T06:17:26.436Z",
+  "updated": "2018-01-14T07:34:28.030Z",
   "title": "live",
   "data": [
     {
@@ -2195,15 +2195,15 @@
       "value": "IP-Adresse"
     },
     {
-      "key": "dnt",
-      "value": "Kleine Warnung: Wenn Sie dieses Video abspielen, können Daten über Ihr Nutzungsverhalten an {player} übermittelt werden – so, wie wenn Sie es direkt auf {player} schauen würden."
+      "key": "styleguide/video/dnt/note",
+      "value": "Kleine Warnung: Dies ist ein {player}-Video. Wenn Sie das Video abspielen, kann {platform} Sie tracken."
     },
     {
-      "key": "dnt",
+      "key": "styleguide/video/dnt/player/youtube",
       "value": "YouTube"
     },
     {
-      "key": "dnt",
+      "key": "styleguide/video/dnt/player/vimeo",
       "value": "Vimeo"
     }
   ]

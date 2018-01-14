@@ -11,7 +11,8 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import {
   Field, A, Interaction,
   fontFamilies,
-  mediaQueries
+  mediaQueries,
+  Label
 } from '@project-r/styleguide'
 
 import {
@@ -149,6 +150,7 @@ class CustomizePackage extends Component {
       ))
 
     const minPrice = calculateMinPrice(pkg, values, userPrice)
+    const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
     const hasNotebook = !!pkg.options.find(option => (
       option.reward && option.reward.name === 'NOTEBOOK'
@@ -317,18 +319,24 @@ class CustomizePackage extends Component {
           </P>
         </div>)}
         <div style={{marginBottom: 20}}>
-          <Field label={t('package/customize/price/label')}
-            ref={(configurableOptions.length || userPrice)
-              ? undefined : this.focusRefSetter}
-            error={dirty.price && errors.price}
-            value={price / 100}
-            onDec={price - 1000 >= minPrice && (() => {
-              onPriceChange(undefined, (price - 1000) / 100, dirty.price)
-            })}
-            onInc={() => {
-              onPriceChange(undefined, (price + 1000) / 100, dirty.price)
-            }}
-            onChange={onPriceChange} />
+          {fixedPrice
+            ? <Interaction.P>
+              <Label>{t('package/customize/price/label')}</Label><br />
+              {price / 100}
+            </Interaction.P>
+            : <Field label={t('package/customize/price/label')}
+              ref={(configurableOptions.length || userPrice)
+                ? undefined : this.focusRefSetter}
+              error={dirty.price && errors.price}
+              value={price / 100}
+              onDec={price - 1000 >= minPrice && (() => {
+                onPriceChange(undefined, (price - 1000) / 100, dirty.price)
+              })}
+              onInc={() => {
+                onPriceChange(undefined, (price + 1000) / 100, dirty.price)
+              }}
+              onChange={onPriceChange} />
+          }
         </div>
       </div>
     )

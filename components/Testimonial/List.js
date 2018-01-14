@@ -14,7 +14,7 @@ import Play from '../VideoPlayer/Icons/Play'
 import Detail from './Detail'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL
+  PUBLIC_BASE_URL, STATIC_BASE_URL, API_ASSETS_URL
 } from '../../lib/constants'
 
 import {
@@ -278,8 +278,8 @@ class List extends Component {
             pageTitle: t('testimonial/meta/single/pageTitle', focusItem),
             title: t('testimonial/meta/single/title', focusItem),
             description: t('testimonial/meta/single/description', focusItem),
-            url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`
-            // image: ToDo: add sm image
+            url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
+            image: `${API_ASSETS_URL}/render/?width=1200&height=628&updatedAt=${focusItem.updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${focusItem.id}`
           })
           : ({
             pageTitle: t('testimonial/meta/pageTitle'),
@@ -339,6 +339,7 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
         description
       }
       portrait
+      updatedAt
       sequenceNumber
       hasPublicProfile
     }

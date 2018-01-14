@@ -5,7 +5,7 @@ import { Link } from '../../lib/routes'
 import Share from '../Share'
 import VideoPlayer from '../VideoPlayer'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, API_ASSETS_BASE_URL } from '../../lib/constants'
 
 import {
   Interaction,
@@ -40,7 +40,7 @@ const styles = {
 const Detail = ({
   t,
   share,
-  data: { id, username, hasPublicProfile, name, credentials, statement, portrait, sequenceNumber, video }
+  data: { id, username, hasPublicProfile, name, credentials, statement, portrait, sequenceNumber, video, updatedAt }
 }) => (
   <div {...styles.detail}>
     <div
@@ -91,11 +91,11 @@ const Detail = ({
       )}
       {share && (
         <Share
-          // ToDo: download={smImage}
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
           emailSubject={t('testimonial/detail/share/emailSubject', {
             name
           })}
+          download={`${API_ASSETS_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
         />
       )}
     </div>

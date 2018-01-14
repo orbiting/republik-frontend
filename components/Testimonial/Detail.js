@@ -91,7 +91,6 @@ const Detail = ({
       )}
       {share && (
         <Share
-          // ToDo: download={smImage}
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
           emailSubject={t('testimonial/detail/share/emailSubject', {
             name

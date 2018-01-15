@@ -8,6 +8,8 @@ import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 import { Router } from '../../lib/routes'
 
+import { errorToString } from '../../lib/utils/errors'
+
 const { P } = Interaction
 
 const goTo = (type, email) => Router.replaceRoute(
@@ -25,12 +27,21 @@ class TokenAuthorization extends Component {
       email,
       authorize
     } = this.props
+
+    if (this.state.authorizing) {
+      return
+    }
     this.setState({
       authorizing: true
+    }, () => {
+      authorize()
+        .then(() => goTo('email-confirmed', email))
+        .catch(error => {
+          this.setState({
+            authorizeError: errorToString(error)
+          })
+        })
     })
-    authorize()
-      .then(() => goTo('email-confirmed', email))
-      .catch(error => goTo('invalid-token', email, error))
   }
   autoAutherize () {
     const {
@@ -58,11 +69,15 @@ class TokenAuthorization extends Component {
       echo,
       isCurrent,
       email,
-      error, loading
+      error,
+      loading
     } = this.props
+    const {
+      authorizeError
+    } = this.state
 
     return (
-      <Loader loading={loading || error || isCurrent} render={() => {
+      <Loader error={authorizeError} loading={loading || error || isCurrent} render={() => {
         const { country, city, ipAddress, userAgent } = unauthorizedSession
         return (
           <Fragment>

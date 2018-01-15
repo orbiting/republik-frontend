@@ -18,7 +18,7 @@ const Comments = ({ t, comments }) => {
           count: comments.totalCount
         })}
       </Interaction.H3>
-      {comments.nodes.filter(c => c.discussion.title).map((comment) => {
+      {comments.nodes.map((comment) => {
         const discussion = comment.discussion || {}
         return (
           <CommentTeaser
@@ -26,9 +26,7 @@ const Comments = ({ t, comments }) => {
             title={discussion.title}
             content={comment.content}
             timeago={timeagoFromNow(t, comment.createdAt)}
-            commentUrl={discussion.documentPath
-              ? `${discussion.documentPath}?focus=${comment.id}`
-              : `/diskussion?id=${discussion.id}&focus=${comment.id}`}
+            commentUrl={discussion.documentPath && `${discussion.documentPath}?focus=${comment.id}`}
             lineClamp={3}
             t={t}
           />

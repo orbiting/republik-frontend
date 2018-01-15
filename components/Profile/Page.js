@@ -168,7 +168,7 @@ const getPublicUser = gql`
           }
         }
       }
-      comments {
+      comments(first: 100) {
         totalCount
         nodes {
           id

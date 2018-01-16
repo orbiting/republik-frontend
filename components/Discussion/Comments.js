@@ -442,7 +442,15 @@ class Comments extends PureComponent {
           editComment={this.props.editComment}
           upvoteComment={this.props.upvoteComment}
           downvoteComment={this.props.downvoteComment}
-          unpublishComment={this.props.unpublishComment}
+          unpublishComment={(...args) => {
+            const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
+              name: comment.displayAuthor.name
+            })
+            if (!window.confirm(message)) {
+              return Promise.reject(new Error())
+            }
+            return this.props.unpublishComment(...args)
+          }}
           timeago={timeagoFromNow}
           Link={CommentLink}
         />

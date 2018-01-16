@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-16T13:20:08.730Z",
+  "updated": "2018-01-16T22:15:11.679Z",
   "title": "live",
   "data": [
     {
@@ -260,7 +260,7 @@
     },
     {
       "key": "marketing/offers/userPrice",
-      "value": "Kann-Mir-Das-Nicht-Leisten-Mitgliedschaft"
+      "value": "Kann-mir-das-nicht-leisten-Mitgliedschaft"
     },
     {
       "key": "marketing/noActiveMembership",
@@ -1129,6 +1129,14 @@
     {
       "key": "styleguide/CommentActions/unpublish",
       "value": "Beitrag zurückziehen"
+    },
+    {
+      "key": "styleguide/CommentActions/unpublish/confirm",
+      "value": "Wollen Sie Ihren Beitrag zurückziehen? Mit einer Notiz wird vermerkt bleiben, dass hier ein Beitrag war."
+    },
+    {
+      "key": "styleguide/CommentActions/unpublish/confirm/admin",
+      "value": "Wollen Sie den Beitrag von {name} zurückziehen? Mit einer Notiz wird vermerkt bleiben, dass hier ein Beitrag war."
     },
     {
       "key": "styleguide/CommentActions/edit",

@@ -43,9 +43,6 @@ const styles = {
     textRendering: 'optimizeLegibility',
     WebkitFontSmoothing: 'antialiased'
   }),
-  icons: css({
-    float: 'right'
-  }),
   grid: css({
     marginLeft: -COL_PADDING_S / 2,
     width: `calc(100% + ${COL_PADDING_S}px)`,
@@ -97,25 +94,36 @@ const styles = {
     border: 'none',
     borderBottom: `1px solid ${negativeColors.divider}`
   }),
+  lastLine: css({
+    textAlign: 'center',
+    position: 'relative',
+    height: 25,
+    lineHeight: '24px'
+  }),
   since: css({
     color: negativeColors.lightText,
-    textAlign: 'center',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 32,
     [mediaQueries.mUp]: {
       display: 'inline-block'
     }
+  }),
+  icons: css({
+    position: 'absolute',
+    bottom: 0,
+    right: 0
+  }),
+  left: css({
+    position: 'absolute',
+    bottom: 0,
+    left: 0
   }),
   logo: css({
     display: 'none',
     [mediaQueries.mUp]: {
-      display: 'inline-block'
+      display: 'block'
     }
   }),
   brandmark: css({
-    display: 'inline-block',
+    display: 'block',
     marginTop: '1px',
     width: '20px',
     [mediaQueries.mUp]: {
@@ -245,26 +253,32 @@ class Footer extends Component {
             </div>
           </div>
           <hr {...styles.hr} />
-          <div {...styles.logo}>
-            <Logo fill={negativeColors.text} width={140} />
-          </div>
-          <div {...styles.brandmark}>
-            <BrandMark fill={negativeColors.text} />
-          </div>
-          <span {...styles.since}>{t('footer/since')}</span>
-          <div {...styles.icons}>
-            <IconLink
-              icon='facebook'
-              href='https://www.facebook.com/RepublikMagazin'
-              target='_blank'
-              fill={negativeColors.text}
-            />
-            <IconLink
-              icon='twitter'
-              href='https://twitter.com/RepublikMagazin'
-              target='_blank'
-              fill={negativeColors.text}
-            />
+          <div {...styles.lastLine}>
+            <Link route='index'>
+              <a {...styles.logo} {...styles.left}>
+                <Logo fill={negativeColors.text} width={140} />
+              </a>
+            </Link>
+            <Link route='index'>
+              <a {...styles.brandmark} {...styles.left}>
+                <BrandMark fill={negativeColors.text} />
+              </a>
+            </Link>
+            <span {...styles.since}>{t('footer/since')}</span>
+            <div {...styles.icons}>
+              <IconLink
+                icon='facebook'
+                href='https://www.facebook.com/RepublikMagazin'
+                target='_blank'
+                fill={negativeColors.text}
+              />
+              <IconLink
+                icon='twitter'
+                href='https://twitter.com/RepublikMagazin'
+                target='_blank'
+                fill={negativeColors.text}
+              />
+            </div>
           </div>
         </Container>
       </div>

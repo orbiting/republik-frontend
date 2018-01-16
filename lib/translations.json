@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-16T00:06:12.084Z",
+  "updated": "2018-01-16T13:20:08.730Z",
   "title": "live",
   "data": [
     {
@@ -836,7 +836,7 @@
     },
     {
       "key": "profile/portrait/choose",
-      "value": "Portätbild auswählen"
+      "value": "Porträtbild auswählen"
     },
     {
       "key": "profile/portrait/invalidType",

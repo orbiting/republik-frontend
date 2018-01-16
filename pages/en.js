@@ -5,7 +5,6 @@ import Router from 'next/router'
 
 import Share from '../components/Share'
 import PureFooter, {SPACE} from '../components/Frame/PureFooter'
-import VideoPlayer from '../components/VideoPlayer'
 
 import track from '../lib/piwik'
 
@@ -15,7 +14,8 @@ import {
   fontFamilies,
   mediaQueries,
   P as EP, H1 as EH1,
-  A, Label, Interaction
+  A, Label, Interaction,
+  VideoPlayer
 } from '@project-r/styleguide'
 
 import {
@@ -29,7 +29,7 @@ const enVideo = {
   hls: 'https://player.vimeo.com/external/215798102.m3u8?s=b3730f7f6332985771865f3b85c13aeae93223b1',
   mp4: 'https://player.vimeo.com/external/215798102.hd.mp4?s=bdc8421b7d1c2a04fcf9521655332e54c7c4c039&profile_id=175',
   subtitles: '/static/subtitles/main_en.vtt',
-  poster: `${STATIC_BASE_URL}/static/video/main.jpg`
+  thumbnail: `${STATIC_BASE_URL}/static/video/main.jpg`
 }
 
 const pRule = css({
@@ -244,9 +244,9 @@ ${meta.url}
         <VideoPlayer subtitles src={enVideo} />
         <div {...styles.column}>
           <IP style={{marginBottom: 40}}>
-            If you read German, you might want to consider becoming a member of the cooperative behind Republik and read our magazine for a whole year from January 2018 on:
+            If you read German, you might want to consider becoming a member of the cooperative behind Republik and read our magazine for a whole year:
             {' '}
-            <A href='/angebote'>Jetzt mitmachen</A>.
+            <A href='/angebote'>Jetzt Mitglied werden</A>.
           </IP>
 
           <H2>Donate</H2>

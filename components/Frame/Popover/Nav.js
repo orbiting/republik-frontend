@@ -3,7 +3,7 @@ import React from 'react'
 import { css } from 'glamor'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { Link } from '../../../lib/routes'
+import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 
 import {
@@ -65,15 +65,22 @@ const SignoutLink = ({children, ...props}) => (
   <a {...styles.link} {...props}>{children}</a>
 )
 
-const NavLink = ({ route, translation, params, url, closeHandler }) => {
-  if (`/${route}` === url.pathname) {
+const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
+  if (
+    active &&
+    active.route === route
+  ) {
     return (
       <a
         {...styles.link}
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          closeHandler()
+          Router.replaceRoute(route, params)
+            .then(() => {
+              window.scroll(0, 0)
+              closeHandler()
+            })
         }}
       >
         {translation}
@@ -88,23 +95,24 @@ const NavLink = ({ route, translation, params, url, closeHandler }) => {
 }
 
 const Nav = ({ me, url, closeHandler, children, t }) => {
+  const active = matchPath(url.asPath)
   return (
     <div {...styles.container}>
       <div {...styles.section}>
         {me && (
           <div>
             <NavLink
-              route="account"
+              route='account'
               translation={t('Frame/Popover/myaccount')}
-              url={url}
+              active={active}
               closeHandler={closeHandler}
             />
             <br />
             <NavLink
-              route="profile"
+              route='profile'
               params={{ slug: me.username || me.id }}
               translation={t('Frame/Popover/myprofile')}
-              url={url}
+              active={active}
               closeHandler={closeHandler}
             />
             <br />
@@ -126,25 +134,25 @@ const Nav = ({ me, url, closeHandler, children, t }) => {
         {me && (
           <div>
             <NavLink
-              route="feed"
+              route='feed'
               translation={t('nav/feed')}
-              url={url}
+              active={active}
               closeHandler={closeHandler}
             />
             <br />
             <NavLink
-              route="events"
+              route='events'
               translation={t('nav/events')}
-              url={url}
+              active={active}
               closeHandler={closeHandler}
             />
             <br />
           </div>
         )}
         <NavLink
-          route="community"
+          route='community'
           translation={t('nav/community')}
-          url={url}
+          active={active}
           closeHandler={closeHandler}
         />
       </div>

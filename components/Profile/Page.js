@@ -481,9 +481,11 @@ export default compose(
       if (slug === 'me') {
         redirect = me
       }
-      const username = data.user && data.user.username
-      if (username && username !== slug) {
-        redirect = data.user
+      if (!data.loading) {
+        const username = data.user && data.user.username
+        if (username && username !== slug) {
+          redirect = data.user
+        }
       }
       if (redirect) {
         const targetSlug = redirect.username || redirect.id

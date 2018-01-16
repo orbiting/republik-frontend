@@ -84,7 +84,8 @@ class DiscussionPreferencesEditor extends PureComponent {
           onClose()
         },
         (e) => {
-          console.error(e)
+          // ToDo Handle Error
+          // console.warn(e)
         }
       )
     }

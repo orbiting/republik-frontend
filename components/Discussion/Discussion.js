@@ -37,7 +37,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId} = this.props
+    const {t, discussionId, focusId} = this.props
     const {orderBy, reload} = this.state
 
     const OrderBy = ({children, value}) => (
@@ -49,7 +49,7 @@ class Discussion extends PureComponent {
     )
 
     return (
-      <div>
+      <div data-discussion-id={discussionId}>
         <DiscussionCommentComposer
           discussionId={discussionId}
           orderBy={orderBy}
@@ -73,6 +73,7 @@ class Discussion extends PureComponent {
           depth={1}
           key={orderBy}
           discussionId={discussionId}
+          focusId={focusId}
           parentId={null}
           reload={reload}
           orderBy={orderBy}

@@ -6,6 +6,8 @@ import Link from '../Link/Href'
 import { styles as iconLinkStyles } from '../IconLink'
 import Icon from '../Icons/Discussion'
 
+import { focusSelector } from '../../lib/utils/scroll'
+
 import { withCount } from './enhancers'
 
 import {
@@ -34,9 +36,12 @@ class IconLink extends Component {
     this.unsubscribe()
   }
   render () {
-    const { path, count } = this.props
+    const { path, discussionId, count } = this.props
     return <Link href={path} passHref>
-      <a {...iconLinkStyles.link} {...styles.a}>
+      <a href='#diskussion' onClick={(e) => {
+        e.preventDefault()
+        focusSelector(`[data-discussion-id='${discussionId}']`)
+      }} {...iconLinkStyles.link} {...styles.a}>
         <Icon size={24} fill={colors.primary} />
         {count > 0 && (
           <span {...iconLinkStyles.text} {...styles.text}>

@@ -1,10 +1,10 @@
 import React from 'react'
-import routes, { Link } from '../../lib/routes'
+import { matchPath, Link } from '../../lib/routes'
 
-export default ({ path, passHref, children }) => {
-  const result = routes.match(path)
-  if (result.route && result.route.name && result.params) {
-    return <Link route={result.route.name} params={result.params} passHref={passHref}>
+export default ({ path, query = {}, passHref, replace, scroll, children }) => {
+  const result = matchPath(path)
+  if (result) {
+    return <Link route={result.route} params={{...query, ...result.params}} passHref={passHref} replace={replace} scroll={scroll}>
       {children}
     </Link>
   }

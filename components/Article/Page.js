@@ -220,7 +220,9 @@ class ArticlePage extends Component {
                 format: meta.format
               }, schema)}
               {meta.discussionId && <Center>
-                <Discussion discussionId={meta.discussionId} />
+                <Discussion
+                  discussionId={meta.discussionId}
+                  focusId={url.query.focus} />
               </Center>}
               {isFormat && <Feed formatId={article.id} />}
               <br />

@@ -18,6 +18,8 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+import { focusSelector } from '../../lib/utils/scroll'
+import PathLink from '../Link/Path'
 
 import mkDebug from 'debug'
 
@@ -26,12 +28,6 @@ const debug = mkDebug('comments')
 const SHOW_DEBUG = false
 
 const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
-
-const DisplayAuthorLink = ({displayAuthor, children, ...props}) => displayAuthor.username
-  ? <Link route='profile' params={{slug: displayAuthor.username}} {...props}>
-    {children}
-  </Link>
-  : children
 
 const mergeCounts = (a, b) => {
   return {
@@ -47,8 +43,8 @@ const mergeCounts = (a, b) => {
 }
 
 class Comments extends PureComponent {
-  constructor (...args) {
-    super(...args)
+  constructor (props, ...args) {
+    super(props, ...args)
 
     this.state = {
       subIdMap: {
@@ -57,7 +53,8 @@ class Comments extends PureComponent {
       now: Date.now(),
       showPreferences: false,
       maxVisualDepth: 3,
-      closedPortals: {}
+      closedPortals: {},
+      hasFocus: !!props.focusId
     }
 
     this.showPreferences = () => {
@@ -121,6 +118,10 @@ class Comments extends PureComponent {
     this.intervalId = setInterval(() => {
       this.setState({ now: Date.now() })
     }, 30 * 1000)
+    this.fetchFocus()
+  }
+  componentDidUpdate (prevProps, prevState) {
+    this.fetchFocus()
   }
   componentWillReceiveProps (nextProps) {
     if (this.props.reload !== nextProps.reload) {
@@ -131,14 +132,101 @@ class Comments extends PureComponent {
     this.unsubscribe()
     clearInterval(this.intervalId)
   }
+  fetchFocus () {
+    const {
+      t,
+      data: { discussion, loading },
+      fetchMore, focusId
+    } = this.props
+    if (loading) {
+      return
+    }
+    const focusInfo = discussion && discussion.comments.focus
+    const hasFocus = !!focusInfo
+    if (focusId && !focusInfo) {
+      this.setState({
+        focusError: t('discussion/focus/notFound'),
+        focusLoading: false
+      })
+      return
+    }
+    const nodes = discussion && discussion.comments.nodes
+    const focus = (
+      focusInfo &&
+      nodes.find(comment => comment.id === focusInfo.id)
+    )
+    if (this.state.focus !== focus || this.state.hasFocus !== hasFocus) {
+      this.setState({
+        focus,
+        hasFocus,
+        focusError: undefined
+      }, () => {
+        if (focusInfo) {
+          focusSelector(`[data-comment-id='${focusInfo.id}']`)
+        }
+      })
+    }
+    if (!focusInfo) {
+      return
+    }
+    if (!focus && !this.state.focusLoading && !this.state.focusError) {
+      const parentIds = focusInfo.parentIds
+      const closestParent = [].concat(parentIds).reverse().reduce((parent, id) => {
+        if (parent) return parent
+        return nodes.find(node => node.id === id)
+      }, null)
+      if (!closestParent) {
+        this.setState({focusError: t('discussion/focus/missing')})
+        return
+      }
+      const parentIndex = parentIds.indexOf(closestParent.id)
+      const depth = parentIds.length - parentIndex
+      this.setState({focusLoading: true})
+      fetchMore(closestParent.id, undefined, { depth })
+        .then(() => {
+          this.setState({
+            focusLoading: false,
+            focusError: undefined
+          }, () => {
+            focusSelector(`[data-comment-id='${focusInfo.id}']`)
+          })
+        })
+        .catch(() => {
+          this.setState({
+            focusError: t('discussion/focus/loadError'),
+            focusLoading: false
+          })
+        })
+    }
+  }
   renderComments (nodes, options = {}) {
     const {
       discussionDisplayAuthor,
       t,
       fetchMore,
       discussionUserCanComment,
-      discussionClosed
+      discussionClosed,
+      data: { discussion }
     } = this.props
+
+    const CommentLink = ({displayAuthor, commentId, children, ...props}) => {
+      if (displayAuthor && displayAuthor.username) {
+        return <Link route='profile' params={{slug: displayAuthor.username}} {...props}>
+          {children}
+        </Link>
+      }
+      if (commentId) {
+        if (discussion.documentPath) {
+          return <PathLink path={discussion.documentPath} query={{focus: commentId}} replace scroll={false} {...props}>
+            {children}
+          </PathLink>
+        }
+        return <Link route='discussion' params={{id: discussion.id, focus: commentId}} {...props}>
+          {children}
+        </Link>
+      }
+      return children
+    }
 
     const displayAuthor = (
       discussionUserCanComment && !discussionClosed && discussionDisplayAuthor
@@ -148,8 +236,11 @@ class Comments extends PureComponent {
       now,
       subIdMap,
       maxVisualDepth,
-      closedPortals
+      closedPortals,
+      focus
     } = this.state
+
+    const focusId = focus && focus.id
 
     const {
       pendingClosure = [],
@@ -343,6 +434,7 @@ class Comments extends PureComponent {
           tail={tail}
           otherChild={otherChild}
           comment={comment}
+          highlighted={focusId === comment.id}
           displayAuthor={displayAuthor}
           onEditPreferences={this.showPreferences}
           isAdmin={this.props.isAdmin}
@@ -352,7 +444,7 @@ class Comments extends PureComponent {
           downvoteComment={this.props.downvoteComment}
           unpublishComment={this.props.unpublishComment}
           timeago={timeagoFromNow}
-          Link={DisplayAuthorLink}
+          Link={CommentLink}
         />
       )
 
@@ -433,12 +525,14 @@ class Comments extends PureComponent {
 
     const {
       showPreferences,
-      subIdMap
+      subIdMap,
+      hasFocus,
+      focusLoading
     } = this.state
 
     return (
       <Loader
-        loading={loading}
+        loading={loading || (hasFocus && focusLoading)}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const {totalCount, pageInfo, nodes} = discussion.comments
@@ -498,9 +592,9 @@ export default compose(
   graphql(query, {
     props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
       data,
-      fetchMore: (parentId, after, {appendAfter} = {}) => {
+      fetchMore: (parentId, after, {appendAfter, depth} = {}) => {
         return fetchMore({
-          variables: {discussionId, parentId, after, orderBy, depth: parentId ? 3 : 1},
+          variables: {discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1},
           updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
             let nodes = previousResult.discussion.comments.nodes
             const nodeIndex = nodes.reduce(
@@ -530,8 +624,12 @@ export default compose(
                 ...nodes.slice(parentIndex + 1)
               ]
               let appendIndex = parentIndex
-              if (appendAfter) {
+              if (appendAfter && appendAfter.id !== parent.id) {
                 appendIndex = nodes.indexOf(nodeIndex[appendAfter.id])
+                if (appendIndex === -1) {
+                  appendIndex = 0
+                  debug('fetchMore:append', 'node not found', appendIndex, {appendAfter, nodes})
+                }
               }
               nodes.splice(appendIndex + 1, 0, ...newNodes)
             }

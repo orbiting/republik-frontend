@@ -3,7 +3,6 @@ import { css } from 'glamor'
 
 import { Link } from '../../lib/routes'
 import Share from '../Share'
-import VideoPlayer from '../VideoPlayer'
 
 import { PUBLIC_BASE_URL, API_ASSETS_BASE_URL } from '../../lib/constants'
 
@@ -12,7 +11,8 @@ import {
   fontFamilies,
   P as SerifP,
   colors,
-  linkRule
+  linkRule,
+  VideoPlayer
 } from '@project-r/styleguide'
 
 const { H3, P } = Interaction

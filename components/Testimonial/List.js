@@ -9,9 +9,10 @@ import Meta from '../Frame/Meta'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
-import Play from '../VideoPlayer/Icons/Play'
 
 import Detail from './Detail'
+
+import Play from '../Icons/Play'
 
 import {
   PUBLIC_BASE_URL, STATIC_BASE_URL, API_ASSETS_BASE_URL

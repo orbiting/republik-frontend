@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 
 import {css} from 'glamor'
-import VideoPlayer from './VideoPlayer'
-import Play from './VideoPlayer/Icons/Play'
+import Play from './Icons/Play'
 
 import {scrollIt} from '../lib/utils/scroll'
 import {
@@ -11,6 +10,7 @@ import {
 } from './constants'
 
 import {
+  VideoPlayer,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -76,8 +76,8 @@ class VideoCover extends Component {
     super(props)
 
     this.state = {
-      playing: false,
-      cover: true
+      playing: undefined,
+      cover: !props.backgroundAutoPlay
     }
     this.measure = () => {
       this.setState(() => {
@@ -96,7 +96,7 @@ class VideoCover extends Component {
   componentDidMount () {
     window.addEventListener('resize', this.measure)
     this.measure()
-    if (this.props.autoPlay && this.player) {
+    if (this.props.forceAutoPlay && this.player) {
       this.setState(() => {
         this.player.play()
         return {
@@ -107,9 +107,12 @@ class VideoCover extends Component {
   }
   componentWillUnmount () {
     window.removeEventListener('resize', this.measure)
+    if (this.checkPlaying === undefined) {
+      clearTimeout(this.checkPlaying)
+    }
   }
   render () {
-    const {src, cursor, limited, loop} = this.props
+    const {src, cursor, limited, backgroundAutoPlay, muted, loop} = this.props
     const {
       playing, ended,
       videoHeight, windowHeight,
@@ -129,6 +132,7 @@ class VideoCover extends Component {
             this.setState(() => {
               this.player.toggle()
               return {
+                clicked: true,
                 cover: false
               }
             })
@@ -142,7 +146,13 @@ class VideoCover extends Component {
           </div>
         </div>
         <VideoPlayer ref={this.ref} src={src}
-          hidePlay={cover}
+          showPlay={!cover && playing !== undefined}
+          autoPlay={backgroundAutoPlay}
+          attributes={backgroundAutoPlay ? {
+            playsInline: true,
+            'webkit-playsinline': ''
+          } : {}}
+          forceMuted={muted}
           loop={loop}
           onPlay={() => {
             this.setState(() => ({
@@ -156,7 +166,7 @@ class VideoCover extends Component {
             }))
           }}
           onProgress={(progress) => {
-            if (loop && progress > this.props.endScroll) {
+            if (loop) {
               return
             }
 

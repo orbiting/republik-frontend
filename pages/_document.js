@@ -61,6 +61,7 @@ export default class MyDocument extends Document {
           <link rel='shortcut icon' href={`${PUBLIC_BASE_URL}/static/favicon.ico`} />
           { /* browserconfig.xml can contain other static references, we skip cdnifing it */ }
           <meta name='msapplication-config' content='/static/browserconfig.xml' />
+          <meta name='referrer' content='no-referrer' />
         </Head>
         <body>
           <Main />

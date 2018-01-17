@@ -86,6 +86,7 @@ const IconLink = ({
       href={href}
       style={style}
       target={target}
+      rel={target === '_blank' ? 'noopener' : ''}
       title={title}
     >
       <Icon fill={fill} size={size} />

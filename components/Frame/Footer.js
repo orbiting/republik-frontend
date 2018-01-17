@@ -160,6 +160,7 @@ class Footer extends Component {
               <a
                 href='https://www.google.ch/maps/place/Sihlhallenstrasse+1,+8004+Zürich'
                 target='_blank'
+                rel='noopener'
               >
                 {intersperse(
                   t('footer/contact/address').split('\n'),
@@ -193,7 +194,7 @@ class Footer extends Component {
                 {t('footer/about/en')}
               </a>
               <br />
-              <a href='https://project-r.construction/' target='_blank'>
+              <a href='https://project-r.construction/' rel='noopener' target='_blank'>
                 {t('footer/about/projecR')}
               </a>
             </div>

@@ -80,7 +80,7 @@ const Event = withT(({
   )
   if (locationLink && location) {
     location = (
-      <A href={locationLink} target='_blank'>
+      <A href={locationLink} target='_blank' rel='noopener'>
         {location}
       </A>
     )
@@ -99,7 +99,7 @@ const Event = withT(({
         </P>
         {!!link && (
           <P>
-            <A href={link} target='_blank'>
+            <A href={link} target='_blank' rel='noopener'>
               {link}
             </A>
           </P>

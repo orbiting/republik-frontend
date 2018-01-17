@@ -74,14 +74,14 @@ class Footer extends Component {
           {!!en && <Label>Read more in German</Label>}
           <div {...styles.mainNav}>
             <br />
-            <A href='https://project-r.construction/' target='_blank'>
+            <A href='https://project-r.construction/' target='_blank' rel='noopener'>
               Project R
             </A>
           </div>
         </div>
 
         <address {...styles.address} style={{ marginBottom: 20 }}>
-          <A href='https://goo.gl/maps/j1F8cXQhrmo' target='_blank'>
+          <A href='https://goo.gl/maps/j1F8cXQhrmo' target='_blank' rel='noopener'>
             Republik AG<br />
             Sihlhallenstrasse 1<br />
             8004 Zürich<br />

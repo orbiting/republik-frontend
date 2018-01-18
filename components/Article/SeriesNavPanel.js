@@ -71,15 +71,18 @@ const Title = ({ children }) => <h2 {...styles.title}>{children}</h2>
 
 const LinkContent = ({ episode, index, t }) => {
   const label = episode && episode.label
+  const publishDate = episode && episode.publishDate
   return (
     <Fragment>
       <Editorial.Format>
         {label || t('article/series/episode', { count: romanize(index + 1) })}
       </Editorial.Format>
       <Title>{episode.title}</Title>
-      <TeaserFrontCredit>
-        {dayFormat(Date.parse(episode.publishDate))}
-      </TeaserFrontCredit>
+      {!!publishDate && (
+        <TeaserFrontCredit>
+          {dayFormat(Date.parse(publishDate))}
+        </TeaserFrontCredit>
+      )}
     </Fragment>
   )
 }

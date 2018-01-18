@@ -44,7 +44,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
         <TeaserFrontTileHeadline.Editorial>
           {episode.title}
         </TeaserFrontTileHeadline.Editorial>
-        {date && (
+        {!!date && (
           <TeaserFrontCredit>{dayFormat(Date.parse(date))}</TeaserFrontCredit>
         )}
       </TeaserFrontTile>

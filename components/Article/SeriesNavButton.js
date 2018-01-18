@@ -9,7 +9,12 @@ import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
-import { Label, mediaQueries, fontFamilies, colors } from '@project-r/styleguide'
+import {
+  Label,
+  mediaQueries,
+  fontFamilies,
+  colors
+} from '@project-r/styleguide'
 
 const styles = {
   button: css({
@@ -27,7 +32,7 @@ const styles = {
     whiteSpace: 'nowrap',
     width: `calc(100vw - ${2 * HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      width: `calc(100vw - ${2 * HEADER_HEIGHT}px)`,
+      width: `calc(100vw - ${2 * HEADER_HEIGHT}px)`
     }
   }),
   menu: css({
@@ -69,7 +74,7 @@ const styles = {
     textOverflow: 'ellipsis',
     [mediaQueries.mUp]: {
       fontSize: 18,
-      lineHeight: `${HEADER_HEIGHT}px`,
+      lineHeight: `${HEADER_HEIGHT}px`
     }
   }),
   arrow: css({
@@ -82,38 +87,31 @@ const styles = {
   })
 }
 
-class SeriesNavButton extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      //expanded: false
-    }
-  }
-  render() {
-    const { items, id, children, t, url, series, onSecondaryNavExpandedChange, expanded } = this.props
-    //const { expanded } = this.state
-    return (
-      <button {...styles.button} onClick={() => {
-        onSecondaryNavExpandedChange(!expanded)
-      }}>
-        <span {...styles.title}>
-          {series.title}
-          <span {...styles.arrow}>
-            {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
-            {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
-          </span>
-        </span>
-        <div {...styles.menu} id="second" aria-expanded={expanded}>
-          <SeriesNavPanel t={t} url={url} series={series} />
-        </div>
-      </button>
-    )
-  }
-}
-
-SeriesNavButton.propTypes = {
-  //expanded: PropTypes.bool
-}
-
-export default SeriesNavButton
+export default ({
+  items,
+  id,
+  children,
+  t,
+  url,
+  series,
+  onSecondaryNavExpandedChange,
+  expanded
+}) => (
+  <button
+    {...styles.button}
+    onClick={() => {
+      onSecondaryNavExpandedChange(!expanded)
+    }}
+  >
+    <span {...styles.title}>
+      {series.title}
+      <span {...styles.arrow}>
+        {expanded && <ArrowUpIcon size="28" fill={colors.text} />}
+        {!expanded && <ArrowDownIcon size="28" fill={colors.text} />}
+      </span>
+    </span>
+    <div {...styles.menu} aria-expanded={expanded}>
+      <SeriesNavPanel t={t} url={url} series={series} />
+    </div>
+  </button>
+)

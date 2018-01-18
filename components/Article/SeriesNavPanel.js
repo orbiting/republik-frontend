@@ -26,7 +26,7 @@ const styles = {
     textAlign: 'center',
     '& + &': {
       borderTop: `1px solid ${negativeColors.divider}`
-    },
+    }
   }),
   link: css({
     textDecoration: 'none',
@@ -51,7 +51,7 @@ const styles = {
     color: negativeColors.lightText
   }),
   title: css({
-     ...fontStyles.serifTitle26,
+    ...fontStyles.serifTitle26,
     [mediaQueries.mUp]: {
       ...fontStyles.serifTitle38
     }
@@ -61,19 +61,18 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }
-  }),
+  })
 }
 
-const Title = ({children}) => (
-  <h2 {...styles.title}>{children}</h2>
-)
+const Title = ({ children }) => <h2 {...styles.title}>{children}</h2>
 
-const PublishDate = ({date}) => (
+const PublishDate = ({ date }) => (
   <p {...styles.date}>{dayFormat(Date.parse(date))}</p>
 )
 
 const EpisodeLink = ({ episode, translation, params = {}, url }) => {
-  const route = episode.document && episode.document.meta && episode.document.meta.path
+  const route =
+    episode.document && episode.document.meta && episode.document.meta.path
   if (!route) {
     return (
       <div {...styles.base} {...styles.unpublished}>
@@ -82,10 +81,7 @@ const EpisodeLink = ({ episode, translation, params = {}, url }) => {
       </div>
     )
   }
-  if (
-    url.asPath &&
-    url.asPath === route
-  ) {
+  if (url.asPath && url.asPath === route) {
     return (
       <a
         {...styles.base}
@@ -93,10 +89,9 @@ const EpisodeLink = ({ episode, translation, params = {}, url }) => {
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          Router.replaceRoute(route, params)
-            .then(() => {
-              window.scroll(0, 0)
-            })
+          Router.replaceRoute(route, params).then(() => {
+            window.scroll(0, 0)
+          })
         }}
       >
         <Title>{episode.title}</Title>
@@ -118,11 +113,9 @@ const Nav = ({ url, children, t, series }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container}>
-        {series.episodes && series.episodes.map( episode => (
-        <EpisodeLink
-          episode={episode}
-          url={url}
-        />
+      {series.episodes &&
+        series.episodes.map((episode, i) => (
+          <EpisodeLink key={i} episode={episode} url={url} />
         ))}
     </div>
   )

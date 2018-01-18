@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { css } from 'glamor'
 import { matchPath, Link, Router } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
+import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
 import { negativeColors } from '../Frame/Footer'
 
 import {
+  Editorial,
   Interaction,
   colors,
   fontStyles,
@@ -22,7 +24,7 @@ const styles = {
   base: css({
     cursor: 'default',
     display: 'block',
-    padding: '10px 15px',
+    padding: '20px 15px 10px 15px',
     textAlign: 'center',
     '& + &': {
       borderTop: `1px solid ${negativeColors.divider}`
@@ -70,14 +72,23 @@ const PublishDate = ({ date }) => (
   <p {...styles.date}>{dayFormat(Date.parse(date))}</p>
 )
 
-const EpisodeLink = ({ episode, translation, params = {}, url }) => {
+const LinkContent = ({ episode, index, t }) => (
+  <Fragment>
+    <Editorial.Format>
+      {t('article/series/episode', { count: romanize(index + 1) })}
+    </Editorial.Format>
+    <Title>{episode.title}</Title>
+    <PublishDate date={episode.publishDate} />
+  </Fragment>
+)
+
+const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
   const route =
     episode.document && episode.document.meta && episode.document.meta.path
   if (!route) {
     return (
       <div {...styles.base} {...styles.unpublished}>
-        <Title>{episode.title}</Title>
-        <PublishDate date={episode.publishDate} />
+        <LinkContent episode={episode} index={index} t={t} />
       </div>
     )
   }
@@ -94,16 +105,14 @@ const EpisodeLink = ({ episode, translation, params = {}, url }) => {
           })
         }}
       >
-        <Title>{episode.title}</Title>
-        <PublishDate date={episode.publishDate} />
+        <LinkContent episode={episode} index={index} t={t} />
       </a>
     )
   }
   return (
     <Link route={route} params={params}>
       <a {...styles.base} {...styles.link}>
-        <Title>{episode.title}</Title>
-        <PublishDate date={episode.publishDate} />
+        <LinkContent episode={episode} index={index} t={t} />
       </a>
     </Link>
   )
@@ -115,7 +124,7 @@ const Nav = ({ url, children, t, series }) => {
     <div {...styles.container}>
       {series.episodes &&
         series.episodes.map((episode, i) => (
-          <EpisodeLink key={i} episode={episode} url={url} />
+          <EpisodeLink t={t} key={i} episode={episode} url={url} index={i} />
         ))}
     </div>
   )

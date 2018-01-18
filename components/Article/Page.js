@@ -5,6 +5,7 @@ import ShareButtons from '../Share'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
+import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
@@ -17,7 +18,10 @@ import StatusError from '../StatusError'
 import {
   colors,
   mediaQueries,
-  Center
+  Center,
+  TeaserFrontTile,
+  TeaserFrontTileHeadline,
+  TeaserFrontTileRow
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -117,6 +121,7 @@ const getDocument = gql`
                 title
                 publishDate
                 path
+                image
               }
             }
           }
@@ -219,6 +224,7 @@ class ArticlePage extends Component {
     )
 
     const series = meta && meta.series
+    const episodes = series && series.episodes
 
     const actionBar = meta && (
       <ActionBar t={t}
@@ -280,6 +286,7 @@ class ArticlePage extends Component {
                   discussionId={meta.discussionId}
                   focusId={url.query.focus} />
               </Center>}
+              {episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
               <br />
               <br />

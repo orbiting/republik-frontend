@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-16T22:15:11.679Z",
+  "updated": "2018-01-18T20:47:39.677Z",
   "title": "live",
   "data": [
     {
@@ -1837,6 +1837,10 @@
     {
       "key": "article/share/emailSubject",
       "value": "Republik: {title}"
+    },
+    {
+      "key": "article/series/episode",
+      "value": "Episode {count}"
     },
     {
       "key": "merci/postpay/waiting",

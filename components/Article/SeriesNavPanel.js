@@ -70,11 +70,7 @@ const styles = {
 const Title = ({ children }) => <h2 {...styles.title}>{children}</h2>
 
 const LinkContent = ({ episode, index, t }) => {
-  const label =
-    episode &&
-    episode.document &&
-    episode.document.meta &&
-    episode.document.meta.label
+  const label = episode && episode.label
   return (
     <Fragment>
       <Editorial.Format>

@@ -116,12 +116,13 @@ const getDocument = gql`
           episodes {
             title
             publishDate
+            label
+            image
             document {
               meta {
                 title
                 publishDate
                 path
-                image
               }
             }
           }

@@ -24,10 +24,11 @@ const DefaultLink = ({ children }) => children
 
 const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const date = episode && episode.publishDate
+  const label = episode && episode.label
+  const image = episode && episode.image
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
-  const image = meta && meta.image
-  const label = meta && meta.label
+
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>
   }

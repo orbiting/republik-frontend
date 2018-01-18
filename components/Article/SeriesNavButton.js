@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { ChevronToggle } from '../Frame/Toggle'
 import { negativeColors } from '../Frame/Footer'
 import SeriesNavPanel from './SeriesNavPanel'
 

@@ -123,6 +123,7 @@ const getDocument = gql`
                 title
                 publishDate
                 path
+                image
               }
             }
           }

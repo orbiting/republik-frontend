@@ -12,7 +12,8 @@ import {
   Interaction,
   colors,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  TeaserFrontCredit
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -24,7 +25,7 @@ const styles = {
   base: css({
     cursor: 'default',
     display: 'block',
-    padding: '20px 15px 10px 15px',
+    padding: '20px 15px',
     textAlign: 'center',
     '& + &': {
       borderTop: `1px solid ${negativeColors.divider}`
@@ -68,17 +69,13 @@ const styles = {
 
 const Title = ({ children }) => <h2 {...styles.title}>{children}</h2>
 
-const PublishDate = ({ date }) => (
-  <p {...styles.date}>{dayFormat(Date.parse(date))}</p>
-)
-
 const LinkContent = ({ episode, index, t }) => (
   <Fragment>
     <Editorial.Format>
       {t('article/series/episode', { count: romanize(index + 1) })}
     </Editorial.Format>
     <Title>{episode.title}</Title>
-    <PublishDate date={episode.publishDate} />
+    <TeaserFrontCredit>{dayFormat(Date.parse(episode.publishDate))}</TeaserFrontCredit>
   </Fragment>
 )
 

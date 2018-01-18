@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { romanize } from '../../lib/utils/romanize'
+import { timeFormat } from '../../lib/utils/format'
 
 import {
   colors,
@@ -17,12 +18,15 @@ import {
   TeaserFrontLead
 } from '@project-r/styleguide'
 
+const dayFormat = timeFormat('%d. %B %Y')
+
 const DefaultLink = ({ children }) => children
 
 const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
-  const doc = episode.document
-  const route = doc && doc.meta.path
-  const image = doc && doc.meta.image
+  const date = episode && episode.publishDate
+  const meta = episode && episode.document && episode.document.meta
+  const route = meta && meta.path
+  const image = meta && meta.image
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>
   }
@@ -38,6 +42,9 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
         <TeaserFrontTileHeadline.Editorial>
           {episode.title}
         </TeaserFrontTileHeadline.Editorial>
+        {date && (
+          <TeaserFrontCredit>{dayFormat(Date.parse(date))}</TeaserFrontCredit>
+        )}
       </TeaserFrontTile>
     </LinkComponent>
   )
@@ -51,7 +58,6 @@ const RelatedEpisodes = ({ t, episodes, path }) => {
     .indexOf(path)
   previousEpisode = currentEpisodeIndex > 0 && episodes[currentEpisodeIndex - 1]
   nextEpisode = episodes[currentEpisodeIndex + 1]
-  console.log(previousEpisode, nextEpisode)
 
   return (
     <Fragment>

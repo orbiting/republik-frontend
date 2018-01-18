@@ -177,8 +177,9 @@ class Header extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const { url, me, cover, secondaryNav, showSecondary, inline } = this.props
+    const { url, me, cover, secondaryNav, showSecondary, inline, onPrimaryNavExpandedChange, primaryNavExpanded } = this.props
     const { expanded, sticky } = this.state
+    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const opaque = this.state.opaque || expanded || inline
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const marginBottom = sticky
@@ -202,7 +203,7 @@ class Header extends Component {
                 me={me}
                 onclickHandler={() => {
                   this.setState(() => ({
-                    expanded: !expanded
+                    expanded: !expand
                   }))
                 }}
               />
@@ -239,13 +240,20 @@ class Header extends Component {
           {opaque && (
             <div {...styles.hamburger}>
               <Toggle
-                expanded={!!expanded}
+                expanded={!!expand}
                 id='primary-menu'
-                onClick={() => this.setState({ expanded: !expanded })}
+                onClick={() => {
+                  if (onPrimaryNavExpandedChange) {
+                    onPrimaryNavExpandedChange(!expand)
+                  } else {
+                    this.setState({ expanded: !expand })
+                  }
+                }
+              }
               />
             </div>
           )}
-          <Popover expanded={!!expanded}>
+          <Popover expanded={!!expand}>
             <NavPopover me={me} url={url} closeHandler={this.close} />
           </Popover>
         </div>

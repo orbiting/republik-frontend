@@ -5,6 +5,7 @@ import ShareButtons from '../Share'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
+import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
 
@@ -111,11 +112,36 @@ const getDocument = gql`
   }
 `
 
+/*
+series {
+  title
+  episodes {
+    title
+    publishDate
+    document {
+      meta {
+        title
+        publishDate
+        path
+      }
+    }
+  }
+}
+*/
+
 class ArticlePage extends Component {
   constructor (props) {
     super(props)
+    const { data } = props
     this.state = {
-      showSecondary: false
+      primaryNavExpanded: false,
+      secondaryNavExpanded: false,
+      showSecondary: false,
+      isSeries: true /*data &&
+        data.article &&
+        data.article.meta &&
+        data.article.meta.series &&
+        !!data.article.meta.series.length*/
     }
 
     this.onScroll = () => {
@@ -123,8 +149,10 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
       if (
-        y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-        this.y + this.barHeight
+        (this.state.isSeries && y > 300) ||
+        (!this.state.isSeries &&
+          y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
+            this.y + this.barHeight)
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -139,13 +167,27 @@ class ArticlePage extends Component {
       this.bar = ref
     }
     this.measure = () => {
-      if (this.bar) {
+      if (!this.state.isSeries && this.bar) {
         const rect = this.bar.getBoundingClientRect()
         this.y = window.pageYOffset + rect.top
         this.barHeight = rect.height
         this.x = window.pageXOffset + rect.left
       }
       this.onScroll()
+    }
+
+    this.onPrimaryNavExpandedChange = expanded => {
+      this.setState({
+        primaryNavExpanded: expanded,
+        secondaryNavExpanded: expanded ? false : this.state.secondaryNavExpanded
+      })
+    }
+
+    this.onSecondaryNavExpandedChange = expanded => {
+      this.setState({
+        primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
+        secondaryNavExpanded: expanded
+      })
     }
   }
 
@@ -165,6 +207,8 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article} } = this.props
 
+    const { primaryNavExpanded, secondaryNavExpanded } = this.state
+
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -176,6 +220,52 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
+    const series = {
+      title: 'Race, Class, Guns and God – Die USA-Serie',
+      episodes: [
+        {
+          title: 'Race, Class, Guns & God',
+          publishDate: "2018-01-13T01:55:36.100Z",
+          document: {
+            meta: {
+              title: 'Race, Class, Guns & God',
+              publishDate: "2018-01-13T01:55:36.100Z",
+              path: "/2018/01/13/race-class-guns"
+            }
+          }
+        },
+        {
+          title: 'Pharmageddon',
+          publishDate: "2018-01-17T01:55:36.100Z",
+          document: {
+            meta: {
+              title: 'Pharmageddon',
+              publishDate: "2018-01-17T01:55:36.100Z",
+              path: "/2018/01/04/daniels-artikel"
+            }
+          }
+        },
+        {
+          title: 'Title of third part',
+          publishDate: "2018-01-21T01:55:36.100Z",
+          document: {
+          }
+        },
+        {
+          title: 'The fourth episode title',
+          publishDate: "2018-01-23T01:55:36.100Z",
+          document: {
+          }
+        },
+        {
+          title: 'And the last',
+          publishDate: "2018-01-25T01:55:36.100Z",
+          document: {
+          }
+        }
+      ]
+    }
+
     const actionBar = meta && (
       <ActionBar t={t}
         url={meta.url}
@@ -185,12 +275,24 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path} />
     )
 
+    const seriesNav = series ? (
+      <SeriesNavButton
+        t={t}
+        url={url}
+        series={series}
+        onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
+        expanded={this.state.secondaryNavExpanded}
+      />
+    ) : null
+
     return (
       <Frame
         raw
         url={url}
         meta={meta}
-        secondaryNav={actionBar}
+        onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
+        primaryNavExpanded={this.state.primaryNavExpanded}
+        secondaryNav={seriesNav || actionBar}
         showSecondary={this.state.showSecondary}
       >
         <Loader loading={data.loading} error={data.error} render={() => {

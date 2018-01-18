@@ -23,7 +23,7 @@ const COL_PADDING_S = 15
 const COL_PADDING_M = 70
 
 // TODO: Move negative colors to styleguide.
-const negativeColors = {
+export const negativeColors = {
   primaryBg: '#191919',
   text: '#f0f0f0',
   lightText: '#828282',

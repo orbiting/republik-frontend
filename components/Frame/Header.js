@@ -179,7 +179,11 @@ class Header extends Component {
   render () {
     const { url, me, cover, secondaryNav, showSecondary, inline, onPrimaryNavExpandedChange, primaryNavExpanded } = this.props
     const { expanded, sticky } = this.state
+
+    // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
+    // up to the higher-order component. Otherwise it's managed inside the component.
     const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+
     const opaque = this.state.opaque || expanded || inline
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const marginBottom = sticky
@@ -196,15 +200,17 @@ class Header extends Component {
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
         <div {...barStyle} {...data} style={{ position: sticky || !inline ? 'fixed' : 'relative' }}>
           {showSecondary &&
-          secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
+          secondaryNav && <div id="secondary" {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (
             <div {...styles.user}>
               <User
                 me={me}
                 onclickHandler={() => {
-                  this.setState(() => ({
-                    expanded: !expand
-                  }))
+                  if (onPrimaryNavExpandedChange) {
+                    onPrimaryNavExpandedChange(!expand)
+                  } else {
+                    this.setState({ expanded: !expand })
+                  }
                 }}
               />
             </div>

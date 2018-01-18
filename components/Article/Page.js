@@ -138,7 +138,8 @@ class ArticlePage extends Component {
         data.article &&
         data.article.meta &&
         data.article.meta.series &&
-        !!data.article.meta.series.length
+        data.article.meta.series.episodes &&
+        !!data.article.meta.series.episodes.length
     }
 
     this.onScroll = () => {
@@ -146,7 +147,7 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
       if (
-        (this.state.isSeries && y > HEADER_HEIGHT) ||
+        (this.state.isSeries && y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
         (!this.state.isSeries &&
           y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
             this.y + this.barHeight)
@@ -218,7 +219,6 @@ class ArticlePage extends Component {
     )
 
     const series = meta && meta.series
-    console.log(meta.path, series)
 
     const actionBar = meta && (
       <ActionBar t={t}

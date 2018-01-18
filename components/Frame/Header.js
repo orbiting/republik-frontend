@@ -200,7 +200,7 @@ class Header extends Component {
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
         <div {...barStyle} {...data} style={{ position: sticky || !inline ? 'fixed' : 'relative' }}>
           {showSecondary &&
-          secondaryNav && <div id="secondary" {...styles.secondary}>{secondaryNav}</div>}
+          secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (
             <div {...styles.user}>
               <User

@@ -69,15 +69,24 @@ const styles = {
 
 const Title = ({ children }) => <h2 {...styles.title}>{children}</h2>
 
-const LinkContent = ({ episode, index, t }) => (
-  <Fragment>
-    <Editorial.Format>
-      {t('article/series/episode', { count: romanize(index + 1) })}
-    </Editorial.Format>
-    <Title>{episode.title}</Title>
-    <TeaserFrontCredit>{dayFormat(Date.parse(episode.publishDate))}</TeaserFrontCredit>
-  </Fragment>
-)
+const LinkContent = ({ episode, index, t }) => {
+  const label =
+    episode &&
+    episode.document &&
+    episode.document.meta &&
+    episode.document.meta.label
+  return (
+    <Fragment>
+      <Editorial.Format>
+        {label || t('article/series/episode', { count: romanize(index + 1) })}
+      </Editorial.Format>
+      <Title>{episode.title}</Title>
+      <TeaserFrontCredit>
+        {dayFormat(Date.parse(episode.publishDate))}
+      </TeaserFrontCredit>
+    </Fragment>
+  )
+}
 
 const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
   const route =

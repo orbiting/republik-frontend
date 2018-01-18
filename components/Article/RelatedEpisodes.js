@@ -27,6 +27,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
   const image = meta && meta.image
+  const label = meta && meta.label
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>
   }
@@ -37,7 +38,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
         image={image}
       >
         <Editorial.Format>
-          {t('article/series/episode', { count: romanize(index + 1) })}
+          {label || t('article/series/episode', { count: romanize(index + 1) })}
         </Editorial.Format>
         <TeaserFrontTileHeadline.Editorial>
           {episode.title}

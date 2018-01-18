@@ -107,27 +107,24 @@ const getDocument = gql`
             kind
           }
         }
+        series {
+          title
+          episodes {
+            title
+            publishDate
+            document {
+              meta {
+                title
+                publishDate
+                path
+              }
+            }
+          }
+        }
       }
     }
   }
 `
-
-/*
-series {
-  title
-  episodes {
-    title
-    publishDate
-    document {
-      meta {
-        title
-        publishDate
-        path
-      }
-    }
-  }
-}
-*/
 
 class ArticlePage extends Component {
   constructor (props) {
@@ -137,11 +134,11 @@ class ArticlePage extends Component {
       primaryNavExpanded: false,
       secondaryNavExpanded: false,
       showSecondary: false,
-      isSeries: true /*data &&
+      isSeries: data &&
         data.article &&
         data.article.meta &&
         data.article.meta.series &&
-        !!data.article.meta.series.length*/
+        !!data.article.meta.series.length
     }
 
     this.onScroll = () => {
@@ -149,7 +146,7 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
       if (
-        (this.state.isSeries && y > 300) ||
+        (this.state.isSeries && y > HEADER_HEIGHT) ||
         (!this.state.isSeries &&
           y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
             this.y + this.barHeight)
@@ -220,51 +217,8 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
-    const series = {
-      title: 'Race, Class, Guns and God – Die USA-Serie',
-      episodes: [
-        {
-          title: 'Race, Class, Guns & God',
-          publishDate: "2018-01-13T01:55:36.100Z",
-          document: {
-            meta: {
-              title: 'Race, Class, Guns & God',
-              publishDate: "2018-01-13T01:55:36.100Z",
-              path: "/2018/01/13/race-class-guns"
-            }
-          }
-        },
-        {
-          title: 'Pharmageddon',
-          publishDate: "2018-01-17T01:55:36.100Z",
-          document: {
-            meta: {
-              title: 'Pharmageddon',
-              publishDate: "2018-01-17T01:55:36.100Z",
-              path: "/2018/01/04/daniels-artikel"
-            }
-          }
-        },
-        {
-          title: 'Title of third part',
-          publishDate: "2018-01-21T01:55:36.100Z",
-          document: {
-          }
-        },
-        {
-          title: 'The fourth episode title',
-          publishDate: "2018-01-23T01:55:36.100Z",
-          document: {
-          }
-        },
-        {
-          title: 'And the last',
-          publishDate: "2018-01-25T01:55:36.100Z",
-          document: {
-          }
-        }
-      ]
-    }
+    const series = meta && meta.series
+    console.log(meta.path, series)
 
     const actionBar = meta && (
       <ActionBar t={t}
@@ -275,7 +229,7 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path} />
     )
 
-    const seriesNav = series ? (
+    const seriesNavButton = series ? (
       <SeriesNavButton
         t={t}
         url={url}
@@ -292,7 +246,7 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={seriesNav || actionBar}
+        secondaryNav={seriesNavButton || actionBar}
         showSecondary={this.state.showSecondary}
       >
         <Loader loading={data.loading} error={data.error} render={() => {

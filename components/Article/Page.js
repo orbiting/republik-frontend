@@ -5,6 +5,8 @@ import ShareButtons from '../Share'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
+import RelatedEpisodes from './RelatedEpisodes'
+import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import withT from '../../lib/withT'
 
@@ -16,7 +18,10 @@ import StatusError from '../StatusError'
 import {
   colors,
   mediaQueries,
-  Center
+  Center,
+  TeaserFrontTile,
+  TeaserFrontTileHeadline,
+  TeaserFrontTileRow
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -106,6 +111,23 @@ const getDocument = gql`
             kind
           }
         }
+        series {
+          title
+          episodes {
+            title
+            publishDate
+            label
+            image
+            document {
+              meta {
+                title
+                publishDate
+                path
+                image
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -114,8 +136,17 @@ const getDocument = gql`
 class ArticlePage extends Component {
   constructor (props) {
     super(props)
+    const { data } = props
     this.state = {
-      showSecondary: false
+      primaryNavExpanded: false,
+      secondaryNavExpanded: false,
+      showSecondary: false,
+      isSeries: data &&
+        data.article &&
+        data.article.meta &&
+        data.article.meta.series &&
+        data.article.meta.series.episodes &&
+        !!data.article.meta.series.episodes.length
     }
 
     this.onScroll = () => {
@@ -123,8 +154,10 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
       if (
-        y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-        this.y + this.barHeight
+        (this.state.isSeries && y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
+        (!this.state.isSeries &&
+          y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
+            this.y + this.barHeight)
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -133,19 +166,36 @@ class ArticlePage extends Component {
         if (this.state.showSecondary) {
           this.setState({ showSecondary: false })
         }
+        if (this.state.secondaryNavExpanded) {
+          this.setState({ secondaryNavExpanded: false })
+        }
       }
     }
     this.barRef = ref => {
       this.bar = ref
     }
     this.measure = () => {
-      if (this.bar) {
+      if (!this.state.isSeries && this.bar) {
         const rect = this.bar.getBoundingClientRect()
         this.y = window.pageYOffset + rect.top
         this.barHeight = rect.height
         this.x = window.pageXOffset + rect.left
       }
       this.onScroll()
+    }
+
+    this.onPrimaryNavExpandedChange = expanded => {
+      this.setState({
+        primaryNavExpanded: expanded,
+        secondaryNavExpanded: expanded ? false : this.state.secondaryNavExpanded
+      })
+    }
+
+    this.onSecondaryNavExpandedChange = expanded => {
+      this.setState({
+        primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
+        secondaryNavExpanded: expanded
+      })
     }
   }
 
@@ -165,6 +215,8 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article} } = this.props
 
+    const { primaryNavExpanded, secondaryNavExpanded } = this.state
+
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -176,6 +228,9 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
+    const series = meta && meta.series
+    const episodes = series && series.episodes
+
     const actionBar = meta && (
       <ActionBar t={t}
         url={meta.url}
@@ -185,12 +240,24 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path} />
     )
 
+    const seriesNavButton = series ? (
+      <SeriesNavButton
+        t={t}
+        url={url}
+        series={series}
+        onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
+        expanded={this.state.secondaryNavExpanded}
+      />
+    ) : null
+
     return (
       <Frame
         raw
         url={url}
         meta={meta}
-        secondaryNav={actionBar}
+        onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
+        primaryNavExpanded={this.state.primaryNavExpanded}
+        secondaryNav={seriesNavButton || actionBar}
         showSecondary={this.state.showSecondary}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
@@ -224,6 +291,7 @@ class ArticlePage extends Component {
                   discussionId={meta.discussionId}
                   focusId={url.query.focus} />
               </Center>}
+              {episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
               <br />
               <br />

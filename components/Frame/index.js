@@ -57,6 +57,8 @@ const Index = ({
   meta,
   nav,
   cover,
+  onPrimaryNavExpandedChange,
+  primaryNavExpanded,
   secondaryNav,
   showSecondary,
   headerInline
@@ -70,6 +72,8 @@ const Index = ({
       <Header
         url={url}
         cover={cover}
+        onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+        primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
         inline={headerInline}

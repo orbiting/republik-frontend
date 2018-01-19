@@ -166,6 +166,9 @@ class ArticlePage extends Component {
         if (this.state.showSecondary) {
           this.setState({ showSecondary: false })
         }
+        if (this.state.secondaryNavExpanded) {
+          this.setState({ secondaryNavExpanded: false })
+        }
       }
     }
     this.barRef = ref => {

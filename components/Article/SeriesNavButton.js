@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { negativeColors } from '../Frame/Footer'
@@ -97,21 +97,23 @@ export default ({
   onSecondaryNavExpandedChange,
   expanded
 }) => (
-  <button
-    {...styles.button}
-    onClick={() => {
-      onSecondaryNavExpandedChange(!expanded)
-    }}
-  >
-    <span {...styles.title}>
-      {series.title}
-      <span {...styles.arrow}>
-        {expanded && <ArrowUpIcon size="28" fill={colors.text} />}
-        {!expanded && <ArrowDownIcon size="28" fill={colors.text} />}
+  <Fragment>
+    <button
+      {...styles.button}
+      onClick={() => {
+        onSecondaryNavExpandedChange(!expanded)
+      }}
+    >
+      <span {...styles.title}>
+        {series.title}
+        <span {...styles.arrow}>
+          {expanded && <ArrowUpIcon size="28" fill={colors.text} />}
+          {!expanded && <ArrowDownIcon size="28" fill={colors.text} />}
+        </span>
       </span>
-    </span>
+    </button>
     <div {...styles.menu} aria-expanded={expanded}>
       <SeriesNavPanel t={t} url={url} series={series} />
     </div>
-  </button>
+  </Fragment>
 )

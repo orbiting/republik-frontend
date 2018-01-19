@@ -40,6 +40,7 @@ const styles = {
     fontFamily: fontFamilies.sansSerifRegular,
     position: 'absolute',
     visibility: 'hidden',
+    whiteSpace: 'normal',
     opacity: 0,
     overflow: 'scroll',
     transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s',

@@ -1,5 +1,6 @@
 {
-    "name": "",
+    "name": "Republik",
+    "short_name": "Republik",
     "icons": [
         {
             "src": "/static/android-chrome-192x192.png",

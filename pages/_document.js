@@ -32,7 +32,7 @@ export default class MyDocument extends Document {
       !!PIWIK_SITE_ID
     )
     return (
-      <html>
+      <html lang='de'>
         <Head>
           <meta
             name='viewport'

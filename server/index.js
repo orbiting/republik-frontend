@@ -2,6 +2,7 @@ const express = require('express')
 const basicAuth = require('express-basic-auth')
 const dotenv = require('dotenv')
 const next = require('next')
+const compression = require('compression')
 
 const DEV = process.env.NODE_ENV
   ? process.env.NODE_ENV !== 'production'
@@ -27,6 +28,8 @@ const handler = routes.getRequestHandler(app)
 
 app.prepare().then(() => {
   const server = express()
+
+  server.use(compression())
 
   if (!DEV) {
     server.enable('trust proxy')

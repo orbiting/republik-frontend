@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-23T16:53:44.761Z",
+  "updated": "2018-01-23T19:09:22.557Z",
   "title": "live",
   "data": [
     {
@@ -353,6 +353,18 @@
     {
       "key": "jobs/description",
       "value": "Lösen Sie mit einem motivierten, mulidisziplinären Team die interessantesten Probleme der Branche."
+    },
+    {
+      "key": "etiquette/pageTitle",
+      "value": "Etiquette – Republik"
+    },
+    {
+      "key": "etiquette/title",
+      "value": "Die Etiquette"
+    },
+    {
+      "key": "etiquette/description",
+      "value": "Wie wir in der Republik debattieren\n"
     },
     {
       "key": "account/signedOut/title",

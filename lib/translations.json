@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-23T19:09:22.557Z",
+  "updated": "2018-01-23T21:15:48.628Z",
   "title": "live",
   "data": [
     {
@@ -348,7 +348,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen"
+      "value": "Jobs  "
     },
     {
       "key": "jobs/description",
@@ -365,6 +365,18 @@
     {
       "key": "etiquette/description",
       "value": "Wie wir in der Republik debattieren\n"
+    },
+    {
+      "key": "etat/pageTitle",
+      "value": "Etat für grosse Geschichten"
+    },
+    {
+      "key": "etat/title",
+      "value": "Etat für grosse Geschichten"
+    },
+    {
+      "key": "etat/description",
+      "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben.\n\n"
     },
     {
       "key": "account/signedOut/title",

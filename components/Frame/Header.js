@@ -41,7 +41,6 @@ const styles = {
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
     },
-    borderBottom: `1px solid ${colors.divider}`,
     '@media print': {
       borderBottom: 0,
       backgroundColor: 'transparent'

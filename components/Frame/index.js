@@ -61,7 +61,8 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  headerInline
+  headerInline,
+  formatColor
 }) => (
   <div {...styles.container}>
     <div
@@ -77,6 +78,7 @@ const Index = ({
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
         inline={headerInline}
+        formatColor={formatColor}
       />
       {raw ? (
         children

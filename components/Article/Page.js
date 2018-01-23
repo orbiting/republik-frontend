@@ -250,6 +250,10 @@ class ArticlePage extends Component {
       />
     ) : null
 
+    const formatColor =
+      (meta && meta.format && meta.format.meta && meta.format.meta.color) ||
+      (article.content && article.content.meta && article.content.meta.color)
+
     return (
       <Frame
         raw
@@ -259,6 +263,7 @@ class ArticlePage extends Component {
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={seriesNavButton || actionBar}
         showSecondary={this.state.showSecondary}
+        formatColor={formatColor}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

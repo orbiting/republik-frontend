@@ -19,14 +19,14 @@ const menuStyle = css({
   },
   display: 'flex',
   boxSizing: 'border-box',
-  top: HEADER_HEIGHT_MOBILE,
+  top: HEADER_HEIGHT_MOBILE + 1,
   left: 0,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
   width: '100vw',
   flexDirection: 'column',
   padding: 20,
   [mediaQueries.mUp]: {
-    top: HEADER_HEIGHT,
+    top: HEADER_HEIGHT + 1,
     height: `calc(100vh - ${HEADER_HEIGHT}px)`
   }
 })

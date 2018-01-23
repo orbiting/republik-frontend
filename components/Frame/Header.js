@@ -36,6 +36,7 @@ const styles = {
   }),
   barOpaque: css({
     backgroundColor: '#fff',
+    boxSizing: 'content-box',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
@@ -177,7 +178,17 @@ class Header extends Component {
     window.removeEventListener('resize', this.measure)
   }
   render () {
-    const { url, me, cover, secondaryNav, showSecondary, inline, onPrimaryNavExpandedChange, primaryNavExpanded } = this.props
+    const {
+      url,
+      me,
+      cover,
+      secondaryNav,
+      showSecondary,
+      inline,
+      onPrimaryNavExpandedChange,
+      primaryNavExpanded,
+      formatColor
+    } = this.props
     const { expanded, sticky } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
@@ -189,6 +200,8 @@ class Header extends Component {
     const marginBottom = sticky
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
+    const position = sticky || !inline ? 'fixed' : 'relative'
+    const borderBottom = formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
     const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     // The logo acts as a toggle between front and feed page when user's logged in.
@@ -198,7 +211,7 @@ class Header extends Component {
     return (
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} {...data} style={{ position: sticky || !inline ? 'fixed' : 'relative' }}>
+        <div {...barStyle} {...data} style={{position, borderBottom}}>
           {showSecondary &&
           secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
           {opaque && (

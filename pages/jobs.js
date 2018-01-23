@@ -5,7 +5,7 @@ import withT from '../lib/withT'
 import Frame from '../components/Frame'
 import ImageCover from '../components/ImageCover'
 
-import { Lead, Editorial, Interaction, A } from '@project-r/styleguide'
+import { Editorial, Interaction, A } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
 

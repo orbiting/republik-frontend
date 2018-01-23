@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-18T20:47:39.677Z",
+  "updated": "2018-01-23T16:53:44.761Z",
   "title": "live",
   "data": [
     {
@@ -341,6 +341,18 @@
     {
       "key": "crew/lead",
       "value": "Zur Crew gehören:"
+    },
+    {
+      "key": "jobs/pageTitle",
+      "value": "Jobs – Republik"
+    },
+    {
+      "key": "jobs/title",
+      "value": "Offene Stellen"
+    },
+    {
+      "key": "jobs/description",
+      "value": "Lösen Sie mit einem motivierten, mulidisziplinären Team die interessantesten Probleme der Branche."
     },
     {
       "key": "account/signedOut/title",

@@ -37,9 +37,9 @@ const styles = {
   barOpaque: css({
     backgroundColor: '#fff',
     boxSizing: 'content-box',
-    height: HEADER_HEIGHT_MOBILE,
+    height: HEADER_HEIGHT_MOBILE - 1,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
+      height: HEADER_HEIGHT - 1
     },
     '@media print': {
       borderBottom: 0,

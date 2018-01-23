@@ -103,6 +103,7 @@ const getDocument = gql`
             discussionId
           }
         }
+        color
         format {
           meta {
             path
@@ -250,9 +251,12 @@ class ArticlePage extends Component {
       />
     ) : null
 
-    const formatColor =
-      (meta && meta.format && meta.format.meta && meta.format.meta.color) ||
-      (article.content && article.content.meta && article.content.meta.color)
+    const formatMeta = meta && (
+      meta.template === 'format'
+        ? meta
+        : meta.format && meta.format.meta
+    )
+    const formatColor = formatMeta && formatMeta.color
 
     return (
       <Frame

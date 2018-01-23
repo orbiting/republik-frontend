@@ -16,6 +16,7 @@ const styles = {
     top: 0,
     left: 0,
     display: 'inline-block',
+    opacity: 'inherit',
     textAlign: 'left',
     height: HEADER_HEIGHT_MOBILE,
     width: HEADER_HEIGHT_MOBILE,

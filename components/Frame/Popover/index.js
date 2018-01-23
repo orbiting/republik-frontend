@@ -21,8 +21,8 @@ const menuStyle = css({
   boxSizing: 'border-box',
   top: HEADER_HEIGHT_MOBILE,
   left: 0,
+  right: 0,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
-  width: '100vw',
   flexDirection: 'column',
   padding: 20,
   [mediaQueries.mUp]: {

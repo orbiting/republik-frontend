@@ -103,6 +103,7 @@ const getDocument = gql`
             discussionId
           }
         }
+        color
         format {
           meta {
             path
@@ -250,6 +251,13 @@ class ArticlePage extends Component {
       />
     ) : null
 
+    const formatMeta = meta && (
+      meta.template === 'format'
+        ? meta
+        : meta.format && meta.format.meta
+    )
+    const formatColor = formatMeta && formatMeta.color
+
     return (
       <Frame
         raw
@@ -259,6 +267,7 @@ class ArticlePage extends Component {
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={seriesNavButton || actionBar}
         showSecondary={this.state.showSecondary}
+        formatColor={formatColor}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

@@ -50,11 +50,7 @@ const styles = {
     margin: '0 auto 0',
     padding: '0 60px',
     textAlign: 'center',
-    opacity: 1,
-    transition: 'opacity .2s ease-in-out',
-    '[data-show-secondary] > &': {
-      opacity: 0
-    }
+    transition: 'opacity .2s ease-in-out'
   }),
   logo: css({
     display: 'inline-block',
@@ -70,11 +66,7 @@ const styles = {
     '@media print': {
       display: 'none'
     },
-    opacity: 1,
-    transition: 'opacity .2s ease-in-out',
-    '[data-show-secondary] > &': {
-      opacity: 0
-    }
+    transition: 'opacity .2s ease-in-out'
   }),
   hamburger: css({
     '@media print': {
@@ -82,6 +74,7 @@ const styles = {
     },
     background: '#fff',
     position: 'absolute',
+    overflow: 'hidden',
     top: 0,
     right: 0,
     display: 'inline-block',
@@ -96,7 +89,7 @@ const styles = {
   secondary: css({
     position: 'absolute',
     top: 0,
-    left: '15px',
+    left: 15,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
     right: `${HEADER_HEIGHT_MOBILE}px`,
@@ -106,12 +99,7 @@ const styles = {
       right: `${HEADER_HEIGHT}px`,
       paddingTop: '24px'
     },
-    opacity: 0,
-    transition: 'opacity .2s ease-in-out',
-    '[data-show-secondary] > &': {
-      opacity: 1,
-      zIndex: 99
-    }
+    transition: 'opacity .2s ease-in-out'
   })
 }
 
@@ -201,7 +189,6 @@ class Header extends Component {
       : undefined
     const position = sticky || !inline ? 'fixed' : 'relative'
     const borderBottom = formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
-    const data = showSecondary ? { 'data-show-secondary': true } : {}
 
     // The logo acts as a toggle between front and feed page when user's logged in.
     const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
@@ -210,11 +197,14 @@ class Header extends Component {
     return (
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} {...data} style={{position, borderBottom}}>
-          {showSecondary &&
-          secondaryNav && <div {...styles.secondary}>{secondaryNav}</div>}
+        <div {...barStyle} style={{position, borderBottom}}>
+          {secondaryNav && (
+            <div {...styles.secondary} style={{opacity: showSecondary ? 1 : 0, zIndex: showSecondary ? 99 : undefined}}>
+              {secondaryNav}
+            </div>
+          )}
           {opaque && (
-            <div {...styles.user}>
+            <div {...styles.user} style={{opacity: showSecondary ? 0 : 1}}>
               <User
                 me={me}
                 onclickHandler={() => {
@@ -228,7 +218,7 @@ class Header extends Component {
             </div>
           )}
           {opaque && (
-            <div {...styles.center}>
+            <div {...styles.center} style={{opacity: showSecondary ? 0 : 1}}>
               <a
                 {...styles.logo}
                 href={logoLinkPath}

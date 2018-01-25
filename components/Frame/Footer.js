@@ -178,6 +178,14 @@ class Footer extends Component {
                 <a>{t('footer/crew')}</a>
               </Link>
               <br />
+              <Link route='jobs'>
+                <a>{t('footer/jobs')}</a>
+              </Link>
+              <br />
+              <Link route='etat'>
+                <a>{t('footer/etat')}</a>
+              </Link>
+              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
               </Link>
@@ -238,6 +246,10 @@ class Footer extends Component {
               <br />
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
+              </Link>
+              <br />
+              <Link route='etiquette'>
+                <a>{t('footer/me/etiquette')}</a>
               </Link>
               <br />
               {!!me && (

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-23T21:15:48.628Z",
+  "updated": "2018-01-25T15:39:40.957Z",
   "title": "live",
   "data": [
     {
@@ -348,7 +348,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Jobs  "
+      "value": "Jobs"
     },
     {
       "key": "jobs/description",
@@ -364,7 +364,7 @@
     },
     {
       "key": "etiquette/description",
-      "value": "Wie wir in der Republik debattieren\n"
+      "value": "Wie wir in der Republik debattieren"
     },
     {
       "key": "etat/pageTitle",
@@ -376,7 +376,7 @@
     },
     {
       "key": "etat/description",
-      "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben.\n\n"
+      "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben."
     },
     {
       "key": "account/signedOut/title",
@@ -1119,6 +1119,18 @@
       "value": "seit 2018"
     },
     {
+      "key": "footer/me/etiquette",
+      "value": "Etiquette für Debatten"
+    },
+    {
+      "key": "footer/jobs",
+      "value": "Offene Stellen"
+    },
+    {
+      "key": "footer/etat",
+      "value": "Rechercheetat"
+    },
+    {
       "key": "components/Discussion/OrderBy/DATE",
       "value": "Neueste"
     },
@@ -1856,7 +1868,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 15500 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
+      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 18000 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
     },
     {
       "key": "article/payNote/before/buyText",

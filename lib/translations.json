@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-25T19:42:20.812Z",
+  "updated": "2018-01-25T21:24:21.646Z",
   "title": "live",
   "data": [
     {
@@ -1328,7 +1328,7 @@
     },
     {
       "key": "submitComment/notEligible",
-      "value": "Ihr Interesse an dieser Republik-Debatte freut uns sehr. Wollen Sie daran teilnehmen? Werden Sie jetzt {link}."
+      "value": "Ihr Interesse an dieser Republik-Debatte freut uns sehr. Wollen Sie daran teilnehmen? Werden Sie jetzt {pledgeLink}."
     },
     {
       "key": "submitComment/notEligible/pledgeText",

@@ -97,7 +97,7 @@ Die von der betroffenen Person eingegebenen personenbezogenen Daten werden aussc
 
 Mit der Registrierung erklären die Besucher/-innen die Richtigkeit ihrer persönlichen Daten.
 
-Für die Verarbeitung können die Verantwortlichen die Weitergabe an einen oder mehrere Auftragsverarbeiter (z. B. MailChimp, Stripe, PayPal, Postfinance) veranlassen, der die personenbezogenen Daten ebenfalls ausschliesslich für eine interne Verwendung, die den Verantwortlichen zuzurechnen ist, nutzt.
+Für die Verarbeitung können die Verantwortlichen die Weitergabe an einen oder mehrere Auftragsverarbeiter (z. B. MailChimp, Stripe, PayPal, Postfinance) veranlassen, der die personenbezogenen Daten ebenfalls ausschliesslich für eine interne Verwendung, die den Verantwortlichen zuzurechnen ist, nutzt.
 
 Durch eine Registrierung auf den Websites der Verantwortlichen werden ferner die vom Internet-Service-Provider (ISP) der betroffenen Person vergebene IP-Adresse, das Datum sowie die Uhrzeit der Registrierung gespeichert. Die Speicherung dieser Daten erfolgt vor dem Hintergrund, dass nur so der Missbrauch der Dienste verhindert werden kann und diese Daten im Bedarfsfall ermöglichen, begangene Straftaten aufzuklären. Eine Weitergabe dieser Daten an Dritte erfolgt grundsätzlich nicht, sofern keine gesetzliche Pflicht zur Weitergabe besteht oder die Weitergabe der Strafverfolgung dient.
 
@@ -128,7 +128,7 @@ Es werden keine Daten ohne gesetzliche Grundlage bearbeitet. Als Rechtsgrundlage
 - die Einwilligung,
 - die Erfüllung eines Vertrages oder vorvertraglicher Massnahmen,
 - die rechtlichen Verpflichtungen oder der Schutz von lebenswichtigen Interessen der betroffenen Person oder einer anderen natürlichen Person,
-- die Wahrung eines berechtigten Interesses der Verantwortlichen (z. B. wirtschaftliche Interessen) oder eines Dritten.
+- die Wahrung eines berechtigten Interesses der Verantwortlichen (z. B. wirtschaftliche Interessen) oder eines Dritten.
 
 ## 10. Rechte der betroffenen Person
 
@@ -165,7 +165,7 @@ Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Rech
   - Die betroffene Person widerruft ihre Einwilligung, auf die sich die Verarbeitung stützte, und es fehlt an einer anderweitigen Rechtsgrundlage für die Verarbeitung.
   - Die betroffene Person legt Widerspruch gegen die Verarbeitung ein, und es liegen keine vorrangigen berechtigten Gründe für die Verarbeitung vor.
   - Die Löschung der personenbezogenen Daten ist zur Erfüllung einer gesetzlichen rechtlichen Verpflichtung erforderlich.
-  - Die personenbezogenen Daten gehören zu einem Kind, welches das 16. Lebensjahr noch nicht vollendet hat oder für welches keine Einwilligung des Inhabers der elterlichen Sorge vorliegt.
+  - Die personenbezogenen Daten gehören zu einem Kind, welches das 16. Lebensjahr noch nicht vollendet hat oder für welches keine Einwilligung des Inhabers der elterlichen Sorge vorliegt.
 
 Sofern einer der oben genannten Gründe zutrifft und eine betroffene Person die Löschung von personenbezogenen Daten, die bei den Verantwortlichen gespeichert sind, veranlassen möchte, kann sie sich hierzu jederzeit an die Mitarbeiter/-innen der Verantwortlichen wenden. 
 
@@ -222,7 +222,7 @@ Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das Rech
 
 ## 11. Sonstiges
 
-Wir klären Sie darüber auf, dass die Speicherung und Bereitstellung personenbezogener Daten zum Teil gesetzlich vorgeschrieben ist (z. B.  wegen Steuervorschriften) oder sich auch aus vertraglichen Regelungen (z. B. für Angaben zum Vertragspartner) ergeben kann. Mitunter kann es zu einem Vertragsschluss erforderlich sein, dass eine betroffene Person den Verantwortlichen personenbezogene Daten zur Verfügung stellt, die in der Folge durch die Verantwortlichen verarbeitet werden müssen. Die betroffene Person ist beispielsweise verpflichtet, den Verantwortlichen personenbezogene Daten bereitzustellen, wenn die Verantwortlichen mit der betroffenen Person einen Vertrag abschliessen. Eine Nichtbereitstellung der personenbezogenen Daten hätte zur Folge, dass der Vertrag mit dem Betroffenen nicht geschlossen werden könnte. 
+Wir klären Sie darüber auf, dass die Speicherung und Bereitstellung personenbezogener Daten zum Teil gesetzlich vorgeschrieben ist (z. B.  wegen Steuervorschriften) oder sich auch aus vertraglichen Regelungen (z. B. für Angaben zum Vertragspartner) ergeben kann. Mitunter kann es zu einem Vertragsschluss erforderlich sein, dass eine betroffene Person den Verantwortlichen personenbezogene Daten zur Verfügung stellt, die in der Folge durch die Verantwortlichen verarbeitet werden müssen. Die betroffene Person ist beispielsweise verpflichtet, den Verantwortlichen personenbezogene Daten bereitzustellen, wenn die Verantwortlichen mit der betroffenen Person einen Vertrag abschliessen. Eine Nichtbereitstellung der personenbezogenen Daten hätte zur Folge, dass der Vertrag mit dem Betroffenen nicht geschlossen werden könnte. 
 
 Die Website www.republik.ch der Verantwortlichen verlinkt auf andere Websites, für deren Inhalt die Verantwortlichen nicht verantwortlich sind.
 Die Verantwortlichen können die Bestimmungen der vorliegenden Datenschutzerklärung jederzeit und ohne vorangehende Ankündigung ganz oder in Teilen ändern, ergänzen oder ersetzen. Es gilt die jeweils beim Besuch der Website www.republik.ch beziehungsweise beim Besuch einer der zugehörigen Websites in Kraft stehende Version dieser Datenschutzerklärung.

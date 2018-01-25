@@ -18,10 +18,7 @@ import StatusError from '../StatusError'
 import {
   colors,
   mediaQueries,
-  Center,
-  TeaserFrontTile,
-  TeaserFrontTileHeadline,
-  TeaserFrontTileRow
+  Center
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -214,8 +211,6 @@ class ArticlePage extends Component {
 
   render () {
     const { url, t, data, data: {article} } = this.props
-
-    const { primaryNavExpanded, secondaryNavExpanded } = this.state
 
     const meta = article && {
       ...article.meta,

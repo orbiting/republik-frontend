@@ -156,15 +156,13 @@ class UpdateEmail extends Component {
       updating, isEditing
     } = this.state
 
-
     return (
       <Loader loading={loading || !me} error={error} render={() => {
-
         const body = (
           updating
           ? (
             <InlineLoader>
-            {t('Account/Update/email/updating')}
+              {t('Account/Update/email/updating')}
             </InlineLoader>
           )
           : isEditing

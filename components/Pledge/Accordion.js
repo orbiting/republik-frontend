@@ -154,65 +154,65 @@ class Accordion extends Component {
           [...packages]
             .sort((a, b) => ascending(OFFER_SORT[a.name], OFFER_SORT[b.name]))
             .map((pkg, i) => {
-            const isActive = activeIndex === i
+              const isActive = activeIndex === i
 
-            const price = pkg.options.reduce(
+              const price = pkg.options.reduce(
               (amount, option) => amount + option.price * option.minAmount,
               0
             )
 
-            const packageStyle = merge(
+              const packageStyle = merge(
               styles.package,
               isActive && styles.packageHighlighted
             )
 
-            return (
-              <Link key={i} route='pledge' params={{
-                package: pkg.name
-              }}>
-                <a {...packageStyle}
-                  onMouseOver={() => this.setState({
-                    activeIndex: i
-                  })}
-                  onMouseOut={() => this.setState({
-                    activeIndex: undefined
-                  })}>
-                  <div {...styles.packageHeader}>
-                    <div {...styles.packageTitle}>
-                      {t.first(
-                        [
-                          `package/${crowdfundingName}/${pkg.name}/title`,
-                          `package/${pkg.name}/title`
-                        ]
+              return (
+                <Link key={i} route='pledge' params={{
+                  package: pkg.name
+                }}>
+                  <a {...packageStyle}
+                    onMouseOver={() => this.setState({
+                      activeIndex: i
+                    })}
+                    onMouseOut={() => this.setState({
+                      activeIndex: undefined
+                    })}>
+                    <div {...styles.packageHeader}>
+                      <div {...styles.packageTitle}>
+                        {t.first(
+                          [
+                            `package/${crowdfundingName}/${pkg.name}/title`,
+                            `package/${pkg.name}/title`
+                          ]
                       )}
+                      </div>
+                      {!!price && (<div {...styles.packagePrice}>
+                        {t.first([
+                          `package/${pkg.name}/price`,
+                          'package/price'
+                        ], {
+                          formattedCHF: `CHF ${price / 100}`
+                        })}
+                      </div>)}
                     </div>
-                    {!!price && (<div {...styles.packagePrice}>
-                      {t.first([
-                        `package/${pkg.name}/price`,
-                        'package/price'
-                      ], {
-                        formattedCHF: `CHF ${price / 100}`
-                      })}
-                    </div>)}
-                  </div>
-                  <div {...styles.packageContent}
-                    style={{
-                      display: (isActive || extended) ? 'block' : 'none'
-                    }}>
-                    <p>
-                      {t.first(
-                        [
-                          `package/${crowdfundingName}/${pkg.name}/description`,
-                          `package/${pkg.name}/description/short`
-                        ]
+                    <div {...styles.packageContent}
+                      style={{
+                        display: (isActive || extended) ? 'block' : 'none'
+                      }}>
+                      <p>
+                        {t.first(
+                          [
+                            `package/${crowdfundingName}/${pkg.name}/description`,
+                            `package/${pkg.name}/description/short`
+                          ]
                       )}
-                    </p>
-                    <span {...linkRule}>{t('package/choose')}</span>
-                  </div>
-                </a>
-              </Link>
-            )
-          })
+                      </p>
+                      <span {...linkRule}>{t('package/choose')}</span>
+                    </div>
+                  </a>
+                </Link>
+              )
+            })
         }
         <div {...styles.buffer} />
         {children}

@@ -62,15 +62,15 @@ const greetingSubscription = gql`
 `
 
 class Feed extends Component {
-  componentDidMount() {
+  componentDidMount () {
     this.subscribe()
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     this.subscribe()
   }
 
-  subscribe() {
+  subscribe () {
     if (!this.unsubscribe && this.props.data.greeting) {
       this.unsubscribe = this.props.data.subscribeToMore({
         document: greetingSubscription,
@@ -94,11 +94,11 @@ class Feed extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.unsubscribe && this.unsubscribe()
   }
 
-  render() {
+  render () {
     const { data: { loading, error, documents, greeting } } = this.props
     return (
       <Loader

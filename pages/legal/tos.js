@@ -20,7 +20,7 @@ Stand Dezember 2017
 
 ## 1. Geltungsbereich
 
-Diese allgemeinen Geschäftsbedingungen («AGB») gelten für alle Personen, die bei der Republik AG ein Abonnement des digitalen Magazins «Republik» kaufen («Abonnenten/-innen»), eine Mitgliedschaft bei der Project R Genossenschaft lösen («Mitglieder»), eine Spende tätigen («Unterstützer/-innen») oder die Website www.republik.ch besuchen («Besucher/-innen»), und für alle sonstigen Vertragsverhältnisse, die sie mit der Project R Genossenschaft und der Republik AG eingehen.
+Diese allgemeinen Geschäftsbedingungen («AGB») gelten für alle Personen, die bei der Republik AG ein Abonnement des digitalen Magazins «Republik» kaufen («Abonnenten/-innen»), eine Mitgliedschaft bei der Project R Genossenschaft lösen («Mitglieder»), eine Spende tätigen («Unterstützer/-innen») oder die Website www.republik.ch besuchen («Besucher/-innen»), und für alle sonstigen Vertragsverhältnisse, die sie mit der Project R Genossenschaft und der Republik AG eingehen.
 
 Die Republik AG und die Project R Genossenschaft («Betreiberinnen») betreiben die Website www.republik.ch, auf welcher natürliche und juristische Personen ein Abonnement des digitalen Magazins «Republik» bei der Republik AG kaufen, die Project R Genossenschaft finanziell unterstützen und/oder bei ihr Mitglied werden können, und die Website www.project-r.construction.
 
@@ -33,7 +33,7 @@ Abonnenten/-innen, Mitglieder, Unterstützer/-innen und Besucher/-innen erkläre
 
 Die Republik AG betreibt die Website www.republik.ch, auf welcher Besucher/-innen ein digitales Magazin «Republik» abonnieren und/oder Mitglied werden können sowie die Project R Genossenschaft unterstützen können. Für den Inhalt der Website ist die Republik AG verantwortlich. 
 
-Urheber- und Nutzungsrechte bleiben jederzeit bei der Republik AG und richten sich im Einzelnen nach Art. 9 der vorliegenden AGB.
+Urheber- und Nutzungsrechte bleiben jederzeit bei der Republik AG und richten sich im Einzelnen nach Art. 9 der vorliegenden AGB.
 
 Benutzer/-innen entscheiden ausschliesslich in Eigenverantwortung, ob sie das digitale Magazin «Republik» abonnieren und/oder Mitglied bei der Project R Genossenschaft werden oder mit einer Spende die Project R Genossenschaft unterstützen wollen.
 
@@ -49,7 +49,7 @@ Die von Abonnenten/-innen einbezahlten Beträge stehen der Republik AG zur freie
 
 Die durch Mitglieder und Unterstützer/-innen einbezahlten Beträge stehen der Project R Genossenschaft zur Verfügung, wobei diese der Republik AG einen angemessenen Beitrag für die Abonnemente entrichtet. 
 
-Rückzahlungen an die Abonnenten/-innen und Unterstützer/-innen dürfen nur im Rahmen von Art. 12 der vorliegenden AGB vorgenommen werden und erfolgen innert 30 Tagen über die jeweiligen Konten der entsprechenden Gesellschaft.
+Rückzahlungen an die Abonnenten/-innen und Unterstützer/-innen dürfen nur im Rahmen von Art. 12 der vorliegenden AGB vorgenommen werden und erfolgen innert 30 Tagen über die jeweiligen Konten der entsprechenden Gesellschaft.
 
 ## 5. Persönliche Angaben
 

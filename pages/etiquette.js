@@ -8,7 +8,7 @@ import { Editorial, Interaction, TitleBlock } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
 
-const { Lead, P, LI } = Editorial
+const { P, LI } = Editorial
 
 export default withData(
   withT(({ url, t }) => {
@@ -26,12 +26,12 @@ export default withData(
         meta={meta}
       >
 
-      <TitleBlock center>
-        <Interaction.Headline>Die Etikette</Interaction.Headline>
-        <Editorial.Lead>
+        <TitleBlock center>
+          <Interaction.Headline>Die Etikette</Interaction.Headline>
+          <Editorial.Lead>
           Betreten Sie unseren Debattenraum, betreten Sie unser Wohnzimmer. Machen Sie es sich gemütlich und fühlen Sie sich wie zuhause. Damit wir – wie bei Cheminéefeuer – fruchtbar miteinander reden können, möchten wir Sie auf ein paar Spielregeln hinweisen.
         </Editorial.Lead>
-      </TitleBlock>
+        </TitleBlock>
 
         <P>Vergessen Sie nie, dass auf der anderen Seite ein Mensch sitzt. Oder wie David Foster Wallace schrieb: «Die wirklich wichtige Freiheit erfordert Aufmerksamkeit und Offenheit und Disziplin und Mühe und die Empathie, andere Menschen wirklich ernst zu nehmen.»</P>
         <P>Für uns ergeben sich daraus folgende Konsequenzen:</P>

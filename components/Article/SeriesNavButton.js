@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { negativeColors } from '../Frame/Footer'
 import SeriesNavPanel from './SeriesNavPanel'
@@ -9,7 +8,6 @@ import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
-  Label,
   mediaQueries,
   fontFamilies,
   colors
@@ -107,8 +105,8 @@ export default ({
       <span {...styles.title}>
         {series.title}
         <span {...styles.arrow}>
-          {expanded && <ArrowUpIcon size="28" fill={colors.text} />}
-          {!expanded && <ArrowDownIcon size="28" fill={colors.text} />}
+          {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
+          {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
         </span>
       </span>
     </button>

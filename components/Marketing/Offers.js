@@ -7,7 +7,7 @@ import { colors, mediaQueries, Loader } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { OFFER_SORT } from '../Pledge/Accordion' 
+import { OFFER_SORT } from '../Pledge/Accordion'
 
 const styles = {
   offer: css({

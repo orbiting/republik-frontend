@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import { css } from 'glamor'
+import React, { Fragment } from 'react'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { romanize } from '../../lib/utils/romanize'
@@ -13,9 +12,7 @@ import {
   TeaserFrontTile,
   TeaserFrontTileHeadline,
   TeaserFrontTileRow,
-  TeaserFrontCredit,
-  TeaserFrontCreditLink,
-  TeaserFrontLead
+  TeaserFrontCredit
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -28,7 +25,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
   const image = (meta && meta.image) || (episode && episode.image)
-  const align = !!image ? {align: 'top'} : {}
+  const align = image ? {align: 'top'} : {}
 
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>
@@ -67,7 +64,7 @@ const RelatedEpisodes = ({ t, episodes, path }) => {
     <Fragment>
       {(previousEpisode || nextEpisode) && (
         <Center>
-          <Breakout size="breakout">
+          <Breakout size='breakout'>
             <TeaserFrontTileRow columns={2}>
               {previousEpisode && (
                 <Tile

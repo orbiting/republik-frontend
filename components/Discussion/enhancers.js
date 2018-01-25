@@ -448,16 +448,16 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
   })
 })
 
-const countSubscription = gql`
-subscription discussionComments($discussionId: ID!) {
-  comment(discussionId: $discussionId) {
-    mutation
-    node {
-      id
-    }
-  }
-}
-`
+// const countSubscription = gql`
+// subscription discussionComments($discussionId: ID!) {
+//   comment(discussionId: $discussionId) {
+//     mutation
+//     node {
+//       id
+//     }
+//   }
+// }
+// `
 
 const countQuery = gql`
 query discussion($discussionId: ID!) {

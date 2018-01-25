@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { css } from 'glamor'
-import { matchPath, Link, Router } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
@@ -9,7 +9,6 @@ import { negativeColors } from '../Frame/Footer'
 
 import {
   Editorial,
-  Interaction,
   colors,
   fontStyles,
   mediaQueries,
@@ -124,7 +123,6 @@ const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
 }
 
 const Nav = ({ url, children, t, series }) => {
-  const active = matchPath(url.asPath)
   return (
     <div {...styles.container}>
       {series.episodes &&

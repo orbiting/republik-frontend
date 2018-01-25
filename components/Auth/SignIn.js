@@ -74,7 +74,7 @@ class SignIn extends Component {
             link: (
               <a {...linkRule}
                 key='cancel'
-                style={{ cursor: 'pointer'}}
+                style={{cursor: 'pointer'}}
                 onClick={(e) => {
                   e.preventDefault()
                   this.setState(() => ({

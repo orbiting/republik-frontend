@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-18T20:47:39.677Z",
+  "updated": "2018-01-25T19:42:20.812Z",
   "title": "live",
   "data": [
     {
@@ -341,6 +341,38 @@
     {
       "key": "crew/lead",
       "value": "Zur Crew gehören:"
+    },
+    {
+      "key": "jobs/title",
+      "value": "Jobs"
+    },
+    {
+      "key": "jobs/description",
+      "value": "Lösen Sie mit einem motivierten, mulidisziplinären Team die interessantesten Probleme der Branche."
+    },
+    {
+      "key": "etiquette/pageTitle",
+      "value": "Etikette – Republik"
+    },
+    {
+      "key": "etiquette/title",
+      "value": "Die Etikette"
+    },
+    {
+      "key": "etiquette/description",
+      "value": "Wie wir in der Republik debattieren"
+    },
+    {
+      "key": "researchBudget/pageTitle",
+      "value": "Etat für grosse Geschichten"
+    },
+    {
+      "key": "researchBudget/title",
+      "value": "Etat für grosse Geschichten"
+    },
+    {
+      "key": "researchBudget/description",
+      "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben."
     },
     {
       "key": "account/signedOut/title",
@@ -1083,6 +1115,18 @@
       "value": "seit 2018"
     },
     {
+      "key": "footer/me/etiquette",
+      "value": "Etikette für Debatten"
+    },
+    {
+      "key": "footer/jobs",
+      "value": "Offene Stellen"
+    },
+    {
+      "key": "footer/researchBudget",
+      "value": "Rechercheetat"
+    },
+    {
       "key": "components/Discussion/OrderBy/DATE",
       "value": "Neueste"
     },
@@ -1820,7 +1864,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 15500 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
+      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 18000 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
     },
     {
       "key": "article/payNote/before/buyText",

@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import Share from '../Share'
 
-import { PUBLIC_BASE_URL, API_ASSETS_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
 import {
   Interaction,
@@ -95,7 +95,7 @@ const Detail = ({
           emailSubject={t('testimonial/detail/share/emailSubject', {
             name
           })}
-          download={`${API_ASSETS_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
+          download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
         />
       )}
     </div>

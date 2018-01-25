@@ -15,7 +15,7 @@ import Detail from './Detail'
 import Play from '../Icons/Play'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL, API_ASSETS_BASE_URL
+  PUBLIC_BASE_URL, STATIC_BASE_URL, ASSETS_SERVER_BASE_URL
 } from '../../lib/constants'
 
 import {
@@ -280,7 +280,7 @@ class List extends Component {
             title: t('testimonial/meta/single/title', focusItem),
             description: t('testimonial/meta/single/description', focusItem),
             url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
-            image: `${API_ASSETS_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(focusItem.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${focusItem.id}`)}`
+            image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(focusItem.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${focusItem.id}`)}`
           })
           : ({
             pageTitle: t('testimonial/meta/pageTitle'),

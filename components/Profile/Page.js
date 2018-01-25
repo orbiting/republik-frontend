@@ -17,7 +17,7 @@ import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-import { PUBLIC_BASE_URL, API_ASSETS_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
 import Badge from './Badge'
 import Comments from './Comments'
@@ -284,7 +284,7 @@ class Profile extends Component {
 
     const metaData = {
       image: user && user.isListed
-        ? `${API_ASSETS_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
+        ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
       title: user
         ? t('pages/profile/pageTitle', { name: user.name })

@@ -14,7 +14,6 @@ const { P, LI } = Editorial
 export default withData(
   withT(({ url, t }) => {
     const meta = {
-      pageTitle: t('jobs/pageTitle'),
       title: t('jobs/title'),
       description: t('jobs/description'),
       image: `${STATIC_BASE_URL}/static/team/bern.jpg`,

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-25T15:39:40.957Z",
+  "updated": "2018-01-25T19:42:20.812Z",
   "title": "live",
   "data": [
     {
@@ -343,10 +343,6 @@
       "value": "Zur Crew gehören:"
     },
     {
-      "key": "jobs/pageTitle",
-      "value": "Jobs – Republik"
-    },
-    {
       "key": "jobs/title",
       "value": "Jobs"
     },
@@ -356,26 +352,26 @@
     },
     {
       "key": "etiquette/pageTitle",
-      "value": "Etiquette – Republik"
+      "value": "Etikette – Republik"
     },
     {
       "key": "etiquette/title",
-      "value": "Die Etiquette"
+      "value": "Die Etikette"
     },
     {
       "key": "etiquette/description",
       "value": "Wie wir in der Republik debattieren"
     },
     {
-      "key": "etat/pageTitle",
+      "key": "researchBudget/pageTitle",
       "value": "Etat für grosse Geschichten"
     },
     {
-      "key": "etat/title",
+      "key": "researchBudget/title",
       "value": "Etat für grosse Geschichten"
     },
     {
-      "key": "etat/description",
+      "key": "researchBudget/description",
       "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben."
     },
     {
@@ -1120,14 +1116,14 @@
     },
     {
       "key": "footer/me/etiquette",
-      "value": "Etiquette für Debatten"
+      "value": "Etikette für Debatten"
     },
     {
       "key": "footer/jobs",
       "value": "Offene Stellen"
     },
     {
-      "key": "footer/etat",
+      "key": "footer/researchBudget",
       "value": "Rechercheetat"
     },
     {

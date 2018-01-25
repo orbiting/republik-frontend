@@ -8,14 +8,14 @@ import { Editorial, Interaction, TitleBlock, A } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
 
-const { Lead, P, LI } = Editorial
+const { P, LI } = Editorial
 
 export default withData(
   withT(({ url, t }) => {
     const meta = {
-      pageTitle: t('etat/pageTitle'),
-      title: t('etat/title'),
-      description: t('etat/description'),
+      pageTitle: t('researchBudget/pageTitle'),
+      title: t('researchBudget/title'),
+      description: t('researchBudget/description'),
       image: `${STATIC_BASE_URL}/static/team/bern.jpg`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }

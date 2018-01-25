@@ -27,7 +27,7 @@ export default withData(
       >
 
       <TitleBlock center>
-        <Interaction.Headline>Die Etiquette</Interaction.Headline>
+        <Interaction.Headline>Die Etikette</Interaction.Headline>
         <Editorial.Lead>
           Betreten Sie unseren Debattenraum, betreten Sie unser Wohnzimmer. Machen Sie es sich gemütlich und fühlen Sie sich wie zuhause. Damit wir – wie bei Cheminéefeuer – fruchtbar miteinander reden können, möchten wir Sie auf ein paar Spielregeln hinweisen.
         </Editorial.Lead>

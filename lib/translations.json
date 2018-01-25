@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-25T21:24:21.646Z",
+  "updated": "2018-01-25T21:28:06.637Z",
   "title": "live",
   "data": [
     {
@@ -1332,7 +1332,7 @@
     },
     {
       "key": "submitComment/notEligible/pledgeText",
-      "value": "Verleger und Abonnentin\n"
+      "value": "Verleger und Abonnentin"
     },
     {
       "key": "submitComment/rootSubmitLabel",

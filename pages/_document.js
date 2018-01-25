@@ -3,13 +3,13 @@ import Document, {
   Main,
   NextScript
 } from 'next/document'
-import { renderStatic } from 'glamor/server'
+import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces } from '@project-r/styleguide'
 
 export default class MyDocument extends Document {
   static async getInitialProps ({ renderPage }) {
     const page = renderPage()
-    const styles = renderStatic(() => page.html)
+    const styles = renderStaticOptimized(() => page.html)
     return {
       ...page,
       ...styles,

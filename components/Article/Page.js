@@ -136,7 +136,6 @@ class ArticlePage extends Component {
     super(props)
 
     this.barRef = ref => {
-      console.log('barRef', ref)
       this.bar = ref
     }
 

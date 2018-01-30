@@ -134,17 +134,17 @@ const getDocument = gql`
 class ArticlePage extends Component {
   constructor (props) {
     super(props)
-    const { data } = props
+
+    this.barRef = ref => {
+      console.log('barRef', ref)
+      this.bar = ref
+    }
+
     this.state = {
       primaryNavExpanded: false,
       secondaryNavExpanded: false,
       showSecondary: false,
-      isSeries: data &&
-        data.article &&
-        data.article.meta &&
-        data.article.meta.series &&
-        data.article.meta.series.episodes &&
-        !!data.article.meta.series.episodes.length
+      ...this.deriveStateFromProps(props)
     }
 
     this.onScroll = () => {
@@ -168,9 +168,6 @@ class ArticlePage extends Component {
           this.setState({ secondaryNavExpanded: false })
         }
       }
-    }
-    this.barRef = ref => {
-      this.bar = ref
     }
     this.measure = () => {
       if (!this.state.isSeries && this.bar) {
@@ -197,6 +194,57 @@ class ArticlePage extends Component {
     }
   }
 
+  deriveStateFromProps ({ t, data: { article } }) {
+    const meta = article && {
+      ...article.meta,
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`
+    }
+
+    const discussion = meta && meta.discussion
+    const linkedDiscussionId = meta && (
+      meta.discussionId ||
+      (discussion && discussion.meta.discussionId)
+    )
+
+    const actionBar = meta && (
+      <ActionBar t={t}
+        url={meta.url}
+        title={meta.title}
+        discussionPage={!!meta.discussionId}
+        discussionId={linkedDiscussionId}
+        discussionPath={discussion && discussion.meta.path} />
+    )
+
+    const schema = meta && getSchemaCreator(meta.template)({
+      t,
+      titleBlockAppend: (
+        <div ref={this.barRef} {...styles.bar}>
+          {actionBar}
+        </div>
+      )
+    })
+
+    const isSeries = (
+      meta &&
+      meta.series &&
+      meta.series.episodes &&
+      !!meta.series.episodes.length
+    )
+
+    return {
+      schema,
+      meta,
+      actionBar,
+      isSeries
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data.article !== this.props.data.article) {
+      this.setState(this.deriveStateFromProps(nextProps))
+    }
+  }
+
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
@@ -213,28 +261,10 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article} } = this.props
 
-    const meta = article && {
-      ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`
-    }
-
-    const discussion = meta && meta.discussion
-    const linkedDiscussionId = meta && (
-      meta.discussionId ||
-      (discussion && discussion.meta.discussionId)
-    )
+    const { meta, actionBar, schema } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
-
-    const actionBar = meta && (
-      <ActionBar t={t}
-        url={meta.url}
-        title={meta.title}
-        discussionPage={!!meta.discussionId}
-        discussionId={linkedDiscussionId}
-        discussionPath={discussion && discussion.meta.path} />
-    )
 
     const seriesNavButton = series ? (
       <SeriesNavButton
@@ -271,15 +301,6 @@ class ArticlePage extends Component {
               statusCode={404}
               serverContext={this.props.serverContext} />
           }
-
-          const schema = getSchemaCreator(article.meta.template)({
-            t,
-            titleBlockAppend: (
-              <div ref={this.barRef} {...styles.bar}>
-                {actionBar}
-              </div>
-            )
-          })
 
           const isFormat = meta.template === 'format'
 

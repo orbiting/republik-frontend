@@ -14,6 +14,7 @@ const { P, LI } = Editorial
 export default withData(
   withT(({ url, t }) => {
     const meta = {
+      pageTitle: t('jobs/pageTitle'),
       title: t('jobs/title'),
       description: t('jobs/description'),
       image: `${STATIC_BASE_URL}/static/team/bern.jpg`,
@@ -33,9 +34,11 @@ export default withData(
           />
         }
       >
-        <Interaction.H2>Wir suchen eine*n node.js-Entwickler*in (70 - 100%)</Interaction.H2>
+        <Interaction.H1>Offene Stellen</Interaction.H1>
+        <br />
+        <Interaction.H2>node.js-Entwicklerin (70 - 100%)</Interaction.H2>
         <P>Wir suchen dich. Wir sind das Team der Republik. Wir arbeiten für relevanten, unabhängigen und innovativen Journalismus ohne Bullshit. Und wir sind eine interdisziplinäre, qualifizierte, hart arbeitende, leidenschaftliche und fröhliche <A href='/crew'>Crew</A>. Unser Code ist vollständig Open-Source: <A href='https://github.com/orbiting'>github.com/orbiting</A>.</P>
-        <P>Du bist eine erfahrene node.js-Entwicklerin. Insbesondere GraphQL und PostgresQL sind dir vertraut. Du hast in der Vergangenheit schon Verantwortung für Software-Projekte getragen. Und du weisst, was es braucht, ein Konzept erfolgreich umzusetzen bis hin zum laufenden Betrieb. </P>
+        <P>Du bist ein erfahrener node.js-Entwickler. Insbesondere GraphQL und PostgreSQL sind dir vertraut. Du hast in der Vergangenheit schon Verantwortung für Software-Projekte getragen. Und du weisst, was es braucht, ein Konzept erfolgreich umzusetzen bis hin zum laufenden Betrieb. </P>
         <P>Du hast Lust, bei uns viel Verantwortung zu übernehmen. Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln und maintainen. Du geniesst viel Freiheit zu haben, bringst dich gerne auch konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: von einer möglichst stabilen und einfachen Payments-Lösung über unser super cooles wysiwyg-markdown-github-CMS hin zu neuen Tools für spannende User-Interaktion.</P>
         <P>Du bist interessiert? Dann bewirb dich mit einer E-Mail bei <A href='mailto:clara.vuillemin@republik.ch'>clara.vuillemin@republik.ch</A></P>
         <P>Bitte beantworte in der Bewerbung – neben dem, was du uns sonst noch sagen möchtest – folgende Fragen: </P>

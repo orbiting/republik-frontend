@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-26T14:50:18.351Z",
+  "updated": "2018-01-30T18:53:08.804Z",
   "title": "live",
   "data": [
     {
@@ -343,8 +343,12 @@
       "value": "Zur Crew gehören:"
     },
     {
+      "key": "jobs/pageTitle",
+      "value": "Jobs – Republik"
+    },
+    {
       "key": "jobs/title",
-      "value": "Jobs"
+      "value": "Offene Stellen: node.js-Entwicklerin (70 - 100%)"
     },
     {
       "key": "jobs/description",

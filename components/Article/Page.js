@@ -139,6 +139,10 @@ class ArticlePage extends Component {
       this.bar = ref
     }
 
+    this.bottomBarRef = ref => {
+      this.bottomBar = ref
+    }
+
     this.state = {
       primaryNavExpanded: false,
       secondaryNavExpanded: false,
@@ -153,8 +157,9 @@ class ArticlePage extends Component {
       if (
         (this.state.isSeries && y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
         (!this.state.isSeries &&
-          y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-            this.y + this.barHeight)
+          (y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
+            this.y + this.barHeight)) &&
+          (!this.bottomBarY || y + window.innerHeight < this.bottomBarY)
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -169,11 +174,17 @@ class ArticlePage extends Component {
       }
     }
     this.measure = () => {
-      if (!this.state.isSeries && this.bar) {
-        const rect = this.bar.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
-        this.x = window.pageXOffset + rect.left
+      if (!this.state.isSeries) {
+        if (this.bar) {
+          const rect = this.bar.getBoundingClientRect()
+          this.y = window.pageYOffset + rect.top
+          this.barHeight = rect.height
+          this.x = window.pageXOffset + rect.left
+        }
+        if (this.bottomBar) {
+          const bottomRect = this.bottomBar.getBoundingClientRect()
+          this.bottomBarY = window.pageYOffset + bottomRect.top
+        }
       }
       this.onScroll()
     }
@@ -220,7 +231,12 @@ class ArticlePage extends Component {
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}
         </div>
-      )
+      ),
+      centerAppend: meta.template === 'article' ? (
+        <div ref={this.bottomBarRef} {...styles.bar}>
+          {actionBar}
+        </div>
+      ) : null
     })
 
     const isSeries = (

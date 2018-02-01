@@ -153,13 +153,16 @@ class ArticlePage extends Component {
     this.onScroll = () => {
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      const isAwayFromBottomBar =
+        !this.bottomBarY || y + window.innerHeight < this.bottomBarY
 
       if (
-        (this.state.isSeries && y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
-        (!this.state.isSeries &&
-          (y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-            this.y + this.barHeight)) &&
-          (!this.bottomBarY || y + window.innerHeight < this.bottomBarY)
+        isAwayFromBottomBar &&
+        ((this.state.isSeries &&
+          y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
+          (!this.state.isSeries &&
+            y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
+              this.y + this.barHeight))
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -181,10 +184,10 @@ class ArticlePage extends Component {
           this.barHeight = rect.height
           this.x = window.pageXOffset + rect.left
         }
-        if (this.bottomBar) {
-          const bottomRect = this.bottomBar.getBoundingClientRect()
-          this.bottomBarY = window.pageYOffset + bottomRect.top
-        }
+      }
+      if (this.bottomBar) {
+        const bottomRect = this.bottomBar.getBoundingClientRect()
+        this.bottomBarY = window.pageYOffset + bottomRect.top
       }
       this.onScroll()
     }

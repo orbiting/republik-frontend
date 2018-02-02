@@ -139,6 +139,10 @@ class ArticlePage extends Component {
       this.bar = ref
     }
 
+    this.bottomBarRef = ref => {
+      this.bottomBar = ref
+    }
+
     this.state = {
       primaryNavExpanded: false,
       secondaryNavExpanded: false,
@@ -149,12 +153,16 @@ class ArticlePage extends Component {
     this.onScroll = () => {
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      const isAwayFromBottomBar =
+        !this.bottomBarY || y + window.innerHeight < this.bottomBarY
 
       if (
-        (this.state.isSeries && y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
-        (!this.state.isSeries &&
-          y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-            this.y + this.barHeight)
+        isAwayFromBottomBar &&
+        ((this.state.isSeries &&
+          y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
+          (!this.state.isSeries &&
+            y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
+              this.y + this.barHeight))
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -169,11 +177,17 @@ class ArticlePage extends Component {
       }
     }
     this.measure = () => {
-      if (!this.state.isSeries && this.bar) {
-        const rect = this.bar.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
-        this.x = window.pageXOffset + rect.left
+      if (!this.state.isSeries) {
+        if (this.bar) {
+          const rect = this.bar.getBoundingClientRect()
+          this.y = window.pageYOffset + rect.top
+          this.barHeight = rect.height
+          this.x = window.pageXOffset + rect.left
+        }
+      }
+      if (this.bottomBar) {
+        const bottomRect = this.bottomBar.getBoundingClientRect()
+        this.bottomBarY = window.pageYOffset + bottomRect.top
       }
       this.onScroll()
     }
@@ -310,6 +324,11 @@ class ArticlePage extends Component {
                 ...article.content,
                 format: meta.format
               }, schema)}
+              {meta.template === 'article' && <Center>
+                <div ref={this.bottomBarRef} {...styles.bar}>
+                  {actionBar}
+                </div>
+              </Center>}
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}

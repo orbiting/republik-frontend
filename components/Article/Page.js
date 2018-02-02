@@ -234,12 +234,7 @@ class ArticlePage extends Component {
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}
         </div>
-      ),
-      centerAppend: meta.template === 'article' ? (
-        <div ref={this.bottomBarRef} {...styles.bar}>
-          {actionBar}
-        </div>
-      ) : null
+      )
     })
 
     const isSeries = (
@@ -329,6 +324,11 @@ class ArticlePage extends Component {
                 ...article.content,
                 format: meta.format
               }, schema)}
+              {meta.template === 'article' && <Center>
+                <div ref={this.bottomBarRef} {...styles.bar}>
+                  {actionBar}
+                </div>
+              </Center>}
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}

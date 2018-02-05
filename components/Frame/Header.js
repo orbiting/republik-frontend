@@ -181,6 +181,7 @@ class Header extends Component {
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
     const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+    const secondaryVisible = showSecondary && !expand
 
     const opaque = this.state.opaque || expanded || inline
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
@@ -199,12 +200,12 @@ class Header extends Component {
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
         <div {...barStyle} style={{position, borderBottom}}>
           {secondaryNav && (
-            <div {...styles.secondary} style={{opacity: showSecondary ? 1 : 0, zIndex: showSecondary ? 99 : undefined}}>
+            <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
             </div>
           )}
           {opaque && (
-            <div {...styles.user} style={{opacity: showSecondary ? 0 : 1}}>
+            <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
                 onclickHandler={() => {
@@ -218,7 +219,7 @@ class Header extends Component {
             </div>
           )}
           {opaque && (
-            <div {...styles.center} style={{opacity: showSecondary ? 0 : 1}}>
+            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
                 href={logoLinkPath}

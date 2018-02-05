@@ -239,7 +239,7 @@ class Submit extends Component {
     })
   }
   pay (data) {
-    const {t, me, user} = this.props
+    const {t, me, user, isNewMember} = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
@@ -251,7 +251,8 @@ class Submit extends Component {
             .then(({data: {signIn}}) => gotoMerci({
               id: payPledge.pledgeId,
               email: user.email,
-              phrase: signIn.phrase
+              phrase: signIn.phrase,
+              isNewMember: isNewMember
             }))
             .catch(error => gotoMerci({
               id: data.pledgeId,
@@ -260,7 +261,8 @@ class Submit extends Component {
             }))
         } else {
           gotoMerci({
-            id: payPledge.pledgeId
+            id: payPledge.pledgeId,
+            isNewMember: isNewMember
           })
         }
       })
@@ -478,6 +480,7 @@ Submit.propTypes = {
   total: PropTypes.number,
   reason: PropTypes.string,
   options: PropTypes.array.isRequired,
+  isNewMember: PropTypes.bool,
   submit: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   onError: PropTypes.func.isRequired

@@ -162,15 +162,16 @@ class Merci extends Component {
     }
 
     const buttonStyle = {marginBottom: 10, marginRight: 10}
+    const isNewMember = !!query.isNewMember && query.isNewMember !== 'false'
 
     return (
       <Fragment>
         <MainContainer><Content style={{paddingBottom: 0}}>
-          <H1>{t('merci/title', {
+          <H1>{t(isNewMember ? 'merci/title/newMember' : 'merci/title/notNewMember', {
             name: me.name
           })}</H1>
           <RawHtml type={Lead} dangerouslySetInnerHTML={{
-            __html: t('merci/lead')
+            __html: t(isNewMember ? 'merci/lead/newMember' : 'merci/lead/notNewMember')
           }} />
           <WithMembership render={() => (
             <div style={{marginTop: 10}}>

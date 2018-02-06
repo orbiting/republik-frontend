@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link } from '../../lib/routes'
 
 import Loader from '../Loader'
 

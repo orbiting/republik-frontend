@@ -17,6 +17,7 @@ import Share from '../Share'
 import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
+import MerciText from './MerciText'
 
 import { EMAIL_CONTACT, PUBLIC_BASE_URL } from '../../lib/constants'
 
@@ -166,12 +167,7 @@ class Merci extends Component {
     return (
       <Fragment>
         <MainContainer><Content style={{paddingBottom: 0}}>
-          <H1>{t('merci/title', {
-            name: me.name
-          })}</H1>
-          <RawHtml type={Lead} dangerouslySetInnerHTML={{
-            __html: t('merci/lead')
-          }} />
+          <MerciText pledgeId={query.id} />
           <WithMembership render={() => (
             <div style={{marginTop: 10}}>
               <Link route='index'>

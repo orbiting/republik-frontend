@@ -239,7 +239,7 @@ class Submit extends Component {
     })
   }
   pay (data) {
-    const {t, me, user, isNewMember} = this.props
+    const {t, me, user} = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')

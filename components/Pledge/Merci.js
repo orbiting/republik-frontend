@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { compose } from 'react-apollo'
 import { format } from 'url'
-import gql from 'graphql-tag'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -19,6 +18,7 @@ import Share from '../Share'
 import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
+import MerciText from './MerciText'
 
 import { EMAIL_CONTACT, PUBLIC_BASE_URL } from '../../lib/constants'
 
@@ -32,17 +32,6 @@ import {
 } from '@project-r/styleguide'
 
 const {H1, P} = Interaction
-
-const pledgeQuery = gql`
-query pledge($id: ID!) {
-  pledge(id: $id) {
-    id
-    package {
-      name
-    }
-  }
-}
-`
 
 export const gotoMerci = (query) => {
   // workaround for apollo cache issues
@@ -179,31 +168,7 @@ class Merci extends Component {
     return (
       <Fragment>
         <MainContainer><Content style={{paddingBottom: 0}}>
-          <Loader
-            loading={loading}
-            error={error}
-            render={() => (
-              <Fragment>
-                <H1>
-                  {t.first(
-                    [`merci/title/package/${pledge.package.name}`, 'merci/title'],
-                    {
-                      name: me.name
-                    }
-                  )}
-                </H1>
-                <RawHtml
-                  type={Lead}
-                  dangerouslySetInnerHTML={{
-                    __html: t.first([
-                      `merci/lead/package/${pledge.package.name}`,
-                      'merci/lead'
-                    ])
-                  }}
-                />
-              </Fragment>
-            )}
-          />
+          <MerciText pledgeId={query.id} />
           <WithMembership render={() => (
             <div style={{marginTop: 10}}>
               <Link route='index'>
@@ -239,20 +204,6 @@ class Merci extends Component {
 }
 
 export default compose(
-  graphql(pledgeQuery, {
-    options: ({ query }) => ({
-      variables: {
-        id: query.id
-      }
-    }),
-    props: ({ data }) => {
-      return {
-        loading: data.loading,
-        error: data.error,
-        pledge: data.pledge
-      }
-    }
-  }),
   withMe,
   withT,
   withSignIn

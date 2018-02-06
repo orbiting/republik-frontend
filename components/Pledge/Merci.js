@@ -6,7 +6,6 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
-import Loader from '../Loader'
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
 import { WithMembership } from '../Auth/withMembership'
@@ -63,7 +62,7 @@ class Merci extends Component {
     }
   }
   render () {
-    const { me, t, query, loading, error, pledge } = this.props
+    const { me, t, query } = this.props
     const {
       polling, phrase, email,
       signInError, signInLoading

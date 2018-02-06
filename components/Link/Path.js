@@ -1,12 +1,14 @@
 import React from 'react'
 import { matchPath, Link } from '../../lib/routes'
+import AreaLink from './Area'
 
 export default ({ path, query = {}, passHref, replace, scroll, children }) => {
   const result = matchPath(path)
   if (result) {
-    return <Link route={result.route} params={{...query, ...result.params}} passHref={passHref} replace={replace} scroll={scroll}>
+    const Component = passHref ? Link : AreaLink
+    return <Component route={result.route} params={{...query, ...result.params}} passHref={passHref} replace={replace} scroll={scroll}>
       {children}
-    </Link>
+    </Component>
   }
 
   // unrecognized links are handled by regular a tags

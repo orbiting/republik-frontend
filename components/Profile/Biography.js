@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
 
-import { Editorial, fontStyles } from '@project-r/styleguide'
+import { Editorial } from '@project-r/styleguide'
 
 const styles = {
   text: css({

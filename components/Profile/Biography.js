@@ -6,13 +6,13 @@ import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 
 import {
-  fontStyles
+  Editorial,
+  fontStyles,
+  mediaQueries
 } from '@project-r/styleguide'
 
 const styles = {
   text: css({
-    ...fontStyles.serifRegular19,
-    lineHeight: '30px',
     marginTop: 0,
     marginBottom: 60
   })
@@ -31,12 +31,12 @@ export default withT(({ user, isEditing, t, ...props }) => {
     return null
   }
   return (
-    <p {...styles.text}>
+    <Editorial.P {...styles.text}>
       {isEditing
         ? <FieldSet
           {...props}
           fields={fields(t)} />
         : user.biography}
-    </p>
+    </Editorial.P>
   )
 })

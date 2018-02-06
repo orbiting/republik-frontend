@@ -251,8 +251,7 @@ class Submit extends Component {
             .then(({data: {signIn}}) => gotoMerci({
               id: payPledge.pledgeId,
               email: user.email,
-              phrase: signIn.phrase,
-              isNewMember: isNewMember
+              phrase: signIn.phrase
             }))
             .catch(error => gotoMerci({
               id: data.pledgeId,
@@ -261,8 +260,7 @@ class Submit extends Component {
             }))
         } else {
           gotoMerci({
-            id: payPledge.pledgeId,
-            isNewMember: isNewMember
+            id: payPledge.pledgeId
           })
         }
       })
@@ -480,7 +478,6 @@ Submit.propTypes = {
   total: PropTypes.number,
   reason: PropTypes.string,
   options: PropTypes.array.isRequired,
-  isNewMember: PropTypes.bool,
   submit: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   onError: PropTypes.func.isRequired

@@ -169,7 +169,6 @@ class Pledge extends Component {
               pkg => pkg.name === query.package.toUpperCase()
             )
           : null
-        const isNewMember = ['ABO', 'MONTHLY_ABO', 'BENEFACTOR'].indexOf(pkg.name) > -1
         const userPrice = !!query.userPrice
 
         return (
@@ -268,7 +267,6 @@ class Pledge extends Component {
             <Submit
               query={query}
               me={me}
-              isNewMember={isNewMember}
               {...this.submitPledgeProps({values, query})}
               basePledge={basePledge
                 ? this.submitPledgeProps(basePledge)

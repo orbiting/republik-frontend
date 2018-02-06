@@ -1,5 +1,5 @@
 {
-  "updated": "2018-01-30T18:53:08.804Z",
+  "updated": "2018-02-06T10:11:09.872Z",
   "title": "live",
   "data": [
     {
@@ -9,6 +9,10 @@
     {
       "key": "nav/feed",
       "value": "Feed"
+    },
+    {
+      "key": "nav/formats",
+      "value": "Formate"
     },
     {
       "key": "nav/events",
@@ -325,6 +329,18 @@
     {
       "key": "pledge/contact/email/error/invalid",
       "value": "E-Mail ungültig"
+    },
+    {
+      "key": "formats/pageTitle",
+      "value": "Formate"
+    },
+    {
+      "key": "formats/title",
+      "value": "Formate"
+    },
+    {
+      "key": "formats/lead",
+      "value": "Sie bringen Farbe in den grauen Alltag: Unsere Formate. So nennen wir alle regelmässig erscheinenden Kolumnen, Rubriken und Newsletter der Republik. Jedes Format wirft seinen eigenen Blick auf die Welt. Und hat deshalb seine eigene Farbe. Was sind Ihre Lieblingsfarben?"
     },
     {
       "key": "crew/pageTitle",
@@ -1927,23 +1943,23 @@
       "value": "Willkommen an Bord, {name}"
     },
     {
-      "key": "merci/title/newMember",
-      "value": "Willkommen an Bord, {name}"
+      "key": "merci/title/package/ABO_GIVE",
+      "value": "Guten Tag, {name}"
     },
     {
-      "key": "merci/title/notNewMember",
+      "key": "merci/title/package/DONATE",
       "value": "Guten Tag, {name}"
     },
     {
       "key": "merci/lead",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />\n"
+      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br /><br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
-      "key": "merci/lead/newMember",
-      "value": "Vielen Dank für Ihre Unterstützung. Es ist uns eine Ehre, Sie bei uns als Verlegerin respektive Verleger zu begrüssen. Also als Teil unseres Unternehmens.<br />\n<br />\nAuf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "key": "merci/lead/package/ABO_GIVE",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
-      "key": "merci/lead/notNewMember",
+      "key": "merci/lead/package/DONATE",
       "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {

@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { format } from 'url'
+import gql from 'graphql-tag'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
+import Loader from '../Loader'
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
 import { WithMembership } from '../Auth/withMembership'
@@ -30,6 +32,17 @@ import {
 } from '@project-r/styleguide'
 
 const {H1, P} = Interaction
+
+const pledgeQuery = gql`
+query pledge($id: ID!) {
+  pledge(id: $id) {
+    id
+    package {
+      name
+    }
+  }
+}
+`
 
 export const gotoMerci = (query) => {
   // workaround for apollo cache issues
@@ -61,7 +74,7 @@ class Merci extends Component {
     }
   }
   render () {
-    const { me, t, query } = this.props
+    const { me, t, query, loading, error, pledge } = this.props
     const {
       polling, phrase, email,
       signInError, signInLoading
@@ -162,17 +175,35 @@ class Merci extends Component {
     }
 
     const buttonStyle = {marginBottom: 10, marginRight: 10}
-    const isNewMember = !!query.isNewMember && query.isNewMember !== 'false'
 
     return (
       <Fragment>
         <MainContainer><Content style={{paddingBottom: 0}}>
-          <H1>{t(isNewMember ? 'merci/title/newMember' : 'merci/title/notNewMember', {
-            name: me.name
-          })}</H1>
-          <RawHtml type={Lead} dangerouslySetInnerHTML={{
-            __html: t(isNewMember ? 'merci/lead/newMember' : 'merci/lead/notNewMember')
-          }} />
+          <Loader
+            loading={loading}
+            error={error}
+            render={() => (
+              <Fragment>
+                <H1>
+                  {t.first(
+                    [`merci/title/package/${pledge.package.name}`, 'merci/title'],
+                    {
+                      name: me.name
+                    }
+                  )}
+                </H1>
+                <RawHtml
+                  type={Lead}
+                  dangerouslySetInnerHTML={{
+                    __html: t.first([
+                      `merci/lead/package/${pledge.package.name}`,
+                      'merci/lead'
+                    ])
+                  }}
+                />
+              </Fragment>
+            )}
+          />
           <WithMembership render={() => (
             <div style={{marginTop: 10}}>
               <Link route='index'>
@@ -208,6 +239,20 @@ class Merci extends Component {
 }
 
 export default compose(
+  graphql(pledgeQuery, {
+    options: ({ query }) => ({
+      variables: {
+        id: query.id
+      }
+    }),
+    props: ({ data }) => {
+      return {
+        loading: data.loading,
+        error: data.error,
+        pledge: data.pledge
+      }
+    }
+  }),
   withMe,
   withT,
   withSignIn

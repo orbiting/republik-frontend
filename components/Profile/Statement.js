@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
@@ -6,14 +6,14 @@ import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 
 import {
-  fontFamilies
+  fontFamilies,
+  mediaQueries
 } from '@project-r/styleguide'
 
 const styles = {
   quote: {
     fontFamily: fontFamilies.serifTitle,
-    fontSize: 36,
-    lineHeight: 1.42
+    lineHeight: 1.2
   }
 }
 
@@ -46,22 +46,51 @@ const fields = t => [
   }
 ]
 
-export default withT(({t, user, isEditing, ...props}) => {
-  if (!user.statement && !isEditing) {
-    return null
+
+class Statement extends Component {
+  constructor (...args) {
+    super(...args)
+    this.state = {
+      isMobile: true
+    }
+
+    this.handleResize = () => {
+      const isMobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (isMobile !== this.state.isMobile) {
+        this.setState({isMobile})
+      }
+    }
   }
-  return (
-    <span
-      {...css(styles.quote)}
-      style={{
-        fontSize: 24 + fontSizeBoost((user.statement || '').length)
-      }}
-    >
-      {isEditing
-        ? <FieldSet
-          {...props}
-          fields={fields(t)} />
-        : `«${user.statement}»`}
-    </span>
-  )
-})
+
+  componentDidMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
+  }
+
+  render() {
+    const { t, user, isEditing, ...props } = this.props
+    const { isMobile } = this.state
+    if (!user.statement && !isEditing) {
+      return null
+    }
+    const fontSize = isMobile ? 22 : 24 + fontSizeBoost((user.statement || '').length)
+    return (
+      <span
+        {...css(styles.quote)}
+        style={{fontSize}}
+      >
+        {isEditing
+          ? <FieldSet
+            {...props}
+            fields={fields(t)} />
+          : `«${user.statement}»`}
+      </span>
+    )
+  }
+}
+
+export default withT(Statement)

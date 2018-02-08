@@ -31,6 +31,7 @@ const IndexPage = ({ url, t, isAuthorized }) => {
     return <Front url={url} />
   }
   const meta = {
+    pageTitle: t('pages/index/pageTitle'),
     title: t('pages/index/title'),
     description: t('pages/index/description'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,

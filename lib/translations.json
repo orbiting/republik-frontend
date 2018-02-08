@@ -31,8 +31,12 @@
       "value": "Magazin"
     },
     {
+      "key": "pages/index/pageTitle",
+      "value": "Republik"
+    },
+    {
       "key": "pages/index/title",
-      "value": "Republik ist gestartet"
+      "value": "Republik"
     },
     {
       "key": "pages/index/description",

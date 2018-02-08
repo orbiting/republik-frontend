@@ -14,7 +14,9 @@ PORT=3010
 API_URL=http://localhost:3020/graphql
 API_WS_URL=ws://localhost:3020/graphql
 ASSETS_SERVER_BASE_URL=http://localhost:3021
-# production only
+
+# used for static folder assets and
+# in production as the next.js asset prefix
 CDN_FRONTEND_BASE_URL=
 ```
 

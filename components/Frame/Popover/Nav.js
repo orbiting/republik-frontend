@@ -141,6 +141,13 @@ const Nav = ({ me, url, closeHandler, children, t }) => {
             />
             <br />
             <NavLink
+              route='formats'
+              translation={t('nav/formats')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+            <br />
+            <NavLink
               route='events'
               translation={t('nav/events')}
               active={active}

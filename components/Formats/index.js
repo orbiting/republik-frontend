@@ -43,6 +43,7 @@ const getFormats = gql`
     documents(template: "format", feed: true) {
       nodes {
         meta {
+          template
           kind
           title
           description
@@ -94,7 +95,7 @@ class Formats extends Component {
                     {t('formats/title/editorial')}
                   </Interaction.H2>
                   {editorialNodes.map(doc => (
-                    <TeaserFeed {...{...doc.meta, kind: 'meta'}} Link={Link} key={doc.meta.path} />
+                    <TeaserFeed {...doc.meta} Link={Link} key={doc.meta.path} />
                   ))}
                 </Fragment>
               )}

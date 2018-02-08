@@ -52,7 +52,7 @@ export default withData(
           <LI>Was macht die Geschichte visuell interessant? Wie soll optisch erzählt werden, mittels Fotos, Grafiken, Illustrationen, Animationen, etc.?</LI>
           <LI>Wenn alles scheitert – was haben Sie auf jeden Fall?</LI>
           <LI>Was ist IHR Bezug zu diesem Thema?</LI>
-          <LI>Was ist das Budget, das Sie im ersten Schritt benötigen? Bitte unterscheiden Sie in Sachkosten+Spesen und Tagessätze.</LI>
+          <LI>Was ist das Budget, das Sie im ersten Schritt benötigen? Bitte unterscheiden Sie in Sachkosten/Spesen und Tagessätze.</LI>
           <LI>Was ist der ideale Zeitplan?</LI>
           <LI>Welche Unterstützung, welches Knowhow erwarten Sie von uns?</LI>
           <LI>Haben Sie eine Erzählform vor Augen? Gibt es Vorbilder?</LI>
@@ -68,10 +68,10 @@ export default withData(
 
         <Editorial.Subhead>Einige Spielregeln</Editorial.Subhead>
 
-        <P>Bitte verstehen Sie, dass wir das Geld aus dem Fonds für grosse Recherchen, Geschichten, Ideen möglichst effizient einsetzen wollen. Darum gibt es gestaffelte Budgets. Das Budget für die erste Etappe beträgt bis zu CHF 5000. Danach entscheiden wir gemeinsam, wie es weitergeht. Ist die Story fertig und geht sie in die Produktion? Ist weiterer Recherche-Aufwand nötig? Oder macht man sie mit weit mehr Ressourcen richtig gross? Was können wir von Republik an Knowhow und Technik beisteuern?</P>
-        <P>Die Republik verwertet die Story auf all ihren Medienkanälen vier Wochen lang exklusiv. Danach gehen die Nutzungsrechte zurück an die Urheber. Sie dürfen dann gern weiter recherchieren, schreiben, verwerten. Egal, wo die Geschichte eines Tages erscheint, sie muss das Label tragen: «Finanziert aus dem Fonds für grosse Recherchen, Geschichten und Ideen von Project R».</P>
+        <P>Bitte verstehen Sie, dass wir das Geld aus dem Etat für grosse Recherchen, Geschichten, Ideen möglichst effizient einsetzen wollen. Darum gibt es gestaffelte Budgets. Das Budget für die erste Etappe beträgt bis zu CHF 5000. Danach entscheiden wir gemeinsam, wie es weitergeht. Ist die Story fertig und geht sie in die Produktion? Ist weiterer Recherche-Aufwand nötig? Oder macht man sie mit weit mehr Ressourcen richtig gross? Was können wir von Republik an Knowhow und Technik beisteuern?</P>
+        <P>Die Republik verwertet die Story auf all ihren Medienkanälen vier Wochen lang exklusiv. Danach gehen die Nutzungsrechte zurück an die Urheber. Sie dürfen dann gern weiter recherchieren, schreiben, verwerten. Egal, wo die Geschichte eines Tages erscheint, sie muss das Label tragen: «Finanziert aus dem Etat für grosse Recherchen, Geschichten und Ideen von Project R».</P>
         <P>Wenn Sie am Anfang einer Geschichte stehen und nicht weiter wissen; wenn Sie Berufsanfänger sind, aber einen grossen Stoff am Wickel haben – wir beraten Sie gern. Bitte schicken Sie Ihre Fragen an recherchen@republik.ch. Sie können dort auch ein Telefonat vereinbaren mit einer unserer Redakteurinnen. Wir versprechen: Wir behandeln Ihre Informationen vertraulich. Sie können sich danach immer noch entscheiden, ob Sie die Story bei uns vorstellen möchten.</P>
-        <P>Der Fonds für grosse Recherchen, Geschichten und Ideen kommt von der Project R Genossenschaft, dem gemeinnützigen Dach über der Republik. Project R will die Demokratie stärken, indem sie den Journalismus als vierte Gewalt weiterentwickelt. Dem Gemeinwohl verpflichtet, fördert Project R den konstruktiven Diskurs und diskriminierungsfreie, vielfältige Debatten über die Fragen unserer Zeit.</P>
+        <P>Der Etat für grosse Recherchen, Geschichten und Ideen kommt von der Project R Genossenschaft, dem gemeinnützigen Dach über der Republik. Project R will die Demokratie stärken, indem sie den Journalismus als vierte Gewalt weiterentwickelt. Dem Gemeinwohl verpflichtet, fördert Project R den konstruktiven Diskurs und diskriminierungsfreie, vielfältige Debatten über die Fragen unserer Zeit.</P>
         <P>Entschieden wird über die Projekte ausschliesslich innerhalb der Republik-Redaktion und ausschliesslich nach journalistischen Kriterien. Wir freuen uns, von Ihnen zu hören!</P>
         <P>Das Team von Republik und <A href='https://project-r.construction'>Project R</A></P>
         <P>PS: Unser <A href='/2018/01/19/usa-serie'>erster Serienprototyp</A> wurde bereits mit Mitteln aus dem Etat finanziert.</P>

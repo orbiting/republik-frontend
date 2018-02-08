@@ -178,16 +178,12 @@ class Footer extends Component {
                 <a>{t('footer/crew')}</a>
               </Link>
               <br />
-              <Link route='jobs'>
-                <a>{t('footer/jobs')}</a>
-              </Link>
-              <br />
-              <Link route='researchBudget'>
-                <a>{t('footer/researchBudget')}</a>
-              </Link>
-              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
+              </Link>
+              <br />
+              <Link route='jobs'>
+                <a>{t('footer/jobs')}</a>
               </Link>
               <br />
               <Link route='media'>
@@ -205,6 +201,10 @@ class Footer extends Component {
               <a href='https://project-r.construction/' rel='noopener' target='_blank'>
                 {t('footer/about/projecR')}
               </a>
+              <br />
+              <Link route='researchBudget'>
+                <a>{t('footer/researchBudget')}</a>
+              </Link>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>

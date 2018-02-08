@@ -18,7 +18,7 @@ import {
 } from '../constants'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL
+  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
 import {nest} from 'd3-collection'
@@ -109,7 +109,7 @@ class FaqList extends Component {
               title: t('faq/title'),
               description: t('faq/metaDescription'),
               url: `${PUBLIC_BASE_URL}/faq`,
-              image: `${STATIC_BASE_URL}/static/social-media/faq.png`
+              image: `${CDN_FRONTEND_BASE_URL}/static/social-media/faq.png`
             }} />
             <H2>{t('faq/before/title')}</H2>
             <Interaction.H3>{t('faq/before/support/title')}</Interaction.H3>

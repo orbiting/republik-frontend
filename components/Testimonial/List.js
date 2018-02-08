@@ -15,7 +15,7 @@ import Detail from './Detail'
 import Play from '../Icons/Play'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL, ASSETS_SERVER_BASE_URL
+  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL
 } from '../../lib/constants'
 
 import {
@@ -287,7 +287,7 @@ class List extends Component {
             title: t('testimonial/meta/title'),
             description: t('testimonial/meta/description'),
             url: `${PUBLIC_BASE_URL}/community`,
-            image: `${STATIC_BASE_URL}/static/social-media/community.jpg`
+            image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
           })
 
         return (

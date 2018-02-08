@@ -9,13 +9,13 @@ import { H1, H2, P, A } from '@project-r/styleguide'
 import Table from '../components/Shareholder/Table'
 import Sunburst, { radius } from '../components/Shareholder/Sunburst'
 
-import { STATIC_BASE_URL } from '../lib/constants'
+import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const ShareholderPage = ({ url, t }) => {
   const meta = {
     title: t('shareholder/pageTitle'),
     description: t('shareholder/description'),
-    image: `${STATIC_BASE_URL}/static/social-media/aktionariat.png`
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/aktionariat.png`
   }
 
   return (

@@ -17,7 +17,7 @@ import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r
 
 import { CONTENT_PADDING } from '../constants'
 
-import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import Event from './Detail'
 
@@ -87,7 +87,7 @@ const Overview = compose(
                   title: event.title,
                   description: event.metaDescription,
                   url: `${PUBLIC_BASE_URL}/veranstaltung/${event.slug}`,
-                  image: `${STATIC_BASE_URL}/static/social-media/logo.png`
+                  image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
                 }}
               />
               <Event data={event} />
@@ -114,7 +114,7 @@ const Overview = compose(
                 title: t('events/pageTitle'),
                 description: t('events/metaDescription'),
                 url: `${PUBLIC_BASE_URL}/events`,
-                image: `${STATIC_BASE_URL}/static/social-media/logo.png`
+                image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
               }}
             />
             {!!upcoming.length && (

@@ -16,7 +16,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  STATIC_BASE_URL
+  CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
 import { Router } from '../../lib/routes'
@@ -195,11 +195,11 @@ class CustomizePackage extends Component {
         <P style={{marginBottom: 10}}>
           {hasNotebook && hasTotebag && (
             <img {...styles.packageImage}
-              src={`${STATIC_BASE_URL}/static/packages/moleskine_totebag.jpg`} />
+              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`} />
           )}
           {hasNotebook && !hasTotebag && (
             <img {...styles.packageImage}
-              src={`${STATIC_BASE_URL}/static/packages/moleskine.jpg`} />
+              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`} />
           )}
           {t.first(
             [

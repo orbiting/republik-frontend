@@ -10,7 +10,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  STATIC_BASE_URL
+  CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
 export default withData(({url}) => {
@@ -26,7 +26,7 @@ export default withData(({url}) => {
       </H1>
 
       <P>
-        <A download href={`${STATIC_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}>
+        <A download href={`${CDN_FRONTEND_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}>
           PDF herunterladen
         </A>
       </P>

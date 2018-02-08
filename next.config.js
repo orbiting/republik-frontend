@@ -1,4 +1,4 @@
-const { ANALYZE } = process.env
+const { ANALYZE, NODE_ENV, CDN_FRONTEND_BASE_URL } = process.env
 
 module.exports = {
   webpack: (config, { dev }) => {
@@ -23,6 +23,9 @@ module.exports = {
     )
     return config
   },
+  assetPrefix: NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
+    ? CDN_FRONTEND_BASE_URL
+    : '',
   useFileSystemPublicRoutes: false,
   onDemandEntries: {
     // wait 5 minutes before disposing entries

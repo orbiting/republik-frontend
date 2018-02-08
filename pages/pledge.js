@@ -6,7 +6,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  STATIC_BASE_URL, CROWDFUNDING_NAME, SALES_UP
+  CDN_FRONTEND_BASE_URL, CROWDFUNDING_NAME, SALES_UP
 } from '../lib/constants'
 
 import Frame from '../components/Frame'
@@ -20,7 +20,7 @@ class PledgePage extends Component {
     const meta = {
       title: 'Jetzt Mitglied und Abonnentin werden',
       description: 'Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!',
-      image: `${STATIC_BASE_URL}/static/social-media/logo.png`
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
     const {url} = this.props

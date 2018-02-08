@@ -14,6 +14,8 @@ PORT=3010
 API_URL=http://localhost:3020/graphql
 API_WS_URL=ws://localhost:3020/graphql
 ASSETS_SERVER_BASE_URL=http://localhost:3021
+# production only
+CDN_FRONTEND_BASE_URL=
 ```
 
 This frontend needs an API, provided by [republik-backend](https://github.com/orbiting/republik-backend), running on the same TLD (for cookie sharing).

@@ -10,7 +10,7 @@ import { Lead } from '@project-r/styleguide'
 
 import team from '../lib/team'
 
-import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 export default withData(
   withT(({ url, t }) => {
@@ -18,7 +18,7 @@ export default withData(
       pageTitle: t('crew/pageTitle'),
       title: t('crew/title'),
       description: t('crew/description'),
-      image: `${STATIC_BASE_URL}/static/team/bern.jpg`,
+      image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }
 

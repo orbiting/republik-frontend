@@ -13,7 +13,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL
+  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 const pRule = css({
@@ -79,7 +79,7 @@ export default ({url}) => {
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
     description: 'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
-    image: `${STATIC_BASE_URL}/static/social-media/manifest.png`,
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.png`,
     url: `${PUBLIC_BASE_URL}${url.pathname}`
   }
   const share = {
@@ -132,7 +132,7 @@ ${PUBLIC_BASE_URL}
           <Share fill='#000' {...share} />
         </P>
         <P>
-          <A href={`${STATIC_BASE_URL}/static/manifest.pdf`}>
+          <A href={`${CDN_FRONTEND_BASE_URL}/static/manifest.pdf`}>
             Manifest als PDF herunterladen
           </A>
         </P>

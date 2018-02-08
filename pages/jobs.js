@@ -7,7 +7,7 @@ import ImageCover from '../components/ImageCover'
 
 import { Editorial, Interaction, A } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const { P, LI } = Editorial
 
@@ -17,7 +17,7 @@ export default withData(
       pageTitle: t('jobs/pageTitle'),
       title: t('jobs/title'),
       description: t('jobs/description'),
-      image: `${STATIC_BASE_URL}/static/team/bern.jpg`,
+      image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }
 

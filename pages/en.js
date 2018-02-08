@@ -19,7 +19,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  PUBLIC_BASE_URL, STATIC_BASE_URL,
+  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL,
   PAYPAL_DONATE_LINK
 } from '../lib/constants'
 
@@ -29,7 +29,7 @@ const enVideo = {
   hls: 'https://player.vimeo.com/external/215798102.m3u8?s=b3730f7f6332985771865f3b85c13aeae93223b1',
   mp4: 'https://player.vimeo.com/external/215798102.hd.mp4?s=bdc8421b7d1c2a04fcf9521655332e54c7c4c039&profile_id=175',
   subtitles: '/static/subtitles/main_en.vtt',
-  thumbnail: `${STATIC_BASE_URL}/static/video/main.jpg`
+  thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/main.jpg`
 }
 
 const pRule = css({
@@ -141,7 +141,7 @@ class EnPage extends Component {
     const meta = {
       title: 'We are Republik',
       description: '',
-      image: `${STATIC_BASE_URL}/static/social-media/en.png`,
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/en.png`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }
     const share = {
@@ -221,7 +221,7 @@ ${meta.url}
             <Share fill='#000' {...share} />
           </P>
           <P>
-            <A href={`${STATIC_BASE_URL}/static/manifesto_en.pdf`}>
+            <A href={`${CDN_FRONTEND_BASE_URL}/static/manifesto_en.pdf`}>
               Download PDF
             </A>
           </P>

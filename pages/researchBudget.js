@@ -6,7 +6,7 @@ import Frame from '../components/Frame'
 
 import { Editorial, Interaction, TitleBlock, A } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL, STATIC_BASE_URL } from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const { P, LI } = Editorial
 
@@ -16,7 +16,7 @@ export default withData(
       pageTitle: t('researchBudget/pageTitle'),
       title: t('researchBudget/title'),
       description: t('researchBudget/description'),
-      image: `${STATIC_BASE_URL}/static/team/bern.jpg`,
+      image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }
 

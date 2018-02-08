@@ -79,6 +79,7 @@
     "eslint-plugin-import": "^2.7.0",
     "faucet": "0.0.1",
     "gsheets": "^2.0.0",
+    "husky": "^0.14.3",
     "lint-staged": "^4.0.4",
     "nodemon": "^1.11.0",
     "react-test-renderer": "^16.0.0",

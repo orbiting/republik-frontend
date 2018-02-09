@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-06T10:11:09.872Z",
+  "updated": "2018-02-09T13:17:34.042Z",
   "title": "live",
   "data": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "key": "nav/formats",
-      "value": "Formate"
+      "value": "Rubriken"
     },
     {
       "key": "nav/events",
@@ -336,15 +336,23 @@
     },
     {
       "key": "formats/pageTitle",
-      "value": "Formate"
+      "value": "Rubriken"
     },
     {
       "key": "formats/title",
-      "value": "Formate"
+      "value": "Rubriken"
     },
     {
       "key": "formats/lead",
-      "value": "Sie bringen Farbe in den grauen Alltag: Unsere Formate. So nennen wir alle regelmässig erscheinenden Kolumnen, Rubriken und Newsletter der Republik. Jedes Format wirft seinen eigenen Blick auf die Welt. Und hat deshalb seine eigene Farbe. Was sind Ihre Lieblingsfarben?"
+      "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Kolumnen, Unternehmensnachrichten, Debatten und Kleinzeug."
+    },
+    {
+      "key": "formats/title/editorial",
+      "value": "Zum Stand der Dinge"
+    },
+    {
+      "key": "formats/title/meta",
+      "value": "Zur Lage der Republik"
     },
     {
       "key": "crew/pageTitle",

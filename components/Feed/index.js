@@ -100,6 +100,9 @@ class Feed extends Component {
 
   render () {
     const { data: { loading, error, documents, greeting } } = this.props
+    const nodes = documents
+      ? [...documents.nodes].filter(node => node.meta.template !== 'format')
+      : []
     return (
       <Loader
         loading={loading}
@@ -112,8 +115,8 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              {documents &&
-                documents.nodes.map(doc => (
+              {nodes &&
+                nodes.map(doc => (
                   <TeaserFeed
                     {...doc.meta}
                     kind={

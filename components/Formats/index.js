@@ -95,7 +95,7 @@ class Formats extends Component {
                     {t('formats/title/editorial')}
                   </Interaction.H2>
                   {editorialNodes.map(doc => (
-                    <TeaserFeed {...doc.meta} Link={Link} key={doc.meta.path} />
+                    <TeaserFeed {...doc.meta} publishDate={null} Link={Link} key={doc.meta.path} />
                   ))}
                 </Fragment>
               )}
@@ -105,7 +105,7 @@ class Formats extends Component {
                     {t('formats/title/meta')}
                   </Interaction.H2>
                   {metaNodes.map(doc => (
-                    <TeaserFeed {...doc.meta} Link={Link} key={doc.meta.path} />
+                    <TeaserFeed {...doc.meta} publishDate={null} Link={Link} key={doc.meta.path} />
                   ))}
                 </Fragment>
               )}

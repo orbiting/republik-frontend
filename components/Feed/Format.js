@@ -21,6 +21,11 @@ query getFeedDocuments($formatId: String!) {
         description
         publishDate
         path
+        format {
+          meta {
+            kind
+          }
+        }
       }
     }
   }

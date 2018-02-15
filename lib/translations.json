@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-09T13:17:34.042Z",
+  "updated": "2018-02-15T18:38:23.788Z",
   "title": "live",
   "data": [
     {
@@ -2313,6 +2313,18 @@
     {
       "key": "styleguide/video/dnt/player/vimeo",
       "value": "Vimeo"
+    },
+    {
+      "key": "styleguide/charts/confidence95-legend",
+      "value": "95-Prozent-Konfidenzintervall"
+    },
+    {
+      "key": "styleguide/charts/y-cut",
+      "value": "Achse gekürzt"
+    },
+    {
+      "key": "styleguide/charts/error",
+      "value": "Diese Visualisierung kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
     }
   ]
 }

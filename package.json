@@ -89,7 +89,7 @@
     "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^5.56.0",
+    "@project-r/styleguide": "^5.57.0",
     "apollo-cache-inmemory": "^1.1.4",
     "apollo-client": "^2.0.4",
     "apollo-fetch": "^0.7.0",
@@ -101,10 +101,12 @@
     "core-js": "^2.5.1",
     "d3-array": "^1.1.1",
     "d3-collection": "^1.0.4",
+    "d3-dsv": "^1.0.8",
     "d3-ease": "^1.0.3",
     "d3-format": "^1.2.0",
     "d3-hierarchy": "^1.1.5",
     "d3-interpolate": "^1.1.4",
+    "d3-scale": "^2.0.0",
     "d3-shape": "^1.2.0",
     "d3-time-format": "^2.1.1",
     "d3-timer": "^1.0.5",

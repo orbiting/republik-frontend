@@ -1,14 +1,24 @@
 import React from 'react'
 import {css} from 'glamor'
+import slugify from '../lib/utils/slugify'
 
 import {
   P, Interaction, A, Label, mediaQueries
 } from '@project-r/styleguide'
 
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from './constants'
+
 const portraitStyle = css({
-  marginBottom: 30,
+  '& ~ &': {
+    paddingTop: HEADER_HEIGHT_MOBILE + 10
+  },
   [mediaQueries.mUp]: {
-    marginBottom: 60
+    '& ~ &': {
+      paddingTop: HEADER_HEIGHT + 10
+    }
   },
   '& img': {
     maxWidth: '100%'
@@ -35,7 +45,7 @@ const portraitImageRightStyle = css({
 })
 
 const Portrait = ({odd, image, description, name, age, title, email}) => (
-  <div {...portraitStyle}>
+  <div {...portraitStyle} id={slugify(name)}>
     <Interaction.H3 style={{marginBottom: 0}}>
       {name},&nbsp;{age}
     </Interaction.H3>

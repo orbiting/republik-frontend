@@ -1,9 +1,8 @@
 import React from 'react'
 import {css} from 'glamor'
-import slugify from '../lib/utils/slugify'
 
 import {
-  P, Interaction, A, Label, mediaQueries
+  P, Interaction, A, Label, mediaQueries, slug
 } from '@project-r/styleguide'
 
 import {
@@ -51,7 +50,7 @@ const portraitImageRightStyle = css({
 
 const Portrait = ({odd, image, description, name, age, title, email}) => (
   <div {...portraitStyle}>
-    <a id={slugify(name)} {...anchorStyle} />
+    <a id={slug(name)} {...anchorStyle} />
     <Interaction.H3 style={{marginBottom: 0}}>
       {name},&nbsp;{age}
     </Interaction.H3>

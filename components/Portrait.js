@@ -12,16 +12,21 @@ import {
 } from './constants'
 
 const portraitStyle = css({
-  '& ~ &': {
-    paddingTop: HEADER_HEIGHT_MOBILE + 10
-  },
+  position: 'relative',
+  marginBottom: 30,
   [mediaQueries.mUp]: {
-    '& ~ &': {
-      paddingTop: HEADER_HEIGHT + 10
-    }
+    marginBottom: 60
   },
   '& img': {
     maxWidth: '100%'
+  }
+})
+
+const anchorStyle = css({
+  position: 'absolute',
+  top: -(HEADER_HEIGHT_MOBILE + 10),
+  [mediaQueries.mUp]: {
+    top: -(HEADER_HEIGHT + 10)
   }
 })
 
@@ -45,7 +50,8 @@ const portraitImageRightStyle = css({
 })
 
 const Portrait = ({odd, image, description, name, age, title, email}) => (
-  <div {...portraitStyle} id={slugify(name)}>
+  <div {...portraitStyle}>
+    <a id={slugify(name)} {...anchorStyle} />
     <Interaction.H3 style={{marginBottom: 0}}>
       {name},&nbsp;{age}
     </Interaction.H3>

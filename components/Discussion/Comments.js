@@ -668,6 +668,10 @@ export default compose(
             debug('subscribe:onError', args)
           },
           updateQuery: (previousResult, { subscriptionData }) => {
+            if (!subscriptionData.data) {
+              return previousResult
+            }
+
             const { node: comment, mutation } = subscriptionData.data.comment
             debug('subscribe:updateQuery', mutation, comment)
 

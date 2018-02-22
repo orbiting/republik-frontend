@@ -257,7 +257,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 }
 ${fragments.comment}
 `, {
-  props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, discussionDisplayAuthor}, mutate}) => ({
+  props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
     submitComment: (parent, content) => {
       if (!discussionDisplayAuthor) {
         return Promise.reject(t('submitComment/noDisplayAuthor'))
@@ -292,9 +292,17 @@ ${fragments.comment}
         },
         update: (proxy, {data: {submitComment}}) => {
           debug('submitComment', submitComment.id, submitComment)
+          const variables = {
+            discussionId,
+            parentId: ownParentId,
+            after: null,
+            orderBy,
+            depth,
+            focusId
+          }
           const data = proxy.readQuery({
             query: query,
-            variables: {discussionId, parentId: ownParentId, orderBy}
+            variables
           })
 
           const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
@@ -342,7 +350,7 @@ ${fragments.comment}
 
           proxy.writeQuery({
             query: query,
-            variables: {discussionId, parentId: ownParentId, orderBy},
+            variables,
             data: {
               ...data,
               discussion: {

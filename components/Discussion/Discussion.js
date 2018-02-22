@@ -37,7 +37,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId} = this.props
+    const {t, discussionId, focusId = null} = this.props
     const {orderBy, reload} = this.state
 
     const OrderBy = ({children, value}) => (
@@ -53,6 +53,8 @@ class Discussion extends PureComponent {
         <DiscussionCommentComposer
           discussionId={discussionId}
           orderBy={orderBy}
+          focusId={focusId}
+          depth={1}
           parentId={null}
         />
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-15T18:38:23.788Z",
+  "updated": "2018-02-23T16:51:19.467Z",
   "title": "live",
   "data": [
     {
@@ -197,6 +197,18 @@
     {
       "key": "memberships/sequenceNumber/suffix",
       "value": "#{sequenceNumber}"
+    },
+    {
+      "key": "marketing/cover/headline",
+      "value": "Unabhängiger Journalismus.<br />Werbefrei."
+    },
+    {
+      "key": "marketing/cover/button/label",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "marketing/cover/button/caption",
+      "value": "Abo und Mitgliedschaft für CHF 240 pro Jahr"
     },
     {
       "key": "marketing/headline",
@@ -1037,6 +1049,10 @@
     {
       "key": "header/title",
       "value": "Republik"
+    },
+    {
+      "key": "header/signin",
+      "value": "Anmelden"
     },
     {
       "key": "footer/contact/title",
@@ -2325,6 +2341,10 @@
     {
       "key": "styleguide/charts/error",
       "value": "Diese Visualisierung kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "styleguide/templates/unauthorizedZone",
+      "value": "Inhalt nur für Mitglieder."
     }
   ]
 }

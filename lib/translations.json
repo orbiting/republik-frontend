@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-23T16:51:19.467Z",
+  "updated": "2018-02-24T12:20:30.636Z",
   "title": "live",
   "data": [
     {
@@ -1757,6 +1757,10 @@
     {
       "key": "pledge/submit/payMethod/label",
       "value": "Wählen Sie eine Zahlungsart:"
+    },
+    {
+      "key": "noscript",
+      "value": "JavaScript ist deaktiviert. Formulare – u. a. die Anmeldung – und interaktive Elemente funktionieren nur wenn Sie JavaScript aktivieren. Anleitung um <a href=\"https://wiki.selfhtml.org/wiki/JavaScript/Tutorials/JavaScript_aktivieren\">JavaScript zu aktivieren auf selfhtml.org lesen</a>."
     },
     {
       "key": "pledge/submit/emailVerify/note",

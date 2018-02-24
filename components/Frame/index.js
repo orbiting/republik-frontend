@@ -1,8 +1,9 @@
 import React from 'react'
-import { Container, fontFamilies, mediaQueries } from '@project-r/styleguide'
+import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
+import Box from './Box'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -80,6 +81,14 @@ const Index = ({
         inline={headerInline}
         formatColor={formatColor}
       />
+      <noscript>
+        <Box style={{padding: 30}}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('noscript')
+            }} />
+        </Box>
+      </noscript>
       {raw ? (
         children
       ) : (

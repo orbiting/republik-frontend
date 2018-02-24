@@ -67,7 +67,10 @@ class NewsletterSubscriptions extends Component {
                 <p key={name}>
                   <Checkbox
                     checked={subscribed}
-                    disabled={!isEligible || mutating[name]}
+                    disabled={
+                      (!isEligible && !subscribed) ||
+                      mutating[name]
+                    }
                     onChange={(_, checked) => {
                       this.setState(state => ({
                         mutating: {

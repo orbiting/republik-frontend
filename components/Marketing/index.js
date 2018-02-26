@@ -10,7 +10,7 @@ import Cover from './Cover'
 import Offers from './Offers'
 import PreviewForm from './PreviewForm'
 
-import { STATS_POLL_INTERVAL_MS } from '../../lib/constants'
+import { CDN_FRONTEND_BASE_URL, STATS_POLL_INTERVAL_MS } from '../../lib/constants'
 
 import {
   Button,
@@ -128,7 +128,12 @@ const styles = {
 
 const MarketingPage = ({ me, t, crowdfundingName, data }) => (
   <Fragment>
-    <Cover image={{src: '/static/cover.jpg', srcMobile: '/static/cover_mobile.jpg'}}>
+    <Cover
+      image={{
+        src: `${CDN_FRONTEND_BASE_URL}/static/cover.jpg`,
+        srcMobile: `${CDN_FRONTEND_BASE_URL}/static/cover_mobile.jpg`
+      }}
+    >
       <div {...styles.cta}>
         <Interaction.H1 {...styles.coverHeadline}>
           <RawHtml

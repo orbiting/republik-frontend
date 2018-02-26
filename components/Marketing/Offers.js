@@ -45,41 +45,48 @@ const styles = {
 
 const List = ({ t, data }) => {
   return (
-    <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-      <Fragment>
-        <ul {...styles.offer}>
-          {data.crowdfunding.packages
-          .map(pkg => ({
-            key: pkg.name,
-            label: t(`package/${pkg.name}/title`),
-            params: {package: pkg.name}
-          }))
-          .concat([
-            {key: 'claim', label: t('marketing/offers/claim'), route: 'claim'}
-          ])
-          .sort((a, b) => ascending(OFFER_SORT[a.key], OFFER_SORT[b.key]))
-          .map(({key, label, route = 'pledge', params}) => (
-            <li key={key}>
-              <Link route={route} params={params}>
-                <a>
-                  {label}{' '}
-                  <span {...styles.icon}>
-                    <ChevronRightIcon size={30} />
-                  </span>
-                </a>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div {...styles.footer}>
-          <Link route='pledge' params={{package: 'ABO', userPrice: 1}}>
-            <Editorial.A>
-              {t('package/ABO/userPrice/teaser')}
-            </Editorial.A>
-          </Link>
-        </div>
-      </Fragment>
-    )} />
+    <Loader
+      error={data.error}
+      loading={data.loading}
+      style={{ minHeight: 200 }}
+      render={() => (
+        <Fragment>
+          <ul {...styles.offer}>
+            {data.crowdfunding.packages
+              .map(pkg => ({
+                key: pkg.name,
+                label: t(`package/${pkg.name}/title`),
+                params: { package: pkg.name }
+              }))
+              .concat([
+                {
+                  key: 'claim',
+                  label: t('marketing/offers/claim'),
+                  route: 'claim'
+                }
+              ])
+              .sort((a, b) => ascending(OFFER_SORT[a.key], OFFER_SORT[b.key]))
+              .map(({ key, label, route = 'pledge', params }) => (
+                <li key={key}>
+                  <Link route={route} params={params}>
+                    <a>
+                      {label}{' '}
+                      <span {...styles.icon}>
+                        <ChevronRightIcon size={30} />
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+          </ul>
+          <div {...styles.footer}>
+            <Link route='pledge' params={{ package: 'ABO', userPrice: 1 }}>
+              <Editorial.A>{t('package/ABO/userPrice/teaser')}</Editorial.A>
+            </Link>
+          </div>
+        </Fragment>
+      )}
+    />
   )
 }
 

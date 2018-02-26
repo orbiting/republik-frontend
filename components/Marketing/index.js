@@ -53,7 +53,7 @@ const styles = {
   intro: css({
     maxWidth: MAX_WIDTH,
     paddingTop: '30px',
-    paddingBottom: '35px',
+    paddingBottom: '30px',
     [mediaQueries.mUp]: {
       paddingBottom: '60px',
       paddingTop: '60px'
@@ -142,7 +142,7 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
             {t('marketing/cover/button/label')}
           </Button>
         </Link>
-        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0', fontWeight: 'normal'}}>
+        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0'}}>
           {t('marketing/cover/button/caption')}
         </Interaction.P>
       </div>

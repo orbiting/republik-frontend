@@ -11,6 +11,10 @@ module.exports = {
       }))
     }
 
+    config.externals = config.externals || {}
+    config.externals['lru-cache'] = 'lru-cache'
+    config.externals['react-dom/server'] = 'react-dom/server'
+
     const entryFactory = config.entry
     config.entry = () => (
       entryFactory()

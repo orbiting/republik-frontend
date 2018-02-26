@@ -14,6 +14,7 @@ import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import {
   colors,
@@ -70,7 +71,7 @@ const ActionBar = ({ title, discussionId, discussionPage, discussionPath, t, url
         title
       })}
     />
-    {discussionId &&
+    {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
     }
   </div>
@@ -320,10 +321,12 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               {!isFormat && <PayNote.Before />}
-              {renderMdast({
-                ...article.content,
-                format: meta.format
-              }, schema)}
+              <SSRCachingBoundary cacheKey={article.id}>
+                {() => renderMdast({
+                  ...article.content,
+                  format: meta.format
+                }, schema)}
+              </SSRCachingBoundary>
               {meta.template === 'article' && <Center>
                 <div ref={this.bottomBarRef} {...styles.bar}>
                   {actionBar}

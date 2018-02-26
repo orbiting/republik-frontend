@@ -6,6 +6,7 @@ import { countFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
+import Cover from './Cover'
 import Offers from './Offers'
 import PreviewForm from './PreviewForm'
 
@@ -34,27 +35,28 @@ const styles = {
     }
   }),
   cta: css({
-    marginBottom: 44,
     '& > button': {
       display: 'block',
-      marginBottom: 20,
-      width: '100%'
-    },
-    [mediaQueries.mUp]: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginBottom: 90,
-      '& > button': {
-        width: '49%'
+      margin: '20px auto 10px auto',
+      maxWidth: '410px',
+      width: '100%',
+      [mediaQueries.mUp]: {
+        margin: '30px auto 15px auto',
+        maxWidth: '460px'
       }
+    },
+    marginBottom: 30,
+    [mediaQueries.mUp]: {
+      marginBottom: 60
     }
   }),
   intro: css({
     maxWidth: MAX_WIDTH,
-    paddingTop: '20px',
+    paddingTop: '30px',
     paddingBottom: '35px',
     [mediaQueries.mUp]: {
-      paddingBottom: '70px'
+      paddingBottom: '60px',
+      paddingTop: '60px'
     }
   }),
   text: css({
@@ -77,10 +79,8 @@ const styles = {
     backgroundColor: colors.primaryBg,
     textAlign: 'center',
     padding: '18px 0',
-    marginBottom: '30px',
     [mediaQueries.mUp]: {
-      padding: '30px 0',
-      marginBottom: '60px'
+      padding: '30px 0'
     }
   }),
   join: css({
@@ -116,11 +116,37 @@ const styles = {
     [mediaQueries.mUp]: {
       width: '410px'
     }
+  }),
+  coverHeadline: css({
+    color: '#fff',
+    fontSize: '25px',
+    lineHeight: '35px',
+    [mediaQueries.mUp]: { fontSize: '36px', lineHeight: '48px' },
+    [mediaQueries.lUp]: { fontSize: '54px', lineHeight: '68px' }
   })
 }
 
 const MarketingPage = ({ me, t, crowdfundingName, data }) => (
   <Fragment>
+    <Cover image={{src: '/static/cover.jpg', srcMobile: '/static/cover_mobile.jpg'}}>
+      <div {...styles.cta}>
+        <Interaction.H1 {...styles.coverHeadline}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/cover/headline')
+            }}
+          />
+        </Interaction.H1>
+        <Link route='pledge' params={{package: 'ABO'}}>
+          <Button primary>
+            {t('marketing/cover/button/label')}
+          </Button>
+        </Link>
+        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0', fontWeight: 'normal'}}>
+          {t('marketing/cover/button/caption')}
+        </Interaction.P>
+      </div>
+    </Cover>
     <div {...styles.container}>
       {me && (
         <div {...styles.noMember}>
@@ -138,21 +164,6 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
         </div>
       )}
       <Container {...styles.intro} key='intro'>
-        {!me && (
-        <div {...styles.cta}>
-          <Link route='signin'>
-            <Button>{t('marketing/signin/button/label')}</Button>
-          </Link>
-          <Link route='pledge' params={{package: 'ABO'}}>
-            <Button primary>
-              {t('marketing/join/button/label')}
-            </Button>
-          </Link>
-        </div>
-      )}
-        <Interaction.H1 {...css(styles.headline, { marginBottom: '30px', textAlign: 'center' })}>
-          {t('marketing/headline')}
-        </Interaction.H1>
         <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
           <P {...styles.text}>
             <RawHtml
@@ -163,24 +174,6 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
           </P>
       )} />
       </Container>
-      <div {...styles.join} key='join'>
-        <Container style={{ maxWidth: MAX_WIDTH }}>
-          <Interaction.P {...css(styles.headline, { marginBottom: '10px' })}>
-            {t('marketing/cta/title')}
-          </Interaction.P>
-          <Interaction.H1 {...css(styles.headline, { color: colors.primary })}>
-            {t('marketing/cta/subtitle')}
-          </Interaction.H1>
-          <Interaction.P {...css(styles.text, styles.joinText)}>
-            {t('marketing/cta/text')}
-          </Interaction.P>
-          <Link route='pledge' params={{package: 'ABO'}}>
-            <Button primary block>
-              {t('marketing/cta/button/label')}
-            </Button>
-          </Link>
-        </Container>
-      </div>
       <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
         <div {...styles.more}>
           <div {...styles.preview}>

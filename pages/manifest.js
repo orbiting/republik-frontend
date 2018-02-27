@@ -138,6 +138,7 @@ ${PUBLIC_BASE_URL}
         </P>
 
         <PureFooter url={url} />
+        <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
       </div>
     </NarrowContainer>
   )

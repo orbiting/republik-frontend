@@ -93,6 +93,7 @@ export default ({url}) => {
           </div>
         </div>
       </NarrowContainer>
+      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 }

@@ -64,11 +64,10 @@ export default class MyDocument extends Document {
           <meta name='referrer' content='no-referrer' />
         </Head>
         <body>
+          <script dangerouslySetInnerHTML={{__html: `var _paq = _paq || [];`}} />
           <Main />
           <NextScript />
           {piwik && <script dangerouslySetInnerHTML={{__html: `
-            var _paq = _paq || [];
-            _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
             (function() {
               _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);

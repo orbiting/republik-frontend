@@ -132,17 +132,30 @@ const styles = {
   })
 }
 
+const trackRoles = me =>
+  track([
+    'setCustomDimension',
+    1,
+    me
+      ? [].concat(me.roles).sort().join(' ') || 'none'
+      : 'guest'
+  ])
+
 class Footer extends Component {
   componentDidMount () {
     const { me } = this.props
-    track(['setUserId', me ? me.email : false])
+    trackRoles(me)
+    track(['trackPageView'])
   }
   componentWillReceiveProps ({ me }) {
     if (
       me !== this.props.me &&
-      !(me && this.props.me && me.email === this.props.me.email)
+      ((!me || !this.props.me) || me.email !== this.props.me.email)
     ) {
-      track(['setUserId', me ? me.email : false])
+      // start new visit with potentially different roles
+      track(['appendToTrackingUrl', 'new_visit=1'])
+      track(['deleteCookies'])
+      trackRoles(me)
     }
   }
   render () {

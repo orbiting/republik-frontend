@@ -107,6 +107,7 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
           )}
         </div>
       </NarrowContainer>
+      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 })

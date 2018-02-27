@@ -8,6 +8,7 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -20,6 +21,7 @@ const schema = createFrontSchema({
 const getDocument = gql`
   query getFront($path: String!) {
     front: document(path: $path) {
+      id
       content
       meta {
         path
@@ -53,7 +55,9 @@ class Front extends Component {
         meta={meta}
       >
         <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-          return renderMdast(front.content, schema)
+          return <SSRCachingBoundary cacheKey={front.id}>
+            {() => renderMdast(front.content, schema)}
+          </SSRCachingBoundary>
         }} />
       </Frame>
     )

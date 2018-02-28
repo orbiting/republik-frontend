@@ -80,10 +80,10 @@ const styles = {
     display: 'inline-block',
     marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
-    width: HEADER_HEIGHT_MOBILE - 2,
+    width: HEADER_HEIGHT_MOBILE - 2 + 5,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
-      width: HEADER_HEIGHT - 2
+      width: HEADER_HEIGHT - 2 + 5
     }
   }),
   secondary: css({

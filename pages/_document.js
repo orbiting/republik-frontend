@@ -7,13 +7,14 @@ import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces } from '@project-r/styleguide'
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage }) {
+  static async getInitialProps ({ renderPage, pathname }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
     return {
       ...page,
       ...styles,
-      env: require('../lib/constants')
+      env: require('../lib/constants'),
+      shouldTrackPiwik: pathname !== '/notifications'
     }
   }
   constructor (props) {
@@ -26,8 +27,9 @@ export default class MyDocument extends Document {
   render () {
     const { css, env: {
       PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
-    } } = this.props
+    }, shouldTrackPiwik } = this.props
     const piwik = (
+      shouldTrackPiwik &&
       !!PIWIK_URL_BASE &&
       !!PIWIK_SITE_ID
     )

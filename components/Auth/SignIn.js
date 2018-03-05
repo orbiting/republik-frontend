@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import {css} from 'glamor'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
-import {validate as isEmail} from 'email-validator'
+import {validate as isEmail} from 'isemail'
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
 

@@ -8,7 +8,7 @@ import ErrorMessage from '../ErrorMessage'
 import FieldSet from '../FieldSet'
 import Loader from '../Loader'
 import Poller from '../Auth/Poller'
-import { validate as isEmail } from 'email-validator'
+import { validate as isEmail } from 'isemail'
 import { Button, Field, Interaction, RawHtml } from '@project-r/styleguide'
 
 class PreviewForm extends Component {

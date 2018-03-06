@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {validate as isEmail} from 'isemail'
+import isEmail from 'validator/lib/isEmail'
 
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'

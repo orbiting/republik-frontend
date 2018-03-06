@@ -11,7 +11,7 @@ import { gotoMerci } from '../../Pledge/Merci'
 import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
-import { validate as isEmail } from 'isemail'
+import isEmail from 'validator/lib/isEmail'
 
 import Poller from '../../Auth/Poller'
 import FieldSet from '../../FieldSet'

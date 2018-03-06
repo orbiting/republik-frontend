@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import FieldSet from '../FieldSet'
 import SignIn from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
-import { validate as isEmail } from 'isemail'
+import isEmail from 'validator/lib/isEmail'
 
 import {
   Interaction,

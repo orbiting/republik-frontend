@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import {validate as isEmail} from 'isemail'
+import isEmail from 'validator/lib/isEmail'
 import AutosizeInput from 'react-textarea-autosize'
 
 import { Link } from '../../lib/routes'

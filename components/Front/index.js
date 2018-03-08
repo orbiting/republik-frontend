@@ -8,7 +8,6 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
-// import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 

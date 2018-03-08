@@ -29,6 +29,7 @@ import { renderMdast } from 'mdast-react-render'
 
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
 import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
+import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 
@@ -37,6 +38,7 @@ const schemaCreators = {
   meta: createArticleSchema,
   article: createArticleSchema,
   format: createFormatSchema,
+  dossier: createDossierSchema,
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema
 }
@@ -61,12 +63,12 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
-      // dossierUrl={'/foo'}
+      dossierUrl={dossierUrl}
       emailSubject={t('article/share/emailSubject', {
         title
       })}
@@ -108,6 +110,12 @@ const getDocument = gql`
             title
             color
             kind
+          }
+        }
+        dossier {
+          meta {
+            title
+            path
           }
         }
         series {
@@ -226,7 +234,8 @@ class ArticlePage extends Component {
         title={meta.title}
         discussionPage={!!meta.discussionId}
         discussionId={linkedDiscussionId}
-        discussionPath={discussion && discussion.meta.path} />
+        discussionPath={discussion && discussion.meta.path}
+        dossierUrl={meta.dossier && meta.dossier.meta.path} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({

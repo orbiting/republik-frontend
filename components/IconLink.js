@@ -6,6 +6,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+import AudioIcon from 'react-icons/lib/md/volume-up'
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
@@ -54,6 +55,7 @@ export const styles = {
 }
 
 const ICONS = {
+  audio: AudioIcon,
   discussion: DiscussionIcon,
   download: DownloadIcon,
   facebook: FacebookIcon,
@@ -75,7 +77,8 @@ const IconLink = ({
   size = DEFAULT_SIZE,
   mobileOnly,
   style,
-  title
+  title,
+  onClick
 }) => {
   const Icon = ICONS[icon]
 
@@ -84,6 +87,7 @@ const IconLink = ({
       {...styles.link}
       {...(mobileOnly ? styles.mobileOnly : {})}
       href={href}
+      onClick={onClick}
       style={style}
       target={target}
       rel={target === '_blank' ? 'noopener' : ''}

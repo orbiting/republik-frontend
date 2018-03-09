@@ -63,7 +63,9 @@ const Index = ({
   secondaryNav,
   showSecondary,
   headerInline,
-  formatColor
+  formatColor,
+  audioSource,
+  audioCloseHandler
 }) => (
   <div {...styles.container}>
     <div
@@ -80,6 +82,8 @@ const Index = ({
         showSecondary={showSecondary}
         inline={headerInline}
         formatColor={formatColor}
+        audioSource={audioSource}
+        audioCloseHandler={audioCloseHandler}
       />
       <noscript>
         <Box style={{padding: 30}}>

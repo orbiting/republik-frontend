@@ -1,0 +1,98 @@
+Searching 376 files for "email-validator"
+
+/Users/daniel/work/backends/servers/republik/modules/crowdfundings/graphql/resolvers/_mutations/updateEmail.js:
+    1: const isEmail = require('email-validator').validate
+    2  const { Roles, ensureSignedIn } = require('@orbiting/backend-modules-auth')
+    3  const updateUserEmail = require('../../../lib/updateUserEmail')
+
+1 match in 1 file
+
+
+Searching 31 files for "piwik"
+
+/Users/daniel/work/republik-frontend/pages/_document.js:
+   26    render () {
+   27      const { css, env: {
+   28:       PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
+   29      } } = this.props
+   30:     const piwik = (
+   31:       !!PIWIK_URL_BASE &&
+   32:       !!PIWIK_SITE_ID
+   33      )
+   34      return (
+   ..
+   68            <Main />
+   69            <NextScript />
+   70:           {piwik && <script dangerouslySetInnerHTML={{__html: `
+   71              _paq.push(['enableLinkTracking']);
+   72              (function() {
+   73:               _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);
+   74:               _paq.push(['setSiteId', '${PIWIK_SITE_ID}']);
+   75                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+   76:               g.type='text/javascript'; g.async=true; g.defer=true; g.src='${PIWIK_URL_BASE}/piwik.js'; s.parentNode.insertBefore(g,s);
+   77              })();`}} />}
+   78:           {piwik && <noscript>
+   79:             <img src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`} style={{border: 0}} alt='' />
+   80            </noscript>}
+   81          </body>
+
+/Users/daniel/work/republik-frontend/pages/en.js:
+    7  import PureFooter, {SPACE} from '../components/Frame/PureFooter'
+    8  
+    9: import track from '../lib/piwik'
+   10  
+   11  import {
+
+16 matches across 2 files
+
+
+Searching 115 files for "'isemail'"
+
+/Users/daniel/work/republik-frontend/components/Account/Memberships/Claim.js:
+   12  import withT from '../../../lib/withT'
+   13  import withMe, { meQuery } from '../../../lib/apollo/withMe'
+   14: import { validate as isEmail } from 'isemail'
+   15  
+   16  import Poller from '../../Auth/Poller'
+
+/Users/daniel/work/republik-frontend/components/Account/UpdateEmail.js:
+    2  import { graphql, compose } from 'react-apollo'
+    3  import gql from 'graphql-tag'
+    4: import {validate as isEmail} from 'isemail'
+    5  
+    6  import { errorToString } from '../../lib/utils/errors'
+
+/Users/daniel/work/republik-frontend/components/Auth/SignIn.js:
+    6  import { Router } from '../../lib/routes'
+    7  import withT from '../../lib/withT'
+    8: import {validate as isEmail} from 'isemail'
+    9  import ErrorMessage from '../ErrorMessage'
+   10  import RawHtmlElements from '../RawHtmlElements'
+
+/Users/daniel/work/republik-frontend/components/Faq/Form.js:
+    2  import { compose, graphql } from 'react-apollo'
+    3  import gql from 'graphql-tag'
+    4: import {validate as isEmail} from 'isemail'
+    5  import AutosizeInput from 'react-textarea-autosize'
+    6  
+
+/Users/daniel/work/republik-frontend/components/Marketing/PreviewForm.js:
+    9  import Loader from '../Loader'
+   10  import Poller from '../Auth/Poller'
+   11: import { validate as isEmail } from 'isemail'
+   12  import { Button, Field, Interaction, RawHtml } from '@project-r/styleguide'
+   13  
+
+/Users/daniel/work/republik-frontend/components/Pledge/Form.js:
+   11  import SignIn from '../Auth/SignIn'
+   12  import { withSignOut } from '../Auth/SignOut'
+   13: import { validate as isEmail } from 'isemail'
+   14  
+   15  import {
+
+6 matches across 6 files
+
+
+Searching 115 files for "'isemail'"
+
+0 matches

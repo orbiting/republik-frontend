@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-26T11:57:07.299Z",
+  "updated": "2018-03-08T10:59:25.666Z",
   "title": "live",
   "data": [
     {
@@ -1207,6 +1207,34 @@
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
     },
     {
+      "key": "styleguide/AudioPlayer/play",
+      "value": "Anhören"
+    },
+    {
+      "key": "styleguide/AudioPlayer/pause",
+      "value": "Anhalten"
+    },
+    {
+      "key": "styleguide/AudioPlayer/download",
+      "value": "Herunterladen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/close",
+      "value": "Audioplayer schliessen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/loading",
+      "value": "Wird geladen …"
+    },
+    {
+      "key": "styleguide/AudioPlayer/sourceError",
+      "value": "Audio konnte nicht geladen werden."
+    },
+    {
+      "key": "styleguide/AudioPlayer/sourceErrorTryAgain",
+      "value": "Nochmal versuchen"
+    },
+    {
       "key": "styleguide/CommentComposer/placeholder",
       "value": "Einen Beitrag verfassen…"
     },
@@ -1933,6 +1961,34 @@
     {
       "key": "article/share/emailSubject",
       "value": "Republik: {title}"
+    },
+    {
+      "key": "article/actionbar/facebook",
+      "value": "Auf Facebook teilen"
+    },
+    {
+      "key": "article/actionbar/twitter",
+      "value": "Auf Twitter teilen"
+    },
+    {
+      "key": "article/actionbar/whatsapp",
+      "value": "Auf WhatsApp teilen"
+    },
+    {
+      "key": "article/actionbar/email",
+      "value": "Per E-Mail verschicken"
+    },
+    {
+      "key": "article/actionbar/dossier",
+      "value": "Zum Dossier"
+    },
+    {
+      "key": "article/actionbar/download",
+      "value": "Herunterladen"
+    },
+    {
+      "key": "article/actionbar/audio",
+      "value": "Artikel anhören"
     },
     {
       "key": "article/series/episode",

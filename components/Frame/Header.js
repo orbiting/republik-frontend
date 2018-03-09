@@ -3,9 +3,10 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withMe from '../../lib/apollo/withMe'
+import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
 
-import { Logo, colors, mediaQueries } from '@project-r/styleguide'
+import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 
 import Toggle from './Toggle'
 import User from './User'
@@ -167,6 +168,7 @@ class Header extends Component {
   render () {
     const {
       url,
+      t,
       me,
       cover,
       secondaryNav,
@@ -174,7 +176,9 @@ class Header extends Component {
       inline,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
-      formatColor
+      formatColor,
+      audioSource,
+      audioCloseHandler
     } = this.props
     const { expanded, sticky } = this.state
 
@@ -262,6 +266,20 @@ class Header extends Component {
               />
             </div>
           )}
+          {audioSource && (
+            <AudioPlayer
+              src={audioSource}
+              closeHandler={() => { audioCloseHandler && audioCloseHandler() }}
+              autoPlay
+              download
+              scrubberPosition='bottom'
+              timePosition='left'
+              t={t}
+              style={{backgroundColor: '#fff', position: 'absolute', width: '100%', bottom: 0}}
+              controlsPadding={this.state.mobile ? 10 : 20}
+              height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
+            />
+          )}
           <Popover expanded={!!expand}>
             <NavPopover me={me} url={url} closeHandler={this.close} />
           </Popover>
@@ -274,4 +292,4 @@ class Header extends Component {
   }
 }
 
-export default compose(withMe)(Header)
+export default compose(withMe, withT)(Header)

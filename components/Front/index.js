@@ -8,7 +8,7 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
-import SSRCachingBoundary from '../SSRCachingBoundary'
+import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -55,7 +55,7 @@ class Front extends Component {
         meta={meta}
       >
         <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-          return <SSRCachingBoundary cacheKey={front.id}>
+          return <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, front.id)}>
             {() => renderMdast(front.content, schema)}
           </SSRCachingBoundary>
         }} />

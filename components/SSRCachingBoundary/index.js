@@ -19,6 +19,12 @@ if (!process.browser) {
   }
 }
 
+export const webpCacheKey = (headers = {}, baseKey) => {
+  return headers.accept && headers.accept.indexOf('image/webp') !== -1
+  ? `${baseKey}webp`
+  : baseKey
+}
+
 const SSRCachingBoundary = ({cacheKey, children}) => getHtml
   ? <div dangerouslySetInnerHTML={{
     __html: getHtml(cacheKey, children)

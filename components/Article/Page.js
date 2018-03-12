@@ -14,7 +14,7 @@ import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
-import SSRCachingBoundary from '../SSRCachingBoundary'
+import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
 
 import {
   colors,
@@ -330,7 +330,7 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               {!isFormat && <PayNote.Before />}
-              <SSRCachingBoundary cacheKey={article.id}>
+              <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
                 {() => renderMdast({
                   ...article.content,
                   format: meta.format

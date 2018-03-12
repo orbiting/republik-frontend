@@ -198,6 +198,7 @@ class Header extends Component {
     // The logo acts as a toggle between front and feed page when user's logged in.
     const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
     const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
+    const logoAriaLabel = logoRoute === 'feed' ? t('header/logo/feed/aria') : t('header/logo/magazine/aria')
 
     return (
       <div ref={this.setRef}>
@@ -212,6 +213,7 @@ class Header extends Component {
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
+                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
                 onclickHandler={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -226,6 +228,7 @@ class Header extends Component {
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
+                aria-label={logoAriaLabel}
                 href={logoLinkPath}
                 onClick={e => {
                   if (
@@ -255,6 +258,7 @@ class Header extends Component {
               <Toggle
                 expanded={!!expand}
                 id='primary-menu'
+                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
                 onClick={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)

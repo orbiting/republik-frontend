@@ -97,7 +97,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
 const Nav = ({ me, url, closeHandler, children, t }) => {
   const active = matchPath(url.asPath)
   return (
-    <div {...styles.container}>
+    <div {...styles.container} id='nav'>
       <div {...styles.section}>
         {me && (
           <div>

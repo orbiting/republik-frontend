@@ -1,5 +1,5 @@
 {
-  "updated": "2018-03-08T10:59:25.666Z",
+  "updated": "2018-03-12T15:38:46.618Z",
   "title": "live",
   "data": [
     {
@@ -1055,6 +1055,22 @@
       "value": "Anmelden"
     },
     {
+      "key": "header/nav/open/aria",
+      "value": "Navigation öffnen"
+    },
+    {
+      "key": "header/nav/close/aria",
+      "value": "Navigation schliessen"
+    },
+    {
+      "key": "header/logo/feed/aria",
+      "value": "Republik – Feed"
+    },
+    {
+      "key": "header/logo/magazine/aria",
+      "value": "Republik – Magazin"
+    },
+    {
       "key": "footer/contact/title",
       "value": "Kontakt"
     },
@@ -1964,19 +1980,19 @@
     },
     {
       "key": "article/actionbar/facebook",
-      "value": "Auf Facebook teilen"
+      "value": "Artikel auf Facebook teilen"
     },
     {
       "key": "article/actionbar/twitter",
-      "value": "Auf Twitter teilen"
+      "value": "Artikel auf Twitter teilen"
     },
     {
       "key": "article/actionbar/whatsapp",
-      "value": "Auf WhatsApp teilen"
+      "value": "Artikel auf WhatsApp teilen"
     },
     {
       "key": "article/actionbar/email",
-      "value": "Per E-Mail verschicken"
+      "value": "Artikel per E-Mail verschicken"
     },
     {
       "key": "article/actionbar/dossier",

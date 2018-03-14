@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
 import IconLink from './IconLink'
+import withT from '../lib/withT'
 
 import { colors } from '@project-r/styleguide'
 
@@ -15,6 +16,7 @@ const styles = {
 }
 
 const ShareButtons = ({
+  t,
   url,
   tweet,
   emailSubject,
@@ -24,7 +26,8 @@ const ShareButtons = ({
   dossierUrl,
   discussionUrl,
   discussionCount,
-  fill
+  fill,
+  onAudioClick
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
@@ -33,14 +36,16 @@ const ShareButtons = ({
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
       )}`,
-      icon: 'facebook'
+      icon: 'facebook',
+      title: t('article/actionbar/facebook')
     },
     {
       target: '_blank',
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         tweet
       )}&url=${encodeURIComponent(url)}`,
-      icon: 'twitter'
+      icon: 'twitter',
+      title: t('article/actionbar/twitter')
     },
     {
       mobileOnly: true,
@@ -48,23 +53,36 @@ const ShareButtons = ({
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(
         url
       )}`,
-      icon: 'whatsapp'
+      icon: 'whatsapp',
+      title: t('article/actionbar/whatsapp')
     },
     {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
-      icon: 'mail'
+      icon: 'mail',
+      title: t('article/actionbar/email')
     },
     dossierUrl && {
       href: dossierUrl,
-      icon: 'dossier'
+      icon: 'dossier',
+      title: t('article/actionbar/dossier')
     },
     download && {
       target: '_blank',
       download: true,
       href: download,
-      icon: 'download'
+      icon: 'download',
+      title: t('article/actionbar/download')
+    },
+    onAudioClick && {
+      icon: 'audio',
+      href: '#audio',
+      onClick: e => {
+        e.preventDefault()
+        onAudioClick && onAudioClick()
+      },
+      title: t('article/actionbar/audio')
     }
   ]
 
@@ -93,4 +111,4 @@ ShareButtons.defaultProps = {
   emailAttachUrl: true
 }
 
-export default ShareButtons
+export default withT(ShareButtons)

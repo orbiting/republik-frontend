@@ -60,10 +60,12 @@ const styles = {
   })
 }
 
-const User = ({ t, url, me, onclickHandler }) => (
+const User = ({ t, url, me, onclickHandler, title }) => (
   <div {...styles.user}>
     <a
       {...styles.button}
+      role='button'
+      title={title}
       href='/'
       onClick={e => {
         e.preventDefault()

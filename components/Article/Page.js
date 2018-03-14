@@ -63,7 +63,7 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, t, url }) => (
   <div>
     <ShareButtons
       url={url}
@@ -72,6 +72,7 @@ const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossie
       emailSubject={t('article/share/emailSubject', {
         title
       })}
+      onAudioClick={onAudioClick}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
@@ -135,6 +136,11 @@ const getDocument = gql`
             }
           }
         }
+        audioSource {
+          mp3
+          aac
+          ogg
+        }
       }
     }
   }
@@ -152,10 +158,17 @@ class ArticlePage extends Component {
       this.bottomBar = ref
     }
 
+    this.toggleAudio = () => {
+      this.setState({
+        showAudioPlayer: !this.state.showAudioPlayer
+      })
+    }
+
     this.state = {
       primaryNavExpanded: false,
       secondaryNavExpanded: false,
       showSecondary: false,
+      showAudioPlayer: false,
       ...this.deriveStateFromProps(props)
     }
 
@@ -235,7 +248,8 @@ class ArticlePage extends Component {
         discussionPage={!!meta.discussionId}
         discussionId={linkedDiscussionId}
         discussionPath={discussion && discussion.meta.path}
-        dossierUrl={meta.dossier && meta.dossier.meta.path} />
+        dossierUrl={meta.dossier && meta.dossier.meta.path}
+        onAudioClick={meta.audioSource && this.toggleAudio.bind(this)} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -284,7 +298,7 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article} } = this.props
 
-    const { meta, actionBar, schema } = this.state
+    const { meta, actionBar, schema, showAudioPlayer } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -306,6 +320,8 @@ class ArticlePage extends Component {
     )
     const formatColor = formatMeta && formatMeta.color
 
+    const audioSource = showAudioPlayer ? meta && meta.audioSource : null
+
     return (
       <Frame
         raw
@@ -316,6 +332,8 @@ class ArticlePage extends Component {
         secondaryNav={seriesNavButton || actionBar}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
+        audioSource={audioSource}
+        audioCloseHandler={this.toggleAudio.bind(this)}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

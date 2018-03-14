@@ -1,5 +1,5 @@
 {
-  "updated": "2018-02-26T11:57:07.299Z",
+  "updated": "2018-03-12T16:55:56.511Z",
   "title": "live",
   "data": [
     {
@@ -1055,6 +1055,22 @@
       "value": "Anmelden"
     },
     {
+      "key": "header/nav/open/aria",
+      "value": "Navigation öffnen"
+    },
+    {
+      "key": "header/nav/close/aria",
+      "value": "Navigation schliessen"
+    },
+    {
+      "key": "header/logo/feed/aria",
+      "value": "Republik – Feed"
+    },
+    {
+      "key": "header/logo/magazine/aria",
+      "value": "Republik – Magazin"
+    },
+    {
       "key": "footer/contact/title",
       "value": "Kontakt"
     },
@@ -1205,6 +1221,38 @@
     {
       "key": "discussion/focus/missing",
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
+    },
+    {
+      "key": "styleguide/AudioPlayer/aria",
+      "value": "Audio-Player"
+    },
+    {
+      "key": "styleguide/AudioPlayer/play",
+      "value": "Anhören"
+    },
+    {
+      "key": "styleguide/AudioPlayer/pause",
+      "value": "Anhalten"
+    },
+    {
+      "key": "styleguide/AudioPlayer/download",
+      "value": "Herunterladen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/close",
+      "value": "Audioplayer schliessen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/loading",
+      "value": "Wird geladen …"
+    },
+    {
+      "key": "styleguide/AudioPlayer/sourceError",
+      "value": "Audio konnte nicht geladen werden."
+    },
+    {
+      "key": "styleguide/AudioPlayer/sourceErrorTryAgain",
+      "value": "Nochmal versuchen"
     },
     {
       "key": "styleguide/CommentComposer/placeholder",
@@ -1933,6 +1981,34 @@
     {
       "key": "article/share/emailSubject",
       "value": "Republik: {title}"
+    },
+    {
+      "key": "article/actionbar/facebook",
+      "value": "Artikel auf Facebook teilen"
+    },
+    {
+      "key": "article/actionbar/twitter",
+      "value": "Artikel auf Twitter teilen"
+    },
+    {
+      "key": "article/actionbar/whatsapp",
+      "value": "Artikel auf WhatsApp teilen"
+    },
+    {
+      "key": "article/actionbar/email",
+      "value": "Artikel per E-Mail verschicken"
+    },
+    {
+      "key": "article/actionbar/dossier",
+      "value": "Zum Dossier"
+    },
+    {
+      "key": "article/actionbar/download",
+      "value": "Herunterladen"
+    },
+    {
+      "key": "article/actionbar/audio",
+      "value": "Artikel anhören"
     },
     {
       "key": "article/series/episode",

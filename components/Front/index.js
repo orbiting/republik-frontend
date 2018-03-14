@@ -8,7 +8,6 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
-import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -54,11 +53,12 @@ class Front extends Component {
         url={url}
         meta={meta}
       >
-        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-          return <SSRCachingBoundary cacheKey={front.id}>
-            {() => renderMdast(front.content, schema)}
-          </SSRCachingBoundary>
-        }} />
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          message={t('pages/magazine/title')}
+          render={() => renderMdast(front.content, schema)}
+          />
       </Frame>
     )
   }

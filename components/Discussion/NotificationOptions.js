@@ -113,7 +113,7 @@ class NotificationOptions extends PureComponent {
     } = this.props
     const { userPreference } = discussion
 
-    // Preserve existing user prefences.
+    // Preserve existing user preferences.
     const anonymity = userPreference ? userPreference.anonymity : false
     const credential = userPreference ? userPreference.credential.description : null
 

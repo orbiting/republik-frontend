@@ -5,7 +5,6 @@ import { css } from 'glamor'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import {
-  isClient,
   isNotificationSupported,
   getNotificationPermission
 } from '../../lib/utils/notification'
@@ -86,7 +85,7 @@ class NotificationOptions extends Component {
     const { t, me, loading, error, updateNotificationSettings } = this.props
 
     const notificationPermission = getNotificationPermission()
-    const unsupportedClient = isClient() && !isNotificationSupported()
+    const unsupportedClient = process.browser && !isNotificationSupported()
 
     return (
       <Loader

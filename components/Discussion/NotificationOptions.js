@@ -105,6 +105,34 @@ class NotificationOptions extends PureComponent {
     })
   }
 
+  componentWillMount () {
+    const {
+      data: {discussion},
+      setDiscussionPreferences,
+      mute
+    } = this.props
+    const { userPreference } = discussion
+
+    // Preserve existing user prefences.
+    const anonymity = userPreference ? userPreference.anonymity : false
+    const credential = userPreference ? userPreference.credential.description : null
+
+    // Mute notifications for this discussion if requested.
+    if (mute && (!userPreference || userPreference.notifications !== 'NONE')) {
+      this.setState(state => ({
+        mutating: true
+      }))
+      const finish = () => {
+        this.setState(state => ({
+          mutating: false
+        }))
+      }
+      setDiscussionPreferences(anonymity, credential, 'NONE').then(
+        finish
+      )
+    }
+  }
+
   componentWillUnmount () {
     this.unsubscribe && this.unsubscribe()
   }
@@ -199,7 +227,8 @@ NotificationOptions.propTypes = {
   t: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   setDiscussionPreferences: PropTypes.func.isRequired,
-  updateNotificationSettings: PropTypes.func.isRequired
+  updateNotificationSettings: PropTypes.func.isRequired,
+  mute: PropTypes.bool
 }
 
 export default compose(

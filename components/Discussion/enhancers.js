@@ -10,6 +10,17 @@ import { DISCUSSION_POLL_INTERVAL_MS } from '../../lib/constants'
 
 const debug = mkDebug('discussion')
 
+export const DISCUSSION_NOTIFICATION_CHANNELS = [
+  'EMAIL',
+  'WEB'
+]
+
+export const DISCUSSION_NOTIFICATION_OPTIONS = [
+  'MY_CHILDREN',
+  'ALL',
+  'NONE'
+]
+
 // Convert the Error object into a string, but keep the Promise rejected.
 const toRejectedString = e => Promise.reject(errorToString(e))
 
@@ -104,6 +115,16 @@ export const fragments = {
     }
   `
 }
+
+export const webNotificationSubscription = gql`
+subscription {
+  webNotification {
+    title
+    body
+    icon
+  }
+}
+`
 
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
@@ -380,6 +401,8 @@ query discussionPreferences($discussionId: ID!) {
       verified
       isListed
     }
+    defaultDiscussionNotificationOption
+    discussionNotificationChannels
   }
   discussion(id: $discussionId) {
     id
@@ -394,6 +417,7 @@ query discussionPreferences($discussionId: ID!) {
         description
         verified
       }
+      notifications
     }
   }
 }
@@ -410,6 +434,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
         description
         verified
       }
+      notifications
     }
     displayAuthor {
       id
@@ -425,13 +450,14 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
 }
 `, {
   props: ({ownProps: {discussionId}, mutate}) => ({
-    setDiscussionPreferences: (anonymity, credential) => {
+    setDiscussionPreferences: (anonymity, credential, notifications) => {
       return mutate({
         variables: {
           discussionId,
           discussionPreferences: {
             anonymity,
-            credential
+            credential,
+            notifications
           }
         },
         update: (proxy, {data: {setDiscussionPreferences}}) => {
@@ -453,6 +479,32 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
         }
       }).catch(toRejectedString)
     }
+  })
+})
+
+export const withUpdateNotificationSettings = graphql(gql`
+mutation updateNotificationSettings(
+  $defaultDiscussionNotificationOption: DiscussionNotificationOption,
+  $discussionNotificationChannels: [DiscussionNotificationChannel!]
+) {
+  updateNotificationSettings(
+    defaultDiscussionNotificationOption: $defaultDiscussionNotificationOption,
+    discussionNotificationChannels: $discussionNotificationChannels
+  ) {
+    id
+    discussionNotificationChannels
+    defaultDiscussionNotificationOption
+  }
+}
+`, {
+  props: ({ mutate }) => ({
+    updateNotificationSettings: ({ defaultDiscussionNotificationOption, discussionNotificationChannels }) =>
+      mutate({
+        variables: {
+          defaultDiscussionNotificationOption,
+          discussionNotificationChannels
+        }
+      })
   })
 })
 

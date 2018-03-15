@@ -1,5 +1,5 @@
 {
-  "updated": "2018-03-12T16:55:56.511Z",
+  "updated": "2018-03-15T14:19:58.537Z",
   "title": "live",
   "data": [
     {
@@ -675,6 +675,42 @@
       "value": "Project R – Wichtige Updates"
     },
     {
+      "key": "account/notificationOptions/title",
+      "value": "Ihre Benachrichtigungen in Debatten"
+    },
+    {
+      "key": "account/discussionNotificationChannels/intro",
+      "value": "Ich möchte Benachrichtungen auf folgendem Weg erhalten:"
+    },
+    {
+      "key": "account/discussionNotificationChannels/EMAIL/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "account/discussionNotificationChannels/WEB/label",
+      "value": "Browser"
+    },
+    {
+      "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
+      "value": "Ihr Browser unterstützt leider keine Benachrichtungen."
+    },
+    {
+      "key": "account/discussionNotificationChannels/WEB/hint/denied",
+      "value": "Sie haben Benachrichtungen in Ihrem Browser geblockt. Bitte aktualisieren Sie Ihre Browsereinstellungen, so dass Benachrichtigungen für https://www.republik.ch erlaubt sind."
+    },
+    {
+      "key": "account/discussionNotificationChannels/WEB/hint/default",
+      "value": "Um auch wirklich Browser-Benachrichtungen zu erhalten, müssen Sie Ihrem Browser das erlauben:"
+    },
+    {
+      "key": "account/discussionNotificationChannels/WEB/enable",
+      "value": "Browser-Benachrichtungen erlauben"
+    },
+    {
+      "key": "account/defaultDiscussionNotificationOption/label",
+      "value": "Standardeinstellung für Benachrichtigungen"
+    },
+    {
       "key": "account/pledges/title",
       "value": "Ihre Einkäufe"
     },
@@ -1205,6 +1241,42 @@
     {
       "key": "components/Discussion/reload",
       "value": "neu laden"
+    },
+    {
+      "key": "components/Discussion/Notification/label",
+      "value": "Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/Notification/MY_CHILDREN/label",
+      "value": "Antworten auf meine Beiträge"
+    },
+    {
+      "key": "components/Discussion/Notification/ALL/label",
+      "value": "Alle neuen Beiträge"
+    },
+    {
+      "key": "components/Discussion/Notification/NONE/label",
+      "value": "Keine"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/WEB/label",
+      "value": "Browser"
+    },
+    {
+      "key": "components/Discussion/Notification/enable",
+      "value": "Browser-Benachrichtigungen aktivieren?"
+    },
+    {
+      "key": "components/Discussion/WelcomeNotification/title",
+      "value": "Willkommen!"
+    },
+    {
+      "key": "components/Discussion/WelcomeNotification/body",
+      "value": "Sie haben Benachrichtungen erfolgreich aktiviert."
     },
     {
       "key": "discussion/missing",

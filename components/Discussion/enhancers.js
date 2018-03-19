@@ -122,6 +122,7 @@ subscription {
     title
     body
     icon
+    url
   }
 }
 `

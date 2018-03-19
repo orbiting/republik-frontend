@@ -96,10 +96,15 @@ class NotificationOptions extends PureComponent {
           return prev
         }
         /* eslint-disable no-new */
-        new window.Notification(webNotification.title, {
+        const n = new window.Notification(webNotification.title, {
           body: webNotification.body,
           icon: webNotification.icon
         })
+        n.onclick = function (e) {
+          e.preventDefault() // prevent the browser from focusing the Notification's tab
+          window.focus()
+          window.location = webNotification.url
+        }
         return prev
       }
     })

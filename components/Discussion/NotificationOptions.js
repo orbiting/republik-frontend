@@ -115,7 +115,7 @@ class NotificationOptions extends PureComponent {
 
     // Preserve existing user preferences.
     const anonymity = userPreference ? userPreference.anonymity : false
-    const credential = userPreference ? userPreference.credential.description : null
+    const credential = userPreference && userPreference.credential ? userPreference.credential.description : null
 
     // Mute notifications for this discussion if requested.
     if (mute && (!userPreference || userPreference.notifications !== 'NONE')) {
@@ -180,7 +180,7 @@ class NotificationOptions extends PureComponent {
 
           // Preserve existing user prefences.
           const anonymity = userPreference ? userPreference.anonymity : false
-          const credential = userPreference ? userPreference.credential.description : null
+          const credential = userPreference && userPreference.credential ? userPreference.credential.description : null
 
           return (
             <div {...styles.container}>

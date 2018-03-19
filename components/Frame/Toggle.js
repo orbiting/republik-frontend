@@ -78,6 +78,7 @@ export default ({ expanded, onClick, id, title }) => {
       {...buttonStyle}
       onClick={onClick}
       title={title}
+      aria-expanded={expanded}
       aria-live='assertive'
     >
       <div {...toggleStyle}>

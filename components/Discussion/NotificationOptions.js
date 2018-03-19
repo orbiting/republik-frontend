@@ -189,7 +189,7 @@ class NotificationOptions extends PureComponent {
                 items={notificationOptions}
                 value={selectedValue}
                 onChange={(item) => {
-                  const notifications = item.value
+                  const notifications = item.target ? item.target.value : item.value
                   this.setState(state => ({
                     mutating: true
                   }))

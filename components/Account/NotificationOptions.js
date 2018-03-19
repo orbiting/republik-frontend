@@ -187,7 +187,7 @@ class NotificationOptions extends Component {
                       }))
                     }
                     updateNotificationSettings({
-                      defaultDiscussionNotificationOption: item.value
+                      defaultDiscussionNotificationOption: item.target ? item.target.value : item.value
                     }).then(finish)
                   }}
                 />

@@ -20,7 +20,7 @@ ASSETS_SERVER_BASE_URL=http://localhost:3021
 CDN_FRONTEND_BASE_URL=
 ```
 
-This frontend needs an API, provided by [republik-backend](https://github.com/orbiting/republik-backend), running on the same TLD (for cookie sharing).
+This frontend needs an API, provided by [republik-backend](https://github.com/orbiting/backends), running on the same TLD (for cookie sharing).
 
 Install and run:
 ```

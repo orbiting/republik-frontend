@@ -45,10 +45,12 @@ class NotificationOptions extends PureComponent {
 
   componentDidMount () {
     this.subscribe()
+    this.maybeMute()
   }
 
   componentDidUpdate () {
     this.subscribe()
+    this.maybeMute()
   }
 
   initNotificationsState () {
@@ -110,7 +112,10 @@ class NotificationOptions extends PureComponent {
     })
   }
 
-  componentWillMount () {
+  maybeMute () {
+    if (this.muted || !this.props.data) {
+      return
+    }
     const {
       data: {discussion},
       setDiscussionPreferences,
@@ -131,6 +136,7 @@ class NotificationOptions extends PureComponent {
         this.setState(state => ({
           mutating: false
         }))
+        this.muted = true
       }
       setDiscussionPreferences(anonymity, credential, 'NONE').then(
         finish

@@ -17,6 +17,8 @@ import {
   fontFamilies
 } from '@project-r/styleguide'
 
+import { ZINDEX_FOOTER } from '../constants'
+
 import IconLink from '../IconLink'
 
 const COL_PADDING_S = 15
@@ -36,7 +38,7 @@ const styles = {
       display: 'none !important'
     },
     position: 'relative',
-    zIndex: 10, // goes over sidebar
+    zIndex: ZINDEX_FOOTER, // goes over sidebar
     backgroundColor: negativeColors.primaryBg,
     paddingTop: 30,
     paddingBottom: 30,

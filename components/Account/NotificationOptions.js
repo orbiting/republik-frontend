@@ -9,6 +9,8 @@ import {
   getNotificationPermission
 } from '../../lib/utils/notification'
 
+import { ZINDEX_CONTENT } from '../constants'
+
 import Box from '../Frame/Box'
 import { P } from './Elements'
 import { A, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
@@ -35,7 +37,7 @@ const styles = {
   dropdown: css({
     marginTop: 20,
     position: 'relative',
-    zIndex: 999
+    zIndex: ZINDEX_CONTENT
   })
 }
 

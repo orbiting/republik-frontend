@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -66,7 +67,7 @@ class NotificationOptions extends PureComponent {
     const { t, data, updateNotificationSettings } = this.props
     const { discussionNotificationChannels } = data && data.me
 
-    window.Notification.requestPermission(function (status) {
+    window.Notification.requestPermission((status) => {
       if (status !== 'granted') {
         return
       }
@@ -80,7 +81,7 @@ class NotificationOptions extends PureComponent {
       /* eslint-disable no-new */
       new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
         body: t('components/Discussion/WelcomeNotification/body'),
-        icon: 'https://cdn.republik.space/frontend/static/apple-touch-icon.png'
+        icon: `${CDN_FRONTEND_BASE_URL}/frontend/static/apple-touch-icon.png`
       })
     })
   }
@@ -102,7 +103,7 @@ class NotificationOptions extends PureComponent {
           body: webNotification.body,
           icon: webNotification.icon
         })
-        n.onclick = function (e) {
+        n.onclick = (e) => {
           e.preventDefault() // prevent the browser from focusing the Notification's tab
           window.focus()
           window.location = webNotification.url

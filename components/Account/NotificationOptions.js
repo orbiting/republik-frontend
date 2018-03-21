@@ -9,6 +9,7 @@ import {
   getNotificationPermission
 } from '../../lib/utils/notification'
 
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
@@ -64,7 +65,7 @@ class NotificationOptions extends Component {
     const { t, me, updateNotificationSettings } = this.props
     const { discussionNotificationChannels } = me
 
-    window.Notification.requestPermission(function (status) {
+    window.Notification.requestPermission((status) => {
       if (status !== 'granted') {
         return
       }
@@ -78,7 +79,7 @@ class NotificationOptions extends Component {
       /* eslint-disable no-new */
       new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
         body: t('components/Discussion/WelcomeNotification/body'),
-        icon: 'https://cdn.republik.space/frontend/static/apple-touch-icon.png'
+        icon: `${CDN_FRONTEND_BASE_URL}/frontend/static/apple-touch-icon.png`
       })
     })
   }
@@ -146,7 +147,7 @@ class NotificationOptions extends Component {
                 </p>
               ))}
               {notificationPermission === 'default' && (
-                <WarningContainer key='default'>
+                <WarningContainer>
                   <P>
                     {t('account/discussionNotificationChannels/WEB/hint/default')}<br />
                     <A style={{cursor: 'pointer'}} onClick={(e) => {
@@ -158,16 +159,16 @@ class NotificationOptions extends Component {
               )}
               {notificationPermission === 'denied' &&
                discussionNotificationChannels.indexOf('WEB') > -1 && (
-               <WarningContainer key='denied'>
+               <WarningContainer>
                  <P>{t('account/discussionNotificationChannels/WEB/hint/denied')}</P>
                </WarningContainer>
               )}
               {unsupportedClient && (
-                <WarningContainer key='unsupported'>
+                <WarningContainer>
                   <P>{t('account/discussionNotificationChannels/WEB/hint/unsupported')}</P>
                 </WarningContainer>
               )}
-              <div key='dropdown' {...styles.dropdown}>
+              <div {...styles.dropdown}>
                 <Dropdown
                   label={t('account/defaultDiscussionNotificationOption/label')}
                   items={dropdownItems}

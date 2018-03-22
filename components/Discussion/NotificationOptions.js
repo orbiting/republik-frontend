@@ -114,34 +114,36 @@ class NotificationOptions extends PureComponent {
   }
 
   maybeMute () {
-    if (this.muted || !this.props.data) {
-      return
-    }
     const {
-      data: {discussion},
+      data: { discussion },
       setDiscussionPreferences,
       mute
     } = this.props
-    const { userPreference } = discussion
+    if (!mute || !discussion || this.state.mutating) {
+      return
+    }
 
-    // Preserve existing user preferences.
-    const anonymity = userPreference ? userPreference.anonymity : false
-    const credential = userPreference && userPreference.credential ? userPreference.credential.description : null
+    const {
+      userPreference
+    } = discussion
 
-    // Mute notifications for this discussion if requested.
-    if (mute && (!userPreference || userPreference.notifications !== 'NONE')) {
-      this.setState(state => ({
+    // Mute notifications for this discussion if not already done
+    if (!userPreference || userPreference.notifications !== 'NONE') {
+      this.setState({
         mutating: true
-      }))
-      const finish = () => {
-        this.setState(state => ({
+      })
+
+      // Preserve existing user preferences.
+      const anonymity = userPreference ? userPreference.anonymity : false
+      const credential = userPreference && userPreference.credential
+        ? userPreference.credential.description
+        : null
+
+      setDiscussionPreferences(anonymity, credential, 'NONE').then(() => {
+        this.setState({
           mutating: false
-        }))
-        this.muted = true
-      }
-      setDiscussionPreferences(anonymity, credential, 'NONE').then(
-        finish
-      )
+        })
+      })
     }
   }
 

@@ -204,7 +204,7 @@ class Header extends Component {
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
         <div {...barStyle} style={{position, borderBottom}}>
-          {secondaryNav && (
+          {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
             </div>

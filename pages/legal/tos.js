@@ -93,17 +93,21 @@ Die Betreiberin übernimmt ferner keine Haftung für Leistungen Dritter, die sie
 
 Sollten einzelne Bestimmungen dieser AGB ganz oder teilweise unwirksam sein oder unwirksam werden, wird dadurch die Gültigkeit der übrigen Bestimmungen und die Gültigkeit der darauf beruhenden Verträge im Übrigen nicht berührt. Die unwirksame Regelung ist von den Parteien durch eine wirksame zu ersetzen, die dem wirtschaftlichen Zweck der unwirksamen Regelung soweit wie möglich entspricht. Entsprechendes gilt für etwaige Lücken in den AGB oder den darauf beruhenden Verträgen.
 
-## 12. Rücktrittsrecht
+## 12. Verlängerung
+
+Vorbehältlich einer ausdrücklichen Erklärung des Abonnenten/der Abonnentin, dass das Jahres- bzw. Monatsabonnement nicht fortgesetzt werden soll, verlängert sich das Jahresabonnement automatisch und ohne weiteren Hinweis jeweils um ein weiteres Jahr bzw. das Monatsabonnement automatisch und ohne weiteren Hinweis um einen weiteren Monat. Die Nichtverlängerung des Abonnements ist vom betreffenden Abonnenten/der betreffenden Abonnentin elektronisch (per E-Mail oder über das Mitgliedschaftsportal) bis spätestens zwei (2) Arbeitstage vor der Erneuerung des Abonnements zu übermitteln.
+
+## 13. Rücktrittsrecht
 
 Abonnenten/-innen, Mitglieder und Unterstützer/-innen sind berechtigt, einen Kauf und die damit verbundene Zahlung innert 14 Tagen durch schriftliche Mitteilung an Republik AG, Sihlhallenstrasse 1, CH-8004 Zürich und Project R Genossenschaft Sihlhallenstrasse 1, CH-8004 Zürich ohne Angabe von Gründen zu widerrufen. Rückzahlungen erfolgen durch Gutschrift auf das Konto des/der betreffenden Unterstützers/-in auf dem ursprünglich gewählten Zahlungsweg. Hat die Betreiberin eine Dienstleistung erbracht, so muss ihr der Kunde / die Kundin Auslagen und Verwendungen ersetzen.
 
-## 13. Gerichtsstand, anwendbares Recht
+## 14. Gerichtsstand, anwendbares Recht
 
 Für die vorliegenden AGB sowie die darauf beruhenden Verträge der Abonnenten/-innen, Mitglieder, Unterstützer/-innen und/oder Besucher/-innen mit der Betreiberin ist, vorbehältlich der Bestimmungen der Datenschutzerklärung und des Rücktrittsrechts gemäss Art. 12 der vorliegenden AGB, ausschliesslich Schweizer Recht anwendbar, unter Ausschluss der kollisionsrechtlichen Bestimmungen und der Bestimmungen des UN-Kaufrechts (CISG).
 
 Ausschliesslicher Gerichtsstand ist Zürich.
 
-## 14. Änderung der AGB
+## 15. Änderung der AGB
 
 Die Betreiberin behält sich vor, die AGB jederzeit ohne Angabe von Gründen zu ändern. Die geänderten AGB gelten ab Datum der Publikation auf der Website der Betreiberin.
       `}

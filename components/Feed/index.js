@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
+import { nest } from 'd3-collection'
+import { timeFormat } from '../../lib/utils/format'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
@@ -22,13 +24,18 @@ const styles = {
 }
 
 const getDocuments = gql`
-  query getDocuments {
+  query getDocuments($cursor: String) {
     greeting {
       text
       id
     }
-    documents(feed: true) {
+    documents(feed: true, first: 10, after: $cursor) { 
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
       nodes {
+        id
         meta {
           credits
           title
@@ -60,6 +67,10 @@ const greetingSubscription = gql`
     }
   }
 `
+
+const dateFormat = timeFormat('%A, %d. %B')
+
+const groupBy = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
   componentDidMount () {
@@ -99,7 +110,7 @@ class Feed extends Component {
   }
 
   render () {
-    const { data: { loading, error, documents, greeting } } = this.props
+    const { data: { loading, error, documents, greeting }, loadMore, hasMore } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
@@ -116,20 +127,33 @@ class Feed extends Component {
                 </Interaction.H1>
               )}
               {nodes &&
-                nodes.map(doc => (
-                  <TeaserFeed
-                    {...doc.meta}
-                    kind={
-                      doc.meta.template === 'editorialNewsletter' ? (
-                        'meta'
-                      ) : (
-                        doc.meta.kind
+                groupBy.entries(nodes).map(({key, values}) =>
+                  <div>
+                    <h3>{key}</h3>
+                    <div>
+                    {
+                      values.map(doc =>
+                        <TeaserFeed
+                          {...doc.meta}
+                          kind={
+                            doc.meta.template === 'editorialNewsletter' ? (
+                              'meta'
+                            ) : (
+                              doc.meta.kind
+                            )
+                          }
+                          Link={Link}
+                          key={doc.meta.path}
+                        />
                       )
                     }
-                    Link={Link}
-                    key={doc.meta.path}
-                  />
-                ))}
+                    </div>
+                  </div>
+                )
+              }
+              {hasMore &&
+                <button onClick={loadMore}>Load More</button>
+              }
             </Center>
           )
         }}
@@ -138,4 +162,34 @@ class Feed extends Component {
   }
 }
 
-export default compose(graphql(getDocuments))(Feed)
+export default compose(
+  graphql(
+    getDocuments,
+    {
+      props: ({ data }) => ({
+        data,
+        hasMore: data.documents && data.documents.pageInfo.hasNextPage,
+        loadMore: () => {
+          return data.fetchMore({
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              const nodes = [
+                ...previousResult.documents.nodes,
+                ...fetchMoreResult.documents.nodes
+              ].filter((node, index, all) => all.findIndex(n => n.id === node.id) === index) // deduplicating due to off by one in pagination API
+              return {
+                ...fetchMoreResult,
+                documents: {
+                  ...fetchMoreResult.documents,
+                  nodes
+                }
+              }
+            },
+            variables: {
+              cursor: data.documents.pageInfo.endCursor
+            }
+          })
+        }
+      })
+    }
+  )
+)(Feed)

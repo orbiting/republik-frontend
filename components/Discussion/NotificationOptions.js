@@ -81,7 +81,7 @@ class NotificationOptions extends PureComponent {
       /* eslint-disable no-new */
       new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
         body: t('components/Discussion/WelcomeNotification/body'),
-        icon: `${CDN_FRONTEND_BASE_URL}/frontend/static/apple-touch-icon.png`
+        icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
       })
     })
   }

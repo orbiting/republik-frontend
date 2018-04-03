@@ -79,7 +79,7 @@ class NotificationOptions extends Component {
       /* eslint-disable no-new */
       new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
         body: t('components/Discussion/WelcomeNotification/body'),
-        icon: `${CDN_FRONTEND_BASE_URL}/frontend/static/apple-touch-icon.png`
+        icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
       })
     })
   }
@@ -157,11 +157,10 @@ class NotificationOptions extends Component {
                   </P>
                 </WarningContainer>
               )}
-              {notificationPermission === 'denied' &&
-               discussionNotificationChannels.indexOf('WEB') > -1 && (
-               <WarningContainer>
-                 <P>{t('account/discussionNotificationChannels/WEB/hint/denied')}</P>
-               </WarningContainer>
+              {notificationPermission === 'denied' && discussionNotificationChannels.indexOf('WEB') > -1 && (
+                <WarningContainer>
+                  <P>{t('account/discussionNotificationChannels/WEB/hint/denied')}</P>
+                </WarningContainer>
               )}
               {unsupportedClient && (
                 <WarningContainer>

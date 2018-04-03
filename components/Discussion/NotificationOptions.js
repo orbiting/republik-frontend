@@ -133,13 +133,8 @@ class NotificationOptions extends PureComponent {
         mutating: true
       })
 
-      // Preserve existing user preferences.
-      const anonymity = userPreference ? userPreference.anonymity : false
-      const credential = userPreference && userPreference.credential
-        ? userPreference.credential.description
-        : null
-
-      setDiscussionPreferences(anonymity, credential, 'NONE').then(() => {
+      // anonymity and credentials remain unchanged.
+      setDiscussionPreferences(undefined, undefined, 'NONE').then(() => {
         this.setState({
           mutating: false
         })
@@ -192,10 +187,6 @@ class NotificationOptions extends PureComponent {
             : ''
           const dropdownLabel = `${t('components/Discussion/Notification/label')}${channelsInfo}`
 
-          // Preserve existing user prefences.
-          const anonymity = userPreference ? userPreference.anonymity : false
-          const credential = userPreference && userPreference.credential ? userPreference.credential.description : null
-
           return (
             <div {...styles.container}>
               <Dropdown
@@ -212,7 +203,8 @@ class NotificationOptions extends PureComponent {
                       mutating: false
                     }))
                   }
-                  setDiscussionPreferences(anonymity, credential, notifications).then(
+                  // anonymity and credentials remain unchanged.
+                  setDiscussionPreferences(undefined, undefined, notifications).then(
                     finish
                   )
                 }}

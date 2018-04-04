@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
-import { matchPath, Link, Router } from '../../lib/routes'
+import { matchPath, Router } from '../../lib/routes'
+import { focusSelector } from '../../lib/utils/scroll'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -257,9 +258,17 @@ class NotificationOptions extends PureComponent {
                   </span>
                 )}
                 <div {...styles.links}>
-                  <Link route='account'>
-                    <A {...styles.link}>{t('components/Discussion/Notification/settings')}</A>
-                  </Link>
+                  <A {...styles.link}
+                    href='/konto#benachrichtigungen'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      Router.pushRoute('/konto#benachrichtigungen')
+                        .then(() => {
+                          focusSelector('#benachrichtigungen')
+                        })
+                    }}>
+                    {t('components/Discussion/Notification/settings')}
+                  </A>
                   {webNotificationsPermission === 'default' && (
                     <A {...styles.link} onClick={(e) => {
                       e.preventDefault()

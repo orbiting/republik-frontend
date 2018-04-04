@@ -4,6 +4,7 @@ import withT from '../../lib/withT'
 import {A, colors, fontStyles} from '@project-r/styleguide'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
+import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
 const styles = {
@@ -37,7 +38,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId = null} = this.props
+    const {t, discussionId, focusId = null, mute, url} = this.props
     const {orderBy, reload} = this.state
 
     const OrderBy = ({children, value}) => (
@@ -57,6 +58,8 @@ class Discussion extends PureComponent {
           depth={1}
           parentId={null}
         />
+
+        <NotificationOptions discussionId={discussionId} mute={mute} url={url} />
 
         <div {...styles.orderByContainer}>
           <OrderBy value='DATE' />

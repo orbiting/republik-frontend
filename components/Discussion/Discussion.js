@@ -38,7 +38,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId = null, mute} = this.props
+    const {t, discussionId, focusId = null, mute, url} = this.props
     const {orderBy, reload} = this.state
 
     const OrderBy = ({children, value}) => (
@@ -59,7 +59,7 @@ class Discussion extends PureComponent {
           parentId={null}
         />
 
-        <NotificationOptions discussionId={discussionId} mute={mute} />
+        <NotificationOptions discussionId={discussionId} mute={mute} url={url} />
 
         <div {...styles.orderByContainer}>
           <OrderBy value='DATE' />

@@ -363,7 +363,8 @@ class ArticlePage extends Component {
                 <Discussion
                   discussionId={meta.discussionId}
                   focusId={url.query.focus}
-                  mute={!!url.query.mute} />
+                  mute={!!url.query.mute}
+                  url={url} />
               </Center>}
               {episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}

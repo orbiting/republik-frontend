@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
-import { Link } from '../../lib/routes'
+import { matchPath, Link, Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -147,6 +147,22 @@ class NotificationOptions extends PureComponent {
       userPreference
     } = discussion
 
+    const clearUrl = () => {
+      const { url: { asPath, query } } = this.props
+      const result = matchPath(asPath)
+      const params = {
+        ...query,
+        ...result.params
+      }
+      // using delete instead of undefined to avoid an empty query
+      delete params.mute
+      Router.replaceRoute(
+        result.route,
+        params,
+        { shallow: true }
+      )
+    }
+
     // Mute notifications for this discussion if not already done
     if (!userPreference || userPreference.notifications !== 'NONE') {
       this.setState({
@@ -158,7 +174,10 @@ class NotificationOptions extends PureComponent {
         this.setState({
           mutating: false
         })
+        clearUrl()
       })
+    } else {
+      clearUrl()
     }
   }
 

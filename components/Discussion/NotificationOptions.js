@@ -15,7 +15,8 @@ import {
   Dropdown,
   InlineSpinner,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  colors
 } from '@project-r/styleguide'
 import Loader from '../Loader'
 import NotificationIcon from './NotificationIcon'
@@ -222,9 +223,11 @@ class NotificationOptions extends PureComponent {
             (browserEnabled && t(`components/Discussion/NotificationChannel/WEB/label`))
           )
 
+          const color = selectedValue === 'NONE' ? colors.disabled : colors.primary
+
           return (
             <div {...styles.container}>
-              <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px'}} onClick={() => {
+              <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px', color}} fill={color} onClick={() => {
                 this.setState(state => ({
                   expanded: !state.expanded
                 }))

@@ -167,6 +167,7 @@ class NotificationOptions extends Component {
                   <P>{t('account/discussionNotificationChannels/WEB/hint/unsupported')}</P>
                 </WarningContainer>
               )}
+              <P>{t('account/discussionNotificationChannels/WEB/hint/live')}</P>
               <div {...styles.dropdown}>
                 <Dropdown
                   label={t('account/defaultDiscussionNotificationOption/label')}

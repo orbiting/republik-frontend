@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -11,9 +12,12 @@ import {
 import {
   A,
   Dropdown,
-  InlineSpinner
+  InlineSpinner,
+  fontStyles,
+  mediaQueries
 } from '@project-r/styleguide'
 import Loader from '../Loader'
+import NotificationIcon from './NotificationIcon'
 import {
   DISCUSSION_NOTIFICATION_OPTIONS,
   withDiscussionPreferences,
@@ -24,13 +28,28 @@ import {
 
 const styles = {
   container: css({
-    marginTop: '20px',
+    marginTop: 20,
     position: 'relative'
   }),
   spinner: css({
     position: 'absolute',
     top: 10,
     right: 5
+  }),
+  expanded: css({
+    marginBottom: 30,
+    marginTop: 20
+  }),
+  links: css({
+    [mediaQueries.mUp]: {
+      display: 'flex',
+      justifyContent: 'space-between'
+    }
+  }),
+  link: css({
+    ...fontStyles.sansSerifRegular14,
+    display: 'block',
+    cursor: 'pointer'
   })
 }
 
@@ -39,6 +58,7 @@ class NotificationOptions extends PureComponent {
     super(props)
 
     this.state = {
+      expanded: false,
       mutating: false,
       webNotificationsPermission: null
     }
@@ -162,64 +182,74 @@ class NotificationOptions extends PureComponent {
         error={error}
         message={t('components/DiscussionPreferences/loading')}
         render={() => {
-          const { mutating, webNotificationsPermission } = this.state
+          const { expanded, mutating, webNotificationsPermission } = this.state
           const { defaultDiscussionNotificationOption, discussionNotificationChannels } = me
           const { userPreference } = discussion
 
           const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
             value: option,
-            text: t(`components/Discussion/Notification/${option}/label`)
+            text: t(`components/Discussion/Notification/dropdown/${option}/label`)
           }))
           const selectedValue =
             (userPreference && userPreference.notifications) || defaultDiscussionNotificationOption
 
-          // Construct dropdown label including effective channels, e.g. "(E-Mail, Browser)".
-          let channels = [...discussionNotificationChannels]
-          if (channels.indexOf('WEB') > -1 && webNotificationsPermission !== 'granted') {
-            channels.splice(channels.indexOf('WEB'), 1)
-          }
-          const channelsInfo = channels.length
-            ? ' (' +
-              channels
-                .map(channel => t(`components/Discussion/NotificationChannel/${channel}/label`))
-                .join(', ') +
-              ')'
-            : ''
-          const dropdownLabel = `${t('components/Discussion/Notification/label')}${channelsInfo}`
+          const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
+          const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
+            webNotificationsPermission === 'granted'
+          const channelsInfo = selectedValue !== 'NONE' && (
+            (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
+            (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||
+            (browserEnabled && t(`components/Discussion/NotificationChannel/WEB/label`))
+          )
 
           return (
             <div {...styles.container}>
-              <Dropdown
-                label={dropdownLabel}
-                items={notificationOptions}
-                value={selectedValue}
-                onChange={(item) => {
-                  const notifications = item.target ? item.target.value : item.value
-                  this.setState(state => ({
-                    mutating: true
-                  }))
-                  const finish = () => {
+              <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px'}} onClick={() => {
+                this.setState(state => ({
+                  expanded: !state.expanded
+                }))
+              }}>
+                {t(`components/Discussion/Notification/${selectedValue}/label`)} {channelsInfo}
+              </NotificationIcon>
+              {expanded && <div {...styles.expanded}>
+                <Dropdown
+                  label={t('components/Discussion/Notification/dropdown/label')}
+                  items={notificationOptions}
+                  value={selectedValue}
+                  onChange={(item) => {
+                    const notifications = item.target ? item.target.value : item.value
                     this.setState(state => ({
-                      mutating: false
+                      mutating: true
                     }))
-                  }
-                  // anonymity and credentials remain unchanged.
-                  setDiscussionPreferences(undefined, undefined, notifications).then(
-                    finish
-                  )
-                }}
-              />
-              {mutating && (
-                <span {...styles.spinner}>
-                  <InlineSpinner size={24} />
-                </span>
-              )}
-              {webNotificationsPermission === 'default' && (
-                <A style={{fontSize: '14px', cursor: 'pointer'}} onClick={(e) => {
-                  e.preventDefault()
-                  this.confirmPermission()
-                }}>{t('components/Discussion/Notification/enable')}</A>
-              )}
+                    const finish = () => {
+                      this.setState(state => ({
+                        mutating: false
+                      }))
+                    }
+                    // anonymity and credentials remain unchanged.
+                    setDiscussionPreferences(undefined, undefined, notifications).then(
+                      finish
+                    )
+                  }}
+                />
+                {mutating && (
+                  <span {...styles.spinner}>
+                    <InlineSpinner size={24} />
+                  </span>
+                )}
+                <div {...styles.links}>
+                  <Link route='account'>
+                    <A {...styles.link}>{t('components/Discussion/Notification/settings')}</A>
+                  </Link>
+                  {webNotificationsPermission === 'default' && (
+                    <A {...styles.link} onClick={(e) => {
+                      e.preventDefault()
+                      this.confirmPermission()
+                    }}>{t('components/Discussion/Notification/enable')}</A>
+                  )}
+                </div>
+              </div>}
+
             </div>
           )
         }}

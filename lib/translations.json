@@ -1,5 +1,5 @@
 {
-  "updated": "2018-03-15T14:19:58.537Z",
+  "updated": "2018-04-04T08:12:10.956Z",
   "title": "live",
   "data": [
     {
@@ -691,6 +691,10 @@
       "value": "Browser"
     },
     {
+      "key": "account/discussionNotificationChannels/WEB/hint/live",
+      "value": "Browser-Benachrichtungen erscheinen nur direkt auf einer Debattenseite. Wenn Sie die Debattenseite schliessen oder auf eine andere Seite gehen, erhalten Sie keine Browser-Benachrichtungen."
+    },
+    {
       "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
       "value": "Ihr Browser unterstützt leider keine Benachrichtungen."
     },
@@ -1243,28 +1247,48 @@
       "value": "neu laden"
     },
     {
-      "key": "components/Discussion/Notification/label",
-      "value": "Benachrichtigungen"
-    },
-    {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
-      "value": "Antworten auf meine Beiträge"
+      "value": "Benachrichtigungen für Antworten auf meine Beiträge"
     },
     {
       "key": "components/Discussion/Notification/ALL/label",
-      "value": "Alle neuen Beiträge"
+      "value": "Benachrichtigungen für alle neuen Beiträge"
     },
     {
       "key": "components/Discussion/Notification/NONE/label",
-      "value": "Keine"
+      "value": "Keine Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "E-Mail"
+      "value": "per E-Mail"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "Browser"
+      "value": "per Browser"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
+      "value": "per E-Mail und Browser"
+    },
+    {
+      "key": "components/Discussion/Notification/dropdown/label",
+      "value": "Benachrichtigungen für diese Debatte"
+    },
+    {
+      "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
+      "value": "Antworten auf meine Beiträge"
+    },
+    {
+      "key": "components/Discussion/Notification/dropdown/ALL/label",
+      "value": "Alle neuen Beiträge"
+    },
+    {
+      "key": "components/Discussion/Notification/dropdown/NONE/label",
+      "value": "Keine"
+    },
+    {
+      "key": "components/Discussion/Notification/settings",
+      "value": "Einstellungen"
     },
     {
       "key": "components/Discussion/Notification/enable",

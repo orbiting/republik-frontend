@@ -105,6 +105,7 @@ class NotificationOptions extends PureComponent {
         body: t('components/Discussion/WelcomeNotification/body'),
         icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
       })
+      this.initNotificationsState()
     })
   }
 

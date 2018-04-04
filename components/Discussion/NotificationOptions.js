@@ -266,6 +266,12 @@ class NotificationOptions extends PureComponent {
                   <A {...styles.link}
                     href='/konto#benachrichtigungen'
                     onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                        (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
+
                       e.preventDefault()
                       Router.pushRoute('/konto#benachrichtigungen')
                         .then(() => {

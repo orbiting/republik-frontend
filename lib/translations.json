@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-04T16:29:39.764Z",
+  "updated": "2018-04-04T16:59:48.776Z",
   "title": "live",
   "data": [
     {
@@ -1252,7 +1252,7 @@
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
-      "value": "Antworten auf Beiträge"
+      "value": "Nur meine Beiträge"
     },
     {
       "key": "components/Discussion/Notification/ALL/label",
@@ -1292,7 +1292,7 @@
     },
     {
       "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
-      "value": "Antworten auf Beiträge"
+      "value": "Nur meine Beiträge"
     },
     {
       "key": "components/Discussion/Notification/dropdown/ALL/label",

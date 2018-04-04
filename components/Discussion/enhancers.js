@@ -123,6 +123,7 @@ subscription {
     body
     icon
     url
+    tag
   }
 }
 `
@@ -269,128 +270,134 @@ ${fragments.comment}
 `
 
 export const submitComment = compose(
-withT,
-withDiscussionDisplayAuthor,
-graphql(gql`
+  withT,
+  withDiscussionDisplayAuthor,
+  graphql(gql`
 mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
     ...Comment
+    discussion {
+      id
+      userPreference {
+        notifications
+      }
+    }
   }
 }
 ${fragments.comment}
 `, {
-  props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
-    submitComment: (parent, content) => {
-      if (!discussionDisplayAuthor) {
-        return Promise.reject(t('submitComment/noDisplayAuthor'))
-      }
-      // Generate a new UUID for the comment. We do this client-side so that we can
-      // properly handle subscription notifications.
-      const id = uuid()
+    props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
+      submitComment: (parent, content) => {
+        if (!discussionDisplayAuthor) {
+          return Promise.reject(t('submitComment/noDisplayAuthor'))
+        }
+        // Generate a new UUID for the comment. We do this client-side so that we can
+        // properly handle subscription notifications.
+        const id = uuid()
 
-      const parentId = parent ? parent.id : null
-      const parentIds = parent
-        ? parent.parentIds.concat(parentId)
-        : []
+        const parentId = parent ? parent.id : null
+        const parentIds = parent
+          ? parent.parentIds.concat(parentId)
+          : []
 
-      return mutate({
-        variables: {discussionId, parentId, id, content},
-        optimisticResponse: {
-          __typename: 'Mutation',
-          submitComment: {
-            id,
-            content,
-            published: true,
-            adminUnpublished: false,
-            userCanEdit: true,
-            score: 0,
-            userVote: null,
-            displayAuthor: discussionDisplayAuthor,
-            createdAt: (new Date()).toISOString(),
-            updatedAt: (new Date()).toISOString(),
-            parentIds,
-            __typename: 'Comment'
-          }
-        },
-        update: (proxy, {data: {submitComment}}) => {
-          debug('submitComment', submitComment.id, submitComment)
-          const variables = {
-            discussionId,
-            parentId: ownParentId,
-            after: null,
-            orderBy,
-            depth,
-            focusId
-          }
-          const data = proxy.readQuery({
-            query: query,
-            variables
-          })
-
-          const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
-          // subscriptions seem to make optimistic updates permanent
-          if (existing) {
-            debug('submitComment', 'existing', existing)
-            return
-          }
-
-          const comment = {
-            ...submitComment,
-            comments: {
-              __typename: 'CommentConnection',
-              totalCount: 0,
-              directTotalCount: 0,
-              pageInfo: emptyPageInfo()
+        return mutate({
+          variables: {discussionId, parentId, id, content},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            submitComment: {
+              id,
+              content,
+              published: true,
+              adminUnpublished: false,
+              userCanEdit: true,
+              score: 0,
+              userVote: null,
+              displayAuthor: discussionDisplayAuthor,
+              createdAt: (new Date()).toISOString(),
+              updatedAt: (new Date()).toISOString(),
+              parentIds,
+              __typename: 'Comment'
             }
-          }
+          },
+          update: (proxy, {data: {submitComment}}) => {
+            debug('submitComment', submitComment.id, submitComment)
+            const variables = {
+              discussionId,
+              parentId: ownParentId,
+              after: null,
+              orderBy,
+              depth,
+              focusId
+            }
+            const data = proxy.readQuery({
+              query: query,
+              variables
+            })
 
-          const nodes = [].concat(data.discussion.comments.nodes)
-
-          const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
-          const insertIndex = parentId
-            ? parentIndex + 1
-            : 0
-          nodes.splice(insertIndex, 0, comment)
-
-          submitComment.parentIds.forEach(pid => {
-            const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
-
-            if (pidIndex === -1) {
+            const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
+            // subscriptions seem to make optimistic updates permanent
+            if (existing) {
+              debug('submitComment', 'existing', existing)
               return
             }
-            const node = nodes[pidIndex]
-            nodes.splice(pidIndex, 1, {
-              ...node,
-              comments: {
-                ...node.comments,
-                totalCount: node.comments.totalCount + 1,
-                directTotalCount: node.comments.directTotalCount +
-                  pidIndex === parentIndex ? 1 : 0
-              }
-            })
-          })
 
-          proxy.writeQuery({
-            query: query,
-            variables,
-            data: {
-              ...data,
-              discussion: {
-                ...data.discussion,
-                comments: {
-                  ...data.discussion.comments,
-                  totalCount: data.discussion.comments.totalCount +
-                    1,
-                  nodes
-                }
+            const comment = {
+              ...submitComment,
+              comments: {
+                __typename: 'CommentConnection',
+                totalCount: 0,
+                directTotalCount: 0,
+                pageInfo: emptyPageInfo()
               }
             }
-          })
-        }
-      }).catch(toRejectedString)
-    }
+
+            const nodes = [].concat(data.discussion.comments.nodes)
+
+            const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
+            const insertIndex = parentId
+              ? parentIndex + 1
+              : 0
+            nodes.splice(insertIndex, 0, comment)
+
+            submitComment.parentIds.forEach(pid => {
+              const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
+
+              if (pidIndex === -1) {
+                return
+              }
+              const node = nodes[pidIndex]
+              nodes.splice(pidIndex, 1, {
+                ...node,
+                comments: {
+                  ...node.comments,
+                  totalCount: node.comments.totalCount + 1,
+                  directTotalCount: node.comments.directTotalCount +
+                  pidIndex === parentIndex ? 1 : 0
+                }
+              })
+            })
+
+            proxy.writeQuery({
+              query: query,
+              variables,
+              data: {
+                ...data,
+                discussion: {
+                  ...data.discussion,
+                  comments: {
+                    ...data.discussion.comments,
+                    totalCount: data.discussion.comments.totalCount +
+                    1,
+                    nodes
+                  }
+                }
+              }
+            })
+          }
+        }).catch(toRejectedString)
+      }
+    })
   })
-})
 )
 
 const discussionPreferencesQuery = gql`

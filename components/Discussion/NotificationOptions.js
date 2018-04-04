@@ -123,7 +123,8 @@ class NotificationOptions extends PureComponent {
         /* eslint-disable no-new */
         const n = new window.Notification(webNotification.title, {
           body: webNotification.body,
-          icon: webNotification.icon
+          icon: webNotification.icon,
+          tag: webNotification.tag
         })
         n.onclick = (e) => {
           e.preventDefault() // prevent the browser from focusing the Notification's tab
@@ -204,15 +205,14 @@ class NotificationOptions extends PureComponent {
         message={t('components/DiscussionPreferences/loading')}
         render={() => {
           const { expanded, mutating, webNotificationsPermission } = this.state
-          const { defaultDiscussionNotificationOption, discussionNotificationChannels } = me
+          const { discussionNotificationChannels } = me
           const { userPreference } = discussion
 
           const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
             value: option,
             text: t(`components/Discussion/Notification/dropdown/${option}/label`)
           }))
-          const selectedValue =
-            (userPreference && userPreference.notifications) || defaultDiscussionNotificationOption
+          const selectedValue = userPreference && userPreference.notifications
 
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&

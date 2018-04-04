@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-04T12:32:56.414Z",
+  "updated": "2018-04-04T16:29:39.764Z",
   "title": "live",
   "data": [
     {
@@ -692,7 +692,7 @@
     },
     {
       "key": "account/discussionNotificationChannels/WEB/hint/live",
-      "value": "Sie erhalten Browser-Benachrichtungen während Sie eine Debattenseite in einem beliebigen Browserfenster offen haben."
+      "value": "Sie erhalten Browser-Benachrichtungen, während Sie eine Debattenseite in einem beliebigen Browserfenster offen haben."
     },
     {
       "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
@@ -1245,6 +1245,10 @@
     {
       "key": "components/Discussion/reload",
       "value": "neu laden"
+    },
+    {
+      "key": "components/Discussion/Notification/noChannels",
+      "value": "E-Mail- oder Browser-Benachrichtigungen aktivieren"
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",

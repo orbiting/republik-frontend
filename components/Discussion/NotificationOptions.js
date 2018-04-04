@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {Fragment, PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
@@ -218,6 +218,7 @@ class NotificationOptions extends PureComponent {
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
             webNotificationsPermission === 'granted'
+          const notificationsChannelEnabled = emailEnabled || browserEnabled
           const types = selectedValue !== 'NONE' && (
             (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
             (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||
@@ -228,68 +229,88 @@ class NotificationOptions extends PureComponent {
 
           return (
             <div {...styles.container}>
-              <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px', color}} fill={color} onClick={() => {
-                this.setState(state => ({
-                  expanded: !state.expanded
-                }))
-              }}>
-                {t(`components/Discussion/info/${selectedValue}`, {
-                  types
-                })}
-              </NotificationIcon>
-              {expanded && <div {...styles.expanded}>
-                <Dropdown
-                  label={t('components/Discussion/Notification/dropdown/label')}
-                  items={notificationOptions}
-                  value={selectedValue}
-                  onChange={(item) => {
-                    const notifications = item.target ? item.target.value : item.value
-                    this.setState(state => ({
-                      mutating: true
-                    }))
-                    const finish = () => {
-                      this.setState(state => ({
-                        mutating: false
-                      }))
+              {!notificationsChannelEnabled && (
+                <A {...styles.link}
+                  href='/konto#benachrichtigungen'
+                  onClick={(e) => {
+                    if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                      // ignore click for new tab / new window behavior
+                      return
                     }
-                    // anonymity and credentials remain unchanged.
-                    setDiscussionPreferences(undefined, undefined, notifications).then(
-                      finish
-                    )
-                  }}
-                />
-                {mutating && (
-                  <span {...styles.spinner}>
-                    <InlineSpinner size={24} />
-                  </span>
-                )}
-                <div {...styles.links}>
-                  <A {...styles.link}
-                    href='/konto#benachrichtigungen'
-                    onClick={(e) => {
-                      if (e.currentTarget.nodeName === 'A' &&
-                        (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                        // ignore click for new tab / new window behavior
-                        return
+
+                    e.preventDefault()
+                    Router.pushRoute('/konto#benachrichtigungen')
+                      .then(() => {
+                        focusSelector('#benachrichtigungen')
+                      })
+                  }}>
+                  {t('components/Discussion/Notification/noChannels')}
+                </A>
+              )}
+              {notificationsChannelEnabled && <Fragment>
+                <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px', color}} fill={color} onClick={() => {
+                  this.setState(state => ({
+                    expanded: !state.expanded
+                  }))
+                }}>
+                  {t(`components/Discussion/info/${selectedValue}`, {
+                    types
+                  })}
+                </NotificationIcon>
+                {expanded && <div {...styles.expanded}>
+                  <Dropdown
+                    label={t('components/Discussion/Notification/dropdown/label')}
+                    items={notificationOptions}
+                    value={selectedValue}
+                    onChange={(item) => {
+                      const notifications = item.target ? item.target.value : item.value
+                      this.setState(state => ({
+                        mutating: true
+                      }))
+                      const finish = () => {
+                        this.setState(state => ({
+                          mutating: false
+                        }))
                       }
-
-                      e.preventDefault()
-                      Router.pushRoute('/konto#benachrichtigungen')
-                        .then(() => {
-                          focusSelector('#benachrichtigungen')
-                        })
-                    }}>
-                    {t('components/Discussion/Notification/settings')}
-                  </A>
-                  {webNotificationsPermission === 'default' && (
-                    <A {...styles.link} onClick={(e) => {
-                      e.preventDefault()
-                      this.confirmPermission()
-                    }}>{t('components/Discussion/Notification/enable')}</A>
+                      // anonymity and credentials remain unchanged.
+                      setDiscussionPreferences(undefined, undefined, notifications).then(
+                        finish
+                      )
+                    }}
+                  />
+                  {mutating && (
+                    <span {...styles.spinner}>
+                      <InlineSpinner size={24} />
+                    </span>
                   )}
-                </div>
-              </div>}
+                  <div {...styles.links}>
+                    <A {...styles.link}
+                      href='/konto#benachrichtigungen'
+                      onClick={(e) => {
+                        if (e.currentTarget.nodeName === 'A' &&
+                          (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                          // ignore click for new tab / new window behavior
+                          return
+                        }
 
+                        e.preventDefault()
+                        Router.pushRoute('/konto#benachrichtigungen')
+                          .then(() => {
+                            focusSelector('#benachrichtigungen')
+                          })
+                      }}>
+                      {t('components/Discussion/Notification/settings')}
+                    </A>
+                    {webNotificationsPermission === 'default' && (
+                      <A {...styles.link} onClick={(e) => {
+                        e.preventDefault()
+                        this.confirmPermission()
+                      }}>{t('components/Discussion/Notification/enable')}</A>
+                    )}
+                  </div>
+                </div>}
+              </Fragment>}
             </div>
           )
         }}

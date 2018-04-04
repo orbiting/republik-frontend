@@ -217,7 +217,7 @@ class NotificationOptions extends PureComponent {
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
             webNotificationsPermission === 'granted'
-          const channelsInfo = selectedValue !== 'NONE' && (
+          const types = selectedValue !== 'NONE' && (
             (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
             (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||
             (browserEnabled && t(`components/Discussion/NotificationChannel/WEB/label`))
@@ -232,7 +232,9 @@ class NotificationOptions extends PureComponent {
                   expanded: !state.expanded
                 }))
               }}>
-                {t(`components/Discussion/Notification/${selectedValue}/label`)} {channelsInfo}
+                {t(`components/Discussion/info/${selectedValue}`, {
+                  types
+                })}
               </NotificationIcon>
               {expanded && <div {...styles.expanded}>
                 <Dropdown

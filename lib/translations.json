@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-04T08:12:10.956Z",
+  "updated": "2018-04-04T12:32:56.414Z",
   "title": "live",
   "data": [
     {
@@ -688,11 +688,11 @@
     },
     {
       "key": "account/discussionNotificationChannels/WEB/label",
-      "value": "Browser"
+      "value": "Browser (Beta)"
     },
     {
       "key": "account/discussionNotificationChannels/WEB/hint/live",
-      "value": "Browser-Benachrichtungen erscheinen nur direkt auf einer Debattenseite. Wenn Sie die Debattenseite schliessen oder auf eine andere Seite gehen, erhalten Sie keine Browser-Benachrichtungen."
+      "value": "Sie erhalten Browser-Benachrichtungen während Sie eine Debattenseite in einem beliebigen Browserfenster offen haben."
     },
     {
       "key": "account/discussionNotificationChannels/WEB/hint/unsupported",
@@ -1248,27 +1248,39 @@
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
-      "value": "Benachrichtigungen für Antworten auf meine Beiträge"
+      "value": "Antworten auf Beiträge"
     },
     {
       "key": "components/Discussion/Notification/ALL/label",
-      "value": "Benachrichtigungen für alle neuen Beiträge"
+      "value": "Alle neuen Beiträge"
     },
     {
       "key": "components/Discussion/Notification/NONE/label",
-      "value": "Keine Benachrichtigungen"
+      "value": "Keine"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL/label",
-      "value": "per E-Mail"
+      "value": "E-Mail-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/WEB/label",
-      "value": "per Browser"
+      "value": "Browser-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
-      "value": "per E-Mail und Browser"
+      "value": "E-Mail- und Browser-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/info/MY_CHILDREN",
+      "value": "{types} für Antworten auf meine Beiträge"
+    },
+    {
+      "key": "components/Discussion/info/ALL",
+      "value": "{types} für alle neuen Beiträge"
+    },
+    {
+      "key": "components/Discussion/info/NONE",
+      "value": "Keine Benachrichtigungen"
     },
     {
       "key": "components/Discussion/Notification/dropdown/label",
@@ -1276,7 +1288,7 @@
     },
     {
       "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
-      "value": "Antworten auf meine Beiträge"
+      "value": "Antworten auf Beiträge"
     },
     {
       "key": "components/Discussion/Notification/dropdown/ALL/label",
@@ -1288,7 +1300,7 @@
     },
     {
       "key": "components/Discussion/Notification/settings",
-      "value": "Einstellungen"
+      "value": "Allgemeine Einstellungen"
     },
     {
       "key": "components/Discussion/Notification/enable",

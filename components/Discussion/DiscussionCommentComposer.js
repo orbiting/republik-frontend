@@ -11,6 +11,12 @@ import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } fr
 
 import Box from '../Frame/Box'
 
+const EtiquetteLink = ({children, ...props}) => (
+  <Link route='etiquette' {...props}>
+    {children}
+  </Link>
+)
+
 class DiscussionCommentComposer extends PureComponent {
   constructor (props) {
     super(props)
@@ -118,6 +124,7 @@ class DiscussionCommentComposer extends PureComponent {
             onCancel={this.onCancel}
             submitComment={this.submitComment}
             submitLabel={t('submitComment/rootSubmitLabel')}
+            EtiquetteLink={EtiquetteLink}
           />
           {showPreferences && (
             <DiscussionPreferences

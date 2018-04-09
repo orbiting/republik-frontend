@@ -35,7 +35,7 @@ export const Before = withT(({t}) => (
   </WithoutMembershipBox>
 ))
 
-export const After = withT(({t}) => (
+export const After = withT(({t, isSeries}) => (
   <WithoutMembershipBox>
     <Interaction.P>
       {t.elements('article/payNote/after', {
@@ -46,5 +46,8 @@ export const After = withT(({t}) => (
         )
       })}
     </Interaction.P>
+    {isSeries && <Interaction.P style={{marginTop: 15}}>
+      {t('article/payNote/after/series')}
+    </Interaction.P>}
   </WithoutMembershipBox>
 ))

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-04T16:59:48.776Z",
+  "updated": "2018-04-09T17:08:13.724Z",
   "title": "live",
   "data": [
     {
@@ -1375,6 +1375,14 @@
       "value": "antworten"
     },
     {
+      "key": "styleguide/CommentComposer/cancel",
+      "value": "abbrechen"
+    },
+    {
+      "key": "styleguide/CommentComposer/etiquette",
+      "value": "Etikette"
+    },
+    {
       "key": "styleguide/CommentActions/answer",
       "value": "antworten"
     },
@@ -2089,6 +2097,10 @@
     {
       "key": "article/payNote/after/buyText",
       "value": "Tun Sie das hier!"
+    },
+    {
+      "key": "article/payNote/after/series",
+      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
       "key": "article/share/emailSubject",

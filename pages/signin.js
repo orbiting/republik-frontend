@@ -11,8 +11,8 @@ import { Router } from '../lib/routes'
 
 class SigninPage extends Component {
   componentDidUpdate () {
-    const { isAuthorized, me } = this.props
-    if (isAuthorized) {
+    const { isMember, me } = this.props
+    if (isMember) {
       Router.pushRoute('index')
       return
     }

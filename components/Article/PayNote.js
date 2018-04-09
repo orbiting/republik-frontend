@@ -1,7 +1,11 @@
 import React from 'react'
+import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
+
 import { WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
+import { countFormat } from '../../lib/utils/format'
 
 import {
   Container,
@@ -21,7 +25,18 @@ const WithoutMembershipBox = ({children, style}) => (
   )} />
 )
 
-export const Before = withT(({t}) => (
+const query = gql`
+query payNoteMembershipStats {
+  membershipStats {
+    count
+  }
+}
+`
+
+export const Before = compose(
+  withT,
+  graphql(query)
+)(({ t, data: { membershipStats } }) => (
   <WithoutMembershipBox>
     <Interaction.P>
       {t.elements('article/payNote/before', {
@@ -29,7 +44,10 @@ export const Before = withT(({t}) => (
           <Link key='buy' route='pledge'>
             <a {...linkRule}>{t('article/payNote/before/buyText')}</a>
           </Link>
-        )
+        ),
+        count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
+          (membershipStats && membershipStats.count) || 18000
+        )}</span>
       })}
     </Interaction.P>
   </WithoutMembershipBox>

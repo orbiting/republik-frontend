@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-09T17:08:13.724Z",
+  "updated": "2018-04-09T17:17:25.067Z",
   "title": "live",
   "data": [
     {
@@ -2084,7 +2084,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 18000 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
+      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der {count} Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist."
     },
     {
       "key": "article/payNote/before/buyText",

@@ -4,18 +4,13 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
-import { withDiscussionDisplayAuthor, submitComment } from './enhancers'
+import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
+import EtiquetteLink from './EtiquetteLink'
 
 import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
-
-const EtiquetteLink = ({children, ...props}) => (
-  <Link route='etiquette' {...props}>
-    {children}
-  </Link>
-)
 
 class DiscussionCommentComposer extends PureComponent {
   constructor (props) {
@@ -79,7 +74,8 @@ class DiscussionCommentComposer extends PureComponent {
     const {
       t, discussionId, discussionDisplayAuthor: displayAuthor, me,
       discussionClosed,
-      discussionUserCanComment
+      discussionUserCanComment,
+      data: {discussion}
     } = this.props
     const {state, showPreferences} = this.state
 
@@ -125,6 +121,7 @@ class DiscussionCommentComposer extends PureComponent {
             submitComment={this.submitComment}
             submitLabel={t('submitComment/rootSubmitLabel')}
             EtiquetteLink={EtiquetteLink}
+            maxLength={discussion && discussion.rules && discussion.rules.maxLength}
           />
           {showPreferences && (
             <DiscussionPreferences
@@ -142,5 +139,6 @@ export default compose(
   withT,
   withMe,
   withDiscussionDisplayAuthor,
+  withDiscussionPreferences,
   submitComment
 )(DiscussionCommentComposer)

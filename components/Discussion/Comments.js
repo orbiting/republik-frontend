@@ -8,6 +8,7 @@ import Loader from '../Loader'
 
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
+import EtiquetteLink from './EtiquetteLink'
 
 import {
   CommentTreeLoadMore,
@@ -88,7 +89,7 @@ class Comments extends PureComponent {
       const { nodes } = this.props.data.discussion.comments
 
       const subIds = (subIdMap[parentId] || [])
-            .filter(id => !nodes.find(c => c.id === id))
+        .filter(id => !nodes.find(c => c.id === id))
       debug('clearSubIds', parentId, subIds)
       return {
         subIdMap: {
@@ -452,7 +453,9 @@ class Comments extends PureComponent {
             return this.props.unpublishComment(...args)
           }}
           timeago={timeagoFromNow}
+          maxLength={discussion && discussion.rules && discussion.rules.maxLength}
           Link={CommentLink}
+          EtiquetteLink={EtiquetteLink}
         />
       )
 

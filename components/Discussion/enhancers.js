@@ -239,6 +239,11 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         verified
       }
     }
+    rules {
+      maxLength
+      minInterval
+      anonymity
+    }
     documentPath
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount

@@ -421,6 +421,16 @@ class Comments extends PureComponent {
         )
       )
 
+      const timeAheadFromNow = (dateString) => {
+        return timeago(t, (new Date() - Date.parse(dateString)) / 1000)
+      }
+      const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+      const replyBlockedMsg = (
+        waitUntilDate &&
+        waitUntilDate > new Date() &&
+        t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})
+      ) || ''
+
       SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
         head,
         tail,
@@ -454,6 +464,7 @@ class Comments extends PureComponent {
           }}
           timeago={timeagoFromNow}
           maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+          replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
           EtiquetteLink={EtiquetteLink}
         />

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-09T15:02:37.303Z",
+  "updated": "2018-04-11T14:27:16.189Z",
   "title": "live",
   "data": [
     {
@@ -1371,6 +1371,10 @@
       "value": "Einen Beitrag verfassen…"
     },
     {
+      "key": "styleguide/CommentComposer/wait",
+      "value": "Sie können erst {time} wieder einen Beitrag schreiben."
+    },
+    {
       "key": "styleguide/CommentComposer/answer",
       "value": "antworten"
     },
@@ -1505,6 +1509,62 @@
     {
       "key": "timeago/years/other",
       "value": "vor {count} Jahren"
+    },
+    {
+      "key": "timeAhead/seconds/1",
+      "value": "in einer Sekunde"
+    },
+    {
+      "key": "timeAhead/seconds/other",
+      "value": "in {count} Sekunden"
+    },
+    {
+      "key": "timeAhead/minutes/1",
+      "value": "in einer Minute"
+    },
+    {
+      "key": "timeAhead/minutes/other",
+      "value": "in {count} Minuten"
+    },
+    {
+      "key": "timeAhead/hours/1",
+      "value": "in einer Stunde"
+    },
+    {
+      "key": "timeAhead/hours/other",
+      "value": "in {count} Stunden"
+    },
+    {
+      "key": "timeAhead/days/1",
+      "value": "in einem Tag"
+    },
+    {
+      "key": "timeAhead/days/other",
+      "value": "in {count} Tagen"
+    },
+    {
+      "key": "timeAhead/weeks/1",
+      "value": "in einer Woche"
+    },
+    {
+      "key": "timeAhead/weeks/other",
+      "value": "in {count} Wochen"
+    },
+    {
+      "key": "timeAhead/months/1",
+      "value": "in einem Monat"
+    },
+    {
+      "key": "timeAhead/months/other",
+      "value": "in {count} Monaten"
+    },
+    {
+      "key": "timeAhead/years/1",
+      "value": "in einem Jahr"
+    },
+    {
+      "key": "timeAhead/years/other",
+      "value": "in {count} Jahren"
     },
     {
       "key": "components/DiscussionPreferences/save",
@@ -2084,7 +2144,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 18000 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
+      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der {count} Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2097,6 +2157,10 @@
     {
       "key": "article/payNote/after/buyText",
       "value": "Tun Sie das hier!"
+    },
+    {
+      "key": "article/payNote/after/series",
+      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
       "key": "article/share/emailSubject",

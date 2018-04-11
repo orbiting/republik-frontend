@@ -1,8 +1,11 @@
 import React, {PureComponent} from 'react'
 import { compose } from 'react-apollo'
+import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
+
+import Loader from '../Loader'
 
 import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
@@ -75,63 +78,86 @@ class DiscussionCommentComposer extends PureComponent {
       t, discussionId, discussionDisplayAuthor: displayAuthor, me,
       discussionClosed,
       discussionUserCanComment,
-      data: {discussion}
+      data: {loading, error, discussion}
     } = this.props
     const {state, showPreferences} = this.state
 
-    if (!me || discussionClosed) {
-      return null
-    } else {
-      if (!discussionUserCanComment) {
-        return (
-          <Box style={{padding: '15px 20px'}}>
-            <Interaction.P>
-              {t.elements('submitComment/notEligible', {
-                pledgeLink: (
-                  <Link route='pledge' key='pledge'>
-                    <a {...linkRule}>
-                      {t('submitComment/notEligible/pledgeText')}
-                    </a>
-                  </Link>
-                )
-              })}
-            </Interaction.P>
-          </Box>
-        )
-      }
-
-      if (state === 'idle') {
-        return (
-          <CommentComposerPlaceholder
-            t={t}
-            profilePicture={displayAuthor ? displayAuthor.profilePicture : null}
-            onClick={this.onFocus}
-          />
-        )
-      }
-
-      return (
-        <div>
-          <CommentComposer
-            t={t}
-            displayAuthor={displayAuthor}
-            error={this.state.error}
-            onEditPreferences={this.showPreferences}
-            onCancel={this.onCancel}
-            submitComment={this.submitComment}
-            submitLabel={t('submitComment/rootSubmitLabel')}
-            EtiquetteLink={EtiquetteLink}
-            maxLength={discussion && discussion.rules && discussion.rules.maxLength}
-          />
-          {showPreferences && (
-            <DiscussionPreferences
-              discussionId={discussionId}
-              onClose={this.closePreferences}
-            />
-          )}
-        </div>
-      )
+    const timeAheadFromNow = (dateString) => {
+      return timeago(t, (new Date() - Date.parse(dateString)) / 1000)
     }
+
+    return (
+      <Loader
+        loading={loading}
+        error={error || (discussion === null && t('discussion/missing'))}
+        render={() => {
+          if (!me || discussionClosed) {
+            return null
+          } else {
+            if (!discussionUserCanComment) {
+              return (
+                <Box style={{padding: '15px 20px'}}>
+                  <Interaction.P>
+                    {t.elements('submitComment/notEligible', {
+                      pledgeLink: (
+                        <Link route='pledge' key='pledge'>
+                          <a {...linkRule}>
+                            {t('submitComment/notEligible/pledgeText')}
+                          </a>
+                        </Link>
+                      )
+                    })}
+                  </Interaction.P>
+                </Box>
+              )
+            }
+
+            const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+            if (waitUntilDate && waitUntilDate > new Date()) {
+              return (
+                <Box style={{padding: '15px 20px'}}>
+                  <Interaction.P>
+                    {t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})}
+                  </Interaction.P>
+                </Box>
+              )
+            }
+
+            if (state === 'idle') {
+              return (
+                <CommentComposerPlaceholder
+                  t={t}
+                  profilePicture={displayAuthor ? displayAuthor.profilePicture : null}
+                  onClick={this.onFocus}
+                />
+              )
+            }
+
+            return (
+              <div>
+                <CommentComposer
+                  t={t}
+                  displayAuthor={displayAuthor}
+                  error={this.state.error}
+                  onEditPreferences={this.showPreferences}
+                  onCancel={this.onCancel}
+                  submitComment={this.submitComment}
+                  submitLabel={t('submitComment/rootSubmitLabel')}
+                  EtiquetteLink={EtiquetteLink}
+                  maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+                />
+                {showPreferences && (
+                  <DiscussionPreferences
+                    discussionId={discussionId}
+                    onClose={this.closePreferences}
+                  />
+                )}
+              </div>
+            )
+          }
+        }}
+      />
+    )
   }
 }
 

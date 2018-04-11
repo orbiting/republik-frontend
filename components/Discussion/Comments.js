@@ -261,7 +261,7 @@ class Comments extends PureComponent {
     }
 
     const timeagoFromNow = (createdAtString) => {
-      return timeago(t, (now - Date.parse(createdAtString)) / 1000)
+      return timeago(t, Math.abs((now - Date.parse(createdAtString)) / 1000))
     }
 
     const closePending = (accumulator, { next, appendAfter }) => {

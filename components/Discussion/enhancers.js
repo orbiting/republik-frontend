@@ -52,6 +52,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
     id
     closed
     userCanComment
+    userWaitUntil
     displayAuthor {
       id
       name
@@ -239,6 +240,12 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         verified
       }
     }
+    rules {
+      maxLength
+      minInterval
+      anonymity
+    }
+    userWaitUntil
     documentPath
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount
@@ -281,6 +288,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
       userPreference {
         notifications
       }
+      userWaitUntil
     }
   }
 }
@@ -419,6 +427,7 @@ query discussionPreferences($discussionId: ID!) {
       minInterval
       anonymity
     }
+    userWaitUntil
     userPreference {
       anonymity
       credential {

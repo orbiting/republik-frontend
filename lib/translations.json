@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-09T17:17:25.067Z",
+  "updated": "2018-04-12T13:41:46.904Z",
   "title": "live",
   "data": [
     {
@@ -1319,6 +1319,10 @@
       "value": "Sie haben Benachrichtungen erfolgreich aktiviert."
     },
     {
+      "key": "components/Discussion/etiquette",
+      "value": "Etikette"
+    },
+    {
       "key": "discussion/missing",
       "value": "Diese Diskussion fehlt in unserer Datenbank."
     },
@@ -1371,16 +1375,16 @@
       "value": "Einen Beitrag verfassen…"
     },
     {
+      "key": "styleguide/CommentComposer/wait",
+      "value": "Sie können {time} wieder einen Beitrag schreiben."
+    },
+    {
       "key": "styleguide/CommentComposer/answer",
       "value": "antworten"
     },
     {
       "key": "styleguide/CommentComposer/cancel",
       "value": "abbrechen"
-    },
-    {
-      "key": "styleguide/CommentComposer/etiquette",
-      "value": "Etikette"
     },
     {
       "key": "styleguide/CommentActions/answer",
@@ -1505,6 +1509,58 @@
     {
       "key": "timeago/years/other",
       "value": "vor {count} Jahren"
+    },
+    {
+      "key": "timeAhead/justNow/other",
+      "value": "in weniger als einer Minute"
+    },
+    {
+      "key": "timeAhead/minutes/1",
+      "value": "in einer Minute"
+    },
+    {
+      "key": "timeAhead/minutes/other",
+      "value": "in {count} Minuten"
+    },
+    {
+      "key": "timeAhead/hours/1",
+      "value": "in einer Stunde"
+    },
+    {
+      "key": "timeAhead/hours/other",
+      "value": "in {count} Stunden"
+    },
+    {
+      "key": "timeAhead/days/1",
+      "value": "erst in einem Tag"
+    },
+    {
+      "key": "timeAhead/days/other",
+      "value": "in {count} Tagen"
+    },
+    {
+      "key": "timeAhead/weeks/1",
+      "value": "erst in einer Woche"
+    },
+    {
+      "key": "timeAhead/weeks/other",
+      "value": "in {count} Wochen"
+    },
+    {
+      "key": "timeAhead/months/1",
+      "value": "in einem Monat"
+    },
+    {
+      "key": "timeAhead/months/other",
+      "value": "in {count} Monaten"
+    },
+    {
+      "key": "timeAhead/years/1",
+      "value": "in einem Jahr"
+    },
+    {
+      "key": "timeAhead/years/other",
+      "value": "in {count} Jahren"
     },
     {
       "key": "components/DiscussionPreferences/save",

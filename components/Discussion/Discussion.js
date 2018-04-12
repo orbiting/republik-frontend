@@ -33,13 +33,24 @@ class Discussion extends PureComponent {
 
     this.state = {
       orderBy: 'HOT', // DiscussionOrder
-      reload: 0
+      reload: 0,
+      now: Date.now()
     }
+  }
+
+  componentDidMount () {
+    this.intervalId = setInterval(() => {
+      this.setState({ now: Date.now() })
+    }, 30 * 1000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.intervalId)
   }
 
   render () {
     const {t, discussionId, focusId = null, mute, url} = this.props
-    const {orderBy, reload} = this.state
+    const {orderBy, reload, now} = this.state
 
     const OrderBy = ({children, value}) => (
       <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
@@ -57,6 +68,7 @@ class Discussion extends PureComponent {
           focusId={focusId}
           depth={1}
           parentId={null}
+          now={now}
         />
 
         <NotificationOptions discussionId={discussionId} mute={mute} url={url} />
@@ -82,6 +94,7 @@ class Discussion extends PureComponent {
           parentId={null}
           reload={reload}
           orderBy={orderBy}
+          now={now}
         />
       </div>
     )

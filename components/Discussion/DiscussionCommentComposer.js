@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import { compose } from 'react-apollo'
-import timeago from '../../lib/timeago'
+import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
@@ -78,12 +78,13 @@ class DiscussionCommentComposer extends PureComponent {
       t, discussionId, discussionDisplayAuthor: displayAuthor, me,
       discussionClosed,
       discussionUserCanComment,
-      data: {loading, error, discussion}
+      data: {loading, error, discussion},
+      now
     } = this.props
     const {state, showPreferences} = this.state
 
     const timeAheadFromNow = (dateString) => {
-      return timeago(t, (new Date() - Date.parse(dateString)) / 1000)
+      return timeahead(t, (now - Date.parse(dateString)) / 1000)
     }
 
     return (

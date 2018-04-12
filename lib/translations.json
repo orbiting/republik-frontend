@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-11T14:27:16.189Z",
+  "updated": "2018-04-12T12:31:09.655Z",
   "title": "live",
   "data": [
     {
@@ -1511,12 +1511,8 @@
       "value": "vor {count} Jahren"
     },
     {
-      "key": "timeAhead/seconds/1",
-      "value": "in einer Sekunde"
-    },
-    {
-      "key": "timeAhead/seconds/other",
-      "value": "in {count} Sekunden"
+      "key": "timeAhead/justNow/other",
+      "value": "in weniger als einer Minute"
     },
     {
       "key": "timeAhead/minutes/1",

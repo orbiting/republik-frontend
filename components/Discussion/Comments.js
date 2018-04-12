@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
 import Loader from '../Loader'
@@ -51,7 +52,6 @@ class Comments extends PureComponent {
       subIdMap: {
         root: []
       },
-      now: Date.now(),
       showPreferences: false,
       maxVisualDepth: 3,
       closedPortals: {},
@@ -116,9 +116,6 @@ class Comments extends PureComponent {
         })
       }
     })
-    this.intervalId = setInterval(() => {
-      this.setState({ now: Date.now() })
-    }, 30 * 1000)
     this.fetchFocus()
   }
   componentDidUpdate (prevProps, prevState) {
@@ -131,7 +128,6 @@ class Comments extends PureComponent {
   }
   componentWillUnmount () {
     this.unsubscribe()
-    clearInterval(this.intervalId)
   }
   fetchFocus () {
     const {
@@ -207,7 +203,8 @@ class Comments extends PureComponent {
       fetchMore,
       discussionUserCanComment,
       discussionClosed,
-      data: { discussion }
+      data: { discussion },
+      now
     } = this.props
 
     const CommentLink = ({displayAuthor, commentId, children, ...props}) => {
@@ -234,7 +231,6 @@ class Comments extends PureComponent {
     ) || undefined
 
     const {
-      now,
       subIdMap,
       maxVisualDepth,
       closedPortals,
@@ -261,7 +257,7 @@ class Comments extends PureComponent {
     }
 
     const timeagoFromNow = (createdAtString) => {
-      return timeago(t, Math.abs((now - Date.parse(createdAtString)) / 1000))
+      return timeago(t, (now - Date.parse(createdAtString)) / 1000)
     }
 
     const closePending = (accumulator, { next, appendAfter }) => {
@@ -422,12 +418,12 @@ class Comments extends PureComponent {
       )
 
       const timeAheadFromNow = (dateString) => {
-        return timeago(t, (new Date() - Date.parse(dateString)) / 1000)
+        return timeahead(t, (now - Date.parse(dateString)) / 1000)
       }
       const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
       const replyBlockedMsg = (
         waitUntilDate &&
-        waitUntilDate > new Date() &&
+        waitUntilDate > now &&
         t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})
       ) || ''
 

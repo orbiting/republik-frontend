@@ -462,7 +462,7 @@ class Comments extends PureComponent {
           maxLength={discussion && discussion.rules && discussion.rules.maxLength}
           replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
-          etiquetteLink={EtiquetteLink}
+          etiquetteLink={<EtiquetteLink />}
         />
       )
 

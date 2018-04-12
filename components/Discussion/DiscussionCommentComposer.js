@@ -144,7 +144,7 @@ class DiscussionCommentComposer extends PureComponent {
                   onCancel={this.onCancel}
                   submitComment={this.submitComment}
                   submitLabel={t('submitComment/rootSubmitLabel')}
-                  EtiquetteLink={EtiquetteLink}
+                  etiquetteLink={EtiquetteLink}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
                 />
                 {showPreferences && (

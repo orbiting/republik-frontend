@@ -1,10 +1,21 @@
 import React from 'react'
-import { Link } from '../../lib/routes'
+import {css} from 'glamor'
+import withT from '../../lib/withT'
+import {colors, fontStyles} from '@project-r/styleguide'
 
-const EtiquetteLink = ({children, ...props}) => (
-  <Link route='etiquette' {...props}>
-    {children}
-  </Link>
+const styles = {
+  link: css({
+    ...fontStyles.sansSerifRegular16,
+    color: colors.primary,
+    cursor: 'pointer',
+    textDecoration: 'none'
+  })
+}
+
+const EtiquetteLink = ({t}) => (
+  <a {...styles.link} href='/etikette' target='_blank'>
+    {t('components/Discussion/etiquette')}
+  </a>
 )
 
-export default EtiquetteLink
+export default withT(EtiquetteLink)

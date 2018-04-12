@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-12T12:31:09.655Z",
+  "updated": "2018-04-12T13:41:46.904Z",
   "title": "live",
   "data": [
     {
@@ -1319,6 +1319,10 @@
       "value": "Sie haben Benachrichtungen erfolgreich aktiviert."
     },
     {
+      "key": "components/Discussion/etiquette",
+      "value": "Etikette"
+    },
+    {
       "key": "discussion/missing",
       "value": "Diese Diskussion fehlt in unserer Datenbank."
     },
@@ -1372,7 +1376,7 @@
     },
     {
       "key": "styleguide/CommentComposer/wait",
-      "value": "Sie können erst {time} wieder einen Beitrag schreiben."
+      "value": "Sie können {time} wieder einen Beitrag schreiben."
     },
     {
       "key": "styleguide/CommentComposer/answer",
@@ -1381,10 +1385,6 @@
     {
       "key": "styleguide/CommentComposer/cancel",
       "value": "abbrechen"
-    },
-    {
-      "key": "styleguide/CommentComposer/etiquette",
-      "value": "Etikette"
     },
     {
       "key": "styleguide/CommentActions/answer",
@@ -1532,7 +1532,7 @@
     },
     {
       "key": "timeAhead/days/1",
-      "value": "in einem Tag"
+      "value": "erst in einem Tag"
     },
     {
       "key": "timeAhead/days/other",
@@ -1540,7 +1540,7 @@
     },
     {
       "key": "timeAhead/weeks/1",
-      "value": "in einer Woche"
+      "value": "erst in einer Woche"
     },
     {
       "key": "timeAhead/weeks/other",

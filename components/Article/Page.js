@@ -8,6 +8,7 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
+import Extract from './Extract'
 import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
@@ -319,6 +320,22 @@ class ArticlePage extends Component {
     const formatColor = formatMeta && formatMeta.color
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
+
+    if (url.query.extract) {
+      return <Loader loading={data.loading} error={data.error} render={() => {
+        if (!article) {
+          return <StatusError
+            url={url}
+            statusCode={404}
+            serverContext={this.props.serverContext} />
+        }
+
+        return <Extract ranges={url.query.extract} schema={schema} mdast={{
+          ...article.content,
+          format: meta.format
+        }} />
+      }} />
+    }
 
     return (
       <Frame

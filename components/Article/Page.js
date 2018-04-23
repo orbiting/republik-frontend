@@ -330,10 +330,14 @@ class ArticlePage extends Component {
             serverContext={this.props.serverContext} />
         }
 
-        return <Extract ranges={url.query.extract} schema={schema} mdast={{
-          ...article.content,
-          format: meta.format
-        }} />
+        return <Extract
+          ranges={url.query.extract}
+          schema={schema}
+          unpack={url.query.unpack}
+          mdast={{
+            ...article.content,
+            format: meta.format
+          }} />
       }} />
     }
 

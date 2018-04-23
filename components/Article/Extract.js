@@ -2,7 +2,8 @@ import React, { Fragment } from 'react'
 import Head from 'next/head'
 import { renderMdast } from 'mdast-react-render'
 
-const parseRanges = ranges => (
+// convert string into array of slice arguments, see tests
+export const parseSliceRanges = ranges => (
   ranges.split(':').map(range => {
     let [start, end] = range.split('...')
     start = +start || 0
@@ -32,7 +33,7 @@ export default ({schema, mdast, ranges}) => {
   }
 
   const part = sliceNode(
-    mdast, parseRanges(ranges)
+    mdast, parseSliceRanges(ranges)
   )
 
   return (

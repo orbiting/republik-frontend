@@ -27,7 +27,8 @@ const ShareButtons = ({
   discussionUrl,
   discussionCount,
   fill,
-  onAudioClick
+  onAudioClick,
+  pdfUrl
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
@@ -56,6 +57,7 @@ const ShareButtons = ({
       icon: 'whatsapp',
       title: t('article/actionbar/whatsapp')
     },
+    { space: true },
     {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
@@ -75,6 +77,11 @@ const ShareButtons = ({
       icon: 'download',
       title: t('article/actionbar/download')
     },
+    pdfUrl && {
+      icon: 'pdf',
+      href: pdfUrl,
+      title: t('article/actionbar/pdf')
+    },
     onAudioClick && {
       icon: 'audio',
       href: '#audio',
@@ -90,7 +97,9 @@ const ShareButtons = ({
     <span {...styles.buttonGroup}>
       {shareOptions
         .filter(Boolean)
-        .map((props, i) => <IconLink key={i} fill={fill} {...props} />)}
+        .map((props, i) => props.space
+          ? '\u00a0'
+          : <IconLink key={i} fill={fill} {...props} />)}
     </span>
   )
 }

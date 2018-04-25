@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-12T13:41:46.904Z",
+  "updated": "2018-04-25T16:22:28.651Z",
   "title": "live",
   "data": [
     {
@@ -2189,6 +2189,10 @@
     {
       "key": "article/actionbar/audio",
       "value": "Artikel anhören"
+    },
+    {
+      "key": "article/actionbar/pdf",
+      "value": "Als PDF öffnen"
     },
     {
       "key": "article/series/episode",

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-12T13:41:46.904Z",
+  "updated": "2018-04-26T14:37:38.432Z",
   "title": "live",
   "data": [
     {
@@ -417,6 +417,18 @@
     {
       "key": "researchBudget/description",
       "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben."
+    },
+    {
+      "key": "markdown/pageTitle",
+      "value": "Markdown – Republik"
+    },
+    {
+      "key": "markdown/title",
+      "value": "Markdown"
+    },
+    {
+      "key": "markdown/description",
+      "value": "Wie Sie Ihre Debattenbeiträge mit Markdown formatieren können"
     },
     {
       "key": "account/signedOut/title",
@@ -1323,6 +1335,10 @@
       "value": "Etikette"
     },
     {
+      "key": "components/Discussion/markdown/title",
+      "value": "Sie können Ihren Beitrag mit Markdown formatieren"
+    },
+    {
       "key": "discussion/missing",
       "value": "Diese Diskussion fehlt in unserer Datenbank."
     },
@@ -2189,6 +2205,10 @@
     {
       "key": "article/actionbar/audio",
       "value": "Artikel anhören"
+    },
+    {
+      "key": "article/actionbar/pdf",
+      "value": "Als PDF öffnen"
     },
     {
       "key": "article/series/episode",

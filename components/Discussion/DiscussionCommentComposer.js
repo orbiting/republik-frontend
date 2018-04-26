@@ -9,7 +9,7 @@ import Loader from '../Loader'
 
 import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
-import EtiquetteLink from './EtiquetteLink'
+import SecondaryActions from './SecondaryActions'
 
 import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
 
@@ -144,7 +144,7 @@ class DiscussionCommentComposer extends PureComponent {
                   onCancel={this.onCancel}
                   submitComment={this.submitComment}
                   submitLabel={t('submitComment/rootSubmitLabel')}
-                  etiquetteLink={<EtiquetteLink />}
+                  secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
                 />
                 {showPreferences && (

@@ -8,7 +8,9 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
+import Extract from './Extract'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
@@ -24,7 +26,7 @@ import {
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -64,12 +66,13 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, pdfUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
       dossierUrl={dossierUrl}
+      pdfUrl={pdfUrl}
       emailSubject={t('article/share/emailSubject', {
         title
       })}
@@ -232,7 +235,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article } }) {
+  deriveStateFromProps ({ t, me, data: { article } }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -252,7 +255,11 @@ class ArticlePage extends Component {
         discussionId={linkedDiscussionId}
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio.bind(this)} />
+        onAudioClick={meta.audioSource && this.toggleAudio}
+        pdfUrl={(
+          meta.template === 'article' && me && me.roles.length > 1 &&
+          `${ASSETS_SERVER_BASE_URL}/pdf${meta.path}.pdf`
+        )} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -320,6 +327,26 @@ class ArticlePage extends Component {
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
+    if (url.query.extract) {
+      return <Loader loading={data.loading} error={data.error} render={() => {
+        if (!article) {
+          return <StatusError
+            url={url}
+            statusCode={404}
+            serverContext={this.props.serverContext} />
+        }
+
+        return <Extract
+          ranges={url.query.extract}
+          schema={schema}
+          unpack={url.query.unpack}
+          mdast={{
+            ...article.content,
+            format: meta.format
+          }} />
+      }} />
+    }
+
     return (
       <Frame
         raw
@@ -331,7 +358,7 @@ class ArticlePage extends Component {
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio.bind(this)}
+        audioCloseHandler={this.toggleAudio}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
@@ -381,6 +408,7 @@ class ArticlePage extends Component {
 
 export default compose(
   withT,
+  withMe,
   withMembership,
   graphql(getDocument, {
     options: ({url: {asPath}}) => ({

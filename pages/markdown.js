@@ -14,7 +14,8 @@ import {
   CommentBodyListItem,
   CommentBodyParagraph,
   Editorial,
-  Interaction
+  Interaction,
+  HR
 } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
@@ -94,6 +95,10 @@ export default withData(
                   Ein <CommentBodyCode>CodeBeispiel()</CommentBodyCode> im Text
                 </CommentBodyParagraph>
               </td>
+            </tr>
+            <tr>
+              <td>***</td>
+              <td><HR /></td>
             </tr>
             <tr>
               <td>

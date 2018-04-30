@@ -8,6 +8,7 @@ import Frame from '../components/Frame'
 import {
   colors,
   CommentBodyBlockQuote,
+  CommentBodyBlockQuoteParagraph,
   CommentBodyCode,
   CommentBodyHeading,
   CommentBodyList,
@@ -86,7 +87,11 @@ export default withData(
             </tr>
             <tr>
               <td>> Ein Zitat</td>
-              <td><CommentBodyBlockQuote>Ein Zitat</CommentBodyBlockQuote></td>
+              <td>
+                <CommentBodyBlockQuote>
+                  <CommentBodyBlockQuoteParagraph>Ein Zitat</CommentBodyBlockQuoteParagraph>
+                </CommentBodyBlockQuote>
+              </td>
             </tr>
             <tr>
               <td>Ein `CodeBeispiel()` im Text</td>

@@ -144,6 +144,7 @@ export default withData(({url}) => {
       Patrick Recher
           </A>
     , Software-Entwickler<br />
+      Patrick Venetz, Software-Entwickler<br />
           <A href='/~5b5c7e77-f866-4ab5-b242-3ef1874cd4b2'>
       Richard Höchner
           </A>

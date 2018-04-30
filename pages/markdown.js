@@ -61,17 +61,17 @@ export default withData(
             </tr>
             <tr>
               <td>**fett**</td>
-              <td><Emphasis>Fett</Emphasis></td>
+              <td><Emphasis>fett</Emphasis></td>
             </tr>
             <tr>
               <td>*kursiv*</td>
-              <td><Cursive>Kursiv</Cursive></td>
+              <td><Cursive>kursiv</Cursive></td>
             </tr>
             <tr>
               <td>~~durchgestrichen~~</td>
               <td>
                 <CommentBodyParagraph>
-                  <StrikeThrough>Durchgestrichen</StrikeThrough>
+                  <StrikeThrough>durchgestrichen</StrikeThrough>
                 </CommentBodyParagraph>
               </td>
             </tr>

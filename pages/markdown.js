@@ -41,7 +41,7 @@ export default withData(
       pageTitle: t('markdown/pageTitle'),
       title: t('markdown/title'),
       description: t('markdown/description'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/markdown.png`,
       url: `${PUBLIC_BASE_URL}${url.pathname}`
     }
 
@@ -75,7 +75,7 @@ export default withData(
               </td>
             </tr>
             <tr>
-              <td>Ein [Link](https://www.republik.ch)</td>
+              <td>Ein [Link](https://republik.ch)</td>
               <td>
                 <CommentBodyParagraph>Ein <A href='https://www.republik.ch'>Link</A></CommentBodyParagraph>
               </td>

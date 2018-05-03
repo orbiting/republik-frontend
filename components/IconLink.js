@@ -12,6 +12,7 @@ import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
 import LinkIcon from './Icons/Web'
+import MarkdownIcon from 'react-icons/lib/go/markdown'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
@@ -63,6 +64,7 @@ const ICONS = {
   dossier: FolderIcon,
   link: LinkIcon,
   mail: MailIcon,
+  markdown: MarkdownIcon,
   share: ShareIcon,
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,

@@ -84,6 +84,7 @@ export const fragments = {
   comment: gql`
     fragment Comment on Comment {
       id
+      text
       content
       published
       adminUnpublished
@@ -200,6 +201,21 @@ ${fragments.comment}
   })
 })
 
+const optimisticContent = text => ({
+  content: {
+    type: 'root',
+    children: [
+      {
+        type: 'paragraph',
+        children: [
+          {type: 'text', value: text}
+        ]
+      }
+    ]
+  },
+  text
+})
+
 export const editComment = graphql(gql`
 mutation discussionEditComment($commentId: ID!, $content: String!) {
   editComment(id: $commentId, content: $content) {
@@ -216,7 +232,7 @@ ${fragments.comment}
           __typename: 'Mutation',
           submitComment: {
             ...comment,
-            content
+            ...optimisticContent(content)
           }
         }
       }).catch(toRejectedString)
@@ -314,7 +330,7 @@ ${fragments.comment}
             __typename: 'Mutation',
             submitComment: {
               id,
-              content,
+              ...optimisticContent(content),
               published: true,
               adminUnpublished: false,
               userCanEdit: true,

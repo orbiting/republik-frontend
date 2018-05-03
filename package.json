@@ -89,7 +89,7 @@
     "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^5.74.0",
+    "@project-r/styleguide": "^5.75.0",
     "apollo-cache-inmemory": "^1.1.4",
     "apollo-client": "^2.0.4",
     "apollo-fetch": "^0.7.0",

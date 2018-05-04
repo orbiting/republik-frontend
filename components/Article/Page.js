@@ -8,6 +8,7 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
+import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -26,7 +27,7 @@ import {
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -66,12 +67,13 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, pdfUrl, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
       dossierUrl={dossierUrl}
+      onPdfClick={onPdfClick}
       pdfUrl={pdfUrl}
       emailSubject={t('article/share/emailSubject', {
         title
@@ -167,6 +169,11 @@ class ArticlePage extends Component {
         showAudioPlayer: !this.state.showAudioPlayer
       })
     }
+    this.togglePdf = () => {
+      this.setState({
+        showPdf: !this.state.showPdf
+      })
+    }
 
     this.state = {
       primaryNavExpanded: false,
@@ -247,6 +254,8 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
+    const hasPdf = meta && meta.template === 'article' && me && me.roles.length > 1
+
     const actionBar = meta && (
       <ActionBar t={t}
         url={meta.url}
@@ -256,10 +265,11 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        pdfUrl={(
-          meta.template === 'article' && me && me.roles.length > 1 &&
-          `${ASSETS_SERVER_BASE_URL}/pdf${meta.path}.pdf`
-        )} />
+        onPdfClick={(
+          hasPdf && countImages(article.content) > 0 &&
+          this.togglePdf
+        )}
+        pdfUrl={hasPdf && getPdfUrl(meta)} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -373,6 +383,10 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               {!isFormat && <PayNote.Before />}
+              {this.state.showPdf &&
+                <PdfOverlay
+                  article={article}
+                  onClose={this.togglePdf} />}
               <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
                 {() => renderMdast({
                   ...article.content,

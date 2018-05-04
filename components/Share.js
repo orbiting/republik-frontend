@@ -28,6 +28,7 @@ const ShareButtons = ({
   discussionCount,
   fill,
   onAudioClick,
+  onPdfClick,
   pdfUrl
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
@@ -80,7 +81,16 @@ const ShareButtons = ({
     pdfUrl && {
       icon: 'pdf',
       href: pdfUrl,
-      title: t('article/actionbar/pdf')
+      onClick: onPdfClick && (e => {
+        if (e.currentTarget.nodeName === 'A' &&
+          (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+          // ignore click for new tab / new window behavior
+          return
+        }
+        e.preventDefault()
+        onPdfClick()
+      }),
+      title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
     },
     onAudioClick && {
       icon: 'audio',
@@ -98,8 +108,8 @@ const ShareButtons = ({
       {shareOptions
         .filter(Boolean)
         .map((props, i) => props.space
-          ? '\u00a0'
-          : <IconLink key={i} fill={fill} {...props} />)}
+          ? '\u00a0\u00a0'
+          : <IconLink key={props.icon} fill={fill} {...props} />)}
     </span>
   )
 }

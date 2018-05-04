@@ -11,7 +11,6 @@ import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import withMe from '../../lib/apollo/withMe'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
@@ -242,7 +241,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, me, data: { article } }) {
+  deriveStateFromProps ({ t, data: { article } }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -254,7 +253,7 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
-    const hasPdf = meta && meta.template === 'article' && me && me.roles.length > 1
+    const hasPdf = meta && meta.template === 'article'
 
     const actionBar = meta && (
       <ActionBar t={t}
@@ -422,7 +421,6 @@ class ArticlePage extends Component {
 
 export default compose(
   withT,
-  withMe,
   withMembership,
   graphql(getDocument, {
     options: ({url: {asPath}}) => ({

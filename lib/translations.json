@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-26T14:37:38.432Z",
+  "updated": "2018-05-04T11:14:56.281Z",
   "title": "live",
   "data": [
     {
@@ -2207,12 +2207,36 @@
       "value": "Artikel anhören"
     },
     {
-      "key": "article/actionbar/pdf",
+      "key": "article/actionbar/pdf/open",
       "value": "Als PDF öffnen"
+    },
+    {
+      "key": "article/actionbar/pdf/options",
+      "value": "PDF-Optionen"
     },
     {
       "key": "article/series/episode",
       "value": "Episode {count}"
+    },
+    {
+      "key": "article/pdf/title",
+      "value": "PDF"
+    },
+    {
+      "key": "article/pdf/open",
+      "value": "öffnen"
+    },
+    {
+      "key": "article/pdf/download",
+      "value": "herunterladen"
+    },
+    {
+      "key": "article/pdf/images/1",
+      "value": "mit einem Bild"
+    },
+    {
+      "key": "article/pdf/images/other",
+      "value": "mit {count} Bilder"
     },
     {
       "key": "merci/postpay/waiting",

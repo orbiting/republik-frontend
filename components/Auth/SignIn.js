@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
+import urlsafeBas64 from 'urlsafe-base64'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import isEmail from 'validator/lib/isEmail'
@@ -52,12 +53,19 @@ class SignIn extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: props.email || '',
+      email: this.ensureDecodedEmail(props.email) || '',
       polling: false,
       loading: false,
       success: undefined
     }
   }
+
+  ensureDecodedEmail (email) {
+    return email && urlsafeBas64.validate(email)
+      ? urlsafeBas64.decode(Buffer.from(email)).toString()
+      : email
+  }
+
   render () {
     const {t, label} = this.props
     const {

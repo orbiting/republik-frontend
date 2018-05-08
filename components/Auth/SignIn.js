@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
-import urlsafeBas64 from 'urlsafe-base64'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
+import { decode, match } from '../../lib/utils/base64u'
 import isEmail from 'validator/lib/isEmail'
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
@@ -61,9 +61,7 @@ class SignIn extends Component {
   }
 
   ensureDecodedEmail (email) {
-    return email && urlsafeBas64.validate(email)
-      ? urlsafeBas64.decode(Buffer.from(email)).toString()
-      : email
+    return email && match(email) ? decode(email) : email
   }
 
   render () {

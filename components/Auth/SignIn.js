@@ -49,19 +49,18 @@ const styles = {
   })
 }
 
+const ensureDecodedEmail =
+  (email = '') => match(email) ? decode(email) : email
+
 class SignIn extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: this.ensureDecodedEmail(props.email) || '',
+      email: ensureDecodedEmail(props.email) || '',
       polling: false,
       loading: false,
       success: undefined
     }
-  }
-
-  ensureDecodedEmail (email) {
-    return email && match(email) ? decode(email) : email
   }
 
   render () {

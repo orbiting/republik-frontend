@@ -134,7 +134,6 @@
     "react-maskedinput": "^4.0.1",
     "react-textarea-autosize": "^5.1.0",
     "subscriptions-transport-ws": "^0.9.1",
-    "urlsafe-base64": "^1.0.0",
     "uuid": "^3.1.0",
     "valid-url": "^1.0.9",
     "validator": "^9.4.1"

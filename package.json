@@ -74,6 +74,7 @@
     }
   },
   "devDependencies": {
+    "abab": "^2.0.0",
     "babel-tape-runner": "^2.0.1",
     "cross-env": "^5.1.1",
     "enzyme": "^3.1.0",

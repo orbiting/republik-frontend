@@ -7,7 +7,6 @@ import { Button, InlineSpinner, Interaction, Label, Loader, fontFamilies, colors
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 import { Router } from '../../lib/routes'
-import { ensureDecodedEmail } from '../../lib/utils/base64u'
 
 import { errorToString } from '../../lib/utils/errors'
 
@@ -82,7 +81,7 @@ class TokenAuthorization extends Component {
         const { country, city, ipAddress, userAgent } = unauthorizedSession
         return (
           <Fragment>
-            <P>{t('notifications/authorization/text/before', { email: ensureDecodedEmail(email) })}</P>
+            <P>{t('notifications/authorization/text/before', { email })}</P>
             <div style={{margin: '20px 0'}}>
               <P>
                 <Label>{t('notifications/authorization/location')}</Label><br />
@@ -127,7 +126,7 @@ class TokenAuthorization extends Component {
               </Button>}
             <br />
             <br />
-            <Label>{t('notifications/authorization/text/after', { email: ensureDecodedEmail(email) })}</Label>
+            <Label>{t('notifications/authorization/text/after', { email })}</Label>
           </Fragment>
         )
       }} />

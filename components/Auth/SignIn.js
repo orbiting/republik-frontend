@@ -5,7 +5,6 @@ import gql from 'graphql-tag'
 import {css} from 'glamor'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
-import { ensureDecodedEmail } from '../../lib/utils/base64u'
 import isEmail from 'validator/lib/isEmail'
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
@@ -53,7 +52,7 @@ class SignIn extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      email: ensureDecodedEmail(props.email) || '',
+      email: props.email || '',
       polling: false,
       loading: false,
       success: undefined

@@ -82,6 +82,11 @@ query getSearchResults($search: String, $sortKey: SearchSortKey!) {
           username
           firstName
           lastName
+          credentials {
+            verified
+            description
+            isListed
+          }
           hasPublicProfile
         }
       }

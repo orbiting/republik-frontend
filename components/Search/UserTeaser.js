@@ -19,7 +19,7 @@ const styles = {
     alignItems: 'center',
     borderTop: `1px solid ${colors.text}`,
     margin: '0 0 40px 0',
-    paddingTop: 10
+    paddingTop: 12
   }),
   profilePicture: css({
     display: 'block',
@@ -27,28 +27,28 @@ const styles = {
     flexGrow: 0,
     flexShrink: 0,
     height: `${profilePictureSize + 2 * profilePictureBorderSize}px`,
-    margin: `${-profilePictureBorderSize}px ${-profilePictureBorderSize + profilePictureMargin}px ${-profilePictureBorderSize}px ${-profilePictureBorderSize}px`,
-    border: `${profilePictureBorderSize}px solid #fff`
+    marginRight: 15
   }),
   meta: css({
     alignSelf: 'stretch',
-    display: 'flex',
+    display: 'block',
     flexDirection: 'column',
     justifyContent: 'center',
     width: `calc(100% - ${profilePictureSize + profilePictureMargin}px)`
   }),
   name: css({
     ...fontStyles.sansSerifMedium22,
-    lineHeight: '20px',
+    lineHeight: '24px',
     color: colors.text,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 5
   }),
 
   description: css({
     ...fontStyles.sansSerifRegular18,
-    lineHeight: '20px',
-    color: colors.lightText,
+    lineHeight: '24px',
+    color: colors.text,
     display: 'flex',
     alignItems: 'center'
   }),
@@ -65,7 +65,8 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({id, username, firstName, lastName, credential}) => {
+export const UserTeaser = ({id, username, firstName, lastName, credentials}) => {
+  const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
       <Link route='profile' params={{ slug: username || id }}>

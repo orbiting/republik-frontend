@@ -22,6 +22,7 @@ class Search extends Component {
     super(props, ...args)
 
     this.state = {
+      dirty: true,
       loading: false,
       searchQuery: '',
       submittedQuery: '',
@@ -40,20 +41,41 @@ class Search extends Component {
     this.onSearch = () => {
       this.props.onSearch(true)
       this.setState({
+        dirty: false,
         submittedQuery: this.state.searchQuery
       })
+    }
+
+    this.onReset = () => {
+      this.props.onSearch(false)
+      this.setState({
+        dirty: false,
+        searchQuery: '',
+        submittedQuery: ''
+      })
+    }
+
+    this.onSubmit = (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      this.onSearch()
     }
   }
 
   render () {
-    const { searchQuery, submittedQuery, sortKey, sortDirection } = this.state
+    const { searchQuery, submittedQuery, dirty, sortKey, sortDirection } = this.state
 
     return (
       <div {...styles.container}>
-        <Input
-          value={searchQuery}
-          onChange={(_, value) => this.setState({searchQuery: value})}
-          onSearch={this.onSearch} />
+        <form onSubmit={this.onSubmit}>
+          <Input
+            value={searchQuery}
+            dirty={dirty}
+            onChange={(_, value) => this.setState({dirty: true, searchQuery: value})}
+            onSearch={this.onSearch}
+            onReset={this.onReset}
+          />
+        </form>
         <Results
           searchQuery={submittedQuery}
           sortKey={sortKey}

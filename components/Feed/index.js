@@ -5,6 +5,8 @@ import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
+import Search from '../Search'
+
 import {
   Center,
   TeaserFeed,
@@ -62,6 +64,20 @@ const greetingSubscription = gql`
 `
 
 class Feed extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+
+    this.state = {
+      showResults: false
+    }
+
+    this.onSearch = (showResults) => {
+      this.setState({
+        showResults
+      })
+    }
+  }
+
   componentDidMount () {
     this.subscribe()
   }
@@ -100,6 +116,7 @@ class Feed extends Component {
 
   render () {
     const { data: { loading, error, documents, greeting } } = this.props
+    const { showResults } = this.state
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
@@ -115,7 +132,8 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              {nodes &&
+              <Search onSearch={this.onSearch} />
+              {!showResults && nodes &&
                 nodes.map(doc => (
                   <TeaserFeed
                     {...doc.meta}

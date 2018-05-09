@@ -129,14 +129,31 @@ class Results extends Component {
           const templateAggregations = search.aggregations.find(
             agg => agg.key === 'template'
           )
+          const typeAggregations = search.aggregations.find(
+            agg => agg.key === 'type'
+          )
 
-          const filters = templateAggregations.buckets.map(bucket => {
-            return {
-              key: bucket.value,
-              label: bucket.value, // TODO: Backend should return labels.
-              count: bucket.count
-            }
-          })
+          const templateFilters = templateAggregations && templateAggregations.buckets
+            .map(bucket => {
+              return {
+                key: bucket.value,
+                label: bucket.value, // TODO: Backend should return labels.
+                count: bucket.count
+              }
+            })
+          const typeFilters = typeAggregations && typeAggregations.buckets
+            .filter(bucket => bucket.value !== 'Document')
+            .map(bucket => {
+              return {
+                key: bucket.value,
+                label: bucket.value, // TODO: Backend should return labels.
+                count: bucket.count
+              }
+            })
+          const filters = [
+            ...templateFilters,
+            ...typeFilters
+          ]
 
           return (
             <div {...styles.container}>

@@ -126,7 +126,6 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
           )}
         </div>
       </NarrowContainer>
-      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 })

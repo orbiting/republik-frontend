@@ -6,6 +6,7 @@ import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
+import { match, decode } from '../lib/utils/base64u'
 
 import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
@@ -57,6 +58,8 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
     (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
   )
 
+  const safeEmail = email && (match(email) ? decode(email) : email)
+
   return (
     <div>
       <Head>
@@ -80,7 +83,7 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
             ? (
               <div {...styles.me}>
                 <TokenAuthorization
-                  email={email}
+                  email={safeEmail}
                   token={token}
                 />
               </div>

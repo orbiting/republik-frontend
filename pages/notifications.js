@@ -1,12 +1,13 @@
 import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
+import isEmail from 'validator/lib/isEmail'
 
 import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
-import { match, decode } from '../lib/utils/base64u'
+import * as base64u from '../lib/utils/base64u'
 
 import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
@@ -44,7 +45,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
+const Page = withT(({ url: { query, query: { context, token } }, t }) => {
   const links = [
     context === 'pledge' && {
       route: 'account',
@@ -52,13 +53,28 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
     }
   ].filter(Boolean)
 
+  let { type, email } = query
+  if (email !== undefined) {
+    try {
+      if (base64u.match(email)) {
+        email = base64u.decode(email)
+      }
+    } catch (e) {}
+
+    if (!isEmail(email)) {
+      type = 'invalid-email'
+      email = ''
+    }
+  }
+
   const displayTokenAuthorization = type === 'token-authorization'
   const displayMe = (
-    type === 'invalid-token' &&
+    (
+      type === 'invalid-token' ||
+      type === 'invalid-email'
+    ) &&
     (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
   )
-
-  const safeEmail = email && (match(email) ? decode(email) : email)
 
   return (
     <div>
@@ -83,13 +99,13 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
             ? (
               <div {...styles.me}>
                 <TokenAuthorization
-                  email={safeEmail}
+                  email={email}
                   token={token}
                 />
               </div>
             )
             : <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t(`notifications/${type}/text`, undefined, '')
+              __html: t(`notifications/${type}/text`, query, '')
             }} />
           }
           {displayMe && (
@@ -110,7 +126,6 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
           )}
         </div>
       </NarrowContainer>
-      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 })

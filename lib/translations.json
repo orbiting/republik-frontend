@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-10T11:56:09.438Z",
+  "updated": "2018-05-11T00:11:07.058Z",
   "title": "live",
   "data": [
     {
@@ -2236,7 +2236,7 @@
     },
     {
       "key": "article/pdf/images/other",
-      "value": "mit {count} Bilder"
+      "value": "mit {count} Bildern"
     },
     {
       "key": "merci/postpay/waiting",

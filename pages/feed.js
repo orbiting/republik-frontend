@@ -16,7 +16,7 @@ const FeedPage = ({ url, me, t }) => {
   }
   return (
     <Frame raw url={url} meta={meta}>
-      <Feed />
+      <Feed url={url} />
     </Frame>
   )
 }

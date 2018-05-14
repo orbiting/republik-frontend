@@ -115,7 +115,8 @@ class Feed extends Component {
   }
 
   render () {
-    const { data: { loading, error, documents, greeting } } = this.props
+    const { url, data: { loading, error, documents, greeting } } = this.props
+    const { query } = url
     const { showResults } = this.state
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
@@ -132,8 +133,8 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              <Search onSearch={this.onSearch} />
-              {!showResults && nodes &&
+              <Search onSearch={this.onSearch} url={url} />
+              {!showResults && !query.search && nodes &&
                 nodes.map(doc => (
                   <TeaserFeed
                     {...doc.meta}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 
+import { Router } from '../../lib/routes'
+
 import Input from './Input'
 import Results from './Results'
 
@@ -39,6 +41,7 @@ class Search extends Component {
         submittedQuery: this.state.searchQuery,
         filters: []
       })
+      this.updateUrl()
     }
 
     this.onReset = () => {
@@ -49,6 +52,7 @@ class Search extends Component {
         submittedQuery: '',
         filters: []
       })
+      this.clearUrl()
     }
 
     this.onSubmit = (e) => {
@@ -77,6 +81,36 @@ class Search extends Component {
       // TODO: Preserve text length filter when available.
       this.setState({
         filters
+      })
+    }
+
+    this.pushUrl = (href) => {
+      const as = href
+      Router.push(href, as, { shallow: true })
+    }
+
+    this.updateUrl = () => {
+      const searchQuery = this.state.searchQuery
+      const href = this.props.url.pathname + (searchQuery ? '?search=' + searchQuery : '')
+      this.pushUrl(href)
+    }
+
+    this.clearUrl = () => {
+      const href = this.props.url.pathname
+      this.pushUrl(href)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { query } = nextProps.url
+
+    if (query.search && query.search !== this.state.searchQuery) {
+      this.props.onSearch && this.props.onSearch(true)
+      this.setState({
+        dirty: false,
+        searchQuery: query.search,
+        submittedQuery: query.search,
+        filters: []
       })
     }
   }

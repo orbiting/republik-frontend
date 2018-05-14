@@ -48,9 +48,11 @@ export default ({value, dirty, onChange, onSearch, onReset}) => (
       onSearch={onSearch}
       onReset={() => {}}
       icon={
-        dirty
-          ? <SearchIcon onSearch={onSearch} />
-          : <ResetIcon onReset={onReset} />
+        !value
+          ? null
+          : dirty
+            ? <SearchIcon onSearch={onSearch} />
+            : <ResetIcon onReset={onReset} />
       }
     />
   </div>

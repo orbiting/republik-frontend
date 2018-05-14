@@ -36,7 +36,8 @@ class Search extends Component {
       this.props.onSearch(true)
       this.setState({
         dirty: false,
-        submittedQuery: this.state.searchQuery
+        submittedQuery: this.state.searchQuery,
+        filters: []
       })
     }
 
@@ -45,7 +46,8 @@ class Search extends Component {
       this.setState({
         dirty: false,
         searchQuery: '',
-        submittedQuery: ''
+        submittedQuery: '',
+        filters: []
       })
     }
 

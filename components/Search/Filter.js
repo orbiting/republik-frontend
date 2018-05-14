@@ -10,6 +10,7 @@ import {
 
 const styles = {
   container: css({
+    display: 'inline-block',
     padding: 0
   }),
   button: css({

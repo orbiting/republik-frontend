@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
+import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 
 import Loader from '../../components/Loader'
@@ -67,6 +68,7 @@ query getSearchResults($search: String, $sort: SearchSortInput, $filters: [Searc
         }
         ... on Comment {
           content
+          createdAt
           displayAuthor {
             profilePicture
             name
@@ -76,6 +78,7 @@ query getSearchResults($search: String, $sort: SearchSortInput, $filters: [Searc
             }
           }
           published
+          updatedAt
         }
         ... on User {
           id
@@ -128,6 +131,10 @@ class Results extends Component {
 
     const sortKey = sort.key
     const sortDirection = sort.direction
+
+    const timeagoFromNow = (createdAtString) => {
+      return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
+    }
 
     return (
       <Loader
@@ -218,6 +225,9 @@ class Results extends Component {
                             content={node.entity.content}
                             displayAuthor={node.entity.displayAuthor}
                             published={node.entity.published}
+                            createdAt={node.entity.createdAt}
+                            updatedAt={node.entity.updatedAt}
+                            timeago={timeagoFromNow}
                             t={t}
                           />
                         </div>

@@ -35,8 +35,8 @@ const styles = {
 }
 
 const getSearchResults = gql`
-query getSearchResults($search: String, $sortKey: SearchSortKey!) {
-  search(first: 300, search: $search, sort: {key: $sortKey}, filters: []) {
+query getSearchResults($search: String, $sort: SearchSortInput, $filters: [SearchGenericFilterInput!]) {
+  search(first: 300, search: $search, sort: $sort, filters: $filters) {
     aggregations {
       key
       count
@@ -98,12 +98,36 @@ query getSearchResults($search: String, $sortKey: SearchSortKey!) {
 `
 
 class Results extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+
+    this.state = {
+      storedAggregations: null
+    }
+  }
+
+  componentWillReceiveProps (props) {
+    if (!props.data) return
+
+    // We gotta remember the original buckets before a filter is applied,
+    // otherwise we'd just end up with the buckets returned by the filter.
+    if (!props.data.loading &&
+        !props.data.error &&
+        props.filters.length === 0 &&
+        props.data.search) {
+      this.setState({storedAggregations: props.data.search.aggregations})
+    }
+  }
+
   render () {
-    const { t, sortKey, sortDirection, onSortClick, data } = this.props
+    const { t, sort, onSortClick, filters, onFilterClick, data } = this.props
 
     if (!data) {
       return null
     }
+
+    const sortKey = sort.key
+    const sortDirection = sort.direction
 
     return (
       <Loader
@@ -124,21 +148,29 @@ class Results extends Component {
             return <P>Keine Ergebnisse</P>
           }
 
-          // TODO: Add text length buckets when available and make
-          // filters within one bucket mutually exclusive.
-          const templateAggregations = search.aggregations.find(
+          const aggregations = this.state.storedAggregations
+            ? this.state.storedAggregations
+            : search.aggregations
+
+          // TODO: Add text length buckets when available.
+          const templateFilter = filters.find(filter => filter.key === 'template')
+          const typeFilter = filters.find(filter => filter.key === 'type')
+
+          const templateAggregations = aggregations.find(
             agg => agg.key === 'template'
           )
-          const typeAggregations = search.aggregations.find(
+          const typeAggregations = aggregations.find(
             agg => agg.key === 'type'
           )
 
           const templateFilters = templateAggregations && templateAggregations.buckets
+            .filter(bucket => bucket.value !== 'front')
             .map(bucket => {
               return {
                 key: bucket.value,
                 label: bucket.value, // TODO: Backend should return labels.
-                count: bucket.count
+                count: bucket.count,
+                selected: !!templateFilter && templateFilter.value === bucket.value
               }
             })
           const typeFilters = typeAggregations && typeAggregations.buckets
@@ -147,17 +179,15 @@ class Results extends Component {
               return {
                 key: bucket.value,
                 label: bucket.value, // TODO: Backend should return labels.
-                count: bucket.count
+                count: bucket.count,
+                selected: !!typeFilter && typeFilter.value === bucket.value
               }
             })
-          const filters = [
-            ...templateFilters,
-            ...typeFilters
-          ]
 
           return (
             <div {...styles.container}>
-              <Filter filters={filters} />
+              <Filter filterBucketKey='template' filters={templateFilters} onClickHander={onFilterClick} />
+              <Filter filterBucketKey='type' filters={typeFilters} onClickHander={onFilterClick} />
               <Sort
                 selectedKey={sortKey}
                 direction={sortDirection}
@@ -213,7 +243,8 @@ export default compose(
     options: props => ({
       variables: {
         search: props.searchQuery,
-        sortKey: props.sortKey
+        sort: props.sort,
+        filters: props.filters
       }
     })
   })

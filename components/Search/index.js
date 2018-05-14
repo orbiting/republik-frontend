@@ -26,16 +26,10 @@ class Search extends Component {
       loading: false,
       searchQuery: '',
       submittedQuery: '',
-      filterKey: null,
-      sortDirection: null,
-      sortKey: 'relevance'
-    }
-
-    this.onSortClick = (sortKey, sortDirection) => {
-      this.setState({
-        sortKey: sortKey,
-        sortDirection: sortDirection
-      })
+      filters: [],
+      sort: {
+        key: 'relevance'
+      }
     }
 
     this.onSearch = () => {
@@ -60,10 +54,33 @@ class Search extends Component {
       e.stopPropagation()
       this.onSearch()
     }
+
+    this.onSortClick = (sortKey, sortDirection) => {
+      this.setState({
+        sort: {
+          key: sortKey,
+          direction: sortDirection
+        }
+      })
+    }
+
+    this.onFilterClick = (filterBucketKey, filterBucketValue) => {
+      const filters = filterBucketValue ? [
+        {
+          key: filterBucketKey,
+          value: filterBucketValue
+        }
+      ] : []
+
+      // TODO: Preserve text length filter when available.
+      this.setState({
+        filters
+      })
+    }
   }
 
   render () {
-    const { searchQuery, submittedQuery, dirty, sortKey, sortDirection } = this.state
+    const { searchQuery, submittedQuery, dirty, filters, sort } = this.state
 
     return (
       <div {...styles.container}>
@@ -78,9 +95,10 @@ class Search extends Component {
         </form>
         <Results
           searchQuery={submittedQuery}
-          sortKey={sortKey}
-          sortDirection={sortDirection}
-          onSortClick={this.onSortClick} />
+          sort={sort}
+          filters={filters}
+          onSortClick={this.onSortClick}
+          onFilterClick={this.onFilterClick} />
       </div>
     )
   }

@@ -36,38 +36,28 @@ const styles = {
 }
 
 class FilterButton extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      selected: false
-    }
-  }
-
   render () {
-    const { filterKey, label, count, onClickHander } = this.props
-    const { selected } = this.state
+    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHander } = this.props
     return (
       <button
         {...styles.button}
         style={selected ? { backgroundColor: colors.primary, color: '#fff' } : {}}
         onClick={() => {
-          onClickHander && onClickHander(filterKey)
-          this.setState({
-            selected: !selected
-          })
+          onClickHander && onClickHander(filterBucketKey, !selected ? filterBucketValue : null)
         }}
       >
         {label}
-        <span {...styles.count}>{count}</span>
+        {count && <span {...styles.count}>{count}</span>}
       </button>
     )
   }
 }
 
 FilterButton.propTypes = {
-  filterKey: PropTypes.string.isRequired,
+  filterBucketKey: PropTypes.string.isRequired,
+  filterBucketValue: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  count: PropTypes.number,
   selected: PropTypes.bool,
   onClickHander: PropTypes.func
 }
@@ -78,14 +68,15 @@ FilterButton.defaultProps = {
 
 class Filter extends Component {
   render () {
-    const { onClickHander, selectedKey, filters } = this.props
+    const { onClickHander, filterBucketKey, filters } = this.props
     return (
       <div {...styles.container}>
-        {filters.map(({key, label, count}) => (
+        {filters.map(({key, label, count, selected}) => (
           <FilterButton
             key={key}
-            filterKey={key}
-            selected={selectedKey === key}
+            filterBucketKey={filterBucketKey}
+            filterBucketValue={key}
+            selected={selected}
             label={label}
             count={count}
             onClickHander={onClickHander} />
@@ -97,7 +88,15 @@ class Filter extends Component {
 
 Filter.propTypes = {
   onClickHander: PropTypes.func,
-  selectedKey: PropTypes.string
+  filterBucketKey: PropTypes.string,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      count: PropTypes.number,
+      selected: PropTypes.bool
+    })
+  )
 }
 
 export default Filter

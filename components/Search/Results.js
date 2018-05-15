@@ -201,9 +201,11 @@ class Results extends Component {
       } */
     ]
 
+    const resultsEmpty = data && data.search && data.search.totalCount === 0
+
     return (
       <div {...styles.container}>
-        {aggregations && (
+        {aggregations && !resultsEmpty && (
           <Fragment>
             <FilterButtonGroup
               filterBucketKey='template'

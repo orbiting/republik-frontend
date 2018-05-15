@@ -1,5 +1,5 @@
 {
-  "updated": "2018-04-12T13:41:46.904Z",
+  "updated": "2018-05-15T21:36:06.656Z",
   "title": "live",
   "data": [
     {
@@ -388,7 +388,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: node.js-Entwicklerin (70 - 100%)"
+      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
     },
     {
       "key": "jobs/description",
@@ -417,6 +417,18 @@
     {
       "key": "researchBudget/description",
       "value": "Erzählen Sie Ihre besten Geschichten bei uns. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben."
+    },
+    {
+      "key": "markdown/pageTitle",
+      "value": "Markdown – Republik"
+    },
+    {
+      "key": "markdown/title",
+      "value": "Markdown"
+    },
+    {
+      "key": "markdown/description",
+      "value": "Wie Sie Ihre Debattenbeiträge mit Markdown formatieren können"
     },
     {
       "key": "account/signedOut/title",
@@ -1103,6 +1115,10 @@
       "value": "Navigation schliessen"
     },
     {
+      "key": "header/nav/search/aria",
+      "value": "Suche"
+    },
+    {
       "key": "header/logo/feed/aria",
       "value": "Republik – Feed"
     },
@@ -1321,6 +1337,10 @@
     {
       "key": "components/Discussion/etiquette",
       "value": "Etikette"
+    },
+    {
+      "key": "components/Discussion/markdown/title",
+      "value": "Sie können Ihren Beitrag mit Markdown formatieren"
     },
     {
       "key": "discussion/missing",
@@ -2191,8 +2211,36 @@
       "value": "Artikel anhören"
     },
     {
+      "key": "article/actionbar/pdf/open",
+      "value": "Als PDF öffnen"
+    },
+    {
+      "key": "article/actionbar/pdf/options",
+      "value": "PDF-Optionen"
+    },
+    {
       "key": "article/series/episode",
       "value": "Episode {count}"
+    },
+    {
+      "key": "article/pdf/title",
+      "value": "PDF"
+    },
+    {
+      "key": "article/pdf/open",
+      "value": "öffnen"
+    },
+    {
+      "key": "article/pdf/download",
+      "value": "herunterladen"
+    },
+    {
+      "key": "article/pdf/images/1",
+      "value": "mit einem Bild"
+    },
+    {
+      "key": "article/pdf/images/other",
+      "value": "mit {count} Bildern"
     },
     {
       "key": "merci/postpay/waiting",
@@ -2429,6 +2477,14 @@
     {
       "key": "notifications/invalid-token/text",
       "value": "Der von Ihnen aufgerufene Link ist nicht gültig. Links zur Anmeldung sind nur einmal gültig."
+    },
+    {
+      "key": "notifications/invalid-email/title",
+      "value": "Ungültige E-Mail-Adresse"
+    },
+    {
+      "key": "notifications/invalid-email/text",
+      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «<b>{email}</b>».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unavailable/title",

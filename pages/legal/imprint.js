@@ -56,6 +56,7 @@ export default withData(({url}) => {
       <List>
         <Item>
           <Highlight>Rothaus-Redaktion</Highlight><br />
+        Adelina Gashi, Ausbildung «Unternehmerischer Journalismus»<br />
           <A href='/~6ae2733e-1562-47b3-881c-88e9d3d28da9'>
           Adrienne Fichter
           </A>
@@ -65,106 +66,118 @@ export default withData(({url}) => {
           </A>
         , Chefin vom Dienst<br />
           <A href='/~f7b5b5bd-b82b-4f82-aee3-082ab1d11e0d'>
-      Andreas Wellnitz
+          Andreas Wellnitz
           </A>
-    , Bildberater<br />
+        , Bildberater<br />
           <A href='/~4040f438-db05-483f-b64c-75e385218a58'>
-      Anja Conzett
+          Anja Conzett
           </A>
-    , Reporterin<br />
+        , Reporterin<br />
           <A href='/~29c289e8-ad86-44a3-9836-4d9ffb3a924f'>
-      Ariel Hauptmeier
+          Ariel Hauptmeier
           </A>
-    , Textcoach<br />
+        , Textcoach<br />
+          <A href='/~5f45d6a3-ff52-4e67-9925-92447f43d2e1'>
+          Barbara Villiger Heilig
+          </A>
+        , Redaktorin Kultur<br />
           <A href='/~22627cd7-63ee-40c4-abb7-1a0b538adb75'>
-      Brigitte Meyer
+          Brigitte Meyer
           </A>
-    , Bildchefin<br />
+        , Bildchefin<br />
           <A href='/~5b6da6a6-c9fa-4ebb-a020-8dc85258310e'>
-      Carlos Hanimann
+          Carlos Hanimann
           </A>
-    , Reporter<br />
+        , Reporter<br />
           <A href='/~b55b2f0a-c919-498b-b742-581c93f53eac'>
-      Christian Andiel
+          Christian Andiel
           </A>
-    , Chef vom Dienst<br />
+        , Chef vom Dienst<br />
           <A href='/~a563fa2c-9651-4360-bcb9-98c3d5b5d123'>
-      Christof Moser
+          Christof Moser
           </A>
-    , Konzeption und Redaktion<br />
+        , Konzeption und Redaktion<br />
           <A href='/~a1f9dfcd-0745-4537-bd43-a592877921d4'>
-      Clara Vuillemin
+          Clara Vuillemin
           </A>
-    , Head of IT<br />
+        , Head of IT<br />
           <A href='/~f24bd0bc-2dfd-4f98-880c-d74cd27f84a5'>
-      Constantin Seibt
+          Constantin Seibt
           </A>
-    , Konzeption und Redaktion<br />
+        , Konzeption und Redaktion<br />
           <A href='/~00051db6-0b8d-4808-9830-efbee0e4d2af'>
-      Daniel Binswanger
+          Daniel Binswanger
           </A>
-    , Autor Kultur und Politik<br />
+        , Autor Kultur und Politik<br />
           <A href='/~3b8fed85-3c81-4397-bc56-55acb9776ad4'>
-      Daniel Pfänder
+          Daniel Pfänder
           </A>
-    , Software-Entwickler<br />
+        , Software-Entwickler<br />
           <A href='/~93d6839d-fe3e-491a-bbca-477585e776e4'>
-      Elia Blülle
+          Elia Blülle
           </A>
-    , Reporter und Ausbildung «Unternehmerischer Journalismus»<br />
+        , Reporter und Ausbildung «Unternehmerischer Journalismus»<br />
+          <A href='/~0c536be1-69a5-4dd3-adb4-9533cb3f7a9d'>
+          Isabelle Schwab
+          </A>
+        , Ausbildung «Unternehmerischer Journalismus»<br />
           <A href='/~1a66c851-3db2-4882-8db4-d6df873ff1ed'>
-      Lukas Bünger
+          Lukas Bünger
           </A>
-    , Software-Entwickler<br />
+        , Software-Entwickler<br />
           <A href='/~e87b3289-0ce2-4841-99e9-7cba619f6e9a'>
-      Mona Fahmy
+          Mona Fahmy
           </A>
-    , Autorin<br />
+        , Autorin<br />
           <A href='/~a782b37f-56b7-4451-b5b9-e1fbf41109aa'>
-      Mark Dittli
+          Mark Dittli
           </A>
-    , Wirtschafts-Autor<br />
+        , Wirtschafts-Autor<br />
           <A href='/~dd619613-5a1e-492e-b0cc-3f4bc19870fa'>
-      Marco Di Nardo
+          Marco Di Nardo
           </A>
-    , Produktion<br />
+        , Produktion<br />
+          <A href='/~909e78a3-27c9-40c0-8b95-7814f46f441b'>
+          Michael Kuratli
+          </A>
+        , Ausbildung «Unternehmerischer Journalismus»<br />
           <A href='/~6e5d7522-8e67-4306-b416-79eb2f833b62'>
-      Michael Rüegg
+          Michael Rüegg
           </A>
-    , Autor<br />
+        , Autor<br />
           <A href='/~33be2b6d-e331-4ba5-99e0-6ddc7fb5ca05'>
-      Miriam Walther Kohn
+          Miriam Walther Kohn
           </A>
-    , Netzwerk-Organisation<br />
+        , Netzwerk-Organisation<br />
           <A href='/~cdbfa09d-2b1e-402e-8943-30b4b1791139'>
-      Olivia Kühni
+          Olivia Kühni
           </A>
-    , Chefin Analyse und Wissenschaft<br />
+        , Chefin Analyse und Wissenschaft<br />
           <A href='/~b3054752-eefe-4cb4-9da0-b57a9c07d334'>
-      Patrick Recher
+          Patrick Recher
           </A>
-    , Software-Entwickler<br />
-      Patrick Venetz, Software-Entwickler<br />
+        , Software-Entwickler<br />
+        Patrick Venetz, Software-Entwickler<br />
           <A href='/~5b5c7e77-f866-4ab5-b242-3ef1874cd4b2'>
-      Richard Höchner
+          Richard Höchner
           </A>
-    , Netzwerk-Organisation<br />
+        , Netzwerk-Organisation<br />
           <A href='/~eca9ee2c-4678-4f63-8564-651293df2b97'>
-      Simon Schmid
+          Simon Schmid
           </A>
-    , Wirtschafts-Autor<br />
+        , Wirtschafts-Autor<br />
           <A href='/~3b1cee6c-cc48-431a-ade7-60f739c66298'>
-      Solmaz Khorsand
+          Solmaz Khorsand
           </A>
-    , Reporterin<br />
+        , Reporterin<br />
           <A href='/~dd782b8d-4eae-4a05-80d8-494760d2d58a'>
-      Sylke Gruhnwald
+          Sylke Gruhnwald
           </A>
-    , Rechercheurin<br />
+        , Rechercheurin<br />
           <A href='/~57ff6996-e3ef-4186-a2e6-95376f2b086b'>
-      Thomas Preusse
+          Thomas Preusse
           </A>
-    , Software-Entwickler<br />
+        , Software-Entwickler<br />
         </Item>
         <Item>
 
@@ -175,80 +188,78 @@ export default withData(({url}) => {
           </A>
       , Korrektorat<br />
           <A href='/~f7fddb6b-bb0a-49e3-ae49-ef747bcbad38'>
-      Daniel Meyer
+        Daniel Meyer
           </A>
-    , Korrektorat<br />
+      , Korrektorat<br />
           <A href='/~100bfd7e-1fd4-47ec-b9d9-9a46bb80fc97'>
-      Lena Trummer
+        Lena Trummer
           </A>
-    , Assistenz<br />
+      , Assistenz<br />
           <A href='/~e2ec9c10-e96c-47b0-baab-9c6bf13e2f47'>
-      Marco Morgenthaler
+        Marco Morgenthaler
           </A>
-    , Korrektorat<br />
+      , Korrektorat<br />
           <A href='/~0441099e-57ba-4c99-a102-eff8ea43d91d'>
-      Pascal Kaufmann
+        Pascal Kaufmann
           </A>
-    , Software-Entwickler<br />
+      , Software-Entwickler<br />
           <A href='/~25e66f69-8fb2-4990-9065-43a2dcb42406'>
-      Robin Schwarz
+        Robin Schwarz
           </A>
-    , Social Media<br />
-    Tomas Carnecky, Software-Entwickler, Interactive Things<br />
+      , Social Media<br />
+      Tomas Carnecky, Software-Entwickler, Interactive Things<br />
+
         </Item>
 
         <Item>
           <Highlight>Regelmässige Mitarbeit</Highlight><br />
 
+      Bart Wasem, Film<br />
+      Bea Emmenegger, Produktion<br />
+      Bettina Hamilton-Irvine, Produktion<br />
+          <A href='/~02852b61-aa45-4dab-8d23-a0c71d3e05f7'>
+        Brigitte Hürlimann
+          </A>
+      , Gerichtsreporterin<br />
+          <A href='/~95643b75-6374-4fa4-b031-3ca06e380f12'>
+        Dominic Nahr
+          </A>
+      , Fotograf<br />
           <A href='/~1bdea72a-52d7-4bee-b84e-bdeb80cf1d88'>
         Dominique Strebel
           </A>
       , Gerichtsreporter<br />
-          <A href='/~02852b61-aa45-4dab-8d23-a0c71d3e05f7'>
-      Brigitte Hürlimann
-          </A>
-    , Gerichtsreporterin<br />
-          <A href='/~95643b75-6374-4fa4-b031-3ca06e380f12'>
-      Dominic Nahr
-          </A>
-    , Fotograf<br />
+      Gion Durband, Autor
+      Loretta Sutter, Produktion
           <A href='/~45fa4127-59d1-4f46-94ff-305cf1beeed1'>
-      Marcel Niggli
+        Marcel Niggli
           </A>
-    , Kolumnist<br />
-    Markus Felber, Gerichtsreporter<br />
+      , Kolumnist<br />
+      Markus Felber, Gerichtsreporter<br />
           <A href='/~c98ecd1b-8a36-46d1-9083-0cb9ad750ce5'>
-      Sibylle Berg
+        Sibylle Berg
           </A>
-    , Autorin<br />
-    Sina Bühler, Gerichtsreporterin<br />
+      , Autorin<br />
+      Sina Bühler, Gerichtsreporterin<br />
           <A href='/~0c82b21d-708d-4ec8-80b4-a40a69d85436'>
-      Thom Nagy
+        Thom Nagy
           </A>
-    , Autor<br />
-    Viktor Parma, Autor<br />
+      , Autor<br />
+      Viktor Parma, Autor<br />
           <A href='/~c641d9bf-9996-4b38-807b-8c1c1148943c'>
-      Yvonne Kunz
+        Yvonne Kunz
           </A>
-    , Gerichtsreporterin<br />
-    Bart Wasem, Film<br />
+      , Gerichtsreporterin<br />
+
         </Item>
 
         <Item>
 
           <Highlight>Werden ungeduldig erwartet</Highlight><br />
 
-      Adelina Gashi, Ausbildung «Unternehmerischer Journalismus»<br />
-          <A href='/~0c536be1-69a5-4dd3-adb4-9533cb3f7a9d'>
-        Isabelle Schwab
-          </A>
-      , Ausbildung «Unternehmerischer Journalismus»<br />
+      Andreas Moor, Software Entwickler<br />
       Katrin Moser, Produktion<br />
-          <A href='/~909e78a3-27c9-40c0-8b95-7814f46f441b'>
-      Michael Kuratli
-          </A>
-    , Ausbildung «Unternehmerischer Journalismus»<br />
-    Urs Bruderer, Bundeshaus-Autor
+      Urs Bruderer, Bundeshaus-Autor
 
         </Item>
 
@@ -268,13 +279,13 @@ export default withData(({url}) => {
           </A>
         , Gestalter<br />
           <A href='/~a1bd424d-0388-4966-a430-5b4551ed90e4'>
-      Mark Philip Ruoss
+          Mark Philip Ruoss
           </A>
-    , Gestalter<br />
+        , Gestalter<br />
           <A href='/~e8616b28-136f-42c8-a100-efc67342814c'>
-      Tobias Peier
+          Tobias Peier
           </A>
-    , Gesamtkonzeption<br />
+        , Gesamtkonzeption<br />
         </Item>
       </List>
 
@@ -290,25 +301,28 @@ export default withData(({url}) => {
           </A>
         , Finanzchef<br />
           <A href='/~f1d4b3c7-39c5-4d7d-a28a-002f150021db'>
-      Philipp von Essen
+          Philipp von Essen
           </A>
-    , Geschäftsstelle<br />
+        , Geschäftsstelle<br />
           <A href='/~3bb03cea-04ee-4e83-a414-8127d205e112'>
-      Nadine Ticozzelli
+          Nadine Ticozzelli
           </A>
-    , Marketing und Kommunikation<br />
+        , Marketing und Kommunikation<br />
           <A href='/~875ec432-19b3-43d3-8aec-6d848d3bb29e'>
-      Manuel Erdös
+          Manuel Erdös
           </A>
-    , IT-Support und Projekte<br />
+        , IT-Support und Projekte<br />
           <A href='/~e431e41f-fb8b-4b8e-9075-17347db0111d'>
-      Nadja Schnetzler
+          Nadja Schnetzler
           </A>
-    , Entwicklungslabor<br />
+        , Entwicklungslabor<br />
           <A href='/~349ef65b-119a-4d3e-9176-26517855d342'>
-      Laurent Burst
+          Laurent Burst
           </A>
-    , Marketing und Fotografie<br />
+        , Marketing und Fotografie<br />
+        Liliane Wihler, Erste-Hilfe-Team<br />
+        Stef Scheidegger, Assistenz GL und Erste-Hilfe-Team<br />
+        Jonas Studach, Erste-Hilfe-Team
         </Item>
       </List>
 
@@ -325,21 +339,21 @@ export default withData(({url}) => {
           </A>
         , Publizistik<br />
           <A href='/~a1f9dfcd-0745-4537-bd43-a592877921d4'>
-      Clara Vuillemin
+          Clara Vuillemin
           </A>
-    , IT<br />
+        , IT<br />
           <A href='/~5b5c7e77-f866-4ab5-b242-3ef1874cd4b2'>
-      Richard Höchner
+          Richard Höchner
           </A>
-    , Beisitz, GL Project R Genossenschaft<br />
+        , Beisitz, GL Project R Genossenschaft<br />
           <A href='/~e8b718fb-e3fe-4960-85e9-f6a0e594ca33'>
-      Andrea Arezina
+          Andrea Arezina
           </A>
-    , Beisitz, Redaktion<br />
+        , Beisitz, Redaktion<br />
           <A href='/~f1d4b3c7-39c5-4d7d-a28a-002f150021db'>
-      Philipp von Essen
+          Philipp von Essen
           </A>
-    , Beisitz, Protokoll<br />
+        , Beisitz, Protokoll<br />
         </Item>
       </List>
 

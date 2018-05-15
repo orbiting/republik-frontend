@@ -15,31 +15,20 @@ const styles = {
   })
 }
 
-const SearchIcon = ({onSearch}) => (
-  <Search
-    {...styles.icon}
-    fill={colors.text}
-    size={30}
-    onClick={(e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      onSearch()
-    }} />
+const Icon = ({IconComponent, onClick, title}) => (
+  <span title={title} {...styles.icon}>
+    <IconComponent
+      fill={colors.text}
+      size={30}
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        onClick()
+      }} />
+  </span>
 )
 
-const ResetIcon = ({onReset}) => (
-  <Close
-    {...styles.icon}
-    fill={colors.text}
-    size={30}
-    onClick={(e) => {
-      e.preventDefault()
-      e.stopPropagation()
-      onReset()
-    }} />
-)
-
-export default ({value, dirty, onChange, onSearch, onReset}) => (
+export default ({value, dirty, onChange, onSearch, onReset, onClose}) => (
   <div>
     <Field
       label='Suche'
@@ -49,10 +38,10 @@ export default ({value, dirty, onChange, onSearch, onReset}) => (
       onReset={() => {}}
       icon={
         !value
-          ? null
+          ? <Icon IconComponent={Close} onClick={onClose} title='Suche schliessen' />
           : dirty
-            ? <SearchIcon onSearch={onSearch} />
-            : <ResetIcon onReset={onReset} />
+            ? <Icon IconComponent={Search} onClick={onSearch} title='Suchen' />
+            : <Icon IconComponent={Close} onClick={onReset} title='Suche zurücksetzen' />
       }
     />
   </div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
@@ -9,12 +9,9 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
-  container: css({
-    display: 'inline-block',
-    padding: 0
-  }),
   button: css({
     ...fontStyles.sansSerifRegular18,
+    display: 'inline-block',
     outline: 'none',
     color: colors.text,
     WebkitAppearance: 'none',
@@ -39,6 +36,7 @@ const styles = {
 export class FilterButton extends Component {
   render () {
     const { filterBucketKey, filterBucketValue, label, count, selected, onClickHander } = this.props
+    if (!count) return null
     return (
       <button
         {...styles.button}
@@ -48,7 +46,7 @@ export class FilterButton extends Component {
         }}
       >
         {label}
-        {count && <span {...styles.count}>{count}</span>}
+        <span {...styles.count}>{count}</span>
       </button>
     )
   }
@@ -71,7 +69,7 @@ class FilterButtonGroup extends Component {
   render () {
     const { onClickHander, filterBucketKey, filters } = this.props
     return (
-      <div {...styles.container}>
+      <Fragment>
         {filters.map(({key, label, count, selected}) => (
           <FilterButton
             key={key}
@@ -82,7 +80,7 @@ class FilterButtonGroup extends Component {
             count={count}
             onClickHander={onClickHander} />
         ))}
-      </div>
+      </Fragment>
     )
   }
 }

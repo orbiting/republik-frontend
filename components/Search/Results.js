@@ -123,7 +123,7 @@ class Results extends Component {
   }
 
   render () {
-    const { t, sort, onSortClick, filters, onFilterClick, data } = this.props
+    const { t, searchQuery, sort, onSortClick, filters, onFilterClick, data } = this.props
 
     if (!data) {
       return null
@@ -185,7 +185,7 @@ class Results extends Component {
               }
             })
           const typeFilters = typeAggregations && typeAggregations.buckets
-            .filter(bucket => bucket.value !== 'Document')
+            .filter(bucket => bucket.value !== 'Document' && bucket.value !== 'Credential')
             .map(bucket => {
               return {
                 key: bucket.value,
@@ -217,44 +217,46 @@ class Results extends Component {
                 direction={sortDirection}
                 onClickHander={onSortClick}
               />
-              <div {...styles.results}>
-                {nodes &&
-                  nodes.map((node, index) => (
-                    <Fragment key={index}>
-                      {node.entity.__typename === 'Document' && (
-                        <TeaserFeed
-                          {...node.entity.meta}
-                          kind={
-                            node.entity.meta.template ===
-                            'editorialNewsletter' ? (
-                                'meta'
-                              ) : (
-                                node.entity.meta.kind
-                              )
-                          }
-                          Link={Link}
-                          key={node.entity.meta.path}
-                        />
-                      )}
-                      {node.entity.__typename === 'Comment' && (
-                        <div {...styles.comment}>
-                          <Comment
-                            content={node.entity.content}
-                            displayAuthor={node.entity.displayAuthor}
-                            published={node.entity.published}
-                            createdAt={node.entity.createdAt}
-                            updatedAt={node.entity.updatedAt}
-                            timeago={timeagoFromNow}
-                            t={t}
+              {(!!searchQuery || !!filters.length) && (
+                <div {...styles.results}>
+                  {nodes &&
+                    nodes.map((node, index) => (
+                      <Fragment key={index}>
+                        {node.entity.__typename === 'Document' && (
+                          <TeaserFeed
+                            {...node.entity.meta}
+                            kind={
+                              node.entity.meta.template ===
+                              'editorialNewsletter' ? (
+                                  'meta'
+                                ) : (
+                                  node.entity.meta.kind
+                                )
+                            }
+                            Link={Link}
+                            key={node.entity.meta.path}
                           />
-                        </div>
-                      )}
-                      {node.entity.__typename === 'User' && (
-                        <UserTeaser {...node.entity} />
-                      )}
-                    </Fragment>
-                  ))}
-              </div>
+                        )}
+                        {node.entity.__typename === 'Comment' && (
+                          <div {...styles.comment}>
+                            <Comment
+                              content={node.entity.content}
+                              displayAuthor={node.entity.displayAuthor}
+                              published={node.entity.published}
+                              createdAt={node.entity.createdAt}
+                              updatedAt={node.entity.updatedAt}
+                              timeago={timeagoFromNow}
+                              t={t}
+                            />
+                          </div>
+                        )}
+                        {node.entity.__typename === 'User' && (
+                          <UserTeaser {...node.entity} />
+                        )}
+                      </Fragment>
+                    ))}
+                </div>
+              )}
             </div>
           )
         }}
@@ -266,7 +268,7 @@ class Results extends Component {
 export default compose(
   withT,
   graphql(getSearchResults, {
-    skip: props => !props.searchQuery,
+    // skip: props => !props.searchQuery,
     options: props => ({
       variables: {
         search: props.searchQuery,

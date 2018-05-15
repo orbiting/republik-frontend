@@ -35,7 +35,7 @@ class Search extends Component {
     }
 
     this.onSearch = () => {
-      this.props.onSearch(true)
+      this.props.showFeed(false)
       this.setState({
         dirty: false,
         submittedQuery: this.state.searchQuery,
@@ -45,7 +45,7 @@ class Search extends Component {
     }
 
     this.onReset = () => {
-      this.props.onSearch(false)
+      this.props.showFeed(true)
       this.setState({
         dirty: false,
         searchQuery: '',
@@ -55,6 +55,10 @@ class Search extends Component {
       this.clearUrl()
     }
 
+    this.onClose = () => {
+      this.pushUrl(this.props.url.pathname)
+    }
+
     this.onSubmit = (e) => {
       e.preventDefault()
       e.stopPropagation()
@@ -62,11 +66,14 @@ class Search extends Component {
     }
 
     this.onSortClick = (sortKey, sortDirection) => {
+      let sort = {
+        key: sortKey
+      }
+      if (sortDirection) {
+        sort.direction = sortDirection
+      }
       this.setState({
-        sort: {
-          key: sortKey,
-          direction: sortDirection
-        }
+        sort
       })
     }
 
@@ -82,6 +89,9 @@ class Search extends Component {
       this.setState({
         filters
       })
+      if (this.state.submittedQuery === '') {
+        this.props.showFeed && this.props.showFeed(!filters.length)
+      }
     }
 
     this.pushUrl = (href) => {
@@ -105,7 +115,7 @@ class Search extends Component {
     const { query } = nextProps.url
 
     if (query.search && query.search !== this.state.searchQuery) {
-      this.props.onSearch && this.props.onSearch(true)
+      this.props.showFeed && this.props.showFeed(false)
       this.setState({
         dirty: false,
         searchQuery: query.search,
@@ -127,6 +137,7 @@ class Search extends Component {
             onChange={(_, value) => this.setState({dirty: true, searchQuery: value})}
             onSearch={this.onSearch}
             onReset={this.onReset}
+            onClose={this.onClose}
           />
         </form>
         <Results

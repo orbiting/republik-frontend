@@ -24,7 +24,6 @@ class Search extends Component {
     super(props, ...args)
 
     this.state = {
-      dirty: true,
       loading: false,
       searchQuery: '',
       submittedQuery: '',
@@ -36,26 +35,24 @@ class Search extends Component {
 
     this.onSearch = () => {
       this.props.showFeed(false)
+      this.updateUrl()
       this.setState({
-        dirty: false,
         submittedQuery: this.state.searchQuery,
         filters: [],
         sort: {
           key: 'relevance'
         }
       })
-      this.updateUrl()
     }
 
     this.onReset = () => {
       this.props.showFeed(true)
+      this.clearUrl()
       this.setState({
-        dirty: false,
         searchQuery: '',
         submittedQuery: '',
         filters: []
       })
-      this.clearUrl()
     }
 
     this.onClose = () => {
@@ -73,13 +70,10 @@ class Search extends Component {
       let sort = {
         key: sortKey
       }
-      console.log(sortKey, sortDirection)
       if (sortDirection) {
         sort.direction = sortDirection
       }
-      this.setState({
-        sort
-      })
+      this.setState({sort})
     }
 
     this.onFilterClick = (filterBucketKey, filterBucketValue) => {
@@ -122,7 +116,6 @@ class Search extends Component {
     if (query.search && query.search !== this.state.searchQuery) {
       this.props.showFeed && this.props.showFeed(false)
       this.setState({
-        dirty: false,
         searchQuery: query.search,
         submittedQuery: query.search,
         filters: []
@@ -131,7 +124,9 @@ class Search extends Component {
   }
 
   render () {
-    const { searchQuery, submittedQuery, dirty, filters, sort } = this.state
+    const { searchQuery, submittedQuery, filters, sort } = this.state
+
+    const dirty = searchQuery !== submittedQuery
 
     return (
       <div {...styles.container}>
@@ -139,7 +134,7 @@ class Search extends Component {
           <Input
             value={searchQuery}
             dirty={dirty}
-            onChange={(_, value) => this.setState({dirty: true, searchQuery: value})}
+            onChange={(_, value) => this.setState({searchQuery: value})}
             onSearch={this.onSearch}
             onReset={this.onReset}
             onClose={this.onClose}

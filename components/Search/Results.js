@@ -133,120 +133,122 @@ class Results extends Component {
       return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
     }
 
+    const aggregations = this.state.storedAggregations
+      ? this.state.storedAggregations
+      : data && data.search && data.search.aggregations
+
+    // TODO: Add text length buckets when available.
+    const templateFilter = filters.find(filter => filter.key === 'template')
+    const typeFilter = filters.find(filter => filter.key === 'type')
+    const audioFilter = filters.find(filter => filter.key === 'audio')
+
+    const templateAggregations = aggregations && aggregations.find(
+      agg => agg.key === 'template'
+    )
+    const typeAggregations = aggregations && aggregations.find(
+      agg => agg.key === 'type'
+    )
+    const audioAggregations = aggregations && aggregations.find(
+      agg => agg.key === 'audio'
+    )
+
+    const templateFilters = templateAggregations && templateAggregations.buckets
+      .filter(bucket => bucket.value !== 'front')
+      .map(bucket => {
+        return {
+          key: bucket.value,
+          label: bucket.value, // TODO: Backend should return labels.
+          count: bucket.count,
+          selected: !!templateFilter && templateFilter.value === bucket.value
+        }
+      })
+    const typeFilters = typeAggregations && typeAggregations.buckets
+      .filter(bucket => bucket.value !== 'Document' && bucket.value !== 'Credential')
+      .map(bucket => {
+        return {
+          key: bucket.value,
+          label: bucket.value, // TODO: Backend should return labels.
+          count: bucket.count,
+          selected: !!typeFilter && typeFilter.value === bucket.value
+        }
+      })
+
+    const sortKey = sort ? sort.key : 'publishedAt'
+    const sortButtons = [
+      {
+        sortKey: 'publishedAt',
+        label: 'Zeit',
+        direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
+        disabled: !searchQuery && !filters.length,
+        selected: sortKey === 'publishedAt'
+      },
+      {
+        sortKey: 'relevance',
+        label: 'Relevanz',
+        disabled: !searchQuery,
+        selected: sortKey === 'relevance'
+
+      }
+      // TODO: enable these sort keys once backend supports them.
+      /*
+      {
+        sortKey: 'mostRead',
+        label: 'meistgelesen'
+      },
+      {
+        sortKey: 'mostDebated',
+        label: 'meistdebattiert'
+      } */
+    ]
+
     return (
-      <Loader
-        loading={data.loading}
-        error={data.error}
-        render={() => {
-          const { data } = this.props
-          const { search } = data
+      <div {...styles.container}>
+        {aggregations && (
+          <Fragment>
+            <FilterButtonGroup
+              filterBucketKey='template'
+              filters={templateFilters}
+              onClickHander={onFilterClick} />
+            <FilterButtonGroup
+              filterBucketKey='type'
+              filters={typeFilters}
+              onClickHander={onFilterClick} />
+            <FilterButton
+              filterBucketKey='audio'
+              filterBucketValue='true'
+              label={audioAggregations.key}
+              count={audioAggregations.count}
+              selected={!!audioFilter}
+              onClickHander={onFilterClick} />
+            <Sort
+              buttons={sortButtons}
+              onClickHander={onSortClick}
+            />
+          </Fragment>
+        )}
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            const { data } = this.props
+            const { search } = data
 
-          console.log(search)
+            console.log(search)
 
-          if (!search) {
-            return null
-          }
-          const { nodes, totalCount } = search
-
-          if (!totalCount) {
-            return <P>Keine Ergebnisse</P>
-          }
-
-          const aggregations = this.state.storedAggregations
-            ? this.state.storedAggregations
-            : search.aggregations
-
-          // TODO: Add text length buckets when available.
-          const templateFilter = filters.find(filter => filter.key === 'template')
-          const typeFilter = filters.find(filter => filter.key === 'type')
-          const audioFilter = filters.find(filter => filter.key === 'audio')
-
-          const templateAggregations = aggregations.find(
-            agg => agg.key === 'template'
-          )
-          const typeAggregations = aggregations.find(
-            agg => agg.key === 'type'
-          )
-          const audioAggregations = aggregations.find(
-            agg => agg.key === 'audio'
-          )
-
-          const templateFilters = templateAggregations && templateAggregations.buckets
-            .filter(bucket => bucket.value !== 'front')
-            .map(bucket => {
-              return {
-                key: bucket.value,
-                label: bucket.value, // TODO: Backend should return labels.
-                count: bucket.count,
-                selected: !!templateFilter && templateFilter.value === bucket.value
-              }
-            })
-          const typeFilters = typeAggregations && typeAggregations.buckets
-            .filter(bucket => bucket.value !== 'Document' && bucket.value !== 'Credential')
-            .map(bucket => {
-              return {
-                key: bucket.value,
-                label: bucket.value, // TODO: Backend should return labels.
-                count: bucket.count,
-                selected: !!typeFilter && typeFilter.value === bucket.value
-              }
-            })
-
-          const sortKey = sort ? sort.key : 'publishedAt'
-          const sortDirection = sort ? sort.direction : null
-          console.log(sort)
-          const sortButtons = [
-            {
-              sortKey: 'publishedAt',
-              label: 'Zeit',
-              direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-              disabled: !searchQuery && !filters.length,
-              selected: sortKey === 'publishedAt'
-            },
-            {
-              sortKey: 'relevance',
-              label: 'Relevanz',
-              disabled: !searchQuery,
-              selected: sortKey === 'relevance'
-
+            if (!search) {
+              return null
             }
-            // TODO: enable these sort keys once backend supports them.
-            /*
-            {
-              sortKey: 'mostRead',
-              label: 'meistgelesen'
-            },
-            {
-              sortKey: 'mostDebated',
-              label: 'meistdebattiert'
-            } */
-          ]
+            const { nodes, totalCount } = search
 
-          return (
-            <div {...styles.container}>
-              <FilterButtonGroup
-                filterBucketKey='template'
-                filters={templateFilters}
-                onClickHander={onFilterClick} />
-              <FilterButtonGroup
-                filterBucketKey='type'
-                filters={typeFilters}
-                onClickHander={onFilterClick} />
-              <FilterButton
-                filterBucketKey='audio'
-                filterBucketValue='true'
-                label={audioAggregations.key}
-                count={audioAggregations.count}
-                selected={!!audioFilter}
-                onClickHander={onFilterClick} />
-              <Sort
-                buttons={sortButtons}
-                direction={sortDirection}
-                onClickHander={onSortClick}
-              />
-              {(!!searchQuery || !!filters.length) && (
-                <div {...styles.results}>
-                  {nodes &&
+            if (!totalCount) {
+              return <P>Keine Ergebnisse</P>
+            }
+
+            return (
+              <Fragment>
+                {(!!searchQuery || !!filters.length) && (
+                  <div {...styles.results}>
+                    {nodes &&
                     nodes.map((node, index) => (
                       <Fragment key={index}>
                         {node.entity.__typename === 'Document' && (
@@ -282,12 +284,13 @@ class Results extends Component {
                         )}
                       </Fragment>
                     ))}
-                </div>
-              )}
-            </div>
-          )
-        }}
-      />
+                  </div>
+                )}
+              </Fragment>
+            )
+          }}
+        />
+      </div>
     )
   }
 }

@@ -56,6 +56,7 @@ class Search extends Component {
     }
 
     this.onClose = () => {
+      this.props.showFeed(true)
       this.pushUrl(this.props.url.pathname)
     }
 

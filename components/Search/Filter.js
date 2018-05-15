@@ -36,7 +36,7 @@ const styles = {
   })
 }
 
-class FilterButton extends Component {
+export class FilterButton extends Component {
   render () {
     const { filterBucketKey, filterBucketValue, label, count, selected, onClickHander } = this.props
     return (
@@ -67,7 +67,7 @@ FilterButton.defaultProps = {
   selected: false
 }
 
-class Filter extends Component {
+class FilterButtonGroup extends Component {
   render () {
     const { onClickHander, filterBucketKey, filters } = this.props
     return (
@@ -87,7 +87,7 @@ class Filter extends Component {
   }
 }
 
-Filter.propTypes = {
+FilterButtonGroup.propTypes = {
   onClickHander: PropTypes.func,
   filterBucketKey: PropTypes.string,
   filters: PropTypes.arrayOf(
@@ -100,4 +100,4 @@ Filter.propTypes = {
   )
 }
 
-export default Filter
+export default FilterButtonGroup

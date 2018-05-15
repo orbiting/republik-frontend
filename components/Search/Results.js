@@ -8,7 +8,7 @@ import withT from '../../lib/withT'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
-import Filter from './Filter'
+import FilterButtonGroup, { FilterButton } from './Filter'
 import Sort from './Sort'
 import UserTeaser from './UserTeaser'
 
@@ -162,12 +162,16 @@ class Results extends Component {
           // TODO: Add text length buckets when available.
           const templateFilter = filters.find(filter => filter.key === 'template')
           const typeFilter = filters.find(filter => filter.key === 'type')
+          const audioFilter = filters.find(filter => filter.key === 'audio')
 
           const templateAggregations = aggregations.find(
             agg => agg.key === 'template'
           )
           const typeAggregations = aggregations.find(
             agg => agg.key === 'type'
+          )
+          const audioAggregations = aggregations.find(
+            agg => agg.key === 'audio'
           )
 
           const templateFilters = templateAggregations && templateAggregations.buckets
@@ -193,8 +197,21 @@ class Results extends Component {
 
           return (
             <div {...styles.container}>
-              <Filter filterBucketKey='template' filters={templateFilters} onClickHander={onFilterClick} />
-              <Filter filterBucketKey='type' filters={typeFilters} onClickHander={onFilterClick} />
+              <FilterButtonGroup
+                filterBucketKey='template'
+                filters={templateFilters}
+                onClickHander={onFilterClick} />
+              <FilterButtonGroup
+                filterBucketKey='type'
+                filters={typeFilters}
+                onClickHander={onFilterClick} />
+              <FilterButton
+                filterBucketKey='audio'
+                filterBucketValue='true'
+                label={audioAggregations.key}
+                count={audioAggregations.count}
+                selected={!!audioFilter}
+                onClickHander={onFilterClick} />
               <Sort
                 selectedKey={sortKey}
                 direction={sortDirection}

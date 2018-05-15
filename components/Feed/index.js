@@ -121,6 +121,7 @@ class Feed extends Component {
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
+    const showSearch = url.query.hasOwnProperty('search')
     return (
       <Loader
         loading={loading}
@@ -133,7 +134,9 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              <Search onSearch={this.onSearch} url={url} />
+              {showSearch &&
+                <Search onSearch={this.onSearch} url={url} />
+              }
               {!showResults && !query.search && nodes &&
                 nodes.map(doc => (
                   <TeaserFeed

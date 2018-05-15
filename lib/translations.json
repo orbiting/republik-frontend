@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-11T00:11:07.058Z",
+  "updated": "2018-05-15T09:42:44.762Z",
   "title": "live",
   "data": [
     {
@@ -1113,6 +1113,10 @@
     {
       "key": "header/nav/close/aria",
       "value": "Navigation schliessen"
+    },
+    {
+      "key": "header/nav/search/aria",
+      "value": "Suche"
     },
     {
       "key": "header/logo/feed/aria",

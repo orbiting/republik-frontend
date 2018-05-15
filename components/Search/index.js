@@ -96,7 +96,7 @@ class Search extends Component {
     }
 
     this.clearUrl = () => {
-      const href = this.props.url.pathname
+      const href = this.props.url.pathname + '?search='
       this.pushUrl(href)
     }
   }

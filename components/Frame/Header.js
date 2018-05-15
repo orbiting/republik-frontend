@@ -14,6 +14,8 @@ import Popover from './Popover'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
+import Search from 'react-icons/lib/md/search'
+
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
@@ -85,6 +87,28 @@ const styles = {
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
       width: HEADER_HEIGHT - 2 + 5
+    }
+  }),
+  search: css({
+    '@media print': {
+      display: 'none'
+    },
+    background: '#fff',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    overflow: 'hidden',
+    top: 0,
+    right: HEADER_HEIGHT_MOBILE - 2 + 5,
+    marginTop: '1px',
+    height: HEADER_HEIGHT_MOBILE - 2,
+    width: HEADER_HEIGHT_MOBILE - 2 + 5,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT - 2,
+      width: HEADER_HEIGHT - 2 - 10,
+      right: HEADER_HEIGHT - 2 + 5
     }
   }),
   secondary: css({
@@ -253,6 +277,18 @@ class Header extends Component {
               </a>
             </div>
           )}
+          {opaque && !url.query.hasOwnProperty('search') && (
+            <div {...styles.search} role='button' title={t('header/nav/search/aria')}>
+              <Search
+                fill={colors.text}
+                size={28}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  Router.pushRoute('feed', {'search': ''}).then(() => window.scrollTo(0, 0))
+                }} />
+            </div>
+          )}
           {opaque && (
             <div {...styles.hamburger}>
               <Toggle
@@ -266,7 +302,7 @@ class Header extends Component {
                     this.setState({ expanded: !expand })
                   }
                 }
-              }
+                }
               />
             </div>
           )}

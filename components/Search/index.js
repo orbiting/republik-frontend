@@ -12,9 +12,9 @@ import {
 
 const styles = {
   container: css({
-    padding: '15px 15px 120px',
+    marginBottom: 50,
     [mediaQueries.mUp]: {
-      padding: '40px 0 120px'
+      marginBottom: 60
     }
   })
 }

@@ -128,7 +128,7 @@ class Feed extends Component {
         render={() => {
           return (
             <Center {...styles.container}>
-              {greeting && (
+              {greeting && !showSearch && (
                 <Interaction.H1 style={{ marginBottom: '40px' }}>
                   {greeting.text}
                 </Interaction.H1>

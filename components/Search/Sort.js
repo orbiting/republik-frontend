@@ -48,7 +48,9 @@ const SortInputs = [
     sortKey: 'relevance',
     label: 'Relevanz'
 
-  },
+  }
+  // TODO: enable these sort keys once backend supports them.
+  /*
   {
     sortKey: 'mostRead',
     label: 'meistgelesen'
@@ -56,7 +58,7 @@ const SortInputs = [
   {
     sortKey: 'mostDebated',
     label: 'meistdebattiert'
-  }
+  } */
 ]
 
 class SortButton extends Component {

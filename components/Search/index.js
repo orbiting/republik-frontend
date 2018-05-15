@@ -30,7 +30,7 @@ class Search extends Component {
       submittedQuery: '',
       filters: [],
       sort: {
-        key: 'relevance'
+        key: 'publishedAt'
       }
     }
 
@@ -39,7 +39,10 @@ class Search extends Component {
       this.setState({
         dirty: false,
         submittedQuery: this.state.searchQuery,
-        filters: []
+        filters: [],
+        sort: {
+          key: 'relevance'
+        }
       })
       this.updateUrl()
     }
@@ -70,6 +73,7 @@ class Search extends Component {
       let sort = {
         key: sortKey
       }
+      console.log(sortKey, sortDirection)
       if (sortDirection) {
         sort.direction = sortDirection
       }

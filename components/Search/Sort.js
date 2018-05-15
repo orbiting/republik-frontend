@@ -38,29 +38,6 @@ const styles = {
   })
 }
 
-const SortInputs = [
-  {
-    sortKey: 'publishedAt',
-    label: 'Zeit',
-    direction: 'DESC'
-  },
-  {
-    sortKey: 'relevance',
-    label: 'Relevanz'
-
-  }
-  // TODO: enable these sort keys once backend supports them.
-  /*
-  {
-    sortKey: 'mostRead',
-    label: 'meistgelesen'
-  },
-  {
-    sortKey: 'mostDebated',
-    label: 'meistdebattiert'
-  } */
-]
-
 class SortButton extends Component {
   constructor (props, ...args) {
     super(props, ...args)
@@ -71,15 +48,17 @@ class SortButton extends Component {
   }
 
   render () {
-    const { sortKey, label, selected, onClickHander } = this.props
+    const { sortKey, label, selected, disabled, onClickHander } = this.props
     const { direction } = this.state
     const DirectionIcon =
       direction === 'ASC' ? ArrowUp : direction === 'DESC' ? ArrowDown : null
+    const color = disabled ? colors.disabled : selected ? colors.primary : null
     return (
       <button
         {...styles.button}
-        style={selected ? { color: colors.primary } : {}}
+        style={color ? { color } : {}}
         onClick={() => {
+          if (disabled) return
           const toggledDirection = !selected
             ? direction
             : direction === 'ASC' ? 'DESC' : direction === 'DESC' ? 'ASC' : null
@@ -114,16 +93,17 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render () {
-    const { onClickHander, selectedKey } = this.props
+    const { buttons, onClickHander } = this.props
     return (
       <div {...styles.container}>
-        {SortInputs.map(({sortKey, label, direction}) => (
+        {buttons.map(({sortKey, label, direction, selected, disabled}) => (
           <SortButton
+            disabled={disabled}
             key={sortKey}
             sortKey={sortKey}
-            selected={selectedKey === sortKey}
+            selected={selected}
             label={label}
-            direction={direction && (this.props.direction || direction)}
+            direction={direction}
             onClickHander={onClickHander} />
         ))}
       </div>
@@ -132,9 +112,15 @@ class Sort extends Component {
 }
 
 Sort.propTypes = {
-  onClickHander: PropTypes.func,
-  selectedKey: PropTypes.string,
-  direction: PropTypes.oneOf(['ASC', 'DESC'])
+  buttons: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      direction: PropTypes.oneOf(['ASC', 'DESC']),
+      selected: PropTypes.bool,
+      disabled: PropTypes.bool
+    })
+  ),
+  onClickHander: PropTypes.func
 }
 
 export default Sort

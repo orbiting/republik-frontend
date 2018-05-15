@@ -129,9 +129,6 @@ class Results extends Component {
       return null
     }
 
-    const sortKey = sort.key
-    const sortDirection = sort.direction
-
     const timeagoFromNow = (createdAtString) => {
       return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
     }
@@ -195,6 +192,36 @@ class Results extends Component {
               }
             })
 
+          const sortKey = sort ? sort.key : 'publishedAt'
+          const sortDirection = sort ? sort.direction : null
+          console.log(sort)
+          const sortButtons = [
+            {
+              sortKey: 'publishedAt',
+              label: 'Zeit',
+              direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
+              disabled: !searchQuery && !filters.length,
+              selected: sortKey === 'publishedAt'
+            },
+            {
+              sortKey: 'relevance',
+              label: 'Relevanz',
+              disabled: !searchQuery,
+              selected: sortKey === 'relevance'
+
+            }
+            // TODO: enable these sort keys once backend supports them.
+            /*
+            {
+              sortKey: 'mostRead',
+              label: 'meistgelesen'
+            },
+            {
+              sortKey: 'mostDebated',
+              label: 'meistdebattiert'
+            } */
+          ]
+
           return (
             <div {...styles.container}>
               <FilterButtonGroup
@@ -213,7 +240,7 @@ class Results extends Component {
                 selected={!!audioFilter}
                 onClickHander={onFilterClick} />
               <Sort
-                selectedKey={sortKey}
+                buttons={sortButtons}
                 direction={sortDirection}
                 onClickHander={onSortClick}
               />

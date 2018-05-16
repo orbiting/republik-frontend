@@ -5,7 +5,7 @@ import withT from '../lib/withT'
 import Frame from '../components/Frame'
 import ImageCover from '../components/ImageCover'
 
-import { Editorial, Interaction } from '@project-r/styleguide'
+import { A, Editorial, Interaction } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -61,7 +61,7 @@ export default withData(
           <LI>eine Autorin, einen Autor, die/der sich durch herausragende feuilletonistische Beiträge bereits einen Namen gemacht hat.</LI>
         </Editorial.UL>
 
-        <P>Interessiert? Neugierig? Senden Sie Ihre vollständigen Bewerbungsunterlagen an <a href='mailto:personal@republik.ch'>personal@republik.ch</a>.</P>
+        <P>Interessiert? Neugierig? Senden Sie Ihre vollständigen Bewerbungsunterlagen an <A href='mailto:personal@republik.ch'>personal@republik.ch</A>.</P>
 
       </Frame>
     )

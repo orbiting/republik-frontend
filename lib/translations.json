@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-11T00:11:07.058Z",
+  "updated": "2018-05-15T21:36:06.656Z",
   "title": "live",
   "data": [
     {
@@ -388,7 +388,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: node.js-Entwicklerin (70 - 100%)"
+      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
     },
     {
       "key": "jobs/description",
@@ -1113,6 +1113,10 @@
     {
       "key": "header/nav/close/aria",
       "value": "Navigation schliessen"
+    },
+    {
+      "key": "header/nav/search/aria",
+      "value": "Suche"
     },
     {
       "key": "header/logo/feed/aria",

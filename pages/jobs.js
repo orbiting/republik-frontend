@@ -58,7 +58,7 @@ export default withData(
           <LI>eine Journalistin, einen Journalisten, die/der neue Herausforderungen sucht, ein Spezialgebiet hat und bereit ist, dieses weiter zu erforschen;</LI>
           <LI>eine Persönlichkeit mit eigenständiger Denkweise;</LI>
           <LI>eine Bewerberin, einen Bewerber, die/der gern redaktionell tätig sein will, Ideen und Konzepte generiert, Texte redigiert und Themengebiete betreut;</LI>
-          <LI>eine Autorin, einen Autoren, die/der sich durch herausragende feuilletonistische Beiträge bereits einen Namen gemacht hat.</LI>
+          <LI>eine Autorin, einen Autor, die/der sich durch herausragende feuilletonistische Beiträge bereits einen Namen gemacht hat.</LI>
         </Editorial.UL>
 
         <P>Interessiert? Neugierig? Senden Sie Ihre vollständigen Bewerbungsunterlagen an <a href='mailto:personal@republik.ch'>personal@republik.ch</a>.</P>

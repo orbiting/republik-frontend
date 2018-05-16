@@ -13,8 +13,7 @@ export default class MyDocument extends Document {
     return {
       ...page,
       ...styles,
-      env: require('../lib/constants'),
-      shouldTrackPiwik: pathname !== '/notifications'
+      env: require('../lib/constants')
     }
   }
   constructor (props) {
@@ -27,9 +26,8 @@ export default class MyDocument extends Document {
   render () {
     const { css, env: {
       PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
-    }, shouldTrackPiwik } = this.props
+    } } = this.props
     const piwik = (
-      shouldTrackPiwik &&
       !!PIWIK_URL_BASE &&
       !!PIWIK_SITE_ID
     )

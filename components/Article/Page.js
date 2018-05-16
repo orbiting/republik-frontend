@@ -8,6 +8,7 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
+import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 
@@ -65,12 +66,14 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
       dossierUrl={dossierUrl}
+      onPdfClick={onPdfClick}
+      pdfUrl={pdfUrl}
       emailSubject={t('article/share/emailSubject', {
         title
       })}
@@ -165,6 +168,11 @@ class ArticlePage extends Component {
         showAudioPlayer: !this.state.showAudioPlayer
       })
     }
+    this.togglePdf = () => {
+      this.setState({
+        showPdf: !this.state.showPdf
+      })
+    }
 
     this.state = {
       primaryNavExpanded: false,
@@ -245,6 +253,8 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
+    const hasPdf = meta && meta.template === 'article'
+
     const actionBar = meta && (
       <ActionBar t={t}
         url={meta.url}
@@ -253,7 +263,12 @@ class ArticlePage extends Component {
         discussionId={linkedDiscussionId}
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio.bind(this)} />
+        onAudioClick={meta.audioSource && this.toggleAudio}
+        onPdfClick={(
+          hasPdf && countImages(article.content) > 0 &&
+          this.togglePdf
+        )}
+        pdfUrl={hasPdf && getPdfUrl(meta)} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -352,7 +367,7 @@ class ArticlePage extends Component {
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio.bind(this)}
+        audioCloseHandler={this.toggleAudio}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
@@ -367,6 +382,10 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               {!isFormat && <PayNote.Before />}
+              {this.state.showPdf &&
+                <PdfOverlay
+                  article={article}
+                  onClose={this.togglePdf} />}
               <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
                 {() => renderMdast({
                   ...article.content,

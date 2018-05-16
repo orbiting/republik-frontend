@@ -9,7 +9,7 @@ import Loader from '../Loader'
 
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
-import EtiquetteLink from './EtiquetteLink'
+import SecondaryActions from './SecondaryActions'
 
 import {
   CommentTreeLoadMore,
@@ -462,7 +462,7 @@ class Comments extends PureComponent {
           maxLength={discussion && discussion.rules && discussion.rules.maxLength}
           replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
-          etiquetteLink={<EtiquetteLink />}
+          secondaryActions={<SecondaryActions />}
         />
       )
 

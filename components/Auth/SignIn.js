@@ -58,6 +58,7 @@ class SignIn extends Component {
       success: undefined
     }
   }
+
   render () {
     const {t, label} = this.props
     const {

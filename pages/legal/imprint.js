@@ -38,8 +38,8 @@ export default withData(({url}) => {
       <P>
         Republik AG<br />
         Sihlhallenstrasse 1<br />
-    8004 Zürich<br />
-    Schweiz<br />
+        8004 Zürich<br />
+        Schweiz<br />
         <A href='mailto:kontakt@republik.ch'>
       kontakt@republik.ch
         </A>
@@ -157,7 +157,10 @@ export default withData(({url}) => {
           Patrick Recher
           </A>
         , Software-Entwickler<br />
-        Patrick Venetz, Software-Entwickler<br />
+          <A href='/~b86f9625-96b8-4886-b6b9-baf4fb657939'>
+          Patrick Venetz
+          </A>
+        , Software-Entwickler<br />
           <A href='/~5b5c7e77-f866-4ab5-b242-3ef1874cd4b2'>
           Richard Höchner
           </A>
@@ -229,8 +232,8 @@ export default withData(({url}) => {
         Dominique Strebel
           </A>
       , Gerichtsreporter<br />
-      Gion Durband, Autor
-      Loretta Sutter, Produktion
+      Gion Durband, Autor<br />
+      Loretta Sutter, Produktion<br />
           <A href='/~45fa4127-59d1-4f46-94ff-305cf1beeed1'>
         Marcel Niggli
           </A>

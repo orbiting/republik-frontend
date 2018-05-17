@@ -89,10 +89,13 @@ query getSearchResults(
         ... on Comment {
           id
           content
+          text
           createdAt
           displayAuthor {
-            profilePicture
+            id
             name
+            username
+            profilePicture
             credential {
               description
               verified
@@ -297,11 +300,13 @@ class Results extends Component {
                           <CommentTeaser
                             id={node.entity.id}
                             discussion={node.entity.discussion}
+                            content={node.entity.content}
+                            text={node.entity.text}
+                            highlights={node.highlights}
                             displayAuthor={node.entity.displayAuthor}
                             published={node.entity.published}
                             createdAt={node.entity.createdAt}
                             updatedAt={node.entity.updatedAt}
-                            highlights={node.highlights}
                             t={t}
                           />
                         )}

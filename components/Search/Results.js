@@ -16,7 +16,8 @@ import {
   Comment,
   TeaserFeed,
   Interaction,
-  colors
+  colors,
+  linkRule
 } from '@project-r/styleguide'
 
 const { P } = Interaction
@@ -32,12 +33,36 @@ const styles = {
     borderTop: `1px solid ${colors.text}`,
     margin: '0 0 40px 0',
     paddingTop: 10
+  }),
+  count: css({
+    borderTop: `1px solid ${colors.text}`,
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '15px 0',
+    textAlign: 'left'
+  }),
+  loadMore: css({
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 0
   })
 }
 
 const getSearchResults = gql`
-query getSearchResults($search: String, $sort: SearchSortInput, $filters: [SearchGenericFilterInput!]) {
-  search(first: 300, search: $search, sort: $sort, filters: $filters) {
+query getSearchResults(
+    $search: String,
+    $after: String,
+    $sort: SearchSortInput,
+    $filters: [SearchGenericFilterInput!]) {
+  search(
+      first: 100,
+      after: $after,
+      search: $search,
+      sort: $sort,
+      filters: $filters) {
     aggregations {
       key
       count
@@ -232,7 +257,7 @@ class Results extends Component {
           loading={data.loading}
           error={data.error}
           render={() => {
-            const { data } = this.props
+            const { data, fetchMore } = this.props
             const { search } = data
 
             console.log(search)
@@ -240,7 +265,7 @@ class Results extends Component {
             if (!search) {
               return null
             }
-            const { nodes, totalCount } = search
+            const { nodes, totalCount, pageInfo } = search
 
             if (!totalCount) {
               return <P>Keine Ergebnisse</P>
@@ -286,6 +311,22 @@ class Results extends Component {
                         )}
                       </Fragment>
                     ))}
+                    <div {...styles.count}>
+                      {nodes.length === totalCount
+                        ? t('search/pageInfo/total', {count: totalCount})
+                        : t('search/pageInfo/loadedTotal', {
+                          loaded: nodes.length,
+                          total: totalCount
+                        })
+                      }
+                      {pageInfo.hasNextPage && (
+                        <button {...styles.loadMore} {...linkRule} onClick={() => {
+                          fetchMore({after: pageInfo.endCursor})
+                        }}>
+                          {t('search/pageInfo/loadMore')}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
               </Fragment>
@@ -307,6 +348,34 @@ export default compose(
         sort: props.sort,
         filters: props.filters
       }
+    }),
+    props: ({data, ownProps}) => ({
+      data,
+      fetchMore: ({after}) => data.fetchMore({
+        variables: {
+          after,
+          search: ownProps.searchQuery,
+          sort: ownProps.sort,
+          filters: ownProps.filters
+        },
+        updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
+          const nodes = [
+            ...previousResult.search.nodes,
+            ...fetchMoreResult.search.nodes
+          ]
+          return {
+            ...previousResult,
+            totalCount: fetchMoreResult.search.pageInfo.hasNextPage
+              ? fetchMoreResult.search.totalCount
+              : nodes.length,
+            search: {
+              ...previousResult.search,
+              ...fetchMoreResult.search,
+              nodes
+            }
+          }
+        }
+      })
     })
   })
 )(Results)

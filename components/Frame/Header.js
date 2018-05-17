@@ -277,7 +277,7 @@ class Header extends Component {
               </a>
             </div>
           )}
-          {opaque && !url.query.hasOwnProperty('search') && (
+          {opaque && (!url.query || !url.query.hasOwnProperty('search')) && (
             <div {...styles.search} role='button' title={t('header/nav/search/aria')}>
               <Search
                 fill={colors.text}

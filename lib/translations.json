@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-15T09:42:44.762Z",
+  "updated": "2018-05-17T09:42:06.328Z",
   "title": "live",
   "data": [
     {
@@ -388,7 +388,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: node.js-Entwicklerin (70 - 100%)"
+      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
     },
     {
       "key": "jobs/description",
@@ -2633,6 +2633,18 @@
     {
       "key": "notifications/authorization/ip",
       "value": "IP-Adresse"
+    },
+    {
+      "key": "search/pageInfo/loadMore",
+      "value": "mehr laden"
+    },
+    {
+      "key": "search/pageInfo/total",
+      "value": "{count} Ergebnisse"
+    },
+    {
+      "key": "search/pageInfo/loadedTotal",
+      "value": "{loaded} von insgesamt {total} Ergebnissen"
     },
     {
       "key": "styleguide/video/dnt/note",

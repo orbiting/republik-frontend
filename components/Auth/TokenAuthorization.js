@@ -17,6 +17,10 @@ const goTo = (type, email) => Router.replaceRoute(
   { type, email, context: 'authorization' }
 )
 
+const shouldAutoAuthorize = ({ isCurrent }) => {
+  return isCurrent
+}
+
 class TokenAuthorization extends Component {
   constructor (props) {
     super(props)
@@ -45,12 +49,11 @@ class TokenAuthorization extends Component {
   }
   autoAutherize () {
     const {
-      isCurrent,
       email,
       error
     } = this.props
 
-    if (!this.state.authorizing && isCurrent) {
+    if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
     } else if (error) {
       goTo('invalid-token', email, error)
@@ -65,9 +68,8 @@ class TokenAuthorization extends Component {
   render () {
     const {
       t,
-      unauthorizedSession,
+      target,
       echo,
-      isCurrent,
       email,
       error,
       loading
@@ -77,8 +79,8 @@ class TokenAuthorization extends Component {
     } = this.state
 
     return (
-      <Loader error={authorizeError} loading={loading || error || isCurrent} render={() => {
-        const { country, city, ipAddress, userAgent } = unauthorizedSession
+      <Loader error={authorizeError} loading={loading || error || shouldAutoAuthorize(this.props)} render={() => {
+        const { country, city, ipAddress, userAgent } = target
         return (
           <Fragment>
             <P>{t('notifications/authorization/text/before', { email })}</P>
@@ -136,7 +138,7 @@ class TokenAuthorization extends Component {
 
 const authorizeSession = gql`
   mutation authorizeSession($email: String!, $token: String!) {
-    authorizeSession(email: $email, token: $token)
+    authorizeSession(email: $email, tokens: [{type: EMAIL_TOKEN, payload: $token}])
   }
 `
 
@@ -148,12 +150,15 @@ const unauthorizedSessionQuery = gql`
       country
       city
     }
-    unauthorizedSession(email: $email, token: $token) {
-      ipAddress
-      userAgent
-      country
-      city
-      isCurrent
+    unauthorizedSession(email: $email, token: {type: EMAIL_TOKEN, payload: $token}) {
+      enabledSecondFactors
+      session {
+        ipAddress
+        userAgent
+        country
+        city
+        isCurrent
+      }
     }
   }
 `
@@ -170,10 +175,15 @@ export default compose(
   }),
   graphql(unauthorizedSessionQuery, {
     props: ({ data }) => {
+      const {
+        enabledSecondFactors,
+        session
+      } = data.unauthorizedSession || {}
       return {
-        unauthorizedSession: data.unauthorizedSession,
+        enabledSecondFactors,
+        target: session,
         echo: data.echo,
-        isCurrent: data.unauthorizedSession && data.unauthorizedSession.isCurrent,
+        isCurrent: session && session.isCurrent,
         loading: data.loading,
         error: data.error
       }

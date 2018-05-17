@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
-import timeago from '../../lib/timeago'
+
 import withT from '../../lib/withT'
 
 import Loader from '../../components/Loader'
@@ -10,10 +10,10 @@ import Link from '../Link/Href'
 
 import FilterButtonGroup, { FilterButton } from './Filter'
 import Sort from './Sort'
+import CommentTeaser from './CommentTeaser'
 import UserTeaser from './UserTeaser'
 
 import {
-  Comment,
   TeaserFeed,
   Interaction,
   colors,
@@ -28,11 +28,6 @@ const styles = {
   }),
   results: css({
     paddingTop: 60
-  }),
-  comment: css({
-    borderTop: `1px solid ${colors.text}`,
-    margin: '0 0 40px 0',
-    paddingTop: 10
   }),
   count: css({
     borderTop: `1px solid ${colors.text}`,
@@ -92,6 +87,7 @@ query getSearchResults(
           }
         }
         ... on Comment {
+          id
           content
           createdAt
           displayAuthor {
@@ -104,6 +100,11 @@ query getSearchResults(
           }
           published
           updatedAt
+          discussion {
+            id
+            title
+            documentPath
+          }
         }
         ... on User {
           id
@@ -118,7 +119,10 @@ query getSearchResults(
           hasPublicProfile
         }
       }
-      highlights
+      highlights {
+        path
+        fragments
+      }
       score
     }
   }
@@ -154,10 +158,6 @@ class Results extends Component {
       return null
     }
 
-    const timeagoFromNow = (createdAtString) => {
-      return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
-    }
-
     const aggregations = this.state.storedAggregations
       ? this.state.storedAggregations
       : data && data.search && data.search.aggregations
@@ -178,7 +178,7 @@ class Results extends Component {
     )
 
     const templateFilters = templateAggregations && templateAggregations.buckets
-      .filter(bucket => bucket.value !== 'front')
+      // .filter(bucket => bucket.value !== 'front')
       .map(bucket => {
         return {
           key: bucket.value,
@@ -294,17 +294,16 @@ class Results extends Component {
                           />
                         )}
                         {node.entity.__typename === 'Comment' && (
-                          <div {...styles.comment}>
-                            <Comment
-                              content={node.entity.content}
-                              displayAuthor={node.entity.displayAuthor}
-                              published={node.entity.published}
-                              createdAt={node.entity.createdAt}
-                              updatedAt={node.entity.updatedAt}
-                              timeago={timeagoFromNow}
-                              t={t}
-                            />
-                          </div>
+                          <CommentTeaser
+                            id={node.entity.id}
+                            discussion={node.entity.discussion}
+                            displayAuthor={node.entity.displayAuthor}
+                            published={node.entity.published}
+                            createdAt={node.entity.createdAt}
+                            updatedAt={node.entity.updatedAt}
+                            highlights={node.highlights}
+                            t={t}
+                          />
                         )}
                         {node.entity.__typename === 'User' && (
                           <UserTeaser {...node.entity} />

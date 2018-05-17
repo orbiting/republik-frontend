@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-17T09:42:06.328Z",
+  "updated": "2018-05-17T12:55:55.838Z",
   "title": "live",
   "data": [
     {
@@ -2645,6 +2645,10 @@
     {
       "key": "search/pageInfo/loadedTotal",
       "value": "{loaded} von insgesamt {total} Ergebnissen"
+    },
+    {
+      "key": "search/commentTeaser/discussionReference",
+      "value": "schreibt in der Debatte «{link}»"
     },
     {
       "key": "styleguide/video/dnt/note",

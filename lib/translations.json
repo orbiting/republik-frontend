@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T16:31:26.035Z",
+  "updated": "2018-05-18T19:15:21.452Z",
   "title": "live",
   "data": [
     {
@@ -2657,6 +2657,10 @@
     {
       "key": "tokenAuthorization/location/unknown",
       "value": "Unbekannt"
+    },
+    {
+      "key": "tokenAuthorization/phrase",
+      "value": "Seltsame Wörter"
     },
     {
       "key": "tokenAuthorization/device",

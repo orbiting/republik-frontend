@@ -109,7 +109,7 @@ class TokenAuthorization extends Component {
           this.state.dirty && constentsError
         )
 
-        const { country, city, ipAddress, userAgent, isCurrent } = target.session
+        const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
         return (
           <Fragment>
             <P>
@@ -118,7 +118,15 @@ class TokenAuthorization extends Component {
             </P>
             {!isCurrent && <div style={{margin: '20px 0'}}>
               <P>
-                {t('tokenAuthorization/differentSession')}<br /><br />
+                {t('tokenAuthorization/differentSession')}
+              </P>
+              <P>
+                <Label>{t('tokenAuthorization/phrase')}</Label><br />
+                <span>
+                  {phrase}
+                </span>
+              </P>
+              <P>
                 <Label>{t('tokenAuthorization/location')}</Label><br />
                 <span style={
                   country !== echo.country
@@ -218,6 +226,7 @@ const unauthorizedSessionQuery = gql`
         userAgent
         country
         city
+        phrase
         isCurrent
       }
     }

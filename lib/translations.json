@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T19:49:01.290Z",
+  "updated": "2018-05-18T22:21:14.640Z",
   "title": "live",
   "data": [
     {
@@ -2713,6 +2713,50 @@
     {
       "key": "styleguide/templates/unauthorizedZone",
       "value": "Inhalt nur für Mitglieder."
+    },
+    {
+      "key": "piwik/optOut/label",
+      "value": "Ihr Tracking-Status"
+    },
+    {
+      "key": "piwik/optOut/noscript",
+      "value": "Aktivieren Sie JavaScript um Ihren Status zu sehen."
+    },
+    {
+      "key": "piwik/optOut/status/loading",
+      "value": "lädt…"
+    },
+    {
+      "key": "piwik/optOut/status/timeout",
+      "value": "Konnte nicht geladen werden. Bitte versuchen Sie es später nochmals."
+    },
+    {
+      "key": "piwik/optOut/status/fail",
+      "value": "Konnte nicht gespeichert werden. Bitte versuchen Sie es später nochmals."
+    },
+    {
+      "key": "piwik/optOut/status/on",
+      "value": "Aktiv."
+    },
+    {
+      "key": "piwik/optOut/status/off",
+      "value": "Sie haben das Tracking deaktiviert. Bitte beachten Sie, dass Sie, wenn Sie einen anderen Computer, das Deaktivierungs-Cookie löschen oder einen anderen Webbrowser verwenden, die Deaktivierungsprozedur nochmals absolvieren müssen."
+    },
+    {
+      "key": "piwik/optOut/status/saving",
+      "value": "speichert…"
+    },
+    {
+      "key": "piwik/optOut/status/dnt",
+      "value": "Das Tracking ist bei Ihnen derzeit nicht aktiv, denn Ihr Browser hat uns mitgeteilt, dass Sie kein Tracking wünschen."
+    },
+    {
+      "key": "piwik/optOut/turn/off",
+      "value": "Deaktivieren?"
+    },
+    {
+      "key": "piwik/optOut/turn/on",
+      "value": "Aktivieren?"
     }
   ]
 }

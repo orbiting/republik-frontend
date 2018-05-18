@@ -2,6 +2,8 @@ import React from 'react'
 import withData from '../../lib/apollo/withData'
 import Frame from '../../components/Frame'
 
+import PiwikOptOut from '../../components/Piwik/OptOut'
+
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
@@ -95,6 +97,8 @@ Bei der Nutzung dieser allgemeinen Daten und Informationen ziehen die Verantwort
 Diese anonym erhobenen Daten und Informationen werden durch die Verantwortlichen daher einerseits statistisch und ferner mit dem Ziel ausgewertet, den Datenschutz und die Datensicherheit in der Unternehmung der Verantwortlichen zu erhöhen, um letztlich ein optimales Schutzniveau für die von den Verantwortlichen verarbeiteten personenbezogenen Daten sicherzustellen. Die anonymen Daten der Server-Logfiles werden getrennt von allen durch eine betroffene Person angegebenen personenbezogenen Daten gespeichert. 
 
 Wenn Besucher/-innen «do not track» eingeschaltet haben, werden nur Daten in der Session getrackt, wenn Besucher/-innen sich einloggen. 
+
+${<PiwikOptOut />}
 
 ## 5. Registrierung auf den Websites www.republik.ch und www.project-r.construction
 

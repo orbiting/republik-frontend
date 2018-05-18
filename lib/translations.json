@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T19:15:21.452Z",
+  "updated": "2018-05-18T19:22:11.296Z",
   "title": "live",
   "data": [
     {
@@ -2031,27 +2031,27 @@
       "value": "{formattedChf} bezahlen"
     },
     {
-      "key": "pledge/constents/label/PRIVACY_STATUTE_TOS",
+      "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
       "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
-      "key": "pledge/constents/label/PRIVACY_TOS",
+      "key": "pledge/consents/label/PRIVACY_TOS",
       "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
-      "key": "pledge/constents/label/PRIVACY",
+      "key": "pledge/consents/label/PRIVACY",
       "value": "Ich erkläre mich mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
-      "key": "pledge/constents/error/PRIVACY_STATUTE_TOS",
+      "key": "pledge/consents/error/PRIVACY_STATUTE_TOS",
       "value": "Sie müssen sich mit den AGBs, den Datenschutzbestimmungen und den Statuten der Project R Genossenschaft einverstanden erklären."
     },
     {
-      "key": "pledge/constents/error/PRIVACY_TOS",
+      "key": "pledge/consents/error/PRIVACY_TOS",
       "value": "Sie müssen sich mit den AGBs und den Datenschutzbestimmungen einverstanden erklären."
     },
     {
-      "key": "pledge/constents/error/PRIVACY",
+      "key": "pledge/consents/error/PRIVACY",
       "value": "Sie müssen sich mit den Datenschutzbestimmungen einverstanden erklären."
     },
     {

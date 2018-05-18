@@ -16,11 +16,11 @@ const check = (required, accepted = []) => required.every(
   key => accepted.indexOf(key) !== -1
 )
 
-export const getConstentsError = (t, required, accepted) => (
-  !check(required, accepted) && t(`pledge/constents/error/${stringifyCombo(required)}`)
+export const getConsentsError = (t, required, accepted) => (
+  !check(required, accepted) && t(`pledge/consents/error/${stringifyCombo(required)}`)
 )
 
-const Constents = withT(({t, accepted, onChange, required}) => (
+const Consents = withT(({t, accepted, onChange, required}) => (
   <Checkbox
     checked={check(required, accepted)}
     onChange={(_, checked) => {
@@ -30,7 +30,7 @@ const Constents = withT(({t, accepted, onChange, required}) => (
       )
     }}>
     <RawHtml dangerouslySetInnerHTML={{
-      __html: t(`pledge/constents/label/${stringifyCombo(required)}`)
+      __html: t(`pledge/consents/label/${stringifyCombo(required)}`)
     }} />
   </Checkbox>
 ))
@@ -40,7 +40,7 @@ const VALID_COMBOS = [
   'PRIVACY_STATUTE_TOS', 'PRIVACY_TOS', 'PRIVACY'
 ]
 
-Constents.propTypes = {
+Consents.propTypes = {
   onChange: PropTypes.func.isRequired,
   accepted: PropTypes.arrayOf(PropTypes.string.isRequired),
   required: (props, propName, componentName) => {
@@ -53,4 +53,4 @@ Constents.propTypes = {
   }
 }
 
-export default Constents
+export default Consents

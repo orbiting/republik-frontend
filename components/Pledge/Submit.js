@@ -29,7 +29,7 @@ import {
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
-import Consents, { getConstentsError } from './Consents'
+import Consents, { getConsentsError } from './Consents'
 
 const {P} = Interaction
 
@@ -339,7 +339,7 @@ class Submit extends Component {
       .concat(objectValues(this.state.errors))
       .concat([
         !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        getConstentsError(t, requiredConsents, consents)
+        getConsentsError(t, requiredConsents, consents)
       ])
       .filter(Boolean)
   }

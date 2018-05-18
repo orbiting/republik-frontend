@@ -7,7 +7,7 @@ import { Button, InlineSpinner } from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
 
-import Consents, { getConstentsError } from '../Pledge/Consents'
+import Consents, { getConsentsError } from '../Pledge/Consents'
 import ErrorMessage from '../ErrorMessage'
 
 const goTo = (type, email) => Router.replaceRoute(
@@ -25,13 +25,13 @@ class NewsletterSubscription extends Component {
     const { consents } = this.state
 
     const requiredConsents = ['PRIVACY']
-    const constentsError = getConstentsError(
+    const consentsError = getConsentsError(
       t,
       requiredConsents,
       consents
     )
     const error = this.state.error || (
-      this.state.dirty && constentsError
+      this.state.dirty && consentsError
     )
 
     return (
@@ -52,11 +52,11 @@ class NewsletterSubscription extends Component {
         {this.state.updating
           ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
           : (
-            <div style={{opacity: constentsError ? 0.5 : 1}}>
+            <div style={{opacity: consentsError ? 0.5 : 1}}>
               <Button
                 primary
                 onClick={() => {
-                  if (constentsError) {
+                  if (consentsError) {
                     this.setState({dirty: true})
                     return
                   }

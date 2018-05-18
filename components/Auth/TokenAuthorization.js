@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 
 import { Button, InlineSpinner, Interaction, Label, Loader, fontFamilies, colors } from '@project-r/styleguide'
 
-import Consents, { getConstentsError } from '../Pledge/Consents'
+import Consents, { getConsentsError } from '../Pledge/Consents'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
@@ -100,13 +100,13 @@ class TokenAuthorization extends Component {
 
     return (
       <Loader loading={loading || shouldAutoAuthorize(this.props)} render={() => {
-        const constentsError = getConstentsError(
+        const consentsError = getConsentsError(
           t,
           target.requiredConsents,
           consents
         )
         const authorizeError = this.state.authorizeError || (
-          this.state.dirty && constentsError
+          this.state.dirty && consentsError
         )
 
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
@@ -179,11 +179,11 @@ class TokenAuthorization extends Component {
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
-                <div style={{opacity: constentsError ? 0.5 : 1}}>
+                <div style={{opacity: consentsError ? 0.5 : 1}}>
                   <Button
                     primary
                     onClick={() => {
-                      if (constentsError) {
+                      if (consentsError) {
                         this.setState({dirty: true})
                         return
                       }

@@ -97,12 +97,10 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
           </H1>
           {displayTokenAuthorization
             ? (
-              <div {...styles.me}>
-                <TokenAuthorization
-                  email={email}
-                  token={token}
-                />
-              </div>
+              <TokenAuthorization
+                email={email}
+                token={token}
+              />
             )
             : <RawHtml type={P} dangerouslySetInnerHTML={{
               __html: t(`notifications/${type}/text`, query, '')

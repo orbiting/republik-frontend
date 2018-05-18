@@ -24,12 +24,12 @@ import {
 } from '../../lib/constants'
 
 import {
-  Interaction, Button, Checkbox,
-  colors, InlineSpinner,
-  RawHtml
+  Interaction, Button,
+  colors, InlineSpinner
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
+import Consents, { getConstentsError } from './Consents'
 
 const {P} = Interaction
 
@@ -48,7 +48,7 @@ class Submit extends Component {
     super(props)
     this.state = {
       emailVerify: false,
-      legal: false,
+      consents: [],
       values: {
         country: COUNTRIES[0],
         name: [
@@ -321,13 +321,16 @@ class Submit extends Component {
   }
   getErrorMessages () {
     const {
-      legal,
+      consents,
       values
     } = this.state
     const {
       t, options,
       requiresStatutes
     } = this.props
+
+    const requiredConsents = ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE']
+      .filter(Boolean)
 
     return ([
       options.length < 1 && t('pledge/submit/package/error')
@@ -336,9 +339,7 @@ class Submit extends Component {
       .concat(objectValues(this.state.errors))
       .concat([
         !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        !legal && t(requiresStatutes
-          ? 'pledge/submit/legal/error/statute'
-          : 'pledge/submit/legal/error/plain')
+        getConstentsError(t, requiredConsents, consents)
       ])
       .filter(Boolean)
   }
@@ -357,6 +358,9 @@ class Submit extends Component {
     } = this.props
 
     const errorMessages = this.getErrorMessages()
+
+    const requiredConsents = ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE']
+      .filter(Boolean)
 
     return (
       <div>
@@ -438,18 +442,14 @@ class Submit extends Component {
                 </ul>
               </div>
             )}
-            <Checkbox
-              checked={this.state.legal}
-              onChange={(_, checked) => {
-                this.setState(() => ({legal: checked}))
-              }}>
-              <RawHtml dangerouslySetInnerHTML={{
-                __html: t(requiresStatutes
-                  ? 'pledge/submit/legal/label/statute'
-                  : 'pledge/submit/legal/label/plain'
-                )
+            <Consents
+              required={requiredConsents}
+              accepted={this.state.consents}
+              onChange={keys => {
+                this.setState(() => ({
+                  consents: keys
+                }))
               }} />
-            </Checkbox>
             <br /><br />
             <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
               <Button

@@ -43,6 +43,10 @@ const simpleHash = (object, delimiter = '|') => {
   }).join(delimiter)
 }
 
+const getRequiredConsents = ({requiresStatutes}) => [
+  'PRIVACY', 'TOS', requiresStatutes && 'STATUTE'
+].filter(Boolean)
+
 class Submit extends Component {
   constructor (props) {
     super(props)
@@ -154,7 +158,10 @@ class Submit extends Component {
     this.setState(() => ({
       loading: t('pledge/submit/loading/submit')
     }))
-    this.props.submit(variables)
+    this.props.submit({
+      ...variables,
+      consents: getRequiredConsents(this.props)
+    })
       .then(({data}) => {
         if (data.submitPledge.emailVerify) {
           this.setState(() => ({
@@ -325,12 +332,8 @@ class Submit extends Component {
       values
     } = this.state
     const {
-      t, options,
-      requiresStatutes
+      t, options
     } = this.props
-
-    const requiredConsents = ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE']
-      .filter(Boolean)
 
     return ([
       options.length < 1 && t('pledge/submit/package/error')
@@ -339,7 +342,7 @@ class Submit extends Component {
       .concat(objectValues(this.state.errors))
       .concat([
         !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        getConsentsError(t, requiredConsents, consents)
+        getConsentsError(t, getRequiredConsents(this.props), consents)
       ])
       .filter(Boolean)
   }
@@ -353,14 +356,10 @@ class Submit extends Component {
     } = this.state
     const {
       me, user, t,
-      paymentMethods,
-      requiresStatutes
+      paymentMethods
     } = this.props
 
     const errorMessages = this.getErrorMessages()
-
-    const requiredConsents = ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE']
-      .filter(Boolean)
 
     return (
       <div>
@@ -443,7 +442,7 @@ class Submit extends Component {
               </div>
             )}
             <Consents
-              required={requiredConsents}
+              required={getRequiredConsents(this.props)}
               accepted={this.state.consents}
               onChange={keys => {
                 this.setState(() => ({
@@ -484,8 +483,8 @@ Submit.propTypes = {
 }
 
 const submitPledge = gql`
-  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String) {
-    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}) {
+  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!]) {
+    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}, consents: $consents) {
       pledgeId
       userId
       emailVerify

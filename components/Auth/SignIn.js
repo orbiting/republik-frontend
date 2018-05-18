@@ -194,8 +194,8 @@ SignIn.propTypes = {
 }
 
 const signInMutation = gql`
-mutation signIn($email: String!, $context: String) {
-  signIn(email: $email, context: $context) {
+mutation signIn($email: String!, $context: String, $consents: [String!]) {
+  signIn(email: $email, context: $context, consents: $consents) {
     phrase
   }
 }
@@ -203,8 +203,8 @@ mutation signIn($email: String!, $context: String) {
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: (email, context = 'signIn') =>
-      mutate({variables: {email, context}})
+    signIn: (email, context = 'signIn', consents) =>
+      mutate({variables: {email, context, consents}})
   })
 })
 

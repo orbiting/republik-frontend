@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T10:08:15.194Z",
+  "updated": "2018-05-18T13:37:54.992Z",
   "title": "live",
   "data": [
     {
@@ -2511,6 +2511,14 @@
       "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
     },
     {
+      "key": "notifications/newsletter-subscription/title",
+      "value": "Newsletter-Anmeldung bestätigen"
+    },
+    {
+      "key": "macNewsletterSubscription/button",
+      "value": "bestätigen"
+    },
+    {
       "key": "notifications/links/home",
       "value": "Startseite"
     },
@@ -2625,6 +2633,10 @@
     {
       "key": "tokenAuthorization/title/new",
       "value": "Anmeldung für ein neues Republik-Konto bestätigen"
+    },
+    {
+      "key": "tokenAuthorization/error",
+      "value": "Ungültiger Link"
     },
     {
       "key": "tokenAuthorization/email",

@@ -46,13 +46,6 @@ const hasCurtain = !!CURTAIN_MESSAGE
 const {H1, P} = Interaction
 
 const Page = withT(({ url: { query, query: { context, token } }, t }) => {
-  const links = [
-    context === 'pledge' && {
-      route: 'account',
-      label: t('notifications/links/merci')
-    }
-  ].filter(Boolean)
-
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -67,14 +60,28 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
     }
   }
 
-  const displayTokenAuthorization = type === 'token-authorization'
+  const title = t(`notifications/${type}/title`, undefined, '')
+  let content
+  if (type === 'token-authorization') {
+    content = <TokenAuthorization
+      email={email}
+      token={token}
+    />
+  } else {
+    content = <RawHtml type={P} dangerouslySetInnerHTML={{
+      __html: t(`notifications/${type}/text`, query, '')
+    }} />
+  }
   const displayMe = (
-    (
-      type === 'invalid-token' ||
-      type === 'invalid-email'
-    ) &&
-    (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
+    type === 'invalid-email' &&
+    ['signIn', 'pledge', 'authorization'].indexOf(context) !== -1
   )
+  const links = [
+    context === 'pledge' && type !== 'token-authorization' && {
+      route: 'account',
+      label: t('notifications/links/merci')
+    }
+  ].filter(Boolean)
 
   return (
     <div>
@@ -92,20 +99,8 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
           }
         </div>
         <div {...styles.text}>
-          <H1>
-            {t(`notifications/${type}/title`, undefined, '')}
-          </H1>
-          {displayTokenAuthorization
-            ? (
-              <TokenAuthorization
-                email={email}
-                token={token}
-              />
-            )
-            : <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t(`notifications/${type}/text`, query, '')
-            }} />
-          }
+          {title && <H1>{title}</H1>}
+          {content}
           {displayMe && (
             <div {...styles.me}>
               <Me email={email} />

@@ -12,6 +12,8 @@ import { Router } from '../../lib/routes'
 
 import ErrorMessage from '../ErrorMessage'
 
+import Me from './Me'
+
 const { P } = Interaction
 
 const goTo = (type, email) => Router.replaceRoute(
@@ -19,8 +21,13 @@ const goTo = (type, email) => Router.replaceRoute(
   { type, email, context: 'authorization' }
 )
 
-const shouldAutoAuthorize = ({ target }) => {
-  return target && target.session.isCurrent && !target.requiredConsents.length
+const shouldAutoAuthorize = ({ error, target }) => {
+  return (
+    !error &&
+    target &&
+    target.session.isCurrent &&
+    !target.requiredConsents.length
+  )
 }
 
 class TokenAuthorization extends Component {
@@ -29,14 +36,15 @@ class TokenAuthorization extends Component {
     this.state = {}
   }
   authorize () {
+    if (this.state.authorizing) {
+      return
+    }
+
     const {
       email,
       authorize
     } = this.props
 
-    if (this.state.authorizing) {
-      return
-    }
     this.setState({
       authorizing: true
     }, () => {
@@ -53,15 +61,8 @@ class TokenAuthorization extends Component {
     })
   }
   autoAutherize () {
-    const {
-      email,
-      error
-    } = this.props
-
     if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
-    } else if (error) {
-      goTo('invalid-token', email, error)
     }
   }
   componentDidMount () {
@@ -83,8 +84,22 @@ class TokenAuthorization extends Component {
       consents
     } = this.state
 
+    if (error) {
+      return (
+        <Fragment>
+          <P>
+            {t('tokenAuthorization/error')}
+          </P>
+          <ErrorMessage error={error} />
+          <div style={{marginTop: 80, marginBottom: 80}}>
+            <Me email={email} />
+          </div>
+        </Fragment>
+      )
+    }
+
     return (
-      <Loader loading={loading || error || shouldAutoAuthorize(this.props)} render={() => {
+      <Loader loading={loading || shouldAutoAuthorize(this.props)} render={() => {
         const constentsError = getConstentsError(
           t,
           target.requiredConsents,

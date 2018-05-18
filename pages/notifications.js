@@ -11,6 +11,7 @@ import * as base64u from '../lib/utils/base64u'
 
 import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
+import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
 import {
   CURTAIN_MESSAGE
@@ -30,7 +31,7 @@ const styles = {
   text: css({
     margin: '120px auto',
     textAlign: 'center',
-    maxWidth: 580
+    maxWidth: 520
   }),
   link: css({
     marginTop: 20
@@ -67,6 +68,12 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
       email={email}
       token={token}
     />
+  } else if (type === 'newsletter-subscription') {
+    content = <MacNewsletterSubscription
+      name={query.name}
+      subscribed={query.subscribed}
+      mac={query.mac}
+      email={email} />
   } else {
     content = <RawHtml type={P} dangerouslySetInnerHTML={{
       __html: t(`notifications/${type}/text`, query, '')

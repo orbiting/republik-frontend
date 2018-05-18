@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T13:37:54.992Z",
+  "updated": "2018-05-18T16:31:26.035Z",
   "title": "live",
   "data": [
     {
@@ -2512,7 +2512,7 @@
     },
     {
       "key": "notifications/newsletter-subscription/title",
-      "value": "Newsletter-Anmeldung bestätigen"
+      "value": "Newsletter-Anmeldung"
     },
     {
       "key": "macNewsletterSubscription/button",

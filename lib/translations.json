@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T22:21:14.640Z",
+  "updated": "2018-05-18T22:46:31.322Z",
   "title": "live",
   "data": [
     {
@@ -2736,7 +2736,7 @@
     },
     {
       "key": "piwik/optOut/status/on",
-      "value": "Aktiv."
+      "value": "Aktiv. Danke!"
     },
     {
       "key": "piwik/optOut/status/off",

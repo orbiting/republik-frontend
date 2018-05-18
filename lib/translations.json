@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T00:57:03.758Z",
+  "updated": "2018-05-18T10:08:15.194Z",
   "title": "live",
   "data": [
     {
@@ -131,8 +131,16 @@
       "value": "E-Mail-Adresse"
     },
     {
+      "key": "signIn/faq",
+      "value": "Fragen"
+    },
+    {
+      "key": "signIn/privacy",
+      "value": "Datenschutz"
+    },
+    {
       "key": "signIn/hint",
-      "value": "Die Anmeldung für den Zugang zu Ihrer Republik funktioniert nur mit der E-Mail-Adresse, mit der Sie sich bei uns angemeldet haben. Haben Sie Probleme? Melden Sie sich bei der Erste-Hilfe-Abteilung: kontakt@republik.ch."
+      "value": "Erste-Hilfe-Abteilung: kontakt@republik.ch."
     },
     {
       "key": "signIn/success",

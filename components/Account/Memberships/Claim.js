@@ -7,6 +7,7 @@ import Loader from '../../Loader'
 import RawHtmlElements from '../../RawHtmlElements'
 import ErrorMessage from '../../ErrorMessage'
 import { gotoMerci } from '../../Pledge/Merci'
+import Consents, { getConsentsError } from '../../Pledge/Consents'
 
 import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
@@ -20,9 +21,13 @@ import { withSignOut } from '../../Auth/SignOut'
 import { withSignIn } from '../../Auth/SignIn'
 
 import {
-  Field, Button, Checkbox, Interaction,
-  RawHtml, colors, linkRule
+  Field, Button, Interaction,
+  colors, linkRule
 } from '@project-r/styleguide'
+
+const requiredConsents = [
+  'PRIVACY', 'TOS', 'STATUTE'
+]
 
 const {H2, P} = Interaction
 
@@ -32,7 +37,7 @@ class ClaimMembership extends Component {
     this.state = {
       loading: false,
       serverError: undefined,
-      legal: false,
+      consents: [],
       values: {},
       errors: {},
       dirty: {}
@@ -125,7 +130,7 @@ class ClaimMembership extends Component {
     }
 
     if (!me) {
-      this.props.signIn(values.email)
+      this.props.signIn(values.email, 'claim', this.state.consents)
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
@@ -167,7 +172,7 @@ class ClaimMembership extends Component {
       values, dirty, errors,
       loading,
       polling, phrase,
-      legal
+      consents
     } = this.state
 
     if (polling) {
@@ -200,7 +205,7 @@ class ClaimMembership extends Component {
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
       .concat([
-        !legal && t('memberships/claim/legal/error')
+        getConsentsError(t, requiredConsents, consents)
       ])
       .filter(Boolean)
 
@@ -253,15 +258,14 @@ class ClaimMembership extends Component {
             </ul>
           </div>
         )}
-        <Checkbox
-          checked={this.state.legal}
-          onChange={(_, checked) => {
-            this.setState(() => ({legal: checked}))
-          }}>
-          <RawHtml dangerouslySetInnerHTML={{
-            __html: t('memberships/claim/legal/label')
+        <Consents
+          required={requiredConsents}
+          accepted={consents}
+          onChange={keys => {
+            this.setState(() => ({
+              consents: keys
+            }))
           }} />
-        </Checkbox>
         <br /><br />
         <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
           <Button

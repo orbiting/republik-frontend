@@ -31,6 +31,7 @@ const styles = {
     display: 'block',
     margin: '0 auto',
     maxWidth: 520,
+    marginBottom: -16,
     textAlign: 'left',
     [mediaQueries.mUp]: {
       textAlign: 'center'
@@ -86,7 +87,8 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
       name={query.name}
       subscribed={query.subscribed}
       mac={query.mac}
-      email={email} />
+      email={email}
+      context={context} />
   } else {
     content = <RawHtml type={P} dangerouslySetInnerHTML={{
       __html: t(`notifications/${type}/text`, query, '')
@@ -103,7 +105,7 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
     }
   ].filter(Boolean)
 
-  const logo = type === 'newsletter-subscription' && query.name === 'PROJECTR' ? (
+  const logo = context === 'projectr' ? (
     <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
       <img
         style={{height: 50}}

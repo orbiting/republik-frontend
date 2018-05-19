@@ -67,7 +67,9 @@ class ClaimPledge extends Component {
         <P>
           {t('pledge/claim/signIn/before')}
         </P>
-        <SignIn label={t('pledge/claim/signIn/button')} />
+        <SignIn
+          label={t('pledge/claim/signIn/button')}
+          acceptedConsents={['PRIVACY']} />
       </div>
     )
   }

@@ -126,7 +126,7 @@ class SignIn extends Component {
       this.setState(() => ({
         loading: true
       }))
-      this.props.signIn(email)
+      this.props.signIn(email, this.props.context, this.props.acceptedConsents)
         .then(({data}) => {
           this.setState(() => ({
             polling: true,

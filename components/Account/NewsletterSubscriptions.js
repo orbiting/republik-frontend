@@ -88,8 +88,7 @@ class NewsletterSubscriptions extends Component {
                       }
                       updateNewsletterSubscription({
                         name,
-                        subscribed: checked,
-                        status
+                        subscribed: checked
                       }).then(finish)
                     }}
                   >
@@ -114,9 +113,8 @@ const mutation = gql`
   mutation updateNewsletterSubscription(
     $name: NewsletterName!
     $subscribed: Boolean!
-    $status: String!
   ) {
-    updateNewsletterSubscription(name: $name, subscribed: $subscribed, status: $status) {
+    updateNewsletterSubscription(name: $name, subscribed: $subscribed) {
       id
       name
       subscribed
@@ -145,12 +143,11 @@ const query = gql`
 export default compose(
   graphql(mutation, {
     props: ({ mutate }) => ({
-      updateNewsletterSubscription: ({ name, subscribed, status }) =>
+      updateNewsletterSubscription: ({ name, subscribed }) =>
         mutate({
           variables: {
             name,
-            subscribed,
-            status
+            subscribed
           }
         })
     })

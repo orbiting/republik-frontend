@@ -8,19 +8,17 @@ import SignIn from './SignIn'
 import SignOut from './SignOut'
 
 const Me = ({me, t, email}) => (
-  <div>
-    {me ? (
-      <div>
-        {t('me/signedinAs', {
-          nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
-        })}
-        <br />
-        <SignOut />
-      </div>
-    ) : (
-      <SignIn email={email} />
-    )}
-  </div>
+  me ? (
+    <div>
+      {t('me/signedinAs', {
+        nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
+      })}
+      <br />
+      <SignOut />
+    </div>
+  ) : (
+    <SignIn email={email} />
+  )
 )
 
 export default compose(

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-15T21:36:06.656Z",
+  "updated": "2018-05-18T22:46:31.322Z",
   "title": "live",
   "data": [
     {
@@ -131,8 +131,16 @@
       "value": "E-Mail-Adresse"
     },
     {
+      "key": "signIn/faq",
+      "value": "Fragen"
+    },
+    {
+      "key": "signIn/privacy",
+      "value": "Datenschutz"
+    },
+    {
       "key": "signIn/hint",
-      "value": "Die Anmeldung für den Zugang zu Ihrer Republik funktioniert nur mit der E-Mail-Adresse, mit der Sie sich bei uns angemeldet haben. Haben Sie Probleme? Melden Sie sich bei der Erste-Hilfe-Abteilung: kontakt@republik.ch."
+      "value": "Erste-Hilfe-Abteilung: kontakt@republik.ch."
     },
     {
       "key": "signIn/success",
@@ -2023,20 +2031,28 @@
       "value": "{formattedChf} bezahlen"
     },
     {
-      "key": "pledge/submit/legal/label/statute",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/label/plain",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s und der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> einverstanden."
+      "key": "pledge/consents/label/PRIVACY_TOS",
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/error/statute",
-      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
+      "key": "pledge/consents/label/PRIVACY",
+      "value": "Ich erkläre mich mit den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
-      "key": "pledge/submit/legal/error/plain",
-      "value": "Sie müssen sich mit den AGBs und der Datenschutzerklärung einverstanden erklären."
+      "key": "pledge/consents/error/PRIVACY_STATUTE_TOS",
+      "value": "Sie müssen sich mit den AGBs, den Datenschutzbestimmungen und den Statuten der Project R Genossenschaft einverstanden erklären."
+    },
+    {
+      "key": "pledge/consents/error/PRIVACY_TOS",
+      "value": "Sie müssen sich mit den AGBs und den Datenschutzbestimmungen einverstanden erklären."
+    },
+    {
+      "key": "pledge/consents/error/PRIVACY",
+      "value": "Sie müssen sich mit den Datenschutzbestimmungen einverstanden erklären."
     },
     {
       "key": "pledge/submit/loading/submit",
@@ -2439,14 +2455,6 @@
       "value": "überprüfen"
     },
     {
-      "key": "memberships/claim/legal/label",
-      "value": "Ich erkläre mich mit den <a href=\"/legal/tos\" target=\"_blank\">AGB</a>s, der <a href=\"/legal/privacy\" target=\"_blank\">Datenschutzerklärung</a> und den <a href=\"/legal/statute\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
-    },
-    {
-      "key": "memberships/claim/legal/error",
-      "value": "Sie müssen sich mit den AGBs, der Datenschutzerklärung und den Statuten der Project R Genossenschaft einverstanden erklären."
-    },
-    {
       "key": "memberships/claim/error/title",
       "value": "Fehler"
     },
@@ -2493,6 +2501,14 @@
     {
       "key": "notifications/unavailable/text",
       "value": "Leider kann unser System Ihre Anfrage zur Zeit nicht bearbeiten. Versuchen Sie es in 10 Minuten erneut. Klappt es ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns an <a href=\"mailto:kontakt@republik.ch?subject=Anmeldung%20nicht%20verf%C3%BCgbar\">kontakt@republik.ch</a>."
+    },
+    {
+      "key": "notifications/newsletter-subscription/title",
+      "value": "Newsletter-Anmeldung"
+    },
+    {
+      "key": "macNewsletterSubscription/button",
+      "value": "bestätigen"
     },
     {
       "key": "notifications/links/home",
@@ -2603,36 +2619,72 @@
       "value": "Sie lesen von uns."
     },
     {
-      "key": "notifications/authorization/title",
-      "value": "Bestätigen Sie Ihre Anmeldung"
+      "key": "tokenAuthorization/title/existing",
+      "value": "Anmeldung für Ihr bestehendes Republik-Konto bestätigen"
     },
     {
-      "key": "notifications/authorization/text/before",
-      "value": "Folgendes Gerät möchte Zugriff auf Ihr Republik-Konto ({email}):"
+      "key": "tokenAuthorization/title/new",
+      "value": "Anmeldung für ein neues Republik-Konto bestätigen"
     },
     {
-      "key": "notifications/authorization/text/after",
+      "key": "tokenAuthorization/error",
+      "value": "Ungültiger Link"
+    },
+    {
+      "key": "tokenAuthorization/email",
+      "value": "E-Mail-Adresse: {email}"
+    },
+    {
+      "key": "tokenAuthorization/differentSession",
+      "value": "Folgendes Gerät möchte Zugriff erhalten:"
+    },
+    {
+      "key": "tokenAuthorization/after",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
-      "key": "notifications/authorization/location",
+      "key": "tokenAuthorization/location",
       "value": "Standort"
     },
     {
-      "key": "notifications/authorization/location/unknown",
+      "key": "tokenAuthorization/location/unknown",
       "value": "Unbekannt"
     },
     {
-      "key": "notifications/authorization/device",
+      "key": "tokenAuthorization/phrase",
+      "value": "Seltsame Wörter"
+    },
+    {
+      "key": "tokenAuthorization/device",
       "value": "Gerät"
     },
     {
-      "key": "notifications/authorization/button",
+      "key": "tokenAuthorization/button",
+      "value": "bestätigen"
+    },
+    {
+      "key": "tokenAuthorization/button/differentSession",
       "value": "Zugriff erteilen"
     },
     {
-      "key": "notifications/authorization/ip",
+      "key": "tokenAuthorization/ip",
       "value": "IP-Adresse"
+    },
+    {
+      "key": "search/pageInfo/loadMore",
+      "value": "mehr laden"
+    },
+    {
+      "key": "search/pageInfo/total",
+      "value": "{count} Ergebnisse"
+    },
+    {
+      "key": "search/pageInfo/loadedTotal",
+      "value": "{loaded} von insgesamt {total} Ergebnissen"
+    },
+    {
+      "key": "search/commentTeaser/discussionReference",
+      "value": "schreibt in der Debatte «{link}»"
     },
     {
       "key": "styleguide/video/dnt/note",
@@ -2661,6 +2713,50 @@
     {
       "key": "styleguide/templates/unauthorizedZone",
       "value": "Inhalt nur für Mitglieder."
+    },
+    {
+      "key": "piwik/optOut/label",
+      "value": "Ihr Tracking-Status"
+    },
+    {
+      "key": "piwik/optOut/noscript",
+      "value": "Aktivieren Sie JavaScript um Ihren Status zu sehen."
+    },
+    {
+      "key": "piwik/optOut/status/loading",
+      "value": "lädt…"
+    },
+    {
+      "key": "piwik/optOut/status/timeout",
+      "value": "Konnte nicht geladen werden. Bitte versuchen Sie es später nochmals."
+    },
+    {
+      "key": "piwik/optOut/status/fail",
+      "value": "Konnte nicht gespeichert werden. Bitte versuchen Sie es später nochmals."
+    },
+    {
+      "key": "piwik/optOut/status/on",
+      "value": "Aktiv. Danke!"
+    },
+    {
+      "key": "piwik/optOut/status/off",
+      "value": "Sie haben das Tracking deaktiviert. Bitte beachten Sie, dass Sie, wenn Sie einen anderen Computer, das Deaktivierungs-Cookie löschen oder einen anderen Webbrowser verwenden, die Deaktivierungsprozedur nochmals absolvieren müssen."
+    },
+    {
+      "key": "piwik/optOut/status/saving",
+      "value": "speichert…"
+    },
+    {
+      "key": "piwik/optOut/status/dnt",
+      "value": "Das Tracking ist bei Ihnen derzeit nicht aktiv, denn Ihr Browser hat uns mitgeteilt, dass Sie kein Tracking wünschen."
+    },
+    {
+      "key": "piwik/optOut/turn/off",
+      "value": "Deaktivieren?"
+    },
+    {
+      "key": "piwik/optOut/turn/on",
+      "value": "Aktivieren?"
     }
   ]
 }

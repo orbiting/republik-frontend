@@ -169,6 +169,7 @@ class Results extends Component {
     const templateFilter = filters.find(filter => filter.key === 'template')
     const typeFilter = filters.find(filter => filter.key === 'type')
     const audioFilter = filters.find(filter => filter.key === 'audio')
+    const textLengthFilter = filters.find(filter => filter.key === 'textLength')
 
     const templateAggregations = aggregations && aggregations.find(
       agg => agg.key === 'template'
@@ -178,6 +179,9 @@ class Results extends Component {
     )
     const audioAggregations = aggregations && aggregations.find(
       agg => agg.key === 'audio'
+    )
+    const textLengthAggregations = aggregations && aggregations.find(
+      agg => agg.key === 'textLength'
     )
 
     const templateFilters = templateAggregations && templateAggregations.buckets
@@ -198,6 +202,16 @@ class Results extends Component {
           label: bucket.value, // TODO: Backend should return labels.
           count: bucket.count,
           selected: !!typeFilter && typeFilter.value === bucket.value
+        }
+      })
+
+    const textLengthFilters = textLengthAggregations && textLengthAggregations.buckets
+      .map(bucket => {
+        return {
+          key: bucket.value,
+          label: bucket.value, // TODO: Backend should return labels.
+          count: bucket.count,
+          selected: !!textLengthFilter && textLengthFilter.value === bucket.value
         }
       })
 
@@ -242,6 +256,10 @@ class Results extends Component {
             <FilterButtonGroup
               filterBucketKey='type'
               filters={typeFilters}
+              onClickHander={onFilterClick} />
+            <FilterButtonGroup
+              filterBucketKey='textLength'
+              filters={textLengthFilters}
               onClickHander={onFilterClick} />
             <FilterButton
               filterBucketKey='audio'

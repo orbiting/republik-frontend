@@ -124,7 +124,7 @@ a) Einsatz von MailChimp
 
 Der Versand der Newsletter erfolgt mittels MailChimp, einer Newsletterversand-Plattform des US-Anbieters Rocket Science Group, LLC, 675 Ponce de Leon Ave NE #5000, Atlanta, GA 30308, USA. Die E-Mail-Adressen der Abonnenten/-innen unserer Newsletter als auch deren weitere, im Rahmen der vorliegenden Datenschutzerklärung beschriebenen Daten werden auf den Servern von MailChimp in den USA gespeichert. 
 
-MailChimp verwendet diese Informationen zum Versand und zur Auswertung der Newsletter im Auftrag der Verantwortlichen. Des Weiteren kann MailChimp nach eigenen Informationen diese Daten zur Optimierung oder Verbesserung der eigenen Services nutzen. MailChimp nutzt die Daten der Empfänger/-innen unserer Newsletter jedoch nicht, um diese selbst anzuschreiben oder an Dritte weiterzugeben. MailChimp ist unter dem US-EU-Datenschutzabkommen «Privacy Shield» zertifiziert und verpflichtet sich damit, die Datenschutzgrundverordnung einzuhalten. Weitere Informationen zu MailChimp finden Sie hier.
+MailChimp verwendet diese Informationen zum Versand und zur Auswertung der Newsletter im Auftrag der Verantwortlichen. Des Weiteren kann MailChimp nach eigenen Informationen diese Daten zur Optimierung oder Verbesserung der eigenen Services nutzen. MailChimp nutzt die Daten der Empfänger/-innen unserer Newsletter jedoch nicht, um diese selbst anzuschreiben oder an Dritte weiterzugeben. MailChimp ist unter dem US-EU-Datenschutzabkommen «[Privacy Shield](https://www.privacyshield.gov/participant?id=a2zt0000000TO6hAAG)» zertifiziert und verpflichtet sich damit, die Datenschutzgrundverordnung einzuhalten. Weitere Informationen zu MailChimp finden Sie [hier](https://mailchimp.com/legal/privacy/).
 
 b) Einsatz von PayPal
 

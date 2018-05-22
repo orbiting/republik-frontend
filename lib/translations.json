@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-18T22:46:31.322Z",
+  "updated": "2018-05-22T13:19:55.370Z",
   "title": "live",
   "data": [
     {
@@ -2675,7 +2675,11 @@
       "value": "mehr laden"
     },
     {
-      "key": "search/pageInfo/total",
+      "key": "search/pageInfo/total/1",
+      "value": "{count} Ergebnis"
+    },
+    {
+      "key": "search/pageInfo/total/other",
       "value": "{count} Ergebnisse"
     },
     {

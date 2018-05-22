@@ -335,7 +335,7 @@ class Results extends Component {
                     ))}
                     <div {...styles.count}>
                       {nodes.length === totalCount
-                        ? t('search/pageInfo/total', {count: totalCount})
+                        ? t.pluralize('search/pageInfo/total', {count: totalCount})
                         : t('search/pageInfo/loadedTotal', {
                           loaded: nodes.length,
                           total: totalCount

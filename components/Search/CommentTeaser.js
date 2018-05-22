@@ -142,21 +142,6 @@ export const CommentTeaser = ({
         timeago={timeagoFromNow}
         t={t}
       />
-      {discussion.title && (
-        <p {...styles.note}>
-          {t.elements('search/commentTeaser/discussionReference', {
-            link: (
-              <CommentLink
-                key={id}
-                commentId={id}
-                discussion={discussion}
-              >
-                <a {...linkRule}>{discussion.title}</a>
-              </CommentLink>
-            )
-          })}
-        </p>
-      )}
       {!!highlight && (
         <CommentBodyParagraph>
           <CommentLink
@@ -179,6 +164,21 @@ export const CommentTeaser = ({
           {renderMdast(truncatedContent, schema)}
           {!!moreContent && <span>{' '}…</span>}
         </div>
+      )}
+      {discussion.title && (
+        <p {...styles.note}>
+          {t.elements('search/commentTeaser/discussionReference', {
+            link: (
+              <CommentLink
+                key={id}
+                commentId={id}
+                discussion={discussion}
+              >
+                <a {...linkRule}>«{discussion.title}»</a>
+              </CommentLink>
+            )
+          })}
+        </p>
       )}
     </div>
   )

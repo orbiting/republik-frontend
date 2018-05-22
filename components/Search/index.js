@@ -59,7 +59,7 @@ class Search extends Component {
 
     this.onClose = () => {
       this.props.showFeed(true)
-      this.pushUrl(this.props.url.pathname)
+      this.pushUrl({})
     }
 
     this.onSubmit = (e) => {
@@ -79,13 +79,14 @@ class Search extends Component {
     }
 
     this.onFilterClick = (filterBucketKey, filterBucketValue) => {
-      const filters = filterBucketValue ? [
-        DEFAULT_FILTER,
-        {
-          key: filterBucketKey,
-          value: filterBucketValue
-        }
-      ] : [DEFAULT_FILTER]
+      const filter = filterBucketValue && {
+        key: filterBucketKey,
+        value: filterBucketValue
+      }
+      let filters = [DEFAULT_FILTER]
+      if (filter) {
+        filters.push(filter)
+      }
 
       // TODO: Preserve text length filter when available.
       this.setState({
@@ -94,22 +95,24 @@ class Search extends Component {
       if (this.state.submittedQuery === '') {
         this.props.showFeed && this.props.showFeed(filters.length > 1)
       }
+      filter && this.props.showFeed && this.props.showFeed(false)
     }
 
-    this.pushUrl = (href) => {
-      const as = href
-      Router.push(href, as, { shallow: true })
+    this.pushUrl = (params) => {
+      Router.replaceRoute(
+        'feed',
+        params,
+        { shallow: true }
+      )
     }
 
-    this.updateUrl = () => {
+    this.updateUrl = (filter) => {
       const searchQuery = this.state.searchQuery
-      const href = this.props.url.pathname + (searchQuery ? '?search=' + searchQuery : '')
-      this.pushUrl(href)
+      this.pushUrl({search: searchQuery})
     }
 
     this.clearUrl = () => {
-      const href = this.props.url.pathname + '?search='
-      this.pushUrl(href)
+      this.pushUrl({search: ''})
     }
   }
 

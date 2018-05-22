@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import { renderMdast } from 'mdast-react-render'
 
@@ -142,47 +142,44 @@ export const CommentTeaser = ({
         timeago={timeagoFromNow}
         t={t}
       />
-
-      <Fragment>
-        {discussion.title && (
-          <p {...styles.note}>
-            {t.elements('search/commentTeaser/discussionReference', {
-              link: (
-                <CommentLink
-                  commentId={id}
-                  discussion={discussion}
-                >
-                  <a {...linkRule}>{discussion.title}</a>
-                </CommentLink>
-              )
-            })}
-          </p>
-        )}
-        {!!highlight && (
-          <CommentBodyParagraph>
-            <CommentLink
-              commentId={id}
-              discussion={discussion}
-            >
-              <a {...styles.linkBlockStyle}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: highlight
-                  }}
-                />
-                {!endsWithPunctuation && <span>{' '}…</span>}
-              </a>
-            </CommentLink>
-          </CommentBodyParagraph>
-        )}
-        {!highlight && !!truncatedContent && (
-          <div {...styles.body} style={{opacity: published ? 1 : 0.5}}>
-            {renderMdast(truncatedContent, schema)}
-            {!!moreContent && <span>{' '}…</span>}
-          </div>
-        )}
-      </Fragment>
-
+      {discussion.title && (
+        <p {...styles.note}>
+          {t.elements('search/commentTeaser/discussionReference', {
+            link: (
+              <CommentLink
+                key={id}
+                commentId={id}
+                discussion={discussion}
+              >
+                <a {...linkRule}>{discussion.title}</a>
+              </CommentLink>
+            )
+          })}
+        </p>
+      )}
+      {!!highlight && (
+        <CommentBodyParagraph>
+          <CommentLink
+            commentId={id}
+            discussion={discussion}
+          >
+            <a {...styles.linkBlockStyle}>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: highlight
+                }}
+              />
+              {!endsWithPunctuation && <span>{' '}…</span>}
+            </a>
+          </CommentLink>
+        </CommentBodyParagraph>
+      )}
+      {!highlight && !!truncatedContent && (
+        <div {...styles.body} style={{opacity: published ? 1 : 0.5}}>
+          {renderMdast(truncatedContent, schema)}
+          {!!moreContent && <span>{' '}…</span>}
+        </div>
+      )}
     </div>
   )
 }

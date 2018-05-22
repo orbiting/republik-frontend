@@ -165,55 +165,41 @@ class Results extends Component {
       ? this.state.storedAggregations
       : data && data.search && data.search.aggregations
 
-    // TODO: Add text length buckets when available.
-    const templateFilter = filters.find(filter => filter.key === 'template')
-    const typeFilter = filters.find(filter => filter.key === 'type')
-    const audioFilter = filters.find(filter => filter.key === 'audio')
-    const textLengthFilter = filters.find(filter => filter.key === 'textLength')
+    const aggregation = aggregations && aggregations.reduce((map, obj) => {
+      map[obj.key] = obj
+      return map
+    }, {})
 
-    const templateAggregations = aggregations && aggregations.find(
-      agg => agg.key === 'template'
-    )
-    const typeAggregations = aggregations && aggregations.find(
-      agg => agg.key === 'type'
-    )
-    const audioAggregations = aggregations && aggregations.find(
-      agg => agg.key === 'audio'
-    )
-    const textLengthAggregations = aggregations && aggregations.find(
-      agg => agg.key === 'textLength'
-    )
+    const filterButtonProps = (key, bucket) => {
+      return {
+        key: bucket.value,
+        label: bucket.value, // TODO: Backend should return labels.
+        count: bucket.count,
+        selected: !!filters.find(
+          filter => filter.key === key && filter.value === bucket.value
+        )
+      }
+    }
 
-    const templateFilters = templateAggregations && templateAggregations.buckets
-      // .filter(bucket => bucket.value !== 'front')
-      .map(bucket => {
-        return {
-          key: bucket.value,
-          label: bucket.value, // TODO: Backend should return labels.
-          count: bucket.count,
-          selected: !!templateFilter && templateFilter.value === bucket.value
-        }
-      })
-    const typeFilters = typeAggregations && typeAggregations.buckets
-      .filter(bucket => bucket.value !== 'Document' && bucket.value !== 'Credential')
-      .map(bucket => {
-        return {
-          key: bucket.value,
-          label: bucket.value, // TODO: Backend should return labels.
-          count: bucket.count,
-          selected: !!typeFilter && typeFilter.value === bucket.value
-        }
-      })
+    const templateFilters =
+      aggregation.template &&
+      aggregation.template.buckets.map(bucket =>
+        filterButtonProps('template', bucket)
+      )
 
-    const textLengthFilters = textLengthAggregations && textLengthAggregations.buckets
-      .map(bucket => {
-        return {
-          key: bucket.value,
-          label: bucket.value, // TODO: Backend should return labels.
-          count: bucket.count,
-          selected: !!textLengthFilter && textLengthFilter.value === bucket.value
-        }
-      })
+    const typeFilters =
+      aggregation.type &&
+      aggregation.type.buckets
+        .filter(
+          bucket => bucket.value !== 'Document' && bucket.value !== 'Credential'
+        )
+        .map(bucket => filterButtonProps('type', bucket))
+
+    const textLengthFilters =
+      aggregation.textLength &&
+      aggregation.textLength.buckets.map(bucket =>
+        filterButtonProps('textLength', bucket)
+      )
 
     const sortKey = sort ? sort.key : 'publishedAt'
     const sortButtons = [
@@ -264,9 +250,9 @@ class Results extends Component {
             <FilterButton
               filterBucketKey='audio'
               filterBucketValue='true'
-              label={audioAggregations.key}
-              count={audioAggregations.count}
-              selected={!!audioFilter}
+              label={aggregation.audio.key}
+              count={aggregation.audio.count}
+              selected={!!filters.find(filter => filter.key === 'audio')}
               onClickHander={onFilterClick} />
             <Sort
               buttons={sortButtons}

@@ -19,6 +19,8 @@ const styles = {
   })
 }
 
+const DEFAULT_FILTER = {key: 'template', value: 'front', not: true}
+
 class Search extends Component {
   constructor (props, ...args) {
     super(props, ...args)
@@ -27,7 +29,7 @@ class Search extends Component {
       loading: false,
       searchQuery: '',
       submittedQuery: '',
-      filters: [],
+      filters: [DEFAULT_FILTER],
       sort: {
         key: 'publishedAt'
       }
@@ -38,7 +40,7 @@ class Search extends Component {
       this.updateUrl()
       this.setState({
         submittedQuery: this.state.searchQuery,
-        filters: [],
+        filters: [DEFAULT_FILTER],
         sort: {
           key: 'relevance'
         }
@@ -51,7 +53,7 @@ class Search extends Component {
       this.setState({
         searchQuery: '',
         submittedQuery: '',
-        filters: []
+        filters: [DEFAULT_FILTER]
       })
     }
 
@@ -78,18 +80,19 @@ class Search extends Component {
 
     this.onFilterClick = (filterBucketKey, filterBucketValue) => {
       const filters = filterBucketValue ? [
+        DEFAULT_FILTER,
         {
           key: filterBucketKey,
           value: filterBucketValue
         }
-      ] : []
+      ] : [DEFAULT_FILTER]
 
       // TODO: Preserve text length filter when available.
       this.setState({
         filters
       })
       if (this.state.submittedQuery === '') {
-        this.props.showFeed && this.props.showFeed(!filters.length)
+        this.props.showFeed && this.props.showFeed(filters.length > 1)
       }
     }
 
@@ -118,7 +121,7 @@ class Search extends Component {
       this.setState({
         searchQuery: query.search,
         submittedQuery: query.search,
-        filters: []
+        filters: [DEFAULT_FILTER]
       })
     }
   }

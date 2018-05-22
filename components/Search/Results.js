@@ -148,7 +148,7 @@ class Results extends Component {
     // otherwise we'd just end up with the buckets returned by the filter.
     if (!props.data.loading &&
         !props.data.error &&
-        props.filters.length === 0 &&
+        props.filters.length === 1 &&
         props.data.search) {
       this.setState({storedAggregations: props.data.search.aggregations})
     }

@@ -10,9 +10,9 @@ import { Router } from '../../lib/routes'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import ErrorMessage from '../ErrorMessage'
 
-const goTo = (type, email) => Router.replaceRoute(
+const goTo = (type, email, context) => Router.replaceRoute(
   'notifications',
-  { type, email, context: 'authorization' }
+  { type, email, context }
 )
 
 class NewsletterSubscription extends Component {
@@ -64,7 +64,11 @@ class NewsletterSubscription extends Component {
                     updateNewsletterSubscription({
                       consents
                     })
-                      .then(() => goTo('email-confirmed', email))
+                      .then(() => goTo(
+                        'email-confirmed',
+                        email,
+                        this.props.context
+                      ))
                       .catch(error => {
                         this.setState({
                           updating: false,

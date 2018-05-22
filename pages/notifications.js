@@ -14,24 +14,35 @@ import TokenAuthorization from '../components/Auth/TokenAuthorization'
 import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
 import {
-  CURTAIN_MESSAGE
+  CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, RawHtml
+  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries
 } from '@project-r/styleguide'
 
 const styles = {
   logo: css({
-    textAlign: 'center',
-    maxWidth: 207,
     margin: '0 auto',
-    paddingTop: 26
+    paddingTop: 26,
+    textAlign: 'center'
+  }),
+  logoProjectR: css({
+    display: 'block',
+    margin: '0 auto',
+    maxWidth: 520,
+    marginBottom: -16,
+    textAlign: 'left',
+    [mediaQueries.mUp]: {
+      textAlign: 'center'
+    }
   }),
   text: css({
-    margin: '120px auto',
-    textAlign: 'center',
-    maxWidth: 520
+    margin: '60px auto 120px',
+    maxWidth: 520,
+    [mediaQueries.mUp]: {
+      textAlign: 'center'
+    }
   }),
   link: css({
     marginTop: 20
@@ -62,18 +73,22 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
   }
 
   const title = t(`notifications/${type}/title`, undefined, '')
+  let logoTarget
   let content
   if (type === 'token-authorization') {
+    logoTarget = '_blank'
     content = <TokenAuthorization
       email={email}
       token={token}
     />
   } else if (type === 'newsletter-subscription') {
+    logoTarget = '_blank'
     content = <MacNewsletterSubscription
       name={query.name}
       subscribed={query.subscribed}
       mac={query.mac}
-      email={email} />
+      email={email}
+      context={context} />
   } else {
     content = <RawHtml type={P} dangerouslySetInnerHTML={{
       __html: t(`notifications/${type}/text`, query, '')
@@ -90,6 +105,20 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
     }
   ].filter(Boolean)
 
+  const logo = context === 'projectr' ? (
+    <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
+      <img
+        style={{height: 50}}
+        src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`} />
+    </a>
+  ) : (
+    hasCurtain
+      ? <Logo height={34} />
+      : <a href='/' target={logoTarget}>
+        <Logo height={34} />
+      </a>
+  )
+
   return (
     <div>
       <Head>
@@ -98,12 +127,7 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
       </Head>
       <NarrowContainer>
         <div {...styles.logo}>
-          {hasCurtain
-            ? <Logo />
-            : <Link route='index'>
-              <a><Logo /></a>
-            </Link>
-          }
+          {logo}
         </div>
         <div {...styles.text}>
           {title && <H1>{title}</H1>}

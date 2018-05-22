@@ -27,7 +27,7 @@ const WithoutMembershipBox = ({children, style}) => (
 
 const query = gql`
 query payNoteMembershipStats {
-  membershipStats {
+  memberStats {
     count
   }
 }
@@ -36,7 +36,7 @@ query payNoteMembershipStats {
 export const Before = compose(
   withT,
   graphql(query)
-)(({ t, data: { membershipStats } }) => (
+)(({ t, data: { memberStats } }) => (
   <WithoutMembershipBox>
     <Interaction.P>
       {t.elements('article/payNote/before', {
@@ -46,7 +46,7 @@ export const Before = compose(
           </Link>
         ),
         count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-          (membershipStats && membershipStats.count) || 18000
+          (memberStats && memberStats.count) || 18000
         )}</span>
       })}
     </Interaction.P>

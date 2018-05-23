@@ -83,19 +83,33 @@ class Search extends Component {
         key: filterBucketKey,
         value: filterBucketValue
       }
+
+      let filterToPreserve
+      if (filterBucketKey === 'template') {
+        filterToPreserve = this.state.filters.find(
+          filter => filter.key === 'textLength'
+        )
+      }
+      if (filterBucketKey === 'textLength') {
+        filterToPreserve = this.state.filters.find(
+          filter => filter.key === 'template' && filter.value !== 'front'
+        )
+      }
+
       let filters = [DEFAULT_FILTER]
       if (filter) {
         filters.push(filter)
       }
+      if (filterToPreserve) {
+        filters.push(filterToPreserve)
+      }
 
-      // TODO: Preserve text length filter when available.
       this.setState({
         filters
       })
       if (this.state.submittedQuery === '') {
-        this.props.showFeed && this.props.showFeed(filters.length > 1)
+        this.props.showFeed && this.props.showFeed(filters.length < 2)
       }
-      this.props.showFeed && this.props.showFeed(!filter && !this.state.submittedQuery)
     }
 
     this.pushUrl = (params) => {

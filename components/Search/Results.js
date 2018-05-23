@@ -135,19 +135,27 @@ class Results extends Component {
       return null
     }
 
+    const isFilterEnabled =
+      filters &&
+      !!filters.length &&
+      !!filters.find(
+        filter => !(filter.key === 'template' && filter.value === 'front')
+      )
+    const resultsEmpty = data && data.search && data.search.totalCount === 0
+
     const sortKey = sort ? sort.key : 'publishedAt'
     const sortButtons = [
       {
         sortKey: 'publishedAt',
         label: 'Zeit',
         direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: !searchQuery && !filters.length,
+        disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
         selected: sortKey === 'publishedAt'
       },
       {
         sortKey: 'relevance',
         label: 'Relevanz',
-        disabled: !searchQuery,
+        disabled: !searchQuery || resultsEmpty,
         selected: sortKey === 'relevance'
 
       }
@@ -163,17 +171,9 @@ class Results extends Component {
       } */
     ]
 
-    const resultsEmpty = data && data.search && data.search.totalCount === 0
-    const isFilterEnabled =
-      filters &&
-      !!filters.length &&
-      !!filters.find(
-        filter => !(filter.key === 'template' && filter.value === 'front')
-      )
-
     return (
       <div {...styles.container}>
-        {!resultsEmpty && (
+        {(!resultsEmpty || isFilterEnabled) && (
           <Fragment>
             <Filter searchQuery={searchQuery} filters={filters} onFilterClick={onFilterClick} />
             <Sort

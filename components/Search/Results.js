@@ -165,10 +165,10 @@ class Results extends Component {
       ? this.state.storedAggregations
       : data && data.search && data.search.aggregations
 
-    const aggregation = aggregations && aggregations.reduce((map, obj) => {
+    const aggregation = aggregations ? aggregations.reduce((map, obj) => {
       map[obj.key] = obj
       return map
-    }, {})
+    }, {}) : {}
 
     const filterButtonProps = (key, bucket) => {
       return {

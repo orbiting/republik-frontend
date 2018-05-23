@@ -19,7 +19,7 @@ const styles = {
   })
 }
 
-const DEFAULT_FILTER = {key: 'template', value: 'front', not: true}
+export const DEFAULT_FILTER = {key: 'template', value: 'front', not: true}
 
 class Search extends Component {
   constructor (props, ...args) {

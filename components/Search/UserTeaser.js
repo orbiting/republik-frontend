@@ -65,7 +65,7 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({id, username, firstName, lastName, credentials}) => {
+export const UserTeaser = ({id, username, firstName, lastName, credentials, portrait}) => {
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
@@ -73,7 +73,7 @@ export const UserTeaser = ({id, username, firstName, lastName, credentials}) => 
         <a {...styles.link}>
           <img
             {...styles.profilePicture}
-            src={DEFAULT_PROFILE_PICTURE}
+            src={portrait || DEFAULT_PROFILE_PICTURE}
             alt={`${firstName} ${lastName}`}
           />
         </a>

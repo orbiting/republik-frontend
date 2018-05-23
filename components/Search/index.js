@@ -95,7 +95,7 @@ class Search extends Component {
       if (this.state.submittedQuery === '') {
         this.props.showFeed && this.props.showFeed(filters.length > 1)
       }
-      filter && this.props.showFeed && this.props.showFeed(false)
+      this.props.showFeed && this.props.showFeed(!filter && !this.state.submittedQuery)
     }
 
     this.pushUrl = (params) => {

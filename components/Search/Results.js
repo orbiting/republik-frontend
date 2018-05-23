@@ -111,6 +111,7 @@ query getSearchResults(
             description
             isListed
           }
+          portrait
           hasPublicProfile
         }
       }
@@ -161,6 +162,12 @@ class Results extends Component {
     ]
 
     const resultsEmpty = data && data.search && data.search.totalCount === 0
+    const isFilterEnabled =
+      filters &&
+      !!filters.length &&
+      !!filters.find(
+        filter => !(filter.key === 'template' && filter.value === 'front')
+      )
 
     return (
       <div {...styles.container}>
@@ -191,66 +198,66 @@ class Results extends Component {
               return <P>Keine Ergebnisse</P>
             }
 
+            if (!searchQuery && !isFilterEnabled) {
+              return null
+            }
+
             return (
-              <Fragment>
-                {(!!searchQuery || !!filters.length) && (
-                  <div {...styles.results}>
-                    {nodes &&
-                    nodes.map((node, index) => (
-                      <Fragment key={index}>
-                        {node.entity.__typename === 'Document' && (
-                          <TeaserFeed
-                            {...node.entity.meta}
-                            kind={
-                              node.entity.meta.template ===
-                              'editorialNewsletter' ? (
-                                  'meta'
-                                ) : (
-                                  node.entity.meta.kind
-                                )
-                            }
-                            Link={Link}
-                            key={node.entity.meta.path}
-                          />
-                        )}
-                        {node.entity.__typename === 'Comment' && (
-                          <CommentTeaser
-                            id={node.entity.id}
-                            discussion={node.entity.discussion}
-                            content={node.entity.content}
-                            text={node.entity.text}
-                            highlights={node.highlights}
-                            displayAuthor={node.entity.displayAuthor}
-                            published={node.entity.published}
-                            createdAt={node.entity.createdAt}
-                            updatedAt={node.entity.updatedAt}
-                            t={t}
-                          />
-                        )}
-                        {node.entity.__typename === 'User' && (
-                          <UserTeaser {...node.entity} />
-                        )}
-                      </Fragment>
-                    ))}
-                    <div {...styles.count}>
-                      {nodes.length === totalCount
-                        ? t.pluralize('search/pageInfo/total', {count: totalCount})
-                        : t('search/pageInfo/loadedTotal', {
-                          loaded: nodes.length,
-                          total: totalCount
-                        })
-                      }
-                      {pageInfo.hasNextPage && (
-                        <button {...styles.loadMore} {...linkRule} onClick={() => {
-                          fetchMore({after: pageInfo.endCursor})
-                        }}>
-                          {t('search/pageInfo/loadMore')}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Fragment>
+              <div {...styles.results}>
+                {nodes &&
+                nodes.map((node, index) => (
+                  <Fragment key={index}>
+                    {node.entity.__typename === 'Document' && (
+                      <TeaserFeed
+                        {...node.entity.meta}
+                        kind={
+                          node.entity.meta.template ===
+                          'editorialNewsletter' ? (
+                              'meta'
+                            ) : (
+                              node.entity.meta.kind
+                            )
+                        }
+                        Link={Link}
+                        key={node.entity.meta.path}
+                      />
+                    )}
+                    {node.entity.__typename === 'Comment' && (
+                      <CommentTeaser
+                        id={node.entity.id}
+                        discussion={node.entity.discussion}
+                        content={node.entity.content}
+                        text={node.entity.text}
+                        highlights={node.highlights}
+                        displayAuthor={node.entity.displayAuthor}
+                        published={node.entity.published}
+                        createdAt={node.entity.createdAt}
+                        updatedAt={node.entity.updatedAt}
+                        t={t}
+                      />
+                    )}
+                    {node.entity.__typename === 'User' && (
+                      <UserTeaser {...node.entity} />
+                    )}
+                  </Fragment>
+                ))}
+                <div {...styles.count}>
+                  {nodes.length === totalCount
+                    ? t.pluralize('search/pageInfo/total', {count: totalCount})
+                    : t('search/pageInfo/loadedTotal', {
+                      loaded: nodes.length,
+                      total: totalCount
+                    })
+                  }
+                  {pageInfo.hasNextPage && (
+                    <button {...styles.loadMore} {...linkRule} onClick={() => {
+                      fetchMore({after: pageInfo.endCursor})
+                    }}>
+                      {t('search/pageInfo/loadMore')}
+                    </button>
+                  )}
+                </div>
+              </div>
             )
           }}
         />

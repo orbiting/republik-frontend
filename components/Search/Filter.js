@@ -114,11 +114,13 @@ query getSearchAggregations(
     aggregations {
       key
       count
+      label
       buckets {
         value
         count
+        label
       }
-    }    
+    }
   }
 }
 `
@@ -158,7 +160,7 @@ class Filter extends Component {
             const filterButtonProps = (key, bucket) => {
               return {
                 key: bucket.value,
-                label: bucket.value, // TODO: Backend should return labels.
+                label: bucket.label,
                 count: bucket.count,
                 selected: !!filters.find(
                   filter => filter.key === key && filter.value === bucket.value
@@ -203,7 +205,7 @@ class Filter extends Component {
                 <FilterButton
                   filterBucketKey='audio'
                   filterBucketValue='true'
-                  label={aggregation.audio.key}
+                  label={aggregation.audio.label}
                   count={aggregation.audio.count}
                   selected={!!filters.find(filter => filter.key === 'audio')}
                   onClickHander={onFilterClick} />

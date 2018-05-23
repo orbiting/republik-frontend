@@ -8,7 +8,7 @@ import withT from '../../lib/withT'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
-import FilterButtonGroup, { FilterButton } from './Filter'
+import Filter from './Filter'
 import Sort from './Sort'
 import CommentTeaser from './CommentTeaser'
 import UserTeaser from './UserTeaser'
@@ -133,73 +133,12 @@ query getSearchResults(
 `
 
 class Results extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      storedAggregations: null
-    }
-  }
-
-  componentWillReceiveProps (props) {
-    if (!props.data) return
-
-    // We gotta remember the original buckets before a filter is applied,
-    // otherwise we'd just end up with the buckets returned by the filter.
-    if (!props.data.loading &&
-        !props.data.error &&
-        props.filters.length === 1 &&
-        props.data.search) {
-      this.setState({storedAggregations: props.data.search.aggregations})
-    }
-  }
-
   render () {
     const { t, searchQuery, sort, onSortClick, filters, onFilterClick, data } = this.props
 
     if (!data) {
       return null
     }
-
-    const aggregations = this.state.storedAggregations
-      ? this.state.storedAggregations
-      : data && data.search && data.search.aggregations
-
-    const aggregation = aggregations ? aggregations.reduce((map, obj) => {
-      map[obj.key] = obj
-      return map
-    }, {}) : {}
-
-    const filterButtonProps = (key, bucket) => {
-      return {
-        key: bucket.value,
-        label: bucket.value, // TODO: Backend should return labels.
-        count: bucket.count,
-        selected: !!filters.find(
-          filter => filter.key === key && filter.value === bucket.value
-        )
-      }
-    }
-
-    const templateFilters =
-      aggregation.template &&
-      aggregation.template.buckets.map(bucket =>
-        filterButtonProps('template', bucket)
-      )
-
-    const typeFilters =
-      aggregation.type &&
-      aggregation.type.buckets
-        .filter(
-          bucket => bucket.value !== 'Document' && bucket.value !== 'Credential'
-        )
-        .map(bucket => filterButtonProps('type', bucket))
-
-    const textLengthFilters =
-      aggregation.textLength &&
-      aggregation.textLength.buckets.map(bucket =>
-        filterButtonProps('textLength', bucket)
-      )
 
     const sortKey = sort ? sort.key : 'publishedAt'
     const sortButtons = [
@@ -233,27 +172,9 @@ class Results extends Component {
 
     return (
       <div {...styles.container}>
-        {aggregations && !resultsEmpty && (
+        {!resultsEmpty && (
           <Fragment>
-            <FilterButtonGroup
-              filterBucketKey='template'
-              filters={templateFilters}
-              onClickHander={onFilterClick} />
-            <FilterButtonGroup
-              filterBucketKey='type'
-              filters={typeFilters}
-              onClickHander={onFilterClick} />
-            <FilterButtonGroup
-              filterBucketKey='textLength'
-              filters={textLengthFilters}
-              onClickHander={onFilterClick} />
-            <FilterButton
-              filterBucketKey='audio'
-              filterBucketValue='true'
-              label={aggregation.audio.key}
-              count={aggregation.audio.count}
-              selected={!!filters.find(filter => filter.key === 'audio')}
-              onClickHander={onFilterClick} />
+            <Filter searchQuery={searchQuery} filters={filters} onFilterClick={onFilterClick} />
             <Sort
               buttons={sortButtons}
               onClickHander={onSortClick}

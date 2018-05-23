@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
+import { DEFAULT_FILTER } from './'
+import Loader from '../../components/Loader'
 
 import {
   colors,
@@ -33,7 +38,7 @@ const styles = {
   })
 }
 
-export class FilterButton extends Component {
+class FilterButton extends Component {
   render () {
     const { filterBucketKey, filterBucketValue, label, count, selected, onClickHander } = this.props
     if (!count) return null
@@ -98,4 +103,126 @@ FilterButtonGroup.propTypes = {
   )
 }
 
-export default FilterButtonGroup
+const getSearchAggregations = gql`
+query getSearchAggregations(
+    $search: String,
+    $filters: [SearchGenericFilterInput!]) {
+  search(
+      first: 100,
+      search: $search,
+      filters: $filters) {
+    aggregations {
+      key
+      count
+      buckets {
+        value
+        count
+      }
+    }    
+  }
+}
+`
+
+class Filter extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+
+    this.state = {
+      // TODO: Remember last selected filter?
+    }
+  }
+
+  render () {
+    const { data, filters, onFilterClick } = this.props
+
+    return (
+      <div {...styles.container}>
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            const { data } = this.props
+            const { search } = data
+
+            const aggregations = search.aggregations
+
+            if (!aggregations) {
+              return null
+            }
+
+            const aggregation = aggregations ? aggregations.reduce((map, obj) => {
+              map[obj.key] = obj
+              return map
+            }, {}) : {}
+
+            const filterButtonProps = (key, bucket) => {
+              return {
+                key: bucket.value,
+                label: bucket.value, // TODO: Backend should return labels.
+                count: bucket.count,
+                selected: !!filters.find(
+                  filter => filter.key === key && filter.value === bucket.value
+                )
+              }
+            }
+
+            const templateFilters =
+              aggregation.template &&
+              aggregation.template.buckets.map(bucket =>
+                filterButtonProps('template', bucket)
+              )
+
+            const typeFilters =
+              aggregation.type &&
+              aggregation.type.buckets
+                .filter(
+                  bucket => bucket.value !== 'Document' && bucket.value !== 'Credential'
+                )
+                .map(bucket => filterButtonProps('type', bucket))
+
+            const textLengthFilters =
+              aggregation.textLength &&
+              aggregation.textLength.buckets.map(bucket =>
+                filterButtonProps('textLength', bucket)
+              )
+
+            return (
+              <Fragment>
+                <FilterButtonGroup
+                  filterBucketKey='template'
+                  filters={templateFilters}
+                  onClickHander={onFilterClick} />
+                <FilterButtonGroup
+                  filterBucketKey='type'
+                  filters={typeFilters}
+                  onClickHander={onFilterClick} />
+                <FilterButtonGroup
+                  filterBucketKey='textLength'
+                  filters={textLengthFilters}
+                  onClickHander={onFilterClick} />
+                <FilterButton
+                  filterBucketKey='audio'
+                  filterBucketValue='true'
+                  label={aggregation.audio.key}
+                  count={aggregation.audio.count}
+                  selected={!!filters.find(filter => filter.key === 'audio')}
+                  onClickHander={onFilterClick} />
+              </Fragment>
+            )
+          }}
+        />
+      </div>
+    )
+  }
+}
+
+export default compose(
+  graphql(getSearchAggregations, {
+    options: props => ({
+      variables: {
+        search: props.searchQuery,
+        filters: [DEFAULT_FILTER]
+      }
+    })
+  })
+)(Filter)

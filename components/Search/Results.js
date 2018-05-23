@@ -206,43 +206,51 @@ class Results extends Component {
 
             return (
               <div {...styles.results}>
-                {nodes &&
-                nodes.map((node, index) => (
-                  <Fragment key={index}>
-                    {node.entity.__typename === 'Document' && (
-                      <TeaserFeed
-                        {...node.entity.meta}
-                        kind={
-                          node.entity.meta.template ===
-                          'editorialNewsletter' ? (
+                {nodes && nodes.map((node, index) => {
+                  const titleHighlight =
+                    node.entity.__typename === 'Document' &&
+                    node.highlights.find(highlight => highlight.path === 'meta.title')
+                  const descHighlight =
+                    node.entity.__typename === 'Document' &&
+                    node.highlights.find(highlight => highlight.path === 'meta.description')
+                  return (
+                    <Fragment key={index}>
+                      {node.entity.__typename === 'Document' && (
+                        <TeaserFeed
+                          {...node.entity.meta}
+                          title={titleHighlight ? titleHighlight.fragments[0] : node.entity.meta.title}
+                          description={descHighlight ? descHighlight.fragments[0] : node.entity.meta.description}
+                          kind={
+                            node.entity.meta.template === 'editorialNewsletter' ? (
                               'meta'
                             ) : (
                               node.entity.meta.kind
                             )
-                        }
-                        Link={Link}
-                        key={node.entity.meta.path}
-                      />
-                    )}
-                    {node.entity.__typename === 'Comment' && (
-                      <CommentTeaser
-                        id={node.entity.id}
-                        discussion={node.entity.discussion}
-                        content={node.entity.content}
-                        text={node.entity.text}
-                        highlights={node.highlights}
-                        displayAuthor={node.entity.displayAuthor}
-                        published={node.entity.published}
-                        createdAt={node.entity.createdAt}
-                        updatedAt={node.entity.updatedAt}
-                        t={t}
-                      />
-                    )}
-                    {node.entity.__typename === 'User' && (
-                      <UserTeaser {...node.entity} />
-                    )}
-                  </Fragment>
-                ))}
+                          }
+                          Link={Link}
+                          key={node.entity.meta.path}
+                        />
+                      )}
+                      {node.entity.__typename === 'Comment' && (
+                        <CommentTeaser
+                          id={node.entity.id}
+                          discussion={node.entity.discussion}
+                          content={node.entity.content}
+                          text={node.entity.text}
+                          highlights={node.highlights}
+                          displayAuthor={node.entity.displayAuthor}
+                          published={node.entity.published}
+                          createdAt={node.entity.createdAt}
+                          updatedAt={node.entity.updatedAt}
+                          t={t}
+                        />
+                      )}
+                      {node.entity.__typename === 'User' && (
+                        <UserTeaser {...node.entity} />
+                      )}
+                    </Fragment>
+                  )
+                })}
                 <div {...styles.count}>
                   {nodes.length === totalCount
                     ? t.pluralize('search/pageInfo/total', {count: totalCount})

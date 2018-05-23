@@ -58,14 +58,6 @@ query getSearchResults(
       search: $search,
       sort: $sort,
       filters: $filters) {
-    aggregations {
-      key
-      count
-      buckets {
-        value
-        count
-      }
-    }
     totalCount
     pageInfo {
       hasNextPage

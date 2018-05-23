@@ -46,6 +46,7 @@ const styles = {
   })
 }
 
+// TODO: add format to document.meta once backend supports it.
 const getSearchResults = gql`
 query getSearchResults(
     $search: String,
@@ -76,6 +77,7 @@ query getSearchResults(
             template
             description
             credits
+            publishDate
           }
         }
         ... on Comment {

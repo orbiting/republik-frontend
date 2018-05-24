@@ -173,11 +173,11 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
           <P {...styles.text}>
             <RawHtml
               dangerouslySetInnerHTML={{
-                __html: t('marketing/intro', {count: countFormat(data.membershipStats.count)})
+                __html: t('marketing/intro', {count: countFormat(data.memberStats.count)})
               }}
-          />
+            />
           </P>
-      )} />
+        )} />
       </Container>
       <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
         <div {...styles.more}>
@@ -200,8 +200,8 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
 )
 
 const query = gql`
-query membershipStats {
-  membershipStats {
+query memberStats {
+  memberStats {
     count
   }
 }

@@ -17,6 +17,7 @@ import {
   TeaserFeed,
   Interaction,
   colors,
+  fontFamilies,
   linkRule
 } from '@project-r/styleguide'
 
@@ -43,6 +44,17 @@ const styles = {
     border: 'none',
     cursor: 'pointer',
     padding: 0
+  }),
+  highlightedTitle: css({
+    '& em': {
+      fontStyle: 'normal'
+    }
+  }),
+  highlightedDescription: css({
+    '& em': {
+      fontFamily: fontFamilies.serifBold,
+      fontStyle: 'normal'
+    }
   })
 }
 
@@ -218,8 +230,26 @@ class Results extends Component {
                       {node.entity.__typename === 'Document' && (
                         <TeaserFeed
                           {...node.entity.meta}
-                          title={titleHighlight ? titleHighlight.fragments[0] : node.entity.meta.title}
-                          description={descHighlight ? descHighlight.fragments[0] : node.entity.meta.description}
+                          title={
+                            titleHighlight ? (
+                              <span
+                                {...styles.highlightedTitle}
+                                dangerouslySetInnerHTML={{ __html: titleHighlight.fragments[0] }}
+                              />
+                            ) : (
+                              node.entity.meta.title
+                            )
+                          }
+                          description={
+                            descHighlight ? (
+                              <span
+                                {...styles.highlightedDescription}
+                                dangerouslySetInnerHTML={{ __html: descHighlight.fragments[0] }}
+                              />
+                            ) : (
+                              node.entity.meta.description
+                            )
+                          }
                           kind={
                             node.entity.meta.template === 'editorialNewsletter' ? (
                               'meta'

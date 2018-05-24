@@ -84,6 +84,7 @@ const getValues = (me) => {
   return {
     firstName: me.firstName || '',
     lastName: me.lastName || '',
+    phoneNumber: me.phoneNumber || '',
     birthday: me.birthday || '',
     ...addressState
   }

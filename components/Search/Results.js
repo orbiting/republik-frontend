@@ -71,6 +71,16 @@ query getSearchResults(
       search: $search,
       sort: $sort,
       filters: $filters) {
+    aggregations {
+      key
+      count
+      label
+      buckets {
+        value
+        count
+        label
+      }
+    }
     totalCount
     pageInfo {
       hasNextPage
@@ -140,6 +150,28 @@ query getSearchResults(
 `
 
 class Results extends Component {
+  /* constructor (props, ...args) {
+    super(props, ...args)
+
+    this.state = {
+      storedAggregations: null
+    }
+  }
+
+  componentWillReceiveProps (props) {
+    if (!props.data) return
+
+    // We gotta remember the original buckets before a filter is applied,
+    // otherwise we'd just end up with the buckets returned by the filter.
+    if (!props.data.loading &&
+        !props.data.error &&
+        props.filters.length === 1 &&
+        props.data.search &&
+        !this.state.submittedQuery) {
+      this.setState({storedAggregations: props.data.search.aggregations})
+    }
+  } */
+
   render () {
     const { t, searchQuery, sort, onSortClick, filters, onFilterClick, data } = this.props
 
@@ -153,47 +185,9 @@ class Results extends Component {
       !!filters.find(
         filter => !(filter.key === 'template' && filter.value === 'front')
       )
-    const resultsEmpty = data && data.search && data.search.totalCount === 0
-
-    const sortKey = sort ? sort.key : 'publishedAt'
-    const sortButtons = [
-      {
-        sortKey: 'publishedAt',
-        label: 'Zeit',
-        direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
-        selected: sortKey === 'publishedAt'
-      },
-      {
-        sortKey: 'relevance',
-        label: 'Relevanz',
-        disabled: !searchQuery || resultsEmpty,
-        selected: sortKey === 'relevance'
-
-      }
-      // TODO: enable these sort keys once backend supports them.
-      /*
-      {
-        sortKey: 'mostRead',
-        label: 'meistgelesen'
-      },
-      {
-        sortKey: 'mostDebated',
-        label: 'meistdebattiert'
-      } */
-    ]
 
     return (
       <div {...styles.container}>
-        {(!resultsEmpty || isFilterEnabled) && (
-          <Fragment>
-            <Filter searchQuery={searchQuery} filters={filters} onFilterClick={onFilterClick} />
-            <Sort
-              buttons={sortButtons}
-              onClickHander={onSortClick}
-            />
-          </Fragment>
-        )}
         <Loader
           loading={data.loading}
           error={data.error}
@@ -212,92 +206,137 @@ class Results extends Component {
               return <P>Keine Ergebnisse</P>
             }
 
-            if (!searchQuery && !isFilterEnabled) {
+            /* if (!searchQuery && !isFilterEnabled) {
               return null
-            }
+            } */
+
+            const resultsEmpty = search.totalCount === 0
+            const sortKey = sort ? sort.key : 'publishedAt'
+            const sortButtons = [
+              {
+                sortKey: 'publishedAt',
+                label: 'Zeit',
+                direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
+                disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
+                selected: sortKey === 'publishedAt'
+              },
+              {
+                sortKey: 'relevance',
+                label: 'Relevanz',
+                disabled: !searchQuery || resultsEmpty,
+                selected: sortKey === 'relevance'
+
+              }
+              // TODO: enable these sort keys once backend supports them.
+              /*
+              {
+                sortKey: 'mostRead',
+                label: 'meistgelesen'
+              },
+              {
+                sortKey: 'mostDebated',
+                label: 'meistdebattiert'
+              } */
+            ]
 
             return (
-              <div {...styles.results}>
-                {nodes && nodes.map((node, index) => {
-                  const titleHighlight =
+              <Fragment>
+
+                <Fragment>
+                  <Filter
+                    aggregations={search.aggregations}
+                    searchQuery={searchQuery}
+                    filters={filters}
+                    onFilterClick={onFilterClick} />
+                  <Sort
+                    buttons={sortButtons}
+                    onClickHandler={onSortClick}
+                  />
+                </Fragment>
+                {(!!searchQuery || isFilterEnabled) && (
+                  <div {...styles.results}>
+                    {nodes && nodes.map((node, index) => {
+                      const titleHighlight =
                     node.entity.__typename === 'Document' &&
                     node.highlights.find(highlight => highlight.path === 'meta.title')
-                  const descHighlight =
+                      const descHighlight =
                     node.entity.__typename === 'Document' &&
                     node.highlights.find(highlight => highlight.path === 'meta.description')
-                  return (
-                    <Fragment key={index}>
-                      {node.entity.__typename === 'Document' && (
-                        <TeaserFeed
-                          {...node.entity.meta}
-                          title={
-                            titleHighlight ? (
-                              <span
-                                {...styles.highlightedTitle}
-                                dangerouslySetInnerHTML={{ __html: titleHighlight.fragments[0] }}
-                              />
-                            ) : (
-                              node.entity.meta.title
-                            )
-                          }
-                          description={
-                            descHighlight ? (
-                              <span
-                                {...styles.highlightedDescription}
-                                dangerouslySetInnerHTML={{ __html: descHighlight.fragments[0] }}
-                              />
-                            ) : (
-                              node.entity.meta.description
-                            )
-                          }
-                          kind={
-                            node.entity.meta.template === 'editorialNewsletter' ? (
-                              'meta'
-                            ) : (
-                              node.entity.meta.kind
-                            )
-                          }
-                          Link={Link}
-                          key={node.entity.meta.path}
-                        />
+                      return (
+                        <Fragment key={index}>
+                          {node.entity.__typename === 'Document' && (
+                            <TeaserFeed
+                              {...node.entity.meta}
+                              title={
+                                titleHighlight ? (
+                                  <span
+                                    {...styles.highlightedTitle}
+                                    dangerouslySetInnerHTML={{ __html: titleHighlight.fragments[0] }}
+                                  />
+                                ) : (
+                                  node.entity.meta.title
+                                )
+                              }
+                              description={
+                                descHighlight ? (
+                                  <span
+                                    {...styles.highlightedDescription}
+                                    dangerouslySetInnerHTML={{ __html: descHighlight.fragments[0] }}
+                                  />
+                                ) : (
+                                  node.entity.meta.description
+                                )
+                              }
+                              kind={
+                                node.entity.meta.template === 'editorialNewsletter' ? (
+                                  'meta'
+                                ) : (
+                                  node.entity.meta.kind
+                                )
+                              }
+                              Link={Link}
+                              key={node.entity.meta.path}
+                            />
+                          )}
+                          {node.entity.__typename === 'Comment' && (
+                            <CommentTeaser
+                              id={node.entity.id}
+                              discussion={node.entity.discussion}
+                              content={node.entity.content}
+                              text={node.entity.text}
+                              highlights={node.highlights}
+                              displayAuthor={node.entity.displayAuthor}
+                              published={node.entity.published}
+                              createdAt={node.entity.createdAt}
+                              updatedAt={node.entity.updatedAt}
+                              t={t}
+                            />
+                          )}
+                          {node.entity.__typename === 'User' && (
+                            <UserTeaser {...node.entity} />
+                          )}
+                        </Fragment>
+                      )
+                    })}
+                    <div {...styles.count}>
+                      {nodes.length === totalCount
+                        ? t.pluralize('search/pageInfo/total', {count: totalCount})
+                        : t('search/pageInfo/loadedTotal', {
+                          loaded: nodes.length,
+                          total: totalCount
+                        })
+                      }
+                      {pageInfo.hasNextPage && (
+                        <button {...styles.loadMore} {...linkRule} onClick={() => {
+                          fetchMore({after: pageInfo.endCursor})
+                        }}>
+                          {t('search/pageInfo/loadMore')}
+                        </button>
                       )}
-                      {node.entity.__typename === 'Comment' && (
-                        <CommentTeaser
-                          id={node.entity.id}
-                          discussion={node.entity.discussion}
-                          content={node.entity.content}
-                          text={node.entity.text}
-                          highlights={node.highlights}
-                          displayAuthor={node.entity.displayAuthor}
-                          published={node.entity.published}
-                          createdAt={node.entity.createdAt}
-                          updatedAt={node.entity.updatedAt}
-                          t={t}
-                        />
-                      )}
-                      {node.entity.__typename === 'User' && (
-                        <UserTeaser {...node.entity} />
-                      )}
-                    </Fragment>
-                  )
-                })}
-                <div {...styles.count}>
-                  {nodes.length === totalCount
-                    ? t.pluralize('search/pageInfo/total', {count: totalCount})
-                    : t('search/pageInfo/loadedTotal', {
-                      loaded: nodes.length,
-                      total: totalCount
-                    })
-                  }
-                  {pageInfo.hasNextPage && (
-                    <button {...styles.loadMore} {...linkRule} onClick={() => {
-                      fetchMore({after: pageInfo.endCursor})
-                    }}>
-                      {t('search/pageInfo/loadMore')}
-                    </button>
-                  )}
-                </div>
-              </div>
+                    </div>
+                  </div>
+                )}
+              </Fragment>
             )
           }}
         />

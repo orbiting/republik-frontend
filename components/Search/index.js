@@ -19,7 +19,7 @@ const styles = {
   })
 }
 
-export const DEFAULT_FILTERS = [
+const DEFAULT_FILTERS = [
   {key: 'template', value: 'front', not: true}
 ]
 
@@ -135,30 +135,22 @@ class Search extends Component {
       this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
-    this.onFilterClick = (filterBucketKey, filterBucketValue) => {
-      const filter = filterBucketValue && {
+    this.onFilterClick = (filterBucketKey, filterBucketValue, selected) => {
+      const filter = {
         key: filterBucketKey,
         value: filterBucketValue
       }
 
-      let filterToPreserve
-      if (filterBucketKey === 'template') {
-        filterToPreserve = this.state.filters.find(
-          filter => filter.key === 'textLength'
-        )
-      }
-      if (filterBucketKey === 'textLength') {
-        filterToPreserve = this.state.filters.find(
-          filter => filter.key === 'template' && filter.value !== 'front'
-        )
-      }
+      let filters = [...this.state.filters].filter(
+        filter => !(filter.key === 'template' && filter.value === 'front')
+      )
 
-      let filters = []
-      if (filter) {
-        filters.push(filter)
-      }
-      if (filterToPreserve) {
-        filters.push(filterToPreserve)
+      if (selected) {
+        filters = filters.filter(filter => filter.key !== filterBucketKey && filter.value !== filterBucketValue)
+      } else {
+        if (!filters.find(filter => filter.key === filterBucketKey && filter.value === filterBucketValue)) {
+          filters.push(filter)
+        }
       }
 
       const serializedFilters = serializeFilters(filters)

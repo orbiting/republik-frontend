@@ -48,7 +48,7 @@ class SortButton extends Component {
   }
 
   render () {
-    const { sortKey, label, direction, selected, disabled, onClickHander } = this.props
+    const { sortKey, label, direction, selected, disabled, onClickHandler } = this.props
     const { internalDirection } = this.state
     const resolvedDirection = internalDirection || direction
     const DirectionIcon =
@@ -64,7 +64,7 @@ class SortButton extends Component {
           const toggledDirection = !selected
             ? resolvedDirection
             : resolvedDirection === 'ASC' ? 'DESC' : resolvedDirection === 'DESC' ? 'ASC' : null
-          onClickHander && onClickHander(sortKey, toggledDirection)
+          onClickHandler && onClickHandler(sortKey, toggledDirection)
           this.setState({
             internalDirection: toggledDirection
           })
@@ -86,7 +86,7 @@ SortButton.propTypes = {
   label: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   direction: PropTypes.oneOf(['ASC', 'DESC']),
-  onClickHander: PropTypes.func
+  onClickHandler: PropTypes.func
 }
 
 SortButton.defaultProps = {
@@ -95,7 +95,7 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render () {
-    const { buttons, onClickHander } = this.props
+    const { buttons, onClickHandler } = this.props
     return (
       <div {...styles.container}>
         {buttons.map(({sortKey, label, direction, selected, disabled}) => (
@@ -106,7 +106,7 @@ class Sort extends Component {
             selected={selected}
             label={label}
             direction={direction}
-            onClickHander={onClickHander} />
+            onClickHandler={onClickHandler} />
         ))}
       </div>
     )
@@ -122,7 +122,7 @@ Sort.propTypes = {
       disabled: PropTypes.bool
     })
   ),
-  onClickHander: PropTypes.func
+  onClickHandler: PropTypes.func
 }
 
 export default Sort

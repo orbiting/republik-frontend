@@ -1,11 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
-
-import { DEFAULT_FILTERS } from './'
-import Loader from '../../components/Loader'
 
 import {
   colors,
@@ -40,14 +35,14 @@ const styles = {
 
 class FilterButton extends Component {
   render () {
-    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHander } = this.props
+    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHandler } = this.props
     if (!count) return null
     return (
       <button
         {...styles.button}
         style={selected ? { backgroundColor: colors.primary, color: '#fff' } : {}}
         onClick={() => {
-          onClickHander && onClickHander(filterBucketKey, !selected ? filterBucketValue : null)
+          onClickHandler && onClickHandler(filterBucketKey, filterBucketValue, selected)
         }}
       >
         {label}
@@ -63,7 +58,7 @@ FilterButton.propTypes = {
   label: PropTypes.string.isRequired,
   count: PropTypes.number,
   selected: PropTypes.bool,
-  onClickHander: PropTypes.func
+  onClickHandler: PropTypes.func
 }
 
 FilterButton.defaultProps = {
@@ -72,7 +67,7 @@ FilterButton.defaultProps = {
 
 class FilterButtonGroup extends Component {
   render () {
-    const { onClickHander, filterBucketKey, filters } = this.props
+    const { onClickHandler, filterBucketKey, filters } = this.props
     return (
       <Fragment>
         {filters.map(({key, label, count, selected}) => (
@@ -83,7 +78,7 @@ class FilterButtonGroup extends Component {
             selected={selected}
             label={label}
             count={count}
-            onClickHander={onClickHander} />
+            onClickHandler={onClickHandler} />
         ))}
       </Fragment>
     )
@@ -91,7 +86,7 @@ class FilterButtonGroup extends Component {
 }
 
 FilterButtonGroup.propTypes = {
-  onClickHander: PropTypes.func,
+  onClickHandler: PropTypes.func,
   filterBucketKey: PropTypes.string,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
@@ -103,28 +98,6 @@ FilterButtonGroup.propTypes = {
   )
 }
 
-const getSearchAggregations = gql`
-query getSearchAggregations(
-    $search: String,
-    $filters: [SearchGenericFilterInput!]) {
-  search(
-      first: 100,
-      search: $search,
-      filters: $filters) {
-    aggregations {
-      key
-      count
-      label
-      buckets {
-        value
-        count
-        label
-      }
-    }
-  }
-}
-`
-
 class Filter extends Component {
   constructor (props, ...args) {
     super(props, ...args)
@@ -135,96 +108,74 @@ class Filter extends Component {
   }
 
   render () {
-    const { data, filters, onFilterClick } = this.props
+    const { aggregations, filters, onFilterClick } = this.props
+
+    if (!aggregations) {
+      return null
+    }
+
+    const aggregation = aggregations ? aggregations.reduce((map, obj) => {
+      map[obj.key] = obj
+      return map
+    }, {}) : {}
+
+    const filterButtonProps = (key, bucket) => {
+      return {
+        key: bucket.value,
+        label: bucket.label,
+        count: bucket.count,
+        selected: !!filters.find(
+          filter => filter.key === key && filter.value === bucket.value
+        )
+      }
+    }
+
+    const templateFilters =
+      aggregation.template &&
+      aggregation.template.buckets.map(bucket =>
+        filterButtonProps('template', bucket)
+      )
+
+    const typeFilters =
+      aggregation.type &&
+      aggregation.type.buckets
+        .filter(
+          bucket => bucket.value !== 'Document' && bucket.value !== 'Credential'
+        )
+        .map(bucket => filterButtonProps('type', bucket))
+
+    const textLengthFilters =
+      aggregation.textLength &&
+      aggregation.textLength.buckets.map(bucket =>
+        filterButtonProps('textLength', bucket)
+      )
 
     return (
       <div {...styles.container}>
-        <Loader
-          loading={data.loading}
-          error={data.error}
-          render={() => {
-            const { data } = this.props
-            const { search } = data
-
-            const aggregations = search.aggregations
-
-            if (!aggregations) {
-              return null
-            }
-
-            const aggregation = aggregations ? aggregations.reduce((map, obj) => {
-              map[obj.key] = obj
-              return map
-            }, {}) : {}
-
-            const filterButtonProps = (key, bucket) => {
-              return {
-                key: bucket.value,
-                label: bucket.label,
-                count: bucket.count,
-                selected: !!filters.find(
-                  filter => filter.key === key && filter.value === bucket.value
-                )
-              }
-            }
-
-            const templateFilters =
-              aggregation.template &&
-              aggregation.template.buckets.map(bucket =>
-                filterButtonProps('template', bucket)
-              )
-
-            const typeFilters =
-              aggregation.type &&
-              aggregation.type.buckets
-                .filter(
-                  bucket => bucket.value !== 'Document' && bucket.value !== 'Credential'
-                )
-                .map(bucket => filterButtonProps('type', bucket))
-
-            const textLengthFilters =
-              aggregation.textLength &&
-              aggregation.textLength.buckets.map(bucket =>
-                filterButtonProps('textLength', bucket)
-              )
-
-            return (
-              <Fragment>
-                <FilterButtonGroup
-                  filterBucketKey='template'
-                  filters={templateFilters}
-                  onClickHander={onFilterClick} />
-                <FilterButtonGroup
-                  filterBucketKey='type'
-                  filters={typeFilters}
-                  onClickHander={onFilterClick} />
-                <FilterButtonGroup
-                  filterBucketKey='textLength'
-                  filters={textLengthFilters}
-                  onClickHander={onFilterClick} />
-                <FilterButton
-                  filterBucketKey='audio'
-                  filterBucketValue='true'
-                  label={aggregation.audio.label}
-                  count={aggregation.audio.count}
-                  selected={!!filters.find(filter => filter.key === 'audio')}
-                  onClickHander={onFilterClick} />
-              </Fragment>
-            )
-          }}
-        />
+        <Fragment>
+          <FilterButtonGroup
+            filterBucketKey='template'
+            filters={templateFilters}
+            onClickHandler={onFilterClick} />
+          <FilterButtonGroup
+            filterBucketKey='type'
+            filters={typeFilters}
+            onClickHandler={onFilterClick} />
+          <FilterButtonGroup
+            filterBucketKey='textLength'
+            filters={textLengthFilters}
+            onClickHandler={onFilterClick} />
+          <FilterButton
+            filterBucketKey='audio'
+            filterBucketValue='true'
+            label={aggregation.audio.label}
+            count={aggregation.audio.count}
+            selected={!!filters.find(filter => filter.key === 'audio')}
+            onClickHandler={onFilterClick} />
+        </Fragment>
       </div>
     )
   }
 }
 
-export default compose(
-  graphql(getSearchAggregations, {
-    options: props => ({
-      variables: {
-        search: props.searchQuery,
-        filters: DEFAULT_FILTERS
-      }
-    })
-  })
-)(Filter)
+export default Filter

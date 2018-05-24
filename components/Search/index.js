@@ -19,7 +19,60 @@ const styles = {
   })
 }
 
-export const DEFAULT_FILTER = {key: 'template', value: 'front', not: true}
+export const DEFAULT_FILTERS = [
+  {key: 'template', value: 'front', not: true}
+]
+
+const SUPPORTED_FILTER = {
+  template: ['article', 'discussion', 'editorialNewsletter', 'format', 'dossier'],
+  textLength: ['short', 'medium', 'long', 'epic'],
+  type: ['Comment', 'User'],
+  audio: ['true']
+}
+
+const SUPPORTED_SORT = {
+  relevance: [],
+  publishedAt: ['ASC', 'DESC']
+}
+
+const isSupportedFilter = filter => {
+  return !!SUPPORTED_FILTER[filter.key] && SUPPORTED_FILTER[filter.key].indexOf(filter.value) !== -1
+}
+
+const deserializeFilters = filtersString => {
+  return decodeURIComponent(filtersString)
+    .split('|')
+    .filter(filter => filter.split(':').length === 2)
+    .map(filter => ({ key: filter.split(':')[0], value: filter.split(':')[1] }))
+    .filter(filter => isSupportedFilter(filter))
+}
+
+const serializeFilters = filtersObject => {
+  return filtersObject
+    .map(filter => filter.key + encodeURIComponent(':') + filter.value)
+    .join(encodeURIComponent('|'))
+}
+
+const deserializeSort = sortString => {
+  const sortArray = decodeURIComponent(sortString).split(':')
+  if (!SUPPORTED_SORT[sortArray[0]]) return
+
+  let sort = {
+    key: sortArray[0]
+  }
+  if (
+    sortArray.length > 1 &&
+    SUPPORTED_SORT[sortArray[0]].indexOf(sortArray[1]) !== -1
+  ) {
+    sort.direction = sortArray[1]
+  }
+  return sort
+}
+
+const serializeSort = sortObject => {
+  const {key, direction} = sortObject
+  return key + encodeURIComponent(':') + (direction || '')
+}
 
 class Search extends Component {
   constructor (props, ...args) {
@@ -29,22 +82,24 @@ class Search extends Component {
       loading: false,
       searchQuery: '',
       submittedQuery: '',
-      filters: [DEFAULT_FILTER],
+      filters: DEFAULT_FILTERS,
+      serializedFilters: '',
       sort: {
         key: 'publishedAt'
-      }
+      },
+      serializedSort: ''
     }
 
     this.onSearch = () => {
       this.props.showFeed(false)
-      this.updateUrl()
       this.setState({
         submittedQuery: this.state.searchQuery,
-        filters: [DEFAULT_FILTER],
+        filters: DEFAULT_FILTERS,
         sort: {
           key: 'relevance'
         }
       })
+      this.updateUrl()
     }
 
     this.onReset = () => {
@@ -53,7 +108,7 @@ class Search extends Component {
       this.setState({
         searchQuery: '',
         submittedQuery: '',
-        filters: [DEFAULT_FILTER]
+        filters: DEFAULT_FILTERS
       })
     }
 
@@ -75,7 +130,9 @@ class Search extends Component {
       if (sortDirection) {
         sort.direction = sortDirection
       }
-      this.setState({sort})
+      const serializedSort = serializeSort(sort)
+      this.setState({sort, serializedSort})
+      this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
     this.onFilterClick = (filterBucketKey, filterBucketValue) => {
@@ -96,7 +153,7 @@ class Search extends Component {
         )
       }
 
-      let filters = [DEFAULT_FILTER]
+      let filters = []
       if (filter) {
         filters.push(filter)
       }
@@ -104,12 +161,15 @@ class Search extends Component {
         filters.push(filterToPreserve)
       }
 
+      const serializedFilters = serializeFilters(filters)
       this.setState({
-        filters
+        filters: filters.concat(DEFAULT_FILTERS),
+        serializedFilters
       })
       if (this.state.submittedQuery === '') {
         this.props.showFeed && this.props.showFeed(filters.length < 2)
       }
+      this.updateUrl(serializedFilters, this.state.serializedSort)
     }
 
     this.pushUrl = (params) => {
@@ -120,9 +180,9 @@ class Search extends Component {
       )
     }
 
-    this.updateUrl = (filter) => {
+    this.updateUrl = (filters, sort) => {
       const searchQuery = this.state.searchQuery
-      this.pushUrl({search: searchQuery})
+      this.pushUrl({search: searchQuery, filters, sort})
     }
 
     this.clearUrl = () => {
@@ -133,13 +193,48 @@ class Search extends Component {
   componentWillReceiveProps (nextProps) {
     const { query } = nextProps.url
 
+    let filters = DEFAULT_FILTERS
+    let newState = {}
+
     if (query.search && query.search !== this.state.searchQuery) {
-      this.props.showFeed && this.props.showFeed(false)
-      this.setState({
+      newState = {
+        ...newState,
         searchQuery: query.search,
-        submittedQuery: query.search,
-        filters: [DEFAULT_FILTER]
-      })
+        submittedQuery: query.search
+      }
+    }
+
+    if (query.filters) {
+      const rawFilters = typeof query.filters === 'string' ? query.filters : query.filters[0]
+      const sanitizedFilters = deserializeFilters(rawFilters)
+      const serializedFilters = serializeFilters(sanitizedFilters)
+
+      if (serializedFilters !== this.state.serializedFilters) {
+        newState = {
+          ...newState,
+          filters: filters.concat(sanitizedFilters),
+          serializedFilters
+        }
+      }
+    }
+
+    if (query.sort) {
+      const rawSort = typeof query.sort === 'string' ? query.sort : query.sort[0]
+      const sanitizedSort = deserializeSort(rawSort)
+      const serializedSort = serializeSort(sanitizedSort)
+
+      if (serializedSort !== this.state.serializedSort) {
+        newState = {
+          ...newState,
+          sort: sanitizedSort,
+          serializedSort
+        }
+      }
+    }
+
+    if (newState.submittedQuery || newState.filters || newState.sort) {
+      this.setState(newState)
+      this.props.showFeed && this.props.showFeed(false)
     }
   }
 

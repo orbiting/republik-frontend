@@ -43,16 +43,18 @@ class SortButton extends Component {
     super(props, ...args)
 
     this.state = {
-      direction: props.direction
+      internalDirection: null
     }
   }
 
   render () {
-    const { sortKey, label, selected, disabled, onClickHander } = this.props
-    const { direction } = this.state
+    const { sortKey, label, direction, selected, disabled, onClickHander } = this.props
+    const { internalDirection } = this.state
+    const resolvedDirection = internalDirection || direction
     const DirectionIcon =
-      direction === 'ASC' ? ArrowUp : direction === 'DESC' ? ArrowDown : null
+      resolvedDirection === 'ASC' ? ArrowUp : resolvedDirection === 'DESC' ? ArrowDown : null
     const color = disabled ? colors.disabled : selected ? colors.primary : null
+
     return (
       <button
         {...styles.button}
@@ -60,11 +62,11 @@ class SortButton extends Component {
         onClick={() => {
           if (disabled) return
           const toggledDirection = !selected
-            ? direction
-            : direction === 'ASC' ? 'DESC' : direction === 'DESC' ? 'ASC' : null
+            ? resolvedDirection
+            : resolvedDirection === 'ASC' ? 'DESC' : resolvedDirection === 'DESC' ? 'ASC' : null
           onClickHander && onClickHander(sortKey, toggledDirection)
           this.setState({
-            direction: toggledDirection
+            internalDirection: toggledDirection
           })
         }}
       >

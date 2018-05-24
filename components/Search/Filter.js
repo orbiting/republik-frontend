@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { DEFAULT_FILTER } from './'
+import { DEFAULT_FILTERS } from './'
 import Loader from '../../components/Loader'
 
 import {
@@ -223,7 +223,7 @@ export default compose(
     options: props => ({
       variables: {
         search: props.searchQuery,
-        filters: [DEFAULT_FILTER]
+        filters: DEFAULT_FILTERS
       }
     })
   })

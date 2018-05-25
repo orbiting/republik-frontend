@@ -94,6 +94,7 @@ query getSearchResults(
         ... on Document {
           meta {
             title
+            color
             path
             kind
             template

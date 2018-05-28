@@ -15,13 +15,11 @@ import UserTeaser from './UserTeaser'
 
 import {
   TeaserFeed,
-  Interaction,
   colors,
   fontFamilies,
+  labelRule,
   linkRule
 } from '@project-r/styleguide'
-
-const { P } = Interaction
 
 const styles = {
   container: css({
@@ -58,6 +56,29 @@ const styles = {
   })
 }
 
+const getSearchAggregations = gql`  
+query getSearchAggregations( 
+    $search: String, 
+    $filters: [SearchGenericFilterInput!]) { 
+  search(  
+      first: 1,  
+      search: $search, 
+      filters: $filters) {
+    totalCount
+    aggregations {
+      key
+      count
+      label
+      buckets {
+        value
+        count
+        label
+      }  
+    }  
+  }  
+}  
+`
+
 // TODO: add format to document.meta once backend supports it.
 const getSearchResults = gql`
 query getSearchResults(
@@ -71,16 +92,6 @@ query getSearchResults(
       search: $search,
       sort: $sort,
       filters: $filters) {
-    aggregations {
-      key
-      count
-      label
-      buckets {
-        value
-        count
-        label
-      }
-    }
     totalCount
     pageInfo {
       hasNextPage
@@ -151,34 +162,26 @@ query getSearchResults(
 `
 
 class Results extends Component {
-  /* constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      storedAggregations: null
-    }
+  componentWillReceiveProps (props) {
+    if (!props.dataAggregations || !props.dataAggregations.search) return
+    const totalCount = props.dataAggregations.search.totalCount
+    this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(totalCount)
   }
 
-  componentWillReceiveProps (props) {
-    if (!props.data) return
-
-    // We gotta remember the original buckets before a filter is applied,
-    // otherwise we'd just end up with the buckets returned by the filter.
-    if (!props.data.loading &&
-        !props.data.error &&
-        props.filters.length === 1 &&
-        props.data.search &&
-        !this.state.submittedQuery) {
-      this.setState({storedAggregations: props.data.search.aggregations})
-    }
-  } */
-
   render () {
-    const { t, searchQuery, sort, onSortClick, filters, onFilterClick, data } = this.props
-
-    if (!data) {
-      return null
-    }
+    const {
+      t,
+      data,
+      dataAggregations,
+      searchQuery,
+      filterQuery,
+      sort,
+      onSearch,
+      onSortClick,
+      filters,
+      onFilterClick,
+      loadingFilters
+    } = this.props
 
     const isFilterEnabled =
       filters &&
@@ -187,29 +190,21 @@ class Results extends Component {
         filter => !(filter.key === 'template' && filter.value === 'front')
       )
 
+    const outdated = searchQuery !== filterQuery
+    const opacity = outdated ? 0.6 : 1
+
     return (
       <div {...styles.container}>
         <Loader
-          loading={data.loading}
-          error={data.error}
+          loading={dataAggregations.loading}
+          error={dataAggregations.error}
           render={() => {
-            const { data, fetchMore } = this.props
-            const { search } = data
+            const { search } = dataAggregations
+            const { aggregations, totalCount } = search
 
-            console.log(search)
-
-            if (!search) {
-              return null
+            if (totalCount === 0) {
+              return <span {...labelRule}>{t('search/results/empty', {term: filterQuery})}</span>
             }
-            const { nodes, totalCount, pageInfo } = search
-
-            if (!totalCount) {
-              return <P>Keine Ergebnisse</P>
-            }
-
-            /* if (!searchQuery && !isFilterEnabled) {
-              return null
-            } */
 
             const resultsEmpty = search.totalCount === 0
             const sortKey = sort ? sort.key : 'publishedAt'
@@ -240,19 +235,59 @@ class Results extends Component {
               } */
             ]
 
+            const resultsOutdated = searchQuery !== filterQuery
+
             return (
               <Fragment>
                 <Filter
-                  aggregations={search.aggregations}
-                  searchQuery={searchQuery}
+                  aggregations={aggregations}
+                  searchQuery={filterQuery || searchQuery}
                   filters={filters}
+                  loadingFilters={loadingFilters}
                   onFilterClick={onFilterClick} />
-                <Sort
-                  buttons={sortButtons}
-                  onClickHandler={onSortClick}
-                />
+                {!resultsOutdated && (searchQuery || isFilterEnabled) && (
+                  <Sort
+                    buttons={sortButtons}
+                    onClickHandler={onSortClick}
+                  />
+                )}
+                {resultsOutdated && filterQuery && (
+                  <div {...styles.count}>
+                    <button {...styles.loadMore} {...linkRule} onClick={onSearch}>
+                      {t.pluralize('search/results', {count: totalCount, term: filterQuery})}
+                    </button>
+                  </div>
+                )}
+              </Fragment>
+            )
+          }}
+        />
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            const { data, fetchMore } = this.props
+            const { search } = data
+
+            console.log(search)
+
+            if (!search) {
+              return null
+            }
+            const { nodes, totalCount, pageInfo } = search
+
+            if (!totalCount) {
+              return null
+            }
+
+            /* if (!searchQuery && !isFilterEnabled) {
+              return null
+            } */
+
+            return (
+              <Fragment>
                 {(!!searchQuery || isFilterEnabled) && (
-                  <div {...styles.results}>
+                  <div {...styles.results} style={{opacity}}>
                     {nodes && nodes.map((node, index) => {
                       const titleHighlight =
                     node.entity.__typename === 'Document' &&
@@ -317,7 +352,7 @@ class Results extends Component {
                       )
                     })}
                     <div {...styles.count}>
-                      {nodes.length === totalCount
+                      {nodes && nodes.length === totalCount
                         ? t.pluralize('search/pageInfo/total', {count: totalCount})
                         : t('search/pageInfo/loadedTotal', {
                           loaded: nodes.length,
@@ -345,6 +380,17 @@ class Results extends Component {
 
 export default compose(
   withT,
+  graphql(getSearchAggregations, {
+    options: props => ({
+      variables: {
+        search: props.filterQuery,
+        filters: props.filters
+      }
+    }),
+    props: ({data, ownProps}) => ({
+      dataAggregations: data
+    })
+  }),
   graphql(getSearchResults, {
     // skip: props => !props.searchQuery,
     options: props => ({

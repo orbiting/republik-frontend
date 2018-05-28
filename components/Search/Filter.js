@@ -35,8 +35,9 @@ const styles = {
 
 class FilterButton extends Component {
   render () {
-    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHandler } = this.props
+    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHandler, loadingFilters } = this.props
     if (!count) return null
+    const visibility = loadingFilters ? 'hidden' : 'visible'
     return (
       <button
         {...styles.button}
@@ -46,7 +47,7 @@ class FilterButton extends Component {
         }}
       >
         {label}
-        <span {...styles.count}>{count}</span>
+        <span {...styles.count} style={{visibility}}>{count}</span>
       </button>
     )
   }
@@ -70,7 +71,7 @@ class FilterButtonGroup extends Component {
     const { onClickHandler, filterBucketKey, filters } = this.props
     return (
       <Fragment>
-        {filters.map(({key, label, count, selected}) => (
+        {filters.map(({key, label, count, selected, loadingFilters}) => (
           <FilterButton
             key={key}
             filterBucketKey={filterBucketKey}
@@ -78,7 +79,8 @@ class FilterButtonGroup extends Component {
             selected={selected}
             label={label}
             count={count}
-            onClickHandler={onClickHandler} />
+            onClickHandler={onClickHandler}
+            loadingFilters={loadingFilters} />
         ))}
       </Fragment>
     )
@@ -108,7 +110,7 @@ class Filter extends Component {
   }
 
   render () {
-    const { aggregations, filters, onFilterClick } = this.props
+    const { aggregations, filters, onFilterClick, loadingFilters } = this.props
 
     if (!aggregations) {
       return null
@@ -126,7 +128,8 @@ class Filter extends Component {
         count: bucket.count,
         selected: !!filters.find(
           filter => filter.key === key && filter.value === bucket.value
-        )
+        ),
+        loadingFilters
       }
     }
 
@@ -171,7 +174,8 @@ class Filter extends Component {
             label={aggregation.audio.label}
             count={aggregation.audio.count}
             selected={!!filters.find(filter => filter.key === 'audio')}
-            onClickHandler={onFilterClick} />
+            onClickHandler={onFilterClick}
+            loadingFilters={loadingFilters} />
         </Fragment>
       </div>
     )

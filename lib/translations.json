@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-28T10:05:32.213Z",
+  "updated": "2018-05-28T15:03:40.566Z",
   "title": "live",
   "data": [
     {
@@ -2673,6 +2673,18 @@
     {
       "key": "tokenAuthorization/ip",
       "value": "IP-Adresse"
+    },
+    {
+      "key": "search/results/empty",
+      "value": "Leider keine Ergebnisse für «{term}»."
+    },
+    {
+      "key": "search/results/1",
+      "value": "{count} Ergebnis anzeigen"
+    },
+    {
+      "key": "search/results/other",
+      "value": "{count} Ergebnisse anzeigen"
     },
     {
       "key": "search/pageInfo/loadMore",

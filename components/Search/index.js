@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
+import debounce from 'lodash.debounce'
 
 import { Router } from '../../lib/routes'
 
@@ -80,20 +81,39 @@ class Search extends Component {
 
     this.state = {
       loading: false,
+      loadingFilters: false,
       searchQuery: '',
+      filterQuery: '',
       submittedQuery: '',
       filters: DEFAULT_FILTERS,
       serializedFilters: '',
       sort: {
         key: 'publishedAt'
       },
-      serializedSort: ''
+      serializedSort: '',
+      totalCount: 0
+    }
+
+    this.loadFilters = debounce(() => {
+      this.setState({
+        filterQuery: this.state.searchQuery,
+        loadingFilters: false
+      })
+    }, 200)
+
+    this.onInputChange = (_, value) => {
+      this.setState({
+        searchQuery: value,
+        loadingFilters: true
+      })
+      this.loadFilters()
     }
 
     this.onSearch = () => {
       this.props.showFeed(false)
       this.setState({
         submittedQuery: this.state.searchQuery,
+        filterQuery: this.state.searchQuery,
         filters: DEFAULT_FILTERS,
         sort: {
           key: 'relevance'
@@ -108,6 +128,7 @@ class Search extends Component {
       this.setState({
         searchQuery: '',
         submittedQuery: '',
+        filterQuery: '',
         filters: DEFAULT_FILTERS
       })
     }
@@ -116,6 +137,13 @@ class Search extends Component {
       e.preventDefault()
       e.stopPropagation()
       this.onSearch()
+    }
+
+    this.onTotalCountLoaded = (totalCount) => {
+      console.log(totalCount)
+      this.setState({
+        totalCount
+      })
     }
 
     this.onSortClick = (sortKey, sortDirection) => {
@@ -151,7 +179,9 @@ class Search extends Component {
       const serializedFilters = serializeFilters(filters)
       this.setState({
         filters: filters.concat(DEFAULT_FILTERS),
-        serializedFilters
+        serializedFilters,
+        submittedQuery: this.state.searchQuery,
+        filterQuery: this.state.searchQuery
       })
       if (this.state.submittedQuery === '') {
         this.props.showFeed && this.props.showFeed(filters.length < 2)
@@ -187,7 +217,8 @@ class Search extends Component {
       newState = {
         ...newState,
         searchQuery: query.search,
-        submittedQuery: query.search
+        submittedQuery: query.search,
+        filterQuery: query.search
       }
     }
 
@@ -226,27 +257,29 @@ class Search extends Component {
   }
 
   render () {
-    const { searchQuery, submittedQuery, filters, sort } = this.state
-
-    const dirty = searchQuery !== submittedQuery
+    const { searchQuery, filterQuery, submittedQuery, filters, sort, loadingFilters, totalCount } = this.state
 
     return (
       <div {...styles.container}>
         <form onSubmit={this.onSubmit}>
           <Input
             value={searchQuery}
-            dirty={dirty}
-            onChange={(_, value) => this.setState({searchQuery: value})}
+            allowSearch={!!totalCount && searchQuery !== submittedQuery}
+            onChange={this.onInputChange}
             onSearch={this.onSearch}
             onReset={this.onReset}
           />
         </form>
         <Results
           searchQuery={submittedQuery}
+          filterQuery={filterQuery}
           sort={sort}
+          loadingFilters={loadingFilters}
           filters={filters}
+          onSearch={this.onSearch}
           onSortClick={this.onSortClick}
-          onFilterClick={this.onFilterClick} />
+          onFilterClick={this.onFilterClick}
+          onTotalCountLoaded={this.onTotalCountLoaded} />
       </div>
     )
   }

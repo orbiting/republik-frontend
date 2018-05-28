@@ -136,8 +136,7 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline,
-      showSearch: false
+      sticky: !this.props.inline
     }
 
     this.onScroll = () => {
@@ -291,11 +290,11 @@ class Header extends Component {
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  // const params = searchEnabled ? {} : {'search': ''}
-                  // this.setState({ showSearch: !showSearch })
-                  // !!url.query && url.query.hasOwnProperty('search') ?
-                  // Router.pushRoute('feed', params).then(() => window.scrollTo(0, 0))
-                  searchClickHandler()
+                  if (searchClickHandler) {
+                    searchClickHandler()
+                  } else {
+                    Router.pushRoute('feed', {'search': ''}).then(() => window.scrollTo(0, 0))
+                  }
                 }} />
             </div>
           )}

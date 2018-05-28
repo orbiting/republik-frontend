@@ -112,11 +112,6 @@ class Search extends Component {
       })
     }
 
-    this.onClose = () => {
-      this.props.showFeed(true)
-      this.pushUrl({})
-    }
-
     this.onSubmit = (e) => {
       e.preventDefault()
       e.stopPropagation()
@@ -244,7 +239,6 @@ class Search extends Component {
             onChange={(_, value) => this.setState({searchQuery: value})}
             onSearch={this.onSearch}
             onReset={this.onReset}
-            onClose={this.onClose}
           />
         </form>
         <Results

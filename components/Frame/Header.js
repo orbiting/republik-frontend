@@ -136,7 +136,8 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline
+      sticky: !this.props.inline,
+      showSearch: false
     }
 
     this.onScroll = () => {
@@ -202,7 +203,9 @@ class Header extends Component {
       primaryNavExpanded,
       formatColor,
       audioSource,
-      audioCloseHandler
+      audioCloseHandler,
+      isSearchEnabled,
+      searchClickHandler
     } = this.props
     const { expanded, sticky } = this.state
 
@@ -277,15 +280,22 @@ class Header extends Component {
               </a>
             </div>
           )}
-          {opaque && (!url.query || !url.query.hasOwnProperty('search')) && (
-            <div {...styles.search} role='button' title={t('header/nav/search/aria')}>
+          {opaque && (
+            <div
+              {...styles.search}
+              role='button'
+              title={isSearchEnabled ? t('header/nav/search/close/aria') : t('header/nav/search/open/aria')}>
               <Search
-                fill={colors.text}
+                fill={isSearchEnabled ? colors.primary : colors.text}
                 size={28}
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  Router.pushRoute('feed', {'search': ''}).then(() => window.scrollTo(0, 0))
+                  // const params = searchEnabled ? {} : {'search': ''}
+                  // this.setState({ showSearch: !showSearch })
+                  // !!url.query && url.query.hasOwnProperty('search') ?
+                  // Router.pushRoute('feed', params).then(() => window.scrollTo(0, 0))
+                  searchClickHandler()
                 }} />
             </div>
           )}

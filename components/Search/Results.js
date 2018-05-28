@@ -242,18 +242,15 @@ class Results extends Component {
 
             return (
               <Fragment>
-
-                <Fragment>
-                  <Filter
-                    aggregations={search.aggregations}
-                    searchQuery={searchQuery}
-                    filters={filters}
-                    onFilterClick={onFilterClick} />
-                  <Sort
-                    buttons={sortButtons}
-                    onClickHandler={onSortClick}
-                  />
-                </Fragment>
+                <Filter
+                  aggregations={search.aggregations}
+                  searchQuery={searchQuery}
+                  filters={filters}
+                  onFilterClick={onFilterClick} />
+                <Sort
+                  buttons={sortButtons}
+                  onClickHandler={onSortClick}
+                />
                 {(!!searchQuery || isFilterEnabled) && (
                   <div {...styles.results}>
                     {nodes && nodes.map((node, index) => {

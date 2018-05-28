@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-22T14:39:16.526Z",
+  "updated": "2018-05-28T10:05:32.213Z",
   "title": "live",
   "data": [
     {
@@ -1123,8 +1123,12 @@
       "value": "Navigation schliessen"
     },
     {
-      "key": "header/nav/search/aria",
+      "key": "header/nav/search/open/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/nav/search/close/aria",
+      "value": "Suche schliessen"
     },
     {
       "key": "header/logo/feed/aria",
@@ -2176,19 +2180,19 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der {count} Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist."
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer rund {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/before/buyText",
-      "value": "Hier können Sie selber Mitglied werden."
+      "value": "Kommen Sie ebenfalls an Bord!"
     },
     {
       "key": "article/payNote/after",
-      "value": "Schön, Sie hier unten wieder zu sehen. Es wäre eine Freude, Sie ebenfalls bei uns an Bord zu haben, als Leser und Verlegerin der Republik. {buyLink}"
+      "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
       "key": "article/payNote/after/buyText",
-      "value": "Tun Sie das hier!"
+      "value": "Erfahren Sie mehr."
     },
     {
       "key": "article/payNote/after/series",

@@ -50,7 +50,7 @@ class Input extends Component {
   }
 
   render () {
-    const { value, dirty, onChange, onSearch, onReset, onClose } = this.props
+    const { value, dirty, onChange, onSearch, onReset } = this.props
     return (
       <div>
         <Field
@@ -62,11 +62,7 @@ class Input extends Component {
           onReset={() => {}}
           icon={
             !value ? (
-              <Icon
-                IconComponent={Close}
-                onClick={onClose}
-                title='Suche schliessen'
-              />
+              null
             ) : dirty ? (
               <Icon IconComponent={Search} onClick={onSearch} title='Suchen' />
             ) : (

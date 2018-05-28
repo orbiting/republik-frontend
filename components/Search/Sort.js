@@ -53,12 +53,13 @@ class SortButton extends Component {
     const resolvedDirection = internalDirection || direction
     const DirectionIcon =
       resolvedDirection === 'ASC' ? ArrowUp : resolvedDirection === 'DESC' ? ArrowDown : null
-    const color = disabled ? colors.disabled : selected ? colors.primary : null
+    const color = selected ? colors.primary : null
+    const visibility = disabled ? 'hidden' : null
 
     return (
       <button
         {...styles.button}
-        style={color ? { color } : {}}
+        style={{color, visibility}}
         onClick={() => {
           if (disabled) return
           const toggledDirection = !selected

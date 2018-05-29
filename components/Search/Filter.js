@@ -23,7 +23,7 @@ const styles = {
     position: 'absolute',
     right: 0,
     top: 0,
-    width: 20,
+    width: 15,
     [mediaQueries.onlyS]: {
       display: 'block'
     }
@@ -210,7 +210,7 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
-  aggregations: PropTypes.object,
+  aggregations: PropTypes.array,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

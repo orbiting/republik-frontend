@@ -54,12 +54,13 @@ const CommentLink = ({
       </Link>
     )
   }
-  if (commentId) {
+  if (discussion) {
+    const focus = commentId
     if (discussion.documentPath) {
       return (
         <PathLink
           path={discussion.documentPath}
-          query={{ focus: commentId }}
+          query={{ focus }}
           passHref
           {...props}
         >
@@ -70,7 +71,7 @@ const CommentLink = ({
     return (
       <Link
         route='discussion'
-        params={{ id: discussion.id, focus: commentId }}
+        params={{ id: discussion.id, focus }}
         {...props}
       >
         {children}
@@ -151,7 +152,6 @@ export const CommentTeaser = ({
             link: (
               <CommentLink
                 key={id}
-                commentId={id}
                 discussion={discussion}
               >
                 <a {...linkRule}>«{discussion.title}»</a>

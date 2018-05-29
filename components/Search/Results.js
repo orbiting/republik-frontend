@@ -280,21 +280,17 @@ class Results extends Component {
               return null
             }
 
-            /* if (!searchQuery && !isFilterEnabled) {
-              return null
-            } */
-
             return (
               <Fragment>
                 {(!!searchQuery || isFilterEnabled) && (
                   <div {...styles.results} style={{opacity}}>
                     {nodes && nodes.map((node, index) => {
                       const titleHighlight =
-                    node.entity.__typename === 'Document' &&
-                    node.highlights.find(highlight => highlight.path === 'meta.title')
+                        node.entity.__typename === 'Document' &&
+                        node.highlights.find(highlight => highlight.path === 'meta.title')
                       const descHighlight =
-                    node.entity.__typename === 'Document' &&
-                    node.highlights.find(highlight => highlight.path === 'meta.description')
+                        node.entity.__typename === 'Document' &&
+                        node.highlights.find(highlight => highlight.path === 'meta.description')
                       return (
                         <Fragment key={index}>
                           {node.entity.__typename === 'Document' && (
@@ -325,6 +321,13 @@ class Results extends Component {
                                   'meta'
                                 ) : (
                                   node.entity.meta.kind
+                                )
+                              }
+                              publishDate={
+                                node.entity.meta.template === 'format' ? (
+                                  null
+                                ) : (
+                                  node.entity.meta.publishDate
                                 )
                               }
                               Link={Link}

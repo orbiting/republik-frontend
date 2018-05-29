@@ -96,7 +96,34 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render () {
-    const { buttons, onClickHandler } = this.props
+    const { sort, searchQuery, isFilterEnabled, resultsEmpty, onClickHandler } = this.props
+    const sortKey = sort ? sort.key : 'publishedAt'
+    const buttons = [
+      {
+        sortKey: 'publishedAt',
+        label: 'Zeit',
+        direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
+        disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
+        selected: sortKey === 'publishedAt'
+      },
+      {
+        sortKey: 'relevance',
+        label: 'Relevanz',
+        disabled: !searchQuery || resultsEmpty,
+        selected: sortKey === 'relevance'
+
+      }
+      // TODO: enable these sort keys once backend supports them.
+      /*
+      {
+        sortKey: 'mostRead',
+        label: 'meistgelesen'
+      },
+      {
+        sortKey: 'mostDebated',
+        label: 'meistdebattiert'
+      } */
+    ]
     return (
       <div {...styles.container}>
         {buttons.map(({sortKey, label, direction, selected, disabled}) => (
@@ -115,14 +142,13 @@ class Sort extends Component {
 }
 
 Sort.propTypes = {
-  buttons: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      direction: PropTypes.oneOf(['ASC', 'DESC']),
-      selected: PropTypes.bool,
-      disabled: PropTypes.bool
-    })
-  ),
+  sort: PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    direction: PropTypes.oneOf(['ASC', 'DESC'])
+  }),
+  searchQuery: PropTypes.string,
+  isFilterEnabled: PropTypes.bool,
+  resultsEmpty: PropTypes.bool,
   onClickHandler: PropTypes.func
 }
 

@@ -190,8 +190,8 @@ class Results extends Component {
         filter => !(filter.key === 'template' && filter.value === 'front')
       )
 
-    const outdated = searchQuery !== filterQuery
-    const opacity = outdated ? 0.6 : 1
+    const resultsOutdated = searchQuery !== filterQuery
+    const opacity = resultsOutdated ? 0.6 : 1
 
     return (
       <div {...styles.container}>
@@ -201,41 +201,11 @@ class Results extends Component {
           render={() => {
             const { search } = dataAggregations
             const { aggregations, totalCount } = search
+            const resultsEmpty = totalCount === 0
 
-            if (totalCount === 0) {
+            if (resultsEmpty) {
               return <span {...labelRule}>{t('search/results/empty', {term: filterQuery})}</span>
             }
-
-            const resultsEmpty = search.totalCount === 0
-            const sortKey = sort ? sort.key : 'publishedAt'
-            const sortButtons = [
-              {
-                sortKey: 'publishedAt',
-                label: 'Zeit',
-                direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-                disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
-                selected: sortKey === 'publishedAt'
-              },
-              {
-                sortKey: 'relevance',
-                label: 'Relevanz',
-                disabled: !searchQuery || resultsEmpty,
-                selected: sortKey === 'relevance'
-
-              }
-              // TODO: enable these sort keys once backend supports them.
-              /*
-              {
-                sortKey: 'mostRead',
-                label: 'meistgelesen'
-              },
-              {
-                sortKey: 'mostDebated',
-                label: 'meistdebattiert'
-              } */
-            ]
-
-            const resultsOutdated = searchQuery !== filterQuery
 
             return (
               <Fragment>
@@ -247,7 +217,10 @@ class Results extends Component {
                   onFilterClick={onFilterClick} />
                 {!resultsOutdated && (searchQuery || isFilterEnabled) && (
                   <Sort
-                    buttons={sortButtons}
+                    sort={sort}
+                    searchQuery={searchQuery}
+                    isFilterEnabled={isFilterEnabled}
+                    resultsEmpty={resultsEmpty}
                     onClickHandler={onSortClick}
                   />
                 )}
@@ -395,7 +368,6 @@ export default compose(
     })
   }),
   graphql(getSearchResults, {
-    // skip: props => !props.searchQuery,
     options: props => ({
       variables: {
         search: props.searchQuery,

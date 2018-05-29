@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { renderMdast } from 'mdast-react-render'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
@@ -15,10 +14,6 @@ import {
   linkRule,
   mediaQueries
 } from '@project-r/styleguide'
-
-import createCommentSchema from '@project-r/styleguide/lib/templates/Comment/web'
-
-const schema = createCommentSchema()
 
 const styles = {
   root: css({
@@ -89,6 +84,7 @@ export const CommentTeaser = ({
   id,
   discussion,
   content,
+  preview,
   highlights,
   displayAuthor,
   published,
@@ -99,33 +95,13 @@ export const CommentTeaser = ({
   const timeagoFromNow = createdAtString => {
     return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
   }
+  const { string, more } = preview
   const highlight =
     highlights &&
     highlights[0] &&
     highlights[0].fragments &&
     highlights[0].fragments[0] &&
     highlights[0].fragments[0].trim()
-
-  // TODO: Replace this meh client-side truncation of content with new backend
-  // property 'textWithoutMarkdown' (or similar) once available.
-  let firstChildValue = content && content.children[0].children[0].value
-  if (firstChildValue && firstChildValue.length > 300) {
-    firstChildValue = firstChildValue.substring(0, 300)
-    firstChildValue = firstChildValue.substring(0, firstChildValue.lastIndexOf(' ')).trim() + ' …'
-  }
-
-  const truncatedContent = {
-    ...content,
-    children: content ? [
-      firstChildValue
-        ? {
-          ...content.children[0].children[0],
-          value: firstChildValue
-        }
-        : content.children[0]
-    ] : []
-  }
-  const moreContent = !!content && content.children.length > 1
   const endsWithPunctuation =
     highlight &&
     (Math.abs(highlight.lastIndexOf('...') - highlight.length) < 4 ||
@@ -142,29 +118,33 @@ export const CommentTeaser = ({
         timeago={timeagoFromNow}
         t={t}
       />
-      {!!highlight && (
-        <CommentBodyParagraph>
-          <CommentLink
-            commentId={id}
-            discussion={discussion}
-          >
-            <a {...styles.linkBlockStyle}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: highlight
-                }}
-              />
-              {!endsWithPunctuation && <span>{' '}…</span>}
-            </a>
-          </CommentLink>
-        </CommentBodyParagraph>
-      )}
-      {!highlight && !!truncatedContent && (
-        <div {...styles.body} style={{opacity: published ? 1 : 0.5}}>
-          {renderMdast(truncatedContent, schema)}
-          {!!moreContent && <span>{' '}…</span>}
-        </div>
-      )}
+
+      <CommentBodyParagraph>
+        <CommentLink
+          commentId={id}
+          discussion={discussion}
+        >
+          <a {...styles.linkBlockStyle} style={{opacity: published ? 1 : 0.5}}>
+            {!highlight && !!string && (
+              <Fragment>
+                {string}
+                {!!more && <span>{' '}…</span>}
+              </Fragment>
+            )}
+            {!!highlight && (
+              <Fragment>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: highlight
+                  }}
+                />
+                {!endsWithPunctuation && <span>{' '}…</span>}
+              </Fragment>
+            )}
+          </a>
+        </CommentLink>
+      </CommentBodyParagraph>
+
       {discussion.title && (
         <p {...styles.note}>
           {t.elements('search/commentTeaser/discussionReference', {

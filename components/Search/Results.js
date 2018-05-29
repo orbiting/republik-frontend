@@ -111,6 +111,10 @@ query getSearchResults(
           id
           content
           text
+          preview(length:240) {
+            string
+            more
+          }
           createdAt
           displayAuthor {
             id

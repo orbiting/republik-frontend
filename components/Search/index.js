@@ -91,7 +91,8 @@ class Search extends Component {
         key: 'publishedAt'
       },
       serializedSort: '',
-      totalCount: 0
+      totalCount: 0,
+      allowFocus: true
     }
 
     this.loadFilters = debounce(() => {
@@ -116,7 +117,8 @@ class Search extends Component {
         filters: DEFAULT_FILTERS,
         sort: {
           key: 'relevance'
-        }
+        },
+        allowFocus: true
       })
       this.updateUrl()
     }
@@ -127,7 +129,8 @@ class Search extends Component {
         searchQuery: '',
         submittedQuery: '',
         filterQuery: '',
-        filters: DEFAULT_FILTERS
+        filters: DEFAULT_FILTERS,
+        allowFocus: true
       })
     }
 
@@ -140,6 +143,12 @@ class Search extends Component {
     this.onTotalCountLoaded = (totalCount) => {
       this.setState({
         totalCount
+      })
+    }
+
+    this.onLoadMoreClick = () => {
+      this.setState({
+        allowFocus: false
       })
     }
 
@@ -178,7 +187,8 @@ class Search extends Component {
         filters: filters.concat(DEFAULT_FILTERS),
         serializedFilters,
         submittedQuery: this.state.searchQuery,
-        filterQuery: this.state.searchQuery
+        filterQuery: this.state.searchQuery,
+        allowFocus: true
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
     }
@@ -250,7 +260,16 @@ class Search extends Component {
   }
 
   render () {
-    const { searchQuery, filterQuery, submittedQuery, filters, sort, loadingFilters, totalCount } = this.state
+    const {
+      searchQuery,
+      filterQuery,
+      submittedQuery,
+      filters,
+      sort,
+      loadingFilters,
+      totalCount,
+      allowFocus
+    } = this.state
 
     return (
       <div {...styles.container}>
@@ -258,6 +277,7 @@ class Search extends Component {
           <Input
             value={searchQuery}
             allowSearch={!!totalCount && searchQuery !== submittedQuery}
+            allowFocus={allowFocus}
             onChange={this.onInputChange}
             onSearch={this.onSearch}
             onReset={this.onReset}
@@ -272,7 +292,8 @@ class Search extends Component {
           onSearch={this.onSearch}
           onSortClick={this.onSortClick}
           onFilterClick={this.onFilterClick}
-          onTotalCountLoaded={this.onTotalCountLoaded} />
+          onTotalCountLoaded={this.onTotalCountLoaded}
+          onLoadMoreClick={this.onLoadMoreClick} />
       </div>
     )
   }

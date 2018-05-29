@@ -177,7 +177,8 @@ class Results extends Component {
       onSortClick,
       filters,
       onFilterClick,
-      loadingFilters
+      loadingFilters,
+      onLoadMoreClick
     } = this.props
 
     const isFilterEnabled =
@@ -348,6 +349,7 @@ class Results extends Component {
                           {...styles.button}
                           {...linkRule}
                           onClick={() => {
+                            onLoadMoreClick && onLoadMoreClick()
                             fetchMore({ after: pageInfo.endCursor })
                           }}
                         >

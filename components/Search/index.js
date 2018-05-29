@@ -208,7 +208,7 @@ class Search extends Component {
     }
 
     this.clearUrl = () => {
-      this.pushUrl({q: ''})
+      this.pushUrl({})
     }
   }
 

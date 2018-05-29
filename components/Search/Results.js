@@ -16,7 +16,6 @@ import UserTeaser from './UserTeaser'
 import {
   TeaserFeed,
   colors,
-  fontFamilies,
   labelRule,
   linkRule
 } from '@project-r/styleguide'
@@ -43,14 +42,9 @@ const styles = {
     cursor: 'pointer',
     padding: 0
   }),
-  highlightedTitle: css({
+  highlight: css({
     '& em': {
-      fontStyle: 'normal'
-    }
-  }),
-  highlightedDescription: css({
-    '& em': {
-      fontFamily: fontFamilies.serifBold,
+      background: colors.primaryBg,
       fontStyle: 'normal'
     }
   })
@@ -272,7 +266,7 @@ class Results extends Component {
                               title={
                                 titleHighlight ? (
                                   <span
-                                    {...styles.highlightedTitle}
+                                    {...styles.highlight}
                                     dangerouslySetInnerHTML={{ __html: titleHighlight.fragments[0] }}
                                   />
                                 ) : (
@@ -282,7 +276,7 @@ class Results extends Component {
                               description={
                                 descHighlight ? (
                                   <span
-                                    {...styles.highlightedDescription}
+                                    {...styles.highlight}
                                     dangerouslySetInnerHTML={{ __html: descHighlight.fragments[0] }}
                                   />
                                 ) : (

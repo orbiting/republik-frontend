@@ -11,7 +11,6 @@ import {
   CommentBodyParagraph,
   RawHtml,
   colors,
-  fontFamilies,
   fontStyles,
   linkRule,
   mediaQueries
@@ -31,7 +30,7 @@ const styles = {
     color: 'inherit',
     textDecoration: 'none',
     '& em': {
-      fontFamily: fontFamilies.serifBold,
+      background: colors.primaryBg,
       fontStyle: 'normal'
     }
   }),

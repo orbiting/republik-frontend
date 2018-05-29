@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-24T08:23:06.881Z",
+  "updated": "2018-05-29T20:32:44.655Z",
   "title": "live",
   "data": [
     {
@@ -2176,7 +2176,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer rund {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/before/buyText",

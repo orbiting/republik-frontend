@@ -70,14 +70,7 @@ class Feed extends Component {
     super(props, ...args)
 
     this.state = {
-      showFeed: true,
       showSearch: false
-    }
-
-    this.showFeed = (showFeed) => {
-      this.setState({
-        showFeed
-      })
     }
 
     this.onSearchClick = () => {
@@ -91,7 +84,6 @@ class Feed extends Component {
           {},
           { shallow: true }
         )
-        this.showFeed(true)
       }
     }
   }
@@ -144,7 +136,7 @@ class Feed extends Component {
 
   render () {
     const { url, meta, data: { loading, error, documents, greeting } } = this.props
-    const { showFeed, showSearch } = this.state
+    const { showSearch } = this.state
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
@@ -167,9 +159,9 @@ class Feed extends Component {
                   </Interaction.H1>
                 )}
                 {showSearch &&
-                  <Search showFeed={this.showFeed} url={url} />
+                  <Search url={url} />
                 }
-                {showFeed && nodes &&
+                {!showSearch && nodes &&
                   nodes.map(doc => (
                     <TeaserFeed
                       {...doc.meta}

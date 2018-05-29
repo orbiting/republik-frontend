@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-28T15:03:40.566Z",
+  "updated": "2018-05-29T08:43:48.798Z",
   "title": "live",
   "data": [
     {
@@ -2676,7 +2676,7 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Leider keine Ergebnisse für «{term}»."
+      "value": "Leider keine Ergebnisse für «{term}»"
     },
     {
       "key": "search/results/1",

@@ -110,7 +110,6 @@ class Search extends Component {
     }
 
     this.onSearch = () => {
-      this.props.showFeed(false)
       this.setState({
         submittedQuery: this.state.searchQuery,
         filterQuery: this.state.searchQuery,
@@ -123,7 +122,6 @@ class Search extends Component {
     }
 
     this.onReset = () => {
-      this.props.showFeed(true)
       this.clearUrl()
       this.setState({
         searchQuery: '',
@@ -140,7 +138,6 @@ class Search extends Component {
     }
 
     this.onTotalCountLoaded = (totalCount) => {
-      console.log(totalCount)
       this.setState({
         totalCount
       })
@@ -183,9 +180,6 @@ class Search extends Component {
         submittedQuery: this.state.searchQuery,
         filterQuery: this.state.searchQuery
       })
-      if (this.state.submittedQuery === '') {
-        this.props.showFeed && this.props.showFeed(filters.length < 2)
-      }
       this.updateUrl(serializedFilters, this.state.serializedSort)
     }
 
@@ -252,7 +246,6 @@ class Search extends Component {
 
     if (newState.submittedQuery || newState.filters || newState.sort) {
       this.setState(newState)
-      this.props.showFeed && this.props.showFeed(false)
     }
   }
 

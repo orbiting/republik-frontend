@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
-import Frame from '../Frame'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
-import { Router } from '../../lib/routes'
-
-import Search from '../Search'
 
 import {
   Center,
@@ -66,44 +62,12 @@ const greetingSubscription = gql`
 `
 
 class Feed extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      showSearch: false
-    }
-
-    this.onSearchClick = () => {
-      const showSearch = this.state.showSearch
-      this.setState({
-        showSearch: !showSearch
-      })
-      if (showSearch) {
-        Router.replaceRoute(
-          'feed',
-          {},
-          { shallow: true }
-        )
-      }
-    }
-  }
-
   componentDidMount () {
     this.subscribe()
   }
 
   componentDidUpdate () {
     this.subscribe()
-  }
-
-  componentWillReceiveProps (nextProps) {
-    const { query } = nextProps.url
-
-    if (query.hasOwnProperty('search') && !this.state.showSearch) {
-      this.setState({
-        showSearch: true
-      })
-    }
   }
 
   subscribe () {
@@ -135,52 +99,41 @@ class Feed extends Component {
   }
 
   render () {
-    const { url, meta, data: { loading, error, documents, greeting } } = this.props
-    const { showSearch } = this.state
+    const { data: { loading, error, documents, greeting } } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
     return (
-      <Frame
-        raw
-        url={url}
-        meta={meta}
-        isSearchEnabled={showSearch}
-        searchClickHandler={this.onSearchClick}>
-        <Loader
-          loading={loading}
-          error={error}
-          render={() => {
-            return (
-              <Center {...styles.container}>
-                {greeting && !showSearch && (
-                  <Interaction.H1 style={{ marginBottom: '40px' }}>
-                    {greeting.text}
-                  </Interaction.H1>
-                )}
-                {showSearch &&
-                  <Search url={url} />
-                }
-                {!showSearch && nodes &&
-                  nodes.map(doc => (
-                    <TeaserFeed
-                      {...doc.meta}
-                      kind={
-                        doc.meta.template === 'editorialNewsletter' ? (
-                          'meta'
-                        ) : (
-                          doc.meta.kind
-                        )
-                      }
-                      Link={Link}
-                      key={doc.meta.path}
-                    />
-                  ))}
-              </Center>
-            )
-          }}
-        />
-      </Frame>
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          return (
+            <Center {...styles.container}>
+              {greeting && (
+                <Interaction.H1 style={{ marginBottom: '40px' }}>
+                  {greeting.text}
+                </Interaction.H1>
+              )}
+              {nodes &&
+                nodes.map(doc => (
+                  <TeaserFeed
+                    {...doc.meta}
+                    kind={
+                      doc.meta.template === 'editorialNewsletter' ? (
+                        'meta'
+                      ) : (
+                        doc.meta.kind
+                      )
+                    }
+                    Link={Link}
+                    key={doc.meta.path}
+                  />
+                ))}
+            </Center>
+          )
+        }}
+      />
     )
   }
 }

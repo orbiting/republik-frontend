@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
-import Feed from '../components/Feed'
+import Search from '../components/Search'
 import { enforceMembership } from '../components/Auth/withMembership'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
@@ -9,14 +9,14 @@ import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const FeedPage = ({ url, me, t }) => {
+const SearchPage = ({ url, me, t }) => {
   const meta = {
-    title: t('pages/feed/title'),
+    title: t('pages/search/title'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
     <Frame raw url={url} meta={meta}>
-      <Feed />
+      <Search url={url} />
     </Frame>
   )
 }
@@ -26,4 +26,4 @@ export default compose(
   enforceMembership,
   withMe,
   withT
-)(FeedPage)
+)(SearchPage)

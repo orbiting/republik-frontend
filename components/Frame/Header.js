@@ -202,9 +202,7 @@ class Header extends Component {
       primaryNavExpanded,
       formatColor,
       audioSource,
-      audioCloseHandler,
-      isSearchEnabled,
-      searchClickHandler
+      audioCloseHandler
     } = this.props
     const { expanded, sticky } = this.state
 
@@ -225,6 +223,8 @@ class Header extends Component {
     const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
     const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
     const logoAriaLabel = logoRoute === 'feed' ? t('header/logo/feed/aria') : t('header/logo/magazine/aria')
+
+    const isSearchActive = url.pathname === '/search'
 
     return (
       <div ref={this.setRef}>
@@ -283,17 +283,17 @@ class Header extends Component {
             <div
               {...styles.search}
               role='button'
-              title={isSearchEnabled ? t('header/nav/search/close/aria') : t('header/nav/search/open/aria')}>
+              title={t('header/nav/search/aria')}>
               <Search
-                fill={isSearchEnabled ? colors.primary : colors.text}
+                fill={isSearchActive ? colors.primary : colors.text}
                 size={28}
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  if (searchClickHandler) {
-                    searchClickHandler()
+                  if (url.pathname === '/search') {
+                    window.scrollTo(0, 0)
                   } else {
-                    Router.pushRoute('feed', {'search': ''}).then(() => window.scrollTo(0, 0))
+                    Router.pushRoute('search').then(() => window.scrollTo(0, 0))
                   }
                 }} />
             </div>

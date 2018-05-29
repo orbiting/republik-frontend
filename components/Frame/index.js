@@ -66,8 +66,7 @@ const Index = ({
   formatColor,
   audioSource,
   audioCloseHandler,
-  isSearchEnabled,
-  searchClickHandler
+  onSearchClick
 }) => (
   <div {...styles.container}>
     <div
@@ -86,8 +85,6 @@ const Index = ({
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
-        isSearchEnabled={isSearchEnabled}
-        searchClickHandler={searchClickHandler}
       />
       <noscript>
         <Box style={{padding: 30}}>

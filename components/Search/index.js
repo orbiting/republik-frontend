@@ -8,14 +8,15 @@ import Input from './Input'
 import Results from './Results'
 
 import {
+  Center,
   mediaQueries
 } from '@project-r/styleguide'
 
 const styles = {
   container: css({
-    marginBottom: 50,
+    padding: '15px 15px 120px',
     [mediaQueries.mUp]: {
-      marginBottom: 60
+      padding: '40px 0 120px'
     }
   })
 }
@@ -195,7 +196,7 @@ class Search extends Component {
 
     this.pushUrl = (params) => {
       Router.replaceRoute(
-        'feed',
+        'search',
         params,
         { shallow: true }
       )
@@ -203,11 +204,11 @@ class Search extends Component {
 
     this.updateUrl = (filters, sort) => {
       const searchQuery = this.state.searchQuery
-      this.pushUrl({search: searchQuery, filters, sort})
+      this.pushUrl({q: searchQuery, filters, sort})
     }
 
     this.clearUrl = () => {
-      this.pushUrl({search: ''})
+      this.pushUrl({q: ''})
     }
   }
 
@@ -217,12 +218,12 @@ class Search extends Component {
     let filters = DEFAULT_FILTERS
     let newState = {}
 
-    if (query.search && query.search !== this.state.searchQuery) {
+    if (query.q && query.q !== this.state.searchQuery) {
       newState = {
         ...newState,
-        searchQuery: query.search,
-        submittedQuery: query.search,
-        filterQuery: query.search
+        searchQuery: query.q,
+        submittedQuery: query.q,
+        filterQuery: query.q
       }
     }
 
@@ -272,7 +273,7 @@ class Search extends Component {
     } = this.state
 
     return (
-      <div {...styles.container}>
+      <Center {...styles.container}>
         <form onSubmit={this.onSubmit}>
           <Input
             value={searchQuery}
@@ -294,7 +295,7 @@ class Search extends Component {
           onFilterClick={this.onFilterClick}
           onTotalCountLoaded={this.onTotalCountLoaded}
           onLoadMoreClick={this.onLoadMoreClick} />
-      </div>
+      </Center>
     )
   }
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-29T08:43:48.798Z",
+  "updated": "2018-05-29T16:55:20.078Z",
   "title": "live",
   "data": [
     {
@@ -49,6 +49,10 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/search/title",
+      "value": "Suche"
     },
     {
       "key": "pages/account/title",
@@ -1123,12 +1127,8 @@
       "value": "Navigation schliessen"
     },
     {
-      "key": "header/nav/search/open/aria",
+      "key": "header/nav/search/aria",
       "value": "Suche"
-    },
-    {
-      "key": "header/nav/search/close/aria",
-      "value": "Suche schliessen"
     },
     {
       "key": "header/logo/feed/aria",

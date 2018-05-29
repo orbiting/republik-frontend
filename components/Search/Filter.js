@@ -9,6 +9,25 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
+  compact: css({
+    position: 'relative',
+    [mediaQueries.onlyS]: {
+      whiteSpace: 'nowrap',
+      overflow: 'auto'
+    }
+  }),
+  fadeout: css({
+    backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,1) 100%)',
+    bottom: 0,
+    display: 'none',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: 20,
+    [mediaQueries.onlyS]: {
+      display: 'block'
+    }
+  }),
   button: css({
     ...fontStyles.sansSerifRegular18,
     display: 'inline-block',
@@ -35,7 +54,15 @@ const styles = {
 
 class FilterButton extends Component {
   render () {
-    const { filterBucketKey, filterBucketValue, label, count, selected, onClickHandler, loadingFilters } = this.props
+    const {
+      filterBucketKey,
+      filterBucketValue,
+      label,
+      count,
+      selected,
+      onClickHandler,
+      loadingFilters
+    } = this.props
     if (!count) return null
     const visibility = loadingFilters ? 'hidden' : 'visible'
     return (
@@ -59,7 +86,8 @@ FilterButton.propTypes = {
   label: PropTypes.string.isRequired,
   count: PropTypes.number,
   selected: PropTypes.bool,
-  onClickHandler: PropTypes.func
+  onClickHandler: PropTypes.func,
+  loadingFilters: PropTypes.bool
 }
 
 FilterButton.defaultProps = {
@@ -101,16 +129,14 @@ FilterButtonGroup.propTypes = {
 }
 
 class Filter extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      // TODO: Remember last selected filter?
-    }
-  }
-
   render () {
-    const { aggregations, filters, onFilterClick, loadingFilters } = this.props
+    const {
+      aggregations,
+      filters,
+      onClickHandler,
+      loadingFilters,
+      allowCompact
+    } = this.props
 
     if (!aggregations) {
       return null
@@ -154,32 +180,47 @@ class Filter extends Component {
       )
 
     return (
-      <div {...styles.container}>
-        <Fragment>
-          <FilterButtonGroup
-            filterBucketKey='template'
-            filters={templateFilters}
-            onClickHandler={onFilterClick} />
-          <FilterButtonGroup
-            filterBucketKey='type'
-            filters={typeFilters}
-            onClickHandler={onFilterClick} />
-          <FilterButtonGroup
-            filterBucketKey='textLength'
-            filters={textLengthFilters}
-            onClickHandler={onFilterClick} />
-          <FilterButton
-            filterBucketKey='audio'
-            filterBucketValue='true'
-            label={aggregation.audio.label}
-            count={aggregation.audio.count}
-            selected={!!filters.find(filter => filter.key === 'audio')}
-            onClickHandler={onFilterClick}
-            loadingFilters={loadingFilters} />
-        </Fragment>
+      <div {...(allowCompact ? styles.compact : {})}>
+        <FilterButtonGroup
+          filterBucketKey='template'
+          filters={templateFilters}
+          onClickHandler={onClickHandler} />
+        <FilterButtonGroup
+          filterBucketKey='type'
+          filters={typeFilters}
+          onClickHandler={onClickHandler} />
+        <FilterButtonGroup
+          filterBucketKey='textLength'
+          filters={textLengthFilters}
+          onClickHandler={onClickHandler} />
+        <FilterButton
+          filterBucketKey='audio'
+          filterBucketValue='true'
+          label={aggregation.audio.label}
+          count={aggregation.audio.count}
+          selected={!!filters.find(filter => filter.key === 'audio')}
+          onClickHandler={onClickHandler}
+          loadingFilters={loadingFilters} />
+        {allowCompact && (
+          <div {...styles.fadeout} />
+        )}
       </div>
     )
   }
+}
+
+Filter.propTypes = {
+  aggregations: PropTypes.object,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      not: PropTypes.bool
+    })
+  ),
+  onClickHandler: PropTypes.func,
+  loadingFilters: PropTypes.bool,
+  allowCompact: PropTypes.bool
 }
 
 export default Filter

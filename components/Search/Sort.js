@@ -96,20 +96,20 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render () {
-    const { sort, searchQuery, isFilterEnabled, resultsEmpty, onClickHandler } = this.props
+    const { sort, searchQuery, isFilterEnabled, onClickHandler } = this.props
     const sortKey = sort ? sort.key : 'publishedAt'
     const buttons = [
       {
         sortKey: 'publishedAt',
         label: 'Zeit',
         direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: (!searchQuery && !isFilterEnabled) || resultsEmpty,
+        disabled: (!searchQuery && !isFilterEnabled),
         selected: sortKey === 'publishedAt'
       },
       {
         sortKey: 'relevance',
         label: 'Relevanz',
-        disabled: !searchQuery || resultsEmpty,
+        disabled: !searchQuery,
         selected: sortKey === 'relevance'
 
       }
@@ -148,7 +148,6 @@ Sort.propTypes = {
   }),
   searchQuery: PropTypes.string,
   isFilterEnabled: PropTypes.bool,
-  resultsEmpty: PropTypes.bool,
   onClickHandler: PropTypes.func
 }
 

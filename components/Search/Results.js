@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
-
 import withT from '../../lib/withT'
 
 import Loader from '../../components/Loader'
@@ -34,7 +33,7 @@ const styles = {
     padding: '15px 0',
     textAlign: 'left'
   }),
-  loadMore: css({
+  button: css({
     outline: 'none',
     WebkitAppearance: 'none',
     background: 'transparent',
@@ -195,10 +194,14 @@ class Results extends Component {
           render={() => {
             const { search } = dataAggregations
             const { aggregations, totalCount } = search
-            const resultsEmpty = totalCount === 0
+            const showResults = !!searchQuery || isFilterEnabled
 
-            if (resultsEmpty) {
-              return <span {...labelRule}>{t('search/results/empty', {term: filterQuery})}</span>
+            if (totalCount === 0) {
+              return (
+                <span {...labelRule}>
+                  {t('search/results/empty', { term: filterQuery })}
+                </span>
+              )
             }
 
             return (
@@ -208,20 +211,24 @@ class Results extends Component {
                   searchQuery={filterQuery || searchQuery}
                   filters={filters}
                   loadingFilters={loadingFilters}
-                  onFilterClick={onFilterClick} />
-                {!resultsOutdated && (searchQuery || isFilterEnabled) && (
+                  allowCompact={showResults}
+                  onClickHandler={onFilterClick}
+                />
+                {!resultsOutdated && showResults && totalCount > 1 && (
                   <Sort
                     sort={sort}
                     searchQuery={searchQuery}
                     isFilterEnabled={isFilterEnabled}
-                    resultsEmpty={resultsEmpty}
                     onClickHandler={onSortClick}
                   />
                 )}
                 {resultsOutdated && filterQuery && (
                   <div {...styles.count}>
-                    <button {...styles.loadMore} {...linkRule} onClick={onSearch}>
-                      {t.pluralize('search/results', {count: totalCount, term: filterQuery})}
+                    <button {...styles.button} {...linkRule} onClick={onSearch}>
+                      {t.pluralize('search/results', {
+                        count: totalCount,
+                        term: filterQuery
+                      })}
                     </button>
                   </div>
                 )}
@@ -236,8 +243,6 @@ class Results extends Component {
             const { data, fetchMore } = this.props
             const { search } = data
 
-            console.log(search)
-
             if (!search) {
               return null
             }
@@ -250,89 +255,98 @@ class Results extends Component {
             return (
               <Fragment>
                 {(!!searchQuery || isFilterEnabled) && (
-                  <div {...styles.results} style={{opacity}}>
-                    {nodes && nodes.map((node, index) => {
-                      const titleHighlight =
-                        node.entity.__typename === 'Document' &&
-                        node.highlights.find(highlight => highlight.path === 'meta.title')
-                      const descHighlight =
-                        node.entity.__typename === 'Document' &&
-                        node.highlights.find(highlight => highlight.path === 'meta.description')
-                      return (
-                        <Fragment key={index}>
-                          {node.entity.__typename === 'Document' && (
-                            <TeaserFeed
-                              {...node.entity.meta}
-                              title={
-                                titleHighlight ? (
-                                  <span
-                                    {...styles.highlight}
-                                    dangerouslySetInnerHTML={{ __html: titleHighlight.fragments[0] }}
-                                  />
-                                ) : (
-                                  node.entity.meta.title
-                                )
-                              }
-                              description={
-                                descHighlight ? (
-                                  <span
-                                    {...styles.highlight}
-                                    dangerouslySetInnerHTML={{ __html: descHighlight.fragments[0] }}
-                                  />
-                                ) : (
-                                  node.entity.meta.description
-                                )
-                              }
-                              kind={
-                                node.entity.meta.template === 'editorialNewsletter' ? (
-                                  'meta'
-                                ) : (
-                                  node.entity.meta.kind
-                                )
-                              }
-                              publishDate={
-                                node.entity.meta.template === 'format' ? (
-                                  null
-                                ) : (
-                                  node.entity.meta.publishDate
-                                )
-                              }
-                              Link={Link}
-                              key={node.entity.meta.path}
-                            />
-                          )}
-                          {node.entity.__typename === 'Comment' && (
-                            <CommentTeaser
-                              id={node.entity.id}
-                              discussion={node.entity.discussion}
-                              content={node.entity.content}
-                              text={node.entity.text}
-                              highlights={node.highlights}
-                              displayAuthor={node.entity.displayAuthor}
-                              published={node.entity.published}
-                              createdAt={node.entity.createdAt}
-                              updatedAt={node.entity.updatedAt}
-                              t={t}
-                            />
-                          )}
-                          {node.entity.__typename === 'User' && (
-                            <UserTeaser {...node.entity} />
-                          )}
-                        </Fragment>
-                      )
-                    })}
+                  <div {...styles.results} style={{ opacity }}>
+                    {nodes &&
+                      nodes.map((node, index) => {
+                        const titleHighlight =
+                          node.entity.__typename === 'Document' &&
+                          node.highlights.find(
+                            highlight => highlight.path === 'meta.title'
+                          )
+                        const descHighlight =
+                          node.entity.__typename === 'Document' &&
+                          node.highlights.find(
+                            highlight => highlight.path === 'meta.description'
+                          )
+                        return (
+                          <Fragment key={index}>
+                            {node.entity.__typename === 'Document' && (
+                              <TeaserFeed
+                                {...node.entity.meta}
+                                title={
+                                  titleHighlight ? (
+                                    <span
+                                      {...styles.highlight}
+                                      dangerouslySetInnerHTML={{
+                                        __html: titleHighlight.fragments[0]
+                                      }}
+                                    />
+                                  ) : (
+                                    node.entity.meta.title
+                                  )
+                                }
+                                description={
+                                  descHighlight ? (
+                                    <span
+                                      {...styles.highlight}
+                                      dangerouslySetInnerHTML={{
+                                        __html: descHighlight.fragments[0]
+                                      }}
+                                    />
+                                  ) : (
+                                    node.entity.meta.description
+                                  )
+                                }
+                                kind={
+                                  node.entity.meta.template ===
+                                  'editorialNewsletter' ? (
+                                      'meta'
+                                    ) : (
+                                      node.entity.meta.kind
+                                    )
+                                }
+                                publishDate={
+                                  node.entity.meta.template ===
+                                  'format' ? null : (
+                                      node.entity.meta.publishDate
+                                    )
+                                }
+                                Link={Link}
+                                key={node.entity.meta.path}
+                              />
+                            )}
+                            {node.entity.__typename === 'Comment' && (
+                              <CommentTeaser
+                                {...node.entity}
+                                highlights={node.highlights}
+                                t={t}
+                              />
+                            )}
+                            {node.entity.__typename === 'User' && (
+                              <UserTeaser {...node.entity} />
+                            )}
+                          </Fragment>
+                        )
+                      })}
                     <div {...styles.count}>
-                      {nodes && nodes.length === totalCount
-                        ? t.pluralize('search/pageInfo/total', {count: totalCount})
-                        : t('search/pageInfo/loadedTotal', {
+                      {nodes && nodes.length === totalCount ? (
+                        t.pluralize('search/pageInfo/total', {
+                          count: totalCount
+                        })
+                      ) : (
+                        t('search/pageInfo/loadedTotal', {
                           loaded: nodes.length,
                           total: totalCount
                         })
-                      }
+                      )}
                       {pageInfo.hasNextPage && (
-                        <button {...styles.loadMore} {...linkRule} onClick={() => {
-                          fetchMore({after: pageInfo.endCursor})
-                        }}>
+                        <button
+                          {...styles.button}
+                          {...linkRule}
+                          onClick={() => {
+                            fetchMore({ after: pageInfo.endCursor })
+                          }}
+                        >
                           {t('search/pageInfo/loadMore')}
                         </button>
                       )}
@@ -357,7 +371,7 @@ export default compose(
         filters: props.filters
       }
     }),
-    props: ({data, ownProps}) => ({
+    props: ({ data, ownProps }) => ({
       dataAggregations: data
     })
   }),
@@ -369,33 +383,37 @@ export default compose(
         filters: props.filters
       }
     }),
-    props: ({data, ownProps}) => ({
+    props: ({ data, ownProps }) => ({
       data,
-      fetchMore: ({after}) => data.fetchMore({
-        variables: {
-          after,
-          search: ownProps.searchQuery,
-          sort: ownProps.sort,
-          filters: ownProps.filters
-        },
-        updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
-          const nodes = [
-            ...previousResult.search.nodes,
-            ...fetchMoreResult.search.nodes
-          ]
-          return {
-            ...previousResult,
-            totalCount: fetchMoreResult.search.pageInfo.hasNextPage
-              ? fetchMoreResult.search.totalCount
-              : nodes.length,
-            search: {
-              ...previousResult.search,
-              ...fetchMoreResult.search,
-              nodes
+      fetchMore: ({ after }) =>
+        data.fetchMore({
+          variables: {
+            after,
+            search: ownProps.searchQuery,
+            sort: ownProps.sort,
+            filters: ownProps.filters
+          },
+          updateQuery: (
+            previousResult,
+            { fetchMoreResult, queryVariables }
+          ) => {
+            const nodes = [
+              ...previousResult.search.nodes,
+              ...fetchMoreResult.search.nodes
+            ]
+            return {
+              ...previousResult,
+              totalCount: fetchMoreResult.search.pageInfo.hasNextPage
+                ? fetchMoreResult.search.totalCount
+                : nodes.length,
+              search: {
+                ...previousResult.search,
+                ...fetchMoreResult.search,
+                nodes
+              }
             }
           }
-        }
-      })
+        })
     })
   })
 )(Results)

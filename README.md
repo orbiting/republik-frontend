@@ -33,7 +33,7 @@ Don't care about the developing the backend? Just want to test something against
 
 ```
 npm i yaproxy -g
-TARGET=https://api.republik.ch PORT=5000 yaproxy
+PORT=5000 TARGET=https://api.republik.ch CORS_ORIGIN=http://localhost:3010 yaproxy
 ```
 
 (Obvious )Warning: whatever you do here is for realz, if you login to your account and change things they are changed on republik.ch! 

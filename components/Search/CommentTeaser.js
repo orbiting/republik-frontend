@@ -106,7 +106,8 @@ export const CommentTeaser = ({
     highlights[0].fragments[0] &&
     highlights[0].fragments[0].trim()
 
-  // TODO: This whole client-side text truncation needs more thinking.
+  // TODO: Replace this meh client-side truncation of content with new backend
+  // property 'textWithoutMarkdown' (or similar) once available.
   let firstChildValue = content && content.children[0].children[0].value
   if (firstChildValue && firstChildValue.length > 300) {
     firstChildValue = firstChildValue.substring(0, 300)

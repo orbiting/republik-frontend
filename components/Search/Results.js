@@ -13,10 +13,11 @@ import CommentTeaser from './CommentTeaser'
 import UserTeaser from './UserTeaser'
 
 import {
-  TeaserFeed,
   colors,
   labelRule,
-  linkRule
+  linkRule,
+  RawHtml,
+  TeaserFeed
 } from '@project-r/styleguide'
 
 const styles = {
@@ -203,9 +204,14 @@ class Results extends Component {
 
             if (totalCount === 0) {
               return (
-                <span {...labelRule}>
-                  {t('search/results/empty', { term: filterQuery })}
-                </span>
+                <RawHtml
+                  {...labelRule}
+                  dangerouslySetInnerHTML={{
+                    __html: t('search/results/empty',
+                      { term: filterQuery }
+                    )
+                  }}
+                />
               )
             }
 

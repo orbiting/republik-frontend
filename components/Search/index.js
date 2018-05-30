@@ -107,7 +107,8 @@ class Search extends Component {
     this.onInputChange = (_, value) => {
       this.setState({
         searchQuery: value,
-        loadingFilters: true
+        loadingFilters: true,
+        allowFocus: true
       })
       this.loadFilters()
     }

@@ -208,7 +208,7 @@ class Search extends Component {
     }
 
     this.updateUrl = (filters, sort) => {
-      const searchQuery = this.state.searchQuery
+      const searchQuery = encodeURIComponent(this.state.searchQuery)
       this.pushUrl({q: searchQuery, filters, sort})
     }
 
@@ -222,13 +222,14 @@ class Search extends Component {
 
     let filters = DEFAULT_FILTERS
     let newState = {}
+    const decodedQuery = decodeURIComponent(query.q)
 
-    if (query.q && query.q !== this.state.searchQuery) {
+    if (decodedQuery && decodedQuery !== this.state.searchQuery) {
       newState = {
         ...newState,
-        searchQuery: query.q,
-        submittedQuery: query.q,
-        filterQuery: query.q
+        searchQuery: decodedQuery,
+        submittedQuery: decodedQuery,
+        filterQuery: decodedQuery
       }
     }
 

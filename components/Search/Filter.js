@@ -9,8 +9,10 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
+  container: css({
+    position: 'relative'
+  }),
   compact: css({
-    position: 'relative',
     [mediaQueries.onlyS]: {
       whiteSpace: 'nowrap',
       overflow: 'auto'
@@ -180,27 +182,29 @@ class Filter extends Component {
       )
 
     return (
-      <div {...(allowCompact ? styles.compact : {})}>
-        <FilterButtonGroup
-          filterBucketKey='template'
-          filters={templateFilters}
-          onClickHandler={onClickHandler} />
-        <FilterButtonGroup
-          filterBucketKey='type'
-          filters={typeFilters}
-          onClickHandler={onClickHandler} />
-        <FilterButtonGroup
-          filterBucketKey='textLength'
-          filters={textLengthFilters}
-          onClickHandler={onClickHandler} />
-        <FilterButton
-          filterBucketKey='audio'
-          filterBucketValue='true'
-          label={aggregation.audio.label}
-          count={aggregation.audio.count}
-          selected={!!filters.find(filter => filter.key === 'audio')}
-          onClickHandler={onClickHandler}
-          loadingFilters={loadingFilters} />
+      <div {...styles.container}>
+        <div {...(allowCompact ? styles.compact : {})}>
+          <FilterButtonGroup
+            filterBucketKey='template'
+            filters={templateFilters}
+            onClickHandler={onClickHandler} />
+          <FilterButtonGroup
+            filterBucketKey='type'
+            filters={typeFilters}
+            onClickHandler={onClickHandler} />
+          <FilterButtonGroup
+            filterBucketKey='textLength'
+            filters={textLengthFilters}
+            onClickHandler={onClickHandler} />
+          <FilterButton
+            filterBucketKey='audio'
+            filterBucketValue='true'
+            label={aggregation.audio.label}
+            count={aggregation.audio.count}
+            selected={!!filters.find(filter => filter.key === 'audio')}
+            onClickHandler={onClickHandler}
+            loadingFilters={loadingFilters} />
+        </div>
         {allowCompact && (
           <div {...styles.fadeout} />
         )}

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-30T04:22:15.478Z",
+  "updated": "2018-05-30T07:32:20.407Z",
   "title": "live",
   "data": [
     {
@@ -2675,8 +2675,20 @@
       "value": "IP-Adresse"
     },
     {
+      "key": "search/input/label",
+      "value": "Suche"
+    },
+    {
+      "key": "search/input/submit/aria",
+      "value": "Ergebnisse anzeigen"
+    },
+    {
+      "key": "search/input/reset/aria",
+      "value": "Suche zurücksetzen"
+    },
+    {
       "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden. Vielleicht handelt es sich um einen Rechtschreibfehler von Ihnen.<br />\nVielleicht handelt es sich aber um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "value": "Schande! Wir haben dieses Wort nicht gefunden. Vielleicht handelt es sich um einen Rechtschreibfehler von Ihnen.<br /><br />\nVielleicht handelt es sich aber um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/results/1",
@@ -2705,6 +2717,14 @@
     {
       "key": "search/commentTeaser/discussionReference",
       "value": "Debatte {link}"
+    },
+    {
+      "key": "search/sort/ASC/aria",
+      "value": "aufsteigend"
+    },
+    {
+      "key": "search/sort/DESC/aria",
+      "value": "absteigend"
     },
     {
       "key": "styleguide/video/dnt/note",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
+import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
 import Search from 'react-icons/lib/md/search'
@@ -52,11 +53,11 @@ class Input extends Component {
   }
 
   render () {
-    const { value, allowSearch, onChange, onSearch, onReset } = this.props
+    const { t, value, allowSearch, onChange, onSearch, onReset } = this.props
     return (
       <div>
         <Field
-          label='Suche'
+          label={t('search/input/label')}
           value={value}
           ref={this.setFocusRef}
           onChange={onChange}
@@ -66,12 +67,12 @@ class Input extends Component {
             !value ? (
               null
             ) : allowSearch ? (
-              <Icon IconComponent={Search} onClick={onSearch} title='Suchen' />
+              <Icon IconComponent={Search} onClick={onSearch} title={t('search/input/submit/aria')} />
             ) : (
               <Icon
                 IconComponent={Close}
                 onClick={onReset}
-                title='Suche zurücksetzen'
+                title={t('search/input/reset/aria')}
               />
             )
           }
@@ -81,4 +82,4 @@ class Input extends Component {
   }
 }
 
-export default Input
+export default withT(Input)

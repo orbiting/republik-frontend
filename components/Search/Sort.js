@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import withT from '../../lib/withT'
 
 import ArrowDown from 'react-icons/lib/md/arrow-downward'
 import ArrowUp from 'react-icons/lib/md/arrow-upward'
@@ -48,7 +49,7 @@ class SortButton extends Component {
   }
 
   render () {
-    const { sortKey, label, direction, selected, disabled, onClickHandler } = this.props
+    const { t, sortKey, label, direction, selected, disabled, onClickHandler } = this.props
     const { internalDirection } = this.state
     const resolvedDirection = internalDirection || direction
     const DirectionIcon =
@@ -73,7 +74,7 @@ class SortButton extends Component {
       >
         {label}
         {DirectionIcon && (
-          <span {...styles.icon}>
+          <span {...styles.icon} role='button' title={t(`search/sort/${resolvedDirection}/aria`)}>
             <DirectionIcon />
           </span>
         )}
@@ -96,7 +97,7 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render () {
-    const { sort, searchQuery, isFilterEnabled, onClickHandler } = this.props
+    const { t, sort, searchQuery, isFilterEnabled, onClickHandler } = this.props
     const sortKey = sort ? sort.key : 'publishedAt'
     const buttons = [
       {
@@ -128,6 +129,7 @@ class Sort extends Component {
       <div {...styles.container}>
         {buttons.map(({sortKey, label, direction, selected, disabled}) => (
           <SortButton
+            t={t}
             disabled={disabled}
             key={sortKey}
             sortKey={sortKey}
@@ -151,4 +153,4 @@ Sort.propTypes = {
   onClickHandler: PropTypes.func
 }
 
-export default Sort
+export default withT(Sort)

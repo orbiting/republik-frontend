@@ -118,6 +118,14 @@ query getSearchResults(
             description
             credits
             publishDate
+            format {
+              meta {
+                path
+                title
+                color
+                kind
+              }
+            }
           }
         }
         ... on Comment {

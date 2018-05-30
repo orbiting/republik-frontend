@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-30T07:32:20.407Z",
+  "updated": "2018-05-30T18:25:31.605Z",
   "title": "live",
   "data": [
     {
@@ -2688,7 +2688,7 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden. Vielleicht handelt es sich um einen Rechtschreibfehler von Ihnen.<br /><br />\nVielleicht handelt es sich aber um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/results/1",
@@ -2760,7 +2760,7 @@
     },
     {
       "key": "piwik/optOut/noscript",
-      "value": "Aktivieren Sie JavaScript um Ihren Status zu sehen."
+      "value": "Aktivieren Sie JavaScript, um Ihren Status zu sehen."
     },
     {
       "key": "piwik/optOut/status/loading",

@@ -106,6 +106,21 @@ app.prepare().then(() => {
     return app.render(req, res, '/en', req.query)
   })
 
+  // iOS app universal links setup
+  server.get('/apple-app-site-association', (req, res) => {
+    res.json({
+      applinks: {
+        apps: [],
+        details: [
+          {
+            appID: 'TBD',
+            paths: [ 'NOT /anmelden', 'NOT /angebote', '*' ]
+          }
+        ]
+      }
+    })
+  })
+
   server.use(handler)
 
   server.listen(PORT, (err) => {

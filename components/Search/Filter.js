@@ -197,11 +197,11 @@ class Filter extends Component {
             filters={textLengthFilters}
             onClickHandler={onClickHandler} />
           <FilterButton
-            filterBucketKey='audio'
+            filterBucketKey='hasAudio'
             filterBucketValue='true'
-            label={aggregation.audio.label}
-            count={aggregation.audio.count}
-            selected={!!filters.find(filter => filter.key === 'audio')}
+            label={aggregation.hasAudio.label}
+            count={aggregation.hasAudio.count}
+            selected={!!filters.find(filter => filter.key === 'hasAudio')}
             onClickHandler={onClickHandler}
             loadingFilters={loadingFilters} />
         </div>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-29T16:55:20.078Z",
+  "updated": "2018-05-30T04:22:15.478Z",
   "title": "live",
   "data": [
     {
@@ -2180,7 +2180,7 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer rund {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2676,7 +2676,7 @@
     },
     {
       "key": "search/results/empty",
-      "value": "Leider keine Ergebnisse für «{term}»"
+      "value": "Schande! Wir haben dieses Wort nicht gefunden. Vielleicht handelt es sich um einen Rechtschreibfehler von Ihnen.<br />\nVielleicht handelt es sich aber um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/results/1",

@@ -122,6 +122,11 @@ class Search extends Component {
         allowFocus: true
       })
       this.updateUrl()
+      window._paq.push(['trackSiteSearch',
+        this.state.searchQuery,
+        false,
+        this.state.totalCount
+      ])
     }
 
     this.onReset = () => {

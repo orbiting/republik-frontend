@@ -204,6 +204,14 @@ class Filter extends Component {
             selected={!!filters.find(filter => filter.key === 'hasAudio')}
             onClickHandler={onClickHandler}
             loadingFilters={loadingFilters} />
+          <FilterButton
+            filterBucketKey='hasVideo'
+            filterBucketValue='true'
+            label={aggregation.hasVideo.label}
+            count={aggregation.hasVideo.count}
+            selected={!!filters.find(filter => filter.key === 'hasVideo')}
+            onClickHandler={onClickHandler}
+            loadingFilters={loadingFilters} />
         </div>
         {allowCompact && (
           <div {...styles.fadeout} />

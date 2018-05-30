@@ -93,6 +93,7 @@ class Search extends Component {
       },
       serializedSort: '',
       totalCount: 0,
+      isMobile: true,
       allowFocus: true
     }
 
@@ -119,7 +120,7 @@ class Search extends Component {
         sort: {
           key: 'relevance'
         },
-        allowFocus: true
+        allowFocus: !this.state.isMobile
       })
       this.updateUrl()
       window._paq.push(['trackSiteSearch',
@@ -194,7 +195,7 @@ class Search extends Component {
         serializedFilters,
         submittedQuery: this.state.searchQuery,
         filterQuery: this.state.searchQuery,
-        allowFocus: true
+        allowFocus: !this.state.isMobile
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
     }
@@ -214,6 +215,13 @@ class Search extends Component {
 
     this.clearUrl = () => {
       this.pushUrl({})
+    }
+
+    this.handleResize = () => {
+      const isMobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (isMobile !== this.state.isMobile) {
+        this.setState({isMobile})
+      }
     }
   }
 
@@ -264,6 +272,15 @@ class Search extends Component {
     if (newState.submittedQuery || newState.filters || newState.sort) {
       this.setState(newState)
     }
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
   }
 
   render () {

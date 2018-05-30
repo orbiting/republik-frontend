@@ -39,18 +39,22 @@ class Input extends Component {
     }
   }
 
-  autoFocus () {
-    if (this.props.allowFocus && this.focusRef && this.focusRef.input) {
-      this.focusRef.input.focus()
+  updateFocus () {
+    if (this.focusRef && this.focusRef.input) {
+      if (this.props.allowFocus) {
+        this.focusRef.input.focus()
+      } else {
+        this.focusRef.input.blur()
+      }
     }
   }
 
   componentDidMount () {
-    this.autoFocus()
+    this.updateFocus()
   }
 
   componentDidUpdate () {
-    this.autoFocus()
+    this.updateFocus()
   }
 
   render () {

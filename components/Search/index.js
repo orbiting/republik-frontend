@@ -222,7 +222,7 @@ class Search extends Component {
 
     let filters = DEFAULT_FILTERS
     let newState = {}
-    const decodedQuery = decodeURIComponent(query.q)
+    const decodedQuery = !!query.q && decodeURIComponent(query.q)
 
     if (decodedQuery && decodedQuery !== this.state.searchQuery) {
       newState = {

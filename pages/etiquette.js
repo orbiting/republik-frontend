@@ -30,7 +30,7 @@ export default withData(
           <Interaction.Headline>Die Etikette</Interaction.Headline>
           <Editorial.Lead>
           Betreten Sie unseren Debattenraum, betreten Sie unser Wohnzimmer. Machen Sie es sich gemütlich und fühlen Sie sich wie zuhause. Damit wir – wie bei Cheminéefeuer – fruchtbar miteinander reden können, möchten wir Sie auf ein paar Spielregeln hinweisen.
-        </Editorial.Lead>
+          </Editorial.Lead>
         </TitleBlock>
 
         <P>Vergessen Sie nie, dass auf der anderen Seite ein Mensch sitzt. Oder wie David Foster Wallace schrieb: «Die wirklich wichtige Freiheit erfordert Aufmerksamkeit und Offenheit und Disziplin und Mühe und die Empathie, andere Menschen wirklich ernst zu nehmen.»</P>
@@ -45,7 +45,7 @@ export default withData(
           <LI>Fördern Sie ein gutes Klima. Ignorieren Sie im Zweifelsfall destruktive Äusserungen.</LI>
           <LI>Respektieren Sie andere Meinungen. Je vielfältiger die Meinungen, desto bereichernder die Debatte.</LI>
           <LI>Bleiben Sie beim Thema. Unser Debattensystem erlaubt zwar mehrere Subgespräche, dennoch wollen wir über eine konkrete Sache diskutieren.</LI>
-          <LI>Sollten sie sich erst später in eine laufende Debatte einschalten, informieren Sie sich bitte darüber, was bereits diskutiert wurde.</LI>
+          <LI>Sollten Sie sich erst später in eine laufende Debatte einschalten, informieren Sie sich bitte darüber, was bereits diskutiert wurde.</LI>
           <LI>Gehen Sie auf die Argumente Ihres Gegenübers ein. Dies ist keine blosse Abstellkammer für Meinungen.</LI>
           <LI>Lassen Sie einander ausreden. Geben Sie auch anderen Menschen Raum.</LI>
           <LI>Schreiben Sie bitte nur einen Beitrag aufs Mal. Editieren Sie Ihren bereits bestehenden Beitrag, falls Ihnen nach dem Absenden noch ein ungeahnter Geistesblitz kommt.</LI>

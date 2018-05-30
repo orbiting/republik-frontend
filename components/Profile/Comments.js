@@ -18,7 +18,7 @@ const Comments = ({ t, comments }) => {
           count: comments.totalCount
         })}
       </Interaction.H3>
-      {comments.nodes.map((comment) => {
+      {comments.nodes.filter(comment => comment.content).map((comment) => {
         const discussion = comment.discussion || {}
         return (
           <CommentTeaser

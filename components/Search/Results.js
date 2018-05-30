@@ -40,7 +40,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '15px 0',
-    textAlign: 'left'
+    textAlign: 'left',
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    }
   }),
   button: css({
     outline: 'none',

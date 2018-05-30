@@ -15,8 +15,9 @@ import UserTeaser from './UserTeaser'
 
 import {
   colors,
-  labelRule,
+  fontStyles,
   linkRule,
+  mediaQueries,
   RawHtml,
   TeaserFeed
 } from '@project-r/styleguide'
@@ -27,6 +28,12 @@ const styles = {
   }),
   results: css({
     paddingTop: 60
+  }),
+  empty: css({
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular19
+    }
   }),
   count: css({
     borderTop: `1px solid ${colors.text}`,
@@ -205,14 +212,15 @@ class Results extends Component {
 
             if (totalCount === 0) {
               return (
-                <RawHtml
-                  {...labelRule}
-                  dangerouslySetInnerHTML={{
-                    __html: t('search/results/empty',
-                      { term: filterQuery }
-                    )
-                  }}
-                />
+                <div {...styles.empty}>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: t('search/results/empty',
+                        { term: filterQuery }
+                      )
+                    }}
+                  />
+                </div>
               )
             }
 

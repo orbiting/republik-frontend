@@ -115,16 +115,17 @@ class Search extends Component {
     }
 
     this.onSearch = () => {
+      const sort = {
+        key: 'relevance'
+      }
       this.setState({
         submittedQuery: this.state.searchQuery,
         filterQuery: this.state.searchQuery,
         filters: DEFAULT_FILTERS,
-        sort: {
-          key: 'relevance'
-        },
+        sort,
         allowFocus: !this.state.isMobile
       })
-      this.updateUrl()
+      this.updateUrl(undefined, serializeSort(sort))
       window._paq.push(['trackSiteSearch',
         this.state.searchQuery,
         false,

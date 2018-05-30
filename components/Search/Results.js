@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
@@ -372,6 +373,31 @@ class Results extends Component {
       </div>
     )
   }
+}
+
+Results.propTypes = {
+  t: PropTypes.func,
+  data: PropTypes.object,
+  dataAggregations: PropTypes.object,
+  searchQuery: PropTypes.string,
+  filterQuery: PropTypes.string,
+  sort: PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    direction: PropTypes.oneOf(['ASC', 'DESC'])
+  }),
+  onSearch: PropTypes.func,
+  onSortClick: PropTypes.func,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      not: PropTypes.bool
+    })
+  ),
+  onFilterClick: PropTypes.func,
+  loadingFilters: PropTypes.bool,
+  onLoadMoreClick: PropTypes.func,
+  fetchMore: PropTypes.func
 }
 
 export default compose(

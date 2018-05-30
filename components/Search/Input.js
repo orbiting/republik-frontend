@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 
@@ -80,6 +81,15 @@ class Input extends Component {
       </div>
     )
   }
+}
+
+Input.propTypes = {
+  t: PropTypes.func,
+  value: PropTypes.string,
+  allowSearch: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSearch: PropTypes.func,
+  onReset: PropTypes.func
 }
 
 export default withT(Input)

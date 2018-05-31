@@ -101,6 +101,7 @@ class Search extends Component {
 
     this.loadFilters = debounce(() => {
       this.setState({
+        filters: DEFAULT_FILTERS,
         filterQuery: this.state.searchQuery,
         loadingFilters: false
       })
@@ -110,8 +111,7 @@ class Search extends Component {
       this.setState({
         searchQuery: value,
         loadingFilters: true,
-        allowFocus: true,
-        filters: DEFAULT_FILTERS
+        allowFocus: true
       })
       this.loadFilters()
     }

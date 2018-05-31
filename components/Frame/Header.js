@@ -27,6 +27,15 @@ const LOGO_HEIGHT_MOBILE = 24
 const LOGO_WIDTH = 203
 const LOGO_WIDTH_MOBILE = 162
 
+const buttonStyle = {
+  outline: 'none',
+  WebkitAppearance: 'none',
+  background: 'transparent',
+  border: 'none',
+  padding: '0',
+  cursor: 'pointer'
+}
+
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
@@ -90,6 +99,7 @@ const styles = {
     }
   }),
   search: css({
+    ...buttonStyle,
     '@media print': {
       display: 'none'
     },
@@ -280,23 +290,23 @@ class Header extends Component {
             </div>
           )}
           {opaque && (
-            <div
+            <button
               {...styles.search}
               role='button'
-              title={t('header/nav/search/aria')}>
+              title={t('header/nav/search/aria')}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                if (url.pathname === '/search') {
+                  window.scrollTo(0, 0)
+                } else {
+                  Router.pushRoute('search').then(() => window.scrollTo(0, 0))
+                }
+              }}>
               <Search
                 fill={isSearchActive ? colors.primary : colors.text}
-                size={28}
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  if (url.pathname === '/search') {
-                    window.scrollTo(0, 0)
-                  } else {
-                    Router.pushRoute('search').then(() => window.scrollTo(0, 0))
-                  }
-                }} />
-            </div>
+                size={28} />
+            </button>
           )}
           {opaque && (
             <div {...styles.hamburger}>

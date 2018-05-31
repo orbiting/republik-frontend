@@ -267,7 +267,7 @@ class Results extends Component {
               return (
                 <Fragment>
                   {filterQuery && (
-                    <div {...styles.countPreloaded}>
+                    <div {...styles.countPreloaded} aria-live='assertive'>
                       {totalCount > 0 && (
                         <Fragment>
                           {resultsOutdated && (

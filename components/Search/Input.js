@@ -12,22 +12,28 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
-  icon: css({
+  button: css({
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    padding: '0',
     cursor: 'pointer'
   })
 }
 
-const Icon = ({IconComponent, onClick, title}) => (
-  <span title={title} {...styles.icon}>
-    <IconComponent
-      fill={colors.text}
-      size={30}
-      onClick={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        onClick()
-      }} />
-  </span>
+const Icon = ({ IconComponent, onClick, title }) => (
+  <button
+    title={title}
+    {...styles.button}
+    onClick={e => {
+      e.preventDefault()
+      e.stopPropagation()
+      onClick()
+    }}
+  >
+    <IconComponent fill={colors.text} size={30} />
+  </button>
 )
 
 class Input extends Component {

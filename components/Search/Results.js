@@ -35,7 +35,14 @@ const styles = {
       ...fontStyles.sansSerifRegular19
     }
   }),
-  count: css({
+  countPreloaded: css({
+    paddingBottom: '15px',
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    }
+  }),
+  countLoaded: css({
     borderTop: `1px solid ${colors.text}`,
     display: 'flex',
     justifyContent: 'space-between',
@@ -85,7 +92,6 @@ query getSearchAggregations(
 }  
 `
 
-// TODO: add format to document.meta once backend supports it.
 const getSearchResults = gql`
 query getSearchResults(
     $search: String,
@@ -222,22 +228,23 @@ class Results extends Component {
             const { aggregations, totalCount } = search
             const showResults = !!searchQuery || isFilterEnabled
 
-            if (totalCount === 0) {
-              return (
-                <div {...styles.empty}>
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: t('search/results/empty',
-                        { term: filterQuery }
-                      )
-                    }}
-                  />
-                </div>
-              )
-            }
-
             return (
               <Fragment>
+                {resultsOutdated && filterQuery && (
+                  <div {...styles.countPreloaded}>
+                    {totalCount > 0 && (
+                      <button {...styles.button} {...linkRule} onClick={onSearch}>
+                        {t.pluralize('search/preloaded/results', {
+                          count: totalCount,
+                          term: filterQuery
+                        })}
+                      </button>
+                    )}
+                    {totalCount === 0 && (
+                      <Fragment>{t('search/preloaded/results/0')}</Fragment>
+                    )}
+                  </div>
+                )}
                 <Filter
                   aggregations={aggregations}
                   searchQuery={filterQuery || searchQuery}
@@ -253,16 +260,6 @@ class Results extends Component {
                     isFilterEnabled={isFilterEnabled}
                     onClickHandler={onSortClick}
                   />
-                )}
-                {resultsOutdated && filterQuery && (
-                  <div {...styles.count}>
-                    <button {...styles.button} {...linkRule} onClick={onSearch}>
-                      {t.pluralize('search/results', {
-                        count: totalCount,
-                        term: filterQuery
-                      })}
-                    </button>
-                  </div>
                 )}
               </Fragment>
             )
@@ -280,8 +277,18 @@ class Results extends Component {
             }
             const { nodes, totalCount, pageInfo } = search
 
-            if (!totalCount) {
-              return null
+            if (totalCount === 0 && !resultsOutdated) {
+              return (
+                <div {...styles.empty}>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: t('search/results/empty',
+                        { term: filterQuery }
+                      )
+                    }}
+                  />
+                </div>
+              )
             }
 
             return (
@@ -360,30 +367,32 @@ class Results extends Component {
                           </Fragment>
                         )
                       })}
-                    <div {...styles.count}>
-                      {nodes && nodes.length === totalCount ? (
-                        t.pluralize('search/pageInfo/total', {
-                          count: totalCount
-                        })
-                      ) : (
-                        t('search/pageInfo/loadedTotal', {
-                          loaded: nodes.length,
-                          total: totalCount
-                        })
-                      )}
-                      {pageInfo.hasNextPage && (
-                        <button
-                          {...styles.button}
-                          {...linkRule}
-                          onClick={() => {
-                            onLoadMoreClick && onLoadMoreClick()
-                            fetchMore({ after: pageInfo.endCursor })
-                          }}
-                        >
-                          {t('search/pageInfo/loadMore')}
-                        </button>
-                      )}
-                    </div>
+                    {totalCount > 0 &&
+                      <div {...styles.countLoaded}>
+                        {nodes && nodes.length === totalCount ? (
+                          t.pluralize('search/pageInfo/total', {
+                            count: totalCount
+                          })
+                        ) : (
+                          t('search/pageInfo/loadedTotal', {
+                            loaded: nodes.length,
+                            total: totalCount
+                          })
+                        )}
+                        {pageInfo.hasNextPage && (
+                          <button
+                            {...styles.button}
+                            {...linkRule}
+                            onClick={() => {
+                              onLoadMoreClick && onLoadMoreClick()
+                              fetchMore({ after: pageInfo.endCursor })
+                            }}
+                          >
+                            {t('search/pageInfo/loadMore')}
+                          </button>
+                        )}
+                      </div>
+                    }
                   </div>
                 )}
               </Fragment>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-30T18:25:31.605Z",
+  "updated": "2018-05-31T08:46:56.474Z",
   "title": "live",
   "data": [
     {
@@ -2687,16 +2687,20 @@
       "value": "Suche zurücksetzen"
     },
     {
-      "key": "search/results/empty",
-      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+      "key": "search/preloaded/results/0",
+      "value": "Keine Ergebnisse"
     },
     {
-      "key": "search/results/1",
+      "key": "search/preloaded/results/1",
       "value": "{count} Ergebnis anzeigen"
     },
     {
-      "key": "search/results/other",
+      "key": "search/preloaded/results/other",
       "value": "{count} Ergebnisse anzeigen"
+    },
+    {
+      "key": "search/results/empty",
+      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
     },
     {
       "key": "search/pageInfo/loadMore",

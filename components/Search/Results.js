@@ -199,8 +199,13 @@ class Results extends Component {
 
     this.measure = () => {
       if (this.panelRef) {
+        const { searchQuery, filterQuery } = this.props
+        const shouldMeasure = searchQuery === filterQuery
+        const currentMinHeight = this.panelRef.style.minHeight
+        this.panelRef.style.minHeight = 0
         const minHeight = this.panelRef.getBoundingClientRect().height
-        if (minHeight !== this.state.minHeight) {
+        this.panelRef.style.minHeight = currentMinHeight
+        if (shouldMeasure && minHeight !== this.state.minHeight) {
           this.setState({minHeight})
         }
       }
@@ -216,12 +221,6 @@ class Results extends Component {
   }
 
   componentWillReceiveProps (props) {
-    const { searchQuery, filterQuery } = props
-    const shouldMeasure = searchQuery === filterQuery
-    if (shouldMeasure && !!this.state.minHeight) {
-      this.setState({minHeight: null})
-    }
-
     if (!props.dataAggregations || !props.dataAggregations.search) return
     const totalCount = props.dataAggregations.search.totalCount
     this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(totalCount)
@@ -252,65 +251,67 @@ class Results extends Component {
 
     const resultsOutdated = searchQuery !== filterQuery
     const opacity = resultsOutdated ? 0.5 : 1
+    const { minHeight } = this.state
 
     return (
       <div {...styles.container}>
-        <Loader
-          loading={dataAggregations.loading}
-          error={dataAggregations.error}
-          render={() => {
-            const { search } = dataAggregations
-            const { aggregations, totalCount } = search
-            const showResults = !!searchQuery || isFilterEnabled
-            const { minHeight } = this.state
+        <div ref={this.setPanelRef} style={{ minHeight }}>
+          <Loader
+            loading={dataAggregations.loading}
+            error={dataAggregations.error}
+            render={() => {
+              const { search } = dataAggregations
+              const { aggregations, totalCount } = search
+              const showResults = !!searchQuery || isFilterEnabled
 
-            return (
-              <div ref={this.setPanelRef} style={{ minHeight }}>
-                {filterQuery && (
-                  <div {...styles.countPreloaded}>
-                    {totalCount > 0 && (
-                      <Fragment>
-                        {resultsOutdated && (
-                          <button {...styles.button} {...linkRule} onClick={onSearch}>
-                            {t.pluralize('search/preloaded/showresults', {
-                              count: totalCount
-                            })}
-                          </button>
-                        )}
-                        {!resultsOutdated && (
-                          <Fragment>
-                            {t.pluralize('search/preloaded/results', {
-                              count: totalCount
-                            })}
-                          </Fragment>
-                        )}
-                      </Fragment>
-                    )}
-                    {resultsOutdated && totalCount === 0 && (
-                      <Fragment>{t('search/preloaded/results/0')}</Fragment>
-                    )}
-                  </div>
-                )}
-                <Filter
-                  aggregations={aggregations}
-                  searchQuery={filterQuery || searchQuery}
-                  filters={filters}
-                  loadingFilters={loadingFilters}
-                  allowCompact={showResults}
-                  onClickHandler={onFilterClick}
-                />
-                {!resultsOutdated && showResults && totalCount > 1 && (
-                  <Sort
-                    sort={sort}
-                    searchQuery={searchQuery}
-                    isFilterEnabled={isFilterEnabled}
-                    onClickHandler={onSortClick}
+              return (
+                <Fragment>
+                  {filterQuery && (
+                    <div {...styles.countPreloaded}>
+                      {totalCount > 0 && (
+                        <Fragment>
+                          {resultsOutdated && (
+                            <button {...styles.button} {...linkRule} onClick={onSearch}>
+                              {t.pluralize('search/preloaded/showresults', {
+                                count: totalCount
+                              })}
+                            </button>
+                          )}
+                          {!resultsOutdated && (
+                            <Fragment>
+                              {t.pluralize('search/preloaded/results', {
+                                count: totalCount
+                              })}
+                            </Fragment>
+                          )}
+                        </Fragment>
+                      )}
+                      {resultsOutdated && totalCount === 0 && (
+                        <Fragment>{t('search/preloaded/results/0')}</Fragment>
+                      )}
+                    </div>
+                  )}
+                  <Filter
+                    aggregations={aggregations}
+                    searchQuery={filterQuery || searchQuery}
+                    filters={filters}
+                    loadingFilters={loadingFilters}
+                    allowCompact={showResults}
+                    onClickHandler={onFilterClick}
                   />
-                )}
-              </div>
-            )
-          }}
-        />
+                  {!resultsOutdated && showResults && totalCount > 1 && (
+                    <Sort
+                      sort={sort}
+                      searchQuery={searchQuery}
+                      isFilterEnabled={isFilterEnabled}
+                      onClickHandler={onSortClick}
+                    />
+                  )}
+                </Fragment>
+              )
+            }}
+          />
+        </div>
         <Loader
           loading={data.loading}
           error={data.error}

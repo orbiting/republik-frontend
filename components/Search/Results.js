@@ -216,7 +216,7 @@ class Results extends Component {
       )
 
     const resultsOutdated = searchQuery !== filterQuery
-    const opacity = resultsOutdated ? 0.6 : 1
+    const opacity = resultsOutdated ? 0.5 : 1
 
     return (
       <div {...styles.container}>
@@ -230,17 +230,27 @@ class Results extends Component {
 
             return (
               <Fragment>
-                {resultsOutdated && filterQuery && (
+                {filterQuery && (
                   <div {...styles.countPreloaded}>
                     {totalCount > 0 && (
-                      <button {...styles.button} {...linkRule} onClick={onSearch}>
-                        {t.pluralize('search/preloaded/results', {
-                          count: totalCount,
-                          term: filterQuery
-                        })}
-                      </button>
+                      <Fragment>
+                        {resultsOutdated && (
+                          <button {...styles.button} {...linkRule} onClick={onSearch}>
+                            {t.pluralize('search/preloaded/showresults', {
+                              count: totalCount
+                            })}
+                          </button>
+                        )}
+                        {!resultsOutdated && (
+                          <Fragment>
+                            {t.pluralize('search/preloaded/results', {
+                              count: totalCount
+                            })}
+                          </Fragment>
+                        )}
+                      </Fragment>
                     )}
-                    {totalCount === 0 && (
+                    {resultsOutdated && totalCount === 0 && (
                       <Fragment>{t('search/preloaded/results/0')}</Fragment>
                     )}
                   </div>

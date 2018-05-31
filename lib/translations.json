@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-31T08:46:56.474Z",
+  "updated": "2018-05-31T09:28:01.118Z",
   "title": "live",
   "data": [
     {
@@ -2692,10 +2692,18 @@
     },
     {
       "key": "search/preloaded/results/1",
-      "value": "{count} Ergebnis anzeigen"
+      "value": "{count} Ergebnis"
     },
     {
       "key": "search/preloaded/results/other",
+      "value": "{count} Ergebnisse"
+    },
+    {
+      "key": "search/preloaded/showresults/1",
+      "value": "{count} Ergebnis anzeigen"
+    },
+    {
+      "key": "search/preloaded/showresults/other",
       "value": "{count} Ergebnisse anzeigen"
     },
     {

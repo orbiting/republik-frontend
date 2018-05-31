@@ -110,7 +110,8 @@ class Search extends Component {
       this.setState({
         searchQuery: value,
         loadingFilters: true,
-        allowFocus: true
+        allowFocus: true,
+        filters: DEFAULT_FILTERS
       })
       this.loadFilters()
     }

@@ -70,7 +70,7 @@ export default withT(({t, user, isEditing, isMe, values, errors, onChange}) => {
   )
 
   const getNote = () => {
-    if (!isMe) {
+    if (!((isMe && !user.portrait) || isEditing)) {
       return
     }
     if (errors && errors.portrait) {
@@ -79,7 +79,7 @@ export default withT(({t, user, isEditing, isMe, values, errors, onChange}) => {
     if (!user.portrait && !values.portraitPreview) {
       return t('profile/portrait/choose')
     }
-    if (user.portrait && !values.portraitPreview) {
+    if (user.portrait || values.portraitPreview) {
       return t('profile/portrait/update')
     }
     return false

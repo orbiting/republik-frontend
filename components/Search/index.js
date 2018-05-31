@@ -296,7 +296,6 @@ class Search extends Component {
       filters,
       sort,
       loadingFilters,
-      totalCount,
       allowFocus
     } = this.state
 
@@ -305,7 +304,7 @@ class Search extends Component {
         <form onSubmit={this.onSubmit}>
           <Input
             value={searchQuery}
-            allowSearch={!!totalCount && searchQuery !== submittedQuery}
+            allowSearch={searchQuery !== submittedQuery}
             allowFocus={allowFocus}
             onChange={this.onInputChange}
             onSearch={this.onSearch}

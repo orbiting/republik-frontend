@@ -30,7 +30,7 @@ const styles = {
     }
   }),
   note: css({
-    ...fontStyles.sansSerifRegular12,
+    ...fontStyles.sansSerifRegular14,
     margin: '10px 0',
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular15

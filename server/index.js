@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const basicAuth = require('express-basic-auth')
 const dotenv = require('dotenv')
@@ -107,19 +108,9 @@ app.prepare().then(() => {
   })
 
   // iOS app universal links setup
-  server.get('/apple-app-site-association', (req, res) => {
-    res.json({
-      applinks: {
-        apps: [],
-        details: [
-          {
-            appID: 'TBD',
-            paths: [ 'NOT /anmelden', 'NOT /angebote', '*' ]
-          }
-        ]
-      }
-    })
-  })
+  server.use('/.well-known', express.static(
+    path.join(__dirname, '../static', '.well-known'), { extensions: ['json'] }
+  ))
 
   server.use(handler)
 

@@ -7,6 +7,7 @@ import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
+import withNativeSupport from '../lib/nativeApp'
 import { Router } from '../lib/routes'
 
 class SigninPage extends Component {
@@ -22,15 +23,13 @@ class SigninPage extends Component {
   }
 
   render () {
-    const { url, t, me, headers } = this.props
+    const { url, t, me, runningInApp } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
 
-    const app = headers.userAgent && headers.userAgent.includes('republikapp')
-
     return (
-      <Frame url={url} meta={meta} app={app}>
+      <Frame url={url} meta={meta} standalone={runningInApp}>
         <div style={{ margin: '40px auto 0 auto', maxWidth: 600 }}>
           {/* TODO: some intro text. */}
           {!me ? <SignIn /> : <Loader loading />}
@@ -40,4 +39,10 @@ class SigninPage extends Component {
   }
 }
 
-export default compose(withData, withMe, withMembership, withT)(SigninPage)
+export default compose(
+  withData,
+  withMe,
+  withMembership,
+  withNativeSupport,
+  withT
+)(SigninPage)

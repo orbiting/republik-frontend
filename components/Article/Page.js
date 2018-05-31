@@ -310,7 +310,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { url, t, data, data: {article}, isMember, runningInApp } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer } = this.state
 
@@ -368,6 +368,7 @@ class ArticlePage extends Component {
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={this.toggleAudio}
+        standalone={runningInApp}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

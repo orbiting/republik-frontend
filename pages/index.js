@@ -16,7 +16,7 @@ import {
 
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
-const IndexPage = ({ url, t, isMember, headers }) => {
+const IndexPage = ({ url, t, isMember, headers, runningInApp }) => {
   if (isMember) {
     // does it's own meta
     return <Front url={url} headers={headers} />
@@ -33,6 +33,7 @@ const IndexPage = ({ url, t, isMember, headers }) => {
       raw
       url={url}
       meta={meta}
+      standalone={runningInApp}
     >
       <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
     </Frame>

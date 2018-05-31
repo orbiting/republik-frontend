@@ -43,12 +43,15 @@ const styles = {
   })
 }
 
-export const MainContainer = ({children}) =>
+export const MainContainer = ({children}) => (
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
-export const Content = ({children, style}) =>
+)
+
+export const Content = ({children, style}) => (
   <div {...styles.content} style={style}>{children}</div>
+)
 
 const Index = ({
   t,
@@ -58,6 +61,7 @@ const Index = ({
   meta,
   nav,
   cover,
+  standalone,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -70,21 +74,23 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover ? styles.coverless : undefined}
+      className={!cover && !standalone ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      <Header
-        url={url}
-        cover={cover}
-        onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-        primaryNavExpanded={primaryNavExpanded}
-        secondaryNav={secondaryNav}
-        showSecondary={showSecondary}
-        inline={headerInline}
-        formatColor={formatColor}
-        audioSource={audioSource}
-        audioCloseHandler={audioCloseHandler}
-      />
+      {!standalone && (
+        <Header
+          url={url}
+          cover={cover}
+          onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+          primaryNavExpanded={primaryNavExpanded}
+          secondaryNav={secondaryNav}
+          showSecondary={showSecondary}
+          inline={headerInline}
+          formatColor={formatColor}
+          audioSource={audioSource}
+          audioCloseHandler={audioCloseHandler}
+        />
+      )}
       <noscript>
         <Box style={{padding: 30}}>
           <RawHtml
@@ -101,7 +107,7 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    <Footer />
+    {!standalone && <Footer />}
   </div>
 )
 

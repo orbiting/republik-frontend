@@ -186,7 +186,42 @@ query getSearchResults(
 `
 
 class Results extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+
+    this.state = {
+      minHeight: null
+    }
+
+    this.setPanelRef = ref => {
+      this.panelRef = ref
+    }
+
+    this.measure = () => {
+      if (this.panelRef) {
+        const minHeight = this.panelRef.getBoundingClientRect().height
+        if (minHeight !== this.state.minHeight) {
+          this.setState({minHeight})
+        }
+      }
+    }
+  }
+
+  componentDidMount () {
+    this.measure()
+  }
+
+  componentDidUpdate () {
+    this.measure()
+  }
+
   componentWillReceiveProps (props) {
+    const { searchQuery, filterQuery } = props
+    const shouldMeasure = searchQuery === filterQuery
+    if (shouldMeasure && !!this.state.minHeight) {
+      this.setState({minHeight: null})
+    }
+
     if (!props.dataAggregations || !props.dataAggregations.search) return
     const totalCount = props.dataAggregations.search.totalCount
     this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(totalCount)
@@ -227,9 +262,10 @@ class Results extends Component {
             const { search } = dataAggregations
             const { aggregations, totalCount } = search
             const showResults = !!searchQuery || isFilterEnabled
+            const { minHeight } = this.state
 
             return (
-              <Fragment>
+              <div ref={this.setPanelRef} style={{ minHeight }}>
                 {filterQuery && (
                   <div {...styles.countPreloaded}>
                     {totalCount > 0 && (
@@ -271,7 +307,7 @@ class Results extends Component {
                     onClickHandler={onSortClick}
                   />
                 )}
-              </Fragment>
+              </div>
             )
           }}
         />

@@ -22,13 +22,15 @@ class SigninPage extends Component {
   }
 
   render () {
-    const { url, t, me } = this.props
+    const { url, t, me, headers } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
 
+    const app = headers.userAgent && headers.userAgent.includes('republikapp')
+
     return (
-      <Frame url={url} meta={meta}>
+      <Frame url={url} meta={meta} app={app}>
         <div style={{ margin: '40px auto 0 auto', maxWidth: 600 }}>
           {/* TODO: some intro text. */}
           {!me ? <SignIn /> : <Loader loading />}

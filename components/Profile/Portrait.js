@@ -57,7 +57,7 @@ const readFile = (file) => {
   })
 }
 
-export default withT(({t, user, isEditing, values, errors, onChange}) => {
+export default withT(({t, user, isEditing, isMe, values, errors, onChange}) => {
   const preview = isEditing && values.portraitPreview
   const imgUrl = preview || user.portrait
   const img = (
@@ -70,7 +70,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
   )
 
   const getNote = () => {
-    if (!isEditing) {
+    if (!isMe) {
       return
     }
     if (errors && errors.portrait) {
@@ -89,6 +89,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
   return (
     <Dropzone
       disablePreview
+      disabled={!isMe}
       className={styles.dropzone.toString()}
       style={{
         cursor: isEditing

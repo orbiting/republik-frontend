@@ -185,14 +185,16 @@ class Search extends Component {
       let filters = [...this.state.filters].filter(
         filter => !(filter.key === 'template' && filter.value === 'front')
       )
+      console.log(filterBucketKey, filterBucketValue, selected)
 
       if (selected) {
-        filters = filters.filter(filter => filter.key !== filterBucketKey && filter.value !== filterBucketValue)
+        filters = filters.filter(filter => filter.key !== filterBucketKey)
       } else {
         if (!filters.find(filter => filter.key === filterBucketKey && filter.value === filterBucketValue)) {
           filters.push(filter)
         }
       }
+      console.log(filters)
 
       const serializedFilters = serializeFilters(filters)
       this.setState({

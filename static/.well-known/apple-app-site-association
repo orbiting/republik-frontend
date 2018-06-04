@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "TBD",
+        "appID": "1392772910.app.republik",
         "paths": [ "NOT /anmelden", "NOT /angebote", "*" ]
       }
     ]

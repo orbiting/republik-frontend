@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TBD",
+        "paths": [ "NOT /anmelden", "NOT /angebote", "*" ]
+      }
+    ]
+  }
+}

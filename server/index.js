@@ -108,9 +108,10 @@ app.prepare().then(() => {
   })
 
   // iOS app universal links setup
-  server.use('/.well-known', express.static(
-    path.join(__dirname, '../static', '.well-known'), { extensions: ['json'] }
-  ))
+  server.use('/.well-known/apple-app-site-association', (req, res) => {
+    res.set('Content-Type', 'application/json')
+    res.sendFile(path.join(__dirname, '../static', '.well-known', 'apple-app-site-association'))
+  })
 
   server.use(handler)
 

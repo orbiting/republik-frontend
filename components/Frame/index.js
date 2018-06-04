@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'react-apollo'
 import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -7,6 +8,7 @@ import Box from './Box'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import 'glamor/reset'
 
@@ -43,12 +45,15 @@ const styles = {
   })
 }
 
-export const MainContainer = ({children}) =>
+export const MainContainer = ({children}) => (
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
-export const Content = ({children, style}) =>
+)
+
+export const Content = ({children, style}) => (
   <div {...styles.content} style={style}>{children}</div>
+)
 
 const Index = ({
   t,
@@ -58,6 +63,7 @@ const Index = ({
   meta,
   nav,
   cover,
+  inNativeApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -70,21 +76,23 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover ? styles.coverless : undefined}
+      className={!cover && !inNativeApp ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      <Header
-        url={url}
-        cover={cover}
-        onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-        primaryNavExpanded={primaryNavExpanded}
-        secondaryNav={secondaryNav}
-        showSecondary={showSecondary}
-        inline={headerInline}
-        formatColor={formatColor}
-        audioSource={audioSource}
-        audioCloseHandler={audioCloseHandler}
-      />
+      {!inNativeApp && (
+        <Header
+          url={url}
+          cover={cover}
+          onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+          primaryNavExpanded={primaryNavExpanded}
+          secondaryNav={secondaryNav}
+          showSecondary={showSecondary}
+          inline={headerInline}
+          formatColor={formatColor}
+          audioSource={audioSource}
+          audioCloseHandler={audioCloseHandler}
+        />
+      )}
       <noscript>
         <Box style={{padding: 30}}>
           <RawHtml
@@ -101,8 +109,11 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    <Footer />
+    {!inNativeApp && <Footer />}
   </div>
 )
 
-export default withT(Index)
+export default compose(
+  withT,
+  withInNativeApp
+)(Index)

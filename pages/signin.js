@@ -38,4 +38,9 @@ class SigninPage extends Component {
   }
 }
 
-export default compose(withData, withMe, withMembership, withT)(SigninPage)
+export default compose(
+  withData,
+  withMe,
+  withMembership,
+  withT
+)(SigninPage)

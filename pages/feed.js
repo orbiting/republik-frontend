@@ -14,6 +14,7 @@ const FeedPage = ({ url, me, t }) => {
     title: t('pages/feed/title'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
+
   return (
     <Frame raw url={url} meta={meta}>
       <Feed />

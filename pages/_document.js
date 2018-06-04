@@ -5,15 +5,17 @@ import Document, {
 } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces } from '@project-r/styleguide'
+import { matchUserAgent } from '../lib/withInNativeApp'
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage, pathname }) {
+  static async getInitialProps ({ renderPage, pathname, req }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
     return {
       ...page,
       ...styles,
-      env: require('../lib/constants')
+      env: require('../lib/constants'),
+      inNativeApp: matchUserAgent(req.headers['user-agent'])
     }
   }
   constructor (props) {
@@ -24,7 +26,7 @@ export default class MyDocument extends Document {
     }
   }
   render () {
-    const { css, env: {
+    const { css, inNativeApp, env: {
       PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
     } } = this.props
     const piwik = (
@@ -36,7 +38,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta
             name='viewport'
-            content='width=device-width,initial-scale=1'
+            content={`width=device-width,initial-scale=1 ${inNativeApp ? ',maximum-scale=1.0,user-scalable=0' : ''}`}
           />
           <meta
             httpEquiv='X-UA-Compatible'

@@ -50,7 +50,8 @@ app.prepare().then(() => {
       '/__webpack_hmr',
       '/static/',
       '/manifest',
-      '/mitteilung'
+      '/mitteilung',
+      '/.well-known/apple-app-site-association'
     ]
 
     server.use((req, res, next) => {

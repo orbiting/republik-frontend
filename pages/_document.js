@@ -9,7 +9,6 @@ import { matchUserAgent } from '../lib/withInNativeApp'
 
 export default class MyDocument extends Document {
   static async getInitialProps ({ renderPage, pathname, req }) {
-    console.log(matchUserAgent(req.headers['user-agent']))
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
     return {

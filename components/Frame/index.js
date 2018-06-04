@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'react-apollo'
 import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
@@ -7,6 +8,7 @@ import Box from './Box'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import 'glamor/reset'
 
@@ -61,7 +63,7 @@ const Index = ({
   meta,
   nav,
   cover,
-  standalone,
+  inNativeApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -74,10 +76,10 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover && !standalone ? styles.coverless : undefined}
+      className={!cover && !inNativeApp ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      {!standalone && (
+      {!inNativeApp && (
         <Header
           url={url}
           cover={cover}
@@ -107,8 +109,11 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    {!standalone && <Footer />}
+    {!inNativeApp && <Footer />}
   </div>
 )
 
-export default withT(Index)
+export default compose(
+  withT,
+  withInNativeApp
+)(Index)

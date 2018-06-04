@@ -279,8 +279,7 @@ class Profile extends Component {
       url,
       t,
       me,
-      data: { loading, error, user },
-      runningInApp
+      data: { loading, error, user }
     } = this.props
 
     const metaData = {
@@ -293,7 +292,7 @@ class Profile extends Component {
     }
 
     return (
-      <Frame url={url} meta={metaData} standalone={runningInApp} raw>
+      <Frame url={url} meta={metaData} raw>
         <Loader
           loading={loading}
           error={error}

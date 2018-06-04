@@ -86,8 +86,8 @@ query getSearchAggregations(
         value
         count
         label
-      }  
-    }  
+      }
+    }
   }  
 }  
 `
@@ -105,6 +105,16 @@ query getSearchResults(
       sort: $sort,
       filters: $filters) {
     totalCount
+    aggregations {
+      key
+      count
+      label
+      buckets {
+        value
+        count
+        label
+      }
+    }
     pageInfo {
       hasNextPage
       endCursor
@@ -185,6 +195,71 @@ query getSearchResults(
 }
 `
 
+const FilterSortPanel = ({
+  aggregations,
+  filterQuery,
+  filters,
+  loadingFilters,
+  minHeight,
+  isFilterEnabled,
+  searchQuery,
+  setPanelRef,
+  sort,
+  t,
+  totalCount,
+  onFilterClick,
+  onSearch,
+  onSortClick
+}) => {
+  const resultsOutdated = searchQuery !== filterQuery
+  const showResults = !!searchQuery || isFilterEnabled
+  return (
+    <div ref={setPanelRef} style={{ minHeight }}>
+      <Filter
+        aggregations={aggregations}
+        searchQuery={filterQuery || searchQuery}
+        filters={filters}
+        loadingFilters={loadingFilters}
+        allowCompact={showResults}
+        onClickHandler={onFilterClick}
+      />
+      {filterQuery && (
+        <div {...styles.countPreloaded} aria-live='assertive'>
+          {totalCount > 0 && (
+            <Fragment>
+              {resultsOutdated && (
+                <button {...styles.button} {...linkRule} onClick={onSearch}>
+                  {t.pluralize('search/preloaded/showresults', {
+                    count: totalCount
+                  })}
+                </button>
+              )}
+              {!resultsOutdated && (
+                <Fragment>
+                  {t.pluralize('search/preloaded/results', {
+                    count: totalCount
+                  })}
+                </Fragment>
+              )}
+            </Fragment>
+          )}
+          {resultsOutdated && totalCount === 0 && (
+            <Fragment>{t('search/preloaded/results/0')}</Fragment>
+          )}
+        </div>
+      )}
+      {!resultsOutdated && showResults && totalCount > 1 && (
+        <Sort
+          sort={sort}
+          searchQuery={searchQuery}
+          isFilterEnabled={isFilterEnabled}
+          onClickHandler={onSortClick}
+        />
+      )}
+    </div>
+  )
+}
+
 class Results extends Component {
   constructor (props, ...args) {
     super(props, ...args)
@@ -255,63 +330,35 @@ class Results extends Component {
 
     return (
       <div {...styles.container}>
-        <div ref={this.setPanelRef} style={{ minHeight }}>
+        {resultsOutdated && (
           <Loader
-            loading={dataAggregations.loading}
-            error={dataAggregations.error}
+            loading={dataAggregations && dataAggregations.loading}
+            error={dataAggregations && dataAggregations.error}
             render={() => {
               const { search } = dataAggregations
               const { aggregations, totalCount } = search
-              const showResults = !!searchQuery || isFilterEnabled
 
               return (
-                <Fragment>
-                  {filterQuery && (
-                    <div {...styles.countPreloaded} aria-live='assertive'>
-                      {totalCount > 0 && (
-                        <Fragment>
-                          {resultsOutdated && (
-                            <button {...styles.button} {...linkRule} onClick={onSearch}>
-                              {t.pluralize('search/preloaded/showresults', {
-                                count: totalCount
-                              })}
-                            </button>
-                          )}
-                          {!resultsOutdated && (
-                            <Fragment>
-                              {t.pluralize('search/preloaded/results', {
-                                count: totalCount
-                              })}
-                            </Fragment>
-                          )}
-                        </Fragment>
-                      )}
-                      {resultsOutdated && totalCount === 0 && (
-                        <Fragment>{t('search/preloaded/results/0')}</Fragment>
-                      )}
-                    </div>
-                  )}
-                  <Filter
-                    aggregations={aggregations}
-                    searchQuery={filterQuery || searchQuery}
-                    filters={filters}
-                    loadingFilters={loadingFilters}
-                    allowCompact={showResults}
-                    onClickHandler={onFilterClick}
-                  />
-                  {!resultsOutdated && showResults && totalCount > 1 && (
-                    <Sort
-                      sort={sort}
-                      searchQuery={searchQuery}
-                      isFilterEnabled={isFilterEnabled}
-                      onClickHandler={onSortClick}
-                    />
-                  )}
-                </Fragment>
+                <FilterSortPanel
+                  aggregations={aggregations}
+                  filterQuery={filterQuery}
+                  filters={filters}
+                  loadingFilters={loadingFilters}
+                  minHeight={minHeight}
+                  isFilterEnabled={isFilterEnabled}
+                  searchQuery={searchQuery}
+                  setPanelRef={this.setPanelRef}
+                  sort={sort}
+                  t={t}
+                  totalCount={totalCount}
+                  onFilterClick={onFilterClick}
+                  onSearch={onSearch}
+                  onSortClick={onSortClick}
+                />
               )
             }}
           />
-        </div>
+        )}
         <Loader
           loading={data.loading}
           error={data.error}
@@ -322,7 +369,7 @@ class Results extends Component {
             if (!search) {
               return null
             }
-            const { nodes, totalCount, pageInfo } = search
+            const { aggregations, nodes, totalCount, pageInfo } = search
 
             if (totalCount === 0 && !resultsOutdated) {
               return (
@@ -340,6 +387,24 @@ class Results extends Component {
 
             return (
               <Fragment>
+                {!resultsOutdated && (
+                  <FilterSortPanel
+                    aggregations={aggregations}
+                    filterQuery={filterQuery}
+                    filters={filters}
+                    loadingFilters={loadingFilters}
+                    minHeight={minHeight}
+                    isFilterEnabled={isFilterEnabled}
+                    searchQuery={searchQuery}
+                    setPanelRef={this.setPanelRef}
+                    sort={sort}
+                    t={t}
+                    totalCount={totalCount}
+                    onFilterClick={onFilterClick}
+                    onSearch={onSearch}
+                    onSortClick={onSortClick}
+                  />
+                )}
                 {(!!searchQuery || isFilterEnabled) && (
                   <div {...styles.results} style={{ opacity }}>
                     {nodes &&
@@ -479,6 +544,7 @@ Results.propTypes = {
 export default compose(
   withT,
   graphql(getSearchAggregations, {
+    skip: props => props.searchQuery === props.filterQuery,
     options: props => ({
       variables: {
         search: props.filterQuery,

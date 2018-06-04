@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "1392772910.app.republik",
+        "appID": "7MQXM58QM7.app.republik",
         "paths": [ "NOT /anmelden", "NOT /angebote", "*" ]
       }
     ]

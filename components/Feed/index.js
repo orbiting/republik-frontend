@@ -8,6 +8,10 @@ import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
 import {
+  HEADER_HEIGHT
+} from '../constants'
+
+import {
   Center,
   TeaserFeed,
   Interaction,
@@ -19,6 +23,19 @@ const styles = {
     padding: '15px 15px 120px',
     [mediaQueries.mUp]: {
       padding: '40px 0 120px'
+    }
+  }),
+  feed: css({
+    borderTop: `1px solid #000`,
+    backgroundColor: '#fff',
+    paddingTop: '8px',
+    margin: '0 0 30px 0',
+    float: 'none',
+    width: '100%',
+    [mediaQueries.mUp]: {
+      margin: '0 0 30px -150px',
+      float: 'left',
+      width: 150
     }
   })
 }
@@ -68,9 +85,56 @@ const greetingSubscription = gql`
   }
 `
 
-const dateFormat = timeFormat('%A, %d. %B')
+const dateFormat = timeFormat('%A, %d. %B %Y')
 
 const groupBy = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
+
+class StickyHeader extends Component {
+  constructor (props) {
+    super(props)
+    this.originalOffset = null
+    this.state = {
+      sticky: false
+    }
+    this.ref = null
+    this.setRef = (el) => { this.ref = el }
+
+    this.onScroll = () => {
+      const y = window.pageYOffset
+      if (this.ref) {
+        const { sticky } = this.state
+        const currentOffset = this.ref.offsetTop
+        const nextSticky = y + HEADER_HEIGHT > (sticky ? this.originalOffset : currentOffset)
+        this.setState({ sticky: nextSticky })
+      }
+    }
+  }
+
+  componentDidMount () {
+    this.originalOffset = this.ref.offsetTop
+    window.addEventListener('scroll', this.onScroll)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.onScroll)
+  }
+
+  render () {
+    const {children} = this.props
+    const { sticky } = this.state
+    return (
+      <div ref={this.setRef} style={{
+        position: sticky ? 'fixed' : 'relative',
+        top: sticky ? HEADER_HEIGHT : 'unset',
+        backgroundColor: '#fff'
+      }}>
+        {
+          children
+        }
+      </div>
+    )
+  }
+}
 
 class Feed extends Component {
   componentDidMount () {
@@ -129,24 +193,26 @@ class Feed extends Component {
               {nodes &&
                 groupBy.entries(nodes).map(({key, values}) =>
                   <div>
-                    <h3>{key}</h3>
-                    <div>
-                    {
-                      values.map(doc =>
-                        <TeaserFeed
-                          {...doc.meta}
-                          kind={
-                            doc.meta.template === 'editorialNewsletter' ? (
-                              'meta'
-                            ) : (
-                              doc.meta.kind
-                            )
-                          }
-                          Link={Link}
-                          key={doc.meta.path}
-                        />
-                      )
-                    }
+                    <div {...styles.feed}>
+                      <StickyHeader>{key.split(',').join(',')}</StickyHeader>
+                    </div>
+                    <div style={{ }}>
+                      {
+                        values.map(doc =>
+                          <TeaserFeed
+                            {...doc.meta}
+                            kind={
+                              doc.meta.template === 'editorialNewsletter' ? (
+                                'meta'
+                              ) : (
+                                doc.meta.kind
+                              )
+                            }
+                            Link={Link}
+                            key={doc.meta.path}
+                          />
+                        )
+                      }
                     </div>
                   </div>
                 )

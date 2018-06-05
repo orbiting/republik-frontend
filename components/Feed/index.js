@@ -6,10 +6,7 @@ import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
-
-import {
-  HEADER_HEIGHT
-} from '../constants'
+import StickyHeader from './StickyHeader'
 
 import {
   Center,
@@ -18,6 +15,9 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+const SIDEBAR_WIDTH = 140
+const MARGIN_WIDTH = 20
+
 const styles = {
   container: css({
     padding: '15px 15px 120px',
@@ -25,17 +25,17 @@ const styles = {
       padding: '40px 0 120px'
     }
   }),
-  feed: css({
-    borderTop: `1px solid #000`,
+  header: css({
     backgroundColor: '#fff',
-    paddingTop: '8px',
     margin: '0 0 30px 0',
-    float: 'none',
     width: '100%',
-    [mediaQueries.mUp]: {
-      margin: '0 0 30px -150px',
+    [mediaQueries.lUp]: {
       float: 'left',
-      width: 150
+      margin: `0 0 30px -${SIDEBAR_WIDTH + MARGIN_WIDTH}px`,
+      width: SIDEBAR_WIDTH,
+      '& > div': {
+        width: SIDEBAR_WIDTH
+      }
     }
   })
 }
@@ -85,56 +85,9 @@ const greetingSubscription = gql`
   }
 `
 
-const dateFormat = timeFormat('%A, %d. %B %Y')
+const dateFormat = timeFormat('%A,\n%d.\xa0%B\xa0%Y')
 
-const groupBy = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
-
-class StickyHeader extends Component {
-  constructor (props) {
-    super(props)
-    this.originalOffset = null
-    this.state = {
-      sticky: false
-    }
-    this.ref = null
-    this.setRef = (el) => { this.ref = el }
-
-    this.onScroll = () => {
-      const y = window.pageYOffset
-      if (this.ref) {
-        const { sticky } = this.state
-        const currentOffset = this.ref.offsetTop
-        const nextSticky = y + HEADER_HEIGHT > (sticky ? this.originalOffset : currentOffset)
-        this.setState({ sticky: nextSticky })
-      }
-    }
-  }
-
-  componentDidMount () {
-    this.originalOffset = this.ref.offsetTop
-    window.addEventListener('scroll', this.onScroll)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('scroll', this.onScroll)
-  }
-
-  render () {
-    const {children} = this.props
-    const { sticky } = this.state
-    return (
-      <div ref={this.setRef} style={{
-        position: sticky ? 'fixed' : 'relative',
-        top: sticky ? HEADER_HEIGHT : 'unset',
-        backgroundColor: '#fff'
-      }}>
-        {
-          children
-        }
-      </div>
-    )
-  }
-}
+const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
   componentDidMount () {
@@ -191,30 +144,32 @@ class Feed extends Component {
                 </Interaction.H1>
               )}
               {nodes &&
-                groupBy.entries(nodes).map(({key, values}) =>
-                  <div>
-                    <div {...styles.feed}>
-                      <StickyHeader>{key.split(',').join(',')}</StickyHeader>
+                groupByDate.entries(nodes).map(({key, values}) =>
+                  <section>
+                    <div {...styles.header}>
+                      <StickyHeader maxWidth={SIDEBAR_WIDTH}>
+                        <span {...styles.date}>
+                          {key}
+                        </span>
+                      </StickyHeader>
                     </div>
-                    <div style={{ }}>
-                      {
-                        values.map(doc =>
-                          <TeaserFeed
-                            {...doc.meta}
-                            kind={
-                              doc.meta.template === 'editorialNewsletter' ? (
-                                'meta'
-                              ) : (
-                                doc.meta.kind
-                              )
-                            }
-                            Link={Link}
-                            key={doc.meta.path}
-                          />
-                        )
-                      }
-                    </div>
-                  </div>
+                    {
+                      values.map(doc =>
+                        <TeaserFeed
+                          {...doc.meta}
+                          kind={
+                            doc.meta.template === 'editorialNewsletter' ? (
+                              'meta'
+                            ) : (
+                              doc.meta.kind
+                            )
+                          }
+                          Link={Link}
+                          key={doc.meta.path}
+                        />
+                      )
+                    }
+                  </section>
                 )
               }
               {hasMore &&

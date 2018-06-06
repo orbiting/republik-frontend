@@ -107,7 +107,7 @@ export default compose(
     options: () => ({
       variables: {
         path: '/',
-        first: 5
+        first: 15
       }
     }),
     props: ({data, ownProps: {serverContext}}) => {

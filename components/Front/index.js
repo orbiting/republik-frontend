@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { css } from 'glamor'
+import { InlineSpinner } from '@project-r/styleguide'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
+import InfiniteScroll from 'react-infinite-scroller'
 
 import withT from '../../lib/withT'
 import Loader from '../Loader'
@@ -19,10 +22,21 @@ const schema = createFrontSchema({
 })
 
 const getDocument = gql`
-  query getFront($path: String!) {
+  query getFront($path: String!, $first: Int!, $after: ID) {
     front: document(path: $path) {
       id
-      content
+      children(first: $first, after: $after) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          endCursor
+          startCursor
+        }
+        nodes {
+          id
+          body
+        }
+      }
       meta {
         path
         title
@@ -39,14 +53,22 @@ const getDocument = gql`
   }
 `
 
+const styles = {
+  spinner: css({
+    textAlign: 'center'
+  })
+}
+
 class Front extends Component {
   render () {
-    const { url, data, data: { front }, t } = this.props
+    const { url, data, fetchMore, data: { front }, t } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
       url: `${PUBLIC_BASE_URL}${front.meta.path}`
     }
+
+    const hasNextPage = front.children.pageInfo.hasNextPage
 
     return (
       <Frame
@@ -54,11 +76,26 @@ class Front extends Component {
         url={url}
         meta={meta}
       >
-        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-          return <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, front.id)}>
-            {() => renderMdast(front.content, schema)}
-          </SSRCachingBoundary>
-        }} />
+        <InfiniteScroll
+          loadMore={fetchMore}
+          hasMore={hasNextPage}
+          threshold={800}
+          loader={
+            <div {...styles.spinner}
+              key='pagination-loader'>
+              <InlineSpinner size={28} />
+            </div>
+          }
+        >
+          <Loader loading={data.loading && !front} error={data.error} message={t('pages/magazine/title')} render={() => {
+            return <SSRCachingBoundary key='content' cacheKey={webpCacheKey(this.props.headers, front.id)}>
+              {() => renderMdast({
+                type: 'root',
+                children: front.children.nodes.map(v => v.body)
+              }, schema)}
+            </SSRCachingBoundary>
+          }} />
+        </InfiniteScroll>
       </Frame>
     )
   }
@@ -69,7 +106,8 @@ export default compose(
   graphql(getDocument, {
     options: () => ({
       variables: {
-        path: '/'
+        path: '/',
+        first: 5
       }
     }),
     props: ({data, ownProps: {serverContext}}) => {
@@ -78,7 +116,33 @@ export default compose(
       }
 
       return {
-        data
+        data,
+        fetchMore: () => {
+          return data.fetchMore({
+            variables: {
+              first: 5,
+              after: data.front.children.pageInfo.endCursor
+            },
+            updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
+              const previousSearch = previousResult.front.children || {}
+              const currentSearch = fetchMoreResult.front.children || {}
+              const previousNodes = previousSearch.nodes || []
+              const currentNodes = currentSearch.nodes || []
+              const res = {
+                ...previousResult,
+                front: {
+                  ...previousResult.front,
+                  children: {
+                    ...previousResult.front.children,
+                    nodes: [...previousNodes, ...currentNodes],
+                    pageInfo: currentSearch.pageInfo
+                  }
+                }
+              }
+              return res
+            }
+          }).catch(error => console.error(error))
+        }
       }
     }
   })

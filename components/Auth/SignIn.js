@@ -61,11 +61,45 @@ const styles = {
 class SignIn extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       email: props.email || '',
       polling: false,
       loading: false,
       success: undefined
+    }
+
+    this.onFormSubmit = (event) => {
+      event.preventDefault()
+
+      const { loading, error, email } = this.state
+      const { signIn, context, acceptedConsents } = this.props
+
+      if (error) {
+        this.setState(() => ({ dirty: true }))
+        return
+      }
+
+      if (loading) {
+        return
+      }
+
+      this.setState(() => ({ loading: true }))
+
+      signIn(email, context, acceptedConsents)
+        .then(({data}) => {
+          this.setState(() => ({
+            polling: true,
+            loading: false,
+            phrase: data.signIn.phrase
+          }))
+        })
+        .catch(error => {
+          this.setState(() => ({
+            serverError: error,
+            loading: false
+          }))
+        })
     }
   }
 
@@ -112,39 +146,9 @@ class SignIn extends Component {
       return <span>{success}</span>
     }
 
-    const submitForm = (event) => {
-      event.preventDefault()
-      if (error) {
-        this.setState(() => ({
-          dirty: true
-        }))
-        return
-      }
-      if (loading) {
-        return
-      }
-      this.setState(() => ({
-        loading: true
-      }))
-      this.props.signIn(email, this.props.context, this.props.acceptedConsents)
-        .then(({data}) => {
-          this.setState(() => ({
-            polling: true,
-            loading: false,
-            phrase: data.signIn.phrase
-          }))
-        })
-        .catch(error => {
-          this.setState(() => ({
-            serverError: error,
-            loading: false
-          }))
-        })
-    }
-
     return (
       <div>
-        <form onSubmit={submitForm}>
+        <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
               <Field

@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import { runInApp } from '../../lib/withInNativeApp'
 
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
@@ -61,11 +62,70 @@ const styles = {
 class SignIn extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       email: props.email || '',
       polling: false,
       loading: false,
       success: undefined
+    }
+
+    this.onFormSubmit = (event) => {
+      event.preventDefault()
+
+      const { loading, error } = this.state
+
+      if (error) {
+        this.setState(() => ({ dirty: true }))
+        return
+      }
+
+      if (loading) {
+        return
+      }
+
+      this.setState(() => ({ loading: true }))
+
+      runInApp(this.signInApp, this.signInBrowser)
+    }
+
+    this.signInBrowser = () => {
+      const { email } = this.state
+      const { signIn, context, acceptedConsents } = this.props
+
+      signIn(email, context, acceptedConsents)
+        .then(({data}) => {
+          this.setState(() => ({
+            polling: true,
+            loading: false,
+            phrase: data.signIn.phrase
+          }))
+        })
+        .catch(error => {
+          this.setState(() => ({
+            serverError: error,
+            loading: false
+          }))
+        })
+    }
+
+    this.signInApp = () => {
+      const { email } = this.state
+
+      // Let the app do the auth
+      window.postMessage(JSON.stringify({
+        type: 'signin',
+        email
+      }), '*')
+
+      // Wait for phrase to start polling
+      document.addEventListener('message', event => {
+        this.setState(() => ({
+          polling: true,
+          loading: false,
+          phrase: event.data
+        }))
+      }, { once: true })
     }
   }
 
@@ -112,39 +172,9 @@ class SignIn extends Component {
       return <span>{success}</span>
     }
 
-    const submitForm = (event) => {
-      event.preventDefault()
-      if (error) {
-        this.setState(() => ({
-          dirty: true
-        }))
-        return
-      }
-      if (loading) {
-        return
-      }
-      this.setState(() => ({
-        loading: true
-      }))
-      this.props.signIn(email, this.props.context, this.props.acceptedConsents)
-        .then(({data}) => {
-          this.setState(() => ({
-            polling: true,
-            loading: false,
-            phrase: data.signIn.phrase
-          }))
-        })
-        .catch(error => {
-          this.setState(() => ({
-            serverError: error,
-            loading: false
-          }))
-        })
-    }
-
     return (
       <div>
-        <form onSubmit={submitForm}>
+        <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
               <Field

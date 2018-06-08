@@ -7,7 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
-import { runInApp } from '../../lib/withInNativeApp'
+import { inNativeAppBrowser } from '../../lib/withInNativeApp'
 
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
@@ -86,7 +86,14 @@ class SignIn extends Component {
 
       this.setState(() => ({ loading: true }))
 
-      runInApp(this.signInApp, this.signInBrowser)
+      if (inNativeAppBrowser) {
+        window.postMessage(JSON.stringify({
+          type: 'test'
+        }), '*')
+        this.signInApp()
+      } else {
+        this.signInBrowser()
+      }
     }
 
     this.signInBrowser = () => {
@@ -111,11 +118,12 @@ class SignIn extends Component {
 
     this.signInApp = () => {
       const { email } = this.state
+      const { context, acceptedConsents } = this.props
 
       // Let the app do the auth
       window.postMessage(JSON.stringify({
         type: 'signin',
-        email
+        data: { email, context, consents: acceptedConsents }
       }), '*')
 
       // Wait for phrase to start polling

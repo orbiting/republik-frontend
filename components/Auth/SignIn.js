@@ -7,7 +7,6 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
-import { inNativeAppBrowser } from '../../lib/withInNativeApp'
 
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
@@ -73,7 +72,8 @@ class SignIn extends Component {
     this.onFormSubmit = (event) => {
       event.preventDefault()
 
-      const { loading, error } = this.state
+      const { loading, error, email } = this.state
+      const { signIn, context, acceptedConsents } = this.props
 
       if (error) {
         this.setState(() => ({ dirty: true }))
@@ -85,20 +85,6 @@ class SignIn extends Component {
       }
 
       this.setState(() => ({ loading: true }))
-
-      if (inNativeAppBrowser) {
-        window.postMessage(JSON.stringify({
-          type: 'test'
-        }), '*')
-        this.signInApp()
-      } else {
-        this.signInBrowser()
-      }
-    }
-
-    this.signInBrowser = () => {
-      const { email } = this.state
-      const { signIn, context, acceptedConsents } = this.props
 
       signIn(email, context, acceptedConsents)
         .then(({data}) => {
@@ -114,26 +100,6 @@ class SignIn extends Component {
             loading: false
           }))
         })
-    }
-
-    this.signInApp = () => {
-      const { email } = this.state
-      const { context, acceptedConsents } = this.props
-
-      // Let the app do the auth
-      window.postMessage(JSON.stringify({
-        type: 'signin',
-        data: { email, context, consents: acceptedConsents }
-      }), '*')
-
-      // Wait for phrase to start polling
-      document.addEventListener('message', event => {
-        this.setState(() => ({
-          polling: true,
-          loading: false,
-          phrase: event.data
-        }))
-      }, { once: true })
     }
   }
 

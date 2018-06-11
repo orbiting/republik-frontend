@@ -6,6 +6,7 @@ import { mediaQueries } from '@project-r/styleguide/lib/lib'
 const stickyHeaderStyle = {
   base: css({
     paddingTop: '8px',
+    paddingBottom: '8px',
     borderTop: '1px solid #000',
     position: 'relative',
     backgroundColor: '#fff',
@@ -35,8 +36,16 @@ class StickyHeader extends Component {
       if (this.ref) {
         const { sticky } = this.state
         const currentOffset = this.ref.offsetTop
-        const nextSticky = y + HEADER_HEIGHT > (sticky ? this.originalOffset : currentOffset)
+        const nextSticky = y + this.getHeaderHeight() > (sticky ? this.originalOffset : currentOffset)
         this.setState({ sticky: nextSticky })
+      }
+    }
+
+    this.getHeaderHeight = () => {
+      if (window.innerWidth >= mediaQueries.mBreakPoint) {
+        return HEADER_HEIGHT
+      } else {
+        return HEADER_HEIGHT_MOBILE
       }
     }
   }

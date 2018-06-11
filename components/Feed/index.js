@@ -105,7 +105,8 @@ class Feed extends Component {
       const { infiniteScroll } = this.state
       const { loadMore, hasMore, maxPages } = this.props
       const d = document.documentElement
-      const offset = d.scrollTop + window.innerHeight
+      const scrollTop = Math.max(window.pageYOffset, d.scrollTop, document.body.scrollTop)
+      const offset = scrollTop + window.innerHeight
       const height = d.offsetHeight
       const needsMore = height - offset < (height / 3)
       if ((infiniteScroll || this.pagesLoaded < maxPages) && hasMore && needsMore) {

@@ -6,7 +6,9 @@ import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
+import withT from '../../lib/withT'
 import StickyHeader from './StickyHeader'
+import PropTypes from 'prop-types'
 
 import {
   Center,
@@ -14,6 +16,7 @@ import {
   Interaction,
   mediaQueries
 } from '@project-r/styleguide'
+import Button from '@project-r/styleguide/lib/components/Button'
 
 const SIDEBAR_WIDTH = 140
 const MARGIN_WIDTH = 20
@@ -29,7 +32,9 @@ const styles = {
     backgroundColor: '#fff',
     margin: '0 0 30px 0',
     width: '100%',
+    height: 27,
     [mediaQueries.lUp]: {
+      height: 'auto',
       float: 'left',
       margin: `0 0 30px -${SIDEBAR_WIDTH + MARGIN_WIDTH}px`,
       width: SIDEBAR_WIDTH,
@@ -90,12 +95,43 @@ const dateFormat = timeFormat('%A,\n%d.\xa0%B\xa0%Y')
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
+  constructor (props) {
+    super(props)
+    this.pagesLoaded = 0
+    this.state = {
+      infiniteScroll: false
+    }
+    this.onScroll = () => {
+      const { infiniteScroll } = this.state
+      const { loadMore, hasMore, maxPages } = this.props
+      const d = document.documentElement
+      const offset = d.scrollTop + window.innerHeight
+      const height = d.offsetHeight
+      const needsMore = height - offset < (height / 3)
+      if ((infiniteScroll || this.pagesLoaded < maxPages) && hasMore && needsMore) {
+        loadMore()
+        this.pagesLoaded += 1
+      }
+    }
+    this.activateInfiniteScroll = async () => {
+      const { loadMore } = this.props
+      await loadMore()
+      this.setState({infiniteScroll: true})
+    }
+  }
+
   componentDidMount () {
     this.subscribe()
+    window.addEventListener('scroll', this.onScroll)
   }
 
   componentDidUpdate () {
     this.subscribe()
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.onScroll)
+    this.unsubscribe && this.unsubscribe()
   }
 
   subscribe () {
@@ -122,12 +158,9 @@ class Feed extends Component {
     }
   }
 
-  componentWillUnmount () {
-    this.unsubscribe && this.unsubscribe()
-  }
-
   render () {
-    const { data: { loading, error, documents, greeting }, loadMore, hasMore } = this.props
+    const { data: { loading, error, documents, greeting }, hasMore, t } = this.props
+    const { infiniteScroll } = this.state
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
@@ -147,7 +180,7 @@ class Feed extends Component {
                 groupByDate.entries(nodes).map(({key, values}) =>
                   <section>
                     <div {...styles.header}>
-                      <StickyHeader maxWidth={SIDEBAR_WIDTH}>
+                      <StickyHeader>
                         <span {...styles.date}>
                           {key}
                         </span>
@@ -172,8 +205,8 @@ class Feed extends Component {
                   </section>
                 )
               }
-              {hasMore &&
-                <button onClick={loadMore}>Load More</button>
+              {!infiniteScroll && hasMore &&
+                <Button onClick={this.activateInfiniteScroll}>{t('format/feed/loadMore')}</Button>
               }
             </Center>
           )
@@ -181,6 +214,18 @@ class Feed extends Component {
       />
     )
   }
+}
+
+Feed.propTypes = {
+  data: PropTypes.object.isRequired,
+  loadMore: PropTypes.func.isRequired,
+  hasMore: PropTypes.bool,
+  maxPages: PropTypes.number,
+  t: PropTypes.func.isRequired
+}
+
+Feed.defaultProps = {
+  maxPages: 3
 }
 
 export default compose(
@@ -212,5 +257,6 @@ export default compose(
         }
       })
     }
-  )
+  ),
+  withT
 )(Feed)

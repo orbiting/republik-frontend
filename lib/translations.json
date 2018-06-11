@@ -1963,6 +1963,10 @@
       "value": "Sie brauchen eine Mitgliedschaft, um die Beiträge zu lesen."
     },
     {
+      "key": "format/feed/loadMore",
+      "value": "Feed fortsetzen"
+    },
+    {
       "key": "article/payNote/before",
       "value": "Geehrte Dame, geehrter Herr, Sie wissen: Journalismus ist teuer. Dieser Beitrag wurde Ihnen von einem der über 18000 Verlegerinnen oder Verleger geschenkt. Wir hoffen, dass er Ihre Zeit wert ist.\n"
     },

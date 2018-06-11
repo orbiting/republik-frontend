@@ -13,9 +13,9 @@ const stickyHeaderStyle = {
   }),
   sticky: css({
     position: 'fixed',
-    top: HEADER_HEIGHT_MOBILE - 1,
-    [mediaQueries.lUp]: {
-      top: HEADER_HEIGHT - 1
+    top: HEADER_HEIGHT - 1,
+    [mediaQueries.onlyS]: {
+      top: HEADER_HEIGHT_MOBILE - 1
     }
   })
 }
@@ -51,13 +51,13 @@ class StickyHeader extends Component {
   }
 
   render () {
-    const {children} = this.props
+    const { children } = this.props
     const { sticky } = this.state
     return (
       <div
         ref={this.setRef}
         {...stickyHeaderStyle.base}
-        className={sticky ? stickyHeaderStyle.sticky.toString() : ''}
+        className={sticky ? `${stickyHeaderStyle.sticky}` : ''}
       >
         {
           children

@@ -1,34 +1,48 @@
 import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
+import isEmail from 'validator/lib/isEmail'
 
 import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
+import * as base64u from '../lib/utils/base64u'
 
 import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
+import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
 import {
-  CURTAIN_MESSAGE
+  CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, RawHtml
+  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries
 } from '@project-r/styleguide'
 
 const styles = {
   logo: css({
-    textAlign: 'center',
-    maxWidth: 207,
     margin: '0 auto',
-    paddingTop: 26
+    paddingTop: 26,
+    textAlign: 'center'
+  }),
+  logoProjectR: css({
+    display: 'block',
+    margin: '0 auto',
+    maxWidth: 520,
+    marginBottom: -16,
+    textAlign: 'left',
+    [mediaQueries.mUp]: {
+      textAlign: 'center'
+    }
   }),
   text: css({
-    margin: '120px auto',
-    textAlign: 'center',
-    maxWidth: 580
+    margin: '60px auto 120px',
+    maxWidth: 520,
+    [mediaQueries.mUp]: {
+      textAlign: 'center'
+    }
   }),
   link: css({
     marginTop: 20
@@ -43,18 +57,66 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
+const Page = withT(({ url: { query, query: { context, token } }, t }) => {
+  let { type, email } = query
+  if (email !== undefined) {
+    try {
+      if (base64u.match(email)) {
+        email = base64u.decode(email)
+      }
+    } catch (e) {}
+
+    if (!isEmail(email)) {
+      type = 'invalid-email'
+      email = ''
+    }
+  }
+
+  const title = t(`notifications/${type}/title`, undefined, '')
+  let logoTarget
+  let content
+  if (type === 'token-authorization') {
+    logoTarget = '_blank'
+    content = <TokenAuthorization
+      email={email}
+      token={token}
+    />
+  } else if (type === 'newsletter-subscription') {
+    logoTarget = '_blank'
+    content = <MacNewsletterSubscription
+      name={query.name}
+      subscribed={query.subscribed}
+      mac={query.mac}
+      email={email}
+      context={context} />
+  } else {
+    content = <RawHtml type={P} dangerouslySetInnerHTML={{
+      __html: t(`notifications/${type}/text`, query, '')
+    }} />
+  }
+  const displayMe = (
+    type === 'invalid-email' &&
+    ['signIn', 'pledge', 'authorization'].indexOf(context) !== -1
+  )
   const links = [
-    context === 'pledge' && {
+    context === 'pledge' && type !== 'token-authorization' && {
       route: 'account',
       label: t('notifications/links/merci')
     }
   ].filter(Boolean)
 
-  const displayTokenAuthorization = type === 'token-authorization'
-  const displayMe = (
-    type === 'invalid-token' &&
-    (['signIn', 'pledge', 'authorization'].indexOf(context) !== -1)
+  const logo = context === 'projectr' ? (
+    <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
+      <img
+        style={{height: 50}}
+        src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`} />
+    </a>
+  ) : (
+    hasCurtain
+      ? <Logo height={34} />
+      : <a href='/' target={logoTarget}>
+        <Logo height={34} />
+      </a>
   )
 
   return (
@@ -65,30 +127,11 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
       </Head>
       <NarrowContainer>
         <div {...styles.logo}>
-          {hasCurtain
-            ? <Logo />
-            : <Link route='index'>
-              <a><Logo /></a>
-            </Link>
-          }
+          {logo}
         </div>
         <div {...styles.text}>
-          <H1>
-            {t(`notifications/${type}/title`, undefined, '')}
-          </H1>
-          {displayTokenAuthorization
-            ? (
-              <div {...styles.me}>
-                <TokenAuthorization
-                  email={email}
-                  token={token}
-                />
-              </div>
-            )
-            : <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t(`notifications/${type}/text`, undefined, '')
-            }} />
-          }
+          {title && <H1>{title}</H1>}
+          {content}
           {displayMe && (
             <div {...styles.me}>
               <Me email={email} />
@@ -107,7 +150,6 @@ const Page = withT(({ url: { query: { type, context, email, token } }, t }) => {
           )}
         </div>
       </NarrowContainer>
-      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 })

@@ -227,11 +227,14 @@ class Profile extends Component {
       }
       this.onScroll()
     }
-
-    this.startEditing = () => {
+    this.isMe = () => {
       const { me, data: { user } } = this.props
+      return me && me.id === user.id
+    }
+    this.startEditing = () => {
+      const { data: { user } } = this.props
       const { isEditing } = this.state
-      if (!isEditing && me && me.id === user.id) {
+      if (!isEditing && this.isMe()) {
         const credential = user.credentials && user.credentials.find(c => c.isListed)
         this.setState({
           isEditing: true,
@@ -358,6 +361,7 @@ class Profile extends Component {
                       <Portrait
                         user={user}
                         isEditing={isEditing}
+                        isMe={this.isMe()}
                         onChange={this.onChange}
                         values={values}
                         errors={errors}

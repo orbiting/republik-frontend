@@ -8,6 +8,8 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
+import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
+import Extract from './Extract'
 import withT from '../../lib/withT'
 
 import Discussion from '../Discussion/Discussion'
@@ -15,6 +17,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
+import withMembership from '../Auth/withMembership'
 
 import {
   colors,
@@ -63,12 +66,14 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
       fill={colors.text}
       dossierUrl={dossierUrl}
+      onPdfClick={onPdfClick}
+      pdfUrl={pdfUrl}
       emailSubject={t('article/share/emailSubject', {
         title
       })}
@@ -163,6 +168,11 @@ class ArticlePage extends Component {
         showAudioPlayer: !this.state.showAudioPlayer
       })
     }
+    this.togglePdf = () => {
+      this.setState({
+        showPdf: !this.state.showPdf
+      })
+    }
 
     this.state = {
       primaryNavExpanded: false,
@@ -178,13 +188,15 @@ class ArticlePage extends Component {
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY
 
+      const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+
       if (
         isAwayFromBottomBar &&
-        ((this.state.isSeries &&
-          y > (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)) ||
-          (!this.state.isSeries &&
-            y + (mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT) >
-              this.y + this.barHeight))
+        (
+          this.state.isSeries
+            ? y > headerHeight
+            : y + headerHeight > this.y + this.barHeight
+        )
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -241,6 +253,8 @@ class ArticlePage extends Component {
       (discussion && discussion.meta.discussionId)
     )
 
+    const hasPdf = meta && meta.template === 'article'
+
     const actionBar = meta && (
       <ActionBar t={t}
         url={meta.url}
@@ -249,7 +263,12 @@ class ArticlePage extends Component {
         discussionId={linkedDiscussionId}
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
-        onAudioClick={meta.audioSource && this.toggleAudio.bind(this)} />
+        onAudioClick={meta.audioSource && this.toggleAudio}
+        onPdfClick={(
+          hasPdf && countImages(article.content) > 0 &&
+          this.togglePdf
+        )}
+        pdfUrl={hasPdf && getPdfUrl(meta)} />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -261,12 +280,7 @@ class ArticlePage extends Component {
       )
     })
 
-    const isSeries = (
-      meta &&
-      meta.series &&
-      meta.series.episodes &&
-      !!meta.series.episodes.length
-    )
+    const isSeries = meta && !!meta.series
 
     return {
       schema,
@@ -296,7 +310,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, t, data, data: {article} } = this.props
+    const { url, t, data, data: {article}, isMember } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer } = this.state
 
@@ -322,6 +336,26 @@ class ArticlePage extends Component {
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
+    if (url.query.extract) {
+      return <Loader loading={data.loading} error={data.error} render={() => {
+        if (!article) {
+          return <StatusError
+            url={url}
+            statusCode={404}
+            serverContext={this.props.serverContext} />
+        }
+
+        return <Extract
+          ranges={url.query.extract}
+          schema={schema}
+          unpack={url.query.unpack}
+          mdast={{
+            ...article.content,
+            format: meta.format
+          }} />
+      }} />
+    }
+
     return (
       <Frame
         raw
@@ -329,11 +363,11 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={seriesNavButton || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || actionBar}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio.bind(this)}
+        audioCloseHandler={this.toggleAudio}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
@@ -348,6 +382,10 @@ class ArticlePage extends Component {
           return (
             <Fragment>
               {!isFormat && <PayNote.Before />}
+              {this.state.showPdf &&
+                <PdfOverlay
+                  article={article}
+                  onClose={this.togglePdf} />}
               <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
                 {() => renderMdast({
                   ...article.content,
@@ -362,15 +400,17 @@ class ArticlePage extends Component {
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}
-                  focusId={url.query.focus} />
+                  focusId={url.query.focus}
+                  mute={!!url.query.mute}
+                  url={url} />
               </Center>}
-              {episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
+              {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
               <br />
               <br />
               <br />
               <br />
-              {!isFormat && <PayNote.After />}
+              {!isFormat && <PayNote.After isSeries={!!series} />}
             </Fragment>
           )
         }} />
@@ -381,6 +421,7 @@ class ArticlePage extends Component {
 
 export default compose(
   withT,
+  withMembership,
   graphql(getDocument, {
     options: ({url: {asPath}}) => ({
       variables: {

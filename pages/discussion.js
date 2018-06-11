@@ -8,7 +8,7 @@ import withData from '../lib/apollo/withData'
 const DiscussionPage = ({ url }) => (
   <Frame url={url}>
     {url.query.id
-      ? <Discussion discussionId={url.query.id} focusId={url.query.focus} />
+      ? <Discussion discussionId={url.query.id} focusId={url.query.focus} mute={!!url.query.mute} url={url} />
       : <DiscussionIndex />}
   </Frame>
 )

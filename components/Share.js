@@ -27,7 +27,9 @@ const ShareButtons = ({
   discussionUrl,
   discussionCount,
   fill,
-  onAudioClick
+  onAudioClick,
+  onPdfClick,
+  pdfUrl
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
@@ -56,6 +58,7 @@ const ShareButtons = ({
       icon: 'whatsapp',
       title: t('article/actionbar/whatsapp')
     },
+    { space: true },
     {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
@@ -75,6 +78,20 @@ const ShareButtons = ({
       icon: 'download',
       title: t('article/actionbar/download')
     },
+    pdfUrl && {
+      icon: 'pdf',
+      href: pdfUrl,
+      onClick: onPdfClick && (e => {
+        if (e.currentTarget.nodeName === 'A' &&
+          (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+          // ignore click for new tab / new window behavior
+          return
+        }
+        e.preventDefault()
+        onPdfClick()
+      }),
+      title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
+    },
     onAudioClick && {
       icon: 'audio',
       href: '#audio',
@@ -90,7 +107,9 @@ const ShareButtons = ({
     <span {...styles.buttonGroup}>
       {shareOptions
         .filter(Boolean)
-        .map((props, i) => <IconLink key={i} fill={fill} {...props} />)}
+        .map((props, i) => props.space
+          ? '\u00a0\u00a0'
+          : <IconLink key={props.icon} fill={fill} {...props} />)}
     </span>
   )
 }

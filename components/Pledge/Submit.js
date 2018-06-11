@@ -24,12 +24,12 @@ import {
 } from '../../lib/constants'
 
 import {
-  Interaction, Button, Checkbox,
-  colors, InlineSpinner,
-  RawHtml
+  Interaction, Button,
+  colors, InlineSpinner
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
+import Consents, { getConsentsError } from './Consents'
 
 const {P} = Interaction
 
@@ -43,12 +43,16 @@ const simpleHash = (object, delimiter = '|') => {
   }).join(delimiter)
 }
 
+const getRequiredConsents = ({requiresStatutes}) => [
+  'PRIVACY', 'TOS', requiresStatutes && 'STATUTE'
+].filter(Boolean)
+
 class Submit extends Component {
   constructor (props) {
     super(props)
     this.state = {
       emailVerify: false,
-      legal: false,
+      consents: [],
       values: {
         country: COUNTRIES[0],
         name: [
@@ -154,7 +158,10 @@ class Submit extends Component {
     this.setState(() => ({
       loading: t('pledge/submit/loading/submit')
     }))
-    this.props.submit(variables)
+    this.props.submit({
+      ...variables,
+      consents: getRequiredConsents(this.props)
+    })
       .then(({data}) => {
         if (data.submitPledge.emailVerify) {
           this.setState(() => ({
@@ -321,12 +328,11 @@ class Submit extends Component {
   }
   getErrorMessages () {
     const {
-      legal,
+      consents,
       values
     } = this.state
     const {
-      t, options,
-      requiresStatutes
+      t, options
     } = this.props
 
     return ([
@@ -336,9 +342,7 @@ class Submit extends Component {
       .concat(objectValues(this.state.errors))
       .concat([
         !values.paymentMethod && t('pledge/submit/payMethod/error'),
-        !legal && t(requiresStatutes
-          ? 'pledge/submit/legal/error/statute'
-          : 'pledge/submit/legal/error/plain')
+        getConsentsError(t, getRequiredConsents(this.props), consents)
       ])
       .filter(Boolean)
   }
@@ -352,8 +356,7 @@ class Submit extends Component {
     } = this.state
     const {
       me, user, t,
-      paymentMethods,
-      requiresStatutes
+      paymentMethods
     } = this.props
 
     const errorMessages = this.getErrorMessages()
@@ -438,18 +441,14 @@ class Submit extends Component {
                 </ul>
               </div>
             )}
-            <Checkbox
-              checked={this.state.legal}
-              onChange={(_, checked) => {
-                this.setState(() => ({legal: checked}))
-              }}>
-              <RawHtml dangerouslySetInnerHTML={{
-                __html: t(requiresStatutes
-                  ? 'pledge/submit/legal/label/statute'
-                  : 'pledge/submit/legal/label/plain'
-                )
+            <Consents
+              required={getRequiredConsents(this.props)}
+              accepted={this.state.consents}
+              onChange={keys => {
+                this.setState(() => ({
+                  consents: keys
+                }))
               }} />
-            </Checkbox>
             <br /><br />
             <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
               <Button
@@ -484,8 +483,8 @@ Submit.propTypes = {
 }
 
 const submitPledge = gql`
-  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String) {
-    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}) {
+  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!]) {
+    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}, consents: $consents) {
       pledgeId
       userId
       emailVerify

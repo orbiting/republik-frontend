@@ -13,6 +13,7 @@ import UpdateEmail from './UpdateEmail'
 
 import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
+import NotificationOptions from './NotificationOptions'
 import SignIn from '../Auth/SignIn'
 
 import {
@@ -71,6 +72,10 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 {t('account/newsletterSubscriptions/title')}
               </H2>
               <NewsletterSubscriptions />
+              <H2 style={{marginTop: 80}} id='benachrichtigungen'>
+                {t('account/notificationOptions/title')}
+              </H2>
+              <NotificationOptions />
             </Content>
           </MainContainer>
         </Fragment>

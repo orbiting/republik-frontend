@@ -2,12 +2,14 @@ import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
 import Loader from '../Loader'
 
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
+import SecondaryActions from './SecondaryActions'
 
 import {
   CommentTreeLoadMore,
@@ -50,7 +52,6 @@ class Comments extends PureComponent {
       subIdMap: {
         root: []
       },
-      now: Date.now(),
       showPreferences: false,
       maxVisualDepth: 3,
       closedPortals: {},
@@ -88,7 +89,7 @@ class Comments extends PureComponent {
       const { nodes } = this.props.data.discussion.comments
 
       const subIds = (subIdMap[parentId] || [])
-            .filter(id => !nodes.find(c => c.id === id))
+        .filter(id => !nodes.find(c => c.id === id))
       debug('clearSubIds', parentId, subIds)
       return {
         subIdMap: {
@@ -115,9 +116,6 @@ class Comments extends PureComponent {
         })
       }
     })
-    this.intervalId = setInterval(() => {
-      this.setState({ now: Date.now() })
-    }, 30 * 1000)
     this.fetchFocus()
   }
   componentDidUpdate (prevProps, prevState) {
@@ -130,7 +128,6 @@ class Comments extends PureComponent {
   }
   componentWillUnmount () {
     this.unsubscribe()
-    clearInterval(this.intervalId)
   }
   fetchFocus () {
     const {
@@ -206,7 +203,8 @@ class Comments extends PureComponent {
       fetchMore,
       discussionUserCanComment,
       discussionClosed,
-      data: { discussion }
+      data: { discussion },
+      now
     } = this.props
 
     const CommentLink = ({displayAuthor, commentId, children, ...props}) => {
@@ -233,7 +231,6 @@ class Comments extends PureComponent {
     ) || undefined
 
     const {
-      now,
       subIdMap,
       maxVisualDepth,
       closedPortals,
@@ -420,6 +417,16 @@ class Comments extends PureComponent {
         )
       )
 
+      const timeAheadFromNow = (dateString) => {
+        return timeahead(t, (now - Date.parse(dateString)) / 1000)
+      }
+      const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+      const replyBlockedMsg = (
+        waitUntilDate &&
+        waitUntilDate > now &&
+        t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})
+      ) || ''
+
       SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
         head,
         tail,
@@ -452,7 +459,10 @@ class Comments extends PureComponent {
             return this.props.unpublishComment(...args)
           }}
           timeago={timeagoFromNow}
+          maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+          replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
+          secondaryActions={<SecondaryActions />}
         />
       )
 

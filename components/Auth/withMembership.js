@@ -85,4 +85,4 @@ export const enforceMembership = WrappedComponent => withAuthorization(['member'
   return <UnauthorizedPage me={me} url={props.url} />
 })
 
-export default withAuthorization(['member'])
+export default withAuthorization(['member'], 'isMember')

@@ -10,6 +10,17 @@ import { DISCUSSION_POLL_INTERVAL_MS } from '../../lib/constants'
 
 const debug = mkDebug('discussion')
 
+export const DISCUSSION_NOTIFICATION_CHANNELS = [
+  'EMAIL',
+  'WEB'
+]
+
+export const DISCUSSION_NOTIFICATION_OPTIONS = [
+  'MY_CHILDREN',
+  'ALL',
+  'NONE'
+]
+
 // Convert the Error object into a string, but keep the Promise rejected.
 const toRejectedString = e => Promise.reject(errorToString(e))
 
@@ -41,6 +52,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
     id
     closed
     userCanComment
+    userWaitUntil
     displayAuthor {
       id
       name
@@ -72,6 +84,7 @@ export const fragments = {
   comment: gql`
     fragment Comment on Comment {
       id
+      text
       content
       published
       adminUnpublished
@@ -104,6 +117,18 @@ export const fragments = {
     }
   `
 }
+
+export const webNotificationSubscription = gql`
+subscription {
+  webNotification {
+    title
+    body
+    icon
+    url
+    tag
+  }
+}
+`
 
 export const commentsSubscription = gql`
 subscription discussionComments($discussionId: ID!) {
@@ -176,6 +201,21 @@ ${fragments.comment}
   })
 })
 
+const optimisticContent = text => ({
+  content: {
+    type: 'root',
+    children: [
+      {
+        type: 'paragraph',
+        children: [
+          {type: 'text', value: text}
+        ]
+      }
+    ]
+  },
+  text
+})
+
 export const editComment = graphql(gql`
 mutation discussionEditComment($commentId: ID!, $content: String!) {
   editComment(id: $commentId, content: $content) {
@@ -192,7 +232,7 @@ ${fragments.comment}
           __typename: 'Mutation',
           submitComment: {
             ...comment,
-            content
+            ...optimisticContent(content)
           }
         }
       }).catch(toRejectedString)
@@ -216,6 +256,12 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         verified
       }
     }
+    rules {
+      maxLength
+      minInterval
+      anonymity
+    }
+    userWaitUntil
     documentPath
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount
@@ -247,128 +293,135 @@ ${fragments.comment}
 `
 
 export const submitComment = compose(
-withT,
-withDiscussionDisplayAuthor,
-graphql(gql`
+  withT,
+  withDiscussionDisplayAuthor,
+  graphql(gql`
 mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
     ...Comment
+    discussion {
+      id
+      userPreference {
+        notifications
+      }
+      userWaitUntil
+    }
   }
 }
 ${fragments.comment}
 `, {
-  props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
-    submitComment: (parent, content) => {
-      if (!discussionDisplayAuthor) {
-        return Promise.reject(t('submitComment/noDisplayAuthor'))
-      }
-      // Generate a new UUID for the comment. We do this client-side so that we can
-      // properly handle subscription notifications.
-      const id = uuid()
+    props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
+      submitComment: (parent, content) => {
+        if (!discussionDisplayAuthor) {
+          return Promise.reject(t('submitComment/noDisplayAuthor'))
+        }
+        // Generate a new UUID for the comment. We do this client-side so that we can
+        // properly handle subscription notifications.
+        const id = uuid()
 
-      const parentId = parent ? parent.id : null
-      const parentIds = parent
-        ? parent.parentIds.concat(parentId)
-        : []
+        const parentId = parent ? parent.id : null
+        const parentIds = parent
+          ? parent.parentIds.concat(parentId)
+          : []
 
-      return mutate({
-        variables: {discussionId, parentId, id, content},
-        optimisticResponse: {
-          __typename: 'Mutation',
-          submitComment: {
-            id,
-            content,
-            published: true,
-            adminUnpublished: false,
-            userCanEdit: true,
-            score: 0,
-            userVote: null,
-            displayAuthor: discussionDisplayAuthor,
-            createdAt: (new Date()).toISOString(),
-            updatedAt: (new Date()).toISOString(),
-            parentIds,
-            __typename: 'Comment'
-          }
-        },
-        update: (proxy, {data: {submitComment}}) => {
-          debug('submitComment', submitComment.id, submitComment)
-          const variables = {
-            discussionId,
-            parentId: ownParentId,
-            after: null,
-            orderBy,
-            depth,
-            focusId
-          }
-          const data = proxy.readQuery({
-            query: query,
-            variables
-          })
-
-          const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
-          // subscriptions seem to make optimistic updates permanent
-          if (existing) {
-            debug('submitComment', 'existing', existing)
-            return
-          }
-
-          const comment = {
-            ...submitComment,
-            comments: {
-              __typename: 'CommentConnection',
-              totalCount: 0,
-              directTotalCount: 0,
-              pageInfo: emptyPageInfo()
+        return mutate({
+          variables: {discussionId, parentId, id, content},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            submitComment: {
+              id,
+              ...optimisticContent(content),
+              published: true,
+              adminUnpublished: false,
+              userCanEdit: true,
+              score: 0,
+              userVote: null,
+              displayAuthor: discussionDisplayAuthor,
+              createdAt: (new Date()).toISOString(),
+              updatedAt: (new Date()).toISOString(),
+              parentIds,
+              __typename: 'Comment'
             }
-          }
+          },
+          update: (proxy, {data: {submitComment}}) => {
+            debug('submitComment', submitComment.id, submitComment)
+            const variables = {
+              discussionId,
+              parentId: ownParentId,
+              after: null,
+              orderBy,
+              depth,
+              focusId
+            }
+            const data = proxy.readQuery({
+              query: query,
+              variables
+            })
 
-          const nodes = [].concat(data.discussion.comments.nodes)
-
-          const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
-          const insertIndex = parentId
-            ? parentIndex + 1
-            : 0
-          nodes.splice(insertIndex, 0, comment)
-
-          submitComment.parentIds.forEach(pid => {
-            const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
-
-            if (pidIndex === -1) {
+            const existing = data.discussion.comments.nodes.find(n => n.id === submitComment.id)
+            // subscriptions seem to make optimistic updates permanent
+            if (existing) {
+              debug('submitComment', 'existing', existing)
               return
             }
-            const node = nodes[pidIndex]
-            nodes.splice(pidIndex, 1, {
-              ...node,
-              comments: {
-                ...node.comments,
-                totalCount: node.comments.totalCount + 1,
-                directTotalCount: node.comments.directTotalCount +
-                  pidIndex === parentIndex ? 1 : 0
-              }
-            })
-          })
 
-          proxy.writeQuery({
-            query: query,
-            variables,
-            data: {
-              ...data,
-              discussion: {
-                ...data.discussion,
-                comments: {
-                  ...data.discussion.comments,
-                  totalCount: data.discussion.comments.totalCount +
-                    1,
-                  nodes
-                }
+            const comment = {
+              ...submitComment,
+              comments: {
+                __typename: 'CommentConnection',
+                totalCount: 0,
+                directTotalCount: 0,
+                pageInfo: emptyPageInfo()
               }
             }
-          })
-        }
-      }).catch(toRejectedString)
-    }
+
+            const nodes = [].concat(data.discussion.comments.nodes)
+
+            const parentIndex = parentId && nodes.findIndex(n => n.id === parentId)
+            const insertIndex = parentId
+              ? parentIndex + 1
+              : 0
+            nodes.splice(insertIndex, 0, comment)
+
+            submitComment.parentIds.forEach(pid => {
+              const pidIndex = parentId && nodes.findIndex(n => n.id === pid)
+
+              if (pidIndex === -1) {
+                return
+              }
+              const node = nodes[pidIndex]
+              nodes.splice(pidIndex, 1, {
+                ...node,
+                comments: {
+                  ...node.comments,
+                  totalCount: node.comments.totalCount + 1,
+                  directTotalCount: node.comments.directTotalCount +
+                  pidIndex === parentIndex ? 1 : 0
+                }
+              })
+            })
+
+            proxy.writeQuery({
+              query: query,
+              variables,
+              data: {
+                ...data,
+                discussion: {
+                  ...data.discussion,
+                  comments: {
+                    ...data.discussion.comments,
+                    totalCount: data.discussion.comments.totalCount +
+                    1,
+                    nodes
+                  }
+                }
+              }
+            })
+          }
+        }).catch(toRejectedString)
+      }
+    })
   })
-})
 )
 
 const discussionPreferencesQuery = gql`
@@ -380,6 +433,8 @@ query discussionPreferences($discussionId: ID!) {
       verified
       isListed
     }
+    defaultDiscussionNotificationOption
+    discussionNotificationChannels
   }
   discussion(id: $discussionId) {
     id
@@ -388,12 +443,14 @@ query discussionPreferences($discussionId: ID!) {
       minInterval
       anonymity
     }
+    userWaitUntil
     userPreference {
       anonymity
       credential {
         description
         verified
       }
+      notifications
     }
   }
 }
@@ -410,6 +467,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
         description
         verified
       }
+      notifications
     }
     displayAuthor {
       id
@@ -425,13 +483,14 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
 }
 `, {
   props: ({ownProps: {discussionId}, mutate}) => ({
-    setDiscussionPreferences: (anonymity, credential) => {
+    setDiscussionPreferences: (anonymity, credential, notifications) => {
       return mutate({
         variables: {
           discussionId,
           discussionPreferences: {
             anonymity,
-            credential
+            credential,
+            notifications
           }
         },
         update: (proxy, {data: {setDiscussionPreferences}}) => {
@@ -453,6 +512,32 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
         }
       }).catch(toRejectedString)
     }
+  })
+})
+
+export const withUpdateNotificationSettings = graphql(gql`
+mutation updateNotificationSettings(
+  $defaultDiscussionNotificationOption: DiscussionNotificationOption,
+  $discussionNotificationChannels: [DiscussionNotificationChannel!]
+) {
+  updateNotificationSettings(
+    defaultDiscussionNotificationOption: $defaultDiscussionNotificationOption,
+    discussionNotificationChannels: $discussionNotificationChannels
+  ) {
+    id
+    discussionNotificationChannels
+    defaultDiscussionNotificationOption
+  }
+}
+`, {
+  props: ({ mutate }) => ({
+    updateNotificationSettings: ({ defaultDiscussionNotificationOption, discussionNotificationChannels }) =>
+      mutate({
+        variables: {
+          defaultDiscussionNotificationOption,
+          discussionNotificationChannels
+        }
+      })
   })
 })
 

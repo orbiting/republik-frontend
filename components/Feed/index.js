@@ -12,12 +12,12 @@ import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 
 import {
+  Button,
   Center,
   TeaserFeed,
   Interaction,
   mediaQueries
 } from '@project-r/styleguide'
-import Button from '@project-r/styleguide/lib/components/Button'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
@@ -104,13 +104,13 @@ class Feed extends Component {
     }
     this.onScroll = () => {
       const { infiniteScroll } = this.state
-      const { loadMore, hasMore, maxPages } = this.props
+      const { loadMore, hasMore, maxInitialPages } = this.props
       const d = document.documentElement
       const scrollTop = Math.max(window.pageYOffset, d.scrollTop, document.body.scrollTop)
       const offset = scrollTop + window.innerHeight
       const height = d.offsetHeight
       const needsMore = height - offset < (height / 3)
-      if ((infiniteScroll || this.pagesLoaded < maxPages) && hasMore && needsMore) {
+      if ((infiniteScroll || this.pagesLoaded < maxInitialPages) && hasMore && needsMore) {
         loadMore()
         this.pagesLoaded += 1
       }
@@ -183,7 +183,7 @@ class Feed extends Component {
                   <section>
                     <div {...styles.header}>
                       <StickyHeader>
-                        <span {...styles.date}>
+                        <span>
                           {key}
                         </span>
                       </StickyHeader>
@@ -224,12 +224,12 @@ Feed.propTypes = {
   data: PropTypes.object.isRequired,
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
-  maxPages: PropTypes.number,
+  maxInitialPages: PropTypes.number,
   t: PropTypes.func.isRequired
 }
 
 Feed.defaultProps = {
-  maxPages: 3
+  maxInitialPages: 3
 }
 
 export default compose(
@@ -245,7 +245,10 @@ export default compose(
               const nodes = [
                 ...previousResult.documents.nodes,
                 ...fetchMoreResult.documents.nodes
-              ].filter((node, index, all) => all.findIndex(n => n.id === node.id) === index) // deduplicating due to off by one in pagination API
+              ].filter(
+                (node, index, all) =>
+                  all.findIndex(n => n.id === node.id) === index // deduplicating due to off by one in pagination API
+              )
               return {
                 ...fetchMoreResult,
                 documents: {

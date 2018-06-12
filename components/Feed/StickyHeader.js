@@ -1,12 +1,10 @@
 import { Component } from 'react'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
-import { mediaQueries } from '@project-r/styleguide/lib/lib'
-
+import { mediaQueries } from '@project-r/styleguide'
 const stickyHeaderStyle = {
   base: css({
-    paddingTop: '8px',
-    paddingBottom: '8px',
+    padding: '8px 0',
     borderTop: '1px solid #000',
     position: 'relative',
     backgroundColor: '#fff',

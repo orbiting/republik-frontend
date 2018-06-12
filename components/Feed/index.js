@@ -9,6 +9,7 @@ import Link from '../Link/Href'
 import withT from '../../lib/withT'
 import StickyHeader from './StickyHeader'
 import PropTypes from 'prop-types'
+import formatCredits from './formatCredits'
 
 import {
   Center,
@@ -18,7 +19,7 @@ import {
 } from '@project-r/styleguide'
 import Button from '@project-r/styleguide/lib/components/Button'
 
-const SIDEBAR_WIDTH = 140
+const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
 
 const styles = {
@@ -90,7 +91,7 @@ const greetingSubscription = gql`
   }
 `
 
-const dateFormat = timeFormat('%A,\n%d.\xa0%B\xa0%Y')
+const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
@@ -191,6 +192,8 @@ class Feed extends Component {
                       values.map(doc =>
                         <TeaserFeed
                           {...doc.meta}
+                          credits={formatCredits(doc.meta.credits)}
+                          publishDate={undefined}
                           kind={
                             doc.meta.template === 'editorialNewsletter' ? (
                               'meta'

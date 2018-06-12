@@ -2,7 +2,8 @@ import { Component } from 'react'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries } from '@project-r/styleguide'
-const stickyHeaderStyle = {
+
+const style = {
   base: css({
     padding: '8px 0',
     borderTop: '1px solid #000',
@@ -63,8 +64,8 @@ class StickyHeader extends Component {
     return (
       <div
         ref={this.setRef}
-        {...stickyHeaderStyle.base}
-        className={sticky ? `${stickyHeaderStyle.sticky}` : ''}
+        {...style.base}
+        className={sticky ? `${style.sticky}` : ''}
       >
         {
           children

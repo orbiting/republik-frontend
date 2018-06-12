@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 
 import {
-  Button,
+  A,
   Center,
   TeaserFeed,
   Interaction,
@@ -52,7 +52,8 @@ const getDocuments = gql`
       text
       id
     }
-    documents(feed: true, first: 10, after: $cursor) { 
+    documents(feed: true, first: 10, after: $cursor) {
+      totalCount 
       pageInfo {
         endCursor
         hasNextPage
@@ -98,24 +99,37 @@ const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 class Feed extends Component {
   constructor (props) {
     super(props)
+    this.container = null
+    this.setContainerRef = (el) => { this.container = el }
     this.pagesLoaded = 0
     this.state = {
       infiniteScroll: false
     }
-    this.onScroll = () => {
+    this.isAutoLoadEnabled = () => {
       const { infiniteScroll } = this.state
-      const { loadMore, hasMore, maxInitialPages } = this.props
-      const d = document.documentElement
-      const scrollTop = Math.max(window.pageYOffset, d.scrollTop, document.body.scrollTop)
-      const offset = scrollTop + window.innerHeight
-      const height = d.offsetHeight
-      const needsMore = height - offset < (height / 3)
-      if ((infiniteScroll || this.pagesLoaded < maxInitialPages) && hasMore && needsMore) {
-        loadMore()
-        this.pagesLoaded += 1
+      const { maxInitialPages } = this.props
+      return (infiniteScroll || this.pagesLoaded < maxInitialPages)
+    }
+    this.getRemainingDocumentsCount = (nodes) => {
+      const { data: { documents } } = this.props
+      return (documents.totalCount) - // all docs
+              nodes.length - // already displayed
+              (documents.nodes.length - nodes.length) // formats
+    }
+    this.onScroll = () => {
+      if (this.container) {
+        const bbox = this.container.getBoundingClientRect()
+        if (bbox.bottom < window.innerHeight * 10) {
+          const { loadMore, hasMore } = this.props
+          if (this.isAutoLoadEnabled() && hasMore) {
+            loadMore()
+            this.pagesLoaded += 1
+          }
+        }
       }
     }
-    this.activateInfiniteScroll = async () => {
+    this.activateInfiniteScroll = async (e) => {
+      e.preventDefault()
       const { loadMore } = this.props
       await loadMore()
       this.setState({infiniteScroll: true})
@@ -162,10 +176,10 @@ class Feed extends Component {
 
   render () {
     const { data: { loading, error, documents, greeting }, hasMore, t } = this.props
-    const { infiniteScroll } = this.state
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
+
     return (
       <Loader
         loading={loading}
@@ -180,7 +194,7 @@ class Feed extends Component {
               )}
               {nodes &&
                 groupByDate.entries(nodes).map(({key, values}) =>
-                  <section>
+                  <section ref={this.setContainerRef}>
                     <div {...styles.header}>
                       <StickyHeader>
                         <span>
@@ -209,8 +223,18 @@ class Feed extends Component {
                   </section>
                 )
               }
-              {!infiniteScroll && hasMore &&
-                <Button onClick={this.activateInfiniteScroll}>{t('format/feed/loadMore')}</Button>
+              {!this.isAutoLoadEnabled() && hasMore &&
+                <A href='#'
+                  onClick={this.activateInfiniteScroll}>
+                  {
+                    t('format/feed/loadMore',
+                      {
+                        count: nodes.length,
+                        remaining: this.getRemainingDocumentsCount(nodes)
+                      }
+                    )
+                  }
+                </A>
               }
             </Center>
           )
@@ -229,7 +253,7 @@ Feed.propTypes = {
 }
 
 Feed.defaultProps = {
-  maxInitialPages: 3
+  maxInitialPages: 10
 }
 
 export default compose(

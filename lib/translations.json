@@ -2176,7 +2176,7 @@
     },
     {
       "key": "format/feed/loadMore",
-      "value": "Mehr"
+      "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
     {
       "key": "article/payNote/before",

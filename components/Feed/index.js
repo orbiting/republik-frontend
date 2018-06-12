@@ -99,22 +99,22 @@ const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 class Feed extends Component {
   constructor (props) {
     super(props)
+    this.nodes = []
     this.container = null
     this.setContainerRef = (el) => { this.container = el }
-    this.pagesLoaded = 0
     this.state = {
       infiniteScroll: false
     }
     this.isAutoLoadEnabled = () => {
       const { infiniteScroll } = this.state
-      const { maxInitialPages } = this.props
-      return (infiniteScroll || this.pagesLoaded < maxInitialPages)
+      const { maxInitialDocs } = this.props
+      return (infiniteScroll || this.nodes.length < maxInitialDocs)
     }
     this.getRemainingDocumentsCount = (nodes) => {
       const { data: { documents } } = this.props
       return (documents.totalCount) - // all docs
-              nodes.length - // already displayed
-              (documents.nodes.length - nodes.length) // formats
+              this.nodes.length - // already displayed
+              (documents.nodes.length - this.nodes.length) // formats
     }
     this.onScroll = () => {
       if (this.container) {
@@ -123,7 +123,6 @@ class Feed extends Component {
           const { loadMore, hasMore } = this.props
           if (this.isAutoLoadEnabled() && hasMore) {
             loadMore()
-            this.pagesLoaded += 1
           }
         }
       }
@@ -176,7 +175,7 @@ class Feed extends Component {
 
   render () {
     const { data: { loading, error, documents, greeting }, hasMore, t } = this.props
-    const nodes = documents
+    this.nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
 
@@ -192,8 +191,8 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              {nodes &&
-                groupByDate.entries(nodes).map(({key, values}) =>
+              {this.nodes &&
+                groupByDate.entries(this.nodes).map(({key, values}) =>
                   <section ref={this.setContainerRef}>
                     <div {...styles.header}>
                       <StickyHeader>
@@ -229,8 +228,8 @@ class Feed extends Component {
                   {
                     t('format/feed/loadMore',
                       {
-                        count: nodes.length,
-                        remaining: this.getRemainingDocumentsCount(nodes)
+                        count: this.nodes.length,
+                        remaining: this.getRemainingDocumentsCount(this.nodes)
                       }
                     )
                   }
@@ -248,12 +247,12 @@ Feed.propTypes = {
   data: PropTypes.object.isRequired,
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
-  maxInitialPages: PropTypes.number,
+  maxInitialDocs: PropTypes.number,
   t: PropTypes.func.isRequired
 }
 
 Feed.defaultProps = {
-  maxInitialPages: 10
+  maxInitialDocs: 10
 }
 
 export default compose(

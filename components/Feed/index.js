@@ -14,7 +14,7 @@ import formatCredits from './formatCredits'
 import {
   A,
   Center,
-  InlineSpinner,
+  Spinner,
   TeaserFeed,
   Interaction,
   mediaQueries
@@ -45,12 +45,9 @@ const styles = {
       }
     }
   }),
-  spinner: css({
-    display: 'flex',
-    justifyContent: 'center'
-  }),
   more: css({
-    height: 24
+    position: 'relative',
+    height: 50
   })
 }
 
@@ -135,7 +132,13 @@ class Feed extends Component {
     }
     this.activateInfiniteScroll = async (e) => {
       e.preventDefault()
-      this.setState({infiniteScroll: true}, this.onScroll)
+      this.setState(
+        {
+          infiniteScroll: true,
+          loadingMore: true
+        },
+        this.onScroll
+      )
     }
   }
 
@@ -227,13 +230,11 @@ class Feed extends Component {
                   </section>
                 )
               }
-              {loadingMore &&
-                <div {...styles.spinner}>
-                  <InlineSpinner size={24} />
-                </div>
-              }
-              {!infiniteScroll && hasMore &&
-                <div {...styles.more}>
+              <div {...styles.more}>
+                {loadingMore &&
+                  <Spinner />
+                }
+                {!infiniteScroll && hasMore &&
                   <A href='#'
                     onClick={this.activateInfiniteScroll}>
                     {
@@ -245,8 +246,8 @@ class Feed extends Component {
                       )
                     }
                   </A>
-                </div>
-              }
+                }
+              </div>
             </Center>
           )
         }}

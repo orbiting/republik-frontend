@@ -57,7 +57,7 @@ const readFile = (file) => {
   })
 }
 
-export default withT(({t, user, isEditing, values, errors, onChange}) => {
+export default withT(({t, user, isEditing, isMe, values, errors, onChange}) => {
   const preview = isEditing && values.portraitPreview
   const imgUrl = preview || user.portrait
   const img = (
@@ -70,7 +70,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
   )
 
   const getNote = () => {
-    if (!isEditing) {
+    if (!((isMe && !user.portrait) || isEditing)) {
       return
     }
     if (errors && errors.portrait) {
@@ -79,7 +79,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
     if (!user.portrait && !values.portraitPreview) {
       return t('profile/portrait/choose')
     }
-    if (user.portrait && !values.portraitPreview) {
+    if (user.portrait || values.portraitPreview) {
       return t('profile/portrait/update')
     }
     return false
@@ -89,6 +89,7 @@ export default withT(({t, user, isEditing, values, errors, onChange}) => {
   return (
     <Dropzone
       disablePreview
+      disabled={!isMe}
       className={styles.dropzone.toString()}
       style={{
         cursor: isEditing

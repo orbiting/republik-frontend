@@ -2175,6 +2175,10 @@
       "value": "Sie brauchen eine Mitgliedschaft, um die Beiträge zu lesen."
     },
     {
+      "key": "format/feed/loadMore",
+      "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
       "key": "article/payNote/before",
       "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },

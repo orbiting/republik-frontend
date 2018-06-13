@@ -14,6 +14,7 @@ import formatCredits from './formatCredits'
 import {
   A,
   Center,
+  InlineSpinner,
   TeaserFeed,
   Interaction,
   mediaQueries
@@ -43,6 +44,13 @@ const styles = {
         width: SIDEBAR_WIDTH
       }
     }
+  }),
+  spinner: css({
+    display: 'flex',
+    justifyContent: 'center'
+  }),
+  more: css({
+    height: 24
   })
 }
 
@@ -102,7 +110,8 @@ class Feed extends Component {
     this.container = null
     this.setContainerRef = (el) => { this.container = el }
     this.state = {
-      infiniteScroll: false
+      infiniteScroll: false,
+      loadingMore: false
     }
     this.getRemainingDocumentsCount = (nodes) => {
       const { data: { documents } } = this.props
@@ -110,23 +119,23 @@ class Feed extends Component {
               nodes.length - // already displayed
               (documents.nodes.length - nodes.length) // formats
     }
-    this.onScroll = () => {
+    this.onScroll = async () => {
       if (this.container) {
         const bbox = this.container.getBoundingClientRect()
         if (bbox.bottom < window.innerHeight * 10) {
           const { loadMore, hasMore } = this.props
           const { infiniteScroll } = this.state
           if (infiniteScroll && hasMore) {
-            loadMore()
+            this.setState({loadingMore: true})
+            await loadMore()
+            this.setState({loadingMore: false})
           }
         }
       }
     }
     this.activateInfiniteScroll = async (e) => {
       e.preventDefault()
-      const { loadMore } = this.props
-      await loadMore()
-      this.setState({infiniteScroll: true})
+      this.setState({infiniteScroll: true}, this.onScroll)
     }
   }
 
@@ -169,7 +178,7 @@ class Feed extends Component {
   }
 
   render () {
-    const { infiniteScroll } = this.state
+    const { infiniteScroll, loadingMore } = this.state
     const { data: { loading, error, documents, greeting }, hasMore, t } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
@@ -218,18 +227,25 @@ class Feed extends Component {
                   </section>
                 )
               }
+              {loadingMore &&
+                <div {...styles.spinner}>
+                  <InlineSpinner size={24} />
+                </div>
+              }
               {!infiniteScroll && hasMore &&
-                <A href='#'
-                  onClick={this.activateInfiniteScroll}>
-                  {
-                    t('format/feed/loadMore',
-                      {
-                        count: nodes.length,
-                        remaining: this.getRemainingDocumentsCount(nodes)
-                      }
-                    )
-                  }
-                </A>
+                <div {...styles.more}>
+                  <A href='#'
+                    onClick={this.activateInfiniteScroll}>
+                    {
+                      t('format/feed/loadMore',
+                        {
+                          count: nodes.length,
+                          remaining: this.getRemainingDocumentsCount(nodes)
+                        }
+                      )
+                    }
+                  </A>
+                </div>
               }
             </Center>
           )

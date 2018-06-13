@@ -12,7 +12,6 @@ const style = {
     width: '100%'
   }),
   sticky: css({
-    position: 'fixed',
     top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE - 1
@@ -65,7 +64,8 @@ class StickyHeader extends Component {
       <div
         ref={this.setRef}
         {...style.base}
-        className={sticky ? `${style.sticky}` : ''}
+        {...(sticky && style.sticky)}
+        style={{position: sticky ? 'fixed' : 'relative'}}
       >
         {
           children

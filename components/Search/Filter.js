@@ -118,7 +118,6 @@ class FilterButtonGroup extends Component {
 }
 
 FilterButtonGroup.propTypes = {
-  onClickHandler: PropTypes.func,
   filterBucketKey: PropTypes.string,
   filters: PropTypes.arrayOf(
     PropTypes.shape({

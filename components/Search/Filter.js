@@ -98,10 +98,10 @@ FilterButton.defaultProps = {
 
 class FilterButtonGroup extends Component {
   render () {
-    const { onClickHandler, filterBucketKey, filters } = this.props
+    const { filterBucketKey, filters } = this.props
     return (
       <Fragment>
-        {filters.map(({key, label, count, selected, loadingFilters}) => (
+        {filters.map(({key, label, count, selected, loadingFilters, onClickHandler}) => (
           <FilterButton
             key={key}
             filterBucketKey={filterBucketKey}
@@ -157,6 +157,7 @@ class Filter extends Component {
         selected: !!filters.find(
           filter => filter.key === key && filter.value === bucket.value
         ),
+        onClickHandler,
         loadingFilters
       }
     }
@@ -181,45 +182,33 @@ class Filter extends Component {
         filterButtonProps('textLength', bucket)
       )
 
+    const booleanFilterButtonProps = aggregation => {
+      return {
+        filterBucketKey: aggregation.key,
+        filterBucketValue: 'true',
+        label: aggregation.label,
+        count: aggregation.count,
+        selected: !!filters.find(filter => filter.key === aggregation.key),
+        onClickHandler,
+        loadingFilters
+      }
+    }
+
     return (
       <div {...styles.container}>
         <div {...(allowCompact ? styles.compact : {})}>
           <FilterButtonGroup
             filterBucketKey='template'
-            filters={templateFilters}
-            onClickHandler={onClickHandler} />
+            filters={templateFilters} />
           <FilterButtonGroup
             filterBucketKey='type'
-            filters={typeFilters}
-            onClickHandler={onClickHandler} />
+            filters={typeFilters} />
           <FilterButtonGroup
             filterBucketKey='textLength'
-            filters={textLengthFilters}
-            onClickHandler={onClickHandler} />
-          <FilterButton
-            filterBucketKey='audioSource'
-            filterBucketValue='true'
-            label={aggregation.audioSource.label}
-            count={aggregation.audioSource.count}
-            selected={!!filters.find(filter => filter.key === 'audioSource')}
-            onClickHandler={onClickHandler}
-            loadingFilters={loadingFilters} />
-          <FilterButton
-            filterBucketKey='hasAudio'
-            filterBucketValue='true'
-            label={aggregation.hasAudio.label}
-            count={aggregation.hasAudio.count}
-            selected={!!filters.find(filter => filter.key === 'hasAudio')}
-            onClickHandler={onClickHandler}
-            loadingFilters={loadingFilters} />
-          <FilterButton
-            filterBucketKey='hasVideo'
-            filterBucketValue='true'
-            label={aggregation.hasVideo.label}
-            count={aggregation.hasVideo.count}
-            selected={!!filters.find(filter => filter.key === 'hasVideo')}
-            onClickHandler={onClickHandler}
-            loadingFilters={loadingFilters} />
+            filters={textLengthFilters} />
+          <FilterButton {...(booleanFilterButtonProps(aggregation.audioSource))} />
+          <FilterButton {...(booleanFilterButtonProps(aggregation.hasAudio))} />
+          <FilterButton {...(booleanFilterButtonProps(aggregation.hasVideo))} />
         </div>
         {allowCompact && (
           <div {...styles.fadeout} />

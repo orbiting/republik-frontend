@@ -238,7 +238,7 @@ class Feed extends Component {
                   <A href='#'
                     onClick={this.activateInfiniteScroll}>
                     {
-                      t('format/feed/loadMore',
+                      t('feed/loadMore',
                         {
                           count: nodes.length,
                           remaining: this.getRemainingDocumentsCount(nodes)

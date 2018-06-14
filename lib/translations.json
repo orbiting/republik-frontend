@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-29T20:32:44.655Z",
+  "updated": "2018-06-14T15:13:58.134Z",
   "title": "live",
   "data": [
     {
@@ -49,6 +49,10 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/search/title",
+      "value": "Suche"
     },
     {
       "key": "pages/account/title",
@@ -2163,6 +2167,10 @@
       "value": "susanne.sugimoto@republik.ch"
     },
     {
+      "key": "feed/loadMore",
+      "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
       "key": "format/feed/title/1",
       "value": "Ein Beitrag"
     },
@@ -2173,10 +2181,6 @@
     {
       "key": "format/feed/payNote",
       "value": "Sie brauchen eine Mitgliedschaft, um die Beiträge zu lesen."
-    },
-    {
-      "key": "format/feed/loadMore",
-      "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
     {
       "key": "article/payNote/before",
@@ -2675,6 +2679,42 @@
       "value": "IP-Adresse"
     },
     {
+      "key": "search/input/label",
+      "value": "Suche"
+    },
+    {
+      "key": "search/input/submit/aria",
+      "value": "Ergebnisse anzeigen"
+    },
+    {
+      "key": "search/input/reset/aria",
+      "value": "Suche zurücksetzen"
+    },
+    {
+      "key": "search/preloaded/results/0",
+      "value": "Keine Ergebnisse"
+    },
+    {
+      "key": "search/preloaded/results/1",
+      "value": "{count} Ergebnis"
+    },
+    {
+      "key": "search/preloaded/results/other",
+      "value": "{count} Ergebnisse"
+    },
+    {
+      "key": "search/preloaded/showresults/1",
+      "value": "{count} Ergebnis anzeigen"
+    },
+    {
+      "key": "search/preloaded/showresults/other",
+      "value": "{count} Ergebnisse anzeigen"
+    },
+    {
+      "key": "search/results/empty",
+      "value": "Schande! Wir haben dieses Wort nicht gefunden.<br /><br />\nFalls es sich nicht um einen Rechtschreibfehler von Ihnen handelt, handelt es sich vielleicht um ein Versäumnis von uns. Sollten wir ein unverzichtbares Thema verpasst haben, schreiben Sie uns ein kurzes E-Mail an <a href=\"mailto:kontakt@republik.ch?subject=Sch%C3%A4ndliche%20Suche\">kontakt@republik.ch</a>."
+    },
+    {
       "key": "search/pageInfo/loadMore",
       "value": "mehr laden"
     },
@@ -2693,6 +2733,14 @@
     {
       "key": "search/commentTeaser/discussionReference",
       "value": "Debatte {link}"
+    },
+    {
+      "key": "search/sort/ASC/aria",
+      "value": "aufsteigend"
+    },
+    {
+      "key": "search/sort/DESC/aria",
+      "value": "absteigend"
     },
     {
       "key": "styleguide/video/dnt/note",
@@ -2728,7 +2776,7 @@
     },
     {
       "key": "piwik/optOut/noscript",
-      "value": "Aktivieren Sie JavaScript um Ihren Status zu sehen."
+      "value": "Aktivieren Sie JavaScript, um Ihren Status zu sehen."
     },
     {
       "key": "piwik/optOut/status/loading",
@@ -2765,6 +2813,10 @@
     {
       "key": "piwik/optOut/turn/on",
       "value": "Aktivieren?"
+    },
+    {
+      "key": "styleguide/DynamicComponent/error",
+      "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
     }
   ]
 }

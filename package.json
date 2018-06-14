@@ -2,7 +2,7 @@
   "name": "republik-frontend",
   "version": "1.0.0",
   "engines": {
-    "node": "8.9.3"
+    "node": "10.4.1"
   },
   "description": "",
   "main": "server/index.js",
@@ -90,7 +90,7 @@
     "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^5.78.2",
+    "@project-r/styleguide": "^5.80.1",
     "apollo-cache-inmemory": "^1.1.4",
     "apollo-client": "^2.0.4",
     "apollo-fetch": "^0.7.0",

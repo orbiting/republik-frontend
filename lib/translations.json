@@ -1,5 +1,5 @@
 {
-  "updated": "2018-05-31T09:28:01.118Z",
+  "updated": "2018-06-14T15:13:58.134Z",
   "title": "live",
   "data": [
     {
@@ -921,6 +921,7 @@
     {
       "key": "profile/contact/phoneNumber/label",
       "value": "Telefonnummer"
+
     },
     {
       "key": "profile/contact/phoneNumberNote/label",
@@ -2167,6 +2168,10 @@
       "value": "susanne.sugimoto@republik.ch"
     },
     {
+      "key": "feed/loadMore",
+      "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
       "key": "format/feed/title/1",
       "value": "Ein Beitrag"
     },
@@ -2809,6 +2814,10 @@
     {
       "key": "piwik/optOut/turn/on",
       "value": "Aktivieren?"
+    },
+    {
+      "key": "styleguide/DynamicComponent/error",
+      "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
     }
   ]
 }

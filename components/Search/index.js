@@ -4,6 +4,14 @@ import debounce from 'lodash.debounce'
 
 import { Router } from '../../lib/routes'
 
+import { DEFAULT_FILTERS } from './constants'
+import {
+  deserializeFilters,
+  serializeFilters,
+  deserializeSort,
+  serializeSort
+} from './serialize'
+
 import Input from './Input'
 import Results from './Results'
 
@@ -19,63 +27,6 @@ const styles = {
       padding: '40px 0 120px'
     }
   })
-}
-
-const DEFAULT_FILTERS = [
-  {key: 'template', value: 'front', not: true}
-]
-
-const SUPPORTED_FILTER = {
-  template: ['article', 'discussion', 'editorialNewsletter', 'format', 'dossier'],
-  textLength: ['short', 'medium', 'long', 'epic'],
-  type: ['Comment', 'User'],
-  audioSource: ['true'],
-  hasAudio: ['true'],
-  hasVideo: ['true']
-}
-
-const SUPPORTED_SORT = {
-  relevance: [],
-  publishedAt: ['ASC', 'DESC']
-}
-
-const isSupportedFilter = filter => {
-  return !!SUPPORTED_FILTER[filter.key] && SUPPORTED_FILTER[filter.key].indexOf(filter.value) !== -1
-}
-
-const deserializeFilters = filtersString => {
-  return decodeURIComponent(filtersString)
-    .split('|')
-    .filter(filter => filter.split(':').length === 2)
-    .map(filter => ({ key: filter.split(':')[0], value: filter.split(':')[1] }))
-    .filter(filter => isSupportedFilter(filter))
-}
-
-const serializeFilters = filtersObject => {
-  return filtersObject
-    .map(filter => filter.key + encodeURIComponent(':') + filter.value)
-    .join(encodeURIComponent('|'))
-}
-
-const deserializeSort = sortString => {
-  const sortArray = decodeURIComponent(sortString).split(':')
-  if (!SUPPORTED_SORT[sortArray[0]]) return
-
-  let sort = {
-    key: sortArray[0]
-  }
-  if (
-    sortArray.length > 1 &&
-    SUPPORTED_SORT[sortArray[0]].indexOf(sortArray[1]) !== -1
-  ) {
-    sort.direction = sortArray[1]
-  }
-  return sort
-}
-
-const serializeSort = sortObject => {
-  const {key, direction} = sortObject
-  return key + encodeURIComponent(':') + (direction || '')
 }
 
 class Search extends Component {

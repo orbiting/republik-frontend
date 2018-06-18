@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
+import get from 'lodash.get'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
@@ -97,12 +98,7 @@ export const CommentTeaser = ({
     return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
   }
   const { string, more } = preview
-  const highlight =
-    highlights &&
-    highlights[0] &&
-    highlights[0].fragments &&
-    highlights[0].fragments[0] &&
-    highlights[0].fragments[0].trim()
+  const highlight = get(highlights, 'highlights[0].fragments[0]', '').trim()
   const endsWithPunctuation =
     highlight &&
     (Math.abs(highlight.lastIndexOf('...') - highlight.length) < 4 ||

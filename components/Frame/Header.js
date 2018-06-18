@@ -27,15 +27,6 @@ const LOGO_HEIGHT_MOBILE = 24
 const LOGO_WIDTH = 203
 const LOGO_WIDTH_MOBILE = 162
 
-const buttonStyle = {
-  outline: 'none',
-  WebkitAppearance: 'none',
-  background: 'transparent',
-  border: 'none',
-  padding: '0',
-  cursor: 'pointer'
-}
-
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
@@ -99,12 +90,15 @@ const styles = {
     }
   }),
   search: css({
-    ...buttonStyle,
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    padding: '0',
+    cursor: 'pointer',
     '@media print': {
       display: 'none'
     },
-    background: '#fff',
-    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -297,7 +291,7 @@ class Header extends Component {
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                if (url.pathname === '/search') {
+                if (isSearchActive) {
                   window.scrollTo(0, 0)
                 } else {
                   Router.pushRoute('search').then(() => window.scrollTo(0, 0))

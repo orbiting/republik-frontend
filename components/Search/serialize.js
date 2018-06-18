@@ -10,9 +10,10 @@ const isSupportedFilter = filter => {
 export const deserializeFilters = filtersString => {
   return decodeURIComponent(filtersString)
     .split('|')
-    .filter(filter => filter.split(':').length === 2)
-    .map(filter => ({ key: filter.split(':')[0], value: filter.split(':')[1] }))
-    .filter(filter => isSupportedFilter(filter))
+    .map(f => f.split(':'))
+    .filter(f => f.length === 2)
+    .map(([key, value]) => ({ key, value }))
+    .filter(f => isSupportedFilter(f))
 }
 
 export const serializeFilters = filtersObject => {

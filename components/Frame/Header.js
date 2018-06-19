@@ -106,7 +106,7 @@ const styles = {
     position: 'absolute',
     overflow: 'hidden',
     top: 0,
-    right: HEADER_HEIGHT_MOBILE - 2,
+    right: HEADER_HEIGHT_MOBILE - 1,
     marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
     width: SEARCH_BUTTON_WIDTH,

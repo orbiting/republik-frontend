@@ -4,7 +4,6 @@ import { css } from 'glamor'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
-import Search from 'react-icons/lib/md/search'
 
 import {
   Field,
@@ -75,10 +74,8 @@ class Input extends Component {
           onSearch={onSearch}
           onReset={() => {}}
           icon={
-            !value ? (
+            !value || allowSearch ? (
               null
-            ) : allowSearch ? (
-              <Icon IconComponent={Search} onClick={onSearch} title={t('search/input/submit/aria')} />
             ) : (
               <Icon
                 IconComponent={Close}

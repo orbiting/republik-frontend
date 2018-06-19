@@ -26,6 +26,7 @@ const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
 const LOGO_WIDTH = 203
 const LOGO_WIDTH_MOBILE = 162
+const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
   bar: css({
@@ -108,7 +109,7 @@ const styles = {
     right: HEADER_HEIGHT_MOBILE - 2,
     marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
-    width: 28,
+    width: SEARCH_BUTTON_WIDTH,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 2,
       width: HEADER_HEIGHT - 2 - 10,
@@ -121,11 +122,11 @@ const styles = {
     left: 15,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
-    right: `${HEADER_HEIGHT_MOBILE}px`,
+    right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
     paddingTop: '11px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
-      right: `${HEADER_HEIGHT}px`,
+      right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
       paddingTop: '24px'
     },
     transition: 'opacity .2s ease-in-out'

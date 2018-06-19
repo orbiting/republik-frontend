@@ -45,11 +45,11 @@ const CommentLink = ({
   discussion,
   ...props
 }) => {
-  if (displayAuthor) {
+  if (displayAuthor && displayAuthor.username) {
     return (
       <Link
         route='profile'
-        params={{ slug: displayAuthor.username || displayAuthor.id }}
+        params={{ slug: displayAuthor.username }}
       >
         {children}
       </Link>

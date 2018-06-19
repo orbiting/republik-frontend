@@ -2,6 +2,7 @@ import { Component } from 'react'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors } from '@project-r/styleguide'
+import PropTypes from 'prop-types'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
@@ -31,10 +32,13 @@ const style = {
     width: '100%'
   }),
   sticky: css({
-    top: HEADER_HEIGHT - 1,
-    [mediaQueries.onlyS]: {
-      top: HEADER_HEIGHT_MOBILE - 1,
-      borderBottom: `0.5px solid ${colors.divider}`
+    top: HEADER_HEIGHT_MOBILE - 1,
+    borderBottom: `0.5px solid ${colors.divider}`,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    },
+    [mediaQueries.lUp]: {
+      borderBottom: 'none'
     }
   })
 }
@@ -44,19 +48,22 @@ class StickySection extends Component {
     super(props)
     this.state = {
       sticky: false,
-      isMobile: true,
-      stickyLabelOffset: 0
+      isMobile: true
     }
     this.sectionRef = null
     this.setSectionRef = (el) => { this.sectionRef = el }
 
     this.onScroll = () => {
       if (this.sectionRef) {
-        const { sticky } = this.state
-        const y = window.pageYOffset + this.getHeaderHeight()
+        const { sticky, isMobile } = this.state
+        const { spaceAfter } = this.props
+        const y = window.pageYOffset + (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
         const { height, offset } = this.measure()
-        const nextSticky = (offset + height + STICKY_HEADER_HEIGHT > y) && (y > offset)
-        sticky !== nextSticky && this.setState({sticky: nextSticky})
+        const nextSticky = (y > offset) && // scroll pos is above top of section
+          (offset + height + (spaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is below bottom
+        if (sticky !== nextSticky) {
+          this.setState({sticky: nextSticky})
+        }
       }
     }
 
@@ -68,38 +75,28 @@ class StickySection extends Component {
     }
 
     this.measure = () => {
-      if (this.sectionRef && window) {
-        const { width, height, top } = this.sectionRef.getBoundingClientRect()
+      if (this.sectionRef) {
+        const { width, height } = this.sectionRef.getBoundingClientRect()
         const offset = this.sectionRef.offsetTop
         return {
-          top,
           width,
           height,
           offset
         }
       } else {
         return {
-          top: 0,
           width: 0,
           height: 0,
           offset: 0
         }
       }
     }
-
-    this.getHeaderHeight = () => {
-      if (window.innerWidth >= mediaQueries.mBreakPoint) {
-        return HEADER_HEIGHT
-      } else {
-        return HEADER_HEIGHT_MOBILE
-      }
-    }
   }
 
   componentDidMount () {
-    this.handleResize()
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.handleResize)
+    this.handleResize()
   }
 
   componentWillUnmount () {
@@ -126,14 +123,21 @@ class StickySection extends Component {
             }
           </div>
         </div>
-        <div>
-          {
-            children
-          }
-        </div>
+        {
+          children
+        }
       </section>
     )
   }
+}
+
+StickySection.propTypes = {
+  spaceAfter: PropTypes.bool,
+  label: PropTypes.string.isRequired
+}
+
+StickySection.defaultProps = {
+  spaceAfter: true
 }
 
 export default StickySection

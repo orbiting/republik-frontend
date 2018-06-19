@@ -29,7 +29,8 @@ const styles = {
   }),
   more: css({
     position: 'relative',
-    height: 50
+    height: 50,
+    padding: '10px 0 0 0'
   })
 }
 
@@ -183,8 +184,12 @@ class Feed extends Component {
               )}
               <div ref={this.setContainerRef}>
                 {nodes &&
-                  groupByDate.entries(nodes).map(({key, values}, i) =>
-                    <StickySection key={i} label={key}>
+                  groupByDate.entries(nodes).map(({key, values}, i, all) =>
+                    <StickySection
+                      key={i}
+                      spaceAfter={i < all.length - 1}
+                      label={key}
+                    >
                       {
                         values.map(doc =>
                           <TeaserFeed

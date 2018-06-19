@@ -52,7 +52,10 @@ class Search extends Component {
 
     this.loadFilters = debounce(() => {
       this.setState({
-        filters: DEFAULT_FILTERS,
+        filters:
+          this.state.filterQuery !== this.state.searchQuery
+            ? DEFAULT_FILTERS
+            : this.state.filters,
         filterQuery: this.state.searchQuery,
         loadingFilters: false
       })

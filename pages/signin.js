@@ -10,7 +10,15 @@ import withMembership from '../components/Auth/withMembership'
 import { Router } from '../lib/routes'
 
 class SigninPage extends Component {
+  componentDidMount () {
+    this.redirectUser()
+  }
+
   componentDidUpdate () {
+    this.redirectUser()
+  }
+
+  redirectUser () {
     const { isMember, me } = this.props
     if (isMember) {
       Router.pushRoute('index')

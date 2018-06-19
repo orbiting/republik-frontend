@@ -58,7 +58,7 @@ const getDocuments = gql`
       id
     }
     documents(feed: true, first: 50, after: $cursor) {
-      totalCount 
+      totalCount
       pageInfo {
         endCursor
         hasNextPage

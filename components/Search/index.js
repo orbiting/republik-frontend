@@ -148,7 +148,7 @@ class Search extends Component {
       this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
-    this.onFilterClick = (filterBucketKey, filterBucketValue, selected) => {
+    this.onFilterClick = (filterBucketKey, filterBucketValue, selected, count) => {
       const filter = {
         key: filterBucketKey,
         value: filterBucketValue
@@ -176,6 +176,13 @@ class Search extends Component {
         preloadedAggregations: null
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
+      if (!selected) {
+        window._paq.push(['trackSiteSearch',
+          this.state.searchQuery,
+          decodeURIComponent(serializedFilters),
+          count
+        ])
+      }
     }
 
     this.pushUrl = (params) => {

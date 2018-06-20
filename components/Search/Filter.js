@@ -72,7 +72,7 @@ class FilterButton extends Component {
         {...styles.button}
         style={selected ? { backgroundColor: colors.primary, color: '#fff' } : {}}
         onClick={() => {
-          onClickHandler && onClickHandler(filterBucketKey, filterBucketValue, selected)
+          onClickHandler && onClickHandler(filterBucketKey, filterBucketValue, selected, count)
         }}
       >
         {label}

@@ -9,14 +9,14 @@ import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const FeedPage = ({ url, me, t, headers }) => {
+const FeedPage = ({ url, me, t }) => {
   const meta = {
     title: t('pages/feed/title'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
 
   return (
-    <Frame raw url={url} meta={meta} headers={headers}>
+    <Frame raw url={url} meta={meta}>
       <Feed />
     </Frame>
   )

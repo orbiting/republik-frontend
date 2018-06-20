@@ -24,7 +24,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const label = episode && episode.label
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
-  const image = (meta && meta.image) || (episode && episode.image)
+  const image = (episode && episode.image) || (meta && meta.image)
   const align = image ? {align: 'top'} : {}
 
   if (route) {

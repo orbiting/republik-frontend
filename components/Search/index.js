@@ -47,7 +47,8 @@ class Search extends Component {
       serializedSort: '',
       totalCount: 0,
       isMobile: true,
-      allowFocus: true
+      allowFocus: true,
+      trackingId: undefined
     }
 
     this.loadFilters = debounce(() => {
@@ -106,6 +107,15 @@ class Search extends Component {
       e.preventDefault()
       e.stopPropagation()
       this.onSearch()
+    }
+
+    this.onSearchLoaded = (search) => {
+      const { trackingId } = search
+      if (!!trackingId && trackingId !== this.state.trackingId) {
+        this.setState({
+          trackingId
+        })
+      }
     }
 
     this.onTotalCountLoaded = (totalCount) => {
@@ -261,7 +271,8 @@ class Search extends Component {
       filters,
       sort,
       loadingFilters,
-      allowFocus
+      allowFocus,
+      trackingId
     } = this.state
 
     return (
@@ -289,7 +300,9 @@ class Search extends Component {
           onFilterClick={this.onFilterClick}
           onTotalCountLoaded={this.onTotalCountLoaded}
           onAggregationsLoaded={this.onAggregationsLoaded}
-          onLoadMoreClick={this.onLoadMoreClick} />
+          onLoadMoreClick={this.onLoadMoreClick}
+          onSearchLoaded={this.onSearchLoaded}
+          trackingId={trackingId} />
       </Center>
     )
   }

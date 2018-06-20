@@ -171,6 +171,9 @@ class Results extends Component {
   }
 
   componentWillReceiveProps (props) {
+    if (props.data && props.data.search) {
+      this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
+    }
     if (!props.dataAggregations || !props.dataAggregations.search) return
     const { search } = props.dataAggregations
     const { aggregations, totalCount } = search
@@ -436,7 +439,9 @@ Results.propTypes = {
   onFilterClick: PropTypes.func,
   loadingFilters: PropTypes.bool,
   onLoadMoreClick: PropTypes.func,
-  fetchMore: PropTypes.func
+  fetchMore: PropTypes.func,
+  onSearchLoaded: PropTypes.func,
+  trackingId: PropTypes.string
 }
 
 export default compose(

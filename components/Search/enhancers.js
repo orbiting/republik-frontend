@@ -4,12 +4,15 @@ import gql from 'graphql-tag'
 const getSearchAggregations = gql`  
 query getSearchAggregations( 
     $search: String, 
-    $filters: [SearchGenericFilterInput!]) { 
+    $filters: [SearchGenericFilterInput!],
+    $trackingId: ID) {
   search(  
       first: 1,  
       search: $search, 
-      filters: $filters) {
+      filters: $filters,
+      trackingId: $trackingId) {
     totalCount
+    trackingId
     aggregations {
       key
       count
@@ -29,14 +32,17 @@ query getSearchResults(
     $search: String,
     $after: String,
     $sort: SearchSortInput,
-    $filters: [SearchGenericFilterInput!]) {
+    $filters: [SearchGenericFilterInput!],
+    $trackingId: ID) {
   search(
       first: 100,
       after: $after,
       search: $search,
       sort: $sort,
-      filters: $filters) {
+      filters: $filters,
+      trackingId: $trackingId) {
     totalCount
+    trackingId
     aggregations {
       key
       count
@@ -132,7 +138,8 @@ export const withAggregations = graphql(getSearchAggregations, {
   options: props => ({
     variables: {
       search: props.filterQuery,
-      filters: props.filters
+      filters: props.filters,
+      trackingId: props.trackingId
     }
   }),
   props: ({ data, ownProps }) => ({
@@ -145,7 +152,8 @@ export const withResults = graphql(getSearchResults, {
     variables: {
       search: props.searchQuery,
       sort: props.sort,
-      filters: props.filters
+      filters: props.filters,
+      trackingId: props.trackingId
     }
   }),
   props: ({ data, ownProps }) => ({
@@ -156,7 +164,8 @@ export const withResults = graphql(getSearchResults, {
           after,
           search: ownProps.searchQuery,
           sort: ownProps.sort,
-          filters: ownProps.filters
+          filters: ownProps.filters,
+          trackingId: ownProps.trackingId
         },
         updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
           const nodes = [

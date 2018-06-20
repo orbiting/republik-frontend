@@ -23,7 +23,7 @@ const styles = {
     bottom: 0,
     display: 'none',
     position: 'absolute',
-    right: 0,
+    right: '-1px',
     top: 0,
     width: 15,
     [mediaQueries.onlyS]: {
@@ -205,6 +205,7 @@ class Filter extends Component {
           <FilterButtonGroup
             filterBucketKey='textLength'
             filters={textLengthFilters} />
+          <FilterButton {...(booleanFilterButtonProps(aggregation.isSeriesMaster))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.audioSource))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.hasAudio))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.hasVideo))} />

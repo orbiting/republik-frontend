@@ -172,8 +172,10 @@ class Results extends Component {
 
   componentWillReceiveProps (props) {
     if (!props.dataAggregations || !props.dataAggregations.search) return
-    const totalCount = props.dataAggregations.search.totalCount
+    const { search } = props.dataAggregations
+    const { aggregations, totalCount } = search
     this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(totalCount)
+    this.props.onAggregationsLoaded && this.props.onAggregationsLoaded(aggregations)
   }
 
   render () {
@@ -189,7 +191,9 @@ class Results extends Component {
       filters,
       onFilterClick,
       loadingFilters,
-      onLoadMoreClick
+      onLoadMoreClick,
+      preloadedTotalCount,
+      preloadedAggregations
     } = this.props
 
     const isFilterEnabled =
@@ -202,10 +206,11 @@ class Results extends Component {
     const resultsOutdated = searchQuery !== filterQuery
     const opacity = resultsOutdated ? 0.5 : 1
     const { minHeight } = this.state
+    const keepCachedAggregations = preloadedTotalCount !== 0 && preloadedAggregations !== null
 
     return (
       <div {...styles.container}>
-        {resultsOutdated && (
+        {resultsOutdated && !keepCachedAggregations && (
           <Loader
             loading={dataAggregations && dataAggregations.loading}
             error={dataAggregations && dataAggregations.error}
@@ -232,6 +237,24 @@ class Results extends Component {
                 />
               )
             }}
+          />
+        )}
+        {keepCachedAggregations && (
+          <FilterSortPanel
+            aggregations={preloadedAggregations}
+            filterQuery={filterQuery}
+            filters={filters}
+            loadingFilters={loadingFilters}
+            minHeight={minHeight}
+            isFilterEnabled={isFilterEnabled}
+            searchQuery={searchQuery}
+            setPanelRef={this.setPanelRef}
+            sort={sort}
+            t={t}
+            totalCount={preloadedTotalCount}
+            onFilterClick={onFilterClick}
+            onSearch={onSearch}
+            onSortClick={onSortClick}
           />
         )}
         <Loader
@@ -262,7 +285,7 @@ class Results extends Component {
 
             return (
               <Fragment>
-                {!resultsOutdated && (
+                {!resultsOutdated && !keepCachedAggregations && (
                   <FilterSortPanel
                     aggregations={aggregations}
                     filterQuery={filterQuery}

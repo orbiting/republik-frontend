@@ -57,7 +57,8 @@ class Search extends Component {
             ? DEFAULT_FILTERS
             : this.state.filters,
         filterQuery: this.state.searchQuery,
-        loadingFilters: false
+        loadingFilters: false,
+        preloadedAggregations: null
       })
     }, 200)
 
@@ -96,7 +97,8 @@ class Search extends Component {
         submittedQuery: '',
         filterQuery: '',
         filters: DEFAULT_FILTERS,
-        allowFocus: true
+        allowFocus: true,
+        preloadedAggregations: null
       })
     }
 
@@ -109,6 +111,12 @@ class Search extends Component {
     this.onTotalCountLoaded = (totalCount) => {
       this.setState({
         totalCount
+      })
+    }
+
+    this.onAggregationsLoaded = (aggregations) => {
+      this.setState({
+        preloadedAggregations: aggregations
       })
     }
 
@@ -154,7 +162,8 @@ class Search extends Component {
         serializedFilters,
         submittedQuery: this.state.searchQuery,
         filterQuery: this.state.searchQuery,
-        allowFocus: !this.state.isMobile
+        allowFocus: !this.state.isMobile,
+        preloadedAggregations: null
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
     }
@@ -247,6 +256,8 @@ class Search extends Component {
       searchQuery,
       filterQuery,
       submittedQuery,
+      preloadedAggregations,
+      totalCount,
       filters,
       sort,
       loadingFilters,
@@ -271,10 +282,13 @@ class Search extends Component {
           sort={sort}
           loadingFilters={loadingFilters}
           filters={filters}
+          preloadedTotalCount={totalCount}
+          preloadedAggregations={preloadedAggregations}
           onSearch={this.onSearch}
           onSortClick={this.onSortClick}
           onFilterClick={this.onFilterClick}
           onTotalCountLoaded={this.onTotalCountLoaded}
+          onAggregationsLoaded={this.onAggregationsLoaded}
           onLoadMoreClick={this.onLoadMoreClick} />
       </Center>
     )

@@ -11,6 +11,7 @@ import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import { postMessage } from '../../lib/withInNativeApp'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
@@ -292,6 +293,11 @@ class ArticlePage extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
+      postMessage({
+        type: 'article-opened',
+        payload: nextProps.data.article
+      })
+
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
@@ -299,12 +305,24 @@ class ArticlePage extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
+
+    if (this.props.data.article) {
+      postMessage({
+        type: 'article-opened',
+        payload: this.props.data.article
+      })
+    }
+
     this.measure()
   }
+
   componentDidUpdate () {
     this.measure()
   }
+
   componentWillUnmount () {
+    postMessage({ type: 'article-closed' })
+
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }

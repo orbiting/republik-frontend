@@ -167,6 +167,14 @@ class Filter extends Component {
         filterButtonProps('template', bucket)
       )
 
+    const kindFilters =
+      aggregation.kind &&
+      aggregation.kind.buckets
+        .filter(
+          bucket => bucket.value !== 'editorial'
+        )
+        .map(bucket => filterButtonProps('kind', bucket))
+
     const typeFilters =
       aggregation.type &&
       aggregation.type.buckets
@@ -199,6 +207,9 @@ class Filter extends Component {
           <FilterButtonGroup
             filterBucketKey='template'
             filters={templateFilters} />
+          <FilterButtonGroup
+            filterBucketKey='kind'
+            filters={kindFilters} />
           <FilterButtonGroup
             filterBucketKey='type'
             filters={typeFilters} />

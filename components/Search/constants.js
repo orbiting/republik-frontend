@@ -8,6 +8,7 @@ export const SUPPORTED_FILTER = {
     'format',
     'dossier'
   ],
+  kind: ['meta'],
   textLength: ['short', 'medium', 'long', 'epic'],
   type: ['Comment', 'User'],
   audioSource: ['true'],

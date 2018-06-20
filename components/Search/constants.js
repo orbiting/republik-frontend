@@ -12,7 +12,8 @@ export const SUPPORTED_FILTER = {
   type: ['Comment', 'User'],
   audioSource: ['true'],
   hasAudio: ['true'],
-  hasVideo: ['true']
+  hasVideo: ['true'],
+  isSeriesMaster: ['true']
 }
 
 export const SUPPORTED_SORT = {

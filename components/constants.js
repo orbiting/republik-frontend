@@ -1,7 +1,5 @@
-import { inNativeAppBrowser } from '../lib/withInNativeApp'
-
-export const HEADER_HEIGHT = inNativeAppBrowser ? 0 : 70
-export const HEADER_HEIGHT_MOBILE = inNativeAppBrowser ? 0 : 45
+export const HEADER_HEIGHT = 70
+export const HEADER_HEIGHT_MOBILE = 45
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60
 

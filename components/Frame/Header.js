@@ -144,6 +144,16 @@ class Header extends Component {
       this.onScroll()
     }
 
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-menu':
+          return this.setState({ expanded: true })
+        case 'close-menu':
+          return this.setState({ expanded: false })
+      }
+    }
+
     this.setRef = ref => {
       this.ref = ref
     }
@@ -156,15 +166,20 @@ class Header extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
+    document.addEventListener('message', this.onMessage)
     this.measure()
   }
+
   componentDidUpdate () {
     this.measure()
   }
+
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
+    document.removeEventListener('message', this.onMessage)
   }
+
   render () {
     const {
       url,
@@ -178,17 +193,18 @@ class Header extends Component {
       primaryNavExpanded,
       formatColor,
       audioSource,
-      audioCloseHandler
+      audioCloseHandler,
+      inNativeApp
     } = this.props
     const { expanded, sticky } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+    const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
     const opaque = this.state.opaque || expanded || inline
-    const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const marginBottom = sticky
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
@@ -204,12 +220,12 @@ class Header extends Component {
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
         <div {...barStyle} style={{position, borderBottom}}>
-          {secondaryNav && !audioSource && (
+          {!inNativeApp && secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
@@ -224,7 +240,7 @@ class Header extends Component {
               />
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
@@ -253,7 +269,7 @@ class Header extends Component {
               </a>
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}
@@ -266,11 +282,11 @@ class Header extends Component {
                     this.setState({ expanded: !expand })
                   }
                 }
-              }
+                }
               />
             </div>
           )}
-          {audioSource && (
+          {!inNativeApp && audioSource && (
             <AudioPlayer
               src={audioSource}
               closeHandler={() => { audioCloseHandler && audioCloseHandler() }}

@@ -169,6 +169,7 @@ class ArticlePage extends Component {
         showAudioPlayer: !this.state.showAudioPlayer
       })
     }
+
     this.togglePdf = () => {
       this.setState({
         showPdf: !this.state.showPdf
@@ -200,10 +201,12 @@ class ArticlePage extends Component {
         )
       ) {
         if (!this.state.showSecondary) {
+          postMessage({ type: 'show-secondary-nav' })
           this.setState({ showSecondary: true })
         }
       } else {
         if (this.state.showSecondary) {
+          postMessage({ type: 'hide-secondary-nav' })
           this.setState({ showSecondary: false })
         }
         if (this.state.secondaryNavExpanded) {
@@ -211,6 +214,7 @@ class ArticlePage extends Component {
         }
       }
     }
+
     this.measure = () => {
       if (!this.state.isSeries) {
         if (this.bar) {
@@ -239,6 +243,16 @@ class ArticlePage extends Component {
         primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
+    }
+
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-secondary-menu':
+          return this.setState({ secondaryNavExpanded: true })
+        case 'close-secondary-menu':
+          return this.setState({ secondaryNavExpanded: false })
+      }
     }
   }
 
@@ -306,6 +320,10 @@ class ArticlePage extends Component {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
 
+    if (this.props.inNativeApp) {
+      document.addEventListener('message', this.onMessage)
+    }
+
     if (this.props.data.article) {
       postMessage({
         type: 'article-opened',
@@ -325,10 +343,14 @@ class ArticlePage extends Component {
 
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
+
+    if (this.props.inNativeApp) {
+      document.removeEventListener('message', this.onMessage)
+    }
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { url, t, data, data: {article}, isMember, inNativeApp } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer } = this.state
 
@@ -342,6 +364,7 @@ class ArticlePage extends Component {
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
+        inNativeApp={this.props.inNativeApp}
       />
     ) : null
 
@@ -381,7 +404,7 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || (!inNativeApp && actionBar)}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}

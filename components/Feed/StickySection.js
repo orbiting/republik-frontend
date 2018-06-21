@@ -27,9 +27,7 @@ const style = {
   label: css({
     padding: '8px 0',
     borderTop: '1px solid #000',
-    position: 'relative',
-    backgroundColor: '#fff',
-    width: '100%'
+    backgroundColor: '#fff'
   }),
   sticky: css({
     top: HEADER_HEIGHT_MOBILE - 1,
@@ -59,11 +57,11 @@ class StickySection extends Component {
     this.onScroll = () => {
       if (this.sectionRef) {
         const { sticky, isSmall, height } = this.state
-        const { spaceAfter } = this.props
+        const { hasSpaceAfter } = this.props
         const y = window.pageYOffset + (isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
         const offset = this.sectionRef.offsetTop
-        const nextSticky = (y > offset) && // scroll pos is above top of section
-          (offset + height + (spaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is below bottom
+        const nextSticky = (y > offset) && // scroll pos is below top of section
+          (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
         if (sticky !== nextSticky) {
           this.setState({sticky: nextSticky})
         }
@@ -118,12 +116,12 @@ class StickySection extends Component {
 }
 
 StickySection.propTypes = {
-  spaceAfter: PropTypes.bool,
+  hasSpaceAfter: PropTypes.bool,
   label: PropTypes.string.isRequired
 }
 
 StickySection.defaultProps = {
-  spaceAfter: true
+  hasSpaceAfter: true
 }
 
 export default StickySection

@@ -187,7 +187,7 @@ class Feed extends Component {
                   groupByDate.entries(nodes).map(({key, values}, i, all) =>
                     <StickySection
                       key={i}
-                      spaceAfter={i < all.length - 1}
+                      hasSpaceAfter={i < all.length - 1}
                       label={key}
                     >
                       {

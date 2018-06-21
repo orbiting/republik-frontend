@@ -15,7 +15,9 @@ const styles = {
   compact: css({
     [mediaQueries.onlyS]: {
       whiteSpace: 'nowrap',
-      overflow: 'auto'
+      overflow: 'auto',
+      overflowX: 'scroll',
+      WebkitOverflowScrolling: 'touch'
     }
   }),
   fadeout: css({

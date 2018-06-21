@@ -29,11 +29,12 @@ const ShareButtons = ({
   fill,
   onAudioClick,
   onPdfClick,
-  pdfUrl
+  pdfUrl,
+  inNativeApp
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
   const shareOptions = [
-    {
+    !inNativeApp && {
       target: '_blank',
       href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         url
@@ -41,7 +42,7 @@ const ShareButtons = ({
       icon: 'facebook',
       title: t('article/actionbar/facebook')
     },
-    {
+    !inNativeApp && {
       target: '_blank',
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         tweet
@@ -49,7 +50,7 @@ const ShareButtons = ({
       icon: 'twitter',
       title: t('article/actionbar/twitter')
     },
-    {
+    !inNativeApp && {
       mobileOnly: true,
       target: '_blank',
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(
@@ -58,8 +59,8 @@ const ShareButtons = ({
       icon: 'whatsapp',
       title: t('article/actionbar/whatsapp')
     },
-    { space: true },
-    {
+    !inNativeApp && { space: true },
+    !inNativeApp && {
       href: `mailto:?subject=${encodeURIComponent(
         emailSubject
       )}&body=${encodeURIComponent(emailBody + emailAttache)}`,
@@ -78,7 +79,7 @@ const ShareButtons = ({
       icon: 'download',
       title: t('article/actionbar/download')
     },
-    pdfUrl && {
+    !inNativeApp && pdfUrl && {
       icon: 'pdf',
       href: pdfUrl,
       onClick: onPdfClick && (e => {
@@ -92,7 +93,7 @@ const ShareButtons = ({
       }),
       title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
     },
-    onAudioClick && {
+    !inNativeApp && onAudioClick && {
       icon: 'audio',
       href: '#audio',
       onClick: e => {

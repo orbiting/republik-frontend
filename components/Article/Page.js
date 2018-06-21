@@ -67,7 +67,7 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
   <div>
     <ShareButtons
       url={url}
@@ -79,6 +79,7 @@ const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossie
         title
       })}
       onAudioClick={onAudioClick}
+      inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
@@ -256,7 +257,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article } }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -283,7 +284,9 @@ class ArticlePage extends Component {
           hasPdf && countImages(article.content) > 0 &&
           this.togglePdf
         )}
-        pdfUrl={hasPdf && getPdfUrl(meta)} />
+        pdfUrl={hasPdf && getPdfUrl(meta)}
+        inNativeApp={inNativeApp}
+      />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({

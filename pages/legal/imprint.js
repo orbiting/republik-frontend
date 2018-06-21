@@ -56,7 +56,10 @@ export default withData(({url}) => {
       <List>
         <Item>
           <Highlight>Rothaus-Redaktion</Highlight><br />
-        Adelina Gashi, Ausbildung «Unternehmerischer Journalismus»<br />
+          <A href='/~b38b7b36-dfab-48f3-8712-ec5268197a44'>
+          Adelina Gashi
+          </A>
+        , Ausbildung «Unternehmerischer Journalismus»<br />
           <A href='/~6ae2733e-1562-47b3-881c-88e9d3d28da9'>
           Adrienne Fichter
           </A>
@@ -65,6 +68,7 @@ export default withData(({url}) => {
           Andrea Arezina
           </A>
         , Chefin vom Dienst<br />
+          Andreas Moor, Software-Entwickler<br />
           <A href='/~f7b5b5bd-b82b-4f82-aee3-082ab1d11e0d'>
           Andreas Wellnitz
           </A>
@@ -89,7 +93,7 @@ export default withData(({url}) => {
           Carlos Hanimann
           </A>
         , Reporter<br />
-          <A href='/~b55b2f0a-c919-498b-b742-581c93f53eac'>
+          <A href='/~c83943a8-e7e9-4f11-b318-48501e5f0002'>
           Christian Andiel
           </A>
         , Chef vom Dienst<br />
@@ -137,7 +141,7 @@ export default withData(({url}) => {
           Marco Di Nardo
           </A>
         , Produktion<br />
-          <A href='/~909e78a3-27c9-40c0-8b95-7814f46f441b'>
+          <A href='/~22d026db-0f69-4b56-b043-6230ee03096d'>
           Michael Kuratli
           </A>
         , Ausbildung «Unternehmerischer Journalismus»<br />
@@ -219,7 +223,10 @@ export default withData(({url}) => {
 
       Bart Wasem, Film<br />
       Bea Emmenegger, Produktion<br />
-      Bettina Hamilton-Irvine, Produktion<br />
+          <A href='/~2f12dfba-2b83-443b-87e1-6bc6d436408e'>
+        Bettina Hamilton-Irvine
+          </A>
+      , Produktion<br />
           <A href='/~02852b61-aa45-4dab-8d23-a0c71d3e05f7'>
         Brigitte Hürlimann
           </A>
@@ -233,7 +240,10 @@ export default withData(({url}) => {
           </A>
       , Gerichtsreporter<br />
       Gion Durband, Autor<br />
-      Loretta Sutter, Produktion<br />
+          <A href='/~d7c0813a-2f8b-401f-9b20-a53e721c53f2'>
+        Loretta Sutter
+          </A>
+      , Produktion<br />
           <A href='/~45fa4127-59d1-4f46-94ff-305cf1beeed1'>
         Marcel Niggli
           </A>
@@ -260,7 +270,6 @@ export default withData(({url}) => {
 
           <Highlight>Werden ungeduldig erwartet</Highlight><br />
 
-      Andreas Moor, Software Entwickler<br />
       Katrin Moser, Produktion<br />
       Urs Bruderer, Bundeshaus-Autor
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { css } from 'glamor'
+import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
@@ -23,10 +24,11 @@ const styles = {
     }
   }),
   section: css({
+    margin: '0px 20px',
     '& + &': {
       borderTop: `1px solid ${colors.divider}`,
-      margin: '25px 0',
-      padding: '25px 0'
+      margin: '25px 20px',
+      paddingTop: '25px'
     },
     [mediaQueries.mUp]: {
       '& + &': {
@@ -94,7 +96,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -163,6 +165,7 @@ const Nav = ({ me, url, closeHandler, children, t }) => {
           closeHandler={closeHandler}
         />
       </div>
+      {inNativeApp && <Footer />}
     </div>
   )
 }

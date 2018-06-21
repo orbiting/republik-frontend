@@ -4,7 +4,6 @@ import { css } from 'glamor'
 
 import { mediaQueries, fontFamilies } from '@project-r/styleguide'
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../../constants'
-import withInNativeApp from '../../../lib/withInNativeApp'
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -25,7 +24,6 @@ const menuStyle = css({
   right: 0,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
   flexDirection: 'column',
-  padding: 20,
   [mediaQueries.mUp]: {
     top: HEADER_HEIGHT,
     height: `calc(100vh - ${HEADER_HEIGHT}px)`
@@ -36,7 +34,11 @@ const Popover = ({ items, expanded, id, children, url, inNativeApp }) => (
   <div
     id={id}
     aria-expanded={expanded}
-    style={{ top: inNativeApp && 0, height: inNativeApp && '100vh' }}
+    style={{
+      top: inNativeApp && 0,
+      height: inNativeApp && '100vh',
+      overflow: inNativeApp && 'scroll'
+    }}
     {...menuStyle}
   >
     {children}
@@ -47,4 +49,4 @@ Popover.propTypes = {
   expanded: PropTypes.bool
 }
 
-export default withInNativeApp(Popover)
+export default Popover

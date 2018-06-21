@@ -300,8 +300,13 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand}>
-            <NavPopover me={me} url={url} closeHandler={this.close} />
+          <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+            <NavPopover
+              me={me}
+              url={url}
+              inNativeApp={inNativeApp}
+              closeHandler={this.close}
+            />
           </Popover>
         </div>
 

@@ -207,6 +207,7 @@ class Filter extends Component {
           <FilterButtonGroup
             filterBucketKey='template'
             filters={templateFilters} />
+          <FilterButton {...(booleanFilterButtonProps(aggregation.isSeriesMaster))} />
           <FilterButtonGroup
             filterBucketKey='kind'
             filters={kindFilters} />
@@ -216,7 +217,6 @@ class Filter extends Component {
           <FilterButtonGroup
             filterBucketKey='textLength'
             filters={textLengthFilters} />
-          <FilterButton {...(booleanFilterButtonProps(aggregation.isSeriesMaster))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.audioSource))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.hasAudio))} />
           <FilterButton {...(booleanFilterButtonProps(aggregation.hasVideo))} />

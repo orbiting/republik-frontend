@@ -1,7 +1,8 @@
 import { Component } from 'react'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries } from '@project-r/styleguide'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const style = {
   base: css({
@@ -40,7 +41,9 @@ class StickyHeader extends Component {
     }
 
     this.getHeaderHeight = () => {
-      if (window.innerWidth >= mediaQueries.mBreakPoint) {
+      if (this.props.inNativeApp) {
+        return -1
+      } else if (window.innerWidth >= mediaQueries.mBreakPoint) {
         return HEADER_HEIGHT
       } else {
         return HEADER_HEIGHT_MOBILE
@@ -58,14 +61,18 @@ class StickyHeader extends Component {
   }
 
   render () {
-    const { children } = this.props
     const { sticky } = this.state
+    const { children, inNativeApp } = this.props
+
     return (
       <div
         ref={this.setRef}
         {...style.base}
         {...(sticky && style.sticky)}
-        style={{position: sticky ? 'fixed' : 'relative'}}
+        style={{
+          top: inNativeApp && -1,
+          position: sticky ? 'fixed' : 'relative'
+        }}
       >
         {
           children
@@ -75,4 +82,4 @@ class StickyHeader extends Component {
   }
 }
 
-export default StickyHeader
+export default withInNativeApp(StickyHeader)

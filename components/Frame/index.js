@@ -79,20 +79,19 @@ const Index = ({
       className={!cover && !inNativeApp ? styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
-      {!inNativeApp && (
-        <Header
-          url={url}
-          cover={cover}
-          onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
-          primaryNavExpanded={primaryNavExpanded}
-          secondaryNav={secondaryNav}
-          showSecondary={showSecondary}
-          inline={headerInline}
-          formatColor={formatColor}
-          audioSource={audioSource}
-          audioCloseHandler={audioCloseHandler}
-        />
-      )}
+      <Header
+        url={url}
+        cover={cover}
+        onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
+        primaryNavExpanded={primaryNavExpanded}
+        secondaryNav={secondaryNav}
+        showSecondary={showSecondary}
+        inline={headerInline}
+        formatColor={formatColor}
+        audioSource={audioSource}
+        audioCloseHandler={audioCloseHandler}
+        inNativeApp={inNativeApp}
+      />
       <noscript>
         <Box style={{padding: 30}}>
           <RawHtml

@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../../constants'
 import { mediaQueries, fontFamilies } from '@project-r/styleguide'
+import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../../constants'
+import withInNativeApp from '../../../lib/withInNativeApp'
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -31,8 +32,13 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children, url }) => (
-  <div {...menuStyle} id={id} aria-expanded={expanded}>
+const Popover = ({ items, expanded, id, children, url, inNativeApp }) => (
+  <div
+    id={id}
+    aria-expanded={expanded}
+    style={{ top: inNativeApp && 0, height: inNativeApp && '100vh' }}
+    {...menuStyle}
+  >
     {children}
   </div>
 )
@@ -41,4 +47,4 @@ Popover.propTypes = {
   expanded: PropTypes.bool
 }
 
-export default Popover
+export default withInNativeApp(Popover)

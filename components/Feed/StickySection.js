@@ -48,17 +48,20 @@ class StickySection extends Component {
     super(props)
     this.state = {
       sticky: false,
-      isMobile: true
+      isMobile: true,
+      isSmall: false,
+      width: 0,
+      height: 0
     }
     this.sectionRef = null
     this.setSectionRef = (el) => { this.sectionRef = el }
 
     this.onScroll = () => {
       if (this.sectionRef) {
-        const { sticky, isMobile } = this.state
+        const { sticky, isSmall, height } = this.state
         const { spaceAfter } = this.props
-        const y = window.pageYOffset + (isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
-        const { height, offset } = this.measure()
+        const y = window.pageYOffset + (isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
+        const offset = this.sectionRef.offsetTop
         const nextSticky = (y > offset) && // scroll pos is above top of section
           (offset + height + (spaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is below bottom
         if (sticky !== nextSticky) {
@@ -67,47 +70,30 @@ class StickySection extends Component {
       }
     }
 
-    this.handleResize = () => {
-      const isMobile = window.innerWidth < mediaQueries.lBreakPoint
-      this.setState({
-        isMobile
-      })
-    }
-
     this.measure = () => {
+      const isMobile = window.innerWidth < mediaQueries.lBreakPoint
+      const isSmall = window.innerWidth < mediaQueries.mBreakPoint
       if (this.sectionRef) {
         const { width, height } = this.sectionRef.getBoundingClientRect()
-        const offset = this.sectionRef.offsetTop
-        return {
-          width,
-          height,
-          offset
-        }
-      } else {
-        return {
-          width: 0,
-          height: 0,
-          offset: 0
-        }
+        this.setState({ width, height, isMobile, isSmall })
       }
     }
   }
 
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
+    window.addEventListener('resize', this.measure)
+    this.measure()
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.measure)
   }
 
   render () {
     const { children, label } = this.props
-    const { sticky, isMobile } = this.state
-    const { width } = this.measure()
+    const { sticky, width, isMobile } = this.state
     return (
       <section ref={this.setSectionRef}>
         <div {...style.header}>

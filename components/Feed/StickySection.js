@@ -46,7 +46,7 @@ class StickySection extends Component {
     super(props)
     this.state = {
       sticky: false,
-      isMobile: true,
+      isMedium: false,
       isSmall: false,
       width: 0,
       height: 0
@@ -69,11 +69,11 @@ class StickySection extends Component {
     }
 
     this.measure = () => {
-      const isMobile = window.innerWidth < mediaQueries.lBreakPoint
+      const isMedium = window.innerWidth < mediaQueries.lBreakPoint
       const isSmall = window.innerWidth < mediaQueries.mBreakPoint
       if (this.sectionRef) {
         const { width, height } = this.sectionRef.getBoundingClientRect()
-        this.setState({ width, height, isMobile, isSmall })
+        this.setState({ width, height, isMedium, isSmall })
       }
     }
   }
@@ -91,7 +91,7 @@ class StickySection extends Component {
 
   render () {
     const { children, label } = this.props
-    const { sticky, width, isMobile } = this.state
+    const { sticky, width, isMedium } = this.state
     return (
       <section ref={this.setSectionRef}>
         <div {...style.header}>
@@ -100,7 +100,7 @@ class StickySection extends Component {
             {...(sticky && style.sticky)}
             style={{
               position: sticky ? 'fixed' : 'relative',
-              width: isMobile ? width : SIDEBAR_WIDTH
+              width: isMedium ? width : SIDEBAR_WIDTH
             }}>
             {
               label

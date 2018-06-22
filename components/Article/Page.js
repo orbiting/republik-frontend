@@ -67,7 +67,7 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
+const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
   <div>
     <ShareButtons
       url={url}
@@ -79,7 +79,6 @@ const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossie
         title
       })}
       onAudioClick={onAudioClick}
-      inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
@@ -271,7 +270,7 @@ class ArticlePage extends Component {
 
     const hasPdf = meta && meta.template === 'article'
 
-    const actionBar = meta && (
+    const actionBar = !inNativeApp && meta && (
       <ActionBar t={t}
         url={meta.url}
         title={meta.title}
@@ -285,7 +284,6 @@ class ArticlePage extends Component {
           this.togglePdf
         )}
         pdfUrl={hasPdf && getPdfUrl(meta)}
-        inNativeApp={inNativeApp}
       />
     )
 
@@ -367,7 +365,7 @@ class ArticlePage extends Component {
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
-        inNativeApp={this.props.inNativeApp}
+        inNativeApp={inNativeApp}
       />
     ) : null
 
@@ -407,7 +405,7 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || (!inNativeApp && actionBar)}
+        secondaryNav={(isMember && seriesNavButton) || actionBar}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}

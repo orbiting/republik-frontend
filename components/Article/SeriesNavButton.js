@@ -27,9 +27,9 @@ const styles = {
     textAlign: 'left',
     top: 0,
     whiteSpace: 'nowrap',
-    width: `calc(100vw - ${2 * HEADER_HEIGHT_MOBILE}px)`,
+    width: `calc(100vw - ${3 * HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      width: `calc(100vw - ${2 * HEADER_HEIGHT}px)`
+      width: `calc(100vw - ${3 * HEADER_HEIGHT}px)`
     }
   }),
   menu: css({

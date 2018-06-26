@@ -81,7 +81,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       onAudioClick={onAudioClick}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
+      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
     }
   </div>
 )

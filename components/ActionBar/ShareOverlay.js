@@ -23,7 +23,7 @@ const styles = {
       [`@media only screen and (max-width: ${350}px)`]: {
         flex: 'auto',
         marginBottom: 20,
-        width: '50%'
+        width: 'calc(50% - 24px)'
       }
     },
     '@media print': {

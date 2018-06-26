@@ -101,6 +101,7 @@ const ShareOverlay = ({
                 key={props.icon}
                 fill={fill}
                 size={32}
+                onClick={onClose}
                 stacked
                 {...props}
               >

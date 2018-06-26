@@ -1,5 +1,5 @@
 {
-  "updated": "2018-06-14T15:13:58.134Z",
+  "updated": "2018-06-26T07:37:55.207Z",
   "title": "live",
   "data": [
     {
@@ -921,7 +921,6 @@
     {
       "key": "profile/contact/phoneNumber/label",
       "value": "Telefonnummer"
-
     },
     {
       "key": "profile/contact/phoneNumberNote/label",
@@ -954,6 +953,10 @@
     {
       "key": "profile/statement/tooLong",
       "value": "Statement, maximal 140 Zeichen"
+    },
+    {
+      "key": "profile/share/title",
+      "value": "Profil teilen"
     },
     {
       "key": "profile/preview",
@@ -2204,24 +2207,48 @@
       "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
+      "key": "article/share/title",
+      "value": "Artikel teilen"
+    },
+    {
       "key": "article/share/emailSubject",
       "value": "Republik: {title}"
     },
     {
-      "key": "article/actionbar/facebook",
-      "value": "Artikel auf Facebook teilen"
+      "key": "article/actionbar/share",
+      "value": "Teilen"
     },
     {
-      "key": "article/actionbar/twitter",
-      "value": "Artikel auf Twitter teilen"
+      "key": "article/actionbar/facebook/title",
+      "value": "Auf Facebook teilen"
     },
     {
-      "key": "article/actionbar/whatsapp",
-      "value": "Artikel auf WhatsApp teilen"
+      "key": "article/actionbar/facebook/label",
+      "value": "Facebook"
     },
     {
-      "key": "article/actionbar/email",
-      "value": "Artikel per E-Mail verschicken"
+      "key": "article/actionbar/twitter/title",
+      "value": "Auf Twitter teilen"
+    },
+    {
+      "key": "article/actionbar/twitter/label",
+      "value": "Twitter"
+    },
+    {
+      "key": "article/actionbar/whatsapp/title",
+      "value": "Auf WhatsApp teilen"
+    },
+    {
+      "key": "article/actionbar/whatsapp/label",
+      "value": "WhatsApp"
+    },
+    {
+      "key": "article/actionbar/email/title",
+      "value": "Per E-Mail verschicken"
+    },
+    {
+      "key": "article/actionbar/email/label",
+      "value": "E-Mail"
     },
     {
       "key": "article/actionbar/dossier",
@@ -2546,6 +2573,10 @@
     {
       "key": "events/past",
       "value": "Vergangene Veranstaltungen"
+    },
+    {
+      "key": "events/share/title",
+      "value": "Veranstaltung teilen"
     },
     {
       "key": "events/all",

@@ -11,7 +11,7 @@ import { Link, Router } from '../../lib/routes'
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
-import Share from '../Share'
+import ActionBar from '../ActionBar'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
@@ -370,10 +370,11 @@ class Profile extends Component {
                     <div {...styles.headInfo}>
                       {!!user.isListed &&
                         <span {...styles.headInfoShare}>
-                          <Share
+                          <ActionBar
                             emailSubject={t('testimonial/detail/share/emailSubject', {name: `${user.firstName} ${user.lastName}`})}
                             url={`${PUBLIC_BASE_URL}/~${user.username}`}
                             download={metaData.image}
+                            shareOverlayTitle={t('profile/share/title')}
                           />
                         </span>
                       }

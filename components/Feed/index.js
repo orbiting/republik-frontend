@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
-import StickyHeader from './StickyHeader'
+import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 
@@ -20,9 +20,6 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
-const SIDEBAR_WIDTH = 120
-const MARGIN_WIDTH = 20
-
 const styles = {
   container: css({
     padding: '15px 15px 120px',
@@ -30,24 +27,10 @@ const styles = {
       padding: '40px 0 120px'
     }
   }),
-  header: css({
-    backgroundColor: '#fff',
-    margin: '0 0 30px 0',
-    width: '100%',
-    height: 27,
-    [mediaQueries.lUp]: {
-      height: 'auto',
-      float: 'left',
-      margin: `0 0 30px -${SIDEBAR_WIDTH + MARGIN_WIDTH}px`,
-      width: SIDEBAR_WIDTH,
-      '& > div': {
-        width: SIDEBAR_WIDTH
-      }
-    }
-  }),
   more: css({
     position: 'relative',
-    height: 50
+    height: 50,
+    padding: '10px 0 0 0'
   })
 }
 
@@ -199,37 +182,36 @@ class Feed extends Component {
                   {greeting.text}
                 </Interaction.H1>
               )}
-              {nodes &&
-                groupByDate.entries(nodes).map(({key, values}) =>
-                  <section ref={this.setContainerRef}>
-                    <div {...styles.header}>
-                      <StickyHeader>
-                        <span>
-                          {key}
-                        </span>
-                      </StickyHeader>
-                    </div>
-                    {
-                      values.map(doc =>
-                        <TeaserFeed
-                          {...doc.meta}
-                          credits={formatCredits(doc.meta.credits)}
-                          publishDate={undefined}
-                          kind={
-                            doc.meta.template === 'editorialNewsletter' ? (
-                              'meta'
-                            ) : (
-                              doc.meta.kind
-                            )
-                          }
-                          Link={Link}
-                          key={doc.meta.path}
-                        />
-                      )
-                    }
-                  </section>
-                )
-              }
+              <div ref={this.setContainerRef}>
+                {nodes &&
+                  groupByDate.entries(nodes).map(({key, values}, i, all) =>
+                    <StickySection
+                      key={i}
+                      hasSpaceAfter={i < all.length - 1}
+                      label={key}
+                    >
+                      {
+                        values.map(doc =>
+                          <TeaserFeed
+                            {...doc.meta}
+                            credits={formatCredits(doc.meta.credits)}
+                            publishDate={undefined}
+                            kind={
+                              doc.meta.template === 'editorialNewsletter' ? (
+                                'meta'
+                              ) : (
+                                doc.meta.kind
+                              )
+                            }
+                            Link={Link}
+                            key={doc.meta.path}
+                          />
+                        )
+                      }
+                    </StickySection>
+                  )
+                }
+              </div>
               <div {...styles.more}>
                 {loadingMore &&
                   <Spinner />

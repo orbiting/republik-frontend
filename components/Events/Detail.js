@@ -12,7 +12,7 @@ import {
 
 import {CONTENT_PADDING} from '../constants'
 
-import Share from '../Share'
+import ActionBar from '../ActionBar'
 
 import {
   PUBLIC_BASE_URL
@@ -120,10 +120,11 @@ const Event = withT(({
         {!!where && <P>{location}</P>}
         {!!where && <hr {...styles.hr} />}
         <P>
-          <Share
+          <ActionBar
             url={`${PUBLIC_BASE_URL}/veranstaltung/${slug}`}
             emailSubject={title}
-            tweet={title} />
+            tweet={title}
+            shareOverlayTitle={t('events/share/title')} />
         </P>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 
 import { Link } from '../../lib/routes'
-import Share from '../Share'
+import ActionBar from '../ActionBar'
 
 import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
@@ -46,11 +46,11 @@ const Detail = ({
     <div
       style={
         video ? (
-        {
-          maxWidth: 400,
-          marginLeft: 'auto',
-          marginRight: 'auto'
-        }
+          {
+            maxWidth: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }
         ) : (
           {}
         )
@@ -90,12 +90,13 @@ const Detail = ({
         </P>
       )}
       {share && (
-        <Share
+        <ActionBar
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
           emailSubject={t('testimonial/detail/share/emailSubject', {
             name
           })}
           download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
+          shareOverlayTitle={t('profile/share/title')}
         />
       )}
     </div>

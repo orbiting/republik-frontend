@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
@@ -22,6 +22,25 @@ import KeyIcon from 'react-icons/lib/fa/key'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
+
+const stackedStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+}
+
+const mobileOnlyStyle = {
+  [mediaQueries.mUp]: {
+    display: 'none'
+  }
+}
+
+const getExtraStyles = (mobileOnly, stacked) => {
+  return css({
+    ...(stacked && stackedStyle),
+    ...(mobileOnly && mobileOnlyStyle)
+  })
+}
 
 export const styles = {
   link: css({
@@ -48,6 +67,12 @@ export const styles = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     verticalAlign: 'middle'
+  }),
+  stackedText: css({
+    display: 'inline-block',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    marginTop: 5
   }),
   mobileOnly: css({
     [mediaQueries.mUp]: {
@@ -82,14 +107,15 @@ const IconLink = ({
   mobileOnly,
   style,
   title,
-  onClick
+  onClick,
+  stacked
 }) => {
   const Icon = ICONS[icon]
 
   return (
     <a
       {...styles.link}
-      {...(mobileOnly ? styles.mobileOnly : {})}
+      {...(getExtraStyles(mobileOnly, stacked))}
       href={href}
       onClick={onClick}
       style={style}
@@ -99,8 +125,10 @@ const IconLink = ({
     >
       <Icon fill={fill} size={size} />
       {children && (
-        <span {...styles.text}>
-          &nbsp;{children}
+        <span {...(stacked ? styles.stackedText : styles.text)}>
+          {!stacked && (
+            <Fragment>&nbsp;</Fragment>
+          )}{children}
         </span>
       )}
     </a>

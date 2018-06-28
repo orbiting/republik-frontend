@@ -11,7 +11,7 @@ import {
 
 import {CONTENT_PADDING} from '../constants'
 
-import Share from '../Share'
+import ActionBar from '../ActionBar'
 
 import {
   PUBLIC_BASE_URL
@@ -88,20 +88,20 @@ const Update = withT(({
       </div>
       {
         children
-        ? (
-          <Content>
-            {children}
-          </Content>
-        )
-        : (
-          <RawHtml style='serif' type={Content} dangerouslySetInnerHTML={{
-            __html: text || ''
-          }} />
-        )
+          ? (
+            <Content>
+              {children}
+            </Content>
+          )
+          : (
+            <RawHtml style='serif' type={Content} dangerouslySetInnerHTML={{
+              __html: text || ''
+            }} />
+          )
       }
 
       <P>
-        <Share
+        <ActionBar
           url={`${PUBLIC_BASE_URL}/updates/${slug}`}
           emailSubject={title}
           tweet={title} />

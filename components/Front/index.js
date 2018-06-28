@@ -55,7 +55,8 @@ const getDocument = gql`
 
 const styles = {
   spinner: css({
-    textAlign: 'center'
+    textAlign: 'center',
+    margin: '10px 0'
   })
 }
 

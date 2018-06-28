@@ -3,7 +3,7 @@ import {css} from 'glamor'
 import Head from 'next/head'
 import Router from 'next/router'
 
-import Share from '../components/Share'
+import ActionBar from '../components/ActionBar'
 import PureFooter, {SPACE} from '../components/Frame/PureFooter'
 
 import track from '../lib/piwik'
@@ -215,10 +215,10 @@ ${meta.url}
 
         <div style={{textAlign: 'center', marginBottom: SPACE}}>
           <P>
-            Share Manifesto
+            Share manifesto
           </P>
           <P style={{marginBottom: SPACE / 2}}>
-            <Share fill='#000' {...share} />
+            <ActionBar fill='#000' {...share} shareOverlayTitle={'Share manifesto'} />
           </P>
           <P>
             <A href={`${CDN_FRONTEND_BASE_URL}/static/manifesto_en.pdf`}>

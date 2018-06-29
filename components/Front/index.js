@@ -69,34 +69,32 @@ class Front extends Component {
       url: `${PUBLIC_BASE_URL}${front.meta.path}`
     }
 
-    const hasNextPage = front.children.pageInfo.hasNextPage
-
     return (
       <Frame
         raw
         url={url}
         meta={meta}
       >
-        <InfiniteScroll
-          loadMore={fetchMore}
-          hasMore={hasNextPage}
-          threshold={800}
-          loader={
-            <div {...styles.spinner}
-              key='pagination-loader'>
-              <InlineSpinner size={28} />
-            </div>
-          }
-        >
-          <Loader loading={data.loading && !front} error={data.error} message={t('pages/magazine/title')} render={() => {
-            return <SSRCachingBoundary key='content' cacheKey={webpCacheKey(this.props.headers, front.id)}>
+        <Loader loading={data.loading || !front} error={data.error} message={t('pages/magazine/title')} render={() => {
+          const hasNextPage = front.children.pageInfo.hasNextPage
+          return <InfiniteScroll
+            loadMore={fetchMore}
+            hasMore={hasNextPage}
+            threshold={800}
+            loader={
+              <div {...styles.spinner}
+                key='pagination-loader'>
+                <InlineSpinner size={28} />
+              </div>
+            }>
+            <SSRCachingBoundary key='content' cacheKey={webpCacheKey(this.props.headers, front.id)}>
               {() => renderMdast({
                 type: 'root',
                 children: front.children.nodes.map(v => v.body)
               }, schema)}
             </SSRCachingBoundary>
-          }} />
-        </InfiniteScroll>
+          </InfiniteScroll>
+        }} />
       </Frame>
     )
   }
@@ -122,7 +120,7 @@ export default compose(
           return data.fetchMore({
             variables: {
               first: 5,
-              after: data.front.children.pageInfo.endCursor
+              after: data.front && data.front.children.pageInfo.endCursor
             },
             updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
               const previousSearch = previousResult.front.children || {}

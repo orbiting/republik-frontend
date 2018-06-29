@@ -173,7 +173,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
           />
         </div>
       </div>
-      <Footer />
+      {inNativeApp && <Footer />}
     </div>
   )
 }

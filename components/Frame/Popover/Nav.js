@@ -16,7 +16,13 @@ import {
 
 const styles = {
   container: css({
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  }),
+  sections: css({
     ...fontStyles.sansSerifRegular21,
+    flex: 1,
     paddingTop: '20px',
     [mediaQueries.mUp]: {
       display: 'flex',
@@ -100,72 +106,74 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
-      <div {...styles.section}>
-        {me && (
-          <div>
-            <NavLink
-              route='account'
-              translation={t('Frame/Popover/myaccount')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='profile'
-              params={{ slug: me.username || me.id }}
-              translation={t('Frame/Popover/myprofile')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-          </div>
-        )}
-        {me ? (
-          <SignOut Link={SignoutLink} />
-        ) : (
-          <div>
-            <Interaction.P style={{ marginBottom: '20px' }}>
-              {t('me/signedOut')}
-            </Interaction.P>
-            <SignIn />
-          </div>
-        )}
-        <br />
+      <div {...styles.sections}>
+        <div {...styles.section}>
+          {me && (
+            <div>
+              <NavLink
+                route='account'
+                translation={t('Frame/Popover/myaccount')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+              <NavLink
+                route='profile'
+                params={{ slug: me.username || me.id }}
+                translation={t('Frame/Popover/myprofile')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </div>
+          )}
+          {me ? (
+            <SignOut Link={SignoutLink} />
+          ) : (
+            <div>
+              <Interaction.P style={{ marginBottom: '20px' }}>
+                {t('me/signedOut')}
+              </Interaction.P>
+              <SignIn />
+            </div>
+          )}
+          <br />
+        </div>
+        <div {...styles.section}>
+          {me && (
+            <div>
+              <NavLink
+                route='feed'
+                translation={t('nav/feed')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+              <NavLink
+                route='formats'
+                translation={t('nav/formats')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+              <NavLink
+                route='events'
+                translation={t('nav/events')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </div>
+          )}
+          <NavLink
+            route='community'
+            translation={t('nav/community')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+        </div>
       </div>
-      <div {...styles.section}>
-        {me && (
-          <div>
-            <NavLink
-              route='feed'
-              translation={t('nav/feed')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='formats'
-              translation={t('nav/formats')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='events'
-              translation={t('nav/events')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-          </div>
-        )}
-        <NavLink
-          route='community'
-          translation={t('nav/community')}
-          active={active}
-          closeHandler={closeHandler}
-        />
-      </div>
-      {inNativeApp && <Footer />}
+      <Footer />
     </div>
   )
 }

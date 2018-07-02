@@ -14,6 +14,8 @@ import Popover from './Popover'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
+import Search from 'react-icons/lib/md/search'
+
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
@@ -24,6 +26,7 @@ const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
 const LOGO_WIDTH = 203
 const LOGO_WIDTH_MOBILE = 162
+const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
   bar: css({
@@ -87,17 +90,43 @@ const styles = {
       width: HEADER_HEIGHT - 2 + 5
     }
   }),
+  search: css({
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    padding: '0',
+    cursor: 'pointer',
+    '@media print': {
+      display: 'none'
+    },
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    overflow: 'hidden',
+    top: 0,
+    right: HEADER_HEIGHT_MOBILE - 1,
+    marginTop: '1px',
+    height: HEADER_HEIGHT_MOBILE - 2,
+    width: SEARCH_BUTTON_WIDTH,
+    [mediaQueries.mUp]: {
+      height: HEADER_HEIGHT - 2,
+      width: HEADER_HEIGHT - 2 - 10,
+      right: HEADER_HEIGHT - 2 + 5
+    }
+  }),
   secondary: css({
     position: 'absolute',
     top: 0,
     left: 15,
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
-    right: `${HEADER_HEIGHT_MOBILE}px`,
+    right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
     paddingTop: '11px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
-      right: `${HEADER_HEIGHT}px`,
+      right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
       paddingTop: '24px'
     },
     transition: 'opacity .2s ease-in-out'
@@ -216,6 +245,8 @@ class Header extends Component {
     const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
     const logoAriaLabel = logoRoute === 'feed' ? t('header/logo/feed/aria') : t('header/logo/magazine/aria')
 
+    const isSearchActive = url.pathname === '/search'
+
     return (
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
@@ -268,6 +299,25 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
+          )}
+          {!inNativeApp && opaque && (
+            <button
+              {...styles.search}
+              role='button'
+              title={t('header/nav/search/aria')}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                if (isSearchActive) {
+                  window.scrollTo(0, 0)
+                } else {
+                  Router.pushRoute('search').then(() => window.scrollTo(0, 0))
+                }
+              }}>
+              <Search
+                fill={isSearchActive ? colors.primary : colors.text}
+                size={28} />
+            </button>
           )}
           {!inNativeApp && opaque && (
             <div {...styles.hamburger}>

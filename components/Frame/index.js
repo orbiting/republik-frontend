@@ -71,7 +71,8 @@ const Index = ({
   headerInline,
   formatColor,
   audioSource,
-  audioCloseHandler
+  audioCloseHandler,
+  onSearchClick
 }) => (
   <div {...styles.container}>
     <div

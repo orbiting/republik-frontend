@@ -108,7 +108,6 @@ class TokenAuthorization extends Component {
         const authorizeError = this.state.authorizeError || (
           this.state.dirty && consentsError
         )
-
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
         return (
           <Fragment>

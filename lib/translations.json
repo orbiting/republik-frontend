@@ -735,6 +735,10 @@
       "value": "Browser-Benachrichtungen erlauben"
     },
     {
+      "key": "account/discussionNotificationChannels/APP/label",
+      "value": "App"
+    },
+    {
       "key": "account/defaultDiscussionNotificationOption/label",
       "value": "Standardeinstellung für Benachrichtigungen"
     },

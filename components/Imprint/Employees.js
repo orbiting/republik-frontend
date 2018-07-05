@@ -75,7 +75,7 @@ const getEmployeesGsheet = gql`
 
 const getEmployeesData = gql`
   query getEmployeesData($ids: [ID!]) {
-    search(filter: { type: User, ids: $ids }, first: 100) {
+    search(filter: { type: User, ids: $ids }, first: 200) {
       nodes {
         entity {
           ... on User {

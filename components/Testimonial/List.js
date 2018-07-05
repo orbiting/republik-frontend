@@ -26,12 +26,11 @@ import {
 const {P} = Interaction
 
 const SIZES = [
-  {minWidth: 0, columns: 3},
-  {minWidth: 400, columns: 4},
-  {minWidth: 700, columns: 5},
-  {minWidth: mediaQueries.mBreakPoint, columns: 3}, // 768
-  {minWidth: 900, columns: 4},
-  {minWidth: 1000, columns: 5}
+  {minWidth: 0, columns: 1},
+  {minWidth: 200, columns: 2},
+  {minWidth: 400, columns: 3},
+  {minWidth: 600, columns: 4},
+  {minWidth: 880, columns: 5}
 ]
 
 const PADDING = 5
@@ -97,8 +96,8 @@ const styles = {
     fontSize: 12,
     lineHeight: '15px',
     [mediaQueries.mUp]: {
-      fontSize: 17,
-      lineHeight: '22px'
+      fontSize: 16,
+      lineHeight: '21px'
     },
     color: '#fff',
     fontFamily: fontFamilies.sansSerifMedium
@@ -295,26 +294,31 @@ class List extends Component {
             {!!isPage && <Meta data={metaData} />}
             {items}
             <div style={{clear: 'left', marginBottom: 20}} />
-            {(
+            {
               statements.length >= AUTO_INFINITE &&
               !this.state.endless &&
-              hasMore
-            ) && (
-              <A href='#'
-                onClick={(e) => {
-                  e.preventDefault()
-                  this.setState(() => ({
-                    endless: true
-                  }), () => {
-                    this.onScroll()
-                  })
-                }}>
-                {t('testimonial/infinite/endless', {
-                  count: AUTO_INFINITE,
-                  remaining: totalCount - AUTO_INFINITE
-                })}
-              </A>
-            )}
+              hasMore && (
+                <A
+                  href='#'
+                  onClick={e => {
+                    e.preventDefault()
+                    this.setState(
+                      () => ({
+                        endless: true
+                      }),
+                      () => {
+                        this.onScroll()
+                      }
+                    )
+                  }}
+                >
+                  {t('testimonial/infinite/endless', {
+                    count: AUTO_INFINITE,
+                    remaining: totalCount - AUTO_INFINITE
+                  })}
+                </A>
+              )
+            }
             {!hasMore && hasEndText && (
               <P>{t('testimonial/infinite/end', {
                 count: statements.length

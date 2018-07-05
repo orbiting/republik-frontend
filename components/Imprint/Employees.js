@@ -2,6 +2,7 @@ import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import { entries, nest } from 'd3-collection'
 
 import Employee from './Employee'
 import Loader from '../Loader'
@@ -88,21 +89,6 @@ const getEmployeesData = gql`
   }
 `
 
-const groupBy = (array, key) => {
-  return array
-    ? array.reduce((map, obj) => {
-      if (map[obj[key]]) {
-        map[obj[key]].group.push(obj)
-      } else {
-        map[obj[key]] = {
-          group: [obj]
-        }
-      }
-      return map
-    }, {})
-    : {}
-}
-
 const EmployeeList = compose(
   graphql(getEmployeesData, {
     options: props => ({
@@ -131,12 +117,11 @@ const EmployeeList = compose(
                 <H2 {...styles.groupHeading}>{groupKey}</H2>
                 {!!employeeGroups[groupKey] &&
                   !employeeGroups[groupKey].group &&
-                  Object.keys(employeeGroups[groupKey]) &&
-                  Object.keys(employeeGroups[groupKey]).map((subgroupKey, i) => (
+                  entries(employeeGroups[groupKey]).map((subgroup, i) => (
                     <section {...styles.subgroup} key={i}>
-                      <H3 {...styles.subgroupHeading}>{subgroupKey}</H3>
-                      {!!employeeGroups[groupKey][subgroupKey].group &&
-                        employeeGroups[groupKey][subgroupKey].group.map((employee, i) => (
+                      <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
+                      {!!employeeGroups[groupKey][subgroup.key] &&
+                        employeeGroups[groupKey][subgroup.key].map((employee, i) => (
                           <Employee
                             {...employee}
                             {...userById[employee.userId]}
@@ -174,20 +159,10 @@ const Employees = compose(
         )
       ].filter(Boolean)
 
-      // Create a nested object with keys being group names and values being either:
-      // - a {list: [...]} object containing an array of employees, or
-      // - keys of subgroups names pointing to a {list: [...]} object
-      const firstLevelGroups = groupBy(employees, 'group')
-      let employeeGroups = {}
-      for (var property in firstLevelGroups) {
-        if (firstLevelGroups.hasOwnProperty(property)) {
-          employeeGroups[property] =
-            firstLevelGroups[property].group.length &&
-            !!firstLevelGroups[property].group[0].subgroup
-              ? groupBy(firstLevelGroups[property].group, 'subgroup')
-              : firstLevelGroups[property]
-        }
-      }
+      const employeeGroups = nest()
+        .key(d => d['group'])
+        .key(d => d['subgroup'] || 'group')
+        .object(employees)
 
       return (
         <EmployeeList ids={uniqueUserIds} employeeGroups={employeeGroups} />

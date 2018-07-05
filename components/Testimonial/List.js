@@ -96,8 +96,8 @@ const styles = {
     fontSize: 12,
     lineHeight: '15px',
     [mediaQueries.mUp]: {
-      fontSize: 17,
-      lineHeight: '22px'
+      fontSize: 16,
+      lineHeight: '21px'
     },
     color: '#fff',
     fontFamily: fontFamilies.sansSerifMedium

@@ -189,6 +189,10 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
+              <Link route='crew'>
+                <a>{t('footer/crew')}</a>
+              </Link>
+              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
               </Link>

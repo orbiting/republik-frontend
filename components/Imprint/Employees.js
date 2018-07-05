@@ -105,10 +105,10 @@ const EmployeeList = compose(
       render={() => {
         const { nodes } = search
 
-        const userById = [...nodes].reduce((map, node) => {
-          map[node.entity.id] = node.entity
-          return map
-        }, {})
+        const userById = nest()
+          .key(d => d['entity']['id'])
+          .rollup(d => d[0]['entity'])
+          .object(nodes)
 
         return (
           <div {...styles.container}>

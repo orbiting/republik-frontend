@@ -110,33 +110,31 @@ const EmployeeList = compose(
           .rollup(d => d[0]['entity'])
           .object(nodes)
 
+        const renderEmployee = (employee, i) =>
+          <Employee
+            {...employee}
+            {...userById[employee.userId]}
+            key={i}
+          />
+
         return (
           <div {...styles.container}>
-            {Object.keys(employeeGroups).map((groupKey, i) => (
-              <section {...styles.group} key={i}>
-                <H2 {...styles.groupHeading}>{groupKey}</H2>
-                {!!employeeGroups[groupKey] &&
-                  !employeeGroups[groupKey].group &&
-                  entries(employeeGroups[groupKey]).map((subgroup, i) => (
-                    <section {...styles.subgroup} key={i}>
-                      <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
-                      {!!employeeGroups[groupKey][subgroup.key] &&
-                        employeeGroups[groupKey][subgroup.key].map((employee, i) => (
-                          <Employee
-                            {...employee}
-                            {...userById[employee.userId]}
-                            key={i}
-                          />
-                        ))}
-                    </section>
-                  ))}
-                {!!employeeGroups[groupKey] &&
-                  employeeGroups[groupKey].group &&
-                  employeeGroups[groupKey].group.map((employee, i) => (
-                    <Employee {...employee} {...userById[employee.userId]} key={i} />
-                  ))}
-              </section>
-            ))}
+            {
+              entries(employeeGroups).map(group =>
+                <section {...styles.group} key={group.key}>
+                  <H2 {...styles.groupHeading}>{group.key}</H2>
+                  { group.value.group
+                    ? group.value.group.map(renderEmployee)
+                    : entries(group.value).map(subgroup => (
+                      <section {...styles.subgroup} key={subgroup.key}>
+                        <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
+                        {subgroup.value.map(renderEmployee)}
+                      </section>
+                    ))
+                  }
+                </section>
+              )
+            }
           </div>
         )
       }}

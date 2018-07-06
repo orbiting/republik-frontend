@@ -1,5 +1,5 @@
 {
-  "updated": "2018-06-26T07:37:55.207Z",
+  "updated": "2018-07-06T11:45:20.778Z",
   "title": "live",
   "data": [
     {
@@ -733,6 +733,10 @@
     {
       "key": "account/discussionNotificationChannels/WEB/enable",
       "value": "Browser-Benachrichtungen erlauben"
+    },
+    {
+      "key": "account/discussionNotificationChannels/APP/label",
+      "value": "App"
     },
     {
       "key": "account/defaultDiscussionNotificationOption/label",
@@ -2457,6 +2461,10 @@
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
       "value": "Abonnement kündigen"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
+      "value": "Auf Jahresabo upgraden"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",

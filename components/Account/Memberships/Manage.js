@@ -47,6 +47,12 @@ class Manage extends Component {
 
     return (
       <Fragment>
+        {membership.active &&
+          !isCancelling &&
+          membership.type.name === 'MONTHLY_ABO' &&
+          <A style={{display: 'block'}} href='/angebote?package=ABO'>
+            {t(`memberships/${membership.type.name}/manage/upgrade/link`)}
+          </A>}
         {membership.active && membership.renew && !isCancelling &&
           <A href='#cancel' onClick={(e) => {
             e.preventDefault()

@@ -209,14 +209,14 @@ const authorizeSession = gql`
 `
 
 const unauthorizedSessionQuery = gql`
-  query unauthorizedSession($email: String!, $token: String!) {
+  query unauthorizedSession($email: String!, $token: String!, $tokenType: SignInTokenType!) {
     echo {
       ipAddress
       userAgent
       country
       city
     }
-    target: unauthorizedSession(email: $email, token: {type: EMAIL_TOKEN, payload: $token}) {
+    target: unauthorizedSession(email: $email, token: {type: $tokenType, payload: $token}) {
       newUser
       enabledSecondFactors
       requiredConsents
@@ -235,12 +235,12 @@ const unauthorizedSessionQuery = gql`
 export default compose(
   withT,
   graphql(authorizeSession, {
-    props: ({ ownProps: { email, token }, mutate }) => ({
+    props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
       authorize: ({consents} = {}) => mutate({
         variables: {
           email,
           tokens: [
-            {type: 'EMAIL_TOKEN', payload: token}
+            {type: tokenType, payload: token}
           ],
           consents
         },

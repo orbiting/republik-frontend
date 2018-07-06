@@ -57,7 +57,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query, query: { context, token } }, t }) => {
+const Page = withT(({ url: { query, query: { context, token, tokenType } }, t }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -80,6 +80,7 @@ const Page = withT(({ url: { query, query: { context, token } }, t }) => {
     content = <TokenAuthorization
       email={email}
       token={token}
+      tokenType={tokenType || 'EMAIL_TOKEN'}
     />
   } else if (type === 'newsletter-subscription') {
     logoTarget = '_blank'

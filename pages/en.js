@@ -189,7 +189,7 @@ ${meta.url}
           )}
           <EH1>We are Republik</EH1>
           <EP>
-            We are reclaiming journalism as profession and are creating a new business model for media companies that want to place their readers at the center. Our digital magazine Republik (in German) will launch in January 2018. Republik will be reader owned and ad free.
+            We are reclaiming journalism as profession and are creating a new business model for media companies that want to place their readers at the center. Our digital magazine Republik (in German) was launched in January 2018. Republik will be reader owned and ad free.
           </EP>
           <EP>
             We are an open-source cooperative, and we share our knowledge, software and business insights with others who also want to create journalism projects that reinforce democracy.

@@ -3,8 +3,10 @@ import { css } from 'glamor'
 import Head from 'next/head'
 import isEmail from 'validator/lib/isEmail'
 
+import { compose } from 'react-apollo'
 import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
+import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
 import * as base64u from '../lib/utils/base64u'
@@ -57,7 +59,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query, query: { context, token, tokenType } }, t }) => {
+const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, inNativeApp }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -91,8 +93,9 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t })
       email={email}
       context={context} />
   } else {
+    const appAppendix = inNativeApp && (type === 'email-confirmed' || type === 'session-denied')
     content = <RawHtml type={P} dangerouslySetInnerHTML={{
-      __html: t(`notifications/${type}/text`, query, '')
+      __html: t(`notifications/${type}/text${appAppendix ? '/app' : ''}`, query, '')
     }} />
   }
   const displayMe = (
@@ -103,6 +106,10 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t })
     context === 'pledge' && type !== 'token-authorization' && {
       route: 'account',
       label: t('notifications/links/merci')
+    },
+    (type === 'email-confirmed' || type === 'session-denied') && {
+      route: 'index',
+      label: t('notifications/links/home')
     }
   ].filter(Boolean)
 
@@ -155,4 +162,4 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t })
   )
 })
 
-export default withData(Page)
+export default compose(withData, withInNativeApp)(Page)

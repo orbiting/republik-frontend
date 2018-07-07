@@ -60,6 +60,29 @@ class TokenAuthorization extends Component {
         })
     })
   }
+  deny () {
+    if (this.state.authorizing) {
+      return
+    }
+
+    const {
+      email,
+      deny
+    } = this.props
+
+    this.setState({
+      authorizing: true
+    }, () => {
+      deny()
+        .then(() => goTo('session-denied', email))
+        .catch(error => {
+          this.setState({
+            authorizing: false,
+            authorizeError: error
+          })
+        })
+    })
+  }
   autoAutherize () {
     if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
@@ -190,6 +213,18 @@ class TokenAuthorization extends Component {
                     }}>
                     {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
                   </Button>
+                  {!target.requiredConsents.length && !isCurrent && (
+                    <div>
+                      <br />
+                      <Button
+                        black
+                        onClick={() => {
+                          this.deny()
+                        }}>
+                        {t(`tokenAuthorization/button/deny`)}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               )}
             <br />
@@ -205,6 +240,11 @@ class TokenAuthorization extends Component {
 const authorizeSession = gql`
   mutation authorizeSession($email: String!, $tokens: [SignInToken!]!, $consents: [String!]) {
     authorizeSession(email: $email, tokens: $tokens, consents: $consents)
+  }
+`
+const denySession = gql`
+  mutation denySession($email: String!, $token: SignInToken!) {
+    denySession(email: $email, token: $token)
   }
 `
 
@@ -243,6 +283,17 @@ export default compose(
             {type: tokenType, payload: token}
           ],
           consents
+        },
+        refetchQueries: [{query: meQuery}]
+      })
+    })
+  }),
+  graphql(denySession, {
+    props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
+      deny: () => mutate({
+        variables: {
+          email,
+          token: {type: tokenType, payload: token}
         },
         refetchQueries: [{query: meQuery}]
       })

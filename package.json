@@ -19,7 +19,9 @@
     "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
     "analyze": "cross-env ANALYZE=1 next build",
     "preinstall": "rm -rf .next && rm -rf node_modules/glamor && rm -rf node_modules/@project-r/styleguide",
-    "link:sg": "rm -rf .next && npm link @project-r/styleguide && rm -rf node_modules/glamor && ln -s @project-r/styleguide/node_modules/glamor node_modules/glamor && echo '\n⚠️  Make sure to restart the next.js server. To unlink simply run npm install.\n'"
+    "link:sg": "rm -rf .next && npm link @project-r/styleguide && rm -rf node_modules/glamor && ln -s @project-r/styleguide/node_modules/glamor node_modules/glamor && echo '\n⚠️  Make sure to restart the next.js server. To unlink simply run npm install.\n'",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -140,6 +142,8 @@
     "subscriptions-transport-ws": "^0.9.1",
     "uuid": "^3.1.0",
     "valid-url": "^1.0.9",
-    "validator": "^9.4.1"
-  }
+    "validator": "^9.4.1",
+    "snyk": "^1.83.0"
+  },
+  "snyk": true
 }

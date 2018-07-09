@@ -16,6 +16,15 @@ const styles = {
   })
 }
 
+const onActionBarClick = (name, value) => {
+  window._paq.push([
+    'trackEvent',
+    'ActionBar',
+    name,
+    value
+  ])
+}
+
 class ActionBar extends Component {
   constructor (props) {
     super(props)
@@ -60,6 +69,7 @@ class ActionBar extends Component {
           }
           e.preventDefault()
           this.toggleShare()
+          onActionBarClick('share', url)
         },
         title: t('article/actionbar/share')
       },

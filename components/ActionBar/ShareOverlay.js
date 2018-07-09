@@ -32,6 +32,15 @@ const styles = {
   })
 }
 
+const onShareClick = (name, value) => {
+  window._paq.push([
+    'trackEvent',
+    'share',
+    name,
+    value
+  ])
+}
+
 const ShareOverlay = ({
   t,
   title,
@@ -101,7 +110,10 @@ const ShareOverlay = ({
                 key={props.icon}
                 fill={fill}
                 size={32}
-                onClick={onClose}
+                onClick={() => {
+                  onShareClick(props.icon, url)
+                  onClose && onClose()
+                }}
                 stacked
                 {...props}
               >

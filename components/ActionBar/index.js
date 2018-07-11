@@ -62,11 +62,6 @@ class ActionBar extends Component {
         icon: 'share',
         href: url,
         onClick: e => {
-          if (e.currentTarget.nodeName === 'A' &&
-            (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-            // ignore click for new tab / new window behavior
-            return
-          }
           e.preventDefault()
           this.toggleShare()
           onActionBarClick('share', url)

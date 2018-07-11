@@ -19,10 +19,14 @@ const ProfileLink = ({ children, userId, username }) => {
   )
 }
 
-const Employee = ({ userId, username, name, title, portrait }) => {
+const Employee = ({ name, title, user }) => {
   const displayName = name + (title ? `, ${title}` : '')
+  if (!user) {
+    return <Item name={displayName} />
+  }
+  const { id, portrait, username } = user
   return (
-    <ProfileLink userId={userId} username={username}>
+    <ProfileLink userId={id} username={username}>
       <Item image={portrait} name={displayName} />
     </ProfileLink>
   )

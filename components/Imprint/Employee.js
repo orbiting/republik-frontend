@@ -24,7 +24,10 @@ const Employee = ({ name, title, user }) => {
   if (!user) {
     return <Item name={displayName} style={{cursor: 'default'}} />
   }
-  const { id, portrait, username } = user
+  const { id, hasPublicProfile, portrait, username } = user
+  if (!hasPublicProfile) {
+    return <Item image={portrait} name={displayName} style={{cursor: 'default'}} />
+  }
   return (
     <ProfileLink userId={id} username={username}>
       <Item image={portrait} name={displayName} />

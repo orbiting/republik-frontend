@@ -70,6 +70,7 @@ const getEmployees = gql`
       subgroup
       user {
         id
+        hasPublicProfile
         portrait
         username
       }

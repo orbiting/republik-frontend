@@ -22,7 +22,7 @@ const ProfileLink = ({ children, userId, username }) => {
 const Employee = ({ name, title, user }) => {
   const displayName = name + (title ? `, ${title}` : '')
   if (!user) {
-    return <Item name={displayName} />
+    return <Item name={displayName} style={{cursor: 'default'}} />
   }
   const { id, portrait, username } = user
   return (

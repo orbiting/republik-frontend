@@ -148,6 +148,7 @@ export const CommentTeaser = ({
             link: (
               <CommentLink
                 key={id}
+                commentId={id}
                 discussion={discussion}
               >
                 <a {...linkRule}>«{discussion.title}»</a>

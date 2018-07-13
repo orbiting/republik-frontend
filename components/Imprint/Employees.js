@@ -58,6 +58,9 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: '10px 0'
     }
+  }),
+  tiles: css({
+    marginLeft: '-5px'
   })
 }
 
@@ -101,11 +104,11 @@ const Employees = compose(
               <section {...styles.group} key={group.key}>
                 <H2 {...styles.groupHeading}>{group.key}</H2>
                 { group.value.group
-                  ? group.value.group.map(renderEmployee)
+                  ? <div {...styles.tiles}>{group.value.group.map(renderEmployee)}</div>
                   : entries(group.value).map(subgroup => (
                     <section {...styles.subgroup} key={subgroup.key}>
                       <H3 {...styles.subgroupHeading}>{subgroup.key}</H3>
-                      {subgroup.value.map(renderEmployee)}
+                      <div {...styles.tiles}>{subgroup.value.map(renderEmployee)}</div>
                     </section>
                   ))
                 }

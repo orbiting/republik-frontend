@@ -134,9 +134,11 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, i
         <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>
-        <div {...styles.logo}>
-          {logo}
-        </div>
+        {!inNativeApp && (
+          <div {...styles.logo}>
+            {logo}
+          </div>
+        )}
         <div {...styles.text}>
           {title && <H1>{title}</H1>}
           {content}

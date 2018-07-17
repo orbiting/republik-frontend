@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-17T14:54:06.185Z",
+  "updated": "2018-07-17T21:49:37.597Z",
   "title": "live",
   "data": [
     {
@@ -2528,7 +2528,7 @@
     },
     {
       "key": "notifications/session-denied/title",
-      "value": "Zugriff abgewehrt!"
+      "value": "Angriff abgewehrt!"
     },
     {
       "key": "notifications/session-denied/text",
@@ -2573,6 +2573,10 @@
     {
       "key": "notifications/links/home",
       "value": "Startseite"
+    },
+    {
+      "key": "notifications/links/home/app",
+      "value": "Prozedere beenden"
     },
     {
       "key": "notifications/links/merci",

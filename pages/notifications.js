@@ -116,7 +116,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, m
   const buttonLinks = [
     me && (type === 'email-confirmed' || type === 'session-denied') && {
       route: 'index',
-      label: t('notifications/links/home')
+      label: t(`notifications/links/home${inNativeApp ? '/app' : ''}`)
     }
   ].filter(Boolean)
 

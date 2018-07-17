@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react'
+import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -13,6 +14,15 @@ import { Router } from '../../lib/routes'
 import ErrorMessage from '../ErrorMessage'
 
 import Me from './Me'
+
+const styles = {
+  buttons: css({
+    textAlign: 'center'
+  }),
+  button: css({
+    marginTop: 20
+  })
+}
 
 const { P } = Interaction
 
@@ -201,23 +211,23 @@ class TokenAuthorization extends Component {
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
-                <div style={{opacity: consentsError ? 0.5 : 1}}>
-                  <Button
-                    primary
-                    onClick={() => {
-                      if (consentsError) {
-                        this.setState({dirty: true})
-                        return
-                      }
-                      this.authorize()
-                    }}>
-                    {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
-                  </Button>
+                <div {...styles.buttons} style={{opacity: consentsError ? 0.5 : 1}}>
+                  <div {...styles.button}>
+                    <Button
+                      primary
+                      onClick={() => {
+                        if (consentsError) {
+                          this.setState({dirty: true})
+                          return
+                        }
+                        this.authorize()
+                      }}>
+                      {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
+                    </Button>
+                  </div>
                   {!target.requiredConsents.length && !isCurrent && (
-                    <div>
-                      <br />
+                    <div {...styles.button}>
                       <Button
-                        black
                         onClick={() => {
                           this.deny()
                         }}>

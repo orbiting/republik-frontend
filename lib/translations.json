@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-17T14:03:34.555Z",
+  "updated": "2018-07-17T14:54:06.185Z",
   "title": "live",
   "data": [
     {
@@ -2520,11 +2520,11 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+      "value": "Perfekt! Sie sind somit angemeldet. Sie können dieses Fenster wieder schliessen."
     },
     {
       "key": "notifications/email-confirmed/text/me",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt."
+      "value": "Perfekt! Sie sind somit angemeldet."
     },
     {
       "key": "notifications/session-denied/title",

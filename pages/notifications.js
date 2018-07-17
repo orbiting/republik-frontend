@@ -5,6 +5,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import { compose } from 'react-apollo'
 import withData from '../lib/apollo/withData'
+import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withInNativeApp from '../lib/withInNativeApp'
 import { intersperse } from '../lib/utils/helpers'
@@ -20,7 +21,7 @@ import {
 } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries
+  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries, Button
 } from '@project-r/styleguide'
 
 const styles = {
@@ -49,6 +50,9 @@ const styles = {
   link: css({
     marginTop: 20
   }),
+  button: css({
+    marginTop: 20
+  }),
   me: css({
     marginTop: 80,
     marginBottom: 80
@@ -59,7 +63,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, inNativeApp }) => {
+const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, me, inNativeApp }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -93,9 +97,9 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, i
       email={email}
       context={context} />
   } else {
-    const appAppendix = inNativeApp && (type === 'email-confirmed' || type === 'session-denied')
+    const authorizedAppendix = me && (type === 'email-confirmed' || type === 'session-denied')
     content = <RawHtml type={P} dangerouslySetInnerHTML={{
-      __html: t(`notifications/${type}/text${appAppendix ? '/app' : ''}`, query, '')
+      __html: t(`notifications/${type}/text${authorizedAppendix ? '/me' : ''}`, query, '')
     }} />
   }
   const displayMe = (
@@ -106,8 +110,11 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, i
     context === 'pledge' && type !== 'token-authorization' && {
       route: 'account',
       label: t('notifications/links/merci')
-    },
-    (type === 'email-confirmed' || type === 'session-denied') && {
+    }
+  ].filter(Boolean)
+
+  const buttonLinks = [
+    me && (type === 'email-confirmed' || type === 'session-denied') && {
       route: 'index',
       label: t('notifications/links/home')
     }
@@ -158,10 +165,19 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, i
               )), () => ' – ')}
             </P>
           )}
+          {!hasCurtain && buttonLinks.length > 0 && buttonLinks.map((link, i) => (
+            <div {...styles.button}>
+              <Link key={i} route={link.route} params={link.params}>
+                <Button block primary>
+                  {link.label}
+                </Button>
+              </Link>
+            </div>
+          ))}
         </div>
       </NarrowContainer>
     </div>
   )
 })
 
-export default compose(withData, withInNativeApp)(Page)
+export default compose(withData, withMe, withInNativeApp)(Page)

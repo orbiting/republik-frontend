@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-07T01:08:30.338Z",
+  "updated": "2018-07-17T14:03:34.555Z",
   "title": "live",
   "data": [
     {
@@ -2523,7 +2523,7 @@
       "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
     },
     {
-      "key": "notifications/email-confirmed/text/app",
+      "key": "notifications/email-confirmed/text/me",
       "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt."
     },
     {
@@ -2535,7 +2535,7 @@
       "value": "Uf, gerade noch einmal gut gegangen! Sie können dieses Fenster wieder schliessen."
     },
     {
-      "key": "notifications/session-denied/text/app",
+      "key": "notifications/session-denied/text/me",
       "value": "Uf, gerade noch einmal gut gegangen!"
     },
     {

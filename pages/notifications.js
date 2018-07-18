@@ -149,6 +149,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
         )}
         <div {...styles.text}>
           {title && <H1>{title}</H1>}
+          <br />
           {content}
           {displayMe && (
             <div {...styles.me}>

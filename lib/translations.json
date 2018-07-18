@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-18T08:52:07.098Z",
+  "updated": "2018-07-18T09:42:06.595Z",
   "title": "live",
   "data": [
     {
@@ -2708,6 +2708,10 @@
     },
     {
       "key": "tokenAuthorization/after",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+    },
+    {
+      "key": "tokenAuthorization/after/deny",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {

@@ -146,6 +146,7 @@ class TokenAuthorization extends Component {
         )
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
         const showSessionInfo = !isCurrent || noAutoAuthorize
+        const showDeny = !target.newUser && showSessionInfo
         return (
           <Fragment>
             <P>
@@ -215,8 +216,8 @@ class TokenAuthorization extends Component {
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
-                <div {...styles.buttons} style={{opacity: consentsError ? 0.5 : 1}}>
-                  <div {...styles.button}>
+                <div {...styles.buttons}>
+                  <div {...styles.button} style={{opacity: consentsError ? 0.5 : 1}}>
                     <Button
                       primary
                       onClick={() => {
@@ -229,7 +230,7 @@ class TokenAuthorization extends Component {
                       {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
                     </Button>
                   </div>
-                  {!target.requiredConsents.length && showSessionInfo && (
+                  {showDeny && (
                     <div {...styles.button}>
                       <Button
                         onClick={() => {
@@ -243,7 +244,7 @@ class TokenAuthorization extends Component {
               )}
             <br />
             <br />
-            <Label>{t('tokenAuthorization/after', { email })}</Label>
+            <Label>{t(`tokenAuthorization/after${showDeny ? '/deny' : ''}`, { email })}</Label>
           </Fragment>
         )
       }} />

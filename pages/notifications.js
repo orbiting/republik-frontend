@@ -63,7 +63,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, me, inNativeApp }) => {
+const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -87,6 +87,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType } }, t, m
       email={email}
       token={token}
       tokenType={tokenType || 'EMAIL_TOKEN'}
+      noAutoAuthorize={noAutoAuthorize}
     />
   } else if (type === 'newsletter-subscription') {
     logoTarget = '_blank'

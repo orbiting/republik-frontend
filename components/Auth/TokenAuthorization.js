@@ -31,12 +31,14 @@ const goTo = (type, email) => Router.replaceRoute(
   { type, email, context: 'authorization' }
 )
 
-const shouldAutoAuthorize = ({ error, target }) => {
+const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
+  console.log({noAutoAuthorize})
   return (
     !error &&
     target &&
     target.session.isCurrent &&
-    !target.requiredConsents.length
+    !target.requiredConsents.length &&
+    noAutoAuthorize === undefined
   )
 }
 
@@ -93,16 +95,16 @@ class TokenAuthorization extends Component {
         })
     })
   }
-  autoAutherize () {
+  autoAuthorize () {
     if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
     }
   }
   componentDidMount () {
-    this.autoAutherize()
+    this.autoAuthorize()
   }
   componentDidUpdate () {
-    this.autoAutherize()
+    this.autoAuthorize()
   }
   render () {
     const {
@@ -111,7 +113,8 @@ class TokenAuthorization extends Component {
       echo,
       email,
       error,
-      loading
+      loading,
+      noAutoAuthorize
     } = this.props
     const {
       consents
@@ -142,13 +145,14 @@ class TokenAuthorization extends Component {
           this.state.dirty && consentsError
         )
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
+        const showSessionInfo = !isCurrent || noAutoAuthorize
         return (
           <Fragment>
             <P>
               {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}<br />
               <Label>{t('tokenAuthorization/email', { email })}</Label>
             </P>
-            {!isCurrent && <div style={{margin: '20px 0'}}>
+            {showSessionInfo && <div style={{margin: '20px 0'}}>
               <P>
                 {t('tokenAuthorization/differentSession')}
               </P>
@@ -225,7 +229,7 @@ class TokenAuthorization extends Component {
                       {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
                     </Button>
                   </div>
-                  {!target.requiredConsents.length && !isCurrent && (
+                  {!target.requiredConsents.length && showSessionInfo && (
                     <div {...styles.button}>
                       <Button
                         onClick={() => {

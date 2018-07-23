@@ -4,7 +4,7 @@ import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import { SAFE_TOP_HEIGHT, SAFE_TOP_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 
@@ -25,9 +25,9 @@ const styles = {
     flexDirection: 'column'
   }),
   coverless: css({
-    paddingTop: HEADER_HEIGHT_MOBILE,
+    paddingTop: SAFE_TOP_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT
+      paddingTop: SAFE_TOP_HEIGHT
     }
   }),
   bodyGrower: css({
@@ -66,7 +66,8 @@ const Index = ({
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick
+  onSearchClick,
+  onNavBarChange
 }) => (
   <div {...styles.container}>
     <div
@@ -85,6 +86,7 @@ const Index = ({
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
+        onNavBarChange={onNavBarChange}
       />
       <noscript>
         <Box style={{padding: 30}}>

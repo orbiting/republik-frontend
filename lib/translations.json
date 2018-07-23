@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-13T11:09:59.344Z",
+  "updated": "2018-07-19T12:02:37.318Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,22 @@
     {
       "key": "nav/community",
       "value": "Community"
+    },
+    {
+      "key": "navbar/front",
+      "value": "Front"
+    },
+    {
+      "key": "navbar/feed",
+      "value": "Feed"
+    },
+    {
+      "key": "navbar/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "navbar/formats",
+      "value": "Rubriken"
     },
     {
       "key": "pages/magazine/title",
@@ -2520,22 +2536,22 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+      "value": "Perfekt! Sie sind somit angemeldet. Sie können dieses Fenster wieder schliessen."
     },
     {
-      "key": "notifications/email-confirmed/text/app",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt."
+      "key": "notifications/email-confirmed/text/me",
+      "value": "Perfekt! Sie sind somit angemeldet."
     },
     {
       "key": "notifications/session-denied/title",
-      "value": "Zugriff abgewehrt!"
+      "value": "Angriff abgewehrt!"
     },
     {
       "key": "notifications/session-denied/text",
       "value": "Uf, gerade noch einmal gut gegangen! Sie können dieses Fenster wieder schliessen."
     },
     {
-      "key": "notifications/session-denied/text/app",
+      "key": "notifications/session-denied/text/me",
       "value": "Uf, gerade noch einmal gut gegangen!"
     },
     {
@@ -2573,6 +2589,10 @@
     {
       "key": "notifications/links/home",
       "value": "Startseite"
+    },
+    {
+      "key": "notifications/links/home/app",
+      "value": "Prozedere beenden"
     },
     {
       "key": "notifications/links/merci",
@@ -2705,6 +2725,10 @@
     {
       "key": "tokenAuthorization/after",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+    },
+    {
+      "key": "tokenAuthorization/after/deny",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",

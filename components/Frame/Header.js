@@ -11,6 +11,7 @@ import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
+import NavBar from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
@@ -141,11 +142,14 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline
+      sticky: !this.props.inline,
+      navbarSticky: false,
+      navbarOpaque: true
     }
 
     this.onScroll = () => {
       const y = window.pageYOffset
+
       const yOpaque = this.state.mobile ? 70 : 150
       const opaque = y > yOpaque || !this.props.cover
       if (opaque !== this.state.opaque) {
@@ -153,11 +157,25 @@ class Header extends Component {
       }
 
       if (this.props.inline && this.ref) {
-        const sticky = y + HEADER_HEIGHT > this.y + this.barHeight
+        const sticky = y + HEADER_HEIGHT > this.barHeight
         if (sticky !== this.state.sticky) {
           this.setState(() => ({ sticky }))
         }
       }
+      const yNavbarOpaque = this.state.mobile
+        ? HEADER_HEIGHT_MOBILE
+        : HEADER_HEIGHT
+      const navbarOpaque = y < yNavbarOpaque
+      if (navbarOpaque !== this.state.navbarOpaque) {
+        this.setState(() => ({ navbarOpaque }))
+      }
+
+      const navbarSticky = y < this.y
+      if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
+        this.setState(() => ({ navbarSticky }))
+        this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
+      }
+      this.y = y
     }
 
     this.measure = () => {
@@ -207,9 +225,10 @@ class Header extends Component {
       primaryNavExpanded,
       formatColor,
       audioSource,
-      audioCloseHandler
+      audioCloseHandler,
+      onNavBarChange
     } = this.props
-    const { expanded, sticky } = this.state
+    const { expanded, sticky, mobile, navbarSticky, navbarOpaque } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -222,7 +241,7 @@ class Header extends Component {
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
     const position = sticky || !inline ? 'fixed' : 'relative'
-    const borderBottom = formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
+    const borderBottom = formatColor && !expand && !navbarSticky && !navbarOpaque ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
 
     // The logo acts as a toggle between front and feed page when user's logged in.
     const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
@@ -273,11 +292,12 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/' && !me) {
+                  window.scrollTo(0, 0)
+                  /* if (url.pathname === '/' && !me) {
                     window.scrollTo(0, 0)
                   } else {
                     Router.pushRoute(logoRoute).then(() => window.scrollTo(0, 0))
-                  }
+                  } */
                 }}
               >
                 <Logo />
@@ -338,9 +358,13 @@ class Header extends Component {
             <NavPopover me={me} url={url} closeHandler={this.close} />
           </Popover>
         </div>
+        <NavBar
+          url={url} onNavBarChange={onNavBarChange} mobile={mobile}
+          formatColor={formatColor} sticky={navbarSticky} opaque={navbarOpaque} />
 
         <LoadingBar />
         {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
+
       </div>
     )
   }

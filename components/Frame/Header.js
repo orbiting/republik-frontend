@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
 
@@ -243,11 +242,6 @@ class Header extends Component {
     const position = sticky || !inline ? 'fixed' : 'relative'
     const borderBottom = formatColor && !expand && !navbarSticky && !navbarOpaque ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
 
-    // The logo acts as a toggle between front and feed page when user's logged in.
-    const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
-    const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
-    const logoAriaLabel = logoRoute === 'feed' ? t('header/logo/feed/aria') : t('header/logo/magazine/aria')
-
     const isSearchActive = url.pathname === '/search'
 
     return (
@@ -278,8 +272,8 @@ class Header extends Component {
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
-                aria-label={logoAriaLabel}
-                href={logoLinkPath}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
                 onClick={e => {
                   if (
                     e.currentTarget.nodeName === 'A' &&
@@ -292,12 +286,11 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  window.scrollTo(0, 0)
-                  /* if (url.pathname === '/' && !me) {
+                  if (url.pathname === '/' && !me) {
                     window.scrollTo(0, 0)
                   } else {
-                    Router.pushRoute(logoRoute).then(() => window.scrollTo(0, 0))
-                  } */
+                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
+                  }
                 }}
               >
                 <Logo />
@@ -358,10 +351,16 @@ class Header extends Component {
             <NavPopover me={me} url={url} closeHandler={this.close} />
           </Popover>
         </div>
-        <NavBar
-          url={url} onNavBarChange={onNavBarChange} mobile={mobile}
-          formatColor={formatColor} sticky={navbarSticky} opaque={navbarOpaque} />
-
+        {me && (
+          <NavBar
+            url={url}
+            onNavBarChange={onNavBarChange}
+            mobile={mobile}
+            formatColor={formatColor}
+            sticky={navbarSticky}
+            opaque={navbarOpaque}
+          />
+        )}
         <LoadingBar />
         {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
 
@@ -370,4 +369,4 @@ class Header extends Component {
   }
 }
 
-export default compose(withMe, withT)(Header)
+export default compose(withT)(Header)

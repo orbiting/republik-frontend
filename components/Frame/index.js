@@ -4,8 +4,15 @@ import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
-import { SAFE_TOP_HEIGHT, SAFE_TOP_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  SAFE_TOP_HEIGHT,
+  SAFE_TOP_HEIGHT_MOBILE
+} from '../constants'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import 'glamor/reset'
@@ -24,10 +31,16 @@ const styles = {
     display: 'flex',
     flexDirection: 'column'
   }),
-  coverless: css({
+  coverlessWithMe: css({
     paddingTop: SAFE_TOP_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       paddingTop: SAFE_TOP_HEIGHT
+    }
+  }),
+  coverless: css({
+    paddingTop: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      paddingTop: HEADER_HEIGHT
     }
   }),
   bodyGrower: css({
@@ -52,6 +65,7 @@ export const Content = ({children, style}) =>
 
 const Index = ({
   t,
+  me,
   children,
   url,
   raw,
@@ -72,10 +86,11 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover ? styles.coverless : undefined}
+      className={!cover ? me ? styles.coverlessWithMe : styles.coverless : undefined}
     >
       {!!meta && <Meta data={meta} />}
       <Header
+        me={me}
         url={url}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
@@ -108,4 +123,4 @@ const Index = ({
   </div>
 )
 
-export default withT(Index)
+export default compose(withMe, withT)(Index)

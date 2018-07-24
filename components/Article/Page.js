@@ -18,6 +18,8 @@ import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
+import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
+import PropTypes from 'prop-types'
 
 import {
   colors,
@@ -35,6 +37,7 @@ import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
 import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
+import get from 'lodash.get'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -180,6 +183,9 @@ class ArticlePage extends Component {
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
+      gallery: {
+        show: false
+      },
       ...this.deriveStateFromProps(props)
     }
 
@@ -240,6 +246,68 @@ class ArticlePage extends Component {
         secondaryNavExpanded: expanded
       })
     }
+
+    this.renderGallery = () => {
+      const { data: { article } } = this.props
+      const { gallery } = this.state
+      const enabled = get(article, 'content.meta.gallery', false)
+      if (article.content && enabled && gallery.show) {
+        const shouldInclude = (el) => el && (el.identifier === 'FIGURE') && (el.data && el.data.excludeFromGallery !== true)
+        const galleryFigures = get(article, 'content.children', []).reduce(
+          (acc, curr) => {
+            if (shouldInclude(curr)) {
+              acc.push(curr)
+            }
+            if (curr.identifier === 'CENTER') {
+              curr.children.forEach(c => {
+                if (shouldInclude(c)) {
+                  acc.push(c)
+                }
+                if (c.identifier === 'FIGUREGROUP') {
+                  c.children.forEach(c => shouldInclude(c) && acc.push(c))
+                }
+              })
+            }
+            return acc
+          },
+          []
+        )
+        const getImageProps = (node) => {
+          const src = get(node, 'children[0].children[0].url', '')
+          const alt = get(node, 'children[0].children[0].alt', '')
+          const caption = get(node, 'children[1].children[0].value', '')
+          const credit = get(node, 'children[1].children[1].children[0].value', '')
+          return {
+            src,
+            alt,
+            caption,
+            credit
+          }
+        }
+        return (
+          <Gallery
+            onClose={() => { this.setState(({ gallery }) => ({ gallery: { show: !gallery.show } })) }}
+            items={galleryFigures.map(getImageProps)}
+            startItem={gallery.startItem}
+          />
+        )
+      } else {
+        return null
+      }
+    }
+
+    this.toggleGallery = (nextSrc) => {
+      this.setState(({ gallery }) => ({
+        gallery: {
+          show: !gallery.show,
+          startItem: nextSrc
+        }
+      }))
+    }
+
+    this.getChildContext = () => ({
+      toggleGallery: this.toggleGallery
+    })
   }
 
   deriveStateFromProps ({ t, data: { article } }) {
@@ -383,6 +451,7 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
+              {this.renderGallery()}
               {!isFormat && <PayNote.Before />}
               {this.state.showPdf &&
                 <PdfOverlay
@@ -419,6 +488,10 @@ class ArticlePage extends Component {
       </Frame>
     )
   }
+}
+
+ArticlePage.childContextTypes = {
+  toggleGallery: PropTypes.func
 }
 
 export default compose(

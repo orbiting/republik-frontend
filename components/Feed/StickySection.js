@@ -92,6 +92,7 @@ class StickySection extends Component {
   render () {
     const { children, label } = this.props
     const { sticky, width, isMedium } = this.state
+
     return (
       <section ref={this.setSectionRef}>
         <div {...style.header}>
@@ -100,7 +101,7 @@ class StickySection extends Component {
             {...(sticky && style.sticky)}
             style={{
               position: sticky ? 'fixed' : 'relative',
-              width: isMedium ? width : SIDEBAR_WIDTH
+              width: isMedium ? width : (width ? SIDEBAR_WIDTH : '100%')
             }}>
             {
               label

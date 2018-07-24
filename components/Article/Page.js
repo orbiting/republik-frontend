@@ -253,9 +253,10 @@ class ArticlePage extends Component {
 
     this.getGalleryItems = memoize(() => {
       const { data: { article } } = this.props
-      const shouldInclude = (el) => el && (el.identifier === 'FIGURE') && (el.data && el.data.excludeFromGallery !== true)
+      const shouldInclude = (el) =>
+        get(el, 'identifier', '') === 'FIGURE' && get(el, 'data.excludeFromGallery', false) !== true
       function findFigures (node, acc = []) {
-        if (node && node.children && node.children.length > 0) {
+        if (get(node, 'children.length', 0) > 0) {
           node.children.forEach(
             c => {
               if (shouldInclude(c)) {

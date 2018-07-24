@@ -42,6 +42,7 @@ const styles = {
     backgroundColor: '#fff',
     boxSizing: 'content-box',
     height: HEADER_HEIGHT_MOBILE - 1,
+    borderBottom: `1px solid ${colors.divider}`,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 1
     },
@@ -142,9 +143,11 @@ class Header extends Component {
       mobile: false,
       expanded: false,
       sticky: !this.props.inline,
-      navbarSticky: false,
-      navbarOpaque: true
+      navbarSticky: true,
+      navbarInitial: true
     }
+
+    this.y = 0
 
     this.onScroll = () => {
       const y = window.pageYOffset
@@ -161,13 +164,6 @@ class Header extends Component {
           this.setState(() => ({ sticky }))
         }
       }
-      const yNavbarOpaque = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-      const navbarOpaque = y < yNavbarOpaque
-      if (navbarOpaque !== this.state.navbarOpaque) {
-        this.setState(() => ({ navbarOpaque }))
-      }
 
       const navbarSticky = y < this.y
       if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
@@ -175,6 +171,14 @@ class Header extends Component {
         this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
       }
       this.y = y
+
+      const ynavbarInitial = this.state.mobile
+        ? HEADER_HEIGHT_MOBILE
+        : HEADER_HEIGHT
+      const navbarInitial = y < ynavbarInitial
+      if (navbarInitial !== this.state.navbarInitial) {
+        this.setState(() => ({ navbarInitial }))
+      }
     }
 
     this.measure = () => {
@@ -227,7 +231,7 @@ class Header extends Component {
       audioCloseHandler,
       onNavBarChange
     } = this.props
-    const { expanded, sticky, mobile, navbarSticky, navbarOpaque } = this.state
+    const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -240,14 +244,13 @@ class Header extends Component {
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
     const position = sticky || !inline ? 'fixed' : 'relative'
-    const borderBottom = formatColor && !expand && !navbarSticky && !navbarOpaque ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
 
     const isSearchActive = url.pathname === '/search'
 
     return (
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} style={{position, borderBottom}}>
+        <div {...barStyle} style={{position}}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
@@ -358,7 +361,7 @@ class Header extends Component {
             mobile={mobile}
             formatColor={formatColor}
             sticky={navbarSticky}
-            opaque={navbarOpaque}
+            initial={navbarInitial}
           />
         )}
         <LoadingBar />

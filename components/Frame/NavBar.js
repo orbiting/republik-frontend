@@ -15,6 +15,39 @@ import {
   ZINDEX_NAVBAR
 } from '../constants'
 
+const slideAnimationDurationMs = 200
+
+const slideAnimation = (borderHeight, headerHeight, navbarHeight) => {
+  const kfrms = css.keyframes({
+    '0%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight},
+    '100%': {opacity: 1, top: headerHeight}
+  })
+  return `${kfrms} ${slideAnimationDurationMs}ms ease-out forwards`
+}
+
+const slideOutAnimation = (borderHeight, headerHeight, navbarHeight) => {
+  const kfrms = css.keyframes({
+    '0%': {opacity: 1, top: headerHeight},
+    '100%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight}
+  })
+  return `${kfrms} ${slideAnimationDurationMs}ms ease-in forwards`
+}
+
+const getAnimationStyles = (formatColor, mobile) => {
+  const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+  const navbarHeight = mobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
+  const borderHeight = formatColor ? 3 : 0
+
+  return {
+    expand: css({
+      animation: slideAnimation(borderHeight, headerHeight, navbarHeight)
+    }),
+    collapse: css({
+      animation: slideOutAnimation(borderHeight, headerHeight, navbarHeight)
+    })
+  }
+}
+
 const linkStyle = {
   fontSize: 16,
   textDecoration: 'none',
@@ -35,7 +68,8 @@ const linkStyle = {
 
 const styles = {
   container: css({
-    transition: 'opacity .2s ease-in-out',
+    position: 'fixed',
+    animationFillMode: 'forwards',
     borderBottom: `1px solid ${colors.divider}`,
     background: '#fff',
     display: 'flex',
@@ -43,13 +77,11 @@ const styles = {
     height: NAVBAR_HEIGHT_MOBILE,
     left: 0,
     right: 0,
-    top: HEADER_HEIGHT_MOBILE,
     padding: '0 15px',
     zIndex: ZINDEX_NAVBAR,
     [mediaQueries.mUp]: {
       height: NAVBAR_HEIGHT,
-      padding: '0 25px',
-      top: HEADER_HEIGHT
+      padding: '0 25px'
     },
     '& > div': {
       margin: '0 auto 0',
@@ -75,8 +107,13 @@ const styles = {
     ':visited': {
       color: colors.disabled
     }
+  }),
+  initial: css({
+    top: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT
+    }
   })
-
 }
 
 const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
@@ -109,15 +146,15 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
 
 class NavBar extends Component {
   render () {
-    const { url, t, formatColor, sticky, opaque } = this.props
+    const { url, t, formatColor, sticky, initial, mobile } = this.props
     const active = matchPath(url.asPath)
+    const animationStyles = getAnimationStyles(formatColor, mobile)
 
     return (
       <div
         {...styles.container}
+        {...(initial ? styles.initial : sticky ? animationStyles.expand : animationStyles.collapse)}
         style={{
-          position: sticky ? 'fixed' : 'absolute',
-          opacity: sticky || opaque ? 1 : 0,
           borderBottom: formatColor ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
         }}
       >

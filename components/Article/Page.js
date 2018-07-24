@@ -296,7 +296,7 @@ class ArticlePage extends Component {
           <Gallery
             onClose={() => { this.setState(({ gallery }) => ({ gallery: { show: !gallery.show } })) }}
             items={galleryItems}
-            startItem={gallery.startItem}
+            startItemSrc={gallery.startItemSrc}
           />
         )
       } else {
@@ -306,10 +306,11 @@ class ArticlePage extends Component {
 
     this.toggleGallery = (nextSrc = '') => {
       if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
+        console.log(nextSrc)
         this.setState(({ gallery }) => ({
           gallery: {
             show: !gallery.show,
-            startItem: nextSrc
+            startItemSrc: nextSrc
           }
         }))
       }

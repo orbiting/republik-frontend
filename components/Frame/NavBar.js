@@ -27,7 +27,9 @@ const linkStyle = {
   },
   cursor: 'pointer',
   [mediaQueries.mUp]: {
-    fontSize: 19
+    fontSize: 19,
+    minWidth: '25%',
+    textAlign: 'center'
   }
 }
 

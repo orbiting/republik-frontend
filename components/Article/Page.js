@@ -31,6 +31,9 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
+import {
+  imageSizeInfo
+} from 'mdast-react-render/lib/utils'
 
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
 import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
@@ -38,6 +41,7 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 import get from 'lodash.get'
+import memoize from 'lodash.memoize'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -247,47 +251,50 @@ class ArticlePage extends Component {
       })
     }
 
+    this.getGalleryItems = memoize(() => {
+      const { data: { article } } = this.props
+      const shouldInclude = (el) => el && (el.identifier === 'FIGURE') && (el.data && el.data.excludeFromGallery !== true)
+      function findFigures (node, acc = []) {
+        if (node && node.children && node.children.length > 0) {
+          node.children.forEach(
+            c => {
+              if (shouldInclude(c)) {
+                acc.push(c)
+              } else {
+                findFigures(c, acc)
+              }
+            }
+          )
+        }
+        return acc
+      }
+      const getImageProps = (node) => {
+        const src = get(node, 'children[0].children[0].url', '')
+        const alt = get(node, 'children[0].children[0].alt', '')
+        const caption = get(node, 'children[1].children[0].value', '')
+        const credit = get(node, 'children[1].children[1].children[0].value', '')
+        return {
+          src,
+          alt,
+          caption,
+          credit
+        }
+      }
+      return findFigures(article.content)
+        .map(getImageProps)
+        .filter(i => imageSizeInfo(i.src).width > 600)
+    })
+
     this.renderGallery = () => {
       const { data: { article } } = this.props
       const { gallery } = this.state
       const enabled = get(article, 'content.meta.gallery', false)
       if (article.content && enabled && gallery.show) {
-        const shouldInclude = (el) => el && (el.identifier === 'FIGURE') && (el.data && el.data.excludeFromGallery !== true)
-        const galleryFigures = get(article, 'content.children', []).reduce(
-          (acc, curr) => {
-            if (shouldInclude(curr)) {
-              acc.push(curr)
-            }
-            if (curr.identifier === 'CENTER') {
-              curr.children.forEach(c => {
-                if (shouldInclude(c)) {
-                  acc.push(c)
-                }
-                if (c.identifier === 'FIGUREGROUP') {
-                  c.children.forEach(c => shouldInclude(c) && acc.push(c))
-                }
-              })
-            }
-            return acc
-          },
-          []
-        )
-        const getImageProps = (node) => {
-          const src = get(node, 'children[0].children[0].url', '')
-          const alt = get(node, 'children[0].children[0].alt', '')
-          const caption = get(node, 'children[1].children[0].value', '')
-          const credit = get(node, 'children[1].children[1].children[0].value', '')
-          return {
-            src,
-            alt,
-            caption,
-            credit
-          }
-        }
+        const galleryItems = this.getGalleryItems()
         return (
           <Gallery
             onClose={() => { this.setState(({ gallery }) => ({ gallery: { show: !gallery.show } })) }}
-            items={galleryFigures.map(getImageProps)}
+            items={galleryItems}
             startItem={gallery.startItem}
           />
         )
@@ -296,13 +303,15 @@ class ArticlePage extends Component {
       }
     }
 
-    this.toggleGallery = (nextSrc) => {
-      this.setState(({ gallery }) => ({
-        gallery: {
-          show: !gallery.show,
-          startItem: nextSrc
-        }
-      }))
+    this.toggleGallery = (nextSrc = '') => {
+      if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
+        this.setState(({ gallery }) => ({
+          gallery: {
+            show: !gallery.show,
+            startItem: nextSrc
+          }
+        }))
+      }
     }
 
     this.getChildContext = () => ({

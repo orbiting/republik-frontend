@@ -64,6 +64,9 @@ class Search extends Component {
     }, 200)
 
     this.onInputChange = (_, value) => {
+      if (value === this.state.searchQuery) {
+        return
+      }
       this.setState({
         searchQuery: value,
         loadingFilters: true,

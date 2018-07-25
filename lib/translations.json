@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-18T09:42:06.595Z",
+  "updated": "2018-07-24T13:59:20.998Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,22 @@
     {
       "key": "nav/community",
       "value": "Community"
+    },
+    {
+      "key": "navbar/front",
+      "value": "Magazin"
+    },
+    {
+      "key": "navbar/feed",
+      "value": "Feed"
+    },
+    {
+      "key": "navbar/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "navbar/formats",
+      "value": "Rubriken"
     },
     {
       "key": "pages/magazine/title",
@@ -400,7 +416,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
+      "value": "Offene Stellen: HR-Fachfrau/Fachmann 50%"
     },
     {
       "key": "jobs/description",

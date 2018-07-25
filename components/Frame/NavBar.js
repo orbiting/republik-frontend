@@ -33,10 +33,10 @@ const slideOutAnimation = (borderHeight, headerHeight, navbarHeight) => {
   return `${kfrms} ${slideAnimationDurationMs}ms ease-in forwards`
 }
 
-const getAnimationStyles = (formatColor, mobile) => {
-  const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-  const navbarHeight = mobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
-  const borderHeight = formatColor ? 3 : 0
+const getAnimationStyles = (isFormat, isMobile) => {
+  const headerHeight = isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+  const navbarHeight = isMobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
+  const borderHeight = isFormat ? 3 : 0
 
   return {
     expand: css({
@@ -47,6 +47,11 @@ const getAnimationStyles = (formatColor, mobile) => {
     })
   }
 }
+
+const animation = getAnimationStyles(false, false)
+const animationMobile = getAnimationStyles(false, true)
+const animationFormat = getAnimationStyles(true, false)
+const animationFormatMobile = getAnimationStyles(true, true)
 
 const linkStyle = {
   fontSize: 16,
@@ -148,7 +153,9 @@ class NavBar extends Component {
   render () {
     const { url, t, formatColor, sticky, initial, mobile } = this.props
     const active = matchPath(url.asPath)
-    const animationStyles = getAnimationStyles(formatColor, mobile)
+    const animationStyles = formatColor
+      ? (mobile ? animationFormatMobile : animationFormat)
+      : (mobile ? animationMobile : animation)
 
     return (
       <div

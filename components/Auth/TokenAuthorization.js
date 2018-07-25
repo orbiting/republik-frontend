@@ -220,6 +220,7 @@ class TokenAuthorization extends Component {
                   <div {...styles.button} style={{opacity: consentsError ? 0.5 : 1}}>
                     <Button
                       primary
+                      style={{minWidth: 250}}
                       onClick={() => {
                         if (consentsError) {
                           this.setState({dirty: true})
@@ -227,12 +228,14 @@ class TokenAuthorization extends Component {
                         }
                         this.authorize()
                       }}>
-                      {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
+                      {t(`tokenAuthorization/button${showSessionInfo ? '/differentSession' : ''}`)}
                     </Button>
                   </div>
                   {showDeny && (
                     <div {...styles.button}>
                       <Button
+                        black
+                        style={{minWidth: 250}}
                         onClick={() => {
                           this.deny()
                         }}>

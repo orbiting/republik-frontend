@@ -18,8 +18,7 @@ import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
-import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
-import PropTypes from 'prop-types'
+import ArticleGallery from './ArticleGallery'
 
 import {
   colors,
@@ -31,17 +30,12 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { renderMdast } from 'mdast-react-render'
-import {
-  imageSizeInfo
-} from 'mdast-react-render/lib/utils'
 
 import createArticleSchema from '@project-r/styleguide/lib/templates/Article'
 import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
 import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
-import get from 'lodash.get'
-import memoize from 'lodash.memoize'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -187,9 +181,6 @@ class ArticlePage extends Component {
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
-      gallery: {
-        show: false
-      },
       ...this.deriveStateFromProps(props)
     }
 
@@ -250,75 +241,6 @@ class ArticlePage extends Component {
         secondaryNavExpanded: expanded
       })
     }
-
-    this.getGalleryItems = memoize(() => {
-      const { data: { article } } = this.props
-      const shouldInclude = (el) =>
-        get(el, 'identifier', '') === 'FIGURE' && get(el, 'data.excludeFromGallery', false) !== true
-      function findFigures (node, acc = []) {
-        if (get(node, 'children.length', 0) > 0) {
-          node.children.forEach(
-            c => {
-              if (shouldInclude(c)) {
-                acc.push(c)
-              } else {
-                findFigures(c, acc)
-              }
-            }
-          )
-        }
-        return acc
-      }
-      const getImageProps = (node) => {
-        const src = get(node, 'children[0].children[0].url', '')
-        const alt = get(node, 'children[0].children[0].alt', '')
-        const caption = get(node, 'children[1].children[0].value', '')
-        const credit = get(node, 'children[1].children[1].children[0].value', '')
-        return {
-          src,
-          alt,
-          caption,
-          credit
-        }
-      }
-      return findFigures(article.content)
-        .map(getImageProps)
-        .filter(i => imageSizeInfo(i.src).width > 600)
-    })
-
-    this.renderGallery = () => {
-      const { data: { article } } = this.props
-      const { gallery } = this.state
-      const enabled = get(article, 'content.meta.gallery', false)
-      if (article.content && enabled && gallery.show) {
-        const galleryItems = this.getGalleryItems()
-        return (
-          <Gallery
-            onClose={() => { this.setState(({ gallery }) => ({ gallery: { show: !gallery.show } })) }}
-            items={galleryItems}
-            startItemSrc={gallery.startItemSrc}
-          />
-        )
-      } else {
-        return null
-      }
-    }
-
-    this.toggleGallery = (nextSrc = '') => {
-      if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
-        console.log(nextSrc)
-        this.setState(({ gallery }) => ({
-          gallery: {
-            show: !gallery.show,
-            startItemSrc: nextSrc
-          }
-        }))
-      }
-    }
-
-    this.getChildContext = () => ({
-      toggleGallery: this.toggleGallery
-    })
   }
 
   deriveStateFromProps ({ t, data: { article } }) {
@@ -462,18 +384,19 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              {this.renderGallery()}
               {!isFormat && <PayNote.Before />}
               {this.state.showPdf &&
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
-                {() => renderMdast({
-                  ...article.content,
-                  format: meta.format
-                }, schema)}
-              </SSRCachingBoundary>
+              <ArticleGallery article={article}>
+                <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
+                  {() => renderMdast({
+                    ...article.content,
+                    format: meta.format
+                  }, schema)}
+                </SSRCachingBoundary>
+              </ArticleGallery>
               {meta.template === 'article' && <Center>
                 <div ref={this.bottomBarRef} {...styles.bar}>
                   {actionBar}
@@ -499,10 +422,6 @@ class ArticlePage extends Component {
       </Frame>
     )
   }
-}
-
-ArticlePage.childContextTypes = {
-  toggleGallery: PropTypes.func
 }
 
 export default compose(

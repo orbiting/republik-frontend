@@ -9,7 +9,8 @@ import { A, Editorial, Interaction } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const { P, LI } = Editorial
+const { Emphasis, P, UL, LI } = Editorial
+const { H1, H2 } = Interaction
 
 export default withData(
   withT(({ url, t }) => {
@@ -34,35 +35,19 @@ export default withData(
           />
         }
       >
-
-        <P>Die Republik ist ein digitales Magazin, das sich mit Themen aus Politik, Gesellschaft, Kultur und Wirtschaft befasst. Das Magazin ging am 14. Januar 2018 online. Es setzt auf Recherchen und Reportagen. Täglich bietet die Republik ihren Leserinnen und Lesern bis zu drei Artikel. Das Magazin ist werbefrei und finanziert sich über Abonnements und Mitgliedschaften. Die Redaktion hat ihren Sitz im Rothaus in Zürich.</P>
-
-        <P>Zum Ausbau unserer Kulturredaktion suchen wir nach Vereinbarung eine/n</P>
-
-        <Interaction.H2>Redaktor/in 60–80%</Interaction.H2>
+        <H1>HR-Fachfrau/Fachmann 50%</H1>
         <br />
-        <P>Wir bieten</P>
-        <Editorial.UL>
-          <LI>Mitverantwortung für die Organisation, Gestaltung und Weiterentwicklung des Kulturteils der Republik;</LI>
-          <LI>eine Arbeit im Dialog mit der Republik-Leserschaft auf der Republik-Plattform, auf den sozialen Kanälen und bei Veranstaltungen;</LI>
-          <LI>ein vielfältiges journalistisches Tätigkeitsfeld inklusive redaktionellen Arbeitens;</LI>
-          <LI>die Möglichkeit zu selbstständiger Recherche und Produktion eigener Artikel und Reportagen;</LI>
-          <LI>eine Plattform zum Verfassen von Rezensionen;</LI>
-          <LI>ein abwechslungsreiches, herausforderndes und inspirierendes Umfeld mit agilen Arbeitsweisen.</LI>
-        </Editorial.UL>
-
-        <P>Wir freuen uns auf</P>
-        <Editorial.UL>
-          <LI>eine Kollegin, einen Kollegen, die/der Erfahrung im Kulturjournalismus und  ausgezeichnete Kenntnisse in mindestens einem der klassischen Feuilletongebiete inklusive Pop-Art und Subkulturen mitbringt;</LI>
-          <LI>einen offenen Geist, der sich auch auf unkonventionelle Arbeitsmethoden einlässt und in einem heterogenen Team seine Linie behält;</LI>
-          <LI>eine Journalistin, einen Journalisten, die/der neue Herausforderungen sucht, ein Spezialgebiet hat und bereit ist, dieses weiter zu erforschen;</LI>
-          <LI>eine Persönlichkeit mit eigenständiger Denkweise;</LI>
-          <LI>eine Bewerberin, einen Bewerber, die/der gern redaktionell tätig sein will, Ideen und Konzepte generiert, Texte redigiert und Themengebiete betreut;</LI>
-          <LI>eine Autorin, einen Autor, die/der sich durch herausragende feuilletonistische Beiträge bereits einen Namen gemacht hat.</LI>
-        </Editorial.UL>
-
-        <P>Interessiert? Neugierig? Senden Sie Ihre vollständigen Bewerbungsunterlagen an <A href='mailto:personal@republik.ch'>personal@republik.ch</A>.</P>
-
+        <P><Emphasis>Sie fühlen sich in einem dynamischen, agilen Medien-Start-up wohl. Sie sind HR-Allrounder/in, haben Erfahrung in allen HR-Themen und -Belangen und können Mitarbeitende vom Eintritt bis zum Austritt begleiten. Ausserdem sind Sie sattelfest in Lohnbuchhaltung und Zeitmanagement.</Emphasis></P>
+        <H2>Ihre Aufgabe</H2>
+        <UL>
+          <LI>Ansprechperson für alle Anliegen von Mitarbeiterinnen und Mitarbeitern sowie deren Vorgesetzten</LI>
+          <LI>Zuständigkeit vom Eintritt bis zum Austritt, inkl. Rekrutierung</LI>
+          <LI>Mitarbeit bei der Lohnbuchhaltung</LI>
+          <LI>Verantwortung im Zeitmanagement</LI>
+        </UL>
+        <P>Wir erwarten einige Jahre Berufserfahrung im HR sowie eine fachspezifische Weiterbildung (HR-Fachfrau, HR-Fachmann mit eidg. Fachausweis oder gleichwertige Ausbildung). Sie sind eine gewinnende, diskrete Persönlichkeit, die offen auf Menschen zugeht und eine Vertrauensbasis schaffen kann. Sie sind mündlich und schriftlich kommunikationsstark. Sie sind erfahren in anspruchsvollen Gesprächssituationen, agieren mit diplomatischem Geschick und sind klar in Ihrer Aussage. Sie sind flexibel, lösungsorientiert und können mit unterschiedlichen Interessen konstruktiv umgehen.</P>
+        <P>Wir bieten Ihnen eine interessante Stelle an, die es Ihnen ermöglicht, Ihre Kenntnisse und Fähigkeiten im HR-Bereich voll einzubringen.</P>
+        <P>Senden Sie Ihre Bewerbungsunterlagen an <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A></P>
       </Frame>
     )
   })

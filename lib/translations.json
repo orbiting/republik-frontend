@@ -1,5 +1,5 @@
 {
-  "updated": "2018-06-14T15:13:58.134Z",
+  "updated": "2018-07-13T11:09:59.344Z",
   "title": "live",
   "data": [
     {
@@ -400,7 +400,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
+      "value": "Offene Stellen: HR-Fachfrau/Fachmann 50%"
     },
     {
       "key": "jobs/description",
@@ -925,7 +925,6 @@
     {
       "key": "profile/contact/phoneNumber/label",
       "value": "Telefonnummer"
-
     },
     {
       "key": "profile/contact/phoneNumberNote/label",
@@ -958,6 +957,10 @@
     {
       "key": "profile/statement/tooLong",
       "value": "Statement, maximal 140 Zeichen"
+    },
+    {
+      "key": "profile/share/title",
+      "value": "Profil teilen"
     },
     {
       "key": "profile/preview",
@@ -2208,24 +2211,48 @@
       "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
     },
     {
+      "key": "article/share/title",
+      "value": "Artikel teilen"
+    },
+    {
       "key": "article/share/emailSubject",
       "value": "Republik: {title}"
     },
     {
-      "key": "article/actionbar/facebook",
-      "value": "Artikel auf Facebook teilen"
+      "key": "article/actionbar/share",
+      "value": "Teilen"
     },
     {
-      "key": "article/actionbar/twitter",
-      "value": "Artikel auf Twitter teilen"
+      "key": "article/actionbar/facebook/title",
+      "value": "Auf Facebook teilen"
     },
     {
-      "key": "article/actionbar/whatsapp",
-      "value": "Artikel auf WhatsApp teilen"
+      "key": "article/actionbar/facebook/label",
+      "value": "Facebook"
     },
     {
-      "key": "article/actionbar/email",
-      "value": "Artikel per E-Mail verschicken"
+      "key": "article/actionbar/twitter/title",
+      "value": "Auf Twitter teilen"
+    },
+    {
+      "key": "article/actionbar/twitter/label",
+      "value": "Twitter"
+    },
+    {
+      "key": "article/actionbar/whatsapp/title",
+      "value": "Auf WhatsApp teilen"
+    },
+    {
+      "key": "article/actionbar/whatsapp/label",
+      "value": "WhatsApp"
+    },
+    {
+      "key": "article/actionbar/email/title",
+      "value": "Per E-Mail verschicken"
+    },
+    {
+      "key": "article/actionbar/email/label",
+      "value": "E-Mail"
     },
     {
       "key": "article/actionbar/dossier",
@@ -2436,6 +2463,10 @@
       "value": "Abonnement kündigen"
     },
     {
+      "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
+      "value": "Auf Jahresabo upgraden"
+    },
+    {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",
       "value": "Abonnement reaktivieren"
     },
@@ -2490,6 +2521,22 @@
     {
       "key": "notifications/email-confirmed/text",
       "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+    },
+    {
+      "key": "notifications/email-confirmed/text/app",
+      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt."
+    },
+    {
+      "key": "notifications/session-denied/title",
+      "value": "Zugriff abgewehrt!"
+    },
+    {
+      "key": "notifications/session-denied/text",
+      "value": "Uf, gerade noch einmal gut gegangen! Sie können dieses Fenster wieder schliessen."
+    },
+    {
+      "key": "notifications/session-denied/text/app",
+      "value": "Uf, gerade noch einmal gut gegangen!"
     },
     {
       "key": "notifications/invalid-token/title",
@@ -2550,6 +2597,10 @@
     {
       "key": "events/past",
       "value": "Vergangene Veranstaltungen"
+    },
+    {
+      "key": "events/share/title",
+      "value": "Veranstaltung teilen"
     },
     {
       "key": "events/all",
@@ -2678,6 +2729,10 @@
     {
       "key": "tokenAuthorization/button/differentSession",
       "value": "Zugriff erteilen"
+    },
+    {
+      "key": "tokenAuthorization/button/deny",
+      "value": "Zugriff ablehnen"
     },
     {
       "key": "tokenAuthorization/ip",

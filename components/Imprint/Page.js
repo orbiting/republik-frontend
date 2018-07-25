@@ -1,0 +1,104 @@
+import React, { Fragment } from 'react'
+
+import Employees from './Employees'
+import {
+  A, Interaction
+} from '@project-r/styleguide'
+
+const {H1, H2, P} = Interaction
+
+export default ({url, serverContext}) => {
+  const meta = {
+    title: 'Impressum',
+    description: ''
+  }
+
+  return (
+    <Fragment>
+      <H1>
+        {meta.title}
+      </H1>
+
+      <br />
+      <H2>Verlegerinnen und Verleger</H2>
+      <P>
+        <A href='/community'>
+          Alle Mitglieder
+        </A>
+        {' '}
+        der{' '}
+        <A href='https://project-r.construction/'>
+          Project R Genossenschaft
+        </A>
+      </P>
+
+      <br />
+      <H2>Herausgeberin</H2>
+      <P>
+        Republik AG<br />
+        Sihlhallenstrasse 1<br />
+        8004 Zürich<br />
+        Schweiz<br />
+        <A href='mailto:kontakt@republik.ch'>
+          kontakt@republik.ch
+        </A>
+      </P>
+
+      <br />
+      <P>
+      Geschäftsführerin und <A href='/medien'> Medienkontakt:</A><br />
+      Susanne Sugimoto, <A href='tel:+41797874765'>+41 79 787 47 65</A>, <A href='mailto:susanne.sugimoto@republik.ch'>susanne.sugimoto@republik.ch</A>
+      </P>
+
+      <Employees />
+
+      <H2>Aktionariat</H2>
+      <P>
+        <A href='https://www.republik.ch/aktionariat'>
+        republik.ch/aktionariat
+        </A>
+      </P>
+
+      <br />
+
+      <H2>Mediadaten</H2>
+      <P>Keine vorhanden. Die Republik ist komplett werbefrei.</P>
+      <br />
+
+      <H2>Beteiligungen</H2>
+      <P>Bekanntgabe von namhaften Beteiligungen der Republik AG i. S. v. Art. 322 StGB: <br />
+      Keine Beteiligungen.</P>
+
+      <br />
+      <H2>Handelsregistereintrag</H2>
+      <P><A href='https://zh.chregister.ch/cr-portal/auszug/auszug.xhtml?uid=CHE-256.391.251'>Republik AG</A></P>
+
+      <br />
+
+      <H2>Publizistische Leitlinien</H2>
+      <P><A href='https://www.republik.ch/manifest'>republik.ch/manifest</A></P>
+      <br />
+      <br />
+
+      <H2>Mitgliedschaft und Abonnement</H2>
+      <P>
+        <A href='https://www.republik.ch/angebote?package=ABO'>Jahresmitgliedschaft: CHF 240</A><br />
+        <A href='https://www.republik.ch/angebote?package=MONTHLY_ABO'>Monatsabonnement: CHF 22</A><br />
+        <A href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnermitgliedschaft: CHF 1000</A><br />
+        <A href='https://www.republik.ch/angebote?package=ABO_GIVE'>Jahresmitgliedschaft verschenken: CHF 240</A>
+      </P>
+      <br />
+      <H2>Dank</H2>
+      <P>Die Republik entstand aus einem Projekt, das 2010 begann. Bis zur ersten Publikation haben hunderte Menschen in ihrer Freizeit das Projekt unterstützt und vorangetrieben. Ohne sie gäbe es die Republik nicht. Wir sind jeder einzelnen Komplizin, jedem einzelnen Komplizen von ganzem Herzen dankbar für die Unterstützung. Wir möchten an dieser Stelle die einzelnen Namen auflisten, müssen aber die betreffenden Personen noch um Erlaubnis fragen.</P>
+      <br />
+      <H2>Rechtliches</H2>
+      <P>Die in diesem Impressum erwähnten Personen dürfen nicht in einer Kartei gespeichert werden und ihre Namen und E-Mail-Adressen nicht ohne Einverständnis der genannten Personen genutzt werden.</P>
+
+      <br />
+      <H2>Disclaimer</H2>
+      <P>Alle Texte und Links wurden sorgfältig geprüft und werden laufend aktualisiert. Wir sind bemüht, richtige und vollständige Informationen auf dieser Website bereitzustellen, übernehmen aber keinerlei Verantwortung, Garantien oder Haftung dafür, dass die durch diese Website bereitgestellten Informationen, einschliesslich jeglicher Datenbankeinträge, richtig, vollständig oder aktuell sind.</P>
+      <P>Wir behalten uns das Recht vor, jederzeit und ohne Vorankündigung die Informationen auf dieser Website zu ändern, und verpflichten uns auch nicht, die enthaltenen Informationen zu aktualisieren. Alle Links zu externen Anbietern wurden zum Zeitpunkt ihrer Aufnahme auf ihre Richtigkeit überprüft. Dennoch haften wir nicht für Inhalte und Verfügbarkeit von Websites, die mittels Hyperlinks zu erreichen sind.</P>
+      <P>Für illegale, fehlerhafte oder unvollständige Inhalte und insbesondere für Schäden, die durch die ungeprüfte Nutzung von Inhalten verknüpfter Seiten entstehen, haftet allein der Anbieter der Seite, auf welche verwiesen wurde. Dabei ist es gleichgültig, ob der Schaden direkter, indirekter oder finanzieller Natur ist oder ein sonstiger Schaden vorliegt, der sich aus Datenverlust, Nutzungsausfall oder anderen Gründen aller Art ergeben könnte.</P>
+    </Fragment>
+  )
+}

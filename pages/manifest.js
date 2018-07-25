@@ -2,7 +2,7 @@ import React from 'react'
 import {css} from 'glamor'
 import Head from 'next/head'
 
-import Share from '../components/Share'
+import ActionBar from '../components/ActionBar'
 import PureFooter, {SPACE, A} from '../components/Frame/PureFooter'
 
 import {
@@ -129,7 +129,7 @@ ${PUBLIC_BASE_URL}
           Manifest teilen
         </P>
         <P style={{marginBottom: SPACE / 2}}>
-          <Share fill='#000' {...share} />
+          <ActionBar fill='#000' {...share} shareOverlayTitle={'Manifest teilen'} />
         </P>
         <P>
           <A href={`${CDN_FRONTEND_BASE_URL}/static/manifest.pdf`}>

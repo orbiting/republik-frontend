@@ -12,7 +12,7 @@ import { WithMembership } from '../Auth/withMembership'
 import ErrorMessage from '../ErrorMessage'
 
 import Account from '../Account'
-import Share from '../Share'
+import ActionBar from '../ActionBar'
 
 import { Content, MainContainer } from '../Frame'
 
@@ -26,7 +26,6 @@ import {
   Interaction,
   RawHtml,
   InlineSpinner,
-  Lead,
   Button
 } from '@project-r/styleguide'
 
@@ -185,7 +184,7 @@ class Merci extends Component {
             </div>
           )} />
           <P style={{marginBottom: 80}}>
-            <Share
+            <ActionBar
               url={`${PUBLIC_BASE_URL}/`}
               tweet={t('merci/share/tweetTemplate')}
               emailSubject={t('merci/share/emailSubject')}

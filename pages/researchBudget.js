@@ -30,11 +30,11 @@ export default withData(
           <Interaction.Headline>Der Etat für grosse Recherchen, grosse Geschichten und grosse Ideen</Interaction.Headline>
           <Editorial.Lead>
           Project R und die Republik möchten Sie einladen, Ihre besten Geschichten bei uns zu erzählen. Dank der Grosszügigkeit unserer Verlegerinnen und Verleger können wir 2018 eine Viertelmillion Franken für aussergewöhnlichen Journalismus vergeben.
-        </Editorial.Lead>
+          </Editorial.Lead>
         </TitleBlock>
 
         <P>Nun liegt es an Ihnen. Schicken Sie uns ein Exposé für eine grosse Story, harte Recherche oder wilde Idee. Eine, die das Potential hat, im Gedächtnis zu bleiben, Dinge zu ändern oder Leser und Leserinnen zu verblüffen. Eine, bei der die Wahrheit nicht gemütlich daherschlendert, sondern knallt.</P>
-        <P>Wir versprechen: Ihre Idee wird vertraulich behandelt. Und sie müssen nicht warten: Wir prüfen ihren Vorschlag umgehend. Sie erhalten binnen einer Woche eine Antwort. Im schlimmsten Fall ist das ein kurzes: «Leider nein», aber dann verlieren Sie wenigstens keine Zeit.</P>
+        <P>Wir versprechen: Ihre Idee wird vertraulich behandelt. Und sie müssen nicht warten: Wir prüfen ihren Vorschlag umgehend. Sie erhalten binnen drei Wochen eine Antwort. Im schlimmsten Fall ist das ein kurzes: «Leider nein», aber dann verlieren Sie wenigstens keine Zeit.</P>
         <P>Was wir suchen? Grosse Recherche, grosse Geschichten und grosse Ideen, die mutig sind, kühn und unberechenbar. Die etwas Verborgenes enthüllen. Oder etwas Bekanntes in ein neues Licht rücken. Die aktuell sind. Die relevant sind. Die in das Herz der Gesellschaft zielen, vorzugsweise in das der Schweizer Gesellschaft.</P>
         <P>Geschichten, die uns packen, verblüffen, vielleicht sogar verändern. Uns die Augen öffnen. Die sich erzählerisch etwas trauen. Die mit Formen und Formaten spielen. Die das Potential haben zur «grossen Story». Die wir gemeinsam, Sie und wir, aufwändig produzieren, mit all unserem Können.</P>
         <P>Wir wollen möglichst genau verstehen, was Sie vorhaben. Und möchten Sie bitten, uns diese 20 Fragen zu beantworten:</P>

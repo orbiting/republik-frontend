@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import Frame from '../Frame'
-import ShareButtons from '../Share'
+import ActionBar from '../ActionBar'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
@@ -67,10 +67,11 @@ const styles = {
   })
 }
 
-const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
   <div>
-    <ShareButtons
+    <ActionBar
       url={url}
+      shareOverlayTitle={t('article/share/title')}
       fill={colors.text}
       dossierUrl={dossierUrl}
       onPdfClick={onPdfClick}
@@ -81,7 +82,7 @@ const ActionBar = ({ title, discussionId, discussionPage, discussionPath, dossie
       onAudioClick={onAudioClick}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} />
+      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
     }
   </div>
 )
@@ -271,7 +272,8 @@ class ArticlePage extends Component {
     const hasPdf = meta && meta.template === 'article'
 
     const actionBar = !inNativeApp && meta && (
-      <ActionBar t={t}
+      <ArticleActionBar
+        t={t}
         url={meta.url}
         title={meta.title}
         discussionPage={!!meta.discussionId}

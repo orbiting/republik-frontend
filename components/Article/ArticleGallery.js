@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
 import get from 'lodash.get'
@@ -37,7 +37,7 @@ const getImageProps = (node) => {
   }
 }
 
-class ArticleGallery extends React.Component {
+class ArticleGallery extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -51,24 +51,6 @@ class ArticleGallery extends React.Component {
         .map(getImageProps)
         .filter(i => imageSizeInfo(i.src).width > 600)
     })
-
-    this.renderGallery = () => {
-      const { article } = this.props
-      const { show, startItemSrc } = this.state
-      const enabled = get(article, 'content.meta.gallery', false)
-      if (article.content && enabled && show) {
-        const galleryItems = this.getGalleryItems()
-        return (
-          <Gallery
-            onClose={() => { this.setState(({ show }) => ({ show: !show })) }}
-            items={galleryItems}
-            startItemSrc={startItemSrc}
-          />
-        )
-      } else {
-        return null
-      }
-    }
 
     this.toggleGallery = (nextSrc = '') => {
       if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
@@ -86,12 +68,24 @@ class ArticleGallery extends React.Component {
 
   render () {
     const { children } = this.props
-    return (
-      <React.Fragment>
-        { this.renderGallery() }
-        { children }
-      </React.Fragment>
-    )
+    const { article } = this.props
+    const { show, startItemSrc } = this.state
+    const enabled = get(article, 'content.meta.gallery', false)
+    if (article.content && enabled && show) {
+      const galleryItems = this.getGalleryItems()
+      return (
+        <Fragment>
+          <Gallery
+            onClose={() => { this.setState(({ show }) => ({ show: !show })) }}
+            items={galleryItems}
+            startItemSrc={startItemSrc}
+          />
+          { children }
+        </Fragment>
+      )
+    } else {
+      return children
+    }
   }
 }
 

@@ -14,6 +14,11 @@ module.exports = {
     config.externals = config.externals || {}
     config.externals['lru-cache'] = 'lru-cache'
     config.externals['react-dom/server'] = 'react-dom/server'
+    if (dev) {
+      config.devtool = 'eval-source-map'
+    } else {
+      config.devtool = 'source-map'
+    }
 
     const entryFactory = config.entry
     config.entry = () => (

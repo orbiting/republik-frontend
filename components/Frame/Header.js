@@ -238,7 +238,7 @@ class Header extends Component {
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
     const position = sticky || !inline ? 'fixed' : 'relative'
-    const borderBottom = formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
+    const borderBottom = !inNativeApp && formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
 
     // The logo acts as a toggle between front and feed page when user's logged in.
     const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'

@@ -167,7 +167,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
               )), () => ' – ')}
             </P>
           )}
-          {!hasCurtain && buttonLinks.length > 0 && buttonLinks.map((link, i) => (
+          {!hasCurtain && buttonLinks.map((link, i) => (
             <div {...styles.button}>
               <Link key={i} route={link.route} params={link.params}>
                 <Button block primary>

@@ -53,8 +53,9 @@ class ArticleGallery extends Component {
     })
 
     this.toggleGallery = (nextSrc = '') => {
+      console.log('nextSrc', nextSrc)
       if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
-        this.setState(({ show, nextSrc }) => ({
+        this.setState(({ show, startItemSrc }) => ({
           show: !show,
           startItemSrc: nextSrc
         }))
@@ -70,8 +71,8 @@ class ArticleGallery extends Component {
     const { children } = this.props
     const { article } = this.props
     const { show, startItemSrc } = this.state
-    const enabled = get(article, 'content.meta.gallery', false)
-    if (article.content && enabled && show) {
+    const disabled = get(article, 'content.meta.gallery', false)
+    if (article.content && !disabled && show) {
       const galleryItems = this.getGalleryItems()
       return (
         <Fragment>

@@ -11,9 +11,6 @@ const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'
 const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
 
 const styles = {
-  headline: css({
-    margin: '80px 0 30px 0'
-  }),
   spinnerWrapper: css({
     display: 'inline-block',
     height: 0,

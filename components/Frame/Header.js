@@ -25,7 +25,7 @@ import {
 const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
 const LOGO_WIDTH = 190
-const LOGO_WIDTH_MOBILE = 162
+const LOGO_WIDTH_MOBILE = 154
 const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
@@ -83,7 +83,6 @@ const styles = {
     top: 0,
     right: 0,
     display: 'inline-block',
-    marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
     width: HEADER_HEIGHT_MOBILE - 2 + 5,
     [mediaQueries.mUp]: {
@@ -108,7 +107,6 @@ const styles = {
     overflow: 'hidden',
     top: 0,
     right: HEADER_HEIGHT_MOBILE - 1,
-    marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
     width: SEARCH_BUTTON_WIDTH,
     [mediaQueries.mUp]: {
@@ -124,11 +122,11 @@ const styles = {
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
     right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
-    paddingTop: '11px',
+    paddingTop: '10px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
       right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
-      paddingTop: '24px'
+      paddingTop: '18px'
     },
     transition: 'opacity .2s ease-in-out'
   })

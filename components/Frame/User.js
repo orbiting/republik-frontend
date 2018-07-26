@@ -33,9 +33,7 @@ const styles = {
     padding: `${BUTTON_PADDING_MOBILE}px`,
     [mediaQueries.mUp]: {
       padding: `${BUTTON_PADDING}px`
-    },
-    height: '100%',
-    width: '100%'
+    }
   }),
   portrait: css({
     verticalAlign: 'top',

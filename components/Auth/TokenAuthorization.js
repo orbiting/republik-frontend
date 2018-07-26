@@ -32,7 +32,6 @@ const goTo = (type, email) => Router.replaceRoute(
 )
 
 const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
-  console.log({noAutoAuthorize})
   return (
     !error &&
     target &&

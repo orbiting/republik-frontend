@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-26T12:51:02.571Z",
+  "updated": "2018-07-26T13:41:46.872Z",
   "title": "live",
   "data": [
     {
@@ -168,7 +168,11 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem <b>Postfach</b>, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+    },
+    {
+      "key": "signIn/polling/APP",
+      "value": "Vielen Dank! \n<br /><br />\nWir haben Ihnen eine Benachrichtigung auf Ihr <b>Smartphone</b> geschickt. Tippen Sie auf die Nachricht, es öffnet sich die App, wo Sie die folgenden drei seltsamen, fett gedruckte Wörter finden:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem App die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
     },
     {
       "key": "signIn/polling/link",
@@ -177,6 +181,14 @@
     {
       "key": "signIn/polling/short",
       "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n"
+    },
+    {
+      "key": "signIn/polling/short/APP",
+      "value": "Wir haben Ihnen eine Benachrichtigung auf Smartphone geschickt. Öffnen Sie diese, und klicken Sie auf «Zugriff erlauben».<br \n/><br />\nIm App finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer App die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n"
+    },
+    {
+      "key": "signIn/polling/switch",
+      "value": "Möchten Sie sich anstelle per {tokenType} anmelden?"
     },
     {
       "key": "signIn/cancel",

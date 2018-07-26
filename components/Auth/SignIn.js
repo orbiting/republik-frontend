@@ -91,7 +91,8 @@ class SignIn extends Component {
           this.setState(() => ({
             polling: true,
             loading: false,
-            phrase: data.signIn.phrase
+            phrase: data.signIn.phrase,
+            tokenType: data.signIn.tokenType
           }))
         })
         .catch(error => {
@@ -106,14 +107,16 @@ class SignIn extends Component {
   render () {
     const {t, label} = this.props
     const {
-      polling, phrase, loading, success,
+      phrase, tokenType,
+      polling, loading, success,
       error, dirty, email,
       serverError
     } = this.state
     if (polling) {
+      const suffix = tokenType !== 'EMAIL_TOKEN' ? `/${tokenType}` : ''
       return (
         <P>
-          <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
+          <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
             phrase: <b key='phrase'>{phrase}</b>,
             email: <b key='email'>{email}</b>,
             link: (
@@ -201,6 +204,7 @@ const signInMutation = gql`
 mutation signIn($email: String!, $context: String, $consents: [String!]) {
   signIn(email: $email, context: $context, consents: $consents) {
     phrase
+    tokenType
   }
 }
 `

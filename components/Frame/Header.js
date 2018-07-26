@@ -24,7 +24,7 @@ import {
 
 const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
-const LOGO_WIDTH = 203
+const LOGO_WIDTH = 190
 const LOGO_WIDTH_MOBILE = 162
 const SEARCH_BUTTON_WIDTH = 28
 

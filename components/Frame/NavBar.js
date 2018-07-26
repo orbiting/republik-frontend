@@ -54,7 +54,7 @@ const animationFormat = getAnimationStyles(true, false)
 const animationFormatMobile = getAnimationStyles(true, true)
 
 const linkStyle = {
-  fontSize: 16,
+  fontSize: 15,
   textDecoration: 'none',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
@@ -68,7 +68,7 @@ const linkStyle = {
   },
   cursor: 'pointer',
   [mediaQueries.mUp]: {
-    fontSize: 19,
+    fontSize: 18,
     minWidth: '25%',
     textAlign: 'center'
   }

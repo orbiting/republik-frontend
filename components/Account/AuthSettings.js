@@ -66,31 +66,34 @@ class AuthSettings extends Component {
                     </span>
                   )}
                 </legend>
-                {SUPPORTED_TOKEN_TYPES.map((tokenType) => (
-                  <p key={tokenType}>
-                    <Radio
-                      checked={tokenType === selectedFirstFactor}
-                      disabled={enabledFirstFactors.indexOf(tokenType) === -1 || mutating}
-                      onChange={(_, checked) => {
-                        this.setState(state => ({
-                          mutating: true
-                        }))
-                        const finish = () => {
+                {SUPPORTED_TOKEN_TYPES.map((tokenType) => {
+                  const disabled = enabledFirstFactors.indexOf(tokenType) === -1
+                  return (
+                    <p key={tokenType}>
+                      <Radio
+                        checked={tokenType === selectedFirstFactor}
+                        disabled={disabled || mutating}
+                        onChange={(_, checked) => {
                           this.setState(state => ({
-                            mutating: false
+                            mutating: true
                           }))
-                        }
-                        updatePreferredFirstFactor({
-                          tokenType
-                        })
-                          .then(finish)
-                          .catch(this.catchServerError)
-                      }}
-                    >
-                      {t(`account/authSettings/firstfactor/${tokenType}/label`)}
-                    </Radio>
-                  </p>
-                ))}
+                          const finish = () => {
+                            this.setState(state => ({
+                              mutating: false
+                            }))
+                          }
+                          updatePreferredFirstFactor({
+                            tokenType
+                          })
+                            .then(finish)
+                            .catch(this.catchServerError)
+                        }}
+                      >
+                        {t(`account/authSettings/firstfactor/${tokenType}/label${disabled ? '/disabled' : ''}`)}
+                      </Radio>
+                    </p>
+                  )
+                })}
               </fieldset>
               {serverError && <ErrorMessage error={serverError} />}
             </Fragment>

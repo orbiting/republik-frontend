@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-26T10:18:57.717Z",
+  "updated": "2018-07-26T12:51:02.571Z",
   "title": "live",
   "data": [
     {
@@ -720,7 +720,7 @@
     },
     {
       "key": "account/authSettings/firstfactor/label",
-      "value": "Bevorzugte Methode"
+      "value": "Ich möchte standardmässig folgende Methode zur Anmeldung nutzen:"
     },
     {
       "key": "account/authSettings/firstfactor/EMAIL_TOKEN/label",
@@ -729,6 +729,10 @@
     {
       "key": "account/authSettings/firstfactor/APP/label",
       "value": "App"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/label/disabled",
+      "value": "App (Sie müssen sich zuerst im App anmelden um diese Methode nutzen zu können)"
     },
     {
       "key": "account/notificationOptions/title",

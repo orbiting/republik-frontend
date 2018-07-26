@@ -69,8 +69,8 @@ class SignIn extends Component {
       success: undefined
     }
 
-    this.onFormSubmit = (event) => {
-      event.preventDefault()
+    this.onFormSubmit = (event, newTokenType) => {
+      event && event.preventDefault()
 
       const { loading, error, email } = this.state
       const { signIn, context, acceptedConsents } = this.props
@@ -86,13 +86,14 @@ class SignIn extends Component {
 
       this.setState(() => ({ loading: true }))
 
-      signIn(email, context, acceptedConsents)
+      signIn(email, context, acceptedConsents, newTokenType)
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
             loading: false,
             phrase: data.signIn.phrase,
-            tokenType: data.signIn.tokenType
+            tokenType: data.signIn.tokenType,
+            alternativeFirstFactors: data.signIn.alternativeFirstFactors
           }))
         })
         .catch(error => {
@@ -107,13 +108,14 @@ class SignIn extends Component {
   render () {
     const {t, label} = this.props
     const {
-      phrase, tokenType,
+      phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
       error, dirty, email,
       serverError
     } = this.state
     if (polling) {
       const suffix = tokenType !== 'EMAIL_TOKEN' ? `/${tokenType}` : ''
+      const alternativeFirstFactor = alternativeFirstFactors[0]
       return (
         <P>
           <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
@@ -133,6 +135,20 @@ class SignIn extends Component {
               >{t('signIn/polling/link')}</a>
             )
           }} />
+          {alternativeFirstFactor && (
+            <div>
+              <br />
+              <a {...linkRule}
+                key='switch'
+                style={{cursor: 'pointer'}}
+                onClick={(e) => {
+                  e.preventDefault()
+                  this.onFormSubmit(null, alternativeFirstFactor)
+                }}
+              >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
+              {loading && (<InlineSpinner />)}
+            </div>
+          )}
           <Poller onSuccess={(me, ms) => {
             this.setState(() => ({
               polling: false,
@@ -201,18 +217,19 @@ SignIn.propTypes = {
 }
 
 const signInMutation = gql`
-mutation signIn($email: String!, $context: String, $consents: [String!]) {
-  signIn(email: $email, context: $context, consents: $consents) {
+mutation signIn($email: String!, $context: String, $consents: [String!], $tokenType: SignInTokenType) {
+  signIn(email: $email, context: $context, consents: $consents, tokenType: $tokenType) {
     phrase
-    tokenType
+    tokenType,
+    alternativeFirstFactors
   }
 }
 `
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: (email, context = 'signIn', consents) =>
-      mutate({variables: {email, context, consents}})
+    signIn: (email, context = 'signIn', consents, tokenType) =>
+      mutate({variables: {email, context, consents, tokenType}})
   })
 })
 

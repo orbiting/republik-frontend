@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-26T13:41:46.872Z",
+  "updated": "2018-07-26T18:49:34.520Z",
   "title": "live",
   "data": [
     {
@@ -188,7 +188,15 @@
     },
     {
       "key": "signIn/polling/switch",
-      "value": "Möchten Sie sich anstelle per {tokenType} anmelden?"
+      "value": "Möchten Sie sich lieber per {tokenType} anmelden?"
+    },
+    {
+      "key": "signIn/polling/EMAIL_TOKEN/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "signIn/polling/APP/label",
+      "value": "App"
     },
     {
       "key": "signIn/cancel",

@@ -16,6 +16,7 @@ import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
 import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
+import { DEFAULT_TOKEN_TYPE } from '../components/constants'
 import {
   CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
@@ -86,7 +87,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
     content = <TokenAuthorization
       email={email}
       token={token}
-      tokenType={tokenType || 'EMAIL_TOKEN'}
+      tokenType={tokenType || DEFAULT_TOKEN_TYPE}
       noAutoAuthorize={noAutoAuthorize}
     />
   } else if (type === 'newsletter-subscription') {

@@ -6,8 +6,8 @@ import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import { InlineSpinner, Radio } from '@project-r/styleguide'
+import { DEFAULT_TOKEN_TYPE } from '../constants'
 
-const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'
 const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
 
 const styles = {

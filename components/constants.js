@@ -9,3 +9,5 @@ export const ZINDEX_CONTENT = 15
 export const ZINDEX_FOOTER = 11
 export const ZINDEX_SIDEBAR = 10
 export const ZINDEX_FRAME_TOGGLE = 1
+
+export const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'

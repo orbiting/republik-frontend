@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-24T13:59:20.998Z",
+  "updated": "2018-07-26T10:18:57.717Z",
   "title": "live",
   "data": [
     {
@@ -713,6 +713,22 @@
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
+    },
+    {
+      "key": "account/authSettings/title",
+      "value": "Anmeldung"
+    },
+    {
+      "key": "account/authSettings/firstfactor/label",
+      "value": "Bevorzugte Methode"
+    },
+    {
+      "key": "account/authSettings/firstfactor/EMAIL_TOKEN/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/label",
+      "value": "App"
     },
     {
       "key": "account/notificationOptions/title",

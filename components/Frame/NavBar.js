@@ -56,6 +56,9 @@ const animationFormatMobile = getAnimationStyles(true, true)
 const linkStyle = {
   fontSize: 16,
   textDecoration: 'none',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   color: colors.text,
   ':visited': {
     color: colors.text
@@ -87,21 +90,14 @@ const styles = {
     [mediaQueries.mUp]: {
       height: NAVBAR_HEIGHT,
       padding: '0 25px'
-    },
-    '& > div': {
-      margin: '0 auto 0',
-      // maxWidth: '665px',
-      display: 'flex',
-      flex: 1,
-      justifyContent: 'space-around',
-      [mediaQueries.mUp]: {
-        // maxWidth: '685px'
-      }
-    },
-    '& > div > div': {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
     }
+  }),
+  wrapper: css({
+    margin: '0 auto 0',
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'space-around',
+    maxWidth: '100%'
   }),
   link: css({
     ...linkStyle
@@ -165,7 +161,7 @@ class NavBar extends Component {
           borderBottom: formatColor ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
         }}
       >
-        <div>
+        <div {...styles.wrapper}>
           <NavLink
             route='index'
             translation={t('navbar/front')}

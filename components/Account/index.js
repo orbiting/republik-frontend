@@ -73,14 +73,14 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 {t('account/newsletterSubscriptions/title')}
               </H2>
               <NewsletterSubscriptions />
-              <H2 style={{marginTop: 80}} id='anmeldung'>
-                {t('account/authSettings/title')}
-              </H2>
-              <AuthSettings />
               <H2 style={{marginTop: 80}} id='benachrichtigungen'>
                 {t('account/notificationOptions/title')}
               </H2>
               <NotificationOptions />
+              <H2 style={{marginTop: 80}} id='anmeldung'>
+                {t('account/authSettings/title')}
+              </H2>
+              <AuthSettings />
             </Content>
           </MainContainer>
         </Fragment>

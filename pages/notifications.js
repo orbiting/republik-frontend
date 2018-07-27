@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
 import isEmail from 'validator/lib/isEmail'
@@ -89,6 +89,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       token={token}
       tokenType={tokenType || DEFAULT_TOKEN_TYPE}
       noAutoAuthorize={noAutoAuthorize}
+      context={context}
     />
   } else if (type === 'newsletter-subscription') {
     logoTarget = '_blank'
@@ -99,26 +100,36 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       email={email}
       context={context} />
   } else {
-    const authorizedAppendix = me && (type === 'email-confirmed' || type === 'session-denied')
-    content = <RawHtml type={P} dangerouslySetInnerHTML={{
-      __html: t(`notifications/${type}/text${authorizedAppendix ? '/me' : ''}`, query, '')
-    }} />
+    const afterTokenAuth =
+      type === 'email-confirmed' || type === 'session-denied'
+
+    const displayCloseNote =
+      !me || ['claim', 'preview'].indexOf(context) !== -1
+
+    content = <Fragment>
+      <RawHtml type={P} dangerouslySetInnerHTML={{
+        __html: t.first([`notifications/${type}/${context}/text`, `notifications/${type}/text`], query, '')
+      }} />
+      {afterTokenAuth && displayCloseNote
+        ? <P> {t('notifications/closeNote')} </P>
+        : !hasCurtain && <div {...styles.button}>
+          <Link route='index'>
+            <Button block primary>
+              {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
+            </Button>
+          </Link>
+        </div>
+      }
+    </Fragment>
   }
   const displayMe = (
     type === 'invalid-email' &&
-    ['signIn', 'pledge', 'authorization'].indexOf(context) !== -1
+    ['signIn', 'pledge'].indexOf(context) !== -1
   )
   const links = [
-    context === 'pledge' && type !== 'token-authorization' && {
+    me && context === 'pledge' && type !== 'token-authorization' && {
       route: 'account',
       label: t('notifications/links/merci')
-    }
-  ].filter(Boolean)
-
-  const buttonLinks = [
-    me && (type === 'email-confirmed' || type === 'session-denied') && {
-      route: 'index',
-      label: t(`notifications/links/home${inNativeApp ? '/app' : ''}`)
     }
   ].filter(Boolean)
 
@@ -168,15 +179,6 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
               )), () => ' – ')}
             </P>
           )}
-          {!hasCurtain && buttonLinks.map((link, i) => (
-            <div {...styles.button}>
-              <Link key={i} route={link.route} params={link.params}>
-                <Button block primary>
-                  {link.label}
-                </Button>
-              </Link>
-            </div>
-          ))}
         </div>
       </NarrowContainer>
     </div>

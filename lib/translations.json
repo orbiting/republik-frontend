@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-26T18:49:34.520Z",
+  "updated": "2018-07-27T14:58:40.503Z",
   "title": "live",
   "data": [
     {
@@ -168,11 +168,11 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem <b>Postfach</b>, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem <b>Postfach</b>, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrem Konto Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
     },
     {
       "key": "signIn/polling/APP",
-      "value": "Vielen Dank! \n<br /><br />\nWir haben Ihnen eine Benachrichtigung auf Ihr <b>Smartphone</b> geschickt. Tippen Sie auf die Nachricht, es öffnet sich die App, wo Sie die folgenden drei seltsamen, fett gedruckte Wörter finden:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem App die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+      "value": "Vielen Dank! \n<br /><br />\nWir haben Ihnen eine Benachrichtigung auf Ihr <b>Smartphone</b> geschickt. Tippen Sie auf die Nachricht, es öffnet sich die App, wo Sie die folgenden drei seltsamen, fett gedruckte Wörter finden:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem App die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrem Konto Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
     },
     {
       "key": "signIn/polling/link",
@@ -2576,23 +2576,27 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Sie sind somit angemeldet. Sie können dieses Fenster wieder schliessen."
-    },
-    {
-      "key": "notifications/email-confirmed/text/me",
       "value": "Perfekt! Sie sind somit angemeldet."
     },
     {
+      "key": "notifications/email-confirmed/claim/text",
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+    },
+    {
+      "key": "notifications/email-confirmed/preview/text",
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+    },
+    {
       "key": "notifications/session-denied/title",
-      "value": "Angriff abgewehrt!"
+      "value": "Zugriff verwehrt!"
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Uf, gerade noch einmal gut gegangen! Sie können dieses Fenster wieder schliessen."
+      "value": "Uf, gerade noch einmal gut gegangen!"
     },
     {
-      "key": "notifications/session-denied/text/me",
-      "value": "Uf, gerade noch einmal gut gegangen!"
+      "key": "notifications/closeNote",
+      "value": "Sie können dieses Fenster schliessen. "
     },
     {
       "key": "notifications/invalid-token/title",
@@ -2627,11 +2631,11 @@
       "value": "bestätigen"
     },
     {
-      "key": "notifications/links/home",
-      "value": "Startseite"
+      "key": "notifications/closeButton",
+      "value": "Magazin ansehen"
     },
     {
-      "key": "notifications/links/home/app",
+      "key": "notifications/closeButton/app",
       "value": "Prozedere beenden"
     },
     {

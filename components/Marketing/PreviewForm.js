@@ -56,7 +56,7 @@ class PreviewForm extends Component {
 
     if (!me) {
       this.props
-        .signIn(values.email)
+        .signIn(values.email, 'preview')
         .then(({ data }) => {
           this.setState(() => ({
             polling: true,

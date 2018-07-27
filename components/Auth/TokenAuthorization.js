@@ -235,7 +235,6 @@ class TokenAuthorization extends Component {
                   {showDeny && (
                     <div {...styles.button}>
                       <Button
-                        black
                         style={{minWidth: 250}}
                         onClick={() => {
                           this.deny()

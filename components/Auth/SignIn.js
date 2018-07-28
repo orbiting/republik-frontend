@@ -11,6 +11,8 @@ import withT from '../../lib/withT'
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
 
+import { DEFAULT_TOKEN_TYPE } from '../constants'
+
 import {
   Button,
   InlineSpinner,
@@ -69,7 +71,7 @@ class SignIn extends Component {
       success: undefined
     }
 
-    this.onFormSubmit = (event, newTokenType) => {
+    this.signIn = (event, newTokenType) => {
       event && event.preventDefault()
 
       const { loading, error, email } = this.state
@@ -86,7 +88,12 @@ class SignIn extends Component {
 
       this.setState(() => ({ loading: true }))
 
-      signIn(email, context, acceptedConsents, newTokenType)
+      signIn({
+        email,
+        context,
+        consents: acceptedConsents,
+        tokenType: newTokenType
+      })
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
@@ -106,7 +113,7 @@ class SignIn extends Component {
   }
 
   render () {
-    const {t, label} = this.props
+    const {t, label, showStatus} = this.props
     const {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
@@ -114,7 +121,7 @@ class SignIn extends Component {
       serverError
     } = this.state
     if (polling) {
-      const suffix = tokenType !== 'EMAIL_TOKEN' ? `/${tokenType}` : ''
+      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
       const alternativeFirstFactor = alternativeFirstFactors[0]
       return (
         <P>
@@ -143,7 +150,7 @@ class SignIn extends Component {
                 style={{cursor: 'pointer'}}
                 onClick={(e) => {
                   e.preventDefault()
-                  this.onFormSubmit(null, alternativeFirstFactor)
+                  this.signIn(null, alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
               {loading && (<InlineSpinner />)}
@@ -167,6 +174,11 @@ class SignIn extends Component {
 
     return (
       <div>
+        {showStatus &&
+          <Interaction.P style={{ marginBottom: '20px' }}>
+            {t('me/signedOut')}
+          </Interaction.P>
+        }
         <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
@@ -228,7 +240,7 @@ mutation signIn($email: String!, $context: String, $consents: [String!], $tokenT
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: (email, context = 'signIn', consents, tokenType) =>
+    signIn: ({email, context = 'signIn', consents, tokenType}) =>
       mutate({variables: {email, context, consents, tokenType}})
   })
 })

@@ -134,7 +134,7 @@ class PreviewForm extends Component {
                   this.requestPreview(alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-              {loading && (<InlineSpinner />)}
+              {loading && (<InlineSpinner size={26}/>)}
             </div>
           )}
           <Poller

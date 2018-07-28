@@ -153,7 +153,7 @@ class SignIn extends Component {
                   this.signIn(null, alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-              {loading && (<InlineSpinner />)}
+              {loading && (<InlineSpinner size={26}/>)}
             </div>
           )}
           <Poller onSuccess={(me, ms) => {

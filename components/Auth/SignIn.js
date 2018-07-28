@@ -179,7 +179,7 @@ class SignIn extends Component {
             {t('me/signedOut')}
           </Interaction.P>
         }
-        <form onSubmit={this.onFormSubmit}>
+        <form onSubmit={this.signIn}>
           <div {...styles.form}>
             <div {...styles.input}>
               <Field

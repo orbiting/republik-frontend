@@ -37,7 +37,7 @@ const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
     target &&
     target.session.isCurrent &&
     !target.requiredConsents.length &&
-    noAutoAuthorize === undefined
+    !noAutoAuthorize
   )
 }
 

@@ -112,7 +112,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       }} />
       {afterTokenAuth && displayCloseNote
         ? <P> {t('notifications/closeNote')} </P>
-        : !hasCurtain && <div {...styles.button}>
+        : (!hasCurtain || inNativeApp) && <div {...styles.button}>
           <Link route='index'>
             <Button block primary>
               {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}

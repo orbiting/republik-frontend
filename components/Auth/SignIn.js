@@ -88,12 +88,12 @@ class SignIn extends Component {
 
       this.setState(() => ({ loading: true }))
 
-      signIn({
+      signIn(
         email,
         context,
-        consents: acceptedConsents,
-        tokenType: newTokenType
-      })
+        acceptedConsents,
+        newTokenType
+      )
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
@@ -153,7 +153,7 @@ class SignIn extends Component {
                   this.signIn(null, alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-              {loading && (<InlineSpinner size={26}/>)}
+              {loading && (<InlineSpinner size={26} />)}
             </div>
           )}
           <Poller onSuccess={(me, ms) => {
@@ -240,7 +240,7 @@ mutation signIn($email: String!, $context: String, $consents: [String!], $tokenT
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: ({email, context = 'signIn', consents, tokenType}) =>
+    signIn: (email, context = 'signIn', consents, tokenType) =>
       mutate({variables: {email, context, consents, tokenType}})
   })
 })

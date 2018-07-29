@@ -66,13 +66,8 @@ class PreviewForm extends Component {
 
     if (!me) {
       this.props
-        .signIn({
-          email: values.email,
-          context: 'preview',
-          tokenType: newTokenType
-        })
+        .signIn(values.email, 'preview', undefined, newTokenType)
         .then(({ data }) => {
-          console.log(data)
           this.setState(() => ({
             polling: true,
             loading: false,
@@ -134,7 +129,7 @@ class PreviewForm extends Component {
                   this.requestPreview(alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-              {loading && (<InlineSpinner size={26}/>)}
+              {loading && (<InlineSpinner size={26} />)}
             </div>
           )}
           <Poller

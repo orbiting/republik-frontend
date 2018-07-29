@@ -44,14 +44,14 @@ class AuthSettings extends Component {
   }
 
   render () {
-    const { t, me, loading, error, updatePreferredFirstFactor } = this.props
+    const { t, authSettings, loading, error, updatePreferredFirstFactor } = this.props
 
     return (
       <Loader
         loading={loading}
         error={error}
         render={() => {
-          const { enabledFirstFactors, preferredFirstFactor } = me
+          const { enabledFirstFactors, preferredFirstFactor } = authSettings
           const selectedFirstFactor = preferredFirstFactor || DEFAULT_TOKEN_TYPE
           const { mutating, serverError } = this.state
 
@@ -118,7 +118,7 @@ const mutation = gql`
 
 const query = gql`
   query myAuthSettings {
-    me {
+    authSettings: me {
       id
       enabledFirstFactors
       preferredFirstFactor
@@ -140,9 +140,11 @@ export default compose(
   graphql(query, {
     props: ({ data, errors }) => ({
       data,
-      loading: data.loading || !data.me,
+      loading: data.loading || !data.authSettings,
       error: data.error,
-      me: data.loading ? undefined : data.me
+      authSettings: data.loading
+        ? undefined
+        : data.authSettings
     })
   }),
   withT

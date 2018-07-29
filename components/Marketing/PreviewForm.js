@@ -9,7 +9,17 @@ import FieldSet from '../FieldSet'
 import Loader from '../Loader'
 import Poller from '../Auth/Poller'
 import isEmail from 'validator/lib/isEmail'
-import { Button, Field, Interaction, RawHtml } from '@project-r/styleguide'
+
+import { DEFAULT_TOKEN_TYPE } from '../constants'
+
+import {
+  Button,
+  Field,
+  Interaction,
+  RawHtml,
+  linkRule,
+  InlineSpinner
+} from '@project-r/styleguide'
 
 class PreviewForm extends Component {
   constructor (props) {
@@ -39,7 +49,7 @@ class PreviewForm extends Component {
     )
   }
 
-  requestPreview () {
+  requestPreview (newTokenType) {
     const { me } = this.props
     const { values } = this.state
 
@@ -56,11 +66,14 @@ class PreviewForm extends Component {
 
     if (!me) {
       this.props
-        .signIn(values.email)
+        .signIn(values.email, 'preview', undefined, newTokenType)
         .then(({ data }) => {
           this.setState(() => ({
             polling: true,
-            phrase: data.signIn.phrase
+            loading: false,
+            phrase: data.signIn.phrase,
+            tokenType: data.signIn.tokenType,
+            alternativeFirstFactors: data.signIn.alternativeFirstFactors
           }))
         })
         .catch(catchError)
@@ -88,21 +101,37 @@ class PreviewForm extends Component {
       serverError,
       polling,
       success,
-      phrase
+      phrase, tokenType, alternativeFirstFactors
     } = this.state
 
     if (polling) {
+      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
+      const alternativeFirstFactor = alternativeFirstFactors[0]
       return (
         <div>
           <RawHtml
             type={Interaction.P}
             dangerouslySetInnerHTML={{
-              __html: t('signIn/polling/short', {
+              __html: t(`signIn/polling/short${suffix}`, {
                 phrase,
                 email: values.email
               })
             }}
           />
+          {alternativeFirstFactor && (
+            <div>
+              <br />
+              <a {...linkRule}
+                key='switch'
+                style={{cursor: 'pointer'}}
+                onClick={(e) => {
+                  e.preventDefault()
+                  this.requestPreview(alternativeFirstFactor)
+                }}
+              >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
+              {loading && (<InlineSpinner size={26} />)}
+            </div>
+          )}
           <Poller
             onSuccess={() => {
               this.setState(() => ({

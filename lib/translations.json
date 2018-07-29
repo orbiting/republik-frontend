@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-13T11:09:59.344Z",
+  "updated": "2018-07-28T12:24:54.342Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,22 @@
     {
       "key": "nav/community",
       "value": "Community"
+    },
+    {
+      "key": "navbar/front",
+      "value": "Magazin"
+    },
+    {
+      "key": "navbar/feed",
+      "value": "Feed"
+    },
+    {
+      "key": "navbar/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "navbar/formats",
+      "value": "Rubriken"
     },
     {
       "key": "pages/magazine/title",
@@ -152,7 +168,11 @@
     },
     {
       "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+      "value": "Vielen Dank! \n<h3>Anmelden per E-Mail</h3>\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email} Sollte das der Fall sein, versuchen Sie es {link}."
+    },
+    {
+      "key": "signIn/polling/APP",
+      "value": "Vielen Dank!\n<h3>Anmelden mit der App</h3>\nWir haben Ihnen eine Push-Notification geschickt. Tippen Sie auf die Nachricht, die App öffnet sich dann automatisch. Dort finden Sie die folgenden drei seltsamen, fett gedruckten Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem App die gleichen drei zugegeben absurden Wörter stehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}. Sollte das der Fall sein, versuchen Sie es {link}."
     },
     {
       "key": "signIn/polling/link",
@@ -160,7 +180,23 @@
     },
     {
       "key": "signIn/polling/short",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n"
+      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)"
+    },
+    {
+      "key": "signIn/polling/short/APP",
+      "value": "Wir haben Ihnen eine Push-Notification geschickt. Tippen Sie auf die Nachricht.<br \n/><br />\nIm App finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer App die gleichen drei zugegeben absurden Wörter \nstehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n"
+    },
+    {
+      "key": "signIn/polling/switch",
+      "value": "Möchten Sie sich lieber per {tokenType} anmelden?"
+    },
+    {
+      "key": "signIn/polling/EMAIL_TOKEN/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "signIn/polling/APP/label",
+      "value": "App"
     },
     {
       "key": "signIn/cancel",
@@ -697,6 +733,26 @@
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
+    },
+    {
+      "key": "account/authSettings/title",
+      "value": "Anmeldung"
+    },
+    {
+      "key": "account/authSettings/firstfactor/label",
+      "value": "Am liebsten melde ich mich an per:"
+    },
+    {
+      "key": "account/authSettings/firstfactor/EMAIL_TOKEN/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/label",
+      "value": "App"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/label/disabled",
+      "value": "App (Sie müssen sich zuerst im App anmelden um diese Methode nutzen zu können)"
     },
     {
       "key": "account/notificationOptions/title",
@@ -2520,23 +2576,27 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+      "value": "Perfekt! Sie sind somit angemeldet."
     },
     {
-      "key": "notifications/email-confirmed/text/app",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt."
+      "key": "notifications/email-confirmed/claim/text",
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+    },
+    {
+      "key": "notifications/email-confirmed/preview/text",
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/session-denied/title",
-      "value": "Zugriff abgewehrt!"
+      "value": "Zugriff verwehrt!"
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Uf, gerade noch einmal gut gegangen! Sie können dieses Fenster wieder schliessen."
+      "value": "Gerade noch einmal gut gegangen! Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
     },
     {
-      "key": "notifications/session-denied/text/app",
-      "value": "Uf, gerade noch einmal gut gegangen!"
+      "key": "notifications/closeNote",
+      "value": "Sie können dieses Fenster schliessen. "
     },
     {
       "key": "notifications/invalid-token/title",
@@ -2571,8 +2631,12 @@
       "value": "bestätigen"
     },
     {
-      "key": "notifications/links/home",
-      "value": "Startseite"
+      "key": "notifications/closeButton",
+      "value": "Magazin ansehen"
+    },
+    {
+      "key": "notifications/closeButton/app",
+      "value": "Prozedere beenden"
     },
     {
       "key": "notifications/links/merci",
@@ -2705,6 +2769,10 @@
     {
       "key": "tokenAuthorization/after",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+    },
+    {
+      "key": "tokenAuthorization/after/deny",
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",

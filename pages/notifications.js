@@ -104,7 +104,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       type === 'email-confirmed' || type === 'session-denied'
 
     const displayCloseNote =
-      !me || ['claim', 'preview'].indexOf(context) !== -1
+      me && ['claim', 'preview'].indexOf(context) === -1
 
     content = <Fragment>
       <RawHtml type={P} dangerouslySetInnerHTML={{

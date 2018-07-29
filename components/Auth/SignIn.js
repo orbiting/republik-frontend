@@ -71,9 +71,12 @@ class SignIn extends Component {
       success: undefined
     }
 
-    this.signIn = (event, newTokenType) => {
-      event && event.preventDefault()
+    this.onFormSubmit = (event) => {
+      event.preventDefault()
+      this.signIn()
+    }
 
+    this.signIn = (tokenType) => {
       const { loading, error, email } = this.state
       const { signIn, context, acceptedConsents } = this.props
 
@@ -92,7 +95,7 @@ class SignIn extends Component {
         email,
         context,
         acceptedConsents,
-        newTokenType
+        tokenType
       )
         .then(({data}) => {
           this.setState(() => ({
@@ -131,7 +134,7 @@ class SignIn extends Component {
             link: (
               <a {...linkRule}
                 key='cancel'
-                style={{cursor: 'pointer'}}
+                href='#'
                 onClick={(e) => {
                   e.preventDefault()
                   this.setState(() => ({
@@ -146,11 +149,10 @@ class SignIn extends Component {
             <div>
               <br />
               <a {...linkRule}
-                key='switch'
-                style={{cursor: 'pointer'}}
+                href='#'
                 onClick={(e) => {
                   e.preventDefault()
-                  this.signIn(null, alternativeFirstFactor)
+                  this.signIn(alternativeFirstFactor)
                 }}
               >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
               {loading && (<InlineSpinner size={26} />)}
@@ -179,7 +181,7 @@ class SignIn extends Component {
             {t('me/signedOut')}
           </Interaction.P>
         }
-        <form onSubmit={this.signIn}>
+        <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
               <Field

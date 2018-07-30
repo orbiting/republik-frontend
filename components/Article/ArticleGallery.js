@@ -53,7 +53,6 @@ class ArticleGallery extends Component {
     })
 
     this.toggleGallery = (nextSrc = '') => {
-      console.log('nextSrc', nextSrc)
       if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
         this.setState(({ show, startItemSrc }) => ({
           show: !show,

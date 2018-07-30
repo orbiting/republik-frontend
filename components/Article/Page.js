@@ -67,7 +67,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -80,6 +80,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
         title
       })}
       onAudioClick={onAudioClick}
+      inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
@@ -166,9 +167,13 @@ class ArticlePage extends Component {
     }
 
     this.toggleAudio = () => {
-      this.setState({
-        showAudioPlayer: !this.state.showAudioPlayer
-      })
+      if (this.props.inNativeApp) {
+        postMessage({ type: 'show-audio-player' })
+      } else {
+        this.setState({
+          showAudioPlayer: !this.state.showAudioPlayer
+        })
+      }
     }
 
     this.togglePdf = () => {
@@ -249,6 +254,8 @@ class ArticlePage extends Component {
     this.onMessage = e => {
       const message = JSON.parse(e.data)
       switch (message.type) {
+        case 'toggle-pdf':
+          return this.togglePdf()
         case 'open-secondary-menu':
           return this.setState({ secondaryNavExpanded: true })
         case 'close-secondary-menu':
@@ -271,7 +278,7 @@ class ArticlePage extends Component {
 
     const hasPdf = meta && meta.template === 'article'
 
-    const actionBar = !inNativeApp && meta && (
+    const actionBar = meta && (
       <ArticleActionBar
         t={t}
         url={meta.url}
@@ -286,6 +293,7 @@ class ArticlePage extends Component {
           this.togglePdf
         )}
         pdfUrl={hasPdf && getPdfUrl(meta)}
+        inNativeApp={inNativeApp}
       />
     )
 
@@ -407,7 +415,7 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || (!inNativeApp && actionBar)}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}

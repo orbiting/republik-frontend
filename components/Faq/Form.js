@@ -51,7 +51,7 @@ class QuestionForm extends Component {
         (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
         (!isEmail(value) && t('pledge/contact/email/error/invalid'))
       ),
-      dirty: shouldValidate
+      dirty: false
     }))
   }
   handleQuestion (value, shouldValidate, t) {

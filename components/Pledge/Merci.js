@@ -49,22 +49,42 @@ export const gotoMerci = (query) => {
   // })
 }
 
+const parseSignInQuery = ({query, t}) => {
+  if (query.signInError) {
+    return {
+      signInError: query.signInError
+    }
+  }
+  let signInResponse
+  try {
+    signInResponse = JSON.parse(query.signInResponse)
+  } catch (e) {
+    return {
+      signInError: t('merci/postpay/signInError/jsonParseError')
+    }
+  }
+  return {
+    signInResponse
+  }
+}
+
 class Merci extends Component {
   constructor (props) {
     super(props)
     const { query } = this.props
+    const signInQuery = parseSignInQuery(this.props)
+
     this.state = {
-      polling: !!(query.email && query.phrase),
+      polling: !!(query.email && signInQuery.signInResponse),
       email: query.email,
-      phrase: query.phrase,
-      signInError: query.signInError
+      ...signInQuery
     }
   }
   render () {
     const { me, t, query } = this.props
     const {
-      polling, phrase, email,
-      signInError, signInLoading
+      polling, email,
+      signInResponse, signInError, signInLoading
     } = this.state
     if (query.claim) {
       return (
@@ -80,7 +100,7 @@ class Merci extends Component {
             <RawHtml dangerouslySetInnerHTML={{
               __html: t('merci/postpay/waiting', {
                 email,
-                phrase
+                phrase: signInResponse.phrase
               })
             }} />
             <br />
@@ -138,7 +158,7 @@ class Merci extends Component {
                     this.setState(() => ({
                       polling: true,
                       signInLoading: false,
-                      phrase: data.signIn.phrase
+                      signInResponse: data.signIn
                     }))
                   })
                   .catch(error => {

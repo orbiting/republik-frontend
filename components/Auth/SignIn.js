@@ -255,7 +255,7 @@ const signInMutation = gql`
 mutation signIn($email: String!, $context: String, $consents: [String!], $tokenType: SignInTokenType) {
   signIn(email: $email, context: $context, consents: $consents, tokenType: $tokenType) {
     phrase
-    tokenType,
+    tokenType
     alternativeFirstFactors
   }
 }

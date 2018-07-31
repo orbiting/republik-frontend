@@ -37,7 +37,6 @@ const styles = {
     '@media print': {
       display: 'none !important'
     },
-    position: 'relative',
     zIndex: ZINDEX_FOOTER, // goes over sidebar
     backgroundColor: negativeColors.primaryBg,
     paddingTop: 30,

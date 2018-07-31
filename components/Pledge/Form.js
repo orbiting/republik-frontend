@@ -12,6 +12,9 @@ import SignIn from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
 import isEmail from 'validator/lib/isEmail'
 
+import ErrorMessage from '../ErrorMessage'
+import RawHtmlElements from '../RawHtmlElements'
+
 import {
   Interaction,
   Field,
@@ -57,7 +60,8 @@ class Pledge extends Component {
       basePledge,
       values,
       errors: {},
-      dirty: {}
+      dirty: {},
+      cookiesEnabled: true
     }
   }
   submitPledgeProps ({values, query, pledge}) {
@@ -129,18 +133,35 @@ class Pledge extends Component {
   }
   componentDidMount () {
     this.checkUserFields(this.props)
+
+    if (navigator) {
+      this.setState({ cookiesEnabled: navigator.cookieEnabled })
+    }
   }
   render () {
     const {
       values,
       errors,
       dirty,
+      cookiesEnabled,
       basePledge
     } = this.state
 
     const {
-      loading, error
+      loading, error, t
     } = this.props
+
+    if (!cookiesEnabled) {
+      return (
+        <P>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtmlElements
+            t={t}
+            translationKey='cookies/disabled/error/explanation'
+          />
+        </P>
+      )
+    }
 
     return (
       <Loader loading={loading} error={error} render={() => {

@@ -65,17 +65,25 @@ class SignIn extends Component {
       email: props.email || '',
       polling: false,
       loading: false,
-      success: undefined
+      success: undefined,
+      cookiesEnabled: true
+    }
+  }
+
+  componentDidMount () {
+    if (navigator) {
+      this.setState({ cookiesEnabled: navigator.cookieEnabled })
     }
   }
 
   render () {
     const {t, label} = this.props
     const {
-      polling, phrase, loading, success,
+      polling, phrase, loading, success, cookiesEnabled,
       error, dirty, email,
       serverError
     } = this.state
+
     if (polling) {
       return (
         <P>
@@ -108,8 +116,21 @@ class SignIn extends Component {
         </P>
       )
     }
+
     if (success) {
       return <span>{success}</span>
+    }
+
+    if (!cookiesEnabled) {
+      return (
+        <P>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtmlElements
+            t={t}
+            translationKey='cookies/disabled/error/explanation'
+          />
+        </P>
+      )
     }
 
     const submitForm = (event) => {

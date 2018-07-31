@@ -17,7 +17,8 @@ import {
 const styles = {
   container: css({
     height: '100%',
-    overflow: 'scroll'
+    overflow: 'scroll',
+    backgroundColor: '#FFF'
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,

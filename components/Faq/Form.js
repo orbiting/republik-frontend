@@ -40,7 +40,8 @@ class QuestionForm extends Component {
       success: false,
       values: {},
       errors: {},
-      dirty: {}
+      dirty: {},
+      cookiesEnabled: true
     }
   }
   handleEmail (value, shouldValidate, t) {
@@ -135,6 +136,9 @@ class QuestionForm extends Component {
     }
   }
   componentDidMount () {
+    if (navigator) {
+      this.setState({ cookiesEnabled: navigator.cookieEnabled })
+    }
     this.checkUserFields(this.props)
     this.handleQuestion(
       this.state.values.question || '',
@@ -149,12 +153,17 @@ class QuestionForm extends Component {
       dirty, values, errors,
       success,
       polling, phrase,
-      loading, serverError
+      loading, serverError,
+      cookiesEnabled
     } = this.state
 
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
       .filter(Boolean)
+
+    if (!cookiesEnabled) {
+      return null
+    }
 
     return (
       <div>

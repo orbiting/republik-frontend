@@ -70,8 +70,8 @@ class ArticleGallery extends Component {
     const { children } = this.props
     const { article } = this.props
     const { show, startItemSrc } = this.state
-    const disabled = get(article, 'content.meta.gallery', false)
-    if (article.content && !disabled && show) {
+    const enabled = get(article, 'content.meta.gallery', true)
+    if (article.content && enabled && show) {
       const galleryItems = this.getGalleryItems()
       return (
         <Fragment>

@@ -42,10 +42,13 @@ const styles = {
     }
   }),
   text: css({
-    margin: '60px auto 120px',
+    margin: '30px auto 120px',
     maxWidth: 520,
     [mediaQueries.mUp]: {
       textAlign: 'center'
+    },
+    [mediaQueries.lUp]: {
+      margin: '60px auto 120px'
     }
   }),
   link: css({
@@ -160,8 +163,10 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
           </div>
         )}
         <div {...styles.text}>
-          {title && <H1>{title}</H1>}
-          <br />
+          {title && <Fragment>
+            <H1>{title}</H1>
+            <br />
+          </Fragment>}
           {content}
           {displayMe && (
             <div {...styles.me}>

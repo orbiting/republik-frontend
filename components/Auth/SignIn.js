@@ -21,7 +21,6 @@ import {
   Label,
   colors,
   linkRule,
-  VideoPlayer,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -67,6 +66,9 @@ const styles = {
     [mediaQueries.onlyS]: {
       maxWidth: 100
     }
+  }),
+  emojis: css({
+    fontSize: '6em'
   })
 }
 
@@ -112,6 +114,7 @@ class SignIn extends Component {
             polling: true,
             loading: false,
             phrase: data.signIn.phrase,
+            emojis: data.signIn.emojis,
             tokenType: data.signIn.tokenType,
             alternativeFirstFactors: data.signIn.alternativeFirstFactors
           }))
@@ -128,28 +131,20 @@ class SignIn extends Component {
   render () {
     const {t, label, showStatus} = this.props
     const {
-      phrase, tokenType, alternativeFirstFactors,
+      phrase, emojis, tokenType, alternativeFirstFactors,
       polling, loading, success,
       error, dirty, email,
       serverError
     } = this.state
     if (polling) {
-      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
+      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}/new` : ''
       const alternativeFirstFactor = alternativeFirstFactors[0]
       return (
         <div>
-          {tokenType === 'APP' &&
-            <div {...styles.video}>
-              <VideoPlayer {...styles.video} autoPlay showPlay={false} loop src={{
-                hls: 'https://player.vimeo.com/external/282414311.m3u8?s=3d8c7e96f1355544d998f2ff9355fda988a9321e',
-                mp4: 'https://player.vimeo.com/external/282414311.sd.mp4?s=6ab98c192a8747179bb31c44e8235534d34a77a8&profile_id=165'
-              }}
-              />
-            </div>
-          }
           <P>
             <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
               phrase: <b key='phrase'>{phrase}</b>,
+              emojis: <P {...styles.emojis}>{emojis}</P>,
               email: <b key='email'>{email}</b>,
               link: (
                 <a {...linkRule}
@@ -254,7 +249,8 @@ SignIn.propTypes = {
 const signInMutation = gql`
 mutation signIn($email: String!, $context: String, $consents: [String!], $tokenType: SignInTokenType) {
   signIn(email: $email, context: $context, consents: $consents, tokenType: $tokenType) {
-    phrase
+    phrase,
+    emojis,
     tokenType,
     alternativeFirstFactors
   }

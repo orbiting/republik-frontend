@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-01T02:44:50.879Z",
+  "updated": "2018-08-01T20:34:55.294Z",
   "title": "live",
   "data": [
     {
@@ -176,15 +176,15 @@
     },
     {
       "key": "signIn/polling/APP/new",
-      "value": "Vielen Dank!<br /><br />\nNeu senden wir Ihnen Anmelde-Anfragen per push-Benachrichtigung direkt auf das <b>Republik App</b>. Die 3 Wörter sind weg, dafür offerieren wir 2 Emojis!<br />\nTODO: Bilder ios und android notification. Bild nav-bar lock icon<br />\n<br /><br />\n{emojis}\n<br /><br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}. Sollte das der Fall sein, versuchen Sie es {link}."
+      "value": "Vielen Dank!<br /><br />\nNeu schicken wir Ihnen Anmelde-Anfragen per Push-Benachrichtigung ins Republik <b>App</b>.\n<br /><br /><br />\n{emojis}\n<br /><br /><br />\nBitte kontrollieren Sie ob In Ihrem App die gleichen 2 Emojis angezeigt werden. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nKeine Benachrichtigung erhalten? Die E-Mail-Adresse die Sie uns gegeben haben lautete: {email}. Sollte diese falsch sein, versuchen Sie es {link}."
     },
     {
       "key": "signIn/polling/APP/more/title",
-      "value": "Mehr zu Login mit der App"
+      "value": "Mehr zu Anmelden mit der App"
     },
     {
       "key": "signIn/polling/APP/more/content",
-      "value": "Sie haben sich im Republik App eingeloggt. Vielen Dank dafür. Wir fühlen uns geschmeichelt Ihnen jeden Tag ein bisschen näher sein zu dürfen.\nWenn Sie es nicht anders(link ancher konto) wünschen senden wir Ihnen Anmelde-Anfragen künftig immer per push-Benachrichtigung direkt auf Ihr Smartphone. Das ist schneller und sicherer als per EMail.\nFalls Sie die 3 seltsamen Wörter lieb gewonnen haben, haben wir hier trotzdem welche für Sie: {phrase}"
+      "value": "Sie haben sich im Republik App eingeloggt. Vielen Dank dafür. Wir fühlen uns geschmeichelt Ihnen jeden Tag ein bisschen näher sein zu dürfen.\nWenn Sie es nicht anders(link ancher konto) wünschen senden wir Ihnen Anmelde-Anfragen künftig immer per Push-Benachrichtigung auf alle Geräte auf denen Sie im Republik App angemeldet sind. Das ist schneller und sicherer als per E-Mail.\nFalls Sie die 3 seltsamen Wörter lieb gewonnen haben, haben wir hier trotzdem welche für Sie: {phrase}"
     },
     {
       "key": "signIn/polling/link",

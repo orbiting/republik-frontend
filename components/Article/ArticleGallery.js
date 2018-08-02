@@ -37,6 +37,12 @@ const getImageProps = (node) => {
   }
 }
 
+const getGalleryItems = ({ article }) => {
+  return findFigures(article.content)
+    .map(getImageProps)
+    .filter(i => imageSizeInfo(i.src).width > 600)
+}
+
 class ArticleGallery extends Component {
   constructor (props) {
     super(props)
@@ -49,7 +55,7 @@ class ArticleGallery extends Component {
     this.toggleGallery = (nextSrc = '') => {
       const { galleryItems } = this.state
       if (galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
-        this.setState(({ show, startItemSrc }) => ({
+        this.setState(({ show }) => ({
           show: !show,
           startItemSrc: nextSrc
         }))
@@ -61,15 +67,9 @@ class ArticleGallery extends Component {
     })
   }
 
-  getGalleryItems ({ article }) {
-    return findFigures(article.content)
-      .map(getImageProps)
-      .filter(i => imageSizeInfo(i.src).width > 600)
-  }
-
   getDerivedStateFromProps (nextProps) {
     return {
-      galleryItems: this.getGalleryItems(nextProps)
+      galleryItems: getGalleryItems(nextProps)
     }
   }
 

@@ -2,16 +2,15 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
 import get from 'lodash.get'
-import memoize from 'lodash.memoize'
 import {
   imageSizeInfo
 } from 'mdast-react-render/lib/utils'
 
 const shouldInclude = (el) =>
-  get(el, 'identifier', '') === 'FIGURE' && get(el, 'data.excludeFromGallery', false) !== true
+  el && el.identifier === 'FIGURE' && get(el, 'data.excludeFromGallery', false) !== true
 
 const findFigures = (node, acc = []) => {
-  if (get(node, 'children.length', 0) > 0) {
+  if (node && node.children && node.children.length > 0) {
     node.children.forEach(
       c => {
         if (shouldInclude(c)) {
@@ -24,6 +23,7 @@ const findFigures = (node, acc = []) => {
   }
   return acc
 }
+
 const getImageProps = (node) => {
   const src = get(node, 'children[0].children[0].url', '')
   const alt = get(node, 'children[0].children[0].alt', '')
@@ -42,18 +42,13 @@ class ArticleGallery extends Component {
     super(props)
     this.state = {
       show: false,
-      startItemSrc: null
+      startItemSrc: null,
+      ...this.getDerivedStateFromProps(props)
     }
 
-    this.getGalleryItems = memoize(() => {
-      const { article } = this.props
-      return findFigures(article.content)
-        .map(getImageProps)
-        .filter(i => imageSizeInfo(i.src).width > 600)
-    })
-
     this.toggleGallery = (nextSrc = '') => {
-      if (this.getGalleryItems().some(i => i.src === nextSrc.split('&')[0])) {
+      const { galleryItems } = this.state
+      if (galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
         this.setState(({ show, startItemSrc }) => ({
           show: !show,
           startItemSrc: nextSrc
@@ -66,13 +61,30 @@ class ArticleGallery extends Component {
     })
   }
 
+  getGalleryItems ({ article }) {
+    return findFigures(article.content)
+      .map(getImageProps)
+      .filter(i => imageSizeInfo(i.src).width > 600)
+  }
+
+  getDerivedStateFromProps (nextProps) {
+    return {
+      galleryItems: this.getGalleryItems(nextProps)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.article !== this.props.article) {
+      this.setState(this.getDerivedStateFromProps(nextProps))
+    }
+  }
+
   render () {
     const { children } = this.props
     const { article } = this.props
-    const { show, startItemSrc } = this.state
+    const { show, startItemSrc, galleryItems } = this.state
     const enabled = get(article, 'content.meta.gallery', true)
     if (article.content && enabled && show) {
-      const galleryItems = this.getGalleryItems()
       return (
         <Fragment>
           <Gallery

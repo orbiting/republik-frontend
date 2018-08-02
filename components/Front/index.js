@@ -103,9 +103,9 @@ class Front extends Component {
 export default compose(
   withT,
   graphql(getDocument, {
-    options: () => ({
+    options: props => ({
       variables: {
-        path: '/',
+        path: props.path || '/',
         first: 15
       }
     }),

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-01T20:34:55.294Z",
+  "updated": "2018-08-02T12:38:00.342Z",
   "title": "live",
   "data": [
     {
@@ -221,6 +221,14 @@
     {
       "key": "signIn/email/error/invalid",
       "value": "E-Mail ungültig"
+    },
+    {
+      "key": "cookies/disabled/error",
+      "value": "Cookies nicht nicht erlaubt"
+    },
+    {
+      "key": "cookies/disabled/error/explanation",
+      "value": "Es scheint, als könnten wir Ihnen keinen Keks («Cookie») unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Das ermöglicht uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Artikel und Diskussionen zu ermöglichen.<br /><br />\n<ul>\n<li>Lesen Sie <a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">hier</a>, wie Sie Cookies für republik.ch erlauben können</li>\n<li>Lesen Sie <a href=\"/datenschutz\" target=\"_blank\">hier</a>, wie wir mit Ihren Daten umgehen</li>\n<li>Wir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter</li>\n</ul>"
     },
     {
       "key": "signOut/label",
@@ -2385,6 +2393,30 @@
     {
       "key": "merci/claim/loading",
       "value": "überprüfen"
+    },
+    {
+      "key": "merci/postpay/signInError/jsonParseError",
+      "value": "Technischer Fehler bei der Datenübertragung – ungültiges JSON."
+    },
+    {
+      "key": "merci/postpay/signInError/title",
+      "value": "E-Mail-Verifizierung fehlgeschlagen"
+    },
+    {
+      "key": "merci/postpay/signInError/text",
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an <a href=\"{mailto}\">kontakt@republik.ch</a>."
+    },
+    {
+      "key": "merci/postpay/signInError/email/subject",
+      "value": "E-Mail-Verifizierung fehlgeschlagen nach dem Bezahlen"
+    },
+    {
+      "key": "merci/postpay/signInError/email/body",
+      "value": "E-Mail-Adresse:\n{email}\n\nBuchungsreferenz:\n{pledgeId}\n\nFehler:\n{error}"
+    },
+    {
+      "key": "merci/postpay/signInError/retry",
+      "value": "erneut versuchen"
     },
     {
       "key": "merci/empty/title",

@@ -105,7 +105,7 @@ export default compose(
   graphql(getDocument, {
     options: props => ({
       variables: {
-        path: props.path || '/',
+        path: props.url.asPath.split('?')[0],
         first: 15
       }
     }),

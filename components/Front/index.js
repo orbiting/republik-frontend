@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { InlineSpinner } from '@project-r/styleguide'
+import StatusError from '../StatusError'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -75,7 +76,14 @@ class Front extends Component {
         url={url}
         meta={meta}
       >
-        <Loader loading={data.loading || !front} error={data.error} message={t('pages/magazine/title')} render={() => {
+        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
+          if (!front) {
+            return <StatusError
+              url={url}
+              statusCode={404}
+              serverContext={this.props.serverContext} />
+          }
+
           const hasNextPage = front.children.pageInfo.hasNextPage
           return <InfiniteScroll
             loadMore={fetchMore}
@@ -103,9 +111,9 @@ class Front extends Component {
 export default compose(
   withT,
   graphql(getDocument, {
-    options: () => ({
+    options: props => ({
       variables: {
-        path: '/',
+        path: props.url.asPath.split('?')[0],
         first: 15
       }
     }),

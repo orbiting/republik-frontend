@@ -40,7 +40,7 @@ const getImageProps = (node) => {
 const getGalleryItems = ({ article }) => {
   return findFigures(article.content)
     .map(getImageProps)
-    .filter(i => imageSizeInfo(i.src).width > 600)
+    .filter(i => imageSizeInfo(i.src) && imageSizeInfo(i.src).width > 600)
 }
 
 class ArticleGallery extends Component {

@@ -18,6 +18,7 @@ import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
+import ArticleGallery from './ArticleGallery'
 
 import {
   colors,
@@ -388,12 +389,14 @@ class ArticlePage extends Component {
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
-                {() => renderMdast({
-                  ...article.content,
-                  format: meta.format
-                }, schema)}
-              </SSRCachingBoundary>
+              <ArticleGallery article={article}>
+                <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
+                  {() => renderMdast({
+                    ...article.content,
+                    format: meta.format
+                  }, schema)}
+                </SSRCachingBoundary>
+              </ArticleGallery>
               {meta.template === 'article' && <Center>
                 <div ref={this.bottomBarRef} {...styles.bar}>
                   {actionBar}

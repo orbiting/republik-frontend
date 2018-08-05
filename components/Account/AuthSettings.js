@@ -5,8 +5,9 @@ import { css } from 'glamor'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
-import { InlineSpinner, Radio } from '@project-r/styleguide'
+import { InlineSpinner, Radio, Label } from '@project-r/styleguide'
 import { DEFAULT_TOKEN_TYPE } from '../constants'
+import { P } from './Elements'
 
 const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
 
@@ -20,10 +21,8 @@ const styles = {
       display: 'inline'
     }
   }),
-  fieldset: css({
-    border: 0,
-    padding: 0,
-    margin: '20px 0 0 0'
+  container: css({
+    marginTop: 20
   })
 }
 
@@ -44,7 +43,10 @@ class AuthSettings extends Component {
   }
 
   render () {
-    const { t, authSettings, loading, error, updatePreferredFirstFactor } = this.props
+    const {
+      t, authSettings, loading, error,
+      updatePreferredFirstFactor
+    } = this.props
 
     return (
       <Loader
@@ -52,51 +54,56 @@ class AuthSettings extends Component {
         error={error}
         render={() => {
           const { enabledFirstFactors, preferredFirstFactor } = authSettings
-          const selectedFirstFactor = preferredFirstFactor || DEFAULT_TOKEN_TYPE
           const { mutating, serverError } = this.state
 
           return (
-            <Fragment>
-              <fieldset {...styles.fieldset}>
-                <legend>
-                  {t('account/authSettings/firstfactor/label')}{' '}
-                  {mutating && (
-                    <span {...styles.spinnerWrapper}>
-                      <InlineSpinner size={24} />
-                    </span>
-                  )}
-                </legend>
-                {SUPPORTED_TOKEN_TYPES.map((tokenType) => {
-                  const disabled = enabledFirstFactors.indexOf(tokenType) === -1
-                  return (
-                    <p key={tokenType}>
-                      <Radio
-                        checked={tokenType === selectedFirstFactor}
-                        disabled={disabled || mutating}
-                        onChange={(_, checked) => {
+            <div {...styles.container}>
+              <P style={{marginBottom: 10}}>
+                {t('account/authSettings/firstfactor/label')}{' '}
+                {mutating && (
+                  <span {...styles.spinnerWrapper}>
+                    <InlineSpinner size={24} />
+                  </span>
+                )}
+              </P>
+              {SUPPORTED_TOKEN_TYPES.map((tokenType) => {
+                const disabled = enabledFirstFactors.indexOf(tokenType) === -1
+                return (
+                  <Fragment key={tokenType}>
+                    <Radio
+                      checked={tokenType === preferredFirstFactor}
+                      disabled={mutating}
+                      onChange={(_, checked) => {
+                        this.setState(state => ({
+                          mutating: true
+                        }))
+                        const finish = () => {
                           this.setState(state => ({
-                            mutating: true
+                            mutating: false
                           }))
-                          const finish = () => {
-                            this.setState(state => ({
-                              mutating: false
-                            }))
-                          }
-                          updatePreferredFirstFactor({
-                            tokenType
-                          })
-                            .then(finish)
-                            .catch(this.catchServerError)
-                        }}
-                      >
-                        {t(`account/authSettings/firstfactor/${tokenType}/label${disabled ? '/disabled' : ''}`)}
-                      </Radio>
-                    </p>
-                  )
-                })}
-              </fieldset>
-              {serverError && <ErrorMessage error={serverError} />}
-            </Fragment>
+                        }
+                        updatePreferredFirstFactor({
+                          tokenType
+                        })
+                          .then(finish)
+                          .catch(this.catchServerError)
+                      }}
+                    >
+                      {t(`account/authSettings/firstfactor/${tokenType}/label`)}
+                    </Radio>
+                    <br />
+                    {disabled && <Fragment>
+                      <Label>
+                        {t(`account/authSettings/firstfactor/${tokenType}/disabled`)}
+                      </Label>
+                      <br />
+                    </Fragment>}
+                  </Fragment>
+                )
+              })}
+              {serverError &&
+                <ErrorMessage error={serverError} />}
+            </div>
           )
         }}
       />

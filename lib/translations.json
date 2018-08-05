@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-02T12:38:00.342Z",
+  "updated": "2018-08-05T11:08:38.003Z",
   "title": "live",
   "data": [
     {
@@ -771,8 +771,8 @@
       "value": "App"
     },
     {
-      "key": "account/authSettings/firstfactor/APP/label/disabled",
-      "value": "App (Sie müssen sich zuerst im App anmelden um diese Methode nutzen zu können)"
+      "key": "account/authSettings/firstfactor/APP/disabled",
+      "value": "Sie müssen sich zuerst im App anmelden um neue Anmeldungen im App bestätigen zu können."
     },
     {
       "key": "account/notificationOptions/title",

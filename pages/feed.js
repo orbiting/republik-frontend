@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import Frame from '../components/Frame'
 import Feed from '../components/Feed'
 import { enforceMembership } from '../components/Auth/withMembership'
 import withData from '../lib/apollo/withData'
@@ -16,9 +15,7 @@ const FeedPage = ({ url, me, t }) => {
   }
 
   return (
-    <Frame raw url={url} meta={meta}>
-      <Feed />
-    </Frame>
+    <Feed url={url} meta={meta} />
   )
 }
 

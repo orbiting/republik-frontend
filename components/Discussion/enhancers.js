@@ -12,8 +12,8 @@ const debug = mkDebug('discussion')
 
 export const DISCUSSION_NOTIFICATION_CHANNELS = [
   'EMAIL',
-  'WEB',
-  'APP'
+  'APP',
+  'WEB'
 ]
 
 export const DISCUSSION_NOTIFICATION_OPTIONS = [

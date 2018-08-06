@@ -11,6 +11,8 @@ import withT from '../../lib/withT'
 import ErrorMessage from '../ErrorMessage'
 import RawHtmlElements from '../RawHtmlElements'
 
+import { DEFAULT_TOKEN_TYPE } from '../constants'
+
 import {
   Button,
   InlineSpinner,
@@ -18,7 +20,9 @@ import {
   Field,
   Label,
   colors,
-  linkRule
+  linkRule,
+  VideoPlayer,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -55,6 +59,14 @@ const styles = {
     ':hover': {
       color: colors.text
     }
+  }),
+  video: css({
+    float: 'left',
+    maxWidth: 300,
+    marginRight: 25,
+    [mediaQueries.onlyS]: {
+      maxWidth: 100
+    }
   })
 }
 
@@ -71,7 +83,10 @@ class SignIn extends Component {
 
     this.onFormSubmit = (event) => {
       event.preventDefault()
+      this.signIn()
+    }
 
+    this.signIn = (tokenType) => {
       const { loading, error, email } = this.state
       const { signIn, context, acceptedConsents } = this.props
 
@@ -86,12 +101,19 @@ class SignIn extends Component {
 
       this.setState(() => ({ loading: true }))
 
-      signIn(email, context, acceptedConsents)
+      signIn(
+        email,
+        context,
+        acceptedConsents,
+        tokenType
+      )
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
             loading: false,
-            phrase: data.signIn.phrase
+            phrase: data.signIn.phrase,
+            tokenType: data.signIn.tokenType,
+            alternativeFirstFactors: data.signIn.alternativeFirstFactors
           }))
         })
         .catch(error => {
@@ -104,42 +126,69 @@ class SignIn extends Component {
   }
 
   render () {
-    const {t, label} = this.props
+    const {t, label, showStatus} = this.props
     const {
-      polling, phrase, loading, success,
+      phrase, tokenType, alternativeFirstFactors,
+      polling, loading, success,
       error, dirty, email,
       serverError
     } = this.state
     if (polling) {
+      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
+      const alternativeFirstFactor = alternativeFirstFactors[0]
       return (
-        <P>
-          <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
-            phrase: <b key='phrase'>{phrase}</b>,
-            email: <b key='email'>{email}</b>,
-            link: (
-              <a {...linkRule}
-                key='cancel'
-                style={{cursor: 'pointer'}}
-                onClick={(e) => {
-                  e.preventDefault()
-                  this.setState(() => ({
-                    polling: false
-                  }))
-                  Router.pushRoute('signin')
-                }}
-              >{t('signIn/polling/link')}</a>
-            )
-          }} />
-          <Poller onSuccess={(me, ms) => {
-            this.setState(() => ({
-              polling: false,
-              success: t('signIn/success', {
-                nameOrEmail: me.name || me.email,
-                seconds: Math.round(ms / 1000)
-              })
-            }))
-          }} />
-        </P>
+        <div>
+          {tokenType === 'APP' &&
+            <div {...styles.video}>
+              <VideoPlayer {...styles.video} autoPlay showPlay={false} loop src={{
+                hls: 'https://player.vimeo.com/external/282414311.m3u8?s=3d8c7e96f1355544d998f2ff9355fda988a9321e',
+                mp4: 'https://player.vimeo.com/external/282414311.sd.mp4?s=6ab98c192a8747179bb31c44e8235534d34a77a8&profile_id=165'
+              }}
+              />
+            </div>
+          }
+          <P>
+            <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
+              phrase: <b key='phrase'>{phrase}</b>,
+              email: <b key='email'>{email}</b>,
+              link: (
+                <a {...linkRule}
+                  key='cancel'
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    this.setState(() => ({
+                      polling: false
+                    }))
+                    Router.pushRoute('signin')
+                  }}
+                >{t('signIn/polling/link')}</a>
+              )
+            }} />
+            {alternativeFirstFactor && (
+              <div>
+                <br />
+                <a {...linkRule}
+                  href='#'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    this.signIn(alternativeFirstFactor)
+                  }}
+                >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
+                {loading && (<InlineSpinner size={26} />)}
+              </div>
+            )}
+            <Poller onSuccess={(me, ms) => {
+              this.setState(() => ({
+                polling: false,
+                success: t('signIn/success', {
+                  nameOrEmail: me.name || me.email,
+                  seconds: Math.round(ms / 1000)
+                })
+              }))
+            }} />
+          </P>
+        </div>
       )
     }
     if (success) {
@@ -148,6 +197,11 @@ class SignIn extends Component {
 
     return (
       <div>
+        {showStatus &&
+          <Interaction.P style={{ marginBottom: '20px' }}>
+            {t('me/signedOut')}
+          </Interaction.P>
+        }
         <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
@@ -198,17 +252,19 @@ SignIn.propTypes = {
 }
 
 const signInMutation = gql`
-mutation signIn($email: String!, $context: String, $consents: [String!]) {
-  signIn(email: $email, context: $context, consents: $consents) {
+mutation signIn($email: String!, $context: String, $consents: [String!], $tokenType: SignInTokenType) {
+  signIn(email: $email, context: $context, consents: $consents, tokenType: $tokenType) {
     phrase
+    tokenType
+    alternativeFirstFactors
   }
 }
 `
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: (email, context = 'signIn', consents) =>
-      mutate({variables: {email, context, consents}})
+    signIn: (email, context = 'signIn', consents, tokenType) =>
+      mutate({variables: {email, context, consents, tokenType}})
   })
 })
 

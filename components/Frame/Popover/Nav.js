@@ -9,7 +9,6 @@ import withT from '../../../lib/withT'
 import { postMessage } from '../../../lib/withInNativeApp'
 
 import {
-  Interaction,
   colors,
   fontStyles,
   mediaQueries
@@ -17,9 +16,9 @@ import {
 
 const styles = {
   container: css({
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
+    height: '100%',
+    overflow: 'scroll',
+    backgroundColor: '#FFF'
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
@@ -132,12 +131,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
           {me ? (
             <SignOut Link={SignoutLink} />
           ) : (
-            <div>
-              <Interaction.P style={{ marginBottom: '20px' }}>
-                {t('me/signedOut')}
-              </Interaction.P>
-              <SignIn />
-            </div>
+            <SignIn showStatus />
           )}
           <br />
         </div>

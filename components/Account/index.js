@@ -11,6 +11,7 @@ import UserGuidance from './UserGuidance'
 import UpdateMe from './UpdateMe'
 import UpdateEmail from './UpdateEmail'
 
+import AuthSettings from './AuthSettings'
 import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
@@ -76,6 +77,10 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 {t('account/notificationOptions/title')}
               </H2>
               <NotificationOptions />
+              <H2 style={{marginTop: 80}} id='anmeldung'>
+                {t('account/authSettings/title')}
+              </H2>
+              <AuthSettings />
             </Content>
           </MainContainer>
         </Fragment>

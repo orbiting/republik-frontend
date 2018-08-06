@@ -167,14 +167,16 @@ class NavBar extends Component {
             translation={t('navbar/front')}
             active={active}
           />
-          <NavLink
-            route='feed'
-            translation={t('navbar/feed')}
-            active={active}
-          />
+          {/*
           <NavLink
             route='feuilleton'
             translation={t('navbar/feuilleton')}
+            active={active}
+          />
+          */}
+          <NavLink
+            route='feed'
+            translation={t('navbar/feed')}
             active={active}
           />
           <NavLink

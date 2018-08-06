@@ -6,10 +6,8 @@ import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
 import { InlineSpinner, Radio, Label } from '@project-r/styleguide'
-import { DEFAULT_TOKEN_TYPE } from '../constants'
+import { SUPPORTED_TOKEN_TYPES } from '../constants'
 import { P } from './Elements'
-
-const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
 
 const styles = {
   spinnerWrapper: css({

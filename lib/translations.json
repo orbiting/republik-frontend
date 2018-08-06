@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-07T09:37:41.657Z",
+  "updated": "2018-08-08T11:10:25.679Z",
   "title": "live",
   "data": [
     {
@@ -180,19 +180,19 @@
     },
     {
       "key": "signIn/polling/APP/title",
-      "value": "Anmelden mit der App"
+      "value": "Zugriff via App erteilen"
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine Push-Nachricht geschickt. Öffnen Sie diese und bestätigen Sie dort diese Anmeldung."
+      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt. Öffnen Sie diese und bestätigen Sie dort diesen Zugriff."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
-      "value": "Anmelden per E-Mail"
+      "value": "Zugriff via E-Mail erteilen"
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben ihnen eine E-Mail geschickt. Öffnen Sie diese und klicken Sie auf «Anmeldung bestätigen»."
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff erteilen</b>»."
     },
     {
       "key": "signIn/polling/switch/APP",

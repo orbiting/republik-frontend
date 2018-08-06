@@ -9,9 +9,6 @@ import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
 import ErrorMessage from '../ErrorMessage'
-import RawHtmlElements from '../RawHtmlElements'
-
-import { DEFAULT_TOKEN_TYPE } from '../constants'
 
 import {
   Button,
@@ -20,14 +17,10 @@ import {
   Field,
   Label,
   colors,
-  linkRule,
-  VideoPlayer,
   mediaQueries
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
-
-const {P} = Interaction
 
 const styles = {
   form: css({
@@ -134,62 +127,30 @@ class SignIn extends Component {
       serverError
     } = this.state
     if (polling) {
-      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
-      const alternativeFirstFactor = alternativeFirstFactors[0]
-      return (
-        <div>
-          {tokenType === 'APP' &&
-            <div {...styles.video}>
-              <VideoPlayer {...styles.video} autoPlay showPlay={false} loop src={{
-                hls: 'https://player.vimeo.com/external/282414311.m3u8?s=3d8c7e96f1355544d998f2ff9355fda988a9321e',
-                mp4: 'https://player.vimeo.com/external/282414311.sd.mp4?s=6ab98c192a8747179bb31c44e8235534d34a77a8&profile_id=165'
-              }}
-              />
-            </div>
-          }
-          <P>
-            <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
-              phrase: <b key='phrase'>{phrase}</b>,
-              email: <b key='email'>{email}</b>,
-              link: (
-                <a {...linkRule}
-                  key='cancel'
-                  href='#'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    this.setState(() => ({
-                      polling: false
-                    }))
-                    Router.pushRoute('signin')
-                  }}
-                >{t('signIn/polling/link')}</a>
-              )
-            }} />
-            {alternativeFirstFactor && (
-              <div>
-                <br />
-                <a {...linkRule}
-                  href='#'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    this.signIn(alternativeFirstFactor)
-                  }}
-                >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-                {loading && (<InlineSpinner size={26} />)}
-              </div>
-            )}
-            <Poller onSuccess={(me, ms) => {
-              this.setState(() => ({
-                polling: false,
-                success: t('signIn/success', {
-                  nameOrEmail: me.name || me.email,
-                  seconds: Math.round(ms / 1000)
-                })
-              }))
-            }} />
-          </P>
-        </div>
-      )
+      return loading
+        ? <InlineSpinner size={26} />
+        : <Poller
+          tokenType={tokenType}
+          phrase={phrase}
+          email={email}
+          alternativeFirstFactors={alternativeFirstFactors}
+          onCancel={() => {
+            this.setState(() => ({
+              polling: false
+            }))
+            Router.pushRoute('signin')
+          }}
+          onTokenTypeChange={(altTokenType) => {
+            this.signIn(altTokenType)
+          }}
+          onSuccess={(me) => {
+            this.setState(() => ({
+              polling: false,
+              success: t('signIn/success', {
+                nameOrEmail: me.name || me.email
+              })
+            }))
+          }} />
     }
     if (success) {
       return <span>{success}</span>

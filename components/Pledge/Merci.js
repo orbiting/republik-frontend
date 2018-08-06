@@ -97,18 +97,19 @@ class Merci extends Component {
       return (
         <MainContainer><Content>
           <P>
-            <RawHtml dangerouslySetInnerHTML={{
-              __html: t('merci/postpay/waiting', {
-                email,
-                phrase: signInResponse.phrase
-              })
-            }} />
-            <br />
-            <Poller onSuccess={() => {
+            {t('merci/postpay/lead')}
+          </P>
+          <Poller
+            tokenType={signInResponse.tokenType}
+            email={email}
+            phrase={signInResponse.phrase}
+            alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+            onSuccess={() => {
               this.setState({
                 polling: false
               })
             }} />
+          <P>
             {!!query.id && (
               <Link route='account' params={{claim: query.id}}>
                 <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>

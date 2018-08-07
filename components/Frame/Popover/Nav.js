@@ -63,8 +63,8 @@ const styles = {
     },
     cursor: 'pointer',
     [mediaQueries.mUp]: {
-      fontSize: 48,
-      lineHeight: '80px'
+      fontSize: 34,
+      lineHeight: '60px'
     }
   })
 }
@@ -136,37 +136,45 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
           <br />
         </div>
         <div {...styles.section}>
-          {me && (
-            <div>
-              <NavLink
-                route='feed'
-                translation={t('nav/feed')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-              <NavLink
-                route='formats'
-                translation={t('nav/formats')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-              <NavLink
-                route='events'
-                translation={t('nav/events')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </div>
-          )}
           <NavLink
             route='community'
             translation={t('nav/community')}
             active={active}
             closeHandler={closeHandler}
           />
+          <br />
+          <NavLink
+            route='events'
+            translation={t('nav/events')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          {me && (
+            <NavLink
+              route='pledge'
+              params={{ package: 'ABO_GIVE' }}
+              translation={t('nav/give')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
+          {!me && (
+            <NavLink
+              route='pledge'
+              translation={t('nav/offers')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
+          <br />
+          <NavLink
+            route='legal/imprint'
+            translation={t('nav/team')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
         </div>
       </div>
       {inNativeApp && <Footer />}

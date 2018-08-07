@@ -364,7 +364,7 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+          <Popover expanded={!!expand} inNativeApp={inNativeApp} me={me} isMobile={mobile}>
             <NavPopover
               me={me}
               url={url}
@@ -373,7 +373,7 @@ class Header extends Component {
             />
           </Popover>
         </div>
-        {me && (
+        {me && opaque && (
           <NavBar
             url={url}
             onNavBarChange={onNavBarChange}

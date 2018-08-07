@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
 import { mediaQueries, fontFamilies } from '@project-r/styleguide'
-import { SAFE_TOP_HEIGHT, SAFE_TOP_HEIGHT_MOBILE } from '../../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  SAFE_TOP_HEIGHT,
+  SAFE_TOP_HEIGHT_MOBILE
+} from '../../constants'
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -30,20 +35,31 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children, url, inNativeApp }) => (
-  <div
-    id={id}
-    aria-expanded={expanded}
-    style={{
-      top: inNativeApp && 0,
-      height: inNativeApp && '100vh',
-      overflow: inNativeApp && 'scroll'
-    }}
-    {...menuStyle}
-  >
-    {children}
-  </div>
-)
+const Popover = ({ items, expanded, id, children, url, inNativeApp, me, isMobile }) => {
+  const baseHeight = me
+    ? isMobile
+      ? SAFE_TOP_HEIGHT_MOBILE : SAFE_TOP_HEIGHT
+    : isMobile
+      ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+  const height = inNativeApp ? '100vh' : `calc(100vh - ${baseHeight}px)`
+  const top = inNativeApp ? 0 : baseHeight
+  const overflow = inNativeApp ? 'scroll' : undefined
+
+  return (
+    <div
+      id={id}
+      aria-expanded={expanded}
+      style={{
+        top,
+        height,
+        overflow
+      }}
+      {...menuStyle}
+    >
+      {children}
+    </div>
+  )
+}
 
 Popover.propTypes = {
   expanded: PropTypes.bool

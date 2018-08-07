@@ -373,7 +373,7 @@ class Header extends Component {
             />
           </Popover>
         </div>
-        {me && opaque && (
+        {!inNativeApp && me && opaque && (
           <NavBar
             url={url}
             onNavBarChange={onNavBarChange}

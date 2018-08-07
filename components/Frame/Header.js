@@ -380,7 +380,7 @@ class Header extends Component {
             mobile={mobile}
             formatColor={formatColor}
             sticky={navbarSticky}
-            initial={navbarInitial || expanded}
+            initial={navbarInitial || expand}
           />
         )}
         <LoadingBar />

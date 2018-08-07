@@ -133,10 +133,7 @@ class Pledge extends Component {
   }
   componentDidMount () {
     this.checkUserFields(this.props)
-
-    if (navigator) {
-      this.setState({ cookiesEnabled: navigator.cookieEnabled })
-    }
+    this.setState({ cookiesEnabled: navigator.cookieEnabled })
   }
   render () {
     const {

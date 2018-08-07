@@ -71,9 +71,7 @@ class SignIn extends Component {
   }
 
   componentDidMount () {
-    if (navigator) {
-      this.setState({ cookiesEnabled: navigator.cookieEnabled })
-    }
+    this.setState({ cookiesEnabled: navigator.cookieEnabled })
   }
 
   render () {

@@ -136,9 +136,7 @@ class QuestionForm extends Component {
     }
   }
   componentDidMount () {
-    if (navigator) {
-      this.setState({ cookiesEnabled: navigator.cookieEnabled })
-    }
+    this.setState({ cookiesEnabled: navigator.cookieEnabled })
     this.checkUserFields(this.props)
     this.handleQuestion(
       this.state.values.question || '',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
 import { mediaQueries, fontFamilies } from '@project-r/styleguide'
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../../constants'
+import { SAFE_TOP_HEIGHT, SAFE_TOP_HEIGHT_MOBILE } from '../../constants'
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -19,14 +19,14 @@ const menuStyle = css({
   },
   display: 'flex',
   boxSizing: 'border-box',
-  top: HEADER_HEIGHT_MOBILE,
+  top: SAFE_TOP_HEIGHT_MOBILE,
   left: 0,
   right: 0,
-  height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
+  height: `calc(100vh - ${SAFE_TOP_HEIGHT_MOBILE}px)`,
   flexDirection: 'column',
   [mediaQueries.mUp]: {
-    top: HEADER_HEIGHT,
-    height: `calc(100vh - ${HEADER_HEIGHT}px)`
+    top: SAFE_TOP_HEIGHT,
+    height: `calc(100vh - ${SAFE_TOP_HEIGHT}px)`
   }
 })
 

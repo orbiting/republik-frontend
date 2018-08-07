@@ -146,6 +146,13 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
 }
 
 class NavBar extends Component {
+  shouldComponentUpdate (nextProps, nextState) {
+    if (this.props.initial && nextProps.sticky) {
+      return false
+    }
+    return true
+  }
+
   render () {
     const { url, t, formatColor, sticky, initial, mobile } = this.props
     const active = matchPath(url.asPath)

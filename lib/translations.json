@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-06T15:27:06.163Z",
+  "updated": "2018-08-07T09:37:41.657Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,18 @@
     {
       "key": "nav/community",
       "value": "Community"
+    },
+    {
+      "key": "nav/team",
+      "value": "Team"
+    },
+    {
+      "key": "nav/offers",
+      "value": "Angebote"
+    },
+    {
+      "key": "nav/give",
+      "value": "Verschenken"
     },
     {
       "key": "navbar/front",
@@ -1345,6 +1357,10 @@
     {
       "key": "footer/me/profile",
       "value": "Profil"
+    },
+    {
+      "key": "footer/offers",
+      "value": "Angebote"
     },
     {
       "key": "footer/me/give",

@@ -64,12 +64,24 @@ const styles = {
   })
 }
 
+const checkEmail = ({value, shouldValidate, t}) => ({
+  email: value,
+  error: (
+    (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
+    (!isEmail(value) && t('signIn/email/error/invalid'))
+  ),
+  dirty: shouldValidate
+})
+
 class SignIn extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      email: props.email || '',
+      ...checkEmail({
+        value: props.email || '',
+        t: props.t
+      }),
       polling: false,
       loading: false,
       success: undefined
@@ -189,13 +201,10 @@ class SignIn extends Component {
                 label={t('signIn/email/label')}
                 error={dirty && error}
                 onChange={(_, value, shouldValidate) => {
-                  this.setState(() => ({
-                    email: value,
-                    error: (
-                      (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
-                      (!isEmail(value) && t('signIn/email/error/invalid'))
-                    ),
-                    dirty: shouldValidate
+                  this.setState(checkEmail({
+                    t,
+                    value,
+                    shouldValidate
                   }))
                 }}
                 value={email} />

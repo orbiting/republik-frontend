@@ -9,6 +9,7 @@ import withT from '../../../lib/withT'
 import { postMessage } from '../../../lib/withInNativeApp'
 
 import {
+  Interaction,
   colors,
   fontStyles,
   mediaQueries
@@ -131,7 +132,11 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
           {me ? (
             <SignOut Link={SignoutLink} />
           ) : (
-            <SignIn showStatus />
+            <SignIn beforeForm={(
+              <Interaction.P style={{ marginBottom: '20px' }}>
+                {t('me/signedOut')}
+              </Interaction.P>
+            )} />
           )}
           <br />
         </div>

@@ -17,8 +17,7 @@ import {
   Field,
   Label,
   RawHtml,
-  colors,
-  mediaQueries
+  colors
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -52,14 +51,6 @@ const styles = {
     color: colors.lightText,
     ':hover': {
       color: colors.text
-    }
-  }),
-  video: css({
-    float: 'left',
-    maxWidth: 300,
-    marginRight: 25,
-    [mediaQueries.onlyS]: {
-      maxWidth: 100
     }
   })
 }
@@ -136,7 +127,7 @@ class SignIn extends Component {
   }
 
   render () {
-    const {t, label, showStatus} = this.props
+    const { t, label, beforeForm } = this.props
     const {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
@@ -187,11 +178,7 @@ class SignIn extends Component {
 
     return (
       <div>
-        {showStatus &&
-          <Interaction.P style={{ marginBottom: '20px' }}>
-            {t('me/signedOut')}
-          </Interaction.P>
-        }
+        {beforeForm}
         <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>

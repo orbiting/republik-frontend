@@ -96,7 +96,7 @@ class Merci extends Component {
     if (polling) {
       return (
         <MainContainer><Content>
-          <P>
+          <P style={{marginBottom: 15}}>
             {t('merci/postpay/lead')}
           </P>
           <Poller

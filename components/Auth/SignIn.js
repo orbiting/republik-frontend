@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -72,8 +72,7 @@ class SignIn extends Component {
       email: props.email || '',
       polling: false,
       loading: false,
-      success: undefined,
-      cookiesEnabled: true
+      success: undefined
     }
 
     this.onFormSubmit = (event) => {
@@ -121,7 +120,7 @@ class SignIn extends Component {
   }
 
   componentDidMount () {
-    this.setState({ cookiesEnabled: navigator.cookieEnabled })
+    this.setState({ cookiesDisabled: !navigator.cookieEnabled })
   }
 
   render () {
@@ -130,7 +129,7 @@ class SignIn extends Component {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
       error, dirty, email,
-      serverError, cookiesEnabled
+      serverError
     } = this.state
 
     if (polling) {
@@ -163,14 +162,14 @@ class SignIn extends Component {
       return <span>{success}</span>
     }
 
-    if (!cookiesEnabled) {
+    if (this.state.cookiesDisabled) {
       return (
-        <Interaction.P>
+        <Fragment>
           <ErrorMessage error={t('cookies/disabled/error')} />
-          <RawHtml dangerouslySetInnerHTML={{
+          <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
             __html: t('cookies/disabled/error/explanation')
           }} />
-        </Interaction.P>
+        </Fragment>
       )
     }
 

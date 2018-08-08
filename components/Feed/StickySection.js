@@ -1,8 +1,9 @@
 import { Component } from 'react'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, NAVBAR_HEIGHT, NAVBAR_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
@@ -38,6 +39,16 @@ const style = {
     [mediaQueries.lUp]: {
       borderBottom: 'none'
     }
+  }),
+  stickyWithNavbar: css({
+    top: HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE - 1,
+    borderBottom: `0.5px solid ${colors.divider}`,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT + NAVBAR_HEIGHT - 1
+    },
+    [mediaQueries.lUp]: {
+      borderBottom: 'none'
+    }
   })
 }
 
@@ -57,8 +68,13 @@ class StickySection extends Component {
     this.onScroll = () => {
       if (this.sectionRef) {
         const { sticky, isSmall, height } = this.state
-        const { hasSpaceAfter } = this.props
-        const y = window.pageYOffset + (isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
+        const { hasSpaceAfter, inNativeApp, isNavBarVisible } = this.props
+        const y = window.pageYOffset + (inNativeApp
+          ? -1
+          : (isSmall
+            ? HEADER_HEIGHT_MOBILE + (isNavBarVisible ? NAVBAR_HEIGHT_MOBILE : 0)
+            : HEADER_HEIGHT + (isNavBarVisible ? NAVBAR_HEIGHT : 0))
+        )
         const offset = this.sectionRef.offsetTop
         const nextSticky = (y > offset) && // scroll pos is below top of section
           (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
@@ -90,7 +106,7 @@ class StickySection extends Component {
   }
 
   render () {
-    const { children, label } = this.props
+    const { children, label, inNativeApp, isNavBarVisible } = this.props
     const { sticky, width, isMedium } = this.state
 
     return (
@@ -98,8 +114,9 @@ class StickySection extends Component {
         <div {...style.header}>
           <div
             {...style.label}
-            {...(sticky && style.sticky)}
+            {...(sticky ? isNavBarVisible ? style.stickyWithNavbar : style.sticky : undefined)}
             style={{
+              top: inNativeApp && -1,
               position: sticky ? 'fixed' : 'relative',
               width: isMedium ? width : (width ? SIDEBAR_WIDTH : '100%')
             }}>
@@ -125,4 +142,4 @@ StickySection.defaultProps = {
   hasSpaceAfter: true
 }
 
-export default StickySection
+export default withInNativeApp(StickySection)

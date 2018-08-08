@@ -9,7 +9,6 @@ import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
 import ErrorMessage from '../ErrorMessage'
-import RawHtmlElements from '../RawHtmlElements'
 
 import {
   Button,
@@ -17,13 +16,12 @@ import {
   Interaction,
   Field,
   Label,
+  RawHtml,
   colors,
-  linkRule
+  mediaQueries
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
-
-const {P} = Interaction
 
 const styles = {
   form: css({
@@ -55,12 +53,21 @@ const styles = {
     ':hover': {
       color: colors.text
     }
+  }),
+  video: css({
+    float: 'left',
+    maxWidth: 300,
+    marginRight: 25,
+    [mediaQueries.onlyS]: {
+      maxWidth: 100
+    }
   })
 }
 
 class SignIn extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       email: props.email || '',
       polling: false,
@@ -68,89 +75,40 @@ class SignIn extends Component {
       success: undefined,
       cookiesEnabled: true
     }
-  }
 
-  componentDidMount () {
-    this.setState({ cookiesEnabled: navigator.cookieEnabled })
-  }
-
-  render () {
-    const {t, label} = this.props
-    const {
-      polling, phrase, loading, success, cookiesEnabled,
-      error, dirty, email,
-      serverError
-    } = this.state
-
-    if (polling) {
-      return (
-        <P>
-          <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
-            phrase: <b key='phrase'>{phrase}</b>,
-            email: <b key='email'>{email}</b>,
-            link: (
-              <a {...linkRule}
-                key='cancel'
-                style={{cursor: 'pointer'}}
-                onClick={(e) => {
-                  e.preventDefault()
-                  this.setState(() => ({
-                    polling: false
-                  }))
-                  Router.pushRoute('signin')
-                }}
-              >{t('signIn/polling/link')}</a>
-            )
-          }} />
-          <Poller onSuccess={(me, ms) => {
-            this.setState(() => ({
-              polling: false,
-              success: t('signIn/success', {
-                nameOrEmail: me.name || me.email,
-                seconds: Math.round(ms / 1000)
-              })
-            }))
-          }} />
-        </P>
-      )
-    }
-
-    if (success) {
-      return <span>{success}</span>
-    }
-
-    if (!cookiesEnabled) {
-      return (
-        <P>
-          <ErrorMessage error={t('cookies/disabled/error')} />
-          <RawHtmlElements
-            t={t}
-            translationKey='cookies/disabled/error/explanation'
-          />
-        </P>
-      )
-    }
-
-    const submitForm = (event) => {
+    this.onFormSubmit = (event) => {
       event.preventDefault()
+      this.signIn()
+    }
+
+    this.signIn = (tokenType) => {
+      const { loading, error, email } = this.state
+      const { signIn, context, acceptedConsents } = this.props
+
       if (error) {
-        this.setState(() => ({
-          dirty: true
-        }))
+        this.setState(() => ({ dirty: true }))
         return
       }
+
       if (loading) {
         return
       }
-      this.setState(() => ({
-        loading: true
-      }))
-      this.props.signIn(email, this.props.context, this.props.acceptedConsents)
+
+      this.setState(() => ({ loading: true }))
+
+      signIn(
+        email,
+        context,
+        acceptedConsents,
+        tokenType
+      )
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
             loading: false,
-            phrase: data.signIn.phrase
+            phrase: data.signIn.phrase,
+            tokenType: data.signIn.tokenType,
+            alternativeFirstFactors: data.signIn.alternativeFirstFactors
           }))
         })
         .catch(error => {
@@ -160,10 +118,70 @@ class SignIn extends Component {
           }))
         })
     }
+  }
+
+  componentDidMount () {
+    this.setState({ cookiesEnabled: navigator.cookieEnabled })
+  }
+
+  render () {
+    const {t, label, showStatus} = this.props
+    const {
+      phrase, tokenType, alternativeFirstFactors,
+      polling, loading, success,
+      error, dirty, email,
+      serverError, cookiesEnabled
+    } = this.state
+
+    if (polling) {
+      return loading
+        ? <InlineSpinner size={26} />
+        : <Poller
+          tokenType={tokenType}
+          phrase={phrase}
+          email={email}
+          alternativeFirstFactors={alternativeFirstFactors}
+          onCancel={() => {
+            this.setState(() => ({
+              polling: false
+            }))
+            Router.pushRoute('signin')
+          }}
+          onTokenTypeChange={(altTokenType) => {
+            this.signIn(altTokenType)
+          }}
+          onSuccess={(me) => {
+            this.setState(() => ({
+              polling: false,
+              success: t('signIn/success', {
+                nameOrEmail: me.name || me.email
+              })
+            }))
+          }} />
+    }
+    if (success) {
+      return <span>{success}</span>
+    }
+
+    if (!cookiesEnabled) {
+      return (
+        <Interaction.P>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtml dangerouslySetInnerHTML={{
+            __html: t('cookies/disabled/error/explanation')
+          }} />
+        </Interaction.P>
+      )
+    }
 
     return (
       <div>
-        <form onSubmit={submitForm}>
+        {showStatus &&
+          <Interaction.P style={{ marginBottom: '20px' }}>
+            {t('me/signedOut')}
+          </Interaction.P>
+        }
+        <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
               <Field
@@ -213,17 +231,19 @@ SignIn.propTypes = {
 }
 
 const signInMutation = gql`
-mutation signIn($email: String!, $context: String, $consents: [String!]) {
-  signIn(email: $email, context: $context, consents: $consents) {
+mutation signIn($email: String!, $context: String, $consents: [String!], $tokenType: SignInTokenType) {
+  signIn(email: $email, context: $context, consents: $consents, tokenType: $tokenType) {
     phrase
+    tokenType
+    alternativeFirstFactors
   }
 }
 `
 
 export const withSignIn = graphql(signInMutation, {
   props: ({mutate}) => ({
-    signIn: (email, context = 'signIn', consents) =>
-      mutate({variables: {email, context, consents}})
+    signIn: (email, context = 'signIn', consents, tokenType) =>
+      mutate({variables: {email, context, consents, tokenType}})
   })
 })
 

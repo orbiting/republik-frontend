@@ -49,22 +49,42 @@ export const gotoMerci = (query) => {
   // })
 }
 
+const parseSignInQuery = ({query, t}) => {
+  if (query.signInError) {
+    return {
+      signInError: query.signInError
+    }
+  }
+  let signInResponse
+  try {
+    signInResponse = JSON.parse(query.signInResponse)
+  } catch (e) {
+    return {
+      signInError: t('merci/postpay/signInError/jsonParseError')
+    }
+  }
+  return {
+    signInResponse
+  }
+}
+
 class Merci extends Component {
   constructor (props) {
     super(props)
     const { query } = this.props
+    const signInQuery = parseSignInQuery(this.props)
+
     this.state = {
-      polling: !!(query.email && query.phrase),
+      polling: !!(query.email && signInQuery.signInResponse),
       email: query.email,
-      phrase: query.phrase,
-      signInError: query.signInError
+      ...signInQuery
     }
   }
   render () {
     const { me, t, query } = this.props
     const {
-      polling, phrase, email,
-      signInError, signInLoading
+      polling, email,
+      signInResponse, signInError, signInLoading
     } = this.state
     if (query.claim) {
       return (
@@ -77,18 +97,19 @@ class Merci extends Component {
       return (
         <MainContainer><Content>
           <P>
-            <RawHtml dangerouslySetInnerHTML={{
-              __html: t('merci/postpay/waiting', {
-                email,
-                phrase
-              })
-            }} />
-            <br />
-            <Poller onSuccess={() => {
+            {t('merci/postpay/lead')}
+          </P>
+          <Poller
+            tokenType={signInResponse.tokenType}
+            email={email}
+            phrase={signInResponse.phrase}
+            alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+            onSuccess={() => {
               this.setState({
                 polling: false
               })
             }} />
+          <P>
             {!!query.id && (
               <Link route='account' params={{claim: query.id}}>
                 <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
@@ -138,7 +159,7 @@ class Merci extends Component {
                     this.setState(() => ({
                       polling: true,
                       signInLoading: false,
-                      phrase: data.signIn.phrase
+                      signInResponse: data.signIn
                     }))
                   })
                   .catch(error => {

@@ -258,7 +258,7 @@ class Submit extends Component {
             .then(({data: {signIn}}) => gotoMerci({
               id: payPledge.pledgeId,
               email: user.email,
-              phrase: signIn.phrase
+              signInResponse: JSON.stringify(signIn)
             }))
             .catch(error => gotoMerci({
               id: data.pledgeId,

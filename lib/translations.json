@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T13:12:00.447Z",
+  "updated": "2018-08-08T14:54:22.815Z",
   "title": "live",
   "data": [
     {
@@ -192,11 +192,11 @@
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff prüfen</b>»."
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff bestätigen</b>»."
     },
     {
       "key": "signIn/polling/switch/APP",
-      "value": "Lieber per App anmelden?"
+      "value": "Möchten Sie lieber per App den Zugriff erteilen?"
     },
     {
       "key": "signIn/polling/switch/EMAIL_TOKEN",
@@ -2620,7 +2620,7 @@
     },
     {
       "key": "notifications/email-confirmed/title",
-      "value": "E-Mail-Adresse ist bestätigt"
+      "value": "Zugriff erteilt"
     },
     {
       "key": "notifications/email-confirmed/text",
@@ -2640,7 +2640,7 @@
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Gerade noch einmal gut gegangen! Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
+      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
     },
     {
       "key": "notifications/closeNote",

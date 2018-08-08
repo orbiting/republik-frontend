@@ -160,36 +160,6 @@ class TokenAuthorization extends Component {
                 {t('tokenAuthorization/differentSession')}
               </P>
               <P>
-                <Label>{t('tokenAuthorization/phrase')}</Label><br />
-                <span style={{
-                  fontFamily: !isCurrent
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {phrase}
-                </span>
-              </P>
-              <P>
-                <Label>{t('tokenAuthorization/location')}</Label><br />
-                <span style={
-                  country !== echo.country
-                    ? {
-                      fontFamily: fontFamilies.sansSerifMedium,
-                      color: colors.error
-                    }
-                    : {}
-                }>
-                  {country || t('tokenAuthorization/location/unknown')}
-                </span><br />
-                <span style={{
-                  fontFamily: city !== echo.city
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {city}
-                </span>
-              </P>
-              <P>
                 <Label>{t('tokenAuthorization/device')}</Label><br />
                 <span style={{
                   fontFamily: userAgent !== echo.userAgent
@@ -199,10 +169,40 @@ class TokenAuthorization extends Component {
                   {userAgent}
                 </span>
               </P>
+              <P>
+                <Label>{t('tokenAuthorization/location')}</Label><br />
+                {!!city && <span style={{
+                  fontFamily: city !== echo.city
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {city}{', '}
+                </span>}
+                <span style={
+                  country !== echo.country
+                    ? {
+                      fontFamily: fontFamilies.sansSerifMedium,
+                      color: colors.error
+                    }
+                    : {}
+                }>
+                  {country || t('tokenAuthorization/location/unknown')}
+                </span>
+              </P>
               {echo.ipAddress !== ipAddress && <P>
                 <Label>{t('tokenAuthorization/ip')}</Label><br />
                 {ipAddress}
               </P>}
+              <P>
+                <Label>{t('tokenAuthorization/phrase')}</Label><br />
+                <span style={{
+                  fontFamily: !isCurrent
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {phrase}
+                </span>
+              </P>
             </div>}
             {!!target.requiredConsents.length && (
               <div style={{margin: '20px 0', textAlign: 'left'}}>

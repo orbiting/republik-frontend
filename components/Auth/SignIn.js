@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -16,6 +16,7 @@ import {
   Interaction,
   Field,
   Label,
+  RawHtml,
   colors,
   mediaQueries
 } from '@project-r/styleguide'
@@ -118,6 +119,10 @@ class SignIn extends Component {
     }
   }
 
+  componentDidMount () {
+    this.setState({ cookiesDisabled: !navigator.cookieEnabled })
+  }
+
   render () {
     const {t, label, showStatus} = this.props
     const {
@@ -126,6 +131,7 @@ class SignIn extends Component {
       error, dirty, email,
       serverError
     } = this.state
+
     if (polling) {
       return loading
         ? <InlineSpinner size={26} />
@@ -154,6 +160,17 @@ class SignIn extends Component {
     }
     if (success) {
       return <span>{success}</span>
+    }
+
+    if (this.state.cookiesDisabled) {
+      return (
+        <Fragment>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
+            __html: t('cookies/disabled/error/explanation')
+          }} />
+        </Fragment>
+      )
     }
 
     return (

@@ -50,6 +50,7 @@ class Poller extends Component {
   componentDidMount () {
     this.props.data.startPolling(1000)
     this.tick()
+    this.setState({ cookiesDisabled: !navigator.cookieEnabled })
   }
   componentDidUpdate () {
     const {data: {me}, onSuccess} = this.props
@@ -65,7 +66,7 @@ class Poller extends Component {
     clearTimeout(this.tickTimeout)
   }
   render () {
-    const { data: { error, me } } = this.props
+    const { data: { error, me }, t } = this.props
     if (me) {
       return null
     }
@@ -74,14 +75,24 @@ class Poller extends Component {
       return <ErrorMessage error={error} />
     }
 
+    if (this.state.cookiesDisabled) {
+      return (
+        <Fragment>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
+            __html: t('cookies/disabled/error/explanation')
+          }} />
+        </Fragment>
+      )
+    }
+
     const {
       tokenType,
       email,
       onCancel,
       phrase,
       alternativeFirstFactors,
-      onTokenTypeChange,
-      t
+      onTokenTypeChange
     } = this.props
 
     const Icon = Icons[tokenType]

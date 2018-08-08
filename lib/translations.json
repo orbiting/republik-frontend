@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T12:25:40.903Z",
+  "updated": "2018-08-08T12:44:52.431Z",
   "title": "live",
   "data": [
     {
@@ -2796,7 +2796,7 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Anmeldung für Ihr bestehendes Republik-Konto bestätigen"
+      "value": "Zugriff auf Ihr bestehendes Republik-Konto prüfen"
     },
     {
       "key": "tokenAuthorization/title/new",
@@ -2816,10 +2816,6 @@
     },
     {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
-    },
-    {
-      "key": "tokenAuthorization/after/deny",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
@@ -2843,15 +2839,11 @@
       "value": "Gerät"
     },
     {
-      "key": "tokenAuthorization/button",
-      "value": "bestätigen"
-    },
-    {
-      "key": "tokenAuthorization/button/differentSession",
+      "key": "tokenAuthorization/grant",
       "value": "Zugriff erteilen"
     },
     {
-      "key": "tokenAuthorization/button/deny",
+      "key": "tokenAuthorization/deny",
       "value": "Zugriff ablehnen"
     },
     {

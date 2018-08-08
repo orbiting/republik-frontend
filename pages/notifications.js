@@ -159,7 +159,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
             {logo}
           </div>
         )}
-        <div {...styles.text}>
+        <div {...(!inNativeApp && styles.text)}>
           {title && <H1>{title}</H1>}
           <br />
           {content}

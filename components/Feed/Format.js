@@ -12,7 +12,7 @@ import { WithoutMembership } from '../Auth/withMembership'
 
 const getFeedDocuments = gql`
 query getFeedDocuments($formatId: String!) {
-  documents(format: $formatId) {
+  documents(format: $formatId, first: 100) {
     totalCount
     nodes {
       meta {

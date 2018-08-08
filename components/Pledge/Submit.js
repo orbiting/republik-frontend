@@ -12,7 +12,7 @@ import { meQuery } from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 
-import { gotoMerci } from './Merci'
+import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
 import { COUNTRIES } from '../Account/AddressForm'
 import { query as addressQuery } from '../Account/UpdateMe'
@@ -258,7 +258,7 @@ class Submit extends Component {
             .then(({data: {signIn}}) => gotoMerci({
               id: payPledge.pledgeId,
               email: user.email,
-              signInResponse: JSON.stringify(signIn)
+              ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
               id: data.pledgeId,

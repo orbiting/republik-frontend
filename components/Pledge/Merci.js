@@ -49,22 +49,31 @@ export const gotoMerci = (query) => {
   // })
 }
 
-const parseSignInQuery = ({query, t}) => {
+export const encodeSignInResponseQuery = ({ phrase, tokenType, alternativeFirstFactors }) => {
+  const query = {
+    phrase,
+    tokenType
+  }
+  if (alternativeFirstFactors && alternativeFirstFactors.length) {
+    query.aff = alternativeFirstFactors.join(',')
+  }
+  return query
+}
+
+const parseSignInResponseQuery = (query) => {
   if (query.signInError) {
     return {
       signInError: query.signInError
     }
   }
-  let signInResponse
-  try {
-    signInResponse = JSON.parse(query.signInResponse)
-  } catch (e) {
-    return {
-      signInError: t('merci/postpay/signInError/jsonParseError')
-    }
-  }
   return {
-    signInResponse
+    signInResponse: {
+      phrase: query.phrase,
+      tokenType: query.tokenType || 'EMAIL_TOKEN',
+      alternativeFirstFactors: query.aff
+        ? query.aff.split(',')
+        : []
+    }
   }
 }
 
@@ -72,12 +81,11 @@ class Merci extends Component {
   constructor (props) {
     super(props)
     const { query } = this.props
-    const signInQuery = parseSignInQuery(this.props)
 
     this.state = {
-      polling: !!(query.email && signInQuery.signInResponse),
+      polling: !!(query.email && query.phrase),
       email: query.email,
-      ...signInQuery
+      ...parseSignInResponseQuery(query)
     }
   }
   render () {

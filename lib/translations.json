@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T14:54:22.815Z",
+  "updated": "2018-08-08T16:33:23.722Z",
   "title": "live",
   "data": [
     {
@@ -2399,10 +2399,6 @@
       "value": "überprüfen"
     },
     {
-      "key": "merci/postpay/signInError/jsonParseError",
-      "value": "Technischer Fehler bei der Datenübertragung – ungültiges JSON."
-    },
-    {
       "key": "merci/postpay/signInError/title",
       "value": "E-Mail-Verifizierung fehlgeschlagen"
     },
@@ -2829,10 +2825,6 @@
     {
       "key": "tokenAuthorization/phrase",
       "value": "Seltsame Wörter"
-    },
-    {
-      "key": "tokenAuthorization/emojis",
-      "value": "Emojis"
     },
     {
       "key": "tokenAuthorization/device",

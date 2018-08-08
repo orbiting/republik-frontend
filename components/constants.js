@@ -15,5 +15,4 @@ export const ZINDEX_FOOTER = 11
 export const ZINDEX_SIDEBAR = 10
 export const ZINDEX_FRAME_TOGGLE = 1
 
-export const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'
-export const SUPPORTED_TOKEN_TYPES = [DEFAULT_TOKEN_TYPE, 'APP']
+export const SUPPORTED_TOKEN_TYPES = ['EMAIL_TOKEN', 'APP']

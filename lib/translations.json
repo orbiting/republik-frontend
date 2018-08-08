@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T12:44:52.431Z",
+  "updated": "2018-08-08T13:12:00.447Z",
   "title": "live",
   "data": [
     {
@@ -192,7 +192,7 @@
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff erteilen</b>»."
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff prüfen</b>»."
     },
     {
       "key": "signIn/polling/switch/APP",

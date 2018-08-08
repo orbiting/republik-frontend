@@ -44,7 +44,7 @@ class UpdateEmail extends Component {
     }
   }
 
-  updateValue (value, shouldValidate) {
+  updateValue (value) {
     this.setState(() => ({
       value,
       error: (
@@ -55,7 +55,7 @@ class UpdateEmail extends Component {
         this.props.t('Account/Update/email/error/invalid')
       ),
       dirty: {
-        email: shouldValidate
+        email: false
       }
     }))
   }

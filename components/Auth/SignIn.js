@@ -152,14 +152,14 @@ class SignIn extends Component {
                 type='email'
                 label={t('signIn/email/label')}
                 error={dirty && error}
-                onChange={(_, value, shouldValidate) => {
+                onChange={(_, value) => {
                   this.setState(() => ({
                     email: value,
                     error: (
                       (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
                       (!isEmail(value) && t('signIn/email/error/invalid'))
                     ),
-                    dirty: shouldValidate
+                    dirty: false
                   }))
                 }}
                 value={email} />

@@ -24,7 +24,7 @@ class PreviewForm extends Component {
     }
   }
 
-  handleEmail (value, shouldValidate) {
+  handleEmail (value) {
     const {t} = this.props
     this.setState(
       FieldSet.utils.mergeField({
@@ -34,7 +34,7 @@ class PreviewForm extends Component {
           (value.trim().length <= 0 &&
             t('marketing/preview/email/error/empty')) ||
           (!isEmail(value) && t('marketing/preview/email/error/invalid')),
-        dirty: shouldValidate
+        dirty: false
       })
     )
   }

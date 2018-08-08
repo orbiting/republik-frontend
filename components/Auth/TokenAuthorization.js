@@ -152,7 +152,8 @@ class TokenAuthorization extends Component {
         return (
           <Fragment>
             <P>
-              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}<br />
+              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}
+              <br />
               <Label>{t('tokenAuthorization/email', { email })}</Label>
             </P>
             {showSessionInfo && <div style={{margin: '20px 0'}}>

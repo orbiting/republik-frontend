@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -9,9 +9,6 @@ import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
 import ErrorMessage from '../ErrorMessage'
-import RawHtmlElements from '../RawHtmlElements'
-
-import { DEFAULT_TOKEN_TYPE } from '../constants'
 
 import {
   Button,
@@ -19,15 +16,11 @@ import {
   Interaction,
   Field,
   Label,
-  colors,
-  linkRule,
-  VideoPlayer,
-  mediaQueries
+  RawHtml,
+  colors
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
-
-const {P} = Interaction
 
 const styles = {
   form: css({
@@ -59,23 +52,27 @@ const styles = {
     ':hover': {
       color: colors.text
     }
-  }),
-  video: css({
-    float: 'left',
-    maxWidth: 300,
-    marginRight: 25,
-    [mediaQueries.onlyS]: {
-      maxWidth: 100
-    }
   })
 }
+
+const checkEmail = ({value, shouldValidate, t}) => ({
+  email: value,
+  error: (
+    (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
+    (!isEmail(value) && t('signIn/email/error/invalid'))
+  ),
+  dirty: shouldValidate
+})
 
 class SignIn extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      email: props.email || '',
+      ...checkEmail({
+        value: props.email || '',
+        t: props.t
+      }),
       polling: false,
       loading: false,
       success: undefined
@@ -125,83 +122,63 @@ class SignIn extends Component {
     }
   }
 
+  componentDidMount () {
+    this.setState({ cookiesDisabled: !navigator.cookieEnabled })
+  }
+
   render () {
-    const {t, label, showStatus} = this.props
+    const { t, label, beforeForm } = this.props
     const {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
       error, dirty, email,
       serverError
     } = this.state
+
     if (polling) {
-      const suffix = tokenType !== DEFAULT_TOKEN_TYPE ? `/${tokenType}` : ''
-      const alternativeFirstFactor = alternativeFirstFactors[0]
-      return (
-        <div>
-          {tokenType === 'APP' &&
-            <div {...styles.video}>
-              <VideoPlayer {...styles.video} autoPlay showPlay={false} loop src={{
-                hls: 'https://player.vimeo.com/external/282414311.m3u8?s=3d8c7e96f1355544d998f2ff9355fda988a9321e',
-                mp4: 'https://player.vimeo.com/external/282414311.sd.mp4?s=6ab98c192a8747179bb31c44e8235534d34a77a8&profile_id=165'
-              }}
-              />
-            </div>
-          }
-          <P>
-            <RawHtmlElements t={t} translationKey={`signIn/polling${suffix}`} replacements={{
-              phrase: <b key='phrase'>{phrase}</b>,
-              email: <b key='email'>{email}</b>,
-              link: (
-                <a {...linkRule}
-                  key='cancel'
-                  href='#'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    this.setState(() => ({
-                      polling: false
-                    }))
-                    Router.pushRoute('signin')
-                  }}
-                >{t('signIn/polling/link')}</a>
-              )
-            }} />
-            {alternativeFirstFactor && (
-              <div>
-                <br />
-                <a {...linkRule}
-                  href='#'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    this.signIn(alternativeFirstFactor)
-                  }}
-                >{t('signIn/polling/switch', {tokenType: t(`signIn/polling/${alternativeFirstFactor}/label`)})}</a>
-                {loading && (<InlineSpinner size={26} />)}
-              </div>
-            )}
-            <Poller onSuccess={(me, ms) => {
-              this.setState(() => ({
-                polling: false,
-                success: t('signIn/success', {
-                  nameOrEmail: me.name || me.email,
-                  seconds: Math.round(ms / 1000)
-                })
-              }))
-            }} />
-          </P>
-        </div>
-      )
+      return loading
+        ? <InlineSpinner size={26} />
+        : <Poller
+          tokenType={tokenType}
+          phrase={phrase}
+          email={email}
+          alternativeFirstFactors={alternativeFirstFactors}
+          onCancel={() => {
+            this.setState(() => ({
+              polling: false
+            }))
+            Router.pushRoute('signin')
+          }}
+          onTokenTypeChange={(altTokenType) => {
+            this.signIn(altTokenType)
+          }}
+          onSuccess={(me) => {
+            this.setState(() => ({
+              polling: false,
+              success: t('signIn/success', {
+                nameOrEmail: me.name || me.email
+              })
+            }))
+          }} />
     }
     if (success) {
       return <span>{success}</span>
     }
 
+    if (this.state.cookiesDisabled) {
+      return (
+        <Fragment>
+          <ErrorMessage error={t('cookies/disabled/error')} />
+          <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
+            __html: t('cookies/disabled/error/explanation')
+          }} />
+        </Fragment>
+      )
+    }
+
     return (
       <div>
-        {showStatus &&
-          <Interaction.P style={{ marginBottom: '20px' }}>
-            {t('me/signedOut')}
-          </Interaction.P>
-        }
+        {beforeForm}
         <form onSubmit={this.onFormSubmit}>
           <div {...styles.form}>
             <div {...styles.input}>
@@ -211,13 +188,10 @@ class SignIn extends Component {
                 label={t('signIn/email/label')}
                 error={dirty && error}
                 onChange={(_, value, shouldValidate) => {
-                  this.setState(() => ({
-                    email: value,
-                    error: (
-                      (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
-                      (!isEmail(value) && t('signIn/email/error/invalid'))
-                    ),
-                    dirty: shouldValidate
+                  this.setState(checkEmail({
+                    t,
+                    value,
+                    shouldValidate
                   }))
                 }}
                 value={email} />

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-07T09:37:41.657Z",
+  "updated": "2018-08-08T16:33:23.722Z",
   "title": "live",
   "data": [
     {
@@ -180,23 +180,23 @@
     },
     {
       "key": "signIn/polling/APP/title",
-      "value": "Anmelden mit der App"
+      "value": "Zugriff via App erteilen"
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine Push-Nachricht geschickt. Öffnen Sie diese und bestätigen Sie dort diese Anmeldung."
+      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt. Öffnen Sie diese und bestätigen Sie dort diesen Zugriff."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
-      "value": "Anmelden per E-Mail"
+      "value": "Zugriff via E-Mail erteilen"
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben ihnen eine E-Mail geschickt. Öffnen Sie diese und klicken Sie auf «Anmeldung bestätigen»."
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff bestätigen</b>»."
     },
     {
       "key": "signIn/polling/switch/APP",
-      "value": "Lieber per App anmelden?"
+      "value": "Möchten Sie lieber per App den Zugriff erteilen?"
     },
     {
       "key": "signIn/polling/switch/EMAIL_TOKEN",
@@ -213,54 +213,6 @@
     {
       "key": "signIn/polling/cancel",
       "value": "Vertippt? Abbrechen und erneut versuchen."
-    },
-    {
-      "key": "signIn/polling",
-      "value": "Vielen Dank! \n<h3>Anmelden per E-Mail</h3>\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email} Sollte das der Fall sein, versuchen Sie es {link}."
-    },
-    {
-      "key": "signIn/polling/APP",
-      "value": "Vielen Dank!\n<h3>Anmelden mit der App</h3>\nWir haben Ihnen eine Push-Notification geschickt. Tippen Sie auf die Nachricht, die App öffnet sich dann automatisch. Dort finden Sie die folgenden drei seltsamen, fett gedruckten Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem App die gleichen drei zugegeben absurden Wörter stehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nSollten Sie keine Benachrichtigung erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}. Sollte das der Fall sein, versuchen Sie es {link}."
-    },
-    {
-      "key": "signIn/polling/APP/new",
-      "value": "Vielen Dank!<br /><br />\nNeu schicken wir Ihnen Anmelde-Anfragen per Push-Benachrichtigung ins Republik <b>App</b>.\n<br /><br /><br />\n{emojis}\n<br /><br /><br />\nBitte kontrollieren Sie ob In Ihrem App die gleichen 2 Emojis angezeigt werden. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n<br /><br />\nKeine Benachrichtigung erhalten? Die E-Mail-Adresse die Sie uns gegeben haben lautete: {email}. Sollte diese falsch sein, versuchen Sie es {link}."
-    },
-    {
-      "key": "signIn/polling/APP/more/title",
-      "value": "Mehr zu Anmelden mit der App"
-    },
-    {
-      "key": "signIn/polling/APP/more/content",
-      "value": "Sie haben sich im Republik App eingeloggt. Vielen Dank dafür. Wir fühlen uns geschmeichelt Ihnen jeden Tag ein bisschen näher sein zu dürfen.\nWenn Sie es nicht anders(link ancher konto) wünschen senden wir Ihnen Anmelde-Anfragen künftig immer per Push-Benachrichtigung auf alle Geräte auf denen Sie im Republik App angemeldet sind. Das ist schneller und sicherer als per E-Mail.\nFalls Sie die 3 seltsamen Wörter lieb gewonnen haben, haben wir hier trotzdem welche für Sie: {phrase}"
-    },
-    {
-      "key": "signIn/polling/link",
-      "value": "hier nochmal"
-    },
-    {
-      "key": "signIn/polling/short",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)"
-    },
-    {
-      "key": "signIn/polling/short/APP",
-      "value": "Wir haben Ihnen eine Push-Notification geschickt. Tippen Sie auf die Nachricht.<br \n/><br />\nIm App finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer App die gleichen drei zugegeben absurden Wörter \nstehen. (So stellen Sie sicher, dass Sie wirklich sich selbst und niemand anderem Zugriff erteilen.)\n"
-    },
-    {
-      "key": "signIn/polling/switch",
-      "value": "Möchten Sie sich lieber per {tokenType} anmelden?"
-    },
-    {
-      "key": "signIn/polling/EMAIL_TOKEN/label",
-      "value": "E-Mail"
-    },
-    {
-      "key": "signIn/polling/APP/label",
-      "value": "App"
-    },
-    {
-      "key": "signIn/cancel",
-      "value": "abbrechen"
     },
     {
       "key": "signIn/email/error/empty",
@@ -2447,10 +2399,6 @@
       "value": "überprüfen"
     },
     {
-      "key": "merci/postpay/signInError/jsonParseError",
-      "value": "Technischer Fehler bei der Datenübertragung – ungültiges JSON."
-    },
-    {
       "key": "merci/postpay/signInError/title",
       "value": "E-Mail-Verifizierung fehlgeschlagen"
     },
@@ -2668,7 +2616,7 @@
     },
     {
       "key": "notifications/email-confirmed/title",
-      "value": "E-Mail-Adresse ist bestätigt"
+      "value": "Zugriff erteilt"
     },
     {
       "key": "notifications/email-confirmed/text",
@@ -2688,7 +2636,7 @@
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Gerade noch einmal gut gegangen! Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
+      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
     },
     {
       "key": "notifications/closeNote",
@@ -2844,7 +2792,7 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Anmeldung für Ihr bestehendes Republik-Konto bestätigen"
+      "value": "Zugriff auf Ihr bestehendes Republik-Konto prüfen"
     },
     {
       "key": "tokenAuthorization/title/new",
@@ -2864,10 +2812,6 @@
     },
     {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
-    },
-    {
-      "key": "tokenAuthorization/after/deny",
       "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
@@ -2883,23 +2827,15 @@
       "value": "Seltsame Wörter"
     },
     {
-      "key": "tokenAuthorization/emojis",
-      "value": "Emojis"
-    },
-    {
       "key": "tokenAuthorization/device",
       "value": "Gerät"
     },
     {
-      "key": "tokenAuthorization/button",
-      "value": "bestätigen"
-    },
-    {
-      "key": "tokenAuthorization/button/differentSession",
+      "key": "tokenAuthorization/grant",
       "value": "Zugriff erteilen"
     },
     {
-      "key": "tokenAuthorization/button/deny",
+      "key": "tokenAuthorization/deny",
       "value": "Zugriff ablehnen"
     },
     {

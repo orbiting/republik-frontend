@@ -48,6 +48,9 @@ const styles = {
       textAlign: 'center'
     }
   }),
+  textApp: css({
+    margin: '15px auto'
+  }),
   link: css({
     marginTop: 20
   }),
@@ -159,9 +162,11 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
             {logo}
           </div>
         )}
-        <div {...styles.text}>
-          {title && <H1>{title}</H1>}
-          <br />
+        <div {...(inNativeApp ? styles.textApp : styles.text)}>
+          {title && <Fragment>
+            <H1>{title}</H1>
+            <br />
+          </Fragment>}
           {content}
           {displayMe && (
             <div {...styles.me}>

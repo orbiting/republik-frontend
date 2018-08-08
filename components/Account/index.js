@@ -26,6 +26,8 @@ import query from './belongingsQuery'
 import MembershipList from './Memberships/List'
 import PaymentSources from './PaymentSources'
 
+import { APP_OPTIONS } from '../../lib/constants'
+
 const { H2, P } = Interaction
 
 const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci }) => (
@@ -77,10 +79,12 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 {t('account/notificationOptions/title')}
               </H2>
               <NotificationOptions />
-              <H2 style={{marginTop: 80}} id='anmeldung'>
-                {t('account/authSettings/title')}
-              </H2>
-              <AuthSettings />
+              {APP_OPTIONS && <Fragment>
+                <H2 style={{marginTop: 80}} id='anmeldung'>
+                  {t('account/authSettings/title')}
+                </H2>
+                <AuthSettings />
+              </Fragment>}
             </Content>
           </MainContainer>
         </Fragment>

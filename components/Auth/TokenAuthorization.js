@@ -3,7 +3,12 @@ import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Button, InlineSpinner, Interaction, Label, Loader, fontFamilies, colors } from '@project-r/styleguide'
+import {
+  Button, A,
+  InlineSpinner, Loader,
+  Interaction, Label,
+  fontFamilies, colors
+} from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
 
@@ -16,11 +21,8 @@ import ErrorMessage from '../ErrorMessage'
 import Me from './Me'
 
 const styles = {
-  buttons: css({
+  actions: css({
     textAlign: 'center'
-  }),
-  button: css({
-    marginTop: 20
   })
 }
 
@@ -147,42 +149,16 @@ class TokenAuthorization extends Component {
         )
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
         const showSessionInfo = !isCurrent || noAutoAuthorize
-        const showDeny = !target.newUser && showSessionInfo
         return (
           <Fragment>
             <P>
-              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}<br />
+              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}
+              <br />
               <Label>{t('tokenAuthorization/email', { email })}</Label>
             </P>
             {showSessionInfo && <div style={{margin: '20px 0'}}>
               <P>
                 {t('tokenAuthorization/differentSession')}
-              </P>
-              <P>
-                <Label>{t('tokenAuthorization/phrase')}</Label><br />
-                <span>
-                  {phrase}
-                </span>
-              </P>
-              <P>
-                <Label>{t('tokenAuthorization/location')}</Label><br />
-                <span style={
-                  country !== echo.country
-                    ? {
-                      fontFamily: fontFamilies.sansSerifMedium,
-                      color: colors.error
-                    }
-                    : {}
-                }>
-                  {country || t('tokenAuthorization/location/unknown')}
-                </span><br />
-                <span style={{
-                  fontFamily: city !== echo.city
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {city}
-                </span>
               </P>
               <P>
                 <Label>{t('tokenAuthorization/device')}</Label><br />
@@ -194,10 +170,40 @@ class TokenAuthorization extends Component {
                   {userAgent}
                 </span>
               </P>
+              <P>
+                <Label>{t('tokenAuthorization/location')}</Label><br />
+                {!!city && <span style={{
+                  fontFamily: city !== echo.city
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {city}{', '}
+                </span>}
+                <span style={
+                  country !== echo.country
+                    ? {
+                      fontFamily: fontFamilies.sansSerifMedium,
+                      color: colors.error
+                    }
+                    : {}
+                }>
+                  {country || t('tokenAuthorization/location/unknown')}
+                </span>
+              </P>
               {echo.ipAddress !== ipAddress && <P>
                 <Label>{t('tokenAuthorization/ip')}</Label><br />
                 {ipAddress}
               </P>}
+              <P>
+                <Label>{t('tokenAuthorization/phrase')}</Label><br />
+                <span style={{
+                  fontFamily: !isCurrent
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {phrase}
+                </span>
+              </P>
             </div>}
             {!!target.requiredConsents.length && (
               <div style={{margin: '20px 0', textAlign: 'left'}}>
@@ -217,8 +223,11 @@ class TokenAuthorization extends Component {
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
-                <div {...styles.buttons}>
-                  <div {...styles.button} style={{opacity: consentsError ? 0.5 : 1}}>
+                <div {...styles.actions}>
+                  <div style={{
+                    opacity: consentsError ? 0.5 : 1,
+                    marginBottom: 15
+                  }}>
                     <Button
                       primary
                       style={{minWidth: 250}}
@@ -229,25 +238,25 @@ class TokenAuthorization extends Component {
                         }
                         this.authorize()
                       }}>
-                      {t(`tokenAuthorization/button${showSessionInfo ? '/differentSession' : ''}`)}
+                      {t('tokenAuthorization/grant')}
                     </Button>
                   </div>
-                  {showDeny && (
-                    <div {...styles.button}>
-                      <Button
-                        style={{minWidth: 250}}
-                        onClick={() => {
-                          this.deny()
-                        }}>
-                        {t(`tokenAuthorization/button/deny`)}
-                      </Button>
-                    </div>
-                  )}
+                  <A
+                    style={{minWidth: 250}}
+                    href='#'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      this.deny()
+                    }}>
+                    {t('tokenAuthorization/deny')}
+                  </A>
                 </div>
               )}
             <br />
             <br />
-            <Label>{t(`tokenAuthorization/after${showDeny ? '/deny' : ''}`, { email })}</Label>
+            <Label>{t('tokenAuthorization/after')}</Label>
+            <br />
+            <br />
           </Fragment>
         )
       }} />

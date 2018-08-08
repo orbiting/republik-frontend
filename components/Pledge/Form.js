@@ -12,9 +12,6 @@ import SignIn from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
 import isEmail from 'validator/lib/isEmail'
 
-import ErrorMessage from '../ErrorMessage'
-import RawHtmlElements from '../RawHtmlElements'
-
 import {
   Interaction,
   Field,
@@ -60,16 +57,15 @@ class Pledge extends Component {
       basePledge,
       values,
       errors: {},
-      dirty: {},
-      cookiesEnabled: true
+      dirty: {}
     }
   }
   submitPledgeProps ({values, query, pledge}) {
     const {crowdfunding} = this.props
     const pkg = query.package
       ? crowdfunding.packages.find(
-          pkg => pkg.name === query.package.toUpperCase()
-        )
+        pkg => pkg.name === query.package.toUpperCase()
+      )
       : null
     const userPrice = !!query.userPrice
 
@@ -133,32 +129,18 @@ class Pledge extends Component {
   }
   componentDidMount () {
     this.checkUserFields(this.props)
-    this.setState({ cookiesEnabled: navigator.cookieEnabled })
   }
   render () {
     const {
       values,
       errors,
       dirty,
-      cookiesEnabled,
       basePledge
     } = this.state
 
     const {
-      loading, error, t
+      loading, error
     } = this.props
-
-    if (!cookiesEnabled) {
-      return (
-        <P>
-          <ErrorMessage error={t('cookies/disabled/error')} />
-          <RawHtmlElements
-            t={t}
-            translationKey='cookies/disabled/error/explanation'
-          />
-        </P>
-      )
-    }
 
     return (
       <Loader loading={loading} error={error} render={() => {
@@ -184,8 +166,8 @@ class Pledge extends Component {
 
         const pkg = query.package
           ? crowdfunding.packages.find(
-              pkg => pkg.name === query.package.toUpperCase()
-            )
+            pkg => pkg.name === query.package.toUpperCase()
+          )
           : null
         const userPrice = !!query.userPrice
 

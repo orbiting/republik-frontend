@@ -140,6 +140,12 @@ class Feed extends Component {
         case 'close-secondary-menu':
           this.setState({ isNavBarVisible: false })
           break
+        case 'subheader-opened':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'subheader-closed':
+          this.setState({ isNavBarVisible: false })
+          break
       }
     }
   }

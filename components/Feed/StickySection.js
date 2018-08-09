@@ -69,12 +69,19 @@ class StickySection extends Component {
       if (this.sectionRef) {
         const { sticky, isSmall, height } = this.state
         const { hasSpaceAfter, inNativeApp, isNavBarVisible } = this.props
+
+        const headerHeight = isSmall
+          ? HEADER_HEIGHT_MOBILE
+          : HEADER_HEIGHT
+        const navbarHeight = isNavBarVisible
+          ? (isSmall ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT)
+          : 0
+
         const y = window.pageYOffset + (inNativeApp
-          ? -1
-          : (isSmall
-            ? HEADER_HEIGHT_MOBILE + (isNavBarVisible ? NAVBAR_HEIGHT_MOBILE : 0)
-            : HEADER_HEIGHT + (isNavBarVisible ? NAVBAR_HEIGHT : 0))
+          ? navbarHeight
+          : headerHeight + navbarHeight
         )
+
         const offset = this.sectionRef.offsetTop
         const nextSticky = (y > offset) && // scroll pos is below top of section
           (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
@@ -107,7 +114,10 @@ class StickySection extends Component {
 
   render () {
     const { children, label, inNativeApp, isNavBarVisible } = this.props
-    const { sticky, width, isMedium } = this.state
+    const { sticky, width, isMedium, isSmall } = this.state
+    const navbarHeight = isNavBarVisible
+      ? (isSmall ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT)
+      : -1
 
     return (
       <section ref={this.setSectionRef}>
@@ -116,7 +126,7 @@ class StickySection extends Component {
             {...style.label}
             {...(sticky ? isNavBarVisible ? style.stickyWithNavbar : style.sticky : undefined)}
             style={{
-              top: inNativeApp && -1,
+              top: inNativeApp && sticky && navbarHeight,
               position: sticky ? 'fixed' : 'relative',
               width: isMedium ? width : (width ? SIDEBAR_WIDTH : '100%')
             }}>

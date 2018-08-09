@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-09T17:46:04.880Z",
+  "updated": "2018-08-09T17:50:42.723Z",
   "title": "live",
   "data": [
     {
@@ -208,11 +208,11 @@
     },
     {
       "key": "signIn/polling/phrase/EMAIL_TOKEN/hint",
-      "value": "Wie funktioniert diese Sicherheitsmassnahme? Merken und vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Betätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Betätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
     },
     {
       "key": "signIn/polling/phrase/APP/hint",
-      "value": "Wie funktioniert diese Sicherheitsmassnahme? Merken und vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsmaske in der Republik-App, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsmaske in der Republik-App, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
     },
     {
       "key": "signIn/polling/phrase/hint/show",

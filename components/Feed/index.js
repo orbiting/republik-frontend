@@ -147,7 +147,7 @@ class Feed extends Component {
   componentDidMount () {
     this.subscribe()
     if (this.props.inNativeApp) {
-      window.addEventListener('message', this.onMessage)
+      document.addEventListener('message', this.onMessage)
     }
     window.addEventListener('scroll', this.onScroll)
   }
@@ -159,7 +159,7 @@ class Feed extends Component {
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     if (this.props.inNativeApp) {
-      window.removeEventListener('message', this.onMessage)
+      document.removeEventListener('message', this.onMessage)
     }
     this.unsubscribe && this.unsubscribe()
   }

@@ -54,16 +54,19 @@ class ArticleGallery extends Component {
     }
 
     this.toggleGallery = (nextSrc = '') => {
+      const nextShow = !this.state.show
       const { galleryItems } = this.state
-      if (galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
-        const nextShow = !this.state.show
+      if (nextShow && galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
         this.setState({
-          show: nextShow,
+          show: true,
           startItemSrc: nextSrc
-        },
-        () => postMessage({
-          type: nextShow ? 'gallery-opened' : 'gallery-closed'
-        })
+        }, () => postMessage({ type: 'gallery-opened' })
+        )
+      } else {
+        this.setState({
+          show: false,
+          startItemSrc: null
+        }, () => postMessage({ type: 'gallery-closed' })
         )
       }
     }
@@ -94,7 +97,7 @@ class ArticleGallery extends Component {
       return (
         <Fragment>
           <Gallery
-            onClose={() => { this.setState(({ show }) => ({ show: !show })) }}
+            onClose={this.toggleGallery}
             items={galleryItems}
             startItemSrc={startItemSrc}
           />

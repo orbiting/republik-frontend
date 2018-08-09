@@ -11,6 +11,7 @@ import withT from '../../lib/withT'
 import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import {
   A,
@@ -130,10 +131,30 @@ class Feed extends Component {
         this.onScroll
       )
     }
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-secondary-menu':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'close-secondary-menu':
+          this.setState({ isNavBarVisible: false })
+          break
+        case 'subheader-opened':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'subheader-closed':
+          this.setState({ isNavBarVisible: false })
+          break
+      }
+    }
   }
 
   componentDidMount () {
     this.subscribe()
+    if (this.props.inNativeApp) {
+      document.addEventListener('message', this.onMessage)
+    }
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -143,6 +164,9 @@ class Feed extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
+    if (this.props.inNativeApp) {
+      document.removeEventListener('message', this.onMessage)
+    }
     this.unsubscribe && this.unsubscribe()
   }
 
@@ -288,5 +312,6 @@ export default compose(
       })
     }
   ),
-  withT
+  withT,
+  withInNativeApp
 )(Feed)

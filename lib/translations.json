@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T16:33:23.722Z",
+  "updated": "2018-08-09T11:43:17.011Z",
   "title": "live",
   "data": [
     {
@@ -176,15 +176,15 @@
     },
     {
       "key": "signIn/success",
-      "value": "Erfolgreich angemeldet als {nameOrEmail}."
+      "value": "Erfolgreich als {nameOrEmail} angemeldet."
     },
     {
       "key": "signIn/polling/APP/title",
-      "value": "Zugriff via App erteilen"
+      "value": "Zugriff via Republik-App erteilen"
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt. Öffnen Sie diese und bestätigen Sie dort diesen Zugriff."
+      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt mit der Sie den Zugriff über die Republik-App bestätigen können.\n(Sicherheitshinweis: Achten Sie auf der Bestätigungseite darauf, dass die \"Seltsamen Worte\" dieselben sind.)"
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
@@ -192,15 +192,15 @@
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff bestätigen</b>»."
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt mit der Sie den Zugriff bestätigen können.<br />\n(Sicherheitshinweis: Achten Sie auf der Bestätigungseite darauf, dass die \"Seltsamen Worte\" dieselben sind.)"
     },
     {
       "key": "signIn/polling/switch/APP",
-      "value": "Möchten Sie lieber per App den Zugriff erteilen?"
+      "value": "Möchten Sie lieber via Republik-App den Zugriff bestätigen?"
     },
     {
       "key": "signIn/polling/switch/EMAIL_TOKEN",
-      "value": "Möchten Sie lieber eine E-Mail?"
+      "value": "Möchten Sie lieber via E-Mail den Zugriff bestätigen?"
     },
     {
       "key": "signIn/polling/phrase",
@@ -212,7 +212,7 @@
     },
     {
       "key": "signIn/polling/cancel",
-      "value": "Vertippt? Abbrechen und erneut versuchen."
+      "value": "Vertippt? E-Mail-Adresse erneut eingeben"
     },
     {
       "key": "signIn/email/error/empty",
@@ -316,7 +316,7 @@
     },
     {
       "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu."
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per E-Mail zu."
     },
     {
       "key": "marketing/preview/email/label",
@@ -2632,7 +2632,7 @@
     },
     {
       "key": "notifications/session-denied/title",
-      "value": "Zugriff verwehrt!"
+      "value": "Zugriff abgelehnt"
     },
     {
       "key": "notifications/session-denied/text",
@@ -2680,7 +2680,7 @@
     },
     {
       "key": "notifications/closeButton/app",
-      "value": "Prozedere beenden"
+      "value": "OK"
     },
     {
       "key": "notifications/links/merci",

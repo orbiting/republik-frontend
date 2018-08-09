@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-09T17:50:42.723Z",
+  "updated": "2018-08-09T18:03:19.053Z",
   "title": "live",
   "data": [
     {
@@ -224,7 +224,7 @@
     },
     {
       "key": "signIn/polling/cancel",
-      "value": "Vertippt? E-Mail-Adresse erneut eingeben"
+      "value": "Vertippt? E-Mail-Adresse erneut eingeben."
     },
     {
       "key": "signIn/email/error/empty",

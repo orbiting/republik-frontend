@@ -13,6 +13,7 @@ import EmailTokenIcon from 'react-icons/lib/md/mail-outline'
 import AppTokenIcon from 'react-icons/lib/md/phonelink'
 
 import {
+  HR,
   Label,
   Interaction,
   RawHtml,
@@ -98,7 +99,7 @@ class Poller extends Component {
     const Icon = Icons[tokenType]
 
     return (<Fragment>
-      <H3>
+      <H3 style={{ marginBottom: '17px' }}>
         {!!Icon && <Icon fill='inherit' size='1.2em' style={{
           verticalAlign: 'baseline',
           marginRight: 6,
@@ -128,10 +129,6 @@ class Poller extends Component {
         </P>
       ))}
       <P>
-        <Label>{t('signIn/polling/phrase')}</Label><br />
-        {phrase}
-      </P>
-      <P>
         <Label>{t('signIn/polling/email')}</Label><br />
         {email}
       </P>
@@ -150,6 +147,14 @@ class Poller extends Component {
           </Label>
         </P>
       )}
+      <P>
+        <Label>{t('signIn/polling/phrase')}</Label><br />
+        {phrase}
+      </P>
+      <HR />
+      <P>
+        {t('signIn/polling/phrase/explanation')}
+      </P>
     </Fragment>)
   }
 }

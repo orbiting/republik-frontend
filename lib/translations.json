@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-09T11:43:17.011Z",
+  "updated": "2018-08-09T13:14:22.553Z",
   "title": "live",
   "data": [
     {
@@ -180,35 +180,39 @@
     },
     {
       "key": "signIn/polling/APP/title",
-      "value": "Zugriff via Republik-App erteilen"
+      "value": "Zugriff via Republik-App bestätigen"
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt mit der Sie den Zugriff über die Republik-App bestätigen können.\n(Sicherheitshinweis: Achten Sie auf der Bestätigungseite darauf, dass die \"Seltsamen Worte\" dieselben sind.)"
+      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt, mit der Sie den Zugriff über die Republik-App bestätigen können."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
-      "value": "Zugriff via E-Mail erteilen"
+      "value": "Zugriff via E-Mail bestätigen"
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt mit der Sie den Zugriff bestätigen können.<br />\n(Sicherheitshinweis: Achten Sie auf der Bestätigungseite darauf, dass die \"Seltsamen Worte\" dieselben sind.)"
+      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt, mit der Sie den Zugriff bestätigen können."
     },
     {
       "key": "signIn/polling/switch/APP",
-      "value": "Möchten Sie lieber via Republik-App den Zugriff bestätigen?"
+      "value": "Zugriff via Republik-App bestätigen?"
     },
     {
       "key": "signIn/polling/switch/EMAIL_TOKEN",
-      "value": "Möchten Sie lieber via E-Mail den Zugriff bestätigen?"
+      "value": "Zugriff via E-Mail bestätigen?"
     },
     {
       "key": "signIn/polling/phrase",
       "value": "Seltsame Wörter"
     },
     {
+      "key": "signIn/polling/phrase/explanation",
+      "value": "(Sicherheits-Tipp: Achten Sie bei einer allfälligen Bestätigungseite darauf, dass dieselben «seltsamen Wörter» angezeigt werden.)"
+    },
+    {
       "key": "signIn/polling/email",
-      "value": "E-Mail"
+      "value": "E-Mail-Adresse"
     },
     {
       "key": "signIn/polling/cancel",
@@ -216,11 +220,11 @@
     },
     {
       "key": "signIn/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail-Adresse fehlt"
     },
     {
       "key": "signIn/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail-Adresse ungültig"
     },
     {
       "key": "cookies/disabled/error",
@@ -2620,15 +2624,15 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Sie sind somit angemeldet."
+      "value": "Perfekt! Der Zugriff wurde erteilt."
     },
     {
       "key": "notifications/email-confirmed/claim/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/email-confirmed/preview/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/session-denied/title",
@@ -2792,11 +2796,11 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Zugriff auf Ihr bestehendes Republik-Konto prüfen"
+      "value": "Zugriff mit dem Republik-Konto von {email} prüfen:"
     },
     {
       "key": "tokenAuthorization/title/new",
-      "value": "Anmeldung für ein neues Republik-Konto bestätigen"
+      "value": "Anmeldung mit Republik-Konto von {email} bestätigen:"
     },
     {
       "key": "tokenAuthorization/error",
@@ -2808,11 +2812,11 @@
     },
     {
       "key": "tokenAuthorization/differentSession",
-      "value": "Folgendes Gerät möchte Zugriff erhalten:"
+      "value": "Folgendes Gerät möchte Zugriff zum Republik-Konto von {email} erhalten:"
     },
     {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+      "value": "Falls Sie diese Zugriffsanfrage nicht ausgelöst haben, können Sie diese auch ablehnen. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",

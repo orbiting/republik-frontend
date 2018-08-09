@@ -130,10 +130,24 @@ class Feed extends Component {
         this.onScroll
       )
     }
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-secondary-menu':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'close-secondary-menu':
+          this.setState({ isNavBarVisible: false })
+          break
+      }
+    }
   }
 
   componentDidMount () {
     this.subscribe()
+    if (this.props.inNativeApp) {
+      document.addEventListener('message', this.onMessage)
+    }
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -143,6 +157,9 @@ class Feed extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
+    if (this.props.inNativeApp) {
+      document.removeEventListener('message', this.onMessage)
+    }
     this.unsubscribe && this.unsubscribe()
   }
 

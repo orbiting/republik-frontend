@@ -5,6 +5,7 @@ import get from 'lodash.get'
 import {
   imageSizeInfo
 } from 'mdast-react-render/lib/utils'
+import { postMessage } from '../../lib/withInNativeApp'
 
 const shouldInclude = (el) =>
   el && el.identifier === 'FIGURE' && get(el, 'data.excludeFromGallery', false) !== true
@@ -55,10 +56,13 @@ class ArticleGallery extends Component {
     this.toggleGallery = (nextSrc = '') => {
       const { galleryItems } = this.state
       if (galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
-        this.setState(({ show }) => ({
-          show: !show,
+        const nextShow = !this.state.show
+        this.setState({
+          show: nextShow,
           startItemSrc: nextSrc
-        }))
+        },
+        postMessage({ type: nextShow ? 'gallery-opened' : 'gallery-closed' })
+        )
       }
     }
 

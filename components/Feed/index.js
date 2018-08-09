@@ -11,6 +11,7 @@ import withT from '../../lib/withT'
 import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import {
   A,
@@ -305,5 +306,6 @@ export default compose(
       })
     }
   ),
-  withT
+  withT,
+  withInNativeApp
 )(Feed)

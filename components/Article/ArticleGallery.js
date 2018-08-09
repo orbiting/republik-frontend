@@ -61,7 +61,9 @@ class ArticleGallery extends Component {
           show: nextShow,
           startItemSrc: nextSrc
         },
-        postMessage({ type: nextShow ? 'gallery-opened' : 'gallery-closed' })
+        () => postMessage({
+          type: nextShow ? 'gallery-opened' : 'gallery-closed'
+        })
         )
       }
     }

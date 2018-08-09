@@ -5,7 +5,6 @@ import { enforceMembership } from '../components/Auth/withMembership'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
-import withInNativeApp from '../lib/withInNativeApp'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
@@ -24,6 +23,5 @@ export default compose(
   withData,
   enforceMembership,
   withMe,
-  withT,
-  withInNativeApp
+  withT
 )(FeedPage)

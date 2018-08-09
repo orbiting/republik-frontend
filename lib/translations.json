@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-09T13:14:22.553Z",
+  "updated": "2018-08-09T14:53:05.872Z",
   "title": "live",
   "data": [
     {
@@ -184,7 +184,7 @@
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt, mit der Sie den Zugriff über die Republik-App bestätigen können."
+      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Push-Nachricht</b> geschickt, mit der Sie den Zugriff bestätigen können."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
@@ -192,7 +192,7 @@
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt, mit der Sie den Zugriff bestätigen können."
+      "value": "Wir haben Ihnen <b>eine E-Mail</b> geschickt, mit der Sie den Zugriff bestätigen können."
     },
     {
       "key": "signIn/polling/switch/APP",
@@ -204,11 +204,11 @@
     },
     {
       "key": "signIn/polling/phrase",
-      "value": "Seltsame Wörter"
+      "value": "Seltsame Wörter (eine Sicherheitsmassnahme)"
     },
     {
-      "key": "signIn/polling/phrase/explanation",
-      "value": "(Sicherheits-Tipp: Achten Sie bei einer allfälligen Bestätigungseite darauf, dass dieselben «seltsamen Wörter» angezeigt werden.)"
+      "key": "signIn/polling/phrase/link",
+      "value": "Wozu dient diese Sicherheitsmassnahme?"
     },
     {
       "key": "signIn/polling/email",
@@ -2640,7 +2640,7 @@
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
+      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen."
     },
     {
       "key": "notifications/closeNote",
@@ -2796,7 +2796,7 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Zugriff mit dem Republik-Konto von {email} prüfen:"
+      "value": "Zugriff zum Republik-Konto von {email} prüfen:"
     },
     {
       "key": "tokenAuthorization/title/new",
@@ -2816,7 +2816,7 @@
     },
     {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Zugriffsanfrage nicht ausgelöst haben, können Sie diese auch ablehnen. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+      "value": "Falls Sie diese Zugriffsanfrage nicht ausgelöst haben, können Sie den Zugriff ablehnen. Haben Sie den Verdacht, dass jemand Fremder sich mit Ihrem Abonnement Zugang verschaffen will? Dann wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",

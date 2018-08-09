@@ -114,7 +114,7 @@ class Poller extends Component {
         }}
       />
       {!!onTokenTypeChange && alternativeFirstFactors.map(altTokenType => (
-        <P key={altTokenType}>
+        <P key={altTokenType} style={{ marginTop: '1em' }}>
           <Label>
             <a {...linkRule}
               href='#'
@@ -128,12 +128,10 @@ class Poller extends Component {
           </Label>
         </P>
       ))}
-      <P>
+      <P style={{ marginTop: '1em' }}>
         <Label>{t('signIn/polling/email')}</Label><br />
-        {email}
-      </P>
-      {!!onCancel && (
-        <P>
+        {email}<br />
+        {!!onCancel && (
           <Label>
             <a {...linkRule}
               href='#'
@@ -145,15 +143,18 @@ class Poller extends Component {
               {t('signIn/polling/cancel')}
             </a>
           </Label>
-        </P>
-      )}
-      <P>
-        <Label>{t('signIn/polling/phrase')}</Label><br />
-        {phrase}
+        )}
       </P>
-      <HR />
-      <P>
-        {t('signIn/polling/phrase/explanation')}
+      <P style={{ marginTop: '1em' }}>
+        <Label>{t('signIn/polling/phrase')}</Label><br />
+        {phrase}<br />
+        <Label>
+          <a {...linkRule}
+            href='/faq'
+            target='_blank'>
+            {t(`signIn/polling/phrase/link`)}
+          </a>
+        </Label>
       </P>
     </Fragment>)
   }

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import { meQuery } from '../../lib/apollo/withMe'
+import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 
@@ -13,6 +14,7 @@ import EmailTokenIcon from 'react-icons/lib/md/mail-outline'
 import AppTokenIcon from 'react-icons/lib/md/phonelink'
 
 import {
+  HR,
   Label,
   Interaction,
   RawHtml,
@@ -24,6 +26,16 @@ const { H3, P } = Interaction
 const Icons = {
   EMAIL_TOKEN: EmailTokenIcon,
   APP: AppTokenIcon
+}
+
+const styles = {
+  group: css({
+    marginTop: '.5em'
+  }),
+  hint: css({
+    marginTop: '.2em',
+    lineHeight: '1em'
+  })
 }
 
 class Poller extends Component {
@@ -95,6 +107,10 @@ class Poller extends Component {
       onTokenTypeChange
     } = this.props
 
+    const {
+      showPhraseHint
+    } = this.state
+
     const Icon = Icons[tokenType]
 
     return (<Fragment>
@@ -108,12 +124,13 @@ class Poller extends Component {
       </H3>
       <RawHtml
         type={P}
+        {...styles.group}
         dangerouslySetInnerHTML={{
           __html: t(`signIn/polling/${tokenType}/text`)
         }}
       />
       {!!onTokenTypeChange && alternativeFirstFactors.map(altTokenType => (
-        <P key={altTokenType}>
+        <P key={altTokenType} {...styles.group}>
           <Label>
             <a {...linkRule}
               href='#'
@@ -127,16 +144,10 @@ class Poller extends Component {
           </Label>
         </P>
       ))}
-      <P>
-        <Label>{t('signIn/polling/phrase')}</Label><br />
-        {phrase}
-      </P>
-      <P>
+      <P {...styles.group}>
         <Label>{t('signIn/polling/email')}</Label><br />
-        {email}
-      </P>
-      {!!onCancel && (
-        <P>
+        {email}<br />
+        {!!onCancel && (
           <Label>
             <a {...linkRule}
               href='#'
@@ -148,8 +159,32 @@ class Poller extends Component {
               {t('signIn/polling/cancel')}
             </a>
           </Label>
-        </P>
-      )}
+        )}
+      </P>
+      <P {...styles.group}>
+        <Label>{t('signIn/polling/phrase')}</Label><br />
+        {phrase}
+      </P>
+      <P {...styles.hint}>
+        {!showPhraseHint && (
+          <Label>
+            <a {...linkRule}
+              href='#'
+              onClick={(e) => {
+                e.preventDefault()
+                this.setState({ showPhraseHint: true })
+              }}
+            >
+              {t('signIn/polling/phrase/hint/show')}
+            </a>
+          </Label>
+        )}
+        {showPhraseHint && (
+          <Label {...styles.hint}>
+            {t(`signIn/polling/phrase/${tokenType}/hint`)}
+          </Label>
+        )}
+      </P>
     </Fragment>)
   }
 }

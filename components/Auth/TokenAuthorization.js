@@ -151,24 +151,20 @@ class TokenAuthorization extends Component {
         const showSessionInfo = !isCurrent || noAutoAuthorize
         return (
           <Fragment>
-            <P>
-              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}
-              <br />
-              <Label>{t('tokenAuthorization/email', { email })}</Label>
-            </P>
+            {!showSessionInfo &&
+              <P>
+                {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`, { email })}
+              </P>}
             {showSessionInfo && <div style={{margin: '20px 0'}}>
               <P>
-                {t('tokenAuthorization/differentSession')}
+                {t('tokenAuthorization/differentSession', { email })}
               </P>
-              <P>
-                <Label>{t('tokenAuthorization/device')}</Label><br />
-                <span style={{
-                  fontFamily: userAgent !== echo.userAgent
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {userAgent}
-                </span>
+              <P style={{
+                fontFamily: userAgent !== echo.userAgent
+                  ? fontFamilies.sansSerifMedium
+                  : undefined
+              }}>
+                {userAgent}
               </P>
               <P>
                 <Label>{t('tokenAuthorization/location')}</Label><br />

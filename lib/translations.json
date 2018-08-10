@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-08T16:33:23.722Z",
+  "updated": "2018-08-09T18:03:19.053Z",
   "title": "live",
   "data": [
     {
@@ -176,51 +176,63 @@
     },
     {
       "key": "signIn/success",
-      "value": "Erfolgreich angemeldet als {nameOrEmail}."
+      "value": "Erfolgreich als {nameOrEmail} angemeldet."
     },
     {
       "key": "signIn/polling/APP/title",
-      "value": "Zugriff via App erteilen"
+      "value": "Zugriff via Republik-App bestätigen"
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen eine <b>Push-Nachricht</b> geschickt. Öffnen Sie diese und bestätigen Sie dort diesen Zugriff."
+      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Push-Nachricht</b> geschickt, mit der Sie diesen Zugriff freischalten können."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
-      "value": "Zugriff via E-Mail erteilen"
+      "value": "Zugriff via E-Mail bestätigen"
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen eine <b>E-Mail</b> geschickt. Öffnen Sie diese und klicken Sie auf «<b>Zugriff bestätigen</b>»."
+      "value": "Wir haben Ihnen <b>eine E-Mail</b> geschickt, mit der Sie diesen Zugriff freischalten können."
     },
     {
       "key": "signIn/polling/switch/APP",
-      "value": "Möchten Sie lieber per App den Zugriff erteilen?"
+      "value": "Zugriff via Republik-App bestätigen?"
     },
     {
       "key": "signIn/polling/switch/EMAIL_TOKEN",
-      "value": "Möchten Sie lieber eine E-Mail?"
+      "value": "Zugriff via E-Mail bestätigen?"
     },
     {
       "key": "signIn/polling/phrase",
-      "value": "Seltsame Wörter"
+      "value": "Seltsame Wörter (eine Sicherheitsmassnahme)"
+    },
+    {
+      "key": "signIn/polling/phrase/EMAIL_TOKEN/hint",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Betätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+    },
+    {
+      "key": "signIn/polling/phrase/APP/hint",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsmaske in der Republik-App, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+    },
+    {
+      "key": "signIn/polling/phrase/hint/show",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme?"
     },
     {
       "key": "signIn/polling/email",
-      "value": "E-Mail"
+      "value": "E-Mail-Adresse"
     },
     {
       "key": "signIn/polling/cancel",
-      "value": "Vertippt? Abbrechen und erneut versuchen."
+      "value": "Vertippt? E-Mail-Adresse erneut eingeben."
     },
     {
       "key": "signIn/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail-Adresse fehlt"
     },
     {
       "key": "signIn/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail-Adresse ungültig"
     },
     {
       "key": "cookies/disabled/error",
@@ -316,7 +328,7 @@
     },
     {
       "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu."
+      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per E-Mail zu."
     },
     {
       "key": "marketing/preview/email/label",
@@ -2620,23 +2632,23 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Sie sind somit angemeldet."
+      "value": "Perfekt! Der Zugriff wurde erteilt."
     },
     {
       "key": "notifications/email-confirmed/claim/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/email-confirmed/preview/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück um den Vorgang abzuschliessen. "
+      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/session-denied/title",
-      "value": "Zugriff verwehrt!"
+      "value": "Zugriff abgelehnt"
     },
     {
       "key": "notifications/session-denied/text",
-      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen. Und all Ihre Daten geschützt."
+      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen."
     },
     {
       "key": "notifications/closeNote",
@@ -2680,7 +2692,7 @@
     },
     {
       "key": "notifications/closeButton/app",
-      "value": "Prozedere beenden"
+      "value": "OK"
     },
     {
       "key": "notifications/links/merci",
@@ -2792,11 +2804,11 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Zugriff auf Ihr bestehendes Republik-Konto prüfen"
+      "value": "Zugriff zum Republik-Konto von {email} prüfen:"
     },
     {
       "key": "tokenAuthorization/title/new",
-      "value": "Anmeldung für ein neues Republik-Konto bestätigen"
+      "value": "Anmeldung mit Republik-Konto von {email} bestätigen:"
     },
     {
       "key": "tokenAuthorization/error",
@@ -2808,11 +2820,11 @@
     },
     {
       "key": "tokenAuthorization/differentSession",
-      "value": "Folgendes Gerät möchte Zugriff erhalten:"
+      "value": "Folgendes Gerät möchte Zugriff zum Republik-Konto von {email} erhalten:"
     },
     {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, lehnen Sie diese ab. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+      "value": "Falls Sie diese Zugriffsanfrage nicht ausgelöst haben, können Sie den Zugriff ablehnen. Haben Sie den Verdacht, dass jemand Fremder sich mit Ihrem Abonnement Zugang verschaffen will? Dann wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-09T18:03:19.053Z",
+  "updated": "2018-08-10T14:29:20.274Z",
   "title": "live",
   "data": [
     {
@@ -2632,7 +2632,7 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Der Zugriff wurde erteilt."
+      "value": "Perfekt! Vielen Dank."
     },
     {
       "key": "notifications/email-confirmed/claim/text",

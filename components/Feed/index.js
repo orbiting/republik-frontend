@@ -4,12 +4,14 @@ import { nest } from 'd3-collection'
 import { timeFormat } from '../../lib/utils/format'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
-import Loader from '../../components/Loader'
+import Frame from '../Frame'
+import Loader from '../Loader'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
 import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import {
   A,
@@ -41,7 +43,7 @@ const getDocuments = gql`
       id
     }
     documents(feed: true, first: 50, after: $cursor) {
-      totalCount 
+      totalCount
       pageInfo {
         endCursor
         hasNextPage
@@ -91,13 +93,19 @@ class Feed extends Component {
     this.setContainerRef = (el) => { this.container = el }
     this.state = {
       infiniteScroll: false,
-      loadingMore: false
+      loadingMore: false,
+      isNavBarVisible: false
     }
     this.getRemainingDocumentsCount = (nodes) => {
       const { data: { documents } } = this.props
       return (documents.totalCount) - // all docs
               nodes.length - // already displayed
               (documents.nodes.length - nodes.length) // formats
+    }
+    this.onNavBarChange = (visible) => {
+      if (visible !== this.state.isNavBarVisible) {
+        this.setState({isNavBarVisible: visible})
+      }
     }
     this.onScroll = async () => {
       if (this.container) {
@@ -123,10 +131,30 @@ class Feed extends Component {
         this.onScroll
       )
     }
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-secondary-menu':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'close-secondary-menu':
+          this.setState({ isNavBarVisible: false })
+          break
+        case 'subheader-opened':
+          this.setState({ isNavBarVisible: true })
+          break
+        case 'subheader-closed':
+          this.setState({ isNavBarVisible: false })
+          break
+      }
+    }
   }
 
   componentDidMount () {
     this.subscribe()
+    if (this.props.inNativeApp) {
+      document.addEventListener('message', this.onMessage)
+    }
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -136,6 +164,9 @@ class Feed extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
+    if (this.props.inNativeApp) {
+      document.removeEventListener('message', this.onMessage)
+    }
     this.unsubscribe && this.unsubscribe()
   }
 
@@ -164,31 +195,33 @@ class Feed extends Component {
   }
 
   render () {
-    const { infiniteScroll, loadingMore } = this.state
-    const { data: { loading, error, documents, greeting }, hasMore, t } = this.props
+    const { infiniteScroll, loadingMore, isNavBarVisible } = this.state
+    const { data: { loading, error, documents, greeting }, hasMore, t, url, meta } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
 
     return (
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          return (
-            <Center {...styles.container}>
-              {greeting && (
-                <Interaction.H1 style={{ marginBottom: '40px' }}>
-                  {greeting.text}
-                </Interaction.H1>
-              )}
-              <div ref={this.setContainerRef}>
-                {nodes &&
+      <Frame raw url={url} meta={meta} onNavBarChange={this.onNavBarChange}>
+        <Loader
+          loading={loading}
+          error={error}
+          render={() => {
+            return (
+              <Center {...styles.container}>
+                {greeting && (
+                  <Interaction.H1 style={{ marginBottom: '40px' }}>
+                    {greeting.text}
+                  </Interaction.H1>
+                )}
+                <div ref={this.setContainerRef}>
+                  {nodes &&
                   groupByDate.entries(nodes).map(({key, values}, i, all) =>
                     <StickySection
                       key={i}
                       hasSpaceAfter={i < all.length - 1}
                       label={key}
+                      isNavBarVisible={isNavBarVisible}
                     >
                       {
                         values.map(doc =>
@@ -210,13 +243,13 @@ class Feed extends Component {
                       }
                     </StickySection>
                   )
-                }
-              </div>
-              <div {...styles.more}>
-                {loadingMore &&
+                  }
+                </div>
+                <div {...styles.more}>
+                  {loadingMore &&
                   <Spinner />
-                }
-                {!infiniteScroll && hasMore &&
+                  }
+                  {!infiniteScroll && hasMore &&
                   <A href='#'
                     onClick={this.activateInfiniteScroll}>
                     {
@@ -228,12 +261,13 @@ class Feed extends Component {
                       )
                     }
                   </A>
-                }
-              </div>
-            </Center>
-          )
-        }}
-      />
+                  }
+                </div>
+              </Center>
+            )
+          }}
+        />
+      </Frame>
     )
   }
 }
@@ -278,5 +312,6 @@ export default compose(
       })
     }
   ),
-  withT
+  withT,
+  withInNativeApp
 )(Feed)

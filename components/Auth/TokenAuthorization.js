@@ -1,8 +1,14 @@
 import React, { Fragment, Component } from 'react'
+import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Button, InlineSpinner, Interaction, Label, Loader, fontFamilies, colors } from '@project-r/styleguide'
+import {
+  Button, A,
+  InlineSpinner, Loader,
+  Interaction, Label,
+  fontFamilies, colors
+} from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
 
@@ -14,19 +20,26 @@ import ErrorMessage from '../ErrorMessage'
 
 import Me from './Me'
 
+const styles = {
+  actions: css({
+    textAlign: 'center'
+  })
+}
+
 const { P } = Interaction
 
-const goTo = (type, email) => Router.replaceRoute(
+const goTo = (type, email, context) => Router.replaceRoute(
   'notifications',
-  { type, email, context: 'authorization' }
+  { type, email, context }
 )
 
-const shouldAutoAuthorize = ({ error, target }) => {
+const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
   return (
     !error &&
     target &&
     target.session.isCurrent &&
-    !target.requiredConsents.length
+    !target.requiredConsents.length &&
+    !noAutoAuthorize
   )
 }
 
@@ -42,7 +55,8 @@ class TokenAuthorization extends Component {
 
     const {
       email,
-      authorize
+      authorize,
+      context
     } = this.props
 
     this.setState({
@@ -51,7 +65,7 @@ class TokenAuthorization extends Component {
       authorize({
         consents: this.state.consents
       })
-        .then(() => goTo('email-confirmed', email))
+        .then(() => goTo('email-confirmed', email, context))
         .catch(error => {
           this.setState({
             authorizing: false,
@@ -60,16 +74,40 @@ class TokenAuthorization extends Component {
         })
     })
   }
-  autoAutherize () {
+  deny () {
+    if (this.state.authorizing) {
+      return
+    }
+
+    const {
+      email,
+      deny,
+      context
+    } = this.props
+
+    this.setState({
+      authorizing: true
+    }, () => {
+      deny()
+        .then(() => goTo('session-denied', email, context))
+        .catch(error => {
+          this.setState({
+            authorizing: false,
+            authorizeError: error
+          })
+        })
+    })
+  }
+  autoAuthorize () {
     if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
     }
   }
   componentDidMount () {
-    this.autoAutherize()
+    this.autoAuthorize()
   }
   componentDidUpdate () {
-    this.autoAutherize()
+    this.autoAuthorize()
   }
   render () {
     const {
@@ -78,7 +116,8 @@ class TokenAuthorization extends Component {
       echo,
       email,
       error,
-      loading
+      loading,
+      noAutoAuthorize
     } = this.props
     const {
       consents
@@ -108,26 +147,34 @@ class TokenAuthorization extends Component {
         const authorizeError = this.state.authorizeError || (
           this.state.dirty && consentsError
         )
-
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
+        const showSessionInfo = !isCurrent || noAutoAuthorize
         return (
           <Fragment>
-            <P>
-              {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}<br />
-              <Label>{t('tokenAuthorization/email', { email })}</Label>
-            </P>
-            {!isCurrent && <div style={{margin: '20px 0'}}>
+            {!showSessionInfo &&
               <P>
-                {t('tokenAuthorization/differentSession')}
+                {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`, { email })}
+              </P>}
+            {showSessionInfo && <div style={{margin: '20px 0'}}>
+              <P>
+                {t('tokenAuthorization/differentSession', { email })}
               </P>
-              <P>
-                <Label>{t('tokenAuthorization/phrase')}</Label><br />
-                <span>
-                  {phrase}
-                </span>
+              <P style={{
+                fontFamily: userAgent !== echo.userAgent
+                  ? fontFamilies.sansSerifMedium
+                  : undefined
+              }}>
+                {userAgent}
               </P>
               <P>
                 <Label>{t('tokenAuthorization/location')}</Label><br />
+                {!!city && <span style={{
+                  fontFamily: city !== echo.city
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {city}{', '}
+                </span>}
                 <span style={
                   country !== echo.country
                     ? {
@@ -137,29 +184,22 @@ class TokenAuthorization extends Component {
                     : {}
                 }>
                   {country || t('tokenAuthorization/location/unknown')}
-                </span><br />
-                <span style={{
-                  fontFamily: city !== echo.city
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {city}
-                </span>
-              </P>
-              <P>
-                <Label>{t('tokenAuthorization/device')}</Label><br />
-                <span style={{
-                  fontFamily: userAgent !== echo.userAgent
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {userAgent}
                 </span>
               </P>
               {echo.ipAddress !== ipAddress && <P>
                 <Label>{t('tokenAuthorization/ip')}</Label><br />
                 {ipAddress}
               </P>}
+              <P>
+                <Label>{t('tokenAuthorization/phrase')}</Label><br />
+                <span style={{
+                  fontFamily: !isCurrent
+                    ? fontFamilies.sansSerifMedium
+                    : undefined
+                }}>
+                  {phrase}
+                </span>
+              </P>
             </div>}
             {!!target.requiredConsents.length && (
               <div style={{margin: '20px 0', textAlign: 'left'}}>
@@ -179,23 +219,40 @@ class TokenAuthorization extends Component {
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
-                <div style={{opacity: consentsError ? 0.5 : 1}}>
-                  <Button
-                    primary
-                    onClick={() => {
-                      if (consentsError) {
-                        this.setState({dirty: true})
-                        return
-                      }
-                      this.authorize()
+                <div {...styles.actions}>
+                  <div style={{
+                    opacity: consentsError ? 0.5 : 1,
+                    marginBottom: 15
+                  }}>
+                    <Button
+                      primary
+                      style={{minWidth: 250}}
+                      onClick={() => {
+                        if (consentsError) {
+                          this.setState({dirty: true})
+                          return
+                        }
+                        this.authorize()
+                      }}>
+                      {t('tokenAuthorization/grant')}
+                    </Button>
+                  </div>
+                  <A
+                    style={{minWidth: 250}}
+                    href='#'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      this.deny()
                     }}>
-                    {t(`tokenAuthorization/button${!isCurrent ? '/differentSession' : ''}`)}
-                  </Button>
+                    {t('tokenAuthorization/deny')}
+                  </A>
                 </div>
               )}
             <br />
             <br />
-            <Label>{t('tokenAuthorization/after', { email })}</Label>
+            <Label>{t('tokenAuthorization/after')}</Label>
+            <br />
+            <br />
           </Fragment>
         )
       }} />
@@ -208,16 +265,21 @@ const authorizeSession = gql`
     authorizeSession(email: $email, tokens: $tokens, consents: $consents)
   }
 `
+const denySession = gql`
+  mutation denySession($email: String!, $token: SignInToken!) {
+    denySession(email: $email, token: $token)
+  }
+`
 
 const unauthorizedSessionQuery = gql`
-  query unauthorizedSession($email: String!, $token: String!) {
+  query unauthorizedSession($email: String!, $token: String!, $tokenType: SignInTokenType!) {
     echo {
       ipAddress
       userAgent
       country
       city
     }
-    target: unauthorizedSession(email: $email, token: {type: EMAIL_TOKEN, payload: $token}) {
+    target: unauthorizedSession(email: $email, token: {type: $tokenType, payload: $token}) {
       newUser
       enabledSecondFactors
       requiredConsents
@@ -236,14 +298,25 @@ const unauthorizedSessionQuery = gql`
 export default compose(
   withT,
   graphql(authorizeSession, {
-    props: ({ ownProps: { email, token }, mutate }) => ({
+    props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
       authorize: ({consents} = {}) => mutate({
         variables: {
           email,
           tokens: [
-            {type: 'EMAIL_TOKEN', payload: token}
+            {type: tokenType, payload: token}
           ],
           consents
+        },
+        refetchQueries: [{query: meQuery}]
+      })
+    })
+  }),
+  graphql(denySession, {
+    props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
+      deny: () => mutate({
+        variables: {
+          email,
+          token: {type: tokenType, payload: token}
         },
         refetchQueries: [{query: meQuery}]
       })

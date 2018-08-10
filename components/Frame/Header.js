@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
 
@@ -11,6 +10,7 @@ import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
+import NavBar from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
@@ -24,8 +24,8 @@ import {
 
 const LOGO_HEIGHT = 30
 const LOGO_HEIGHT_MOBILE = 24
-const LOGO_WIDTH = 203
-const LOGO_WIDTH_MOBILE = 162
+const LOGO_WIDTH = 190
+const LOGO_WIDTH_MOBILE = 154
 const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
@@ -42,6 +42,7 @@ const styles = {
     backgroundColor: '#fff',
     boxSizing: 'content-box',
     height: HEADER_HEIGHT_MOBILE - 1,
+    borderBottom: `1px solid ${colors.divider}`,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT - 1
     },
@@ -82,7 +83,6 @@ const styles = {
     top: 0,
     right: 0,
     display: 'inline-block',
-    marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
     width: HEADER_HEIGHT_MOBILE - 2 + 5,
     [mediaQueries.mUp]: {
@@ -107,7 +107,6 @@ const styles = {
     overflow: 'hidden',
     top: 0,
     right: HEADER_HEIGHT_MOBILE - 1,
-    marginTop: '1px',
     height: HEADER_HEIGHT_MOBILE - 2,
     width: SEARCH_BUTTON_WIDTH,
     [mediaQueries.mUp]: {
@@ -123,11 +122,11 @@ const styles = {
     display: 'inline-block',
     height: HEADER_HEIGHT_MOBILE,
     right: `${HEADER_HEIGHT_MOBILE + SEARCH_BUTTON_WIDTH}px`,
-    paddingTop: '11px',
+    paddingTop: '10px',
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT,
       right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
-      paddingTop: '24px'
+      paddingTop: '18px'
     },
     transition: 'opacity .2s ease-in-out'
   })
@@ -141,11 +140,16 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline
+      sticky: !this.props.inline,
+      navbarSticky: true,
+      navbarInitial: true
     }
+
+    this.y = 0
 
     this.onScroll = () => {
       const y = window.pageYOffset
+
       const yOpaque = this.state.mobile ? 70 : 150
       const opaque = y > yOpaque || !this.props.cover
       if (opaque !== this.state.opaque) {
@@ -153,10 +157,25 @@ class Header extends Component {
       }
 
       if (this.props.inline && this.ref) {
-        const sticky = y + HEADER_HEIGHT > this.y + this.barHeight
+        const sticky = y + HEADER_HEIGHT > this.barHeight
         if (sticky !== this.state.sticky) {
           this.setState(() => ({ sticky }))
         }
+      }
+
+      const navbarSticky = y < this.y
+      if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
+        this.setState(() => ({ navbarSticky }))
+        this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
+      }
+      this.y = y
+
+      const ynavbarInitial = this.state.mobile
+        ? HEADER_HEIGHT_MOBILE
+        : HEADER_HEIGHT
+      const navbarInitial = y < ynavbarInitial
+      if (navbarInitial !== this.state.navbarInitial) {
+        this.setState(() => ({ navbarInitial }))
       }
     }
 
@@ -173,6 +192,16 @@ class Header extends Component {
       this.onScroll()
     }
 
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'open-menu':
+          return this.setState({ expanded: true })
+        case 'close-menu':
+          return this.setState({ expanded: false })
+      }
+    }
+
     this.setRef = ref => {
       this.ref = ref
     }
@@ -185,15 +214,20 @@ class Header extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
+    document.addEventListener('message', this.onMessage)
     this.measure()
   }
+
   componentDidUpdate () {
     this.measure()
   }
+
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
+    document.removeEventListener('message', this.onMessage)
   }
+
   render () {
     const {
       url,
@@ -207,40 +241,36 @@ class Header extends Component {
       primaryNavExpanded,
       formatColor,
       audioSource,
-      audioCloseHandler
+      audioCloseHandler,
+      inNativeApp,
+      onNavBarChange
     } = this.props
-    const { expanded, sticky } = this.state
+    const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+    const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
     const opaque = this.state.opaque || expanded || inline
-    const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
     const marginBottom = sticky
       ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
       : undefined
     const position = sticky || !inline ? 'fixed' : 'relative'
-    const borderBottom = formatColor && !expand ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
-
-    // The logo acts as a toggle between front and feed page when user's logged in.
-    const logoRoute = url.pathname === '/' && me ? 'feed' : 'index'
-    const logoLinkPath = logoRoute === 'feed' ? '/feed' : '/'
-    const logoAriaLabel = logoRoute === 'feed' ? t('header/logo/feed/aria') : t('header/logo/magazine/aria')
 
     const isSearchActive = url.pathname === '/search'
 
     return (
       <div ref={this.setRef}>
         {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} style={{position, borderBottom}}>
+        <div {...barStyle} style={{position}}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
@@ -255,12 +285,12 @@ class Header extends Component {
               />
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
-                aria-label={logoAriaLabel}
-                href={logoLinkPath}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
                 onClick={e => {
                   if (
                     e.currentTarget.nodeName === 'A' &&
@@ -276,7 +306,7 @@ class Header extends Component {
                   if (url.pathname === '/' && !me) {
                     window.scrollTo(0, 0)
                   } else {
-                    Router.pushRoute(logoRoute).then(() => window.scrollTo(0, 0))
+                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
                   }
                 }}
               >
@@ -284,7 +314,7 @@ class Header extends Component {
               </a>
             </div>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <button
               {...styles.search}
               role='button'
@@ -303,7 +333,7 @@ class Header extends Component {
                 size={28} />
             </button>
           )}
-          {opaque && (
+          {!inNativeApp && opaque && (
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}
@@ -320,7 +350,7 @@ class Header extends Component {
               />
             </div>
           )}
-          {audioSource && (
+          {!inNativeApp && audioSource && (
             <AudioPlayer
               src={audioSource}
               closeHandler={() => { audioCloseHandler && audioCloseHandler() }}
@@ -334,16 +364,31 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand}>
-            <NavPopover me={me} url={url} closeHandler={this.close} />
+          <Popover expanded={!!expand} inNativeApp={inNativeApp} me={me} isMobile={mobile}>
+            <NavPopover
+              me={me}
+              url={url}
+              inNativeApp={inNativeApp}
+              closeHandler={this.close}
+            />
           </Popover>
         </div>
-
+        {!inNativeApp && me && opaque && (
+          <NavBar
+            url={url}
+            onNavBarChange={onNavBarChange}
+            mobile={mobile}
+            formatColor={formatColor}
+            sticky={navbarSticky}
+            initial={navbarInitial || expand}
+          />
+        )}
         <LoadingBar />
         {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
+
       </div>
     )
   }
 }
 
-export default compose(withMe, withT)(Header)
+export default compose(withT)(Header)

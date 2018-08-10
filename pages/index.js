@@ -29,11 +29,7 @@ const IndexPage = ({ url, t, isMember, headers }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame
-      raw
-      url={url}
-      meta={meta}
-    >
+    <Frame raw url={url} meta={meta}>
       <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
     </Frame>
   )

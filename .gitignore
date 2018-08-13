@@ -6,6 +6,9 @@
 # build
 /.next
 
+# this project uses npm so far
+yarn.lock
+
 # misc
 .DS_Store
 .env

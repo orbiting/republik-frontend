@@ -9,7 +9,12 @@ import FieldSet from '../FieldSet'
 import Loader from '../Loader'
 import Poller from '../Auth/Poller'
 import isEmail from 'validator/lib/isEmail'
-import { Button, Field, Interaction, RawHtml } from '@project-r/styleguide'
+
+import {
+  Button,
+  Field,
+  Interaction
+} from '@project-r/styleguide'
 
 class PreviewForm extends Component {
   constructor (props) {
@@ -39,7 +44,7 @@ class PreviewForm extends Component {
     )
   }
 
-  requestPreview () {
+  requestPreview (newTokenType) {
     const { me } = this.props
     const { values } = this.state
 
@@ -56,11 +61,12 @@ class PreviewForm extends Component {
 
     if (!me) {
       this.props
-        .signIn(values.email)
+        .signIn(values.email, 'preview', undefined, newTokenType)
         .then(({ data }) => {
           this.setState(() => ({
             polling: true,
-            phrase: data.signIn.phrase
+            loading: false,
+            signInResponse: data.signIn
           }))
         })
         .catch(catchError)
@@ -88,31 +94,34 @@ class PreviewForm extends Component {
       serverError,
       polling,
       success,
-      phrase
+      signInResponse
     } = this.state
 
     if (polling) {
       return (
-        <div>
-          <RawHtml
-            type={Interaction.P}
-            dangerouslySetInnerHTML={{
-              __html: t('signIn/polling/short', {
-                phrase,
-                email: values.email
-              })
-            }}
-          />
-          <Poller
-            onSuccess={() => {
-              this.setState(() => ({
-                polling: false,
-                success: true
-              }))
-              this.requestPreview()
-            }}
-          />
-        </div>
+        <Poller
+          tokenType={signInResponse.tokenType}
+          phrase={signInResponse.phrase}
+          email={values.email}
+          alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+          onCancel={() => {
+            this.setState(() => ({
+              polling: false,
+              loading: false
+            }))
+          }}
+          onTokenTypeChange={(altTokenType) => {
+            this.setState(() => ({
+              polling: false
+            }))
+            this.requestPreview(altTokenType)
+          }}
+          onSuccess={(me) => {
+            this.setState(() => ({
+              polling: false
+            }))
+            this.requestPreview()
+          }} />
       )
     }
 

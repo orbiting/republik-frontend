@@ -100,11 +100,13 @@ class PledgeList extends Component {
           </AccountItem>
         )
       })}
-      <Link route='pledge' params={{package: 'ABO_GIVE'}}>
-        <a {...linkRule}>
-          {t('account/pledges/ABO_GIVE/promo')}
-        </a>
-      </Link>
+      <div style={{marginTop: 30}}>
+        <Link route='pledge' params={{package: 'ABO_GIVE'}}>
+          <a {...linkRule}>
+            {t('account/pledges/ABO_GIVE/promo')}
+          </a>
+        </Link>
+      </div>
     </Fragment>
   }
 }

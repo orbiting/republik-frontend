@@ -11,6 +11,7 @@ import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import { postMessage } from '../../lib/withInNativeApp'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
@@ -67,7 +68,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -80,6 +81,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
         title
       })}
       onAudioClick={onAudioClick}
+      inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
@@ -166,10 +168,15 @@ class ArticlePage extends Component {
     }
 
     this.toggleAudio = () => {
-      this.setState({
-        showAudioPlayer: !this.state.showAudioPlayer
-      })
+      if (this.props.inNativeApp) {
+        postMessage({ type: 'show-audio-player' })
+      } else {
+        this.setState({
+          showAudioPlayer: !this.state.showAudioPlayer
+        })
+      }
     }
+
     this.togglePdf = () => {
       this.setState({
         showPdf: !this.state.showPdf
@@ -201,10 +208,12 @@ class ArticlePage extends Component {
         )
       ) {
         if (!this.state.showSecondary) {
+          postMessage({ type: 'show-secondary-nav' })
           this.setState({ showSecondary: true })
         }
       } else {
         if (this.state.showSecondary) {
+          postMessage({ type: 'hide-secondary-nav' })
           this.setState({ showSecondary: false })
         }
         if (this.state.secondaryNavExpanded) {
@@ -212,6 +221,7 @@ class ArticlePage extends Component {
         }
       }
     }
+
     this.measure = () => {
       if (!this.state.isSeries) {
         if (this.bar) {
@@ -241,9 +251,21 @@ class ArticlePage extends Component {
         secondaryNavExpanded: expanded
       })
     }
+
+    this.onMessage = e => {
+      const message = JSON.parse(e.data)
+      switch (message.type) {
+        case 'toggle-pdf':
+          return this.togglePdf()
+        case 'open-secondary-menu':
+          return this.setState({ secondaryNavExpanded: true })
+        case 'close-secondary-menu':
+          return this.setState({ secondaryNavExpanded: false })
+      }
+    }
   }
 
-  deriveStateFromProps ({ t, data: { article } }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -271,7 +293,9 @@ class ArticlePage extends Component {
           hasPdf && countImages(article.content) > 0 &&
           this.togglePdf
         )}
-        pdfUrl={hasPdf && getPdfUrl(meta)} />
+        pdfUrl={hasPdf && getPdfUrl(meta)}
+        inNativeApp={inNativeApp}
+      />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -295,6 +319,11 @@ class ArticlePage extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
+      postMessage({
+        type: 'article-opened',
+        payload: nextProps.data.article
+      })
+
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
@@ -302,18 +331,38 @@ class ArticlePage extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
+
+    if (this.props.inNativeApp) {
+      document.addEventListener('message', this.onMessage)
+    }
+
+    if (this.props.data.article) {
+      postMessage({
+        type: 'article-opened',
+        payload: this.props.data.article
+      })
+    }
+
     this.measure()
   }
+
   componentDidUpdate () {
     this.measure()
   }
+
   componentWillUnmount () {
+    postMessage({ type: 'article-closed' })
+
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
+
+    if (this.props.inNativeApp) {
+      document.removeEventListener('message', this.onMessage)
+    }
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { url, t, data, data: {article}, isMember, inNativeApp } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer } = this.state
 
@@ -327,6 +376,7 @@ class ArticlePage extends Component {
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
+        inNativeApp={inNativeApp}
       />
     ) : null
 
@@ -366,7 +416,7 @@ class ArticlePage extends Component {
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || (!inNativeApp && actionBar)}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}

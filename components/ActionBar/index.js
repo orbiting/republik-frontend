@@ -5,6 +5,7 @@ import { css } from 'glamor'
 import IconLink from '../IconLink'
 import ShareOverlay from './ShareOverlay'
 import withT from '../../lib/withT'
+import { postMessage } from '../../lib/withInNativeApp'
 
 import { colors } from '@project-r/styleguide'
 
@@ -53,7 +54,8 @@ class ActionBar extends Component {
       onAudioClick,
       onPdfClick,
       pdfUrl,
-      shareOverlayTitle
+      shareOverlayTitle,
+      inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -63,8 +65,13 @@ class ActionBar extends Component {
         href: url,
         onClick: e => {
           e.preventDefault()
-          this.toggleShare()
-          onActionBarClick('share', url)
+
+          if (inNativeApp) {
+            postMessage({ type: 'share' })
+          } else {
+            this.toggleShare()
+            onActionBarClick('share', url)
+          }
         },
         title: t('article/actionbar/share')
       },
@@ -116,8 +123,7 @@ class ActionBar extends Component {
             emailSubject={emailSubject}
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
-        )
-        }
+        )}
         <span {...styles.buttonGroup}>
           {icons
             .filter(Boolean)

@@ -9,7 +9,7 @@ import { errorToString } from '../../lib/utils/errors'
 
 import { withPay } from './Submit'
 import PledgeForm from './Form'
-import { gotoMerci } from './Merci'
+import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
@@ -240,7 +240,7 @@ class PledgeReceivePayment extends Component {
             .then(({data: {signIn}}) => gotoMerci({
               id: payPledge.pledgeId,
               email: pledge.user.email,
-              phrase: signIn.phrase
+              ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
               id: payPledge.pledgeId,

@@ -85,7 +85,7 @@ const styles = {
   })
 }
 
-export default ({
+const SeriesNavButton = ({
   items,
   id,
   children,
@@ -93,25 +93,34 @@ export default ({
   url,
   series,
   onSecondaryNavExpandedChange,
-  expanded
+  expanded,
+  inNativeApp
 }) => (
   <Fragment>
-    <button
-      {...styles.button}
-      onClick={() => {
-        onSecondaryNavExpandedChange(!expanded)
-      }}
-    >
-      <span {...styles.title}>
-        {series.title}
-        <span {...styles.arrow}>
-          {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
-          {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
+    { !inNativeApp && (
+      <button
+        {...styles.button}
+        onClick={() => {
+          onSecondaryNavExpandedChange(!expanded)
+        }}
+      >
+        <span {...styles.title}>
+          {series.title}
+          <span {...styles.arrow}>
+            {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
+            {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
+          </span>
         </span>
-      </span>
-    </button>
-    <div {...styles.menu} aria-expanded={expanded}>
+      </button>
+    )}
+    <div
+      {...styles.menu}
+      aria-expanded={expanded}
+      style={{ top: inNativeApp && 0, height: inNativeApp && '100vh' }}
+    >
       <SeriesNavPanel t={t} url={url} series={series} />
     </div>
   </Fragment>
 )
+
+export default SeriesNavButton

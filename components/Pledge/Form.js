@@ -64,8 +64,8 @@ class Pledge extends Component {
     const {crowdfunding} = this.props
     const pkg = query.package
       ? crowdfunding.packages.find(
-          pkg => pkg.name === query.package.toUpperCase()
-        )
+        pkg => pkg.name === query.package.toUpperCase()
+      )
       : null
     const userPrice = !!query.userPrice
 
@@ -166,8 +166,8 @@ class Pledge extends Component {
 
         const pkg = query.package
           ? crowdfunding.packages.find(
-              pkg => pkg.name === query.package.toUpperCase()
-            )
+            pkg => pkg.name === query.package.toUpperCase()
+          )
           : null
         const userPrice = !!query.userPrice
 

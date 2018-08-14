@@ -6,14 +6,15 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
 
-import { DISCUSSION_POLL_INTERVAL_MS } from '../../lib/constants'
+import { DISCUSSION_POLL_INTERVAL_MS, APP_OPTIONS } from '../../lib/constants'
 
 const debug = mkDebug('discussion')
 
 export const DISCUSSION_NOTIFICATION_CHANNELS = [
   'EMAIL',
+  APP_OPTIONS && 'APP',
   'WEB'
-]
+].filter(Boolean)
 
 export const DISCUSSION_NOTIFICATION_OPTIONS = [
   'MY_CHILDREN',

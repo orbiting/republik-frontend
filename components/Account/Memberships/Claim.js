@@ -4,12 +4,10 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import Loader from '../../Loader'
-import RawHtmlElements from '../../RawHtmlElements'
 import ErrorMessage from '../../ErrorMessage'
 import { gotoMerci } from '../../Pledge/Merci'
 import Consents, { getConsentsError } from '../../Pledge/Consents'
 
-import { Link } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import isEmail from 'validator/lib/isEmail'
@@ -22,14 +20,14 @@ import { withSignIn } from '../../Auth/SignIn'
 
 import {
   Field, Button, Interaction,
-  colors, linkRule
+  colors
 } from '@project-r/styleguide'
 
 const requiredConsents = [
   'PRIVACY', 'TOS', 'STATUTE'
 ]
 
-const {H2, P} = Interaction
+const { H2 } = Interaction
 
 class ClaimMembership extends Component {
   constructor (props) {
@@ -107,7 +105,7 @@ class ClaimMembership extends Component {
       this.props.t
     )
   }
-  claim () {
+  claim (newTokenType) {
     const {me} = this.props
     const {values} = this.state
 
@@ -130,11 +128,11 @@ class ClaimMembership extends Component {
     }
 
     if (!me) {
-      this.props.signIn(values.email, 'claim', this.state.consents)
+      this.props.signIn(values.email, 'claim', this.state.consents, newTokenType)
         .then(({data}) => {
           this.setState(() => ({
             polling: true,
-            phrase: data.signIn.phrase
+            signInResponse: data.signIn
           }))
         })
         .catch(catchError)
@@ -171,31 +169,35 @@ class ClaimMembership extends Component {
       serverError,
       values, dirty, errors,
       loading,
-      polling, phrase,
+      polling, signInResponse,
       consents
     } = this.state
 
     if (polling) {
       return (
-        <div>
-          <P>
-            <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
-              phrase: <b key='phrase'>{phrase}</b>,
-              email: <b key='email'>{values.email}</b>,
-              link: (
-                <Link route='signin'>
-                  <a {...linkRule}>{t('signIn/polling/link')}</a>
-                </Link>
-              )
-            }} />
-          </P>
-          <Poller onSuccess={() => {
+        <Poller
+          tokenType={signInResponse.tokenType}
+          phrase={signInResponse.phrase}
+          email={values.email}
+          alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+          onCancel={() => {
+            this.setState(() => ({
+              polling: false,
+              loading: false
+            }))
+          }}
+          onTokenTypeChange={(altTokenType) => {
+            this.setState(() => ({
+              polling: false
+            }))
+            this.claim(altTokenType)
+          }}
+          onSuccess={(me) => {
             this.setState(() => ({
               polling: false
             }))
             this.claim()
           }} />
-        </div>
       )
     }
     if (loading) {

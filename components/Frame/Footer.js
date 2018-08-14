@@ -251,9 +251,16 @@ class Footer extends Component {
                 </Link>
                 <br />
               </Fragment>}
-              <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
-                <a>{t('footer/me/give')}</a>
-              </Link>
+              {!!me && (
+                <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
+                  <a>{t('footer/me/give')}</a>
+                </Link>
+              )}
+              {!me && (
+                <Link route='pledge'>
+                  <a>{t('footer/offers')}</a>
+                </Link>
+              )}
               <br />
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>

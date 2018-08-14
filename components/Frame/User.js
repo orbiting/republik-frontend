@@ -5,7 +5,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
 
-const BUTTON_SIZE = 50
+const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30
 const BUTTON_PADDING = (HEADER_HEIGHT - BUTTON_SIZE) / 2
 const BUTTON_PADDING_MOBILE = (HEADER_HEIGHT_MOBILE - BUTTON_SIZE_MOBILE) / 2
@@ -33,9 +33,7 @@ const styles = {
     padding: `${BUTTON_PADDING_MOBILE}px`,
     [mediaQueries.mUp]: {
       padding: `${BUTTON_PADDING}px`
-    },
-    height: '100%',
-    width: '100%'
+    }
   }),
   portrait: css({
     verticalAlign: 'top',

@@ -12,7 +12,7 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
-import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 
@@ -95,7 +95,7 @@ class Front extends Component {
                 <InlineSpinner size={28} />
               </div>
             }>
-            <SSRCachingBoundary key='content' cacheKey={webpCacheKey(this.props.headers, front.id)}>
+            <SSRCachingBoundary key='content' cacheKey={front.id}>
               {() => renderMdast({
                 type: 'root',
                 children: front.children.nodes.map(v => v.body)

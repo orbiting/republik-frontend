@@ -17,7 +17,7 @@ import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
-import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 
@@ -440,7 +440,7 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article}>
-                <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
+                <SSRCachingBoundary cacheKey={article.id}>
                   {() => renderMdast({
                     ...article.content,
                     format: meta.format

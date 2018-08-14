@@ -16,10 +16,10 @@ import {
 
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
-const IndexPage = ({ url, t, isMember, headers }) => {
+const IndexPage = ({ url, t, isMember }) => {
   if (isMember) {
     // does it's own meta
-    return <Front url={url} headers={headers} />
+    return <Front url={url} />
   }
   const meta = {
     pageTitle: t('pages/index/pageTitle'),

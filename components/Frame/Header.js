@@ -22,10 +22,12 @@ import {
   ZINDEX_HEADER
 } from '../constants'
 
-const LOGO_HEIGHT = 30
-const LOGO_HEIGHT_MOBILE = 24
-const LOGO_WIDTH = 190
-const LOGO_WIDTH_MOBILE = 154
+const LOGO_HEIGHT = 28.02
+const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
+
+const LOGO_HEIGHT_MOBILE = 22.78
+const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
+
 const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
@@ -59,10 +61,10 @@ const styles = {
   }),
   logo: css({
     display: 'inline-block',
-    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE) / 2)}px`,
+    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
     width: `${LOGO_WIDTH_MOBILE}px`,
     [mediaQueries.mUp]: {
-      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT) / 2)}px`,
+      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
       width: `${LOGO_WIDTH}px`
     },
     verticalAlign: 'middle'

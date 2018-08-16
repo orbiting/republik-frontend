@@ -7,7 +7,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --watch server --watch app --watch lib/routes.js server/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon --watch server --watch .env --watch lib/routes.js server/index.js",
     "start": "node server/index.js",
     "build": "next build",
     "heroku-postbuild": "npm run build",
@@ -90,7 +90,7 @@
     "webpack-bundle-analyzer": "^2.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^5.86.0",
+    "@project-r/styleguide": "^5.88.0",
     "apollo-cache-inmemory": "^1.1.4",
     "apollo-client": "^2.0.4",
     "apollo-fetch": "^0.7.0",

@@ -9,7 +9,8 @@ import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
   SAFE_TOP_HEIGHT,
-  SAFE_TOP_HEIGHT_MOBILE
+  SAFE_TOP_HEIGHT_MOBILE,
+  NAVBAR_HEIGHT_MOBILE
 } from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
@@ -43,6 +44,9 @@ const styles = {
     [mediaQueries.mUp]: {
       paddingTop: HEADER_HEIGHT
     }
+  }),
+  native: css({
+    paddingTop: NAVBAR_HEIGHT_MOBILE
   }),
   bodyGrower: css({
     flexGrow: 1
@@ -93,9 +97,9 @@ const Index = ({
       {...styles.bodyGrower}
       className={cover
         ? undefined
-        : me && !inNativeApp
-          ? styles.coverlessWithMe
-          : styles.coverless
+        : inNativeApp
+          ? styles.native
+          : me ? styles.coverlessWithMe : styles.coverless
       }
     >
       {!!meta && <Meta data={meta} />}

@@ -9,7 +9,7 @@ import { Interaction, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 
-const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
+export const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
   <Frame url={url} raw>
     <PageCenter>
       {!me ? (

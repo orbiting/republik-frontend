@@ -1,0 +1,474 @@
+{
+  "data": {
+    "users": [
+      {
+        "age": 48,
+        "biography": null,
+        "birthday": "26.11.1969",
+        "email": "mg@alltag.ch",
+        "firstName": "Marcus",
+        "hasPublicProfile": false,
+        "id": "eeac9763-fc89-4980-8e67-4312c8ab4437",
+        "lastName": "Gossolt",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/07691fff-36e6-448f-8607-c6714d6f9b36_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "REPU vs. BLICK",
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "vgzanotta@bluewin.ch",
+        "firstName": null,
+        "hasPublicProfile": false,
+        "id": "4d11b1a9-d8af-494d-880a-88729bb22aa8",
+        "lastName": null,
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 50,
+        "biography": null,
+        "birthday": "15.12.1967",
+        "email": "tizihof@bluewin.ch",
+        "firstName": "Monika",
+        "hasPublicProfile": false,
+        "id": "eebbdfc9-ca9d-4b13-8eac-9bd5f6b5eade",
+        "lastName": "Imhof",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 61,
+        "biography": null,
+        "birthday": "28.02.1957",
+        "email": "ysawas@bluewin.ch",
+        "firstName": "Adrian",
+        "hasPublicProfile": false,
+        "id": "eebcd0bf-c3cf-4488-9340-1d4ffe32b063",
+        "lastName": "Wyss",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 50,
+        "biography": null,
+        "birthday": "18.07.1968",
+        "email": "rownak.bose@gmail.com",
+        "firstName": "Rownak",
+        "hasPublicProfile": false,
+        "id": "eec677ee-38b2-4163-b52f-2c08732c5c12",
+        "lastName": "Bose",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/40bc1678-92b1-4fcc-ab41-bc687069985c_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "living the life as if it really mattered",
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "tonetto.lukas@gmail.com",
+        "firstName": "Lukas",
+        "hasPublicProfile": false,
+        "id": "eec8c130-a5ac-4302-86f1-46c831883f1b",
+        "lastName": "Tonetto",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/7646d854-46a6-4677-a64b-f0330c6d1abf_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "Das höchste Gut ist immer die Freiheit, vor den Meinungen, den Dingen, Freiheit zu sich selbst.",
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "8JKGPKh0EJ@anonymous.project-r.construction",
+        "firstName": "Benjamin",
+        "hasPublicProfile": false,
+        "id": "5e68d088-9231-4e6a-9b0c-1f6edd518785",
+        "lastName": "von Wyl",
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "jbx@bluewin.ch",
+        "firstName": "Jürg ",
+        "hasPublicProfile": false,
+        "id": "eed44e0a-efc2-446a-9838-cebc7a9638e1",
+        "lastName": "Bärtschi",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 73,
+        "biography": null,
+        "birthday": "23.11.1944",
+        "email": "wbesch@hispeed.ch",
+        "firstName": "Wolfram",
+        "hasPublicProfile": false,
+        "id": "eed9683f-83e9-42e7-bb45-8beda7f27d34",
+        "lastName": "Besch",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 72,
+        "biography": null,
+        "birthday": "15.02.1946",
+        "email": "f.hirsiger@hispeed.ch",
+        "firstName": "Fritz",
+        "hasPublicProfile": false,
+        "id": "eee4da68-7848-424c-9fdf-2ab58db256ec",
+        "lastName": "Hirsiger",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 34,
+        "biography": null,
+        "birthday": "07.12.1983",
+        "email": "laura.schweizer@gmail.com",
+        "firstName": "Laura",
+        "hasPublicProfile": false,
+        "id": "eeeb9ed0-5555-46c5-8376-ae8ded95c9b5",
+        "lastName": "Schweizer",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 62,
+        "biography": null,
+        "birthday": "19.08.1955",
+        "email": "imas.valentin@bluewin.ch",
+        "firstName": "Imas",
+        "hasPublicProfile": false,
+        "id": "eefcc77d-06b4-426a-9ec0-ef3d8454bed0",
+        "lastName": "Valentin",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/fddd34df-a771-4088-a12b-5ed0e773c7af_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "Das Naheliegende tun und dabei nicht verzweifeln!",
+        "username": null
+      },
+      {
+        "age": 26,
+        "biography": "",
+        "birthday": "23.06.1992",
+        "email": "christoph.pfaendler@gmx.ch",
+        "firstName": "Christoph",
+        "hasPublicProfile": true,
+        "id": "685359da-c4d5-4269-b36e-eaa9c4455b5f",
+        "lastName": "Pfändler",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/1e7e24cc-9cdd-445e-aac5-b2c2c2e85429_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "Finally",
+        "username": "cpfandler"
+      },
+      {
+        "age": 45,
+        "biography": null,
+        "birthday": "12.12.1972",
+        "email": "nicole_schwager@bluewin.ch",
+        "firstName": "Nicole",
+        "hasPublicProfile": false,
+        "id": "8b7daeb4-e227-4451-9ca7-72905970f6b3",
+        "lastName": "Schwager",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 26,
+        "biography": "",
+        "birthday": "30.10.1991",
+        "email": "mghrairi@gmail.com",
+        "firstName": "Montassar",
+        "hasPublicProfile": true,
+        "id": "a8370d86-5b1b-4043-bb2a-c5efc7e9cdee",
+        "lastName": "Ghrairi",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/portraits/fe1125a82c9eb37efc2b08bc5fab1f71.jpeg?size=1349x1826&resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "starke Instutionen, starke Republik",
+        "username": "mghrairi"
+      },
+      {
+        "age": 59,
+        "biography": null,
+        "birthday": "28.08.1958",
+        "email": "peter@stieger.xyz",
+        "firstName": "Peter",
+        "hasPublicProfile": false,
+        "id": "cb9e5985-83dc-460a-ac74-2f8c1b50f4f4",
+        "lastName": "Stieger",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "christine.bachmann@gastrojournal.ch",
+        "firstName": null,
+        "hasPublicProfile": false,
+        "id": "49ae725e-7957-4cdb-b723-bd29bb49e567",
+        "lastName": null,
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": "St. Gallerin  in Nidwalden",
+        "birthday": null,
+        "email": "zemphilde@hotmail.com",
+        "firstName": "Hilde",
+        "hasPublicProfile": true,
+        "id": "1497acca-7268-4ee3-b120-7731392cb2f0",
+        "lastName": "Zemp",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/portraits/0bd6b31fb3987a5de54345e393933fd8_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "über den Zaun schauen",
+        "username": "hzemp"
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "david@rod.ag",
+        "firstName": "David",
+        "hasPublicProfile": false,
+        "id": "4c1723bd-a118-4e3f-a881-f39c3c17334a",
+        "lastName": "Schärer",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "wenger@mailbox.org",
+        "firstName": null,
+        "hasPublicProfile": false,
+        "id": "7126a8d4-f3ec-44df-9bdb-859b5b580838",
+        "lastName": null,
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 53,
+        "biography": "",
+        "birthday": "07.05.1965",
+        "email": "dagmar.kopse@bluewin.ch",
+        "firstName": "Dagmar",
+        "hasPublicProfile": true,
+        "id": "eed66e37-c6cf-47fe-97bc-73883231f818",
+        "lastName": "Kopše",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/f16cc3bd-ff75-41a5-987f-03b56fa2d8c7_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "Steiler Einstieg! Beflügelnd!",
+        "username": "dkop.e"
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "josef.renner@gmail.com",
+        "firstName": null,
+        "hasPublicProfile": false,
+        "id": "8870fda6-0a61-467b-821c-11b6d36a541e",
+        "lastName": null,
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 54,
+        "biography": null,
+        "birthday": "23.01.1964",
+        "email": "mail@clus.ch",
+        "firstName": "Kajo",
+        "hasPublicProfile": false,
+        "id": "4bad2f60-0f2c-41d0-8928-47b8567afe1b",
+        "lastName": "Bächle",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 34,
+        "biography": "",
+        "birthday": "29.11.1983",
+        "email": "s.keller@gmx.ch",
+        "firstName": "Sebastian",
+        "hasPublicProfile": true,
+        "id": "e7cfc790-cde0-4b33-8f41-9179e333bb1d",
+        "lastName": "Keller",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/portraits/4389f391ad992d0dbd21c465f9c5ed72_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "",
+        "username": "skeller"
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "mail@familie-schugk.ch",
+        "firstName": "Martin",
+        "hasPublicProfile": false,
+        "id": "016ccc2f-a048-43d8-ae37-68489a2fa2e4",
+        "lastName": "Schugk",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "reas62@googlemail.com",
+        "firstName": null,
+        "hasPublicProfile": false,
+        "id": "49851dcb-468a-419f-bc9b-ed4685d7744b",
+        "lastName": null,
+        "portrait": null,
+        "roles": [],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "Ombre@ombre.ch",
+        "firstName": "Lukas",
+        "hasPublicProfile": false,
+        "id": "88000321-9602-41c1-9222-fc141fcfe06d",
+        "lastName": "Grimm",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 59,
+        "biography": null,
+        "birthday": "14.01.1959",
+        "email": "gaby@delsiena.ch",
+        "firstName": "Gaby",
+        "hasPublicProfile": false,
+        "id": "88238747-35a1-4c46-9565-a40754c0de18",
+        "lastName": "Del Siena",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": null,
+        "biography": null,
+        "birthday": null,
+        "email": "s.baltensweiler@bluewin.ch",
+        "firstName": "Steffie ",
+        "hasPublicProfile": false,
+        "id": "eed8cef1-518e-4c43-aa02-da3653e23628",
+        "lastName": "Baltensweiler",
+        "portrait": null,
+        "roles": [
+          "member"
+        ],
+        "statement": null,
+        "username": null
+      },
+      {
+        "age": 61,
+        "biography": null,
+        "birthday": "25.07.1957",
+        "email": "steff.fischer@fischer97.ch",
+        "firstName": "Steff",
+        "hasPublicProfile": false,
+        "id": "eeab8d17-aced-4ba1-bc89-6d72b952d09f",
+        "lastName": "Fischer",
+        "portrait": "https://cdn.republik.space/s3/republik-assets/testimonials/755e8ca4-c118-43f6-bd80-43a8393d77b1_original.jpeg?resize=384x384&bw=true",
+        "roles": [
+          "member"
+        ],
+        "statement": "Make Love Not War",
+        "username": null
+      }
+    ]
+  }
+}

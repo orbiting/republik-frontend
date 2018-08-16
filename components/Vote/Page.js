@@ -2,15 +2,41 @@ import React from 'react'
 import Frame from '../Frame'
 import withMe from '../../lib/apollo/withMe'
 import Poll from './Poll'
-import { compose } from 'react-apollo'
-import withMembership from '../Auth/withMembership'
+import { compose, graphql } from 'react-apollo'
+import { enforceMembership } from '../Auth/withMembership'
+import {
+  Container,
+  NarrowContainer,
+  Interaction,
+  Checkbox
+} from '@project-r/styleguide'
 
-const TodoItem = ({ done, label, anchor }) => (
-  <li>
-    {done ? '👌' : '🙏'}
-    <a href={`#${anchor}`}>{label}</a>
-  </li>
-)
+import { Agenda, AgendaItem, AgendaSection } from './Agenda'
+import Election from './Election'
+import { Router } from '../../lib/routes'
+import { css } from 'glamor';
+
+const { H1, H2, H3, P } = Interaction
+
+const LOREM = 
+  <P>
+    Ihr naht euch wieder, schwankende Gestalten! Die früh sich einst dem trüben
+    Blick gezeigt. Versuch’ ich wohl euch diesmal fest zu halten? Fühl’ ich
+    mein Herz noch jenem Wahn geneigt? Ihr drängt euch zu! nun gut, so mögt ihr
+    walten. Wie ihr aus Dunst und Nebel um mich steigt. Mein Busen fühlt sich
+    jugendlich erschüttert. Vom Zauberhauch der euren Zug umwittert. Ihr bringt mit
+    euch die Bilder froher Tage. Und manche liebe Schatten steigen auf Gleich einer
+    alten, halbverklungnen Sage. Kommt erste Lieb’ und Freundschaft mit herauf Der
+    Schmerz wird neu, es wiederholt die Klage. Des Lebens labyrinthisch irren Lauf,
+    Und nennt die Guten, die, um schöne Stunden Vom Glück getäuscht, vor mir
+    hinweggeschwunden.    
+  </P>
+
+const styles = {
+  section: css({
+    margin: '30px 0',
+  })
+}
 
 class Page extends React.Component {
   constructor (props) {
@@ -26,83 +52,140 @@ class Page extends React.Component {
     }
   }
 
+  setDone = (key) => {
+    this.setState((prevState) => ({
+      pollStatus: { ...prevState.pollStatus, [key]: true }
+    }))
+  }
+
   render () {
     const meta = {
       title: 'Wahl des Genossenschaftsrats',
       description: 'Bestimme über die Zukunft der Republik!'
     }
 
-    const { url } = this.props
+    const { url, me } = this.props
 
     const options = [
       { value: 'yes', label: 'Ja' },
       { value: 'no', label: 'Nein' }
     ]
 
+
     return (
       <Frame meta={meta} url={url}>
-        <div
-          style={{ position: 'fixed', top: 100, left: 0, width: 250 }}
-        >
-          <div>Abstimmungen</div>
-          <ul style={{ listStyle: 'none' }}>
-            <TodoItem
-              done={this.state.pollStatus.statement}
-              label='Jahresrechung'
-              anchor='jahresrechung'
-            />
-            <TodoItem
-              done={this.state.pollStatus.report}
-              label='Revisionsbericht'
-              anchor='revisionsbericht'
-            />
-            <TodoItem
-              done={this.state.pollStatus.budget}
-              label='Budget'
-              anchor='budget'
-            />
-          </ul>
-        </div>
+          {/* <Agenda>
+            <AgendaSection title='Abstimmungen'>
+              <AgendaItem
+                done={this.state.pollStatus.statement}
+                label='Jahresrechung'
+                anchor='jahresrechung'
+              />
+              <AgendaItem
+                done={this.state.pollStatus.report}
+                label='Revisionsbericht'
+                anchor='revisionsbericht'
+              />
+              <AgendaItem
+                done={this.state.pollStatus.budget}
+                label='Budget'
+                anchor='budget'
+              />
+            </AgendaSection>
+            <AgendaSection title='Abstimmungen'>
+              <AgendaItem
+                done={this.state.pollStatus.council}
+                label='Ratsmitglieder'
+                anchor='ratsmitglieder'
+              />
+              <AgendaItem
+                done={this.state.pollStatus.president}
+                label='Präsident'
+                anchor='präsident'
+              />
+            </AgendaSection>
+          </Agenda> */}
 
-        <h1>Wahl- und Abstimmungsplattform 2018</h1>
-        <h2>Abstimmungen</h2>
+          <div style={{ marginTop: 0 }}>
+            <H1>Wahlen und Abstimmungen</H1>
+            {LOREM}
+            <section {...styles.section}>
+              <H2 id='jahresrechung'>Jahresrechnung</H2>
+              {LOREM}
+              <Poll
+                proposition='Wollen Sie die Jahresrechnung 2017 annehmen?'
+                options={options}
+                active={!this.state.pollStatus.statement}
+                onFinish={() =>
+                  this.setState(({ pollStatus }) => ({
+                    pollStatus: { ...pollStatus, statement: true }
+                  }))
+                }
+              />
+            </section>
 
-        <h3 id='jahresrechung'>Jahresrechung</h3>
-        <Poll
-          proposition='Wollen Sie die Jahresrechnung 2017 annehmen?'
-          options={options}
-          onFinish={() =>
-            this.setState(({ pollStatus }) => ({
-              pollStatus: { ...pollStatus, statement: true }
-            }))
-          }
-        />
+            <section {...styles.section}>
+              <H2 id='revisionsbericht'>Revisionsbericht</H2>
+              {LOREM}
+              <Poll
+                proposition='Wollen Sie den Revisionsbericht 2017 annehmen?'
+                options={options}
+                active={!this.state.pollStatus.report}
+                onFinish={() =>
+                  this.setState(({ pollStatus }) => ({
+                    pollStatus: { ...pollStatus, report: true }
+                  }))
+                }
+              />
+            </section>
 
-        <h3 id='revisionsbericht'>Revisionsbericht</h3>
-        <Poll
-          proposition='Wollen Sie den Revisionsbericht 2017 annehmen?'
-          options={options}
-          onFinish={() =>
-            this.setState(({ pollStatus }) => ({
-              pollStatus: { ...pollStatus, report: true }
-            }))
-          }
-        />
+            <section {...styles.section}>
+              <H2 id='budget'>Budget</H2>
+              {LOREM}
+              <Poll
+                proposition='Wollen Sie das Budget 2018 annehmen?'
+                options={options}
+                active={!this.state.pollStatus.budget}
+                onFinish={() =>
+                  this.setState(({ pollStatus }) => ({
+                    pollStatus: { ...pollStatus, budget: true }
+                  }))
+                }
+              />
+            </section>
 
-        <h3 id='budget'>Budget</h3>
-        <Poll
-          proposition='Wollen Sie das Budget 2018 annehmen?'
-          options={options}
-          onFinish={() =>
-            this.setState(({ pollStatus }) => ({
-              pollStatus: { ...pollStatus, budget: true }
-            }))
-          }
-        />
+            <section {...styles.section}>
+              <H2>Präsidium</H2>
+              {LOREM}
+              <Election
+                ballotSize={5}
+                active={!this.state.pollStatus.president}
+                onFinish={() =>
+                  this.setState(({ pollStatus }) => ({
+                    pollStatus: { ...pollStatus, president: true }
+                  }))
+                }
+              />
+            </section>
 
-        <h2>Wahlen</h2>
-        <h3>Präsidium</h3>
-        <h3>Genossenschaftsrat</h3>
+            <section {...styles.section}>
+              <H2>Genossenschaftsrat</H2>
+              {LOREM}
+              <Election
+                maxVotes={10}
+                isSticky={true}
+                recommendation={["eeac9763-fc89-4980-8e67-4312c8ab4437", "eebbdfc9-ca9d-4b13-8eac-9bd5f6b5eade", "eebcd0bf-c3cf-4488-9340-1d4ffe32b063", "eec677ee-38b2-4163-b52f-2c08732c5c12", "eed9683f-83e9-42e7-bb45-8beda7f27d34", "eee4da68-7848-424c-9fdf-2ab58db256ec", "eeeb9ed0-5555-46c5-8376-ae8ded95c9b5", "eefcc77d-06b4-426a-9ec0-ef3d8454bed0", "685359da-c4d5-4269-b36e-eaa9c4455b5f", "8b7daeb4-e227-4451-9ca7-72905970f6b3"
+                ]}
+                active={!this.state.pollStatus.council}
+                onFinish={() =>
+                  this.setState(({ pollStatus }) => ({
+                    pollStatus: { ...pollStatus, council: true }
+                  }))
+                }
+              />
+            </section>
+
+          </div>
       </Frame>
     )
   }
@@ -110,5 +193,4 @@ class Page extends React.Component {
 
 export default compose(
   withMe,
-  withMembership
 )(Page)

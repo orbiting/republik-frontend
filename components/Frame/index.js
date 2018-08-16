@@ -91,7 +91,12 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover ? me && !inNativeApp ? styles.coverlessWithMe : styles.coverless : undefined}
+      className={cover
+        ? undefined
+        : me && !inNativeApp
+          ? styles.coverlessWithMe
+          : styles.coverless
+      }
     >
       {!!meta && <Meta data={meta} />}
       <Header

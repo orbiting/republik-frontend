@@ -134,16 +134,10 @@ class Feed extends Component {
     this.onMessage = e => {
       const message = JSON.parse(e.data)
       switch (message.type) {
-        case 'open-secondary-menu':
+        case 'nav-bar-opened':
           this.setState({ isNavBarVisible: true })
           break
-        case 'close-secondary-menu':
-          this.setState({ isNavBarVisible: false })
-          break
-        case 'subheader-opened':
-          this.setState({ isNavBarVisible: true })
-          break
-        case 'subheader-closed':
+        case 'nav-bar-closed':
           this.setState({ isNavBarVisible: false })
           break
       }

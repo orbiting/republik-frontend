@@ -20,6 +20,7 @@ const ELECTION_STATES = {
 import postcodes from './postcodes.json'
 import VoteActions from './VoteActions';
 import { timeFormat } from '../../lib/utils/format';
+import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants';
 
 const styles = {
   wrapper: css({
@@ -29,11 +30,17 @@ const styles = {
     marginTop: 20,
   }),
   header: css({
+    position: 'sticky',
+    padding: '10px 0',
+    top: HEADER_HEIGHT,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    background: '#fff',
+    zIndex: 10,
     [mediaQueries.onlyS]: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      top: HEADER_HEIGHT_MOBILE,
     }
   }),
   actions: css({

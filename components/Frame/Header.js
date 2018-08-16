@@ -243,7 +243,8 @@ class Header extends Component {
       audioSource,
       audioCloseHandler,
       inNativeApp,
-      onNavBarChange
+      onNavBarChange,
+      disableNavBar
     } = this.props
     const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
 
@@ -373,7 +374,7 @@ class Header extends Component {
             />
           </Popover>
         </div>
-        {!inNativeApp && me && opaque && (
+        {!inNativeApp && !disableNavBar && me && opaque && (
           <NavBar
             url={url}
             onNavBarChange={onNavBarChange}

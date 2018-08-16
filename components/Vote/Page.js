@@ -73,7 +73,7 @@ class Page extends React.Component {
 
 
     return (
-      <Frame meta={meta} url={url}>
+      <Frame meta={meta} url={url} disableNavBar={true}>
           {/* <Agenda>
             <AgendaSection title='Abstimmungen'>
               <AgendaItem

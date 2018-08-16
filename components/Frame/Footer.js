@@ -287,7 +287,7 @@ class Footer extends Component {
           <div {...styles.lastLine}>
             <Link route='index'>
               <a {...styles.logo} {...styles.left}>
-                <Logo fill={negativeColors.text} width={140} />
+                <Logo fill={negativeColors.text} height={20} />
               </a>
             </Link>
             <Link route='index'>

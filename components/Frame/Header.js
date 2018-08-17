@@ -33,6 +33,7 @@ const SEARCH_BUTTON_WIDTH = 28
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
+    position: 'fixed',
     '@media print': {
       position: 'absolute'
     },
@@ -142,7 +143,6 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline,
       navbarSticky: true,
       navbarInitial: true
     }
@@ -156,13 +156,6 @@ class Header extends Component {
       const opaque = y > yOpaque || !this.props.cover
       if (opaque !== this.state.opaque) {
         this.setState(() => ({ opaque }))
-      }
-
-      if (this.props.inline && this.ref) {
-        const sticky = y + HEADER_HEIGHT > this.barHeight
-        if (sticky !== this.state.sticky) {
-          this.setState(() => ({ sticky }))
-        }
       }
 
       const navbarSticky = y < this.y
@@ -185,11 +178,6 @@ class Header extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       if (mobile !== this.state.mobile) {
         this.setState(() => ({ mobile }))
-      }
-      if (this.props.inline && this.ref) {
-        const rect = this.ref.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
       }
       this.onScroll()
     }
@@ -238,7 +226,6 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      inline,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
       formatColor,
@@ -247,26 +234,21 @@ class Header extends Component {
       inNativeApp,
       onNavBarChange
     } = this.props
-    const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
+    const { expanded, mobile, navbarSticky, navbarInitial } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
     const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
-    const opaque = this.state.opaque || expanded || inline
+    const opaque = this.state.opaque || expanded
     const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
-    const marginBottom = sticky
-      ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-      : undefined
-    const position = sticky || !inline ? 'fixed' : 'relative'
 
     const isSearchActive = url.pathname === '/search'
 
     return (
       <div ref={this.setRef}>
-        {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} style={{position}}>
+        <div {...barStyle}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
@@ -386,8 +368,7 @@ class Header extends Component {
           />
         )}
         <LoadingBar />
-        {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
-
+        {!!cover && <div {...styles.cover}>{cover}</div>}
       </div>
     )
   }

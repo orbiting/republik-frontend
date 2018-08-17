@@ -85,7 +85,6 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  headerInline,
   formatColor,
   audioSource,
   audioCloseHandler,
@@ -111,7 +110,6 @@ const Index = ({
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
-        inline={headerInline}
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}

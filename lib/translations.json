@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-10T14:29:20.274Z",
+  "updated": "2018-08-17T11:36:03.224Z",
   "title": "live",
   "data": [
     {
@@ -1803,6 +1803,10 @@
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen."
     },
     {
+      "key": "package/ABO/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
       "key": "package/ABO/userPrice/teaser",
       "value": "Sie können sich den Betrag nicht leisten?"
     },
@@ -1820,7 +1824,7 @@
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF}"
+      "value": "ab {formattedCHF} für ein Jahr"
     },
     {
       "key": "package/ABO_GIVE/title",
@@ -1839,6 +1843,10 @@
       "value": "Gönner-Mitgliedschaft"
     },
     {
+      "key": "package/BENEFACTOR/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
     },
@@ -1849,6 +1857,10 @@
     {
       "key": "package/MONTHLY_ABO/title",
       "value": "Monats-Abonnement"
+    },
+    {
+      "key": "package/MONTHLY_ABO/price",
+      "value": "{formattedCHF} pro Monat"
     },
     {
       "key": "package/MONTHLY_ABO/description",

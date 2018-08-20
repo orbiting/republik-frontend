@@ -122,7 +122,7 @@ class Page extends React.Component {
             <H1>Wahlen und Abstimmungen</H1>
             {LOREM}
             <section {...styles.section}>
-             <a {...styles.anchor} id='jahresrechung'></a>
+             <a {...styles.anchor} id='jahresrechnung'></a>
               <H2>Jahresrechnung</H2>
               {LOREM}
               <Poll
@@ -170,7 +170,7 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
-              <a {...styles.anchor} id='presidency'></a>
+              <a {...styles.anchor} id='präsidium'></a>
               <H2>Präsidium</H2>
               {LOREM}
               <Election
@@ -185,7 +185,7 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
-              <a {...styles.anchor} id='council'></a>
+              <a {...styles.anchor} id='genossenschaftsrat'></a>
               <H2>Genossenschaftsrat</H2>
               {LOREM}
               <Election

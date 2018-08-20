@@ -120,7 +120,8 @@ const styles = {
 }
 
 const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
-  if (active && active.route === route) {
+  if (active && active.route === route &&
+    (active.route !== 'front' || (params.slug && params.slug === active.params.slug))) {
     return (
       <a
         {...styles.link}
@@ -138,7 +139,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   }
   const isNavBarPage =
     active &&
-    ['index', 'feed', 'feuilleton', 'formats'].indexOf(active.route) !== -1
+    ['index', 'front', 'feed', 'formats'].indexOf(active.route) !== -1
 
   return (
     <Link route={route} params={params}>
@@ -176,13 +177,12 @@ class NavBar extends Component {
             translation={t('navbar/front')}
             active={active}
           />
-          {/*
           <NavLink
-            route='feuilleton'
+            route='front'
+            params={{slug: 'feuilleton'}}
             translation={t('navbar/feuilleton')}
             active={active}
           />
-          */}
           <NavLink
             route='feed'
             translation={t('navbar/feed')}

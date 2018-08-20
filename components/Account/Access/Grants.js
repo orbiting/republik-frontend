@@ -22,8 +22,8 @@ class AccessGrants extends Component {
       <Box>
         <MainContainer>
           <H2>Zugriff durch eine geteilte Mitgliedschaft</H2>
-          <P>Sie können die Republik lesen, weil Verlegerinnen ihre
-            Mitgliedschaft mit Ihnen teilen:</P>
+          <P>Sie können die Republik lesen, weil Verlegerinnen Ihnen Zugriff
+            erteilt haben:</P>
           {accessGrants.map((grant, i) => (
             <P key={i}>
               {grant.grantee.name} ({grant.grantee.email}) teilt

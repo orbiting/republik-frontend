@@ -12,10 +12,12 @@ import UserGuidance from './UserGuidance'
 import UpdateMe from './UpdateMe'
 import UpdateEmail from './UpdateEmail'
 
+import AccessGrants from './Access/Grants'
+import AccessCampaigns from './Access/Campaigns'
 import AuthSettings from './AuthSettings'
-import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
+import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
@@ -53,6 +55,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
 
       return (
         <Fragment>
+          {!hasMemberships && <AccessGrants />}
           {!hasMemberships && !inNativeIOSApp && <UserGuidance />}
           <MainContainer>
             <Content>
@@ -76,6 +79,8 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                   }
                 </Fragment>
               }
+
+              <AccessCampaigns />
 
               <UpdateEmail />
               <UpdateMe acceptedStatue={acceptedStatue} />

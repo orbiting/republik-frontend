@@ -8,8 +8,10 @@ import {
   Container,
   NarrowContainer,
   Interaction,
-  Checkbox
+  Checkbox,
+  mediaQueries
 } from '@project-r/styleguide'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import { Agenda, AgendaItem, AgendaSection } from './Agenda'
 import Election from './Election'
@@ -35,6 +37,15 @@ const LOREM =
 const styles = {
   section: css({
     margin: '30px 0',
+  }),
+  anchor: css({
+    display: 'block',
+    position: 'relative',
+    visibility: 'hidden',
+    top: -HEADER_HEIGHT_MOBILE,
+    [mediaQueries.lUp]: {
+      top: -HEADER_HEIGHT
+    }
   })
 }
 
@@ -59,6 +70,7 @@ class Page extends React.Component {
   }
 
   render () {
+
     const meta = {
       title: 'Wahl des Genossenschaftsrats',
       description: 'Bestimme über die Zukunft der Republik!'
@@ -110,7 +122,8 @@ class Page extends React.Component {
             <H1>Wahlen und Abstimmungen</H1>
             {LOREM}
             <section {...styles.section}>
-              <H2 id='jahresrechung'>Jahresrechnung</H2>
+             <a {...styles.anchor} id='jahresrechung'></a>
+              <H2>Jahresrechnung</H2>
               {LOREM}
               <Poll
                 proposition='Wollen Sie die Jahresrechnung 2017 annehmen?'
@@ -125,7 +138,8 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
-              <H2 id='revisionsbericht'>Revisionsbericht</H2>
+              <a {...styles.anchor} id='revisionsbericht'></a>
+              <H2>Revisionsbericht</H2>
               {LOREM}
               <Poll
                 proposition='Wollen Sie den Revisionsbericht 2017 annehmen?'
@@ -140,7 +154,8 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
-              <H2 id='budget'>Budget</H2>
+              <a {...styles.anchor} id='budget'></a>
+              <H2>Budget</H2>
               {LOREM}
               <Poll
                 proposition='Wollen Sie das Budget 2018 annehmen?'
@@ -155,6 +170,7 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
+              <a {...styles.anchor} id='presidency'></a>
               <H2>Präsidium</H2>
               {LOREM}
               <Election
@@ -169,6 +185,7 @@ class Page extends React.Component {
             </section>
 
             <section {...styles.section}>
+              <a {...styles.anchor} id='council'></a>
               <H2>Genossenschaftsrat</H2>
               {LOREM}
               <Election

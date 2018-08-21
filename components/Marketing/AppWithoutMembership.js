@@ -1,4 +1,4 @@
-import React, { Fragment} from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 import { Link } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
@@ -32,26 +32,23 @@ const styles = {
 }
 
 const AppIndex = ({ me, t, crowdfundingName, data }) => (
-  <Fragment>
-    <div {...styles.container}>
-      {me && (
-        <div {...styles.noMember}>
-          <Container style={{ maxWidth: MAX_WIDTH }}>
-            <Editorial.P>
-              {t.elements('marketing/noActiveMembership', {
-                link: (
-                  <Link route='account' key='account'>
-                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
-                  </Link>
-                )
-              })}
-            </Editorial.P>
-          </Container>
-        </div>
-      )}
-
-    </div>
-  </Fragment>
+  <div {...styles.container}>
+    {me && (
+      <div {...styles.noMember}>
+        <Container style={{ maxWidth: MAX_WIDTH }}>
+          <Editorial.P>
+            {t.elements('marketing/noActiveMembership', {
+              link: (
+                <Link route='account' key='account'>
+                  <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
+                </Link>
+              )
+            })}
+          </Editorial.P>
+        </Container>
+      </div>
+    )}
+  </div>
 )
 
 export default compose(

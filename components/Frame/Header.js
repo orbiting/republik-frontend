@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -254,7 +254,7 @@ class Header extends Component {
               {secondaryNav}
             </div>
           )}
-          {!inNativeApp && opaque && (
+          {!inNativeApp && opaque && <Fragment>
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
@@ -268,8 +268,6 @@ class Header extends Component {
                 }}
               />
             </div>
-          )}
-          {!inNativeApp && opaque && (
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
@@ -297,8 +295,6 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
-          )}
-          {!inNativeApp && opaque && (
             <button
               {...styles.search}
               role='button'
@@ -316,8 +312,6 @@ class Header extends Component {
                 fill={isSearchActive ? colors.primary : colors.text}
                 size={28} />
             </button>
-          )}
-          {!inNativeApp && opaque && (
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}
@@ -333,7 +327,7 @@ class Header extends Component {
                 }
               />
             </div>
-          )}
+          </Fragment>}
           {!inNativeApp && audioSource && (
             <AudioPlayer
               src={audioSource}

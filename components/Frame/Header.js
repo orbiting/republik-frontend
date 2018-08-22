@@ -7,6 +7,8 @@ import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 
+import withMembership from '../Auth/withMembership'
+
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
@@ -44,13 +46,11 @@ const styles = {
   barOpaque: css({
     backgroundColor: '#fff',
     boxSizing: 'content-box',
-    height: HEADER_HEIGHT_MOBILE - 1,
-    borderBottom: `1px solid ${colors.divider}`,
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 1
+      height: HEADER_HEIGHT
     },
     '@media print': {
-      borderBottom: 0,
       backgroundColor: 'transparent'
     }
   }),
@@ -132,6 +132,30 @@ const styles = {
       paddingTop: '18px'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%',
+    position: 'sticky',
+    zIndex: ZINDEX_HEADER
+  }),
+  hrThin: css({
+    height: 1,
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
+  }),
+  hrThick: css({
+    height: 3,
+    top: HEADER_HEIGHT_MOBILE - 3,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 3
+    }
   })
 }
 
@@ -142,12 +166,8 @@ class Header extends Component {
     this.state = {
       opaque: !this.props.cover,
       mobile: false,
-      expanded: false,
-      navbarSticky: true,
-      navbarInitial: true
+      expanded: false
     }
-
-    this.y = 0
 
     this.onScroll = () => {
       const y = window.pageYOffset
@@ -156,21 +176,6 @@ class Header extends Component {
       const opaque = y > yOpaque || !this.props.cover
       if (opaque !== this.state.opaque) {
         this.setState(() => ({ opaque }))
-      }
-
-      const navbarSticky = y < this.y
-      if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
-        this.setState(() => ({ navbarSticky }))
-        this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
-      }
-      this.y = y
-
-      const ynavbarInitial = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-      const navbarInitial = y < ynavbarInitial
-      if (navbarInitial !== this.state.navbarInitial) {
-        this.setState(() => ({ navbarInitial }))
       }
     }
 
@@ -190,10 +195,6 @@ class Header extends Component {
         case 'close-menu':
           return this.setState({ expanded: false })
       }
-    }
-
-    this.setRef = ref => {
-      this.ref = ref
     }
 
     this.close = () => {
@@ -232,9 +233,9 @@ class Header extends Component {
       audioSource,
       audioCloseHandler,
       inNativeApp,
-      onNavBarChange
+      isMember
     } = this.props
-    const { expanded, mobile, navbarSticky, navbarInitial } = this.state
+    const { expanded } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -247,7 +248,7 @@ class Header extends Component {
     const isSearchActive = url.pathname === '/search'
 
     return (
-      <div ref={this.setRef}>
+      <Fragment>
         <div {...barStyle}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
@@ -285,7 +286,7 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/' && !me) {
+                  if (url.pathname === '/') {
                     window.scrollTo(0, 0)
                   } else {
                     Router.pushRoute('index').then(() => window.scrollTo(0, 0))
@@ -342,30 +343,36 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand} inNativeApp={inNativeApp} me={me} isMobile={mobile}>
-            <NavPopover
-              me={me}
-              url={url}
-              inNativeApp={inNativeApp}
-              closeHandler={this.close}
-            />
-          </Popover>
         </div>
-        {!inNativeApp && me && opaque && (
-          <NavBar
-            url={url}
-            onNavBarChange={onNavBarChange}
-            mobile={mobile}
-            formatColor={formatColor}
-            sticky={navbarSticky}
-            initial={navbarInitial || expand}
-          />
+        {isMember && opaque && (
+          <Fragment>
+            <hr {...styles.hr} {...styles.hrThin} />
+            <NavBar url={url} />
+          </Fragment>
         )}
+        <hr
+          {...styles.hr}
+          {...styles[formatColor ? 'hrThick' : 'hrThin']}
+          style={formatColor ? {
+            color: formatColor,
+            backgroundColor: formatColor
+          } : undefined} />
+        <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+          <NavPopover
+            me={me}
+            url={url}
+            inNativeApp={inNativeApp}
+            closeHandler={this.close}
+          />
+        </Popover>
         <LoadingBar />
         {!!cover && <div {...styles.cover}>{cover}</div>}
-      </div>
+      </Fragment>
     )
   }
 }
 
-export default compose(withT)(Header)
+export default compose(
+  withT,
+  withMembership
+)(Header)

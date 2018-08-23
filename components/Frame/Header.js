@@ -378,7 +378,7 @@ class Header extends Component {
             <NavBar fixed={withoutSticky} url={url} />
           </Fragment>
         )}
-        <hr
+        {opaque && <hr
           {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
           {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
           {...styles.hr}
@@ -386,7 +386,7 @@ class Header extends Component {
           style={formatColor ? {
             color: formatColor,
             backgroundColor: formatColor
-          } : undefined} />
+          } : undefined} />}
         <Popover expanded={!!expand} inNativeApp={inNativeApp}>
           <NavPopover
             me={me}

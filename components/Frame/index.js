@@ -30,20 +30,11 @@ const styles = {
     display: 'flex',
     flexDirection: 'column'
   }),
-  coverlessWithMe: css({
+  padHeader: css({
     paddingTop: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       paddingTop: HEADER_HEIGHT
     }
-  }),
-  coverless: css({
-    paddingTop: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT
-    }
-  }),
-  native: css({
-    paddingTop: 0
   }),
   bodyGrower: css({
     flexGrow: 1
@@ -90,12 +81,10 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={cover
-        ? undefined
-        : inNativeApp
-          ? styles.native
-          : me ? styles.coverlessWithMe : styles.coverless
-      }
+      {...((!cover && !inNativeApp)
+        ? styles.padHeader
+        : undefined
+      )}
     >
       {!!meta && <Meta data={meta} />}
       <Header

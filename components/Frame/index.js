@@ -85,8 +85,7 @@ const Index = ({
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick,
-  onNavBarChange
+  onSearchClick
 }) => (
   <div {...styles.container}>
     <div
@@ -111,7 +110,6 @@ const Index = ({
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
         inNativeApp={inNativeApp}
-        onNavBarChange={onNavBarChange}
       />
       <noscript>
         <Box style={{padding: 30}}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -8,6 +8,8 @@ import { Link, Router, matchPath } from '../../lib/routes'
 import { colors, mediaQueries } from '@project-r/styleguide'
 
 import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_MOBILE,
   ZINDEX_NAVBAR
@@ -44,6 +46,19 @@ const styles = {
     right: 0,
     zIndex: ZINDEX_NAVBAR
   }),
+  fixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT
+    }
+  }),
+  height: css({
+    height: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: NAVBAR_HEIGHT
+    }
+  }),
   wrapper: css({
     margin: '0 auto 0',
     alignItems: 'center',
@@ -51,10 +66,8 @@ const styles = {
     flex: 1,
     justifyContent: 'space-around',
     maxWidth: '100%',
-    height: NAVBAR_HEIGHT_MOBILE,
     padding: '0 15px',
     [mediaQueries.mUp]: {
-      height: NAVBAR_HEIGHT,
       padding: '0 25px'
     }
   }),
@@ -98,38 +111,42 @@ const NavLink = ({ route, label, params = {}, active, closeHandler }) => {
   )
 }
 
-const NavBar = ({ url, t }) => {
+const NavBar = ({ url, t, fixed }) => {
   const active = matchPath(url.asPath)
 
   return (
-    <div
-      {...styles.container}
-    >
-      <div {...styles.wrapper}>
-        <NavLink
-          route='index'
-          label={t('navbar/front')}
-          active={active}
-        />
-        {/*
-        <NavLink
-          route='feuilleton'
-          label={t('navbar/feuilleton')}
-          active={active}
-        />
-        */}
-        <NavLink
-          route='feed'
-          label={t('navbar/feed')}
-          active={active}
-        />
-        <NavLink
-          route='formats'
-          label={t('navbar/formats')}
-          active={active}
-        />
+    <Fragment>
+      {fixed && <div {...styles.height} />}
+      <div
+        {...styles.container}
+        {...(fixed ? styles.fixed : undefined)}
+      >
+        <div {...styles.height} {...styles.wrapper}>
+          <NavLink
+            route='index'
+            label={t('navbar/front')}
+            active={active}
+          />
+          {/*
+          <NavLink
+            route='feuilleton'
+            label={t('navbar/feuilleton')}
+            active={active}
+          />
+          */}
+          <NavLink
+            route='feed'
+            label={t('navbar/feed')}
+            active={active}
+          />
+          <NavLink
+            route='formats'
+            label={t('navbar/formats')}
+            active={active}
+          />
+        </div>
       </div>
-    </div>
+    </Fragment>
   )
 }
 

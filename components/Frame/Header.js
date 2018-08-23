@@ -21,6 +21,8 @@ import Search from 'react-icons/lib/md/search'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
+  NAVBAR_HEIGHT,
+  NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER
 } from '../constants'
 
@@ -133,6 +135,12 @@ const styles = {
     },
     transition: 'opacity .2s ease-in-out'
   }),
+  sticky: css({
+    position: 'sticky'
+  }),
+  stickyWithFallback: css({
+    position: ['fixed', 'sticky']
+  }),
   hr: css({
     margin: 0,
     display: 'block',
@@ -140,7 +148,6 @@ const styles = {
     color: colors.divider,
     backgroundColor: colors.divider,
     width: '100%',
-    position: 'sticky',
     zIndex: ZINDEX_HEADER
   }),
   hrThin: css({
@@ -156,7 +163,20 @@ const styles = {
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT - 3
     }
+  }),
+  hrFixedAfterNavBar: css({
+    position: 'fixed',
+    marginTop: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      marginTop: NAVBAR_HEIGHT
+    }
   })
+}
+
+const positionStickySupport = () => {
+  const style = document.createElement('a').style
+  style.cssText = 'position:sticky;position:-webkit-sticky;'
+  return style.position.indexOf('sticky') !== -1
 }
 
 class Header extends Component {
@@ -207,6 +227,11 @@ class Header extends Component {
     window.addEventListener('resize', this.measure)
     document.addEventListener('message', this.onMessage)
     this.measure()
+
+    const withoutSticky = !positionStickySupport()
+    if (withoutSticky) {
+      this.setState({ withoutSticky })
+    }
   }
 
   componentDidUpdate () {
@@ -235,7 +260,7 @@ class Header extends Component {
       inNativeApp,
       isMember
     } = this.props
-    const { expanded } = this.state
+    const { expanded, withoutSticky } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -346,11 +371,16 @@ class Header extends Component {
         </div>
         {isMember && opaque && (
           <Fragment>
-            <hr {...styles.hr} {...styles.hrThin} />
-            <NavBar url={url} />
+            <hr
+              {...styles.stickyWithFallback}
+              {...styles.hr}
+              {...styles.hrThin} />
+            <NavBar fixed={withoutSticky} url={url} />
           </Fragment>
         )}
         <hr
+          {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
+          {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {

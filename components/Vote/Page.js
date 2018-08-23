@@ -14,26 +14,25 @@ import {
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
+import md from 'markdown-in-js'
+import mdComponents from '../../lib/utils/mdComponents'
+
 import { Agenda, AgendaItem, AgendaSection } from './Agenda'
 import Election from './Election'
 import { Router } from '../../lib/routes'
 import { css } from 'glamor';
+import Collapsible from './Collapsible';
 
 const { H1, H2, H3, P } = Interaction
 
-const LOREM = 
-  <P>
-    Ihr naht euch wieder, schwankende Gestalten! Die früh sich einst dem trüben
-    Blick gezeigt. Versuch’ ich wohl euch diesmal fest zu halten? Fühl’ ich
-    mein Herz noch jenem Wahn geneigt? Ihr drängt euch zu! nun gut, so mögt ihr
-    walten. Wie ihr aus Dunst und Nebel um mich steigt. Mein Busen fühlt sich
-    jugendlich erschüttert. Vom Zauberhauch der euren Zug umwittert. Ihr bringt mit
-    euch die Bilder froher Tage. Und manche liebe Schatten steigen auf Gleich einer
-    alten, halbverklungnen Sage. Kommt erste Lieb’ und Freundschaft mit herauf Der
-    Schmerz wird neu, es wiederholt die Klage. Des Lebens labyrinthisch irren Lauf,
-    Und nennt die Guten, die, um schöne Stunden Vom Glück getäuscht, vor mir
-    hinweggeschwunden.  
-  </P>
+const blindtext = (numParagraphs = 1, wrapInP = true) => {
+  const lorem = `Ihr naht euch wieder, schwankende Gestalten! Die früh sich einst dem trüben
+                 Blick gezeigt. Versuch’ ich wohl euch diesmal fest zu halten? Fühl’ ich
+                 mein Herz noch jenem Wahn geneigt? Ihr drängt euch zu! nun gut, so mögt ihr
+                 walten. Wie ihr aus Dunst und Nebel um mich steigt. `
+  const res = wrapInP ? <P>{lorem}</P> : lorem
+  return Array.from(Array(numParagraphs).keys()).map((_,i) => res)
+}
 
 const styles = {
   section: css({
@@ -121,14 +120,20 @@ class Page extends React.Component {
 
           <div style={{ marginTop: 0 }}>
             <Interaction.Headline>Wahlen und Abstimmungen</Interaction.Headline>
-            {LOREM}
+            {blindtext(2)}
             <P>
               <A href={`${url.query.slug}/kandidieren`}>Kandidieren Sie jetzt!</A>
             </P>
+            <Collapsible>
+              {blindtext(3, false)}
+            </Collapsible>
             <section {...styles.section}>
              <a {...styles.anchor} id='jahresrechnung'></a>
               <H2>Jahresrechnung</H2>
-              {LOREM}
+              {blindtext()}
+              <Collapsible>
+                {blindtext(3, false)}
+              </Collapsible>
               <Poll
                 proposition='Wollen Sie die Jahresrechnung 2017 annehmen?'
                 options={options}
@@ -144,7 +149,10 @@ class Page extends React.Component {
             <section {...styles.section}>
               <a {...styles.anchor} id='revisionsbericht'></a>
               <H2>Revisionsbericht</H2>
-              {LOREM}
+              {blindtext()}
+              <Collapsible>
+                {blindtext(3, false)}
+              </Collapsible>
               <Poll
                 proposition='Wollen Sie den Revisionsbericht 2017 annehmen?'
                 options={options}
@@ -160,7 +168,10 @@ class Page extends React.Component {
             <section {...styles.section}>
               <a {...styles.anchor} id='budget'></a>
               <H2>Budget</H2>
-              {LOREM}
+              {blindtext()}
+              <Collapsible>
+                {blindtext(3, false)}
+              </Collapsible>
               <Poll
                 proposition='Wollen Sie das Budget 2018 annehmen?'
                 options={options}
@@ -176,7 +187,10 @@ class Page extends React.Component {
             <section {...styles.section}>
               <a {...styles.anchor} id='präsidium'></a>
               <H2>Präsidium</H2>
-              {LOREM}
+              {blindtext()}
+              <Collapsible>
+                {blindtext(3, false)}
+              </Collapsible>
               <Election
                 ballotSize={5}
                 active={!this.state.pollStatus.president}
@@ -191,7 +205,10 @@ class Page extends React.Component {
             <section {...styles.section}>
               <a {...styles.anchor} id='genossenschaftsrat'></a>
               <H2>Genossenschaftsrat</H2>
-              {LOREM}
+              {blindtext()}
+              <Collapsible>
+                {blindtext(5, false)}
+              </Collapsible>
               <Election
                 maxVotes={10}
                 isSticky={true}

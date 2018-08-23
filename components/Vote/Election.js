@@ -86,7 +86,7 @@ class Election extends Component {
   state = {
     vote: [],
     display: [],
-    electionState: ELECTION_STATES.START
+    electionState: ELECTION_STATES.DIRTY
   }
 
   transition = (nextState, callback) => {

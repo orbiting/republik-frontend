@@ -54,6 +54,12 @@ const styles = {
     color: colors.disabled,
     ...fontStyles.sansSerifRegular14
   }),
+  error: css({
+    textAlign: 'center',
+    width: '80%',
+    margin: '10px auto',
+    color: colors.error,
+  }),
   thankyou: css({
     background: colors.primaryBg,
     display: 'flex',
@@ -75,7 +81,7 @@ class Poll extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pollState: POLL_STATES.START,
+      pollState: POLL_STATES.DIRTY,
       selectedValue: null
     }
 
@@ -141,6 +147,21 @@ class Poll extends React.Component {
     }
   }
 
+  renderWarning = () => {
+    const { pollState, selectedValue } = this.state
+    if (pollState===POLL_STATES.READY && !selectedValue) {
+      return (
+        <P {...styles.error}>
+          { 
+            `Sie haben keine Option gewählt. Wolle Sie sich wirklch der Stimme enthalten?`
+          }
+        </P>
+      )  
+    } else {
+      return null
+    }
+  }
+
   render () {
     const { options, proposition } = this.props
     const { pollState, selectedValue } = this.state
@@ -179,6 +200,9 @@ class Poll extends React.Component {
               </Fragment>
             ))}
           </div>
+          {
+            this.renderWarning()
+          }
           <div {...styles.cardActions}>
             {this.renderActions()}
           </div>

@@ -20,8 +20,50 @@ import FieldSet from '@project-r/styleguide/lib/components/Form/FieldSet';
 import Statement from '../Profile/Statement';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo'
+import { swissTime } from '../../lib/utils/format';
+import { css } from 'glamor';
 
 const { H1, H2, H3, P } = Interaction
+
+const birthdayFormat = '%d.%m.%Y'
+const birthdayParse = swissTime.parse(birthdayFormat)
+
+const fields = (t) => ([
+  {
+    label: 'Geburtsdatum',
+    name: 'birthday',
+    mask: '11.11.1111',
+    maskChar: '_',
+    validator: (value) => {
+      const parsedDate = birthdayParse(value)
+      return (
+        (
+          (
+            value.trim().length &&
+            (
+              parsedDate === null ||
+              parsedDate > (new Date()) ||
+              parsedDate < (new Date(1798, 3, 12))
+            ) &&
+            t('Account/Update/birthday/error/invalid')
+          )
+        )
+      )
+    }
+  },
+  {
+    label: 'Postleitzahl',
+    name: 'postCode',
+    mask: '1111',
+    maskChar: '_',
+  },
+])
+
+const styles = {
+  previewWrapper: css({
+    margin: '20px 0',
+  }),
+}
 
 class ElectionCandidacy extends React.Component {
 
@@ -92,7 +134,9 @@ class ElectionCandidacy extends React.Component {
     return (
       <Frame url={url} meta={meta}>
         <NarrowContainer>
-          <Interaction.Headline>Kandidieren Sie jetzt</Interaction.Headline>
+          <Interaction.Headline>
+            Kandidieren Sie jetzt
+          </Interaction.Headline>
           {LOREM}
           <P>
             { !isCandidate &&
@@ -103,8 +147,12 @@ class ElectionCandidacy extends React.Component {
           </P>
           { isCandidate &&
             <div>
-              <P>Vorschau Ihrer Kandidatur</P>
-              <ElectionBallot candidates={[user]} />
+              <div {...styles.previewWrapper}>
+                <H2>Vorschau</H2>
+                <P>So erscheint Ihre Kandidatur auf dem Wahlformular</P>
+                <ElectionBallot candidates={[user]} expandAll />
+              </div>
+              <H2>Details</H2>
               <Statement
                 user={user}
                 isEditing={isEditing}
@@ -113,13 +161,16 @@ class ElectionCandidacy extends React.Component {
                 errors={errors}
                 dirty={dirty} 
               />
-              <Field label='Geburtsdatum' value={values.birthday} />
-              <Label style={{marginTop: -8, display: 'block'}}>
-                {t  ('Account/Update/birthday/hint/plain')}
-              </Label>
+              <FieldSet
+                values={values}
+                isEditing={isEditing}
+                errors={errors}
+                dirty={dirty}
+                fields={fields(t)}
+                onChange={this.onChange}
+              />
               <Field label='Funktion' />
-              <Field label='Postleitzahl' value={values.postalCode} />
-              <Field label='Interessenbindung' />
+              <Field label='Interessenbindung (optional)' />
               { isEditing 
                 ? (
                   <Button onClick={this.stopEditing}>

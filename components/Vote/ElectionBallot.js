@@ -115,7 +115,7 @@ const Cell = ({children}) =>
 class ElectionBallot extends React.Component {
 
   state = {
-    expanded: null
+    expanded: this.props.expandAll || false
   }
 
   toggleExpanded = (id) => {
@@ -128,7 +128,7 @@ class ElectionBallot extends React.Component {
 
   render() {
 
-    const { candidates, selected, allowMultiple, onChange, expandAll } = this.props
+    const { candidates, selected, allowMultiple, onChange, expandAll, disabled } = this.props
     const { expanded } = this.state
 
     const SelectionComponent = allowMultiple ? Checkbox : Radio
@@ -205,6 +205,7 @@ class ElectionBallot extends React.Component {
                 </div>
                 <div style={{width: 18}}>
                   <SelectionComponent
+                    disabled={disabled}
                     checked={selected.findIndex(id => id===d.id)>-1} 
                     onChange={() => onChange(d.id)} 
                   />
@@ -223,6 +224,7 @@ ElectionBallot.propTypes = {
   allowMultiple: PropTypes.bool,
   onChange: PropTypes.func,
   expandAll: PropTypes.bool,
+  disable: PropTypes.bool,
 }
 
 ElectionBallot.defaultProps = {
@@ -231,6 +233,7 @@ ElectionBallot.defaultProps = {
   allowMultiple: false,
   onChange: () => {},
   expandAll: false,
+  disable: false,
 }
 
 export default ElectionBallot

@@ -4,13 +4,11 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
-import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 import { css } from 'glamor'
 import Cover from './Cover'
 import Offers from './Offers'
 import PreviewForm from './PreviewForm'
-import AppWithoutMembership from './AppWithoutMembership'
 
 import { CDN_FRONTEND_BASE_URL, STATS_POLL_INTERVAL_MS } from '../../lib/constants'
 
@@ -128,81 +126,77 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ me, t, crowdfundingName, data, inNativeApp }) => (
-  inNativeApp
-    ? <AppWithoutMembership />
-    : (
-      <Fragment>
-        <Cover
-          image={{
-            src: `${CDN_FRONTEND_BASE_URL}/static/cover.jpg`,
-            srcMobile: `${CDN_FRONTEND_BASE_URL}/static/cover_mobile.jpg`
-          }}
-        >
-          <div {...styles.cta}>
-            <Interaction.H1 {...styles.coverHeadline}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/cover/headline')
-                }}
-              />
-            </Interaction.H1>
-            <Link route='pledge' params={{package: 'ABO'}}>
-              <Button primary>
-                {t('marketing/cover/button/label')}
-              </Button>
-            </Link>
-            <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0'}}>
-              {t('marketing/cover/button/caption')}
+const MarketingPage = ({ me, t, crowdfundingName, data }) => (
+  <Fragment>
+    <Cover
+      image={{
+        src: `${CDN_FRONTEND_BASE_URL}/static/cover.jpg`,
+        srcMobile: `${CDN_FRONTEND_BASE_URL}/static/cover_mobile.jpg`
+      }}
+    >
+      <div {...styles.cta}>
+        <Interaction.H1 {...styles.coverHeadline}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/cover/headline')
+            }}
+          />
+        </Interaction.H1>
+        <Link route='pledge' params={{package: 'ABO'}}>
+          <Button primary>
+            {t('marketing/cover/button/label')}
+          </Button>
+        </Link>
+        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0'}}>
+          {t('marketing/cover/button/caption')}
+        </Interaction.P>
+      </div>
+    </Cover>
+    <div {...styles.container}>
+      {me && (
+        <div {...styles.noMember}>
+          <Container style={{ maxWidth: MAX_WIDTH }}>
+            <Interaction.P>
+              {t.elements('marketing/noActiveMembership', {
+                link: (
+                  <Link route='account' key='account'>
+                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
+                  </Link>
+                )
+              })}
             </Interaction.P>
-          </div>
-        </Cover>
-        <div {...styles.container}>
-          {me && (
-            <div {...styles.noMember}>
-              <Container style={{ maxWidth: MAX_WIDTH }}>
-                <Interaction.P>
-                  {t.elements('marketing/noActiveMembership', {
-                    link: (
-                      <Link route='account' key='account'>
-                        <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
-                      </Link>
-                    )
-                  })}
-                </Interaction.P>
-              </Container>
-            </div>
-          )}
-          <Container {...styles.intro} key='intro'>
-            <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-              <P {...styles.text}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('marketing/intro', {count: countFormat(data.memberStats.count)})
-                  }}
-                />
-              </P>
-            )} />
-          </Container>
-          <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
-            <div {...styles.more}>
-              <div {...styles.preview}>
-                <Interaction.H3 style={{ marginBottom: '17px' }}>
-                  {t('marketing/preview/title')}
-                </Interaction.H3>
-                <PreviewForm />
-              </div>
-              <div {...styles.offers}>
-                <Interaction.H3 style={{ marginBottom: '17px' }}>
-                  {t('marketing/offers/title')}
-                </Interaction.H3>
-                <Offers crowdfundingName={crowdfundingName} />
-              </div>
-            </div>
           </Container>
         </div>
-      </Fragment>
-    )
+      )}
+      <Container {...styles.intro} key='intro'>
+        <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
+          <P {...styles.text}>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('marketing/intro', {count: countFormat(data.memberStats.count)})
+              }}
+            />
+          </P>
+        )} />
+      </Container>
+      <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
+        <div {...styles.more}>
+          <div {...styles.preview}>
+            <Interaction.H3 style={{ marginBottom: '17px' }}>
+              {t('marketing/preview/title')}
+            </Interaction.H3>
+            <PreviewForm />
+          </div>
+          <div {...styles.offers}>
+            <Interaction.H3 style={{ marginBottom: '17px' }}>
+              {t('marketing/offers/title')}
+            </Interaction.H3>
+            <Offers crowdfundingName={crowdfundingName} />
+          </div>
+        </div>
+      </Container>
+    </div>
+  </Fragment>
 )
 
 const query = gql`
@@ -215,7 +209,6 @@ query memberStats {
 
 export default compose(
   withMe,
-  withInNativeApp,
   withT,
   graphql(query, {
     options: {

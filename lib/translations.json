@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-17T11:36:03.224Z",
+  "updated": "2018-08-23T15:22:23.177Z",
   "title": "live",
   "data": [
     {
@@ -153,6 +153,18 @@
     {
       "key": "withMembership/unauthorized/accountText",
       "value": "Konto ansehen"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/title",
+      "value": "Verlegerbereich"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation",
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink} um mehr zu erfahren."
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "signIn/button",
@@ -445,6 +457,22 @@
     {
       "key": "formats/title/meta",
       "value": "Zur Lage der Republik"
+    },
+    {
+      "key": "formats/title/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "formats/title/scribble",
+      "value": "Ameisen"
+    },
+    {
+      "key": "formats/latest",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "formats/loadMore",
+      "value": "Mehr Beiträge"
     },
     {
       "key": "crew/pageTitle",

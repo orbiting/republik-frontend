@@ -173,7 +173,7 @@ const styles = {
   })
 }
 
-const positionStickySupport = () => {
+const isPositionStickySupported = () => {
   const style = document.createElement('a').style
   style.cssText = 'position:sticky;position:-webkit-sticky;'
   return style.position.indexOf('sticky') !== -1
@@ -228,7 +228,7 @@ class Header extends Component {
     document.addEventListener('message', this.onMessage)
     this.measure()
 
-    const withoutSticky = !positionStickySupport()
+    const withoutSticky = !isPositionStickySupported()
     if (withoutSticky) {
       this.setState({ withoutSticky })
     }

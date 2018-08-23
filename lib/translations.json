@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-23T15:46:05.468Z",
+  "updated": "2018-08-23T16:26:20.826Z",
   "title": "live",
   "data": [
     {
@@ -160,7 +160,7 @@
     },
     {
       "key": "withMembership/ios/unauthorized/explanation",
-      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink} um mehr zu erfahren."
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink}, um mehr zu erfahren."
     },
     {
       "key": "withMembership/ios/unauthorized/explanation/webText",
@@ -545,6 +545,14 @@
     {
       "key": "account/signedOut/signIn",
       "value": "Bitte anmelden:"
+    },
+    {
+      "key": "account/ios/box",
+      "value": "Besuchen Sie {webLink}, um ihr Mitgliedschaft zu verwalten."
+    },
+    {
+      "key": "account/ios/box/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "Account/title",

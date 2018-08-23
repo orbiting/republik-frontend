@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -6,6 +6,8 @@ import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
+
+import withMembership from '../Auth/withMembership'
 
 import Toggle from './Toggle'
 import User from './User'
@@ -19,6 +21,8 @@ import Search from 'react-icons/lib/md/search'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
+  NAVBAR_HEIGHT,
+  NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER
 } from '../constants'
 
@@ -33,6 +37,7 @@ const SEARCH_BUTTON_WIDTH = 28
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
+    position: 'fixed',
     '@media print': {
       position: 'absolute'
     },
@@ -43,13 +48,11 @@ const styles = {
   barOpaque: css({
     backgroundColor: '#fff',
     boxSizing: 'content-box',
-    height: HEADER_HEIGHT_MOBILE - 1,
-    borderBottom: `1px solid ${colors.divider}`,
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 1
+      height: HEADER_HEIGHT
     },
     '@media print': {
-      borderBottom: 0,
       backgroundColor: 'transparent'
     }
   }),
@@ -131,7 +134,49 @@ const styles = {
       paddingTop: '18px'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  sticky: css({
+    position: 'sticky'
+  }),
+  stickyWithFallback: css({
+    position: ['fixed', 'sticky']
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%',
+    zIndex: ZINDEX_HEADER
+  }),
+  hrThin: css({
+    height: 1,
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
+  }),
+  hrThick: css({
+    height: 3,
+    top: HEADER_HEIGHT_MOBILE - 3,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 3
+    }
+  }),
+  hrFixedAfterNavBar: css({
+    position: 'fixed',
+    marginTop: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      marginTop: NAVBAR_HEIGHT
+    }
   })
+}
+
+const isPositionStickySupported = () => {
+  const style = document.createElement('a').style
+  style.cssText = 'position:sticky;position:-webkit-sticky;'
+  return style.position.indexOf('sticky') !== -1
 }
 
 class Header extends Component {
@@ -141,13 +186,8 @@ class Header extends Component {
     this.state = {
       opaque: !this.props.cover,
       mobile: false,
-      expanded: false,
-      sticky: !this.props.inline,
-      navbarSticky: true,
-      navbarInitial: true
+      expanded: false
     }
-
-    this.y = 0
 
     this.onScroll = () => {
       const y = window.pageYOffset
@@ -157,39 +197,12 @@ class Header extends Component {
       if (opaque !== this.state.opaque) {
         this.setState(() => ({ opaque }))
       }
-
-      if (this.props.inline && this.ref) {
-        const sticky = y + HEADER_HEIGHT > this.barHeight
-        if (sticky !== this.state.sticky) {
-          this.setState(() => ({ sticky }))
-        }
-      }
-
-      const navbarSticky = y < this.y
-      if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
-        this.setState(() => ({ navbarSticky }))
-        this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
-      }
-      this.y = y
-
-      const ynavbarInitial = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-      const navbarInitial = y < ynavbarInitial
-      if (navbarInitial !== this.state.navbarInitial) {
-        this.setState(() => ({ navbarInitial }))
-      }
     }
 
     this.measure = () => {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       if (mobile !== this.state.mobile) {
         this.setState(() => ({ mobile }))
-      }
-      if (this.props.inline && this.ref) {
-        const rect = this.ref.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
       }
       this.onScroll()
     }
@@ -204,10 +217,6 @@ class Header extends Component {
       }
     }
 
-    this.setRef = ref => {
-      this.ref = ref
-    }
-
     this.close = () => {
       this.setState({ expanded: false })
     }
@@ -218,6 +227,11 @@ class Header extends Component {
     window.addEventListener('resize', this.measure)
     document.addEventListener('message', this.onMessage)
     this.measure()
+
+    const withoutSticky = !isPositionStickySupported()
+    if (withoutSticky) {
+      this.setState({ withoutSticky })
+    }
   }
 
   componentDidUpdate () {
@@ -238,41 +252,35 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      inline,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
       formatColor,
       audioSource,
       audioCloseHandler,
       inNativeApp,
-      onNavBarChange
+      isMember
     } = this.props
-    const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
+    const { expanded, withoutSticky } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
     const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
-    const opaque = this.state.opaque || expanded || inline
+    const opaque = this.state.opaque || expanded
     const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
-    const marginBottom = sticky
-      ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-      : undefined
-    const position = sticky || !inline ? 'fixed' : 'relative'
 
     const isSearchActive = url.pathname === '/search'
 
     return (
-      <div ref={this.setRef}>
-        {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} style={{position}}>
+      <Fragment>
+        <div {...barStyle}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
               {secondaryNav}
             </div>
           )}
-          {!inNativeApp && opaque && (
+          {!inNativeApp && opaque && <Fragment>
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
@@ -286,8 +294,6 @@ class Header extends Component {
                 }}
               />
             </div>
-          )}
-          {!inNativeApp && opaque && (
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
@@ -305,7 +311,7 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/' && !me) {
+                  if (url.pathname === '/') {
                     window.scrollTo(0, 0)
                   } else {
                     Router.pushRoute('index').then(() => window.scrollTo(0, 0))
@@ -315,8 +321,6 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
-          )}
-          {!inNativeApp && opaque && (
             <button
               {...styles.search}
               role='button'
@@ -334,8 +338,6 @@ class Header extends Component {
                 fill={isSearchActive ? colors.primary : colors.text}
                 size={28} />
             </button>
-          )}
-          {!inNativeApp && opaque && (
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}
@@ -351,7 +353,7 @@ class Header extends Component {
                 }
               />
             </div>
-          )}
+          </Fragment>}
           {!inNativeApp && audioSource && (
             <AudioPlayer
               src={audioSource}
@@ -366,31 +368,41 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand} inNativeApp={inNativeApp} me={me} isMobile={mobile}>
-            <NavPopover
-              me={me}
-              url={url}
-              inNativeApp={inNativeApp}
-              closeHandler={this.close}
-            />
-          </Popover>
         </div>
-        {!inNativeApp && me && opaque && (
-          <NavBar
-            url={url}
-            onNavBarChange={onNavBarChange}
-            mobile={mobile}
-            formatColor={formatColor}
-            sticky={navbarSticky}
-            initial={navbarInitial || expand}
-          />
+        {isMember && opaque && (
+          <Fragment>
+            <hr
+              {...styles.stickyWithFallback}
+              {...styles.hr}
+              {...styles.hrThin} />
+            <NavBar fixed={withoutSticky} url={url} />
+          </Fragment>
         )}
+        {opaque && <hr
+          {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
+          {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles.hr}
+          {...styles[formatColor ? 'hrThick' : 'hrThin']}
+          style={formatColor ? {
+            color: formatColor,
+            backgroundColor: formatColor
+          } : undefined} />}
+        <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+          <NavPopover
+            me={me}
+            url={url}
+            inNativeApp={inNativeApp}
+            closeHandler={this.close}
+          />
+        </Popover>
         <LoadingBar />
-        {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
-
-      </div>
+        {!!cover && <div {...styles.cover}>{cover}</div>}
+      </Fragment>
     )
   }
 }
 
-export default compose(withT)(Header)
+export default compose(
+  withT,
+  withMembership
+)(Header)

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
 import Footer from '../Footer'
@@ -7,6 +8,9 @@ import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import { postMessage } from '../../../lib/withInNativeApp'
+
+import NavBar from '../NavBar'
+import withMembership from '../../Auth/withMembership'
 
 import {
   Interaction,
@@ -20,6 +24,15 @@ const styles = {
     height: '100%',
     overflow: 'scroll',
     backgroundColor: '#FFF'
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    height: 1,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%'
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
@@ -104,10 +117,15 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
+      <hr {...styles.hr} />
+      {isMember && <Fragment>
+        <NavBar url={url} />
+        <hr {...styles.hr} />
+      </Fragment>}
       <div {...styles.sections}>
         <div {...styles.section}>
           {me && (
@@ -187,4 +205,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
   )
 }
 
-export default withT(Nav)
+export default compose(
+  withT,
+  withMembership
+)(Nav)

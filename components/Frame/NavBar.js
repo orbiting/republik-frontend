@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
@@ -14,44 +14,6 @@ import {
   NAVBAR_HEIGHT_MOBILE,
   ZINDEX_NAVBAR
 } from '../constants'
-
-const slideAnimationDurationMs = 200
-
-const slideAnimation = (borderHeight, headerHeight, navbarHeight) => {
-  const kfrms = css.keyframes({
-    '0%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight},
-    '100%': {opacity: 1, top: headerHeight}
-  })
-  return `${kfrms} ${slideAnimationDurationMs}ms ease-out forwards`
-}
-
-const slideOutAnimation = (borderHeight, headerHeight, navbarHeight) => {
-  const kfrms = css.keyframes({
-    '0%': {opacity: 1, top: headerHeight},
-    '100%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight}
-  })
-  return `${kfrms} ${slideAnimationDurationMs}ms ease-in forwards`
-}
-
-const getAnimationStyles = (isFormat, isMobile) => {
-  const headerHeight = isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-  const navbarHeight = isMobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
-  const borderHeight = isFormat ? 3 : 0
-
-  return {
-    expand: css({
-      animation: slideAnimation(borderHeight, headerHeight, navbarHeight)
-    }),
-    collapse: css({
-      animation: slideOutAnimation(borderHeight, headerHeight, navbarHeight)
-    })
-  }
-}
-
-const animation = getAnimationStyles(false, false)
-const animationMobile = getAnimationStyles(false, true)
-const animationFormat = getAnimationStyles(true, false)
-const animationFormatMobile = getAnimationStyles(true, true)
 
 const linkStyle = {
   fontSize: 15,
@@ -78,28 +40,36 @@ const linkStyle = {
 
 const styles = {
   container: css({
-    position: 'fixed',
-    animationFillMode: 'forwards',
-    borderBottom: `1px solid ${colors.divider}`,
     background: '#fff',
-    display: 'flex',
     alignItems: 'center',
-    height: NAVBAR_HEIGHT_MOBILE,
     left: 0,
     right: 0,
-    padding: '0 15px',
-    zIndex: ZINDEX_NAVBAR,
+    zIndex: ZINDEX_NAVBAR
+  }),
+  fixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: NAVBAR_HEIGHT,
-      padding: '0 25px'
+      top: HEADER_HEIGHT
+    }
+  }),
+  height: css({
+    height: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: NAVBAR_HEIGHT
     }
   }),
   wrapper: css({
     margin: '0 auto 0',
+    alignItems: 'center',
     display: 'flex',
     flex: 1,
     justifyContent: 'space-around',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    padding: '0 15px',
+    [mediaQueries.mUp]: {
+      padding: '0 25px'
+    }
   }),
   link: css({
     ...linkStyle
@@ -110,16 +80,10 @@ const styles = {
     ':visited': {
       color: colors.disabled
     }
-  }),
-  initial: css({
-    top: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT
-    }
   })
 }
 
-const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
+const NavLink = ({ route, label, params = {}, active, closeHandler }) => {
   if (active && active.route === route) {
     return (
       <a
@@ -132,7 +96,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
           })
         }}
       >
-        {translation}
+        {label}
       </a>
     )
   }
@@ -142,61 +106,48 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
 
   return (
     <Link route={route} params={params}>
-      <a {...(isNavBarPage ? styles.linkNavBarPage : styles.link)}>{translation}</a>
+      <a {...(isNavBarPage ? styles.linkNavBarPage : styles.link)}>{label}</a>
     </Link>
   )
 }
 
-class NavBar extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
-    if (this.props.initial && nextProps.sticky) {
-      return false
-    }
-    return true
-  }
+const NavBar = ({ url, t, fixed }) => {
+  const active = matchPath(url.asPath)
 
-  render () {
-    const { url, t, formatColor, sticky, initial, mobile } = this.props
-    const active = matchPath(url.asPath)
-    const animationStyles = formatColor
-      ? (mobile ? animationFormatMobile : animationFormat)
-      : (mobile ? animationMobile : animation)
-
-    return (
+  return (
+    <Fragment>
+      {fixed && <div {...styles.height} />}
       <div
         {...styles.container}
-        {...(initial ? styles.initial : sticky ? animationStyles.expand : animationStyles.collapse)}
-        style={{
-          borderBottom: formatColor ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
-        }}
+        {...(fixed ? styles.fixed : undefined)}
       >
-        <div {...styles.wrapper}>
+        <div {...styles.height} {...styles.wrapper}>
           <NavLink
             route='index'
-            translation={t('navbar/front')}
+            label={t('navbar/front')}
             active={active}
           />
           {/*
           <NavLink
             route='feuilleton'
-            translation={t('navbar/feuilleton')}
+            label={t('navbar/feuilleton')}
             active={active}
           />
           */}
           <NavLink
             route='feed'
-            translation={t('navbar/feed')}
+            label={t('navbar/feed')}
             active={active}
           />
           <NavLink
             route='formats'
-            translation={t('navbar/formats')}
+            label={t('navbar/formats')}
             active={active}
           />
         </div>
       </div>
-    )
-  }
+    </Fragment>
+  )
 }
 
 export default compose(withT)(NavBar)

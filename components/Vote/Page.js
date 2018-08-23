@@ -9,7 +9,8 @@ import {
   NarrowContainer,
   Interaction,
   Checkbox,
-  mediaQueries
+  mediaQueries,
+  A
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
@@ -31,7 +32,7 @@ const LOREM =
     alten, halbverklungnen Sage. Kommt erste Lieb’ und Freundschaft mit herauf Der
     Schmerz wird neu, es wiederholt die Klage. Des Lebens labyrinthisch irren Lauf,
     Und nennt die Guten, die, um schöne Stunden Vom Glück getäuscht, vor mir
-    hinweggeschwunden.    
+    hinweggeschwunden.  
   </P>
 
 const styles = {
@@ -119,8 +120,11 @@ class Page extends React.Component {
           </Agenda> */}
 
           <div style={{ marginTop: 0 }}>
-            <H1>Wahlen und Abstimmungen</H1>
+            <Interaction.Headline>Wahlen und Abstimmungen</Interaction.Headline>
             {LOREM}
+            <P>
+              <A href={`${url.query.slug}/kandidieren`}>Kandidieren Sie jetzt!</A>
+            </P>
             <section {...styles.section}>
              <a {...styles.anchor} id='jahresrechnung'></a>
               <H2>Jahresrechnung</H2>
@@ -211,3 +215,70 @@ class Page extends React.Component {
 export default compose(
   withMe,
 )(Page)
+
+const votingQuery = `
+  query getVoting($name: String!) {
+    id
+    label
+    description
+    submitDate
+    isEligible
+    votingOptions {
+      id
+      name
+    }
+  }
+`
+const submitVotingBallotMutation = `
+  mutation submitVotingBallot($votingId: String!, $votingOptionId: String!) {
+    submitVotingBallot(votingId: $votingId, votingOptionId: $votingOptionId) {
+      id
+    }
+  }
+`
+
+
+const candidateQuery = `
+  query getCandidate($slug: String!) {
+    user {
+      name
+      portrait
+      yearOfBirth
+      address {
+        postalCode
+      }
+      credentials {
+        description
+      }
+    }
+    disclosure
+    recommendation
+    election {
+      id
+      name
+    }
+  }
+`
+
+const electionBallotMutation = `
+  mutation submitElectionBallot($electionId: ID!, $candidateIds: [ID!]!) {
+    id
+  }
+`
+
+const councilElectionQuery = `
+  query getElection($name: String!) {
+    election(name: $name) {
+      id
+      name
+      beginDate
+      endDate
+      candidates {
+        id
+        name
+        statement
+        portrait
+      }  
+    }
+  }
+`

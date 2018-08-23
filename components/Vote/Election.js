@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
-import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Button, Checkbox, Radio, Interaction, colors, fontStyles, A, mediaQueries } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -17,10 +15,10 @@ const ELECTION_STATES = {
 }
 
 // TODO create API?
-import postcodes from './postcodes.json'
 import VoteActions from './VoteActions';
 import { timeFormat } from '../../lib/utils/format';
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants';
+import ElectionBallot from './ElectionBallot';
 
 const styles = {
   wrapper: css({
@@ -56,20 +54,6 @@ const styles = {
     position: 'sticky',
     bottom: 0,
   }),
-  table: css({
-    width: '100%',
-    marginTop: 20,
-    cursor: 'pointer',
-    [`& tr td:nth-child(3), tr td:nth-child(4), tr td:nth-child(5)`]: {
-      display: 'table-cell',
-      [mediaQueries.onlyS]: {
-        display: 'none'
-      }
-    },
-    '& tr td:first-child, tr td:last-child': {
-      width: 1,
-    }
-  }),
   error: css({
     textAlign: 'center',
     width: '80%',
@@ -93,24 +77,6 @@ const styles = {
     padding: 30,
     textAlign: 'center',
   }),
-}
-
-const POSTCODE_REGIONS = {
-  1000: 'Westschweiz',
-  2000: 'Westschweiz',
-  3000: 'Bern/Oberwallis',
-  4000: 'Basel',
-  5000: 'Aargau',
-  6000: 'Zentralschweiz',
-  6500: 'Tessin',
-  7000: 'Graubünden',
-  8000: 'Zürich/Thurgau',
-  9000: 'Ostschweiz',
-}
-
-function getRegion(user) {
-  const code = postcodes[user.postcode] || 8000
-  return POSTCODE_REGIONS[Math.floor(code/1000)*1000]
 }
 
 const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
@@ -229,7 +195,7 @@ class Election extends Component {
     const candidates = data.users
       .filter(
         (d, i) =>
-          [d.firstName, d.lastName, d.birthday].every(
+          [d.firstName, d.lastName].every(
             Boolean,
           ),
       )
@@ -268,49 +234,12 @@ class Election extends Component {
           }
         </div>
         <div {...styles.wrapper}>
-          <table {...styles.table}>
-            <tbody>
-            { candidates
-              .map((d, i) => {
-                const showDetails = display.some(id => id===d.id)
-                return (
-                  <React.Fragment>
-                    <tr>
-                      <td>
-                        {
-                          showDetails
-                            ? <ChevronDownIcon/>
-                            : <ChevronRightIcon />
-                        }
-                      </td>
-                      <td>
-                        {d.firstName} {d.lastName}
-                      </td>
-                      <td>
-                        {new Date(
-                          d.birthday.split('.')[2],
-                        ).getFullYear() || ''}
-                      </td>
-                      <td>
-                        {d.credentials.length > 0 &&
-                        d.credentials.length[0] &&
-                        d.credentials.length[0].description}
-                      </td>
-                      <td>Kindergärtner</td>
-                      <td>{getRegion(d)}</td>
-                      <td>
-                        <SelectionComponent
-                          disabled={!active}
-                          checked={vote.findIndex(id => id===d.id)>-1} 
-                          onChange={() => this.toggleSelection(d.id)} 
-                        />
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                )
-              })}
-            </tbody>
-          </table>
+          <ElectionBallot
+            allowMultiple={maxVotes > 1}
+            candidates={candidates}
+            selected={vote}
+            onChange={this.toggleSelection}
+          />
           { inProgress &&
             <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
             {
@@ -353,6 +282,7 @@ const query = gql`
       id
       firstName
       lastName
+      name
       email
       roles
       age

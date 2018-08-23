@@ -16,8 +16,8 @@ import withAuthorization, { PageCenter } from './withAuthorization'
 const UnauthorizedMessage = compose(
   withT,
   withInNativeApp
-)(({ t, me, url, inNativeApp, isIOS }) => {
-  if (inNativeApp && isIOS) {
+)(({ t, me, url, inNativeIOSApp }) => {
+  if (inNativeIOSApp) {
     return (
       <Fragment>
         {me && <Interaction.H1>{t('withMembership/ios/unauthorized/title')}</Interaction.H1>}

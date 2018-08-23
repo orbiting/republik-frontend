@@ -17,12 +17,12 @@ import {
 
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
-const IndexPage = ({ url, t, me, isMember, inNativeApp, isIOS }) => {
+const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
   if (isMember) {
     // does it's own meta
     return <Front url={url} />
   }
-  if (inNativeApp && isIOS) {
+  if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} url={url} />
   }
   const meta = {

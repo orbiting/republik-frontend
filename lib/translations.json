@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-23T15:22:23.177Z",
+  "updated": "2018-08-23T15:46:05.468Z",
   "title": "live",
   "data": [
     {
@@ -2327,12 +2327,20 @@
       "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
+      "key": "article/payNote/before/ios",
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet."
+    },
+    {
       "key": "article/payNote/before/buyText",
       "value": "Kommen Sie ebenfalls an Bord!"
     },
     {
       "key": "article/payNote/after",
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
+    },
+    {
+      "key": "article/payNote/after/ios",
+      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",

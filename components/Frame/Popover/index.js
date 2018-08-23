@@ -9,7 +9,7 @@ import {
   HEADER_HEIGHT_MOBILE
 } from '../../constants'
 
-const paddingTop = 3 // max hr height from header
+const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom cases
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,

@@ -81,7 +81,7 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      {...((!cover && !inNativeApp)
+      {...(!cover
         ? styles.padHeader
         : undefined
       )}
@@ -98,7 +98,6 @@ const Index = ({
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
-        inNativeApp={inNativeApp}
       />
       <noscript>
         <Box style={{padding: 30}}>

@@ -24,8 +24,6 @@ const menuStyle = css({
     visibility: 'visible',
     transition: 'opacity 0.2s ease-in-out'
   },
-  display: 'flex',
-  boxSizing: 'border-box',
   top: HEADER_HEIGHT_MOBILE - paddingTop,
   paddingTop: paddingTop,
   left: 0,
@@ -38,24 +36,15 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children, url, inNativeApp }) => {
-  const height = inNativeApp ? '100vh' : undefined
-  const top = inNativeApp ? 0 : undefined
-
-  return (
-    <div
-      id={id}
-      aria-expanded={expanded}
-      style={{
-        top,
-        height
-      }}
-      {...menuStyle}
-    >
-      {children}
-    </div>
-  )
-}
+const Popover = ({ items, expanded, id, children, url }) => (
+  <div
+    id={id}
+    aria-expanded={expanded}
+    {...menuStyle}
+  >
+    {children}
+  </div>
+)
 
 Popover.propTypes = {
   expanded: PropTypes.bool

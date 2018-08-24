@@ -7,7 +7,7 @@ import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
-import withInNativeApp, { postMessage } from '../../../lib/withInNativeApp'
+import withInNativeApp from '../../../lib/withInNativeApp'
 
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
@@ -98,7 +98,6 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          postMessage({ type: 'close-menu' })
           Router.replaceRoute(route, params)
             .then(() => {
               window.scroll(0, 0)

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-23T16:26:20.826Z",
+  "updated": "2018-08-24T13:26:38.006Z",
   "title": "live",
   "data": [
     {
@@ -548,7 +548,7 @@
     },
     {
       "key": "account/ios/box",
-      "value": "Besuchen Sie {webLink}, um ihr Mitgliedschaft zu verwalten."
+      "value": "Besuchen Sie {webLink}, um ihre Mitgliedschaft zu verwalten."
     },
     {
       "key": "account/ios/box/webText",
@@ -795,12 +795,32 @@
       "value": "Republik – Das tägliche Update"
     },
     {
+      "key": "account/newsletterSubscriptions/DAILY/frequency",
+      "value": "montags, dienstags, mittwochs und freitags"
+    },
+    {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenüberblick"
     },
     {
+      "key": "account/newsletterSubscriptions/WEEKLY/frequency",
+      "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/label",
+      "value": "Republik – Das Feuilleton"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
+      "value": "donnerstags"
+    },
+    {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PROJECTR/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/authSettings/title",
@@ -1083,8 +1103,16 @@
       "value": "Statement, maximal 140 Zeichen"
     },
     {
-      "key": "profile/share/title",
+      "key": "profile/share/overlayTitle",
       "value": "Profil teilen"
+    },
+    {
+      "key": "profile/share/title",
+      "value": "Profil von {name}"
+    },
+    {
+      "key": "profile/share/emailSubject",
+      "value": "Profil von {name}"
     },
     {
       "key": "profile/preview",
@@ -1212,6 +1240,10 @@
     },
     {
       "key": "testimonial/detail/share/emailSubject",
+      "value": "{name} unterstützt Republik"
+    },
+    {
+      "key": "testimonial/detail/share/title",
       "value": "{name} unterstützt Republik"
     },
     {
@@ -2332,11 +2364,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
       "key": "article/payNote/before/ios",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2348,7 +2380,7 @@
     },
     {
       "key": "article/payNote/after/ios",
-      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen es hat Ihnen gefallen."
+      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen, es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",
@@ -2529,6 +2561,10 @@
     {
       "key": "merci/action/profile",
       "value": "Gesicht zeigen"
+    },
+    {
+      "key": "merci/share/title",
+      "value": "Ein neues, unabhängiges Magazin"
     },
     {
       "key": "merci/share/tweetTemplate",

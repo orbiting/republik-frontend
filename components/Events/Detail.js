@@ -121,6 +121,7 @@ const Event = withT(({
         {!!where && <hr {...styles.hr} />}
         <P>
           <ActionBar
+            title={title}
             url={`${PUBLIC_BASE_URL}/veranstaltung/${slug}`}
             emailSubject={title}
             tweet={title}

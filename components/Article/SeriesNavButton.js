@@ -93,30 +93,26 @@ const SeriesNavButton = ({
   url,
   series,
   onSecondaryNavExpandedChange,
-  expanded,
-  inNativeApp
+  expanded
 }) => (
   <Fragment>
-    { !inNativeApp && (
-      <button
-        {...styles.button}
-        onClick={() => {
-          onSecondaryNavExpandedChange(!expanded)
-        }}
-      >
-        <span {...styles.title}>
-          {series.title}
-          <span {...styles.arrow}>
-            {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
-            {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
-          </span>
+    <button
+      {...styles.button}
+      onClick={() => {
+        onSecondaryNavExpandedChange(!expanded)
+      }}
+    >
+      <span {...styles.title}>
+        {series.title}
+        <span {...styles.arrow}>
+          {expanded && <ArrowUpIcon size='28' fill={colors.text} />}
+          {!expanded && <ArrowDownIcon size='28' fill={colors.text} />}
         </span>
-      </button>
-    )}
+      </span>
+    </button>
     <div
       {...styles.menu}
       aria-expanded={expanded}
-      style={{ top: inNativeApp && 0, height: inNativeApp && '100vh' }}
     >
       <SeriesNavPanel t={t} url={url} series={series} />
     </div>

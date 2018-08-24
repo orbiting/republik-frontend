@@ -3,6 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
@@ -47,7 +48,6 @@ const styles = {
   }),
   barOpaque: css({
     backgroundColor: '#fff',
-    boxSizing: 'content-box',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
@@ -179,6 +179,20 @@ const isPositionStickySupported = () => {
   return style.position.indexOf('sticky') !== -1
 }
 
+// Workaround for WKWebView fixed 0 rendering hickup
+// - iOS 11.4
+const forceRefRedraw = ref => {
+  if (ref) {
+    setTimeout(() => {
+      const display = ref.style.display
+      ref.style.display = 'none'
+      /* eslint-disable-next-line no-unused-expressions */
+      ref.offsetHeight
+      ref.style.display = display
+    }, 300)
+  }
+}
+
 class Header extends Component {
   constructor (props) {
     super(props)
@@ -258,29 +272,33 @@ class Header extends Component {
       audioSource,
       audioCloseHandler,
       inNativeApp,
+      inNativeIOSApp,
       isMember
     } = this.props
     const { expanded, withoutSticky } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
     const opaque = this.state.opaque || expanded
-    const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
     const isSearchActive = url.pathname === '/search'
 
     return (
       <Fragment>
-        <div {...barStyle}>
+        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
           {secondaryNav && !audioSource && (
-            <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
+            <div {...styles.secondary} style={{
+              opacity: secondaryVisible ? 1 : 0,
+              zIndex: secondaryVisible ? 99 : undefined
+            }}>
               {secondaryNav}
             </div>
           )}
-          {!inNativeApp && opaque && <Fragment>
+          {opaque && <Fragment>
             <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
               <User
                 me={me}
@@ -349,8 +367,7 @@ class Header extends Component {
                   } else {
                     this.setState({ expanded: !expand })
                   }
-                }
-                }
+                }}
               />
             </div>
           </Fragment>}
@@ -387,7 +404,7 @@ class Header extends Component {
             color: formatColor,
             backgroundColor: formatColor
           } : undefined} />}
-        <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+        <Popover expanded={!!expand}>
           <NavPopover
             me={me}
             url={url}
@@ -403,5 +420,6 @@ class Header extends Component {
 
 export default compose(
   withT,
-  withMembership
+  withMembership,
+  withInNativeApp
 )(Header)

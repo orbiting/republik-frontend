@@ -215,6 +215,7 @@ class Merci extends Component {
           <P style={{marginBottom: 80}}>
             <ActionBar
               url={`${PUBLIC_BASE_URL}/`}
+              title={t('merci/share/title')}
               tweet={t('merci/share/tweetTemplate')}
               emailSubject={t('merci/share/emailSubject')}
               emailBody={t('merci/share/emailBody', {

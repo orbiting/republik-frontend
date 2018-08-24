@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
 import Footer from '../Footer'
@@ -6,7 +7,7 @@ import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
-import { postMessage } from '../../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../../lib/withInNativeApp'
 
 import {
   Interaction,
@@ -104,7 +105,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -155,24 +156,18 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
             closeHandler={closeHandler}
           />
           <br />
-          {me && (
-            <NavLink
-              route='pledge'
-              params={{ package: 'ABO_GIVE' }}
-              translation={t('nav/give')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+          {!inNativeIOSApp && (
+            <Fragment>
+              <NavLink
+                route='pledge'
+                params={me ? { package: 'ABO_GIVE' } : undefined}
+                translation={t(me ? 'nav/give' : 'nav/offers')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
           )}
-          {!me && (
-            <NavLink
-              route='pledge'
-              translation={t('nav/offers')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-          )}
-          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}
@@ -187,4 +182,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
   )
 }
 
-export default withT(Nav)
+export default compose(
+  withT,
+  withInNativeApp
+)(Nav)

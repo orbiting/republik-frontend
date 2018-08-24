@@ -370,7 +370,6 @@ class Header extends Component {
             <NavPopover
               me={me}
               url={url}
-              inNativeApp={inNativeApp}
               closeHandler={this.close}
             />
           </Popover>

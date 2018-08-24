@@ -139,7 +139,9 @@ const styles = {
     position: 'sticky'
   }),
   stickyWithFallback: css({
-    position: ['fixed', 'sticky']
+    // auto prefix does not with multiple values :(
+    // - glamor 2.20.40 / inline-style-prefixer 3.0.8
+    position: ['fixed', '-webkit-sticky', 'sticky']
   }),
   hr: css({
     margin: 0,

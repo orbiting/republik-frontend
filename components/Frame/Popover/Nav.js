@@ -13,6 +13,11 @@ import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
 
 import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../../constants'
+
+import {
   Interaction,
   colors,
   fontStyles,
@@ -33,6 +38,13 @@ const styles = {
     color: colors.divider,
     backgroundColor: colors.divider,
     width: '100%'
+  }),
+  hrFixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
@@ -120,7 +132,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
-      <hr {...styles.hr} />
+      <hr {...styles.hr} {...styles.hrFixed} />
       {isMember && <Fragment>
         <NavBar url={url} />
         <hr {...styles.hr} />

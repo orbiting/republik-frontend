@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { SUPPORTED_FILTER } from './constants'
 
 import {
   colors,
@@ -173,7 +174,7 @@ class Filter extends Component {
       aggregation.kind &&
       aggregation.kind.buckets
         .filter(
-          bucket => bucket.value !== 'editorial'
+          bucket => SUPPORTED_FILTER.kind.indexOf(bucket.value) > -1
         )
         .map(bucket => filterButtonProps('kind', bucket))
 

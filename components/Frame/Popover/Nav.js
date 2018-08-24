@@ -9,6 +9,9 @@ import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp, { postMessage } from '../../../lib/withInNativeApp'
 
+import NavBar from '../NavBar'
+import withMembership from '../../Auth/withMembership'
+
 import {
   Interaction,
   colors,
@@ -21,6 +24,15 @@ const styles = {
     height: '100%',
     overflow: 'scroll',
     backgroundColor: '#FFF'
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    height: 1,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%'
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
@@ -105,10 +117,15 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
+      <hr {...styles.hr} />
+      {isMember && <Fragment>
+        <NavBar url={url} />
+        <hr {...styles.hr} />
+      </Fragment>}
       <div {...styles.sections}>
         <div {...styles.section}>
           {me && (
@@ -184,5 +201,6 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp }
 
 export default compose(
   withT,
-  withInNativeApp
+  withInNativeApp,
+  withMembership
 )(Nav)

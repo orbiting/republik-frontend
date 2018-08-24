@@ -7,10 +7,7 @@ import Footer from './Footer'
 import Box from './Box'
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  SAFE_TOP_HEIGHT,
-  SAFE_TOP_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT_MOBILE
+  HEADER_HEIGHT_MOBILE
 } from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
@@ -33,20 +30,11 @@ const styles = {
     display: 'flex',
     flexDirection: 'column'
   }),
-  coverlessWithMe: css({
-    paddingTop: SAFE_TOP_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      paddingTop: SAFE_TOP_HEIGHT
-    }
-  }),
-  coverless: css({
+  padHeader: css({
     paddingTop: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       paddingTop: HEADER_HEIGHT
     }
-  }),
-  native: css({
-    paddingTop: NAVBAR_HEIGHT_MOBILE
   }),
   bodyGrower: css({
     flexGrow: 1
@@ -85,22 +73,18 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  headerInline,
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick,
-  onNavBarChange
+  onSearchClick
 }) => (
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={cover
-        ? undefined
-        : inNativeApp
-          ? styles.native
-          : me ? styles.coverlessWithMe : styles.coverless
-      }
+      {...((!cover && !inNativeApp)
+        ? styles.padHeader
+        : undefined
+      )}
     >
       {!!meta && <Meta data={meta} />}
       <Header
@@ -111,12 +95,10 @@ const Index = ({
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
-        inline={headerInline}
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
         inNativeApp={inNativeApp}
-        onNavBarChange={onNavBarChange}
       />
       <noscript>
         <Box style={{padding: 30}}>

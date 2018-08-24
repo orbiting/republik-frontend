@@ -4,15 +4,17 @@ import { css } from 'glamor'
 
 import { mediaQueries, fontFamilies } from '@project-r/styleguide'
 import {
+  ZINDEX_POPOVER,
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  SAFE_TOP_HEIGHT,
-  SAFE_TOP_HEIGHT_MOBILE
+  HEADER_HEIGHT_MOBILE
 } from '../../constants'
+
+const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom cases
 
 const menuStyle = css({
   fontFamily: fontFamilies.sansSerifRegular,
-  position: 'absolute',
+  position: 'fixed',
+  zIndex: ZINDEX_POPOVER,
   backgroundColor: '#fff',
   visibility: 'hidden',
   opacity: 0,
@@ -24,26 +26,21 @@ const menuStyle = css({
   },
   display: 'flex',
   boxSizing: 'border-box',
-  top: SAFE_TOP_HEIGHT_MOBILE,
+  top: HEADER_HEIGHT_MOBILE - paddingTop,
+  paddingTop: paddingTop,
   left: 0,
   right: 0,
-  height: `calc(100vh - ${SAFE_TOP_HEIGHT_MOBILE}px)`,
+  height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - paddingTop}px)`,
   flexDirection: 'column',
   [mediaQueries.mUp]: {
-    top: SAFE_TOP_HEIGHT,
-    height: `calc(100vh - ${SAFE_TOP_HEIGHT}px)`
+    top: HEADER_HEIGHT - paddingTop,
+    height: `calc(100vh - ${HEADER_HEIGHT - paddingTop}px)`
   }
 })
 
-const Popover = ({ items, expanded, id, children, url, inNativeApp, me, isMobile }) => {
-  const baseHeight = me
-    ? isMobile
-      ? SAFE_TOP_HEIGHT_MOBILE : SAFE_TOP_HEIGHT
-    : isMobile
-      ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-  const height = inNativeApp ? '100vh' : `calc(100vh - ${baseHeight}px)`
-  const top = inNativeApp ? 0 : baseHeight
-  const overflow = inNativeApp ? 'scroll' : undefined
+const Popover = ({ items, expanded, id, children, url, inNativeApp }) => {
+  const height = inNativeApp ? '100vh' : undefined
+  const top = inNativeApp ? 0 : undefined
 
   return (
     <div
@@ -51,8 +48,7 @@ const Popover = ({ items, expanded, id, children, url, inNativeApp, me, isMobile
       aria-expanded={expanded}
       style={{
         top,
-        height,
-        overflow
+        height
       }}
       {...menuStyle}
     >

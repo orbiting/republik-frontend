@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-17T11:36:03.224Z",
+  "updated": "2018-08-23T16:26:20.826Z",
   "title": "live",
   "data": [
     {
@@ -153,6 +153,18 @@
     {
       "key": "withMembership/unauthorized/accountText",
       "value": "Konto ansehen"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/title",
+      "value": "Verlegerbereich"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation",
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink}, um mehr zu erfahren."
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "signIn/button",
@@ -447,6 +459,22 @@
       "value": "Zur Lage der Republik"
     },
     {
+      "key": "formats/title/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "formats/title/scribble",
+      "value": "Ameisen"
+    },
+    {
+      "key": "formats/latest",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "formats/loadMore",
+      "value": "Mehr Beiträge"
+    },
+    {
       "key": "crew/pageTitle",
       "value": "Crew – Republik"
     },
@@ -517,6 +545,14 @@
     {
       "key": "account/signedOut/signIn",
       "value": "Bitte anmelden:"
+    },
+    {
+      "key": "account/ios/box",
+      "value": "Besuchen Sie {webLink}, um ihr Mitgliedschaft zu verwalten."
+    },
+    {
+      "key": "account/ios/box/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "Account/title",
@@ -2299,12 +2335,20 @@
       "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
+      "key": "article/payNote/before/ios",
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet."
+    },
+    {
       "key": "article/payNote/before/buyText",
       "value": "Kommen Sie ebenfalls an Bord!"
     },
     {
       "key": "article/payNote/after",
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
+    },
+    {
+      "key": "article/payNote/after/ios",
+      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",

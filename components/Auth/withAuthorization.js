@@ -23,8 +23,8 @@ const checkRoles = (me, roles) => {
 const styles = {
   center: css({
     width: '100%',
-    maxWidth: '540px',
-    margin: '20vh auto',
+    maxWidth: 600,
+    margin: '10vh auto',
     padding: 20
   })
 }

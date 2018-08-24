@@ -3,6 +3,7 @@ import { compose } from 'react-apollo'
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
 import Loader from '../components/Loader'
+import { PageCenter } from '../components/Auth/withAuthorization'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
@@ -37,10 +38,9 @@ class SigninPage extends Component {
 
     return (
       <Frame url={url} meta={meta}>
-        <div style={{ margin: '40px auto 0 auto', maxWidth: 600 }}>
-          {/* TODO: some intro text. */}
+        <PageCenter>
           {!me ? <SignIn /> : <Loader loading />}
-        </div>
+        </PageCenter>
       </Frame>
     )
   }

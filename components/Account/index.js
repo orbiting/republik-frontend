@@ -4,6 +4,7 @@ import { max } from 'd3-array'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import { Content, MainContainer } from '../Frame'
 import Loader from '../Loader'
@@ -16,9 +17,10 @@ import PledgeList from './PledgeList'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import SignIn from '../Auth/SignIn'
+import Box from '../Frame/Box'
 
 import {
-  H1, Interaction
+  H1, Interaction, linkRule
 } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
@@ -30,7 +32,7 @@ import { APP_OPTIONS } from '../../lib/constants'
 
 const { H2, P } = Interaction
 
-const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci }) => (
+const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
   <Loader
     loading={loading}
     error={error}
@@ -51,7 +53,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
 
       return (
         <Fragment>
-          {!hasMemberships && <UserGuidance />}
+          {!hasMemberships && !inNativeIOSApp && <UserGuidance />}
           <MainContainer>
             <Content>
               {!merci && <H1>
@@ -59,18 +61,39 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                   nameOrEmail: me.name || me.email
                 })}
               </H1>}
-              <MembershipList highlightId={query.id} />
-
-              {recurringAmount > 0 &&
-                <PaymentSources query={query} total={recurringAmount} />}
+              {hasMemberships && inNativeIOSApp &&
+                <Box style={{ padding: 14, marginBottom: 20 }}>
+                  <P>
+                    {t.elements('account/ios/box', {
+                      webLink: (
+                        <a key='web' {...linkRule} href='/konto' target='_blank'>
+                          {t('account/ios/box/webText')}
+                        </a>
+                      )
+                    })}
+                  </P>
+                </Box>
+              }
+              {!inNativeIOSApp &&
+                <Fragment>
+                  <MembershipList highlightId={query.id} />
+                  {recurringAmount > 0 &&
+                    <PaymentSources query={query} total={recurringAmount} />
+                  }
+                </Fragment>
+              }
 
               <UpdateEmail />
               <UpdateMe acceptedStatue={acceptedStatue} />
 
-              {(hasPledges || !hasMemberships) && (
-                <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
-              )}
-              <PledgeList highlightId={query.id} />
+              {!inNativeIOSApp &&
+                <Fragment>
+                  {(hasPledges || !hasMemberships) && (
+                    <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
+                  )}
+                  <PledgeList highlightId={query.id} />
+                </Fragment>
+              }
               <H2 style={{marginTop: 80}} id='newsletter'>
                 {t('account/newsletterSubscriptions/title')}
               </H2>
@@ -96,6 +119,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
 export default compose(
   withMe,
   withT,
+  withInNativeApp,
   graphql(query, {
     props: ({data}) => {
       const isReady = (

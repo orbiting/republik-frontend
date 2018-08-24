@@ -7,7 +7,7 @@ import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
-import { postMessage } from '../../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../../lib/withInNativeApp'
 
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
@@ -117,7 +117,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -173,24 +173,18 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
             closeHandler={closeHandler}
           />
           <br />
-          {me && (
-            <NavLink
-              route='pledge'
-              params={{ package: 'ABO_GIVE' }}
-              translation={t('nav/give')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+          {!inNativeIOSApp && (
+            <Fragment>
+              <NavLink
+                route='pledge'
+                params={me ? { package: 'ABO_GIVE' } : undefined}
+                translation={t(me ? 'nav/give' : 'nav/offers')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
           )}
-          {!me && (
-            <NavLink
-              route='pledge'
-              translation={t('nav/offers')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-          )}
-          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}
@@ -207,5 +201,6 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
 
 export default compose(
   withT,
+  withInNativeApp,
   withMembership
 )(Nav)

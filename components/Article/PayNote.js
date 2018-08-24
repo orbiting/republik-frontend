@@ -6,6 +6,7 @@ import { WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import {
   Container,
@@ -35,11 +36,12 @@ query payNoteMembershipStats {
 
 export const Before = compose(
   withT,
-  graphql(query)
-)(({ t, data: { memberStats } }) => (
+  graphql(query),
+  withInNativeApp
+)(({ t, data: { memberStats }, inNativeIOSApp }) => (
   <WithoutMembershipBox>
     <Interaction.P>
-      {t.elements('article/payNote/before', {
+      {t.elements(`article/payNote/before${inNativeIOSApp ? '/ios' : ''}`, {
         buyLink: (
           <Link key='buy' route='pledge'>
             <a {...linkRule}>{t('article/payNote/before/buyText')}</a>
@@ -53,10 +55,13 @@ export const Before = compose(
   </WithoutMembershipBox>
 ))
 
-export const After = withT(({t, isSeries}) => (
+export const After = compose(
+  withT,
+  withInNativeApp
+)(({ t, isSeries, inNativeIOSApp }) => (
   <WithoutMembershipBox>
     <Interaction.P>
-      {t.elements('article/payNote/after', {
+      {t.elements(`article/payNote/after${inNativeIOSApp ? '/ios' : ''}`, {
         buyLink: (
           <Link key='buy' route='pledge'>
             <a {...linkRule}>{t('article/payNote/after/buyText')}</a>
@@ -64,7 +69,7 @@ export const After = withT(({t, isSeries}) => (
         )
       })}
     </Interaction.P>
-    {isSeries && <Interaction.P style={{marginTop: 15}}>
+    {!inNativeIOSApp && isSeries && <Interaction.P style={{marginTop: 15}}>
       {t('article/payNote/after/series')}
     </Interaction.P>}
   </WithoutMembershipBox>

@@ -15,6 +15,52 @@ import {
   ZINDEX_NAVBAR
 } from '../constants'
 
+const LINKS = [
+  {
+    key: 'front',
+    route: 'index',
+    params: {}
+  },
+  // {
+  //   key: 'feuilleton',
+  //   route: 'front',
+  //   params: {slug: 'feuilleton'}
+  // },
+  {
+    key: 'feed',
+    route: 'feed',
+    params: {}
+  },
+  {
+    key: 'formats',
+    route: 'formats',
+    params: {}
+  }
+]
+
+const isActiveRoute = (active, route, params = {}) => (
+  !!active && active.route === route && Object.keys(params).every(
+    key => active.params[key] === params[key]
+  )
+)
+
+export const getNavBarStateFromUrl = url => {
+  const active = matchPath(url.asPath)
+
+  const links = LINKS.map(({key, route, params}) => ({
+    key,
+    route,
+    params,
+    isActive: isActiveRoute(active, route, params)
+  }))
+  const hasActiveLink = !!links.find(link => link.isActive)
+
+  return {
+    hasActiveLink,
+    links
+  }
+}
+
 const linkStyle = {
   fontSize: 15,
   lineHeight: '18px',
@@ -74,7 +120,7 @@ const styles = {
   link: css({
     ...linkStyle
   }),
-  linkNavBarPage: css({
+  linkFaded: css({
     ...linkStyle,
     color: colors.disabled,
     ':visited': {
@@ -83,8 +129,8 @@ const styles = {
   })
 }
 
-const NavLink = ({ route, label, params = {}, active, closeHandler }) => {
-  if (active && active.route === route) {
+const NavLink = ({ route, label, params, isActive, isFaded }) => {
+  if (isActive) {
     return (
       <a
         {...styles.link}
@@ -100,19 +146,16 @@ const NavLink = ({ route, label, params = {}, active, closeHandler }) => {
       </a>
     )
   }
-  const isNavBarPage =
-    active &&
-    ['index', 'feed', 'feuilleton', 'formats'].indexOf(active.route) !== -1
 
   return (
     <Link route={route} params={params}>
-      <a {...(isNavBarPage ? styles.linkNavBarPage : styles.link)}>{label}</a>
+      <a {...(isFaded ? styles.linkFaded : styles.link)}>{label}</a>
     </Link>
   )
 }
 
 const NavBar = ({ url, t, fixed }) => {
-  const active = matchPath(url.asPath)
+  const { links, hasActiveLink } = getNavBarStateFromUrl(url)
 
   return (
     <Fragment>
@@ -122,28 +165,11 @@ const NavBar = ({ url, t, fixed }) => {
         {...(fixed ? styles.fixed : undefined)}
       >
         <div {...styles.height} {...styles.wrapper}>
-          <NavLink
-            route='index'
-            label={t('navbar/front')}
-            active={active}
-          />
-          {/*
-          <NavLink
-            route='feuilleton'
-            label={t('navbar/feuilleton')}
-            active={active}
-          />
-          */}
-          <NavLink
-            route='feed'
-            label={t('navbar/feed')}
-            active={active}
-          />
-          <NavLink
-            route='formats'
-            label={t('navbar/formats')}
-            active={active}
-          />
+          {links.map((props) => (
+            <NavLink {...props}
+              label={t(`navbar/${props.key}`)}
+              isFaded={hasActiveLink} />
+          ))}
         </div>
       </div>
     </Fragment>

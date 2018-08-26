@@ -13,11 +13,12 @@ import withMembership from '../Auth/withMembership'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
-import NavBar from './NavBar'
+import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
 import Search from 'react-icons/lib/md/search'
+import BackIcon from '../Icons/Back'
 
 import {
   HEADER_HEIGHT,
@@ -72,11 +73,17 @@ const styles = {
     },
     verticalAlign: 'middle'
   }),
-  user: css({
+  leftItem: css({
     '@media print': {
       display: 'none'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  back: css({
+    position: 'absolute',
+    zIndex: 1,
+    left: 15,
+    top: 9
   }),
   hamburger: css({
     '@media print': {
@@ -122,6 +129,7 @@ const styles = {
   }),
   secondary: css({
     position: 'absolute',
+    zIndex: 2,
     top: 0,
     left: 15,
     display: 'inline-block',
@@ -202,7 +210,10 @@ class Header extends Component {
     this.state = {
       opaque: !this.props.cover,
       mobile: false,
-      expanded: false
+      expanded: false,
+      hasBackButton: props.inNativeIOSApp
+        ? undefined
+        : false
     }
 
     this.onScroll = () => {
@@ -238,6 +249,23 @@ class Header extends Component {
     }
   }
 
+  updateBackButton () {
+    // iOS only
+    if (!this.props.inNativeIOSApp) {
+      return
+    }
+    const { hasActiveLink: isOnNavBarPage } = getNavBarStateFromUrl(this.props.url)
+    const hasBackButton = process.browser &&
+      window.history.length > 1 &&
+      !isOnNavBarPage
+
+    if (hasBackButton !== this.state.hasBackButton) {
+      this.setState({
+        hasBackButton
+      })
+    }
+  }
+
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
@@ -248,10 +276,12 @@ class Header extends Component {
     if (withoutSticky) {
       this.setState({ withoutSticky })
     }
+    this.updateBackButton()
   }
 
   componentDidUpdate () {
     this.measure()
+    this.updateBackButton()
   }
 
   componentWillUnmount () {
@@ -277,7 +307,7 @@ class Header extends Component {
       inNativeIOSApp,
       isMember
     } = this.props
-    const { expanded, withoutSticky } = this.state
+    const { expanded, withoutSticky, hasBackButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -294,6 +324,7 @@ class Header extends Component {
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{
+              left: hasBackButton ? 40 : undefined,
               opacity: secondaryVisible ? 1 : 0,
               zIndex: secondaryVisible ? 99 : undefined
             }}>
@@ -301,7 +332,9 @@ class Header extends Component {
             </div>
           )}
           {opaque && <Fragment>
-            <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
+            <div {...styles.leftItem} style={{
+              opacity: (secondaryVisible || hasBackButton !== false) ? 0 : 1
+            }}>
               <User
                 me={me}
                 title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
@@ -313,6 +346,16 @@ class Header extends Component {
                   }
                 }}
               />
+            </div>
+            <div {...styles.leftItem} style={{opacity: hasBackButton ? 1 : 0}}>
+              {hasBackButton &&
+                <div onClick={(e) => {
+                  e.preventDefault()
+                  window.history.back()
+                }} {...styles.back}>
+                  <BackIcon size={25} fill='#000' />
+                </div>
+              }
             </div>
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a

@@ -5,6 +5,8 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { Link, Router, matchPath } from '../../lib/routes'
 
+import { prefixHover } from '../../lib/utils/hover'
+
 import { colors, mediaQueries } from '@project-r/styleguide'
 
 import {
@@ -72,7 +74,7 @@ const linkStyle = {
   ':visited': {
     color: colors.text
   },
-  ':hover': {
+  [prefixHover()]: {
     color: colors.primary
   },
   cursor: 'pointer',

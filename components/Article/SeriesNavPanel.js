@@ -6,6 +6,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
 import { negativeColors } from '../Frame/Footer'
+import { prefixHover } from '../../lib/utils/hover'
 
 import {
   Editorial,
@@ -36,7 +37,7 @@ const styles = {
     ':visited': {
       color: negativeColors.text
     },
-    ':hover': {
+    [prefixHover()]: {
       color: negativeColors.primary
     },
     cursor: 'pointer'

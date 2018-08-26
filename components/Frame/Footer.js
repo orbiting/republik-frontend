@@ -9,6 +9,7 @@ import { intersperse } from '../../lib/utils/helpers'
 import track from '../../lib/piwik'
 import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
+import { prefixHover } from '../../lib/utils/hover'
 
 import {
   BrandMark,
@@ -82,7 +83,7 @@ const styles = {
       ':visited': {
         color: negativeColors.text
       },
-      ':hover': {
+      [prefixHover()]: {
         color: negativeColors.lightText
       }
     }

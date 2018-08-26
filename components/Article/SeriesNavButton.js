@@ -6,6 +6,8 @@ import SeriesNavPanel from './SeriesNavPanel'
 import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
+import { prefixHover } from '../../lib/utils/hover'
+
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
   mediaQueries,
@@ -16,7 +18,7 @@ import {
 const styles = {
   button: css({
     cursor: 'pointer',
-    '&, &:hover, &:focus': {
+    [`&, ${prefixHover()}, &:focus`]: {
       backgroundColor: 'transparent',
       border: 'none',
       boxShadow: 'none',

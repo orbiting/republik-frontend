@@ -57,16 +57,20 @@ class ArticleGallery extends Component {
       const nextShow = !this.state.show
       const { galleryItems } = this.state
       if (nextShow && galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
-        this.setState({
-          show: true,
-          startItemSrc: nextSrc
-        }, () => postMessage({ type: 'gallery-opened' })
+        this.setState(
+          {
+            show: true,
+            startItemSrc: nextSrc
+          },
+          () => postMessage({ type: 'fullscreen-enter' })
         )
       } else {
-        this.setState({
-          show: false,
-          startItemSrc: null
-        }, () => postMessage({ type: 'gallery-closed' })
+        this.setState(
+          {
+            show: false,
+            startItemSrc: null
+          },
+          () => postMessage({ type: 'fullscreen-exit' })
         )
       }
     }

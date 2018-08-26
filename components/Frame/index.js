@@ -24,6 +24,10 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+css.global('*', {
+  WebkitTapHighlightColor: 'transparent'
+})
+
 const styles = {
   container: css({
     minHeight: '100vh',

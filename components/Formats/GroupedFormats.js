@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
-import { keys, nest, values } from 'd3-collection'
+import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
 import withT from '../../lib/withT'
@@ -73,27 +73,26 @@ class GroupedFormats extends Component {
         render={() => {
           const sections = nest()
             .key(d => d['meta']['kind'])
-            .object(documents.nodes)
+            .entries(documents.nodes)
+            .filter(d => d.values.length)
 
           return (
             <Fragment>
-              {keys(sections).map(sectionKey => <Fragment>
-                {sections[sectionKey].length > 0 && (
-                  <section {...styles.section} key={sectionKey}>
-                    <h2 {...styles.h2}>
-                      {t(`formats/title/${sectionKey}`)}
-                    </h2>
-                    {values(sections[sectionKey]).map(doc => (
-                      <FormatTag
-                        color={getColorFromMeta(doc.meta)}
-                        path={doc.meta.path}
-                        label={doc.meta.title}
-                        count={doc.linkedDocuments.totalCount}
-                        key={doc.meta.path} />
-                    ))}
-                  </section>)
-                }
-              </Fragment>)}
+              {sections.map(({key, values}) => (
+                <section {...styles.section} key={key}>
+                  <h2 {...styles.h2}>
+                    {t(`formats/title/${key}`)}
+                  </h2>
+                  {values.map(doc => (
+                    <FormatTag
+                      color={getColorFromMeta(doc.meta)}
+                      path={doc.meta.path}
+                      label={doc.meta.title}
+                      count={doc.linkedDocuments.totalCount}
+                      key={doc.meta.path} />
+                  ))}
+                </section>
+              ))}
             </Fragment>
           )
         }}

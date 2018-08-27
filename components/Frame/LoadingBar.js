@@ -28,9 +28,14 @@ class LoadingBar extends Component {
     }
   }
   componentDidMount () {
-    Router.onRouteChangeStart = () => {
+    Router.onRouteChangeStart = (url) => {
       clearTimeout(this.timeout)
       this.setState({ loading: true, progress: 0.02 })
+
+      const { onRouteChangeStart } = this.props
+      if (onRouteChangeStart) {
+        onRouteChangeStart(url)
+      }
     }
     Router.onRouteChangeComplete = url => {
       clearTimeout(this.timeout)

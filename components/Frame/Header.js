@@ -80,10 +80,12 @@ const styles = {
     transition: 'opacity .2s ease-in-out'
   }),
   back: css({
+    display: 'block',
     position: 'absolute',
     zIndex: 1,
-    left: 15,
-    top: 9
+    left: 5,
+    top: 9,
+    paddingLeft: 10
   }),
   hamburger: css({
     '@media print': {
@@ -206,6 +208,13 @@ const forceRefRedraw = ref => {
   }
 }
 
+const hasBackButton = props => (
+  props.inNativeIOSApp &&
+  !getNavBarStateFromUrl(props.url).hasActiveLink
+)
+
+let routeChangeStarted
+
 class Header extends Component {
   constructor (props) {
     super(props)
@@ -214,9 +223,7 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      hasBackButton: props.inNativeIOSApp
-        ? undefined
-        : false
+      backButton: hasBackButton(props)
     }
 
     this.onScroll = () => {
@@ -252,23 +259,6 @@ class Header extends Component {
     }
   }
 
-  updateBackButton () {
-    // iOS only
-    if (!this.props.inNativeIOSApp) {
-      return
-    }
-    const { hasActiveLink: isOnNavBarPage } = getNavBarStateFromUrl(this.props.url)
-    const hasBackButton = process.browser &&
-      window.history.length > 1 &&
-      !isOnNavBarPage
-
-    if (hasBackButton !== this.state.hasBackButton) {
-      this.setState({
-        hasBackButton
-      })
-    }
-  }
-
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
@@ -279,18 +269,25 @@ class Header extends Component {
     if (withoutSticky) {
       this.setState({ withoutSticky })
     }
-    this.updateBackButton()
   }
 
   componentDidUpdate () {
     this.measure()
-    this.updateBackButton()
   }
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
     document.removeEventListener('message', this.onMessage)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const backButton = hasBackButton(nextProps)
+    if (this.state.backButton !== backButton) {
+      this.setState({
+        backButton
+      })
+    }
   }
 
   render () {
@@ -310,7 +307,7 @@ class Header extends Component {
       inNativeIOSApp,
       isMember
     } = this.props
-    const { expanded, withoutSticky, hasBackButton } = this.state
+    const { expanded, withoutSticky, backButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -327,7 +324,7 @@ class Header extends Component {
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
           {secondaryNav && !audioSource && (
             <div {...styles.secondary} style={{
-              left: hasBackButton ? 40 : undefined,
+              left: backButton ? 40 : undefined,
               opacity: secondaryVisible ? 1 : 0,
               zIndex: secondaryVisible ? 99 : undefined
             }}>
@@ -336,7 +333,7 @@ class Header extends Component {
           )}
           {opaque && <Fragment>
             <div {...styles.leftItem} style={{
-              opacity: (secondaryVisible || hasBackButton !== false) ? 0 : 1
+              opacity: (secondaryVisible || backButton !== false) ? 0 : 1
             }}>
               <User
                 me={me}
@@ -350,16 +347,33 @@ class Header extends Component {
                 }}
               />
             </div>
-            <div {...styles.leftItem} style={{opacity: hasBackButton ? 1 : 0}}>
-              {hasBackButton &&
-                <div onClick={(e) => {
-                  e.preventDefault()
+            {inNativeIOSApp && <a
+              style={{
+                opacity: backButton ? 1 : 0,
+                pointerEvents: backButton ? undefined : 'none',
+                href: '#back'
+              }}
+              title={t('header/back')}
+              onClick={(e) => {
+                e.preventDefault()
+                if (backButton) {
+                  routeChangeStarted = false
                   window.history.back()
-                }} {...styles.back}>
-                  <BackIcon size={25} fill='#000' />
-                </div>
-              }
-            </div>
+                  setTimeout(
+                    () => {
+                      if (!routeChangeStarted) {
+                        Router.replaceRoute(
+                          'feed'
+                        ).then(() => window.scrollTo(0, 0))
+                      }
+                    },
+                    200
+                  )
+                }
+              }}
+              {...styles.leftItem} {...styles.back}>
+              <BackIcon size={25} fill='#000' />
+            </a>}
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
@@ -459,7 +473,9 @@ class Header extends Component {
             closeHandler={this.close}
           />
         </Popover>
-        <LoadingBar />
+        <LoadingBar onRouteChangeStart={() => {
+          routeChangeStarted = true
+        }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
       </Fragment>
     )

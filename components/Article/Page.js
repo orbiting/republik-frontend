@@ -170,7 +170,18 @@ class ArticlePage extends Component {
 
     this.toggleAudio = () => {
       if (this.props.inNativeApp) {
-        postMessage({ type: 'show-audio-player' })
+        const { audioSource, title, path } = this.props.data.article.meta
+        if (!audioSource) {
+          return
+        }
+        postMessage({
+          type: 'play-audio',
+          payload: {
+            url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
+            title,
+            sourcePath: path
+          }
+        })
       } else {
         this.setState({
           showAudioPlayer: !this.state.showAudioPlayer

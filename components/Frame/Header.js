@@ -332,7 +332,7 @@ class Header extends Component {
           )}
           {opaque && <Fragment>
             <div {...styles.leftItem} style={{
-              opacity: (secondaryVisible || backButton !== false) ? 0 : 1
+              opacity: (secondaryVisible || backButton) ? 0 : 1
             }}>
               <User
                 me={me}

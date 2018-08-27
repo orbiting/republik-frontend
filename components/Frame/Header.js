@@ -148,8 +148,11 @@ const styles = {
   }),
   stickyWithFallback: css({
     // auto prefix does not with multiple values :(
+    // - -webkit-sticky would be missing if not defined explicitly
     // - glamor 2.20.40 / inline-style-prefixer 3.0.8
     position: ['fixed', '-webkit-sticky', 'sticky']
+    // - this will produce three position statements
+    // { position: fixed; position: -webkit-sticky; position: sticky; }
   }),
   hr: css({
     margin: 0,
@@ -190,7 +193,7 @@ const isPositionStickySupported = () => {
 }
 
 // Workaround for WKWebView fixed 0 rendering hickup
-// - iOS 11.4
+// - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
 const forceRefRedraw = ref => {
   if (ref) {
     setTimeout(() => {

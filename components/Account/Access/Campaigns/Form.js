@@ -3,13 +3,9 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Button, Field, Label, InlineSpinner, Interaction, A } from '@project-r/styleguide'
 
-import { timeFormat } from '../../../../lib/utils/format'
-
 import ErrorMessage from '../../../ErrorMessage'
 
-const { H3, P } = Interaction
-
-const dayFormat = timeFormat('%e. %B %Y')
+const { H3 } = Interaction
 
 class Form extends Component {
   constructor (props) {
@@ -21,18 +17,14 @@ class Form extends Component {
       isMutating: false,
       hasMutated: false,
       mutationError: null,
-      dirty: {},
-      grantedLast: {}
+      isUsed: props.campaign.slots.used > 0,
+      dirty: {}
     }
 
     this.hasMutated = ({ data }) => {
       this.setState({
         isMutating: false,
-        hasMutated: true,
-        grantedLast: {
-          email: data.grantAccess.email,
-          endAt: data.grantAccess.endAt
-        }
+        hasMutated: true
       })
     }
 
@@ -91,52 +83,39 @@ class Form extends Component {
   render () {
     const { campaign } = this.props
 
-    if (campaign.slots.free === 0) {
-      if (campaign.slots.total > 1) {
-        return (
-          <Label>Alle verfügbaren Zugriffe vergeben.</Label>
-        )
-      }
-
-      return null
-    }
-
     const {
       value,
       error = false,
       isMutating,
       mutationError,
-      hasMutated,
-      grantedLast
+      hasMutated
     } = this.state
+
+    const isUsed = campaign.slots.used > 0
 
     return (
       <form onSubmit={this.onSubmit}>
-        {campaign.slots.used < 1
-          ? <H3 style={{marginTop: 30}}>Zugriff vergeben</H3>
-          : <H3 style={{marginTop: 30}}>Einen weiteren Zugriff vergeben</H3>
-        }
-        {hasMutated
+        {hasMutated && isUsed
           ? (
             <Fragment>
-              <P>
-                Zäck boom. Zugriff an <strong>{grantedLast.email}</strong>
-                vergeben, der gültig ist bis zum
-                <strong>{dayFormat(new Date(grantedLast.endAt))}</strong>.
-              </P>
               {campaign.slots.free > 0 &&
-                <A href='#' onClick={this.onClickReset}>weiteren Zugriff vergeben</A>
+                <A href='#' onClick={this.onClickReset}>
+                  weiteren Zugriff vergeben
+                </A>
+              }
+              {campaign.slots.total > 1 && campaign.slots.free < 1 &&
+                <Label>Alle verfügbaren Zugriffe vergeben.</Label>
               }
             </Fragment>
           )
           : (
             <Fragment>
-              <P>
-                Geben Sie die E-Mail-Adresse von der Person an, der Sie Zugriff
-                vergeben möchten. Der Empfänger erhält eine E-Mail. Er
-                kann in der recht freundliche Einladungs-E-Mail und seinem Konto
-                erkennen, dass Sie einen Zugriff mit ihm teilen.
-              </P>
+              {campaign.slots.used < 1
+                ? <H3 style={{marginTop: 30}}>Zugriff vergeben</H3>
+                : <H3 style={{marginTop: 30}}>
+                  Einen weiteren Zugriff vergeben
+                </H3>
+              }
               <Field
                 name='email'
                 type='email'
@@ -152,7 +131,7 @@ class Form extends Component {
               }
               <br />
               {campaign.slots.free > 1 &&
-                <Label>noch {campaign.slots.free} Zugriffe übrig</Label>
+                <Label>noch {campaign.slots.free} Plätze übrig</Label>
               }
               {mutationError &&
                 <ErrorMessage error={mutationError} />}

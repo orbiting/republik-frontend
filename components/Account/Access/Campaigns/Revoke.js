@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
-import { A } from '@project-r/styleguide'
+import { A, InlineSpinner } from '@project-r/styleguide'
 
 class Revoke extends Component {
   constructor (props) {
@@ -9,25 +9,30 @@ class Revoke extends Component {
     this.state = {
       email: '',
       error: false,
-      mutating: false,
+      isMutating: false,
       mutationError: null
     }
 
     this.hasMutated = () => {
       this.setState({
-        mutating: false
+        isMutating: false
       })
     }
 
     this.catchMutationError = error => {
       this.setState({
-        mutating: false,
+        isMutating: false,
         mutationError: error
       })
     }
 
     this.onClickRevoke = (event) => {
       event.preventDefault()
+
+      this.setState({
+        isMutating: true,
+        mutationError: false
+      })
 
       return this.props.revokeAccess({
         id: this.props.grant.id
@@ -38,14 +43,21 @@ class Revoke extends Component {
   }
 
   render () {
-    const { mutationError } = this.state
+    const { isMutating, mutationError } = this.state
 
     if (mutationError) {
       return (<Fragment>Zurückziehen: Das hat nicht geklappt.</Fragment>)
     }
 
     return (
-      <A href='#' onClick={this.onClickRevoke}>Zurückziehen</A>
+      <div style={{height: 25}}>
+        {isMutating
+          ? <InlineSpinner size={25} />
+          : <A href='#' onClick={this.onClickRevoke}>
+            Zugriff löschen
+          </A>
+        }
+      </div>
     )
   }
 }

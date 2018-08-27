@@ -104,7 +104,6 @@ const Latest = ({ t, data: { loading, error, documents }, loadMore, hasMore }) =
               {t('formats/loadMore')}
             </button>
           )}
-
         </Fragment>
       )
     }}

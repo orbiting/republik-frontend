@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-17T11:36:03.224Z",
+  "updated": "2018-08-24T13:26:38.006Z",
   "title": "live",
   "data": [
     {
@@ -153,6 +153,18 @@
     {
       "key": "withMembership/unauthorized/accountText",
       "value": "Konto ansehen"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/title",
+      "value": "Verlegerbereich"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation",
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink}, um mehr zu erfahren."
+    },
+    {
+      "key": "withMembership/ios/unauthorized/explanation/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "signIn/button",
@@ -447,6 +459,22 @@
       "value": "Zur Lage der Republik"
     },
     {
+      "key": "formats/title/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "formats/title/scribble",
+      "value": "Ameisen"
+    },
+    {
+      "key": "formats/latest",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "formats/loadMore",
+      "value": "Mehr Beiträge"
+    },
+    {
       "key": "crew/pageTitle",
       "value": "Crew – Republik"
     },
@@ -517,6 +545,14 @@
     {
       "key": "account/signedOut/signIn",
       "value": "Bitte anmelden:"
+    },
+    {
+      "key": "account/ios/box",
+      "value": "Besuchen Sie {webLink}, um ihre Mitgliedschaft zu verwalten."
+    },
+    {
+      "key": "account/ios/box/webText",
+      "value": "unsere Webseite"
     },
     {
       "key": "Account/title",
@@ -759,12 +795,32 @@
       "value": "Republik – Das tägliche Update"
     },
     {
+      "key": "account/newsletterSubscriptions/DAILY/frequency",
+      "value": "montags, dienstags, mittwochs und freitags"
+    },
+    {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenüberblick"
     },
     {
+      "key": "account/newsletterSubscriptions/WEEKLY/frequency",
+      "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/label",
+      "value": "Republik – Das Feuilleton"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
+      "value": "donnerstags"
+    },
+    {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PROJECTR/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/authSettings/title",
@@ -1047,8 +1103,16 @@
       "value": "Statement, maximal 140 Zeichen"
     },
     {
-      "key": "profile/share/title",
+      "key": "profile/share/overlayTitle",
       "value": "Profil teilen"
+    },
+    {
+      "key": "profile/share/title",
+      "value": "Profil von {name}"
+    },
+    {
+      "key": "profile/share/emailSubject",
+      "value": "Profil von {name}"
     },
     {
       "key": "profile/preview",
@@ -1176,6 +1240,10 @@
     },
     {
       "key": "testimonial/detail/share/emailSubject",
+      "value": "{name} unterstützt Republik"
+    },
+    {
+      "key": "testimonial/detail/share/title",
       "value": "{name} unterstützt Republik"
     },
     {
@@ -2296,7 +2364,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+    },
+    {
+      "key": "article/payNote/before/ios",
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2305,6 +2377,10 @@
     {
       "key": "article/payNote/after",
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
+    },
+    {
+      "key": "article/payNote/after/ios",
+      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen, es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",
@@ -2485,6 +2561,10 @@
     {
       "key": "merci/action/profile",
       "value": "Gesicht zeigen"
+    },
+    {
+      "key": "merci/share/title",
+      "value": "Ein neues, unabhängiges Magazin"
     },
     {
       "key": "merci/share/tweetTemplate",

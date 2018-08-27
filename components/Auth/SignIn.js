@@ -7,6 +7,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import { prefixHover } from '../../lib/utils/hover'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -49,7 +50,7 @@ const styles = {
     textDecoration: 'underline',
     textDecorationSkip: 'ink',
     color: colors.lightText,
-    ':hover': {
+    [prefixHover()]: {
       color: colors.text
     }
   })

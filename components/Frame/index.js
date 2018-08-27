@@ -24,6 +24,10 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+css.global('*', {
+  WebkitTapHighlightColor: 'transparent'
+})
+
 const styles = {
   container: css({
     minHeight: '100vh',
@@ -31,9 +35,11 @@ const styles = {
     flexDirection: 'column'
   }),
   padHeader: css({
-    paddingTop: HEADER_HEIGHT_MOBILE,
+    // minus 1px for first sticky hr from header
+    // - otherwise there is a jump when scroll 0 and opening hamburger
+    paddingTop: HEADER_HEIGHT_MOBILE - 1,
     [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT
+      paddingTop: HEADER_HEIGHT - 1
     }
   }),
   bodyGrower: css({
@@ -81,7 +87,7 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      {...((!cover && !inNativeApp)
+      {...(!cover
         ? styles.padHeader
         : undefined
       )}
@@ -98,7 +104,6 @@ const Index = ({
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
-        inNativeApp={inNativeApp}
       />
       <noscript>
         <Box style={{padding: 30}}>

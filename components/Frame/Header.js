@@ -3,6 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
@@ -12,11 +13,12 @@ import withMembership from '../Auth/withMembership'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
-import NavBar from './NavBar'
+import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 
 import Search from 'react-icons/lib/md/search'
+import BackIcon from '../Icons/Back'
 
 import {
   HEADER_HEIGHT,
@@ -47,7 +49,6 @@ const styles = {
   }),
   barOpaque: css({
     backgroundColor: '#fff',
-    boxSizing: 'content-box',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
@@ -72,11 +73,17 @@ const styles = {
     },
     verticalAlign: 'middle'
   }),
-  user: css({
+  leftItem: css({
     '@media print': {
       display: 'none'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  back: css({
+    position: 'absolute',
+    zIndex: 1,
+    left: 15,
+    top: 9
   }),
   hamburger: css({
     '@media print': {
@@ -122,6 +129,7 @@ const styles = {
   }),
   secondary: css({
     position: 'absolute',
+    zIndex: 2,
     top: 0,
     left: 15,
     display: 'inline-block',
@@ -139,7 +147,12 @@ const styles = {
     position: 'sticky'
   }),
   stickyWithFallback: css({
-    position: ['fixed', 'sticky']
+    // auto prefix does not with multiple values :(
+    // - -webkit-sticky would be missing if not defined explicitly
+    // - glamor 2.20.40 / inline-style-prefixer 3.0.8
+    position: ['fixed', '-webkit-sticky', 'sticky']
+    // - this will produce three position statements
+    // { position: fixed; position: -webkit-sticky; position: sticky; }
   }),
   hr: css({
     margin: 0,
@@ -179,6 +192,20 @@ const isPositionStickySupported = () => {
   return style.position.indexOf('sticky') !== -1
 }
 
+// Workaround for WKWebView fixed 0 rendering hickup
+// - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
+const forceRefRedraw = ref => {
+  if (ref) {
+    setTimeout(() => {
+      const display = ref.style.display
+      ref.style.display = 'none'
+      /* eslint-disable-next-line no-unused-expressions */
+      ref.offsetHeight
+      ref.style.display = display
+    }, 300)
+  }
+}
+
 class Header extends Component {
   constructor (props) {
     super(props)
@@ -186,7 +213,10 @@ class Header extends Component {
     this.state = {
       opaque: !this.props.cover,
       mobile: false,
-      expanded: false
+      expanded: false,
+      hasBackButton: props.inNativeIOSApp
+        ? undefined
+        : false
     }
 
     this.onScroll = () => {
@@ -222,6 +252,23 @@ class Header extends Component {
     }
   }
 
+  updateBackButton () {
+    // iOS only
+    if (!this.props.inNativeIOSApp) {
+      return
+    }
+    const { hasActiveLink: isOnNavBarPage } = getNavBarStateFromUrl(this.props.url)
+    const hasBackButton = process.browser &&
+      window.history.length > 1 &&
+      !isOnNavBarPage
+
+    if (hasBackButton !== this.state.hasBackButton) {
+      this.setState({
+        hasBackButton
+      })
+    }
+  }
+
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
@@ -232,10 +279,12 @@ class Header extends Component {
     if (withoutSticky) {
       this.setState({ withoutSticky })
     }
+    this.updateBackButton()
   }
 
   componentDidUpdate () {
     this.measure()
+    this.updateBackButton()
   }
 
   componentWillUnmount () {
@@ -258,30 +307,37 @@ class Header extends Component {
       audioSource,
       audioCloseHandler,
       inNativeApp,
+      inNativeIOSApp,
       isMember
     } = this.props
-    const { expanded, withoutSticky } = this.state
+    const { expanded, withoutSticky, hasBackButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
+    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
     const secondaryVisible = showSecondary && !expand
 
     const opaque = this.state.opaque || expanded
-    const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+    const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
     const isSearchActive = url.pathname === '/search'
 
     return (
       <Fragment>
-        <div {...barStyle}>
+        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
           {secondaryNav && !audioSource && (
-            <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
+            <div {...styles.secondary} style={{
+              left: hasBackButton ? 40 : undefined,
+              opacity: secondaryVisible ? 1 : 0,
+              zIndex: secondaryVisible ? 99 : undefined
+            }}>
               {secondaryNav}
             </div>
           )}
-          {!inNativeApp && opaque && <Fragment>
-            <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
+          {opaque && <Fragment>
+            <div {...styles.leftItem} style={{
+              opacity: (secondaryVisible || hasBackButton !== false) ? 0 : 1
+            }}>
               <User
                 me={me}
                 title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
@@ -293,6 +349,16 @@ class Header extends Component {
                   }
                 }}
               />
+            </div>
+            <div {...styles.leftItem} style={{opacity: hasBackButton ? 1 : 0}}>
+              {hasBackButton &&
+                <div onClick={(e) => {
+                  e.preventDefault()
+                  window.history.back()
+                }} {...styles.back}>
+                  <BackIcon size={25} fill='#000' />
+                </div>
+              }
             </div>
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
@@ -349,8 +415,7 @@ class Header extends Component {
                   } else {
                     this.setState({ expanded: !expand })
                   }
-                }
-                }
+                }}
               />
             </div>
           </Fragment>}
@@ -387,11 +452,10 @@ class Header extends Component {
             color: formatColor,
             backgroundColor: formatColor
           } : undefined} />}
-        <Popover expanded={!!expand} inNativeApp={inNativeApp}>
+        <Popover expanded={!!expand}>
           <NavPopover
             me={me}
             url={url}
-            inNativeApp={inNativeApp}
             closeHandler={this.close}
           />
         </Popover>
@@ -404,5 +468,6 @@ class Header extends Component {
 
 export default compose(
   withT,
-  withMembership
+  withMembership,
+  withInNativeApp
 )(Header)

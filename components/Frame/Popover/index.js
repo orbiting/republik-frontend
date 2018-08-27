@@ -12,50 +12,39 @@ import {
 const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom cases
 
 const menuStyle = css({
-  fontFamily: fontFamilies.sansSerifRegular,
   position: 'fixed',
   zIndex: ZINDEX_POPOVER,
+  left: 0,
+  right: 0,
+  fontFamily: fontFamilies.sansSerifRegular,
   backgroundColor: '#fff',
-  visibility: 'hidden',
+  flexDirection: 'column',
   opacity: 0,
+  visibility: 'hidden',
   transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s',
   '&[aria-expanded=true]': {
     opacity: 1,
     visibility: 'visible',
     transition: 'opacity 0.2s ease-in-out'
   },
-  display: 'flex',
-  boxSizing: 'border-box',
-  top: HEADER_HEIGHT_MOBILE - paddingTop,
   paddingTop: paddingTop,
-  left: 0,
-  right: 0,
+  top: HEADER_HEIGHT_MOBILE - paddingTop,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - paddingTop}px)`,
-  flexDirection: 'column',
   [mediaQueries.mUp]: {
     top: HEADER_HEIGHT - paddingTop,
     height: `calc(100vh - ${HEADER_HEIGHT - paddingTop}px)`
   }
 })
 
-const Popover = ({ items, expanded, id, children, url, inNativeApp }) => {
-  const height = inNativeApp ? '100vh' : undefined
-  const top = inNativeApp ? 0 : undefined
-
-  return (
-    <div
-      id={id}
-      aria-expanded={expanded}
-      style={{
-        top,
-        height
-      }}
-      {...menuStyle}
-    >
-      {children}
-    </div>
-  )
-}
+const Popover = ({ items, expanded, id, children, url }) => (
+  <div
+    id={id}
+    aria-expanded={expanded}
+    {...menuStyle}
+  >
+    {children}
+  </div>
+)
 
 Popover.propTypes = {
   expanded: PropTypes.bool

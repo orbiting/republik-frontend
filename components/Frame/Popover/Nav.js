@@ -7,10 +7,16 @@ import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
-import { postMessage } from '../../../lib/withInNativeApp'
+import withInNativeApp from '../../../lib/withInNativeApp'
+import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
+
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../../constants'
 
 import {
   Interaction,
@@ -33,6 +39,13 @@ const styles = {
     color: colors.divider,
     backgroundColor: colors.divider,
     width: '100%'
+  }),
+  hrFixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
@@ -72,7 +85,7 @@ const styles = {
     ':visited': {
       color: colors.text
     },
-    ':hover': {
+    [prefixHover()]: {
       color: colors.primary
     },
     cursor: 'pointer',
@@ -98,7 +111,6 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          postMessage({ type: 'close-menu' })
           Router.replaceRoute(route, params)
             .then(() => {
               window.scroll(0, 0)
@@ -117,11 +129,11 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
-      <hr {...styles.hr} />
+      <hr {...styles.hr} {...styles.hrFixed} />
       {isMember && <Fragment>
         <NavBar url={url} />
         <hr {...styles.hr} />
@@ -173,24 +185,18 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
             closeHandler={closeHandler}
           />
           <br />
-          {me && (
-            <NavLink
-              route='pledge'
-              params={{ package: 'ABO_GIVE' }}
-              translation={t('nav/give')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+          {!inNativeIOSApp && (
+            <Fragment>
+              <NavLink
+                route='pledge'
+                params={me ? { package: 'ABO_GIVE' } : undefined}
+                translation={t(me ? 'nav/give' : 'nav/offers')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
           )}
-          {!me && (
-            <NavLink
-              route='pledge'
-              translation={t('nav/offers')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-          )}
-          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}
@@ -207,5 +213,6 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, isMember }) => {
 
 export default compose(
   withT,
+  withInNativeApp,
   withMembership
 )(Nav)

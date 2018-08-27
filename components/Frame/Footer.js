@@ -8,6 +8,8 @@ import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import track from '../../lib/piwik'
 import { Link } from '../../lib/routes'
+import withInNativeApp from '../../lib/withInNativeApp'
+import { prefixHover } from '../../lib/utils/hover'
 
 import {
   BrandMark,
@@ -81,7 +83,7 @@ const styles = {
       ':visited': {
         color: negativeColors.text
       },
-      ':hover': {
+      [prefixHover()]: {
         color: negativeColors.lightText
       }
     }
@@ -161,7 +163,7 @@ class Footer extends Component {
     }
   }
   render () {
-    const { t, me, signOut } = this.props
+    const { t, me, signOut, inNativeIOSApp } = this.props
     return (
       <div {...styles.bg}>
         <Container style={{ overflow: 'hidden' }}>
@@ -251,17 +253,16 @@ class Footer extends Component {
                 </Link>
                 <br />
               </Fragment>}
-              {!!me && (
-                <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
-                  <a>{t('footer/me/give')}</a>
-                </Link>
+              {!inNativeIOSApp && (
+                <Fragment>
+                  <Link
+                    route='pledge'
+                    params={me ? { package: 'ABO_GIVE' } : undefined}>
+                    <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
+                  </Link>
+                  <br />
+                </Fragment>
               )}
-              {!me && (
-                <Link route='pledge'>
-                  <a>{t('footer/offers')}</a>
-                </Link>
-              )}
-              <br />
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
               </Link>
@@ -317,4 +318,4 @@ class Footer extends Component {
   }
 }
 
-export default compose(withT, withMe, withSignOut)(Footer)
+export default compose(withT, withMe, withSignOut, withInNativeApp)(Footer)

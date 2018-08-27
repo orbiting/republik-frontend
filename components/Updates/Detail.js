@@ -102,6 +102,7 @@ const Update = withT(({
 
       <P>
         <ActionBar
+          title={title}
           url={`${PUBLIC_BASE_URL}/updates/${slug}`}
           emailSubject={title}
           tweet={title} />

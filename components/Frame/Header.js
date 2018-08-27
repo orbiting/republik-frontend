@@ -210,6 +210,7 @@ const forceRefRedraw = ref => {
 
 const hasBackButton = props => (
   props.inNativeIOSApp &&
+  props.me &&
   !getNavBarStateFromUrl(props.url).hasActiveLink
 )
 

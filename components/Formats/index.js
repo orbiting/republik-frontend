@@ -1,4 +1,4 @@
-import React, { Component, section } from 'react'
+import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import { keys, nest, values } from 'd3-collection'
@@ -93,21 +93,23 @@ class Formats extends Component {
 
           return (
             <Center {...styles.container}>
-              {keys(sections).map(sectionKey => (
-                <section {...styles.section} key={sectionKey}>
-                  <h2 {...styles.h2}>
-                    {t(`formats/title/${sectionKey}`)}
-                  </h2>
-                  {values(sections[sectionKey]).map(doc => (
-                    <FormatTag
-                      color={getColorFromMeta(doc.meta)}
-                      path={doc.meta.path}
-                      label={doc.meta.title}
-                      count={doc.children.totalCount}
-                      key={doc.meta.path} />
-                  ))}
-                </section>
-              ))}
+              {keys(sections).map(sectionKey => <Fragment>
+                {sections[sectionKey].length > 0 && (
+                  <section {...styles.section} key={sectionKey}>
+                    <h2 {...styles.h2}>
+                      {t(`formats/title/${sectionKey}`)}
+                    </h2>
+                    {values(sections[sectionKey]).map(doc => (
+                      <FormatTag
+                        color={getColorFromMeta(doc.meta)}
+                        path={doc.meta.path}
+                        label={doc.meta.title}
+                        count={doc.children.totalCount}
+                        key={doc.meta.path} />
+                    ))}
+                  </section>)
+                }
+              </Fragment>)}
               <Interaction.H2 {...styles.latest}>
                 {t('formats/latest')}
               </Interaction.H2>

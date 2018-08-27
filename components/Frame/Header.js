@@ -25,7 +25,10 @@ import {
   HEADER_HEIGHT_MOBILE,
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_MOBILE,
-  ZINDEX_HEADER
+  ZINDEX_HEADER,
+  ZINDEX_HEADER_BACK,
+  ZINDEX_HEADER_SECONDARY,
+  ZINDEX_HEADER_LOGO
 } from '../constants'
 
 const LOGO_HEIGHT = 28.02
@@ -64,6 +67,8 @@ const styles = {
     transition: 'opacity .2s ease-in-out'
   }),
   logo: css({
+    position: 'relative',
+    zIndex: ZINDEX_HEADER_LOGO,
     display: 'inline-block',
     marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
     width: `${LOGO_WIDTH_MOBILE}px`,
@@ -82,7 +87,7 @@ const styles = {
   back: css({
     display: 'block',
     position: 'absolute',
-    zIndex: 1,
+    zIndex: ZINDEX_HEADER_BACK,
     left: 5,
     top: 9,
     paddingLeft: 10
@@ -131,7 +136,7 @@ const styles = {
   }),
   secondary: css({
     position: 'absolute',
-    zIndex: 2,
+    zIndex: ZINDEX_HEADER_SECONDARY,
     top: 0,
     left: 15,
     display: 'inline-block',
@@ -318,8 +323,6 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
-    const isSearchActive = url.pathname === '/search'
-
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
@@ -334,7 +337,7 @@ class Header extends Component {
           )}
           {opaque && <Fragment>
             <div {...styles.leftItem} style={{
-              opacity: (secondaryVisible || backButton !== false) ? 0 : 1
+              opacity: (secondaryVisible || backButton) ? 0 : 1
             }}>
               <User
                 me={me}
@@ -402,23 +405,23 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
-            <button
+            {isMember && <button
               {...styles.search}
               role='button'
               title={t('header/nav/search/aria')}
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                if (isSearchActive) {
+                if (url.pathname === '/search') {
                   window.scrollTo(0, 0)
                 } else {
                   Router.pushRoute('search').then(() => window.scrollTo(0, 0))
                 }
               }}>
               <Search
-                fill={isSearchActive ? colors.primary : colors.text}
+                fill={colors.text}
                 size={28} />
-            </button>
+            </button>}
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}

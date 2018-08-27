@@ -64,7 +64,7 @@ const getFormats = gql`
           color
           publishDate
         }
-        children {
+        linkedDocuments {
           totalCount
         }
       }
@@ -104,7 +104,7 @@ class Formats extends Component {
                         color={getColorFromMeta(doc.meta)}
                         path={doc.meta.path}
                         label={doc.meta.title}
-                        count={doc.children.totalCount}
+                        count={doc.linkedDocuments.totalCount}
                         key={doc.meta.path} />
                     ))}
                   </section>)

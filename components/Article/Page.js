@@ -99,6 +99,7 @@ const getDocument = gql`
         template
         path
         title
+        kind
         description
         image
         facebookDescription
@@ -360,7 +361,8 @@ class ArticlePage extends Component {
         ? meta
         : meta.format && meta.format.meta
     )
-    const formatColor = formatMeta && formatMeta.color
+    const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
+    console.log('ffff', formatMeta)
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 

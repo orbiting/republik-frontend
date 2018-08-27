@@ -1,18 +1,19 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, section } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
-import { descending } from 'd3-array'
+import { keys, nest, values } from 'd3-collection'
 import gql from 'graphql-tag'
 import Loader from '../../components/Loader'
-import Link from '../Link/Href'
 import withT from '../../lib/withT'
+
+import FormatTag from './FormatTag'
+import Latest from './Latest'
 
 import {
   Center,
-  TeaserFeed,
-  Editorial,
   Interaction,
-  RawHtml,
+  colors,
+  fontStyles,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -24,16 +25,28 @@ const styles = {
       padding: '60px 0 120px'
     }
   }),
-  h1: css({
-    marginBottom: '20px',
+  latest: css({
+    margin: '60px 0 20px 0',
     [mediaQueries.mUp]: {
-      marginBottom: '40px'
+      margin: '100px 0 40px 0'
     }
   }),
   h2: css({
-    marginBottom: '20px',
+    ...fontStyles.sansSerifRegular13,
+    color: '#979797',
+    margin: '0 0 15px 0',
     [mediaQueries.mUp]: {
-      marginBottom: '30px'
+      ...fontStyles.sansSerifRegular16,
+      margin: '12px 0 15px 0'
+    }
+  }),
+  section: css({
+    marginBottom: '25px',
+    [mediaQueries.mUp]: {
+      marginBottom: '30px',
+      '& + &': {
+        borderTop: `1px solid ${colors.divider}`
+      }
     }
   })
 }
@@ -51,64 +64,54 @@ const getFormats = gql`
           color
           publishDate
         }
+        children {
+          totalCount
+        }
       }
     }
   }
 `
 
+const getColorFromMeta = meta => {
+  const formatMeta = meta.format && meta.format.meta
+  const color = meta.color || (formatMeta && formatMeta.color)
+  const kind = meta.kind || (formatMeta && formatMeta.kind)
+  return color || colors[kind]
+}
+
 class Formats extends Component {
-  render() {
+  render () {
     const { data: { loading, error, documents }, t } = this.props
     return (
       <Loader
         loading={loading}
         error={error}
         render={() => {
-          const editorialNodes = documents
-            ? [...documents.nodes]
-                .filter(node => node.meta.kind === 'editorial')
-                .sort((a, b) =>
-                  descending(a.meta.publishDate, b.meta.publishDate)
-                )
-            : []
-          const metaNodes = documents
-            ? [...documents.nodes]
-                .filter(node => node.meta.kind === 'meta')
-                .sort((a, b) =>
-                  descending(a.meta.publishDate, b.meta.publishDate)
-                )
-            : []
+          const sections = nest()
+            .key(d => d['meta']['kind'])
+            .object(documents.nodes)
+
           return (
             <Center {...styles.container}>
-              <Interaction.H1 {...styles.h1}>
-                {t('formats/title')}
-              </Interaction.H1>
-              <RawHtml
-                type={Editorial.P}
-                dangerouslySetInnerHTML={{
-                  __html: t('formats/lead')
-                }}
-              />
-              {!!editorialNodes.length && (
-                <Fragment>
-                  <Interaction.H2 {...styles.h2}>
-                    {t('formats/title/editorial')}
-                  </Interaction.H2>
-                  {editorialNodes.map(doc => (
-                    <TeaserFeed {...doc.meta} publishDate={null} Link={Link} key={doc.meta.path} />
+              {keys(sections).map(sectionKey => (
+                <section {...styles.section} key={sectionKey}>
+                  <h2 {...styles.h2}>
+                    {t(`formats/title/${sectionKey}`)}
+                  </h2>
+                  {values(sections[sectionKey]).map(doc => (
+                    <FormatTag
+                      color={getColorFromMeta(doc.meta)}
+                      path={doc.meta.path}
+                      label={doc.meta.title}
+                      count={doc.children.totalCount}
+                      key={doc.meta.path} />
                   ))}
-                </Fragment>
-              )}
-              {!!metaNodes.length && (
-                <Fragment>
-                  <Interaction.H2 {...styles.h2}>
-                    {t('formats/title/meta')}
-                  </Interaction.H2>
-                  {metaNodes.map(doc => (
-                    <TeaserFeed {...doc.meta} publishDate={null} Link={Link} key={doc.meta.path} />
-                  ))}
-                </Fragment>
-              )}
+                </section>
+              ))}
+              <Interaction.H2 {...styles.latest}>
+                {t('formats/latest')}
+              </Interaction.H2>
+              <Latest />
             </Center>
           )
         }}

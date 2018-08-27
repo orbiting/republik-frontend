@@ -2,7 +2,7 @@ import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Center, TeaserFeed, Interaction, Loader } from '@project-r/styleguide'
+import { Center, TeaserFeed, Interaction, Loader, colors } from '@project-r/styleguide'
 import Link from '../Link/Href'
 
 import withT from '../../lib/withT'
@@ -54,6 +54,7 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
             documents.nodes.map(doc => (
               <TeaserFeed
                 {...doc.meta}
+                formatColor={colors.text}
                 Link={Link}
                 key={doc.meta.path}
               />

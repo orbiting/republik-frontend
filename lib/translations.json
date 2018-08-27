@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-24T13:26:38.006Z",
+  "updated": "2018-08-27T11:57:06.953Z",
   "title": "live",
   "data": [
     {
@@ -796,7 +796,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs und freitags"
+      "value": "montags, dienstags, mittwochs, donnerstags, freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -1293,6 +1293,10 @@
     {
       "key": "header/nav/search/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/back",
+      "value": "zurück"
     },
     {
       "key": "header/logo/feed/aria",

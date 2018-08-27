@@ -7,7 +7,7 @@ import withT from '../../lib/withT'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { InlineSpinner, Checkbox } from '@project-r/styleguide'
+import { InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 
 const styles = {
   headline: css({
@@ -98,6 +98,10 @@ class NewsletterSubscriptions extends Component {
                         <InlineSpinner size={24} />
                       </span>
                     )}
+                    <br />
+                    <Label>
+                      {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                    </Label>
                   </Checkbox>
                 </p>
               ))}

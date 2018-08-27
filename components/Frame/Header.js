@@ -318,8 +318,6 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
-    const isSearchActive = url.pathname === '/search'
-
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
@@ -402,23 +400,23 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
-            <button
+            {isMember && <button
               {...styles.search}
               role='button'
               title={t('header/nav/search/aria')}
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                if (isSearchActive) {
+                if (url.pathname === '/search') {
                   window.scrollTo(0, 0)
                 } else {
                   Router.pushRoute('search').then(() => window.scrollTo(0, 0))
                 }
               }}>
               <Search
-                fill={isSearchActive ? colors.primary : colors.text}
+                fill={colors.text}
                 size={28} />
-            </button>
+            </button>}
             <div {...styles.hamburger}>
               <Toggle
                 expanded={!!expand}

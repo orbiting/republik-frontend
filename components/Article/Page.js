@@ -362,7 +362,6 @@ class ArticlePage extends Component {
         : meta.format && meta.format.meta
     )
     const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
-    console.log('ffff', formatMeta)
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 

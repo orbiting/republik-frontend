@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
+import { ascending } from 'd3-array'
 import { css } from 'glamor'
 import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
@@ -73,6 +74,7 @@ class GroupedFormats extends Component {
         render={() => {
           const sections = nest()
             .key(d => d['meta']['kind'])
+            .sortValues((a, b) => ascending(a.meta.title, b.meta.title))
             .entries(documents.nodes)
             .filter(d => d.values.length)
 

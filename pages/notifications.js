@@ -18,35 +18,73 @@ import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscript
 
 import MdClose from 'react-icons/lib/md/close'
 
-import { DEFAULT_TOKEN_TYPE } from '../components/constants'
+import {
+  DEFAULT_TOKEN_TYPE,
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../components/constants'
+
 import {
   CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries, Button
+  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries, colors, Button
 } from '@project-r/styleguide'
 
+const LOGO_HEIGHT = 28.02
+const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
+
+const LOGO_HEIGHT_MOBILE = 22.78
+const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
+
 const styles = {
-  logo: css({
-    margin: '0 auto',
-    paddingTop: 26,
-    textAlign: 'center'
-  }),
-  logoProjectR: css({
-    display: 'block',
-    margin: '0 auto',
-    maxWidth: 520,
-    marginBottom: -16,
-    textAlign: 'left',
+  bar: css({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#fff',
+    textAlign: 'center',
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      textAlign: 'center'
+      height: HEADER_HEIGHT
+    },
+    '@media print': {
+      position: 'absolute',
+      backgroundColor: 'transparent'
+    },
+    borderBottom: `1px solid ${colors.divider}`
+  }),
+  padHeader: css({
+    // minus 1px for first sticky hr from header
+    // - otherwise there is a jump when scroll 0 and opening hamburger
+    paddingTop: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      paddingTop: HEADER_HEIGHT - 1
     }
   }),
   close: css({
     position: 'fixed',
     right: 15,
-    top: 25
+    top: 5
+  }),
+  logoRepublik: css({
+    position: 'relative',
+    display: 'inline-block',
+    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
+    width: `${LOGO_WIDTH_MOBILE}px`,
+    [mediaQueries.mUp]: {
+      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
+      width: `${LOGO_WIDTH}px`
+    },
+    verticalAlign: 'middle'
+  }),
+  logoProjectR: css({
+    display: 'block',
+    margin: '26px auto -16px',
+    maxWidth: 520,
+    textAlign: 'left'
   }),
   text: css({
     margin: '60px auto',
@@ -140,7 +178,8 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
     }
   ].filter(Boolean)
 
-  const logo = context === 'projectr' ? (
+  const isProjectR = context === 'projectr'
+  const logo = isProjectR ? (
     <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
       <img
         style={{height: 50}}
@@ -148,11 +187,15 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
     </a>
   ) : (
     hasCurtain
-      ? <Logo height={28.02} />
-      : <a href='/' target={logoTarget}>
-        <Logo height={28.02} />
+      ? <div {...styles.logoRepublik}>
+        <Logo />
+      </div>
+      : <a href='/' target={logoTarget} {...styles.logoRepublik}>
+        <Logo />
       </a>
   )
+
+  const stickyBar = !isProjectR
 
   return (
     <div>
@@ -161,13 +204,15 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
         <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>
-        <div {...styles.logo}>
+        <div {...(stickyBar ? styles.bar : undefined)}>
           {logo}
         </div>
-        {inNativeApp && <Link route='index'><a {...styles.close}>
-          <MdClose size={32} fill='#000' />
-        </a></Link>}
-        <div {...styles.text}>
+        {inNativeApp && <Link route='index'>
+          <a {...styles.close}>
+            <MdClose size={32} fill='#000' />
+          </a>
+        </Link>}
+        <div {...styles.text} {...(stickyBar ? styles.padHeader : undefined)}>
           {title && <Fragment>
             <H1>{title}</H1>
             <br />

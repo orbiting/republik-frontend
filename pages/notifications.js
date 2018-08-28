@@ -16,6 +16,8 @@ import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
 import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
 
+import MdClose from 'react-icons/lib/md/close'
+
 import { DEFAULT_TOKEN_TYPE } from '../components/constants'
 import {
   CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
@@ -41,15 +43,17 @@ const styles = {
       textAlign: 'center'
     }
   }),
+  close: css({
+    position: 'fixed',
+    right: 15,
+    top: 25
+  }),
   text: css({
-    margin: '60px auto 120px',
+    margin: '60px auto',
     maxWidth: 520,
     [mediaQueries.mUp]: {
-      textAlign: 'center'
+      margin: '60px auto 120px'
     }
-  }),
-  textApp: css({
-    margin: '15px auto'
   }),
   link: css({
     marginTop: 20
@@ -144,9 +148,9 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
     </a>
   ) : (
     hasCurtain
-      ? <Logo height={34} />
+      ? <Logo height={28.02} />
       : <a href='/' target={logoTarget}>
-        <Logo height={34} />
+        <Logo height={28.02} />
       </a>
   )
 
@@ -157,12 +161,13 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
         <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>
-        {!inNativeApp && (
-          <div {...styles.logo}>
-            {logo}
-          </div>
-        )}
-        <div {...(inNativeApp ? styles.textApp : styles.text)}>
+        <div {...styles.logo}>
+          {logo}
+        </div>
+        {inNativeApp && <Link route='index'><a {...styles.close}>
+          <MdClose size={32} fill='#000' />
+        </a></Link>}
+        <div {...styles.text}>
           {title && <Fragment>
             <H1>{title}</H1>
             <br />

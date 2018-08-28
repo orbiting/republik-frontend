@@ -1,201 +1,178 @@
 import React, { Fragment} from 'react'
-import { Link } from '../../lib/routes'
+// import { Link } from '../../lib/routes'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { countFormat } from '../../lib/utils/format'
-import withMe from '../../lib/apollo/withMe'
-import withT from '../../lib/withT'
-import { css } from 'glamor'
-import Cover from './Cover'
-import Offers from './Offers'
-import PreviewForm from './PreviewForm'
 
-import { CDN_FRONTEND_BASE_URL, STATS_POLL_INTERVAL_MS } from '../../lib/constants'
-
+import { css, merge } from 'glamor'
 import {
-  Button,
+  Label,
   Container,
   Interaction,
-  Loader,
   P,
   RawHtml,
   colors,
-  linkRule,
-  mediaQueries
+  mediaQueries,
+  fontFamilies
 } from '@project-r/styleguide'
 
-const MAX_WIDTH = '1005px'
+import withMe from '../../lib/apollo/withMe'
+import withT from '../../lib/withT'
+
+import { STATS_POLL_INTERVAL_MS } from '../../lib/constants'
+
+import CommunityWidget from './CommunityWidget'
 
 // TODO: revisit special font sizes with design.
+
+const buttonStyle = css({
+  [mediaQueries.onlyS]: {
+    padding: '8px 15px 8px 15px',
+    fontSize: '16px',
+    lineHeight: '25px',
+    height: 50
+  },
+  width: '100%',
+  outline: 'none',
+  verticalAlign: 'bottom',
+  minWidth: 160,
+  textAlign: 'center',
+  textDecoration: 'none',
+  fontSize: 22,
+  height: 60,
+  boxSizing: 'border-box',
+  backgroundColor: '#fff',
+  fontFamily: fontFamilies.sansSerifRegular,
+  border: `1px solid ${colors.secondary}`,
+  borderRadius: 0,
+  color: colors.secondary,
+  cursor: 'pointer',
+  ':hover': {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+    color: '#fff'
+  },
+  ':active': {
+    backgroundColor: colors.secondary,
+    borderColor: colors.secondary,
+    color: '#fff'
+  },
+  ':disabled, [disabled]': {
+    backgroundColor: '#fff',
+    color: colors.disabled,
+    borderColor: colors.disabled,
+    cursor: 'default'
+  }
+})
+
+const primaryStyle = css({
+  backgroundColor: colors.primary,
+  borderColor: colors.primary,
+  color: '#fff',
+  ':hover': {
+    backgroundColor: colors.secondary,
+    borderColor: colors.secondary
+  },
+  ':active': {
+    backgroundColor: '#000',
+    borderColor: '#000',
+    color: '#fff'
+  }
+})
+
 const styles = {
-  container: css({
-    paddingBottom: 60,
-    [mediaQueries.mUp]: {
-      paddingBottom: 120
-    }
-  }),
-  cta: css({
-    '& > button': {
-      display: 'block',
-      margin: '20px auto 10px auto',
-      maxWidth: '410px',
-      width: '100%',
-      [mediaQueries.mUp]: {
-        margin: '30px auto 15px auto',
-        maxWidth: '460px'
-      }
-    },
-    marginBottom: 30,
-    [mediaQueries.mUp]: {
-      marginBottom: 60
-    }
-  }),
-  intro: css({
-    maxWidth: MAX_WIDTH,
-    paddingTop: '30px',
-    paddingBottom: '30px',
-    [mediaQueries.mUp]: {
-      paddingBottom: '60px',
-      paddingTop: '60px'
-    }
-  }),
-  text: css({
+  lead: css({
     fontSize: '16px',
     lineHeight: '26px',
+    textAlign: 'center',
+    maxWidth: '702px',
+    margin: '0 auto',
     [mediaQueries.mUp]: {
-      fontSize: '24px',
+      fontSize: '23px',
       lineHeight: '36px'
     }
   }),
   headline: css({
     fontSize: '28px',
     lineHeight: '34px',
+    maxWidth: '1002px',
+    textAlign: 'center',
+    margin: '0 auto',
+    fontFamily: fontFamilies.sansSerifRegular,
     [mediaQueries.mUp]: {
-      fontSize: '60px',
+      fontSize: '64px',
       lineHeight: '72px'
     }
   }),
-  noMember: css({
-    backgroundColor: colors.primaryBg,
-    textAlign: 'center',
-    padding: '18px 0',
+  actions: css({
+    maxWidth: '980px',
+    margin: '0 auto',
     [mediaQueries.mUp]: {
-      padding: '30px 0'
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'stretch',
+      '& > *:first-child': {
+        marginRight: '10px',
+        width: '50%'
+      },
+      '& > *:last-child': {
+        marginLeft: '10px',
+        width: '50%'
+      }
     }
   }),
-  join: css({
-    backgroundColor: colors.primaryBg,
-    textAlign: 'center',
-    padding: '18px 0',
-    marginBottom: '30px',
+  signInLabel: css({
+    display: 'block',
+    cursor: 'pointer',
+    color: colors.text,
+    '& a': {
+      textDecoration: 'underline'
+    },
+    '& a:hover': {
+      color: colors.secondary
+    },
+    '& a:focus': {
+      color: colors.secondary
+    },
+    '& a:active': {
+      color: colors.primary
+    },
+    fontSize: '12px',
+    lineHeight: '18px',
     [mediaQueries.mUp]: {
-      padding: '90px 0',
-      marginBottom: '100px'
+      marginTop: '4px',
+      fontSize: '16px',
+      lineHeight: '24px'
     }
-  }),
-  joinText: css({
-    textAlign: 'left',
-    margin: '20px 0 30px 0',
-    [mediaQueries.mUp]: {
-      margin: '40px 0 50px 0'
-    }
-  }),
-  more: css({
-    [mediaQueries.mUp]: {
-      display: 'flex'
-    }
-  }),
-  preview: css({
-    marginBottom: '50px',
-    [mediaQueries.mUp]: {
-      marginRight: '30px',
-      flex: 1
-    }
-  }),
-  offers: css({
-    [mediaQueries.mUp]: {
-      width: '410px'
-    }
-  }),
-  coverHeadline: css({
-    color: '#fff',
-    fontSize: '25px',
-    lineHeight: '35px',
-    [mediaQueries.mUp]: { fontSize: '36px', lineHeight: '48px' },
-    [mediaQueries.lUp]: { fontSize: '54px', lineHeight: '68px' }
   })
+
 }
 
 const MarketingPage = ({ me, t, crowdfundingName, data }) => (
   <Fragment>
-    <Cover
-      image={{
-        src: `${CDN_FRONTEND_BASE_URL}/static/cover.jpg`,
-        srcMobile: `${CDN_FRONTEND_BASE_URL}/static/cover_mobile.jpg`
-      }}
-    >
-      <div {...styles.cta}>
-        <Interaction.H1 {...styles.coverHeadline}>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('marketing/cover/headline')
-            }}
-          />
-        </Interaction.H1>
-        <Link route='pledge' params={{package: 'ABO'}}>
-          <Button primary>
+    <Container>
+      <Interaction.H1 {...styles.headline}>
+        <RawHtml
+          dangerouslySetInnerHTML={{
+            __html: t('marketing/cover/headline')
+          }}
+        />
+      </Interaction.H1>
+      <P {...styles.lead}>Herzlich willkommen! Die Republik ist ein leserinnenfinanziertes Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wäre schön, Sie mit an Bord zu haben!</P>
+      <div {...styles.actions}>
+        <div>
+          <button {...merge(buttonStyle, primaryStyle)}>
             {t('marketing/cover/button/label')}
-          </Button>
-        </Link>
-        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0'}}>
-          {t('marketing/cover/button/caption')}
-        </Interaction.P>
+          </button>
+          <Label {...styles.signInLabel}>Sie haben schon ein Abo? <a>Jetzt anmelden</a></Label>
+        </div>
+        <button {...buttonStyle}>
+          5 Artikel probelesen
+        </button>
       </div>
-    </Cover>
-    <div {...styles.container}>
-      {me && (
-        <div {...styles.noMember}>
-          <Container style={{ maxWidth: MAX_WIDTH }}>
-            <Interaction.P>
-              {t.elements('marketing/noActiveMembership', {
-                link: (
-                  <Link route='account' key='account'>
-                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
-                  </Link>
-                )
-              })}
-            </Interaction.P>
-          </Container>
-        </div>
-      )}
-      <Container {...styles.intro} key='intro'>
-        <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-          <P {...styles.text}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('marketing/intro', {count: countFormat(data.memberStats.count)})
-              }}
-            />
-          </P>
-        )} />
-      </Container>
-      <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
-        <div {...styles.more}>
-          <div {...styles.preview}>
-            <Interaction.H3 style={{ marginBottom: '17px' }}>
-              {t('marketing/preview/title')}
-            </Interaction.H3>
-            <PreviewForm />
-          </div>
-          <div {...styles.offers}>
-            <Interaction.H3 style={{ marginBottom: '17px' }}>
-              {t('marketing/offers/title')}
-            </Interaction.H3>
-            <Offers crowdfundingName={crowdfundingName} />
-          </div>
-        </div>
-      </Container>
-    </div>
+      <div>
+        <CommunityWidget />
+      </div>
+    </Container>
   </Fragment>
 )
 

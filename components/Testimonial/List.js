@@ -112,8 +112,8 @@ const styles = {
   })
 }
 
-export const Item = ({image, name, video, isActive, onClick, imageRenderer, style}) => (
-  <div {...styles.item} style={style} onClick={onClick}>
+export const Item = ({image, name, video, isActive, onClick, imageRenderer, style, ...props}) => (
+  <div {...styles.item} style={style} onClick={onClick} {...props}>
     <div {...styles.aspect}>
       {imageRenderer ? imageRenderer() : <img src={image} />}
     </div>

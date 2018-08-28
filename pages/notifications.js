@@ -212,7 +212,12 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
             <MdClose size={32} fill='#000' />
           </a>
         </Link>}
-        <div {...styles.text} {...(stickyBar ? styles.padHeader : undefined)}>
+        <div
+          {...styles.text}
+          {...(stickyBar ? styles.padHeader : undefined)}
+          style={{
+            marginTop: inNativeApp ? 15 : undefined
+          }}>
           {title && <Fragment>
             <H1>{title}</H1>
             <br />

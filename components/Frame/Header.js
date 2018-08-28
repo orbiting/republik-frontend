@@ -204,13 +204,17 @@ const isPositionStickySupported = () => {
 // - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
 const forceRefRedraw = ref => {
   if (ref) {
-    setTimeout(() => {
+    const redraw = () => {
       const display = ref.style.display
       ref.style.display = 'none'
       /* eslint-disable-next-line no-unused-expressions */
       ref.offsetHeight
       ref.style.display = display
-    }, 300)
+    }
+    setTimeout(redraw, 33)
+    setTimeout(redraw, 33 * 10)
+    setTimeout(redraw, 33 * 20)
+    setTimeout(redraw, 33 * 30)
   }
 }
 
@@ -324,6 +328,8 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
+    const showNavBar = isMember
+
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
@@ -342,7 +348,7 @@ class Header extends Component {
             }}>
               <User
                 me={me}
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onclickHandler={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -427,7 +433,7 @@ class Header extends Component {
               <Toggle
                 expanded={!!expand}
                 id='primary-menu'
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onClick={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -453,7 +459,7 @@ class Header extends Component {
             />
           )}
         </div>
-        {isMember && opaque && (
+        {showNavBar && opaque && (
           <Fragment>
             <hr
               {...styles.stickyWithFallback}
@@ -463,8 +469,8 @@ class Header extends Component {
           </Fragment>
         )}
         {opaque && <hr
-          {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
-          {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
+          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {

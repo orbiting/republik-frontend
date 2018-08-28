@@ -57,6 +57,13 @@ const getFormats = gql`
   }
 `
 
+const sectionOrder = [
+  'editorial',
+  'feuilleton',
+  'scribble',
+  'meta'
+]
+
 const getColorFromMeta = meta => {
   const formatMeta = meta.format && meta.format.meta
   const color = meta.color || (formatMeta && formatMeta.color)
@@ -74,6 +81,7 @@ class GroupedFormats extends Component {
         render={() => {
           const sections = nest()
             .key(d => d['meta']['kind'])
+            .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
             .sortValues((a, b) => ascending(a.meta.title, b.meta.title))
             .entries(documents.nodes)
             .filter(d => d.values.length)

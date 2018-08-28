@@ -6,6 +6,7 @@ import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
+import { focusSelector } from '../../../lib/utils/scroll'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
@@ -194,6 +195,31 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
                 active={active}
                 closeHandler={closeHandler}
               />
+              <br />
+            </Fragment>
+          )}
+          {!!me && (
+            <Fragment>
+              <a
+                {...styles.link}
+                style={{ cursor: 'pointer' }}
+                href='/konto#teilen'
+                onClick={(e) => {
+                  if (e.currentTarget.nodeName === 'A' &&
+                  (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                    // ignore click for new tab / new window behavior
+                    return
+                  }
+
+                  e.preventDefault()
+                  Router.pushRoute('/konto#teilen')
+                    .then(() => {
+                      focusSelector('#teilen')
+                      closeHandler()
+                    })
+                }}>
+                {t('nav/share')}
+              </a>
               <br />
             </Fragment>
           )}

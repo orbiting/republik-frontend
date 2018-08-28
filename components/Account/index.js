@@ -1,6 +1,7 @@
-import React, { Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { max } from 'd3-array'
+import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -22,7 +23,7 @@ import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
 import {
-  H1, Interaction
+  H1, Interaction, mediaQueries
 } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
@@ -32,7 +33,30 @@ import PaymentSources from './PaymentSources'
 
 import { APP_OPTIONS } from '../../lib/constants'
 
+import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
+
 const { H2, P } = Interaction
+
+const styles = {
+  accountAnchor: css({
+    display: 'block',
+    visibility: 'hidden',
+    position: 'relative',
+    top: -(HEADER_HEIGHT_MOBILE + 5),
+    [mediaQueries.mUp]: {
+      top: -(HEADER_HEIGHT + 5)
+    }
+  })
+}
+
+const AccountAnchor = ({ children, id }) => {
+  return (
+    <Fragment>
+      <a {...styles.accountAnchor} id={id} />
+      {children}
+    </Fragment>
+  )
+}
 
 const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
   <Loader
@@ -59,11 +83,6 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
           {!hasMemberships && !inNativeIOSApp && <UserGuidance />}
           <MainContainer>
             <Content>
-              {!merci && <H1>
-                {t('Account/title', {
-                  nameOrEmail: me.name || me.email
-                })}
-              </H1>}
               {hasMemberships && inNativeIOSApp &&
                 <Box style={{ padding: 14, marginBottom: 20 }}>
                   <P>
@@ -72,41 +91,52 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 </Box>
               }
               {!inNativeIOSApp &&
-                <Fragment>
+                <AccountAnchor id='mitgliedschaften'>
                   <MembershipList highlightId={query.id} />
                   {recurringAmount > 0 &&
                     <PaymentSources query={query} total={recurringAmount} />
                   }
-                </Fragment>
+                </AccountAnchor>
               }
 
-              <AccessCampaigns />
+              <AccountAnchor id='teilen'>
+                <AccessCampaigns />
+              </AccountAnchor>
 
-              <UpdateEmail />
-              <UpdateMe acceptedStatue={acceptedStatue} />
+              <AccountAnchor id='email'>
+                <UpdateEmail />
+                <UpdateMe acceptedStatue={acceptedStatue} />
+              </AccountAnchor>
 
               {!inNativeIOSApp &&
-                <Fragment>
+                <AccountAnchor id='pledges'>
                   {(hasPledges || !hasMemberships) && (
                     <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
                   )}
                   <PledgeList highlightId={query.id} />
-                </Fragment>
+                </AccountAnchor>
               }
-              <H2 style={{marginTop: 80}} id='newsletter'>
-                {t('account/newsletterSubscriptions/title')}
-              </H2>
-              <NewsletterSubscriptions />
-              <H2 style={{marginTop: 80}} id='benachrichtigungen'>
-                {t('account/notificationOptions/title')}
-              </H2>
-              <NotificationOptions />
-              {APP_OPTIONS && <Fragment>
+
+              <AccountAnchor id='newsletter'>
+                <H2 style={{marginTop: 80}}>
+                  {t('account/newsletterSubscriptions/title')}
+                </H2>
+                <NewsletterSubscriptions />
+              </AccountAnchor>
+
+              <AccountAnchor id='benachrichtigungen'>
+                <H2 style={{marginTop: 80}}>
+                  {t('account/notificationOptions/title')}
+                </H2>
+                <NotificationOptions />
+              </AccountAnchor>
+
+              {APP_OPTIONS && <AccountAnchor id='anmeldung'>
                 <H2 style={{marginTop: 80}} id='anmeldung'>
                   {t('account/authSettings/title')}
                 </H2>
                 <AuthSettings />
-              </Fragment>}
+              </AccountAnchor>}
             </Content>
           </MainContainer>
         </Fragment>

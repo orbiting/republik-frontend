@@ -6,7 +6,8 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
-import { Link } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
+import { focusSelector } from '../../lib/utils/scroll'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { prefixHover } from '../../lib/utils/hover'
 
@@ -237,6 +238,26 @@ class Footer extends Component {
                   <br />
                 </Fragment>
               )}
+              {!!me && <Fragment>
+                <a
+                  href='/konto#teilen'
+                  onClick={(e) => {
+                    if (e.currentTarget.nodeName === 'A' &&
+                    (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                      // ignore click for new tab / new window behavior
+                      return
+                    }
+
+                    e.preventDefault()
+                    Router.pushRoute('/konto#teilen')
+                      .then(() => {
+                        focusSelector('#teilen')
+                      })
+                  }}>
+                  {t('footer/me/share')}
+                </a>
+                <br />
+              </Fragment>}
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
               </Link>

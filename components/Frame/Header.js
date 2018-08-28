@@ -484,7 +484,7 @@ class Header extends Component {
         {!!cover && <div {...styles.cover}>{cover}</div>}
         {inNativeApp && <Pullable onRefresh={() => {
           if (inNativeIOSApp) {
-            postMessage({ type: 'vibrate' })
+            postMessage({ type: 'haptic', payload: { type: 'impact' } })
           }
           window.location.reload(true)
         }} />}

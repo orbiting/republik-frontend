@@ -13,6 +13,7 @@ import UserGuidance from './UserGuidance'
 import UpdateMe from './UpdateMe'
 import UpdateEmail from './UpdateEmail'
 
+import Anchors from './Anchors'
 import AccessGrants from './Access/Grants'
 import AccessCampaigns from './Access/Campaigns'
 import AuthSettings from './AuthSettings'
@@ -42,23 +43,23 @@ const styles = {
     display: 'block',
     visibility: 'hidden',
     position: 'relative',
-    top: -(HEADER_HEIGHT_MOBILE + 5),
+    top: -(HEADER_HEIGHT_MOBILE + 20),
     [mediaQueries.mUp]: {
-      top: -(HEADER_HEIGHT + 5)
+      top: -(HEADER_HEIGHT + 20)
     }
   })
 }
 
 const AccountAnchor = ({ children, id }) => {
   return (
-    <Fragment>
+    <div style={{marginBottom: 80}}>
       <a {...styles.accountAnchor} id={id} />
       {children}
-    </Fragment>
+    </div>
   )
 }
 
-const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
+const Account = ({ loading, error, me, t, query, hasMemberships, memberships, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
   <Loader
     loading={loading}
     error={error}
@@ -83,6 +84,12 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
           {!hasMemberships && !inNativeIOSApp && <UserGuidance />}
           <MainContainer>
             <Content>
+              {!merci && <H1>
+                {t('Account/title', {
+                  nameOrEmail: me.name || me.email
+                })}
+              </H1>}
+              <Anchors />
               {hasMemberships && inNativeIOSApp &&
                 <Box style={{ padding: 14, marginBottom: 20 }}>
                   <P>
@@ -91,7 +98,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
                 </Box>
               }
               {!inNativeIOSApp &&
-                <AccountAnchor id='mitgliedschaften'>
+                <AccountAnchor id='abos'>
                   <MembershipList highlightId={query.id} />
                   {recurringAmount > 0 &&
                     <PaymentSources query={query} total={recurringAmount} />
@@ -105,36 +112,33 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
 
               <AccountAnchor id='email'>
                 <UpdateEmail />
+              </AccountAnchor>
+
+              <AccountAnchor id='account'>
                 <UpdateMe acceptedStatue={acceptedStatue} />
               </AccountAnchor>
 
               {!inNativeIOSApp &&
                 <AccountAnchor id='pledges'>
                   {(hasPledges || !hasMemberships) && (
-                    <H2 style={{marginTop: 80}}>{t('account/pledges/title')}</H2>
+                    <H2>{t('account/pledges/title')}</H2>
                   )}
                   <PledgeList highlightId={query.id} />
                 </AccountAnchor>
               }
 
               <AccountAnchor id='newsletter'>
-                <H2 style={{marginTop: 80}}>
-                  {t('account/newsletterSubscriptions/title')}
-                </H2>
+                <H2>{t('account/newsletterSubscriptions/title')}</H2>
                 <NewsletterSubscriptions />
               </AccountAnchor>
 
               <AccountAnchor id='benachrichtigungen'>
-                <H2 style={{marginTop: 80}}>
-                  {t('account/notificationOptions/title')}
-                </H2>
+                <H2>{t('account/notificationOptions/title')}</H2>
                 <NotificationOptions />
               </AccountAnchor>
 
               {APP_OPTIONS && <AccountAnchor id='anmeldung'>
-                <H2 style={{marginTop: 80}} id='anmeldung'>
-                  {t('account/authSettings/title')}
-                </H2>
+                <H2>{t('account/authSettings/title')}</H2>
                 <AuthSettings />
               </AccountAnchor>}
             </Content>
@@ -178,6 +182,7 @@ export default compose(
           ))
         ),
         hasMemberships,
+        memberships: hasMemberships && data.me.memberships,
         recurringAmount: hasMemberships
           ? max(
             data.me.memberships.map(m => {

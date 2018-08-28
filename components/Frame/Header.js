@@ -3,7 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
@@ -16,6 +16,7 @@ import Popover from './Popover'
 import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
+import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
 import BackIcon from '../Icons/Back'
@@ -481,6 +482,12 @@ class Header extends Component {
           routeChangeStarted = true
         }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
+        {inNativeApp && <Pullable onRefresh={() => {
+          if (inNativeIOSApp) {
+            postMessage({ type: 'vibrate' })
+          }
+          window.location.reload(true)
+        }} />}
       </Fragment>
     )
   }

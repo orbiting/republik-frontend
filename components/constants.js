@@ -1,7 +1,15 @@
+import { Logo } from '@project-r/styleguide'
+
 export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 45
 export const NAVBAR_HEIGHT = 41
 export const NAVBAR_HEIGHT_MOBILE = 36
+
+export const LOGO_HEIGHT = 28.02
+export const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
+
+export const LOGO_HEIGHT_MOBILE = 22.78
+export const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60

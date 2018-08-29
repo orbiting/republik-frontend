@@ -29,14 +29,12 @@ import {
   ZINDEX_HEADER,
   ZINDEX_HEADER_BACK,
   ZINDEX_HEADER_SECONDARY,
-  ZINDEX_HEADER_LOGO
+  ZINDEX_HEADER_LOGO,
+  LOGO_HEIGHT,
+  LOGO_WIDTH,
+  LOGO_HEIGHT_MOBILE,
+  LOGO_WIDTH_MOBILE
 } from '../constants'
-
-const LOGO_HEIGHT = 28.02
-const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
-
-const LOGO_HEIGHT_MOBILE = 22.78
-const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 const SEARCH_BUTTON_WIDTH = 28
 
@@ -206,15 +204,18 @@ const forceRefRedraw = ref => {
   if (ref) {
     const redraw = () => {
       const display = ref.style.display
+      // offsetHeight
       ref.style.display = 'none'
       /* eslint-disable-next-line no-unused-expressions */
-      ref.offsetHeight
+      ref.offsetHeight // this force webkit to flush styles (render them)
       ref.style.display = display
     }
-    setTimeout(redraw, 33)
-    setTimeout(redraw, 33 * 10)
-    setTimeout(redraw, 33 * 20)
-    setTimeout(redraw, 33 * 30)
+    const msPerFrame = 1000 / 30 // assuming 30 fps
+    const frames = [1, 10, 20, 30]
+    // force a redraw on frame x after initial dom mount
+    frames.forEach(frame => {
+      setTimeout(redraw, msPerFrame * frame)
+    })
   }
 }
 

@@ -16,8 +16,7 @@ const trackRoles = me =>
 
 class Track extends Component {
   componentDidMount () {
-    const { me } = this.props
-    trackRoles(me)
+    trackRoles(this.props.me)
     track(['trackPageView'])
   }
   componentWillReceiveProps ({ me }) {

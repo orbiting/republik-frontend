@@ -21,7 +21,11 @@ import MdClose from 'react-icons/lib/md/close'
 import {
   DEFAULT_TOKEN_TYPE,
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
+  HEADER_HEIGHT_MOBILE,
+  LOGO_HEIGHT,
+  LOGO_WIDTH,
+  LOGO_HEIGHT_MOBILE,
+  LOGO_WIDTH_MOBILE
 } from '../components/constants'
 
 import {
@@ -31,12 +35,6 @@ import {
 import {
   Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries, colors, Button
 } from '@project-r/styleguide'
-
-const LOGO_HEIGHT = 28.02
-const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
-
-const LOGO_HEIGHT_MOBILE = 22.78
-const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 const styles = {
   bar: css({

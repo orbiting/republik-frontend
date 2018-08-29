@@ -3,7 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
@@ -16,6 +16,7 @@ import Popover from './Popover'
 import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
+import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
 import BackIcon from '../Icons/Back'
@@ -28,14 +29,12 @@ import {
   ZINDEX_HEADER,
   ZINDEX_HEADER_BACK,
   ZINDEX_HEADER_SECONDARY,
-  ZINDEX_HEADER_LOGO
+  ZINDEX_HEADER_LOGO,
+  LOGO_HEIGHT,
+  LOGO_WIDTH,
+  LOGO_HEIGHT_MOBILE,
+  LOGO_WIDTH_MOBILE
 } from '../constants'
-
-const LOGO_HEIGHT = 28.02
-const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
-
-const LOGO_HEIGHT_MOBILE = 22.78
-const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 const SEARCH_BUTTON_WIDTH = 28
 
@@ -203,13 +202,20 @@ const isPositionStickySupported = () => {
 // - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
 const forceRefRedraw = ref => {
   if (ref) {
-    setTimeout(() => {
+    const redraw = () => {
       const display = ref.style.display
+      // offsetHeight
       ref.style.display = 'none'
       /* eslint-disable-next-line no-unused-expressions */
-      ref.offsetHeight
+      ref.offsetHeight // this force webkit to flush styles (render them)
       ref.style.display = display
-    }, 300)
+    }
+    const msPerFrame = 1000 / 30 // assuming 30 fps
+    const frames = [1, 10, 20, 30]
+    // force a redraw on frame x after initial dom mount
+    frames.forEach(frame => {
+      setTimeout(redraw, msPerFrame * frame)
+    })
   }
 }
 
@@ -323,6 +329,8 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
+    const showNavBar = isMember
+
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
@@ -341,7 +349,7 @@ class Header extends Component {
             }}>
               <User
                 me={me}
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onclickHandler={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -426,7 +434,7 @@ class Header extends Component {
               <Toggle
                 expanded={!!expand}
                 id='primary-menu'
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onClick={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -452,7 +460,7 @@ class Header extends Component {
             />
           )}
         </div>
-        {isMember && opaque && (
+        {showNavBar && opaque && (
           <Fragment>
             <hr
               {...styles.stickyWithFallback}
@@ -462,8 +470,8 @@ class Header extends Component {
           </Fragment>
         )}
         {opaque && <hr
-          {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
-          {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
+          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {
@@ -481,6 +489,12 @@ class Header extends Component {
           routeChangeStarted = true
         }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
+        {inNativeApp && <Pullable onRefresh={() => {
+          if (inNativeIOSApp) {
+            postMessage({ type: 'haptic', payload: { type: 'impact' } })
+          }
+          window.location.reload(true)
+        }} />}
       </Fragment>
     )
   }

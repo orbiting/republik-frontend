@@ -7,16 +7,15 @@ import {
   InlineSpinner,
   Interaction,
   colors,
-  mediaQueries
+  mediaQueries,
+  fontFamilies
 } from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
-import { Item } from '../Testimonial/List'
 
 const styles = {
   container: css({
-    maxWidth: '974px',
-    margin: '0 auto'
+    margin: '0 -5px'
   }),
   headline: css({
     textAlign: 'center',
@@ -30,15 +29,49 @@ const styles = {
   hBox: css({
     display: 'flex',
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    [mediaQueries.mUp]: {
+      marginTop: '20px'
+    }
   }),
   item: css({
     [mediaQueries.mUp]: {
       width: '16%'
     },
+    position: 'relative',
     width: '33%',
-    margin: 0,
+    padding: '5px',
     float: 'none'
+  }),
+  itemImage: css({
+    width: '100%',
+    paddingBottom: '100%',
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: '#ccc',
+    '& > *': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%'
+    }
+  }),
+  itemName: css({
+    position: 'absolute',
+    fontSize: '12px',
+    lineHeight: '15px',
+    zIndex: 99,
+    top: '63%',
+    left: '8px',
+    right: '8px',
+    [mediaQueries.mUp]: {
+      left: '15px',
+      right: '15px',
+      fontSize: '17px',
+      lineHeight: '22px'
+    },
+    color: '#fff',
+    fontFamily: fontFamilies.sansSerifMedium
   }),
   link: css({
     cursor: 'pointer',
@@ -46,6 +79,7 @@ const styles = {
     fontSize: '16px',
     lineHeight: '25px',
     [mediaQueries.mUp]: {
+      marginTop: '20px',
       fontSize: '23px',
       lineHeight: '28px'
     },
@@ -82,6 +116,15 @@ query members {
 }
 `
 
+export const Item = ({image, name, ...props}) => (
+  <div {...styles.item}>
+    <div {...styles.itemImage}>
+      <img src={image} />
+    </div>
+    <div {...styles.itemName}>{name}</div>
+  </div>
+)
+
 export default graphql(
   GET_COMMUNITY_LIST
 )(({ data: { error, loading, statements: members, memberStats } }) => {
@@ -104,7 +147,6 @@ export default graphql(
         items.map((member, i) => (
           <Item
             key={i}
-            {...styles.item}
             image={member.portrait}
             name={member.name}
           />

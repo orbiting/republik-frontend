@@ -1,13 +1,10 @@
 import React, { Fragment} from 'react'
 // import { Link } from '../../lib/routes'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import { css, merge } from 'glamor'
 import {
   Label,
   Container,
-  Interaction,
   P,
   RawHtml,
   colors,
@@ -15,10 +12,7 @@ import {
   fontFamilies
 } from '@project-r/styleguide'
 
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-
-import { STATS_POLL_INTERVAL_MS } from '../../lib/constants'
 
 import CommunityWidget from './CommunityWidget'
 
@@ -80,51 +74,63 @@ const primaryStyle = css({
 })
 
 const styles = {
-  lead: css({
-    fontSize: '16px',
-    lineHeight: '26px',
-    textAlign: 'center',
-    maxWidth: '702px',
-    margin: '0 auto',
-    [mediaQueries.mUp]: {
-      fontSize: '23px',
-      lineHeight: '36px'
-    }
-  }),
   headline: css({
     fontSize: '28px',
     lineHeight: '34px',
     maxWidth: '1002px',
     textAlign: 'center',
     margin: '0 auto',
-    fontFamily: fontFamilies.sansSerifRegular,
+    fontWeight: 'normal',
+    fontFamily: fontFamilies.serifTitle,
+    marginTop: '12px',
     [mediaQueries.mUp]: {
       fontSize: '64px',
-      lineHeight: '72px'
+      lineHeight: '72px',
+      marginTop: '50px'
+    }
+
+  }),
+  lead: css({
+    fontSize: '16px',
+    lineHeight: '26px',
+    textAlign: 'center',
+    maxWidth: '702px',
+    margin: '12px auto 0 auto',
+    [mediaQueries.mUp]: {
+      fontSize: '23px',
+      lineHeight: '36px',
+      marginTop: '32px'
     }
   }),
   actions: css({
-    maxWidth: '980px',
-    margin: '0 auto',
+    maxWidth: '974px',
+    margin: '14px auto 0 auto',
+    '& > *': {
+      marginBottom: '9px',
+      width: '100%'
+    },
     [mediaQueries.mUp]: {
+      marginTop: '80px',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'stretch',
-      '& > *:first-child': {
-        marginRight: '10px',
+      '& > *': {
+        margin: 0,
         width: '50%'
       },
+      '& > *:first-child': {
+        marginRight: '10px'
+      },
       '& > *:last-child': {
-        marginLeft: '10px',
-        width: '50%'
+        marginLeft: '10px'
       }
     }
   }),
   signInLabel: css({
     display: 'block',
-    cursor: 'pointer',
     color: colors.text,
     '& a': {
+      cursor: 'pointer',
       textDecoration: 'underline'
     },
     '& a:hover': {
@@ -143,20 +149,32 @@ const styles = {
       fontSize: '16px',
       lineHeight: '24px'
     }
+  }),
+  communityWidget: css({
+    margin: '9px auto 0 auto',
+    maxWidth: '974px',
+    [mediaQueries.mUp]: {
+      margin: '78px auto 0 auto'
+    }
+  }),
+  spacer: css({
+    minHeight: '23px',
+    [mediaQueries.mUp]: {
+      minHeight: '84px'
+    }
   })
-
 }
 
-const MarketingPage = ({ me, t, crowdfundingName, data }) => (
+export default withT(({ me, t, crowdfundingName, data }) => (
   <Fragment>
     <Container>
-      <Interaction.H1 {...styles.headline}>
+      <h1 {...styles.headline}>
         <RawHtml
           dangerouslySetInnerHTML={{
             __html: t('marketing/cover/headline')
           }}
         />
-      </Interaction.H1>
+      </h1>
       <P {...styles.lead}>Herzlich willkommen! Die Republik ist ein leserinnenfinanziertes Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wäre schön, Sie mit an Bord zu haben!</P>
       <div {...styles.actions}>
         <div>
@@ -169,27 +187,10 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
           5 Artikel probelesen
         </button>
       </div>
-      <div>
+      <div {...styles.communityWidget}>
         <CommunityWidget />
       </div>
+      <div {...styles.spacer} />
     </Container>
   </Fragment>
-)
-
-const query = gql`
-query memberStats {
-  memberStats {
-    count
-  }
-}
-`
-
-export default compose(
-  withMe,
-  withT,
-  graphql(query, {
-    options: {
-      pollInterval: STATS_POLL_INTERVAL_MS
-    }
-  })
-)(MarketingPage)
+))

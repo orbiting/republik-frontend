@@ -89,7 +89,10 @@ const styles = {
     zIndex: ZINDEX_HEADER_BACK,
     left: 5,
     top: 9,
-    paddingLeft: 10
+    paddingLeft: 10,
+    [mediaQueries.mUp]: {
+      top: 9 + 8
+    }
   }),
   hamburger: css({
     '@media print': {
@@ -493,7 +496,13 @@ class Header extends Component {
           if (inNativeIOSApp) {
             postMessage({ type: 'haptic', payload: { type: 'impact' } })
           }
-          window.location.reload(true)
+          // give the browser 3 frames (1000/30fps) to start animating the spinner
+          setTimeout(
+            () => {
+              window.location.reload(true)
+            },
+            33 * 3
+          )
         }} />}
       </Fragment>
     )

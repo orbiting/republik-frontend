@@ -59,7 +59,7 @@ const AccountAnchor = ({ children, id }) => {
   )
 }
 
-const Account = ({ loading, error, me, t, query, hasMemberships, memberships, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
+const Account = ({ loading, error, me, t, query, hasMemberships, memberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp }) => (
   <Loader
     loading={loading}
     error={error}
@@ -80,8 +80,8 @@ const Account = ({ loading, error, me, t, query, hasMemberships, memberships, ac
 
       return (
         <Fragment>
-          {!hasMemberships && <AccessGrants />}
-          {!hasMemberships && !inNativeIOSApp && <UserGuidance />}
+          {hasAccessGrants && !hasMemberships && <AccessGrants />}
+          {!hasAccessGrants && !hasMemberships && !inNativeIOSApp && <UserGuidance />}
           <MainContainer>
             <Content>
               {!merci && <H1>
@@ -170,6 +170,11 @@ export default compose(
         data.me.pledges &&
         !!data.me.pledges.length
       )
+      const hasAccessGrants = (
+        isReady &&
+        data.me.accessGrants &&
+        !!data.me.accessGrants.length
+      )
       return {
         loading: data.loading,
         error: data.error,
@@ -183,6 +188,7 @@ export default compose(
         ),
         hasMemberships,
         memberships: hasMemberships && data.me.memberships,
+        hasAccessGrants,
         recurringAmount: hasMemberships
           ? max(
             data.me.memberships.map(m => {

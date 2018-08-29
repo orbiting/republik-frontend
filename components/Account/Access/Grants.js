@@ -1,36 +1,45 @@
 import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
-import { Interaction } from '@project-r/styleguide'
+import { Interaction, linkRule } from '@project-r/styleguide'
 
-import Box from '../../Frame/Box'
+import { Link } from '../../../lib/routes'
 import { MainContainer } from '../../Frame'
-
-import withT from '../../../lib/withT'
 import { timeFormat } from '../../../lib/utils/format'
+import Box from '../../Frame/Box'
 import query from '../belongingsQuery'
+import withInNativeApp from '../../../lib/withInNativeApp'
+import withT from '../../../lib/withT'
 
-const { H2, P } = Interaction
+const { P } = Interaction
 
 const dayFormat = timeFormat('%e. %B %Y')
 
 class AccessGrants extends Component {
   render () {
-    const { accessGrants } = this.props
+    const { accessGrants, inNativeIOSApp, t } = this.props
 
     return accessGrants.length > 0 && (
       <Box>
         <MainContainer>
-          <H2>Zugriff durch eine geteilte Mitgliedschaft</H2>
-          <P>Sie können die Republik lesen, weil Verlegerinnen Ihnen Zugriff
-            erteilt haben:</P>
+          <P>{t('Account/Access/Grants/explanation')}</P>
           {accessGrants.map((grant, i) => (
             <P key={i}>
-              {grant.grantee.name} ({grant.grantee.email}) teilt
-              eine Mitgliedschaft mit dir,
-              gültig bis {dayFormat(new Date(grant.endAt))}
+              {t('Account/Access/Grants/grant', {
+                grantee: grant.grantee.name || grant.grantee.email,
+                endAt: dayFormat(new Date(grant.endAt))
+              })}
             </P>
           ))}
+          {!inNativeIOSApp &&
+            <P>
+              <Link route='pledge' key='pledge'>
+                <a {...linkRule}>
+                  {t('Account/Access/Grants/link/pledges')}
+                </a>
+              </Link>
+            </P>
+          }
         </MainContainer>
       </Box>
     )
@@ -50,5 +59,6 @@ export default compose(
       )
     })
   }),
-  withT
+  withT,
+  withInNativeApp
 )(AccessGrants)

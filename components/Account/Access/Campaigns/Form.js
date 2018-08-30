@@ -67,7 +67,7 @@ class Form extends Component {
       }))
     }
 
-    this.onSubmit = async (event) => {
+    this.onSubmit = (event) => {
       event.preventDefault()
 
       this.setState({

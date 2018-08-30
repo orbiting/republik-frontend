@@ -21,16 +21,10 @@ const UnauthorizedMessage = compose(
     return (
       <Fragment>
         {me && <Interaction.H1>{t('withMembership/ios/unauthorized/title')}</Interaction.H1>}
-        {me && <Interaction.P>
-          {t.elements('withMembership/ios/unauthorized/explanation', {
-            webLink: (
-              <a key='web' {...linkRule} href='/' target='_blank'>
-                {t('withMembership/ios/unauthorized/explanation/webText')}
-              </a>
-            )
-          })}
+        <Interaction.P style={{margin: '10px 0 20px'}}>
+          {t(`withMembership/ios/unauthorized/${me ? 'noMembership' : 'signIn'}`)}
           <br />
-        </Interaction.P>}
+        </Interaction.P>
         <br />
         <Me />
       </Fragment>

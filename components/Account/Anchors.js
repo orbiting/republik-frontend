@@ -42,15 +42,18 @@ const AnchorLink = ({children, id}) => (
   </a>
 )
 
-const Anchors = ({ me, t }) => (
+const Anchors = ({ memberships, accessCampaigns, t }) => (
   <ul {...styles.anchorList}>
-    {me.memberships.length > 0 &&
+    {memberships && memberships.length > 0 &&
       <li {...styles.anchorListItem}>
         <AnchorLink id='abos'>
-          {t.pluralize('memberships/title', { count: me.memberships.length })}
+          {t.pluralize(
+            'memberships/title',
+            { count: memberships.length }
+          )}
         </AnchorLink>
       </li>}
-    {me.accessCampaigns.length > 0 &&
+    {accessCampaigns && accessCampaigns.length > 0 &&
       <li {...styles.anchorListItem}>
         <AnchorLink id='teilen'>
           {t('Account/Access/Campaigns/title')}
@@ -89,7 +92,8 @@ export default compose(
     props: ({ data }) => ({
       loading: data.loading || !data.me,
       error: data.error,
-      me: data.loading ? undefined : data.me
+      memberships: !data.loading && data.me && data.me.memberships,
+      accessCampaigns: !data.loading && data.me && data.me.accessCampaigns
     })
   }),
   withT

@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from 'react'
+import { compose } from 'react-apollo'
 import isEmail from 'validator/lib/isEmail'
 
-import { Button, Field, Label, InlineSpinner, Interaction, A } from '@project-r/styleguide'
+import {
+  Button, Field, Label, InlineSpinner, Interaction, A
+} from '@project-r/styleguide'
 
 import ErrorMessage from '../../../ErrorMessage'
+import withT from '../../../../lib/withT'
 
 const { H3 } = Interaction
 
@@ -52,10 +56,10 @@ class Form extends Component {
         value,
         error: (
           value.trim().length <= 0 &&
-          'Keine E-Mail-Adresse angegeben'
+          this.props.t('Account/Access/Campaigns/Form/input/email/missing')
         ) || (
           !isEmail(value) &&
-          'Keine gültige E-Mail-Adresse erkannt'
+          this.props.t('Account/Access/Campaigns/Form/input/email/invalid')
         ),
         dirty: {
           email: shouldValidate
@@ -81,7 +85,7 @@ class Form extends Component {
   }
 
   render () {
-    const { campaign } = this.props
+    const { campaign, t } = this.props
 
     const {
       value,
@@ -100,38 +104,45 @@ class Form extends Component {
             <Fragment>
               {campaign.slots.free > 0 &&
                 <A href='#' onClick={this.onClickReset}>
-                  weiteren Zugriff vergeben
+                  {t('Account/Access/Campaigns/Form/reset')}
                 </A>
               }
               {campaign.slots.total > 1 && campaign.slots.free < 1 &&
-                <Label>Alle verfügbaren Zugriffe vergeben.</Label>
+                <Label>
+                  {t('Account/Access/Campaigns/Form/slots/allGone')}
+                </Label>
               }
             </Fragment>
           )
           : (
             <Fragment>
-              {campaign.slots.used < 1
-                ? <H3 style={{marginTop: 30}}>Zugriff vergeben</H3>
-                : <H3 style={{marginTop: 30}}>
-                  Einen weiteren Zugriff vergeben
-                </H3>
-              }
+              <H3 style={{marginTop: 30}}>
+                {t.pluralize(
+                  'Account/Access/Campaigns/Form/title',
+                  { count: campaign.slots.used }
+                )}
+              </H3>
               <Field
                 name='email'
                 type='email'
-                label='E-Mail-Adresse'
+                label={t('Account/Access/Campaigns/Form/input/email/label')}
                 error={error}
                 onChange={this.onChangeEmail}
                 value={value} />
               {isMutating
                 ? <InlineSpinner />
                 : <Button primary disabled={!!error || !value} onClick={this.onSubmit}>
-                  Teilen
+                  {t('Account/Access/Campaigns/Form/button/submit')}
                 </Button>
               }
               <br />
               {campaign.slots.free > 1 &&
-                <Label>noch {campaign.slots.free} Plätze übrig</Label>
+                <Label>
+                  {t.pluralize(
+                    'Account/Access/Campaigns/Form/freeSlots',
+                    { count: campaign.slots.free }
+                  )}
+                </Label>
               }
               {mutationError &&
                 <ErrorMessage error={mutationError} />}
@@ -144,4 +155,4 @@ class Form extends Component {
   }
 }
 
-export default Form
+export default compose(withT)(Form)

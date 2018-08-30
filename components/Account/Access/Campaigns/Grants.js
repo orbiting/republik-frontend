@@ -1,16 +1,17 @@
 import React, { Component, Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { Interaction } from '@project-r/styleguide'
 
-import List from '../../../List'
-
 import Grant from './Grant'
+import List from '../../../List'
+import withT from '../../../../lib/withT'
 
 const { H3 } = Interaction
 
 class Grants extends Component {
   render () {
-    const { campaign, revokeAccess } = this.props
+    const { campaign, revokeAccess, t } = this.props
 
     if (campaign.grants.length === 0) {
       return null
@@ -18,13 +19,19 @@ class Grants extends Component {
 
     return (
       <Fragment>
-        {campaign.slots.used > 1
-          ? <H3 style={{marginTop: 30}}>Vergebene Zugriffe</H3>
-          : <H3 style={{marginTop: 30}}>Vergebener Zugriff</H3>
+        {<H3 style={{marginTop: 30}}>
+          {t.pluralize(
+            'Account/Access/Campaigns/Grants/title',
+            { count: campaign.slots.used }
+          )}
+        </H3>
         }
         <List>
           {campaign.grants.map((grant, key) => (
-            <Grant grant={grant} revokeAccess={revokeAccess} key={key} />
+            <Grant
+              key={`grant-${key}`}
+              grant={grant}
+              revokeAccess={revokeAccess} />
           ))}
         </List>
       </Fragment>
@@ -32,4 +39,4 @@ class Grants extends Component {
   }
 }
 
-export default Grants
+export default compose(withT)(Grants)

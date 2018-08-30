@@ -52,7 +52,9 @@ const Anchors = ({ me, t }) => (
       </li>}
     {me.accessCampaigns.length > 0 &&
       <li {...styles.anchorListItem}>
-        <AnchorLink id='teilen'>Zugriff teilen</AnchorLink>
+        <AnchorLink id='teilen'>
+          {t('Account/Access/Campaigns/title')}
+        </AnchorLink>
       </li>}
     <li {...styles.anchorListItem}>
       <AnchorLink id='email'>{t('Account/Update/email/label')}</AnchorLink>

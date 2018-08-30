@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 
 import Campaign from './Campaign'
 
-import withT from '../../../../lib/withT'
 import query from '../../belongingsQuery'
 
 class Campaigns extends Component {
@@ -77,6 +76,5 @@ export default compose(
         ) || []
       )
     })
-  }),
-  withT
+  })
 )(Campaigns)

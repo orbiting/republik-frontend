@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { A, InlineSpinner } from '@project-r/styleguide'
+
+import withT from '../../../../lib/withT'
 
 class Revoke extends Component {
   constructor (props) {
@@ -43,10 +46,15 @@ class Revoke extends Component {
   }
 
   render () {
+    const { t } = this.props
     const { isMutating, mutationError } = this.state
 
     if (mutationError) {
-      return (<Fragment>Zurückziehen: Das hat nicht geklappt.</Fragment>)
+      return (
+        <Fragment>
+          {t('Account/Access/Campaigns/Revoke/mutationError')}
+        </Fragment>
+      )
     }
 
     return (
@@ -54,7 +62,7 @@ class Revoke extends Component {
         {isMutating
           ? <InlineSpinner size={25} />
           : <A href='#' onClick={this.onClickRevoke}>
-            Zugriff löschen
+            {t('Account/Access/Campaigns/Revoke/link/revoke')}
           </A>
         }
       </div>
@@ -62,4 +70,4 @@ class Revoke extends Component {
   }
 }
 
-export default Revoke
+export default compose(withT)(Revoke)

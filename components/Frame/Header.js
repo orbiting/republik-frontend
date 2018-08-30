@@ -259,16 +259,6 @@ class Header extends Component {
       this.onScroll()
     }
 
-    this.onMessage = e => {
-      const message = JSON.parse(e.data)
-      switch (message.type) {
-        case 'open-menu':
-          return this.setState({ expanded: true })
-        case 'close-menu':
-          return this.setState({ expanded: false })
-      }
-    }
-
     this.close = () => {
       this.setState({ expanded: false })
     }
@@ -277,7 +267,6 @@ class Header extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
-    document.addEventListener('message', this.onMessage)
     this.measure()
 
     const withoutSticky = !isPositionStickySupported()
@@ -293,7 +282,6 @@ class Header extends Component {
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
-    document.removeEventListener('message', this.onMessage)
   }
 
   componentWillReceiveProps (nextProps) {

@@ -212,10 +212,11 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
                   }
 
                   e.preventDefault()
-                  Router.pushRoute('/konto#teilen')
+                  Router
+                    .pushRoute('/konto#teilen')
                     .then(() => {
-                      focusSelector('#teilen')
                       closeHandler()
+                      focusSelector('#teilen', 'beginning')
                     })
                 }}>
                 {t('nav/share')}

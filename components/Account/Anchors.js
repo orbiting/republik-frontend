@@ -8,6 +8,7 @@ import { APP_OPTIONS } from '../../lib/constants'
 import { Router } from '../../lib/routes'
 import query from './belongingsQuery'
 import withT from '../../lib/withT'
+import { focusSelector } from '../../lib/utils/scroll'
 
 const styles = {
   anchorList: css({
@@ -36,7 +37,12 @@ const AnchorLink = ({children, id}) => (
       }
 
       e.preventDefault()
-      Router.pushRoute('/konto#' + id)
+      const fragment = '#' + id
+      Router
+        .pushRoute('/konto' + fragment)
+        .then(() => {
+          focusSelector(fragment, 'beginning')
+        })
     }}>
     {children}
   </a>

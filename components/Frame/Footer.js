@@ -249,9 +249,10 @@ class Footer extends Component {
                     }
 
                     e.preventDefault()
-                    Router.pushRoute('/konto#teilen')
+                    Router
+                      .pushRoute('/konto#teilen')
                       .then(() => {
-                        focusSelector('#teilen')
+                        focusSelector('#teilen', 'beginning')
                       })
                   }}>
                   {t('footer/me/share')}

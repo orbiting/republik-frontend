@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
@@ -15,35 +14,31 @@ const { P } = Interaction
 
 const dayFormat = timeFormat('%e. %B %Y')
 
-class AccessGrants extends Component {
-  render () {
-    const { accessGrants, inNativeIOSApp, t } = this.props
-
-    return accessGrants.length > 0 && (
-      <Box>
-        <MainContainer>
-          <P>{t('Account/Access/Grants/explanation')}</P>
-          {accessGrants.map((grant, i) => (
-            <P key={i}>
-              {t('Account/Access/Grants/grant', {
-                grantee: grant.grantee.name || grant.grantee.email,
-                endAt: dayFormat(new Date(grant.endAt))
-              })}
-            </P>
-          ))}
-          {!inNativeIOSApp &&
-            <P>
-              <Link route='pledge' key='pledge'>
-                <a {...linkRule}>
-                  {t('Account/Access/Grants/link/pledges')}
-                </a>
-              </Link>
-            </P>
-          }
-        </MainContainer>
-      </Box>
-    )
-  }
+const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
+  return accessGrants.length > 0 && (
+    <Box>
+      <MainContainer>
+        <P>{t('Account/Access/Grants/explanation')}</P>
+        {accessGrants.map((grant, i) => (
+          <P key={i}>
+            {t('Account/Access/Grants/grant', {
+              grantee: grant.grantee.name || grant.grantee.email,
+              endAt: dayFormat(new Date(grant.endAt))
+            })}
+          </P>
+        ))}
+        {!inNativeIOSApp &&
+          <P>
+            <Link route='pledge' key='pledge'>
+              <a {...linkRule}>
+                {t('Account/Access/Grants/link/pledges')}
+              </a>
+            </Link>
+          </P>
+        }
+      </MainContainer>
+    </Box>
+  )
 }
 
 export default compose(

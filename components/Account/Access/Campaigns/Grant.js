@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { compose } from 'react-apollo'
 
 import { Interaction } from '@project-r/styleguide'
@@ -12,25 +11,21 @@ const { Emphasis } = Interaction
 
 const dayFormat = timeFormat('%e. %B %Y')
 
-class Grants extends Component {
-  render () {
-    const { grant, revokeAccess, t } = this.props
-
-    const elements = {
-      recipient: <Emphasis>{grant.email}</Emphasis>,
-      endAt: <Emphasis>{dayFormat(new Date(grant.endAt))}</Emphasis>
-    }
-
-    return (
-      <Item key={grant.id}>
-        { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
-        <br />
-        { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
-        <br />
-        <Revoke grant={grant} revokeAccess={revokeAccess} />
-      </Item>
-    )
+const Grants = ({ grant, revokeAccess, t }) => {
+  const elements = {
+    recipient: <Emphasis>{grant.email}</Emphasis>,
+    endAt: <Emphasis>{dayFormat(new Date(grant.endAt))}</Emphasis>
   }
+
+  return (
+    <Item key={grant.id}>
+      { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
+      <br />
+      { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+      <br />
+      <Revoke grant={grant} revokeAccess={revokeAccess} />
+    </Item>
+  )
 }
 
 export default compose(withT)(Grants)

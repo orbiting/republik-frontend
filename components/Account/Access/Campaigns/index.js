@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -6,21 +5,17 @@ import Campaign from './Campaign'
 
 import query from '../../belongingsQuery'
 
-class Campaigns extends Component {
-  render () {
-    const { accessCampaigns, grantAccess, revokeAccess } = this.props
-
-    return accessCampaigns.length > 0 && accessCampaigns.map((campaign, key) => {
-      return (
-        <Campaign
-          campaign={campaign}
-          grantAccess={grantAccess}
-          revokeAccess={revokeAccess}
-          {...this.state}
-          key={key} />
-      )
-    })
-  }
+const Campaigns = ({ accessCampaigns, grantAccess, revokeAccess, state }) => {
+  return accessCampaigns.length > 0 && accessCampaigns.map((campaign, key) => {
+    return (
+      <Campaign
+        key={`campaign-${key}`}
+        campaign={campaign}
+        grantAccess={grantAccess}
+        revokeAccess={revokeAccess}
+        {...state} />
+    )
+  })
 }
 
 const grantMutation = gql`

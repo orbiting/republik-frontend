@@ -21,6 +21,10 @@ const styles = {
     '& > span': {
       display: 'inline'
     }
+  }),
+  label: css({
+    display: 'block',
+    paddingLeft: '28px'
   })
 }
 
@@ -92,16 +96,18 @@ class NewsletterSubscriptions extends Component {
                       }).then(finish)
                     }}
                   >
-                    {t(`account/newsletterSubscriptions/${name}/label`)}
-                    {mutating[name] && (
-                      <span {...styles.spinnerWrapper}>
-                        <InlineSpinner size={24} />
-                      </span>
-                    )}
-                    <br />
-                    <Label>
-                      {t(`account/newsletterSubscriptions/${name}/frequency`)}
-                    </Label>
+                    <span {...styles.label}>
+                      {t(`account/newsletterSubscriptions/${name}/label`)}
+                      {mutating[name] && (
+                        <span {...styles.spinnerWrapper}>
+                          <InlineSpinner size={24} />
+                        </span>
+                      )}
+                      <br />
+                      <Label>
+                        {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                      </Label>
+                    </span>
                   </Checkbox>
                 </p>
               ))}

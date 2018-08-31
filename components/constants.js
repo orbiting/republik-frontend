@@ -7,18 +7,17 @@ export const NAVBAR_HEIGHT_MOBILE = 36
 
 export const LOGO_HEIGHT = 28.02
 export const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
+export const LOGO_PADDING = Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)
 
 export const LOGO_HEIGHT_MOBILE = 22.78
 export const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
+export const LOGO_PADDING_MOBILE = Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)
 
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60
 
 export const ZINDEX_LOADINGBAR = 30
 export const ZINDEX_POPOVER = 25
-export const ZINDEX_HEADER_LOGO = 23
-export const ZINDEX_HEADER_SECONDARY = 22
-export const ZINDEX_HEADER_BACK = 21
 export const ZINDEX_HEADER = 20
 export const ZINDEX_NAVBAR = 19
 export const ZINDEX_CONTENT = 15

@@ -27,13 +27,10 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER,
-  ZINDEX_HEADER_BACK,
-  ZINDEX_HEADER_SECONDARY,
-  ZINDEX_HEADER_LOGO,
-  LOGO_HEIGHT,
   LOGO_WIDTH,
-  LOGO_HEIGHT_MOBILE,
-  LOGO_WIDTH_MOBILE
+  LOGO_PADDING,
+  LOGO_WIDTH_MOBILE,
+  LOGO_PADDING_MOBILE
 } from '../constants'
 
 const SEARCH_BUTTON_WIDTH = 28
@@ -67,13 +64,12 @@ const styles = {
   }),
   logo: css({
     position: 'relative',
-    zIndex: ZINDEX_HEADER_LOGO,
     display: 'inline-block',
-    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
-    width: `${LOGO_WIDTH_MOBILE}px`,
+    padding: LOGO_PADDING_MOBILE,
+    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
     [mediaQueries.mUp]: {
-      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
-      width: `${LOGO_WIDTH}px`
+      padding: LOGO_PADDING,
+      width: LOGO_WIDTH + LOGO_PADDING * 2
     },
     verticalAlign: 'middle'
   }),
@@ -86,12 +82,11 @@ const styles = {
   back: css({
     display: 'block',
     position: 'absolute',
-    zIndex: ZINDEX_HEADER_BACK,
-    left: 5,
-    top: 9,
-    paddingLeft: 10,
+    left: 0,
+    top: -1,
+    padding: '10px 10px 10px 15px',
     [mediaQueries.mUp]: {
-      top: 9 + 8
+      top: -1 + 8
     }
   }),
   hamburger: css({
@@ -138,7 +133,6 @@ const styles = {
   }),
   secondary: css({
     position: 'absolute',
-    zIndex: ZINDEX_HEADER_SECONDARY,
     top: 0,
     left: 15,
     display: 'inline-block',
@@ -325,16 +319,34 @@ class Header extends Component {
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
-          {secondaryNav && !audioSource && (
-            <div {...styles.secondary} style={{
-              left: backButton ? 40 : undefined,
-              opacity: secondaryVisible ? 1 : 0,
-              zIndex: secondaryVisible ? 99 : undefined
-            }}>
-              {secondaryNav}
-            </div>
-          )}
           {opaque && <Fragment>
+            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
+              <a
+                {...styles.logo}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
+                onClick={e => {
+                  if (
+                    e.currentTarget.nodeName === 'A' &&
+                    (e.metaKey ||
+                      e.ctrlKey ||
+                      e.shiftKey ||
+                      (e.nativeEvent && e.nativeEvent.which === 2))
+                  ) {
+                    // ignore click for new tab / new window behavior
+                    return
+                  }
+                  e.preventDefault()
+                  if (url.pathname === '/') {
+                    window.scrollTo(0, 0)
+                  } else {
+                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
+                  }
+                }}
+              >
+                <Logo />
+              </a>
+            </div>
             <div {...styles.leftItem} style={{
               opacity: (secondaryVisible || backButton) ? 0 : 1
             }}>
@@ -377,33 +389,15 @@ class Header extends Component {
               {...styles.leftItem} {...styles.back}>
               <BackIcon size={25} fill='#000' />
             </a>}
-            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={e => {
-                  if (
-                    e.currentTarget.nodeName === 'A' &&
-                    (e.metaKey ||
-                      e.ctrlKey ||
-                      e.shiftKey ||
-                      (e.nativeEvent && e.nativeEvent.which === 2))
-                  ) {
-                    // ignore click for new tab / new window behavior
-                    return
-                  }
-                  e.preventDefault()
-                  if (url.pathname === '/') {
-                    window.scrollTo(0, 0)
-                  } else {
-                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
-                  }
-                }}
-              >
-                <Logo />
-              </a>
-            </div>
+            {secondaryNav && !audioSource && (
+              <div {...styles.secondary} style={{
+                left: backButton ? 40 : undefined,
+                opacity: secondaryVisible ? 1 : 0,
+                pointerEvents: secondaryVisible ? undefined : 'none'
+              }}>
+                {secondaryNav}
+              </div>
+            )}
             {isMember && <button
               {...styles.search}
               role='button'

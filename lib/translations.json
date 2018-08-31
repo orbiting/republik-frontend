@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-30T19:04:24.981Z",
+  "updated": "2018-08-31T08:30:40.095Z",
   "title": "live",
   "data": [
     {
@@ -796,7 +796,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs, donnerstags, freitags"
+      "value": "montags, dienstags, mittwochs und freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",

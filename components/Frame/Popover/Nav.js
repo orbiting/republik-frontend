@@ -6,7 +6,6 @@ import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
-import { focusSelector } from '../../../lib/utils/scroll'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
@@ -211,13 +210,9 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
                     return
                   }
 
-                  e.preventDefault()
                   Router
                     .pushRoute('/konto#teilen')
-                    .then(() => {
-                      closeHandler()
-                      focusSelector('#teilen', 'beginning')
-                    })
+                    .then(closeHandler)
                 }}>
                 {t('nav/share')}
               </a>

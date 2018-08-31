@@ -7,7 +7,6 @@ import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import { Link, Router } from '../../lib/routes'
-import { focusSelector } from '../../lib/utils/scroll'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { prefixHover } from '../../lib/utils/hover'
 
@@ -248,12 +247,7 @@ class Footer extends Component {
                       return
                     }
 
-                    e.preventDefault()
-                    Router
-                      .pushRoute('/konto#teilen')
-                      .then(() => {
-                        focusSelector('#teilen', 'beginning')
-                      })
+                    Router.pushRoute('/konto#teilen')
                   }}>
                   {t('footer/me/share')}
                 </a>

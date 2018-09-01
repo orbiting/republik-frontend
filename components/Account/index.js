@@ -20,7 +20,7 @@ import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
 import {
-  H1, Interaction, linkRule
+  H1, Interaction
 } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
@@ -64,13 +64,7 @@ const Account = ({ loading, error, me, t, query, hasMemberships, acceptedStatue,
               {hasMemberships && inNativeIOSApp &&
                 <Box style={{ padding: 14, marginBottom: 20 }}>
                   <P>
-                    {t.elements('account/ios/box', {
-                      webLink: (
-                        <a key='web' {...linkRule} href='/konto' target='_blank'>
-                          {t('account/ios/box/webText')}
-                        </a>
-                      )
-                    })}
+                    {t('account/ios/box')}
                   </P>
                 </Box>
               }

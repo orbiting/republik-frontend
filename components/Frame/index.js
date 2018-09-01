@@ -4,6 +4,7 @@ import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/style
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
+import Track from './Track'
 import Box from './Box'
 import {
   HEADER_HEIGHT,
@@ -122,6 +123,7 @@ const Index = ({
       )}
     </div>
     {!inNativeApp && <Footer />}
+    <Track />
   </div>
 )
 

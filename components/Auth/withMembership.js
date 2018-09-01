@@ -20,13 +20,21 @@ const UnauthorizedMessage = compose(
   if (inNativeIOSApp) {
     return (
       <Fragment>
-        {me && <Interaction.H1>{t('withMembership/ios/unauthorized/title')}</Interaction.H1>}
-        <Interaction.P style={{margin: '10px 0 20px'}}>
-          {t(`withMembership/ios/unauthorized/${me ? 'noMembership' : 'signIn'}`)}
-          <br />
-        </Interaction.P>
+        {me && <Interaction.H1 style={{marginBottom: 10}}>
+          {t('withMembership/ios/unauthorized/title')}
+        </Interaction.H1>}
         <br />
-        <Me />
+        <Me
+          beforeSignedInAs={(
+            <Interaction.P style={{marginBottom: 20}}>
+              {t('withMembership/ios/unauthorized/noMembership')}
+            </Interaction.P>
+          )}
+          beforeSignInForm={(
+            <Interaction.P style={{marginBottom: 20}}>
+              {t('withMembership/ios/unauthorized/signIn')}
+            </Interaction.P>
+          )} />
       </Fragment>
     )
   }
@@ -62,7 +70,7 @@ const UnauthorizedMessage = compose(
       <Interaction.P>
         {t.elements('withMembership/signIn/note', {
           buyLink: (
-            <Link route='pledge'>
+            <Link key='pledge' route='pledge'>
               <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
             </Link>
           )

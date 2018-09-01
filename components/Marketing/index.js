@@ -142,6 +142,9 @@ const MarketingPage = ({ me, t, crowdfundingName, data }) => (
             }}
           />
         </Interaction.H1>
+        <Interaction.P style={{margin: '10px 0 20px 0'}}>
+          <a style={{color: '#fff'}} href='/2018/09/01/wochenend-newsletter'>Neu mit Feuilleton!</a>
+        </Interaction.P>
         <Link route='pledge' params={{package: 'ABO'}}>
           <Button primary>
             {t('marketing/cover/button/label')}

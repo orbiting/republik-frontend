@@ -128,7 +128,7 @@ class SignIn extends Component {
   }
 
   render () {
-    const { t, label, beforeForm } = this.props
+    const { t, label, context, beforeForm } = this.props
     const {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
@@ -160,6 +160,13 @@ class SignIn extends Component {
                 nameOrEmail: me.name || me.email
               })
             }))
+            // only immediately reload if not in a context like faq or purchase
+            if (!context) {
+              // re-load after sign in
+              // - clear apollo cache
+              // - re-establish ws conntection with cookie
+              window.location.reload()
+            }
           }} />
     }
     if (success) {

@@ -109,7 +109,7 @@ class Form extends Component {
               }
               {campaign.slots.total > 1 && campaign.slots.free < 1 &&
                 <Label>
-                  {t('Account/Access/Campaigns/Form/slots/allGone')}
+                  {t('Account/Access/Campaigns/Form/freeSlots/0')}
                 </Label>
               }
             </Fragment>

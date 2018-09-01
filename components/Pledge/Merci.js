@@ -36,17 +36,11 @@ export const gotoMerci = (query) => {
   // - can't manage to clear all query caches
   // - couldn't clear myAddress query,
   //   possibly because id-less address type
+  // - good reset if sign in / out status changed during purchasing / claiming
   window.location = format({
     pathname: '/konto',
     query
   })
-  // TODO: Write update cache functions instead of reload navigation
-  // Router.push({
-  //   pathname: '/merci',
-  //   query
-  // }).then(() => {
-  //   window.scrollTo(0, 0)
-  // })
 }
 
 export const encodeSignInResponseQuery = ({ phrase, tokenType, alternativeFirstFactors }) => {

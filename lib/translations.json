@@ -1,5 +1,5 @@
 {
-  "updated": "2018-08-27T11:57:06.953Z",
+  "updated": "2018-09-01T00:34:46.631Z",
   "title": "live",
   "data": [
     {
@@ -37,6 +37,10 @@
     {
       "key": "nav/give",
       "value": "Verschenken"
+    },
+    {
+      "key": "nav/share",
+      "value": "Teilen"
     },
     {
       "key": "navbar/front",
@@ -159,12 +163,12 @@
       "value": "Verlegerbereich"
     },
     {
-      "key": "withMembership/ios/unauthorized/explanation",
-      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie {webLink}, um mehr zu erfahren."
+      "key": "withMembership/ios/unauthorized/noMembership",
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie unsere Webseite, um mehr zu erfahren."
     },
     {
-      "key": "withMembership/ios/unauthorized/explanation/webText",
-      "value": "unsere Webseite"
+      "key": "withMembership/ios/unauthorized/signIn",
+      "value": "Die Nutzung der App erfordert eine Mitgliedschaft oder ein Abo bei der Republik. "
     },
     {
       "key": "signIn/button",
@@ -308,7 +312,7 @@
     },
     {
       "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unser Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern.) Es wäre schön, Sie an Bord zu haben!"
+      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Kurz: für alles, was verwickelt oder komplex ist. Unser Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern.) Es wäre schön, Sie an Bord zu haben!"
     },
     {
       "key": "marketing/signin/button/label",
@@ -496,7 +500,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: HR-Fachfrau/Fachmann 50%"
+      "value": "Offene Stellen"
     },
     {
       "key": "jobs/description",
@@ -548,11 +552,7 @@
     },
     {
       "key": "account/ios/box",
-      "value": "Besuchen Sie {webLink}, um ihre Mitgliedschaft zu verwalten."
-    },
-    {
-      "key": "account/ios/box/webText",
-      "value": "unsere Webseite"
+      "value": "Besuchen Sie unsere Webseite, um ihre Mitgliedschaft zu verwalten."
     },
     {
       "key": "Account/title",
@@ -644,7 +644,7 @@
     },
     {
       "key": "Account/Update/email/label",
-      "value": "Ihre E-Mail-Adresse"
+      "value": "E-Mail-Adresse"
     },
     {
       "key": "Account/Update/email/updating",
@@ -780,7 +780,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "Ihre Newsletter"
+      "value": "Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/noMembership",
@@ -796,7 +796,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs, donnerstags, freitags"
+      "value": "montags, dienstags, mittwochs und freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -844,7 +844,7 @@
     },
     {
       "key": "account/notificationOptions/title",
-      "value": "Ihre Benachrichtigungen in Debatten"
+      "value": "Debatten-Benachrichtigungen"
     },
     {
       "key": "account/discussionNotificationChannels/intro",
@@ -888,7 +888,7 @@
     },
     {
       "key": "account/pledges/title",
-      "value": "Ihre Einkäufe"
+      "value": "Einkäufe"
     },
     {
       "key": "account/pledges/payment/method/STRIPE",
@@ -945,6 +945,90 @@
     {
       "key": "account/pledges/ABO_GIVE/promo",
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
+    },
+    {
+      "key": "Account/Access/Grants/explanation",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
+    },
+    {
+      "key": "Account/Access/Grants/grant",
+      "value": "... durch {grantee} bis zum {endAt}"
+    },
+    {
+      "key": "Account/Access/Grants/link/pledges",
+      "value": "Klicken Sie hier um Ihre eigenes Abonnement zu kaufen"
+    },
+    {
+      "key": "Account/Access/Campaigns/title",
+      "value": "Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/title/0",
+      "value": "Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/title/other",
+      "value": "Einen weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/reset",
+      "value": "weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/0",
+      "value": "Alle verfügbaren Plätze vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/1",
+      "value": "noch ein Platz übrig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/other",
+      "value": "noch {count} Plätze übrig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/button/submit",
+      "value": "Teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/label",
+      "value": "E-Mail-Adresse"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/missing",
+      "value": "E-Mail-Adresse fehlt"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/invalid",
+      "value": "E-Mail-Adresse unvollständig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/mutationError/x",
+      "value": "(Fehler)"
+    },
+    {
+      "key": "Account/Access/Campaigns/Revoke/link/revoke",
+      "value": "Zugriff entfernen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Revoke/mutationError",
+      "value": "Fehler: Zugriff kann im Moment nicht gelöscht werden"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/title/1",
+      "value": "Geteilter Zugriff"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/title/other",
+      "value": "Geteilte Zugriffe"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/recipient",
+      "value": "an {recipient}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/endAt",
+      "value": "gültig bis zum {endAt}"
     },
     {
       "key": "profile/documents/title/other",
@@ -1409,6 +1493,10 @@
     {
       "key": "footer/me/claim",
       "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "footer/me/share",
+      "value": "Teilen"
     },
     {
       "key": "footer/me/faq",
@@ -1936,11 +2024,11 @@
     },
     {
       "key": "package/MONTHLY_ABO/description",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verleger oder Verlegerin der Republik. (Keine Angst: Sie können beides jederzeit kündigen.)"
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verlegerin oder Verleger der Republik. Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen."
     },
     {
       "key": "package/MONTHLY_ABO/description/short",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin - und können jederzeit künden."
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin – und können Ihr Abonnement jederzeit kündigen."
     },
     {
       "key": "package/choose",
@@ -2584,11 +2672,11 @@
     },
     {
       "key": "memberships/title/1",
-      "value": "Ihr Abonnement"
+      "value": "Abonnement"
     },
     {
       "key": "memberships/title/other",
-      "value": "Ihre Abonnements"
+      "value": "Abonnements"
     },
     {
       "key": "memberships/giver/giveable/show",

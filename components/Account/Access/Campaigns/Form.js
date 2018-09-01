@@ -19,7 +19,7 @@ class Form extends Component {
       email: '',
       error: false,
       isMutating: false,
-      hasMutated: false,
+      hideForm: true,
       mutationError: null,
       isUsed: props.campaign.slots.used > 0,
       dirty: {}
@@ -28,7 +28,7 @@ class Form extends Component {
     this.hasMutated = ({ data }) => {
       this.setState({
         isMutating: false,
-        hasMutated: true
+        hideForm: true
       })
     }
 
@@ -44,7 +44,7 @@ class Form extends Component {
 
       this.setState({
         value: '',
-        hasMutated: false,
+        hideForm: false,
         dirty: {}
       })
     }
@@ -92,14 +92,14 @@ class Form extends Component {
       error = false,
       isMutating,
       mutationError,
-      hasMutated
+      hideForm
     } = this.state
 
     const isUsed = campaign.slots.used > 0
 
     return (
       <form onSubmit={this.onSubmit}>
-        {hasMutated && isUsed
+        {hideForm && isUsed
           ? (
             <Fragment>
               {campaign.slots.free > 0 &&
@@ -149,7 +149,6 @@ class Form extends Component {
             </Fragment>
           )
         }
-
       </form>
     )
   }

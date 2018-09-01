@@ -38,6 +38,10 @@ class SignOut extends Component {
                   this.setState(() => ({
                     loading: false
                   }))
+                  // re-load after sign in
+                  // - clear apollo cache
+                  // - clears potentially authenticated ws conntection
+                  window.location.reload()
                 } else {
                   this.setState(() => ({
                     error: t('signOut/error'),

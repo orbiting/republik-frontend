@@ -229,7 +229,7 @@ class Pledge extends Component {
                   {!!showSignIn && (
                     <span>
                       <br /><br />
-                      <SignIn />
+                      <SignIn context='pledge' />
                     </span>
                   )}
                   <br />

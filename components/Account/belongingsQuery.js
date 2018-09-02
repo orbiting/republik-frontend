@@ -32,6 +32,29 @@ query myBelongings {
         name
       }
     }
+    accessGrants {
+      endAt
+      campaign {
+        title
+        description
+      }
+      granteeName
+    }
+    accessCampaigns {
+      id
+      title
+      description
+      grants {
+        id
+        email
+        endAt
+      }
+      slots {
+        total
+        used
+        free
+      }
+    }
     pledges {
       id
       package {

@@ -20,7 +20,7 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
       <MainContainer>
         <P>{t('Account/Access/Grants/explanation')}</P>
         {accessGrants.map((grant, i) => (
-          <P key={i}>
+          <P key={`grant-${grant.id}`}>
             {t('Account/Access/Grants/grant', {
               grantee: grant.grantee.name || grant.grantee.email,
               endAt: dayFormat(new Date(grant.endAt))

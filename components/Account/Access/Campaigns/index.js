@@ -5,15 +5,14 @@ import Campaign from './Campaign'
 
 import query from '../../belongingsQuery'
 
-const Campaigns = ({ accessCampaigns, grantAccess, revokeAccess, state }) => {
-  return accessCampaigns.length > 0 && accessCampaigns.map((campaign, key) => {
+const Campaigns = ({ accessCampaigns, grantAccess, revokeAccess }) => {
+  return accessCampaigns && accessCampaigns.map((campaign, key) => {
     return (
       <Campaign
         key={`campaign-${key}`}
         campaign={campaign}
         grantAccess={grantAccess}
-        revokeAccess={revokeAccess}
-        {...state} />
+        revokeAccess={revokeAccess} />
     )
   })
 }

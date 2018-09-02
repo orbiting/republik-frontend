@@ -1,5 +1,4 @@
 import React, { Fragment, Component } from 'react'
-import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import { max } from 'd3-array'
 import { css } from 'glamor'
@@ -62,9 +61,9 @@ const AccountAnchor = ({ children, id }) => {
 
 class Account extends Component {
   componentDidMount () {
-    const match = /#(\w+)$/m.exec(this.props.router.asPath)
-    if (match) {
-      const node = document.getElementById(match[1])
+    if (window.location.hash.substr(1).length > 0) {
+      const node = document.getElementById(window.location.hash.substr(1))
+
       if (node) {
         node.scrollIntoView()
       }
@@ -164,7 +163,6 @@ class Account extends Component {
   }
 }
 export default compose(
-  withRouter,
   withMe,
   withT,
   withInNativeApp,

@@ -149,24 +149,28 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
                 closeHandler={closeHandler}
               />
               <br />
-              <a
-                {...styles.link}
-                style={{ cursor: 'pointer' }}
-                href='/konto#teilen'
-                onClick={(e) => {
-                  if (e.currentTarget.nodeName === 'A' &&
-                  (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                    // ignore click for new tab / new window behavior
-                    return
-                  }
+              {me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    {...styles.link}
+                    style={{ cursor: 'pointer' }}
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
 
-                  Router
-                    .pushRoute('/konto#teilen')
-                    .then(closeHandler)
-                }}>
-                {t('nav/share')}
-              </a>
-              <br />
+                      Router
+                        .pushRoute('/konto#teilen')
+                        .then(closeHandler)
+                    }}>
+                    {t('nav/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
               <NavLink
                 route='profile'
                 params={{ slug: me.username || me.id }}

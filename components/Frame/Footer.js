@@ -221,21 +221,25 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
-              {!!me && <Fragment>
-                <a
-                  href='/konto#teilen'
-                  onClick={(e) => {
-                    if (e.currentTarget.nodeName === 'A' &&
-                    (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                      // ignore click for new tab / new window behavior
-                      return
-                    }
+              {me && me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
 
-                    Router.pushRoute('/konto#teilen')
-                  }}>
-                  {t('footer/me/share')}
-                </a>
-                <br />
+                      Router.pushRoute('/konto#teilen')
+                    }}>
+                    {t('footer/me/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
+              {!!me && <Fragment>
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <a>{t('footer/me/profile')}</a>
                 </Link>

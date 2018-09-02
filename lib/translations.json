@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-01T00:34:46.631Z",
+  "updated": "2018-09-02T08:37:12.466Z",
   "title": "live",
   "data": [
     {
@@ -1003,8 +1003,8 @@
       "value": "E-Mail-Adresse unvollständig"
     },
     {
-      "key": "Account/Access/Campaigns/Form/mutationError/x",
-      "value": "(Fehler)"
+      "key": "Account/Access/Campaigns/Form/mutationError/hint",
+      "value": "Falls das Problem weiterhin besteht, schreiben Sie uns: kontakt@republik.ch"
     },
     {
       "key": "Account/Access/Campaigns/Revoke/link/revoke",

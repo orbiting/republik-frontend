@@ -70,8 +70,11 @@ class NewsletterSubscriptions extends Component {
               {subscriptions.map(({ name, subscribed, isEligible }) => (
                 <p key={name}>
                   <Checkbox
-                    checked={subscribed && isEligible}
-                    disabled={!isEligible || mutating[name]}
+                    checked={subscribed}
+                    disabled={
+                      (!isEligible && !subscribed) ||
+                      mutating[name]
+                    }
                     onChange={(_, checked) => {
                       this.setState(state => ({
                         mutating: {

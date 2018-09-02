@@ -39,7 +39,7 @@ class Form extends Component {
       })
     }
 
-    this.onClickReset = (event, value, shouldValidate) => {
+    this.onClickReset = (event) => {
       event.preventDefault()
 
       this.setState({

@@ -13,12 +13,16 @@ const dayFormat = timeFormat('%e. %B %Y')
 
 const Grants = ({ grant, revokeAccess, t }) => {
   const elements = {
-    recipient: <Emphasis>{grant.email}</Emphasis>,
-    endAt: <Emphasis>{dayFormat(new Date(grant.endAt))}</Emphasis>
+    recipient: <Emphasis key={`grant-recipient-${grant.id}`}>
+      {grant.email}
+    </Emphasis>,
+    endAt: <Emphasis key={`grant-end-${grant.id}`}>
+      {dayFormat(new Date(grant.endAt))}
+    </Emphasis>
   }
 
   return (
-    <Item key={grant.id}>
+    <Item key={`grant-item-${grant.id}`}>
       { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
       <br />
       { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}

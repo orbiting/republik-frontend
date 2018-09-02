@@ -5,10 +5,11 @@ import { css } from 'glamor'
 import { linkRule } from '@project-r/styleguide'
 
 import { APP_OPTIONS } from '../../lib/constants'
+import { focusSelector } from '../../lib/utils/scroll'
 import { Router } from '../../lib/routes'
 import query from './belongingsQuery'
+import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
-import { focusSelector } from '../../lib/utils/scroll'
 
 const styles = {
   anchorList: css({
@@ -48,9 +49,9 @@ const AnchorLink = ({children, id}) => (
   </a>
 )
 
-const Anchors = ({ memberships, accessCampaigns, t }) => (
+const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
   <ul {...styles.anchorList}>
-    {memberships && memberships.length > 0 &&
+    {!inNativeIOSApp && memberships && memberships.length > 0 &&
       <li {...styles.anchorListItem}>
         <AnchorLink id='abos'>
           {t.pluralize(
@@ -71,9 +72,11 @@ const Anchors = ({ memberships, accessCampaigns, t }) => (
     <li {...styles.anchorListItem}>
       <AnchorLink id='account'>{t('Account/Update/title')}</AnchorLink>
     </li>
-    <li {...styles.anchorListItem}>
-      <AnchorLink id='pledges'>{t('account/pledges/title')}</AnchorLink>
-    </li>
+    {!inNativeIOSApp &&
+      <li {...styles.anchorListItem}>
+        <AnchorLink id='pledges'>{t('account/pledges/title')}</AnchorLink>
+      </li>
+    }
     <li {...styles.anchorListItem}>
       <AnchorLink id='newsletter'>
         {t('account/newsletterSubscriptions/title')}
@@ -102,5 +105,6 @@ export default compose(
       accessCampaigns: !data.loading && data.me && data.me.accessCampaigns
     })
   }),
-  withT
+  withT,
+  withInNativeApp
 )(Anchors)

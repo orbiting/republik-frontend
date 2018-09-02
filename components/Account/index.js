@@ -111,12 +111,12 @@ class Account extends Component {
                 </Box>
                 }
                 {!inNativeIOSApp &&
-                <AccountAnchor id='abos'>
-                  <MembershipList highlightId={query.id} />
-                  {recurringAmount > 0 &&
-                  <PaymentSources query={query} total={recurringAmount} />
-                  }
-                </AccountAnchor>
+                  <AccountAnchor id='abos'>
+                    <MembershipList highlightId={query.id} />
+                    {recurringAmount > 0 &&
+                    <PaymentSources query={query} total={recurringAmount} />
+                    }
+                  </AccountAnchor>
                 }
 
                 <AccountAnchor id='teilen'>
@@ -132,12 +132,12 @@ class Account extends Component {
                 </AccountAnchor>
 
                 {!inNativeIOSApp &&
-                <AccountAnchor id='pledges'>
-                  {(hasPledges || !hasMemberships) && (
-                    <H2>{t('account/pledges/title')}</H2>
-                  )}
-                  <PledgeList highlightId={query.id} />
-                </AccountAnchor>
+                  <AccountAnchor id='pledges'>
+                    {(hasPledges || !hasMemberships) && (
+                      <H2>{t('account/pledges/title')}</H2>
+                    )}
+                    <PledgeList highlightId={query.id} />
+                  </AccountAnchor>
                 }
 
                 <AccountAnchor id='newsletter'>

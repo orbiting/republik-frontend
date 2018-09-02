@@ -22,7 +22,7 @@ class Form extends Component {
       hideForm: true,
       mutationError: null,
       isUsed: props.campaign.slots.used > 0,
-      dirty: {}
+      dirty: false
     }
 
     this.hasMutated = ({ data }) => {
@@ -45,7 +45,7 @@ class Form extends Component {
       this.setState({
         value: '',
         hideForm: false,
-        dirty: {}
+        dirty: false
       })
     }
 
@@ -70,6 +70,11 @@ class Form extends Component {
     this.onSubmit = (event) => {
       event.preventDefault()
 
+      if (this.state.error) {
+        this.setState({ dirty: true })
+        return
+      }
+
       this.setState({
         isMutating: true,
         mutationError: false
@@ -92,7 +97,8 @@ class Form extends Component {
       error = false,
       isMutating,
       mutationError,
-      hideForm
+      hideForm,
+      dirty
     } = this.state
 
     const isUsed = campaign.slots.used > 0
@@ -126,7 +132,7 @@ class Form extends Component {
                 name='email'
                 type='email'
                 label={t('Account/Access/Campaigns/Form/input/email/label')}
-                error={error}
+                error={dirty && error}
                 onChange={this.onChangeEmail}
                 value={value} />
               {isMutating

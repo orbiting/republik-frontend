@@ -61,9 +61,7 @@ class Form extends Component {
           !isEmail(value) &&
           this.props.t('Account/Access/Campaigns/Form/input/email/invalid')
         ),
-        dirty: {
-          email: shouldValidate
-        }
+        dirty: shouldValidate
       }))
     }
 

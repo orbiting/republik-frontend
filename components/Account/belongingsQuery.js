@@ -38,10 +38,7 @@ query myBelongings {
         title
         description
       }
-      grantee {
-        name
-        email
-      }
+      granteeName
     }
     accessCampaigns {
       id

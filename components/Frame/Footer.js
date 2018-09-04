@@ -6,8 +6,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
-import track from '../../lib/piwik'
-import { Link } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { prefixHover } from '../../lib/utils/hover'
 
@@ -136,32 +135,7 @@ const styles = {
   })
 }
 
-const trackRoles = me =>
-  track([
-    'setCustomDimension',
-    1,
-    me
-      ? [].concat(me.roles).sort().join(' ') || 'none'
-      : 'guest'
-  ])
-
 class Footer extends Component {
-  componentDidMount () {
-    const { me } = this.props
-    trackRoles(me)
-    track(['trackPageView'])
-  }
-  componentWillReceiveProps ({ me }) {
-    if (
-      me !== this.props.me &&
-      ((!me || !this.props.me) || me.email !== this.props.me.email)
-    ) {
-      // start new visit with potentially different roles
-      track(['appendToTrackingUrl', 'new_visit=1'])
-      track(['deleteCookies'])
-      trackRoles(me)
-    }
-  }
   render () {
     const { t, me, signOut, inNativeIOSApp } = this.props
     return (
@@ -247,6 +221,24 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
+              {me && me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
+
+                      Router.pushRoute('/konto#teilen')
+                    }}>
+                    {t('footer/me/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
               {!!me && <Fragment>
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <a>{t('footer/me/profile')}</a>

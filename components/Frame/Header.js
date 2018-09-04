@@ -3,7 +3,7 @@ import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import withInNativeApp from '../../lib/withInNativeApp'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
@@ -16,6 +16,7 @@ import Popover from './Popover'
 import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
+import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
 import BackIcon from '../Icons/Back'
@@ -26,16 +27,11 @@ import {
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER,
-  ZINDEX_HEADER_BACK,
-  ZINDEX_HEADER_SECONDARY,
-  ZINDEX_HEADER_LOGO
+  LOGO_WIDTH,
+  LOGO_PADDING,
+  LOGO_WIDTH_MOBILE,
+  LOGO_PADDING_MOBILE
 } from '../constants'
-
-const LOGO_HEIGHT = 28.02
-const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
-
-const LOGO_HEIGHT_MOBILE = 22.78
-const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 const SEARCH_BUTTON_WIDTH = 28
 
@@ -68,13 +64,12 @@ const styles = {
   }),
   logo: css({
     position: 'relative',
-    zIndex: ZINDEX_HEADER_LOGO,
     display: 'inline-block',
-    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
-    width: `${LOGO_WIDTH_MOBILE}px`,
+    padding: LOGO_PADDING_MOBILE,
+    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
     [mediaQueries.mUp]: {
-      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
-      width: `${LOGO_WIDTH}px`
+      padding: LOGO_PADDING,
+      width: LOGO_WIDTH + LOGO_PADDING * 2
     },
     verticalAlign: 'middle'
   }),
@@ -87,10 +82,12 @@ const styles = {
   back: css({
     display: 'block',
     position: 'absolute',
-    zIndex: ZINDEX_HEADER_BACK,
-    left: 5,
-    top: 9,
-    paddingLeft: 10
+    left: 0,
+    top: -1,
+    padding: '10px 10px 10px 15px',
+    [mediaQueries.mUp]: {
+      top: -1 + 8
+    }
   }),
   hamburger: css({
     '@media print': {
@@ -136,7 +133,6 @@ const styles = {
   }),
   secondary: css({
     position: 'absolute',
-    zIndex: ZINDEX_HEADER_SECONDARY,
     top: 0,
     left: 15,
     display: 'inline-block',
@@ -203,13 +199,20 @@ const isPositionStickySupported = () => {
 // - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
 const forceRefRedraw = ref => {
   if (ref) {
-    setTimeout(() => {
+    const redraw = () => {
       const display = ref.style.display
+      // offsetHeight
       ref.style.display = 'none'
       /* eslint-disable-next-line no-unused-expressions */
-      ref.offsetHeight
+      ref.offsetHeight // this force webkit to flush styles (render them)
       ref.style.display = display
-    }, 300)
+    }
+    const msPerFrame = 1000 / 30 // assuming 30 fps
+    const frames = [1, 10, 20, 30]
+    // force a redraw on frame x after initial dom mount
+    frames.forEach(frame => {
+      setTimeout(redraw, msPerFrame * frame)
+    })
   }
 }
 
@@ -250,16 +253,6 @@ class Header extends Component {
       this.onScroll()
     }
 
-    this.onMessage = e => {
-      const message = JSON.parse(e.data)
-      switch (message.type) {
-        case 'open-menu':
-          return this.setState({ expanded: true })
-        case 'close-menu':
-          return this.setState({ expanded: false })
-      }
-    }
-
     this.close = () => {
       this.setState({ expanded: false })
     }
@@ -268,7 +261,6 @@ class Header extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
-    document.addEventListener('message', this.onMessage)
     this.measure()
 
     const withoutSticky = !isPositionStickySupported()
@@ -284,7 +276,6 @@ class Header extends Component {
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
-    document.removeEventListener('message', this.onMessage)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -323,25 +314,45 @@ class Header extends Component {
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
+    const showNavBar = isMember
+
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
-          {secondaryNav && !audioSource && (
-            <div {...styles.secondary} style={{
-              left: backButton ? 40 : undefined,
-              opacity: secondaryVisible ? 1 : 0,
-              zIndex: secondaryVisible ? 99 : undefined
-            }}>
-              {secondaryNav}
-            </div>
-          )}
           {opaque && <Fragment>
+            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
+              <a
+                {...styles.logo}
+                aria-label={t('header/logo/magazine/aria')}
+                href={'/'}
+                onClick={e => {
+                  if (
+                    e.currentTarget.nodeName === 'A' &&
+                    (e.metaKey ||
+                      e.ctrlKey ||
+                      e.shiftKey ||
+                      (e.nativeEvent && e.nativeEvent.which === 2))
+                  ) {
+                    // ignore click for new tab / new window behavior
+                    return
+                  }
+                  e.preventDefault()
+                  if (url.pathname === '/') {
+                    window.scrollTo(0, 0)
+                  } else {
+                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
+                  }
+                }}
+              >
+                <Logo />
+              </a>
+            </div>
             <div {...styles.leftItem} style={{
               opacity: (secondaryVisible || backButton) ? 0 : 1
             }}>
               <User
                 me={me}
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onclickHandler={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -378,33 +389,15 @@ class Header extends Component {
               {...styles.leftItem} {...styles.back}>
               <BackIcon size={25} fill='#000' />
             </a>}
-            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={e => {
-                  if (
-                    e.currentTarget.nodeName === 'A' &&
-                    (e.metaKey ||
-                      e.ctrlKey ||
-                      e.shiftKey ||
-                      (e.nativeEvent && e.nativeEvent.which === 2))
-                  ) {
-                    // ignore click for new tab / new window behavior
-                    return
-                  }
-                  e.preventDefault()
-                  if (url.pathname === '/') {
-                    window.scrollTo(0, 0)
-                  } else {
-                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
-                  }
-                }}
-              >
-                <Logo />
-              </a>
-            </div>
+            {secondaryNav && !audioSource && (
+              <div {...styles.secondary} style={{
+                left: backButton ? 40 : undefined,
+                opacity: secondaryVisible ? 1 : 0,
+                pointerEvents: secondaryVisible ? undefined : 'none'
+              }}>
+                {secondaryNav}
+              </div>
+            )}
             {isMember && <button
               {...styles.search}
               role='button'
@@ -426,7 +419,7 @@ class Header extends Component {
               <Toggle
                 expanded={!!expand}
                 id='primary-menu'
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
+                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
                 onClick={() => {
                   if (onPrimaryNavExpandedChange) {
                     onPrimaryNavExpandedChange(!expand)
@@ -452,7 +445,7 @@ class Header extends Component {
             />
           )}
         </div>
-        {isMember && opaque && (
+        {showNavBar && opaque && (
           <Fragment>
             <hr
               {...styles.stickyWithFallback}
@@ -462,8 +455,8 @@ class Header extends Component {
           </Fragment>
         )}
         {opaque && <hr
-          {...styles[isMember ? 'sticky' : 'stickyWithFallback']}
-          {...((isMember && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
+          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {
@@ -481,6 +474,18 @@ class Header extends Component {
           routeChangeStarted = true
         }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
+        {inNativeApp && <Pullable onRefresh={() => {
+          if (inNativeIOSApp) {
+            postMessage({ type: 'haptic', payload: { type: 'impact' } })
+          }
+          // give the browser 3 frames (1000/30fps) to start animating the spinner
+          setTimeout(
+            () => {
+              window.location.reload(true)
+            },
+            33 * 3
+          )
+        }} />}
       </Fragment>
     )
   }

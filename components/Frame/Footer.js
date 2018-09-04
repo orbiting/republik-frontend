@@ -6,7 +6,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
-import { Link } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
 import { prefixHover } from '../../lib/utils/hover'
 
@@ -221,6 +221,24 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
+              {me && me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
+
+                      Router.pushRoute('/konto#teilen')
+                    }}>
+                    {t('footer/me/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
               {!!me && <Fragment>
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <a>{t('footer/me/profile')}</a>

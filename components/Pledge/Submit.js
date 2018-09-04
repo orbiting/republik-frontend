@@ -400,7 +400,7 @@ class Submit extends Component {
             <P style={{marginBottom: 10}}>
               {t('pledge/submit/emailVerify/note')}
             </P>
-            <SignIn email={user.email} />
+            <SignIn context='pledge' email={user.email} />
           </div>
         )}
         {(emailVerify && me) && (

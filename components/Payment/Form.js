@@ -289,7 +289,7 @@ class PaymentForm extends Component {
         <div {...styles.secure}>
           <LockIcon /> {t('payment/secure')}
         </div>
-        <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
+        <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT) * 2}} loading={loadingPaymentSources} render={() => {
           const visiblePaymentSources = paymentSources
             ? paymentSources.filter(ps => (
               (!onlyChargable || ps.status === 'CHARGEABLE') && ps.isDefault

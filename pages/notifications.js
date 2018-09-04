@@ -22,10 +22,10 @@ import {
   DEFAULT_TOKEN_TYPE,
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  LOGO_HEIGHT,
   LOGO_WIDTH,
-  LOGO_HEIGHT_MOBILE,
-  LOGO_WIDTH_MOBILE
+  LOGO_PADDING,
+  LOGO_WIDTH_MOBILE,
+  LOGO_PADDING_MOBILE
 } from '../components/constants'
 
 import {
@@ -70,11 +70,11 @@ const styles = {
   logoRepublik: css({
     position: 'relative',
     display: 'inline-block',
-    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
-    width: `${LOGO_WIDTH_MOBILE}px`,
+    padding: LOGO_PADDING_MOBILE,
+    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
     [mediaQueries.mUp]: {
-      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
-      width: `${LOGO_WIDTH}px`
+      padding: LOGO_PADDING,
+      width: LOGO_WIDTH + LOGO_PADDING * 2
     },
     verticalAlign: 'middle'
   }),

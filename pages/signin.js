@@ -9,6 +9,8 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 import { Router } from '../lib/routes'
+import withInNativeApp from '../lib/withInNativeApp'
+import { Interaction } from '@project-r/styleguide'
 
 class SigninPage extends Component {
   componentDidMount () {
@@ -31,7 +33,7 @@ class SigninPage extends Component {
   }
 
   render () {
-    const { url, t, me } = this.props
+    const { url, t, me, inNativeIOSApp } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
@@ -39,7 +41,14 @@ class SigninPage extends Component {
     return (
       <Frame url={url} meta={meta}>
         <PageCenter>
-          {!me ? <SignIn /> : <Loader loading />}
+          {me
+            ? <Loader loading />
+            : <SignIn beforeForm={inNativeIOSApp
+              ? <Interaction.P style={{marginBottom: 20}}>
+                {t('withMembership/ios/unauthorized/signIn')}
+              </Interaction.P>
+              : undefined
+            } />}
         </PageCenter>
       </Frame>
     )
@@ -50,5 +59,6 @@ export default compose(
   withData,
   withMe,
   withMembership,
+  withInNativeApp,
   withT
 )(SigninPage)

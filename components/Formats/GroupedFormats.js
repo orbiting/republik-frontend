@@ -4,12 +4,12 @@ import { ascending } from 'd3-array'
 import { css } from 'glamor'
 import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
+import Link from '../Link/Href'
 import Loader from '../../components/Loader'
 import withT from '../../lib/withT'
 
-import FormatTag from './FormatTag'
-
 import {
+  FormatTag,
   colors,
   fontStyles,
   mediaQueries
@@ -33,6 +33,10 @@ const styles = {
         borderTop: `1px solid ${colors.divider}`
       }
     }
+  }),
+  link: css({
+    color: 'inherit',
+    textDecoration: 'none'
   })
 }
 
@@ -93,13 +97,15 @@ class GroupedFormats extends Component {
                   <h2 {...styles.h2}>
                     {t(`formats/title/${key}`)}
                   </h2>
-                  {values.map(doc => (
-                    <FormatTag
-                      color={getColorFromMeta(doc.meta)}
-                      path={doc.meta.path}
-                      label={doc.meta.title}
-                      count={doc.linkedDocuments.totalCount}
-                      key={doc.meta.path} />
+                  {values.filter(value => value.linkedDocuments.totalCount).map(doc => (
+                    <Link href={doc.meta.path} passHref key={doc.meta.path}>
+                      <a {...styles.link} href={doc.meta.path}>
+                        <FormatTag
+                          color={getColorFromMeta(doc.meta)}
+                          label={doc.meta.title}
+                          count={doc.linkedDocuments.totalCount} />
+                      </a>
+                    </Link>
                   ))}
                 </section>
               ))}

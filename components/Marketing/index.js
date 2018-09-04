@@ -1,7 +1,7 @@
 import React, { Fragment} from 'react'
-// import { Link } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 import {
   Label,
   Container,
@@ -15,63 +15,7 @@ import {
 import withT from '../../lib/withT'
 
 import CommunityWidget from './CommunityWidget'
-
-// TODO: revisit special font sizes with design.
-
-const buttonStyle = css({
-  [mediaQueries.onlyS]: {
-    padding: '8px 15px 8px 15px',
-    fontSize: '16px',
-    lineHeight: '25px',
-    height: 50
-  },
-  width: '100%',
-  outline: 'none',
-  verticalAlign: 'bottom',
-  minWidth: 160,
-  textAlign: 'center',
-  textDecoration: 'none',
-  fontSize: 22,
-  height: 60,
-  boxSizing: 'border-box',
-  backgroundColor: '#fff',
-  fontFamily: fontFamilies.sansSerifRegular,
-  border: `1px solid ${colors.secondary}`,
-  borderRadius: 0,
-  color: colors.secondary,
-  cursor: 'pointer',
-  ':hover': {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-    color: '#fff'
-  },
-  ':active': {
-    backgroundColor: colors.secondary,
-    borderColor: colors.secondary,
-    color: '#fff'
-  },
-  ':disabled, [disabled]': {
-    backgroundColor: '#fff',
-    color: colors.disabled,
-    borderColor: colors.disabled,
-    cursor: 'default'
-  }
-})
-
-const primaryStyle = css({
-  backgroundColor: colors.primary,
-  borderColor: colors.primary,
-  color: '#fff',
-  ':hover': {
-    backgroundColor: colors.secondary,
-    borderColor: colors.secondary
-  },
-  ':active': {
-    backgroundColor: '#000',
-    borderColor: '#000',
-    color: '#fff'
-  }
-})
+import { buttonStyles } from './styles'
 
 const styles = {
   headline: css({
@@ -165,32 +109,38 @@ const styles = {
   })
 }
 
-export default withT(({ me, t, crowdfundingName, data }) => (
-  <Fragment>
-    <Container>
-      <h1 {...styles.headline}>
-        <RawHtml
-          dangerouslySetInnerHTML={{
-            __html: t('marketing/cover/headline')
-          }}
-        />
-      </h1>
-      <P {...styles.lead}>Herzlich willkommen! Die Republik ist ein leserinnenfinanziertes Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wäre schön, Sie mit an Bord zu haben!</P>
-      <div {...styles.actions}>
-        <div>
-          <button {...merge(buttonStyle, primaryStyle)}>
-            {t('marketing/cover/button/label')}
-          </button>
-          <Label {...styles.signInLabel}>Sie haben schon ein Abo? <a>Jetzt anmelden</a></Label>
+export default withT(({ me, t, crowdfundingName, data, ...props }) => {
+  return (
+    <Fragment>
+      <Container>
+        <h1 {...styles.headline}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/cover/headline')
+            }}
+          />
+        </h1>
+        <P {...styles.lead}>Herzlich willkommen! Die Republik ist ein leserinnenfinanziertes Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wäre schön, Sie mit an Bord zu haben!</P>
+        <div {...styles.actions}>
+          <div>
+            <Link route='pledge'>
+              <button {...buttonStyles.primary}>
+                {t('marketing/cover/button/label')}
+              </button>
+            </Link>
+            <Label {...styles.signInLabel}>Sie haben schon ein Abo? <a>Jetzt anmelden</a></Label>
+          </div>
+          <Link route='preview'>
+            <button {...buttonStyles.standard}>
+              5 Artikel probelesen
+            </button>
+          </Link>
         </div>
-        <button {...buttonStyle}>
-          5 Artikel probelesen
-        </button>
-      </div>
-      <div {...styles.communityWidget}>
-        <CommunityWidget />
-      </div>
-      <div {...styles.spacer} />
-    </Container>
-  </Fragment>
-))
+        <div {...styles.communityWidget}>
+          <CommunityWidget />
+        </div>
+        <div {...styles.spacer} />
+      </Container>
+    </Fragment>
+  )
+})

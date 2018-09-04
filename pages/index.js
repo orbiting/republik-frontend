@@ -9,13 +9,9 @@ import withT from '../lib/withT'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
 
 import {
-  SALES_UP,
-  CROWDFUNDING_NAME,
   PUBLIC_BASE_URL,
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
-
-const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
   if (isMember) {
@@ -34,7 +30,7 @@ const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
   }
   return (
     <Frame raw url={url} meta={meta}>
-      <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
+      <Marketing />
     </Frame>
   )
 }

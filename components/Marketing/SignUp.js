@@ -53,7 +53,7 @@ export default withMe(({ me }) =>
         Melden Sie sich an, um kostenlos fünf Artikel zu lesen. Ausserdem senden wir Ihnen am nächsten Nicht-Sonntag einmalig unseren Newsletter mit allen Inhalten des aktuellen Tages zu.
     </p>
     <div {...styles.signUp}>
-      <SignIn label='Anmelden' />
+      <SignIn label='Anmelden' context='preview' />
     </div>
   </Fragment>
 

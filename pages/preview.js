@@ -24,7 +24,7 @@ const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame showSecondary={false} raw url={url} meta={meta}>
+    <Frame raw url={url} meta={meta}>
       <Preview url={url} />
     </Frame>
   )

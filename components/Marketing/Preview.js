@@ -12,7 +12,7 @@ import PreviewFront from './PreviewFront'
 
 const Preview = ({ me, url }) => {
   return (
-    <Container style={{ maxWidth: '665px' }}>
+    <Container style={{ maxWidth: (!me && '665px') || '100%' }}>
       {!me && <SignUp />}
       {me && <PreviewFront url={url} />}
     </Container>

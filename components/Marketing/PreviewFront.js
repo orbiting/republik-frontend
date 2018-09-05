@@ -1,16 +1,32 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import StatusError from '../StatusError'
-
+import {css} from 'glamor'
+import { Interaction, colors, mediaQueries } from '@project-r/styleguide'
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
+import withMembership from '../Auth/withMembership'
+
+import StatusError from '../StatusError'
 import Loader from '../Loader'
 import Link from '../Link/Href'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
+
+const styles = {
+  noMember: css({
+    margin: '0 -15px',
+    backgroundColor: colors.primaryBg,
+    textAlign: 'center',
+    padding: '18px 15px',
+    [mediaQueries.mUp]: {
+      padding: '30px 15px'
+    }
+  })
+}
 
 const schema = createFrontSchema({
   Link
@@ -37,11 +53,22 @@ const getDocument = gql`
   }
 `
 
-class PreviewFront extends Component {
-  render () {
-    const { url, data, data: { front }, t } = this.props
+const Prestitial = ({ me, isMember, t }) => {
+  const text = me && !isMember
+    ? `Danke für Ihr Interesse an der Republik! Es folgen gleich fünf unserer interessantesten Artikel. Wir wünschen Ihnen entspannte Lektüre – und hoffen, Sie bald regelmässig an Bord zu sehen. Eine Übersicht unserer Angebote finden Sie hier.`
+    : `Guten Tag. Sie sind ja bereits stolze Besitzerin eines Abonnements und könnten daher statt probe- einfach nur lesen.`
 
-    return (
+  return <div {...styles.noMember}>
+    <Interaction.P>
+      {text}
+    </Interaction.P>
+  </div>
+}
+
+const PreviewFront = ({ url, data, data: { front }, t, me, isMember }) => {
+  return (
+    <Fragment>
+      <Prestitial isMember={isMember} me={me} />
       <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
         if (!front) {
           return <StatusError
@@ -56,11 +83,13 @@ class PreviewFront extends Component {
           </SSRCachingBoundary>
         )
       }} />
-    )
-  }
+    </Fragment>
+  )
 }
 
 export default compose(
+  withMe,
+  withMembership,
   withT,
   graphql(getDocument, {
     options: () => ({

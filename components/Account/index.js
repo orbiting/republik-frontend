@@ -128,7 +128,7 @@ class Account extends Component {
                 </AccountAnchor>
 
                 <AccountAnchor id='account'>
-                  <UpdateMe acceptedStatue={acceptedStatue} />
+                  <UpdateMe acceptedStatue={acceptedStatue} hasMemberships={hasMemberships} />
                 </AccountAnchor>
 
                 {!inNativeIOSApp &&

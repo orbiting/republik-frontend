@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
 import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import { meQuery } from '../../lib/apollo/withMe'
 import { prefixHover } from '../../lib/utils/hover'
 
 import ErrorMessage from '../ErrorMessage'
@@ -127,8 +128,28 @@ class SignIn extends Component {
     this.setState({ cookiesDisabled: !navigator.cookieEnabled })
   }
 
+  componentWillUnmount () {
+    if (this.state.polling) {
+      const data = this.props.client.readQuery({ query: meQuery })
+      if (data.me) {
+        this.reloadOnSuccess()
+      }
+    }
+  }
+
+  reloadOnSuccess () {
+    const { context } = this.props
+    // only immediately reload if not in a context like faq or purchase
+    if (!context) {
+      // re-load after sign in
+      // - clear apollo cache
+      // - re-establish ws conntection with cookie
+      window.location.reload()
+    }
+  }
+
   render () {
-    const { t, label, context, beforeForm } = this.props
+    const { t, label, beforeForm } = this.props
     const {
       phrase, tokenType, alternativeFirstFactors,
       polling, loading, success,
@@ -160,13 +181,7 @@ class SignIn extends Component {
                 nameOrEmail: me.name || me.email
               })
             }))
-            // only immediately reload if not in a context like faq or purchase
-            if (!context) {
-              // re-load after sign in
-              // - clear apollo cache
-              // - re-establish ws conntection with cookie
-              window.location.reload()
-            }
+            this.reloadOnSuccess()
           }} />
     }
     if (success) {
@@ -251,6 +266,7 @@ export const withSignIn = graphql(signInMutation, {
 })
 
 export default compose(
+  withApollo,
   withSignIn,
   withT
 )(SignIn)

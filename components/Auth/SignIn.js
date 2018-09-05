@@ -138,9 +138,9 @@ class SignIn extends Component {
   }
 
   reloadOnSuccess () {
-    const { context } = this.props
+    const { context, noReload } = this.props
     // only immediately reload if not in a context like faq or purchase
-    if (!context) {
+    if (!context && !noReload) {
       // re-load after sign in
       // - clear apollo cache
       // - re-establish ws conntection with cookie
@@ -245,7 +245,8 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  signIn: PropTypes.func.isRequired
+  signIn: PropTypes.func.isRequired,
+  noReload: PropTypes.bool
 }
 
 const signInMutation = gql`

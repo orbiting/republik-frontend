@@ -75,6 +75,7 @@ const styles = {
     color: colors.text,
     '& a': {
       cursor: 'pointer',
+      color: colors.text,
       textDecoration: 'underline'
     },
     '& a:hover': {
@@ -129,7 +130,13 @@ export default withT(({ me, t, crowdfundingName, data, ...props }) => {
               </button>
             </Link>
             <Label {...styles.signInLabel}>{
-              t.elements('marketing-20/signin', {link: <a>{t('marketing-20/signin/link')}</a>})
+              t.elements(
+                'marketing-20/signin',
+                { link: <Link route={'signin'}>
+                  <a>{t('marketing-20/signin/link') }</a>
+                </Link>
+                }
+              )
             }</Label>
           </div>
           <Link route='preview'>

@@ -2,10 +2,11 @@ import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
-import { Interaction, colors, mediaQueries } from '@project-r/styleguide'
+import { A, Interaction, colors, mediaQueries } from '@project-r/styleguide'
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
 import withT from '../../lib/withT'
+import { Link as RouteLink } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withMembership from '../Auth/withMembership'
 
@@ -55,7 +56,10 @@ const getDocument = gql`
 
 const Prestitial = ({ me, isMember, t }) => {
   const text = me && !isMember
-    ? t.elements('marketing-20/preview/prestitial/noMembership', { link: <a href='/'>{t('marketing-20/preview/prestitial/noMembership/link')}</a> })
+    ? t.elements(
+      'marketing-20/preview/prestitial/noMembership',
+      { link: <RouteLink route='pledge'><A style={{cursor: 'pointer'}}><br />{t('marketing-20/preview/prestitial/noMembership/link')}</A></RouteLink> }
+    )
     : t('marketing-20/preview/prestitial/withMembership')
 
   return <div {...styles.noMember}>

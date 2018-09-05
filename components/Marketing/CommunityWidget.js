@@ -1,8 +1,6 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import withT from '../../lib/withT'
-
 import { css } from 'glamor'
 import {
   InlineSpinner,
@@ -12,6 +10,8 @@ import {
   fontFamilies
 } from '@project-r/styleguide'
 
+import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 
 const styles = {
@@ -85,6 +85,7 @@ const styles = {
       lineHeight: '28px'
     },
     '& a': {
+      color: colors.text,
       textDecoration: 'underline'
     },
     '& a:hover': {
@@ -158,7 +159,9 @@ export default compose(
         ))
       }</div>
       <Interaction.P {...styles.link}>
-        <a>{t('marketing-20/community/link')}</a>
+        <Link route='community'>
+          <a>{t('marketing-20/community/link')}</a>
+        </Link>
       </Interaction.P>
     </div>)
 })

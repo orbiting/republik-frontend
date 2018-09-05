@@ -55,8 +55,8 @@ const getDocument = gql`
 
 const Prestitial = ({ me, isMember, t }) => {
   const text = me && !isMember
-    ? `Danke für Ihr Interesse an der Republik! Es folgen gleich fünf unserer interessantesten Artikel. Wir wünschen Ihnen entspannte Lektüre – und hoffen, Sie bald regelmässig an Bord zu sehen. Eine Übersicht unserer Angebote finden Sie hier.`
-    : `Guten Tag. Sie sind ja bereits stolze Besitzerin eines Abonnements und könnten daher statt probe- einfach nur lesen.`
+    ? t.elements('marketing-20/preview/prestitial/noMembership', { link: <a href='/'>{t('marketing-20/preview/prestitial/noMembership/link')}</a> })
+    : t('marketing-20/preview/prestitial/withMembership')
 
   return <div {...styles.noMember}>
     <Interaction.P>
@@ -68,7 +68,7 @@ const Prestitial = ({ me, isMember, t }) => {
 const PreviewFront = ({ url, data, data: { front }, t, me, isMember }) => {
   return (
     <Fragment>
-      <Prestitial isMember={isMember} me={me} />
+      <Prestitial isMember={isMember} me={me} t={t} />
       <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
         if (!front) {
           return <StatusError

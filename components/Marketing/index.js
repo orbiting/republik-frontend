@@ -116,23 +116,25 @@ export default withT(({ me, t, crowdfundingName, data, ...props }) => {
         <h1 {...styles.headline}>
           <RawHtml
             dangerouslySetInnerHTML={{
-              __html: t('marketing/cover/headline')
+              __html: t('marketing-20/title')
             }}
           />
         </h1>
-        <P {...styles.lead}>Herzlich willkommen! Die Republik ist ein leserinnenfinanziertes Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wäre schön, Sie mit an Bord zu haben!</P>
+        <P {...styles.lead}>{t('marketing-20/lead')}</P>
         <div {...styles.actions}>
           <div>
             <Link route='pledge'>
               <button {...buttonStyles.primary}>
-                {t('marketing/cover/button/label')}
+                {t('marketing-20/join/button/label')}
               </button>
             </Link>
-            <Label {...styles.signInLabel}>Sie haben schon ein Abo? <a>Jetzt anmelden</a></Label>
+            <Label {...styles.signInLabel}>{
+              t.elements('marketing-20/signin', {link: <a>{t('marketing-20/signin/link')}</a>})
+            }</Label>
           </div>
           <Link route='preview'>
             <button {...buttonStyles.standard}>
-              5 Artikel probelesen
+              {t('marketing-20/preview/button/label')}
             </button>
           </Link>
         </div>

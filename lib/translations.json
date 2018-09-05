@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-02T13:29:27.334Z",
+  "updated": "2018-09-05T13:32:30.547Z",
   "title": "live",
   "data": [
     {
@@ -387,6 +387,70 @@
       "value": "Konto"
     },
     {
+      "key": "marketing-20/title",
+      "value": "Unabhängiger Journalismus. Werbefrei."
+    },
+    {
+      "key": "marketing-20/lead",
+      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wird von seinen Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
+    },
+    {
+      "key": "marketing-20/join/button/label",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "marketing-20/preview/button/label",
+      "value": "Probelesen"
+    },
+    {
+      "key": "marketing-20/signin",
+      "value": "Sie haben schon ein Abo? {link}"
+    },
+    {
+      "key": "marketing-20/signin/link",
+      "value": "Jetzt anmelden"
+    },
+    {
+      "key": "marketing-20/community/title",
+      "value": "{numCommunityMembers} Personen sind schon dabei"
+    },
+    {
+      "key": "marketing-20/community/link",
+      "value": "Zur Community"
+    },
+    {
+      "key": "marketing-20/signup/title",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "marketing-20/signup/lead",
+      "value": "Bitte tragen Sie unten Ihre E-Mail Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
+    },
+    {
+      "key": "marketing-20/signup/button/label",
+      "value": "Anmelden"
+    },
+    {
+      "key": "marketing-20/preview/prestitial/noMembership",
+      "value": "Danke für Ihr Interesse an der Republik! Hier wie versprochen unser Musterköfferchen. Wir wünschen eine anregende Lektüre – und würden uns freuen, wenn Sie an Bord kommen. {link}."
+    },
+    {
+      "key": "marketing-20/preview/prestitial/noMembership/link",
+      "value": "Hier geht es zu unseren Angeboten"
+    },
+    {
+      "key": "marketing-20/preview/prestitial/withMembership",
+      "value": "Hoppla! Sie haben ja bereits ein Abo und können sich in der Republik nach Herzenslust umsehen. "
+    },
+    {
+      "key": "marketing-20/preview/prestitial/hasPreview",
+      "value": "Schön, Sie wiederzusehen. Diese fünf Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+    },
+    {
+      "key": "marketing-20/preview/prestitial/hasPreview/link",
+      "value": "Wie wär’s mit einem Abonnement"
+    },
+    {
       "key": "pledge/contact/title",
       "value": "Ihre Kontaktinformationen"
     },
@@ -500,7 +564,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen"
+      "value": "Offene Stellen: Projektleiter*in Marketing/Kommunikation (80 Prozent)"
     },
     {
       "key": "jobs/description",
@@ -980,7 +1044,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/freeSlots/1",
-      "value": "noch ein Platz übrig"
+      "value": "noch einen Platz übrig"
     },
     {
       "key": "Account/Access/Campaigns/Form/freeSlots/other",
@@ -3177,6 +3241,26 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "pledge/fields/explanation",
+      "value": "Fast geschafft. Ihr Zugang ist ein Konto erster Güte, und Sie können unter anderem an Debatten teilnehmen. Um Ihr Profil für den Start zu vervollständigen, benötigen wir noch folgende Informationen von Ihnen:"
+    },
+    {
+      "key": "pledge/fields/label/firstName",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "pledge/fields/error/firstName/missing",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "pledge/fields/label/lastName",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "pledge/fields/error/lastName/missing",
+      "value": "Nachname fehlt"
     }
   ]
 }

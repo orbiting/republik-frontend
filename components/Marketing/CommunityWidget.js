@@ -1,6 +1,7 @@
 import React from 'react'
-import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import withT from '../../lib/withT'
 
 import { css } from 'glamor'
 import {
@@ -125,9 +126,10 @@ export const Item = ({image, name, ...props}) => (
   </div>
 )
 
-export default graphql(
-  GET_COMMUNITY_LIST
-)(({ data: { error, loading, statements: members, memberStats } }) => {
+export default compose(
+  withT,
+  graphql(GET_COMMUNITY_LIST)
+)(({ t, data: { error, loading, statements: members, memberStats } }) => {
   if (loading) {
     return <InlineSpinner size='38px' />
   }
@@ -141,7 +143,10 @@ export default graphql(
   return (
     <div {...styles.container}>
       <Interaction.H2 {...styles.headline}>
-        {countFormat(memberStats.count)} Personen sind schon dabei
+        {t(
+          'marketing-20/community/title',
+          { numCommunityMembers: countFormat(memberStats.count) }
+        )}
       </Interaction.H2>
       <div {...styles.hBox}>{
         items.map((member, i) => (
@@ -153,7 +158,7 @@ export default graphql(
         ))
       }</div>
       <Interaction.P {...styles.link}>
-        <a>Community anschauen</a>
+        <a>{t('marketing-20/community/link')}</a>
       </Interaction.P>
     </div>)
 })

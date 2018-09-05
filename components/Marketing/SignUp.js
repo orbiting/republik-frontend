@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
+import { compose } from 'react-apollo'
 
 import SignIn from '../Auth/SignIn'
 
 import withMe from '../../lib/apollo/withMe'
+import withT from '../../lib/withT'
 import {
   fontFamilies,
   mediaQueries
@@ -45,15 +47,17 @@ const styles = {
   })
 }
 
-export default withMe(({ me }) =>
+export default compose(
+  withMe, withT
+)(({ me, t }) =>
   !me &&
   <Fragment>
-    <h1 {...styles.headline}>Danke für Ihre Neugier!</h1>
+    <h1 {...styles.headline}>{t('marketing-20/signup/title')}</h1>
     <p {...styles.lead}>
-        Melden Sie sich an, um kostenlos fünf Artikel zu lesen. Ausserdem senden wir Ihnen am nächsten Nicht-Sonntag einmalig unseren Newsletter mit allen Inhalten des aktuellen Tages zu.
+      {t('marketing-20/signup/lead')}
     </p>
     <div {...styles.signUp}>
-      <SignIn label='Anmelden' context='preview' />
+      <SignIn label={t('marketing-20/signup/button/label')} context='preview' />
     </div>
   </Fragment>
 

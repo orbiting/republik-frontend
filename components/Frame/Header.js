@@ -316,8 +316,6 @@ class Header extends Component {
 
     const showNavBar = isMember
 
-    console.log(showNavBar && opaque)
-
     return (
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>

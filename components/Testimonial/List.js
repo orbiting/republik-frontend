@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
+import {css, merge} from 'glamor'
 import {max} from 'd3-array'
 
 import Meta from '../Frame/Meta'
@@ -37,15 +37,17 @@ const PADDING = 5
 const styles = {
   grid: css({
     margin: '0 -5px',
-    ':after': {
-      content: '""',
-      display: 'table',
-      clear: 'both'
-    }
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }),
+  singleRowGrid: css({
+    flexWrap: 'nowrap',
+    overflow: 'hidden'
   }),
   item: css({
     cursor: 'pointer',
-    float: 'left',
+    display: 'block',
     ...(SIZES.reduce(
       (styles, size) => {
         const width = `${100 / size.columns}%`
@@ -63,6 +65,9 @@ const styles = {
     lineHeight: 0,
     padding: PADDING,
     position: 'relative'
+  }),
+  singleRowItem: css({
+    flexShrink: 0
   }),
   aspect: css({
     width: '100%',
@@ -112,16 +117,21 @@ const styles = {
   })
 }
 
-export const Item = ({image, name, video, isActive, onClick, imageRenderer, style, ...props}) => (
-  <div {...styles.item} style={style} onClick={onClick} {...props}>
-    <div {...styles.aspect}>
-      {imageRenderer ? imageRenderer() : <img src={image} />}
+export const Item = ({image, name, video, isActive, onClick, imageRenderer, singleRow, style}) => {
+  const itemStyles = !singleRow
+    ? styles.item
+    : merge(styles.item, styles.singleRowItem)
+  return (
+    <div {...itemStyles} style={style} onClick={onClick}>
+      <div {...styles.aspect}>
+        {imageRenderer ? imageRenderer() : <img src={image} />}
+      </div>
+      {!!video && <div {...styles.play}><Play /></div>}
+      {!isActive && <div {...styles.name}>{name}</div>}
+      {isActive && <div {...styles.itemArrow} />}
     </div>
-    {!!video && <div {...styles.play}><Play /></div>}
-    {!isActive && <div {...styles.name}>{name}</div>}
-    {isActive && <div {...styles.itemArrow} />}
-  </div>
-)
+  )
+}
 
 const AUTO_INFINITE = 300
 
@@ -207,11 +217,16 @@ class List extends Component {
     const {
       loading, error, statements, t,
       onSelect, focus, isPage,
-      search, hasMore, totalCount
+      search, hasMore, totalCount,
+      singleRow
     } = this.props
     const {columns, open} = this.state
 
     const hasEndText = !search
+
+    const gridStyles = !singleRow
+      ? styles.grid
+      : merge(styles.grid, styles.singleRowGrid)
 
     return (
       <Loader loading={!statements || loading} error={error} render={() => {
@@ -246,6 +261,7 @@ class List extends Component {
               image={portrait}
               name={name}
               isActive={isActive}
+              singleRow={singleRow}
               onClick={() => {
                 if (onSelect(id) === false) {
                   return
@@ -290,7 +306,7 @@ class List extends Component {
           })
 
         return (
-          <div {...styles.grid} ref={this.ref}>
+          <div {...gridStyles} ref={this.ref}>
             {!!isPage && <Meta data={metaData} />}
             {items}
             <div style={{clear: 'left', marginBottom: 20}} />

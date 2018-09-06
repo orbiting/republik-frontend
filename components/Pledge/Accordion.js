@@ -6,6 +6,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 
+import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
@@ -112,7 +113,7 @@ const styles = {
       cursor: 'pointer',
       textDecoration: 'underline'
     },
-    '& a:hover': {
+    [`& ${prefixHover()}`]: {
       color: colors.secondary
     },
     '& a:focus': {

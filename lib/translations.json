@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-05T13:32:30.547Z",
+  "updated": "2018-09-06T11:15:26.099Z",
   "title": "live",
   "data": [
     {
@@ -283,18 +283,6 @@
       "value": "System nicht verfügbar"
     },
     {
-      "key": "error/503",
-      "value": "Systemfehler"
-    },
-    {
-      "key": "memberships/sequenceNumber/label",
-      "value": "Abo #{sequenceNumber}"
-    },
-    {
-      "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
-    },
-    {
       "key": "marketing/cover/headline",
       "value": "Unabhängiger Journalismus.<br />Werbefrei."
     },
@@ -412,7 +400,7 @@
     },
     {
       "key": "marketing-20/community/title",
-      "value": "{numCommunityMembers} Personen sind schon dabei"
+      "value": "{count} Personen sind schon dabei"
     },
     {
       "key": "marketing-20/community/link",
@@ -451,60 +439,16 @@
       "value": "Wie wär’s mit einem Abonnement"
     },
     {
-      "key": "pledge/contact/title",
-      "value": "Ihre Kontaktinformationen"
+      "key": "marketing-20/preview/page/pageTitle",
+      "value": "Die Republik probelesen"
     },
     {
-      "key": "pledge/contact/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
+      "key": "marketing-20/preview/page/title",
+      "value": "Die Republik probelesen"
     },
     {
-      "key": "pledge/contact/pastPledges/1",
-      "value": "Sie haben bereits ein Konto bei uns mitgemacht."
-    },
-    {
-      "key": "pledge/contact/pastPledges/other",
-      "value": "Sie haben bereits {count} mal mitgemacht."
-    },
-    {
-      "key": "pledge/contact/signOut",
-      "value": "abmelden"
-    },
-    {
-      "key": "pledge/contact/signIn/show",
-      "value": "Schon mal ausgefüllt?"
-    },
-    {
-      "key": "pledge/contact/signIn/hide",
-      "value": "Das erste Mal hier?"
-    },
-    {
-      "key": "pledge/contact/firstName/label",
-      "value": "Ihr Vorname"
-    },
-    {
-      "key": "pledge/contact/firstName/error/empty",
-      "value": "Vorname fehlt"
-    },
-    {
-      "key": "pledge/contact/lastName/label",
-      "value": "Ihr Nachname"
-    },
-    {
-      "key": "pledge/contact/lastName/error/empty",
-      "value": "Nachname fehlt"
-    },
-    {
-      "key": "pledge/contact/email/label",
-      "value": "Ihre E-Mail"
-    },
-    {
-      "key": "pledge/contact/email/error/empty",
-      "value": "E-Mail fehlt"
-    },
-    {
-      "key": "pledge/contact/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "key": "marketing-20/preview/page/description",
+      "value": "Melden Sie sich an, um kostenlos fünf Artikel zu lesen."
     },
     {
       "key": "formats/pageTitle",

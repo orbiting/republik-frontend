@@ -1,6 +1,6 @@
 import React, { Fragment} from 'react'
-import { Link } from '../../lib/routes'
-
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 import { css } from 'glamor'
 import {
   Label,
@@ -9,13 +9,26 @@ import {
   RawHtml,
   colors,
   mediaQueries,
-  fontFamilies
+  fontFamilies,
+  Interaction
 } from '@project-r/styleguide'
 
+import { countFormat } from '../../lib/utils/format'
+import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
-import CommunityWidget from './CommunityWidget'
+import { ListWithQuery } from '../Testimonial/List'
+
 import { buttonStyles } from './styles'
+
+const GET_MEMBERSTATS = gql`
+query members {
+  memberStats {
+    count
+  }
+}
+`
 
 const styles = {
   headline: css({
@@ -78,7 +91,7 @@ const styles = {
       color: colors.text,
       textDecoration: 'underline'
     },
-    '& a:hover': {
+    [`'& ${prefixHover()}`]: {
       color: colors.secondary
     },
     '& a:focus': {
@@ -107,10 +120,52 @@ const styles = {
     [mediaQueries.mUp]: {
       minHeight: '84px'
     }
+  }),
+  communityHeadline: css({
+    textAlign: 'center',
+    fontSize: '16px',
+    lineHeight: '25px',
+    [mediaQueries.mUp]: {
+      fontSize: '26px',
+      lineHeight: '36px'
+    },
+    [mediaQueries.lUp]: {
+      fontSize: '30px',
+      lineHeight: '36px'
+    }
+  }),
+  communityLink: css({
+    cursor: 'pointer',
+    textAlign: 'center',
+    fontSize: '16px',
+    lineHeight: '25px',
+    [mediaQueries.mUp]: {
+      marginTop: '16px',
+      fontSize: '20px',
+      lineHeight: '28px'
+    },
+    [mediaQueries.lUp]: {
+      marginTop: '20px',
+      fontSize: '23px',
+      lineHeight: '28px'
+    },
+    '& a': {
+      color: colors.text,
+      textDecoration: 'underline'
+    },
+    [`'& ${prefixHover()}`]: {
+      color: colors.secondary
+    },
+    '& a:focus': {
+      color: colors.secondary
+    },
+    '& a:active': {
+      color: colors.primary
+    }
   })
 }
 
-export default withT(({ me, t, crowdfundingName, data, ...props }) => {
+const MarketingPage = ({ me, t, crowdfundingName, data: { memberStats }, ...props }) => {
   return (
     <Fragment>
       <Container>
@@ -132,7 +187,7 @@ export default withT(({ me, t, crowdfundingName, data, ...props }) => {
             <Label {...styles.signInLabel}>{
               t.elements(
                 'marketing-20/signin',
-                { link: <Link route={'signin'}>
+                { link: <Link key='link' route={'signin'}>
                   <a>{t('marketing-20/signin/link') }</a>
                 </Link>
                 }
@@ -146,10 +201,26 @@ export default withT(({ me, t, crowdfundingName, data, ...props }) => {
           </Link>
         </div>
         <div {...styles.communityWidget}>
-          <CommunityWidget />
+          <Interaction.H2 {...styles.communityHeadline}>
+            {t(
+              'marketing-20/community/title',
+              { count: countFormat(memberStats.count) }
+            )}
+          </Interaction.H2>
+          <ListWithQuery singleRow first={6} />
+          <Interaction.P {...styles.communityLink}>
+            <Link route='community'>
+              <a>{t('marketing-20/community/link')}</a>
+            </Link>
+          </Interaction.P>
         </div>
         <div {...styles.spacer} />
       </Container>
     </Fragment>
   )
-})
+}
+
+export default compose(
+  withT,
+  graphql(GET_MEMBERSTATS)
+)(MarketingPage)

@@ -4,6 +4,7 @@ import {
   mediaQueries,
   fontFamilies
 } from '@project-r/styleguide'
+import { prefixHover } from '../../lib/utils/hover'
 
 const buttonStyle = css({
   [mediaQueries.onlyS]: {
@@ -27,7 +28,7 @@ const buttonStyle = css({
   borderRadius: 0,
   color: colors.secondary,
   cursor: 'pointer',
-  ':hover': {
+  [prefixHover()]: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
     color: '#fff'

@@ -430,7 +430,7 @@ class Header extends Component {
               />
             </div>
           </Fragment>}
-          {!inNativeApp && audioSource && (
+          {audioSource && (
             <AudioPlayer
               src={audioSource}
               closeHandler={() => { audioCloseHandler && audioCloseHandler() }}

@@ -165,7 +165,7 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ me, t, crowdfundingName, data: { memberStats }, ...props }) => {
+const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }, ...props }) => {
   return (
     <Fragment>
       <Container>
@@ -200,7 +200,7 @@ const MarketingPage = ({ me, t, crowdfundingName, data: { memberStats }, ...prop
             </button>
           </Link>
         </div>
-        <div {...styles.communityWidget}>
+        {!loading && <div {...styles.communityWidget}>
           <Interaction.H2 {...styles.communityHeadline}>
             {t(
               'marketing-20/community/title',
@@ -213,7 +213,7 @@ const MarketingPage = ({ me, t, crowdfundingName, data: { memberStats }, ...prop
               <a>{t('marketing-20/community/link')}</a>
             </Link>
           </Interaction.P>
-        </div>
+        </div>}
         <div {...styles.spacer} />
       </Container>
     </Fragment>

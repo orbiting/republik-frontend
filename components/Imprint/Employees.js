@@ -13,19 +13,6 @@ import {
 
 const { H2, H3 } = Interaction
 
-const clearfixStyle = {
-  // Micro clearfix hack.
-  '&::before': {
-    content: ' ',
-    display: 'table'
-  },
-  '&::after': {
-    content: ' ',
-    display: 'table',
-    clear: 'both'
-  }
-}
-
 const styles = {
   container: css({
     marginBottom: 30,
@@ -34,14 +21,12 @@ const styles = {
     }
   }),
   group: css({
-    ...clearfixStyle,
     marginTop: 30,
     [mediaQueries.mUp]: {
       marginTop: 50
     }
   }),
   subgroup: css({
-    ...clearfixStyle,
     marginTop: 10,
     [mediaQueries.mUp]: {
       marginTop: 20
@@ -60,7 +45,10 @@ const styles = {
     }
   }),
   tiles: css({
-    marginLeft: '-5px'
+    marginLeft: '-5px',
+    flexWrap: 'wrap',
+    display: 'flex',
+    flexDirection: 'row'
   })
 }
 
@@ -96,7 +84,6 @@ const Employees = compose(
         .key(d => d['group'])
         .key(d => d['subgroup'] || 'group')
         .object(employees)
-
       return (
         <div {...styles.container}>
           {

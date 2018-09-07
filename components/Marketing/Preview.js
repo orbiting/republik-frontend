@@ -10,14 +10,13 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+import Frame from '../Frame'
+import SignUp from './SignUp'
+import Front from '../Front'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import withMembership from '../Auth/withMembership'
-
-import Frame from '../Frame'
-import SignUp from './SignUp'
-import Front from '../Front'
 
 const styles = {
   noMember: css({

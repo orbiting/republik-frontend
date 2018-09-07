@@ -10,7 +10,7 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
-import Frame from '../Frame'
+import Frame, { Box } from '../Frame'
 import SignUp from './SignUp'
 import Front from '../Front'
 
@@ -56,9 +56,11 @@ const Preview = ({ me, isMember, url, meta, t }) => {
     {me && <Front
       url={url}
       beforeNote={
-        <Container style={{ maxWidth: '100%' }}>
-          <Prestitial me={me} isMember={isMember} t={t} />
-        </Container>
+        <Box>
+          <Container>
+            <Prestitial me={me} isMember={isMember} t={t} />
+          </Container>
+        </Box>
       }
       meta={meta}
       path='/preview-front'

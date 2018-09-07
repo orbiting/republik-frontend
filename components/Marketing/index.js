@@ -16,7 +16,7 @@ import {
 import { countFormat } from '../../lib/utils/format'
 import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
 
 import { ListWithQuery } from '../Testimonial/List'
 
@@ -207,7 +207,9 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
               { count: countFormat(memberStats.count) }
             )}
           </Interaction.H2>
-          <ListWithQuery singleRow first={6} />
+          <ListWithQuery singleRow first={6} onSelect={(id) => {
+            Router.push(`/community?id=${id}`)
+          }} />
           <Interaction.P {...styles.communityLink}>
             <Link route='community'>
               <a>{t('marketing/community/link')}</a>

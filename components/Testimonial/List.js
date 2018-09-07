@@ -151,7 +151,7 @@ class List extends Component {
       ))
       const size = SIZES[sizeIndex]
       const columns = size.columns
-      if (columns !== this.state.columns) {
+      if (columns !== this.state.columns && this.props.statements) {
         this.setState(() => ({
           columns,
           open: {

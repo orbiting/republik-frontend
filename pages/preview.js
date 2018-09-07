@@ -16,9 +16,9 @@ const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
     return <UnauthorizedPage me={me} url={url} />
   }
   const meta = {
-    pageTitle: t('marketing-20/preview/page/pageTitle'),
-    title: t('marketing-20/preview/page/title'),
-    description: t('marketing-20/preview/page/description'),
+    pageTitle: t('marketing/preview/page/pageTitle'),
+    title: t('marketing/preview/page/title'),
+    description: t('marketing/preview/page/description'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
     url: `${PUBLIC_BASE_URL}/`
   }

@@ -52,12 +52,12 @@ export default compose(
 )(({ me, t }) =>
   !me &&
   <Fragment>
-    <h1 {...styles.headline}>{t('marketing-20/signup/title')}</h1>
+    <h1 {...styles.headline}>{t('marketing/signup/title')}</h1>
     <p {...styles.lead}>
-      {t('marketing-20/signup/lead')}
+      {t('marketing/signup/lead')}
     </p>
     <div {...styles.signUp}>
-      <SignIn label={t('marketing-20/signup/button/label')} context='preview' />
+      <SignIn label={t('marketing/signup/button/label')} context='preview' />
     </div>
   </Fragment>
 

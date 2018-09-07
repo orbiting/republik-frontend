@@ -172,23 +172,23 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
         <h1 {...styles.headline}>
           <RawHtml
             dangerouslySetInnerHTML={{
-              __html: t('marketing-20/title')
+              __html: t('marketing/title')
             }}
           />
         </h1>
-        <P {...styles.lead}>{t('marketing-20/lead')}</P>
+        <P {...styles.lead}>{t('marketing/lead')}</P>
         <div {...styles.actions}>
           <div>
             <Link route='pledge'>
               <button {...buttonStyles.primary}>
-                {t('marketing-20/join/button/label')}
+                {t('marketing/join/button/label')}
               </button>
             </Link>
             <Label {...styles.signInLabel}>{
               t.elements(
-                'marketing-20/signin',
+                'marketing/signin',
                 { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing-20/signin/link') }</a>
+                  <a>{t('marketing/signin/link') }</a>
                 </Link>
                 }
               )
@@ -196,21 +196,21 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
           </div>
           <Link route='preview'>
             <button {...buttonStyles.standard}>
-              {t('marketing-20/preview/button/label')}
+              {t('marketing/preview/button/label')}
             </button>
           </Link>
         </div>
-        {!loading && <div {...styles.communityWidget}>
+        {!loading && memberStats && <div {...styles.communityWidget}>
           <Interaction.H2 {...styles.communityHeadline}>
             {t(
-              'marketing-20/community/title',
+              'marketing/community/title',
               { count: countFormat(memberStats.count) }
             )}
           </Interaction.H2>
           <ListWithQuery singleRow first={6} />
           <Interaction.P {...styles.communityLink}>
             <Link route='community'>
-              <a>{t('marketing-20/community/link')}</a>
+              <a>{t('marketing/community/link')}</a>
             </Link>
           </Interaction.P>
         </div>}

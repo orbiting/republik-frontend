@@ -33,10 +33,10 @@ const styles = {
 const Prestitial = ({ me, isMember, t }) => {
   const text = me && !isMember
     ? t.elements(
-      'marketing-20/preview/prestitial/noMembership',
-      { link: <Link route='pledge'><A style={{cursor: 'pointer'}}><br />{t('marketing-20/preview/prestitial/noMembership/link')}</A></Link> }
+      'marketing/preview/prestitial/noMembership',
+      { link: <Link route='pledge'><A style={{cursor: 'pointer'}}><br />{t('marketing/preview/prestitial/noMembership/link')}</A></Link> }
     )
-    : t('marketing-20/preview/prestitial/withMembership')
+    : t('marketing/preview/prestitial/withMembership')
 
   return <div {...styles.noMember}>
     <Interaction.P>

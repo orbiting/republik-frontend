@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-04T19:04:58.065Z",
+  "updated": "2018-09-07T13:26:17.265Z",
   "title": "live",
   "data": [
     {
@@ -283,164 +283,84 @@
       "value": "System nicht verfügbar"
     },
     {
-      "key": "error/503",
-      "value": "Systemfehler"
+      "key": "marketing/title",
+      "value": "Unabhängiger Journalismus. Werbefrei."
     },
     {
-      "key": "memberships/sequenceNumber/label",
-      "value": "Abo #{sequenceNumber}"
-    },
-    {
-      "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
-    },
-    {
-      "key": "marketing/cover/headline",
-      "value": "Unabhängiger Journalismus.<br />Werbefrei."
-    },
-    {
-      "key": "marketing/cover/button/label",
-      "value": "Mitglied werden"
-    },
-    {
-      "key": "marketing/cover/button/caption",
-      "value": "Abo und Mitgliedschaft für CHF 240 pro Jahr"
-    },
-    {
-      "key": "marketing/headline",
-      "value": "Willkommen in der Republik!"
-    },
-    {
-      "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Kurz: für alles, was verwickelt oder komplex ist. Unser Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern.) Es wäre schön, Sie an Bord zu haben!"
-    },
-    {
-      "key": "marketing/signin/button/label",
-      "value": "Anmelden"
+      "key": "marketing/lead",
+      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wird von seinen Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
     },
     {
       "key": "marketing/join/button/label",
       "value": "Mitglied werden"
     },
     {
-      "key": "marketing/cta/title",
-      "value": "Abo und Mitgliedschaft"
-    },
-    {
-      "key": "marketing/cta/subtitle",
-      "value": "CHF 240/Jahr"
-    },
-    {
-      "key": "marketing/cta/text",
-      "value": "Willkommen in der Republik! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik."
-    },
-    {
-      "key": "marketing/cta/button/label",
-      "value": "An Bord kommen"
-    },
-    {
-      "key": "marketing/preview/title",
-      "value": "Preview bestellen"
-    },
-    {
-      "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per E-Mail zu."
-    },
-    {
-      "key": "marketing/preview/email/label",
-      "value": "Ihre E-Mail"
-    },
-    {
-      "key": "marketing/preview/email/error/empty",
-      "value": "E-Mail fehlt"
-    },
-    {
-      "key": "marketing/preview/email/error/invalid",
-      "value": "E-Mail ungültig"
-    },
-    {
       "key": "marketing/preview/button/label",
-      "value": "Bestellen"
+      "value": "Probelesen"
     },
     {
-      "key": "marketing/preview/success",
-      "value": "Wir haben Ihnen eine kleine Sammlung von Beiträgen per Mail zugeschickt."
+      "key": "marketing/signin",
+      "value": "Sie haben schon ein Abo? {link}"
     },
     {
-      "key": "marketing/offers/title",
-      "value": "Angebote"
+      "key": "marketing/signin/link",
+      "value": "Jetzt anmelden"
+    },
+    {
+      "key": "marketing/community/title",
+      "value": "{count} Personen sind schon dabei"
+    },
+    {
+      "key": "marketing/community/link",
+      "value": "Zur Community"
+    },
+    {
+      "key": "marketing/signup/title",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "marketing/signup/lead",
+      "value": "Bitte tragen Sie unten Ihre E-Mail Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
+    },
+    {
+      "key": "marketing/signup/button/label",
+      "value": "Anmelden"
+    },
+    {
+      "key": "marketing/preview/prestitial/noMembership",
+      "value": "Danke für Ihr Interesse an der Republik! Hier wie versprochen unser Musterköfferchen. Wir wünschen eine anregende Lektüre – und würden uns freuen, wenn Sie an Bord kommen. {link}."
+    },
+    {
+      "key": "marketing/preview/prestitial/noMembership/link",
+      "value": "Hier geht es zu unseren Angeboten"
+    },
+    {
+      "key": "marketing/preview/prestitial/withMembership",
+      "value": "Hoppla! Sie haben ja bereits ein Abo und können sich in der Republik nach Herzenslust umsehen. "
+    },
+    {
+      "key": "marketing/preview/prestitial/hasPreview",
+      "value": "Schön, Sie wiederzusehen. Diese fünf Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+    },
+    {
+      "key": "marketing/preview/prestitial/hasPreview/link",
+      "value": "Wie wär’s mit einem Abonnement"
+    },
+    {
+      "key": "marketing/preview/page/pageTitle",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "marketing/preview/page/title",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "marketing/preview/page/description",
+      "value": "Melden Sie sich an, um kostenlos fünf Artikel zu lesen."
     },
     {
       "key": "marketing/offers/claim",
       "value": "Gutscheincode einlösen"
-    },
-    {
-      "key": "marketing/offers/userPrice",
-      "value": "Kann-mir-das-nicht-leisten-Mitgliedschaft"
-    },
-    {
-      "key": "marketing/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in Ihrem {link}."
-    },
-    {
-      "key": "marketing/noActiveMembership/link",
-      "value": "Konto"
-    },
-    {
-      "key": "pledge/contact/title",
-      "value": "Ihre Kontaktinformationen"
-    },
-    {
-      "key": "pledge/contact/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
-    },
-    {
-      "key": "pledge/contact/pastPledges/1",
-      "value": "Sie haben bereits ein Konto bei uns mitgemacht."
-    },
-    {
-      "key": "pledge/contact/pastPledges/other",
-      "value": "Sie haben bereits {count} mal mitgemacht."
-    },
-    {
-      "key": "pledge/contact/signOut",
-      "value": "abmelden"
-    },
-    {
-      "key": "pledge/contact/signIn/show",
-      "value": "Schon mal ausgefüllt?"
-    },
-    {
-      "key": "pledge/contact/signIn/hide",
-      "value": "Das erste Mal hier?"
-    },
-    {
-      "key": "pledge/contact/firstName/label",
-      "value": "Ihr Vorname"
-    },
-    {
-      "key": "pledge/contact/firstName/error/empty",
-      "value": "Vorname fehlt"
-    },
-    {
-      "key": "pledge/contact/lastName/label",
-      "value": "Ihr Nachname"
-    },
-    {
-      "key": "pledge/contact/lastName/error/empty",
-      "value": "Nachname fehlt"
-    },
-    {
-      "key": "pledge/contact/email/label",
-      "value": "Ihre E-Mail"
-    },
-    {
-      "key": "pledge/contact/email/error/empty",
-      "value": "E-Mail fehlt"
-    },
-    {
-      "key": "pledge/contact/email/error/invalid",
-      "value": "E-Mail ungültig"
     },
     {
       "key": "formats/pageTitle",
@@ -1964,7 +1884,7 @@
     },
     {
       "key": "package/ABO/price",
-      "value": "{formattedCHF} pro Jahr"
+      "value": "{formattedCHF}"
     },
     {
       "key": "package/ABO/userPrice/teaser",
@@ -2020,7 +1940,7 @@
     },
     {
       "key": "package/MONTHLY_ABO/price",
-      "value": "{formattedCHF} pro Monat"
+      "value": "{formattedCHF}"
     },
     {
       "key": "package/MONTHLY_ABO/description",
@@ -3177,6 +3097,26 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "pledge/fields/explanation",
+      "value": "Fast geschafft. Ihr Zugang ist ein Konto erster Güte, und Sie können unter anderem an Debatten teilnehmen. Um Ihr Profil für den Start zu vervollständigen, benötigen wir noch folgende Informationen von Ihnen:"
+    },
+    {
+      "key": "pledge/fields/label/firstName",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "pledge/fields/error/firstName/missing",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "pledge/fields/label/lastName",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "pledge/fields/error/lastName/missing",
+      "value": "Nachname fehlt"
     }
   ]
 }

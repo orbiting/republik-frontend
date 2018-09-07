@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -199,94 +199,97 @@ class Pledge extends Component {
                 <Accordion crowdfundingName={crowdfundingName} extended />
               )}
             </div>
-
-            <H2>{t('pledge/contact/title')}</H2>
-            <div style={{marginTop: 10, marginBottom: 40}}>
-              {me ? (
-                <span>
-                  {t('pledge/contact/signedinAs', {
-                    nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
-                  })}
-                  {' '}<A href='#' onClick={(e) => {
-                    e.preventDefault()
-                    this.props.signOut().then(() => {
-                      this.handleFirstName('', false, t)
-                      this.handleLastName('', false, t)
-                      this.handleEmail('', false, t)
-                      this.setState(() => ({showSignIn: false}))
-                    })
-                  }}>{t('pledge/contact/signOut')}</A>
-                  <br /><br />
-                  {/* TODO: add active membership info */}
-                  <br /><br />
-                </span>
-              ) : (
-                <span>
-                  <A href='#' onClick={(e) => {
-                    e.preventDefault()
-                    this.setState(() => ({showSignIn: !showSignIn}))
-                  }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
-                  {!!showSignIn && (
+            {pkg && (
+              <Fragment>
+                <H2>{t('pledge/contact/title')}</H2>
+                <div style={{marginTop: 10, marginBottom: 40}}>
+                  {me ? (
                     <span>
+                      {t('pledge/contact/signedinAs', {
+                        nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
+                      })}
+                      {' '}<A href='#' onClick={(e) => {
+                        e.preventDefault()
+                        this.props.signOut().then(() => {
+                          this.handleFirstName('', false, t)
+                          this.handleLastName('', false, t)
+                          this.handleEmail('', false, t)
+                          this.setState(() => ({showSignIn: false}))
+                        })
+                      }}>{t('pledge/contact/signOut')}</A>
                       <br /><br />
-                      <SignIn context='pledge' />
+                      {/* TODO: add active membership info */}
+                      <br /><br />
+                    </span>
+                  ) : (
+                    <span>
+                      <A href='#' onClick={(e) => {
+                        e.preventDefault()
+                        this.setState(() => ({showSignIn: !showSignIn}))
+                      }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
+                      {!!showSignIn && (
+                        <span>
+                          <br /><br />
+                          <SignIn />
+                        </span>
+                      )}
+                      <br />
                     </span>
                   )}
-                  <br />
-                </span>
-              )}
-              {!showSignIn && <span>
-                <Field label={t('pledge/contact/firstName/label')}
-                  name='firstName'
-                  error={dirty.firstName && errors.firstName}
-                  value={values.firstName}
-                  onChange={(_, value, shouldValidate) => {
-                    this.handleFirstName(value, shouldValidate, t)
-                  }} />
-                <br />
-                <Field label={t('pledge/contact/lastName/label')}
-                  name='lastName'
-                  error={dirty.lastName && errors.lastName}
-                  value={values.lastName}
-                  onChange={(_, value, shouldValidate) => {
-                    this.handleLastName(value, shouldValidate, t)
-                  }} />
-                <br />
-                <Field label={t('pledge/contact/email/label')}
-                  name='email'
-                  type='email'
-                  error={dirty.email && errors.email}
-                  value={values.email}
-                  onChange={(_, value, shouldValidate) => {
-                    this.handleEmail(value, shouldValidate, t)
-                  }} />
-                <br /><br />
-              </span>}
-            </div>
+                  {!showSignIn && <span>
+                    <Field label={t('pledge/contact/firstName/label')}
+                      name='firstName'
+                      error={dirty.firstName && errors.firstName}
+                      value={values.firstName}
+                      onChange={(_, value, shouldValidate) => {
+                        this.handleFirstName(value, shouldValidate, t)
+                      }} />
+                    <br />
+                    <Field label={t('pledge/contact/lastName/label')}
+                      name='lastName'
+                      error={dirty.lastName && errors.lastName}
+                      value={values.lastName}
+                      onChange={(_, value, shouldValidate) => {
+                        this.handleLastName(value, shouldValidate, t)
+                      }} />
+                    <br />
+                    <Field label={t('pledge/contact/email/label')}
+                      name='email'
+                      type='email'
+                      error={dirty.email && errors.email}
+                      value={values.email}
+                      onChange={(_, value, shouldValidate) => {
+                        this.handleEmail(value, shouldValidate, t)
+                      }} />
+                    <br /><br />
+                  </span>}
+                </div>
 
-            <Submit
-              query={query}
-              me={me}
-              {...this.submitPledgeProps({values, query})}
-              basePledge={basePledge
-                ? this.submitPledgeProps(basePledge)
-                : undefined}
-              errors={errors}
-              onError={() => {
-                this.setState((state) => {
-                  const dirty = {
-                    ...state.dirty
-                  }
-                  Object.keys(state.errors).forEach(field => {
-                    if (state.errors[field]) {
-                      dirty[field] = true
-                    }
-                  })
-                  return {
-                    dirty
-                  }
-                })
-              }} />
+                <Submit
+                  query={query}
+                  me={me}
+                  {...this.submitPledgeProps({values, query})}
+                  basePledge={basePledge
+                    ? this.submitPledgeProps(basePledge)
+                    : undefined}
+                  errors={errors}
+                  onError={() => {
+                    this.setState((state) => {
+                      const dirty = {
+                        ...state.dirty
+                      }
+                      Object.keys(state.errors).forEach(field => {
+                        if (state.errors[field]) {
+                          dirty[field] = true
+                        }
+                      })
+                      return {
+                        dirty
+                      }
+                    })
+                  }} />
+              </Fragment>
+            )}
           </div>
         )
       }} />

@@ -8,7 +8,6 @@ import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
-import { Router } from '../lib/routes'
 import withInNativeApp from '../lib/withInNativeApp'
 import { Interaction } from '@project-r/styleguide'
 
@@ -24,11 +23,11 @@ class SigninPage extends Component {
   redirectUser () {
     const { isMember, me } = this.props
     if (isMember) {
-      Router.pushRoute('index')
+      window.location = '/'
       return
     }
     if (me) {
-      Router.pushRoute('account')
+      window.location = '/konto'
     }
   }
 
@@ -48,7 +47,7 @@ class SigninPage extends Component {
                 {t('withMembership/ios/unauthorized/signIn')}
               </Interaction.P>
               : undefined
-            } />}
+            } noReload />}
         </PageCenter>
       </Frame>
     )

@@ -25,8 +25,13 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+// avoid gray rects over links and icons on iOS
 css.global('*', {
   WebkitTapHighlightColor: 'transparent'
+})
+// avoid orange highlight, observed around full screen gallery, on Android
+css.global('div:focus', {
+  outline: 'none'
 })
 
 const styles = {

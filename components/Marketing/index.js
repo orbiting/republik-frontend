@@ -208,7 +208,10 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
             )}
           </Interaction.H2>
           <ListWithQuery singleRow first={6} onSelect={(id) => {
-            Router.push(`/community?id=${id}`)
+            Router.push(`/community?id=${id}`).then(() => {
+              window.scrollTo(0, 0)
+              return false
+            })
           }} />
           <Interaction.P {...styles.communityLink}>
             <Link route='community'>

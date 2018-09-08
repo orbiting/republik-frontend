@@ -170,7 +170,7 @@ class ArticlePage extends Component {
     }
 
     this.toggleAudio = () => {
-      if (this.props.inNativeIOSApp) {
+      if (this.props.inNativeApp) {
         const { audioSource, title, path } = this.props.data.article.meta
         if (!audioSource) {
           return
@@ -264,7 +264,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -303,7 +303,20 @@ class ArticlePage extends Component {
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}
         </div>
-      )
+      ),
+      getVideoPlayerProps: inNativeApp && !inNativeIOSApp
+        ? props => ({
+          ...props,
+          fullWindow: true,
+          onFull: isFull => {
+            postMessage({
+              type: isFull
+                ? 'fullscreen-enter'
+                : 'fullscreen-exit'
+            })
+          }
+        })
+        : undefined
     })
 
     const isSeries = meta && !!meta.series

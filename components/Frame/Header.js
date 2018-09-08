@@ -304,17 +304,28 @@ class Header extends Component {
       inNativeIOSApp,
       isMember
     } = this.props
-    const { expanded, withoutSticky, backButton } = this.state
+    const { withoutSticky, backButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
-    const secondaryVisible = showSecondary && !expand
+    const expanded = !!(onPrimaryNavExpandedChange
+      ? primaryNavExpanded
+      : this.state.expanded
+    )
+    const secondaryVisible = showSecondary && !expanded
 
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
     const showNavBar = isMember
+
+    const toggleExpanded = () => {
+      if (onPrimaryNavExpandedChange) {
+        onPrimaryNavExpandedChange(!expanded)
+      } else {
+        this.setState({ expanded: !expanded })
+      }
+    }
 
     return (
       <Fragment>
@@ -339,6 +350,9 @@ class Header extends Component {
                   e.preventDefault()
                   if (url.pathname === '/') {
                     window.scrollTo(0, 0)
+                    if (expanded) {
+                      toggleExpanded()
+                    }
                   } else {
                     Router.pushRoute('index').then(() => window.scrollTo(0, 0))
                   }
@@ -352,14 +366,8 @@ class Header extends Component {
             }}>
               <User
                 me={me}
-                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
-                onclickHandler={() => {
-                  if (onPrimaryNavExpandedChange) {
-                    onPrimaryNavExpandedChange(!expand)
-                  } else {
-                    this.setState({ expanded: !expand })
-                  }
-                }}
+                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                onClick={toggleExpanded}
               />
             </div>
             {inNativeIOSApp && <a
@@ -417,16 +425,10 @@ class Header extends Component {
             </button>}
             <div {...styles.hamburger}>
               <Toggle
-                expanded={!!expand}
+                expanded={expanded}
                 id='primary-menu'
-                title={t(`header/nav/${expand ? 'close' : 'open'}/aria`)}
-                onClick={() => {
-                  if (onPrimaryNavExpandedChange) {
-                    onPrimaryNavExpandedChange(!expand)
-                  } else {
-                    this.setState({ expanded: !expand })
-                  }
-                }}
+                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                onClick={toggleExpanded}
               />
             </div>
           </Fragment>}
@@ -463,7 +465,7 @@ class Header extends Component {
             color: formatColor,
             backgroundColor: formatColor
           } : undefined} />}
-        <Popover expanded={!!expand}>
+        <Popover expanded={expanded}>
           <NavPopover
             me={me}
             url={url}

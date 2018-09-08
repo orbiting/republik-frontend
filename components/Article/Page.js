@@ -170,7 +170,7 @@ class ArticlePage extends Component {
     }
 
     this.toggleAudio = () => {
-      if (this.props.inNativeIOSApp) {
+      if (this.props.inNativeApp) {
         const { audioSource, title, path } = this.props.data.article.meta
         if (!audioSource) {
           return

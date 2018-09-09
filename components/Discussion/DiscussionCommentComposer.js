@@ -5,13 +5,11 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
-import Loader from '../Loader'
-
 import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
+import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 

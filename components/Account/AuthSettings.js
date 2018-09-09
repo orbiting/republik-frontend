@@ -3,9 +3,10 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import ErrorMessage from '../ErrorMessage'
-import Loader from '../Loader'
 import withT from '../../lib/withT'
-import { InlineSpinner, Radio, Label } from '@project-r/styleguide'
+import {
+  InlineSpinner, Radio, Label, Loader
+} from '@project-r/styleguide'
 import { SUPPORTED_TOKEN_TYPES } from '../constants'
 import { P } from './Elements'
 

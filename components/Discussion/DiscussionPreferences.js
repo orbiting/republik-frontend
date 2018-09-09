@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import {
+  Loader,
   Field,
   Dropdown,
   Checkbox,
@@ -14,7 +15,6 @@ import {
   Interaction,
   Label
 } from '@project-r/styleguide'
-import Loader from '../Loader'
 import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
 
 export const DiscussionPreferences = ({t, data: {loading, error, me, discussion}, onClose, setDiscussionPreferences}) => (

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-07T13:26:17.265Z",
+  "updated": "2018-09-10T09:21:12.408Z",
   "title": "live",
   "data": [
     {
@@ -2736,15 +2736,15 @@
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Vielen Dank."
+      "value": "Vielen Dank."
     },
     {
       "key": "notifications/email-confirmed/claim/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/email-confirmed/preview/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/session-denied/title",
@@ -2959,6 +2959,26 @@
       "value": "IP-Adresse"
     },
     {
+      "key": "tokenAuthorization/fields/explanation",
+      "value": "Im Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/firstName",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/firstName/missing",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/lastName",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/lastName/missing",
+      "value": "Nachname fehlt"
+    },
+    {
       "key": "search/input/label",
       "value": "Suche"
     },
@@ -3097,26 +3117,6 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
-    },
-    {
-      "key": "pledge/fields/explanation",
-      "value": "Fast geschafft. Ihr Zugang ist ein Konto erster Güte, und Sie können unter anderem an Debatten teilnehmen. Um Ihr Profil für den Start zu vervollständigen, benötigen wir noch folgende Informationen von Ihnen:"
-    },
-    {
-      "key": "pledge/fields/label/firstName",
-      "value": "Ihr Vorname"
-    },
-    {
-      "key": "pledge/fields/error/firstName/missing",
-      "value": "Vorname fehlt"
-    },
-    {
-      "key": "pledge/fields/label/lastName",
-      "value": "Ihr Nachname"
-    },
-    {
-      "key": "pledge/fields/error/lastName/missing",
-      "value": "Nachname fehlt"
     }
   ]
 }

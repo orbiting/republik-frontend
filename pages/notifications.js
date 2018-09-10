@@ -85,7 +85,7 @@ const styles = {
     textAlign: 'left'
   }),
   text: css({
-    margin: '60px auto',
+    margin: '30px auto',
     maxWidth: 520,
     [mediaQueries.mUp]: {
       margin: '60px auto 120px'

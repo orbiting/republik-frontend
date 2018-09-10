@@ -92,7 +92,8 @@ const styles = {
     alignItems: 'center',
     left: 0,
     right: 0,
-    zIndex: ZINDEX_NAVBAR
+    zIndex: ZINDEX_NAVBAR,
+    position: 'relative'
   }),
   fixed: css({
     position: 'fixed',

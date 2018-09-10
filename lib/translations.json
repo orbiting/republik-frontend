@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-10T18:59:35.665Z",
+  "updated": "2018-09-10T19:11:36.686Z",
   "title": "live",
   "data": [
     {
@@ -2915,7 +2915,7 @@
       "value": "Nutzung Ihrer E-Mail-Adresse erlauben?"
     },
     {
-      "key": "tokenAuthorization/titel/sessionInfo",
+      "key": "tokenAuthorization/title/sessionInfo",
       "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {

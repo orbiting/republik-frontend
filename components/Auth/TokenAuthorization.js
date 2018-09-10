@@ -158,14 +158,14 @@ class TokenAuthorization extends Component {
         const showSessionInfo = !isCurrent || noAutoAuthorize
         return (
           <Fragment>
-            {!showSessionInfo &&
-              <P>
-                {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`)}
-              </P>}
+            <P>
+              {t(`tokenAuthorization/title/${showSessionInfo
+                ? 'sessionInfo'
+                : target.newUser
+                  ? 'new'
+                  : 'existing'}`)}
+            </P>
             {showSessionInfo && <Fragment>
-              <P>
-                {t('tokenAuthorization/titel/sessionInfo')}
-              </P>
               <P style={{
                 fontFamily: userAgent !== echo.userAgent
                   ? fontFamilies.sansSerifMedium
@@ -197,6 +197,14 @@ class TokenAuthorization extends Component {
                 <Label>{t('tokenAuthorization/ip')}</Label><br />
                 {ipAddress}
               </P>}
+            </Fragment>}
+            <P>
+              <Label>{t('tokenAuthorization/email')}</Label><br />
+              <span>
+                {email}
+              </span>
+            </P>
+            {showSessionInfo && (
               <P>
                 <Label>{t('tokenAuthorization/phrase')}</Label><br />
                 <span style={{
@@ -207,13 +215,7 @@ class TokenAuthorization extends Component {
                   {phrase}
                 </span>
               </P>
-            </Fragment>}
-            <P>
-              <Label>{t('tokenAuthorization/email')}</Label><br />
-              <span>
-                {email}
-              </span>
-            </P>
+            )}
             {!!target.requiredConsents.length && (
               <div style={{marginTop: 20, textAlign: 'left'}}>
                 <Consents

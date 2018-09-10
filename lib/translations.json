@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-10T16:01:36.547Z",
+  "updated": "2018-09-10T18:59:35.665Z",
   "title": "live",
   "data": [
     {
@@ -136,15 +136,15 @@
     },
     {
       "key": "withMembership/signIn/note",
-      "value": "Noch nicht Verlegerin? {buyLink}"
+      "value": "Noch nicht Verlegerin? {buyLink} {moreLink}"
     },
     {
       "key": "withMembership/signIn/note/buyText",
       "value": "Jetzt beitreten!"
     },
     {
-      "key": "withMembership/signIn/home",
-      "value": "Mehr über die Republik erfahren."
+      "key": "withMembership/signIn/note/moreText",
+      "value": "Mehr erfahren."
     },
     {
       "key": "withMembership/unauthorized",

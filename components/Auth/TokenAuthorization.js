@@ -11,7 +11,7 @@ import {
 } from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
-import Fields, { getFieldsError, validateField } from '../Pledge/Fields'
+import Fields, { getFieldsError, validateField } from './Fields'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'

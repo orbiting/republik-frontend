@@ -1,9 +1,14 @@
 import React from 'react'
 import {css} from 'glamor'
 import Head from 'next/head'
+import {compose} from 'react-apollo'
+
+import withData from '../lib/apollo/withData'
+import withInNativeApp from '../lib/withInNativeApp'
 
 import ActionBar from '../components/ActionBar'
 import PureFooter, {SPACE, A} from '../components/Frame/PureFooter'
+import BackIcon from '../components/Icons/Back'
 
 import {
   NarrowContainer,
@@ -15,6 +20,7 @@ import {
 import {
   PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
+import { Link } from '../lib/routes'
 
 const pRule = css({
   fontFamily: fontFamilies.sansSerifRegular,
@@ -26,6 +32,15 @@ const P = ({children, ...props}) => (
 )
 
 const styles = {
+  back: css({
+    fontFamily: fontFamilies.sansSerifRegular,
+    textDecoration: 'none',
+    fontSize: 20,
+    color: '#000',
+    marginTop: 9 + 4,
+    marginBottom: -20,
+    display: 'block'
+  }),
   text: css({
     marginTop: SPACE / 2,
     marginBottom: SPACE,
@@ -75,7 +90,7 @@ const styles = {
 const Highlight = ({children, ...props}) => <span {...props} {...styles.highlight}>{children}</span>
 const Strong = ({children}) => <span {...styles.strong}>{children}</span>
 
-export default ({url}) => {
+const Page = ({url, inNativeApp}) => {
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
     description: 'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
@@ -109,6 +124,12 @@ ${PUBLIC_BASE_URL}
         <meta name='twitter:site' content='@RepublikMagazin' />
         <meta name='twitter:creator' content='@RepublikMagazin' />
       </Head>
+      {inNativeApp && <Link route='index'>
+        <a {...styles.back}>
+          <BackIcon size={25} style={{marginTop: -3}} fill='#000' />
+          Magazin
+        </a>
+      </Link>}
       <div {...styles.column}>
         <R />
 
@@ -143,3 +164,8 @@ ${PUBLIC_BASE_URL}
     </NarrowContainer>
   )
 }
+
+export default compose(
+  withData,
+  withInNativeApp
+)(Page)

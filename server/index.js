@@ -4,6 +4,7 @@ const basicAuth = require('express-basic-auth')
 const dotenv = require('dotenv')
 const next = require('next')
 const compression = require('compression')
+const helmet = require('helmet')
 
 const DEV = process.env.NODE_ENV
   ? process.env.NODE_ENV !== 'production'
@@ -30,6 +31,15 @@ const handler = routes.getRequestHandler(app)
 app.prepare().then(() => {
   const server = express()
 
+  server.use(helmet({
+    hsts: {
+      maxAge: 60 * 60 * 24, // one day for initial testing
+      // maxAge: 31536000, // 1 year to get preload approval
+      // preload: true,
+      includeSubDomains: true
+    },
+    referrerPolicy: true
+  }))
   server.use(compression())
 
   if (!DEV) {

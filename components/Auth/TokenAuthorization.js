@@ -4,7 +4,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
-  Button, A,
+  Button,
   InlineSpinner, Loader,
   Interaction, Label,
   fontFamilies, colors
@@ -23,7 +23,14 @@ import Me from './Me'
 
 const styles = {
   actions: css({
-    textAlign: 'center'
+    display: 'flex',
+    justifyContent: 'space-between',
+    '& button': {
+      width: [
+        '48%',
+        'calc(50% - 5px)'
+      ]
+    }
   })
 }
 
@@ -176,14 +183,14 @@ class TokenAuthorization extends Component {
         const showSessionInfo = !isCurrent || noAutoAuthorize
         return (
           <Fragment>
-            {!showSessionInfo &&
-              <P>
-                {t(`tokenAuthorization/title/${target.newUser ? 'new' : 'existing'}`, { email })}
-              </P>}
-            {showSessionInfo && <div style={{margin: '20px 0'}}>
-              <P>
-                {t('tokenAuthorization/differentSession', { email })}
-              </P>
+            <P>
+              {t(`tokenAuthorization/title/${showSessionInfo
+                ? 'sessionInfo'
+                : target.newUser
+                  ? 'new'
+                  : 'existing'}`)}
+            </P>
+            {showSessionInfo && <Fragment>
               <P style={{
                 fontFamily: userAgent !== echo.userAgent
                   ? fontFamilies.sansSerifMedium
@@ -215,6 +222,14 @@ class TokenAuthorization extends Component {
                 <Label>{t('tokenAuthorization/ip')}</Label><br />
                 {ipAddress}
               </P>}
+            </Fragment>}
+            <P>
+              <Label>{t('tokenAuthorization/email')}</Label><br />
+              <span>
+                {email}
+              </span>
+            </P>
+            {showSessionInfo && (
               <P>
                 <Label>{t('tokenAuthorization/phrase')}</Label><br />
                 <span style={{
@@ -225,14 +240,13 @@ class TokenAuthorization extends Component {
                   {phrase}
                 </span>
               </P>
-            </div>}
+            )}
             {!!target.requiredFields.length && (
               <Fields
                 fields={fields}
                 required={target.requiredFields}
                 onChange={(event, value, shouldValidate) => {
                   const field = event.currentTarget.name
-
                   this.setState({
                     fields: Object.assign({}, fields, { [event.currentTarget.name]: {
                       value,
@@ -243,7 +257,7 @@ class TokenAuthorization extends Component {
                 }} />
             )}
             {!!target.requiredConsents.length && (
-              <div style={{margin: '20px 0', textAlign: 'left'}}>
+              <div style={{marginTop: 20, textAlign: 'left'}}>
                 <Consents
                   accepted={consents}
                   required={target.requiredConsents}
@@ -261,35 +275,34 @@ class TokenAuthorization extends Component {
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
                 <div {...styles.actions}>
-                  <div style={{
-                    opacity: consentsError ? 0.5 : 1,
-                    marginBottom: 15
-                  }}>
-                    <Button
-                      primary
-                      style={{minWidth: 250}}
-                      onClick={() => {
-                        if (consentsError || fieldsError) {
-                          this.setState({dirty: true})
-                          return
-                        }
-                        this.authorize()
-                      }}>
-                      {t('tokenAuthorization/grant')}
-                    </Button>
-                  </div>
-                  <A
-                    style={{minWidth: 250}}
-                    href='#'
-                    onClick={(e) => {
-                      e.preventDefault()
+                  <Button
+                    style={{
+                      minWidth: 80,
+                      opacity: consentsError || fieldsError ? 0.5 : 1
+                    }}
+                    primary
+                    block
+                    onClick={() => {
+                      if (consentsError || fieldsError) {
+                        this.setState({dirty: true})
+                        return
+                      }
+                      this.authorize()
+                    }}>
+                    {t('tokenAuthorization/grant')}
+                  </Button>
+                  <Button
+                    style={{
+                      minWidth: 80
+                    }}
+                    block
+                    onClick={() => {
                       this.deny()
                     }}>
                     {t('tokenAuthorization/deny')}
-                  </A>
+                  </Button>
                 </div>
               )}
-            <br />
             <br />
             <Label>{t('tokenAuthorization/after')}</Label>
             <br />

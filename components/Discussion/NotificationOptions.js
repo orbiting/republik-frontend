@@ -11,6 +11,7 @@ import {
   getNotificationPermission
 } from '../../lib/utils/notification'
 import {
+  Loader,
   A,
   Dropdown,
   InlineSpinner,
@@ -18,7 +19,6 @@ import {
   mediaQueries,
   colors
 } from '@project-r/styleguide'
-import Loader from '../Loader'
 import NotificationIcon from './NotificationIcon'
 import {
   DISCUSSION_NOTIFICATION_OPTIONS,

@@ -66,24 +66,24 @@ const UnauthorizedMessage = compose(
     <Fragment>
       <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
       <br />
-      <SignIn />
-      <Interaction.P>
-        {t.elements('withMembership/signIn/note', {
-          buyLink: (
-            <Link key='pledge' route='pledge'>
-              <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
-            </Link>
-          )
-        })}
-      </Interaction.P>
-      <br />
-      <Interaction.P>
-        <Link route='index'>
-          <a {...linkRule}>
-            {t('withMembership/signIn/home')}
-          </a>
-        </Link>
-      </Interaction.P>
+      <SignIn beforeForm={(
+        <Interaction.P style={{marginBottom: 20}}>
+          {t.elements('withMembership/signIn/note', {
+            buyLink: (
+              <Link key='pledge' route='pledge'>
+                <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
+              </Link>
+            ),
+            moreLink: (
+              <Link route='index'>
+                <a {...linkRule}>
+                  {t('withMembership/signIn/note/moreText')}
+                </a>
+              </Link>
+            )
+          })}
+        </Interaction.P>
+      )} />
     </Fragment>
   )
 })

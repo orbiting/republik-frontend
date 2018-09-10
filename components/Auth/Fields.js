@@ -27,7 +27,7 @@ export const validateField = (t, field, value) => {
 const Fields = withT(({t, fields, onChange, required}) => {
   return (
     <Fragment>
-      <Interaction.P>{t('tokenAuthorization/fields/explanation')}</Interaction.P>
+      <Interaction.P style={{marginTop: 20}}>{t('tokenAuthorization/fields/explanation')}</Interaction.P>
       {required.map(field => {
         const data = (fields[field] && fields[field]) || {}
         const value = data.value || ''

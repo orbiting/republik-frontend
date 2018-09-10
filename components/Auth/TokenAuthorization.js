@@ -7,11 +7,11 @@ import {
   Button,
   InlineSpinner, Loader,
   Interaction, Label,
-  fontFamilies, colors
+  fontFamilies, colors,
+  FieldSet
 } from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
-import Fields, { getFieldsError, validateField } from './Fields'
 
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
@@ -57,17 +57,9 @@ class TokenAuthorization extends Component {
     super(props)
 
     this.state = {
-      fields: {}
-    }
-
-    this.getAuthorizeFields = () => {
-      const fields = {}
-
-      Object.keys(this.state.fields).forEach(key => {
-        fields[key] = this.state.fields[key].value
-      })
-
-      return Object.keys(fields).length > 0 ? fields : null
+      values: {},
+      errors: {},
+      dirty: {}
     }
   }
   authorize () {
@@ -86,7 +78,7 @@ class TokenAuthorization extends Component {
     }, () => {
       authorize({
         consents: this.state.consents,
-        fields: this.getAuthorizeFields()
+        fields: this.state.values
       })
         .then(() => goTo('email-confirmed', email, context))
         .catch(error => {
@@ -142,10 +134,6 @@ class TokenAuthorization extends Component {
       loading,
       noAutoAuthorize
     } = this.props
-    const {
-      consents,
-      fields
-    } = this.state
 
     if (error) {
       return (
@@ -163,21 +151,22 @@ class TokenAuthorization extends Component {
 
     return (
       <Loader loading={loading || shouldAutoAuthorize(this.props)} render={() => {
-        const consentsError = getConsentsError(
-          t,
-          target.requiredConsents,
-          consents
-        )
+        const {
+          authorizeError,
+          consents,
+          values,
+          dirty,
+          errors
+        } = this.state
 
-        const fieldsError = getFieldsError(
-          t,
-          target.requiredFields,
-          fields
-        )
-
-        const authorizeError = this.state.authorizeError || (
-          this.state.dirty && (consentsError || fieldsError)
-        )
+        const errorMessages = Object.keys(errors)
+          .map(key => errors[key])
+          .concat(getConsentsError(
+            t,
+            target.requiredConsents,
+            consents
+          ))
+          .filter(Boolean)
 
         const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
         const showSessionInfo = !isCurrent || noAutoAuthorize
@@ -242,19 +231,29 @@ class TokenAuthorization extends Component {
               </P>
             )}
             {!!target.requiredFields.length && (
-              <Fields
-                fields={fields}
-                required={target.requiredFields}
-                onChange={(event, value, shouldValidate) => {
-                  const field = event.currentTarget.name
-                  this.setState({
-                    fields: Object.assign({}, fields, { [event.currentTarget.name]: {
-                      value,
-                      error: shouldValidate && validateField(t, field, value)
-                    }}),
-                    authorizeError: undefined
-                  })
-                }} />
+              <div style={{marginTop: 20}}>
+                <Interaction.P>
+                  {t('tokenAuthorization/fields/explanation')}
+                </Interaction.P>
+                <FieldSet
+                  values={values}
+                  errors={errors}
+                  dirty={dirty}
+                  onChange={fields => {
+                    this.setState(state => ({
+                      authorizeError: undefined,
+                      ...FieldSet.utils.mergeFields(fields)(state)
+                    }))
+                  }}
+                  fields={target.requiredFields.map(field => ({
+                    label: t(`tokenAuthorization/fields/label/${field}`),
+                    name: field,
+                    validator: (value) => (
+                      value.trim().length <= 0 &&
+                      t(`tokenAuthorization/fields/error/${field}/missing`)
+                    )
+                  }))} />
+              </div>
             )}
             {!!target.requiredConsents.length && (
               <div style={{marginTop: 20, textAlign: 'left'}}>
@@ -271,6 +270,15 @@ class TokenAuthorization extends Component {
             )}
             {!!authorizeError && <ErrorMessage error={authorizeError} />}
             <br />
+            {!!this.state.showErrors && errorMessages.length > 0 && (
+              <div style={{color: colors.error, marginBottom: 20}}>
+                <ul>
+                  {errorMessages.map((error, i) => (
+                    <li key={i}>{error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {this.state.authorizing
               ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
               : (
@@ -278,13 +286,22 @@ class TokenAuthorization extends Component {
                   <Button
                     style={{
                       minWidth: 80,
-                      opacity: consentsError || fieldsError ? 0.5 : 1
+                      opacity: errorMessages.length ? 0.5 : 1
                     }}
                     primary
                     block
                     onClick={() => {
-                      if (consentsError || fieldsError) {
-                        this.setState({dirty: true})
+                      if (errorMessages.length) {
+                        this.setState((state) => Object.keys(state.errors).reduce(
+                          (nextState, key) => {
+                            nextState.dirty[key] = true
+                            return nextState
+                          },
+                          {
+                            showErrors: true,
+                            dirty: {}
+                          }
+                        ))
                         return
                       }
                       this.authorize()

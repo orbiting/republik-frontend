@@ -18,7 +18,7 @@ export const getFieldsError = (t, required, fields) =>
 
 export const validateField = (t, field, value) => {
   if (!value || value.trim().length < 1) {
-    return t(`pledge/fields/error/${field}/missing`)
+    return t(`tokenAuthorization/fields/error/${field}/missing`)
   }
 
   return false
@@ -27,7 +27,7 @@ export const validateField = (t, field, value) => {
 const Fields = withT(({t, fields, onChange, required}) => {
   return (
     <Fragment>
-      <Interaction.P>{t('pledge/fields/explanation')}</Interaction.P>
+      <Interaction.P>{t('tokenAuthorization/fields/explanation')}</Interaction.P>
       {required.map(field => {
         const data = (fields[field] && fields[field]) || {}
         const value = data.value || ''
@@ -37,7 +37,7 @@ const Fields = withT(({t, fields, onChange, required}) => {
           <Field
             key={`field-${field}`}
             name={field}
-            label={t(`pledge/fields/label/${field}`)}
+            label={t(`tokenAuthorization/fields/label/${field}`)}
             error={error}
             onChange={onChange}
             value={value} />

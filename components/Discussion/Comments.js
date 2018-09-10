@@ -5,13 +5,12 @@ import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
-import Loader from '../Loader'
-
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
 import {
+  Loader,
   CommentTreeLoadMore,
   CommentTreeCollapse,
   CommentTreeRow,

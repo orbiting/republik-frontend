@@ -5,10 +5,10 @@ import { css } from 'glamor'
 import { nest } from 'd3-collection'
 import gql from 'graphql-tag'
 import Link from '../Link/Href'
-import Loader from '../../components/Loader'
 import withT from '../../lib/withT'
 
 import {
+  Loader,
   FormatTag,
   colors,
   fontStyles,

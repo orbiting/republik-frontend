@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { intersperse } from '../../lib/utils/helpers'
-import Loader from '../Loader'
 import { errorToString } from '../../lib/utils/errors'
 import { swissTime } from '../../lib/utils/format'
 
@@ -10,7 +9,7 @@ import withT from '../../lib/withT'
 import AddressForm, { COUNTRIES, fields as addressFields } from './AddressForm'
 
 import {
-  InlineSpinner, Interaction, Label, Button, A, colors
+  Loader, InlineSpinner, Interaction, Label, Button, A, colors
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'

@@ -137,7 +137,7 @@ const styles = {
 
 class Footer extends Component {
   render () {
-    const { t, me, signOut, inNativeIOSApp } = this.props
+    const { t, me, signOut, inNativeApp, inNativeIOSApp } = this.props
     return (
       <div {...styles.bg}>
         <Container style={{ overflow: 'hidden' }}>
@@ -177,11 +177,11 @@ class Footer extends Component {
                 <a>{t('footer/media')}</a>
               </Link>
               <br />
-              <a href='/manifest' target='_blank'>
+              <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
               </a>
               <br />
-              <a href='/en' target='_blank'>
+              <a href='/en' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/en')}
               </a>
               <br />

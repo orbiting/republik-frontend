@@ -3,11 +3,13 @@ import { compose } from 'react-apollo'
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
 import Loader from '../components/Loader'
+import { PageCenter } from '../components/Auth/withAuthorization'
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
-import { Router } from '../lib/routes'
+import withInNativeApp from '../lib/withInNativeApp'
+import { Interaction } from '@project-r/styleguide'
 
 class SigninPage extends Component {
   componentDidMount () {
@@ -21,26 +23,32 @@ class SigninPage extends Component {
   redirectUser () {
     const { isMember, me } = this.props
     if (isMember) {
-      Router.pushRoute('index')
+      window.location = '/'
       return
     }
     if (me) {
-      Router.pushRoute('account')
+      window.location = '/konto'
     }
   }
 
   render () {
-    const { url, t, me } = this.props
+    const { url, t, me, inNativeIOSApp } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
 
     return (
       <Frame url={url} meta={meta}>
-        <div style={{ margin: '40px auto 0 auto', maxWidth: 600 }}>
-          {/* TODO: some intro text. */}
-          {!me ? <SignIn /> : <Loader loading />}
-        </div>
+        <PageCenter>
+          {me
+            ? <Loader loading />
+            : <SignIn beforeForm={inNativeIOSApp
+              ? <Interaction.P style={{marginBottom: 20}}>
+                {t('withMembership/ios/unauthorized/signIn')}
+              </Interaction.P>
+              : undefined
+            } noReload />}
+        </PageCenter>
       </Frame>
     )
   }
@@ -50,5 +58,6 @@ export default compose(
   withData,
   withMe,
   withMembership,
+  withInNativeApp,
   withT
 )(SigninPage)

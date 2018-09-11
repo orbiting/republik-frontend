@@ -1,218 +1,231 @@
 import React, { Fragment} from 'react'
-import { Link } from '../../lib/routes'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { countFormat } from '../../lib/utils/format'
-import withMe from '../../lib/apollo/withMe'
-import withT from '../../lib/withT'
 import { css } from 'glamor'
-import Cover from './Cover'
-import Offers from './Offers'
-import PreviewForm from './PreviewForm'
-
-import { CDN_FRONTEND_BASE_URL, STATS_POLL_INTERVAL_MS } from '../../lib/constants'
-
 import {
-  Button,
+  Label,
   Container,
-  Interaction,
-  Loader,
   P,
   RawHtml,
   colors,
-  linkRule,
-  mediaQueries
+  mediaQueries,
+  fontFamilies,
+  Interaction
 } from '@project-r/styleguide'
 
-const MAX_WIDTH = '1005px'
+import { countFormat } from '../../lib/utils/format'
+import { prefixHover } from '../../lib/utils/hover'
+import withT from '../../lib/withT'
+import { Link, Router } from '../../lib/routes'
 
-// TODO: revisit special font sizes with design.
-const styles = {
-  container: css({
-    paddingBottom: 60,
-    [mediaQueries.mUp]: {
-      paddingBottom: 120
-    }
-  }),
-  cta: css({
-    '& > button': {
-      display: 'block',
-      margin: '20px auto 10px auto',
-      maxWidth: '410px',
-      width: '100%',
-      [mediaQueries.mUp]: {
-        margin: '30px auto 15px auto',
-        maxWidth: '460px'
-      }
-    },
-    marginBottom: 30,
-    [mediaQueries.mUp]: {
-      marginBottom: 60
-    }
-  }),
-  intro: css({
-    maxWidth: MAX_WIDTH,
-    paddingTop: '30px',
-    paddingBottom: '30px',
-    [mediaQueries.mUp]: {
-      paddingBottom: '60px',
-      paddingTop: '60px'
-    }
-  }),
-  text: css({
-    fontSize: '16px',
-    lineHeight: '26px',
-    [mediaQueries.mUp]: {
-      fontSize: '24px',
-      lineHeight: '36px'
-    }
-  }),
-  headline: css({
-    fontSize: '28px',
-    lineHeight: '34px',
-    [mediaQueries.mUp]: {
-      fontSize: '60px',
-      lineHeight: '72px'
-    }
-  }),
-  noMember: css({
-    backgroundColor: colors.primaryBg,
-    textAlign: 'center',
-    padding: '18px 0',
-    [mediaQueries.mUp]: {
-      padding: '30px 0'
-    }
-  }),
-  join: css({
-    backgroundColor: colors.primaryBg,
-    textAlign: 'center',
-    padding: '18px 0',
-    marginBottom: '30px',
-    [mediaQueries.mUp]: {
-      padding: '90px 0',
-      marginBottom: '100px'
-    }
-  }),
-  joinText: css({
-    textAlign: 'left',
-    margin: '20px 0 30px 0',
-    [mediaQueries.mUp]: {
-      margin: '40px 0 50px 0'
-    }
-  }),
-  more: css({
-    [mediaQueries.mUp]: {
-      display: 'flex'
-    }
-  }),
-  preview: css({
-    marginBottom: '50px',
-    [mediaQueries.mUp]: {
-      marginRight: '30px',
-      flex: 1
-    }
-  }),
-  offers: css({
-    [mediaQueries.mUp]: {
-      width: '410px'
-    }
-  }),
-  coverHeadline: css({
-    color: '#fff',
-    fontSize: '25px',
-    lineHeight: '35px',
-    [mediaQueries.mUp]: { fontSize: '36px', lineHeight: '48px' },
-    [mediaQueries.lUp]: { fontSize: '54px', lineHeight: '68px' }
-  })
-}
+import { ListWithQuery } from '../Testimonial/List'
 
-const MarketingPage = ({ me, t, crowdfundingName, data }) => (
-  <Fragment>
-    <Cover
-      image={{
-        src: `${CDN_FRONTEND_BASE_URL}/static/cover.jpg`,
-        srcMobile: `${CDN_FRONTEND_BASE_URL}/static/cover_mobile.jpg`
-      }}
-    >
-      <div {...styles.cta}>
-        <Interaction.H1 {...styles.coverHeadline}>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('marketing/cover/headline')
-            }}
-          />
-        </Interaction.H1>
-        <Link route='pledge' params={{package: 'ABO'}}>
-          <Button primary>
-            {t('marketing/cover/button/label')}
-          </Button>
-        </Link>
-        <Interaction.P style={{color: '#fff', margin: '10px 0 20px 0'}}>
-          {t('marketing/cover/button/caption')}
-        </Interaction.P>
-      </div>
-    </Cover>
-    <div {...styles.container}>
-      {me && (
-        <div {...styles.noMember}>
-          <Container style={{ maxWidth: MAX_WIDTH }}>
-            <Interaction.P>
-              {t.elements('marketing/noActiveMembership', {
-                link: (
-                  <Link route='account' key='account'>
-                    <a {...linkRule}>{t('marketing/noActiveMembership/link')}</a>
-                  </Link>
-                )
-              })}
-            </Interaction.P>
-          </Container>
-        </div>
-      )}
-      <Container {...styles.intro} key='intro'>
-        <Loader error={data.error} loading={data.loading} style={{minHeight: 200}} render={() => (
-          <P {...styles.text}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('marketing/intro', {count: countFormat(data.memberStats.count)})
-              }}
-            />
-          </P>
-        )} />
-      </Container>
-      <Container style={{ maxWidth: MAX_WIDTH }} key='more'>
-        <div {...styles.more}>
-          <div {...styles.preview}>
-            <Interaction.H3 style={{ marginBottom: '17px' }}>
-              {t('marketing/preview/title')}
-            </Interaction.H3>
-            <PreviewForm />
-          </div>
-          <div {...styles.offers}>
-            <Interaction.H3 style={{ marginBottom: '17px' }}>
-              {t('marketing/offers/title')}
-            </Interaction.H3>
-            <Offers crowdfundingName={crowdfundingName} />
-          </div>
-        </div>
-      </Container>
-    </div>
-  </Fragment>
-)
+import { buttonStyles } from './styles'
 
-const query = gql`
-query memberStats {
+const GET_MEMBERSTATS = gql`
+query members {
   memberStats {
     count
   }
 }
 `
 
-export default compose(
-  withMe,
-  withT,
-  graphql(query, {
-    options: {
-      pollInterval: STATS_POLL_INTERVAL_MS
+const styles = {
+  headline: css({
+    fontSize: '28px',
+    lineHeight: '34px',
+    maxWidth: '1002px',
+    textAlign: 'center',
+    margin: '0 auto',
+    fontWeight: 'normal',
+    fontFamily: fontFamilies.serifTitle,
+    marginTop: '12px',
+    [mediaQueries.mUp]: {
+      fontSize: '64px',
+      lineHeight: '72px',
+      marginTop: '50px'
+    }
+
+  }),
+  lead: css({
+    fontSize: '16px',
+    lineHeight: '26px',
+    textAlign: 'center',
+    maxWidth: '702px',
+    margin: '12px auto 0 auto',
+    [mediaQueries.mUp]: {
+      fontSize: '23px',
+      lineHeight: '36px',
+      marginTop: '32px'
+    }
+  }),
+  actions: css({
+    maxWidth: '974px',
+    margin: '14px auto 0 auto',
+    '& > *': {
+      marginBottom: '9px',
+      width: '100%'
+    },
+    [mediaQueries.mUp]: {
+      marginTop: '80px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'stretch',
+      '& > *': {
+        margin: 0,
+        width: '50%'
+      },
+      '& > *:first-child': {
+        marginRight: '10px'
+      },
+      '& > *:last-child': {
+        marginLeft: '10px'
+      }
+    }
+  }),
+  signInLabel: css({
+    display: 'block',
+    color: colors.text,
+    '& a': {
+      cursor: 'pointer',
+      color: colors.text,
+      textDecoration: 'underline'
+    },
+    [`'& ${prefixHover()}`]: {
+      color: colors.secondary
+    },
+    '& a:focus': {
+      color: colors.secondary
+    },
+    '& a:active': {
+      color: colors.primary
+    },
+    fontSize: '12px',
+    lineHeight: '18px',
+    [mediaQueries.mUp]: {
+      marginTop: '4px',
+      fontSize: '16px',
+      lineHeight: '24px'
+    }
+  }),
+  communityWidget: css({
+    margin: '9px auto 0 auto',
+    maxWidth: '974px',
+    [mediaQueries.mUp]: {
+      margin: '78px auto 0 auto'
+    }
+  }),
+  spacer: css({
+    minHeight: '23px',
+    [mediaQueries.mUp]: {
+      minHeight: '84px'
+    }
+  }),
+  communityHeadline: css({
+    textAlign: 'center',
+    fontSize: '16px',
+    lineHeight: '25px',
+    [mediaQueries.mUp]: {
+      fontSize: '26px',
+      lineHeight: '36px'
+    },
+    [mediaQueries.lUp]: {
+      fontSize: '30px',
+      lineHeight: '36px'
+    }
+  }),
+  communityLink: css({
+    cursor: 'pointer',
+    textAlign: 'center',
+    fontSize: '16px',
+    lineHeight: '25px',
+    [mediaQueries.mUp]: {
+      marginTop: '16px',
+      fontSize: '20px',
+      lineHeight: '28px'
+    },
+    [mediaQueries.lUp]: {
+      marginTop: '20px',
+      fontSize: '23px',
+      lineHeight: '28px'
+    },
+    '& a': {
+      color: colors.text,
+      textDecoration: 'underline'
+    },
+    [`'& ${prefixHover()}`]: {
+      color: colors.secondary
+    },
+    '& a:focus': {
+      color: colors.secondary
+    },
+    '& a:active': {
+      color: colors.primary
     }
   })
+}
+
+const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }, ...props }) => {
+  return (
+    <Fragment>
+      <Container>
+        <h1 {...styles.headline}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/title')
+            }}
+          />
+        </h1>
+        <P {...styles.lead}>{t('marketing/lead')}</P>
+        <div {...styles.actions}>
+          <div>
+            <Link route='pledge'>
+              <button {...buttonStyles.primary}>
+                {t('marketing/join/button/label')}
+              </button>
+            </Link>
+            <Label {...styles.signInLabel}>{
+              t.elements(
+                'marketing/signin',
+                { link: <Link key='link' route={'signin'}>
+                  <a>{t('marketing/signin/link') }</a>
+                </Link>
+                }
+              )
+            }</Label>
+          </div>
+          <Link route='preview'>
+            <button {...buttonStyles.standard}>
+              {t('marketing/preview/button/label')}
+            </button>
+          </Link>
+        </div>
+        {!loading && memberStats && <div {...styles.communityWidget}>
+          <Interaction.H2 {...styles.communityHeadline}>
+            {t(
+              'marketing/community/title',
+              { count: countFormat(memberStats.count) }
+            )}
+          </Interaction.H2>
+          <ListWithQuery singleRow first={6} onSelect={(id) => {
+            Router.push(`/community?id=${id}`).then(() => {
+              window.scrollTo(0, 0)
+              return false
+            })
+          }} />
+          <Interaction.P {...styles.communityLink}>
+            <Link route='community'>
+              <a>{t('marketing/community/link')}</a>
+            </Link>
+          </Interaction.P>
+        </div>}
+        <div {...styles.spacer} />
+      </Container>
+    </Fragment>
+  )
+}
+
+export default compose(
+  withT,
+  graphql(GET_MEMBERSTATS)
 )(MarketingPage)

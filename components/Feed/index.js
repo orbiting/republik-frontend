@@ -93,19 +93,13 @@ class Feed extends Component {
     this.setContainerRef = (el) => { this.container = el }
     this.state = {
       infiniteScroll: false,
-      loadingMore: false,
-      isNavBarVisible: false
+      loadingMore: false
     }
     this.getRemainingDocumentsCount = (nodes) => {
       const { data: { documents } } = this.props
       return (documents.totalCount) - // all docs
               nodes.length - // already displayed
               (documents.nodes.length - nodes.length) // formats
-    }
-    this.onNavBarChange = (visible) => {
-      if (visible !== this.state.isNavBarVisible) {
-        this.setState({isNavBarVisible: visible})
-      }
     }
     this.onScroll = async () => {
       if (this.container) {
@@ -131,24 +125,10 @@ class Feed extends Component {
         this.onScroll
       )
     }
-    this.onMessage = e => {
-      const message = JSON.parse(e.data)
-      switch (message.type) {
-        case 'nav-bar-opened':
-          this.setState({ isNavBarVisible: true })
-          break
-        case 'nav-bar-closed':
-          this.setState({ isNavBarVisible: false })
-          break
-      }
-    }
   }
 
   componentDidMount () {
     this.subscribe()
-    if (this.props.inNativeApp) {
-      document.addEventListener('message', this.onMessage)
-    }
     window.addEventListener('scroll', this.onScroll)
   }
 
@@ -158,9 +138,6 @@ class Feed extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
-    if (this.props.inNativeApp) {
-      document.removeEventListener('message', this.onMessage)
-    }
     this.unsubscribe && this.unsubscribe()
   }
 
@@ -189,14 +166,14 @@ class Feed extends Component {
   }
 
   render () {
-    const { infiniteScroll, loadingMore, isNavBarVisible } = this.state
+    const { infiniteScroll, loadingMore } = this.state
     const { data: { loading, error, documents, greeting }, hasMore, t, url, meta } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
 
     return (
-      <Frame raw url={url} meta={meta} onNavBarChange={this.onNavBarChange}>
+      <Frame raw url={url} meta={meta}>
         <Loader
           loading={loading}
           error={error}
@@ -215,7 +192,6 @@ class Feed extends Component {
                       key={i}
                       hasSpaceAfter={i < all.length - 1}
                       label={key}
-                      isNavBarVisible={isNavBarVisible}
                     >
                       {
                         values.map(doc =>

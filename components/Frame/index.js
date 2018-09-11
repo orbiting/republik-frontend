@@ -4,13 +4,11 @@ import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/style
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
+import Track from './Track'
 import Box from './Box'
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  SAFE_TOP_HEIGHT,
-  SAFE_TOP_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT_MOBILE
+  HEADER_HEIGHT_MOBILE
 } from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
@@ -27,26 +25,28 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+// avoid gray rects over links and icons on iOS
+css.global('*', {
+  WebkitTapHighlightColor: 'transparent'
+})
+// avoid orange highlight, observed around full screen gallery, on Android
+css.global('div:focus', {
+  outline: 'none'
+})
+
 const styles = {
   container: css({
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
   }),
-  coverlessWithMe: css({
-    paddingTop: SAFE_TOP_HEIGHT_MOBILE,
+  padHeader: css({
+    // minus 1px for first sticky hr from header
+    // - otherwise there is a jump when scroll 0 and opening hamburger
+    paddingTop: HEADER_HEIGHT_MOBILE - 1,
     [mediaQueries.mUp]: {
-      paddingTop: SAFE_TOP_HEIGHT
+      paddingTop: HEADER_HEIGHT - 1
     }
-  }),
-  coverless: css({
-    paddingTop: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT
-    }
-  }),
-  native: css({
-    paddingTop: NAVBAR_HEIGHT_MOBILE
   }),
   bodyGrower: css({
     flexGrow: 1
@@ -85,23 +85,18 @@ const Index = ({
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  headerInline,
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick,
-  onNavBarChange,
-  disableNavBar,
+  onSearchClick
 }) => (
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={cover
-        ? undefined
-        : inNativeApp
-          ? styles.native
-          : me ? styles.coverlessWithMe : styles.coverless
-      }
+      {...(!cover
+        ? styles.padHeader
+        : undefined
+      )}
     >
       {!!meta && <Meta data={meta} />}
       <Header
@@ -112,13 +107,9 @@ const Index = ({
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
-        inline={headerInline}
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
-        inNativeApp={inNativeApp}
-        onNavBarChange={onNavBarChange}
-        disableNavBar={disableNavBar}
       />
       <noscript>
         <Box style={{padding: 30}}>
@@ -137,6 +128,7 @@ const Index = ({
       )}
     </div>
     {!inNativeApp && <Footer />}
+    <Track />
   </div>
 )
 

@@ -58,7 +58,7 @@ const styles = {
   })
 }
 
-const User = ({ t, url, me, onclickHandler, title }) => (
+const User = ({ t, url, me, onClick, title }) => (
   <div {...styles.user}>
     <a
       {...styles.button}
@@ -67,7 +67,7 @@ const User = ({ t, url, me, onclickHandler, title }) => (
       href='/'
       onClick={e => {
         e.preventDefault()
-        onclickHandler()
+        onClick()
       }}
     >
       {me && <img src={me.portrait || DEFAULT_PROFILE_PICTURE} {...styles.portrait} />}

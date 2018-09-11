@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { compose } from 'react-apollo'
 
 import IconLink from '../IconLink'
 import ShareOverlay from './ShareOverlay'
@@ -44,6 +45,7 @@ class ActionBar extends Component {
     const {
       t,
       url,
+      title,
       tweet,
       emailSubject,
       emailBody,
@@ -67,7 +69,16 @@ class ActionBar extends Component {
           e.preventDefault()
 
           if (inNativeApp) {
-            postMessage({ type: 'share' })
+            postMessage({
+              type: 'share',
+              payload: {
+                title,
+                url,
+                subject: emailSubject,
+                dialogTitle: shareOverlayTitle
+              }
+            })
+            e.target.blur()
           } else {
             this.toggleShare()
             onActionBarClick('share', url)
@@ -154,4 +165,6 @@ ActionBar.defaultProps = {
   emailAttachUrl: true
 }
 
-export default withT(ActionBar)
+export default compose(
+  withT
+)(ActionBar)

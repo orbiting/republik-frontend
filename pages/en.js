@@ -2,11 +2,16 @@ import React, {Component} from 'react'
 import {css} from 'glamor'
 import Head from 'next/head'
 import Router from 'next/router'
+import {compose} from 'react-apollo'
 
 import ActionBar from '../components/ActionBar'
 import PureFooter, {SPACE} from '../components/Frame/PureFooter'
 
 import track from '../lib/piwik'
+
+import withData from '../lib/apollo/withData'
+import withInNativeApp from '../lib/withInNativeApp'
+import BackIcon from '../components/Icons/Back'
 
 import {
   NarrowContainer,
@@ -22,6 +27,7 @@ import {
   PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL,
   PAYPAL_DONATE_LINK
 } from '../lib/constants'
+import { Link } from '../lib/routes'
 
 const {H2, P: IP} = Interaction
 
@@ -42,6 +48,15 @@ const P = ({children, ...props}) => (
 )
 
 const styles = {
+  back: css({
+    fontFamily: fontFamilies.sansSerifRegular,
+    textDecoration: 'none',
+    fontSize: 20,
+    color: '#000',
+    marginTop: 9 + 4,
+    marginBottom: -20,
+    display: 'block'
+  }),
   text: css({
     marginTop: SPACE / 2,
     marginBottom: SPACE,
@@ -137,7 +152,7 @@ class EnPage extends Component {
     }
   }
   render () {
-    const {url} = this.props
+    const {url, inNativeApp} = this.props
     const meta = {
       title: 'We are Republik',
       description: '',
@@ -170,6 +185,12 @@ ${meta.url}
           <meta name='twitter:site' content='@RepublikMagazin' />
           <meta name='twitter:creator' content='@RepublikMagazin' />
         </Head>
+        {inNativeApp && <Link route='index'>
+          <a {...styles.back}>
+            <BackIcon size={25} style={{marginTop: -3}} fill='#000' />
+            Magazine
+          </a>
+        </Link>}
         <div {...styles.column}>
           {message === 'thank-you' && (
             <div>
@@ -296,4 +317,7 @@ ${meta.url}
   }
 }
 
-export default EnPage
+export default compose(
+  withData,
+  withInNativeApp
+)(EnPage)

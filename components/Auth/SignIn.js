@@ -1,12 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import {css} from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
-import { Router, Link } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import { meQuery } from '../../lib/apollo/withMe'
+import { prefixHover } from '../../lib/utils/hover'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -49,7 +51,7 @@ const styles = {
     textDecoration: 'underline',
     textDecorationSkip: 'ink',
     color: colors.lightText,
-    ':hover': {
+    [prefixHover()]: {
       color: colors.text
     }
   })
@@ -126,6 +128,26 @@ class SignIn extends Component {
     this.setState({ cookiesDisabled: !navigator.cookieEnabled })
   }
 
+  componentWillUnmount () {
+    if (this.state.polling) {
+      const data = this.props.client.readQuery({ query: meQuery })
+      if (data.me) {
+        this.reloadOnSuccess()
+      }
+    }
+  }
+
+  reloadOnSuccess () {
+    const { context, noReload } = this.props
+    // only immediately reload if not in a context like faq or purchase
+    if (!context && !noReload) {
+      // re-load after sign in
+      // - clear apollo cache
+      // - re-establish ws conntection with cookie
+      window.location.reload()
+    }
+  }
+
   render () {
     const { t, label, beforeForm } = this.props
     const {
@@ -147,7 +169,6 @@ class SignIn extends Component {
             this.setState(() => ({
               polling: false
             }))
-            Router.pushRoute('signin')
           }}
           onTokenTypeChange={(altTokenType) => {
             this.signIn(altTokenType)
@@ -159,6 +180,7 @@ class SignIn extends Component {
                 nameOrEmail: me.name || me.email
               })
             }))
+            this.reloadOnSuccess()
           }} />
     }
     if (success) {
@@ -222,7 +244,8 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  signIn: PropTypes.func.isRequired
+  signIn: PropTypes.func.isRequired,
+  noReload: PropTypes.bool
 }
 
 const signInMutation = gql`
@@ -243,6 +266,7 @@ export const withSignIn = graphql(signInMutation, {
 })
 
 export default compose(
+  withApollo,
   withSignIn,
   withT
 )(SignIn)

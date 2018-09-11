@@ -9,8 +9,8 @@ import { A, Editorial, Interaction } from '@project-r/styleguide'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const { Emphasis, P, UL, LI } = Editorial
-const { H1, H2 } = Interaction
+const { P } = Editorial
+const { H1 } = Interaction
 
 export default withData(
   withT(({ url, t }) => {
@@ -35,19 +35,14 @@ export default withData(
           />
         }
       >
-        <H1>HR-Fachfrau/Fachmann 50%</H1>
+        <P>Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Noch sind wir nicht ganz dort, wo wir hinwollen. Aber mit deiner Hilfe gelangen wir ein paar Schritte weiter. Derzeit suchen wir eine*n Neue*n mit einer Schwäche für starken Journalismus.</P>
+        <H1>Projektleiter*in Marketing/Kommunikation (80 Prozent)</H1>
         <br />
-        <P><Emphasis>Sie fühlen sich in einem dynamischen, agilen Medien-Start-up wohl. Sie sind HR-Allrounder/in, haben Erfahrung in allen HR-Themen und -Belangen und können Mitarbeitende vom Eintritt bis zum Austritt begleiten. Ausserdem sind Sie sattelfest in Lohnbuchhaltung und Zeitmanagement.</Emphasis></P>
-        <H2>Ihre Aufgabe</H2>
-        <UL>
-          <LI>Ansprechperson für alle Anliegen von Mitarbeiterinnen und Mitarbeitern sowie deren Vorgesetzten</LI>
-          <LI>Zuständigkeit vom Eintritt bis zum Austritt, inkl. Rekrutierung</LI>
-          <LI>Mitarbeit bei der Lohnbuchhaltung</LI>
-          <LI>Verantwortung im Zeitmanagement</LI>
-        </UL>
-        <P>Wir erwarten einige Jahre Berufserfahrung im HR sowie eine fachspezifische Weiterbildung (HR-Fachfrau, HR-Fachmann mit eidg. Fachausweis oder gleichwertige Ausbildung). Sie sind eine gewinnende, diskrete Persönlichkeit, die offen auf Menschen zugeht und eine Vertrauensbasis schaffen kann. Sie sind mündlich und schriftlich kommunikationsstark. Sie sind erfahren in anspruchsvollen Gesprächssituationen, agieren mit diplomatischem Geschick und sind klar in Ihrer Aussage. Sie sind flexibel, lösungsorientiert und können mit unterschiedlichen Interessen konstruktiv umgehen.</P>
-        <P>Wir bieten Ihnen eine interessante Stelle an, die es Ihnen ermöglicht, Ihre Kenntnisse und Fähigkeiten im HR-Bereich voll einzubringen.</P>
-        <P>Senden Sie Ihre Bewerbungsunterlagen an <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A></P>
+        <P>Du bist Hohepriester*in unserer Marke und trägst sie in die Welt hinaus. Dafür hast du in deinem Rucksack neben ganz viel Talent und Cleverness auch überzeugende Erfahrungen in Marketingkommunikation und kannst Aus- und Weiterbildungen vorweisen. Du beherrschst das Chaos, haust deine Massnahmen präzis wie Tontauben raus und verlierst Budget und Ziele nicht aus den Augen. Bei deinen Projekten übernimmst du den Lead nicht nur gern, sondern auch erfolgreich. Du siegst über Drachen und Windmühlen und arbeitest gut mit Leuten, deren Köpfe anders funktionieren als deiner. Idealerweise bist du mit dem Verlagsbusiness vertraut. Du verstehst, wie Social Media und Communities ticken und wie du sie für uns nutzen kannst – indem du etwa neue Leserinnen für unsere Storys begeisterst. Du verstehst dich mit allen gut und arbeitest erfolgreich mit unseren externen Agenturen zusammen. Bei aller Kreativität, die du einsetzt, bist du auch genug Zahlenmensch, um Reportings und Analysen zu erstellen.</P>
+        <P>Wir bieten dir eine Stelle, wie es sie nicht überall gibt, viele neue Freunde und einen konkurrenzfähigen Einheitslohn für alle. Arbeitsort ist mitten im Zürcher Kreis 4, wo du auch mal laut sein darfst.</P>
+        <P>Ab sofort oder nach Vereinbarung.</P>
+        <P>Fragen und Bewerbungen an Amanda Strub<br />
+          <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A></P>
       </Frame>
     )
   })

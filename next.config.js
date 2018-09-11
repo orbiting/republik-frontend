@@ -27,6 +27,7 @@ module.exports = {
     )
     return config
   },
+  poweredByHeader: false,
   assetPrefix: NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
     ? CDN_FRONTEND_BASE_URL
     : '',

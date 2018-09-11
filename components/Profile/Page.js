@@ -371,10 +371,11 @@ class Profile extends Component {
                       {!!user.isListed &&
                         <span {...styles.headInfoShare}>
                           <ActionBar
-                            emailSubject={t('testimonial/detail/share/emailSubject', {name: `${user.firstName} ${user.lastName}`})}
+                            title={t('profile/share/title', {name: user.name})}
+                            emailSubject={t('profile/share/emailSubject', {name: user.name})}
                             url={`${PUBLIC_BASE_URL}/~${user.username}`}
                             download={metaData.image}
-                            shareOverlayTitle={t('profile/share/title')}
+                            shareOverlayTitle={t('profile/share/overlayTitle')}
                           />
                         </span>
                       }

@@ -65,7 +65,7 @@ export default class MyDocument extends Document {
           <meta name='msapplication-config' content='/static/browserconfig.xml' />
           <meta name='referrer' content='no-referrer' />
         </Head>
-        <body>
+        <body className={inNativeApp ? 'no-hover' : 'hover'}>
           <script dangerouslySetInnerHTML={{__html: `var _paq = _paq || [];`}} />
           <Main />
           <NextScript />

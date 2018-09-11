@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
 import Footer from '../Footer'
@@ -6,7 +7,16 @@ import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
 import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
-import { postMessage } from '../../../lib/withInNativeApp'
+import withInNativeApp from '../../../lib/withInNativeApp'
+import { prefixHover } from '../../../lib/utils/hover'
+
+import NavBar from '../NavBar'
+import withMembership from '../../Auth/withMembership'
+
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../../constants'
 
 import {
   Interaction,
@@ -17,13 +27,30 @@ import {
 
 const styles = {
   container: css({
-    height: '100%',
-    overflow: 'scroll',
-    backgroundColor: '#FFF'
+    minHeight: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    height: 1,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%'
+  }),
+  hrFixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
-    flex: 1,
+    flexGrow: 1,
+    marginBottom: 20,
     paddingTop: '20px',
     [mediaQueries.mUp]: {
       display: 'flex',
@@ -59,7 +86,7 @@ const styles = {
     ':visited': {
       color: colors.text
     },
-    ':hover': {
+    [prefixHover()]: {
       color: colors.primary
     },
     cursor: 'pointer',
@@ -85,7 +112,6 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          postMessage({ type: 'close-menu' })
           Router.replaceRoute(route, params)
             .then(() => {
               window.scroll(0, 0)
@@ -104,10 +130,15 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
+const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
+      <hr {...styles.hr} {...styles.hrFixed} />
+      {isMember && <Fragment>
+        <NavBar url={url} />
+        <hr {...styles.hr} />
+      </Fragment>}
       <div {...styles.sections}>
         <div {...styles.section}>
           {me && (
@@ -119,6 +150,28 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
                 closeHandler={closeHandler}
               />
               <br />
+              {me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    {...styles.link}
+                    style={{ cursor: 'pointer' }}
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (e.currentTarget.nodeName === 'A' &&
+                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
+                        // ignore click for new tab / new window behavior
+                        return
+                      }
+
+                      Router
+                        .pushRoute('/konto#teilen')
+                        .then(closeHandler)
+                    }}>
+                    {t('nav/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
               <NavLink
                 route='profile'
                 params={{ slug: me.username || me.id }}
@@ -155,24 +208,18 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
             closeHandler={closeHandler}
           />
           <br />
-          {me && (
-            <NavLink
-              route='pledge'
-              params={{ package: 'ABO_GIVE' }}
-              translation={t('nav/give')}
-              active={active}
-              closeHandler={closeHandler}
-            />
+          {!inNativeIOSApp && (
+            <Fragment>
+              <NavLink
+                route='pledge'
+                params={me ? { package: 'ABO_GIVE' } : undefined}
+                translation={t(me ? 'nav/give' : 'nav/offers')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
           )}
-          {!me && (
-            <NavLink
-              route='pledge'
-              translation={t('nav/offers')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-          )}
-          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}
@@ -187,4 +234,8 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp }) => {
   )
 }
 
-export default withT(Nav)
+export default compose(
+  withT,
+  withInNativeApp,
+  withMembership
+)(Nav)

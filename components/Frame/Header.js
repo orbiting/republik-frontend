@@ -1,38 +1,44 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 
+import withMembership from '../Auth/withMembership'
+
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
-import NavBar from './NavBar'
+import NavBar, { getNavBarStateFromUrl } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
+import Pullable from './Pullable'
 
 import Search from 'react-icons/lib/md/search'
+import BackIcon from '../Icons/Back'
 
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  ZINDEX_HEADER
+  NAVBAR_HEIGHT,
+  NAVBAR_HEIGHT_MOBILE,
+  ZINDEX_HEADER,
+  LOGO_WIDTH,
+  LOGO_PADDING,
+  LOGO_WIDTH_MOBILE,
+  LOGO_PADDING_MOBILE
 } from '../constants'
-
-const LOGO_HEIGHT = 28.02
-const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
-
-const LOGO_HEIGHT_MOBILE = 22.78
-const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
 
 const SEARCH_BUTTON_WIDTH = 28
 
 const styles = {
   bar: css({
     zIndex: ZINDEX_HEADER,
+    position: 'fixed',
     '@media print': {
       position: 'absolute'
     },
@@ -42,14 +48,11 @@ const styles = {
   }),
   barOpaque: css({
     backgroundColor: '#fff',
-    boxSizing: 'content-box',
-    height: HEADER_HEIGHT_MOBILE - 1,
-    borderBottom: `1px solid ${colors.divider}`,
+    height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT - 1
+      height: HEADER_HEIGHT
     },
     '@media print': {
-      borderBottom: 0,
       backgroundColor: 'transparent'
     }
   }),
@@ -60,20 +63,31 @@ const styles = {
     transition: 'opacity .2s ease-in-out'
   }),
   logo: css({
+    position: 'relative',
     display: 'inline-block',
-    marginTop: `${Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)}px`,
-    width: `${LOGO_WIDTH_MOBILE}px`,
+    padding: LOGO_PADDING_MOBILE,
+    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
     [mediaQueries.mUp]: {
-      marginTop: `${Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)}px`,
-      width: `${LOGO_WIDTH}px`
+      padding: LOGO_PADDING,
+      width: LOGO_WIDTH + LOGO_PADDING * 2
     },
     verticalAlign: 'middle'
   }),
-  user: css({
+  leftItem: css({
     '@media print': {
       display: 'none'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  back: css({
+    display: 'block',
+    position: 'absolute',
+    left: 0,
+    top: -1,
+    padding: '10px 10px 10px 15px',
+    [mediaQueries.mUp]: {
+      top: -1 + 8
+    }
   }),
   hamburger: css({
     '@media print': {
@@ -131,8 +145,84 @@ const styles = {
       paddingTop: '18px'
     },
     transition: 'opacity .2s ease-in-out'
+  }),
+  sticky: css({
+    position: 'sticky'
+  }),
+  stickyWithFallback: css({
+    // auto prefix does not with multiple values :(
+    // - -webkit-sticky would be missing if not defined explicitly
+    // - glamor 2.20.40 / inline-style-prefixer 3.0.8
+    position: ['fixed', '-webkit-sticky', 'sticky']
+    // - this will produce three position statements
+    // { position: fixed; position: -webkit-sticky; position: sticky; }
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%',
+    zIndex: ZINDEX_HEADER
+  }),
+  hrThin: css({
+    height: 1,
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
+  }),
+  hrThick: css({
+    height: 3,
+    top: HEADER_HEIGHT_MOBILE - 3,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 3
+    }
+  }),
+  hrFixedAfterNavBar: css({
+    position: 'fixed',
+    marginTop: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      marginTop: NAVBAR_HEIGHT
+    }
   })
 }
+
+const isPositionStickySupported = () => {
+  const style = document.createElement('a').style
+  style.cssText = 'position:sticky;position:-webkit-sticky;'
+  return style.position.indexOf('sticky') !== -1
+}
+
+// Workaround for WKWebView fixed 0 rendering hickup
+// - iOS 11.4: header is transparent and only appears after triggering a render by scrolling down enough
+const forceRefRedraw = ref => {
+  if (ref) {
+    const redraw = () => {
+      const display = ref.style.display
+      // offsetHeight
+      ref.style.display = 'none'
+      /* eslint-disable-next-line no-unused-expressions */
+      ref.offsetHeight // this force webkit to flush styles (render them)
+      ref.style.display = display
+    }
+    const msPerFrame = 1000 / 30 // assuming 30 fps
+    const frames = [1, 10, 20, 30]
+    // force a redraw on frame x after initial dom mount
+    frames.forEach(frame => {
+      setTimeout(redraw, msPerFrame * frame)
+    })
+  }
+}
+
+const hasBackButton = props => (
+  props.inNativeIOSApp &&
+  props.me &&
+  !getNavBarStateFromUrl(props.url).hasActiveLink
+)
+
+let routeChangeStarted
 
 class Header extends Component {
   constructor (props) {
@@ -142,12 +232,8 @@ class Header extends Component {
       opaque: !this.props.cover,
       mobile: false,
       expanded: false,
-      sticky: !this.props.inline,
-      navbarSticky: true,
-      navbarInitial: true
+      backButton: hasBackButton(props)
     }
-
-    this.y = 0
 
     this.onScroll = () => {
       const y = window.pageYOffset
@@ -157,28 +243,6 @@ class Header extends Component {
       if (opaque !== this.state.opaque) {
         this.setState(() => ({ opaque }))
       }
-
-      if (this.props.inline && this.ref) {
-        const sticky = y + HEADER_HEIGHT > this.barHeight
-        if (sticky !== this.state.sticky) {
-          this.setState(() => ({ sticky }))
-        }
-      }
-
-      const navbarSticky = y < this.y
-      if (y !== this.y && navbarSticky !== this.state.navbarSticky) {
-        this.setState(() => ({ navbarSticky }))
-        this.props.onNavBarChange && this.props.onNavBarChange(navbarSticky)
-      }
-      this.y = y
-
-      const ynavbarInitial = this.state.mobile
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
-      const navbarInitial = y < ynavbarInitial
-      if (navbarInitial !== this.state.navbarInitial) {
-        this.setState(() => ({ navbarInitial }))
-      }
     }
 
     this.measure = () => {
@@ -186,26 +250,7 @@ class Header extends Component {
       if (mobile !== this.state.mobile) {
         this.setState(() => ({ mobile }))
       }
-      if (this.props.inline && this.ref) {
-        const rect = this.ref.getBoundingClientRect()
-        this.y = window.pageYOffset + rect.top
-        this.barHeight = rect.height
-      }
       this.onScroll()
-    }
-
-    this.onMessage = e => {
-      const message = JSON.parse(e.data)
-      switch (message.type) {
-        case 'open-menu':
-          return this.setState({ expanded: true })
-        case 'close-menu':
-          return this.setState({ expanded: false })
-      }
-    }
-
-    this.setRef = ref => {
-      this.ref = ref
     }
 
     this.close = () => {
@@ -216,8 +261,12 @@ class Header extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
-    document.addEventListener('message', this.onMessage)
     this.measure()
+
+    const withoutSticky = !isPositionStickySupported()
+    if (withoutSticky) {
+      this.setState({ withoutSticky })
+    }
   }
 
   componentDidUpdate () {
@@ -227,7 +276,15 @@ class Header extends Component {
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
-    document.removeEventListener('message', this.onMessage)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const backButton = hasBackButton(nextProps)
+    if (this.state.backButton !== backButton) {
+      this.setState({
+        backButton
+      })
+    }
   }
 
   render () {
@@ -238,57 +295,42 @@ class Header extends Component {
       cover,
       secondaryNav,
       showSecondary,
-      inline,
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
       formatColor,
       audioSource,
       audioCloseHandler,
       inNativeApp,
-      onNavBarChange,
-      disableNavBar
+      inNativeIOSApp,
+      isMember
     } = this.props
-    const { expanded, sticky, mobile, navbarSticky, navbarInitial } = this.state
+    const { withoutSticky, backButton } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
-    const expand = !inNativeApp && onPrimaryNavExpandedChange ? primaryNavExpanded : expanded
-    const secondaryVisible = showSecondary && !expand
+    const expanded = !!(onPrimaryNavExpandedChange
+      ? primaryNavExpanded
+      : this.state.expanded
+    )
+    const secondaryVisible = showSecondary && !expanded
 
-    const opaque = this.state.opaque || expanded || inline
-    const barStyle = !inNativeApp && opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
-    const marginBottom = sticky
-      ? this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-      : undefined
-    const position = sticky || !inline ? 'fixed' : 'relative'
+    const opaque = this.state.opaque || expanded
+    const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
-    const isSearchActive = url.pathname === '/search'
+    const showNavBar = isMember
+
+    const toggleExpanded = () => {
+      if (onPrimaryNavExpandedChange) {
+        onPrimaryNavExpandedChange(!expanded)
+      } else {
+        this.setState({ expanded: !expanded })
+      }
+    }
 
     return (
-      <div ref={this.setRef}>
-        {!!cover && inline && <div {...styles.cover} style={{marginBottom}}>{cover}</div>}
-        <div {...barStyle} style={{position}}>
-          {secondaryNav && !audioSource && (
-            <div {...styles.secondary} style={{opacity: secondaryVisible ? 1 : 0, zIndex: secondaryVisible ? 99 : undefined}}>
-              {secondaryNav}
-            </div>
-          )}
-          {!inNativeApp && opaque && (
-            <div {...styles.user} style={{opacity: secondaryVisible ? 0 : 1}}>
-              <User
-                me={me}
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
-                onclickHandler={() => {
-                  if (onPrimaryNavExpandedChange) {
-                    onPrimaryNavExpandedChange(!expand)
-                  } else {
-                    this.setState({ expanded: !expand })
-                  }
-                }}
-              />
-            </div>
-          )}
-          {!inNativeApp && opaque && (
+      <Fragment>
+        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
+          {opaque && <Fragment>
             <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
               <a
                 {...styles.logo}
@@ -306,8 +348,11 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/' && !me) {
+                  if (url.pathname === '/') {
                     window.scrollTo(0, 0)
+                    if (expanded) {
+                      toggleExpanded()
+                    }
                   } else {
                     Router.pushRoute('index').then(() => window.scrollTo(0, 0))
                   }
@@ -316,44 +361,78 @@ class Header extends Component {
                 <Logo />
               </a>
             </div>
-          )}
-          {!inNativeApp && opaque && (
-            <button
+            <div {...styles.leftItem} style={{
+              opacity: (secondaryVisible || backButton) ? 0 : 1
+            }}>
+              <User
+                me={me}
+                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                onClick={toggleExpanded}
+              />
+            </div>
+            {inNativeIOSApp && <a
+              style={{
+                opacity: backButton ? 1 : 0,
+                pointerEvents: backButton ? undefined : 'none',
+                href: '#back'
+              }}
+              title={t('header/back')}
+              onClick={(e) => {
+                e.preventDefault()
+                if (backButton) {
+                  routeChangeStarted = false
+                  window.history.back()
+                  setTimeout(
+                    () => {
+                      if (!routeChangeStarted) {
+                        Router.replaceRoute(
+                          'feed'
+                        ).then(() => window.scrollTo(0, 0))
+                      }
+                    },
+                    200
+                  )
+                }
+              }}
+              {...styles.leftItem} {...styles.back}>
+              <BackIcon size={25} fill='#000' />
+            </a>}
+            {secondaryNav && !audioSource && (
+              <div {...styles.secondary} style={{
+                left: backButton ? 40 : undefined,
+                opacity: secondaryVisible ? 1 : 0,
+                pointerEvents: secondaryVisible ? undefined : 'none'
+              }}>
+                {secondaryNav}
+              </div>
+            )}
+            {isMember && <button
               {...styles.search}
               role='button'
               title={t('header/nav/search/aria')}
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                if (isSearchActive) {
+                if (url.pathname === '/search') {
                   window.scrollTo(0, 0)
                 } else {
                   Router.pushRoute('search').then(() => window.scrollTo(0, 0))
                 }
               }}>
               <Search
-                fill={isSearchActive ? colors.primary : colors.text}
+                fill={colors.text}
                 size={28} />
-            </button>
-          )}
-          {!inNativeApp && opaque && (
+            </button>}
             <div {...styles.hamburger}>
               <Toggle
-                expanded={!!expand}
+                expanded={expanded}
                 id='primary-menu'
-                title={expand ? t('header/nav/close/aria') : t('header/nav/open/aria')}
-                onClick={() => {
-                  if (onPrimaryNavExpandedChange) {
-                    onPrimaryNavExpandedChange(!expand)
-                  } else {
-                    this.setState({ expanded: !expand })
-                  }
-                }
-                }
+                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                onClick={toggleExpanded}
               />
             </div>
-          )}
-          {!inNativeApp && audioSource && (
+          </Fragment>}
+          {audioSource && (
             <AudioPlayer
               src={audioSource}
               closeHandler={() => { audioCloseHandler && audioCloseHandler() }}
@@ -367,31 +446,55 @@ class Header extends Component {
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
-          <Popover expanded={!!expand} inNativeApp={inNativeApp} me={me} isMobile={mobile}>
-            <NavPopover
-              me={me}
-              url={url}
-              inNativeApp={inNativeApp}
-              closeHandler={this.close}
-            />
-          </Popover>
         </div>
-        {!inNativeApp && !disableNavBar && me && opaque && (
-          <NavBar
-            url={url}
-            onNavBarChange={onNavBarChange}
-            mobile={mobile}
-            formatColor={formatColor}
-            sticky={navbarSticky}
-            initial={navbarInitial || expand}
-          />
+        {showNavBar && opaque && (
+          <Fragment>
+            <hr
+              {...styles.stickyWithFallback}
+              {...styles.hr}
+              {...styles.hrThin} />
+            <NavBar fixed={withoutSticky} url={url} />
+          </Fragment>
         )}
-        <LoadingBar />
-        {!!cover && !inline && <div {...styles.cover}>{cover}</div>}
-
-      </div>
+        {opaque && <hr
+          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
+          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles.hr}
+          {...styles[formatColor ? 'hrThick' : 'hrThin']}
+          style={formatColor ? {
+            color: formatColor,
+            backgroundColor: formatColor
+          } : undefined} />}
+        <Popover expanded={expanded}>
+          <NavPopover
+            me={me}
+            url={url}
+            closeHandler={this.close}
+          />
+        </Popover>
+        <LoadingBar onRouteChangeStart={() => {
+          routeChangeStarted = true
+        }} />
+        {!!cover && <div {...styles.cover}>{cover}</div>}
+        {inNativeApp && <Pullable onRefresh={() => {
+          if (inNativeIOSApp) {
+            postMessage({ type: 'haptic', payload: { type: 'impact' } })
+          }
+          // give the browser 3 frames (1000/30fps) to start animating the spinner
+          setTimeout(
+            () => {
+              window.location.reload(true)
+            },
+            33 * 3
+          )
+        }} />}
+      </Fragment>
     )
   }
 }
 
-export default compose(withT)(Header)
+export default compose(
+  withT,
+  withMembership,
+  withInNativeApp
+)(Header)

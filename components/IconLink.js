@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
+import { prefixHover } from '../lib/utils/hover'
+
 import {
   mediaQueries
 } from '@project-r/styleguide'
@@ -52,7 +54,7 @@ export const styles = {
     whiteSpace: 'nowrap',
     paddingLeft: DEFAULT_PADDING,
     paddingRight: DEFAULT_PADDING,
-    '[href]:hover > *': {
+    [prefixHover('[href]:hover > *')]: {
       opacity: 0.6
     },
     ':first-child': {

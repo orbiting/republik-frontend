@@ -8,7 +8,7 @@ export const SUPPORTED_FILTER = {
     'format',
     'dossier'
   ],
-  kind: ['meta'],
+  kind: ['meta', 'scribble'],
   textLength: ['short', 'medium', 'long', 'epic'],
   type: ['Comment', 'User'],
   audioSource: ['true'],

@@ -6,6 +6,7 @@ import {
   HEADER_HEIGHT_MOBILE,
   ZINDEX_FRAME_TOGGLE
 } from '../constants'
+import { prefixHover } from '../../lib/utils/hover'
 
 const BLACK = '#282828'
 const INNER_SIZE = 24
@@ -13,7 +14,7 @@ const INNER_SIZE = 24
 const buttonStyle = css({
   cursor: 'pointer',
   zIndex: ZINDEX_FRAME_TOGGLE,
-  '&, :hover, :focus': {
+  [`&, ${prefixHover()}, :focus`]: {
     backgroundColor: 'transparent',
     border: 'none',
     boxShadow: 'none',
@@ -43,7 +44,7 @@ const toggleStyle = css({
       'transform .25s ease-in-out, opacity .25s ease-in-out, top .25s ease-in-out, left .25s ease-in-out, width .25s ease-in-out',
     transform: 'rotate(0deg)',
     transformOrigin: 'left center',
-    ':hover': {
+    [prefixHover()]: {
       backgroundColor: BLACK
     },
     ':nth-child(1)': {

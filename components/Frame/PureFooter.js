@@ -6,6 +6,7 @@ import track from '../../lib/piwik'
 import IconLink from '../IconLink'
 import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
 import { EMAIL_CONTACT } from '../../lib/constants'
+import { prefixHover } from '../../lib/utils/hover'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -15,7 +16,7 @@ export const SPACE = 60
 const linkRule = css({
   textDecoration: 'none',
   color: 'inherit',
-  ':hover': {
+  [prefixHover()]: {
     opacity: 0.6
   }
 })

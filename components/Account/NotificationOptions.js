@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import Loader from '../Loader'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -14,7 +13,7 @@ import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { A, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
+import { A, Loader, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
 
 import {
   DISCUSSION_NOTIFICATION_CHANNELS,

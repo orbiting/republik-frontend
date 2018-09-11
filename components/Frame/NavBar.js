@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import { Link, Router, matchPath } from '../../lib/routes'
+
+import { prefixHover } from '../../lib/utils/hover'
 
 import { colors, mediaQueries } from '@project-r/styleguide'
 
@@ -15,43 +17,51 @@ import {
   ZINDEX_NAVBAR
 } from '../constants'
 
-const slideAnimationDurationMs = 200
+const LINKS = [
+  {
+    key: 'front',
+    route: 'index',
+    params: {}
+  },
+  {
+    key: 'feuilleton',
+    route: 'front',
+    params: {slug: 'feuilleton'}
+  },
+  {
+    key: 'feed',
+    route: 'feed',
+    params: {}
+  },
+  {
+    key: 'formats',
+    route: 'formats',
+    params: {}
+  }
+]
 
-const slideAnimation = (borderHeight, headerHeight, navbarHeight) => {
-  const kfrms = css.keyframes({
-    '0%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight},
-    '100%': {opacity: 1, top: headerHeight}
-  })
-  return `${kfrms} ${slideAnimationDurationMs}ms ease-out forwards`
-}
+const isActiveRoute = (active, route, params = {}) => (
+  !!active && active.route === route && Object.keys(params).every(
+    key => active.params[key] === params[key]
+  )
+)
 
-const slideOutAnimation = (borderHeight, headerHeight, navbarHeight) => {
-  const kfrms = css.keyframes({
-    '0%': {opacity: 1, top: headerHeight},
-    '100%': {opacity: 1, top: headerHeight - navbarHeight + borderHeight}
-  })
-  return `${kfrms} ${slideAnimationDurationMs}ms ease-in forwards`
-}
+export const getNavBarStateFromUrl = url => {
+  const active = matchPath(url.asPath)
 
-const getAnimationStyles = (isFormat, isMobile) => {
-  const headerHeight = isMobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-  const navbarHeight = isMobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
-  const borderHeight = isFormat ? 3 : 0
+  const links = LINKS.map(({key, route, params}) => ({
+    key,
+    route,
+    params,
+    isActive: isActiveRoute(active, route, params)
+  }))
+  const hasActiveLink = !!links.find(link => link.isActive)
 
   return {
-    expand: css({
-      animation: slideAnimation(borderHeight, headerHeight, navbarHeight)
-    }),
-    collapse: css({
-      animation: slideOutAnimation(borderHeight, headerHeight, navbarHeight)
-    })
+    hasActiveLink,
+    links
   }
 }
-
-const animation = getAnimationStyles(false, false)
-const animationMobile = getAnimationStyles(false, true)
-const animationFormat = getAnimationStyles(true, false)
-const animationFormatMobile = getAnimationStyles(true, true)
 
 const linkStyle = {
   fontSize: 15,
@@ -64,7 +74,7 @@ const linkStyle = {
   ':visited': {
     color: colors.text
   },
-  ':hover': {
+  [prefixHover()]: {
     color: colors.primary
   },
   cursor: 'pointer',
@@ -78,49 +88,52 @@ const linkStyle = {
 
 const styles = {
   container: css({
-    position: 'fixed',
-    animationFillMode: 'forwards',
-    borderBottom: `1px solid ${colors.divider}`,
     background: '#fff',
-    display: 'flex',
     alignItems: 'center',
-    height: NAVBAR_HEIGHT_MOBILE,
     left: 0,
     right: 0,
-    padding: '0 15px',
     zIndex: ZINDEX_NAVBAR,
+    position: 'relative'
+  }),
+  fixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      height: NAVBAR_HEIGHT,
-      padding: '0 25px'
+      top: HEADER_HEIGHT
+    }
+  }),
+  height: css({
+    height: NAVBAR_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      height: NAVBAR_HEIGHT
     }
   }),
   wrapper: css({
     margin: '0 auto 0',
+    alignItems: 'center',
     display: 'flex',
     flex: 1,
     justifyContent: 'space-around',
-    maxWidth: '100%'
+    maxWidth: '100%',
+    padding: '0 15px',
+    [mediaQueries.mUp]: {
+      padding: '0 25px'
+    }
   }),
   link: css({
     ...linkStyle
   }),
-  linkNavBarPage: css({
+  linkFaded: css({
     ...linkStyle,
     color: colors.disabled,
     ':visited': {
       color: colors.disabled
     }
-  }),
-  initial: css({
-    top: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT
-    }
   })
 }
 
-const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
-  if (active && active.route === route) {
+const NavLink = ({ route, label, params, isActive, isFaded }) => {
+  if (isActive) {
     return (
       <a
         {...styles.link}
@@ -132,71 +145,38 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
           })
         }}
       >
-        {translation}
+        {label}
       </a>
     )
   }
-  const isNavBarPage =
-    active &&
-    ['index', 'feed', 'feuilleton', 'formats'].indexOf(active.route) !== -1
 
   return (
     <Link route={route} params={params}>
-      <a {...(isNavBarPage ? styles.linkNavBarPage : styles.link)}>{translation}</a>
+      <a {...(isFaded ? styles.linkFaded : styles.link)}>{label}</a>
     </Link>
   )
 }
 
-class NavBar extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
-    if (this.props.initial && nextProps.sticky) {
-      return false
-    }
-    return true
-  }
+const NavBar = ({ url, t, fixed }) => {
+  const { links, hasActiveLink } = getNavBarStateFromUrl(url)
 
-  render () {
-    const { url, t, formatColor, sticky, initial, mobile } = this.props
-    const active = matchPath(url.asPath)
-    const animationStyles = formatColor
-      ? (mobile ? animationFormatMobile : animationFormat)
-      : (mobile ? animationMobile : animation)
-
-    return (
+  return (
+    <Fragment>
+      {fixed && <div {...styles.height} />}
       <div
         {...styles.container}
-        {...(initial ? styles.initial : sticky ? animationStyles.expand : animationStyles.collapse)}
-        style={{
-          borderBottom: formatColor ? `3px solid ${formatColor}` : `1px solid ${colors.divider}`
-        }}
+        {...(fixed ? styles.fixed : undefined)}
       >
-        <div {...styles.wrapper}>
-          <NavLink
-            route='index'
-            translation={t('navbar/front')}
-            active={active}
-          />
-          {/*
-          <NavLink
-            route='feuilleton'
-            translation={t('navbar/feuilleton')}
-            active={active}
-          />
-          */}
-          <NavLink
-            route='feed'
-            translation={t('navbar/feed')}
-            active={active}
-          />
-          <NavLink
-            route='formats'
-            translation={t('navbar/formats')}
-            active={active}
-          />
+        <div {...styles.height} {...styles.wrapper}>
+          {links.map((props) => (
+            <NavLink {...props}
+              label={t(`navbar/${props.key}`)}
+              isFaded={hasActiveLink} />
+          ))}
         </div>
       </div>
-    )
-  }
+    </Fragment>
+  )
 }
 
 export default compose(withT)(NavBar)

@@ -4,15 +4,17 @@ import { ascending } from 'd3-array'
 import {css, merge} from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 
+import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
 import {
   colors,
-  linkRule,
   fontFamilies,
-  Loader
+  Loader,
+  mediaQueries
 } from '@project-r/styleguide'
 
 export const OFFER_SORT = {
@@ -31,6 +33,7 @@ const styles = {
     marginBottom: 15
   }),
   packageHeader: css({
+    position: 'relative'
   }),
   package: css({
     display: 'block',
@@ -38,36 +41,59 @@ const styles = {
     color: '#000',
     marginTop: -1,
     fontFamily: fontFamilies.sansSerifRegular,
-    paddingTop: 10,
-    paddingBottom: 15,
+    paddingTop: 7,
+    paddingBottom: 9,
+    [mediaQueries.mUp]: {
+      paddingTop: 15,
+      paddingBottom: 21
+    },
     borderBottom: `1px solid ${colors.divider}`,
     borderTop: `1px solid ${colors.divider}`
   }),
   packageHighlighted: css({
     position: 'relative',
     zIndex: 1,
+    // marginTop: -1,
     marginBottom: -1,
     marginLeft: -10,
     marginRight: -10,
     paddingLeft: 10,
     paddingRight: 10,
+    paddingTop: 8,
+    paddingBottom: 10,
+    [mediaQueries.mUp]: {
+      paddingTop: 16,
+      paddingBottom: 22
+    },
     width: 'calc(100% + 20px)',
     backgroundColor: colors.primaryBg,
     borderBottom: 'none',
-    paddingBottom: 16,
-    borderTop: 'none',
-    paddingTop: 11
+    borderTop: 'none'
   }),
   packageTitle: css({
     fontFamily: fontFamilies.sansSerifMedium,
-    fontSize: 20,
-    lineHeight: '26px'
+    fontSize: 16,
+    lineHeight: '24px',
+    [mediaQueries.mUp]: {
+      fontSize: 22,
+      lineHeight: '30px'
+    }
   }),
   packagePrice: css({
     marginTop: 0,
     color: colors.primary,
-    lineHeight: '26px',
-    fontSize: 20
+    fontSize: 16,
+    lineHeight: '24px',
+    [mediaQueries.mUp]: {
+      fontSize: 22,
+      lineHeight: '30px'
+    }
+  }),
+  packageIcon: css({
+    position: 'absolute',
+    right: 0,
+    top: '50%',
+    marginTop: '-10px'
   }),
   packageContent: css({
     fontSize: 17,
@@ -79,7 +105,23 @@ const styles = {
     marginBottom: 20
   }),
   links: css({
-    lineHeight: '22px'
+    lineHeight: '24px',
+    marginTop: 13,
+    fontSize: 16,
+    '& a': {
+      color: colors.text,
+      cursor: 'pointer',
+      textDecoration: 'underline'
+    },
+    [`& ${prefixHover()}`]: {
+      color: colors.secondary
+    },
+    '& a:focus': {
+      color: colors.secondary
+    },
+    '& a:active': {
+      color: colors.primary
+    }
   })
 }
 
@@ -136,8 +178,7 @@ class Accordion extends Component {
       t,
       crowdfunding: {packages},
       crowdfundingName,
-      children,
-      extended
+      children
     } = this.props
 
     const links = [
@@ -157,14 +198,14 @@ class Accordion extends Component {
               const isActive = activeIndex === i
 
               const price = pkg.options.reduce(
-              (amount, option) => amount + option.price * option.minAmount,
-              0
-            )
+                (amount, option) => amount + option.price * option.minAmount,
+                0
+              )
 
               const packageStyle = merge(
-              styles.package,
-              isActive && styles.packageHighlighted
-            )
+                styles.package,
+                isActive && styles.packageHighlighted
+              )
 
               return (
                 <Link key={i} route='pledge' params={{
@@ -184,7 +225,7 @@ class Accordion extends Component {
                             `package/${crowdfundingName}/${pkg.name}/title`,
                             `package/${pkg.name}/title`
                           ]
-                      )}
+                        )}
                       </div>
                       {!!price && (<div {...styles.packagePrice}>
                         {t.first([
@@ -194,33 +235,45 @@ class Accordion extends Component {
                           formattedCHF: `CHF ${price / 100}`
                         })}
                       </div>)}
-                    </div>
-                    <div {...styles.packageContent}
-                      style={{
-                        display: (isActive || extended) ? 'block' : 'none'
-                      }}>
-                      <p>
-                        {t.first(
-                          [
-                            `package/${crowdfundingName}/${pkg.name}/description`,
-                            `package/${pkg.name}/description/short`
-                          ]
-                      )}
-                      </p>
-                      <span {...linkRule}>{t('package/choose')}</span>
+                      <span {...styles.packageIcon}>
+                        <ChevronRightIcon size={24} />
+                      </span>
                     </div>
                   </a>
                 </Link>
               )
             })
         }
+        <Link route='claim'>
+          <a
+            {...merge(
+              styles.package,
+              activeIndex === packages.length && styles.packageHighlighted
+            )}
+            onMouseOver={() => this.setState({
+              activeIndex: packages.length
+            })}
+            onMouseOut={() => this.setState({
+              activeIndex: undefined
+            })}
+          >
+            <div {...styles.packageHeader}>
+              <div {...styles.packageTitle}>
+                {t('marketing/offers/claim')}
+              </div>
+              <span {...styles.packageIcon}>
+                <ChevronRightIcon size={24} />
+              </span>
+            </div>
+          </a>
+        </Link>
         <div {...styles.buffer} />
         {children}
         <div {...styles.links}>
           {
             links.map((link, i) => (
               <Link key={i} route={link.route} params={link.params}>
-                <a {...linkRule}>
+                <a>
                   {link.text}<br />
                 </a>
               </Link>

@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import {css} from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
-import { Router, Link } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
 import { prefixHover } from '../../lib/utils/hover'
@@ -169,7 +169,6 @@ class SignIn extends Component {
             this.setState(() => ({
               polling: false
             }))
-            Router.pushRoute('signin')
           }}
           onTokenTypeChange={(altTokenType) => {
             this.signIn(altTokenType)

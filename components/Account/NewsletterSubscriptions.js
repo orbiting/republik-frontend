@@ -2,12 +2,11 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import Loader from '../Loader'
 import withT from '../../lib/withT'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
+import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 
 const styles = {
   headline: css({

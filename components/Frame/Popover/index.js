@@ -27,6 +27,7 @@ const menuStyle = css({
     visibility: 'visible',
     transition: 'opacity 0.2s ease-in-out'
   },
+  overflow: 'auto',
   paddingTop: paddingTop,
   top: HEADER_HEIGHT_MOBILE - paddingTop,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - paddingTop}px)`,

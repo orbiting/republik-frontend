@@ -27,9 +27,9 @@ import {
 
 const styles = {
   container: css({
-    height: '100%',
-    overflow: 'scroll',
-    backgroundColor: '#FFF'
+    minHeight: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   }),
   hr: css({
     margin: 0,
@@ -49,7 +49,8 @@ const styles = {
   }),
   sections: css({
     ...fontStyles.sansSerifRegular21,
-    flex: 1,
+    flexGrow: 1,
+    marginBottom: 20,
     paddingTop: '20px',
     [mediaQueries.mUp]: {
       display: 'flex',

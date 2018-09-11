@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-07T13:26:17.265Z",
+  "updated": "2018-09-10T19:11:36.686Z",
   "title": "live",
   "data": [
     {
@@ -136,15 +136,15 @@
     },
     {
       "key": "withMembership/signIn/note",
-      "value": "Noch nicht Verlegerin? {buyLink}"
+      "value": "Noch nicht Verlegerin? {buyLink} {moreLink}"
     },
     {
       "key": "withMembership/signIn/note/buyText",
       "value": "Jetzt beitreten!"
     },
     {
-      "key": "withMembership/signIn/home",
-      "value": "Mehr über die Republik erfahren."
+      "key": "withMembership/signIn/note/moreText",
+      "value": "Mehr erfahren."
     },
     {
       "key": "withMembership/unauthorized",
@@ -200,7 +200,7 @@
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Push-Nachricht</b> geschickt, mit der Sie diesen Zugriff freischalten können."
+      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Benachrichtigung</b> geschickt. Bitte prüfen Sie Ihr Smartphone oder Tablet."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
@@ -2732,19 +2732,19 @@
     },
     {
       "key": "notifications/email-confirmed/title",
-      "value": "Zugriff erteilt"
+      "value": "Zugriff bestätigt"
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Vielen Dank."
+      "value": "Vielen Dank."
     },
     {
       "key": "notifications/email-confirmed/claim/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/email-confirmed/preview/text",
-      "value": "Perfekt! Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
     },
     {
       "key": "notifications/session-denied/title",
@@ -2908,27 +2908,23 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Zugriff zum Republik-Konto von {email} prüfen:"
+      "value": "Zugriff geben?"
     },
     {
       "key": "tokenAuthorization/title/new",
-      "value": "Anmeldung mit Republik-Konto von {email} bestätigen:"
+      "value": "Nutzung Ihrer E-Mail-Adresse erlauben?"
+    },
+    {
+      "key": "tokenAuthorization/title/sessionInfo",
+      "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {
       "key": "tokenAuthorization/error",
       "value": "Ungültiger Link"
     },
     {
-      "key": "tokenAuthorization/email",
-      "value": "E-Mail-Adresse: {email}"
-    },
-    {
-      "key": "tokenAuthorization/differentSession",
-      "value": "Folgendes Gerät möchte Zugriff zum Republik-Konto von {email} erhalten:"
-    },
-    {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Zugriffsanfrage nicht ausgelöst haben, können Sie den Zugriff ablehnen. Haben Sie den Verdacht, dass jemand Fremder sich mit Ihrem Abonnement Zugang verschaffen will? Dann wenden Sie sich bitte an kontakt@republik.ch."
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, wählen Sie «Nein». Haben Sie den Verdacht, dass jemand Unbekanntes sich mit Ihrem Abonnement Zugang verschaffen will? Dann wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",
@@ -2943,20 +2939,40 @@
       "value": "Seltsame Wörter"
     },
     {
-      "key": "tokenAuthorization/device",
-      "value": "Gerät"
-    },
-    {
-      "key": "tokenAuthorization/grant",
-      "value": "Zugriff erteilen"
-    },
-    {
-      "key": "tokenAuthorization/deny",
-      "value": "Zugriff ablehnen"
+      "key": "tokenAuthorization/email",
+      "value": "Ihre E-Mail-Adresse"
     },
     {
       "key": "tokenAuthorization/ip",
       "value": "IP-Adresse"
+    },
+    {
+      "key": "tokenAuthorization/grant",
+      "value": "Ja"
+    },
+    {
+      "key": "tokenAuthorization/deny",
+      "value": "Nein"
+    },
+    {
+      "key": "tokenAuthorization/fields/explanation",
+      "value": "Im Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/firstName",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/firstName/missing",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/lastName",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/lastName/missing",
+      "value": "Nachname fehlt"
     },
     {
       "key": "search/input/label",
@@ -3097,26 +3113,6 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
-    },
-    {
-      "key": "pledge/fields/explanation",
-      "value": "Fast geschafft. Ihr Zugang ist ein Konto erster Güte, und Sie können unter anderem an Debatten teilnehmen. Um Ihr Profil für den Start zu vervollständigen, benötigen wir noch folgende Informationen von Ihnen:"
-    },
-    {
-      "key": "pledge/fields/label/firstName",
-      "value": "Ihr Vorname"
-    },
-    {
-      "key": "pledge/fields/error/firstName/missing",
-      "value": "Vorname fehlt"
-    },
-    {
-      "key": "pledge/fields/label/lastName",
-      "value": "Ihr Nachname"
-    },
-    {
-      "key": "pledge/fields/error/lastName/missing",
-      "value": "Nachname fehlt"
     }
   ]
 }

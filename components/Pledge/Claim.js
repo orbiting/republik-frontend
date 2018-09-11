@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import SignIn from '../Auth/SignIn'
-import Loader from '../Loader'
 import ErrorMessage from '../ErrorMessage'
 import {gotoMerci} from './Merci'
 
 import {
+  Loader,
   Interaction
 } from '@project-r/styleguide'
 

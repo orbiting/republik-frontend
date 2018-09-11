@@ -7,10 +7,9 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
-import Loader from '../Loader'
 
 import {
-  InlineSpinner, Button, A, Field, Interaction
+  Loader, InlineSpinner, Button, A, Field, Interaction
 } from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
@@ -30,6 +29,7 @@ const InlineLoader = ({ children }) => (
   <div style={{textAlign: 'center'}}>
     <InlineSpinner />
     <br />
+    {children}
   </div>)
 
 class UpdateEmail extends Component {
@@ -139,7 +139,7 @@ class UpdateEmail extends Component {
             e.preventDefault()
             this.cancelEditing()
           }}
-          >
+        >
           {t('Account/Update/cancel')}
         </CancelLink>
       </Fragment>
@@ -160,14 +160,14 @@ class UpdateEmail extends Component {
       <Loader loading={loading || !me} error={error} render={() => {
         const body = (
           updating
-          ? (
-            <InlineLoader>
-              {t('Account/Update/email/updating')}
-            </InlineLoader>
-          )
-          : isEditing
-          ? this.renderForm()
-          : this.renderEditButton()
+            ? (
+              <InlineLoader>
+                {t('Account/Update/email/updating')}
+              </InlineLoader>
+            )
+            : isEditing
+              ? this.renderForm()
+              : this.renderEditButton()
         )
         return <div style={{marginBottom: 80}}>
           <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>

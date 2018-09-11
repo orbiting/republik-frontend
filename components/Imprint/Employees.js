@@ -5,8 +5,8 @@ import { css } from 'glamor'
 import { entries, nest } from 'd3-collection'
 
 import Employee from './Employee'
-import Loader from '../Loader'
 import {
+  Loader,
   Interaction,
   mediaQueries
 } from '@project-r/styleguide'

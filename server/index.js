@@ -38,7 +38,9 @@ app.prepare().then(() => {
       // preload: true,
       includeSubDomains: true
     },
-    referrerPolicy: true
+    referrerPolicy: {
+      policy: 'no-referrer'
+    }
   }))
   server.use(compression())
 

@@ -56,6 +56,11 @@ const styles = {
   })
 }
 
+const multiLineButtonStyle = {
+  height: 'auto',
+  minHeight: '60px'
+}
+
 const query = gql`
 query payNoteMembershipStats {
   memberStats {
@@ -79,14 +84,14 @@ export const Before = compose(
           <Interaction.P style={{ color: 'inherit' }}>
             {t.elements(`${translationPrefix}/before${inNativeIOSApp ? '/ios' : ''}`, {
               count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-                (memberStats && memberStats.count) || 18000
+                (memberStats && memberStats.count) || 20000
               )}</span>
             })}
           </Interaction.P>
         </div>
         {!inNativeIOSApp && (
           <div {...styles.actions}>
-            <Button primary style={{ height: 'auto', minHeight: '60px' }}>
+            <Button primary style={multiLineButtonStyle}>
               <Link key='buy' route='pledge'>
                 <a {...linkRule} style={{ color: 'inherit' }}>
                   {t(`${translationPrefix}/before/buy/button`)}
@@ -119,7 +124,7 @@ export const After = compose(
           <Interaction.P>
             {t.elements(`${translationPrefix}/after${inNativeIOSApp ? '/ios' : ''}`, {
               count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-                (memberStats && memberStats.count) || 18000
+                (memberStats && memberStats.count) || 20000
               )}</span>
             })}
           </Interaction.P>
@@ -127,7 +132,7 @@ export const After = compose(
           <div {...styles.actions} ref={bottomBarRef}>
             {!inNativeIOSApp && (
               <Fragment>
-                <Button primary style={{ height: 'auto', minHeight: '60px' }}>
+                <Button primary style={multiLineButtonStyle}>
                   <Link key='buy' route='pledge'>
                     <a {...linkRule} style={{ color: 'inherit' }}>
                       {t(`${translationPrefix}/after/buy/button`)}

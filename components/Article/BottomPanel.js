@@ -10,9 +10,7 @@ import {
 } from '@project-r/styleguide'
 import { negativeColors } from '../Frame/Footer'
 import {
-  ZINDEX_BOTTOM_PANEL,
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
+  ZINDEX_BOTTOM_PANEL
 } from '../constants'
 
 const PADDING = 15
@@ -38,10 +36,8 @@ const styles = {
       visibility: 'visible',
       transition: 'opacity 0.2s ease-in-out'
     },
-    maxHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
-    [mediaQueries.mUp]: {
-      maxHeight: `calc(100vh - ${HEADER_HEIGHT}px)`
-    }
+    maxHeight: '50vh',
+    overflow: 'scroll'
   }),
   closeContainer: css({
     height: '40px',
@@ -55,7 +51,7 @@ const styles = {
     cursor: 'pointer',
     outline: 'none',
     WebkitAppearance: 'none',
-    padding: '12px',
+    padding: '10px',
     [mediaQueries.mUp]: {
       padding: `${PADDING}px`
     }

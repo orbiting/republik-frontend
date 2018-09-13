@@ -37,6 +37,13 @@ const styles = {
       paddingRight: 0
     }
   }),
+  beforeParagraph: css({
+    margin: 0,
+    ...fontStyles.sansSerifRegular15,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    }
+  }),
   afterContainer: css({
     padding: '15px 0',
     backgroundColor: colors.secondaryBg,
@@ -81,13 +88,13 @@ export const Before = compose(
     return (
       <BottomPanel expanded={expanded}>
         <div {...styles.beforeContent}>
-          <Interaction.P style={{ color: 'inherit' }}>
+          <p {...styles.beforeParagraph}>
             {t.elements(`${translationPrefix}/before${inNativeIOSApp ? '/ios' : ''}`, {
               count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
                 (memberStats && memberStats.count) || 20000
               )}</span>
             })}
-          </Interaction.P>
+          </p>
         </div>
         {!inNativeIOSApp && (
           <div {...styles.actions}>

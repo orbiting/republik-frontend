@@ -32,7 +32,7 @@ const styles = {
     }
   }),
   beforeContent: css({
-    paddingRight: '30px',
+    paddingRight: '25px',
     [mediaQueries.mUp]: {
       paddingRight: 0
     }

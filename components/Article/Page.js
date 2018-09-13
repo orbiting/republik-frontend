@@ -18,7 +18,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
-import withMembership, { WithMembership } from '../Auth/withMembership'
+import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 
 import {
@@ -463,7 +463,7 @@ class ArticlePage extends Component {
                   mute={!!url.query.mute}
                   url={url} />
               </Center>}
-              <WithMembership render={() => (
+              {isMember && (
                 <Fragment>
                   {meta.template === 'article' && <Center>
                     <div ref={this.bottomBarRef} {...styles.bar}>
@@ -471,17 +471,17 @@ class ArticlePage extends Component {
                     </div>
                   </Center>}
                 </Fragment>
-              )} />
+              )}
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              <WithMembership render={() => (
+              {isMember && (
                 <Fragment>
                   <br />
                   <br />
                   <br />
                   <br />
                 </Fragment>
-              )} />
+              )}
             </Fragment>
           )
         }} />

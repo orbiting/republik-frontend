@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
@@ -25,7 +27,6 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: `${IOS_BOTTOM_HOT_AREA - PADDING}px`, // Center comes with bottom padding.
     opacity: 0,
     textRendering: 'optimizeLegibility',
     WebkitFontSmoothing: 'antialiased',
@@ -71,10 +72,13 @@ class BottomPanel extends Component {
   }
 
   render () {
-    const { t, children, expanded } = this.props
+    const { t, inNativeIOSApp, children, expanded } = this.props
+    const paddingBottom = inNativeIOSApp
+      ? undefined
+      : `${IOS_BOTTOM_HOT_AREA - PADDING}px` // Center comes with bottom padding.
 
     return (
-      <div aria-expanded={expanded && this.state.expanded} {...styles.container}>
+      <div aria-expanded={expanded && this.state.expanded} {...styles.container} style={{ paddingBottom }}>
         <div {...styles.closeContainer}>
           <button
             {...styles.close}
@@ -94,8 +98,12 @@ class BottomPanel extends Component {
 
 BottomPanel.propTypes = {
   t: PropTypes.func.isRequired,
+  inNativeIOSApp: PropTypes.bool,
   children: PropTypes.node,
   expanded: PropTypes.bool
 }
 
-export default withT(BottomPanel)
+export default compose(
+  withT,
+  withInNativeApp
+)(BottomPanel)

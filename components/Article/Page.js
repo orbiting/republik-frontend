@@ -428,10 +428,11 @@ class ArticlePage extends Component {
           }
 
           const isFormat = meta.template === 'format'
+          const isNewsletterSource = url.query.utm_source && url.query.utm_source === 'newsletter'
 
           return (
             <Fragment>
-              {!isFormat && (
+              {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   isSeries={!!series}
                   index={randomPayNoteIndex}

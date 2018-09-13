@@ -18,7 +18,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
-import withMembership from '../Auth/withMembership'
+import withMembership, { WithMembership } from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 
 import {
@@ -47,6 +47,9 @@ const schemaCreators = {
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema
 }
+
+// The total number of paynote translation variations in lib/translations.json
+const numPayNoteVariations = 4
 
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]
@@ -201,6 +204,8 @@ class ArticlePage extends Component {
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
+      isAwayFromBottomBar: true,
+      randomPayNoteIndex: Math.floor(Math.random() * numPayNoteVariations),
       ...this.deriveStateFromProps(props)
     }
 
@@ -209,6 +214,9 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY
+      if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
+        this.setState({ isAwayFromBottomBar })
+      }
 
       const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
@@ -354,7 +362,7 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article}, isMember } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer } = this.state
+    const { meta, actionBar, schema, showAudioPlayer, randomPayNoteIndex, isAwayFromBottomBar } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -423,7 +431,12 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              {!isFormat && <PayNote.Before />}
+              {!isFormat && (
+                <PayNote.Before
+                  isSeries={!!series}
+                  index={randomPayNoteIndex}
+                  expanded={isAwayFromBottomBar} />
+              )}
               {this.state.showPdf &&
                 <PdfOverlay
                   article={article}
@@ -436,11 +449,12 @@ class ArticlePage extends Component {
                   }, schema)}
                 </SSRCachingBoundary>
               </ArticleGallery>
-              {meta.template === 'article' && <Center>
-                <div ref={this.bottomBarRef} {...styles.bar}>
-                  {actionBar}
-                </div>
-              </Center>}
+              {!isFormat && (
+                <PayNote.After
+                  isSeries={!!series}
+                  index={randomPayNoteIndex}
+                  bottomBarRef={this.bottomBarRef} />
+              )}
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}
@@ -448,13 +462,25 @@ class ArticlePage extends Component {
                   mute={!!url.query.mute}
                   url={url} />
               </Center>}
+              <WithMembership render={() => (
+                <Fragment>
+                  {meta.template === 'article' && <Center>
+                    <div ref={this.bottomBarRef} {...styles.bar}>
+                      {actionBar}
+                    </div>
+                  </Center>}
+                </Fragment>
+              )} />
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              <br />
-              <br />
-              <br />
-              <br />
-              {!isFormat && <PayNote.After isSeries={!!series} />}
+              <WithMembership render={() => (
+                <Fragment>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </Fragment>
+              )} />
             </Fragment>
           )
         }} />

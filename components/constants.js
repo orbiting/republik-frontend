@@ -18,6 +18,7 @@ export const CONTENT_PADDING = 60
 
 export const ZINDEX_LOADINGBAR = 30
 export const ZINDEX_POPOVER = 25
+export const ZINDEX_BOTTOM_PANEL = 24
 export const ZINDEX_HEADER = 20
 export const ZINDEX_NAVBAR = 19
 export const ZINDEX_CONTENT = 15

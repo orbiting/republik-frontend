@@ -1,30 +1,60 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
+import { css } from 'glamor'
 
 import { WithoutMembership } from '../Auth/withMembership'
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 import withInNativeApp from '../../lib/withInNativeApp'
+import BottomPanel from './BottomPanel'
 
 import {
-  Container,
+  Button,
+  Center,
   Interaction,
-  linkRule
+  colors,
+  fontStyles,
+  linkRule,
+  mediaQueries
 } from '@project-r/styleguide'
 
-import Box from '../Frame/Box'
-
-const WithoutMembershipBox = ({children, style}) => (
-  <WithoutMembership render={() => (
-    <Box>
-      <Container>
-        {children}
-      </Container>
-    </Box>
-  )} />
-)
+const styles = {
+  actions: css({
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: 15,
+    [mediaQueries.mUp]: {
+      alignItems: 'center',
+      flexDirection: 'row'
+    }
+  }),
+  beforeContent: css({
+    paddingRight: '30px',
+    [mediaQueries.mUp]: {
+      paddingRight: 0
+    }
+  }),
+  afterContainer: css({
+    padding: '15px 0',
+    backgroundColor: colors.secondaryBg,
+    [mediaQueries.mUp]: {
+      padding: '30px 0'
+    }
+  }),
+  aside: css({
+    marginTop: 15,
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular18,
+      lineHeight: '22px',
+      marginLeft: 30,
+      marginTop: 0
+    }
+  })
+}
 
 const query = gql`
 query payNoteMembershipStats {
@@ -38,39 +68,90 @@ export const Before = compose(
   withT,
   graphql(query),
   withInNativeApp
-)(({ t, data: { memberStats }, inNativeIOSApp }) => (
-  <WithoutMembershipBox>
-    <Interaction.P>
-      {t.elements(`article/payNote/before${inNativeIOSApp ? '/ios' : ''}`, {
-        buyLink: (
-          <Link key='buy' route='pledge'>
-            <a {...linkRule}>{t('article/payNote/before/buyText')}</a>
-          </Link>
-        ),
-        count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-          (memberStats && memberStats.count) || 18000
-        )}</span>
-      })}
-    </Interaction.P>
-  </WithoutMembershipBox>
+)(({ t, data: { memberStats }, isSeries, inNativeIOSApp, index, expanded }) => (
+  <WithoutMembership render={() => {
+    const translationPrefix = !inNativeIOSApp && isSeries
+      ? 'article/payNote/series'
+      : `article/payNote/${index}`
+    return (
+      <BottomPanel expanded={expanded}>
+        <div {...styles.beforeContent}>
+          <Interaction.P style={{ color: 'inherit' }}>
+            {t.elements(`${translationPrefix}/before${inNativeIOSApp ? '/ios' : ''}`, {
+              count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
+                (memberStats && memberStats.count) || 18000
+              )}</span>
+            })}
+          </Interaction.P>
+        </div>
+        {!inNativeIOSApp && (
+          <div {...styles.actions}>
+            <Button primary style={{ height: 'auto', minHeight: '60px' }}>
+              <Link key='buy' route='pledge'>
+                <a {...linkRule} style={{ color: 'inherit' }}>
+                  {t(`${translationPrefix}/before/buy/button`)}
+                </a>
+              </Link>
+            </Button>
+          </div>
+        )}
+      </BottomPanel>
+    )
+  }} />
 ))
 
 export const After = compose(
   withT,
+  withMe,
+  graphql(query),
   withInNativeApp
-)(({ t, isSeries, inNativeIOSApp }) => (
-  <WithoutMembershipBox>
-    <Interaction.P>
-      {t.elements(`article/payNote/after${inNativeIOSApp ? '/ios' : ''}`, {
-        buyLink: (
-          <Link key='buy' route='pledge'>
-            <a {...linkRule}>{t('article/payNote/after/buyText')}</a>
-          </Link>
-        )
-      })}
-    </Interaction.P>
-    {!inNativeIOSApp && isSeries && <Interaction.P style={{marginTop: 15}}>
-      {t('article/payNote/after/series')}
-    </Interaction.P>}
-  </WithoutMembershipBox>
+)(({ t, me, data: { memberStats }, isSeries, inNativeIOSApp, index, bottomBarRef }) => (
+  <WithoutMembership render={() => {
+    const translationPrefix = !inNativeIOSApp && isSeries
+      ? 'article/payNote/series'
+      : `article/payNote/${index}`
+    return (
+      <div {...styles.afterContainer}>
+        <Center>
+          <Interaction.H3 style={{ marginBottom: 15 }}>
+            {t(`${translationPrefix}/after/title`)}
+          </Interaction.H3>
+          <Interaction.P>
+            {t.elements(`${translationPrefix}/after${inNativeIOSApp ? '/ios' : ''}`, {
+              count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
+                (memberStats && memberStats.count) || 18000
+              )}</span>
+            })}
+          </Interaction.P>
+          <br />
+          <div {...styles.actions} ref={bottomBarRef}>
+            {!inNativeIOSApp && (
+              <Fragment>
+                <Button primary style={{ height: 'auto', minHeight: '60px' }}>
+                  <Link key='buy' route='pledge'>
+                    <a {...linkRule} style={{ color: 'inherit' }}>
+                      {t(`${translationPrefix}/after/buy/button`)}
+                    </a>
+                  </Link>
+                </Button>
+                {!me && (
+                  <div {...styles.aside}>
+                    {t.elements('article/payNote/secondaryAction/text', {
+                      link: (
+                        <Link key='preview' route='preview'>
+                          <a {...linkRule} style={{whiteSpace: 'nowrap'}}>
+                            {t('article/payNote/secondaryAction/linkText')}
+                          </a>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                )}
+              </Fragment>
+            )}
+          </div>
+        </Center>
+      </div>
+    )
+  }} />
 ))

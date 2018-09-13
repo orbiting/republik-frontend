@@ -39,7 +39,8 @@ const styles = {
   }),
   beforeParagraph: css({
     margin: 0,
-    ...fontStyles.sansSerifRegular15,
+    ...fontStyles.sansSerifRegular14,
+    lineHeight: '20px',
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }

@@ -90,7 +90,7 @@ export const Before = compose(
       <BottomPanel expanded={expanded}>
         <div {...styles.beforeContent}>
           <p {...styles.beforeParagraph}>
-            {t.elements(`${translationPrefix}/before${inNativeIOSApp ? '/ios' : ''}`, {
+            {t.elements(inNativeIOSApp ? 'article/payNote/before/ios' : `${translationPrefix}/before`, {
               count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
                 (memberStats && memberStats.count) || 20000
               )}</span>
@@ -130,7 +130,7 @@ export const After = compose(
             {t(`${translationPrefix}/after/title`)}
           </Interaction.H3>
           <Interaction.P>
-            {t.elements(`${translationPrefix}/after${inNativeIOSApp ? '/ios' : ''}`, {
+            {t.elements(inNativeIOSApp ? 'article/payNote/after/ios' : `${translationPrefix}/after`, {
               count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
                 (memberStats && memberStats.count) || 20000
               )}</span>

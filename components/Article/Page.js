@@ -49,7 +49,7 @@ const schemaCreators = {
 }
 
 // The total number of paynote translation variations in lib/translations.json
-const numPayNoteVariations = 4
+const numPayNoteVariations = 9
 
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]

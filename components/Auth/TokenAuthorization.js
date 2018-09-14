@@ -78,7 +78,7 @@ class TokenAuthorization extends Component {
     }, () => {
       authorize({
         consents: this.state.consents,
-        fields: Object.keys(this.state.values).length > 0
+        requiredFields: Object.keys(this.state.values).length > 0
           ? this.state.values
           : undefined
       })
@@ -338,13 +338,13 @@ const authorizeSession = gql`
     $email: String!
     $tokens: [SignInToken!]!
     $consents: [String!]
-    $fields: RequiredUserFields
+    $requiredFields: RequiredUserFields
   ) {
     authorizeSession(
       email: $email
       tokens: $tokens
       consents: $consents
-      fields: $fields
+      requiredFields: $requiredFields
     )
   }
 `
@@ -383,14 +383,14 @@ export default compose(
   withT,
   graphql(authorizeSession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
-      authorize: ({ consents, fields } = {}) => mutate({
+      authorize: ({ consents, requiredFields } = {}) => mutate({
         variables: {
           email,
           tokens: [
             {type: tokenType, payload: token}
           ],
           consents,
-          fields
+          requiredFields
         },
         refetchQueries: [{query: meQuery}]
       })

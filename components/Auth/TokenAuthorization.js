@@ -78,7 +78,9 @@ class TokenAuthorization extends Component {
     }, () => {
       authorize({
         consents: this.state.consents,
-        fields: this.state.values
+        fields: Object.keys(this.state.values).length > 0
+          ? this.state.values
+          : undefined
       })
         .then(() => goTo('email-confirmed', email, context))
         .catch(error => {

@@ -2956,7 +2956,7 @@
     },
     {
       "key": "tokenAuthorization/fields/explanation",
-      "value": "Im Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
+      "value": "Um Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
     },
     {
       "key": "tokenAuthorization/fields/label/firstName",

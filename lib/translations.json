@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-13T14:43:14.121Z",
+  "updated": "2018-09-15T12:53:26.807Z",
   "title": "live",
   "data": [
     {
@@ -876,7 +876,7 @@
     },
     {
       "key": "Account/Access/Grants/link/pledges",
-      "value": "Klicken Sie hier um Ihre eigenes Abonnement zu kaufen"
+      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
     },
     {
       "key": "Account/Access/Campaigns/title",
@@ -2420,7 +2420,7 @@
     },
     {
       "key": "article/payNote/series/before",
-      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/series/before/ios",
@@ -2428,15 +2428,15 @@
     },
     {
       "key": "article/payNote/series/before/buy/button",
-      "value": "Jetzt Verleger werden"
+      "value": "Ja, ich will!"
     },
     {
       "key": "article/payNote/series/after/title",
-      "value": "Hat Ihnen dieser Artikel gefallen?"
+      "value": "Wollen Sie mehr lesen?"
     },
     {
       "key": "article/payNote/series/after",
-      "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
+      "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
     },
     {
       "key": "article/payNote/series/after/ios",
@@ -2444,131 +2444,131 @@
     },
     {
       "key": "article/payNote/series/after/buy/button",
-      "value": "Jetzt Verleger werden"
+      "value": "An Bord kommen!"
     },
     {
       "key": "article/payNote/0/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/0/before/buy/button",
-      "value": "Kommen Sie an Bord!"
+      "value": "Ja, ich will!"
     },
     {
       "key": "article/payNote/0/after/title",
-      "value": "Schön, Sie hier unten wieder zu sehen! "
+      "value": "Wenn Sie schon hier sind …"
     },
     {
       "key": "article/payNote/0/after",
-      "value": "Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern."
+      "value": "… treffen Sie eine Entscheidung: Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
     },
     {
       "key": "article/payNote/0/after/buy/button",
-      "value": "Jetzt Verleger werden"
+      "value": "Ich bin dabei."
     },
     {
       "key": "article/payNote/1/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik. Wir liefern Journalismus – mit Sorgfalt, mit Tiefe, mit Witz, aber ohne Werbung. Unser Ziel ist, Ihnen das Wesentliche zu liefern. Also nicht das Wetter, sondern das Klima. Denn wir wollen Ihre Zeit nicht mit Unfug verschwenden. Wollen Sie täglich das Beste, was wir zustande bringen?"
     },
     {
       "key": "article/payNote/1/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Republik abonnieren!"
     },
     {
       "key": "article/payNote/1/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Wenn Sie gerade da sind …"
     },
     {
       "key": "article/payNote/1/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "… hat Ihnen dieser Beitrag gefallen? Wir sind die Republik. Ein unabhängiges Online-Magazin, das vergangenen Januar gestartet ist. Unser Job ist, Ihnen jeden Tag Artikel zu liefern, die in die Tiefe gehen. Die besten Analysen, Reportagen, Interviews, Kulturrezensionen, Bundeshausnachrichten, die wir hinkriegen. Wollen Sie ab heute jeden Tag das Klügste lesen, was uns einfällt?"
     },
     {
       "key": "article/payNote/1/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Republik abonnieren!"
     },
     {
       "key": "article/payNote/2/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "{count} Verlegerinnen können sich vielleicht irren. Aber alle haben den Mut gehabt, die Republik zu unterstützen. Unser kühnes Ziel: eine gewichtige Stimme in der Schweizer Medienlandschaft zu sein. Das können wir nicht allein, sondern nur gemeinsam. Mit Ihnen?"
     },
     {
       "key": "article/payNote/2/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Verleger werden!"
     },
     {
       "key": "article/payNote/2/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Wenn Sie schon da sind …"
     },
     {
       "key": "article/payNote/2/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "… wir sind die Republik, ein junges Medienunternehmen mit {count} Verlegerinnen und Journalisten. Unser Ziel: eine gewichtige Stimme in der Schweizer Medienlandschaft zu sein. Und eine vernünftige in der politischen Debatte. Unser digitales Magazin berichtet über Politik, Wirtschaft, Gesellschaft und Kultur. Dafür brauchen wir Sie. Wollen Sie Verlegerin oder Verleger der Republik werden?"
     },
     {
       "key": "article/payNote/2/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Unbedingt!"
     },
     {
       "key": "article/payNote/3/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik. Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/3/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Natürlich!"
     },
     {
       "key": "article/payNote/3/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Wenn Sie gerade da sind …"
     },
     {
       "key": "article/payNote/3/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "… wollen Sie heute ein Risiko eingehen? Und zusammen mit uns Ihre Zeit, Ihr Vertrauen und Ihr Geld in unabhängigen Journalismus investieren? Entweder mit Vorsicht via ein monatlich kündbares Abonnement? Oder tollkühn via eines über ein Jahr?"
     },
     {
       "key": "article/payNote/3/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Ja, ich wage es!"
     },
     {
       "key": "article/payNote/4/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/4/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Republik unterstützen!"
     },
     {
       "key": "article/payNote/4/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Da Sie schon hier sind – eine Warnung!"
     },
     {
       "key": "article/payNote/4/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Wir von der Republik wollen Sie als Abonnentin gewinnen. Deshalb sagen wir Ihnen nur ungern, dass Lesen nicht ohne Risiko ist. Schopenhauer warnte, dass gleichsam mit fremdem Kopf denkt, wer liest. Und dadurch allmählich die Fähigkeit verliert, selber zu denken. Sein Schluss: «Solches aber ist der Fall sehr vieler Gelehrter: Sie haben sich dumm gelesen.» Deshalb versprechen wir Ihnen, falls Sie uns abonnieren, Ihnen so wenig wie möglich zu liefern: nur das Wesentliche. Und nur im Notfall mehr als drei Texte pro Tag. "
     },
     {
       "key": "article/payNote/4/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Okay, weniger ist mehr!"
     },
     {
       "key": "article/payNote/5/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik und haben das ehrgeizige Ziel, für Sie so etwas wie die Steuererklärung zu werden. Denn unabhängiger Journalismus ist wie die Steuern – ein notwendiges Ärgernis. Wie der US-Republikaner Oliver Wendell Holmes (1841–1935) sagte: «Ich zahle gerne Steuern. Damit kaufe ich mir Zivilisation.»"
     },
     {
       "key": "article/payNote/5/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Zivilisation kaufen!"
     },
     {
       "key": "article/payNote/5/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Wenn Sie schon hier sind …"
     },
     {
       "key": "article/payNote/5/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Wir sind die Republik – ein digitales Magazin ohne Werbung und ohne Kompromisse im Journalismus. Und hätten Sie gerne an Bord. Mit dem ehrgeizigen Ziel, für Sie so etwas wie Ihre Steuererklärung zu werden. Denn unabhängiger Journalismus ist wie die Steuern – ein notwendiges Ärgernis. Ganz so, wie es der US-Republikaner Oliver Wendell Holmes (1841-1935) sagte: «Ich zahle gerne Steuern. Damit kaufe ich mir Zivilisation.»"
     },
     {
       "key": "article/payNote/5/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Ich kaufe Zivilisation."
     },
     {
       "key": "article/payNote/6/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/6/before/buy/button",
@@ -2576,55 +2576,55 @@
     },
     {
       "key": "article/payNote/6/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Ihr Urteil?"
     },
     {
       "key": "article/payNote/6/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Ihr Urteil lautet natürlich: Sie sind zur Freiheit verurteilt – lebenslänglich. Und zwar von Jean-Paul Sartre, der Konsumgüterindustrie, der liberalen Revolution von 1848, dem Feminismus, dem Historienfilm «Braveheart», Pippi Langstrumpf, der Verfassung, dem Zufall. Und von uns. Es wäre schön, wenn Sie sich die Freiheit nehmen würden, bei unserem Magazin an Bord zu kommen."
     },
     {
       "key": "article/payNote/6/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Freiheit nehmen!"
     },
     {
       "key": "article/payNote/7/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Sie glauben, dass Meinungsvielfalt darin besteht, dass es linke und rechte Medien gibt? Die dann im Schützengraben aufeinander schiessen? Wir glauben das nicht. Die Aufgabe des Journalismus ist, eine gemeinsame Grundlage zu schaffen, auf der man um seine Interessen kämpft. Dafür arbeitet die Republik."
     },
     {
       "key": "article/payNote/7/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Republik abonnieren!"
     },
     {
       "key": "article/payNote/7/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "War dieser Artikel genug Mainstream?"
     },
     {
       "key": "article/payNote/7/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Sie glauben, dass Meinungsvielfalt darin besteht, dass es linke und rechte Medien gibt? Die dann im Schützengraben aufeinander schiessen? Wir glauben das nicht. Denn in einem gespaltenen Mediensystem debattieren die Leute nicht über zwei Blickwinkel auf die Wirklichkeit. Sondern sie debattieren in zwei Wirklichkeiten. Die Aufgabe des Journalismus ist, eine gemeinsame Grundlage zu schaffen, auf der man dann um seine Interessen kämpft. Eine Gesellschaft ist nur so gut wie ihre Debatten. Dafür arbeiten wir in der Republik."
     },
     {
       "key": "article/payNote/7/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Ich bin dabei!"
     },
     {
       "key": "article/payNote/8/before",
-      "value": "Wir sind die Republik. Ein Online-Magazin, das vergangenen Januar gestartet ist. Wir sind crowdfunded und getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Wollen Sie mit einer Mitgliedschaft unabhängigen Journalismus unterstützen?"
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/8/before/buy/button",
-      "value": "Ja, ich will!"
+      "value": "Republik unterstützen!"
     },
     {
       "key": "article/payNote/8/after/title",
-      "value": "Wenn Sie schon hier sind ..."
+      "value": "Sie haben in diesem Artikel viele Worte gelesen …"
     },
     {
       "key": "article/payNote/8/after",
-      "value": "... Hand aufs Herz: wollen Sie, dass die Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind unabhängig und niemandem verpflichtet, ausser unseren Leserinnen und unserem Anspruch als Journalisten. Weder Oligarchen, noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "… aber die wichtigsten drei fehlten. Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/8/after/buy/button",
-      "value": "Jetzt Republik unterstützen"
+      "value": "Ich bin an Bord."
     },
     {
       "key": "article/bottomPanel/close",
@@ -3184,7 +3184,7 @@
     },
     {
       "key": "tokenAuthorization/fields/explanation",
-      "value": "Im Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
+      "value": "Um Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
     },
     {
       "key": "tokenAuthorization/fields/label/firstName",

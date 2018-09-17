@@ -38,7 +38,7 @@ const styles = {
       transition: 'opacity 0.2s ease-in-out'
     },
     maxHeight: '50vh',
-    overflow: 'scroll'
+    overflow: 'hidden'
   }),
   closeContainer: css({
     height: '40px',
@@ -81,6 +81,7 @@ class BottomPanel extends Component {
       <div aria-expanded={expanded && this.state.expanded} {...styles.container} style={{ paddingBottom }}>
         <div {...styles.closeContainer}>
           <button
+            tabIndex={-1}
             {...styles.close}
             onClick={this.close}
             title={t('article/bottomPanel/close')}

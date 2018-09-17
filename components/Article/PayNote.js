@@ -101,9 +101,9 @@ export const Before = compose(
           <div {...styles.actions}>
             <Button primary style={multiLineButtonStyle}>
               <Link key='buy' route='pledge'>
-                <a {...linkRule} style={{ color: 'inherit' }}>
+                <span {...linkRule} style={{ color: 'inherit' }}>
                   {t(`${translationPrefix}/before/buy/button`)}
-                </a>
+                </span>
               </Link>
             </Button>
           </div>
@@ -142,9 +142,9 @@ export const After = compose(
               <Fragment>
                 <Button primary style={multiLineButtonStyle}>
                   <Link key='buy' route='pledge'>
-                    <a {...linkRule} style={{ color: 'inherit' }}>
+                    <span {...linkRule} style={{ color: 'inherit' }}>
                       {t(`${translationPrefix}/after/buy/button`)}
-                    </a>
+                    </span>
                   </Link>
                 </Button>
                 {!me && (
@@ -152,9 +152,9 @@ export const After = compose(
                     {t.elements('article/payNote/secondaryAction/text', {
                       link: (
                         <Link key='preview' route='preview'>
-                          <a {...linkRule} style={{whiteSpace: 'nowrap'}}>
+                          <span {...linkRule} style={{whiteSpace: 'nowrap'}}>
                             {t('article/payNote/secondaryAction/linkText')}
-                          </a>
+                          </span>
                         </Link>
                       )
                     })}

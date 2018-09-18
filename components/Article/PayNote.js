@@ -21,6 +21,8 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+import { negativeColors } from '../Frame/Footer'
+
 const styles = {
   actions: css({
     display: 'flex',
@@ -45,9 +47,19 @@ const styles = {
       ...fontStyles.sansSerifRegular21
     }
   }),
-  afterContainer: css({
+  secondaryContainer: css({
     padding: '15px 0',
     backgroundColor: colors.secondaryBg,
+    [mediaQueries.mUp]: {
+      padding: '30px 0'
+    }
+  }),
+  blackContainer: css({
+    backgroundColor: negativeColors.primaryBg,
+    color: negativeColors.text,
+    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased',
+    padding: '15px 0',
     [mediaQueries.mUp]: {
       padding: '30px 0'
     }
@@ -80,35 +92,50 @@ query payNoteMembershipStats {
 // The total number of paynote translation variations in lib/translations.json
 export const NUM_VARIATIONS = 9
 
+const CountSpan = ({ memberStats }) => (
+  <span style={{whiteSpace: 'nowrap'}}>{countFormat(
+    (memberStats && memberStats.count) || 20000
+  )}</span>
+)
+
 export const Before = compose(
   withT,
   graphql(query),
   withInNativeApp
 )(({ t, data: { memberStats }, isSeries, inNativeIOSApp, index, expanded }) => (
   <WithoutMembership render={() => {
-    const translationPrefix = !inNativeIOSApp && isSeries
+    if (inNativeIOSApp) {
+      return (
+        <div {...styles.blackContainer}>
+          <Center>
+            <Interaction.P style={{color: 'inherit'}}>
+              {t.elements('article/payNote/before/ios', {
+                count: <CountSpan key='count' memberStats={memberStats} />
+              })}
+            </Interaction.P>
+          </Center>
+        </div>
+      )
+    }
+    const translationPrefix = isSeries
       ? 'article/payNote/series'
       : `article/payNote/${index}`
     return (
       <BottomPanel expanded={expanded}>
         <div {...styles.beforeContent}>
           <p {...styles.beforeParagraph}>
-            {t.elements(inNativeIOSApp ? 'article/payNote/before/ios' : `${translationPrefix}/before`, {
-              count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-                (memberStats && memberStats.count) || 20000
-              )}</span>
+            {t.elements(`${translationPrefix}/before`, {
+              count: <CountSpan key='count' memberStats={memberStats} />
             })}
           </p>
         </div>
-        {!inNativeIOSApp && (
-          <div {...styles.actions}>
-            <Link key='buy' route='pledge'>
-              <Button primary style={multiLineButtonStyle}>
-                {t(`${translationPrefix}/before/buy/button`)}
-              </Button>
-            </Link>
-          </div>
-        )}
+        <div {...styles.actions}>
+          <Link key='buy' route='pledge'>
+            <Button primary style={multiLineButtonStyle}>
+              {t(`${translationPrefix}/before/buy/button`)}
+            </Button>
+          </Link>
+        </div>
       </BottomPanel>
     )
   }} />
@@ -125,16 +152,14 @@ export const After = compose(
       ? 'article/payNote/series'
       : `article/payNote/${index}`
     return (
-      <div {...styles.afterContainer}>
+      <div {...styles.secondaryContainer}>
         <Center>
           <Interaction.H3 style={{ marginBottom: 15 }}>
             {t(`${translationPrefix}/after/title`)}
           </Interaction.H3>
           <Interaction.P>
             {t.elements(inNativeIOSApp ? 'article/payNote/after/ios' : `${translationPrefix}/after`, {
-              count: <span style={{whiteSpace: 'nowrap'}} key='count'>{countFormat(
-                (memberStats && memberStats.count) || 20000
-              )}</span>
+              count: <CountSpan key='count' memberStats={memberStats} />
             })}
           </Interaction.P>
           <br />

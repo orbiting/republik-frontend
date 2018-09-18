@@ -99,13 +99,11 @@ export const Before = compose(
         </div>
         {!inNativeIOSApp && (
           <div {...styles.actions}>
-            <Button primary style={multiLineButtonStyle}>
-              <Link key='buy' route='pledge'>
-                <span {...linkRule} style={{ color: 'inherit' }}>
-                  {t(`${translationPrefix}/before/buy/button`)}
-                </span>
-              </Link>
-            </Button>
+            <Link key='buy' route='pledge'>
+              <Button primary style={multiLineButtonStyle}>
+                {t(`${translationPrefix}/before/buy/button`)}
+              </Button>
+            </Link>
           </div>
         )}
       </BottomPanel>
@@ -140,21 +138,19 @@ export const After = compose(
           <div {...styles.actions} ref={bottomBarRef}>
             {!inNativeIOSApp && (
               <Fragment>
-                <Button primary style={multiLineButtonStyle}>
-                  <Link key='buy' route='pledge'>
-                    <span {...linkRule} style={{ color: 'inherit' }}>
-                      {t(`${translationPrefix}/after/buy/button`)}
-                    </span>
-                  </Link>
-                </Button>
+                <Link key='buy' route='pledge'>
+                  <Button primary style={multiLineButtonStyle}>
+                    {t(`${translationPrefix}/after/buy/button`)}
+                  </Button>
+                </Link>
                 {!me && (
                   <div {...styles.aside}>
                     {t.elements('article/payNote/secondaryAction/text', {
                       link: (
                         <Link key='preview' route='preview'>
-                          <span {...linkRule} style={{whiteSpace: 'nowrap'}}>
+                          <a {...linkRule} style={{whiteSpace: 'nowrap'}}>
                             {t('article/payNote/secondaryAction/linkText')}
-                          </span>
+                          </a>
                         </Link>
                       )
                     })}

@@ -48,9 +48,6 @@ const schemaCreators = {
   editorialNewsletter: createNewsletterSchema
 }
 
-// The total number of paynote translation variations in lib/translations.json
-const numPayNoteVariations = 9
-
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]
   const schema = schemaCreators[key]
@@ -205,7 +202,6 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
-      randomPayNoteIndex: Math.floor(Math.random() * numPayNoteVariations),
       ...this.deriveStateFromProps(props)
     }
 
@@ -360,9 +356,9 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { url, t, data, data: {article}, isMember, payNoteIndex } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer, randomPayNoteIndex, isAwayFromBottomBar } = this.state
+    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -435,7 +431,7 @@ class ArticlePage extends Component {
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   isSeries={!!series}
-                  index={randomPayNoteIndex}
+                  index={payNoteIndex}
                   expanded={isAwayFromBottomBar} />
               )}
               {this.state.showPdf &&
@@ -453,7 +449,7 @@ class ArticlePage extends Component {
               {!isFormat && (
                 <PayNote.After
                   isSeries={!!series}
-                  index={randomPayNoteIndex}
+                  index={payNoteIndex}
                   bottomBarRef={this.bottomBarRef} />
               )}
               {meta.discussionId && <Center>
@@ -490,7 +486,7 @@ class ArticlePage extends Component {
   }
 }
 
-export default compose(
+const ComposedPage = compose(
   withT,
   withMembership,
   withInNativeApp,
@@ -502,3 +498,11 @@ export default compose(
     })
   })
 )(ArticlePage)
+
+ComposedPage.getInitialProps = () => {
+  return {
+    payNoteIndex: Math.floor(Math.random() * PayNote.NUM_VARIATIONS)
+  }
+}
+
+export default ComposedPage

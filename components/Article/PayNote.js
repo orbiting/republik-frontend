@@ -77,6 +77,9 @@ query payNoteMembershipStats {
 }
 `
 
+// The total number of paynote translation variations in lib/translations.json
+export const NUM_VARIATIONS = 9
+
 export const Before = compose(
   withT,
   graphql(query),

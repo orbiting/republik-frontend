@@ -148,24 +148,32 @@ export const After = compose(
   withInNativeApp
 )(({ t, me, data: { memberStats }, isSeries, inNativeIOSApp, index, bottomBarRef }) => (
   <WithoutMembership render={() => {
-    const translationPrefix = !inNativeIOSApp && isSeries
+    const translationPrefix = isSeries
       ? 'article/payNote/series'
       : `article/payNote/${index}`
     return (
       <div {...styles.secondaryContainer}>
         <Center>
-          <Interaction.H3 style={{ marginBottom: 15 }}>
-            {t(`${translationPrefix}/after/title`)}
-          </Interaction.H3>
-          <Interaction.P>
-            {t.elements(inNativeIOSApp ? 'article/payNote/after/ios' : `${translationPrefix}/after`, {
-              count: <CountSpan key='count' memberStats={memberStats} />
-            })}
-          </Interaction.P>
-          <br />
-          <div {...styles.actions} ref={bottomBarRef}>
-            {!inNativeIOSApp && (
-              <Fragment>
+          {inNativeIOSApp ? (
+            <div ref={bottomBarRef}>
+              <Interaction.P>
+                {t.elements('article/payNote/after/ios', {
+                  count: <CountSpan key='count' memberStats={memberStats} />
+                })}
+              </Interaction.P>
+            </div>
+          ) : (
+            <Fragment>
+              <Interaction.H3 style={{ marginBottom: 15 }}>
+                {t(`${translationPrefix}/after/title`)}
+              </Interaction.H3>
+              <Interaction.P>
+                {t.elements(`${translationPrefix}/after`, {
+                  count: <CountSpan key='count' memberStats={memberStats} />
+                })}
+              </Interaction.P>
+              <br />
+              <div {...styles.actions} ref={bottomBarRef}>
                 <Link key='buy' route='pledge'>
                   <Button primary style={multiLineButtonStyle}>
                     {t(`${translationPrefix}/after/buy/button`)}
@@ -184,9 +192,9 @@ export const After = compose(
                     })}
                   </div>
                 )}
-              </Fragment>
-            )}
-          </div>
+              </div>
+            </Fragment>
+          )}
         </Center>
       </div>
     )

@@ -71,7 +71,7 @@ class Account extends Component {
   }
 
   render () {
-    const { loading, error, me, t, query, hasMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp } = this.props
+    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp } = this.props
 
     return <Loader
       loading={loading}
@@ -93,7 +93,7 @@ class Account extends Component {
 
         return (
           <Fragment>
-            {hasAccessGrants && !hasMemberships && <AccessGrants />}
+            {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
             {!hasAccessGrants && !hasMemberships && !inNativeIOSApp && <UserGuidance />}
             <MainContainer>
               <Content>
@@ -178,6 +178,11 @@ export default compose(
         data.me.memberships &&
         !!data.me.memberships.length
       )
+      const hasActiveMemberships = (
+        isReady &&
+        hasMemberships &&
+        data.me.memberships.some(m => m.active)
+      )
       const hasPledges = (
         isReady &&
         data.me.pledges &&
@@ -200,6 +205,7 @@ export default compose(
           ))
         ),
         hasMemberships,
+        hasActiveMemberships,
         memberships: hasMemberships && data.me.memberships,
         hasAccessGrants,
         recurringAmount: hasMemberships

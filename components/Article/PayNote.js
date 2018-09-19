@@ -83,7 +83,7 @@ const multiLineButtonStyle = {
 
 const query = gql`
 query payNoteMembershipStats {
-  memberStats {
+  membershipStats {
     count
   }
 }
@@ -92,9 +92,9 @@ query payNoteMembershipStats {
 // The total number of paynote translation variations in lib/translations.json
 export const NUM_VARIATIONS = 9
 
-const CountSpan = ({ memberStats }) => (
+const CountSpan = ({ membershipStats }) => (
   <span style={{whiteSpace: 'nowrap'}}>{countFormat(
-    (memberStats && memberStats.count) || 20000
+    (membershipStats && membershipStats.count) || 20000
   )}</span>
 )
 
@@ -102,7 +102,7 @@ export const Before = compose(
   withT,
   graphql(query),
   withInNativeApp
-)(({ t, data: { memberStats }, isSeries, inNativeIOSApp, index, expanded }) => (
+)(({ t, data: { membershipStats }, isSeries, inNativeIOSApp, index, expanded }) => (
   <WithoutMembership render={() => {
     if (inNativeIOSApp) {
       return (
@@ -110,7 +110,7 @@ export const Before = compose(
           <Center>
             <Interaction.P style={{color: 'inherit'}}>
               {t.elements('article/payNote/before/ios', {
-                count: <CountSpan key='count' memberStats={memberStats} />
+                count: <CountSpan key='count' membershipStats={membershipStats} />
               })}
             </Interaction.P>
           </Center>
@@ -125,7 +125,7 @@ export const Before = compose(
         <div {...styles.beforeContent}>
           <p {...styles.beforeParagraph}>
             {t.elements(`${translationPrefix}/before`, {
-              count: <CountSpan key='count' memberStats={memberStats} />
+              count: <CountSpan key='count' membershipStats={membershipStats} />
             })}
           </p>
         </div>
@@ -146,7 +146,7 @@ export const After = compose(
   withMe,
   graphql(query),
   withInNativeApp
-)(({ t, me, data: { memberStats }, isSeries, inNativeIOSApp, index, bottomBarRef }) => (
+)(({ t, me, data: { membershipStats }, isSeries, inNativeIOSApp, index, bottomBarRef }) => (
   <WithoutMembership render={() => {
     const translationPrefix = isSeries
       ? 'article/payNote/series'
@@ -158,7 +158,7 @@ export const After = compose(
             <div ref={bottomBarRef}>
               <Interaction.P>
                 {t.elements('article/payNote/after/ios', {
-                  count: <CountSpan key='count' memberStats={memberStats} />
+                  count: <CountSpan key='count' membershipStats={membershipStats} />
                 })}
               </Interaction.P>
             </div>
@@ -169,7 +169,7 @@ export const After = compose(
               </Interaction.H3>
               <Interaction.P>
                 {t.elements(`${translationPrefix}/after`, {
-                  count: <CountSpan key='count' memberStats={memberStats} />
+                  count: <CountSpan key='count' membershipStats={membershipStats} />
                 })}
               </Interaction.P>
               <br />

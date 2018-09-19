@@ -22,9 +22,9 @@ import { ListWithQuery } from '../Testimonial/List'
 
 import { buttonStyles } from './styles'
 
-const GET_MEMBERSTATS = gql`
-query members {
-  memberStats {
+const query = gql`
+query marketingMembershipStats {
+  membershipStats {
     count
   }
 }
@@ -165,7 +165,7 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }, ...props }) => {
+const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipStats }, ...props }) => {
   return (
     <Fragment>
       <Container>
@@ -200,11 +200,11 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
             </button>
           </Link>
         </div>
-        {!loading && memberStats && <div {...styles.communityWidget}>
+        {!loading && membershipStats && <div {...styles.communityWidget}>
           <Interaction.H2 {...styles.communityHeadline}>
             {t(
               'marketing/community/title',
-              { count: countFormat(memberStats.count) }
+              { count: countFormat(membershipStats.count) }
             )}
           </Interaction.H2>
           <ListWithQuery singleRow first={6} onSelect={(id) => {
@@ -227,5 +227,5 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { memberStats }
 
 export default compose(
   withT,
-  graphql(GET_MEMBERSTATS)
+  graphql(query)
 )(MarketingPage)

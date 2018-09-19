@@ -25,7 +25,10 @@ class Page extends React.Component {
 
     return (
       <Frame meta={meta} url={url} disableNavBar>
-        <VoteForm />
+        { url.query.vote
+          ? <VoteForm />
+          : <VoteInfo />
+        }
       </Frame>
     )
   }

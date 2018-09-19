@@ -12,6 +12,7 @@ import IconLink from '../IconLink'
 import MdClose from 'react-icons/lib/md/close'
 
 import withT from '../../lib/withT'
+import track from '../../lib/piwik'
 
 const styles = {
   buttonGroup: css({
@@ -30,15 +31,6 @@ const styles = {
       display: 'none'
     }
   })
-}
-
-const onShareClick = (name, value) => {
-  window._paq.push([
-    'trackEvent',
-    'share',
-    name,
-    value
-  ])
 }
 
 const ShareOverlay = ({
@@ -111,7 +103,12 @@ const ShareOverlay = ({
                 fill={fill}
                 size={32}
                 onClick={() => {
-                  onShareClick(props.icon, url)
+                  track([
+                    'trackEvent',
+                    'share',
+                    props.icon,
+                    url
+                  ])
                   onClose && onClose()
                 }}
                 stacked

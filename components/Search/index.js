@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import debounce from 'lodash.debounce'
 
 import { Router } from '../../lib/routes'
+import track from '../../lib/piwik'
 
 import { DEFAULT_FILTERS } from './constants'
 import {
@@ -87,7 +88,7 @@ class Search extends Component {
         allowFocus: !this.state.isMobile
       })
       this.updateUrl(undefined, serializeSort(sort))
-      window._paq.push(['trackSiteSearch',
+      track(['trackSiteSearch',
         this.state.searchQuery,
         false,
         this.state.totalCount
@@ -180,7 +181,7 @@ class Search extends Component {
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
       if (!selected) {
-        window._paq.push(['trackSiteSearch',
+        track(['trackSiteSearch',
           this.state.searchQuery,
           decodeURIComponent(serializedFilters),
           count

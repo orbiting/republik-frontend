@@ -1,9 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { A, fontStyles, mediaQueries, colors } from '@project-r/styleguide'
+import { A, fontStyles, mediaQueries, colors, Interaction } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
+import { Strong } from './text'
+import { Checkbox, Radio } from '@project-r/styleguide'
+
+const { P } = Interaction
 
 const styles = {
   row: css({
@@ -13,48 +17,46 @@ const styles = {
   }),
   statement: css({
     [mediaQueries.onlyS]: {
-      ...fontStyles.serifBold19
+      ...fontStyles.serifTitle22
     },
-    ...fontStyles.serifBold24
+    ...fontStyles.serifTitle26
   }),
   summaryWrapper: css({
   }),
   summary: css({
     width: '100%',
-    minHeight: 20,
     display: 'flex',
-    [mediaQueries.onlyS]: {
-      '& :nth-child(1)': {
-        width: '60%'
-      },
-      '& :nth-child(4)': {
-        width: '40%',
-        textAlign: 'right'
-      },
-      '& :nth-child(2), :nth-child(3)': {
-        display: 'none'
-      }
-    },
+    cursor: 'pointer',
+    ...fontStyles.sansSerifRegular16,
     '& :nth-child(1)': {
       width: '30%'
     },
-    '& :nth-child(3)': {
-      width: '30%'
+    '& :nth-child(2)': {
+      width: '10%'
     },
-    '& :nth-child(2), :nth-child(4)': {
+    '& :nth-child(3)': {
+      width: '40%'
+    },
+    ':nth-child(4)': {
       width: '20%'
+    },
+    [mediaQueries.onlyS]: {
+      ...fontStyles.sansSerifRegular16,
+      '& :nth-child(1)': {
+        width: '100%'
+      },
+      '& :not(:first-child)': {
+        display: 'none'
+      }
     }
   }),
   summaryMobile: css({
-    width: '100%',
-    minHeight: 20,
     display: 'none',
     [mediaQueries.onlyS]: {
-      display: 'flex',
-      '& :nth-child(1)': {
-        width: '60%'
-      }
-
+      width: '100%',
+      lineHeight: 1.4,
+      marginTop: 5,
+      display: 'block'
     }
   }),
   summaryLinks: css({
@@ -74,17 +76,25 @@ const styles = {
     },
     '& img': {
       width: 90,
-      marginRight: 8,
-      float: 'left'
+      height: 90,
+      marginRight: 8
     }
+  }),
+  profile: css({
+    display: 'flex',
+    alignItems: 'start'
   }),
   wrapper: css({
     width: '100%',
     display: 'flex',
     padding: 5
+
   }),
   wrapperSelected: css({
     background: colors.secondaryBg
+  }),
+  icon: css({
+    padding: 2
   })
 }
 
@@ -102,11 +112,24 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, changeComponent, selected, onChange, disabled } = this.props
+    const { candidate, maxVotes, selected, onChange, disabled } = this.props
     const { expanded } = this.state
-    const SelectionComponent = changeComponent
+    const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
     const { user: d } = candidate
+
+    const summary =
+      <Fragment>
+        <div>
+          { candidate.yearOfBirth }
+        </div>
+        <div>
+          { (d.credentials.find(c => c.isListed) || {}).description }
+        </div>
+        <div>
+          { candidate.city }
+        </div>
+      </Fragment>
 
     return (
       <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
@@ -115,8 +138,8 @@ class ElectionBallotRow extends Component {
         >
           {
             expanded
-              ? <ChevronDownIcon />
-              : <ChevronRightIcon />
+              ? <div {...styles.icon}><ChevronDownIcon /></div>
+              : <div {...styles.icon}><ChevronRightIcon /></div>
           }
         </div>
         <div
@@ -126,61 +149,47 @@ class ElectionBallotRow extends Component {
             <div>
               <A>{`${d.firstName} ${d.lastName}`}</A>
             </div>
-            <div>
-              { candidate.yearOfBirth }
-            </div>
-            <div>
-              { (d.credentials.find(c => c.isListed) || {}).description }
-            </div>
-            <div>
-              { candidate.city }
-            </div>
+            {
+              summary
+            }
           </div>
           { expanded &&
             <div {...styles.summaryWrapper}>
               <div {...styles.summaryMobile}>
-                <div>
-                  { candidate.yearOfBirth }
-                </div>
-                <div>
-                  {d.credentials && d.credentials.length > 0 &&
-                  d.credentials.length[0] &&
-                  d.credentials.length[0].description}
-                </div>
+                { summary }
               </div>
               <div {...styles.details}>
-                <div>
-                  <img src={d.portrait} />
+                <div {...styles.profile}>
+                  <div>
+                    <img src={d.portrait} />
+                    <div>
+                      <div>
+                        <A href={`/~${d.id}`}>Profil</A>
+                      </div>
+                      { candidate.commentId &&
+                      <div>
+                        <A href={`/~${d.id}`}>Debatte</A>
+                      </div>
+                      }
+                    </div>
+                  </div>
                   <div {...styles.statement}>
                     {d.statement}
                   </div>
                 </div>
-                <div style={{ clear: 'both' }}>
-                  <div>
-                    <A href={`/~${d.id}`}>Profil</A>
-                  </div>
-                  { candidate.commentId &&
-                    <div>
-                      <A href={`/~${d.id}`}>Debatte</A>
-                    </div>
-                  }
-                </div>
                 { candidate.recommendation &&
                   <div>
-                    {
-                      `Die Republik sagt: ${candidate.recommendation}`
-                    }
-
+                    <Strong>Wahlempfehlung der Republik:</Strong> {candidate.recommendation}
                   </div>
                 }
               </div>
             </div>
           }
         </div>
-        { changeComponent && onChange &&
+        { onChange &&
           <div style={{width: 18}}>
             <SelectionComponent
-              disabled={!selected && disabled}
+              disabled={maxVotes > 1 && !selected && disabled}
               checked={selected}
               onChange={() => onChange(candidate.id)}
             />
@@ -194,16 +203,16 @@ class ElectionBallotRow extends Component {
 ElectionBallotRow.defaultProps = {
   selected: false,
   disabled: false,
-  changeComponent: null,
+  maxVotes: PropTypes.number,
   onChange: () => {}
 }
 
 ElectionBallotRow.propTypes = {
   selected: PropTypes.bool,
-  changeComponent: PropTypes.element,
   disabled: PropTypes.bool,
-  candidate: PropTypes.object,
-  onChange: PropTypes.func
+  maxVotes: 1,
+  onChange: PropTypes.func,
+  candidate: PropTypes.object.isRequired
 }
 
 export default ElectionBallotRow

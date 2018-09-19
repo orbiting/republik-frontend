@@ -54,7 +54,8 @@ export const TextSmall = ({children, indent = true}) =>
       marginBottom: 15,
       ...fontStyles.sansSerifRegular16,
       [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular16
+        ...fontStyles.sansSerifRegular18,
+        lineHeight: 1.4
       }
     })}>
       {c.props.children}

@@ -6,7 +6,8 @@ import {
   NarrowContainer,
   Interaction,
   Label,
-  A
+  A,
+  fontStyles
 } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
@@ -22,6 +23,8 @@ import { graphql, compose } from 'react-apollo'
 import { swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
+import Loader from '../Loader'
+import { Section, TextSmall, Title } from './text'
 
 const {H2, P} = Interaction
 
@@ -73,6 +76,8 @@ const styles = {
   })
 }
 
+const ELECTION_SLUG = 'genossenschaftsrat2018-members'
+
 class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
@@ -107,11 +112,11 @@ class ElectionCandidacy extends React.Component {
 
     this.save = async () => {
       this.stopEditing()
-      const {updateMe, submitCandidacy, url: {query: {slug}}} = this.props
+      const {updateMe, submitCandidacy} = this.props
       await updateMe({
         ...this.state.values
       })
-        .then(() => submitCandidacy(slug))
+        .then(() => submitCandidacy(ELECTION_SLUG))
     }
 
     this.onChange = fields => {
@@ -127,117 +132,138 @@ class ElectionCandidacy extends React.Component {
 
     const {isEditing, values, dirty, errors} = this.state
     const {url, t} = this.props
-    const {data: {me}} = this.props
+    const {data: {me, election, loading, error}} = this.props
 
-    const isCandidate = false
+    const isCandidate = election && election.candidates.some(c => c.user.id === me.id)
+    const candidacyPreview = me && {
+      user: me,
+      city: me.address ? me.address.city : '',
+      yearOfBirth: me.birthday ? new Date(me.birthday).getFullYear() : ''
+    }
 
     return (
       <Frame url={url} meta={meta}>
-        <NarrowContainer>
-          <Interaction.Headline>
-            {f('candidacy/title')}
-          </Interaction.Headline>
-          <P>
-            {f('candidacy/intro')}
-          </P>
-          <P />
-          <div>
-            <UpdateMe style={{marginBottom: 30}} />
-            <H2>Kandidatur</H2>
-            <div {...styles.sectionSmall}>
-              {!isEditing &&
-              <Fragment>
-                <Label style={{display: 'block'}}>
-                  {t('profile/statement/label')}
-                </Label>
-              </Fragment>
-              }
-              <Statement
-                user={me}
-                isEditing={isEditing}
-                onChange={this.onChange}
-                values={values}
-                errors={errors}
-                dirty={dirty}
-              />
-              <div {...styles.sectionSmall}>
+        <Loader loading={loading} error={error} render={() =>
+          <NarrowContainer>
+            <Title>
+              {f('candidacy/title')}
+            </Title>
+            <P />
+            <div>
+              <UpdateMe style={{marginBottom: 30}} />
+              <Section>
+                <H2>Kandidatur</H2>
+                <div {...styles.sectionSmall}>
+                  {!isEditing &&
+                  <Fragment>
+                    <Label style={{display: 'block'}}>
+                      {t('profile/statement/label')}
+                    </Label>
+                  </Fragment>
+                  }
+                  <Statement
+                    user={me}
+                    isEditing={isEditing}
+                    onChange={this.onChange}
+                    values={values}
+                    errors={errors}
+                    dirty={dirty}
+                  />
+                  <div {...styles.sectionSmall}>
+                    {isEditing ? (
+                      <Fragment>
+                        <FieldSet
+                          values={values}
+                          isEditing={isEditing}
+                          errors={errors}
+                          dirty={dirty}
+                          fields={fields(t)}
+                          onChange={this.onChange}
+                        />
+                        <Credentials
+                          user={me}
+                          isEditing={isEditing}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty}
+                        />
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <Label style={{display: 'block'}}>
+                          {t('profile/disclosures/label')}
+                        </Label>
+                        <P>{me.disclosures}</P>
+                        <Label style={{display: 'block'}}>
+                          {t('profile/credentials/label')}
+                        </Label>
+                        <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
+                      </Fragment>
+                    )
+                    }
+                  </div>
+                </div>
+                <br />
                 {isEditing ? (
-                  <Fragment>
-                    <FieldSet
-                      values={values}
-                      isEditing={isEditing}
-                      errors={errors}
-                      dirty={dirty}
-                      fields={fields(t)}
-                      onChange={this.onChange}
-                    />
-                    <Credentials
-                      user={me}
-                      isEditing={isEditing}
-                      onChange={this.onChange}
-                      values={values}
-                      errors={errors}
-                      dirty={dirty}
-                    />
-                  </Fragment>
+                  <div>
+                    <Button onClick={this.save}>
+                      Änderungen speichern
+                    </Button>
+                    <div style={{marginTop: 10}}>
+                      <A href='#' onClick={(e) => {
+                        e.preventDefault()
+                        this.stopEditing()
+                      }}>
+                        {t('profile/edit/cancel')}
+                      </A>
+                    </div>
+                  </div>
                 ) : (
-                  <Fragment>
-                    <Label style={{display: 'block'}}>
-                      {t('profile/disclosures/label')}
-                    </Label>
-                    <P>{me.disclosures}</P>
-                    <Label style={{display: 'block'}}>
-                      {t('profile/credentials/label')}
-                    </Label>
-                    <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
-                  </Fragment>
+                  <A href='#' onClick={(e) => {
+                    e.preventDefault()
+                    this.startEditing()
+                  }}>{t('Account/Update/edit')}</A>
                 )
                 }
+              </Section>
+              <div {...styles.previewWrapper}>
+                <H2>Vorschau</H2>
+                <div style={{margin: `15px 0`}}>
+                  <P>{f('candidacy/preview/label')}</P>
+                </div>
+                <ElectionBallotRow
+                  expanded
+                  candidate={candidacyPreview}
+                />
               </div>
-            </div>
-            <br />
-            {isEditing ? (
-              <Button onClick={this.save}>
-                Änderungen speichern
-              </Button>
-            ) : (
-              <A href='#' onClick={(e) => {
-                e.preventDefault()
-                this.startEditing()
-              }}>{t('Account/Update/edit')}</A>
-            )
-            }
-            <div {...styles.previewWrapper}>
-              <H2>Vorschau</H2>
-              <div style={{margin: `15px 0`}}>
-                <P>{f('candidacy/preview/label')}</P>
-              </div>
-              <ElectionBallotRow
-                expanded
-                candidate={{
-                  ...me,
-                  ...this.state.values
-                }}
-              />
-            </div>
+              <Section>
+                <TextSmall indent={false}>
+                  <div>
+                    Die Mitglieder von Project R sehen auf dem Wahlformular nur, was in der Vorschau angezeigt wird.
+                    In Ihrem Profil sehen die Mitglieder zusätzlich: Steckbrief, Interessenbindung, Debattenbeiträge.
+                    Das Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt, die ab dem 17.10.2018
+                    online und für alle Mitglieder sichtbar ist.
+                    Geburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»
+                    einsehbar.
+                  </div>
+                </TextSmall>
+              </Section>
 
-            {isCandidate ? (
-              null
-            ) : (
-              <Button block big onClick={this.save}>
-                Ja, ich will für den Genossenschaftsrat kandidieren!
-              </Button>
-            )
-            }
-          </div>
-        </NarrowContainer>
+              { isCandidate ? (
+                null
+              ) : (
+                <Button block big onClick={this.save}>
+                    Ja, ich will für den Genossenschaftsrat kandidieren!
+                </Button>
+              )
+              }
+            </div>
+          </NarrowContainer>
+        } />
       </Frame>
     )
   }
-}
-
-ElectionCandidacy.propTypes = {
-  electionId: PropTypes.string.isRequired
 }
 
 const submitCandidacy = gql`mutation submitCandidacy($slug: String!) {
@@ -246,7 +272,6 @@ const submitCandidacy = gql`mutation submitCandidacy($slug: String!) {
     user {
       id
     }
-    recommendation
   }
 }`
 
@@ -267,7 +292,15 @@ const publishCredential = gql`
 `
 
 const query = gql`
-  query  {
+  query {
+    election(slug: "${ELECTION_SLUG}") {
+      candidates {
+        user {
+          id
+        }
+        recommendation
+      }
+    }
     me {
       id
       username
@@ -297,7 +330,6 @@ const query = gql`
       credentials {
         isListed
         description
-        verified
       }
       publicUrl
     }
@@ -342,7 +374,10 @@ export default compose(
         return mutate({
           variables: {
             slug
-          }
+          },
+          refetchQueries: [{
+            query
+          }]
         })
       }
     })

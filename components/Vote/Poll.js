@@ -23,8 +23,8 @@ const POLL_STATES = {
 
 const styles = {
   card: css({
-    margin: '20px auto',
-    border: '1px solid black',
+    margin: '40px auto',
+    border: `1px solid ${colors.neutral}`,
     padding: 15,
     maxWidth: 455,
     width: '100%'
@@ -54,12 +54,6 @@ const styles = {
     color: colors.disabled,
     ...fontStyles.sansSerifRegular14
   }),
-  error: css({
-    textAlign: 'center',
-    width: '80%',
-    margin: '10px auto',
-    color: colors.error,
-  }),
   thankyou: css({
     background: colors.primaryBg,
     display: 'flex',
@@ -81,7 +75,7 @@ class Poll extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pollState: POLL_STATES.DIRTY,
+      pollState: POLL_STATES.START,
       selectedValue: null
     }
 
@@ -147,21 +141,6 @@ class Poll extends React.Component {
     }
   }
 
-  renderWarning = () => {
-    const { pollState, selectedValue } = this.state
-    if (pollState===POLL_STATES.READY && !selectedValue) {
-      return (
-        <P {...styles.error}>
-          { 
-            `Sie haben keine Option gewählt. Wolle Sie sich wirklch der Stimme enthalten?`
-          }
-        </P>
-      )  
-    } else {
-      return null
-    }
-  }
-
   render () {
     const { options, proposition } = this.props
     const { pollState, selectedValue } = this.state
@@ -171,12 +150,12 @@ class Poll extends React.Component {
         <H3>{proposition}</H3>
         <div style={{ position: 'relative' }}>
           { pollState === POLL_STATES.DONE &&
-            <div {...styles.thankyou}>
-              <P>
-                Ihre Stimme ist am {messageDateFormat(Date.now())} bei uns eingegangen.<br />
-                Danke für Ihre Teilnahme!
-              </P>
-            </div>
+          <div {...styles.thankyou}>
+            <P>
+              Ihre Stimme ist am {messageDateFormat(Date.now())} bei uns eingegangen.<br />
+              Danke für Ihre Teilnahme!
+            </P>
+          </div>
           }
           <div {...styles.cardBody}>
             {options.map(({ value, label }) => (
@@ -200,9 +179,6 @@ class Poll extends React.Component {
               </Fragment>
             ))}
           </div>
-          {
-            this.renderWarning()
-          }
           <div {...styles.cardActions}>
             {this.renderActions()}
           </div>

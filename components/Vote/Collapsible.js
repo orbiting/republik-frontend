@@ -4,16 +4,29 @@ import { css } from 'glamor';
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 
+import {
+  mediaQueries,
+  fontStyles,
+  Interaction
+} from '@project-r/styleguide'
+import { TextSmall } from './text'
+
 const styles = {
   wrapper: css({
     marginTop: 15,
+    marginBottom: 20,
   }),
   toggle: css({
     cursor: 'pointer',
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular18,
+    }
   }),
-  body: css({
-    marginTop: 10,
-    marginLeft: 15,
+  toggleIcon: css({
+    width: 26,
+    marginLeft: -6,
+    display: 'inline-block'
   }),
 }
 
@@ -39,20 +52,19 @@ class Collapsible extends React.Component {
       <div {...styles.wrapper}>
         <div {...styles.toggle} onClick={this.toggleCollapsed}>
           { collapsed
-              ? <ChevronRightIcon />
-              : <ChevronDownIcon />
+              ? <div {...styles.toggleIcon}><ChevronRightIcon /></div>
+              : <div  {...styles.toggleIcon}><ChevronDownIcon /></div>
           }
-          { collapsed
-              ? label
-              : labelExpanded
+          {
+            label
           }
         </div>
         { collapsed || 
-          <div {...styles.body}>
+          <TextSmall>
             {
               children
             }
-          </div>
+          </TextSmall>
         }
       </div>
     )
@@ -65,7 +77,6 @@ Collapsible.propTypes = {
 
 Collapsible.defaultProps = {
   label: 'Weitere Informationen',
-  labelExpanded: 'Weitere Informationen',
 }
 
 export default Collapsible

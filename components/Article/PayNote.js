@@ -27,7 +27,6 @@ const styles = {
   actions: css({
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 15,
     [mediaQueries.mUp]: {
       alignItems: 'center',
       flexDirection: 'row'
@@ -121,20 +120,19 @@ export const Before = compose(
       ? 'article/payNote/series'
       : `article/payNote/${index}`
     return (
-      <BottomPanel expanded={expanded}>
+      <BottomPanel expanded={expanded} button={(
+        <Link route='pledge'>
+          <Button primary style={multiLineButtonStyle}>
+            {t(`${translationPrefix}/before/buy/button`)}
+          </Button>
+        </Link>
+      )}>
         <div {...styles.beforeContent}>
           <p {...styles.beforeParagraph}>
             {t.elements(`${translationPrefix}/before`, {
               count: <CountSpan key='count' membershipStats={membershipStats} />
             })}
           </p>
-        </div>
-        <div {...styles.actions}>
-          <Link key='buy' route='pledge'>
-            <Button primary style={multiLineButtonStyle}>
-              {t(`${translationPrefix}/before/buy/button`)}
-            </Button>
-          </Link>
         </div>
       </BottomPanel>
     )

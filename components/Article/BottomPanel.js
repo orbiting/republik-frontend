@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
-import withInNativeApp from '../../lib/withInNativeApp'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
@@ -46,15 +45,46 @@ const styles = {
     top: 0,
     right: 0
   }),
-  close: css({
+  plainButton: css({
     border: 'none',
     background: 'transparent',
     cursor: 'pointer',
     outline: 'none',
-    WebkitAppearance: 'none',
+    WebkitAppearance: 'none'
+  }),
+  close: css({
     padding: '10px',
     [mediaQueries.mUp]: {
       padding: `${PADDING}px`
+    }
+  }),
+  textContainer: css({
+    maxHeight: `calc(50vh - 60px - ${IOS_BOTTOM_HOT_AREA}px)`,
+    padding: PADDING,
+    overflow: 'auto'
+  }),
+  actions: css({
+    position: 'relative',
+    boxShadow: `0 -5px ${PADDING - 5}px ${negativeColors.primaryBg}`,
+    paddingLeft: PADDING,
+    paddingRight: PADDING,
+    [mediaQueries.onlyS]: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    [mediaQueries.mUp]: {
+      paddingBottom: PADDING + 5
+    }
+  }),
+  later: css({
+    display: 'none',
+    [mediaQueries.onlyS]: {
+      padding: 12,
+      height: IOS_BOTTOM_HOT_AREA,
+      paddingBottom: PADDING,
+      display: 'block',
+      textAlign: 'center',
+      color: negativeColors.text
     }
   })
 }
@@ -72,15 +102,13 @@ class BottomPanel extends Component {
   }
 
   render () {
-    const { t, inNativeIOSApp, children, expanded } = this.props
-    const paddingBottom = inNativeIOSApp
-      ? undefined
-      : `${IOS_BOTTOM_HOT_AREA - PADDING}px` // Center comes with bottom padding.
+    const { t, children, button, expanded } = this.props
 
     return (
-      <div aria-expanded={expanded && this.state.expanded} {...styles.container} style={{ paddingBottom }}>
+      <div aria-expanded={expanded && this.state.expanded} {...styles.container}>
         <div {...styles.closeContainer}>
           <button
+            {...styles.plainButton}
             {...styles.close}
             onClick={this.close}
             title={t('article/bottomPanel/close')}
@@ -88,8 +116,20 @@ class BottomPanel extends Component {
             <Close size={32} fill={negativeColors.lightText} />
           </button>
         </div>
-        <Center>
-          {children}
+        <Center style={{padding: 0}}>
+          <div {...styles.textContainer}>
+            {children}
+          </div>
+          <div {...styles.actions}>
+            {button}
+            <button
+              {...styles.later}
+              {...styles.plainButton}
+              onClick={this.close}
+            >
+              {t('article/bottomPanel/actions/later')}
+            </button>
+          </div>
         </Center>
       </div>
     )
@@ -98,12 +138,10 @@ class BottomPanel extends Component {
 
 BottomPanel.propTypes = {
   t: PropTypes.func.isRequired,
-  inNativeIOSApp: PropTypes.bool,
   children: PropTypes.node,
   expanded: PropTypes.bool
 }
 
 export default compose(
-  withT,
-  withInNativeApp
+  withT
 )(BottomPanel)

@@ -153,6 +153,9 @@ class UpdateMe extends Component {
   }
   componentDidMount () {
     this.autoEdit()
+    if (this.props.edit) {
+      this.startEditing()
+    }
   }
   componentDidUpdate () {
     this.autoEdit()

@@ -1,0 +1,34 @@
+{
+  "updated": "2018-09-17T08:30:43.182Z",
+  "title": "live",
+  "data": [
+    {
+      "key": "common/intro/title",
+      "value": "Genossenschaft 2018"
+    },
+    {
+      "key": "info/intro/body",
+      "value": "Lorem ipsum dolor sit amet, <a href=\"http://example.org/file.pdf\">consectetuer</a> adipiscing elit. <strong>Aenean</strong> commodo ligulaeget dolor. Aenean massa. Cum sociis <em>natoque</em> penatibus et magnis dis parturientmontes, nascetur ridiculus mus."
+    },
+    {
+      "key": "vote/intro/body",
+      "value": "Lorem ipsum dolor sit amet, <a href=\"http://example.org/file.pdf\">consectetuer</a> adipiscing elit. <strong>Aenean</strong> commodo ligulaeget dolor. Aenean massa. Cum sociis <em>natoque</em> penatibus et magnis dis parturientmontes, nascetur ridiculus mus."
+    },
+    {
+      "key": "result/intro/body",
+      "value": "Lorem ipsum dolor sit amet, <a href=\"http://example.org/file.pdf\">consectetuer</a> adipiscing elit. <strong>Aenean</strong> commodo ligulaeget dolor. Aenean massa. Cum sociis <em>natoque</em> penatibus et magnis dis parturientmontes, nascetur ridiculus mus."
+    },
+    {
+      "key": "candidacy/title",
+      "value": "Kandidieren Sie jetzt!"
+    },
+    {
+      "key": "candidacy/intro",
+      "value": "Ihr naht euch wieder, schwankende Gestalten! Die früh sich einst dem trüben Blick gezeigt. Versuch’ ich wohl euch diesmal fest zu halten? Fühl’ ich mein Herz noch jenem Wahn geneigt? Ihr drängt euch zu! nun gut, so mögt ihr walten."
+    },
+    {
+      "key": "candidacy/preview/label",
+      "value": "So erscheint Ihre Kandidatur auf dem Wahlformular:"
+    }
+  ]
+}

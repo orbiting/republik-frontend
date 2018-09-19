@@ -1,29 +1,29 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { formatter as f } from './util'
 
 import {
-  Container,
   NarrowContainer,
   Interaction,
-  Checkbox,
-  mediaQueries,
-  Field,
   Label,
   A
 } from '@project-r/styleguide'
-import Frame from '../Frame';
-import withT from '../../lib/withT';
-import Button from '@project-r/styleguide/lib/components/Button';
-import ElectionBallot from './ElectionBallot';
-import withMe from '../../lib/apollo/withMe';
-import FieldSet from '@project-r/styleguide/lib/components/Form/FieldSet';
-import Statement from '../Profile/Statement';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo'
-import { swissTime } from '../../lib/utils/format';
-import { css } from 'glamor';
+import Frame from '../Frame'
+import withT from '../../lib/withT'
+import Button from '@project-r/styleguide/lib/components/Button'
 
-const { H1, H2, H3, P } = Interaction
+import FieldSet from '@project-r/styleguide/lib/components/Form/FieldSet'
+import Statement from '../Profile/Statement'
+import Credentials from '../Profile/Credentials'
+import UpdateMe from '../../components/Account/UpdateMe'
+
+import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
+import { swissTime } from '../../lib/utils/format'
+import { css } from 'glamor'
+import ElectionBallotRow from './ElectionBallotRow'
+
+const {H2, P} = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
@@ -52,148 +52,223 @@ const fields = (t) => ([
     }
   },
   {
-    label: 'Postleitzahl',
-    name: 'postCode',
-    mask: '1111',
-    maskChar: '_',
-  },
+    label: 'Interessenbindungen (optional)',
+    name: 'disclosures',
+    autoSize: true,
+    validator: (value) => {
+      return value && value.length > 1
+    }
+  }
 ])
 
 const styles = {
   previewWrapper: css({
-    margin: '20px 0',
+    margin: '20px 0'
   }),
+  sectionSmall: css({
+    marginTop: 20
+  }),
+  section: css({
+    marginTop: 40
+  })
 }
 
 class ElectionCandidacy extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isEditing: false,
+      showErrors: false,
+      errors: {},
+      dirty: {},
+      values: {}
+    }
 
-  state = {
-    isCandidate: false,
-    isEditing: false,
-    showErrors: false,
-    values: {},
-    errors: {},
-    dirty: {}
-  }
+    this.startEditing = () => {
+      const {isEditing} = this.state
+      const {data: {me}} = this.props
+      if (!isEditing) {
+        const {statement, birthday, disclosures, credentials} = me
+        this.setState({
+          isEditing: true,
+          values: {
+            statement,
+            birthday,
+            disclosures,
+            credentials
+          }
+        })
+      }
+    }
 
-  isMe = () => {
-    const { me, data: { user } } = this.props
-    return me && me.id === user.id
-  }
-  
-  startCandidacy = () => {
-    this.setState({
-      isCandidate: true,
-    }, this.startEditing)
-  }
+    this.stopEditing = () => {
+      this.setState({isEditing: false})
+    }
 
-  startEditing = () => {
-    const { isEditing } = this.state
-    if (!isEditing && this.isMe()) {
-      const { data: { user } } = this.props
-      const { statement, birthday, address: { postalCode } } = user
-      this.setState({
-        isEditing: true,
-        values: {
-          statement,
-          birthday,
-          postalCode
-        }
+    this.save = async () => {
+      this.stopEditing()
+      const {updateMe, submitCandidacy, url: {query: {slug}}} = this.props
+      await updateMe({
+        ...this.state.values
       })
+        .then(() => submitCandidacy(slug))
+    }
+
+    this.onChange = fields => {
+      this.setState(FieldSet.utils.mergeFields(fields))
     }
   }
 
-  stopEditing = () => {
-    this.setState({isEditing: false})
-  }
-
-  onChange = fields => {
-    this.startEditing()
-    this.setState(FieldSet.utils.mergeFields(fields))
-  }
-  
-  render() {
-
+  render () {
     const meta = {
       title: 'Für den Genossenschaftsrat der Republik kandidieren',
       description: 'Bestimme über die Zukunft der Republik!'
     }
 
-    const { isCandidate, isEditing, values, dirty, errors } = this.state
-    const { url, me, t } = this.props
-    const { data: { user } } = this.props
+    const {isEditing, values, dirty, errors} = this.state
+    const {url, t} = this.props
+    const {data: {me}} = this.props
 
-    const LOREM = 
-      <P>
-        Ihr naht euch wieder, schwankende Gestalten! Die früh sich einst dem trüben
-        Blick gezeigt. Versuch’ ich wohl euch diesmal fest zu halten? Fühl’ ich
-        mein Herz noch jenem Wahn geneigt? Ihr drängt euch zu! nun gut, so mögt ihr
-        walten.
-      </P>
+    const isCandidate = false
 
     return (
       <Frame url={url} meta={meta}>
         <NarrowContainer>
           <Interaction.Headline>
-            Kandidieren Sie jetzt
+            {f('candidacy/title')}
           </Interaction.Headline>
-          {LOREM}
           <P>
-            { !isCandidate &&
-              <Button block big onClick={this.startCandidacy}>
-                Ja, ich will für den Genossenschaftsrat kandidieren!
-              </Button>  
-            }
+            {f('candidacy/intro')}
           </P>
-          { isCandidate &&
-            <div>
-              <div {...styles.previewWrapper}>
-                <H2>Vorschau</H2>
-                <P>So erscheint Ihre Kandidatur auf dem Wahlformular</P>
-                <ElectionBallot candidates={[user]} expandAll />
-              </div>
-              <H2>Details</H2>
+          <P />
+          <div>
+            <UpdateMe style={{marginBottom: 30}} />
+            <H2>Kandidatur</H2>
+            <div {...styles.sectionSmall}>
+              {!isEditing &&
+              <Fragment>
+                <Label style={{display: 'block'}}>
+                  {t('profile/statement/label')}
+                </Label>
+              </Fragment>
+              }
               <Statement
-                user={user}
+                user={me}
                 isEditing={isEditing}
                 onChange={this.onChange}
                 values={values}
-                errors={errors}
-                dirty={dirty} 
-              />
-              <FieldSet
-                values={values}
-                isEditing={isEditing}
                 errors={errors}
                 dirty={dirty}
-                fields={fields(t)}
-                onChange={this.onChange}
               />
-              <Field label='Funktion' />
-              <Field label='Interessenbindung (optional)' />
-              { isEditing 
-                ? (
-                  <Button onClick={this.stopEditing}>
-                    Änderungen speichern
-                  </Button>    
+              <div {...styles.sectionSmall}>
+                {isEditing ? (
+                  <Fragment>
+                    <FieldSet
+                      values={values}
+                      isEditing={isEditing}
+                      errors={errors}
+                      dirty={dirty}
+                      fields={fields(t)}
+                      onChange={this.onChange}
+                    />
+                    <Credentials
+                      user={me}
+                      isEditing={isEditing}
+                      onChange={this.onChange}
+                      values={values}
+                      errors={errors}
+                      dirty={dirty}
+                    />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <Label style={{display: 'block'}}>
+                      {t('profile/disclosures/label')}
+                    </Label>
+                    <P>{me.disclosures}</P>
+                    <Label style={{display: 'block'}}>
+                      {t('profile/credentials/label')}
+                    </Label>
+                    <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
+                  </Fragment>
                 )
-                : (
-                  <Button onClick={this.startEditing}>
-                    Kandidatur bearbeiten
-                  </Button>    
-                )
-              }
+                }
+              </div>
             </div>
-          }
+            <br />
+            {isEditing ? (
+              <Button onClick={this.save}>
+                Änderungen speichern
+              </Button>
+            ) : (
+              <A href='#' onClick={(e) => {
+                e.preventDefault()
+                this.startEditing()
+              }}>{t('Account/Update/edit')}</A>
+            )
+            }
+            <div {...styles.previewWrapper}>
+              <H2>Vorschau</H2>
+              <div style={{margin: `15px 0`}}>
+                <P>{f('candidacy/preview/label')}</P>
+              </div>
+              <ElectionBallotRow
+                expanded
+                candidate={{
+                  ...me,
+                  ...this.state.values
+                }}
+              />
+            </div>
+
+            {isCandidate ? (
+              null
+            ) : (
+              <Button block big onClick={this.save}>
+                Ja, ich will für den Genossenschaftsrat kandidieren!
+              </Button>
+            )
+            }
+          </div>
         </NarrowContainer>
       </Frame>
     )
   }
 }
 
-const getUser = gql`
-  query getUser($slug: String!) {
-    user(slug: $slug) {
+ElectionCandidacy.propTypes = {
+  electionId: PropTypes.string.isRequired
+}
+
+const submitCandidacy = gql`mutation submitCandidacy($slug: String!) {
+  submitCandidacy(slug: $slug) {
+    id
+    user {
+      id
+    }
+    recommendation
+  }
+}`
+
+const updateMe = gql`mutation updateMe($birthday: Date, $statement: String, $disclosures: String) {
+  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures) {
+    id
+  }
+}`
+
+const publishCredential = gql`
+  mutation publishCredential($description: String) {
+    publishCredential(description: $description) {
+      isListed
+      description
+    }
+  }
+
+`
+
+const query = gql`
+  query  {
+    me {
       id
       username
       firstName
@@ -210,9 +285,14 @@ const getUser = gql`
       isEligibleForProfile
       statement
       biography
+      disclosures
       birthday
       address {
+        line1
+        line2
         postalCode
+        city
+        country
       }
       credentials {
         isListed
@@ -226,12 +306,45 @@ const getUser = gql`
 
 export default compose(
   withT,
-  withMe,
-  graphql(getUser, {
-    options: ({me}) => ({
-      variables: {
-        slug: me.id
+  graphql(query),
+  graphql(publishCredential, {
+    props: ({mutate}) => ({
+      publishCredential: description => {
+        return mutate({
+          variables: {
+            description
+          }
+        })
       }
-    }),
+    })
+  }),
+  graphql(updateMe, {
+    props: ({mutate, ownProps: {publishCredential, data: {me}}}) => ({
+      updateMe: async variables => {
+        // setState({ updating: true })
+        const credential = (me.credentials || []).find(c => c.isListed) || {}
+        if (variables.credential !== credential.description) {
+          await publishCredential(variables.credential || null)
+        }
+
+        mutate({
+          variables,
+          refetchQueries: [{
+            query
+          }]
+        })
+      }
+    })
+  }),
+  graphql(submitCandidacy, {
+    props: ({mutate}) => ({
+      submitCandidacy: slug => {
+        return mutate({
+          variables: {
+            slug
+          }
+        })
+      }
+    })
   })
 )(ElectionCandidacy)

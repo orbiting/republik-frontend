@@ -12,7 +12,7 @@ import { Router } from '../../lib/routes'
 import VoteInfo from './VoteInfo'
 import VoteForm from './VoteForm'
 
-import { VOTING_PHASES } from './votingPhase'
+import { VOTING_STAGES } from './votingStage'
 
 class Page extends React.Component {
   render () {
@@ -25,7 +25,7 @@ class Page extends React.Component {
 
     return (
       <Frame meta={meta} url={url} disableNavBar>
-        { url.query.vote
+        { url.query.stage===VOTING_STAGES.VOTE
           ? <VoteForm />
           : <VoteInfo />
         }

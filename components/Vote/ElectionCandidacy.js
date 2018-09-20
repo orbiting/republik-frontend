@@ -25,6 +25,7 @@ import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
 import Loader from '../Loader'
 import { Section, TextSmall, Title } from './text'
+import Portrait from '../Profile/Portrait'
 
 const {H2, P} = Interaction
 
@@ -100,7 +101,7 @@ class ElectionCandidacy extends React.Component {
             statement,
             birthday,
             disclosures,
-            credentials
+            credential: (credentials.find(c => c.isListed) || {}).description
           }
         })
       }
@@ -153,6 +154,16 @@ class ElectionCandidacy extends React.Component {
               <UpdateMe style={{marginBottom: 30}} />
               <Section>
                 <H2>Kandidatur</H2>
+                <div {...styles.sectionSmall} style={{width: 200, height: 200, background: 'black'}}>
+                  <Portrait
+                    user={me}
+                    isEditing={isEditing}
+                    isMe={true}
+                    onChange={this.onChange}
+                    values={values}
+                    errors={errors}
+                    dirty={dirty} />
+                </div>
                 <div {...styles.sectionSmall}>
                   {!isEditing &&
                   <Fragment>
@@ -171,36 +182,42 @@ class ElectionCandidacy extends React.Component {
                   />
                   <div {...styles.sectionSmall}>
                     {isEditing ? (
-                      <Fragment>
-                        <FieldSet
-                          values={values}
-                          isEditing={isEditing}
-                          errors={errors}
-                          dirty={dirty}
-                          fields={fields(t)}
-                          onChange={this.onChange}
-                        />
-                        <Credentials
-                          user={me}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty}
-                        />
-                      </Fragment>
+                      <FieldSet
+                        values={values}
+                        isEditing={isEditing}
+                        errors={errors}
+                        dirty={dirty}
+                        fields={fields(t)}
+                        onChange={this.onChange}
+                      />
                     ) : (
                       <Fragment>
                         <Label style={{display: 'block'}}>
                           {t('profile/disclosures/label')}
                         </Label>
                         <P>{me.disclosures}</P>
+                      </Fragment>
+                     )
+                    }
+                  </div>
+                  <div {...styles.sectionSmall}>
+                    {isEditing ? (
+                      <Credentials
+                        user={me}
+                        isEditing={isEditing}
+                        onChange={this.onChange}
+                        values={values}
+                        errors={errors}
+                        dirty={dirty}
+                      />
+                    ) : (
+                      <Fragment>
                         <Label style={{display: 'block'}}>
                           {t('profile/credentials/label')}
                         </Label>
                         <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
                       </Fragment>
-                    )
+                      )
                     }
                   </div>
                 </div>

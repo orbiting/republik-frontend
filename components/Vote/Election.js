@@ -119,7 +119,7 @@ class Election extends Component {
       const {onFinish, maxVotes} = this.props
       const {electionState} = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Forumlar zurücksetzen</A>
+      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Formular zurücksetzen</A>
 
       switch (electionState) {
         case ELECTION_STATES.START:

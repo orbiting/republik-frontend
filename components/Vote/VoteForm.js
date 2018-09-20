@@ -82,21 +82,21 @@ export default () =>
           über die Jahresrechnung abzustimmen.
         </F>
         <F>
-          Wenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den integrierten Geschäftsbericht (LINK) der
-          beiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die
-          Jahresrechnung 2017/18 der Project R Genossenschaft (LINK), über die Sie abstimmen.
+          Wenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den <A href='/static/genossenschaft/placeholder.pdf'>integrierten Geschäftsbericht</A> der
+          beiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die <A href='/static/genossenschaft/placeholder.pdf'>Jahresrechnung 2017/18 der Project R Genossenschaft</A>, über die Sie abstimmen.
         </F>
       </TextMedium>
       <Collapsible>
         <F>
-          Bevor wir zu den Köpfen kommen, gehen wir zuerst ins Geld. Sie haben uns mit Ihrem Jahresabonnement viel
-          Geld gegeben. Sie haben ein Recht darauf, zu wissen, was damit geschehen ist, und als Genossenschafter
-          über die Jahresrechnung abzustimmen.
+          Sie haben, wie jedes Mitglied, eine Stimme für diese Frage. Wählen Sie eine der Alternativen «Ja», «Nein» oder
+          «Leer einlegen», und klicken Sie auf «Abstimmen». Wenn Sie Ihre Stimme einmal abgegeben und bestätigt haben,
+          können Sie sie nicht mehr ändern oder zurücknehmen.
         </F>
         <F>
-          Wenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den integrierten Geschäftsbericht (LINK) der
-          beiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die
-          Jahresrechnung 2017/18 der Project R Genossenschaft (LINK), über die Sie abstimmen.
+          Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten
+          können oder wollen. Wir weisen die leeren Stimmen aus, und sie zählen für die Stimmbeteiligung. Für die
+          Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ob die Jahresrechnung angenommen wird,
+          entscheidet das Verhältnis zwischen den Ja-Stimmen und den Nein-Stimmen.
         </F>
       </Collapsible>
       <Poll
@@ -113,7 +113,7 @@ export default () =>
           Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der
           BDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie
           schliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen
-          über den Revisionsbericht ab. Lesen können Sie diesen hier (LINK).
+          über den Revisionsbericht ab. Lesen können Sie diesen <A href='/static/genossenschaft/placeholder.pdf'>hier</A>.
         </F>
       </TextMedium>
       <Collapsible>
@@ -142,7 +142,7 @@ export default () =>
       <TextMedium>
         <F>
           Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses Budget
-          inklusive Erläuterungen (LINK) vor. Es zeigt, wie das Geld der rund 20’000 Verlegerinnen und Verleger
+          inklusive <A href='/static/genossenschaft/placeholder.pdf'>Erläuterungen</A> vor. Es zeigt, wie das Geld der rund 20’000 Verlegerinnen und Verleger
           verwendet werden soll. Stimmen Sie darüber ab.
         </F>
       </TextMedium>
@@ -234,8 +234,7 @@ export default () =>
         <F>
           Lesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original
           zu lesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie
-          in den Artikeln 19, 26 bis 28.(LINK)
-          https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf)
+          in den <A href='https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf'>Artikeln 19, 26 bis 28</A>.
         </F>
         <F>
           <Strong>Zum Wahlsystem</Strong>

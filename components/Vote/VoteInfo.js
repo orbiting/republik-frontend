@@ -24,7 +24,7 @@ export default () =>
           Hier auf unserer Wahlplattform, bis zum 16. Oktober.
         </F>
         <F>
-          <A href='#' onClick={e => { e.preventDefault(); Router.pushRoute(`voteSubmit`) }}>Und zwar, indem Sie auf diesen Link klicken.</A>
+          <Button block big onClick={e => { e.preventDefault(); Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0)) }}>Kandidieren Sie jetzt!</Button>
         </F>
         <F>
           Ab dem 17. Oktober schreiten wir zur Wahl. Urnenschluss ist am 28. Oktober. Sie wählen einerseits, wer im
@@ -192,5 +192,7 @@ export default () =>
         </F>
       </Collapsible>
     </Section>
-    <Button block big>Kandidieren Sie jetzt!</Button>
+    <F>
+      <Button block big onClick={e => { e.preventDefault(); Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0)) }}>Kandidieren Sie jetzt!</Button>
+    </F>
   </div>

@@ -276,10 +276,9 @@ class ElectionCandidacy extends React.Component {
 
               { isCandidate ? (
                 <div>
-                  <A href='#' onClick={(e) => {
-                    e.preventDefault()
-                    this.cancelCandidacy()
-                  }}>Kandidatur zurückziehen</A>
+                  <P>
+                    Danke für Ihr Engagement!
+                  </P>
                 </div>
               ) : (
                 <Button block big onClick={this.save}>

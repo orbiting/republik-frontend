@@ -111,6 +111,11 @@ class ElectionCandidacy extends React.Component {
       this.setState({isEditing: false})
     }
 
+    this.cancelCandidacy = async () => {
+      const {cancelCandidacy} = this.props
+      await cancelCandidacy(ELECTION_SLUG)
+    }
+
     this.save = async () => {
       this.stopEditing()
       const {updateMe, submitCandidacy} = this.props
@@ -136,6 +141,7 @@ class ElectionCandidacy extends React.Component {
     const {data: {me, election, loading, error}} = this.props
 
     const isCandidate = election && election.candidates.some(c => c.user.id === me.id)
+
     const candidacyPreview = me && {
       user: me,
       city: me.address ? me.address.city : '',
@@ -180,46 +186,46 @@ class ElectionCandidacy extends React.Component {
                     errors={errors}
                     dirty={dirty}
                   />
-                  <div {...styles.sectionSmall}>
-                    {isEditing ? (
-                      <FieldSet
-                        values={values}
-                        isEditing={isEditing}
-                        errors={errors}
-                        dirty={dirty}
-                        fields={fields(t)}
-                        onChange={this.onChange}
-                      />
-                    ) : (
-                      <Fragment>
-                        <Label style={{display: 'block'}}>
-                          {t('profile/disclosures/label')}
-                        </Label>
-                        <P>{me.disclosures}</P>
-                      </Fragment>
-                     )
-                    }
-                  </div>
-                  <div {...styles.sectionSmall}>
-                    {isEditing ? (
-                      <Credentials
-                        user={me}
-                        isEditing={isEditing}
-                        onChange={this.onChange}
-                        values={values}
-                        errors={errors}
-                        dirty={dirty}
-                      />
-                    ) : (
-                      <Fragment>
-                        <Label style={{display: 'block'}}>
-                          {t('profile/credentials/label')}
-                        </Label>
-                        <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
-                      </Fragment>
-                      )
-                    }
-                  </div>
+                </div>
+                <div {...styles.sectionSmall}>
+                  {isEditing ? (
+                    <Credentials
+                      user={me}
+                      isEditing={isEditing}
+                      onChange={this.onChange}
+                      values={values}
+                      errors={errors}
+                      dirty={dirty}
+                    />
+                  ) : (
+                    <Fragment>
+                      <Label style={{display: 'block'}}>
+                        {t('profile/credentials/label')}
+                      </Label>
+                      <P>{((me.credentials || []).find(c => c.isListed) || {}).description}</P>
+                    </Fragment>
+                    )
+                  }
+                </div>
+                <div {...styles.sectionSmall}>
+                  {isEditing ? (
+                    <FieldSet
+                      values={values}
+                      isEditing={isEditing}
+                      errors={errors}
+                      dirty={dirty}
+                      fields={fields(t)}
+                      onChange={this.onChange}
+                    />
+                  ) : (
+                    <Fragment>
+                      <Label style={{display: 'block'}}>
+                        {t('profile/disclosures/label')}
+                      </Label>
+                      <P>{me.disclosures}</P>
+                    </Fragment>
+                  )
+                  }
                 </div>
                 <br />
                 {isEditing ? (
@@ -250,6 +256,7 @@ class ElectionCandidacy extends React.Component {
                   <P>{f('candidacy/preview/label')}</P>
                 </div>
                 <ElectionBallotRow
+                  maxVotes={0}
                   expanded
                   candidate={candidacyPreview}
                 />
@@ -268,7 +275,12 @@ class ElectionCandidacy extends React.Component {
               </Section>
 
               { isCandidate ? (
-                null
+                <div>
+                  <A href='#' onClick={(e) => {
+                    e.preventDefault()
+                    this.cancelCandidacy()
+                  }}>Kandidatur zurückziehen</A>
+                </div>
               ) : (
                 <Button block big onClick={this.save}>
                     Ja, ich will für den Genossenschaftsrat kandidieren!
@@ -287,6 +299,14 @@ const submitCandidacy = gql`mutation submitCandidacy($slug: String!) {
   submitCandidacy(slug: $slug) {
     id
     user {
+      id
+    }
+  }
+}`
+
+const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
+  cancelCandidacy(slug: $slug) {
+    candidates {
       id
     }
   }
@@ -388,6 +408,20 @@ export default compose(
   graphql(submitCandidacy, {
     props: ({mutate}) => ({
       submitCandidacy: slug => {
+        return mutate({
+          variables: {
+            slug
+          },
+          refetchQueries: [{
+            query
+          }]
+        })
+      }
+    })
+  }),
+  graphql(cancelCandidacy, {
+    props: ({mutate}) => ({
+      cancelCandidacy: slug => {
         return mutate({
           variables: {
             slug

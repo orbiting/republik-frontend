@@ -186,7 +186,7 @@ class ElectionBallotRow extends Component {
             </div>
           }
         </div>
-        { onChange &&
+        { maxVotes > 0 && onChange &&
           <div style={{width: 18}}>
             <SelectionComponent
               disabled={maxVotes > 1 && !selected && disabled}

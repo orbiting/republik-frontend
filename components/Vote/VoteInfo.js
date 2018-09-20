@@ -32,7 +32,7 @@ export default () =>
     <Section>
       <Heading>Genossenschaftsrat</Heading>
       <Body text={f('info/council/body')}/>
-      <Collapsible>
+      <Collapsible label='Weitere Informationen zum Genossenschaftsrat'>
         <Small text={f('info/council/more')}/>
       </Collapsible>
       <Body text={f('info/council/body2')}/>

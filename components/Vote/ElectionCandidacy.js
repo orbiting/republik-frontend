@@ -33,28 +33,28 @@ const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
 const fields = (t) => ([
-  {
-    label: 'Geburtsdatum',
-    name: 'birthday',
-    mask: '11.11.1111',
-    maskChar: '_',
-    validator: (value) => {
-      const parsedDate = birthdayParse(value)
-      return (
-        (
-          (
-            value.trim().length &&
-            (
-              parsedDate === null ||
-              parsedDate > (new Date()) ||
-              parsedDate < (new Date(1798, 3, 12))
-            ) &&
-            t('Account/Update/birthday/error/invalid')
-          )
-        )
-      )
-    }
-  },
+  // {
+  //   label: 'Geburtsdatum',
+  //   name: 'birthday',
+  //   mask: '11.11.1111',
+  //   maskChar: '_',
+  //   validator: (value) => {
+  //     const parsedDate = birthdayParse(value)
+  //     return (
+  //       (
+  //         (
+  //           value.trim().length &&
+  //           (
+  //             parsedDate === null ||
+  //             parsedDate > (new Date()) ||
+  //             parsedDate < (new Date(1798, 3, 12))
+  //           ) &&
+  //           t('Account/Update/birthday/error/invalid')
+  //         )
+  //       )
+  //     )
+  //   }
+  // },
   {
     label: 'Interessenbindungen (optional)',
     name: 'disclosures',
@@ -267,7 +267,7 @@ class ElectionCandidacy extends React.Component {
               { isCandidate ? (
                 <div>
                   <P>
-                    Danke für Ihr Engagement!
+                    Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!
                   </P>
                 </div>
               ) : (

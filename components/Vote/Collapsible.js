@@ -20,7 +20,7 @@ const styles = {
     cursor: 'pointer',
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular18,
+      ...fontStyles.sansSerifRegular16,
     }
   }),
   toggleIcon: css({

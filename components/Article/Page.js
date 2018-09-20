@@ -356,7 +356,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember, payNoteIndex } = this.props
+    const { url, t, data, data: {article}, isMember } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -425,13 +425,15 @@ class ArticlePage extends Component {
 
           const isFormat = meta.template === 'format'
           const isNewsletterSource = url.query.utm_source && url.query.utm_source === 'newsletter'
+          const payNoteVariation = series
+            ? 'series'
+            : this.props.payNoteVariation
 
           return (
             <Fragment>
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
-                  isSeries={!!series}
-                  index={payNoteIndex}
+                  variation={payNoteVariation}
                   expanded={isAwayFromBottomBar} />
               )}
               {this.state.showPdf &&
@@ -448,8 +450,7 @@ class ArticlePage extends Component {
               </ArticleGallery>
               {!isFormat && (
                 <PayNote.After
-                  isSeries={!!series}
-                  index={payNoteIndex}
+                  variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
               {meta.discussionId && <Center>
@@ -501,7 +502,7 @@ const ComposedPage = compose(
 
 ComposedPage.getInitialProps = () => {
   return {
-    payNoteIndex: Math.floor(Math.random() * PayNote.NUM_VARIATIONS)
+    payNoteVariation: PayNote.getRandomVariation()
   }
 }
 

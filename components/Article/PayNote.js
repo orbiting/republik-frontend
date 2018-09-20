@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
@@ -88,8 +89,22 @@ query payNoteMembershipStats {
 }
 `
 
-// The total number of paynote translation variations in lib/translations.json
-export const NUM_VARIATIONS = 9
+const ACTIVE_VARIATIONS = [
+  '180920-v1',
+  '180920-v2',
+  '180920-v3',
+  '180920-v4',
+  '180920-v5',
+  '180920-v6',
+  '180920-v7',
+  '180920-v8',
+  '180920-v9'
+]
+
+export const getRandomVariation = () => {
+  const randomIndex = Math.floor(Math.random() * ACTIVE_VARIATIONS.length)
+  return ACTIVE_VARIATIONS[randomIndex]
+}
 
 const CountSpan = ({ membershipStats }) => (
   <span style={{whiteSpace: 'nowrap'}}>{countFormat(
@@ -101,7 +116,7 @@ export const Before = compose(
   withT,
   graphql(query),
   withInNativeApp
-)(({ t, data: { membershipStats }, isSeries, inNativeIOSApp, index, expanded }) => (
+)(({ t, data: { membershipStats }, inNativeIOSApp, variation, expanded }) => (
   <WithoutMembership render={() => {
     if (inNativeIOSApp) {
       return (
@@ -116,9 +131,7 @@ export const Before = compose(
         </div>
       )
     }
-    const translationPrefix = isSeries
-      ? 'article/payNote/series'
-      : `article/payNote/${index}`
+    const translationPrefix = `article/payNote/${variation}`
     return (
       <BottomPanel expanded={expanded} button={(
         <Link route='pledge'>
@@ -144,11 +157,9 @@ export const After = compose(
   withMe,
   graphql(query),
   withInNativeApp
-)(({ t, me, data: { membershipStats }, isSeries, inNativeIOSApp, index, bottomBarRef }) => (
+)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, bottomBarRef }) => (
   <WithoutMembership render={() => {
-    const translationPrefix = isSeries
-      ? 'article/payNote/series'
-      : `article/payNote/${index}`
+    const translationPrefix = `article/payNote/${variation}`
     return (
       <div {...styles.secondaryContainer}>
         <Center>
@@ -198,3 +209,7 @@ export const After = compose(
     )
   }} />
 ))
+
+Before.propTypes = After.propTypes = {
+  variation: PropTypes.oneOf(ACTIVE_VARIATIONS.concat('series')).isRequired
+}

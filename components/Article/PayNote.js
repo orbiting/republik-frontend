@@ -134,7 +134,7 @@ export const Before = compose(
     }
     const translationPrefix = `article/payNote/${variation}`
     return (
-      <BottomPanel expanded={expanded} button={(
+      <BottomPanel expanded={expanded} variation={variation} button={(
         <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
           ['PayNote', 'pledge panel', variation],
           () => {

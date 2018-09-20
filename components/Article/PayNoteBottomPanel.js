@@ -103,7 +103,7 @@ class BottomPanel extends Component {
   }
 
   render () {
-    const { t, children, button, expanded } = this.props
+    const { t, children, button, expanded, variation } = this.props
 
     return (
       <div aria-expanded={expanded && this.state.expanded} {...styles.container}>
@@ -111,7 +111,7 @@ class BottomPanel extends Component {
           <button
             {...styles.plainButton}
             {...styles.close}
-            onClick={trackEventOnClick(['PayNote', 'close panel', 'x'], this.close)}
+            onClick={trackEventOnClick(['PayNote', 'close panel', variation], this.close)}
             title={t('article/payNote/bottomPanel/close')}
           >
             <Close size={32} fill={negativeColors.lightText} />
@@ -126,7 +126,7 @@ class BottomPanel extends Component {
             <button
               {...styles.later}
               {...styles.plainButton}
-              onClick={trackEventOnClick(['PayNote', 'close panel', 'later'], this.close)}
+              onClick={trackEventOnClick(['PayNote', 'later panel', variation], this.close)}
             >
               {t('article/payNote/bottomPanel/actions/later')}
             </button>

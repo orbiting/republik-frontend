@@ -4,13 +4,16 @@ import { Router } from '../../lib/routes'
 import Collapsible from './Collapsible'
 
 import {
-  A, Button
+  A, Button, P
 } from '@project-r/styleguide'
 
 const F = Fragment
 
 export default () =>
   <div>
+    <P>
+      <img style={{width: '100%'}} src='/static/genossenschaft/info2.png' />
+    </P>
     <Section>
       <Title>Wahlen und Abstimmungen</Title>
       <TextMedium>
@@ -49,6 +52,9 @@ export default () =>
         </F>
       </Collapsible>
     </Section>
+    <P>
+      <img style={{width: '100%'}} src='/static/genossenschaft/info1.jpg' />
+    </P>
     <Section>
       <Heading>Genossenschaftsrat</Heading>
       <TextMedium>

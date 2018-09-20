@@ -24,7 +24,7 @@ import { swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
 import Loader from '../Loader'
-import { Section, TextSmall, Title } from './text'
+import { Section, TextSmall, Body, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 
 const {H2, P} = Interaction
@@ -153,7 +153,7 @@ class ElectionCandidacy extends React.Component {
         <Loader loading={loading} error={error} render={() =>
           <NarrowContainer>
             <Title>
-              {f('candidacy/title')}
+              {f('info/candidacy/title')}
             </Title>
             <P />
             <div>
@@ -253,7 +253,7 @@ class ElectionCandidacy extends React.Component {
               <div {...styles.previewWrapper}>
                 <H2>Vorschau</H2>
                 <div style={{margin: `15px 0`}}>
-                  <P>{f('candidacy/preview/label')}</P>
+                  <P>{f('info/candidacy/label')}</P>
                 </div>
                 <ElectionBallotRow
                   maxVotes={0}
@@ -262,16 +262,7 @@ class ElectionCandidacy extends React.Component {
                 />
               </div>
               <Section>
-                <TextSmall indent={false}>
-                  <div>
-                    Die Mitglieder von Project R sehen auf dem Wahlformular nur, was in der Vorschau angezeigt wird.
-                    In Ihrem Profil sehen die Mitglieder zusätzlich: Steckbrief, Interessenbindung, Debattenbeiträge.
-                    Das Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt, die ab dem 17.10.2018
-                    online und für alle Mitglieder sichtbar ist.
-                    Geburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»
-                    einsehbar.
-                  </div>
-                </TextSmall>
+                <Small indent={false} text={f('info/candidacy/finePrint')} />
               </Section>
 
               { isCandidate ? (

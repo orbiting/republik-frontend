@@ -59,12 +59,12 @@ class Collapsible extends React.Component {
             label
           }
         </div>
-        { collapsed || 
-          <TextSmall>
+        { collapsed ||
+          <div>
             {
               children
             }
-          </TextSmall>
+          </div>
         }
       </div>
     )

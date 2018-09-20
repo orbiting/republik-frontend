@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { romanize } from '../../lib/utils/romanize'
@@ -60,31 +60,27 @@ const RelatedEpisodes = ({ t, episodes, path }) => {
   previousEpisode = currentEpisodeIndex > 0 && episodes[currentEpisodeIndex - 1]
   nextEpisode = episodes[currentEpisodeIndex + 1]
 
-  return (
-    <Fragment>
-      {(previousEpisode || nextEpisode) && (
-        <Center>
-          <Breakout size='breakout'>
-            <TeaserFrontTileRow columns={2}>
-              {previousEpisode && (
-                <Tile
-                  t={t}
-                  episode={previousEpisode}
-                  index={currentEpisodeIndex - 1}
-                />
-              )}
-              {nextEpisode && (
-                <Tile
-                  t={t}
-                  episode={nextEpisode}
-                  index={currentEpisodeIndex + 1}
-                />
-              )}
-            </TeaserFrontTileRow>
-          </Breakout>
-        </Center>
-      )}
-    </Fragment>
+  return !!(previousEpisode || nextEpisode) && (
+    <Center>
+      <Breakout size='breakout'>
+        <TeaserFrontTileRow columns={2}>
+          {previousEpisode && (
+            <Tile
+              t={t}
+              episode={previousEpisode}
+              index={currentEpisodeIndex - 1}
+            />
+          )}
+          {nextEpisode && (
+            <Tile
+              t={t}
+              episode={nextEpisode}
+              index={currentEpisodeIndex + 1}
+            />
+          )}
+        </TeaserFrontTileRow>
+      </Breakout>
+    </Center>
   )
 }
 

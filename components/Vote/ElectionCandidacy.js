@@ -24,7 +24,7 @@ import { swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
 import Loader from '../Loader'
-import { Section, TextSmall, Body, Small, Title } from './text'
+import { Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 
 const {H2, P} = Interaction
@@ -157,10 +157,24 @@ class ElectionCandidacy extends React.Component {
             </Title>
             <P />
             <div>
+              <div {...styles.previewWrapper}>
+                <H2>Vorschau</H2>
+                <div style={{margin: `15px 0`}}>
+                  <P>{f('info/candidacy/label')}</P>
+                </div>
+                <ElectionBallotRow
+                  maxVotes={0}
+                  expanded
+                  candidate={candidacyPreview}
+                />
+              </div>
+              <Section>
+                <Small indent={false} text={f('info/candidacy/finePrint')} />
+              </Section>
               <UpdateMe style={{marginBottom: 30}} />
               <Section>
                 <H2>Kandidatur</H2>
-                <div {...styles.sectionSmall} style={{width: 200, height: 200, background: 'black'}}>
+                <div {...styles.sectionSmall} style={{width: 90, height: 90, background: 'black'}}>
                   <Portrait
                     user={me}
                     isEditing={isEditing}
@@ -250,21 +264,6 @@ class ElectionCandidacy extends React.Component {
                 )
                 }
               </Section>
-              <div {...styles.previewWrapper}>
-                <H2>Vorschau</H2>
-                <div style={{margin: `15px 0`}}>
-                  <P>{f('info/candidacy/label')}</P>
-                </div>
-                <ElectionBallotRow
-                  maxVotes={0}
-                  expanded
-                  candidate={candidacyPreview}
-                />
-              </div>
-              <Section>
-                <Small indent={false} text={f('info/candidacy/finePrint')} />
-              </Section>
-
               { isCandidate ? (
                 <div>
                   <P>

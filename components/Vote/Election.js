@@ -116,7 +116,7 @@ class Election extends Component {
     }
 
     this.renderActions = () => {
-      const {onFinish, maxVotes} = this.props
+      const {onFinish, data: {election: {numSeats}}} = this.props
       const {electionState} = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Formular zurücksetzen</A>
@@ -125,10 +125,13 @@ class Election extends Component {
         case ELECTION_STATES.START:
           return (
             <Fragment>
-              <Button disabled>
+              <Button
+                black
+                onClick={() => this.transition(ELECTION_STATES.READY)}
+              >
                 Wählen
               </Button>
-              <div {...styles.link}>Bitte wählen Sie {maxVotes > 1 ? 'mindestens' : ''} eine Kandidatin</div>
+              {resetLink}
             </Fragment>
           )
         case ELECTION_STATES.DIRTY:
@@ -166,12 +169,13 @@ class Election extends Component {
 
     this.renderWarning = () => {
       const {electionState, vote} = this.state
-      const {maxVotes} = this.props
-      if (electionState === ELECTION_STATES.READY && vote.length < maxVotes) {
+      const {data: {election: {numSeats}}} = this.props
+      if (electionState === ELECTION_STATES.READY && vote.length < numSeats) {
         return (
           <P {...styles.error}>
-            {
-              `Sie haben erst ${vote.length} von ${maxVotes} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?`
+            { vote.length < 1
+                ? `Möchten Sie wirklich eine leere Stimme abgeben?`
+                : `Sie haben erst ${vote.length} von ${numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?`
             }
           </P>
         )
@@ -203,6 +207,9 @@ class Election extends Component {
     return (
       <div {...styles.wrapper}>
         <div {...styles.header}>
+          {election.numSeats > 1 && inProgress &&
+          <P>Sie haben noch {election.numSeats - vote.length}/{election.numSeats} Stimmen übrig!</P>
+          }
           {recommendedCandidates.length > 0 && inProgress &&
           <Button
             style={{height: 50}}
@@ -213,9 +220,6 @@ class Election extends Component {
           >
             Wahlempfehlung übernehmen
           </Button>
-          }
-          {election.numSeats > 1 && inProgress &&
-          <P>Sie haben noch {election.numSeats - vote.length} Stimmen übrig!</P>
           }
         </div>
         <div {...styles.wrapper}>

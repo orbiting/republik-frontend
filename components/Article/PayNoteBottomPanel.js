@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import { trackEventOnClick } from '../../lib/piwik'
 
 import Close from 'react-icons/lib/md/close'
 import {
@@ -110,8 +111,8 @@ class BottomPanel extends Component {
           <button
             {...styles.plainButton}
             {...styles.close}
-            onClick={this.close}
-            title={t('article/bottomPanel/close')}
+            onClick={trackEventOnClick(['PayNote', 'close panel', 'x'], this.close)}
+            title={t('article/payNote/bottomPanel/close')}
           >
             <Close size={32} fill={negativeColors.lightText} />
           </button>
@@ -125,9 +126,9 @@ class BottomPanel extends Component {
             <button
               {...styles.later}
               {...styles.plainButton}
-              onClick={this.close}
+              onClick={trackEventOnClick(['PayNote', 'close panel', 'later'], this.close)}
             >
-              {t('article/bottomPanel/actions/later')}
+              {t('article/payNote/bottomPanel/actions/later')}
             </button>
           </div>
         </Center>

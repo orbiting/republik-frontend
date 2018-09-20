@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-20T09:27:00.463Z",
+  "updated": "2018-09-20T10:05:56.112Z",
   "title": "live",
   "data": [
     {
@@ -2619,11 +2619,11 @@
       "value": "Ich bin an Bord."
     },
     {
-      "key": "article/bottomPanel/close",
+      "key": "article/payNote/bottomPanel/close",
       "value": "Schliessen"
     },
     {
-      "key": "article/bottomPanel/actions/later",
+      "key": "article/payNote/bottomPanel/actions/later",
       "value": "Später"
     },
     {

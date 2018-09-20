@@ -7,10 +7,11 @@ import { css } from 'glamor'
 import { WithoutMembership } from '../Auth/withMembership'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import { trackEventOnClick } from '../../lib/piwik'
+import { Router, routes } from '../../lib/routes'
 import { countFormat } from '../../lib/utils/format'
 import withInNativeApp from '../../lib/withInNativeApp'
-import BottomPanel from './BottomPanel'
+import BottomPanel from './PayNoteBottomPanel'
 
 import {
   Button,
@@ -134,11 +135,14 @@ export const Before = compose(
     const translationPrefix = `article/payNote/${variation}`
     return (
       <BottomPanel expanded={expanded} button={(
-        <Link route='pledge'>
-          <Button primary style={multiLineButtonStyle}>
-            {t(`${translationPrefix}/before/buy/button`)}
-          </Button>
-        </Link>
+        <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
+          ['PayNote', 'pledge panel', variation],
+          () => {
+            Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
+          }
+        )}>
+          {t(`${translationPrefix}/before/buy/button`)}
+        </Button>
       )}>
         <div {...styles.beforeContent}>
           <p {...styles.beforeParagraph}>
@@ -183,20 +187,28 @@ export const After = compose(
               </Interaction.P>
               <br />
               <div {...styles.actions} ref={bottomBarRef}>
-                <Link key='buy' route='pledge'>
-                  <Button primary style={multiLineButtonStyle}>
-                    {t(`${translationPrefix}/after/buy/button`)}
-                  </Button>
-                </Link>
+                <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
+                  ['PayNote', 'pledge after', variation],
+                  () => {
+                    Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
+                  }
+                )}>
+                  {t(`${translationPrefix}/after/buy/button`)}
+                </Button>
                 {!me && (
                   <div {...styles.aside}>
                     {t.elements('article/payNote/secondaryAction/text', {
                       link: (
-                        <Link key='preview' route='preview'>
-                          <a {...linkRule} style={{whiteSpace: 'nowrap'}}>
-                            {t('article/payNote/secondaryAction/linkText')}
-                          </a>
-                        </Link>
+                        <a key='preview' {...linkRule} style={{whiteSpace: 'nowrap'}}
+                          href={routes.find(r => r.name === 'preview').toPath()}
+                          onClick={trackEventOnClick(
+                            ['PayNote', 'preview after', variation],
+                            () => {
+                              Router.pushRoute('preview').then(() => window.scrollTo(0, 0))
+                            }
+                          )}>
+                          {t('article/payNote/secondaryAction/linkText')}
+                        </a>
                       )
                     })}
                   </div>

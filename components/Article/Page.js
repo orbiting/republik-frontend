@@ -201,6 +201,7 @@ class ArticlePage extends Component {
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
+      isAwayFromBottomBar: true,
       ...this.deriveStateFromProps(props)
     }
 
@@ -209,6 +210,9 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY
+      if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
+        this.setState({ isAwayFromBottomBar })
+      }
 
       const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
@@ -354,7 +358,7 @@ class ArticlePage extends Component {
   render () {
     const { url, t, data, data: {article}, isMember } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer } = this.state
+    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -420,10 +424,18 @@ class ArticlePage extends Component {
           }
 
           const isFormat = meta.template === 'format'
+          const isNewsletterSource = url.query.utm_source && url.query.utm_source === 'newsletter'
+          const payNoteVariation = series
+            ? 'series'
+            : this.props.payNoteVariation
 
           return (
             <Fragment>
-              {!isFormat && <PayNote.Before />}
+              {!isFormat && !isNewsletterSource && (
+                <PayNote.Before
+                  variation={payNoteVariation}
+                  expanded={isAwayFromBottomBar} />
+              )}
               {this.state.showPdf &&
                 <PdfOverlay
                   article={article}
@@ -436,11 +448,11 @@ class ArticlePage extends Component {
                   }, schema)}
                 </SSRCachingBoundary>
               </ArticleGallery>
-              {meta.template === 'article' && <Center>
-                <div ref={this.bottomBarRef} {...styles.bar}>
-                  {actionBar}
-                </div>
-              </Center>}
+              {!isFormat && (
+                <PayNote.After
+                  variation={payNoteVariation}
+                  bottomBarRef={this.bottomBarRef} />
+              )}
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}
@@ -448,13 +460,25 @@ class ArticlePage extends Component {
                   mute={!!url.query.mute}
                   url={url} />
               </Center>}
+              {isMember && (
+                <Fragment>
+                  {meta.template === 'article' && <Center>
+                    <div ref={this.bottomBarRef} {...styles.bar}>
+                      {actionBar}
+                    </div>
+                  </Center>}
+                </Fragment>
+              )}
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              <br />
-              <br />
-              <br />
-              <br />
-              {!isFormat && <PayNote.After isSeries={!!series} />}
+              {isMember && (
+                <Fragment>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </Fragment>
+              )}
             </Fragment>
           )
         }} />
@@ -463,7 +487,7 @@ class ArticlePage extends Component {
   }
 }
 
-export default compose(
+const ComposedPage = compose(
   withT,
   withMembership,
   withInNativeApp,
@@ -475,3 +499,11 @@ export default compose(
     })
   })
 )(ArticlePage)
+
+ComposedPage.getInitialProps = () => {
+  return {
+    payNoteVariation: PayNote.getRandomVariation()
+  }
+}
+
+export default ComposedPage

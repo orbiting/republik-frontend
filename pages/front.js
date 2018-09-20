@@ -33,8 +33,7 @@ class FrontPage extends Component {
     if (isPathKnown(url) && !isMember && !inNativeIOSApp) {
       if (serverContext) {
         const indexPath = routes
-          .filter(r => r.name === 'index')
-          .shift()
+          .find(r => r.name === 'index')
           .toPath()
 
         serverContext.res.redirect(302, indexPath)

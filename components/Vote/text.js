@@ -12,7 +12,7 @@ const { H2, P, Headline } = Interaction
 
 export const Section = ({children}) =>
   <section {...css({
-    marginBottom: 40
+    marginTop: 30
   })}>
     {children}
   </section>
@@ -31,14 +31,6 @@ export const Heading = ({children}) =>
     {children}
   </H2>
 
-export const Strong = ({children}) =>
-  <strong {...css({
-    fontFamily: fontFamilies.sansSerifMedium,
-    fontWeight: 'normal',
-  })}>
-    {children}
-  </strong>
-
 const PMedium = (props) =>
   <P {...css({
     marginBottom: 15
@@ -51,7 +43,6 @@ export const Body = ({text}) =>
     { text.split('\n\n').map(c => <PMedium><RawHtml dangerouslySetInnerHTML={{__html: c}}/></PMedium>) }
   </div>
 
-
 const PSmall = ({children, indent = true}) =>
   <P {...css({
     marginTop: 10,
@@ -59,8 +50,12 @@ const PSmall = ({children, indent = true}) =>
     marginBottom: 15,
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular18,
+      ...fontStyles.sansSerifRegular16,
       lineHeight: 1.4
+    },
+    '& strong': {
+      fontFamily: fontFamilies.sansSerifMedium,
+      fontWeight: 'normal',
     }
   })}>
     {children}
@@ -68,30 +63,18 @@ const PSmall = ({children, indent = true}) =>
 
 export const Small = ({text, indent = true}) =>
   <div>
-    { text.split('\n\n').map(c => <PSmall indent={indent}><RawHtml dangerouslySetInnerHTML={{__html: c}}/></PSmall>) }
+    { text.split('\n\n').map((c,i) => <PSmall key={i} indent={indent}><RawHtml dangerouslySetInnerHTML={{__html: c}}/></PSmall>) }
   </div>
 
-export const TextMedium = ({children}) =>
-  React.Children.map(children, c =>
-    <P {...css({
-      marginBottom: 15
-    })}>
-      {c.props.children}
-    </P>
-  )
-
-export const TextSmall = ({text, indent = true}) =>
-  React.Children.map(children, c =>
-    <P {...css({
-      marginTop: 10,
-      marginLeft: indent ? 20 : 0,
-      marginBottom: 15,
-      ...fontStyles.sansSerifRegular16,
-      [mediaQueries.mUp]: {
-        ...fontStyles.sansSerifRegular18,
-        lineHeight: 1.4
-      }
-    })}>
-      {c.props.children}
-    </P>
-  )
+export const Caption = ({children}) =>
+  <div {...css({
+    margin: '5px auto 0 auto',
+    width: '100%',
+    ...fontStyles.sansSerifRegular12,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular15,
+      lineHeight: '18px'
+    }
+  })}>
+    {children}
+  </div>

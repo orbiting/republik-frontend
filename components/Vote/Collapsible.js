@@ -7,7 +7,8 @@ import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import {
   mediaQueries,
   fontStyles,
-  Interaction
+  Interaction,
+  A
 } from '@project-r/styleguide'
 import { TextSmall } from './text'
 
@@ -55,9 +56,9 @@ class Collapsible extends React.Component {
               ? <div {...styles.toggleIcon}><ChevronRightIcon /></div>
               : <div  {...styles.toggleIcon}><ChevronDownIcon /></div>
           }
-          {
+          <A>{
             label
-          }
+          }</A>
         </div>
         { collapsed ||
           <div>

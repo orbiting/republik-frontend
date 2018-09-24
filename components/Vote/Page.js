@@ -15,6 +15,7 @@ import VoteForm from './VoteForm'
 import { VOTING_STAGES } from './votingStage'
 
 class Page extends React.Component {
+
   render () {
     const meta = {
       title: 'Wahl des Genossenschaftsrats',
@@ -27,7 +28,7 @@ class Page extends React.Component {
       <Frame meta={meta} url={url} disableNavBar>
         { url.query.stage===VOTING_STAGES.VOTE
           ? <VoteForm />
-          : <VoteInfo />
+          : <VoteInfo url={url} />
         }
       </Frame>
     )

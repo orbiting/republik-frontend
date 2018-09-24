@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { A, fontStyles, mediaQueries, colors, Interaction } from '@project-r/styleguide'
+import { A, fontStyles, mediaQueries, colors, Interaction, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
@@ -17,6 +17,7 @@ const styles = {
   }),
   statement: css({
     [mediaQueries.onlyS]: {
+      marginBottom: 15,
       ...fontStyles.serifTitle22
     },
     ...fontStyles.serifTitle26
@@ -28,14 +29,16 @@ const styles = {
     display: 'flex',
     cursor: 'pointer',
     ...fontStyles.sansSerifRegular16,
+    lineHeight: 1.3,
     '& :nth-child(1)': {
-      width: '30%'
+      width: '25%'
     },
     '& :nth-child(2)': {
-      width: '10%'
+      width: '15%'
     },
     '& :nth-child(3)': {
-      width: '40%'
+      width: '40%',
+      paddingRight: 5,
     },
     ':nth-child(4)': {
       width: '20%'
@@ -71,18 +74,21 @@ const styles = {
   details: css({
     width: '100%',
     margin: '15px 0',
-    '& > *': {
-      margin: 3
-    },
     '& img': {
-      width: 90,
-      height: 90,
+      width: 104,
+      height: 104,
       marginRight: 8
     }
   }),
   profile: css({
     display: 'flex',
-    alignItems: 'start'
+    alignItems: 'start',
+    [mediaQueries.onlyS]: {
+      flexDirection: 'column-reverse',
+    }
+  }),
+  recommendation: css({
+    marginTop: 15,
   }),
   wrapper: css({
     width: '100%',
@@ -94,7 +100,11 @@ const styles = {
     background: colors.secondaryBg
   }),
   icon: css({
-    padding: 2
+    marginTop: -3,
+    padding: 2,
+    [mediaQueries.onlyS]: {
+      marginTop: 0,
+    }
   })
 }
 
@@ -161,11 +171,11 @@ class ElectionBallotRow extends Component {
               <div {...styles.details}>
                 <div {...styles.profile}>
                   <div>
-                    <img src={d.portrait} />
+                    <img src={d.portrait || DEFAULT_PROFILE_PICTURE} />
                     <div>
-                      <div>
-                        <A href={`/~${d.id}`}>Profil</A>
-                      </div>
+                      {/*<div>*/}
+                        {/*<A href={`/~${d.id}`}>Profil</A>*/}
+                      {/*</div>*/}
                       { candidate.commentId &&
                       <div>
                         <A href={`/~${d.id}`}>Debatte</A>
@@ -178,7 +188,7 @@ class ElectionBallotRow extends Component {
                   </div>
                 </div>
                 { candidate.recommendation &&
-                  <div>
+                  <div {...styles.recommendation}>
                     <Strong>Wahlempfehlung der Republik:</Strong> {candidate.recommendation}
                   </div>
                 }
@@ -203,14 +213,14 @@ class ElectionBallotRow extends Component {
 ElectionBallotRow.defaultProps = {
   selected: false,
   disabled: false,
-  maxVotes: PropTypes.number,
+  maxVotes: 1,
   onChange: () => {}
 }
 
 ElectionBallotRow.propTypes = {
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
-  maxVotes: 1,
+  maxVotes: PropTypes.number,
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired
 }

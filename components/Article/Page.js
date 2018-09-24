@@ -265,6 +265,7 @@ class ArticlePage extends Component {
   }
 
   deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp }) {
+
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`

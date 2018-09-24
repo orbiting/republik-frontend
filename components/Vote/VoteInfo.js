@@ -1,33 +1,40 @@
-import React, {Fragment} from 'react'
-import { Heading, Section, Strong, TextMedium, Body, Small, Title } from './text'
+import React, { Fragment } from 'react'
+import { Heading, Section, Caption, Body, Small, Title } from './text'
 import { Router } from '../../lib/routes'
 import Collapsible from './Collapsible'
 import { formatter as f } from './util'
-
+import {
+  FigureImage,
+  FigureCaption
+} from '@project-r/styleguide'
 import {
   A, Button, P
 } from '@project-r/styleguide'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
-const F = Fragment
+const voteNow =
+  <P>
+    <Button block big primary onClick={e => {
+      e.preventDefault()
+//      Router.push(`${url.asPath}/kandidieren`).then(() => window.scrollTo(0, 0))
+      Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0))
+    }}>Kandidieren Sie jetzt!</Button>
+  </P>
 
-export default () =>
+export default ({url}) =>
   <div>
-    <P>
-      <img style={{width: '100%'}} src='/static/genossenschaft/info2.png' />
-    </P>
     <Section>
       <Title>{f('vote/title')}</Title>
-      <Body text={f('info/intro/body1')} />
-      <P>
-        <Button block big onClick={e => { e.preventDefault(); Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0)) }}>Kandidieren Sie jetzt!</Button>
-      </P>
-      <Body text={f('info/intro/body2')} />
+      <Body text={f('info/intro/body1')}/>
+      {voteNow}
+      <Body text={f('info/intro/body2')}/>
       <Collapsible>
-        <Small text={f('info/intro/more')} />
+        <Small text={f('info/intro/more')}/>
       </Collapsible>
     </Section>
     <P>
-      <img style={{width: '100%'}} src='/static/genossenschaft/info1.jpg' />
+      <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg`} />
+      <FigureCaption>{f('vote/intro/caption')}</FigureCaption>
     </P>
     <Section>
       <Heading>Genossenschaftsrat</Heading>
@@ -40,7 +47,5 @@ export default () =>
         <Small text={f('info/council/more2')}/>
       </Collapsible>
     </Section>
-    <F>
-      <Button block big onClick={e => { e.preventDefault(); Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0)) }}>Kandidieren Sie jetzt!</Button>
-    </F>
+    {voteNow}
   </div>

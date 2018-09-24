@@ -111,7 +111,7 @@ class Poll extends React.Component {
           return (
             <Fragment>
               <Button
-                black
+                primary
                 onClick={() => this.transition(POLL_STATES.READY)}
               >
                 Abstimmen

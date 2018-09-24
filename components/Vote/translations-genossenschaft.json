@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-20T14:08:57.893Z",
+  "updated": "2018-09-24T20:01:57.359Z",
   "title": "live",
   "data": [
     {
@@ -13,6 +13,10 @@
     {
       "key": "info/intro/body2",
       "value": "Ab dem 17. Oktober schreiten wir zur Wahl. Urnenschluss ist am 28. Oktober. Sie wählen einerseits, wer im\nGenossenschaftsrat von Project R sitzt – und andererseits, wer diesen Rat präsidiert. Und damit das demokratische\nPaket komplett ist, findet zeitgleich auch eine Reihe von Abstimmungen statt. Diese drehen sich alle um die\nFinanzen der Genossenschaft."
+    },
+    {
+      "key": "vote/intro/caption",
+      "value": "Informationsanlass im Zürcher Kino «Kosmos»"
     },
     {
       "key": "info/intro/more",
@@ -37,6 +41,10 @@
     {
       "key": "info/candidacy/title",
       "value": "Kandidieren Sie jetzt!"
+    },
+    {
+      "key": "info/candidacy/title2",
+      "value": "Ihre Kandidatur"
     },
     {
       "key": "info/candidacy/label",
@@ -68,7 +76,7 @@
     },
     {
       "key": "vote/revisionsbericht/body",
-      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <A href='/static/genossenschaft/placeholder.pdf'>hier</A>.\n"
+      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <A href='/static/genossenschaft/placeholder.pdf'>hier</A>."
     },
     {
       "key": "vote/revisionsbericht/more",

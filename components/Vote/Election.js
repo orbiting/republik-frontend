@@ -83,7 +83,7 @@ class Election extends Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      vote: [],
+      vote: props.mandatoryCandidates,
       display: [],
       electionState: ELECTION_STATES.DIRTY
     }
@@ -93,7 +93,7 @@ class Election extends Component {
     }
 
     this.toggleSelection = (candidateId) => {
-      const {data: {election: {numSeats}}} = this.props
+      const {data: {election: {numSeats}}, onChange} = this.props
       const allowMultiple = numSeats > 1
       const collection = this.state.vote
       const existingItem =
@@ -107,7 +107,7 @@ class Election extends Component {
         electionState: nextCollection.length > 0
           ? ELECTION_STATES.DIRTY
           : ELECTION_STATES.START
-      })
+      }, () => onChange(this.state.vote))
     }
 
     this.reset = e => {
@@ -186,10 +186,10 @@ class Election extends Component {
   }
 
   render () {
-    const {data: {election}, isSticky} = this.props
+    const {data: {election}, isSticky, mandatoryCandidates} = this.props
     const {vote, electionState} = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
-    const recommendedCandidates = election.candidates.filter(c => c.recommendation)
+    const recommendedCandidates = election.candidates.filter(c => !!c.recommendation)
 
     if (!inProgress) {
       return (
@@ -208,7 +208,7 @@ class Election extends Component {
       <div {...styles.wrapper}>
         <div {...styles.header}>
           {election.numSeats > 1 && inProgress &&
-          <P>Sie haben noch {election.numSeats - vote.length}/{election.numSeats} Stimmen übrig!</P>
+          <P>Sie haben noch {election.numSeats - vote.length - mandatoryCandidates.length}/{election.numSeats} Stimmen übrig!</P>
           }
           {recommendedCandidates.length > 0 && inProgress &&
           <Button
@@ -248,12 +248,16 @@ class Election extends Component {
 Election.propTypes = {
   onFinish: PropTypes.func,
   isSticky: PropTypes.bool,
-  slug: PropTypes.string.isRequired
+  slug: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  mandatoryCandidates: PropTypes.array,
 }
 
 Election.defaultProps = {
   data: {election: {candidates: []}},
-  isSticky: false
+  isSticky: false,
+  onChange: () => {},
+  mandatoryCandidates: [],
 }
 
 const query = gql`

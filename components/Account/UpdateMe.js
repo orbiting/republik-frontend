@@ -246,7 +246,7 @@ class UpdateMe extends Component {
                   }}
                   fields={meFields} />
                 <Label style={{marginTop: -8, display: 'block'}}>
-                  {t('Account/Update/birthday/hint/plain')}
+                  {t('Account/update/birthday/hint/plain')}
                 </Label>
                 <br /><br />
                 <br />

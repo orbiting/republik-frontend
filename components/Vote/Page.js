@@ -25,7 +25,7 @@ class Page extends React.Component {
     const {url} = this.props
 
     return (
-      <Frame meta={meta} url={url} disableNavBar>
+      <Frame meta={meta} url={url}>
         { url.query.stage===VOTING_STAGES.VOTE
           ? <VoteForm />
           : <VoteInfo url={url} />

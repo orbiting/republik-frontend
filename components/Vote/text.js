@@ -5,7 +5,7 @@ import {
   fontStyles,
   fontFamilies,
   mediaQueries,
-  RawHtml
+  RawHtml,
 } from '@project-r/styleguide'
 
 const { H2, P, Headline } = Interaction
@@ -40,7 +40,14 @@ const PMedium = (props) =>
 
 export const Body = ({text}) =>
   <div>
-    { text.split('\n\n').map(c => <PMedium><RawHtml dangerouslySetInnerHTML={{__html: c}}/></PMedium>) }
+    {
+      text.split('\n\n')
+        .map(c =>
+          <PMedium>
+            <RawHtml dangerouslySetInnerHTML={{__html: c}}/>
+          </PMedium>
+        )
+    }
   </div>
 
 const PSmall = ({children, indent = true}) =>
@@ -63,7 +70,14 @@ const PSmall = ({children, indent = true}) =>
 
 export const Small = ({text, indent = true}) =>
   <div>
-    { text.split('\n\n').map((c,i) => <PSmall key={i} indent={indent}><RawHtml dangerouslySetInnerHTML={{__html: c}}/></PSmall>) }
+    {
+      text.split('\n\n')
+      .map((c, i) =>
+        <PSmall key={i} indent={indent}>
+          <RawHtml dangerouslySetInnerHTML={{__html: c}}/>
+        </PSmall>
+      )
+    }
   </div>
 
 export const Caption = ({children}) =>

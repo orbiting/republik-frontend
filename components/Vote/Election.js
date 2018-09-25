@@ -35,7 +35,7 @@ const styles = {
     background: '#fff',
     zIndex: 10,
     [mediaQueries.onlyS]: {
-      flexDirection: 'column',
+      flexDirection: 'column-reverse',
       top: HEADER_HEIGHT_MOBILE
     }
   }),

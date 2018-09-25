@@ -56,9 +56,9 @@ class Collapsible extends React.Component {
               ? <div {...styles.toggleIcon}><ChevronRightIcon /></div>
               : <div  {...styles.toggleIcon}><ChevronDownIcon /></div>
           }
-          <A>{
+          {
             label
-          }</A>
+          }
         </div>
         { collapsed ||
           <div>

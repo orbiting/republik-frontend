@@ -19,6 +19,8 @@ import StatusError from '../StatusError'
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
+import { ELECTION_SLUG } from '../Vote/ElectionCandidacy'
+
 import Badge from './Badge'
 import Comments from './Comments'
 import Contact from './Contact'
@@ -36,8 +38,10 @@ import {
   linkRule,
   mediaQueries,
   FieldSet,
-  RawHtml
+  RawHtml,
+  A
 } from '@project-r/styleguide'
+import ElectionBallotRow from '../Vote/ElectionBallotRow'
 
 const SIDEBAR_TOP = 20
 
@@ -115,6 +119,10 @@ const styles = {
   }),
   badges: css({
     margin: '20px 0 30px 0'
+  }),
+  candidacy: css({
+    marginTop: 0,
+    marginBottom: 20
   })
 }
 
@@ -124,6 +132,28 @@ export const DEFAULT_VALUES = {
 
 const getPublicUser = gql`
   query getPublicUser($slug: String!) {
+    election(slug: "${ELECTION_SLUG}") {
+      description
+      candidates {
+      id
+      yearOfBirth
+      city
+      recommendation
+      user {
+        id
+        firstName
+        lastName
+        username
+        email
+        statement
+        portrait
+        credentials {
+          isListed
+          description
+        }
+      }
+      }
+    }
     user(slug: $slug) {
       id
       username
@@ -282,8 +312,10 @@ class Profile extends Component {
       url,
       t,
       me,
-      data: { loading, error, user }
+      data: { loading, error, user, election }
     } = this.props
+
+    const candidate = election && election.candidates.find(e => e.user.id === me.id)
 
     const metaData = {
       image: user && user.isListed
@@ -441,6 +473,29 @@ class Profile extends Component {
                           setState={this.setState.bind(this)}
                           startEditing={this.startEditing} />
                       </div>}
+                      { candidate &&
+                        <div style={{marginBottom: 60}}>
+                          <Interaction.H3 style={{marginBottom: 0}}>
+                            {`${election.description}`}
+                          </Interaction.H3>
+                          <div style={{marginTop: 10}}>
+                            <ElectionBallotRow
+                              candidate={candidate}
+                              expanded
+                              maxVotes={0}
+                              interactive={false}
+                            />
+                          </div>
+                          <div style={{marginTop: 10}}>
+                            <A href='#' onClick={e => {
+                              e.preventDefault();
+                              Router
+                                .pushRoute(`/vote/genossenschaft/kandidieren?edit`)
+                                .then(() => window.scrollTo(0, 0));
+                            }} >Kandidatur bearbeiten</A>
+                          </div>
+                        </div>
+                      }
                       <div>
                         {user.documents && !!user.documents.totalCount &&
                           <Interaction.H3 style={{marginBottom: 20}}>

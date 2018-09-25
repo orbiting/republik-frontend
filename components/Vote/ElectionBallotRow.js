@@ -7,8 +7,6 @@ import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
 import { Checkbox, Radio } from '@project-r/styleguide'
 
-const { P } = Interaction
-
 const styles = {
   row: css({
     position: 'relative',
@@ -27,17 +25,16 @@ const styles = {
   summary: css({
     width: '100%',
     display: 'flex',
-    cursor: 'pointer',
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
     '& :nth-child(1)': {
-      width: '25%'
+      width: '30%'
     },
     '& :nth-child(2)': {
       width: '15%'
     },
     '& :nth-child(3)': {
-      width: '40%',
+      width: '35%',
       paddingRight: 5,
     },
     ':nth-child(4)': {
@@ -122,7 +119,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled } = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -144,7 +141,7 @@ class ElectionBallotRow extends Component {
     return (
       <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
         <div
-          onClick={e => { e.preventDefault(); this.toggleExpanded(d.id) }}
+          onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
         >
           {
             expanded
@@ -155,7 +152,11 @@ class ElectionBallotRow extends Component {
         <div
           {...styles.row}
         >
-          <div {...styles.summary} onClick={e => { e.preventDefault(); this.toggleExpanded(d.id) }}>
+          <div
+            {...styles.summary}
+            style={{ cursor: interactive ? 'pointer' : 'default' }}
+            onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
+          >
             <div>
               <A>{`${d.firstName} ${d.lastName}`}</A>
             </div>
@@ -214,6 +215,8 @@ ElectionBallotRow.defaultProps = {
   selected: false,
   disabled: false,
   maxVotes: 1,
+  expanded: false,
+  interactive: true,
   onChange: () => {}
 }
 
@@ -221,6 +224,8 @@ ElectionBallotRow.propTypes = {
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   maxVotes: PropTypes.number,
+  expanded: PropTypes.bool,
+  interactive: PropTypes.bool,
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired
 }

@@ -2,7 +2,7 @@ import React, {Fragment, Component} from 'react'
 import { css } from 'glamor'
 import { Heading, Section, Strong, TextMedium, Body, Small, Title } from './text'
 import Collapsible from './Collapsible'
-import Poll from './Poll'
+import Voting from './Voting'
 import Election from './Election'
 import {
   mediaQueries,
@@ -59,7 +59,7 @@ class VoteForm extends Component {
           <Collapsible>
             <Small text={f('vote/jahresrechnung/more')}/>
           </Collapsible>
-          <Poll
+          <Voting
             proposition='Wollen Sie die Jahresrechnung 2017/18 annehmen?'
             options={options}
           />
@@ -72,7 +72,7 @@ class VoteForm extends Component {
           <Collapsible>
             <Small text={f('vote/revisionsbericht/more')}/>
           </Collapsible>
-          <Poll
+          <Voting
             proposition='Wollen Sie den Revisionsbericht 2017/18 annehmen?'
             options={options}
           />
@@ -85,7 +85,7 @@ class VoteForm extends Component {
           <Collapsible>
             <Small text={f('vote/budget/more')}/>
           </Collapsible>
-          <Poll
+          <Voting
             proposition='Wollen Sie das Budget 2018/19 annehmen?'
             options={options}
           />

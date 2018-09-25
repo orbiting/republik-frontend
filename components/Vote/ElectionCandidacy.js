@@ -28,12 +28,15 @@ import ElectionBallotRow from './ElectionBallotRow'
 import Loader from '../Loader'
 import { Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
+import { COUNTRIES } from '../Account/AddressForm'
 
 const {H2, P} = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
+export const ELECTION_SLUG = 'genossenschaftsrat2018-members'
+const DEFAULT_COUNTRY = COUNTRIES[0]
 
 export const addressFields = (t) => [
   {
@@ -157,13 +160,12 @@ const SpinnerOverlay = ({children, show}) =>
       </div>
     }
   </div>
-const ELECTION_SLUG = 'genossenschaftsrat2018-members'
 
 class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isEditing: false,
+      isEditing: props.url.query.hasOwnProperty('edit') || false,
       showErrors: true,
       errors: {},
       dirty: {},
@@ -219,7 +221,7 @@ class ElectionCandidacy extends React.Component {
 
   deriveStateFromProps ({data}) {
     const {name, statement, birthday, disclosures, credentials, address} = data.me || {}
-    const {line1, line2, city, postalCode, country} = address || {}
+    const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
     return {
       values: {
         name,

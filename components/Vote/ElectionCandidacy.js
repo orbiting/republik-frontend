@@ -5,13 +5,10 @@ import ErrorMessage from '../ErrorMessage'
 import {
   NarrowContainer,
   Interaction,
-  Label,
   A,
-  fontStyles,
   colors,
-  Spinner,
   InlineSpinner,
-  mediaQueries,
+  mediaQueries
 } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
@@ -90,8 +87,8 @@ const fields = (t) => ([
     name: 'statement',
     autoSize: true,
     validator: value =>
-      (!value && 'Statement fehlt')
-      || (value.trim().length >= 140 && t('profile/statement/tooLong'))
+      (!value && 'Statement fehlt') ||
+      (value.trim().length >= 140 && t('profile/statement/tooLong'))
   },
   {
     label: t('Account/Update/birthday/label'),
@@ -115,23 +112,23 @@ const fields = (t) => ([
     name: 'credential',
     validator: (value) => {
       return (
-        ((!value || value === '') & 'Funktion fehlt')
-        || (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
+        ((!value || value === '') & 'Funktion fehlt') ||
+        (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
       )
     }
   },
   {
     label: t('profile/disclosures/label'),
     name: 'disclosures',
-    autoSize: true,
-  },
+    autoSize: true
+  }
 ])
 
 const styles = {
   previewWrapper: css({
     margin: '20px 0'
   }),
-  sectionSmall: css({
+  vSpace: css({
     marginTop: 20
   }),
   section: css({
@@ -145,9 +142,9 @@ const styles = {
     width: 300,
     height: 60,
     [mediaQueries.onlyS]: {
-      width: '100%',
+      width: '100%'
     }
-  }),
+  })
 }
 
 class ElectionCandidacy extends React.Component {
@@ -166,7 +163,6 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.save = () => {
-
       const {updateCandidacy} = this.props
       const { values } = this.state
 
@@ -181,34 +177,32 @@ class ElectionCandidacy extends React.Component {
           ? values.birthday.trim()
           : null,
         address: {
-            name: values.name,
-            line1: values.line1,
-            line2: values.line2,
-            postalCode: values.postalCode,
-            city: values.city,
-            country: values.country
-          }
+          name: values.name,
+          line1: values.line1,
+          line2: values.line2,
+          postalCode: values.postalCode,
+          city: values.city,
+          country: values.country
+        }
       }).then(() => {
         return new Promise(resolve => setTimeout(resolve, 1000))
       }).then(() => {
         this.setState(() => ({
           isEditing: false,
-          updating: false,
+          updating: false
         }))
-      }).then(() => window.scrollTo(0,0))
+      }).then(() => window.scrollTo(0, 0))
         .catch((error) => {
-        this.setState(() => ({
-          updating: false,
-          error
-        }))
-      })
-
+          this.setState(() => ({
+            updating: false,
+            error
+          }))
+        })
     }
 
     this.onChange = fields => {
       this.setState(FieldSet.utils.mergeFields(fields))
     }
-
   }
 
   deriveStateFromProps ({data}) {
@@ -226,7 +220,7 @@ class ElectionCandidacy extends React.Component {
         city,
         postalCode,
         country,
-        credential: (credentials&& credentials.find(c => c.isListed) || {}).description
+        credential: (credentials ? credentials.find(c => c.isListed) : {}).description
       }
     }
   }
@@ -239,8 +233,8 @@ class ElectionCandidacy extends React.Component {
 
   render () {
     const meta = {
-      title:  `${f('info/title')}: ${f('info/candidacy/title')}`,
-      description: f('info/description'),
+      title: `${f('info/title')}: ${f('info/candidacy/title')}`,
+      description: f('info/description')
     }
 
     const { values, errors, error, dirty, isEditing, updating } = this.state
@@ -248,18 +242,17 @@ class ElectionCandidacy extends React.Component {
     const { data } = this.props
     const { me, election } = data
 
-    const candidate = !updating && election
-      && election.candidates
-      && election.candidates.find(c => c.user.id === me.id)
+    const candidate = !updating && election &&
+      election.candidates &&
+      election.candidates.find(c => c.user.id === me.id)
 
     const isValid = !Object.values(errors).some(Boolean)
-
 
     const candidacyPreview = me && {
       user: values.user || me,
       city: values.city,
       yearOfBirth: birthdayParse(values.birthday).getFullYear(),
-      recommendation: candidate ? candidate.recommendation : undefined,
+      recommendation: candidate ? candidate.recommendation : undefined
     }
 
     return (
@@ -289,30 +282,30 @@ class ElectionCandidacy extends React.Component {
                   <Fragment>
                     <Section>
                       <H2>Adresse</H2>
-                      <div {...styles.sectionSmall}>
+                      <div {...styles.vSpace}>
                         <FieldSet
                           values={values}
                           errors={errors}
                           dirty={dirty}
                           fields={addressFields(t)}
                           onChange={this.onChange}
-                          isEditing={true}
+                          isEditing
                         />
                       </div>
                     </Section>
                     <Section>
                       <H2>Kandidatur</H2>
-                      <div {...styles.sectionSmall} style={{width: 104, height: 104, background: 'black'}}>
+                      <div {...styles.vSpace} style={{width: 104, height: 104, background: 'black'}}>
                         <Portrait
                           user={me}
-                          isEditing={true}
-                          isMe={true}
+                          isEditing
+                          isMe
                           onChange={this.onChange}
                           values={values}
                           errors={errors}
-                          dirty={dirty}/>
+                          dirty={dirty} />
                       </div>
-                      <div {...styles.sectionSmall}>
+                      <div {...styles.vSpace}>
                         <FieldSet
                           values={values}
                           isEditing={isEditing}
@@ -324,25 +317,25 @@ class ElectionCandidacy extends React.Component {
                       </div>
                     </Section>
                     {error &&
-                    <div {...styles.sectionSmall}>
-                      <ErrorMessage error={error} />
-                    </div>
+                      <div {...styles.vSpace}>
+                        <ErrorMessage error={error} />
+                      </div>
                     }
                     {!isValid &&
-                    <div {...styles.sectionSmall}>
-                      <div {...styles.error}>
-                        Bitte füllen Sie alle obligatorischen Felder aus:
-                        <ul>
-                          {Object.entries(errors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
-                        </ul>
+                      <div {...styles.vSpace}>
+                        <div {...styles.error}>
+                          Bitte füllen Sie alle obligatorischen Felder aus:
+                          <ul>
+                            {Object.entries(errors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
+                          </ul>
+                        </div>
                       </div>
-                    </div>
                     }
-                    <div {...styles.sectionSmall}>
+                    <div {...styles.vSpace}>
                       { (isEditing || !candidate) &&
                       <div {...styles.saveButton}>
                         {updating
-                          ? <InlineSpinner/>
+                          ? <InlineSpinner />
                           : <Button
                             type='submit'
                             block
@@ -358,18 +351,18 @@ class ElectionCandidacy extends React.Component {
                       </div>
                       }
                       <Section>
-                        <Small indent={false} text={f('info/candidacy/finePrint')}/>
+                        <Small indent={false} text={f('info/candidacy/finePrint')} />
                       </Section>
                     </div>
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <div {...styles.sectionSmall}>
+                    <div {...styles.vSpace}>
                       <P>
                         Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!
                       </P>
                     </div>
-                    <div {...styles.sectionSmall}>
+                    <div {...styles.vSpace}>
                       <A href='#' onClick={(e) => {
                         e.preventDefault()
                         this.startEditing()

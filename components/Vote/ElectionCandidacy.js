@@ -254,6 +254,14 @@ class ElectionCandidacy extends React.Component {
 
     const isValid = !Object.values(errors).some(Boolean)
 
+
+    const candidacyPreview = me && {
+      user: values.user || me,
+      city: values.city,
+      yearOfBirth: new Date(values.birthday).getFullYear(),
+      recommendation: candidate ? candidate.recommendation : undefined,
+    }
+
     return (
       <Frame url={url} meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() =>
@@ -264,22 +272,18 @@ class ElectionCandidacy extends React.Component {
                 : f('info/candidacy/title')
               }
             </Title>
-            <P/>
-              {candidate &&
-                <div {...styles.previewWrapper}>
-                  <H2>Vorschau</H2>
-                  <div style={{margin: `15px 0`}}>
-                    <P>{f('info/candidacy/label')}</P>
-                  </div>
-                    <ElectionBallotRow
-                      maxVotes={0}
-                      expanded
-                      interactive={false}
-                      candidate={candidate}
-                    />
-                </div>
-              }
-              <div>
+            <div {...styles.previewWrapper}>
+              <H2>Vorschau</H2>
+              <div style={{margin: `15px 0`}}>
+                <P>{f('info/candidacy/label')}</P>
+              </div>
+              <ElectionBallotRow
+                maxVotes={0}
+                expanded
+                candidate={candidacyPreview}
+              />
+            </div>
+            <div>
               {
                 (isEditing || !candidate) ? (
                   <Fragment>

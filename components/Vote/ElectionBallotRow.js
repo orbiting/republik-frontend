@@ -7,6 +7,8 @@ import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
 import { Checkbox, Radio } from '@project-r/styleguide'
 
+const MISSING_VALUE = <span>…</span>
+
 const styles = {
   row: css({
     position: 'relative',
@@ -128,13 +130,13 @@ class ElectionBallotRow extends Component {
     const summary =
       <Fragment>
         <div>
-          { candidate.yearOfBirth }
+          { candidate.yearOfBirth || MISSING_VALUE }
         </div>
         <div>
-          { (d.credentials.find(c => c.isListed) || {}).description }
+          { (d.credentials.find(c => c.isListed) || {}).description || MISSING_VALUE }
         </div>
         <div>
-          { candidate.city }
+          { candidate.city || MISSING_VALUE }
         </div>
       </Fragment>
 
@@ -185,7 +187,7 @@ class ElectionBallotRow extends Component {
                     </div>
                   </div>
                   <div {...styles.statement}>
-                    {d.statement}
+                    {d.statement || MISSING_VALUE}
                   </div>
                 </div>
                 { candidate.recommendation &&

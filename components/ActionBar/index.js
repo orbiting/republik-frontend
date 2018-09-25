@@ -7,6 +7,7 @@ import IconLink from '../IconLink'
 import ShareOverlay from './ShareOverlay'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
+import track from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
 
@@ -16,15 +17,6 @@ const styles = {
       display: 'none'
     }
   })
-}
-
-const onActionBarClick = (name, value) => {
-  window._paq.push([
-    'trackEvent',
-    'ActionBar',
-    name,
-    value
-  ])
 }
 
 class ActionBar extends Component {
@@ -81,7 +73,12 @@ class ActionBar extends Component {
             e.target.blur()
           } else {
             this.toggleShare()
-            onActionBarClick('share', url)
+            track([
+              'trackEvent',
+              'ActionBar',
+              'share',
+              url
+            ])
           }
         },
         title: t('article/actionbar/share')

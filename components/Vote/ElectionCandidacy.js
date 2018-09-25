@@ -258,7 +258,7 @@ class ElectionCandidacy extends React.Component {
     const candidacyPreview = me && {
       user: values.user || me,
       city: values.city,
-      yearOfBirth: new Date(values.birthday).getFullYear(),
+      yearOfBirth: birthdayParse(values.birthday).getFullYear(),
       recommendation: candidate ? candidate.recommendation : undefined,
     }
 
@@ -333,7 +333,7 @@ class ElectionCandidacy extends React.Component {
                       <div {...styles.error}>
                         Bitte füllen Sie alle obligatorischen Felder aus:
                         <ul>
-                          {Object.entries(errors).map(([k, v]) => !!v && <li>{v}</li>)}
+                          {Object.entries(errors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
                         </ul>
                       </div>
                     </div>

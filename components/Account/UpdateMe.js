@@ -158,9 +158,6 @@ class UpdateMe extends Component {
   }
   componentDidMount () {
     this.autoEdit()
-    if (this.props.edit) {
-      this.startEditing()
-    }
   }
   componentDidUpdate () {
     this.autoEdit()
@@ -246,7 +243,7 @@ class UpdateMe extends Component {
                   }}
                   fields={meFields} />
                 <Label style={{marginTop: -8, display: 'block'}}>
-                  {t('Account/update/birthday/hint/plain')}
+                  {t('Account/Update/birthday/hint/plain')}
                 </Label>
                 <br /><br />
                 <br />

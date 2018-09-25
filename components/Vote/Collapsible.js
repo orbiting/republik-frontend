@@ -10,7 +10,6 @@ import {
   Interaction,
   A
 } from '@project-r/styleguide'
-import { TextSmall } from './text'
 
 const styles = {
   wrapper: css({

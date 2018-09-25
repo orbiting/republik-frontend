@@ -370,6 +370,16 @@ class ElectionCandidacy extends React.Component {
                         Kandidatur bearbeiten
                       </A>
                     </div>
+                    { this.props.me.roles.some(r => r === 'admin') &&
+                      <div {...styles.vSpace}>
+                        ADMIN TOOL: <A href='#' onClick={(e) => {
+                          e.preventDefault()
+                          this.startEditing()
+                        }}>
+                        Kandidatur löschen
+                        </A>
+                      </div>
+                    }
                   </Fragment>
                 )
               }

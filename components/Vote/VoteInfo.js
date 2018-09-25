@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Heading, Section, Caption, Body, Small, Title } from './text'
-import { Router } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import Collapsible from './Collapsible'
 import { formatter as f } from './util'
 import {
@@ -14,11 +14,11 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 const voteNow =
   <P>
-    <Button block big primary onClick={e => {
-      e.preventDefault()
-//      Router.push(`${url.asPath}/kandidieren`).then(() => window.scrollTo(0, 0))
-      Router.pushRoute(`voteSubmit`).then(() => window.scrollTo(0, 0))
-    }}>Kandidieren Sie jetzt!</Button>
+    <Link route='voteSubmit'>
+      <Button block big primary>
+        Kandidieren Sie jetzt!
+      </Button>
+    </Link>
   </P>
 
 export default ({url}) =>

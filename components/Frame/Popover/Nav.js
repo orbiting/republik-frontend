@@ -9,6 +9,7 @@ import { matchPath, Link, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
+import { formatter as vf } from '../../Vote/util'
 
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
@@ -197,6 +198,13 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
           <NavLink
             route='community'
             translation={t('nav/community')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
+            route='vote'
+            translation={vf('info/title')}
             active={active}
             closeHandler={closeHandler}
           />

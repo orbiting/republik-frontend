@@ -10,25 +10,24 @@ import {
 
 import { Router } from '../../lib/routes'
 import VoteInfo from './VoteInfo'
-import VoteForm from './VoteForm'
+// import VoteForm from './VoteForm'
 
-import { VOTING_STAGES } from './votingStage'
+import { formatter as f } from './util'
 
 class Page extends React.Component {
 
   render () {
     const meta = {
-      title: 'Wahl des Genossenschaftsrats',
-      description: 'Bestimme über die Zukunft der Republik!'
+      title: f('info/title'),
+      description: f('info/description'),
     }
 
     const {url} = this.props
 
     return (
       <Frame meta={meta} url={url}>
-        { url.query.stage===VOTING_STAGES.VOTE
-          ? <VoteForm />
-          : <VoteInfo url={url} />
+        {
+          <VoteInfo />
         }
       </Frame>
     )

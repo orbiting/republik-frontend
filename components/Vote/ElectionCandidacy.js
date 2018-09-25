@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { formatter as f } from './util'
-import { errorToString } from '../../lib/utils/errors'
+import ErrorMessage from '../ErrorMessage'
 
 
 import {
@@ -122,7 +122,7 @@ const fields = (t) => ([
     }
   },
   {
-    label: 'Interessenbindungen (optional)',
+    label: 'Interessenbindungen',
     name: 'disclosures',
     autoSize: true,
   },
@@ -176,14 +176,12 @@ class ElectionCandidacy extends React.Component {
       this.setState({isEditing: true})
     }
 
-    this.stopEditing = () => {
-      this.setState({isEditing: false})
-    }
-
     this.save = () => {
 
       const {updateCandidacy} = this.props
       const { values } = this.state
+
+      this.setState({updating: true})
 
       updateCandidacy({
         slug: ELECTION_SLUG,
@@ -203,11 +201,12 @@ class ElectionCandidacy extends React.Component {
           }
       }).then(() => {
         this.setState(() => ({
-          isEditing: false
-        }), () => window.scrollTo(0, 0))
+          updating: false,
+        }))
       }).catch((error) => {
         this.setState(() => ({
-          error: errorToString(error)
+          updating: false,
+          error
         }))
       })
 
@@ -240,22 +239,21 @@ class ElectionCandidacy extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.me !== this.props.me) {
+    if (nextProps.data.me && nextProps.data.me !== this.props.data.me) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
 
   render () {
     const meta = {
-      title: 'Für den Genossenschaftsrat der Republik kandidieren',
-      description: 'Bestimme über die Zukunft der Republik!'
+      title:  `${f('info/title')}: ${f('info/candidacy/title')}`,
+      description: f('info/description'),
     }
 
-    const {values, errors, error, dirty, isEditing} = this.state
-    const {url, t} = this.props
-    const {data: {me, election, loading}} = this.props
-
-    const showProgress = loading
+    const { values, errors, error, dirty, isEditing, updating } = this.state
+    const { url, t } = this.props
+    const { data } = this.props
+    const { me, election } = data
 
     const candidate = election && election.candidates.find(c => c.user.id === me.id)
 
@@ -268,9 +266,11 @@ class ElectionCandidacy extends React.Component {
 
     const isValid = !Object.values(errors).some(Boolean)
 
+    console.log("ElectionCandidacy.js:270 [updating]", updating)
+
     return (
       <Frame url={url} meta={meta}>
-        <Loader loading={loading} error={error} render={() =>
+        <Loader loading={data.loading} error={data.error} render={() =>
           <NarrowContainer>
             <Title>
               {candidate
@@ -285,7 +285,7 @@ class ElectionCandidacy extends React.Component {
                 <div style={{margin: `15px 0`}}>
                   <P>{f('info/candidacy/label')}</P>
                 </div>
-                <SpinnerOverlay show={showProgress}>
+                <SpinnerOverlay show={updating}>
                   <ElectionBallotRow
                     maxVotes={0}
                     expanded
@@ -348,10 +348,10 @@ class ElectionCandidacy extends React.Component {
                         />
                       </div>
                     </Section>
-                    {this.state.error &&
-                    <div {...styles.sectionSmall} {...styles.error}>
-                      {this.state.error}
-                    </div>
+                    {error &&
+                      <div {...styles.sectionSmall}>
+                        <ErrorMessage error={error} />
+                      </div>
                     }
                     {!isValid &&
                     <div {...styles.sectionSmall}>
@@ -365,14 +365,20 @@ class ElectionCandidacy extends React.Component {
                     }
                     <div {...styles.sectionSmall}>
                       {!candidate &&
-                      <Button primary block big onClick={this.save} disabled={!isValid}>
+                      <Button
+                        primary block big
+                        onClick={this.save}
+                        disabled={!isValid}
+                      >
                         Kandidatur abschicken
                       </Button>
                       }
-                      {isEditing && !showProgress &&
-                      <Button onClick={this.save} disabled={!isValid}>
-                        Änderungen speichern
-                      </Button>
+                      { isEditing &&
+                        <div>
+                          <Button onClick={this.save} disabled={updating || !isValid}>
+                            Änderungen speichern
+                          </Button>
+                        </div>
                       }
                       <Section>
                         <Small indent={false} text={f('info/candidacy/finePrint')}/>
@@ -466,11 +472,7 @@ const query = gql`
 
 export default compose(
   withT,
-  graphql(query, {
-    options: {
-      notifyOnNetworkStatusChange: true,
-    },
-  }),
+  graphql(query),
   graphql(publishCredential, {
     props: ({mutate}) => ({
       publishCredential: description => {
@@ -485,13 +487,11 @@ export default compose(
   graphql(updateCandidacy, {
     props: ({mutate, ownProps: {publishCredential, data: {me}}}) => ({
       updateCandidacy: async (variables) => {
-        // setState({ updating: true })
         const credential = (me.credentials || []).find(c => c.isListed) || {}
         if (variables.credential !== credential.description) {
           await publishCredential(variables.credential || null)
         }
-
-        mutate({
+        return mutate({
           variables,
           refetchQueries: ['init']
         })
@@ -499,18 +499,13 @@ export default compose(
     })
   }),
   graphql(cancelCandidacy, {
-    options: {
-      notifyOnNetworkStatusChange: true,
-    },
     props: ({mutate}) => ({
       cancelCandidacy: slug => {
         return mutate({
           variables: {
             slug
           },
-          refetchQueries: [{
-            query
-          }]
+          refetchQueries: ['init']
         })
       }
     })

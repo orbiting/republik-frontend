@@ -315,7 +315,9 @@ class Profile extends Component {
       data: { loading, error, user, election }
     } = this.props
 
-    const candidate = election && election.candidates.find(e => e.user.id === me.id)
+    const candidate = election
+      && election.candidates
+      && election.candidates.find(e => e.user.id === me.id)
 
     const metaData = {
       image: user && user.isListed

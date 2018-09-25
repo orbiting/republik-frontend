@@ -31,6 +31,15 @@ export const Heading = ({children}) =>
     {children}
   </H2>
 
+
+export const Strong = ({children}) =>
+  <strong {...css({
+    fontFamily: fontFamilies.sansSerifMedium,
+    fontWeight: 'normal',
+  })}>
+    {children}
+  </strong>
+
 const PMedium = (props) =>
   <P {...css({
     marginBottom: 15

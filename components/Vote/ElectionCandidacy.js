@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { formatter as f } from './util'
 import ErrorMessage from '../ErrorMessage'
-
 
 import {
   NarrowContainer,
@@ -13,6 +11,7 @@ import {
   colors,
   Spinner,
   InlineSpinner,
+  mediaQueries,
 } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
@@ -95,7 +94,7 @@ const fields = (t) => ([
       || (value.trim().length >= 140 && t('profile/statement/tooLong'))
   },
   {
-    label: 'Geburtsdatum',
+    label: t('Account/Update/birthday/label'),
     name: 'birthday',
     mask: '11.11.1111',
     maskChar: '_',
@@ -122,7 +121,7 @@ const fields = (t) => ([
     }
   },
   {
-    label: 'Interessenbindungen',
+    label: t('profile/disclosures/label'),
     name: 'disclosures',
     autoSize: true,
   },
@@ -141,25 +140,15 @@ const styles = {
   error: css({
     color: colors.error
   }),
-}
-
-const SpinnerOverlay = ({children, show}) =>
-  <div style={{position: 'relative'}}>
-    {children}
-    { show &&
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: '#fff',
-        opacity: 0.5
-      }}>
-        <Spinner />
-      </div>
+  saveButton: css({
+    textAlign: 'center',
+    width: 300,
+    height: 60,
+    [mediaQueries.onlyS]: {
+      width: '100%',
     }
-  </div>
+  }),
+}
 
 class ElectionCandidacy extends React.Component {
   constructor (props) {
@@ -183,7 +172,7 @@ class ElectionCandidacy extends React.Component {
 
       this.setState({updating: true})
 
-      updateCandidacy({
+      return updateCandidacy({
         slug: ELECTION_SLUG,
         statement: values.statement,
         credential: values.credential,
@@ -200,10 +189,14 @@ class ElectionCandidacy extends React.Component {
             country: values.country
           }
       }).then(() => {
+        return new Promise(resolve => setTimeout(resolve, 1000))
+      }).then(() => {
         this.setState(() => ({
+          isEditing: false,
           updating: false,
         }))
-      }).catch((error) => {
+      }).then(() => window.scrollTo(0,0))
+        .catch((error) => {
         this.setState(() => ({
           updating: false,
           error
@@ -255,18 +248,11 @@ class ElectionCandidacy extends React.Component {
     const { data } = this.props
     const { me, election } = data
 
-    const candidate = election && election.candidates.find(c => c.user.id === me.id)
-
-    const candidacyPreview = me && {
-      user: me,
-      city: me.address ? me.address.city : '',
-      yearOfBirth: me.birthday ? new Date(me.birthday).getFullYear() : '',
-      recommendation: candidate ? candidate.recommendation : undefined,
-    }
+    const candidate = !updating && election
+      && election.candidates
+      && election.candidates.find(c => c.user.id === me.id)
 
     const isValid = !Object.values(errors).some(Boolean)
-
-    console.log("ElectionCandidacy.js:270 [updating]", updating)
 
     return (
       <Frame url={url} meta={meta}>
@@ -279,38 +265,23 @@ class ElectionCandidacy extends React.Component {
               }
             </Title>
             <P/>
-            <div>
-              <div {...styles.previewWrapper}>
-                <H2>Vorschau</H2>
-                <div style={{margin: `15px 0`}}>
-                  <P>{f('info/candidacy/label')}</P>
+              {candidate &&
+                <div {...styles.previewWrapper}>
+                  <H2>Vorschau</H2>
+                  <div style={{margin: `15px 0`}}>
+                    <P>{f('info/candidacy/label')}</P>
+                  </div>
+                    <ElectionBallotRow
+                      maxVotes={0}
+                      expanded
+                      interactive={false}
+                      candidate={candidate}
+                    />
                 </div>
-                <SpinnerOverlay show={updating}>
-                  <ElectionBallotRow
-                    maxVotes={0}
-                    expanded
-                    candidate={candidacyPreview}
-                  />
-                </SpinnerOverlay>
-              </div>
+              }
+              <div>
               {
-                (!!candidate && !isEditing) ? (
-                  <Fragment>
-                    <div {...styles.sectionSmall}>
-                      <P>
-                        Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!
-                      </P>
-                    </div>
-                    <div {...styles.sectionSmall}>
-                      <A href='#' onClick={(e) => {
-                        e.preventDefault()
-                        this.startEditing()
-                      }}>
-                        Kandidatur bearbeiten
-                      </A>
-                    </div>
-                  </Fragment>
-                ) : (
+                (isEditing || !candidate) ? (
                   <Fragment>
                     <Section>
                       <H2>Adresse</H2>
@@ -349,9 +320,9 @@ class ElectionCandidacy extends React.Component {
                       </div>
                     </Section>
                     {error &&
-                      <div {...styles.sectionSmall}>
-                        <ErrorMessage error={error} />
-                      </div>
+                    <div {...styles.sectionSmall}>
+                      <ErrorMessage error={error} />
+                    </div>
                     }
                     {!isValid &&
                     <div {...styles.sectionSmall}>
@@ -364,25 +335,43 @@ class ElectionCandidacy extends React.Component {
                     </div>
                     }
                     <div {...styles.sectionSmall}>
-                      {!candidate &&
-                      <Button
-                        primary block big
-                        onClick={this.save}
-                        disabled={!isValid}
-                      >
-                        Kandidatur abschicken
-                      </Button>
-                      }
-                      { isEditing &&
-                        <div>
-                          <Button onClick={this.save} disabled={updating || !isValid}>
-                            Änderungen speichern
+                      { (isEditing || !candidate) &&
+                      <div {...styles.saveButton}>
+                        {updating
+                          ? <InlineSpinner/>
+                          : <Button
+                            type='submit'
+                            block
+                            onClick={this.save}
+                            disabled={updating || !isValid}
+                          >
+                            { candidate
+                              ? 'Änderungen speichern'
+                              : 'Kandidatur abschicken'
+                            }
                           </Button>
-                        </div>
+                        }
+                      </div>
                       }
                       <Section>
                         <Small indent={false} text={f('info/candidacy/finePrint')}/>
                       </Section>
+                    </div>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <div {...styles.sectionSmall}>
+                      <P>
+                        Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!
+                      </P>
+                    </div>
+                    <div {...styles.sectionSmall}>
+                      <A href='#' onClick={(e) => {
+                        e.preventDefault()
+                        this.startEditing()
+                      }}>
+                        Kandidatur bearbeiten
+                      </A>
                     </div>
                   </Fragment>
                 )
@@ -429,10 +418,23 @@ const query = gql`
   query init {
     election(slug: "${ELECTION_SLUG}") {
       candidates {
+        id
+        yearOfBirth
+        city
+        recommendation
         user {
           id
+          firstName
+          lastName
+          username
+          email
+          statement
+          portrait
+          credentials {
+            isListed
+            description
+          }
         }
-        recommendation
       }
     }
     me {

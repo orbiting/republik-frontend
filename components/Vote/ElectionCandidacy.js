@@ -241,12 +241,13 @@ class ElectionCandidacy extends React.Component {
 
     const {name, portrait} = me
     const {statement, birthday, disclosures, credentials, city} = values
+
     const candidacyPreview = me && {
       user: {
         name, statement, disclosures, credentials, portrait
       },
       city,
-      yearOfBirth: birthdayParse(birthday).getFullYear(),
+      yearOfBirth: birthday ? birthdayParse(birthday).getFullYear() : undefined,
       recommendation: candidate ? candidate.recommendation : undefined
     }
 

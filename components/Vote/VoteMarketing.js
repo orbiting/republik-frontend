@@ -6,7 +6,7 @@ const VoteMarketing = ({url, vt}) =>
   <div>
     <Section>
       <Title>{vt('vote/title')}</Title>
-      <Body text={vt('info/marketing/intro')} />
+      <Body dangerousHTML={vt('info/marketing/intro')} />
     </Section>
   </div>
 

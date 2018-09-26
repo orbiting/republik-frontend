@@ -2,7 +2,7 @@ import React from 'react'
 import { Body, Heading, Section, Small, Title } from './text'
 import { Link } from '../../lib/routes'
 import Collapsible from './Collapsible'
-import { Button, FigureCaption, FigureImage, P } from '@project-r/styleguide'
+import { Button, FigureCaption, FigureImage, NarrowContainer, P } from '@project-r/styleguide'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import voteT from './voteT'
 
@@ -16,32 +16,33 @@ const voteNow =
   </P>
 
 const VoteInfo = ({url, vt}) =>
-  <div>
-    <Section>
-      <Title>{vt('vote/title')}</Title>
-      <Body text={vt('info/intro/body1')} />
-      {voteNow}
-      <Body text={vt('info/intro/body2')} />
-      <Collapsible>
-        <Small text={vt('info/intro/more')} />
-      </Collapsible>
-    </Section>
+  <NarrowContainer>
+    <Title>{vt('vote/title')}</Title>
+    <Body dangerousHTML={vt('info/intro/body1')} />
+    {voteNow}
+    <Body dangerousHTML={vt('info/intro/body2')} />
+    <Collapsible>
+      <Small dangerousHTML={vt('info/intro/more')} />
+    </Collapsible>
     <P>
       <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg`} />
       <FigureCaption>{vt('vote/intro/caption')}</FigureCaption>
     </P>
     <Section>
       <Heading>Genossenschaftsrat</Heading>
-      <Body text={vt('info/council/body')} />
+      <Body dangerousHTML={vt('info/council/body')} />
       <Collapsible label='Weitere Informationen zum Genossenschaftsrat'>
-        <Small text={vt('info/council/more')} />
+        <Small dangerousHTML={vt('info/council/more')} />
       </Collapsible>
-      <Body text={vt('info/council/body2')} />
+      <Body dangerousHTML={vt('info/council/body2')} />
       <Collapsible label='Weitere Informationen zur Wahl'>
-        <Small text={vt('info/council/more2')} />
+        <Small dangerousHTML={vt('info/council/more2')} />
       </Collapsible>
     </Section>
     {voteNow}
-  </div>
+    <P>
+      <Body dangerousHTML={vt('info/candidacy/footer')} />
+    </P>
+  </NarrowContainer>
 
 export default voteT(VoteInfo)

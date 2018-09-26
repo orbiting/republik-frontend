@@ -45,17 +45,17 @@ class VoteForm extends Component {
       <div style={{marginTop: 0}}>
         <Section>
           <Title>{vt('vote/title')}</Title>
-          <Body text={vt('vote/intro/body')} />
+          <Body dangerousHTML={vt('vote/intro/body')} />
           <Collapsible>
-            <Small text={vt('vote/intro/more')} />
+            <Small dangerousHTML={vt('vote/intro/more')} />
           </Collapsible>
         </Section>
         <Section>
           <a {...styles.anchor} id='jahresrechnung' />
           <Heading>Jahresrechnung</Heading>
-          <Body text={vt('vote/jahresrechnung/body')} />
+          <Body dangerousHTML={vt('vote/jahresrechnung/body')} />
           <Collapsible>
-            <Small text={vt('vote/jahresrechnung/more')} />
+            <Small dangerousHTML={vt('vote/jahresrechnung/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie die Jahresrechnung 2017/18 annehmen?'
@@ -66,9 +66,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='revisionsbericht' />
           <Heading>Revisionsbericht</Heading>
-          <Body text={vt('vote/revisionsbericht/body')} />
+          <Body dangerousHTML={vt('vote/revisionsbericht/body')} />
           <Collapsible>
-            <Small text={vt('vote/revisionsbericht/more')} />
+            <Small dangerousHTML={vt('vote/revisionsbericht/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie den Revisionsbericht 2017/18 annehmen?'
@@ -79,9 +79,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='budget' />
           <Heading>Budget</Heading>
-          <Body text={vt('vote/budget/body')} />
+          <Body dangerousHTML={vt('vote/budget/body')} />
           <Collapsible>
-            <Small text={vt('vote/budget/more')} />
+            <Small dangerousHTML={vt('vote/budget/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie das Budget 2018/19 annehmen?'
@@ -92,9 +92,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='president' />
           <Heading>Präsidium</Heading>
-          <Body text={vt('vote/president/body')} />
+          <Body dangerousHTML={vt('vote/president/body')} />
           <Collapsible>
-            <Small text={vt('vote/president/more')} />
+            <Small dangerousHTML={vt('vote/president/more')} />
           </Collapsible>
           <Election
             slug='genossenschaftsrat2018-president'
@@ -105,9 +105,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='genossenschaftsrat' />
           <Heading>Genossenschaftsrat</Heading>
-          <Body text={vt('vote/members/body')} />
+          <Body dangerousHTML={vt('vote/members/body')} />
           <Collapsible>
-            <Small text={vt('vote/members/more')} />
+            <Small dangerousHTML={vt('vote/members/more')} />
           </Collapsible>
           <Election
             slug='genossenschaftsrat2018-members'

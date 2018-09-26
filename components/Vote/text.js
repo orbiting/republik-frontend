@@ -40,7 +40,7 @@ const PMedium = (props) =>
     {props.children}
   </P>
 
-export const Body = ({text: dangerousHTML}) =>
+export const Body = ({dangerousHTML}) =>
   <div>
     {
       dangerousHTML.split('\n\n')
@@ -70,7 +70,7 @@ const PSmall = ({children, indent = true}) =>
     {children}
   </P>
 
-export const Small = ({text: dangerousHTML, indent = true}) =>
+export const Small = ({dangerousHTML, indent = true}) =>
   <div>
     {
       dangerousHTML.split('\n\n')

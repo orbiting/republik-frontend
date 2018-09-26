@@ -367,7 +367,7 @@ class ElectionCandidacy extends React.Component {
                       </div>
                       }
                       <Section>
-                        <Small indent={false} text={vt('info/candidacy/finePrint')} />
+                        <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                       </Section>
                     </div>
                   </Fragment>

@@ -5,6 +5,7 @@ import { compose } from 'react-apollo'
 
 import VoteInfo from './VoteInfo'
 import voteT from './voteT'
+import { VOTING_STAGES } from './votingStage'
 
 // import VoteForm from './VoteForm'
 

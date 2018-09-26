@@ -193,11 +193,19 @@ class ElectionCandidacy extends React.Component {
         })
     }
 
-    this.onPortraitChange = portrait => {
-      this.setState(({values}) => ({
+    this.onPortraitChange = async ({values: {portrait, portraitPreview}}) => {
+      const {updatePortrait} = this.props
+      const {data: {updateMe: {portrait: nextPortrait}}} =
+        await updatePortrait(portrait).catch((error) => {
+          this.setState(() => ({
+            error
+          }))
+        })
+      this.setState(state => ({
         values: {
-          ...values,
-          portrait
+          ...state.values,
+          portrait: nextPortrait,
+          portraitPreview
         }
       }))
     }
@@ -208,10 +216,12 @@ class ElectionCandidacy extends React.Component {
   }
 
   deriveStateFromProps ({data}) {
-    const {statement, birthday, disclosures, credentials, address} = data.me || {}
+    const {statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
     const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
     return {
       values: {
+        portrait,
+        portraitPreview: portrait,
         statement,
         birthday,
         disclosures,
@@ -248,8 +258,8 @@ class ElectionCandidacy extends React.Component {
 
     const isValid = !Object.values(errors).some(Boolean)
 
-    const {name, portrait} = me
-    const {statement, birthday, disclosures, credentials, city} = values
+    const {name} = me
+    const {statement, birthday, disclosures, credentials, city, portrait} = values
 
     const candidacyPreview = me && {
       user: {
@@ -305,7 +315,7 @@ class ElectionCandidacy extends React.Component {
                           user={me}
                           isEditing
                           isMe
-                          onChange={this.onChange}
+                          onChange={this.onPortraitChange}
                           values={values}
                           errors={errors}
                           dirty={dirty} />
@@ -346,7 +356,7 @@ class ElectionCandidacy extends React.Component {
                             block
                             primary
                             onClick={this.save}
-                            disabled={updating}
+                            disabled={updating || !isValid}
                           >
                             {candidate
                               ? vt('info/candidacy/saveChanges')
@@ -405,15 +415,21 @@ const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
   }
 }`
 
-const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput) {
+const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput, $portrait: String) {
   submitCandidacy(slug: $slug) {
     id
     user {
       id
     }
   }
-  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address) {
+  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, hasPublicProfile: true) {
     id
+  }
+}`
+
+const updatePortrait = gql`mutation updatePortrait($portrait: String) {
+  updateMe(portrait: $portrait) {
+    portrait
   }
 }`
 
@@ -492,6 +508,17 @@ export default compose(
         return mutate({
           variables: {
             description
+          }
+        })
+      }
+    })
+  }),
+  graphql(updatePortrait, {
+    props: ({mutate}) => ({
+      updatePortrait: async (portrait) => {
+        return mutate({
+          variables: {
+            portrait
           }
         })
       }

@@ -473,7 +473,7 @@ class Profile extends Component {
                           setState={this.setState.bind(this)}
                           startEditing={this.startEditing} />
                       </div>}
-                      { candidate &&
+                      {candidate && me.roles.some(r => r === 'associate') &&
                         <div style={{marginBottom: 60}}>
                           <Interaction.H3 style={{marginBottom: 0}}>
                             {`${election.description}`}

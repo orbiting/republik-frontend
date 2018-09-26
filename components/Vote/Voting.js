@@ -64,74 +64,77 @@ const styles = {
 const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
 
 class Voting extends React.Component {
+
   constructor (props) {
     super(props)
     this.state = {
       pollState: POLL_STATES.START,
       selectedValue: null
     }
-  }
 
-  reset (e) {
-    e.preventDefault()
-    this.setState(
-      { selectedValue: null },
-      this.transition(POLL_STATES.START)
-    )
-  }
-
-  transition (nextState, callback) {
-    this.setState({ pollState: nextState }, callback && callback())
-  }
-
-  renderActions () {
-    const { onFinish } = this.props
-    const { pollState } = this.state
-
-    const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Zurücksetzen</A>
-
-    switch (pollState) {
-      case POLL_STATES.START:
-        return (
-          <Fragment>
-            <Button disabled>
-              Abstimmen
-            </Button>
-            <div {...styles.link}>Bitte wählen Sie eine Option um abzustimmen</div>
-          </Fragment>
-        )
-      case POLL_STATES.DIRTY:
-        return (
-          <Fragment>
-            <Button
-              primary
-              onClick={() => this.transition(POLL_STATES.READY)}
-            >
-              Abstimmen
-            </Button>
-            {resetLink}
-          </Fragment>
-        )
-      case POLL_STATES.READY:
-        return (
-          <Fragment>
-            <Button
-              primary
-              onClick={() =>
-                this.transition(POLL_STATES.DONE, onFinish)
-              }
-            >
-              Stimme bestätigen
-            </Button>
-            {resetLink}
-          </Fragment>
-        )
-      case POLL_STATES.DONE:
-        return (
-          null
-        )
+    this.reset = (e) => {
+      e.preventDefault()
+      this.setState(
+        {selectedValue: null},
+        this.transition(POLL_STATES.START)
+      )
     }
+
+    this.transition = (nextState, callback) => {
+      this.setState({pollState: nextState}, callback && callback())
+    }
+
+    this.renderActions = () => {
+      const {onFinish} = this.props
+      const {pollState} = this.state
+
+      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Zurücksetzen</A>
+
+      switch (pollState) {
+        case POLL_STATES.START:
+          return (
+            <Fragment>
+              <Button disabled>
+                Abstimmen
+              </Button>
+              <div {...styles.link}>Bitte wählen Sie eine Option um abzustimmen</div>
+            </Fragment>
+          )
+        case POLL_STATES.DIRTY:
+          return (
+            <Fragment>
+              <Button
+                primary
+                onClick={() => this.transition(POLL_STATES.READY)}
+              >
+                Abstimmen
+              </Button>
+              {resetLink}
+            </Fragment>
+          )
+        case POLL_STATES.READY:
+          return (
+            <Fragment>
+              <Button
+                primary
+                onClick={() =>
+                  this.transition(POLL_STATES.DONE, onFinish)
+                }
+              >
+                Stimme bestätigen
+              </Button>
+              {resetLink}
+            </Fragment>
+          )
+        case POLL_STATES.DONE:
+          return (
+            null
+          )
+      }
+    }
+
   }
+
   render () {
     const { options, proposition } = this.props
     const { pollState, selectedValue } = this.state

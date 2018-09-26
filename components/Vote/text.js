@@ -44,8 +44,8 @@ export const Body = ({text: dangerousHTML}) =>
   <div>
     {
       dangerousHTML.split('\n\n')
-        .map(c =>
-          <PMedium>
+        .map((c, i) =>
+          <PMedium key={i}>
             <RawHtml dangerouslySetInnerHTML={{__html: c}} />
           </PMedium>
         )

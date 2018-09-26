@@ -36,7 +36,7 @@ class ElectionBallot extends React.Component {
 ElectionBallot.propTypes = {
   candidates: PropTypes.array,
   selected: PropTypes.array,
-  maxVotes: PropTypes.bool,
+  maxVotes: PropTypes.number,
   disabled: PropTypes.bool
 }
 

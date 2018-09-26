@@ -227,15 +227,14 @@ class ElectionCandidacy extends React.Component {
     const { values, errors, error, dirty, isEditing, updating } = this.state
     const {url, t, vt} = this.props
     const { data } = this.props
-    const { me, election } = data
+    const {me = {}, election = {}} = data
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
       description: vt('info/description')
     }
 
-    const candidate = !updating && election &&
-      election.candidates &&
+    const candidate = !updating && election.candidates &&
       election.candidates.find(c => c.user.id === me.id)
 
     const isValid = !Object.values(errors).some(Boolean)
@@ -335,8 +334,9 @@ class ElectionCandidacy extends React.Component {
                           : <Button
                             type='submit'
                             block
+                            primary
                             onClick={this.save}
-                            disabled={updating || !isValid}
+                            disabled={updating}
                           >
                             { candidate
                               ? vt('info/candidacy/saveChanges')

@@ -6,8 +6,7 @@ import { A, colors, InlineSpinner, Interaction, mediaQueries, NarrowContainer } 
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import Button from '@project-r/styleguide/lib/components/Button'
-
-import FieldSet from '@project-r/styleguide/lib/components/Form/FieldSet'
+import FieldSet from '../FieldSet'
 
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -178,7 +177,7 @@ class ElectionCandidacy extends React.Component {
           country: values.country
         }
       }).then(() => {
-        return new Promise(resolve => setTimeout(resolve, 1000))
+        return new Promise(resolve => setTimeout(resolve, 400))
       }).then(() => {
         this.setState(() => ({
           isEditing: false,

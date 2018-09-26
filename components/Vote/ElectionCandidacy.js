@@ -181,7 +181,8 @@ class ElectionCandidacy extends React.Component {
       }).then(() => {
         this.setState(() => ({
           isEditing: false,
-          updating: false
+          updating: false,
+          error: null
         }))
       }).then(() => window.scrollTo(0, 0))
         .catch((error) => {
@@ -190,6 +191,15 @@ class ElectionCandidacy extends React.Component {
             error
           }))
         })
+    }
+
+    this.onPortraitChange = portrait => {
+      this.setState(({values}) => ({
+        values: {
+          ...values,
+          portrait
+        }
+      }))
     }
 
     this.onChange = fields => {
@@ -338,7 +348,7 @@ class ElectionCandidacy extends React.Component {
                             onClick={this.save}
                             disabled={updating}
                           >
-                            { candidate
+                            {candidate
                               ? vt('info/candidacy/saveChanges')
                               : vt('info/candidacy/sumbitCandidacy')
                             }

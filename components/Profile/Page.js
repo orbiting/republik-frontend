@@ -141,9 +141,7 @@ const getPublicUser = gql`
       recommendation
       user {
         id
-        firstName
-        lastName
-        username
+        name
         email
         statement
         portrait

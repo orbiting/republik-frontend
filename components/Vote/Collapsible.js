@@ -33,12 +33,10 @@ class Collapsible extends React.Component {
     }
 
     this.toggleCollapsed = () => {
-      console.log('Collapsible.js:37 [\'toggle\']', 'toggle')
       this.setState(({collapsed}) => ({
         collapsed: !collapsed
       }))
     }
-
   }
 
   render () {

@@ -17,7 +17,7 @@ const voteNow =
 
 const VoteInfo = ({url, vt}) =>
   <NarrowContainer>
-    <Title>{vt('vote/title')}</Title>
+    <Title>{vt('info/title')}</Title>
     <Body dangerousHTML={vt('info/intro/body1')} />
     {voteNow}
     <Body dangerousHTML={vt('info/intro/body2')} />

@@ -156,7 +156,7 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.save = () => {
-      const {updateCandidacy} = this.props
+      const {updateCandidacy, me} = this.props
       const { values } = this.state
 
       this.setState({updating: true})
@@ -170,7 +170,7 @@ class ElectionCandidacy extends React.Component {
           ? values.birthday.trim()
           : null,
         address: {
-          name: values.name,
+          name: me.name,
           line1: values.line1,
           line2: values.line2,
           postalCode: values.postalCode,
@@ -199,11 +199,10 @@ class ElectionCandidacy extends React.Component {
   }
 
   deriveStateFromProps ({data}) {
-    const {name, statement, birthday, disclosures, credentials, address} = data.me || {}
+    const {statement, birthday, disclosures, credentials, address} = data.me || {}
     const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
     return {
       values: {
-        name,
         statement,
         birthday,
         disclosures,
@@ -428,8 +427,7 @@ const query = gql`
         recommendation
         user {
           id
-          firstName
-          lastName
+          name
           username
           email
           statement
@@ -444,10 +442,8 @@ const query = gql`
     me {
       id
       username
-      firstName
-      lastName
-      updatedAt
       name
+      updatedAt
       email
       emailAccessRole
       phoneNumber

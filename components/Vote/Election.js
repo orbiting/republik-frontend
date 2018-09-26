@@ -282,8 +282,7 @@ const query = gql`
       recommendation
       user {
         id
-        firstName
-        lastName
+        name
         username
         email
         statement

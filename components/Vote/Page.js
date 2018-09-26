@@ -6,8 +6,7 @@ import { compose } from 'react-apollo'
 import VoteInfo from './VoteInfo'
 import voteT from './voteT'
 import { VOTING_STAGES } from './votingStage'
-
-// import VoteForm from './VoteForm'
+import VoteForm from './VoteForm'
 
 class Page extends React.Component {
   render () {
@@ -26,6 +25,7 @@ class Page extends React.Component {
             : <VoteInfo url={url}/>
         }
       </Frame>
+
     )
   }
 }

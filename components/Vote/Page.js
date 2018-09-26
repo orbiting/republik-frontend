@@ -20,7 +20,9 @@ class Page extends React.Component {
     return (
       <Frame meta={meta} url={url}>
         {
-          <VoteInfo />
+          url.query.stage === VOTING_STAGES.VOTE
+            ? <VoteForm/>
+            : <VoteInfo url={url}/>
         }
       </Frame>
     )

@@ -1,12 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
-import {
-  Interaction,
-  fontStyles,
-  fontFamilies,
-  mediaQueries,
-  RawHtml,
-} from '@project-r/styleguide'
+import { fontFamilies, fontStyles, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
 
 const { H2, P, Headline } = Interaction
 
@@ -31,11 +25,10 @@ export const Heading = ({children}) =>
     {children}
   </H2>
 
-
 export const Strong = ({children}) =>
   <strong {...css({
     fontFamily: fontFamilies.sansSerifMedium,
-    fontWeight: 'normal',
+    fontWeight: 'normal'
   })}>
     {children}
   </strong>
@@ -53,7 +46,7 @@ export const Body = ({text}) =>
       text.split('\n\n')
         .map(c =>
           <PMedium>
-            <RawHtml dangerouslySetInnerHTML={{__html: c}}/>
+            <RawHtml dangerouslySetInnerHTML={{__html: c}} />
           </PMedium>
         )
     }
@@ -71,7 +64,7 @@ const PSmall = ({children, indent = true}) =>
     },
     '& strong': {
       fontFamily: fontFamilies.sansSerifMedium,
-      fontWeight: 'normal',
+      fontWeight: 'normal'
     }
   })}>
     {children}
@@ -81,11 +74,11 @@ export const Small = ({text, indent = true}) =>
   <div>
     {
       text.split('\n\n')
-      .map((c, i) =>
-        <PSmall key={i} indent={indent}>
-          <RawHtml dangerouslySetInnerHTML={{__html: c}}/>
-        </PSmall>
-      )
+        .map((c, i) =>
+          <PSmall key={i} indent={indent}>
+            <RawHtml dangerouslySetInnerHTML={{__html: c}} />
+          </PSmall>
+        )
     }
   </div>
 

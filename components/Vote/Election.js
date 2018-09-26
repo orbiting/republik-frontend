@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react'
-import { Button, Interaction, colors, A, mediaQueries } from '@project-r/styleguide'
+import { A, Button, colors, Interaction, mediaQueries } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
 import { timeFormat } from '../../lib/utils/format'
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 
 const {P} = Interaction
@@ -116,7 +116,7 @@ class Election extends Component {
     }
 
     this.renderActions = () => {
-      const {onFinish, data: {election: {numSeats}}} = this.props
+      const {onFinish} = this.props
       const {electionState} = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Formular zurücksetzen</A>
@@ -174,8 +174,8 @@ class Election extends Component {
         return (
           <P {...styles.error}>
             { vote.length < 1
-                ? `Möchten Sie wirklich eine leere Stimme abgeben?`
-                : `Sie haben erst ${vote.length} von ${numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?`
+              ? `Möchten Sie wirklich eine leere Stimme abgeben?`
+              : `Sie haben erst ${vote.length} von ${numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?`
             }
           </P>
         )
@@ -250,14 +250,14 @@ Election.propTypes = {
   isSticky: PropTypes.bool,
   slug: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  mandatoryCandidates: PropTypes.array,
+  mandatoryCandidates: PropTypes.array
 }
 
 Election.defaultProps = {
   data: {election: {candidates: []}},
   isSticky: false,
   onChange: () => {},
-  mandatoryCandidates: [],
+  mandatoryCandidates: []
 }
 
 const query = gql`

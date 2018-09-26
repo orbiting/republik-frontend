@@ -1,28 +1,21 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import Frame from '../Frame'
 import withMe from '../../lib/apollo/withMe'
 import { compose } from 'react-apollo'
-import {
-  Interaction,
-  mediaQueries,
-  A
-} from '@project-r/styleguide'
 
-import { Router } from '../../lib/routes'
 import VoteInfo from './VoteInfo'
+import voteT from './voteT'
+
 // import VoteForm from './VoteForm'
 
-import { formatter as f } from './util'
-
 class Page extends React.Component {
-
   render () {
-    const meta = {
-      title: f('info/title'),
-      description: f('info/description'),
-    }
+    const {url, vt} = this.props
 
-    const {url} = this.props
+    const meta = {
+      title: vt('info/title'),
+      description: vt('info/description')
+    }
 
     return (
       <Frame meta={meta} url={url}>
@@ -35,5 +28,6 @@ class Page extends React.Component {
 }
 
 export default compose(
-  withMe
+  withMe,
+  voteT
 )(Page)

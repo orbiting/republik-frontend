@@ -1,16 +1,10 @@
-import React, { Fragment } from 'react'
-import { Heading, Section, Caption, Body, Small, Title } from './text'
+import React from 'react'
+import { Body, Heading, Section, Small, Title } from './text'
 import { Link } from '../../lib/routes'
 import Collapsible from './Collapsible'
-import { formatter as f } from './util'
-import {
-  FigureImage,
-  FigureCaption
-} from '@project-r/styleguide'
-import {
-  A, Button, P
-} from '@project-r/styleguide'
+import { Button, FigureCaption, FigureImage, P } from '@project-r/styleguide'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import voteT from './voteT'
 
 const voteNow =
   <P>
@@ -21,31 +15,33 @@ const voteNow =
     </Link>
   </P>
 
-export default ({url}) =>
+const VoteInfo = ({url, vt}) =>
   <div>
     <Section>
-      <Title>{f('vote/title')}</Title>
-      <Body text={f('info/intro/body1')}/>
+      <Title>{vt('vote/title')}</Title>
+      <Body text={vt('info/intro/body1')} />
       {voteNow}
-      <Body text={f('info/intro/body2')}/>
+      <Body text={vt('info/intro/body2')} />
       <Collapsible>
-        <Small text={f('info/intro/more')}/>
+        <Small text={vt('info/intro/more')} />
       </Collapsible>
     </Section>
     <P>
       <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg`} />
-      <FigureCaption>{f('vote/intro/caption')}</FigureCaption>
+      <FigureCaption>{vt('vote/intro/caption')}</FigureCaption>
     </P>
     <Section>
       <Heading>Genossenschaftsrat</Heading>
-      <Body text={f('info/council/body')}/>
+      <Body text={vt('info/council/body')} />
       <Collapsible label='Weitere Informationen zum Genossenschaftsrat'>
-        <Small text={f('info/council/more')}/>
+        <Small text={vt('info/council/more')} />
       </Collapsible>
-      <Body text={f('info/council/body2')}/>
+      <Body text={vt('info/council/body2')} />
       <Collapsible label='Weitere Informationen zur Wahl'>
-        <Small text={f('info/council/more2')}/>
+        <Small text={vt('info/council/more2')} />
       </Collapsible>
     </Section>
     {voteNow}
   </div>
+
+export default voteT(VoteInfo)

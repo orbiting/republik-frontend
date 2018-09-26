@@ -1,18 +1,10 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import {
-  colors,
-  fontFamilies,
-  Radio,
-  Button,
-  A,
-  fontStyles,
-  Interaction
-} from '@project-r/styleguide'
+import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 
-const { H1, H2, H3, P } = Interaction
+const {H3} = Interaction
 
 const POLL_STATES = {
   START: 'START',
@@ -78,10 +70,9 @@ class Voting extends React.Component {
       pollState: POLL_STATES.START,
       selectedValue: null
     }
-
   }
 
-  reset(e) {
+  reset (e) {
     e.preventDefault()
     this.setState(
       { selectedValue: null },
@@ -89,11 +80,11 @@ class Voting extends React.Component {
     )
   }
 
-  transition(nextState, callback) {
+  transition (nextState, callback) {
     this.setState({ pollState: nextState }, callback && callback())
   }
 
-  renderActions() {
+  renderActions () {
     const { onFinish } = this.props
     const { pollState } = this.state
 

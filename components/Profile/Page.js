@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
@@ -17,7 +17,7 @@ import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 import { ELECTION_SLUG } from '../Vote/ElectionCandidacy'
 
@@ -31,15 +31,15 @@ import Edit from './Edit'
 import Credentials from './Credentials'
 
 import {
-  TeaserFeed,
-  Interaction,
+  A,
   colors,
+  FieldSet,
   fontStyles,
+  Interaction,
   linkRule,
   mediaQueries,
-  FieldSet,
   RawHtml,
-  A
+  TeaserFeed
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 
@@ -315,9 +315,9 @@ class Profile extends Component {
       data: { loading, error, user, election }
     } = this.props
 
-    const candidate = election
-      && election.candidates
-      && election.candidates.find(e => e.user.id === me.id)
+    const candidate = election &&
+      election.candidates &&
+      election.candidates.find(e => e.user.id === me.id)
 
     const metaData = {
       image: user && user.isListed
@@ -489,12 +489,9 @@ class Profile extends Component {
                             />
                           </div>
                           <div style={{marginTop: 10}}>
-                            <A href='#' onClick={e => {
-                              e.preventDefault();
-                              Router
-                                .pushRoute(`/vote/genossenschaft/kandidieren?edit`)
-                                .then(() => window.scrollTo(0, 0));
-                            }} >Kandidatur bearbeiten</A>
+                            <Link route='voteSubmit' params={{edit: true}} passHref>
+                              <A>Kandidatur bearbeiten</A>
+                            </Link>
                           </div>
                         </div>
                       }

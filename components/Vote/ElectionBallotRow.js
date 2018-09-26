@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { A, fontStyles, mediaQueries, colors, Interaction, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
+import { A, Checkbox, colors, DEFAULT_PROFILE_PICTURE, fontStyles, mediaQueries, Radio } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
-import { Checkbox, Radio } from '@project-r/styleguide'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -37,7 +36,7 @@ const styles = {
     },
     '& :nth-child(3)': {
       width: '35%',
-      paddingRight: 5,
+      paddingRight: 5
     },
     ':nth-child(4)': {
       width: '20%'
@@ -83,11 +82,11 @@ const styles = {
     display: 'flex',
     alignItems: 'start',
     [mediaQueries.onlyS]: {
-      flexDirection: 'column-reverse',
+      flexDirection: 'column-reverse'
     }
   }),
   recommendation: css({
-    marginTop: 15,
+    marginTop: 15
   }),
   wrapper: css({
     width: '100%',
@@ -102,7 +101,7 @@ const styles = {
     marginTop: -3,
     padding: 2,
     [mediaQueries.onlyS]: {
-      marginTop: 0,
+      marginTop: 0
     }
   })
 }
@@ -160,7 +159,7 @@ class ElectionBallotRow extends Component {
             onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
           >
             <div>
-              <A>{`${d.firstName} ${d.lastName}`}</A>
+              <A>{d.name}</A>
             </div>
             {
               summary
@@ -176,9 +175,9 @@ class ElectionBallotRow extends Component {
                   <div>
                     <img src={d.portrait || DEFAULT_PROFILE_PICTURE} />
                     <div>
-                      {/*<div>*/}
-                        {/*<A href={`/~${d.id}`}>Profil</A>*/}
-                      {/*</div>*/}
+                      {/* <div> */}
+                      {/* <A href={`/~${d.id}`}>Profil</A> */}
+                      {/* </div> */}
                       { candidate.commentId &&
                       <div>
                         <A href={`/~${d.id}`}>Debatte</A>

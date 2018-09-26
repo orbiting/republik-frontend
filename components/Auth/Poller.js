@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { meQuery } from '../../lib/apollo/withMe'
 import { css } from 'glamor'
 
@@ -13,13 +13,7 @@ import { SUPPORTED_TOKEN_TYPES } from '../constants'
 import EmailTokenIcon from 'react-icons/lib/md/mail-outline'
 import AppTokenIcon from 'react-icons/lib/md/phonelink'
 
-import {
-  HR,
-  Label,
-  Interaction,
-  RawHtml,
-  linkRule
-} from '@project-r/styleguide'
+import { Interaction, Label, linkRule, RawHtml } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
 

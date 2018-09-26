@@ -1,15 +1,8 @@
 import React, { Fragment } from 'react'
-import { formatter as f } from './util'
 import ErrorMessage from '../ErrorMessage'
+import voteT from './voteT'
 
-import {
-  NarrowContainer,
-  Interaction,
-  A,
-  colors,
-  InlineSpinner,
-  mediaQueries
-} from '@project-r/styleguide'
+import { A, colors, InlineSpinner, Interaction, mediaQueries, NarrowContainer } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import Button from '@project-r/styleguide/lib/components/Button'
@@ -17,7 +10,7 @@ import Button from '@project-r/styleguide/lib/components/Button'
 import FieldSet from '@project-r/styleguide/lib/components/Form/FieldSet'
 
 import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
@@ -232,15 +225,15 @@ class ElectionCandidacy extends React.Component {
   }
 
   render () {
-    const meta = {
-      title: `${f('info/title')}: ${f('info/candidacy/title')}`,
-      description: f('info/description')
-    }
-
     const { values, errors, error, dirty, isEditing, updating } = this.state
-    const { url, t } = this.props
+    const {url, t, vt} = this.props
     const { data } = this.props
     const { me, election } = data
+
+    const meta = {
+      title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
+      description: vt('info/description')
+    }
 
     const candidate = !updating && election &&
       election.candidates &&
@@ -248,10 +241,14 @@ class ElectionCandidacy extends React.Component {
 
     const isValid = !Object.values(errors).some(Boolean)
 
+    const {name, portrait} = me
+    const {statement, birthday, disclosures, credentials, city} = values
     const candidacyPreview = me && {
-      user: values.user || me,
-      city: values.city,
-      yearOfBirth: birthdayParse(values.birthday).getFullYear(),
+      user: {
+        name, statement, disclosures, credentials, portrait
+      },
+      city,
+      yearOfBirth: birthdayParse(birthday).getFullYear(),
       recommendation: candidate ? candidate.recommendation : undefined
     }
 
@@ -261,14 +258,14 @@ class ElectionCandidacy extends React.Component {
           <NarrowContainer>
             <Title>
               {candidate
-                ? f('info/candidacy/title2')
-                : f('info/candidacy/title')
+                ? vt('info/candidacy/title2')
+                : vt('info/candidacy/title')
               }
             </Title>
             <div {...styles.previewWrapper}>
               <H2>Vorschau</H2>
               <div style={{margin: `15px 0`}}>
-                <P>{f('info/candidacy/label')}</P>
+                <P>{vt('info/candidacy/label')}</P>
               </div>
               <ElectionBallotRow
                 maxVotes={0}
@@ -351,7 +348,7 @@ class ElectionCandidacy extends React.Component {
                       </div>
                       }
                       <Section>
-                        <Small indent={false} text={f('info/candidacy/finePrint')} />
+                        <Small indent={false} text={vt('info/candidacy/finePrint')} />
                       </Section>
                     </div>
                   </Fragment>
@@ -481,6 +478,7 @@ const query = gql`
 
 export default compose(
   withT,
+  voteT,
   graphql(query),
   graphql(publishCredential, {
     props: ({mutate}) => ({

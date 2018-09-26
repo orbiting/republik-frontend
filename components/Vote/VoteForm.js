@@ -1,15 +1,12 @@
-import React, {Fragment, Component} from 'react'
+import React, { Component } from 'react'
 import { css } from 'glamor'
-import { Heading, Section, Strong, TextMedium, Body, Small, Title } from './text'
+import { Body, Heading, Section, Small, Title } from './text'
 import Collapsible from './Collapsible'
 import Voting from './Voting'
 import Election from './Election'
-import {
-  mediaQueries,
-  A
-} from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { formatter as f } from './util'
+import voteT from './voteT'
 
 const styles = {
   anchor: css({
@@ -30,34 +27,35 @@ const options = [
 ]
 
 class VoteForm extends Component {
-
   constructor (props) {
     super(props)
     this.state = {
       president: []
     }
-  }
 
-  onVoteChange = (field) => (value) => {
-    this.setState({ [field]: value })
+    this.onVoteChange = (field) => (value) => {
+      this.setState({[field]: value})
+    }
   }
 
   render () {
+    const {vt} = this.props
+
     return (
       <div style={{marginTop: 0}}>
         <Section>
-          <Title>{f('vote/title')}</Title>
-          <Body text={f('vote/intro/body')}/>
+          <Title>{vt('vote/title')}</Title>
+          <Body text={vt('vote/intro/body')} />
           <Collapsible>
-            <Small text={f('vote/intro/more')}/>
+            <Small text={vt('vote/intro/more')} />
           </Collapsible>
         </Section>
         <Section>
           <a {...styles.anchor} id='jahresrechnung' />
           <Heading>Jahresrechnung</Heading>
-          <Body text={f('vote/jahresrechnung/body')}/>
+          <Body text={vt('vote/jahresrechnung/body')} />
           <Collapsible>
-            <Small text={f('vote/jahresrechnung/more')}/>
+            <Small text={vt('vote/jahresrechnung/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie die Jahresrechnung 2017/18 annehmen?'
@@ -68,9 +66,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='revisionsbericht' />
           <Heading>Revisionsbericht</Heading>
-          <Body text={f('vote/revisionsbericht/body')}/>
+          <Body text={vt('vote/revisionsbericht/body')} />
           <Collapsible>
-            <Small text={f('vote/revisionsbericht/more')}/>
+            <Small text={vt('vote/revisionsbericht/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie den Revisionsbericht 2017/18 annehmen?'
@@ -81,9 +79,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='budget' />
           <Heading>Budget</Heading>
-          <Body text={f('vote/budget/body')}/>
+          <Body text={vt('vote/budget/body')} />
           <Collapsible>
-            <Small text={f('vote/budget/more')}/>
+            <Small text={vt('vote/budget/more')} />
           </Collapsible>
           <Voting
             proposition='Wollen Sie das Budget 2018/19 annehmen?'
@@ -94,9 +92,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='president' />
           <Heading>Präsidium</Heading>
-          <Body text={f('vote/president/body')}/>
+          <Body text={vt('vote/president/body')} />
           <Collapsible>
-            <Small text={f('vote/president/more')}/>
+            <Small text={vt('vote/president/more')} />
           </Collapsible>
           <Election
             slug='genossenschaftsrat2018-president'
@@ -107,9 +105,9 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='genossenschaftsrat' />
           <Heading>Genossenschaftsrat</Heading>
-          <Body text={f('vote/members/body')}/>
+          <Body text={vt('vote/members/body')} />
           <Collapsible>
-            <Small text={f('vote/members/more')}/>
+            <Small text={vt('vote/members/more')} />
           </Collapsible>
           <Election
             slug='genossenschaftsrat2018-members'
@@ -122,4 +120,4 @@ class VoteForm extends Component {
   }
 }
 
-export default VoteForm
+export default voteT(VoteForm)

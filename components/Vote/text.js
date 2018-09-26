@@ -40,10 +40,10 @@ const PMedium = (props) =>
     {props.children}
   </P>
 
-export const Body = ({text}) =>
+export const Body = ({text: dangerousHTML}) =>
   <div>
     {
-      text.split('\n\n')
+      dangerousHTML.split('\n\n')
         .map(c =>
           <PMedium>
             <RawHtml dangerouslySetInnerHTML={{__html: c}} />
@@ -70,10 +70,10 @@ const PSmall = ({children, indent = true}) =>
     {children}
   </P>
 
-export const Small = ({text, indent = true}) =>
+export const Small = ({text: dangerousHTML, indent = true}) =>
   <div>
     {
-      text.split('\n\n')
+      dangerousHTML.split('\n\n')
         .map((c, i) =>
           <PSmall key={i} indent={indent}>
             <RawHtml dangerouslySetInnerHTML={{__html: c}} />

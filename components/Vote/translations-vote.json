@@ -1,7 +1,11 @@
 {
-  "updated": "2018-09-25T09:56:28.935Z",
+  "updated": "2018-09-26T08:47:16.233Z",
   "title": "live",
   "data": [
+    {
+      "key": "info/description",
+      "value": "Bestimme über die Zukunft der Republik!"
+    },
     {
       "key": "info/title",
       "value": "Wahlen und Abstimmungen"
@@ -53,6 +57,30 @@
     {
       "key": "info/candidacy/finePrint",
       "value": "Die Mitglieder von Project R sehen auf dem Wahlformular nur, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder zusätzlich: Steckbrief, Interessenbindung, Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt, die ab dem 17.10.2018\nonline und für alle Mitglieder sichtbar ist.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
+    },
+    {
+      "key": "info/candidacy/missingFields",
+      "value": "Bitte füllen Sie alle obligatorischen Felder aus:"
+    },
+    {
+      "key": "info/candidacy/saveChanges",
+      "value": "Änderungen speichern"
+    },
+    {
+      "key": "info/candidacy/sumbitCandidacy",
+      "value": "Kandidatur abschicken"
+    },
+    {
+      "key": "info/candidacy/confirmation",
+      "value": "Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!"
+    },
+    {
+      "key": "info/candidacy/edit",
+      "value": "Kandidatur bearbeiten"
+    },
+    {
+      "key": "info/candidacy/delete",
+      "value": "Kandidatur löschen"
     },
     {
       "key": "vote/title",

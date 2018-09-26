@@ -106,10 +106,10 @@ app.prepare().then(() => {
     res.statusCode = 503
     return app.render(req, res, '/503', req.query)
   })
-  // server.get('/vote', (req, res) => {
-  //   res.statusCode = 503
-  //   return app.render(req, res, '/503', req.query)
-  // })
+  server.get('/vote', (req, res) => {
+    res.statusCode = 503
+    return app.render(req, res, '/503', req.query)
+  })
   server.get('/updates/wer-sind-sie', (req, res) => {
     res.statusCode = 503
     return app.render(req, res, '/503', req.query)

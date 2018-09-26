@@ -321,7 +321,7 @@ class ElectionCandidacy extends React.Component {
                     {!isValid &&
                       <div {...styles.vSpace}>
                         <div {...styles.error}>
-                          Bitte füllen Sie alle obligatorischen Felder aus:
+                          {vt('info/candidacy/missingFields')}
                           <ul>
                             {Object.entries(errors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
                           </ul>
@@ -340,8 +340,8 @@ class ElectionCandidacy extends React.Component {
                             disabled={updating || !isValid}
                           >
                             { candidate
-                              ? 'Änderungen speichern'
-                              : 'Kandidatur abschicken'
+                              ? vt('info/candidacy/saveChanges')
+                              : vt('info/candidacy/sumbitCandidacy')
                             }
                           </Button>
                         }
@@ -356,7 +356,7 @@ class ElectionCandidacy extends React.Component {
                   <Fragment>
                     <div {...styles.vSpace}>
                       <P>
-                        Ihre Kandidatur ist registriert. Vielen Dank für Ihr Engagement!
+                        {vt('info/candidacy/confirmation')}
                       </P>
                     </div>
                     <div {...styles.vSpace}>
@@ -364,7 +364,7 @@ class ElectionCandidacy extends React.Component {
                         e.preventDefault()
                         this.startEditing()
                       }}>
-                        Kandidatur bearbeiten
+                        {vt('info/candidacy/edit')}
                       </A>
                     </div>
                     { this.props.me.roles.some(r => r === 'admin') &&
@@ -373,7 +373,7 @@ class ElectionCandidacy extends React.Component {
                           e.preventDefault()
                           this.startEditing()
                         }}>
-                        Kandidatur löschen
+                          {vt('info/candidacy/delete')}
                         </A>
                       </div>
                     }

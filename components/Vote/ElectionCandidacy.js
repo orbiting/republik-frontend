@@ -194,6 +194,22 @@ class ElectionCandidacy extends React.Component {
         })
     }
 
+    this.cancel = async () => {
+      const {cancelCandidacy} = this.props
+      cancelCandidacy(ELECTION_SLUG).then(() => {
+        this.setState(() => ({
+          isEditing: false,
+          error: null
+        }))
+      }).then(() => window.scrollTo(0, 0))
+        .catch((error) => {
+          this.setState(() => ({
+            updating: false,
+            error
+          }))
+        })
+    }
+
     this.onChange = fields => {
       this.setState(FieldSet.utils.mergeFields(fields))
     }
@@ -378,7 +394,7 @@ class ElectionCandidacy extends React.Component {
                       <div {...styles.vSpace}>
                         ADMIN TOOL: <A href='#' onClick={(e) => {
                           e.preventDefault()
-                          this.startEditing()
+                          this.cancel()
                         }}>
                           {vt('info/candidacy/delete')}
                         </A>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-27T12:11:21.222Z",
+  "updated": "2018-09-27T12:41:19.777Z",
   "title": "live",
   "data": [
     {
@@ -55,8 +55,16 @@
       "value": "Ihre Kandidatur"
     },
     {
-      "key": "info/candidacy/label",
+      "key": "info/candidacy/previewLabel",
       "value": "So erscheint Ihre Kandidatur auf der Wahlplattform:"
+    },
+    {
+      "key": "info/candidacy/previewTitle",
+      "value": "Vorschau"
+    },
+    {
+      "key": "info/candidacy/candidacyTitle",
+      "value": "Kandidatur"
     },
     {
       "key": "info/candidacy/finePrint",

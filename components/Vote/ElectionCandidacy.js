@@ -280,9 +280,9 @@ class ElectionCandidacy extends React.Component {
               }
             </Title>
             <div {...styles.previewWrapper}>
-              <H2>Vorschau</H2>
+              <H2>{vt('info/candidacy/previewTitle')}</H2>
               <div style={{margin: `15px 0`}}>
-                <P>{vt('info/candidacy/label')}</P>
+                <P>{vt('info/candidacy/previewLabel')}</P>
               </div>
               <ElectionBallotRow
                 maxVotes={0}
@@ -295,7 +295,7 @@ class ElectionCandidacy extends React.Component {
                 (isEditing || !candidate) ? (
                   <Fragment>
                     <Section>
-                      <H2>Adresse</H2>
+                      <H2>{t('Account/Update/address/label')}</H2>
                       <div {...styles.vSpace}>
                         <FieldSet
                           values={values}
@@ -308,7 +308,7 @@ class ElectionCandidacy extends React.Component {
                       </div>
                     </Section>
                     <Section>
-                      <H2>Kandidatur</H2>
+                      <H2>{vt('info/candidacy/candidacyTitle')}</H2>
                       <div {...styles.vSpace} style={{width: 104, height: 104, background: 'black'}}>
                         <Portrait
                           user={me}

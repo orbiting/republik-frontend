@@ -194,13 +194,15 @@ const Nav = ({me, url, closeHandler, children, t, vt, inNativeApp, inNativeIOSAp
             closeHandler={closeHandler}
           />
           <br />
-          <NavLink
-            route='vote'
-            translation={vt('common/hamburgerEntry')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
+          {/**
+           <NavLink
+             route='vote'
+             translation={vt('common/hamburgerEntry')}
+             active={active}
+             closeHandler={closeHandler}
+           />
+           <br />
+          **/}
           <NavLink
             route='events'
             translation={t('nav/events')}

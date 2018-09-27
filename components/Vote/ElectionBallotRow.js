@@ -71,12 +71,17 @@ const styles = {
   }),
   details: css({
     width: '100%',
-    margin: '15px 0',
-    '& img': {
-      width: 104,
-      height: 104,
-      marginRight: 8
-    }
+    margin: '15px 0'
+  }),
+  portrait: css({
+    display: 'block',
+    backgroundColor: '#E2E8E6',
+    width: 104,
+    height: 104,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    filter: 'grayscale(1)',
+    marginRight: 8
   }),
   profile: css({
     display: 'flex',
@@ -182,7 +187,7 @@ class ElectionBallotRow extends Component {
               <div {...styles.details}>
                 <div {...styles.profile}>
                   <div>
-                    <img style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} />
+                    <div style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} {...styles.portrait} />
                     <div>
                       {/* <div> */}
                       {/* <A href={`/~${d.id}`}>Profil</A> */}

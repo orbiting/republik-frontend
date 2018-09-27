@@ -14,7 +14,7 @@ import { swissTime } from '../../lib/utils/format'
 import { css } from 'glamor'
 import ElectionBallotRow from './ElectionBallotRow'
 import Loader from '../Loader'
-import { Section, Small, Title } from './text'
+import { Body, Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
 
@@ -367,6 +367,9 @@ class ElectionCandidacy extends React.Component {
                       </div>
                       }
                       <Section>
+                        <P>
+                          <Body dangerousHTML={vt('info/footer')} />
+                        </P>
                         <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                       </Section>
                     </div>

@@ -41,7 +41,7 @@ const VoteInfo = ({url, vt}) =>
     </Section>
     {voteNow}
     <P>
-      <Body dangerousHTML={vt('info/candidacy/footer')} />
+      <Body dangerousHTML={vt('info/footer')} />
     </P>
   </NarrowContainer>
 

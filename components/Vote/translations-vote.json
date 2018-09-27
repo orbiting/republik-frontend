@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-26T20:54:32.108Z",
+  "updated": "2018-09-27T07:09:58.527Z",
   "title": "live",
   "data": [
     {
@@ -75,7 +75,7 @@
       "value": "Kandidatur abschicken"
     },
     {
-      "key": "info/candidacy/footer",
+      "key": "info/footer",
       "value": "Haben Sie Fragen? Schreiben Sie uns an <a href=\"mailto:office@project-r.construction\">office@project-r.construction</a>."
     },
     {

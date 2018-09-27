@@ -169,7 +169,7 @@ class ElectionCandidacy extends React.Component {
           : null,
         portrait: values.portraitPreview ? values.portrait : undefined,
         address: {
-          name: me.name,
+          name: (me && me.address && me.address.name) || me.name,
           line1: values.line1,
           line2: values.line2,
           postalCode: values.postalCode,
@@ -177,7 +177,7 @@ class ElectionCandidacy extends React.Component {
           country: values.country
         }
       }).then(() => {
-        return new Promise(resolve => setTimeout(resolve, 400))
+        return new Promise(resolve => setTimeout(resolve, 200)) // insert delay to slow down UI
       }).then(() => {
         this.setState(() => ({
           isEditing: false,
@@ -418,14 +418,32 @@ const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
 }`
 
 const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput, $portrait: String) {
-  submitCandidacy(slug: $slug) {
-    id
-    user {
-      id
-    }
-  }
   updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, hasPublicProfile: true) {
     id
+    name
+    portrait
+    statement
+    disclosures
+    birthday
+    address {
+      name
+      line1
+      line2
+      postalCode
+      city
+      country
+    }
+    credentials {
+      isListed
+      description
+    }
+    publicUrl    
+  }
+  submitCandidacy(slug: $slug) {
+    id
+    yearOfBirth
+    city
+    recommendation
   }
 }`
 
@@ -441,23 +459,10 @@ const publishCredential = gql`
 
 const query = gql`
   query {
-    election(slug: "${ELECTION_SLUG}") {
-      candidacies {
-        id
-        yearOfBirth
-        city
-        recommendation
-        user {
-          id
-        }
-      }
-    }
     me {
       id
-      username
       name
       portrait
-      hasPublicProfile
       statement
       disclosures
       birthday
@@ -471,6 +476,7 @@ const query = gql`
         recommendation
       }
       address {
+        name
         line1
         line2
         postalCode
@@ -509,8 +515,7 @@ export default compose(
           await publishCredential(variables.credential || null)
         }
         return mutate({
-          variables,
-          refetchQueries: [{query}]
+          variables
         })
       }
     })
@@ -521,8 +526,7 @@ export default compose(
         return mutate({
           variables: {
             slug
-          },
-          refetchQueries: [{query}]
+          }
         })
       }
     })

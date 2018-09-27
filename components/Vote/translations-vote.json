@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-27T11:56:21.317Z",
+  "updated": "2018-09-27T12:11:21.222Z",
   "title": "live",
   "data": [
     {
@@ -8,7 +8,7 @@
     },
     {
       "key": "info/title",
-      "value": "Genossenschaftsratswahl und Abstimmungen"
+      "value": "Project R Genossenschaft: Wahlen und Abstimmungen"
     },
     {
       "key": "info/intro/body1",
@@ -161,6 +161,10 @@
     {
       "key": "common/moreInfo",
       "value": "Weitere Informationen"
+    },
+    {
+      "key": "common/hamburgerEntry",
+      "value": "Genossenschaftsrat"
     }
   ]
 }

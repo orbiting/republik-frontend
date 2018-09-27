@@ -19,8 +19,6 @@ import StatusError from '../StatusError'
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
-import { ELECTION_SLUG } from '../Vote/ElectionCandidacy'
-
 import Badge from './Badge'
 import Comments from './Comments'
 import Contact from './Contact'
@@ -132,26 +130,6 @@ export const DEFAULT_VALUES = {
 
 const getPublicUser = gql`
   query getPublicUser($slug: String!) {
-    election(slug: "${ELECTION_SLUG}") {
-      description
-      candidates {
-      id
-      yearOfBirth
-      city
-      recommendation
-      user {
-        id
-        name
-        email
-        statement
-        portrait
-        credentials {
-          isListed
-          description
-        }
-      }
-      }
-    }
     user(slug: $slug) {
       id
       username
@@ -208,6 +186,16 @@ const getPublicUser = gql`
           }
           createdAt
         }
+      }
+      candidacies {
+        election {
+          slug
+          description
+        }
+        id
+        yearOfBirth
+        city
+        recommendation
       }
     }
   }
@@ -310,12 +298,8 @@ class Profile extends Component {
       url,
       t,
       me,
-      data: { loading, error, user, election }
+      data: { loading, error, user }
     } = this.props
-
-    const candidate = election &&
-      election.candidates &&
-      election.candidates.find(e => e.user.id === me.id)
 
     const metaData = {
       image: user && user.isListed
@@ -473,17 +457,16 @@ class Profile extends Component {
                           setState={this.setState.bind(this)}
                           startEditing={this.startEditing} />
                       </div>}
-                      {candidate && me.roles.some(r => r === 'associate') &&
-                        <div style={{marginBottom: 60}}>
+                      {user.candidacies.map((c, i) =>
+                        <div key={i} style={{marginBottom: 60}}>
                           <Interaction.H3 style={{marginBottom: 0}}>
-                            {`${election.description}`}
+                            {`${c.election.description}`}
                           </Interaction.H3>
                           <div style={{marginTop: 10}}>
                             <ElectionBallotRow
-                              candidate={candidate}
+                              candidate={{...c, user}}
                               expanded
                               maxVotes={0}
-                              interactive={false}
                             />
                           </div>
                           <div style={{marginTop: 10}}>
@@ -492,6 +475,7 @@ class Profile extends Component {
                             </Link>
                           </div>
                         </div>
+                      )
                       }
                       <div>
                         {user.documents && !!user.documents.totalCount &&

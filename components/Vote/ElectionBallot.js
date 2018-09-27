@@ -12,11 +12,11 @@ const styles = {
 
 class ElectionBallot extends React.Component {
   render () {
-    const { candidates, selected, maxVotes, onChange } = this.props
+    const {candidacies, selected, maxVotes, onChange} = this.props
 
     return (
       <div {...styles.table}>
-        { candidates
+        {candidacies
           .map(d =>
             <ElectionBallotRow
               key={d.id}
@@ -34,14 +34,14 @@ class ElectionBallot extends React.Component {
 }
 
 ElectionBallot.propTypes = {
-  candidates: PropTypes.array,
+  candidacies: PropTypes.array,
   selected: PropTypes.array,
   maxVotes: PropTypes.number,
   disabled: PropTypes.bool
 }
 
 ElectionBallot.defaultProps = {
-  candidates: [],
+  candidacies: [],
   selected: [],
   maxVotes: 1,
   disabled: false

@@ -189,7 +189,7 @@ class Election extends Component {
     const {data: {election}, isSticky, mandatoryCandidates} = this.props
     const {vote, electionState} = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
-    const recommendedCandidates = election.candidates.filter(c => !!c.recommendation)
+    const recommendedCandidates = election.candidacies.filter(c => !!c.recommendation)
 
     if (!inProgress) {
       return (
@@ -225,7 +225,7 @@ class Election extends Component {
         <div {...styles.wrapper}>
           <ElectionBallot
             maxVotes={election.numSeats}
-            candidates={election.candidates}
+            candidacies={election.candidacies}
             selected={vote}
             onChange={this.toggleSelection}
           />
@@ -254,7 +254,7 @@ Election.propTypes = {
 }
 
 Election.defaultProps = {
-  data: {election: {candidates: []}},
+  data: {election: {candidacies: []}},
   isSticky: false,
   onChange: () => {},
   mandatoryCandidates: []
@@ -275,7 +275,7 @@ const query = gql`
         }
       }
     }
-    candidates {
+    candidacies {
       id
       yearOfBirth
       city

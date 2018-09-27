@@ -246,15 +246,14 @@ class ElectionCandidacy extends React.Component {
     const { values, errors, error, dirty, isEditing, updating } = this.state
     const {url, t, vt} = this.props
     const { data } = this.props
-    const {me = {}, election = {}} = data
+    const {me = {}} = data
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
       description: vt('info/description')
     }
 
-    const candidate = !updating && election.candidates &&
-      election.candidates.find(c => c.user.id === me.id)
+    const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_SLUG)
 
     const isValid = !Object.values(errors).some(Boolean)
 
@@ -413,7 +412,7 @@ class ElectionCandidacy extends React.Component {
 
 const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
   cancelCandidacy(slug: $slug) {
-    candidates {
+    candidacies {
       id
     }
   }
@@ -444,22 +443,13 @@ const publishCredential = gql`
 const query = gql`
   query init {
     election(slug: "${ELECTION_SLUG}") {
-      candidates {
+      candidacies {
         id
         yearOfBirth
         city
         recommendation
         user {
           id
-          name
-          username
-          email
-          statement
-          portrait
-          credentials {
-            isListed
-            description
-          }
         }
       }
     }
@@ -467,19 +457,20 @@ const query = gql`
       id
       username
       name
-      updatedAt
-      email
-      emailAccessRole
-      phoneNumber
-      phoneNumberNote
-      phoneNumberAccessRole
       portrait
       hasPublicProfile
-      isEligibleForProfile
       statement
-      biography
       disclosures
       birthday
+      candidacies {
+        election {
+          slug
+        }
+        id
+        yearOfBirth
+        city
+        recommendation
+      }
       address {
         line1
         line2

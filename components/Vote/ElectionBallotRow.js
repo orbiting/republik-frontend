@@ -83,6 +83,11 @@ const styles = {
     alignItems: 'start',
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse'
+    },
+    '& img': {
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      filter: 'grayscale(1)'
     }
   }),
   recommendation: css({
@@ -173,7 +178,7 @@ class ElectionBallotRow extends Component {
               <div {...styles.details}>
                 <div {...styles.profile}>
                   <div>
-                    <img src={d.portrait || DEFAULT_PROFILE_PICTURE} />
+                    <img style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} />
                     <div>
                       {/* <div> */}
                       {/* <A href={`/~${d.id}`}>Profil</A> */}

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-27T13:23:37.016Z",
+  "updated": "2018-09-27T14:33:10.614Z",
   "title": "live",
   "data": [
     {
@@ -24,7 +24,7 @@
     },
     {
       "key": "info/marketing/intro",
-      "value": "Werden Sie Mitglied, dann können Sie auch mitmachen!"
+      "value": "Die Mitglieder der Project R Genossenschaft können hier in den nächsten Wochen für den Genossenschaftsrat kandidieren und an der Wahl vom 17. bis 28. Oktober teilnehmen. \n\nMelden Sie sich mit der E-Mail-Adresse an, auf die Ihre Mitgliedschaft / Ihr Jahresabonnement läuft. \n\nFalls Sie ein Monatsabonnement haben, sind Sie nicht Mitglied der Genossenschaft. Sie können nicht kandidieren, wählen und abstimmen. Sie möchten das dennoch tun? Wechseln Sie bis zum 16. Oktober auf ein <a href=\"https://www.republik.ch/angebote?package=ABO\">Jahresabonnement</a>.\n"
     },
     {
       "key": "info/intro/more",
@@ -68,7 +68,7 @@
     },
     {
       "key": "info/candidacy/finePrint",
-      "value": "Die Mitglieder von Project R sehen ab dem 17. Oktober auf der Wahlplattform nur, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder zusätzlich: Steckbrief, Interessenbindung, Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
+      "value": "Die Mitglieder von Project R sehen ab dem 17. Oktober auf der Wahlplattform nur, was in der Vorschau angezeigt wird.\nIn Ihrem Profil sehen die Mitglieder dann zusätzlich: Steckbrief, Interessenbindung, Debattenbeiträge.\nDas Statement wird ausserdem unter Ihrem Namen in der Wahldebatte angezeigt und ist dort für alle Mitglieder sichtbar.\nGeburtsdatum, Strasse und Hausnummer ist nur für die Administration von Project R und der «Republik»\neinsehbar."
     },
     {
       "key": "info/candidacy/missingFields",

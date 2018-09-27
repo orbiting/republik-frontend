@@ -17,13 +17,13 @@ import Loader from '../Loader'
 import { Body, Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
+import { ELECTION_COOP_MEMBERS_SLUG } from '../../lib/constants'
 
 const {H2, P} = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
-const ELECTION_SLUG = 'genossenschaftsrat2018-members'
 const DEFAULT_COUNTRY = COUNTRIES[0]
 
 const addressFields = (t) => [
@@ -160,7 +160,7 @@ class ElectionCandidacy extends React.Component {
       this.setState({updating: true})
 
       return updateCandidacy({
-        slug: ELECTION_SLUG,
+        slug: ELECTION_COOP_MEMBERS_SLUG,
         statement: values.statement,
         credential: values.credential,
         disclosures: values.disclosures,
@@ -195,7 +195,7 @@ class ElectionCandidacy extends React.Component {
 
     this.cancel = async () => {
       const {cancelCandidacy} = this.props
-      cancelCandidacy(ELECTION_SLUG).then(() => {
+      cancelCandidacy(ELECTION_COOP_MEMBERS_SLUG).then(() => {
         this.setState(() => ({
           isEditing: false,
           error: null
@@ -252,7 +252,7 @@ class ElectionCandidacy extends React.Component {
       description: vt('info/description')
     }
 
-    const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_SLUG)
+    const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
 
     const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
 
@@ -366,9 +366,7 @@ class ElectionCandidacy extends React.Component {
                       </div>
                       }
                       <Section>
-                        <P>
-                          <Body dangerousHTML={vt('info/footer')} />
-                        </P>
+                        <Body dangerousHTML={vt('info/footer')} />
                         <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                       </Section>
                     </div>

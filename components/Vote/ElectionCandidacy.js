@@ -254,7 +254,7 @@ class ElectionCandidacy extends React.Component {
 
     const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_SLUG)
 
-    const isValid = !Object.values(errors).some(Boolean)
+    const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
 
     const {name} = me
     const {statement, birthday, disclosures, credentials, city, portrait, portraitPreview} = values

@@ -168,7 +168,7 @@ class ElectionCandidacy extends React.Component {
         birthday: values.birthday && values.birthday.length
           ? values.birthday.trim()
           : null,
-        portrait: values.portrait,
+        portrait: values.portraitPreview ? values.portrait : undefined,
         address: {
           name: me.name,
           line1: values.line1,
@@ -202,6 +202,7 @@ class ElectionCandidacy extends React.Component {
   deriveStateFromProps ({data}) {
     const {statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
     const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
+    const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
         portrait,
@@ -214,7 +215,7 @@ class ElectionCandidacy extends React.Component {
         city,
         postalCode,
         country,
-        credential: (credentials ? credentials.find(c => c.isListed) : {}).description
+        credential: credential ? credential.description : undefined
       }
     }
   }
@@ -409,7 +410,7 @@ const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: D
       id
     }
   }
-  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, isListed: true) {
+  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, hasPublicProfile: true) {
     id
   }
 }`

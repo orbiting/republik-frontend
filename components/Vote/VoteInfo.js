@@ -25,7 +25,7 @@ const VoteInfo = ({url, vt}) =>
       <Small dangerousHTML={vt('info/intro/more')} />
     </Collapsible>
     <P>
-      <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg`} />
+      <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`} />
       <FigureCaption>{vt('vote/intro/caption')}</FigureCaption>
     </P>
     <Section>

@@ -41,7 +41,7 @@ const PMedium = (props) =>
   </P>
 
 export const Body = ({dangerousHTML}) =>
-  <div>
+  <span>
     {
       dangerousHTML.split('\n\n')
         .map((c, i) =>
@@ -50,7 +50,7 @@ export const Body = ({dangerousHTML}) =>
           </PMedium>
         )
     }
-  </div>
+  </span>
 
 const PSmall = ({children, indent = true}) =>
   <P {...css({

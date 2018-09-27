@@ -376,9 +376,7 @@ class ElectionCandidacy extends React.Component {
                 ) : (
                   <Fragment>
                     <div {...styles.vSpace}>
-                      <P>
-                        <Body dangerousHTML={vt('info/candidacy/confirmation')} />
-                      </P>
+                      <Body dangerousHTML={vt('info/candidacy/confirmation')} />
                     </div>
                     <div {...styles.vSpace}>
                       <A href='#' onClick={(e) => {
@@ -444,6 +442,15 @@ const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: D
     yearOfBirth
     city
     recommendation
+    user {
+      id
+      candidacies {
+        id
+        election {
+          slug
+        }
+      }
+    }
   }
 }`
 
@@ -526,7 +533,8 @@ export default compose(
         return mutate({
           variables: {
             slug
-          }
+          },
+          refetchQueries: [{query}]
         })
       }
     })

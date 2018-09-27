@@ -363,7 +363,7 @@ class ElectionCandidacy extends React.Component {
                   <Fragment>
                     <div {...styles.vSpace}>
                       <P>
-                        {vt('info/candidacy/confirmation')}
+                        <Body dangerousHTML={vt('info/candidacy/confirmation')} />
                       </P>
                     </div>
                     <div {...styles.vSpace}>

@@ -23,10 +23,10 @@ const {H2, P} = Interaction
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
-export const ELECTION_SLUG = 'genossenschaftsrat2018-members'
+const ELECTION_SLUG = 'genossenschaftsrat2018-members'
 const DEFAULT_COUNTRY = COUNTRIES[0]
 
-export const addressFields = (t) => [
+const addressFields = (t) => [
   {
     label: t('Account/AddressForm/line1/label'),
     name: 'line1',
@@ -73,13 +73,13 @@ export const addressFields = (t) => [
   }
 ]
 
-const fields = (t) => ([
+const fields = (t, vt) => ([
   {
-    label: 'Statement (Ihre Motivation)',
+    label: vt('info/candidacy/statement'),
     name: 'statement',
     autoSize: true,
     validator: value =>
-      (!value && 'Statement fehlt') ||
+      (!value && vt('info/candidacy/statementMissing')) ||
       (value.trim().length >= 140 && t('profile/statement/tooLong'))
   },
   {
@@ -100,13 +100,12 @@ const fields = (t) => ([
     }
   },
   {
-    label: 'Funktion (Tätigkeit, Beruf, Amt)',
+    label: vt('info/candidacy/credential'),
     name: 'credential',
     validator: (value) => {
       return (
-        ((!value || value === '') & 'Funktion fehlt') ||
-        (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
-      )
+        ((!value || value === '') && vt('info/candidacy/credentialMissing'))) ||
+          (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
     }
   },
   {
@@ -326,7 +325,7 @@ class ElectionCandidacy extends React.Component {
                           isEditing={isEditing}
                           errors={errors}
                           dirty={dirty}
-                          fields={fields(t)}
+                          fields={fields(t, vt)}
                           onChange={this.onChange}
                         />
                       </div>
@@ -441,7 +440,7 @@ const publishCredential = gql`
 `
 
 const query = gql`
-  query init {
+  query {
     election(slug: "${ELECTION_SLUG}") {
       candidacies {
         id
@@ -511,7 +510,7 @@ export default compose(
         }
         return mutate({
           variables,
-          refetchQueries: ['init']
+          refetchQueries: [{query}]
         })
       }
     })
@@ -523,7 +522,7 @@ export default compose(
           variables: {
             slug
           },
-          refetchQueries: ['init']
+          refetchQueries: [{query}]
         })
       }
     })

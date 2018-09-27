@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-27T09:58:13.330Z",
+  "updated": "2018-09-27T11:38:02.430Z",
   "title": "live",
   "data": [
     {
@@ -91,6 +91,22 @@
       "value": "Kandidatur löschen"
     },
     {
+      "key": "info/candidacy/statement",
+      "value": "Statement (Ihre Motivation)"
+    },
+    {
+      "key": "info/candidacy/statementMissing",
+      "value": "Statement fehlt"
+    },
+    {
+      "key": "info/candidacy/credential",
+      "value": "Funktion (Tätigkeit, Beruf, Amt)"
+    },
+    {
+      "key": "info/candidacy/credentialMissing",
+      "value": "Funktion fehlt"
+    },
+    {
       "key": "vote/title",
       "value": "Wahlen und Abstimmungen"
     },
@@ -141,6 +157,10 @@
     {
       "key": "vote/members/more",
       "value": "<strong>Zum Rat</strong>\n\nDer Rat trifft sich zu mindestens zwei Sitzungen im Jahr, zum ersten Mal am 24. November 2018.\nSpätestens nach drei Jahren sind Neuwahlen. Wir stellen uns den Rat als eine Mischung aus Parlament,\nAufsichts- und Kontrollgremium, Thinktank, Debattierklub und Ideenentwicklungslabor vor. Wie genau der\nRat arbeit und mit Ihnen in Kontakt tritt, wird eine der ersten Aufgaben für die Rätinnen und Räte sein.\n\nLesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original\nzu lesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie\nin den <a target=\"_blank\" href='https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf'>Artikeln 19, 26 bis 28</A>.\n\n<strong>Zum Wahlsystem</strong>\n\nFür diese Wahl gilt das relative Mehr, das heisst, die 30 Kandidatinnen und Kandidaten mit den meisten\nStimmen sind für den Genossenschaftsrat gewählt.\n\nKandidieren konnten alle Mitglieder, die sich bis zum 16. Oktober online registriert haben. Der Vorstand\nder Genossenschaft hat allerdings eine Wahlempfehlung für 30 Kandidatinnen und Kandidaten abgegeben.\nSind Sie damit nicht einverstanden? Debattieren Sie hier (LINK Wahldebatte) mit uns und den anderen\nMitgliedern.\n\nFür das Wahlsystem haben wir schon im Vorfeld Kritik einstecken müssen. Wenn der Vorstand seine\nFavoriten empfiehlt, ist das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte\nAlternativlosigkeit? Warum trauen wir den Mitgliedern nicht, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen\nnachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller\nschlechten Varianten. Aus drei Gründen blieben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Zusammensetzung der Mitgliederstruktur\nangemessen vertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen.\nWir haben bei der Wahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die\nAnforderungen der Statuten erfüllt werden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre\nwahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler.\nHaben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den\nEinwand. Aber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist\nes zumindest möglich, die Irrtümer des Vorstandes zu korrigieren.\n\n<strong>Zum Wahlablauf</strong>\n\nAm 23. Mai 2018 haben wir mit diesem Newsletter zum ersten Mal über die Wahl informiert und zu\nInformationsveranstaltungen eingeladen: https://project-r.construction/newsletter/genossenschafts-rat\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten\ndurchgeführt, und es haben sich 160 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen\nzusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl empfohlen wurden, wurden\ninformiert. Sie konnten trotzdem für den Rat kandidieren, so wie überhaupt alle Mitglieder der\nGenossenschaft.\n\nBis zum 16. Oktober hatten die Interessierten Zeit, zu kandidieren. Das heisst: Sie haben sich hier\nregistriert und ihr Profil ausgefüllt.\n\nNun ist bis zum 28. Oktober Wahlkampf. Wenn Sie Fragen an die Kandidatinnen haben, dann können Sie\nonline mit Ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das\nrelative Mehr. Das heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in Ihrer Geschichte einen Rat. Wir werden das\nResultat hier auf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n"
+    },
+    {
+      "key": "common/moreInfo",
+      "value": "Weitere Informationen"
     }
   ]
 }

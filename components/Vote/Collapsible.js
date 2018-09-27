@@ -5,6 +5,7 @@ import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import voteT from './voteT'
 
 const styles = {
   wrapper: css({
@@ -40,7 +41,7 @@ class Collapsible extends React.Component {
   }
 
   render () {
-    const {label, children} = this.props
+    const {label, children, vt} = this.props
     const { collapsed } = this.state
 
     return (
@@ -51,7 +52,7 @@ class Collapsible extends React.Component {
             : <div {...styles.toggleIcon}><ChevronDownIcon /></div>
           }
           {
-            label
+            label || vt('common/moreInfo')
           }
         </div>
         { collapsed ||
@@ -70,8 +71,4 @@ Collapsible.propTypes = {
   label: PropTypes.string
 }
 
-Collapsible.defaultProps = {
-  label: 'Weitere Informationen'
-}
-
-export default Collapsible
+export default voteT(Collapsible)

@@ -164,7 +164,11 @@ class ElectionBallotRow extends Component {
             onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
           >
             <div>
-              <A>{d.name}</A>
+              {interactive
+                ? <A>{d.name}</A>
+                : d.name
+              }
+
             </div>
             {
               summary

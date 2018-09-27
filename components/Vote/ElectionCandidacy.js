@@ -224,7 +224,6 @@ class ElectionCandidacy extends React.Component {
         statement,
         birthday,
         disclosures,
-        credentials,
         line1,
         line2,
         city,
@@ -257,12 +256,19 @@ class ElectionCandidacy extends React.Component {
     const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
 
     const {name} = me
-    const {statement, birthday, disclosures, credentials, city, portrait, portraitPreview} = values
+    const {statement, birthday, disclosures, credential, city, portrait, portraitPreview} = values
     const parsedBirthday = birthdayParse(birthday)
 
     const candidacyPreview = me && {
       user: {
-        name, statement, disclosures, credentials, portrait: portraitPreview || portrait
+        name,
+        statement,
+        disclosures,
+        credentials: [{
+          description: credential,
+          isListed: true
+        }],
+        portrait: portraitPreview || portrait
       },
       city,
       yearOfBirth: parsedBirthday ? parsedBirthday.getFullYear() : undefined,
@@ -345,6 +351,9 @@ class ElectionCandidacy extends React.Component {
                         </div>
                       </div>
                     }
+                    <div>
+                      <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
+                    </div>
                     <div {...styles.vSpace}>
                       { (isEditing || !candidate) &&
                       <div {...styles.saveButton}>
@@ -365,10 +374,9 @@ class ElectionCandidacy extends React.Component {
                         }
                       </div>
                       }
-                      <Section>
+                      <div {...styles.vSpace}>
                         <Body dangerousHTML={vt('info/footer')} />
-                        <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
-                      </Section>
+                      </div>
                     </div>
                   </Fragment>
                 ) : (

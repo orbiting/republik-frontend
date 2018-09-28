@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-20T10:05:56.112Z",
+  "updated": "2018-09-28T12:52:40.901Z",
   "title": "live",
   "data": [
     {
@@ -1096,11 +1096,15 @@
     },
     {
       "key": "profile/disclosures/label",
-      "value": "Interessenbindungen (optional)"
+      "value": "Interessenbindungen"
     },
     {
       "key": "profile/disclosures/tooLong",
       "value": "Interessenbindungen, maximal 140 Zeichen"
+    },
+    {
+      "key": "profile/disclosures/notice",
+      "value": "(optional)"
     },
     {
       "key": "profile/statement/label",

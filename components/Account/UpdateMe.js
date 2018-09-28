@@ -131,6 +131,11 @@ class UpdateMe extends Component {
       }
     }))
   }
+  stopEditing () {
+    this.setState({
+      isEditing: false
+    })
+  }
   autoEdit () {
     if (this.props.me && !this.checked) {
       this.checked = true
@@ -321,6 +326,15 @@ class UpdateMe extends Component {
                           }))
                         })
                       }}>{t('Account/Update/submit')}</Button>
+                      <div style={{marginTop: 10}}>
+                        <A href='#' onClick={(e) => {
+                          e.preventDefault()
+                          this.stopEditing()
+                        }}>
+                          {t('Account/Update/cancel')}
+                        </A>
+                      </div>
+
                     </div>
                   </div>
                 )}

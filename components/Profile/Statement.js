@@ -5,10 +5,7 @@ import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
 
-import {
-  fontFamilies,
-  mediaQueries
-} from '@project-r/styleguide'
+import { fontFamilies, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   quote: {
@@ -46,7 +43,6 @@ const fields = t => [
   }
 ]
 
-
 class Statement extends Component {
   constructor (...args) {
     super(...args)
@@ -71,7 +67,7 @@ class Statement extends Component {
     window.removeEventListener('resize', this.handleResize)
   }
 
-  render() {
+  render () {
     const { t, user, isEditing, ...props } = this.props
     const { isMobile } = this.state
     if (!user.statement && !isEditing) {

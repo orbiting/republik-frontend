@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
@@ -17,7 +17,7 @@ import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Badge from './Badge'
 import Comments from './Comments'
@@ -29,15 +29,17 @@ import Edit from './Edit'
 import Credentials from './Credentials'
 
 import {
-  TeaserFeed,
-  Interaction,
+  A,
   colors,
+  FieldSet,
   fontStyles,
+  Interaction,
   linkRule,
   mediaQueries,
-  FieldSet,
-  RawHtml
+  RawHtml,
+  TeaserFeed
 } from '@project-r/styleguide'
+import ElectionBallotRow from '../Vote/ElectionBallotRow'
 
 const SIDEBAR_TOP = 20
 
@@ -115,6 +117,10 @@ const styles = {
   }),
   badges: css({
     margin: '20px 0 30px 0'
+  }),
+  candidacy: css({
+    marginTop: 0,
+    marginBottom: 20
   })
 }
 
@@ -180,6 +186,16 @@ const getPublicUser = gql`
           }
           createdAt
         }
+      }
+      candidacies {
+        election {
+          slug
+          description
+        }
+        id
+        yearOfBirth
+        city
+        recommendation
       }
     }
   }
@@ -441,6 +457,26 @@ class Profile extends Component {
                           setState={this.setState.bind(this)}
                           startEditing={this.startEditing} />
                       </div>}
+                      {user.candidacies.map((c, i) =>
+                        <div key={i} style={{marginBottom: 60}}>
+                          <Interaction.H3 style={{marginBottom: 0}}>
+                            {`${c.election.description}`}
+                          </Interaction.H3>
+                          <div style={{marginTop: 10}}>
+                            <ElectionBallotRow
+                              candidate={{...c, user}}
+                              expanded
+                              maxVotes={0}
+                            />
+                          </div>
+                          <div style={{marginTop: 10}}>
+                            <Link route='voteSubmit' params={{edit: true}} passHref>
+                              <A>Kandidatur bearbeiten</A>
+                            </Link>
+                          </div>
+                        </div>
+                      )
+                      }
                       <div>
                         {user.documents && !!user.documents.totalCount &&
                           <Interaction.H3 style={{marginBottom: 20}}>

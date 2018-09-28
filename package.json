@@ -17,6 +17,7 @@
     "standardize": "standard --fix",
     "precommit": "lint-staged",
     "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
+    "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
     "analyze": "cross-env ANALYZE=1 next build",
     "preinstall": "rm -rf .next && rm -rf node_modules/glamor && rm -rf node_modules/@project-r/styleguide",
     "link:sg": "rm -rf .next && npm link @project-r/styleguide && rm -rf node_modules/glamor && ln -s @project-r/styleguide/node_modules/glamor node_modules/glamor && echo '\n⚠️  Make sure to restart the next.js server. To unlink simply run npm install.\n'"
@@ -123,7 +124,7 @@
     "isomorphic-unfetch": "^2.0.0",
     "load-script": "^1.0.0",
     "lodash.debounce": "^4.0.8",
-    "lodash.get": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "lru-cache": "^4.1.1",
     "markdown-in-js": "^1.1.3",
     "mdast-react-render": "^1.1.0",

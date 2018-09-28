@@ -8,16 +8,9 @@ import { chfFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
-import {
-  Field, A, Interaction,
-  fontFamilies,
-  mediaQueries,
-  Label
-} from '@project-r/styleguide'
+import { A, Field, fontFamilies, Interaction, Label, mediaQueries } from '@project-r/styleguide'
 
-import {
-  CDN_FRONTEND_BASE_URL
-} from '../../lib/constants'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import { Router } from '../../lib/routes'
 
@@ -282,7 +275,7 @@ class CustomizePackage extends Component {
                         onFieldChange(undefined, value - 1, dirty[option.id])
                       })}
                       onChange={onFieldChange}
-                      />
+                    />
                   </div>
                 </div>
               )
@@ -312,7 +305,7 @@ class CustomizePackage extends Component {
                   dirty: shouldValidate
                 }))
               }}
-              />
+            />
           </div>
           <P>
             {t('package/customize/userPrice/beforePrice')}

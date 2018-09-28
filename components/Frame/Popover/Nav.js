@@ -5,7 +5,7 @@ import { css } from 'glamor'
 import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { matchPath, Link, Router } from '../../../lib/routes'
+import { Link, matchPath, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
@@ -13,17 +13,10 @@ import { prefixHover } from '../../../lib/utils/hover'
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import {
-  Interaction,
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { colors, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
+import voteT from '../../Vote/voteT'
 
 const styles = {
   container: css({
@@ -130,7 +123,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
+const Nav = ({me, url, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember}) => {
   const active = matchPath(url.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -201,6 +194,15 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
             closeHandler={closeHandler}
           />
           <br />
+          {/**
+           <NavLink
+             route='vote'
+             translation={vt('common/hamburgerEntry')}
+             active={active}
+             closeHandler={closeHandler}
+           />
+           <br />
+          **/}
           <NavLink
             route='events'
             translation={t('nav/events')}
@@ -236,6 +238,7 @@ const Nav = ({ me, url, closeHandler, children, t, inNativeApp, inNativeIOSApp, 
 
 export default compose(
   withT,
+  voteT,
   withInNativeApp,
   withMembership
 )(Nav)

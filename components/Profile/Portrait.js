@@ -89,7 +89,7 @@ export default withT(({t, user, isEditing, isMe, values, errors, onChange}) => {
   return (
     <Dropzone
       disablePreview
-      disabled={!isMe}
+      disabled={!isMe || !isEditing}
       className={styles.dropzone.toString()}
       style={{
         cursor: isEditing

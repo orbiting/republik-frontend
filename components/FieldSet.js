@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {css} from 'glamor'
 
 import AutosizeInput from 'react-textarea-autosize'
 import MaskedInput from 'react-maskedinput'
 
 import {
-  FieldSet
+  FieldSet, Label
 } from '@project-r/styleguide'
 
 export const styles = {
@@ -48,6 +48,14 @@ const FieldSetWithMaskAndAutoSize = props => (
             {...styles.mask}
             placeholderChar={field.maskChar || ' '}
             mask={field.mask} />
+        )
+      }
+      if (field.notice) {
+        fieldProps.renderInput = (inputProps, b, c) => (
+          <Fragment>
+            <input {...inputProps} />
+            <Label>{field.notice}</Label>
+          </Fragment>
         )
       }
       return fieldProps

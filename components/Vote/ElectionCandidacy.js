@@ -110,6 +110,7 @@ const fields = (t, vt) => ([
   },
   {
     label: t('profile/disclosures/label'),
+    notice: t('profile/disclosures/notice'),
     name: 'disclosures',
     autoSize: true
   }
@@ -441,7 +442,7 @@ const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: D
       isListed
       description
     }
-    publicUrl    
+    publicUrl
   }
   submitCandidacy(slug: $slug) {
     id

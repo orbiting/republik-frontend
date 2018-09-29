@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
-import { A, colors, InlineSpinner, Interaction, mediaQueries, NarrowContainer } from '@project-r/styleguide'
+import { A, Label, colors, InlineSpinner, Interaction, mediaQueries, NarrowContainer } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import Button from '@project-r/styleguide/lib/components/Button'
@@ -110,6 +110,7 @@ const fields = (t, vt) => ([
   },
   {
     label: t('profile/disclosures/label'),
+    explanation: <Label>{t('profile/disclosures/explanation')}</Label>,
     name: 'disclosures',
     autoSize: true
   }
@@ -351,7 +352,7 @@ class ElectionCandidacy extends React.Component {
                         </div>
                       </div>
                     }
-                    <div>
+                    <div {...styles.section}>
                       <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                     </div>
                     <div {...styles.vSpace}>
@@ -441,7 +442,7 @@ const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: D
       isListed
       description
     }
-    publicUrl    
+    publicUrl
   }
   submitCandidacy(slug: $slug) {
     id

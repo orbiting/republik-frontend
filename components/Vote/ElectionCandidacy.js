@@ -110,6 +110,7 @@ const fields = (t, vt) => ([
   },
   {
     label: t('profile/disclosures/label'),
+    explanation: t('profile/disclosures/explanation'),
     name: 'disclosures',
     autoSize: true
   }
@@ -351,7 +352,7 @@ class ElectionCandidacy extends React.Component {
                         </div>
                       </div>
                     }
-                    <div>
+                    <div {...styles.section}>
                       <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                     </div>
                     <div {...styles.vSpace}>
@@ -441,7 +442,7 @@ const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: D
       isListed
       description
     }
-    publicUrl    
+    publicUrl
   }
   submitCandidacy(slug: $slug) {
     id

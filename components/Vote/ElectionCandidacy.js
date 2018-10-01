@@ -257,7 +257,7 @@ class ElectionCandidacy extends React.Component {
     const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
 
     const combinedErrors = {
-      username: me.username ? null : vt('common/missingUsername'),
+      username: (values.username || me.username) ? undefined : vt('common/missingUsername'),
       ...errors
     }
 
@@ -494,6 +494,8 @@ const query = gql`
     me {
       id
       name
+      firstName
+      lastName
       username
       portrait
       statement

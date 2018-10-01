@@ -223,7 +223,7 @@ class ElectionCandidacy extends React.Component {
     const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
-        username,
+        username: username ? undefined : username,
         portrait,
         statement,
         birthday,

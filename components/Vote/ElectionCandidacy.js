@@ -218,12 +218,11 @@ class ElectionCandidacy extends React.Component {
   }
 
   deriveStateFromProps ({data}) {
-    const {username, statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
+    const {statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
     const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
     const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
-        username: username ? undefined : username,
         portrait,
         statement,
         birthday,

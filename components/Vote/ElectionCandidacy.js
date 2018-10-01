@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
-import { A, Label, colors, InlineSpinner, Interaction, mediaQueries, NarrowContainer } from '@project-r/styleguide'
+import { A, colors, InlineSpinner, Interaction, Label, mediaQueries, NarrowContainer } from '@project-r/styleguide'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import Button from '@project-r/styleguide/lib/components/Button'
@@ -18,6 +18,7 @@ import { Body, Section, Small, Title } from './text'
 import Portrait from '../Profile/Portrait'
 import { COUNTRIES } from '../Account/AddressForm'
 import { ELECTION_COOP_MEMBERS_SLUG } from '../../lib/constants'
+import UsernameField from '../Profile/UsernameField'
 
 const {H2, P} = Interaction
 
@@ -132,7 +133,7 @@ const styles = {
   saveButton: css({
     textAlign: 'center',
     width: 300,
-    height: 60,
+    position: 'relative',
     [mediaQueries.onlyS]: {
       width: '100%'
     }
@@ -162,6 +163,7 @@ class ElectionCandidacy extends React.Component {
 
       return updateCandidacy({
         slug: ELECTION_COOP_MEMBERS_SLUG,
+        username: values.username,
         statement: values.statement,
         credential: values.credential,
         disclosures: values.disclosures,
@@ -216,11 +218,12 @@ class ElectionCandidacy extends React.Component {
   }
 
   deriveStateFromProps ({data}) {
-    const {statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
+    const {username, statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
     const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
     const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
+        username,
         portrait,
         statement,
         birthday,
@@ -327,6 +330,14 @@ class ElectionCandidacy extends React.Component {
                           dirty={dirty} />
                       </div>
                       <div {...styles.vSpace}>
+                        {!me.username &&
+                        <UsernameField
+                          user={me}
+                          values={values}
+                          errors={errors}
+                          onChange={this.onChange}
+                        />
+                        }
                         <FieldSet
                           values={values}
                           isEditing={isEditing}
@@ -364,6 +375,7 @@ class ElectionCandidacy extends React.Component {
                             type='submit'
                             block
                             primary
+                            big
                             onClick={this.save}
                             disabled={updating || !isValid}
                           >
@@ -422,9 +434,10 @@ const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
   }
 }`
 
-const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput, $portrait: String) {
-  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, hasPublicProfile: true) {
+const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput, $portrait: String, $username: String) {
+  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, username: $username, hasPublicProfile: true) {
     id
+    username
     name
     portrait
     statement
@@ -476,6 +489,7 @@ const query = gql`
     me {
       id
       name
+      username
       portrait
       statement
       disclosures

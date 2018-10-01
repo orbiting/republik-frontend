@@ -366,7 +366,8 @@ class ElectionCandidacy extends React.Component {
                         <div {...styles.error}>
                           {vt('info/candidacy/missingFields')}
                           <ul>
-                            {Object.entries(combinedErrors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
+                            {Object.keys(combinedErrors).map(k => !!combinedErrors[k] &&
+                              <li key={k}>{combinedErrors[k]}</li>)}
                           </ul>
                         </div>
                       </div>

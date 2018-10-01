@@ -257,7 +257,12 @@ class ElectionCandidacy extends React.Component {
 
     const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
 
-    const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
+    const combinedErrors = {
+      username: me.username ? null : vt('common/missingUsername'),
+      ...errors
+    }
+
+    const isValid = !Object.keys(combinedErrors).some(k => Boolean(combinedErrors[k]))
 
     const {name} = me
     const {statement, birthday, disclosures, credential, city, portrait, portraitPreview} = values
@@ -353,19 +358,19 @@ class ElectionCandidacy extends React.Component {
                         <ErrorMessage error={error} />
                       </div>
                     }
+                    <div {...styles.section}>
+                      <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
+                    </div>
                     {!isValid &&
                       <div {...styles.vSpace}>
                         <div {...styles.error}>
                           {vt('info/candidacy/missingFields')}
                           <ul>
-                            {Object.entries(errors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
+                            {Object.entries(combinedErrors).map(([k, v]) => !!v && <li key={k}>{v}</li>)}
                           </ul>
                         </div>
                       </div>
                     }
-                    <div {...styles.section}>
-                      <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
-                    </div>
                     <div {...styles.vSpace}>
                       { (isEditing || !candidate) &&
                       <div {...styles.saveButton}>

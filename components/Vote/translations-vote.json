@@ -1,5 +1,5 @@
 {
-  "updated": "2018-09-28T13:53:37.506Z",
+  "updated": "2018-10-01T12:14:40.758Z",
   "title": "live",
   "data": [
     {
@@ -173,6 +173,10 @@
     {
       "key": "common/hamburgerEntry",
       "value": "Genossenschaftsrat"
+    },
+    {
+      "key": "common/missingUsername",
+      "value": "Profil URL fehlt"
     }
   ]
 }

@@ -114,7 +114,7 @@
     "d3-timer": "^1.0.5",
     "debug": "^3.1.0",
     "dotenv": "^4.0.0",
-    "downshift": "^1.16.1",
+    "downshift": "^2.2.2",
     "express": "^4.15.4",
     "express-basic-auth": "^1.1.1",
     "glamor": "^2.20.40",

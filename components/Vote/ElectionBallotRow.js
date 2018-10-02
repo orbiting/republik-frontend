@@ -28,6 +28,7 @@ const styles = {
     display: 'flex',
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
+    overflowWrap: 'break-word',
     '& :nth-child(1)': {
       width: '30%'
     },

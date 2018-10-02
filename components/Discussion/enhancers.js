@@ -569,7 +569,7 @@ export const withCount = graphql(countQuery, {
     pollInterval: DISCUSSION_POLL_INTERVAL_MS
   },
   props: ({ ownProps: { discussionId, shouldUpdate }, data: { discussion, subscribeToMore } }) => ({
-    count: discussion && discussion.comments.totalCount,
+    count: discussion && discussion.comments && discussion.comments.totalCount,
     subscribe: () => {
       // fall back to polling for now
       return () => {}

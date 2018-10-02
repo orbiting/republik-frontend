@@ -43,7 +43,6 @@ const styles = {
   }),
   link: css({
     marginTop: 10,
-    color: colors.disabled,
     ...fontStyles.sansSerifRegular14
   }),
   thankyou: css({
@@ -64,7 +63,6 @@ const styles = {
 const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
 
 class Voting extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
@@ -132,7 +130,6 @@ class Voting extends React.Component {
           )
       }
     }
-
   }
 
   render () {

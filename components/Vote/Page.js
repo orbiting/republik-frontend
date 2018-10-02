@@ -11,10 +11,10 @@ import VoteMarketing from './VoteMarketing'
 
 class Page extends React.Component {
   renderVoteComponent () {
-    const {me} = this.props
+    const {me, url} = this.props
     const isAssociate = me.roles.some(r => r === 'associate')
 
-    switch (getVotingStage()) {
+    switch (url.query.stage || getVotingStage()) {
       case VOTING_STAGES.VOTE:
         return <VoteForm />
       default:

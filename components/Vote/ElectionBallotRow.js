@@ -5,6 +5,7 @@ import { A, Checkbox, colors, DEFAULT_PROFILE_PICTURE, fontStyles, mediaQueries,
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
+import FavoriteIcon from 'react-icons/lib/md/favorite'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -211,6 +212,9 @@ class ElectionBallotRow extends Component {
               </div>
             </div>
           }
+        </div>
+        <div style={{display: 'flex'}}>
+          <FavoriteIcon color={colors.lightText} />
         </div>
         { maxVotes > 0 && onChange &&
           <div style={{width: 18}}>

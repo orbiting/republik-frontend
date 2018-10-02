@@ -8,6 +8,7 @@ import { css } from 'glamor'
 import { timeFormat } from '../../lib/utils/format'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
+import voteT from './voteT'
 
 const {P} = Interaction
 
@@ -126,7 +127,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
-                black
+                primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
                 Wählen
@@ -138,7 +139,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
-                black
+                primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
                 Wählen
@@ -150,7 +151,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
-                primary
+                black
                 onClick={() =>
                   this.transition(ELECTION_STATES.DONE, onFinish)
                 }
@@ -186,10 +187,10 @@ class Election extends Component {
   }
 
   render () {
-    const {data: {election}, isSticky, mandatoryCandidates} = this.props
+    const {data: {election}, isSticky, mandatoryCandidates, vt} = this.props
     const {vote, electionState} = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
-    const recommendedCandidates = election.candidacies.filter(c => !!c.recommendation)
+    const recommendedCandidates = election ? election.candidacies.filter(c => !!c.recommendation) : []
 
     if (!inProgress) {
       return (
@@ -204,6 +205,10 @@ class Election extends Component {
       )
     }
 
+    const listOfCandidates = electionState === ELECTION_STATES.READY
+      ? election.candidacies.filter(c => vote.some(v => v === c.id))
+      : election.candidacies
+
     return (
       <div {...styles.wrapper}>
         <div {...styles.header}>
@@ -212,20 +217,21 @@ class Election extends Component {
           }
           {recommendedCandidates.length > 0 && inProgress &&
           <Button
-            style={{height: 50}}
+            primary
+            style={{height: 80}}
             onClick={() => this.setState({
               vote: (recommendedCandidates.map(c => c.id)),
               electionState: ELECTION_STATES.DIRTY
             })}
           >
-            Wahlempfehlung übernehmen
+            {vt('vote/members/recommendation')}
           </Button>
           }
         </div>
         <div {...styles.wrapper}>
           <ElectionBallot
             maxVotes={election.numSeats}
-            candidacies={election.candidacies}
+            candidacies={listOfCandidates}
             selected={vote}
             onChange={this.toggleSelection}
           />
@@ -298,6 +304,7 @@ const query = gql`
 `
 
 export default compose(
+  voteT,
   graphql(query, {
     options: ({slug}) => ({
       variables: {

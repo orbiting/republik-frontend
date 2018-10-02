@@ -8,6 +8,8 @@ import { mediaQueries } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import voteT from './voteT'
 
+import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG } from '../../lib/constants'
+
 const styles = {
   anchor: css({
     display: 'block',
@@ -97,7 +99,7 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/president/more')} />
           </Collapsible>
           <Election
-            slug='genossenschaftsrat2018-president'
+            slug={ELECTION_COOP_PRESIDENT_SLUG}
             onChange={this.onVoteChange('president')}
           />
         </Section>
@@ -110,7 +112,7 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/members/more')} />
           </Collapsible>
           <Election
-            slug='genossenschaftsrat2018-members'
+            slug={ELECTION_COOP_MEMBERS_SLUG}
             isSticky
             mandatoryCandidates={this.state.president}
           />

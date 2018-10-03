@@ -31,7 +31,7 @@ const styles = {
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
     overflowWrap: 'break-word',
-    '& :nth-child(1)': {
+    '& div:nth-child(1)': {
       width: '30%'
     },
     '& div:nth-child(2)': {
@@ -246,7 +246,6 @@ class ElectionBallotRow extends Component {
 
 ElectionBallotRow.defaultProps = {
   selected: false,
-  mandatory: false,
   disabled: false,
   maxVotes: 1,
   expanded: false,
@@ -256,7 +255,6 @@ ElectionBallotRow.defaultProps = {
 
 ElectionBallotRow.propTypes = {
   selected: PropTypes.bool,
-  mandatory: PropTypes.bool,
   disabled: PropTypes.bool,
   maxVotes: PropTypes.number,
   expanded: PropTypes.bool,

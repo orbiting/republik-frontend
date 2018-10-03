@@ -30,7 +30,8 @@ const styles = {
     display: 'flex',
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
-    '& div:nth-child(1)': {
+    overflowWrap: 'break-word',
+    '& :nth-child(1)': {
       width: '30%'
     },
     '& div:nth-child(2)': {

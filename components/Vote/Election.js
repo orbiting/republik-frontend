@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react'
-import { A, Button, colors, Interaction, mediaQueries } from '@project-r/styleguide'
+import { A, Button, colors, fontFamilies, Interaction, mediaQueries } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import FavoriteIcon from 'react-icons/lib/md/favorite'
+import StarsIcon from 'react-icons/lib/md/stars'
 
 import { timeFormat } from '../../lib/utils/format'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -23,12 +25,11 @@ const styles = {
   wrapper: css({
     width: '100%',
     position: 'relative',
-    minHeight: 200,
-    marginTop: 20
+    minHeight: 200
   }),
   header: css({
     position: 'sticky',
-    padding: '10px 0',
+    padding: '20px 0',
     top: HEADER_HEIGHT,
     display: 'flex',
     justifyContent: 'space-between',
@@ -38,6 +39,16 @@ const styles = {
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
       top: HEADER_HEIGHT_MOBILE
+    }
+  }),
+  info: css({
+    '& strong': {
+      fontFamily: fontFamilies.sansSerifMedium,
+      fontWeight: 'normal'
+    },
+    [mediaQueries.onlyS]: {
+      marginTop: 5,
+      textAlign: 'center'
     }
   }),
   actions: css({
@@ -60,8 +71,7 @@ const styles = {
     color: colors.error
   }),
   link: css({
-    marginTop: 10,
-    color: colors.disabled
+    marginTop: 10
   }),
   thankyou: css({
     background: colors.primaryBg,
@@ -84,7 +94,7 @@ class Election extends Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      vote: props.mandatoryCandidates,
+      vote: [],
       display: [],
       electionState: ELECTION_STATES.DIRTY
     }
@@ -93,15 +103,15 @@ class Election extends Component {
       this.setState({electionState: nextState}, callback && callback())
     }
 
-    this.toggleSelection = (candidateId) => {
+    this.toggleSelection = (candidate) => {
       const {data: {election: {numSeats}}, onChange} = this.props
       const allowMultiple = numSeats > 1
       const collection = this.state.vote
       const existingItem =
-        collection.find(item => item === candidateId)
+        collection.find(item => item.id === candidate.id)
       const nextCollection = [
-        ...(allowMultiple ? collection.filter(item => item !== candidateId) : []),
-        ...(existingItem ? [] : [candidateId])
+        ...(allowMultiple ? collection.filter(item => item.id !== candidate.id) : []),
+        ...(existingItem ? [] : [candidate])
       ]
       this.setState({
         vote: nextCollection,
@@ -113,7 +123,7 @@ class Election extends Component {
 
     this.reset = e => {
       e.preventDefault()
-      this.setState({vote: [], electionState: ELECTION_STATES.START})
+      this.setState({vote: [], electionState: ELECTION_STATES.START}, () => this.props.onChange([]))
     }
 
     this.renderActions = () => {
@@ -170,13 +180,13 @@ class Election extends Component {
 
     this.renderWarning = () => {
       const {electionState, vote} = this.state
-      const {data: {election: {numSeats}}} = this.props
+      const {data: {election: {numSeats}}, vt} = this.props
       if (electionState === ELECTION_STATES.READY && vote.length < numSeats) {
         return (
           <P {...styles.error}>
             { vote.length < 1
-              ? `Möchten Sie wirklich eine leere Stimme abgeben?`
-              : `Sie haben erst ${vote.length} von ${numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?`
+              ? vt('vote/form/confirmEmpty')
+              : vt('vote/form/confirmCount', {numVotes: vote.length, numSeats})
             }
           </P>
         )
@@ -190,7 +200,6 @@ class Election extends Component {
     const {data: {election}, isSticky, mandatoryCandidates, vt} = this.props
     const {vote, electionState} = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
-    const recommendedCandidates = election ? election.candidacies.filter(c => !!c.recommendation) : []
 
     if (!inProgress) {
       return (
@@ -206,21 +215,35 @@ class Election extends Component {
     }
 
     const listOfCandidates = electionState === ELECTION_STATES.READY
-      ? election.candidacies.filter(c => vote.some(v => v === c.id))
+      ? election.candidacies.filter(c => vote.some(v => v.id === c.id))
       : election.candidacies
+
+    const [recommended, others] = listOfCandidates.reduce((acc, cur) => {
+      acc[cur.recommendation ? 0 : 1].push(cur)
+      return acc
+    }, [[], []])
 
     return (
       <div {...styles.wrapper}>
         <div {...styles.header}>
-          {election.numSeats > 1 && inProgress &&
-          <P>Sie haben noch {election.numSeats - vote.length - mandatoryCandidates.length}/{election.numSeats} Stimmen übrig!</P>
+          {election.numSeats > 1 &&
+          <div {...styles.info}>
+            {inProgress &&
+            <strong>Sie haben noch {election.numSeats - vote.length}/{election.numSeats} Stimmen übrig!<br /></strong>
+            }
+            {recommended.length > 0 &&
+            <span><StarsIcon size={18} color={colors.lightText} /> von der Republik zur Wahl empfohlen<br /></span>
+            }
+            {mandatoryCandidates.length > 0 &&
+            <span><FavoriteIcon color={colors.lightText} /> Ihre Wahl für das Präsidium</span>
+            }
+          </div>
           }
-          {recommendedCandidates.length > 0 && inProgress &&
+          {recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={{height: 80}}
             onClick={() => this.setState({
-              vote: (recommendedCandidates.map(c => c.id)),
+              vote: recommended,
               electionState: ELECTION_STATES.DIRTY
             })}
           >
@@ -228,11 +251,13 @@ class Election extends Component {
           </Button>
           }
         </div>
+        <div />
         <div {...styles.wrapper}>
           <ElectionBallot
             maxVotes={election.numSeats}
-            candidacies={listOfCandidates}
+            candidacies={recommended.concat(others)}
             selected={vote}
+            mandatory={mandatoryCandidates}
             onChange={this.toggleSelection}
           />
           {inProgress &&

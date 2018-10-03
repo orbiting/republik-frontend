@@ -24,8 +24,7 @@ const styles = {
 
 const options = [
   {value: 'yes', label: 'Ja'},
-  {value: 'no', label: 'Nein'},
-  {value: 'abstain', label: 'Leer einlegen'}
+  {value: 'no', label: 'Nein'}
 ]
 
 class VoteForm extends Component {

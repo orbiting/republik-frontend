@@ -6,6 +6,7 @@ import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
 import FavoriteIcon from 'react-icons/lib/md/favorite'
+import StarsIcon from 'react-icons/lib/md/stars'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -29,26 +30,31 @@ const styles = {
     display: 'flex',
     ...fontStyles.sansSerifRegular16,
     lineHeight: 1.3,
-    '& :nth-child(1)': {
+    '& div:nth-child(1)': {
       width: '30%'
     },
-    '& :nth-child(2)': {
-      width: '15%'
+    '& div:nth-child(2)': {
+      width: '10%'
     },
-    '& :nth-child(3)': {
-      width: '35%',
+    '& div:nth-child(3)': {
+      width: '35%'
+    },
+    '& div:nth-child(4)': {
+      width: '20%',
       paddingRight: 5
     },
-    ':nth-child(4)': {
-      width: '20%'
+    '& div:nth-child(5)': {
+      width: '5%'
     },
     [mediaQueries.onlyS]: {
-      ...fontStyles.sansSerifRegular16,
-      '& :nth-child(1)': {
-        width: '100%'
+      '& div:nth-child(1)': {
+        width: '80%'
       },
-      '& :not(:first-child)': {
+      '& div:nth-child(2), & div:nth-child(3), & div:nth-child(4)': {
         display: 'none'
+      },
+      '& div:last-child': {
+        width: '20%'
       }
     }
   }),
@@ -131,7 +137,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive } = this.props
+    const {candidate, maxVotes, selected, onChange, disabled, interactive, mandatory} = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -179,6 +185,16 @@ class ElectionBallotRow extends Component {
             {
               summary
             }
+            <div>
+              <div style={{width: 36, height: 18}}>
+                {candidate.recommendation &&
+                <StarsIcon size={18} color={colors.lightText} />
+                }
+                {mandatory &&
+                <FavoriteIcon size={18} color={colors.lightText} />
+                }
+              </div>
+            </div>
           </div>
           { expanded &&
             <div {...styles.summaryWrapper}>
@@ -190,10 +206,10 @@ class ElectionBallotRow extends Component {
                   <div>
                     <div style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} {...styles.portrait} />
                     <div>
-                      {/* <div> */}
-                      {/* <A href={`/~${d.id}`}>Profil</A> */}
-                      {/* </div> */}
-                      { candidate.commentId &&
+                      <div>
+                        <A href={`/~${d.id}`}>Profil</A>
+                      </div>
+                      {candidate.commentId &&
                       <div>
                         <A href={`/~${d.id}`}>Debatte</A>
                       </div>
@@ -213,15 +229,12 @@ class ElectionBallotRow extends Component {
             </div>
           }
         </div>
-        <div style={{display: 'flex'}}>
-          <FavoriteIcon color={colors.lightText} />
-        </div>
         { maxVotes > 0 && onChange &&
           <div style={{width: 18}}>
             <SelectionComponent
               disabled={maxVotes > 1 && !selected && disabled}
               checked={selected}
-              onChange={() => onChange(candidate.id)}
+              onChange={() => onChange(candidate)}
             />
           </div>
         }
@@ -232,6 +245,7 @@ class ElectionBallotRow extends Component {
 
 ElectionBallotRow.defaultProps = {
   selected: false,
+  mandatory: false,
   disabled: false,
   maxVotes: 1,
   expanded: false,
@@ -241,6 +255,7 @@ ElectionBallotRow.defaultProps = {
 
 ElectionBallotRow.propTypes = {
   selected: PropTypes.bool,
+  mandatory: PropTypes.bool,
   disabled: PropTypes.bool,
   maxVotes: PropTypes.number,
   expanded: PropTypes.bool,

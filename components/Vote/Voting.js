@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 
-const {H3} = Interaction
+const {H3, P} = Interaction
 
 const POLL_STATES = {
   START: 'START',
@@ -17,8 +17,8 @@ const styles = {
   card: css({
     margin: '40px auto',
     border: `1px solid ${colors.neutral}`,
-    padding: 15,
-    maxWidth: 455,
+    padding: 25,
+    maxWidth: 550,
     width: '100%'
   }),
   cardTitle: css({
@@ -27,7 +27,7 @@ const styles = {
   }),
   cardBody: css({
     marginTop: 15,
-    padding: '0 20px 15px 20px'
+    padding: '0 20px 15px 0px'
   }),
   cardActions: css({
     height: 90,
@@ -44,6 +44,12 @@ const styles = {
   link: css({
     marginTop: 10,
     ...fontStyles.sansSerifRegular14
+  }),
+  error: css({
+    textAlign: 'center',
+    width: '80%',
+    margin: '10px auto',
+    color: colors.error
   }),
   thankyou: css({
     background: colors.primaryBg,
@@ -82,6 +88,19 @@ class Voting extends React.Component {
       this.setState({pollState: nextState}, callback && callback())
     }
 
+    this.renderWarning = () => {
+      const {pollState, selectedValue} = this.state
+      if (pollState === POLL_STATES.READY && !selectedValue) {
+        return (
+          <P {...styles.error}>
+            Leer einlegen?
+          </P>
+        )
+      } else {
+        return null
+      }
+    }
+
     this.renderActions = () => {
       const {onFinish} = this.props
       const {pollState} = this.state
@@ -92,10 +111,13 @@ class Voting extends React.Component {
         case POLL_STATES.START:
           return (
             <Fragment>
-              <Button disabled>
+              <Button
+                primary
+                onClick={() => this.transition(POLL_STATES.READY)}
+              >
                 Abstimmen
               </Button>
-              <div {...styles.link}>Bitte wählen Sie eine Option um abzustimmen</div>
+              <div {...styles.link}>Leer einlegen ist auch möglich.</div>
             </Fragment>
           )
         case POLL_STATES.DIRTY:
@@ -115,6 +137,7 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
+                black
                 onClick={() =>
                   this.transition(POLL_STATES.DONE, onFinish)
                 }
@@ -133,14 +156,14 @@ class Voting extends React.Component {
   }
 
   render () {
-    const { options, proposition } = this.props
-    const { pollState, selectedValue } = this.state
-    const { P } = Interaction
+    const {options, proposition} = this.props
+    const {pollState, selectedValue} = this.state
+    const {P} = Interaction
     return (
       <div {...styles.card}>
         <H3>{proposition}</H3>
-        <div style={{ position: 'relative' }}>
-          { pollState === POLL_STATES.DONE &&
+        <div style={{position: 'relative'}}>
+          {pollState === POLL_STATES.DONE &&
           <div {...styles.thankyou}>
             <P>
               Ihre Stimme ist am {messageDateFormat(Date.now())} bei uns eingegangen.<br />
@@ -149,7 +172,7 @@ class Voting extends React.Component {
           </div>
           }
           <div {...styles.cardBody}>
-            {options.map(({ value, label }) => (
+            {options.map(({value, label}) => (
               <Fragment key={value}>
                 <Radio
                   value={value}
@@ -159,7 +182,7 @@ class Voting extends React.Component {
                   checked={value === selectedValue}
                   onChange={() =>
                     this.setState(
-                      { selectedValue: value },
+                      {selectedValue: value},
                       this.transition(POLL_STATES.DIRTY)
                     )
                   }
@@ -170,6 +193,9 @@ class Voting extends React.Component {
               </Fragment>
             ))}
           </div>
+          {
+            this.renderWarning()
+          }
           <div {...styles.cardActions}>
             {this.renderActions()}
           </div>

@@ -65,10 +65,6 @@
                 "targets": {
                   "node": true
                 }
-              },
-              "transform-runtime": {
-                "useBuiltIns": true,
-                "polyfill": false
               }
             }
           ]

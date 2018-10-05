@@ -37,13 +37,13 @@ module.exports = withBundleAnalyzer({
     }
     return config
   },
-  // poweredByHeader: false,
+  poweredByHeader: false,
   assetPrefix: NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
     ? CDN_FRONTEND_BASE_URL
     : '',
-  useFileSystemPublicRoutes: false,
-  onDemandEntries: {
-    // wait 5 minutes before disposing entries
-    // maxInactiveAge: 1000 * 60 * 5
-  }
+  useFileSystemPublicRoutes: false
+  // , onDemandEntries: {
+  //   // wait 5 minutes before disposing entries
+  //   maxInactiveAge: 1000 * 60 * 5
+  // }
 })

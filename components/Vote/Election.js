@@ -6,8 +6,6 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 import FavoriteIcon from 'react-icons/lib/md/favorite'
 import StarsIcon from 'react-icons/lib/md/stars'
-
-import { timeFormat } from '../../lib/utils/format'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
@@ -47,8 +45,7 @@ const styles = {
       fontWeight: 'normal'
     },
     [mediaQueries.onlyS]: {
-      marginTop: 5,
-      textAlign: 'center'
+      marginTop: 5
     }
   }),
   actions: css({
@@ -88,8 +85,6 @@ const styles = {
   })
 }
 
-const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
-
 class Election extends Component {
   constructor (props, context) {
     super(props, context)
@@ -127,10 +122,10 @@ class Election extends Component {
     }
 
     this.renderActions = () => {
-      const {onFinish} = this.props
+      const {onFinish, vt} = this.props
       const {electionState} = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Formular zurücksetzen</A>
+      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/election/labelReset')}</A>
 
       switch (electionState) {
         case ELECTION_STATES.START:
@@ -140,7 +135,7 @@ class Election extends Component {
                 primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
-                Wählen
+                {vt('vote/election/labelVote')}
               </Button>
               {resetLink}
             </Fragment>
@@ -152,7 +147,7 @@ class Election extends Component {
                 primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
-                Wählen
+                {vt('vote/election/labelVote')}
               </Button>
               {resetLink}
             </Fragment>
@@ -161,12 +156,12 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
-                black
+                primary
                 onClick={() =>
                   this.transition(ELECTION_STATES.DONE, onFinish)
                 }
               >
-                Wahl bestätigen
+                {vt('vote/election/labelConfirm')}
               </Button>
               {resetLink}
             </Fragment>
@@ -185,8 +180,8 @@ class Election extends Component {
         return (
           <P {...styles.error}>
             { vote.length < 1
-              ? vt('vote/form/confirmEmpty')
-              : vt('vote/form/confirmCount', {numVotes: vote.length, numSeats})
+              ? vt('vote/election/labelConfirmEmpty')
+              : vt('vote/election/labelConfirmCount', {numVotes: vote.length, numSeats})
             }
           </P>
         )
@@ -206,8 +201,7 @@ class Election extends Component {
         <div {...styles.wrapper}>
           <div {...styles.thankyou}>
             <P>
-              Ihre Wahl ist am {messageDateFormat(Date.now())} bei uns eingegangen.<br />
-              Danke für Ihre Teilnahme!
+              {vt('vote/election/thankyou', {submissionDate: messageDateFormat(Date.now())})}
             </P>
           </div>
         </div>
@@ -229,13 +223,18 @@ class Election extends Component {
           {election.numSeats > 1 &&
           <div {...styles.info}>
             {inProgress &&
-            <strong>Sie haben noch {election.numSeats - vote.length}/{election.numSeats} Stimmen übrig!<br /></strong>
+            <P>
+              <strong>{vt('vote/election/votesRemaining', {
+                count: election.numSeats - vote.length,
+                max: election.numSeats
+              })}</strong>
+            </P>
             }
             {recommended.length > 0 &&
-            <span><StarsIcon size={18} color={colors.lightText} /> von der Republik zur Wahl empfohlen<br /></span>
+            <span><StarsIcon size={18} color={colors.lightText}/>{' '}{vt('vote/election/legendStar')}<br/></span>
             }
             {mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon color={colors.lightText} /> Ihre Wahl für das Präsidium</span>
+            <span><FavoriteIcon color={colors.lightText}/>{' '}{vt('vote/election/legendHeart')}</span>
             }
           </div>
           }

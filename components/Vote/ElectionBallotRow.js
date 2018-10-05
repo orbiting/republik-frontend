@@ -231,13 +231,14 @@ class ElectionBallotRow extends Component {
           }
         </div>
         { maxVotes > 0 && onChange &&
-          <div style={{width: 18}}>
-            <SelectionComponent
-              disabled={maxVotes > 1 && !selected && disabled}
-              checked={selected}
-              onChange={() => onChange(candidate)}
-            />
-          </div>
+        <div style={{width: 18, marginRight: 5}}>
+          <SelectionComponent
+            black
+            disabled={maxVotes > 1 && !selected && disabled}
+            checked={selected}
+            onChange={() => onChange(candidate)}
+          />
+        </div>
         }
       </div>
     )

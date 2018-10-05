@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-03T09:15:27.049Z",
+  "updated": "2018-10-05T11:26:06.652Z",
   "title": "live",
   "data": [
     {
@@ -171,12 +171,56 @@
       "value": "<strong>Zum Rat</strong>\n\nDer Rat trifft sich zu mindestens zwei Sitzungen im Jahr, zum ersten Mal am 24. November 2018. Spätestens nach drei Jahren sind Neuwahlen. Wir stellen uns den Rat als eine Mischung aus Parlament, Aufsichts- und Kontrollgremium, Thinktank, Debattierklub und Ideenentwicklungslabor vor. Wie genau der Rat arbeit und mit Ihnen in Kontakt tritt, wird eine der ersten Aufgaben für die Rätinnen und Räte sein.\n\nLesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original zu lesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie in den <a target=\"_blank\" href='https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf'>Artikeln 19, 26 bis 28</A>.\n\n<strong>Zum Wahlsystem</strong>\n\nFür diese Wahl gilt das relative Mehr, das heisst, die 30 Kandidatinnen und Kandidaten mit den meisten Stimmen sind für den Genossenschaftsrat gewählt.\n\nKandidieren konnten alle Mitglieder, die sich bis zum 16. Oktober online registriert haben. Der Vorstand der Genossenschaft hat allerdings eine Wahlempfehlung für 30 Kandidatinnen und Kandidaten abgegeben. Sind Sie damit nicht einverstanden? Debattieren Sie hier (LINK Wahldebatte) mit uns und den anderen Mitgliedern.\n\nFür das Wahlsystem haben wir schon im Vorfeld Kritik einstecken müssen. Wenn der Vorstand seine Favoriten empfiehlt, ist das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte Alternativlosigkeit? Warum trauen wir den Mitgliedern nicht, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen nachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller schlechten Varianten. Aus drei Gründen blieben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Zusammensetzung der Mitgliederstruktur angemessen vertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen. Wir haben bei der Wahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die Anforderungen der Statuten erfüllt werden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre wahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler. Haben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den Einwand. Aber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist es zumindest möglich, die Irrtümer des Vorstandes zu korrigieren.\n\n<strong>Zum Wahlablauf</strong>\n\nAm 23. Mai 2018 haben wir mit diesem Newsletter zum ersten Mal über die Wahl informiert und zu Informationsveranstaltungen eingeladen: https://project-r.construction/newsletter/genossenschafts-rat\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten durchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen zusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl empfohlen wurden, wurden informiert. Sie konnten trotzdem für den Rat kandidieren, so wie überhaupt alle Mitglieder der Genossenschaft.\n\nBis zum 16. Oktober hatten die Interessierten Zeit, zu kandidieren. Das heisst: Sie haben sich hier registriert und ihr Profil ausgefüllt.\n\nNun ist bis zum 28. Oktober Wahlkampf. Wenn Sie Fragen an die Kandidatinnen haben, dann können Sie online mit Ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das relative Mehr. Das heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in Ihrer Geschichte einen Rat. Wir werden das Resultat hier auf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n"
     },
     {
-      "key": "vote/form/confirmCount",
+      "key": "vote/election/thankyou",
+      "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen.<br />\nDanke für Ihre Teilnahme!"
+    },
+    {
+      "key": "vote/election/votesRemaining",
+      "value": "Sie haben noch {count} von {max} Stimmen übrig!"
+    },
+    {
+      "key": "vote/election/legendStar",
+      "value": "von der Republik zur Wahl empfohlen"
+    },
+    {
+      "key": "vote/election/legendHeart",
+      "value": "Ihre Wahl für das Präsidium"
+    },
+    {
+      "key": "vote/election/labelConfirmCount",
       "value": "Sie haben erst {numVotes} von {numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?"
     },
     {
-      "key": "vote/form/confirmEmpty",
+      "key": "vote/election/labelConfirmEmpty",
       "value": "Möchten Sie wirklich eine leere Stimme abgeben?"
+    },
+    {
+      "key": "vote/election/labelVote",
+      "value": "Wählen"
+    },
+    {
+      "key": "vote/election/labelConfirm",
+      "value": "Wahl bestätigen"
+    },
+    {
+      "key": "vote/election/labelReset",
+      "value": "Formular zurücksetzen"
+    },
+    {
+      "key": "vote/voting/labelVote",
+      "value": "Abstimmen"
+    },
+    {
+      "key": "vote/voting/labelConfirm",
+      "value": "Stimme bestätigen"
+    },
+    {
+      "key": "vote/voting/thankyou",
+      "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
+    },
+    {
+      "key": "vote/voting/labelReset",
+      "value": "Zurücksetzen"
     },
     {
       "key": "common/moreInfo",

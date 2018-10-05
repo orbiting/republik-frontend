@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
+import voteT from './voteT'
 
 const {H3, P} = Interaction
 
@@ -102,10 +103,10 @@ class Voting extends React.Component {
     }
 
     this.renderActions = () => {
-      const {onFinish} = this.props
+      const {onFinish, vt} = this.props
       const {pollState} = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Zurücksetzen</A>
+      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/voting/labelReset')}</A>
 
       switch (pollState) {
         case POLL_STATES.START:
@@ -115,7 +116,7 @@ class Voting extends React.Component {
                 primary
                 onClick={() => this.transition(POLL_STATES.READY)}
               >
-                Abstimmen
+                {vt('vote/voting/labelVote')}
               </Button>
               <div {...styles.link}>Leer einlegen ist auch möglich.</div>
             </Fragment>
@@ -127,7 +128,7 @@ class Voting extends React.Component {
                 primary
                 onClick={() => this.transition(POLL_STATES.READY)}
               >
-                Abstimmen
+                {vt('vote/voting/labelVote')}
               </Button>
               {resetLink}
             </Fragment>
@@ -137,12 +138,11 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                black
                 onClick={() =>
                   this.transition(POLL_STATES.DONE, onFinish)
                 }
               >
-                Stimme bestätigen
+                {vt('vote/voting/labelConfirm')}
               </Button>
               {resetLink}
             </Fragment>
@@ -156,7 +156,7 @@ class Voting extends React.Component {
   }
 
   render () {
-    const {options, proposition} = this.props
+    const {options, proposition, vt} = this.props
     const {pollState, selectedValue} = this.state
     const {P} = Interaction
     return (
@@ -166,8 +166,7 @@ class Voting extends React.Component {
           {pollState === POLL_STATES.DONE &&
           <div {...styles.thankyou}>
             <P>
-              Ihre Stimme ist am {messageDateFormat(Date.now())} bei uns eingegangen.<br />
-              Danke für Ihre Teilnahme!
+              {vt('vote/voting/thankyou')}
             </P>
           </div>
           }
@@ -221,4 +220,4 @@ Voting.defaultProps = {
   onFinish: () => {}
 }
 
-export default Voting
+export default voteT(Voting)

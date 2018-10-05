@@ -1,9 +1,7 @@
 import React, { Fragment } from 'react'
 
 import Employees from './Employees'
-import {
-  A, Interaction
-} from '@project-r/styleguide'
+import { A, Interaction } from '@project-r/styleguide'
 
 const {H1, H2, P} = Interaction
 
@@ -46,8 +44,8 @@ export default ({url, serverContext}) => {
 
       <br />
       <P>
-      Geschäftsführerin und <A href='/medien'> Medienkontakt:</A><br />
-      Susanne Sugimoto, <A href='tel:+41797874765'>+41 79 787 47 65</A>, <A href='mailto:susanne.sugimoto@republik.ch'>susanne.sugimoto@republik.ch</A>
+        Erste-Hilfe-Abteilung und <A href='/medien'>Medienkontakt:</A><br />
+        <A href='tel:+41797874765'>+41 79 787 47 65</A>, <A href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A>
       </P>
 
       <Employees />

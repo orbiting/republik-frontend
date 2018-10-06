@@ -8,11 +8,11 @@ import Track from '../components/Track'
 
 class WebApp extends App {
   render () {
-    const { Component, pageProps, headers, apolloClient } = this.props
+    const { Component, pageProps, apolloClient, headers, serverContext } = this.props
     return <Container>
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
-          <Component {...pageProps} />
+          <Component serverContext={serverContext} {...pageProps} />
           <Track />
         </HeadersProvider>
       </ApolloProvider>

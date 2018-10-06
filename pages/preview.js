@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import Preview from '../components/Marketing/Preview'
-import withData from '../lib/apollo/withData'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
@@ -29,7 +28,6 @@ const PreviewPage = ({ router, t, me, isMember, inNativeIOSApp }) => {
 }
 
 export default compose(
-  withData,
   withMembership,
   withInNativeApp,
   withT,

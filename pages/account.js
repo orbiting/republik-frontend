@@ -3,7 +3,6 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Account from '../components/Account'
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import Merci from '../components/Pledge/Merci'
 
@@ -22,7 +21,6 @@ const AccountPage = ({ router, t }) => {
 }
 
 export default compose(
-  withData,
   withT,
   withRouter
 )(AccountPage)

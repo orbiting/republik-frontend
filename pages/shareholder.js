@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import Frame from '../components/Frame'
 
@@ -40,4 +39,4 @@ const ShareholderPage = ({ t }) => {
   )
 }
 
-export default compose(withData, withT)(ShareholderPage)
+export default compose(withT)(ShareholderPage)

@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 
 import Frame from '../components/Frame'
@@ -16,7 +15,6 @@ const { P } = Editorial
 const { H1 } = Interaction
 
 export default compose(
-  withData,
   withT,
   withRouter
 )(({ router, t }) => {

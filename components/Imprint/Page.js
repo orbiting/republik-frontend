@@ -3,9 +3,9 @@ import React, { Fragment } from 'react'
 import Employees from './Employees'
 import { A, Interaction } from '@project-r/styleguide'
 
-const {H1, H2, P} = Interaction
+const { H1, H2, P } = Interaction
 
-export default ({serverContext}) => {
+export default () => {
   const meta = {
     title: 'Impressum',
     description: ''

@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import Feed from '../components/Feed'
 import { enforceMembership } from '../components/Auth/withMembership'
-import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
@@ -20,7 +19,6 @@ const FeedPage = ({ me, t }) => {
 }
 
 export default compose(
-  withData,
   enforceMembership,
   withMe,
   withT

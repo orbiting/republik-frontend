@@ -4,7 +4,6 @@ import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Discussion from '../components/Discussion/Discussion'
 import DiscussionIndex from '../components/Discussion/DiscussionIndex'
-import withData from '../lib/apollo/withData'
 
 const DiscussionPage = ({ router: { query } }) => (
   <Frame>
@@ -17,4 +16,4 @@ const DiscussionPage = ({ router: { query } }) => (
   </Frame>
 )
 
-export default compose(withData, withRouter)(DiscussionPage)
+export default compose(withRouter)(DiscussionPage)

@@ -2,7 +2,6 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 
 import Frame from '../components/Frame'
@@ -14,7 +13,6 @@ import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 const { P, LI } = Editorial
 
 export default compose(
-  withData,
   withT,
   withRouter
 )(({ router, t }) => {

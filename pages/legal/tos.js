@@ -1,11 +1,10 @@
 import React from 'react'
-import withData from '../../lib/apollo/withData'
 import Frame from '../../components/Frame'
 
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-export default withData(() => {
+export default () => {
   const meta = {
     title: 'AGB',
     description: ''
@@ -113,4 +112,4 @@ Die Betreiberin behält sich vor, die AGB jederzeit ohne Angabe von Gründen zu 
       `}
     </Frame>
   )
-})
+}

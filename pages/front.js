@@ -9,7 +9,6 @@ import Frame from '../components/Frame'
 import Front from '../components/Front'
 import StatusError from '../components/StatusError'
 
-import withData from '../lib/apollo/withData'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
 
@@ -60,7 +59,7 @@ class FrontPage extends Component {
       // ... render Loader while redirect action is pushed to Router
       return (
         <Frame raw>
-          <Loader loading style={{minHeight: 'calc(100vh - 80px)'}} />
+          <Loader loading style={{ minHeight: 'calc(100vh - 80px)' }} />
         </Frame>
       )
     }
@@ -78,7 +77,6 @@ class FrontPage extends Component {
 }
 
 export default compose(
-  withData,
   withMembership,
   withInNativeApp,
   withRouter

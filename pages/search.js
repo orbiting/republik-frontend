@@ -4,7 +4,6 @@ import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Search from '../components/Search'
 import { enforceMembership } from '../components/Auth/withMembership'
-import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 
@@ -23,7 +22,6 @@ const SearchPage = ({ router, me, t }) => {
 }
 
 export default compose(
-  withData,
   enforceMembership,
   withMe,
   withT,

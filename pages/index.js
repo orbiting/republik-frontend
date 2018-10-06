@@ -3,7 +3,6 @@ import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
-import withData from '../lib/apollo/withData'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
@@ -36,7 +35,6 @@ const IndexPage = ({ t, me, isMember, inNativeIOSApp }) => {
 }
 
 export default compose(
-  withData,
   withMembership,
   withInNativeApp,
   withT

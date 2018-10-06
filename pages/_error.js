@@ -1,5 +1,4 @@
 import React from 'react'
-import withData from '../lib/apollo/withData'
 
 import Frame from '../components/Frame'
 import StatusError from '../components/StatusError'
@@ -22,4 +21,4 @@ class ErrorPage extends React.Component {
   }
 }
 
-export default withData(ErrorPage)
+export default ErrorPage

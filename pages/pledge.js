@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'next/router'
-import withData from '../lib/apollo/withData'
 
 import {
   NarrowContainer
@@ -56,4 +55,4 @@ class PledgePage extends Component {
   }
 }
 
-export default withData(withRouter(PledgePage))
+export default withRouter(PledgePage)

@@ -2,7 +2,6 @@ import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 
 import Frame from '../components/Frame'
@@ -39,7 +38,7 @@ const styles = {
 }
 
 export default compose(
-  withData, withT, withRouter
+  withT, withRouter
 )(({ router, t }) => {
   const meta = {
     pageTitle: t('markdown/pageTitle'),
@@ -112,7 +111,7 @@ export default compose(
               * Liste<br />
             </td>
             <td>
-              <CommentBodyList data={{ordered: false}}>
+              <CommentBodyList data={{ ordered: false }}>
                 <CommentBodyListItem>Liste</CommentBodyListItem>
                 <CommentBodyListItem>Liste</CommentBodyListItem>
                 <CommentBodyListItem>Liste</CommentBodyListItem>
@@ -126,7 +125,7 @@ export default compose(
               3. Liste<br />
             </td>
             <td>
-              <CommentBodyList data={{ordered: true}}>
+              <CommentBodyList data={{ ordered: true }}>
                 <CommentBodyListItem>Liste</CommentBodyListItem>
                 <CommentBodyListItem>Liste</CommentBodyListItem>
                 <CommentBodyListItem>Liste</CommentBodyListItem>

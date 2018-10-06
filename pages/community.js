@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
-import List, {generateSeed} from '../components/Testimonial/List'
+import List, { generateSeed } from '../components/Testimonial/List'
 import Share from '../components/Testimonial/Share'
 import TV from '../components/Testimonial/TV'
 import Image from '../components/Testimonial/Image'
-
-import withData from '../lib/apollo/withData'
 
 class CommunityPage extends Component {
   static async getInitialProps (ctx) {
@@ -16,7 +14,7 @@ class CommunityPage extends Component {
     }
   }
   render () {
-    const {router: {query}, seed} = this.props
+    const { router: { query }, seed } = this.props
 
     if (query.share) {
       return <Share focus={query.share} first={1} />
@@ -44,4 +42,4 @@ class CommunityPage extends Component {
   }
 }
 
-export default compose(withData, withRouter)(CommunityPage)
+export default compose(withRouter)(CommunityPage)

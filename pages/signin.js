@@ -4,7 +4,6 @@ import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
 import Loader from '../components/Loader'
 import { PageCenter } from '../components/Auth/withAuthorization'
-import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
@@ -43,7 +42,7 @@ class SigninPage extends Component {
           {me
             ? <Loader loading />
             : <SignIn beforeForm={inNativeIOSApp
-              ? <Interaction.P style={{marginBottom: 20}}>
+              ? <Interaction.P style={{ marginBottom: 20 }}>
                 {t('withMembership/ios/unauthorized/signIn')}
               </Interaction.P>
               : undefined
@@ -55,7 +54,6 @@ class SigninPage extends Component {
 }
 
 export default compose(
-  withData,
   withMe,
   withMembership,
   withInNativeApp,

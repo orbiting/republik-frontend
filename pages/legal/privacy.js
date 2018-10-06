@@ -1,5 +1,4 @@
 import React from 'react'
-import withData from '../../lib/apollo/withData'
 import Frame from '../../components/Frame'
 
 import PiwikOptOut from '../../components/Piwik/OptOut'
@@ -7,7 +6,7 @@ import PiwikOptOut from '../../components/Piwik/OptOut'
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-export default withData(() => {
+export default () => {
   const meta = {
     title: 'Datenschutz',
     description: ''
@@ -268,4 +267,4 @@ Die Verantwortlichen können die Bestimmungen der vorliegenden Datenschutzerklä
       `}
     </Frame>
   )
-})
+}

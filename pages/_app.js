@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 
 import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
+import Track from '../components/Track'
 
 class WebApp extends App {
   render () {
@@ -12,6 +13,7 @@ class WebApp extends App {
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <Component {...pageProps} />
+          <Track />
         </HeadersProvider>
       </ApolloProvider>
     </Container>

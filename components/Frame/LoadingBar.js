@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
-import track from '../../lib/piwik'
 
 import { css } from 'glamor'
 import { colors } from '@project-r/styleguide'
@@ -40,10 +39,6 @@ class LoadingBar extends Component {
     Router.onRouteChangeComplete = url => {
       clearTimeout(this.timeout)
       this.setState({ loading: false })
-
-      // update url manually, seems necessary after client navigation
-      track(['setCustomUrl', window.location.href])
-      track(['trackPageView'])
     }
     Router.onRouteChangeError = () => {
       clearTimeout(this.timeout)

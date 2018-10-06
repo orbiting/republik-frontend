@@ -310,7 +310,6 @@ ${meta.url}
         <div style={{ textAlign: 'center', marginBottom: SPACE }}>
           <PureFooter en />
         </div>
-        <script dangerouslySetInnerHTML={{ __html: `_paq.push(['trackPageView']);` }} />
       </NarrowContainer>
     )
   }

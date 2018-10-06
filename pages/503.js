@@ -94,7 +94,6 @@ export default withRouter(({router}) => {
           </div>
         </div>
       </NarrowContainer>
-      <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
 })

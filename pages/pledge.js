@@ -13,6 +13,8 @@ import Frame from '../components/Frame'
 import PledgeForm from '../components/Pledge/Form'
 import PledgeReceivePayment from '../components/Pledge/ReceivePayment'
 
+import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
+
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 class PledgePage extends Component {
@@ -25,16 +27,8 @@ class PledgePage extends Component {
 
     const { router: { query } } = this.props
 
-    let pledgeId
-    if (query.orderID) {
-      pledgeId = query.orderID.split('_')[0]
-    }
-    if (query.item_name) {
-      pledgeId = query.item_name.split('_')[0]
-    }
-    if (query.pledgeId) {
-      pledgeId = query.pledgeId
-    }
+    const queryKey = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
+    const pledgeId = queryKey && query[queryKey].split('_')[0]
 
     return (
       <Frame meta={meta}>

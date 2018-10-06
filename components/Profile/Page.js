@@ -196,6 +196,9 @@ const getPublicUser = gql`
         yearOfBirth
         city
         recommendation
+#        comment {
+#          id
+#        }
       }
     }
   }

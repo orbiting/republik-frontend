@@ -7,6 +7,7 @@ import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
 import FavoriteIcon from 'react-icons/lib/md/favorite'
 import StarsIcon from 'react-icons/lib/md/stars'
+import { Link } from '../../lib/routes'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -210,9 +211,11 @@ class ElectionBallotRow extends Component {
                       <div>
                         <A href={`/~${d.id}`}>Profil</A>
                       </div>
-                      {candidate.commentId &&
+                      {candidate.comment && candidate.comment.id &&
                       <div>
-                        <A href={`/~${d.id}`}>Debatte</A>
+                        <Link route='voteDiscuss' params={{focus: candidate.comment.id}} passHref>
+                          <A href={`/~${d.id}`}>Debatte</A>
+                        </Link>
                       </div>
                       }
                     </div>

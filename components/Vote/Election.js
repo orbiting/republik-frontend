@@ -310,6 +310,9 @@ const query = gql`
       yearOfBirth
       city
       recommendation
+#      comment {
+#        id
+#      }
       user {
         id
         name

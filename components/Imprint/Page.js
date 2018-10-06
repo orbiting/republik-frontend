@@ -5,7 +5,7 @@ import { A, Interaction } from '@project-r/styleguide'
 
 const {H1, H2, P} = Interaction
 
-export default ({url, serverContext}) => {
+export default ({serverContext}) => {
   const meta = {
     title: 'Impressum',
     description: ''

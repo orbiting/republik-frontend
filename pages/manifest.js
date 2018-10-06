@@ -2,6 +2,7 @@ import React from 'react'
 import {css} from 'glamor'
 import Head from 'next/head'
 import {compose} from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import withData from '../lib/apollo/withData'
 import withInNativeApp from '../lib/withInNativeApp'
@@ -90,12 +91,12 @@ const styles = {
 const Highlight = ({children, ...props}) => <span {...props} {...styles.highlight}>{children}</span>
 const Strong = ({children}) => <span {...styles.strong}>{children}</span>
 
-const Page = ({url, inNativeApp}) => {
+const Page = ({router, inNativeApp}) => {
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
     description: 'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.png`,
-    url: `${PUBLIC_BASE_URL}${url.pathname}`
+    url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
   const share = {
     url: meta.url,
@@ -158,7 +159,7 @@ ${PUBLIC_BASE_URL}
           </A>
         </P>
 
-        <PureFooter url={url} />
+        <PureFooter />
         <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
       </div>
     </NarrowContainer>
@@ -167,5 +168,6 @@ ${PUBLIC_BASE_URL}
 
 export default compose(
   withData,
-  withInNativeApp
+  withInNativeApp,
+  withRouter
 )(Page)

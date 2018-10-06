@@ -23,7 +23,7 @@ class Page extends React.Component {
   }
 
   render () {
-    const {url, vt} = this.props
+    const {vt} = this.props
 
     const meta = {
       title: vt('info/title'),
@@ -31,7 +31,7 @@ class Page extends React.Component {
     }
 
     return (
-      <Frame meta={meta} url={url}>
+      <Frame meta={meta}>
         {this.renderVoteComponent()}
       </Frame>
     )

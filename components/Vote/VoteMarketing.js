@@ -3,7 +3,7 @@ import { Body, Section, Title } from './text'
 import voteT from './voteT'
 import { Container } from '@project-r/styleguide'
 
-const VoteMarketing = ({url, vt}) =>
+const VoteMarketing = ({vt}) =>
   <Container>
     <Section>
       <Title>{vt('vote/title')}</Title>

@@ -11,7 +11,7 @@ import Sunburst, { radius } from '../components/Shareholder/Sunburst'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const ShareholderPage = ({ url, t }) => {
+const ShareholderPage = ({ t }) => {
   const meta = {
     title: t('shareholder/pageTitle'),
     description: t('shareholder/description'),
@@ -19,7 +19,7 @@ const ShareholderPage = ({ url, t }) => {
   }
 
   return (
-    <Frame url={url} meta={meta} indented>
+    <Frame meta={meta} indented>
       <H1>{t('shareholder/title')}</H1>
       <H2>{t('shareholder/description')}</H2>
 

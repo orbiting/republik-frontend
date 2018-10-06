@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import List, {generateSeed} from '../components/Testimonial/List'
 import Share from '../components/Testimonial/Share'
@@ -15,32 +16,32 @@ class CommunityPage extends Component {
     }
   }
   render () {
-    const {url, seed} = this.props
+    const {router: {query}, seed} = this.props
 
-    if (url.query.share) {
-      return <Share focus={url.query.share} first={1} />
+    if (query.share) {
+      return <Share focus={query.share} first={1} />
     }
 
-    if (url.query.tv) {
+    if (query.tv) {
       return <TV
-        duration={+Math.max(1000, url.query.duration || 30000)} />
+        duration={+Math.max(1000, query.duration || 30000)} />
     }
 
-    if (url.query.img) {
-      const order = url.query.order || 'ASC'
+    if (query.img) {
+      const order = query.order || 'ASC'
       const defaultSequenceNumber = order === 'DESC' ? Math.pow(10, 6) : 0
-      return <Image query={url.query}
-        sequenceNumber={url.query.sequenceNumber || defaultSequenceNumber}
+      return <Image query={query}
+        sequenceNumber={query.sequenceNumber || defaultSequenceNumber}
         orderDirection={order}
-        duration={+Math.max(1000, url.query.duration || 5000)} />
+        duration={+Math.max(1000, query.duration || 5000)} />
     }
 
     return (
-      <Frame url={url}>
-        <List url={url} seed={seed} isPage />
+      <Frame>
+        <List seed={seed} id={query.id} isPage />
       </Frame>
     )
   }
 }
 
-export default compose(withData)(CommunityPage)
+export default compose(withData, withRouter)(CommunityPage)

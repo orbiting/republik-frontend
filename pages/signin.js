@@ -32,13 +32,13 @@ class SigninPage extends Component {
   }
 
   render () {
-    const { url, t, me, inNativeIOSApp } = this.props
+    const { t, me, inNativeIOSApp } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
 
     return (
-      <Frame url={url} meta={meta}>
+      <Frame meta={meta}>
         <PageCenter>
           {me
             ? <Loader loading />

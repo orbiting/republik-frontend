@@ -37,7 +37,7 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children, url }) => (
+const Popover = ({ items, expanded, id, children }) => (
   <div
     id={id}
     aria-expanded={expanded}

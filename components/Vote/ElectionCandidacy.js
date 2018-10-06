@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { withRouter } from 'next/router'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
@@ -144,7 +145,7 @@ class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isEditing: props.url.query.hasOwnProperty('edit') || false,
+      isEditing: props.router.query.hasOwnProperty('edit') || false,
       showErrors: true,
       errors: {},
       dirty: {},
@@ -245,7 +246,7 @@ class ElectionCandidacy extends React.Component {
 
   render () {
     const { values, errors, error, dirty, isEditing, updating } = this.state
-    const {url, t, vt} = this.props
+    const { t, vt } = this.props
     const { data } = this.props
     const {me = {}} = data
 
@@ -284,7 +285,7 @@ class ElectionCandidacy extends React.Component {
     }
 
     return (
-      <Frame url={url} meta={meta}>
+      <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() =>
           <NarrowContainer>
             <Title>
@@ -530,6 +531,7 @@ const query = gql`
 export default compose(
   withT,
   voteT,
+  withRouter,
   graphql(query),
   graphql(publishCredential, {
     props: ({mutate}) => ({

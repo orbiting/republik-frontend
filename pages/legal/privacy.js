@@ -7,14 +7,14 @@ import PiwikOptOut from '../../components/Piwik/OptOut'
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-export default withData(({url}) => {
+export default withData(() => {
   const meta = {
     title: 'Datenschutz',
     description: ''
   }
 
   return (
-    <Frame url={url} meta={meta}>
+    <Frame meta={meta}>
       {md(mdComponents)`
 ## Datenschutzbestimmungen
 

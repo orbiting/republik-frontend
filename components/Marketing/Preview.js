@@ -32,16 +32,15 @@ const Prestitial = ({ me, isMember, t }) => {
   )
 }
 
-const Preview = ({ me, isMember, url, meta, t }) => {
+const Preview = ({ me, isMember, meta, t }) => {
   return <Fragment>
-    {!me && <Frame raw url={url} meta={meta}>
+    {!me && <Frame raw meta={meta}>
       <Container style={{ maxWidth: '665px' }}>
         <SignUp />
       </Container>
     </Frame>
     }
     {me && <Front
-      url={url}
       beforeNote={
         <Box>
           <Container>

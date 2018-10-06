@@ -214,9 +214,7 @@ class Search extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { query } = nextProps.url
-
+  componentWillReceiveProps ({ query }) {
     let filters = DEFAULT_FILTERS
     let newState = {}
     const decodedQuery = !!query.q && decodeURIComponent(query.q)

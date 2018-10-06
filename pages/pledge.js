@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'next/router'
 import withData from '../lib/apollo/withData'
 
 import {
@@ -23,31 +24,31 @@ class PledgePage extends Component {
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    const {url} = this.props
+    const { router: { query } } = this.props
 
     let pledgeId
-    if (url.query.orderID) {
-      pledgeId = url.query.orderID.split('_')[0]
+    if (query.orderID) {
+      pledgeId = query.orderID.split('_')[0]
     }
-    if (url.query.item_name) {
-      pledgeId = url.query.item_name.split('_')[0]
+    if (query.item_name) {
+      pledgeId = query.item_name.split('_')[0]
     }
-    if (url.query.pledgeId) {
-      pledgeId = url.query.pledgeId
+    if (query.pledgeId) {
+      pledgeId = query.pledgeId
     }
 
     return (
-      <Frame meta={meta} url={url}>
+      <Frame meta={meta}>
         <NarrowContainer>
           {pledgeId ? (
             <PledgeReceivePayment
               crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
               pledgeId={pledgeId}
-              query={url.query} />
+              query={query} />
           ) : (
             <PledgeForm
               crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
-              query={url.query} />
+              query={query} />
           )}
         </NarrowContainer>
       </Frame>
@@ -55,4 +56,4 @@ class PledgePage extends Component {
   }
 }
 
-export default withData(PledgePage)
+export default withData(withRouter(PledgePage))

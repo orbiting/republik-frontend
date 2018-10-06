@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -295,7 +296,6 @@ class Profile extends Component {
 
   render () {
     const {
-      url,
       t,
       me,
       data: { loading, error, user }
@@ -311,7 +311,7 @@ class Profile extends Component {
     }
 
     return (
-      <Frame url={url} meta={metaData} raw>
+      <Frame meta={metaData} raw>
         <Loader
           loading={loading}
           error={error}
@@ -319,7 +319,6 @@ class Profile extends Component {
             if (!user) {
               return (
                 <StatusError
-                  url={url}
                   statusCode={404}
                   serverContext={this.props.serverContext}>
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
@@ -511,14 +510,15 @@ class Profile extends Component {
 export default compose(
   withT,
   withMe,
+  withRouter,
   graphql(getPublicUser, {
-    options: ({url}) => ({
+    options: ({router}) => ({
       variables: {
-        slug: url.query.slug
+        slug: router.query.slug
       }
     }),
-    props: ({data, ownProps: {serverContext, url, me}}) => {
-      const slug = url.query.slug
+    props: ({data, ownProps: {serverContext, router, me}}) => {
+      const slug = router.query.slug
       let redirect
       if (slug === 'me') {
         redirect = me

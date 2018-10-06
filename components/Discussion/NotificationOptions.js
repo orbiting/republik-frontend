@@ -1,6 +1,7 @@
 import React, {Fragment, PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { matchPath, Router } from '../../lib/routes'
@@ -152,7 +153,7 @@ class NotificationOptions extends PureComponent {
     } = discussion
 
     const clearUrl = () => {
-      const { url: { asPath, query } } = this.props
+      const { router: { asPath, query } } = this.props
       const result = matchPath(asPath)
       const params = {
         ...query,
@@ -330,6 +331,7 @@ NotificationOptions.propTypes = {
 
 export default compose(
   withT,
+  withRouter,
   withDiscussionPreferences,
   withSetDiscussionPreferences,
   withUpdateNotificationSettings

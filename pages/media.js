@@ -6,13 +6,13 @@ import { A, Interaction } from '@project-r/styleguide'
 
 const {H1, H2, P} = Interaction
 
-export default withData(({url}) => {
+export default withData(() => {
   const meta = {
     title: 'Medien',
     description: ''
   }
   return (
-    <Frame url={url} meta={meta}>
+    <Frame meta={meta}>
       <H1>
         {meta.title}
       </H1>

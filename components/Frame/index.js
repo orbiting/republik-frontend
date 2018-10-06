@@ -75,7 +75,6 @@ const Index = ({
   t,
   me,
   children,
-  url,
   raw,
   meta,
   nav,
@@ -101,7 +100,6 @@ const Index = ({
       {!!meta && <Meta data={meta} />}
       <Header
         me={me}
-        url={url}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import Preview from '../components/Marketing/Preview'
 import withData from '../lib/apollo/withData'
 import withInNativeApp from '../lib/withInNativeApp'
@@ -11,19 +12,19 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
+const PreviewPage = ({ router, t, me, isMember, inNativeIOSApp }) => {
   if (inNativeIOSApp) {
-    return <UnauthorizedPage me={me} url={url} />
+    return <UnauthorizedPage me={me} />
   }
   const meta = {
     pageTitle: t('marketing/preview/page/pageTitle'),
     title: t('marketing/preview/page/title'),
     description: t('marketing/preview/page/description'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
-    url: `${PUBLIC_BASE_URL}/`
+    url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
   return (
-    <Preview url={url} meta={meta} />
+    <Preview meta={meta} />
   )
 }
 
@@ -31,5 +32,6 @@ export default compose(
   withData,
   withMembership,
   withInNativeApp,
-  withT
-)(IndexPage)
+  withT,
+  withRouter
+)(PreviewPage)

@@ -13,13 +13,13 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
+const IndexPage = ({ t, me, isMember, inNativeIOSApp }) => {
   if (isMember) {
     // does it's own meta
-    return <Front url={url} />
+    return <Front />
   }
   if (inNativeIOSApp) {
-    return <UnauthorizedPage me={me} url={url} />
+    return <UnauthorizedPage me={me} />
   }
   const meta = {
     pageTitle: t('pages/index/pageTitle'),
@@ -29,7 +29,7 @@ const IndexPage = ({ url, t, me, isMember, inNativeIOSApp }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame raw url={url} meta={meta}>
+    <Frame raw meta={meta}>
       <Marketing />
     </Frame>
   )

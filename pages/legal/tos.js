@@ -5,14 +5,14 @@ import Frame from '../../components/Frame'
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-export default withData(({url}) => {
+export default withData(() => {
   const meta = {
     title: 'AGB',
     description: ''
   }
 
   return (
-    <Frame url={url} meta={meta}>
+    <Frame meta={meta}>
       {md(mdComponents)`
 ## Allgemeine Geschäftsbedingungen 
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import Head from 'next/head'
+import { withRouter } from 'next/router'
 
 import {
   NarrowContainer, Logo, mediaQueries, fontStyles
@@ -50,12 +51,12 @@ const styles = {
   })
 }
 
-export default ({url}) => {
+export default withRouter(({router}) => {
   const meta = {
     title: 'Republik',
     description: 'Bald wieder verfügbar.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
-    url: `${PUBLIC_BASE_URL}${url.pathname}`
+    url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
 
   return (
@@ -96,4 +97,4 @@ export default ({url}) => {
       <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
     </div>
   )
-}
+})

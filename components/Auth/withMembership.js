@@ -16,7 +16,7 @@ import withAuthorization, { PageCenter } from './withAuthorization'
 const UnauthorizedMessage = compose(
   withT,
   withInNativeApp
-)(({ t, me, url, inNativeIOSApp }) => {
+)(({ t, me, inNativeIOSApp }) => {
   if (inNativeIOSApp) {
     return (
       <Fragment>
@@ -88,8 +88,8 @@ const UnauthorizedMessage = compose(
   )
 })
 
-export const UnauthorizedPage = ({ me, url }) => (
-  <Frame url={url} raw>
+export const UnauthorizedPage = ({ me }) => (
+  <Frame raw>
     <PageCenter>
       <UnauthorizedMessage me={me} />
     </PageCenter>
@@ -117,7 +117,7 @@ export const enforceMembership = WrappedComponent => withAuthorization(['member'
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} url={props.url} />
+  return <UnauthorizedPage me={me} />
 })
 
 export default withAuthorization(['member'], 'isMember')

@@ -4,6 +4,8 @@ import Head from 'next/head'
 import isEmail from 'validator/lib/isEmail'
 
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
+
 import withData from '../lib/apollo/withData'
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
@@ -107,7 +109,7 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const {H1, P} = Interaction
 
-const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
+const Page = ({ router: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -241,6 +243,12 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       </NarrowContainer>
     </div>
   )
-})
+}
 
-export default compose(withData, withMe, withInNativeApp)(Page)
+export default compose(
+  withData,
+  withMe,
+  withT,
+  withRouter,
+  withInNativeApp
+)(Page)

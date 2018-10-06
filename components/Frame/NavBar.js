@@ -46,8 +46,8 @@ const isActiveRoute = (active, route, params = {}) => (
   )
 )
 
-export const getNavBarStateFromUrl = url => {
-  const active = matchPath(url.asPath)
+export const getNavBarStateFromRouter = router => {
+  const active = matchPath(router.asPath)
 
   const links = LINKS.map(({key, route, params}) => ({
     key,
@@ -157,8 +157,8 @@ const NavLink = ({ route, label, params, isActive, isFaded }) => {
   )
 }
 
-const NavBar = ({ url, t, fixed }) => {
-  const { links, hasActiveLink } = getNavBarStateFromUrl(url)
+const NavBar = ({ router, t, fixed }) => {
+  const { links, hasActiveLink } = getNavBarStateFromRouter(router)
 
   return (
     <Fragment>

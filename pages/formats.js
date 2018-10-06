@@ -8,13 +8,13 @@ import withT from '../lib/withT'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const FormatsPage = ({ url, t }) => {
+const FormatsPage = ({ t }) => {
   const meta = {
     title: t('formats/pageTitle'),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
   return (
-    <Frame raw url={url} meta={meta}>
+    <Frame raw meta={meta}>
       <Formats />
     </Frame>
   )

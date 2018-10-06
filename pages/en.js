@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {css} from 'glamor'
 import Head from 'next/head'
-import Router from 'next/router'
 import {compose} from 'react-apollo'
+import Router, { withRouter } from 'next/router'
 
 import ActionBar from '../components/ActionBar'
 import PureFooter, {SPACE} from '../components/Frame/PureFooter'
@@ -121,7 +121,7 @@ const Strong = ({children}) => <span {...styles.strong}>{children}</span>
 
 class EnPage extends Component {
   componentDidMount () {
-    const {url: {query, query: {st}}} = this.props
+    const {router: {query, query: {st}}} = this.props
     if (st) {
       const url = {
         pathname: '/en',
@@ -152,12 +152,12 @@ class EnPage extends Component {
     }
   }
   render () {
-    const {url, inNativeApp} = this.props
+    const {router, inNativeApp} = this.props
     const meta = {
       title: 'We are Republik',
       description: '',
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/en.png`,
-      url: `${PUBLIC_BASE_URL}${url.pathname}`
+      url: `${PUBLIC_BASE_URL}${router.pathname}`
     }
     const share = {
       url: meta.url,
@@ -169,7 +169,7 @@ Manifesto for journalism by republik.ch:
 ${meta.url}
 `
     }
-    const message = url.query.m
+    const message = router.query.m
 
     return (
       <NarrowContainer>
@@ -309,7 +309,7 @@ ${meta.url}
         </div>
 
         <div style={{textAlign: 'center', marginBottom: SPACE}}>
-          <PureFooter en url={url} />
+          <PureFooter en />
         </div>
         <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
       </NarrowContainer>
@@ -319,5 +319,6 @@ ${meta.url}
 
 export default compose(
   withData,
+  withRouter,
   withInNativeApp
 )(EnPage)

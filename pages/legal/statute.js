@@ -13,14 +13,14 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
-export default withData(({url}) => {
+export default withData(() => {
   const meta = {
     title: 'Statuten',
     description: ''
   }
 
   return (
-    <Frame url={url} meta={meta} indented>
+    <Frame meta={meta} indented>
       <H1>
         {meta.title}
       </H1>

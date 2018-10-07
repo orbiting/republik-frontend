@@ -76,7 +76,6 @@
     }
   },
   "devDependencies": {
-    "@zeit/next-bundle-analyzer": "^0.1.2",
     "abab": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "babel-tape-runner": "^3.0.0",
@@ -94,6 +93,7 @@
   },
   "dependencies": {
     "@project-r/styleguide": "^5.95.0",
+    "@zeit/next-bundle-analyzer": "^0.1.2",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",
     "apollo-fetch": "^0.7.0",

@@ -167,13 +167,13 @@ class Feed extends Component {
 
   render () {
     const { infiniteScroll, loadingMore } = this.state
-    const { data: { loading, error, documents, greeting }, hasMore, t, url, meta } = this.props
+    const { data: { loading, error, documents, greeting }, hasMore, t, meta } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
 
     return (
-      <Frame raw url={url} meta={meta}>
+      <Frame raw meta={meta}>
         <Loader
           loading={loading}
           error={error}

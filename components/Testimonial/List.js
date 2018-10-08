@@ -421,7 +421,7 @@ class Container extends Component {
     this.state = {}
   }
   render () {
-    const {t, url: {query: {id}}, isPage} = this.props
+    const {t, id, isPage} = this.props
     const {query} = this.state
 
     const seed = this.state.seed || this.props.seed

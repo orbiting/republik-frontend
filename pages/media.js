@@ -1,18 +1,17 @@
 import React from 'react'
-import withData from '../lib/apollo/withData'
 import Frame from '../components/Frame'
 
 import { A, Interaction } from '@project-r/styleguide'
 
-const {H1, H2, P} = Interaction
+const { H1, H2, P } = Interaction
 
-export default withData(({url}) => {
+export default () => {
   const meta = {
     title: 'Medien',
     description: ''
   }
   return (
-    <Frame url={url} meta={meta}>
+    <Frame meta={meta}>
       <H1>
         {meta.title}
       </H1>
@@ -24,7 +23,7 @@ export default withData(({url}) => {
         <A href='tel:+41797874765'>+41 79 787 47 65</A>, <A
           href='mailto:kontakt@republik.ch'>kontakt@republik.ch</A>
       </P>
-      <P style={{margin: '20px 0'}}>
+      <P style={{ margin: '20px 0' }}>
         <A href='https://drive.google.com/open?id=14YQ_IR6HRoXUwrfjc_KJQ_lGjMXjaFO1'>
           Medienbilder und Logo herunterladen
         </A>
@@ -36,7 +35,7 @@ export default withData(({url}) => {
         </A>
         .
       </P>
-      <H2 style={{marginTop: 20}}>
+      <H2 style={{ marginTop: 20 }}>
         Anschrift
       </H2>
       <P>
@@ -46,4 +45,4 @@ export default withData(({url}) => {
       </P>
     </Frame>
   )
-})
+}

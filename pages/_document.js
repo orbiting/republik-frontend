@@ -78,7 +78,10 @@ export default class MyDocument extends Document {
               g.type='text/javascript'; g.async=true; g.defer=true; g.src='${PIWIK_URL_BASE}/piwik.js'; s.parentNode.insertBefore(g,s);
             })();`}} />}
           {piwik && <noscript>
-            <img src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`} style={{border: 0}} alt='' />
+            <img
+              src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`}
+              style={{border: 0, position: 'fixed', left: -1}}
+              alt='' />
           </noscript>}
         </body>
       </html>

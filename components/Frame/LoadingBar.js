@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Router from 'next/router'
-import track from '../../lib/piwik'
 
 import { css } from 'glamor'
 import { colors } from '@project-r/styleguide'
@@ -27,34 +26,33 @@ class LoadingBar extends Component {
       progress: 0
     }
   }
+  onRouteChangeStart = (url) => {
+    clearTimeout(this.timeout)
+    this.setState({ loading: true, progress: 0.02 })
+
+    const { onRouteChangeStart } = this.props
+    if (onRouteChangeStart) {
+      onRouteChangeStart(url)
+    }
+  }
+  onRouteChangeComplete = url => {
+    clearTimeout(this.timeout)
+    this.setState({ loading: false })
+  }
+  onRouteChangeError = () => {
+    clearTimeout(this.timeout)
+    this.setState({ loading: false })
+  }
   componentDidMount () {
-    Router.onRouteChangeStart = (url) => {
-      clearTimeout(this.timeout)
-      this.setState({ loading: true, progress: 0.02 })
-
-      const { onRouteChangeStart } = this.props
-      if (onRouteChangeStart) {
-        onRouteChangeStart(url)
-      }
-    }
-    Router.onRouteChangeComplete = url => {
-      clearTimeout(this.timeout)
-      this.setState({ loading: false })
-
-      // update url manually, seems necessary after client navigation
-      track(['setCustomUrl', window.location.href])
-      track(['trackPageView'])
-    }
-    Router.onRouteChangeError = () => {
-      clearTimeout(this.timeout)
-      this.setState({ loading: false })
-    }
+    Router.events.on('routeChangeStart', this.onRouteChangeStart)
+    Router.events.on('routeChangeComplete', this.onRouteChangeComplete)
+    Router.events.on('routeChangeError', this.onRouteChangeError)
   }
   componentWillUnmount () {
     clearTimeout(this.timeout)
-    Router.onRouteChangeStart = null
-    Router.onRouteChangeComplete = null
-    Router.onRouteChangeError = null
+    Router.events.off('routeChangeStart', this.onRouteChangeStart)
+    Router.events.off('routeChangeComplete', this.onRouteChangeComplete)
+    Router.events.off('routeChangeError', this.onRouteChangeError)
   }
   componentDidUpdate () {
     if (this.state.loading) {

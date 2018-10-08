@@ -29,6 +29,7 @@ import {
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
+import { STRIPE_PLEDGE_ID_QUERY_KEY } from '../Payment/constants'
 import Consents, { getConsentsError } from './Consents'
 
 const {P} = Interaction
@@ -305,7 +306,7 @@ class Submit extends Component {
           loading: t('pledge/submit/loading/stripe/3dsecure')
         })
       },
-      returnUrl: `${PUBLIC_BASE_URL}/angebote?pledgeId=${pledgeId}&stripe=1`
+      returnUrl: `${PUBLIC_BASE_URL}/angebote?${STRIPE_PLEDGE_ID_QUERY_KEY}=${pledgeId}&stripe=1`
     })
       .then(source => {
         this.setState({

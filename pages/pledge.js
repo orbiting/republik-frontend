@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import withData from '../lib/apollo/withData'
+import { withRouter } from 'next/router'
 
 import {
   NarrowContainer
@@ -13,6 +13,8 @@ import Frame from '../components/Frame'
 import PledgeForm from '../components/Pledge/Form'
 import PledgeReceivePayment from '../components/Pledge/ReceivePayment'
 
+import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
+
 const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 class PledgePage extends Component {
@@ -23,31 +25,23 @@ class PledgePage extends Component {
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    const {url} = this.props
+    const { router: { query } } = this.props
 
-    let pledgeId
-    if (url.query.orderID) {
-      pledgeId = url.query.orderID.split('_')[0]
-    }
-    if (url.query.item_name) {
-      pledgeId = url.query.item_name.split('_')[0]
-    }
-    if (url.query.pledgeId) {
-      pledgeId = url.query.pledgeId
-    }
+    const queryKey = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
+    const pledgeId = queryKey && query[queryKey].split('_')[0]
 
     return (
-      <Frame meta={meta} url={url}>
+      <Frame meta={meta}>
         <NarrowContainer>
           {pledgeId ? (
             <PledgeReceivePayment
               crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
               pledgeId={pledgeId}
-              query={url.query} />
+              query={query} />
           ) : (
             <PledgeForm
               crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
-              query={url.query} />
+              query={query} />
           )}
         </NarrowContainer>
       </Frame>
@@ -55,4 +49,4 @@ class PledgePage extends Component {
   }
 }
 
-export default withData(PledgePage)
+export default withRouter(PledgePage)

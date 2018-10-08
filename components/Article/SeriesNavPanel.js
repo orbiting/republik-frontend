@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
 import { Link, Router } from '../../lib/routes'
@@ -87,7 +88,7 @@ const LinkContent = ({ episode, index, t }) => {
   )
 }
 
-const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
+const EpisodeLink = withRouter(({ episode, translation, params = {}, router, index, t }) => {
   const route =
     episode.document && episode.document.meta && episode.document.meta.path
   if (!route) {
@@ -97,7 +98,7 @@ const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
       </div>
     )
   }
-  if (url.asPath && url.asPath === route) {
+  if (router.asPath && router.asPath === route) {
     return (
       <a
         {...styles.base}
@@ -121,14 +122,14 @@ const EpisodeLink = ({ episode, translation, params = {}, url, index, t }) => {
       </a>
     </Link>
   )
-}
+})
 
-const Nav = ({ url, children, t, series }) => {
+const Nav = ({ children, t, series }) => {
   return (
     <div {...styles.container}>
       {series.episodes &&
         series.episodes.map((episode, i) => (
-          <EpisodeLink t={t} key={i} episode={episode} url={url} index={i} />
+          <EpisodeLink t={t} key={i} episode={episode} index={i} />
         ))}
     </div>
   )

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -13,7 +14,7 @@ import withMembership from '../Auth/withMembership'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
-import NavBar, { getNavBarStateFromUrl } from './NavBar'
+import NavBar, { getNavBarStateFromRouter } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
@@ -219,7 +220,7 @@ const forceRefRedraw = ref => {
 const hasBackButton = props => (
   props.inNativeIOSApp &&
   props.me &&
-  !getNavBarStateFromUrl(props.url).hasActiveLink
+  !getNavBarStateFromRouter(props.router).hasActiveLink
 )
 
 let routeChangeStarted
@@ -289,7 +290,7 @@ class Header extends Component {
 
   render () {
     const {
-      url,
+      router,
       t,
       me,
       cover,
@@ -348,7 +349,7 @@ class Header extends Component {
                     return
                   }
                   e.preventDefault()
-                  if (url.pathname === '/') {
+                  if (router.pathname === '/') {
                     window.scrollTo(0, 0)
                     if (expanded) {
                       toggleExpanded()
@@ -413,7 +414,7 @@ class Header extends Component {
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
-                if (url.pathname === '/search') {
+                if (router.pathname === '/search') {
                   window.scrollTo(0, 0)
                 } else {
                   Router.pushRoute('search').then(() => window.scrollTo(0, 0))
@@ -453,7 +454,7 @@ class Header extends Component {
               {...styles.stickyWithFallback}
               {...styles.hr}
               {...styles.hrThin} />
-            <NavBar fixed={withoutSticky} url={url} />
+            <NavBar fixed={withoutSticky} router={router} />
           </Fragment>
         )}
         {opaque && <hr
@@ -468,7 +469,7 @@ class Header extends Component {
         <Popover expanded={expanded}>
           <NavPopover
             me={me}
-            url={url}
+            router={router}
             closeHandler={this.close}
           />
         </Popover>
@@ -496,5 +497,6 @@ class Header extends Component {
 export default compose(
   withT,
   withMembership,
+  withRouter,
   withInNativeApp
 )(Header)

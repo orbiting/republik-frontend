@@ -123,13 +123,13 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({me, url, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember}) => {
-  const active = matchPath(url.asPath)
+const Nav = ({me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember}) => {
+  const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
       {isMember && <Fragment>
-        <NavBar url={url} />
+        <NavBar router={router} />
         <hr {...styles.hr} />
       </Fragment>}
       <div {...styles.sections}>

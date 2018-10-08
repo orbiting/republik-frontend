@@ -58,7 +58,7 @@ const styles = {
   })
 }
 
-const User = ({ t, url, me, onClick, title }) => (
+const User = ({ t, me, onClick, title }) => (
   <div {...styles.user}>
     <a
       {...styles.button}

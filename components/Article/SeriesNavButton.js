@@ -92,7 +92,6 @@ const SeriesNavButton = ({
   id,
   children,
   t,
-  url,
   series,
   onSecondaryNavExpandedChange,
   expanded
@@ -116,7 +115,7 @@ const SeriesNavButton = ({
       {...styles.menu}
       aria-expanded={expanded}
     >
-      <SeriesNavPanel t={t} url={url} series={series} />
+      <SeriesNavPanel t={t} series={series} />
     </div>
   </Fragment>
 )

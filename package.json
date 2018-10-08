@@ -140,7 +140,7 @@
     "react-icons": "^2.2.7",
     "react-infinite-scroller": "^1.2.1",
     "react-maskedinput": "^4.0.1",
-    "react-textarea-autosize": "^5.1.0",
+    "react-textarea-autosize": "^7.0.4",
     "subscriptions-transport-ws": "^0.9.15",
     "uuid": "^3.3.2",
     "valid-url": "^1.0.9",

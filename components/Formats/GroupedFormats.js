@@ -92,7 +92,7 @@ class GroupedFormats extends Component {
 
           return (
             <Fragment>
-              {sections.map(({key, values}) => (
+              {sections.map(({ key, values }) => (
                 <section {...styles.section} key={key}>
                   <h2 {...styles.h2}>
                     {t(`formats/title/${key}`)}

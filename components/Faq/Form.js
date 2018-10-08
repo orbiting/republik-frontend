@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
@@ -7,10 +7,10 @@ import AutosizeInput from 'react-textarea-autosize'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import {withSignOut} from '../Auth/SignOut'
-import {withSignIn} from '../Auth/SignIn'
+import { withSignOut } from '../Auth/SignOut'
+import { withSignIn } from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
-import FieldSet, {styles as fieldSetStyles} from '../FieldSet'
+import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import Poller from '../Auth/Poller'
 
@@ -18,8 +18,8 @@ import {
   Interaction, InlineSpinner, Field, Button
 } from '@project-r/styleguide'
 
-import {H2} from './List'
-const {P} = Interaction
+import { H2 } from './List'
+const { P } = Interaction
 
 const submitQuestion = gql`
 mutation submitQuestion($question: String!) {
@@ -62,7 +62,7 @@ class QuestionForm extends Component {
       dirty: shouldValidate
     }))
   }
-  checkUserFields ({me, t}) {
+  checkUserFields ({ me, t }) {
     const defaultValues = {
       email: (me && me.email) || ''
     }
@@ -73,8 +73,8 @@ class QuestionForm extends Component {
     this.handleEmail(values.email, false, t)
   }
   send (newTokenType) {
-    const {me} = this.props
-    const {values} = this.state
+    const { me } = this.props
+    const { values } = this.state
 
     this.setState(() => ({
       loading: true,
@@ -98,7 +98,7 @@ class QuestionForm extends Component {
 
     if (!me) {
       this.props.signIn(values.email, 'faq', undefined, newTokenType)
-        .then(({data}) => {
+        .then(({ data }) => {
           this.setState(() => ({
             polling: true,
             signInResponse: data.signIn
@@ -141,7 +141,7 @@ class QuestionForm extends Component {
     )
   }
   render () {
-    const {t} = this.props
+    const { t } = this.props
 
     const {
       dirty, values, errors,
@@ -181,7 +181,7 @@ class QuestionForm extends Component {
           <br />
           <Field label={t('faq/form/question/label')}
             name='question'
-            renderInput={({ref, ...inputProps}) => (
+            renderInput={({ ref, ...inputProps }) => (
               <AutosizeInput
                 {...inputProps}
                 {...fieldSetStyles.autoSize}
@@ -196,7 +196,7 @@ class QuestionForm extends Component {
           {loading
             ? <InlineSpinner />
             : (
-              <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
+              <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
                 <Button type='submit'>
                   {t('faq/form/question/submit')}
                 </Button>
@@ -227,7 +227,7 @@ class QuestionForm extends Component {
               }} />
           )}
           {!!serverError && <ErrorMessage error={serverError} />}
-          {!!success && <div style={{marginTop: 20}}>
+          {!!success && <div style={{ marginTop: 20 }}>
             <Interaction.H3>
               {t('faq/form/merci/title')}
             </Interaction.H3>

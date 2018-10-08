@@ -1,8 +1,8 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
-import {parseDate, swissTime} from '../../lib/utils/format'
-import {intersperse} from '../../lib/utils/helpers'
+import { parseDate, swissTime } from '../../lib/utils/format'
+import { intersperse } from '../../lib/utils/helpers'
 import withT from '../../lib/withT'
 
 import {
@@ -10,7 +10,7 @@ import {
   fontFamilies, mediaQueries
 } from '@project-r/styleguide'
 
-import {CONTENT_PADDING} from '../constants'
+import { CONTENT_PADDING } from '../constants'
 
 import ActionBar from '../ActionBar'
 
@@ -52,11 +52,11 @@ const styles = {
   })
 }
 
-const Label = ({children}) => (
+const Label = ({ children }) => (
   <div {...styles.label}>{children}</div>
 )
 
-const {H1, P} = Interaction
+const { H1, P } = Interaction
 
 const weekday = swissTime.format('%A')
 

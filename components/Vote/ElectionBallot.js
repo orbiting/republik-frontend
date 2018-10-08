@@ -12,7 +12,7 @@ const styles = {
 
 class ElectionBallot extends React.Component {
   render () {
-    const {candidacies, selected, maxVotes, onChange} = this.props
+    const { candidacies, selected, maxVotes, onChange } = this.props
 
     return (
       <div {...styles.table}>

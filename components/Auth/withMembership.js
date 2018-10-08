@@ -20,18 +20,18 @@ const UnauthorizedMessage = compose(
   if (inNativeIOSApp) {
     return (
       <Fragment>
-        {me && <Interaction.H1 style={{marginBottom: 10}}>
+        {me && <Interaction.H1 style={{ marginBottom: 10 }}>
           {t('withMembership/ios/unauthorized/title')}
         </Interaction.H1>}
         <br />
         <Me
           beforeSignedInAs={(
-            <Interaction.P style={{marginBottom: 20}}>
+            <Interaction.P style={{ marginBottom: 20 }}>
               {t('withMembership/ios/unauthorized/noMembership')}
             </Interaction.P>
           )}
           beforeSignInForm={(
-            <Interaction.P style={{marginBottom: 20}}>
+            <Interaction.P style={{ marginBottom: 20 }}>
               {t('withMembership/ios/unauthorized/signIn')}
             </Interaction.P>
           )} />
@@ -67,7 +67,7 @@ const UnauthorizedMessage = compose(
       <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
       <br />
       <SignIn beforeForm={(
-        <Interaction.P style={{marginBottom: 20}}>
+        <Interaction.P style={{ marginBottom: 20 }}>
           {t.elements('withMembership/signIn/note', {
             buyLink: (
               <Link key='pledge' route='pledge'>
@@ -113,7 +113,7 @@ export const WithMembership = withAuthorization(['member'])(({
   return null
 })
 
-export const enforceMembership = WrappedComponent => withAuthorization(['member'])(({isAuthorized, me, ...props}) => {
+export const enforceMembership = WrappedComponent => withAuthorization(['member'])(({ isAuthorized, me, ...props }) => {
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }

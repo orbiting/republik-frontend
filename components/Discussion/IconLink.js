@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import Link from '../Link/Href'
 

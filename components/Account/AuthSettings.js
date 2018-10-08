@@ -57,7 +57,7 @@ class AuthSettings extends Component {
 
           return (
             <div {...styles.container}>
-              <P style={{marginBottom: 10}}>
+              <P style={{ marginBottom: 10 }}>
                 {t('account/authSettings/firstfactor/label')}{' '}
                 {mutating && (
                   <span {...styles.spinnerWrapper}>

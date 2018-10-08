@@ -156,7 +156,7 @@ class Results extends Component {
         const minHeight = this.panelRef.getBoundingClientRect().height
         this.panelRef.style.minHeight = currentMinHeight
         if (shouldMeasure && minHeight !== this.state.minHeight) {
-          this.setState({minHeight})
+          this.setState({ minHeight })
         }
       }
     }

@@ -43,7 +43,7 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
 
 export default compose(
   graphql(query, {
-    props: ({data}) => ({
+    props: ({ data }) => ({
       accessGrants: (
         (
           !data.loading &&

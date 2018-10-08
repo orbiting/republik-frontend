@@ -28,7 +28,7 @@ const styles = {
     padding: 20
   })
 }
-export const PageCenter = ({children}) => (
+export const PageCenter = ({ children }) => (
   <div {...styles.center}>
     {children}
   </div>
@@ -36,13 +36,13 @@ export const PageCenter = ({children}) => (
 
 const withAuthorization = (roles, key = 'isAuthorized') =>
   WrappedComponent =>
-    withMe(({me, ...props}) =>
+    withMe(({ me, ...props }) =>
       <WrappedComponent {...props}
         me={me}
-        {...{[key]: checkRoles(me, roles)}} />
+        {...{ [key]: checkRoles(me, roles) }} />
     )
 
-const UnauthorizedPage = withT(({t, me, roles = []}) => (
+const UnauthorizedPage = withT(({ t, me, roles = [] }) => (
   <Frame raw>
     <PageCenter>
       {!me ? (
@@ -68,7 +68,7 @@ const UnauthorizedPage = withT(({t, me, roles = []}) => (
   </Frame>
 ))
 
-export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({isAuthorized, me, ...props}) => {
+export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({ isAuthorized, me, ...props }) => {
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }

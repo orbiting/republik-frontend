@@ -107,7 +107,7 @@ const Item = ({ loading, error, t, statement }) => (
               {role}
             </Interaction.P>
             {statementString && <P {...styles.quote}
-              style={{fontSize: toViewport(24 + fontSizeBoost(statementString.length))}}>
+              style={{ fontSize: toViewport(24 + fontSizeBoost(statementString.length)) }}>
             «{statementString}»
             </P>}
             {!!sequenceNumber && (
@@ -141,7 +141,7 @@ const query = gql`query statements {
 export default compose(
   withT,
   graphql(query, {
-    props: ({data, ownProps: {name}}) => {
+    props: ({ data, ownProps: { name } }) => {
       return ({
         loading: data.loading,
         error: data.error,
@@ -150,7 +150,7 @@ export default compose(
           data.statements.nodes[0]
       })
     },
-    options: ({duration}) => ({
+    options: ({ duration }) => ({
       pollInterval: duration
     })
   })

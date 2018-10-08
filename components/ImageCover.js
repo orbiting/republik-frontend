@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import {
   fontFamilies
@@ -74,10 +74,10 @@ const leadCenterStyle = css({
   }
 })
 
-const Cover = ({image, children}) => (
+const Cover = ({ image, children }) => (
   <div
     {...coverStyle}
-    {...css({[mqLarge]: {backgroundImage: `url('${image.src}')`}})}>
+    {...css({ [mqLarge]: { backgroundImage: `url('${image.src}')` } })}>
     <img {...coverImageStyle} src={image.src} alt={image.alt} />
     {!!children && <div {...leadStyle}>
       <div {...leadContainerStyle}>

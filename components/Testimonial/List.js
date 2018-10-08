@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css, merge} from 'glamor'
-import {max} from 'd3-array'
+import { css, merge } from 'glamor'
+import { max } from 'd3-array'
 
 import Meta from '../Frame/Meta'
 
@@ -23,14 +23,14 @@ import {
   Field, A
 } from '@project-r/styleguide'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const SIZES = [
-  {minWidth: 0, columns: 1},
-  {minWidth: 200, columns: 2},
-  {minWidth: 400, columns: 3},
-  {minWidth: 600, columns: 4},
-  {minWidth: 880, columns: 5}
+  { minWidth: 0, columns: 1 },
+  { minWidth: 200, columns: 2 },
+  { minWidth: 400, columns: 3 },
+  { minWidth: 600, columns: 4 },
+  { minWidth: 880, columns: 5 }
 ]
 
 const PADDING = 5
@@ -117,7 +117,7 @@ const styles = {
   })
 }
 
-export const Item = ({image, name, video, isActive, onClick, imageRenderer, singleRow, style}) => {
+export const Item = ({ image, name, video, isActive, onClick, imageRenderer, singleRow, style }) => {
   const itemStyles = !singleRow
     ? styles.item
     : merge(styles.item, styles.singleRowItem)
@@ -163,12 +163,12 @@ class List extends Component {
     }
     this.ref = ref => { this.container = ref }
     this.onScroll = () => {
-      const {statements, isPage, hasMore} = this.props
+      const { statements, isPage, hasMore } = this.props
 
       if (this.container && isPage && statements) {
         const bbox = this.container.getBoundingClientRect()
         if (bbox.bottom < window.innerHeight * 2) {
-          const {isFetchingMore, endless} = this.state
+          const { isFetchingMore, endless } = this.state
           if (
             isFetchingMore || !hasMore ||
             (statements.length >= AUTO_INFINITE && !endless)
@@ -183,7 +183,7 @@ class List extends Component {
               this.props.focus,
               this.props.query
             ].join('_')
-            this.props.loadMore().then(({data}) => {
+            this.props.loadMore().then(({ data }) => {
               if (query !== this.query) {
                 this.setState(() => ({
                   isFetchingMore: false
@@ -220,7 +220,7 @@ class List extends Component {
       search, hasMore, totalCount,
       singleRow
     } = this.props
-    const {columns, open} = this.state
+    const { columns, open } = this.state
 
     const hasEndText = !search
 
@@ -237,7 +237,7 @@ class List extends Component {
           statements[0]
         )
 
-        statements.forEach(({id, portrait, name}, i) => {
+        statements.forEach(({ id, portrait, name }, i) => {
           const row = Math.floor(i / columns)
           const offset = i % columns
           const openId = open[row - 1]
@@ -309,7 +309,7 @@ class List extends Component {
           <div {...gridStyles} ref={this.ref}>
             {!!isPage && <Meta data={metaData} />}
             {items}
-            <div style={{clear: 'left', marginBottom: 20}} />
+            <div style={{ clear: 'left', marginBottom: 20 }} />
             {
               statements.length >= AUTO_INFINITE &&
               !this.state.endless &&
@@ -374,7 +374,7 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
 export const ListWithQuery = compose(
   withT,
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       return ({
         loading: data.loading,
         error: data.error,
@@ -392,7 +392,7 @@ export const ListWithQuery = compose(
                 ...fetchMoreResult,
                 statements: {
                   ...fetchMoreResult.statements,
-                  nodes: nodes.filter(({id}, index, all) => (
+                  nodes: nodes.filter(({ id }, index, all) => (
                     index === all.findIndex(node => node.id === id)
                   ))
                 }
@@ -421,8 +421,8 @@ class Container extends Component {
     this.state = {}
   }
   render () {
-    const {t, id, isPage} = this.props
-    const {query} = this.state
+    const { t, id, isPage } = this.props
+    const { query } = this.state
 
     const seed = this.state.seed || this.props.seed
 
@@ -438,13 +438,13 @@ class Container extends Component {
             }))
           }} />
         <div {...styles.options}>
-          <A style={{float: 'right', cursor: 'pointer'}} onClick={() => {
+          <A style={{ float: 'right', cursor: 'pointer' }} onClick={() => {
             this.setState(() => ({
               seed: generateSeed()
             }))
           }}>{t('testimonial/search/seed')}</A>
         </div>
-        <br style={{clear: 'left'}} />
+        <br style={{ clear: 'left' }} />
         <ListWithQuery
           isPage={isPage}
           focus={query ? undefined : id || this.state.clearedFocus}
@@ -459,7 +459,7 @@ class Container extends Component {
               Router.pushRoute(
                 'community',
                 {},
-                {shallow: true}
+                { shallow: true }
               )
             })
           }}

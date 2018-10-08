@@ -1,7 +1,7 @@
-import React, {Fragment} from 'react'
-import {css} from 'glamor'
+import React, { Fragment } from 'react'
+import { css } from 'glamor'
 import withT from '../../lib/withT'
-import {colors, fontStyles} from '@project-r/styleguide'
+import { colors, fontStyles } from '@project-r/styleguide'
 
 import IconLink from '../IconLink'
 
@@ -19,7 +19,7 @@ const styles = {
   })
 }
 
-const SecondaryActions = ({t}) => (
+const SecondaryActions = ({ t }) => (
   <Fragment>
     <span {...styles.markdown}>
       <IconLink

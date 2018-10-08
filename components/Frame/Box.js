@@ -13,7 +13,7 @@ const styles = {
   })
 }
 
-const Box = ({children, style}) => (
+const Box = ({ children, style }) => (
   <div {...styles.box} style={style}>
     {children}
   </div>

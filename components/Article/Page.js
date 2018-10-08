@@ -86,7 +86,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
+      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{ marginLeft: 7 }} />
     }
   </div>
 )
@@ -357,7 +357,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: {article}, isMember } = this.props
+    const { router, t, data, data: { article }, isMember } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -489,7 +489,7 @@ const ComposedPage = compose(
   withInNativeApp,
   withRouter,
   graphql(getDocument, {
-    options: ({router: {asPath}}) => ({
+    options: ({ router: { asPath } }) => ({
       variables: {
         path: asPath.split('?')[0]
       }

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
+import { css } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
 import { Link } from '../../lib/routes'
@@ -57,7 +57,7 @@ const styles = {
   })
 }
 
-const checkEmail = ({value, shouldValidate, t}) => ({
+const checkEmail = ({ value, shouldValidate, t }) => ({
   email: value,
   error: (
     (value.trim().length <= 0 && t('signIn/email/error/empty')) ||
@@ -106,7 +106,7 @@ class SignIn extends Component {
         acceptedConsents,
         tokenType
       )
-        .then(({data}) => {
+        .then(({ data }) => {
           this.setState(() => ({
             polling: true,
             loading: false,
@@ -259,9 +259,9 @@ mutation signIn($email: String!, $context: String, $consents: [String!], $tokenT
 `
 
 export const withSignIn = graphql(signInMutation, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     signIn: (email, context = 'signIn', consents, tokenType) =>
-      mutate({variables: {email, context, consents, tokenType}})
+      mutate({ variables: { email, context, consents, tokenType } })
   })
 })
 

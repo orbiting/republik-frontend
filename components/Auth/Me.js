@@ -11,7 +11,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 
-const Me = ({me, t, email, beforeSignInForm, beforeSignedInAs}) => (
+const Me = ({ me, t, email, beforeSignInForm, beforeSignedInAs }) => (
   me ? (
     <Fragment>
       {beforeSignedInAs}

@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {compose, graphql} from 'react-apollo'
+import React, { Component } from 'react'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
+import { css } from 'glamor'
 import Head from 'next/head'
 import Router from 'next/router'
 
@@ -28,7 +28,7 @@ class Image extends Component {
     )
   }
   next () {
-    const {statement, query, error} = this.props
+    const { statement, query, error } = this.props
     if (error && !query.sequenceNumber) {
       console.error(error)
       return
@@ -42,7 +42,7 @@ class Image extends Component {
           : statement && statement.sequenceNumber
       }
     }
-    Router.push(to, to, {shallow: true})
+    Router.push(to, to, { shallow: true })
   }
   componentDidMount () {
     this.tick()
@@ -88,7 +88,7 @@ const query = gql`query aSequence($sequenceNumber: Int!, $orderDirection: OrderD
 
 export default compose(
   graphql(query, {
-    props: ({data, ownProps: {name}}) => {
+    props: ({ data, ownProps: { name } }) => {
       return ({
         loading: data.loading,
         error: data.error,

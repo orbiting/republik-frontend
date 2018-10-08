@@ -13,7 +13,7 @@ const Comments = ({ t, comments }) => {
   }
   return (
     <div>
-      <Interaction.H3 style={{marginBottom: 20}}>
+      <Interaction.H3 style={{ marginBottom: 20 }}>
         {t.pluralize('profile/comments/title', {
           count: comments.totalCount
         })}

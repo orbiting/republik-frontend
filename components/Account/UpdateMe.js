@@ -122,7 +122,7 @@ class UpdateMe extends Component {
     }
   }
   startEditing () {
-    const {me} = this.props
+    const { me } = this.props
     this.setState((state) => ({
       isEditing: true,
       values: {
@@ -193,7 +193,7 @@ class UpdateMe extends Component {
           <div style={style}>
             {!isEditing ? (
               <div>
-                <H2 style={{marginBottom: 30}}>{t('Account/Update/title')}</H2>
+                <H2 style={{ marginBottom: 30 }}>{t('Account/Update/title')}</H2>
                 <P>
                   {intersperse(
                     [
@@ -242,7 +242,7 @@ class UpdateMe extends Component {
                     this.setState(FieldSet.utils.mergeFields(fields))
                   }}
                   fields={meFields} />
-                <Label style={{marginTop: -8, display: 'block'}}>
+                <Label style={{ marginTop: -8, display: 'block' }}>
                   {t('Account/Update/birthday/hint/plain')}
                 </Label>
                 <br /><br />
@@ -258,7 +258,7 @@ class UpdateMe extends Component {
                 <br />
                 <br />
                 {updating ? (
-                  <div style={{textAlign: 'center'}}>
+                  <div style={{ textAlign: 'center' }}>
                     <InlineSpinner />
                     <br />
                     {t('Account/Update/updating')}
@@ -266,7 +266,7 @@ class UpdateMe extends Component {
                 ) : (
                   <div>
                     {!!this.state.showErrors && errorMessages.length > 0 && (
-                      <div style={{color: colors.error, marginBottom: 40}}>
+                      <div style={{ color: colors.error, marginBottom: 40 }}>
                         {t('pledge/submit/error/title')}<br />
                         <ul>
                           {errorMessages.map((error, i) => (
@@ -276,11 +276,11 @@ class UpdateMe extends Component {
                       </div>
                     )}
                     {!!this.state.error && (
-                      <div style={{color: colors.error, marginBottom: 40}}>
+                      <div style={{ color: colors.error, marginBottom: 40 }}>
                         {this.state.error}
                       </div>
                     )}
-                    <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
+                    <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
                       <Button onClick={() => {
                         if (errorMessages.length) {
                           this.setState((state) => Object.keys(state.errors).reduce(
@@ -295,7 +295,7 @@ class UpdateMe extends Component {
                           ))
                           return
                         }
-                        this.setState(() => ({updating: true}))
+                        this.setState(() => ({ updating: true }))
 
                         this.props.update({
                           firstName: values.firstName,
@@ -326,7 +326,7 @@ class UpdateMe extends Component {
                           }))
                         })
                       }}>{t('Account/Update/submit')}</Button>
-                      <div style={{marginTop: 10}}>
+                      <div style={{ marginTop: 10 }}>
                         <A href='#' onClick={(e) => {
                           e.preventDefault()
                           this.stopEditing()
@@ -376,7 +376,7 @@ export const query = gql`
 
 export default compose(
   graphql(mutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       update: variables => mutate({
         variables,
         refetchQueries: [{
@@ -386,7 +386,7 @@ export default compose(
     })
   }),
   graphql(query, {
-    props: ({data}) => ({
+    props: ({ data }) => ({
       loading: data.loading,
       error: data.error,
       me: data.loading ? undefined : data.me

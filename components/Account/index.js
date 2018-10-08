@@ -52,7 +52,7 @@ const styles = {
 
 const AccountAnchor = ({ children, id }) => {
   return (
-    <div style={{marginBottom: 80}}>
+    <div style={{ marginBottom: 80 }}>
       <a {...styles.accountAnchor} id={id} />
       {children}
     </div>
@@ -167,7 +167,7 @@ export default compose(
   withT,
   withInNativeApp,
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       const isReady = (
         !data.loading &&
         !data.error &&

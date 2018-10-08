@@ -1,4 +1,4 @@
-import React, {Fragment, PureComponent} from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -193,7 +193,7 @@ class NotificationOptions extends PureComponent {
   render () {
     const {
       t,
-      data: {loading, error, me, discussion},
+      data: { loading, error, me, discussion },
       setDiscussionPreferences
     } = this.props
 
@@ -250,7 +250,7 @@ class NotificationOptions extends PureComponent {
                 </A>
               )}
               {notificationsChannelEnabled && <Fragment>
-                <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px', color}} fill={color} onClick={() => {
+                <NotificationIcon off={selectedValue === 'NONE'} style={{ fontSize: '14px', color }} fill={color} onClick={() => {
                   this.setState(state => ({
                     expanded: !state.expanded
                   }))

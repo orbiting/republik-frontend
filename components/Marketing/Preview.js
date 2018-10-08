@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import {
@@ -21,7 +21,7 @@ const Prestitial = ({ me, isMember, t }) => {
   const text = me && !isMember
     ? t.elements(
       'marketing/preview/prestitial/noMembership',
-      { link: <Link route='pledge'><A style={{cursor: 'pointer'}}><br />{t('marketing/preview/prestitial/noMembership/link')}</A></Link> }
+      { link: <Link route='pledge'><A style={{ cursor: 'pointer' }}><br />{t('marketing/preview/prestitial/noMembership/link')}</A></Link> }
     )
     : t('marketing/preview/prestitial/withMembership')
 

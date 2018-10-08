@@ -54,7 +54,7 @@ const Overview = compose(
       }
     }
   })
-)(({updates, update, t, loading, error, serverContext}) => (
+)(({ updates, update, t, loading, error, serverContext }) => (
   <Loader loading={loading} error={error} render={() => {
     if (update) {
       if (update === 404) {

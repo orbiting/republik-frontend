@@ -1,12 +1,12 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
-import {formatLocale} from 'd3-format'
-import {arc} from 'd3-shape'
-import {partition} from 'd3-hierarchy'
-import {ascending, descending} from 'd3-array'
+import { formatLocale } from 'd3-format'
+import { arc } from 'd3-shape'
+import { partition } from 'd3-hierarchy'
+import { ascending, descending } from 'd3-array'
 
-import {groupped, total, colors} from './data'
+import { groupped, total, colors } from './data'
 
 import {
   fontFamilies
@@ -106,7 +106,7 @@ export default () => (
         {legend.map((group, i) => (
           <g key={`legend${i}`} transform={`translate(0, ${i * 20})`}>
             <rect width={15} height={15} fill={colors[group.data.Kategorie]} />
-            <text x={20} dy='.8em' fill={colors[group.data.Kategorie]} style={{fontFamilty: fontFamilies.sansSerifMedium}}>
+            <text x={20} dy='.8em' fill={colors[group.data.Kategorie]} style={{ fontFamilty: fontFamilies.sansSerifMedium }}>
               {group.data.Kategorie}
             </text>
           </g>

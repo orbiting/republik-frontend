@@ -40,11 +40,11 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
       return (
         <Center>
           <Interaction.H2>
-            {t.pluralize('format/feed/title', {count: documents.totalCount})}
+            {t.pluralize('format/feed/title', { count: documents.totalCount })}
           </Interaction.H2>
           <br /><br />
           <WithoutMembership render={() => (
-            <Box style={{padding: '15px 20px'}}>
+            <Box style={{ padding: '15px 20px' }}>
               <Interaction.P>
                 {t('format/feed/payNote')}
               </Interaction.P>

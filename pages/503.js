@@ -51,7 +51,7 @@ const styles = {
   })
 }
 
-export default withRouter(({router}) => {
+export default withRouter(({ router }) => {
   const meta = {
     title: 'Republik',
     description: 'Bald wieder verfügbar.',

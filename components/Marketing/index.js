@@ -1,4 +1,4 @@
-import React, { Fragment} from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'

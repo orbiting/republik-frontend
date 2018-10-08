@@ -25,13 +25,13 @@ query getRedirect($path: String!) {
 }
 `
 
-const StatusError = ({statusCode, t, loading, children}) => (
+const StatusError = ({ statusCode, t, loading, children }) => (
   <Loader loading={loading} render={() => (
     <Fragment>
-      <Meta data={{title: statusCode}} />
+      <Meta data={{ title: statusCode }} />
       <ErrorFrame statusCode={statusCode}>
         {children || <Interaction.P>{t(`error/${statusCode}`, undefined, null)}</Interaction.P>}
-        <div style={{height: 60}} />
+        <div style={{ height: 60 }} />
         <Me />
       </ErrorFrame>
     </Fragment>
@@ -49,12 +49,12 @@ export default compose(
   withRouter,
   graphql(getRedirect, {
     skip: props => props.statusCode !== 404 || !props.router.asPath,
-    options: ({router: {asPath}}) => ({
+    options: ({ router: { asPath } }) => ({
       variables: {
         path: asPath.split('?')[0]
       }
     }),
-    props: ({data, ownProps: {serverContext, statusCode, router, me}}) => {
+    props: ({ data, ownProps: { serverContext, statusCode, router, me } }) => {
       const redirection =
         !data.error &&
         !data.loading &&

@@ -20,7 +20,7 @@ export const getConsentsError = (t, required, accepted) => (
   !check(required, accepted) && t(`pledge/consents/error/${stringifyCombo(required)}`)
 )
 
-const Consents = withT(({t, accepted, onChange, required}) => (
+const Consents = withT(({ t, accepted, onChange, required }) => (
   <Checkbox
     checked={check(required, accepted)}
     onChange={(_, checked) => {

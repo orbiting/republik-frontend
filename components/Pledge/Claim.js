@@ -4,14 +4,14 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import SignIn from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
-import {gotoMerci} from './Merci'
+import { gotoMerci } from './Merci'
 
 import {
   Loader,
   Interaction
 } from '@project-r/styleguide'
 
-const {P} = Interaction
+const { P } = Interaction
 
 class ClaimPledge extends Component {
   constructor (props) {
@@ -22,8 +22,8 @@ class ClaimPledge extends Component {
     }
   }
   claim () {
-    const {me, id} = this.props
-    const {loading, error} = this.state
+    const { me, id } = this.props
+    const { loading, error } = this.state
 
     if (loading || error || !me) {
       return
@@ -51,10 +51,10 @@ class ClaimPledge extends Component {
     this.claim()
   }
   render () {
-    const {t, me} = this.props
+    const { t, me } = this.props
 
     if (me) {
-      const {error} = this.state
+      const { error } = this.state
       if (error) {
         return <ErrorMessage error={error} />
       } else {
@@ -89,7 +89,7 @@ mutation reclaimPledge($pledgeId: ID!) {
 `
 
 export default graphql(claimPledge, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     claim: pledgeId => mutate({
       variables: {
         pledgeId

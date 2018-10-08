@@ -9,7 +9,7 @@ import { timeFormat } from '../../lib/utils/format'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const ELECTION_STATES = {
   START: 'START',
@@ -89,11 +89,11 @@ class Election extends Component {
     }
 
     this.transition = (nextState, callback) => {
-      this.setState({electionState: nextState}, callback && callback())
+      this.setState({ electionState: nextState }, callback && callback())
     }
 
     this.toggleSelection = (candidateId) => {
-      const {data: {election: {numSeats}}, onChange} = this.props
+      const { data: { election: { numSeats } }, onChange } = this.props
       const allowMultiple = numSeats > 1
       const collection = this.state.vote
       const existingItem =
@@ -112,12 +112,12 @@ class Election extends Component {
 
     this.reset = e => {
       e.preventDefault()
-      this.setState({vote: [], electionState: ELECTION_STATES.START})
+      this.setState({ vote: [], electionState: ELECTION_STATES.START })
     }
 
     this.renderActions = () => {
-      const {onFinish} = this.props
-      const {electionState} = this.state
+      const { onFinish } = this.props
+      const { electionState } = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Formular zurücksetzen</A>
 
@@ -168,8 +168,8 @@ class Election extends Component {
     }
 
     this.renderWarning = () => {
-      const {electionState, vote} = this.state
-      const {data: {election: {numSeats}}} = this.props
+      const { electionState, vote } = this.state
+      const { data: { election: { numSeats } } } = this.props
       if (electionState === ELECTION_STATES.READY && vote.length < numSeats) {
         return (
           <P {...styles.error}>
@@ -186,8 +186,8 @@ class Election extends Component {
   }
 
   render () {
-    const {data: {election}, isSticky, mandatoryCandidates} = this.props
-    const {vote, electionState} = this.state
+    const { data: { election }, isSticky, mandatoryCandidates } = this.props
+    const { vote, electionState } = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
     const recommendedCandidates = election.candidacies.filter(c => !!c.recommendation)
 
@@ -212,7 +212,7 @@ class Election extends Component {
           }
           {recommendedCandidates.length > 0 && inProgress &&
           <Button
-            style={{height: 50}}
+            style={{ height: 50 }}
             onClick={() => this.setState({
               vote: (recommendedCandidates.map(c => c.id)),
               electionState: ELECTION_STATES.DIRTY
@@ -254,7 +254,7 @@ Election.propTypes = {
 }
 
 Election.defaultProps = {
-  data: {election: {candidacies: []}},
+  data: { election: { candidacies: [] } },
   isSticky: false,
   onChange: () => {},
   mandatoryCandidates: []
@@ -299,7 +299,7 @@ const query = gql`
 
 export default compose(
   graphql(query, {
-    options: ({slug}) => ({
+    options: ({ slug }) => ({
       variables: {
         slug
       }

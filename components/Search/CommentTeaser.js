@@ -121,7 +121,7 @@ export const CommentTeaser = ({
           commentId={id}
           discussion={discussion}
         >
-          <a {...styles.linkBlockStyle} style={{opacity: published ? 1 : 0.5}}>
+          <a {...styles.linkBlockStyle} style={{ opacity: published ? 1 : 0.5 }}>
             {!highlight && !!string && (
               <Fragment>
                 {string}

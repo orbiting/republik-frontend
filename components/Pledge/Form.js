@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -23,7 +23,7 @@ import Accordion from './Accordion'
 import Submit from './Submit'
 import CustomizePackage from './CustomizePackage'
 
-const {H1, H2, P} = Interaction
+const { H1, H2, P } = Interaction
 
 class Pledge extends Component {
   constructor (props) {
@@ -32,7 +32,7 @@ class Pledge extends Component {
     const values = {}
     let basePledge
 
-    const {pledge, query} = props
+    const { pledge, query } = props
     if (pledge) {
       values.email = pledge.user.email
       values.firstName = pledge.user.firstName
@@ -60,8 +60,8 @@ class Pledge extends Component {
       dirty: {}
     }
   }
-  submitPledgeProps ({values, query, pledge}) {
-    const {crowdfunding} = this.props
+  submitPledgeProps ({ values, query, pledge }) {
+    const { crowdfunding } = this.props
     const pkg = query.package
       ? crowdfunding.packages.find(
         pkg => pkg.name === query.package.toUpperCase()
@@ -176,14 +176,14 @@ class Pledge extends Component {
             <H1>{t('pledge/title')}</H1>
 
             {!!receiveError && (
-              <P style={{color: colors.error, marginBottom: 40}}>
+              <P style={{ color: colors.error, marginBottom: 40 }}>
                 <RawHtml dangerouslySetInnerHTML={{
                   __html: receiveError
                 }} />
               </P>
             )}
 
-            <div style={{marginBottom: 40}}>
+            <div style={{ marginBottom: 40 }}>
               {pkg ? (
                 <CustomizePackage
                   crowdfundingName={crowdfundingName}
@@ -202,7 +202,7 @@ class Pledge extends Component {
             {pkg && (
               <Fragment>
                 <H2>{t('pledge/contact/title')}</H2>
-                <div style={{marginTop: 10, marginBottom: 40}}>
+                <div style={{ marginTop: 10, marginBottom: 40 }}>
                   {me ? (
                     <span>
                       {t('pledge/contact/signedinAs', {
@@ -214,7 +214,7 @@ class Pledge extends Component {
                           this.handleFirstName('', false, t)
                           this.handleLastName('', false, t)
                           this.handleEmail('', false, t)
-                          this.setState(() => ({showSignIn: false}))
+                          this.setState(() => ({ showSignIn: false }))
                         })
                       }}>{t('pledge/contact/signOut')}</A>
                       <br /><br />
@@ -225,7 +225,7 @@ class Pledge extends Component {
                     <span>
                       <A href='#' onClick={(e) => {
                         e.preventDefault()
-                        this.setState(() => ({showSignIn: !showSignIn}))
+                        this.setState(() => ({ showSignIn: !showSignIn }))
                       }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
                       {!!showSignIn && (
                         <span>
@@ -268,7 +268,7 @@ class Pledge extends Component {
                 <Submit
                   query={query}
                   me={me}
-                  {...this.submitPledgeProps({values, query})}
+                  {...this.submitPledgeProps({ values, query })}
                   basePledge={basePledge
                     ? this.submitPledgeProps(basePledge)
                     : undefined}

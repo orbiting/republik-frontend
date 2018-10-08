@@ -60,13 +60,13 @@ const styles = {
   })
 }
 
-export const MainContainer = ({children}) => (
+export const MainContainer = ({ children }) => (
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
 )
 
-export const Content = ({children, style}) => (
+export const Content = ({ children, style }) => (
   <div {...styles.content} style={style}>{children}</div>
 )
 
@@ -109,7 +109,7 @@ const Index = ({
         audioCloseHandler={audioCloseHandler}
       />
       <noscript>
-        <Box style={{padding: 30}}>
+        <Box style={{ padding: 30 }}>
           <RawHtml
             dangerouslySetInnerHTML={{
               __html: t('noscript')

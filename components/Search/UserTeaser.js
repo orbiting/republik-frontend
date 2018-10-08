@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({id, username, firstName, lastName, credentials, portrait}) => {
+export const UserTeaser = ({ id, username, firstName, lastName, credentials, portrait }) => {
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
@@ -92,7 +92,7 @@ export const UserTeaser = ({id, username, firstName, lastName, credentials, port
         </div>
         {(credential) && <div {...styles.description}>
           {credential && <Fragment>
-            <div {...styles.descriptionText} style={{color: credential.verified ? colors.text : colors.lightText}}>
+            <div {...styles.descriptionText} style={{ color: credential.verified ? colors.text : colors.lightText }}>
               {credential.description}
             </div>
             {credential.verified &&

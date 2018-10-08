@@ -29,7 +29,7 @@ import {
   Button
 } from '@project-r/styleguide'
 
-const {H1, P} = Interaction
+const { H1, P } = Interaction
 
 export const gotoMerci = (query) => {
   // workaround for apollo cache issues
@@ -98,7 +98,7 @@ class Merci extends Component {
     if (polling) {
       return (
         <MainContainer><Content>
-          <P style={{marginBottom: 15}}>
+          <P style={{ marginBottom: 15 }}>
             {t('merci/postpay/lead')}
           </P>
           <Poller
@@ -113,7 +113,7 @@ class Merci extends Component {
             }} />
           <P>
             {!!query.id && (
-              <Link route='account' params={{claim: query.id}}>
+              <Link route='account' params={{ claim: query.id }}>
                 <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
               </Link>
             )}
@@ -145,7 +145,7 @@ class Merci extends Component {
             })
           }} />
           {!!signInError && <ErrorMessage error={signInError} />}
-          <div style={{margin: '20px 0'}}>
+          <div style={{ margin: '20px 0' }}>
             {signInLoading ? <InlineSpinner /> : <Button
               block
               disabled={signInLoading}
@@ -157,7 +157,7 @@ class Merci extends Component {
                   signInLoading: true
                 }))
                 this.props.signIn(email)
-                  .then(({data}) => {
+                  .then(({ data }) => {
                     this.setState(() => ({
                       polling: true,
                       signInLoading: false,
@@ -172,7 +172,7 @@ class Merci extends Component {
                   })
               }}>{t('merci/postpay/signInError/retry')}</Button>}
           </div>
-          <Link route='account' params={{claim: query.id}}>
+          <Link route='account' params={{ claim: query.id }}>
             <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
           </Link>
         </Content></MainContainer>
@@ -184,21 +184,21 @@ class Merci extends Component {
       )
     }
 
-    const buttonStyle = {marginBottom: 10, marginRight: 10}
+    const buttonStyle = { marginBottom: 10, marginRight: 10 }
 
     return (
       <Fragment>
-        <MainContainer><Content style={{paddingBottom: 0}}>
+        <MainContainer><Content style={{ paddingBottom: 0 }}>
           <MerciText pledgeId={query.id} />
           <WithMembership render={() => (
-            <div style={{marginTop: 10}}>
+            <div style={{ marginTop: 10 }}>
               <Link route='index'>
                 <Button primary style={buttonStyle}>
                   {t('merci/action/read')}
                 </Button>
               </Link>
               {!me.hasPublicProfile && (
-                <Link route='profile' params={{slug: me.username || me.id}}>
+                <Link route='profile' params={{ slug: me.username || me.id }}>
                   <Button style={buttonStyle}>
                     {t('merci/action/profile')}
                   </Button>
@@ -206,7 +206,7 @@ class Merci extends Component {
               )}
             </div>
           )} />
-          <P style={{marginBottom: 80}}>
+          <P style={{ marginBottom: 80 }}>
             <ActionBar
               url={`${PUBLIC_BASE_URL}/`}
               title={t('merci/share/title')}

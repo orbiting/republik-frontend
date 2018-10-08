@@ -120,7 +120,7 @@ class Form extends Component {
           )
           : (
             <Fragment>
-              <H3 style={{marginTop: 30}}>
+              <H3 style={{ marginTop: 30 }}>
                 {t.pluralize(
                   'Account/Access/Campaigns/Form/title',
                   { count: campaign.slots.used }

@@ -1,6 +1,6 @@
-import {hierarchy} from 'd3-hierarchy'
-import {nest} from 'd3-collection'
-import {sum} from 'd3-array'
+import { hierarchy } from 'd3-hierarchy'
+import { nest } from 'd3-collection'
+import { sum } from 'd3-array'
 
 const data = [
   { Kategorie: 'Project R Gen',

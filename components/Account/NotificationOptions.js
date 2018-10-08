@@ -105,7 +105,7 @@ class NotificationOptions extends Component {
 
           return (
             <Fragment>
-              <P style={{marginTop: 20}}>{t('account/discussionNotificationChannels/intro')}</P>
+              <P style={{ marginTop: 20 }}>{t('account/discussionNotificationChannels/intro')}</P>
               {DISCUSSION_NOTIFICATION_CHANNELS.map((channel) => (
                 <p key={channel}>
                   <Checkbox
@@ -152,7 +152,7 @@ class NotificationOptions extends Component {
                 <WarningContainer>
                   <P>
                     {t('account/discussionNotificationChannels/WEB/hint/default')}<br />
-                    <A style={{cursor: 'pointer'}} onClick={(e) => {
+                    <A style={{ cursor: 'pointer' }} onClick={(e) => {
                       e.preventDefault()
                       this.confirmPermission()
                     }}>{t('account/discussionNotificationChannels/WEB/enable')}</A>

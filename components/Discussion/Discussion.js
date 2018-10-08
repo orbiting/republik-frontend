@@ -1,7 +1,7 @@
-import React, {PureComponent} from 'react'
-import {css} from 'glamor'
+import React, { PureComponent } from 'react'
+import { css } from 'glamor'
 import withT from '../../lib/withT'
-import {A, colors, fontStyles} from '@project-r/styleguide'
+import { A, colors, fontStyles } from '@project-r/styleguide'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
@@ -49,12 +49,12 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId = null, mute} = this.props
-    const {orderBy, reload, now} = this.state
+    const { t, discussionId, focusId = null, mute } = this.props
+    const { orderBy, reload, now } = this.state
 
-    const OrderBy = ({children, value}) => (
+    const OrderBy = ({ children, value }) => (
       <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
-        this.setState({orderBy: value})
+        this.setState({ orderBy: value })
       }}>
         {t(`components/Discussion/OrderBy/${value}`)}
       </button>
@@ -77,13 +77,13 @@ class Discussion extends PureComponent {
           <OrderBy value='HOT' />
           <OrderBy value='DATE' />
           <OrderBy value='VOTES' />
-          <A style={{float: 'right', lineHeight: '25px', cursor: 'pointer'}} href='' onClick={(e) => {
+          <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={(e) => {
             e.preventDefault()
             this.setState(({ reload }) => ({ reload: reload + 1 }))
           }}>
             {t('components/Discussion/reload')}
           </A>
-          <br style={{clear: 'both'}} />
+          <br style={{ clear: 'both' }} />
         </div>
 
         <Comments

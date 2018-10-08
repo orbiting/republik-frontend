@@ -29,7 +29,7 @@ const webpCacheKey = (headers, baseKey) => {
     : baseKey
 }
 
-const SSRCachingBoundary = withHeaders(({cacheKey, headers, children}) => getHtml
+const SSRCachingBoundary = withHeaders(({ cacheKey, headers, children }) => getHtml
   ? <div dangerouslySetInnerHTML={{
     __html: getHtml(webpCacheKey(headers, cacheKey), children)
   }} />

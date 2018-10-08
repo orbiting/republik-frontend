@@ -11,7 +11,7 @@ import VoteMarketing from './VoteMarketing'
 
 class Page extends React.Component {
   renderVoteComponent () {
-    const {me} = this.props
+    const { me } = this.props
     const isAssociate = me.roles.some(r => r === 'associate')
 
     switch (getVotingStage()) {
@@ -23,7 +23,7 @@ class Page extends React.Component {
   }
 
   render () {
-    const {vt} = this.props
+    const { vt } = this.props
 
     const meta = {
       title: vt('info/title'),

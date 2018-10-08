@@ -90,7 +90,7 @@ const styles = {
   })
 }
 
-const SignoutLink = ({children, ...props}) => (
+const SignoutLink = ({ children, ...props }) => (
   <a {...styles.link} {...props}>{children}</a>
 )
 
@@ -123,7 +123,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember}) => {
+const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>

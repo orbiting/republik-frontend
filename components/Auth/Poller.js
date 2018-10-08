@@ -59,7 +59,7 @@ class Poller extends Component {
     this.setState({ cookiesDisabled: !navigator.cookieEnabled })
   }
   componentDidUpdate () {
-    const {data: {me}, onSuccess} = this.props
+    const { data: { me }, onSuccess } = this.props
     if (me) {
       clearTimeout(this.tickTimeout)
       const elapsedMs = this.state.now - this.state.start

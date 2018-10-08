@@ -332,7 +332,7 @@ class Header extends Component {
       <Fragment>
         <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
           {opaque && <Fragment>
-            <div {...styles.center} style={{opacity: secondaryVisible ? 0 : 1}}>
+            <div {...styles.center} style={{ opacity: secondaryVisible ? 0 : 1 }}>
               <a
                 {...styles.logo}
                 aria-label={t('header/logo/magazine/aria')}
@@ -442,7 +442,7 @@ class Header extends Component {
               scrubberPosition='bottom'
               timePosition='left'
               t={t}
-              style={{backgroundColor: '#fff', position: 'absolute', width: '100%', bottom: 0}}
+              style={{ backgroundColor: '#fff', position: 'absolute', width: '100%', bottom: 0 }}
               controlsPadding={this.state.mobile ? 10 : 20}
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />

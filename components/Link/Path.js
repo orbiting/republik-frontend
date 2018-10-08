@@ -6,7 +6,7 @@ export default ({ path, query = {}, passHref, replace, scroll, children }) => {
   const result = matchPath(path)
   if (result) {
     const Component = passHref ? Link : AreaLink
-    return <Component route={result.route} params={{...query, ...result.params}} passHref={passHref} replace={replace} scroll={scroll}>
+    return <Component route={result.route} params={{ ...query, ...result.params }} passHref={passHref} replace={replace} scroll={scroll}>
       {children}
     </Component>
   }

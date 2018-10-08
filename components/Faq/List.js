@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css, merge} from 'glamor'
+import { css, merge } from 'glamor'
 
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import withT from '../../lib/withT'
-import {intersperse} from '../../lib/utils/helpers'
+import { intersperse } from '../../lib/utils/helpers'
 
 import {
   Interaction, RawHtml, colors,
@@ -21,9 +21,9 @@ import {
   PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
-import {nest} from 'd3-collection'
+import { nest } from 'd3-collection'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const styles = {
   category: css({
@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-export const H2 = ({children}) => (
+export const H2 = ({ children }) => (
   <Interaction.H2 {...styles.title}>{children}</Interaction.H2>
 )
 
@@ -95,7 +95,7 @@ class FaqList extends Component {
     }
   }
   render () {
-    const {data: {loading, error, faqs}, t} = this.props
+    const { data: { loading, error, faqs }, t } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
         const faqsByCategory = nest()
@@ -117,7 +117,7 @@ class FaqList extends Component {
               __html: t('faq/before/support/text')
             }} />
             <br />
-            {faqsByCategory.map(({key: title, values}) => (
+            {faqsByCategory.map(({ key: title, values }) => (
               <div {...styles.category} key={title}>
                 <H2>{title}</H2>
                 {values.map((faq, i) => {

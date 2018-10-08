@@ -118,7 +118,7 @@ export default compose(
         first: 15
       }
     }),
-    props: ({data, ownProps: {serverContext}}) => {
+    props: ({ data, ownProps: { serverContext } }) => {
       if (serverContext && !data.error && !data.loading && !data.front) {
         serverContext.res.statusCode = 503
       }

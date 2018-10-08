@@ -39,7 +39,7 @@ const revokeMutation = gql`
 
 export default compose(
   graphql(grantMutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       grantAccess: variables => mutate({
         variables,
         refetchQueries: [{
@@ -49,7 +49,7 @@ export default compose(
     })
   }),
   graphql(revokeMutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       revokeAccess: variables => mutate({
         variables,
         refetchQueries: [{
@@ -59,7 +59,7 @@ export default compose(
     })
   }),
   graphql(query, {
-    props: ({data}) => ({
+    props: ({ data }) => ({
       loading: data.loading,
       accessCampaigns: (
         (

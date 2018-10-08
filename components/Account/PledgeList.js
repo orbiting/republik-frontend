@@ -20,7 +20,7 @@ import {
 
 class PledgeList extends Component {
   componentDidMount () {
-    const {pledges} = this.props
+    const { pledges } = this.props
     pledges.forEach(pledge => {
       pledge.options.forEach(option => {
         track([
@@ -100,8 +100,8 @@ class PledgeList extends Component {
           </AccountItem>
         )
       })}
-      <div style={{marginTop: 30}}>
-        <Link route='pledge' params={{package: 'ABO_GIVE'}}>
+      <div style={{ marginTop: 30 }}>
+        <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
           <a {...linkRule}>
             {t('account/pledges/ABO_GIVE/promo')}
           </a>
@@ -114,7 +114,7 @@ class PledgeList extends Component {
 export default compose(
   withT,
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       return {
         loading: data.loading,
         error: data.error,

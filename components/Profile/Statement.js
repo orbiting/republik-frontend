@@ -53,7 +53,7 @@ class Statement extends Component {
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
-        this.setState({isMobile})
+        this.setState({ isMobile })
       }
     }
   }
@@ -77,7 +77,7 @@ class Statement extends Component {
     return (
       <span
         {...css(styles.quote)}
-        style={{fontSize}}
+        style={{ fontSize }}
       >
         {isEditing
           ? <FieldSet

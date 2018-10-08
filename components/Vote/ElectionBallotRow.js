@@ -124,7 +124,7 @@ class ElectionBallotRow extends Component {
       expanded: props.expanded || false
     }
     this.toggleExpanded = () => {
-      this.setState(({expanded}) => ({
+      this.setState(({ expanded }) => ({
         expanded: !expanded
       }))
     }
@@ -188,7 +188,7 @@ class ElectionBallotRow extends Component {
               <div {...styles.details}>
                 <div {...styles.profile}>
                   <div>
-                    <div style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} {...styles.portrait} />
+                    <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
                     <div>
                       {/* <div> */}
                       {/* <A href={`/~${d.id}`}>Profil</A> */}
@@ -214,7 +214,7 @@ class ElectionBallotRow extends Component {
           }
         </div>
         { maxVotes > 0 && onChange &&
-          <div style={{width: 18}}>
+          <div style={{ width: 18 }}>
             <SelectionComponent
               disabled={maxVotes > 1 && !selected && disabled}
               checked={selected}

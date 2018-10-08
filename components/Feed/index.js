@@ -108,9 +108,9 @@ class Feed extends Component {
           const { loadMore, hasMore } = this.props
           const { infiniteScroll } = this.state
           if (infiniteScroll && hasMore) {
-            this.setState({loadingMore: true})
+            this.setState({ loadingMore: true })
             await loadMore()
-            this.setState({loadingMore: false})
+            this.setState({ loadingMore: false })
           }
         }
       }
@@ -187,7 +187,7 @@ class Feed extends Component {
                 )}
                 <div ref={this.setContainerRef}>
                   {nodes &&
-                  groupByDate.entries(nodes).map(({key, values}, i, all) =>
+                  groupByDate.entries(nodes).map(({ key, values }, i, all) =>
                     <StickySection
                       key={i}
                       hasSpaceAfter={i < all.length - 1}

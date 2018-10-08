@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 
-const {H3} = Interaction
+const { H3 } = Interaction
 
 const POLL_STATES = {
   START: 'START',
@@ -64,7 +64,6 @@ const styles = {
 const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
 
 class Voting extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
@@ -75,18 +74,18 @@ class Voting extends React.Component {
     this.reset = (e) => {
       e.preventDefault()
       this.setState(
-        {selectedValue: null},
+        { selectedValue: null },
         this.transition(POLL_STATES.START)
       )
     }
 
     this.transition = (nextState, callback) => {
-      this.setState({pollState: nextState}, callback && callback())
+      this.setState({ pollState: nextState }, callback && callback())
     }
 
     this.renderActions = () => {
-      const {onFinish} = this.props
-      const {pollState} = this.state
+      const { onFinish } = this.props
+      const { pollState } = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>Zurücksetzen</A>
 
@@ -132,7 +131,6 @@ class Voting extends React.Component {
           )
       }
     }
-
   }
 
   render () {

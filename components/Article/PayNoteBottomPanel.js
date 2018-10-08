@@ -117,7 +117,7 @@ class BottomPanel extends Component {
             <Close size={32} fill={negativeColors.lightText} />
           </button>
         </div>
-        <Center style={{padding: 0}}>
+        <Center style={{ padding: 0 }}>
           <div {...styles.textContainer}>
             {children}
           </div>

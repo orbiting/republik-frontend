@@ -26,7 +26,7 @@ const LINKS = [
   {
     key: 'feuilleton',
     route: 'front',
-    params: {slug: 'feuilleton'}
+    params: { slug: 'feuilleton' }
   },
   {
     key: 'feed',
@@ -49,7 +49,7 @@ const isActiveRoute = (active, route, params = {}) => (
 export const getNavBarStateFromRouter = router => {
   const active = matchPath(router.asPath)
 
-  const links = LINKS.map(({key, route, params}) => ({
+  const links = LINKS.map(({ key, route, params }) => ({
     key,
     route,
     params,

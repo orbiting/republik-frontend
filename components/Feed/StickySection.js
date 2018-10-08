@@ -73,7 +73,7 @@ class StickySection extends Component {
         const nextSticky = (y > offset) && // scroll pos is below top of section
           (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
         if (sticky !== nextSticky) {
-          this.setState({sticky: nextSticky})
+          this.setState({ sticky: nextSticky })
         }
       }
     }

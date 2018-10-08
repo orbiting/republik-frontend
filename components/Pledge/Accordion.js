@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ascending } from 'd3-array'
-import {css, merge} from 'glamor'
+import { css, merge } from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
@@ -165,9 +165,9 @@ class Accordion extends Component {
     }
   }
   render () {
-    const {loading, error} = this.props
+    const { loading, error } = this.props
     if (loading || error) {
-      return <Loader loading={loading} error={error} style={{minHeight: 400}} />
+      return <Loader loading={loading} error={error} style={{ minHeight: 400 }} />
     }
 
     const {
@@ -176,7 +176,7 @@ class Accordion extends Component {
 
     const {
       t,
-      crowdfunding: {packages},
+      crowdfunding: { packages },
       crowdfundingName,
       children
     } = this.props
@@ -184,13 +184,13 @@ class Accordion extends Component {
     const links = [
       {
         route: 'pledge',
-        params: {package: 'ABO', userPrice: 1},
+        params: { package: 'ABO', userPrice: 1 },
         text: t('package/ABO/userPrice/teaser')
       }
     ]
 
     return (
-      <div style={{marginTop: 20}}>
+      <div style={{ marginTop: 20 }}>
         {
           [...packages]
             .sort((a, b) => ascending(OFFER_SORT[a.name], OFFER_SORT[b.name]))

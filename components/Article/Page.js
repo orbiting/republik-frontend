@@ -297,11 +297,13 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onPdfClick={(
-          hasPdf && countImages(article.content) > 0 &&
-          this.togglePdf
-        )}
-        pdfUrl={hasPdf && getPdfUrl(meta)}
+        onPdfClick={hasPdf && countImages(article.content) > 0
+          ? this.togglePdf
+          : undefined
+        }
+        pdfUrl={hasPdf
+          ? getPdfUrl(meta)
+          : undefined}
         inNativeApp={inNativeApp}
       />
     )

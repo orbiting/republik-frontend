@@ -568,7 +568,7 @@ export const withCount = graphql(countQuery, {
   options: {
     pollInterval: DISCUSSION_POLL_INTERVAL_MS
   },
-  props: ({ ownProps: { discussionId, shouldUpdate }, data: { discussion, subscribeToMore } }) => ({
+  props: ({ ownProps: { discussionId, discussionPage }, data: { discussion, subscribeToMore } }) => ({
     count: discussion && discussion.comments && discussion.comments.totalCount,
     subscribe: () => {
       // fall back to polling for now
@@ -585,7 +585,7 @@ export const withCount = graphql(countQuery, {
       //   updateQuery: (previousResult, { subscriptionData }) => {
       //     const { node: comment, mutation } = subscriptionData.data.comment
 
-      //     debug('count:updateQuery', mutation, comment, {shouldUpdate})
+      //     debug('count:updateQuery', mutation, comment, {discussionPage})
       //     if (mutation !== 'CREATED') {
       //       return previousResult
       //     }

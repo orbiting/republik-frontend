@@ -86,7 +86,11 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{ marginLeft: 7 }} />
+      <DiscussionIconLink
+        discussionId={discussionId}
+        discussionPage={discussionPage}
+        path={discussionPath}
+        style={{ marginLeft: 7 }} />
     }
   </div>
 )

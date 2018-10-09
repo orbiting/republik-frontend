@@ -6,7 +6,6 @@ import { css, merge } from 'glamor'
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import withT from '../../lib/withT'
-import { intersperse } from '../../lib/utils/helpers'
 
 import {
   Interaction, RawHtml, colors,
@@ -53,16 +52,9 @@ const styles = {
     }
   }),
   answer: css({
-    paddingBottom: 10,
-    marginBottom: 40
-  }),
-  answerP: css({
-    margin: '20px 0 20px 0',
-    ':first-child': {
-      marginTop: 0
-    },
-    ':last-child': {
-      marginBottom: 0
+    '& > p': {
+      paddingBottom: 10,
+      margin: '20px 0 40px 0'
     }
   }),
   active: css({
@@ -138,14 +130,10 @@ class FaqList extends Component {
                       </P>
                       {active && (
                         <div {...styles.answer}>
-                          {(faq.answer || '').split('\n\n').map((p, i) => (
-                            <P {...styles.answerP} key={`p${i}`}>
-                              {intersperse(
-                                p.split('\n'),
-                                (d, i) => <br key={i} />
-                              )}
-                            </P>
-                          ))}
+                          <RawHtml
+                            type={P}
+                            key={`answer${i}`}
+                            dangerouslySetInnerHTML={{ __html: faq.answer }} />
                         </div>
                       )}
                     </div>

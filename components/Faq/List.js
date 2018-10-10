@@ -6,7 +6,6 @@ import { css, merge } from 'glamor'
 import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import withT from '../../lib/withT'
-import { intersperse } from '../../lib/utils/helpers'
 
 import {
   Interaction, RawHtml, colors,
@@ -54,16 +53,7 @@ const styles = {
   }),
   answer: css({
     paddingBottom: 10,
-    marginBottom: 40
-  }),
-  answerP: css({
-    margin: '20px 0 20px 0',
-    ':first-child': {
-      marginTop: 0
-    },
-    ':last-child': {
-      marginBottom: 0
-    }
+    margin: '20px 0 40px 0'
   }),
   active: css({
     fontFamily: fontFamilies.sansSerifMedium,
@@ -73,6 +63,10 @@ const styles = {
 
 export const H2 = ({ children }) => (
   <Interaction.H2 {...styles.title}>{children}</Interaction.H2>
+)
+
+const AnswerP = (args) => (
+  <P {...args} {...styles.answer} />
 )
 
 const slug = string => string
@@ -137,16 +131,12 @@ class FaqList extends Component {
                         </a>
                       </P>
                       {active && (
-                        <div {...styles.answer}>
-                          {(faq.answer || '').split('\n\n').map((p, i) => (
-                            <P {...styles.answerP} key={`p${i}`}>
-                              {intersperse(
-                                p.split('\n'),
-                                (d, i) => <br key={i} />
-                              )}
-                            </P>
-                          ))}
-                        </div>
+                        <RawHtml
+                          type={AnswerP}
+                          key={`answer${i}`}
+                          dangerouslySetInnerHTML={{
+                            __html: faq.answer.split('\n').join('<br />')
+                          }} />
                       )}
                     </div>
                   )

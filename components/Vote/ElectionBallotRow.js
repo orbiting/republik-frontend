@@ -28,7 +28,9 @@ const styles = {
     padding: 5,
     background: colors.secondaryBg,
     marginTop: 8,
-    marginBottom: 8
+    marginBottom: 8,
+    // marginLeft: -26,
+    marginRight: -20
   }),
   summary: css({
     width: '100%',
@@ -239,7 +241,7 @@ class ElectionBallotRow extends Component {
           }
         </div>
         { maxVotes > 0 && onChange &&
-        <div style={{width: 18, marginRight: 5}}>
+        <div style={{width: 18, paddingTop: 2, marginRight: 5}}>
           <SelectionComponent
             black
             disabled={maxVotes > 1 && !selected && disabled}

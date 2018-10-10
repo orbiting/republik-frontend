@@ -52,10 +52,8 @@ const styles = {
     }
   }),
   answer: css({
-    '& > p': {
-      paddingBottom: 10,
-      margin: '20px 0 40px 0'
-    }
+    paddingBottom: 10,
+    margin: '20px 0 40px 0'
   }),
   active: css({
     fontFamily: fontFamilies.sansSerifMedium,
@@ -65,6 +63,10 @@ const styles = {
 
 export const H2 = ({ children }) => (
   <Interaction.H2 {...styles.title}>{children}</Interaction.H2>
+)
+
+const AnswerP = (args) => (
+  <P {...args} {...styles.answer} />
 )
 
 const slug = string => string
@@ -129,12 +131,12 @@ class FaqList extends Component {
                         </a>
                       </P>
                       {active && (
-                        <div {...styles.answer}>
-                          <RawHtml
-                            type={P}
-                            key={`answer${i}`}
-                            dangerouslySetInnerHTML={{ __html: faq.answer }} />
-                        </div>
+                        <RawHtml
+                          type={AnswerP}
+                          key={`answer${i}`}
+                          dangerouslySetInnerHTML={{
+                            __html: faq.answer.split('\n').join('<br />')
+                          }} />
                       )}
                     </div>
                   )

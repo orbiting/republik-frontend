@@ -15,7 +15,7 @@ const styles = {
   row: css({
     position: 'relative',
     width: '100%',
-    marginRight: 20
+    marginRight: 0
   }),
   statement: css({
     [mediaQueries.onlyS]: {
@@ -25,6 +25,10 @@ const styles = {
     ...fontStyles.serifTitle26
   }),
   summaryWrapper: css({
+    padding: 5,
+    background: colors.secondaryBg,
+    marginTop: 8,
+    marginBottom: 8
   }),
   summary: css({
     width: '100%',
@@ -65,7 +69,6 @@ const styles = {
     [mediaQueries.onlyS]: {
       width: '100%',
       lineHeight: 1.4,
-      marginTop: 5,
       display: 'block'
     }
   }),
@@ -80,7 +83,8 @@ const styles = {
   }),
   details: css({
     width: '100%',
-    margin: '15px 0'
+    marginTop: 10,
+    marginBottom: 5
   }),
   portrait: css({
     display: 'block',
@@ -110,15 +114,16 @@ const styles = {
   wrapper: css({
     width: '100%',
     display: 'flex',
-    padding: 5
+    padding: 0
 
   }),
   wrapperSelected: css({
-    background: colors.secondaryBg
   }),
   icon: css({
-    marginTop: -3,
-    padding: 2,
+    marginTop: 0,
+    width: 26,
+    marginLeft: -6,
+    padding: 0,
     [mediaQueries.onlyS]: {
       marginTop: 0
     }

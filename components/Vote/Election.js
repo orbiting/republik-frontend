@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { A, Button, colors, fontFamilies, Interaction, mediaQueries } from '@project-r/styleguide'
+import { A, Button, colors, fontFamilies, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
@@ -9,8 +9,11 @@ import StarsIcon from 'react-icons/lib/md/stars'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
+import { timeFormat } from '../../lib/utils/format'
 
 const {P} = Interaction
+
+const messageDateFormat = timeFormat('%e. %B %Y')
 
 const ELECTION_STATES = {
   START: 'START',
@@ -91,7 +94,7 @@ class Election extends Component {
     this.state = {
       vote: [],
       display: [],
-      electionState: ELECTION_STATES.DIRTY
+      electionState: ELECTION_STATES.START
     }
 
     this.transition = (nextState, callback) => {
@@ -137,7 +140,7 @@ class Election extends Component {
               >
                 {vt('vote/election/labelVote')}
               </Button>
-              {resetLink}
+              <div {...styles.link}>{vt('vote/election/help')}</div>
             </Fragment>
           )
         case ELECTION_STATES.DIRTY:
@@ -217,9 +220,11 @@ class Election extends Component {
       return acc
     }, [[], []])
 
+    const showHeader = recommended.length > 0 || election.numSeats > 1
+
     return (
       <div {...styles.wrapper}>
-        <div {...styles.header}>
+        <div {...(showHeader && styles.header)}>
           {election.numSeats > 1 &&
           <div {...styles.info}>
             {inProgress &&
@@ -231,16 +236,17 @@ class Election extends Component {
             </P>
             }
             {recommended.length > 0 &&
-            <span><StarsIcon size={18} color={colors.lightText}/>{' '}{vt('vote/election/legendStar')}<br/></span>
+            <span><StarsIcon size={18} color={colors.lightText} />{' '}{vt('vote/election/legendStar')}<br /></span>
             }
             {mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon color={colors.lightText}/>{' '}{vt('vote/election/legendHeart')}</span>
+            <span><FavoriteIcon color={colors.lightText} />{' '}{vt('vote/election/legendHeart')}</span>
             }
           </div>
           }
           {recommended.length > 0 && inProgress &&
           <Button
             primary
+            style={{...fontStyles.sansSerifRegular18}}
             onClick={() => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY

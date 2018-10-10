@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-05T11:26:06.652Z",
+  "updated": "2018-10-10T14:05:10.426Z",
   "title": "live",
   "data": [
     {
@@ -207,6 +207,10 @@
       "value": "Formular zurücksetzen"
     },
     {
+      "key": "vote/election/help",
+      "value": "Sie können auch leer einlegen"
+    },
+    {
       "key": "vote/voting/labelVote",
       "value": "Abstimmen"
     },
@@ -221,6 +225,10 @@
     {
       "key": "vote/voting/labelReset",
       "value": "Zurücksetzen"
+    },
+    {
+      "key": "vote/voting/help",
+      "value": "Sie können auch leer einlegen"
     },
     {
       "key": "common/moreInfo",

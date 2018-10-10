@@ -67,7 +67,7 @@ const styles = {
   })
 }
 
-const messageDateFormat = timeFormat(' am %e. %B %Y um %H:%M ')
+const messageDateFormat = timeFormat('%e. %B %Y')
 
 class Voting extends React.Component {
   constructor (props) {
@@ -118,7 +118,7 @@ class Voting extends React.Component {
               >
                 {vt('vote/voting/labelVote')}
               </Button>
-              <div {...styles.link}>Leer einlegen ist auch möglich.</div>
+              <div {...styles.link}>{vt('vote/voting/help')}</div>
             </Fragment>
           )
         case POLL_STATES.DIRTY:
@@ -166,7 +166,7 @@ class Voting extends React.Component {
           {pollState === POLL_STATES.DONE &&
           <div {...styles.thankyou}>
             <P>
-              {vt('vote/voting/thankyou')}
+              {vt('vote/voting/thankyou', {submissionDate: messageDateFormat(Date.now())})}
             </P>
           </div>
           }

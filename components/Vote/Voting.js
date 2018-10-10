@@ -4,6 +4,8 @@ import { css } from 'glamor'
 import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import voteT from './voteT'
+import gql from 'graphql-tag'
+import { compose, graphql } from 'react-apollo'
 
 const {H3, P} = Interaction
 
@@ -102,6 +104,15 @@ class Voting extends React.Component {
       }
     }
 
+    this.submitVotingBallot = async () => {
+      const {submitVotingBallot} = this.props
+      const {selectedValue} = this.state
+      await submitVotingBallot(selectedValue)
+
+      this.transition(POLL_STATES.DONE)
+
+    }
+
     this.renderActions = () => {
       const {onFinish, vt} = this.props
       const {pollState} = this.state
@@ -138,9 +149,7 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={() =>
-                  this.transition(POLL_STATES.DONE, onFinish)
-                }
+                onClick={() => this.submitVotingBallot()}
               >
                 {vt('vote/voting/labelConfirm')}
               </Button>
@@ -156,12 +165,12 @@ class Voting extends React.Component {
   }
 
   render () {
-    const {options, proposition, vt} = this.props
+    const {vt, data: {voting}} = this.props
     const {pollState, selectedValue} = this.state
     const {P} = Interaction
     return (
       <div {...styles.card}>
-        <H3>{proposition}</H3>
+        <H3>{voting.description}</H3>
         <div style={{position: 'relative'}}>
           {pollState === POLL_STATES.DONE &&
           <div {...styles.thankyou}>
@@ -171,17 +180,17 @@ class Voting extends React.Component {
           </div>
           }
           <div {...styles.cardBody}>
-            {options.map(({value, label}) => (
-              <Fragment key={value}>
+            {voting.options.map(({id, label}) => (
+              <Fragment key={id}>
                 <Radio
-                  value={value}
+                  value={id}
                   disabled={
                     pollState === POLL_STATES.DONE
                   }
-                  checked={value === selectedValue}
+                  checked={id === selectedValue}
                   onChange={() =>
                     this.setState(
-                      {selectedValue: value},
+                      {selectedValue: id},
                       this.transition(POLL_STATES.DIRTY)
                     )
                   }
@@ -205,19 +214,71 @@ class Voting extends React.Component {
 }
 
 Voting.propTypes = {
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ),
-  proposition: PropTypes.string,
-  onFinish: PropTypes.func
+  slug: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    voting: PropTypes.shape({
+      description: PropTypes.string,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          label: PropTypes.string,
+        })
+      ),
+    }),
+  }),
 }
 
 Voting.defaultProps = {
-  options: [],
-  onFinish: () => {}
+  data: {
+    voting: {
+      options: []
+    }
+  }
 }
 
-export default voteT(Voting)
+const submitVotingBallotMutation = gql`
+  mutation submitVotingBallot($optionId: ID!) {
+    submitVotingBallot(optionId: $optionId) {
+      userHasSubmitted
+      userSubmitDate    
+    }
+  }
+`
+
+const query = gql`
+  query getVoting($slug: String!) {
+    voting(slug: $slug) {
+      id
+      description
+      slug
+      userSubmitDate
+      userHasSubmitted
+      options {
+        id
+        label
+      }
+    }
+  }
+`
+
+export default compose(
+  voteT,
+  graphql(submitVotingBallotMutation, {
+    props: ({mutate}) => ({
+      submitVotingBallot: optionId => {
+        return mutate({
+          variables: {
+            optionId
+          }
+        })
+      }
+    })
+  }),
+  graphql(query, {
+    options: ({slug}) => ({
+      variables: {
+        slug
+      }
+    })
+  })
+)(Voting)

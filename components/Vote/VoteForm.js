@@ -59,8 +59,7 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/jahresrechnung/more')} />
           </Collapsible>
           <Voting
-            proposition='Wollen Sie die Jahresrechnung 2017/18 annehmen?'
-            options={options}
+            slug='gen18accounts'
           />
         </Section>
 
@@ -72,8 +71,7 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/revisionsbericht/more')} />
           </Collapsible>
           <Voting
-            proposition='Wollen Sie den Revisionsbericht 2017/18 annehmen?'
-            options={options}
+            slug='gen18revision'
           />
         </Section>
 
@@ -85,8 +83,7 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/budget/more')} />
           </Collapsible>
           <Voting
-            proposition='Wollen Sie das Budget 2018/19 annehmen?'
-            options={options}
+            slug='gen18budget'
           />
         </Section>
 

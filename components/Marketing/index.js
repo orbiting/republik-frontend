@@ -207,7 +207,7 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
               { count: countFormat(membershipStats.count) }
             )}
           </Interaction.H2>
-          <ListWithQuery singleRow first={6} onSelect={(id) => {
+          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
             Router.push(`/community?id=${id}`).then(() => {
               window.scrollTo(0, 0)
               return false

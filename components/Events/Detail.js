@@ -6,7 +6,7 @@ import { intersperse } from '../../lib/utils/helpers'
 import withT from '../../lib/withT'
 
 import {
-  Interaction, A, colors,
+  Interaction, A, RawHtml, colors,
   fontFamilies, mediaQueries
 } from '@project-r/styleguide'
 
@@ -91,12 +91,12 @@ const Event = withT(({
       <div {...styles.block}>
         <Label>{t('events/labels/description')}</Label>
         <H1 {...styles.title}>{title}</H1>
-        <P>
-          {intersperse(
-            (description || '').split('\n'),
-            (d, i) => <br key={i} />
-          )}
-        </P>
+        <RawHtml
+          type={P}
+          key={slug}
+          dangerouslySetInnerHTML={{
+            __html: description.split('\n').join('<br />')
+          }} />
         {!!link && (
           <P>
             <A href={link} target='_blank' rel='noopener'>

@@ -34,6 +34,33 @@ const SIZES = [
 ]
 
 const PADDING = 5
+
+const getItemStyles = (singleRow, minColumns = 1) => {
+  const sizes = [
+    { minWidth: 0, columns: minColumns },
+    ...SIZES.filter(({ minWidth, columns }) => columns > minColumns)
+  ]
+  return css({
+    cursor: 'pointer',
+    display: 'block',
+    lineHeight: 0,
+    padding: PADDING,
+    position: 'relative',
+    flexShrink: singleRow ? 0 : undefined,
+    ...sizes.reduce((styles, size) => {
+      const width = `${100 / size.columns}%`
+      if (size.minWidth) {
+        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
+          width
+        }
+      } else {
+        styles.width = width
+      }
+      return styles
+    }, {})
+  })
+}
+
 const styles = {
   grid: css({
     margin: '0 -5px',
@@ -45,30 +72,8 @@ const styles = {
     flexWrap: 'nowrap',
     overflow: 'hidden'
   }),
-  item: css({
-    cursor: 'pointer',
-    display: 'block',
-    ...(SIZES.reduce(
-      (styles, size) => {
-        const width = `${100 / size.columns}%`
-        if (size.minWidth) {
-          styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-            width
-          }
-        } else {
-          styles.width = width
-        }
-        return styles
-      },
-      {}
-    )),
-    lineHeight: 0,
-    padding: PADDING,
-    position: 'relative'
-  }),
-  singleRowItem: css({
-    flexShrink: 0
-  }),
+  item: getItemStyles(false),
+  singleRowItem: getItemStyles(true),
   aspect: css({
     width: '100%',
     paddingBottom: '100%',
@@ -117,10 +122,12 @@ const styles = {
   })
 }
 
-export const Item = ({ image, name, video, isActive, onClick, imageRenderer, singleRow, style }) => {
-  const itemStyles = !singleRow
-    ? styles.item
-    : merge(styles.item, styles.singleRowItem)
+export const Item = ({ image, name, video, isActive, onClick, imageRenderer, singleRow, minColumns, style }) => {
+  const itemStyles = minColumns
+    ? getItemStyles(singleRow, minColumns)
+    : singleRow
+      ? styles.singleRowItem
+      : styles.item
   return (
     <div {...itemStyles} style={style} onClick={onClick}>
       <div {...styles.aspect}>
@@ -218,7 +225,7 @@ class List extends Component {
       loading, error, statements, t,
       onSelect, focus, isPage,
       search, hasMore, totalCount,
-      singleRow
+      singleRow, minColumns
     } = this.props
     const { columns, open } = this.state
 
@@ -262,6 +269,7 @@ class List extends Component {
               name={name}
               isActive={isActive}
               singleRow={singleRow}
+              minColumns={minColumns}
               onClick={() => {
                 if (onSelect(id) === false) {
                   return

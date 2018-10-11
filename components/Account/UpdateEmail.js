@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 
@@ -8,25 +8,23 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
 
-import {
-  Loader, InlineSpinner, Button, A, Field, Interaction
-} from '@project-r/styleguide'
+import { A, Button, Field, InlineSpinner, Interaction, Loader } from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
 
-const CancelLink = ({children, onClick, ...props}) =>
+const CancelLink = ({ children, onClick, ...props }) =>
   <A
     onClick={(e) => {
       e.preventDefault()
       onClick(e)
     }}
     {...props}
-    style={{display: 'block', marginTop: 5, cursor: 'pointer'}}>
+    style={{ display: 'block', marginTop: 5, cursor: 'pointer' }}>
     {children}
   </A>
 
 const InlineLoader = ({ children }) => (
-  <div style={{textAlign: 'center'}}>
+  <div style={{ textAlign: 'center' }}>
     <InlineSpinner />
     <br />
     {children}
@@ -67,7 +65,7 @@ class UpdateEmail extends Component {
       return
     }
 
-    this.setState(() => ({updating: true}))
+    this.setState(() => ({ updating: true }))
     this.props.updateEmail({
       email: value,
       userId: me.id
@@ -169,8 +167,8 @@ class UpdateEmail extends Component {
               ? this.renderForm()
               : this.renderEditButton()
         )
-        return <div style={{marginBottom: 80}}>
-          <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>
+        return <div style={{ marginBottom: 80 }}>
+          <H2 style={{ marginBottom: 8 }}>{t('Account/Update/email/label')}</H2>
           <P>
             {me.email || ''}
           </P>
@@ -198,7 +196,7 @@ const mutation = gql`
 
 export default compose(
   graphql(mutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       updateEmail: variables => {
         return mutate({
           variables,

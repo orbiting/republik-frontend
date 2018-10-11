@@ -58,7 +58,7 @@ class Revoke extends Component {
     }
 
     return (
-      <div style={{height: 25}}>
+      <div style={{ height: 25 }}>
         {isMutating
           ? <InlineSpinner size={25} />
           : <A href='#' onClick={this.onClickRevoke}>

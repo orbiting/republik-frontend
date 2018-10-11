@@ -1,14 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
-import {errorToString} from '../../lib/utils/errors'
-import {meQuery} from '../../lib/apollo/withMe'
+import { errorToString } from '../../lib/utils/errors'
+import { meQuery } from '../../lib/apollo/withMe'
 
-import {
-  A, InlineSpinner
-} from '@project-r/styleguide'
+import { A, InlineSpinner } from '@project-r/styleguide'
 
 class SignOut extends Component {
   constructor (props) {
@@ -18,8 +16,8 @@ class SignOut extends Component {
     }
   }
   render () {
-    const {t, Link = A} = this.props
-    const {loading, error} = this.state
+    const { t, Link = A } = this.props
+    const { loading, error } = this.state
 
     return (
       <span>
@@ -33,7 +31,7 @@ class SignOut extends Component {
               loading: true
             }))
             this.props.signOut()
-              .then(({data}) => {
+              .then(({ data }) => {
                 if (data) {
                   this.setState(() => ({
                     loading: false
@@ -75,7 +73,7 @@ mutation signOut {
 
 export const withSignOut = compose(
   graphql(signOutMutation, {
-    props: ({mutate, ownProps}) => ({
+    props: ({ mutate, ownProps }) => ({
       signOut: () => mutate({
         refetchQueries: [{
           query: meQuery

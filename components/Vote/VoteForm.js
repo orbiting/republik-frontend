@@ -22,11 +22,6 @@ const styles = {
   })
 }
 
-const options = [
-  {value: 'yes', label: 'Ja'},
-  {value: 'no', label: 'Nein'}
-]
-
 class VoteForm extends Component {
   constructor (props) {
     super(props)
@@ -35,15 +30,15 @@ class VoteForm extends Component {
     }
 
     this.onVoteChange = (field) => (value) => {
-      this.setState({[field]: value})
+      this.setState({ [field]: value })
     }
   }
 
   render () {
-    const {vt} = this.props
+    const { vt } = this.props
 
     return (
-      <div style={{marginTop: 0}}>
+      <div style={{ marginTop: 0 }}>
         <Section>
           <Title>{vt('vote/title')}</Title>
           <Body dangerousHTML={vt('vote/intro/body')} />

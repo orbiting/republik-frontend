@@ -35,9 +35,9 @@ const Icon = ({
       onClick={onClick}
       style={style}
     >
-      <Icon fill={fill} size={size} style={{position: 'absolute', top: '-4px'}} />
+      <Icon fill={fill} size={size} style={{ position: 'absolute', top: '-4px' }} />
       {children && (
-        <span {...styles.text} style={{paddingLeft: `${size + 5}px`}}>
+        <span {...styles.text} style={{ paddingLeft: `${size + 5}px` }}>
           {children}
         </span>
       )}

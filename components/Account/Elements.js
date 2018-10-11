@@ -4,13 +4,7 @@ import { css, merge } from 'glamor'
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
 
-import {
-  colors,
-  Interaction,
-  Label,
-  linkRule,
-  fontStyles
-} from '@project-r/styleguide'
+import { colors, fontStyles, Interaction, Label, linkRule } from '@project-r/styleguide'
 
 const styles = {
   item: css({
@@ -29,12 +23,12 @@ const styles = {
   })
 }
 
-const {H3} = Interaction
+const { H3 } = Interaction
 
 const hourFormat = timeFormat('%H:%M')
 const dayFormat = timeFormat('%d. %B %Y')
 
-export const Item = withT(({t, highlighted, title, createdAt, children}) => (
+export const Item = withT(({ t, highlighted, title, createdAt, children }) => (
   <div {...styles.item} {...(highlighted && styles.itemHighlighted)}>
     <H3>
       {title}
@@ -49,5 +43,5 @@ export const Item = withT(({t, highlighted, title, createdAt, children}) => (
   </div>
 ))
 
-export const A = ({children, ...props}) => <a {...props} {...styles.a}>{children}</a>
-export const P = ({children, ...props}) => <p {...props} {...styles.p}>{children}</p>
+export const A = ({ children, ...props }) => <a {...props} {...styles.a}>{children}</a>
+export const P = ({ children, ...props }) => <p {...props} {...styles.p}>{children}</p>

@@ -4,7 +4,8 @@ import Head from 'next/head'
 import isEmail from 'validator/lib/isEmail'
 
 import { compose } from 'react-apollo'
-import withData from '../lib/apollo/withData'
+import { withRouter } from 'next/router'
+
 import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withInNativeApp from '../lib/withInNativeApp'
@@ -105,9 +106,9 @@ const styles = {
 
 const hasCurtain = !!CURTAIN_MESSAGE
 
-const {H1, P} = Interaction
+const { H1, P } = Interaction
 
-const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
+const Page = ({ router: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -180,7 +181,7 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
   const logo = isProjectR ? (
     <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
       <img
-        style={{height: 50}}
+        style={{ height: 50 }}
         src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`} />
     </a>
   ) : (
@@ -241,6 +242,11 @@ const Page = withT(({ url: { query, query: { context, token, tokenType, noAutoAu
       </NarrowContainer>
     </div>
   )
-})
+}
 
-export default compose(withData, withMe, withInNativeApp)(Page)
+export default compose(
+  withMe,
+  withT,
+  withRouter,
+  withInNativeApp
+)(Page)

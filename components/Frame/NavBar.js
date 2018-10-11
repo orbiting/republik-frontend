@@ -3,19 +3,13 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import { Link, Router, matchPath } from '../../lib/routes'
+import { Link, matchPath, Router } from '../../lib/routes'
 
 import { prefixHover } from '../../lib/utils/hover'
 
 import { colors, mediaQueries } from '@project-r/styleguide'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT,
-  NAVBAR_HEIGHT_MOBILE,
-  ZINDEX_NAVBAR
-} from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, NAVBAR_HEIGHT, NAVBAR_HEIGHT_MOBILE, ZINDEX_NAVBAR } from '../constants'
 
 const LINKS = [
   {
@@ -26,7 +20,7 @@ const LINKS = [
   {
     key: 'feuilleton',
     route: 'front',
-    params: {slug: 'feuilleton'}
+    params: { slug: 'feuilleton' }
   },
   {
     key: 'feed',
@@ -46,10 +40,10 @@ const isActiveRoute = (active, route, params = {}) => (
   )
 )
 
-export const getNavBarStateFromUrl = url => {
-  const active = matchPath(url.asPath)
+export const getNavBarStateFromRouter = router => {
+  const active = matchPath(router.asPath)
 
-  const links = LINKS.map(({key, route, params}) => ({
+  const links = LINKS.map(({ key, route, params }) => ({
     key,
     route,
     params,
@@ -157,8 +151,8 @@ const NavLink = ({ route, label, params, isActive, isFaded }) => {
   )
 }
 
-const NavBar = ({ url, t, fixed }) => {
-  const { links, hasActiveLink } = getNavBarStateFromUrl(url)
+const NavBar = ({ router, t, fixed }) => {
+  const { links, hasActiveLink } = getNavBarStateFromRouter(router)
 
   return (
     <Fragment>

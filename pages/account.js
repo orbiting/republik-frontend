@@ -1,26 +1,26 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Account from '../components/Account'
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import Merci from '../components/Pledge/Merci'
 
-const AccountPage = ({ url, t }) => {
+const AccountPage = ({ router, t }) => {
   const meta = {
     title: t('pages/account/title')
   }
-  const postPledge = url.query.id || url.query.claim
+  const postPledge = router.query.id || router.query.claim
   return (
-    <Frame url={url} meta={meta} raw>
+    <Frame meta={meta} raw>
       {postPledge
-        ? <Merci query={url.query} />
-        : <Account query={url.query} />}
+        ? <Merci query={router.query} />
+        : <Account query={router.query} />}
     </Frame>
   )
 }
 
 export default compose(
-  withData,
-  withT
+  withT,
+  withRouter
 )(AccountPage)

@@ -6,12 +6,10 @@ import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
 
-import { Item as AccountItem, P, A } from '../Elements'
+import { A, Item as AccountItem, P } from '../Elements'
 import FieldSet from '../../FieldSet'
 
-import {
-  Button, InlineSpinner, colors
-} from '@project-r/styleguide'
+import { Button, colors, InlineSpinner } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -50,7 +48,7 @@ class Manage extends Component {
         {membership.active && membership.renew && !isCancelling &&
           <A href='#cancel' onClick={(e) => {
             e.preventDefault()
-            this.setState({isCancelling: true})
+            this.setState({ isCancelling: true })
           }}>
             {t.first([
               `memberships/${membership.type.name}/manage/cancel/link`,
@@ -125,7 +123,7 @@ class Manage extends Component {
             ])}
           </A>}
         {!!remoteError &&
-          <P style={{color: colors.error, marginTop: 10}}>{remoteError}</P>}
+          <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
       </Fragment>
     )
   }
@@ -190,15 +188,15 @@ mutation reactivateMembership($id: ID!) {
 export default compose(
   withT,
   graphql(cancelMembership, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       cancel: (variables) =>
-        mutate({variables})
+        mutate({ variables })
     })
   }),
   graphql(reactivateMembership, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       reactivate: (variables) =>
-        mutate({variables})
+        mutate({ variables })
     })
   })
 )(Manage)

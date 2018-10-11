@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import ErrorMessage from '../ErrorMessage'
 import withT from '../../lib/withT'
-import {
-  InlineSpinner, Radio, Label, Loader
-} from '@project-r/styleguide'
+import { InlineSpinner, Label, Loader, Radio } from '@project-r/styleguide'
 import { SUPPORTED_TOKEN_TYPES } from '../constants'
 import { P } from './Elements'
 
@@ -57,7 +55,7 @@ class AuthSettings extends Component {
 
           return (
             <div {...styles.container}>
-              <P style={{marginBottom: 10}}>
+              <P style={{ marginBottom: 10 }}>
                 {t('account/authSettings/firstfactor/label')}{' '}
                 {mutating && (
                   <span {...styles.spinnerWrapper}>

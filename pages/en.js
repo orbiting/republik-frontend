@@ -1,15 +1,14 @@
-import React, {Component} from 'react'
-import {css} from 'glamor'
+import React, { Component } from 'react'
+import { css } from 'glamor'
 import Head from 'next/head'
-import Router from 'next/router'
-import {compose} from 'react-apollo'
+import { compose } from 'react-apollo'
+import Router, { withRouter } from 'next/router'
 
 import ActionBar from '../components/ActionBar'
-import PureFooter, {SPACE} from '../components/Frame/PureFooter'
+import PureFooter, { SPACE } from '../components/Frame/PureFooter'
 
 import track from '../lib/piwik'
 
-import withData from '../lib/apollo/withData'
 import withInNativeApp from '../lib/withInNativeApp'
 import BackIcon from '../components/Icons/Back'
 
@@ -29,7 +28,7 @@ import {
 } from '../lib/constants'
 import { Link } from '../lib/routes'
 
-const {H2, P: IP} = Interaction
+const { H2, P: IP } = Interaction
 
 const enVideo = {
   hls: 'https://player.vimeo.com/external/215798102.m3u8?s=b3730f7f6332985771865f3b85c13aeae93223b1',
@@ -43,7 +42,7 @@ const pRule = css({
   fontSize: 18
 })
 
-const P = ({children, ...props}) => (
+const P = ({ children, ...props }) => (
   <p {...props} {...pRule}>{children}</p>
 )
 
@@ -116,12 +115,12 @@ const styles = {
   })
 }
 
-const Highlight = ({children, ...props}) => <span {...props} {...styles.highlight}>{children}</span>
-const Strong = ({children}) => <span {...styles.strong}>{children}</span>
+const Highlight = ({ children, ...props }) => <span {...props} {...styles.highlight}>{children}</span>
+const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
 
 class EnPage extends Component {
   componentDidMount () {
-    const {url: {query, query: {st}}} = this.props
+    const { router: { query, query: { st } } } = this.props
     if (st) {
       const url = {
         pathname: '/en',
@@ -148,16 +147,16 @@ class EnPage extends Component {
         undefined, // (optional) Shipping amount
         false // (optional) Discount offered (set to false for unspecified parameter)
       ])
-      Router.replace(url, url, {shallow: true})
+      Router.replace(url, url, { shallow: true })
     }
   }
   render () {
-    const {url, inNativeApp} = this.props
+    const { router, inNativeApp } = this.props
     const meta = {
       title: 'We are Republik',
       description: '',
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/en.png`,
-      url: `${PUBLIC_BASE_URL}${url.pathname}`
+      url: `${PUBLIC_BASE_URL}${router.pathname}`
     }
     const share = {
       url: meta.url,
@@ -169,7 +168,7 @@ Manifesto for journalism by republik.ch:
 ${meta.url}
 `
     }
-    const message = url.query.m
+    const message = router.query.m
 
     return (
       <NarrowContainer>
@@ -187,7 +186,7 @@ ${meta.url}
         </Head>
         {inNativeApp && <Link route='index'>
           <a {...styles.back}>
-            <BackIcon size={25} style={{marginTop: -3}} fill='#000' />
+            <BackIcon size={25} style={{ marginTop: -3 }} fill='#000' />
             Magazine
           </a>
         </Link>}
@@ -216,7 +215,7 @@ ${meta.url}
             We are an open-source cooperative, and we share our knowledge, software and business insights with others who also want to create journalism projects that reinforce democracy.
           </EP>
 
-          <EP style={{marginBottom: SPACE * 2}}>
+          <EP style={{ marginBottom: SPACE * 2 }}>
             <A href='mailto:nadja.schnetzler@project-r.construction'>Get in touch with us!</A>
           </EP>
 
@@ -226,7 +225,7 @@ ${meta.url}
             <Highlight>Without journalism, no democracy.</Highlight><br />
             And without democracy, freedom disappears. If journalism dies, it is the end of an <Strong>open society,</Strong> of <Strong>freedom of expression,</Strong> of the right to <Strong>choose between competing arguments. Freedom of the press</Strong> was a battle cry of the <Strong>liberal revolution</Strong> — and it is the first victim of every dictatorship. Journalism was born out of <Strong>the Enlightenment.</Strong> Its purpose is to <Strong>criticize the powers</Strong> that be. That is why journalism is more than just a business to be run by corporate executives. Journalism is <Strong>responsible only to the public</Strong> — for in a democracy it is the same as in all of life: making <Strong>sound decisions</Strong> depends on getting <Strong>sound information.</Strong> Good journalism sends out teams to <Strong>explore reality.</Strong> The mission of journalists is to bring back the <Strong>facts and context</Strong> that citizens in a democracy need — and to report them as they are, <Strong>independently,</Strong> conscientiously and <Strong>fearing no one</Strong> but boredom. Journalism seeks <Strong>clarity,</Strong> waging a constant battle <Strong>against the primordial fear of the new.</Strong> Good journalism needs <Strong>passion,</Strong> skill and commitment. And it needs a thoughtful, curious and <Strong>fearless public.</Strong>
             {' '}
-            <Highlight style={{verticalAlign: 'top'}}>You!</Highlight>
+            <Highlight style={{ verticalAlign: 'top' }}>You!</Highlight>
           </div>
         </div>
 
@@ -234,11 +233,11 @@ ${meta.url}
           <Logo width={200} />
         </div>
 
-        <div style={{textAlign: 'center', marginBottom: SPACE}}>
+        <div style={{ textAlign: 'center', marginBottom: SPACE }}>
           <P>
             Share manifesto
           </P>
-          <P style={{marginBottom: SPACE / 2}}>
+          <P style={{ marginBottom: SPACE / 2 }}>
             <ActionBar fill='#000' {...share} shareOverlayTitle={'Share manifesto'} />
           </P>
           <P>
@@ -264,21 +263,21 @@ ${meta.url}
         </div>
         <VideoPlayer subtitles src={enVideo} />
         <div {...styles.column}>
-          <IP style={{marginBottom: 40}}>
+          <IP style={{ marginBottom: 40 }}>
             If you read German, you might want to consider becoming a member of the cooperative behind Republik and read our magazine for a whole year:
             {' '}
             <A href='/angebote'>Jetzt Mitglied werden</A>.
           </IP>
 
           <H2>Donate</H2>
-          <IP style={{marginBottom: 10}}>
+          <IP style={{ marginBottom: 10 }}>
             Donate to support the independent journalism of the future.
           </IP>
-          {!!PAYPAL_DONATE_LINK && <IP style={{margin: '10px 0'}}>
+          {!!PAYPAL_DONATE_LINK && <IP style={{ margin: '10px 0' }}>
             <A href={PAYPAL_DONATE_LINK}>Donate with PayPal</A>
           </IP>}
           <Label>Banking Account</Label><br />
-          <table style={{borderSpacing: '10px 5px', marginLeft: -10}}>
+          <table style={{ borderSpacing: '10px 5px', marginLeft: -10 }}>
             <tbody>
               <tr>
                 <td><Label>Name</Label></td>
@@ -308,16 +307,15 @@ ${meta.url}
           </table>
         </div>
 
-        <div style={{textAlign: 'center', marginBottom: SPACE}}>
-          <PureFooter en url={url} />
+        <div style={{ textAlign: 'center', marginBottom: SPACE }}>
+          <PureFooter en />
         </div>
-        <script dangerouslySetInnerHTML={{__html: `_paq.push(['trackPageView']);`}} />
       </NarrowContainer>
     )
   }
 }
 
 export default compose(
-  withData,
+  withRouter,
   withInNativeApp
 )(EnPage)

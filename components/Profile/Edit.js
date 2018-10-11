@@ -25,7 +25,7 @@ const styles = {
   })
 }
 
-const EditLink = ({children, onClick, ...props}) =>
+const EditLink = ({ children, onClick, ...props }) =>
   <a
     href='#edit'
     onClick={(e) => {
@@ -38,7 +38,7 @@ const EditLink = ({children, onClick, ...props}) =>
     {children}
   </a>
 
-const Edit = ({me, user, t, state, setState, startEditing, update}) => {
+const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
   const {
     isEditing
   } = state

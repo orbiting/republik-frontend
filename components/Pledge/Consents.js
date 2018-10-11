@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ascending } from 'd3-array'
-import {
-  Checkbox, RawHtml
-} from '@project-r/styleguide'
+import { Checkbox, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
@@ -20,7 +18,7 @@ export const getConsentsError = (t, required, accepted) => (
   !check(required, accepted) && t(`pledge/consents/error/${stringifyCombo(required)}`)
 )
 
-const Consents = withT(({t, accepted, onChange, required}) => (
+const Consents = withT(({ t, accepted, onChange, required }) => (
   <Checkbox
     checked={check(required, accepted)}
     onChange={(_, checked) => {

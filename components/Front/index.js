@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { InlineSpinner } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
@@ -63,7 +64,7 @@ const styles = {
 
 class Front extends Component {
   render () {
-    const { url, data, fetchMore, data: { front }, t, beforeNote } = this.props
+    const { data, fetchMore, data: { front }, t, beforeNote } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
@@ -73,14 +74,12 @@ class Front extends Component {
     return (
       <Frame
         raw
-        url={url}
         meta={meta}
       >
         {beforeNote}
         <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
           if (!front) {
             return <StatusError
-              url={url}
               statusCode={404}
               serverContext={this.props.serverContext} />
           }
@@ -111,14 +110,15 @@ class Front extends Component {
 
 export default compose(
   withT,
+  withRouter,
   graphql(getDocument, {
     options: props => ({
       variables: {
-        path: props.path || props.url.asPath.split('?')[0],
+        path: props.path || props.router.asPath.split('?')[0],
         first: 15
       }
     }),
-    props: ({data, ownProps: {serverContext}}) => {
+    props: ({ data, ownProps: { serverContext } }) => {
       if (serverContext && !data.error && !data.loading && !data.front) {
         serverContext.res.statusCode = 503
       }

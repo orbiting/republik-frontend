@@ -59,7 +59,7 @@ const Detail = ({
       <H3 {...styles.detailTitle}>
         {hasPublicProfile ? (
           <Link route='profile' params={{ slug: username || id }}>
-            <a {...linkRule} style={{color: 'inherit'}}>
+            <a {...linkRule} style={{ color: 'inherit' }}>
               {name}
             </a>
           </Link>

@@ -60,7 +60,7 @@ class SortButton extends Component {
     return (
       <button
         {...styles.button}
-        style={{color, visibility}}
+        style={{ color, visibility }}
         onClick={() => {
           if (disabled) return
           const toggledDirection = !selected
@@ -127,7 +127,7 @@ class Sort extends Component {
     ]
     return (
       <div {...styles.container}>
-        {buttons.map(({sortKey, label, direction, selected, disabled}) => (
+        {buttons.map(({ sortKey, label, direction, selected, disabled }) => (
           <SortButton
             t={t}
             disabled={disabled}

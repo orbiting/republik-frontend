@@ -1,31 +1,31 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import {
-  Loader,
-  Field,
-  Dropdown,
   Checkbox,
+  Dropdown,
+  Field,
+  Interaction,
+  Label,
+  Loader,
   Overlay,
+  OverlayBody,
   OverlayToolbar,
   OverlayToolbarClose,
-  OverlayToolbarConfirm,
-  OverlayBody,
-  Interaction,
-  Label
+  OverlayToolbarConfirm
 } from '@project-r/styleguide'
 import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
 
-export const DiscussionPreferences = ({t, data: {loading, error, me, discussion}, onClose, setDiscussionPreferences}) => (
+export const DiscussionPreferences = ({ t, data: { loading, error, me, discussion }, onClose, setDiscussionPreferences }) => (
   <Overlay onClose={onClose}>
     <Loader
       loading={loading}
       error={error}
       message={t('components/DiscussionPreferences/loading')}
       render={() => {
-        const {credentials} = me
-        const {rules, userPreference} = discussion
+        const { credentials } = me
+        const { rules, userPreference } = discussion
 
         return (
           <DiscussionPreferencesEditor
@@ -61,10 +61,10 @@ class DiscussionPreferencesEditor extends PureComponent {
 
     this.state = (() => {
       if (!props.userPreference) {
-        return {anonymity: false, credential: null}
+        return { anonymity: false, credential: null }
       }
 
-      const {anonymity, credential} = props.userPreference
+      const { anonymity, credential } = props.userPreference
       return {
         anonymity,
         credential: credential ? credential.description : null
@@ -72,12 +72,12 @@ class DiscussionPreferencesEditor extends PureComponent {
     })()
 
     this.onChangeAnonymity = (_, anonymity) => {
-      this.setState({anonymity})
+      this.setState({ anonymity })
     }
 
     this.onSave = () => {
-      const {onClose, setDiscussionPreferences} = this.props
-      const {anonymity, credential} = this.state
+      const { onClose, setDiscussionPreferences } = this.props
+      const { anonymity, credential } = this.state
 
       setDiscussionPreferences(anonymity, credential).then(
         () => {
@@ -92,7 +92,7 @@ class DiscussionPreferencesEditor extends PureComponent {
   }
 
   render () {
-    const {t, credentials, rules, onClose} = this.props
+    const { t, credentials, rules, onClose } = this.props
 
     const anonymity = (() => {
       switch (rules.anonymity) {
@@ -147,14 +147,14 @@ class DiscussionPreferencesEditor extends PureComponent {
             {t('components/DiscussionPreferences/explain')}
           </Interaction.P>
           <br />
-          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && <div style={{marginBottom: 12}}>
+          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && <div style={{ marginBottom: 12 }}>
             <Checkbox
               disabled={anonymity.disabled}
               checked={anonymity.value}
               onChange={this.onChangeAnonymity}>
               {t('components/DiscussionPreferences/commentAnonymously')}
             </Checkbox>
-            <br style={{clear: 'both'}} />
+            <br style={{ clear: 'both' }} />
             <Label>{t('components/DiscussionPreferences/commentAnonymously/disclaimer')}</Label>
           </div>}
 
@@ -163,14 +163,14 @@ class DiscussionPreferencesEditor extends PureComponent {
             items={descriptionOptions}
             value={this.state.credential}
             onChange={(item) => {
-              this.setState({credential: item.value})
+              this.setState({ credential: item.value })
             }}
           />
 
           <Field
             label={t('components/DiscussionPreferences/newCredentialLabel')}
             value={this.state.credential}
-            onChange={(_, value) => { this.setState({credential: value}) }}
+            onChange={(_, value) => { this.setState({ credential: value }) }}
           />
           {isListedCredential && this.state.anonymity && (
             <Label>{t('components/DiscussionPreferences/credentialAnonymityWarning')}</Label>

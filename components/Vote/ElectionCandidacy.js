@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { withRouter } from 'next/router'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
@@ -20,7 +21,7 @@ import { COUNTRIES } from '../Account/AddressForm'
 import { ELECTION_COOP_MEMBERS_SLUG } from '../../lib/constants'
 import UsernameField from '../Profile/UsernameField'
 
-const {H2, P} = Interaction
+const { H2, P } = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
@@ -144,7 +145,7 @@ class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isEditing: props.url.query.hasOwnProperty('edit') || false,
+      isEditing: props.router.query.hasOwnProperty('edit') || false,
       showErrors: true,
       errors: {},
       dirty: {},
@@ -152,14 +153,14 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.startEditing = () => {
-      this.setState({isEditing: true})
+      this.setState({ isEditing: true })
     }
 
     this.save = () => {
-      const {updateCandidacy, me} = this.props
+      const { updateCandidacy, me } = this.props
       const { values } = this.state
 
-      this.setState({updating: true})
+      this.setState({ updating: true })
 
       return updateCandidacy({
         slug: ELECTION_COOP_MEMBERS_SLUG,
@@ -197,7 +198,7 @@ class ElectionCandidacy extends React.Component {
     }
 
     this.cancel = async () => {
-      const {cancelCandidacy} = this.props
+      const { cancelCandidacy } = this.props
       cancelCandidacy(ELECTION_COOP_MEMBERS_SLUG).then(() => {
         this.setState(() => ({
           isEditing: false,
@@ -217,9 +218,9 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  deriveStateFromProps ({data}) {
-    const {statement, birthday, disclosures, credentials, address, portrait} = data.me || {}
-    const {line1, line2, city, postalCode, country = DEFAULT_COUNTRY} = address || {}
+  deriveStateFromProps ({ data }) {
+    const { statement, birthday, disclosures, credentials, address, portrait } = data.me || {}
+    const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } = address || {}
     const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
@@ -245,9 +246,9 @@ class ElectionCandidacy extends React.Component {
 
   render () {
     const { values, errors, error, dirty, isEditing, updating } = this.state
-    const {url, t, vt} = this.props
+    const { t, vt } = this.props
     const { data } = this.props
-    const {me = {}} = data
+    const { me = {} } = data
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
@@ -263,8 +264,8 @@ class ElectionCandidacy extends React.Component {
 
     const isValid = !Object.keys(combinedErrors).some(k => Boolean(combinedErrors[k]))
 
-    const {name} = me
-    const {statement, birthday, disclosures, credential, city, portrait, portraitPreview} = values
+    const { name } = me
+    const { statement, birthday, disclosures, credential, city, portrait, portraitPreview } = values
     const parsedBirthday = birthdayParse(birthday)
 
     const candidacyPreview = me && {
@@ -284,7 +285,7 @@ class ElectionCandidacy extends React.Component {
     }
 
     return (
-      <Frame url={url} meta={meta}>
+      <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() =>
           <NarrowContainer>
             <Title>
@@ -295,7 +296,7 @@ class ElectionCandidacy extends React.Component {
             </Title>
             <div {...styles.previewWrapper}>
               <H2>{vt('info/candidacy/previewTitle')}</H2>
-              <div style={{margin: `15px 0`}}>
+              <div style={{ margin: `15px 0` }}>
                 <P>{vt('info/candidacy/previewLabel')}</P>
               </div>
               <ElectionBallotRow
@@ -323,7 +324,7 @@ class ElectionCandidacy extends React.Component {
                     </Section>
                     <Section>
                       <H2>{vt('info/candidacy/candidacyTitle')}</H2>
-                      <div {...styles.vSpace} style={{width: 104, height: 104, background: 'black'}}>
+                      <div {...styles.vSpace} style={{ width: 104, height: 104, background: 'black' }}>
                         <Portrait
                           user={me}
                           isEditing
@@ -530,9 +531,10 @@ const query = gql`
 export default compose(
   withT,
   voteT,
+  withRouter,
   graphql(query),
   graphql(publishCredential, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       publishCredential: description => {
         return mutate({
           variables: {
@@ -543,7 +545,7 @@ export default compose(
     })
   }),
   graphql(updateCandidacy, {
-    props: ({mutate, ownProps: {publishCredential, data: {me}}}) => ({
+    props: ({ mutate, ownProps: { publishCredential, data: { me } } }) => ({
       updateCandidacy: async (variables) => {
         const credential = (me.credentials || []).find(c => c.isListed) || {}
         if (variables.credential !== credential.description) {
@@ -556,13 +558,13 @@ export default compose(
     })
   }),
   graphql(cancelCandidacy, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       cancelCandidacy: slug => {
         return mutate({
           variables: {
             slug
           },
-          refetchQueries: [{query}]
+          refetchQueries: [{ query }]
         })
       }
     })

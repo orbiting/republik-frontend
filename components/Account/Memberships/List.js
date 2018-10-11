@@ -3,9 +3,7 @@ import { compose, graphql } from 'react-apollo'
 
 import withT from '../../../lib/withT'
 
-import {
-  Interaction, Loader
-} from '@project-r/styleguide'
+import { Interaction, Loader } from '@project-r/styleguide'
 
 import query from '../belongingsQuery'
 
@@ -45,7 +43,7 @@ class MembershipsList extends Component {
 
 export default compose(
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       return {
         loading: data.loading,
         error: data.error,

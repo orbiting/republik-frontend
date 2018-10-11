@@ -48,7 +48,7 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
         dirty={dirty}
         onChange={onChange}
         fields={fields(t)} />
-      {!!privateCreds.length && <Label style={{display: 'block', marginBottom: 5}}>
+      {!!privateCreds.length && <Label style={{ display: 'block', marginBottom: 5 }}>
         {t('profile/credentials/private')}
       </Label>}
       {privateCreds.concat(publicOnes).filter(c => c.description !== values.credential).map(c => (

@@ -66,7 +66,7 @@ class Header extends Component {
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
-        this.setState({isMobile})
+        this.setState({ isMobile })
       }
     }
     this.handleScroll = () => {
@@ -109,7 +109,7 @@ class Header extends Component {
               {...styles.headline}
               {...styles.secondary}
               style={t(y(scroll, i * space), z(scroll, i * space))}>
-              <span style={{opacity: o(scroll, i * space)}}>
+              <span style={{ opacity: o(scroll, i * space) }}>
                 {statusCode}
               </span>
             </div>

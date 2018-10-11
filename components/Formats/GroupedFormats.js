@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
 import { nest } from 'd3-collection'
@@ -7,13 +7,7 @@ import gql from 'graphql-tag'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
 
-import {
-  Loader,
-  FormatTag,
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { colors, fontStyles, FormatTag, Loader, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   h2: css({
@@ -92,7 +86,7 @@ class GroupedFormats extends Component {
 
           return (
             <Fragment>
-              {sections.map(({key, values}) => (
+              {sections.map(({ key, values }) => (
                 <section {...styles.section} key={key}>
                   <h2 {...styles.h2}>
                     {t(`formats/title/${key}`)}

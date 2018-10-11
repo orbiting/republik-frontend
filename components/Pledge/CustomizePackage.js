@@ -14,7 +14,7 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import { Router } from '../../lib/routes'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const absolutMinPrice = 100
 const calculateMinPrice = (pkg, state, userPrice) => {
@@ -27,7 +27,7 @@ const calculateMinPrice = (pkg, state, userPrice) => {
   ), absolutMinPrice)
 }
 
-const getPrice = ({values, pkg, userPrice}) => {
+const getPrice = ({ values, pkg, userPrice }) => {
   if (values.price !== undefined) {
     return values.price
   } else {
@@ -159,7 +159,7 @@ class CustomizePackage extends Component {
       const minPrice = calculateMinPrice(pkg, values, userPrice)
       const error = priceError(price, minPrice, t)
 
-      this.setState(() => ({customPrice: true}))
+      this.setState(() => ({ customPrice: true }))
       onChange(FieldSet.utils.fieldsState({
         field: 'price',
         value: price,
@@ -170,7 +170,7 @@ class CustomizePackage extends Component {
 
     return (
       <div>
-        <div style={{marginTop: 20, marginBottom: 10}}>
+        <div style={{ marginTop: 20, marginBottom: 10 }}>
           <span {...styles.packageTitle}>{t(`package/${pkg.name}/title`)}</span>
           {' '}
           <A href='/angebote' onClick={event => {
@@ -180,12 +180,12 @@ class CustomizePackage extends Component {
                 price: undefined
               }
             })
-            Router.replaceRoute('pledge', {}, {shallow: true})
+            Router.replaceRoute('pledge', {}, { shallow: true })
           }}>
             {t('package/customize/changePackage')}
           </A>
         </div>
-        <P style={{marginBottom: 10}}>
+        <P style={{ marginBottom: 10 }}>
           {hasNotebook && hasTotebag && (
             <img {...styles.packageImage}
               src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`} />
@@ -247,7 +247,7 @@ class CustomizePackage extends Component {
                   (!this.state.customPrice || minPrice > values.price)
                 ) {
                   fields.values.price = price = minPrice
-                  this.setState(() => ({customPrice: false}))
+                  this.setState(() => ({ customPrice: false }))
                 }
                 fields.errors.price = priceError(
                   price,
@@ -262,7 +262,7 @@ class CustomizePackage extends Component {
                   width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
                     ? '100%' : '50%'
                 }}>
-                  <div style={{marginBottom: 20}}>
+                  <div style={{ marginBottom: 20 }}>
                     <Field
                       ref={i === 0 ? this.focusRefSetter : undefined}
                       label={label}
@@ -286,12 +286,12 @@ class CustomizePackage extends Component {
           <P>
             {t('package/customize/userPrice/beforeReason')}
           </P>
-          <div style={{marginBottom: 20}}>
+          <div style={{ marginBottom: 20 }}>
             <Field label={t('package/customize/userPrice/reason/label')}
               ref={this.focusRefSetter}
               error={dirty.reason && errors.reason}
               value={values.reason}
-              renderInput={({ref, ...inputProps}) => (
+              renderInput={({ ref, ...inputProps }) => (
                 <AutosizeInput
                   {...inputProps}
                   {...fieldSetStyles.autoSize}
@@ -311,7 +311,7 @@ class CustomizePackage extends Component {
             {t('package/customize/userPrice/beforePrice')}
           </P>
         </div>)}
-        <div style={{marginBottom: 20}}>
+        <div style={{ marginBottom: 20 }}>
           {fixedPrice
             ? <Interaction.P>
               <Label>{t('package/customize/price/label')}</Label><br />

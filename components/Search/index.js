@@ -148,7 +148,7 @@ class Search extends Component {
         sort.direction = sortDirection
       }
       const serializedSort = serializeSort(sort)
-      this.setState({sort, serializedSort})
+      this.setState({ sort, serializedSort })
       this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
@@ -199,7 +199,7 @@ class Search extends Component {
 
     this.updateUrl = (filters, sort) => {
       const searchQuery = encodeURIComponent(this.state.searchQuery)
-      this.pushUrl({q: searchQuery, filters, sort})
+      this.pushUrl({ q: searchQuery, filters, sort })
     }
 
     this.clearUrl = () => {
@@ -209,14 +209,12 @@ class Search extends Component {
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
-        this.setState({isMobile})
+        this.setState({ isMobile })
       }
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const { query } = nextProps.url
-
+  componentWillReceiveProps ({ query }) {
     let filters = DEFAULT_FILTERS
     let newState = {}
     const decodedQuery = !!query.q && decodeURIComponent(query.q)

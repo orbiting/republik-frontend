@@ -1,12 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 
-import {
-  imageSizeInfo,
-  imageResizeUrl
-} from 'mdast-react-render/lib/utils'
+import { imageResizeUrl, imageSizeInfo } from 'mdast-react-render/lib/utils'
 
-export default ({data, data: {image}}) => {
+export default ({ data, data: { image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
 
   const facebookImage = data.facebookImage || image

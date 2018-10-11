@@ -1,15 +1,15 @@
-import React, {PureComponent} from 'react'
+import React, { PureComponent } from 'react'
 import { compose } from 'react-apollo'
 import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
-import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
+import { submitComment, withDiscussionDisplayAuthor, withDiscussionPreferences } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
+import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule, Loader } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 
@@ -76,10 +76,10 @@ class DiscussionCommentComposer extends PureComponent {
       t, discussionId, discussionDisplayAuthor: displayAuthor, me,
       discussionClosed,
       discussionUserCanComment,
-      data: {loading, error, discussion},
+      data: { loading, error, discussion },
       now
     } = this.props
-    const {state, showPreferences} = this.state
+    const { state, showPreferences } = this.state
 
     const timeAheadFromNow = (dateString) => {
       return timeahead(t, (now - Date.parse(dateString)) / 1000)
@@ -95,7 +95,7 @@ class DiscussionCommentComposer extends PureComponent {
           } else {
             if (!discussionUserCanComment) {
               return (
-                <Box style={{padding: '15px 20px'}}>
+                <Box style={{ padding: '15px 20px' }}>
                   <Interaction.P>
                     {t.elements('submitComment/notEligible', {
                       pledgeLink: (
@@ -114,9 +114,9 @@ class DiscussionCommentComposer extends PureComponent {
             const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
             if (waitUntilDate && waitUntilDate > new Date()) {
               return (
-                <Box style={{padding: '15px 20px'}}>
+                <Box style={{ padding: '15px 20px' }}>
                   <Interaction.P>
-                    {t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})}
+                    {t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })}
                   </Interaction.P>
                 </Box>
               )

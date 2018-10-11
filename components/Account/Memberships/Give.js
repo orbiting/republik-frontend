@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 
 import withT from '../../../lib/withT'
 
-import {
-  RawHtml
-} from '@project-r/styleguide'
+import { RawHtml } from '@project-r/styleguide'
 
 import List, { Item } from '../../List'
 
@@ -16,8 +14,8 @@ class MembershipGiver extends Component {
     this.state = {}
   }
   render () {
-    const {memberships, t, isGivePackage} = this.props
-    const {showGiveable, showGiven} = this.state
+    const { memberships, t, isGivePackage } = this.props
+    const { showGiveable, showGiven } = this.state
 
     const giveable = memberships.filter(m => m.voucherCode)
     const given = memberships.filter(m => m.claimerName)
@@ -34,13 +32,13 @@ class MembershipGiver extends Component {
         {!isGivePackage && hasGiveable && (
           <A href='#' onClick={(e) => {
             e.preventDefault()
-            this.setState(() => ({showGiveable: !showGiveable}))
+            this.setState(() => ({ showGiveable: !showGiveable }))
           }}>
             {t('memberships/giver/giveable/show')}<br />
           </A>
         )}
         {hasGiveable && (isGivePackage || showGiveable) && (
-          <div style={{margin: '10px 0'}}>
+          <div style={{ margin: '10px 0' }}>
             <RawHtml type={P} dangerouslySetInnerHTML={{
               __html: !isGivePackage
                 ? t('memberships/give/description/before/notGive')
@@ -64,7 +62,7 @@ class MembershipGiver extends Component {
         {hasGiven && (
           <A href='#' onClick={(e) => {
             e.preventDefault()
-            this.setState(() => ({showGiven: !showGiven}))
+            this.setState(() => ({ showGiven: !showGiven }))
           }}>
             {isGivePackage
               ? t.pluralize('memberships/giver/given', {
@@ -75,7 +73,7 @@ class MembershipGiver extends Component {
           </A>
         )}
         {hasGiven && showGiven && (
-          <div style={{margin: '10px 0'}}>
+          <div style={{ margin: '10px 0' }}>
             <RawHtml type={P} dangerouslySetInnerHTML={{
               __html: t('memberships/giver/description')
             }} />

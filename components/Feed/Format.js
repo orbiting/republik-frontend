@@ -1,8 +1,8 @@
 import React from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Center, TeaserFeed, Interaction, Loader } from '@project-r/styleguide'
+import { Center, Interaction, Loader, TeaserFeed } from '@project-r/styleguide'
 import Link from '../Link/Href'
 
 import withT from '../../lib/withT'
@@ -40,11 +40,11 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
       return (
         <Center>
           <Interaction.H2>
-            {t.pluralize('format/feed/title', {count: documents.totalCount})}
+            {t.pluralize('format/feed/title', { count: documents.totalCount })}
           </Interaction.H2>
           <br /><br />
           <WithoutMembership render={() => (
-            <Box style={{padding: '15px 20px'}}>
+            <Box style={{ padding: '15px 20px' }}>
               <Interaction.P>
                 {t('format/feed/payNote')}
               </Interaction.P>

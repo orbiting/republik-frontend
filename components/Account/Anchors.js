@@ -26,7 +26,7 @@ const styles = {
   })
 }
 
-const AnchorLink = ({children, id}) => (
+const AnchorLink = ({ children, id }) => (
   <a
     {...linkRule}
     href={'#' + id}

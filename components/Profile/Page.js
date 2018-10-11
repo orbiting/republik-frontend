@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -236,7 +237,7 @@ class Profile extends Component {
     this.measure = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
-        this.setState({isMobile})
+        this.setState({ isMobile })
       }
       if (this.inner) {
         const rect = this.inner.getBoundingClientRect()
@@ -298,7 +299,6 @@ class Profile extends Component {
 
   render () {
     const {
-      url,
       t,
       me,
       data: { loading, error, user }
@@ -314,7 +314,7 @@ class Profile extends Component {
     }
 
     return (
-      <Frame url={url} meta={metaData} raw>
+      <Frame meta={metaData} raw>
         <Loader
           loading={loading}
           error={error}
@@ -322,7 +322,6 @@ class Profile extends Component {
             if (!user) {
               return (
                 <StatusError
-                  url={url}
                   statusCode={404}
                   serverContext={this.props.serverContext}>
                   <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
@@ -390,8 +389,8 @@ class Profile extends Component {
                       {!!user.isListed &&
                         <span {...styles.headInfoShare}>
                           <ActionBar
-                            title={t('profile/share/title', {name: user.name})}
-                            emailSubject={t('profile/share/emailSubject', {name: user.name})}
+                            title={t('profile/share/title', { name: user.name })}
+                            emailSubject={t('profile/share/emailSubject', { name: user.name })}
                             url={`${PUBLIC_BASE_URL}/~${user.username}`}
                             download={metaData.image}
                             shareOverlayTitle={t('profile/share/overlayTitle')}
@@ -403,7 +402,7 @@ class Profile extends Component {
                           sequenceNumber: user.sequenceNumber
                         })}
                       </span>}
-                      <div style={{clear: 'both'}} />
+                      <div style={{ clear: 'both' }} />
                     </div>
                   </div>
                   <div {...styles.container}>
@@ -453,7 +452,7 @@ class Profile extends Component {
                         values={values}
                         errors={errors}
                         dirty={dirty} />
-                      {isMobile && <div style={{marginBottom: 40}}>
+                      {isMobile && <div style={{ marginBottom: 40 }}>
                         <Edit
                           user={user}
                           state={this.state}
@@ -461,19 +460,19 @@ class Profile extends Component {
                           startEditing={this.startEditing} />
                       </div>}
                       {user.candidacies.map((c, i) =>
-                        <div key={i} style={{marginBottom: 60}}>
-                          <Interaction.H3 style={{marginBottom: 0}}>
+                        <div key={i} style={{ marginBottom: 60 }}>
+                          <Interaction.H3 style={{ marginBottom: 0 }}>
                             {`${c.election.description}`}
                           </Interaction.H3>
-                          <div style={{marginTop: 10}}>
+                          <div style={{ marginTop: 10 }}>
                             <ElectionBallotRow
-                              candidate={{...c, user}}
+                              candidate={{ ...c, user }}
                               expanded
                               maxVotes={0}
                             />
                           </div>
-                          <div style={{marginTop: 10}}>
-                            <Link route='voteSubmit' params={{edit: true}} passHref>
+                          <div style={{ marginTop: 10 }}>
+                            <Link route='voteSubmit' params={{ edit: true }} passHref>
                               <A>Kandidatur bearbeiten</A>
                             </Link>
                           </div>
@@ -482,7 +481,7 @@ class Profile extends Component {
                       }
                       <div>
                         {user.documents && !!user.documents.totalCount &&
-                          <Interaction.H3 style={{marginBottom: 20}}>
+                          <Interaction.H3 style={{ marginBottom: 20 }}>
                             {t.pluralize('profile/documents/title', {
                               count: user.documents.totalCount
                             })}
@@ -499,7 +498,7 @@ class Profile extends Component {
                       </div>
                       <Comments comments={user.comments} />
                     </div>
-                    <div style={{clear: 'both'}} />
+                    <div style={{ clear: 'both' }} />
                   </div>
                 </MainContainer>
               </Fragment>
@@ -514,14 +513,15 @@ class Profile extends Component {
 export default compose(
   withT,
   withMe,
+  withRouter,
   graphql(getPublicUser, {
-    options: ({url}) => ({
+    options: ({ router }) => ({
       variables: {
-        slug: url.query.slug
+        slug: router.query.slug
       }
     }),
-    props: ({data, ownProps: {serverContext, url, me}}) => {
-      const slug = url.query.slug
+    props: ({ data, ownProps: { serverContext, router, me } }) => {
+      const slug = router.query.slug
       let redirect
       if (slug === 'me') {
         redirect = me
@@ -540,7 +540,7 @@ export default compose(
         } else {
           Router.replaceRoute(
             'profile',
-            {slug: targetSlug}
+            { slug: targetSlug }
           )
         }
       }

@@ -16,7 +16,7 @@ const Grants = ({ campaign, revokeAccess, t }) => {
 
   return (
     <Fragment>
-      {<H3 style={{marginTop: 30}}>
+      {<H3 style={{ marginTop: 30 }}>
         {t.pluralize(
           'Account/Access/Campaigns/Grants/title',
           { count: campaign.slots.used }

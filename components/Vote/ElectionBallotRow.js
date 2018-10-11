@@ -88,8 +88,8 @@ const styles = {
     marginTop: 10,
     marginBottom: 5,
     [mediaQueries.lUp]: {
-      marginTop: 5,
-    },
+      marginTop: 5
+    }
   }),
   portrait: css({
     display: 'block',
@@ -147,14 +147,14 @@ class ElectionBallotRow extends Component {
       expanded: props.expanded || false
     }
     this.toggleExpanded = () => {
-      this.setState(({expanded}) => ({
+      this.setState(({ expanded }) => ({
         expanded: !expanded
       }))
     }
   }
 
   render () {
-    const {candidate, maxVotes, selected, onChange, disabled, interactive, mandatory} = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -203,7 +203,7 @@ class ElectionBallotRow extends Component {
               summary
             }
             <div>
-              <div style={{width: 36, height: 18}}>
+              <div style={{ width: 36, height: 18 }}>
                 {candidate.recommendation &&
                 <StarsIcon size={18} color={colors.lightText} />
                 }
@@ -221,14 +221,14 @@ class ElectionBallotRow extends Component {
               <div {...styles.details}>
                 <div {...styles.profile}>
                   <div>
-                    <div style={{backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})`}} {...styles.portrait} />
+                    <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
                     <div>
                       <div>
                         <A href={`/~${d.id}`}>Profil</A>
                       </div>
                       {candidate.comment && candidate.comment.id &&
                       <div>
-                        <Link route='voteDiscuss' params={{focus: candidate.comment.id}} passHref>
+                        <Link route='voteDiscuss' params={{ focus: candidate.comment.id }} passHref>
                           <A href={`/~${d.id}`}>Debatte</A>
                         </Link>
                       </div>

@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
-import {css} from 'glamor'
+import { css } from 'glamor'
 import Play from './Icons/Play'
 
-import {scrollIt} from '../lib/utils/scroll'
+import { scrollIt } from '../lib/utils/scroll'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE
@@ -112,7 +112,7 @@ class VideoCover extends Component {
     }
   }
   render () {
-    const {src, cursor, limited, backgroundAutoPlay, muted, loop} = this.props
+    const { src, cursor, limited, backgroundAutoPlay, muted, loop } = this.props
     const {
       playing, ended,
       videoHeight, windowHeight,
@@ -127,7 +127,7 @@ class VideoCover extends Component {
     return (
       <div {...styles.wrapper} style={heightStyle}>
         <div {...styles.cover}
-          style={{opacity: cover ? 1 : 0}}
+          style={{ opacity: cover ? 1 : 0 }}
           onClick={() => {
             this.setState(() => {
               this.player.toggle()
@@ -176,7 +176,7 @@ class VideoCover extends Component {
               videoHeight &&
               !(this.player && this.player.scrubbing)
             ) {
-              this.setState(() => ({ended: true}), () => {
+              this.setState(() => ({ ended: true }), () => {
                 const topFixed = mobile
                   ? HEADER_HEIGHT_MOBILE
                   : HEADER_HEIGHT
@@ -196,7 +196,7 @@ class VideoCover extends Component {
               })
             }
             if (progress > 0.999 && !cover) {
-              this.setState(() => ({cover: true}))
+              this.setState(() => ({ cover: true }))
             }
           }}
           style={heightStyle} />

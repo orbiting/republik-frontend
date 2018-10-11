@@ -1,5 +1,5 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import {
   colors,
@@ -27,13 +27,13 @@ const styles = {
   })
 }
 
-export const Item = ({children}) => (
+export const Item = ({ children }) => (
   <li {...styles.item}>
     {children}
   </li>
 )
 
-const List = ({children, ...props}) => (
+const List = ({ children, ...props }) => (
   <ul {...props} {...styles.list}>
     {children}
   </ul>
@@ -41,7 +41,7 @@ const List = ({children, ...props}) => (
 
 List.Item = Item
 
-export const Highlight = ({children}) => (
+export const Highlight = ({ children }) => (
   <span {...styles.highlight}>{children}</span>
 )
 

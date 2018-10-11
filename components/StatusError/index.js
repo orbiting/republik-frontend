@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import { Router } from '../../lib/routes'
@@ -24,13 +25,13 @@ query getRedirect($path: String!) {
 }
 `
 
-const StatusError = ({statusCode, t, loading, children}) => (
+const StatusError = ({ statusCode, t, loading, children }) => (
   <Loader loading={loading} render={() => (
     <Fragment>
-      <Meta data={{title: statusCode}} />
+      <Meta data={{ title: statusCode }} />
       <ErrorFrame statusCode={statusCode}>
         {children || <Interaction.P>{t(`error/${statusCode}`, undefined, null)}</Interaction.P>}
-        <div style={{height: 60}} />
+        <div style={{ height: 60 }} />
         <Me />
       </ErrorFrame>
     </Fragment>
@@ -45,21 +46,22 @@ const redirectionPathWithQuery = [
 
 export default compose(
   withT,
+  withRouter,
   graphql(getRedirect, {
-    skip: props => props.statusCode !== 404 || !props.url.asPath,
-    options: ({url: {asPath}}) => ({
+    skip: props => props.statusCode !== 404 || !props.router.asPath,
+    options: ({ router: { asPath } }) => ({
       variables: {
         path: asPath.split('?')[0]
       }
     }),
-    props: ({data, ownProps: {serverContext, statusCode, url, me}}) => {
+    props: ({ data, ownProps: { serverContext, statusCode, router, me } }) => {
       const redirection =
         !data.error &&
         !data.loading &&
         data.redirection
 
       if (redirection) {
-        const [pathname, query] = url.asPath.split('?')
+        const [pathname, query] = router.asPath.split('?')
         const withQuery = query && redirectionPathWithQuery.indexOf(pathname) !== -1
         const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
         if (serverContext) {

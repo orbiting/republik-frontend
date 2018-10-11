@@ -67,7 +67,7 @@ query discussionDisplayAuthor($discussionId: ID!) {
   }
 }
 `, {
-  props: ({ownProps: {t}, data: {discussion}}) => {
+  props: ({ ownProps: { t }, data: { discussion } }) => {
     debug('discussionDisplayAuthor', discussion)
     if (!discussion) {
       return {}
@@ -163,9 +163,9 @@ mutation discussionUpvoteComment($commentId: ID!) {
 }
 ${fragments.comment}
 `, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     upvoteComment: (commentId) => {
-      return mutate({variables: {commentId}}).catch(toRejectedString)
+      return mutate({ variables: { commentId } }).catch(toRejectedString)
     }
   })
 })
@@ -178,9 +178,9 @@ mutation discussionDownvoteComment($commentId: ID!) {
 }
 ${fragments.comment}
 `, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     downvoteComment: (commentId) => {
-      return mutate({variables: {commentId}}).catch(toRejectedString)
+      return mutate({ variables: { commentId } }).catch(toRejectedString)
     }
   })
 })
@@ -195,9 +195,9 @@ mutation discussionUnpublishComment($commentId: ID!) {
 }
 ${fragments.comment}
 `, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     unpublishComment: (commentId) => {
-      return mutate({variables: {commentId}}).catch(toRejectedString)
+      return mutate({ variables: { commentId } }).catch(toRejectedString)
     }
   })
 })
@@ -209,7 +209,7 @@ const optimisticContent = text => ({
       {
         type: 'paragraph',
         children: [
-          {type: 'text', value: text}
+          { type: 'text', value: text }
         ]
       }
     ]
@@ -225,10 +225,10 @@ mutation discussionEditComment($commentId: ID!, $content: String!) {
 }
 ${fragments.comment}
 `, {
-  props: ({mutate}) => ({
+  props: ({ mutate }) => ({
     editComment: (comment, content) => {
       return mutate({
-        variables: {commentId: comment.id, content},
+        variables: { commentId: comment.id, content },
         optimisticResponse: {
           __typename: 'Mutation',
           submitComment: {
@@ -312,7 +312,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 }
 ${fragments.comment}
 `, {
-    props: ({ownProps: {t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor}, mutate}) => ({
+    props: ({ ownProps: { t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor }, mutate }) => ({
       submitComment: (parent, content) => {
         if (!discussionDisplayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
@@ -327,7 +327,7 @@ ${fragments.comment}
           : []
 
         return mutate({
-          variables: {discussionId, parentId, id, content},
+          variables: { discussionId, parentId, id, content },
           optimisticResponse: {
             __typename: 'Mutation',
             submitComment: {
@@ -345,7 +345,7 @@ ${fragments.comment}
               __typename: 'Comment'
             }
           },
-          update: (proxy, {data: {submitComment}}) => {
+          update: (proxy, { data: { submitComment } }) => {
             debug('submitComment', submitComment.id, submitComment)
             const variables = {
               discussionId,
@@ -484,7 +484,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
   }
 }
 `, {
-  props: ({ownProps: {discussionId}, mutate}) => ({
+  props: ({ ownProps: { discussionId }, mutate }) => ({
     setDiscussionPreferences: (anonymity, credential, notifications) => {
       return mutate({
         variables: {
@@ -495,10 +495,10 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
             notifications
           }
         },
-        update: (proxy, {data: {setDiscussionPreferences}}) => {
+        update: (proxy, { data: { setDiscussionPreferences } }) => {
           const immutableData = proxy.readQuery({
             query: discussionPreferencesQuery,
-            variables: {discussionId}
+            variables: { discussionId }
           })
 
           // clone() the data object so that we can mutate it in-place.
@@ -508,7 +508,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
 
           proxy.writeQuery({
             query: discussionPreferencesQuery,
-            variables: {discussionId},
+            variables: { discussionId },
             data
           })
         }
@@ -569,7 +569,7 @@ export const withCount = graphql(countQuery, {
   options: {
     pollInterval: DISCUSSION_POLL_INTERVAL_MS
   },
-  props: ({ ownProps: { discussionId, shouldUpdate }, data: { discussion, subscribeToMore } }) => ({
+  props: ({ ownProps: { discussionId, discussionPage }, data: { discussion, subscribeToMore } }) => ({
     count: discussion && discussion.comments && discussion.comments.totalCount,
     subscribe: () => {
       // fall back to polling for now
@@ -586,7 +586,7 @@ export const withCount = graphql(countQuery, {
       //   updateQuery: (previousResult, { subscriptionData }) => {
       //     const { node: comment, mutation } = subscriptionData.data.comment
 
-      //     debug('count:updateQuery', mutation, comment, {shouldUpdate})
+      //     debug('count:updateQuery', mutation, comment, {discussionPage})
       //     if (mutation !== 'CREATED') {
       //       return previousResult
       //     }

@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import { Loader } from '@project-r/styleguide'
 
@@ -8,14 +9,13 @@ import Frame from '../components/Frame'
 import Front from '../components/Front'
 import StatusError from '../components/StatusError'
 
-import withData from '../lib/apollo/withData'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
 
 const KNOWN_PATHS = ['/feuilleton']
 
-const isPathKnown = (url) => {
-  return KNOWN_PATHS.indexOf(url.asPath.split('?')[0]) !== -1
+const isPathKnown = (router) => {
+  return KNOWN_PATHS.indexOf(router.asPath.split('?')[0]) !== -1
 }
 
 class FrontPage extends Component {
@@ -28,9 +28,9 @@ class FrontPage extends Component {
   }
 
   redirectUser () {
-    const { url, isMember, inNativeIOSApp, serverContext } = this.props
+    const { router, isMember, inNativeIOSApp, serverContext } = this.props
 
-    if (isPathKnown(url) && !isMember && !inNativeIOSApp) {
+    if (isPathKnown(router) && !isMember && !inNativeIOSApp) {
       if (serverContext) {
         const indexPath = routes
           .find(r => r.name === 'index')
@@ -45,21 +45,21 @@ class FrontPage extends Component {
   }
 
   render () {
-    const { url, isMember, inNativeIOSApp, serverContext } = this.props
+    const { router, isMember, inNativeIOSApp, serverContext } = this.props
 
     if (isMember) {
       return <Front {...this.props} />
     }
 
-    if (isPathKnown(url)) {
+    if (isPathKnown(router)) {
       if (inNativeIOSApp) {
         return <UnauthorizedPage {...this.props} />
       }
 
       // ... render Loader while redirect action is pushed to Router
       return (
-        <Frame raw url={url}>
-          <Loader loading style={{minHeight: 'calc(100vh - 80px)'}} />
+        <Frame raw>
+          <Loader loading style={{ minHeight: 'calc(100vh - 80px)' }} />
         </Frame>
       )
     }
@@ -67,9 +67,8 @@ class FrontPage extends Component {
     // If path is neither known (nor is user a member), render a 404 Not Found
     // status page.
     return (
-      <Frame raw url={url}>
+      <Frame raw>
         <StatusError
-          url={url}
           statusCode={404}
           serverContext={serverContext} />
       </Frame>
@@ -78,7 +77,7 @@ class FrontPage extends Component {
 }
 
 export default compose(
-  withData,
   withMembership,
-  withInNativeApp
+  withInNativeApp,
+  withRouter
 )(FrontPage)

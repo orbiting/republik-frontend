@@ -34,14 +34,14 @@ class Collapsible extends React.Component {
     }
 
     this.toggleCollapsed = () => {
-      this.setState(({collapsed}) => ({
+      this.setState(({ collapsed }) => ({
         collapsed: !collapsed
       }))
     }
   }
 
   render () {
-    const {label, children, vt} = this.props
+    const { label, children, vt } = this.props
     const { collapsed } = this.state
 
     return (

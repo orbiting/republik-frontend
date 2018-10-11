@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { A, Interaction } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
@@ -10,7 +10,7 @@ import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import List, { Item } from '../List'
 
-const DiscussionIndex = ({t, data: {loading, error, discussions}}) => (
+const DiscussionIndex = ({ t, data: { loading, error, discussions } }) => (
   <Loader
     loading={loading}
     error={error}
@@ -19,7 +19,7 @@ const DiscussionIndex = ({t, data: {loading, error, discussions}}) => (
         <Interaction.H1>
           {t('discussion/pageTitle')}
         </Interaction.H1>
-        <Meta data={{title: t('discussion/pageTitle')}} />
+        <Meta data={{ title: t('discussion/pageTitle') }} />
         <List>
           {discussions.filter(d => d.title).map((d, i) => {
             const children = <A>{d.title || d.id}</A>
@@ -29,7 +29,7 @@ const DiscussionIndex = ({t, data: {loading, error, discussions}}) => (
                 {children}
               </HrefLink>
             } else {
-              link = <Link passHref route='discussion' params={{id: d.id}}>
+              link = <Link passHref route='discussion' params={{ id: d.id }}>
                 {children}
               </Link>
             }

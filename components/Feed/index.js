@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { nest } from 'd3-collection'
 import { timeFormat } from '../../lib/utils/format'
 import { css } from 'glamor'
@@ -13,14 +13,7 @@ import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 import withInNativeApp from '../../lib/withInNativeApp'
 
-import {
-  A,
-  Center,
-  Spinner,
-  TeaserFeed,
-  Interaction,
-  mediaQueries
-} from '@project-r/styleguide'
+import { A, Center, Interaction, mediaQueries, Spinner, TeaserFeed } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -108,9 +101,9 @@ class Feed extends Component {
           const { loadMore, hasMore } = this.props
           const { infiniteScroll } = this.state
           if (infiniteScroll && hasMore) {
-            this.setState({loadingMore: true})
+            this.setState({ loadingMore: true })
             await loadMore()
-            this.setState({loadingMore: false})
+            this.setState({ loadingMore: false })
           }
         }
       }
@@ -167,13 +160,13 @@ class Feed extends Component {
 
   render () {
     const { infiniteScroll, loadingMore } = this.state
-    const { data: { loading, error, documents, greeting }, hasMore, t, url, meta } = this.props
+    const { data: { loading, error, documents, greeting }, hasMore, t, meta } = this.props
     const nodes = documents
       ? [...documents.nodes].filter(node => node.meta.template !== 'format')
       : []
 
     return (
-      <Frame raw url={url} meta={meta}>
+      <Frame raw meta={meta}>
         <Loader
           loading={loading}
           error={error}
@@ -187,7 +180,7 @@ class Feed extends Component {
                 )}
                 <div ref={this.setContainerRef}>
                   {nodes &&
-                  groupByDate.entries(nodes).map(({key, values}, i, all) =>
+                  groupByDate.entries(nodes).map(({ key, values }, i, all) =>
                     <StickySection
                       key={i}
                       hasSpaceAfter={i < all.length - 1}

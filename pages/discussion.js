@@ -1,16 +1,19 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Discussion from '../components/Discussion/Discussion'
 import DiscussionIndex from '../components/Discussion/DiscussionIndex'
-import withData from '../lib/apollo/withData'
 
-const DiscussionPage = ({ url }) => (
-  <Frame url={url}>
-    {url.query.id
-      ? <Discussion discussionId={url.query.id} focusId={url.query.focus} mute={!!url.query.mute} url={url} />
+const DiscussionPage = ({ router: { query } }) => (
+  <Frame>
+    {query.id
+      ? <Discussion
+        discussionId={query.id}
+        focusId={query.focus}
+        mute={!!query.mute} />
       : <DiscussionIndex />}
   </Frame>
 )
 
-export default compose(withData)(DiscussionPage)
+export default compose(withRouter)(DiscussionPage)

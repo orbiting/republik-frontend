@@ -1,9 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import {
-  colors
-} from '@project-r/styleguide'
+import { colors } from '@project-r/styleguide'
 
 const styles = {
   box: css({
@@ -13,7 +11,7 @@ const styles = {
   })
 }
 
-const Box = ({children, style}) => (
+const Box = ({ children, style }) => (
   <div {...styles.box} style={style}>
     {children}
   </div>

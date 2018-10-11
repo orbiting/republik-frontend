@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 
 import { WithoutMembership } from '../Auth/withMembership'
@@ -13,15 +13,7 @@ import { countFormat } from '../../lib/utils/format'
 import withInNativeApp from '../../lib/withInNativeApp'
 import BottomPanel from './PayNoteBottomPanel'
 
-import {
-  Button,
-  Center,
-  Interaction,
-  colors,
-  fontStyles,
-  linkRule,
-  mediaQueries
-} from '@project-r/styleguide'
+import { Button, Center, colors, fontStyles, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
 
 import { negativeColors } from '../Frame/Footer'
 
@@ -108,7 +100,7 @@ export const getRandomVariation = () => {
 }
 
 const CountSpan = ({ membershipStats }) => (
-  <span style={{whiteSpace: 'nowrap'}}>{countFormat(
+  <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
     (membershipStats && membershipStats.count) || 20000
   )}</span>
 )
@@ -123,7 +115,7 @@ export const Before = compose(
       return (
         <div {...styles.blackContainer}>
           <Center>
-            <Interaction.P style={{color: 'inherit'}}>
+            <Interaction.P style={{ color: 'inherit' }}>
               {t.elements('article/payNote/before/ios', {
                 count: <CountSpan key='count' membershipStats={membershipStats} />
               })}
@@ -199,7 +191,7 @@ export const After = compose(
                   <div {...styles.aside}>
                     {t.elements('article/payNote/secondaryAction/text', {
                       link: (
-                        <a key='preview' {...linkRule} style={{whiteSpace: 'nowrap'}}
+                        <a key='preview' {...linkRule} style={{ whiteSpace: 'nowrap' }}
                           href={routes.find(r => r.name === 'preview').toPath()}
                           onClick={trackEventOnClick(
                             ['PayNote', 'preview after', variation],

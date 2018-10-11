@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
+import { withRouter } from 'next/router'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
-import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
+import PdfOverlay, { countImages, getPdfUrl } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -21,11 +22,7 @@ import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 
-import {
-  colors,
-  mediaQueries,
-  Center
-} from '@project-r/styleguide'
+import { Center, colors, mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
@@ -85,7 +82,11 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
+      <DiscussionIconLink
+        discussionId={discussionId}
+        discussionPage={discussionPage}
+        path={discussionPath}
+        style={{ marginLeft: 7 }} />
     }
   </div>
 )
@@ -292,11 +293,13 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onPdfClick={(
-          hasPdf && countImages(article.content) > 0 &&
-          this.togglePdf
-        )}
-        pdfUrl={hasPdf && getPdfUrl(meta)}
+        onPdfClick={hasPdf && countImages(article.content) > 0
+          ? this.togglePdf
+          : undefined
+        }
+        pdfUrl={hasPdf
+          ? getPdfUrl(meta)
+          : undefined}
         inNativeApp={inNativeApp}
       />
     )
@@ -356,7 +359,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { router, t, data, data: { article }, isMember } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -366,7 +369,6 @@ class ArticlePage extends Component {
     const seriesNavButton = series ? (
       <SeriesNavButton
         t={t}
-        url={url}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
@@ -382,19 +384,18 @@ class ArticlePage extends Component {
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
-    if (url.query.extract) {
+    if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
         if (!article) {
           return <StatusError
-            url={url}
             statusCode={404}
             serverContext={this.props.serverContext} />
         }
 
         return <Extract
-          ranges={url.query.extract}
+          ranges={router.query.extract}
           schema={schema}
-          unpack={url.query.unpack}
+          unpack={router.query.unpack}
           mdast={{
             ...article.content,
             format: meta.format
@@ -405,7 +406,6 @@ class ArticlePage extends Component {
     return (
       <Frame
         raw
-        url={url}
         meta={meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
@@ -418,13 +418,12 @@ class ArticlePage extends Component {
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
             return <StatusError
-              url={url}
               statusCode={404}
               serverContext={this.props.serverContext} />
           }
 
           const isFormat = meta.template === 'format'
-          const isNewsletterSource = url.query.utm_source && url.query.utm_source === 'newsletter'
+          const isNewsletterSource = router.query.utm_source && router.query.utm_source === 'newsletter'
           const payNoteVariation = series
             ? 'series'
             : this.props.payNoteVariation
@@ -456,9 +455,8 @@ class ArticlePage extends Component {
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}
-                  focusId={url.query.focus}
-                  mute={!!url.query.mute}
-                  url={url} />
+                  focusId={router.query.focus}
+                  mute={!!router.query.mute} />
               </Center>}
               {isMember && (
                 <Fragment>
@@ -491,8 +489,9 @@ const ComposedPage = compose(
   withT,
   withMembership,
   withInNativeApp,
+  withRouter,
   graphql(getDocument, {
-    options: ({url: {asPath}}) => ({
+    options: ({ router: { asPath } }) => ({
       variables: {
         path: asPath.split('?')[0]
       }

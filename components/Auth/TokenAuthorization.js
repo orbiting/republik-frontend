@@ -1,14 +1,17 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
   Button,
-  InlineSpinner, Loader,
-  Interaction, Label,
-  fontFamilies, colors,
-  FieldSet
+  colors,
+  FieldSet,
+  fontFamilies,
+  InlineSpinner,
+  Interaction,
+  Label,
+  Loader
 } from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'
@@ -144,7 +147,7 @@ class TokenAuthorization extends Component {
             {t('tokenAuthorization/error')}
           </P>
           <ErrorMessage error={error} />
-          <div style={{marginTop: 80, marginBottom: 80}}>
+          <div style={{ marginTop: 80, marginBottom: 80 }}>
             <Me email={email} />
           </div>
         </Fragment>
@@ -233,7 +236,7 @@ class TokenAuthorization extends Component {
               </P>
             )}
             {!!target.requiredFields.length && (
-              <div style={{marginTop: 20}}>
+              <div style={{ marginTop: 20 }}>
                 <Interaction.P>
                   {t('tokenAuthorization/fields/explanation')}
                 </Interaction.P>
@@ -258,7 +261,7 @@ class TokenAuthorization extends Component {
               </div>
             )}
             {!!target.requiredConsents.length && (
-              <div style={{marginTop: 20, textAlign: 'left'}}>
+              <div style={{ marginTop: 20, textAlign: 'left' }}>
                 <Consents
                   accepted={consents}
                   required={target.requiredConsents}
@@ -273,7 +276,7 @@ class TokenAuthorization extends Component {
             {!!authorizeError && <ErrorMessage error={authorizeError} />}
             <br />
             {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{color: colors.error, marginBottom: 20}}>
+              <div style={{ color: colors.error, marginBottom: 20 }}>
                 <ul>
                   {errorMessages.map((error, i) => (
                     <li key={i}>{error}</li>
@@ -282,7 +285,7 @@ class TokenAuthorization extends Component {
               </div>
             )}
             {this.state.authorizing
-              ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
+              ? <div style={{ textAlign: 'center' }}><InlineSpinner /></div>
               : (
                 <div {...styles.actions}>
                   <Button
@@ -387,12 +390,12 @@ export default compose(
         variables: {
           email,
           tokens: [
-            {type: tokenType, payload: token}
+            { type: tokenType, payload: token }
           ],
           consents,
           requiredFields
         },
-        refetchQueries: [{query: meQuery}]
+        refetchQueries: [{ query: meQuery }]
       })
     })
   }),
@@ -401,9 +404,9 @@ export default compose(
       deny: () => mutate({
         variables: {
           email,
-          token: {type: tokenType, payload: token}
+          token: { type: tokenType, payload: token }
         },
-        refetchQueries: [{query: meQuery}]
+        refetchQueries: [{ query: meQuery }]
       })
     })
   }),

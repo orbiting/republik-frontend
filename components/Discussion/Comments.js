@@ -1,22 +1,25 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
-import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
+import {
+  commentsSubscription,
+  downvoteComment,
+  editComment,
+  isAdmin,
+  query,
+  submitComment,
+  unpublishComment,
+  upvoteComment,
+  withDiscussionDisplayAuthor
+} from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import {
-  Loader,
-  CommentTreeLoadMore,
-  CommentTreeCollapse,
-  CommentTreeRow,
-  Label,
-  colors
-} from '@project-r/styleguide'
+import { colors, CommentTreeCollapse, CommentTreeLoadMore, CommentTreeRow, Label, Loader } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
@@ -28,7 +31,7 @@ const debug = mkDebug('comments')
 
 const SHOW_DEBUG = false
 
-const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
+const BlockLabel = ({ children }) => <Label style={{ display: 'block' }}>{children}</Label>
 
 const mergeCounts = (a, b) => {
   return {
@@ -84,7 +87,7 @@ class Comments extends PureComponent {
     }
   }
   clearSubIds (parentId) {
-    this.setState(({subIdMap}) => {
+    this.setState(({ subIdMap }) => {
       const { nodes } = this.props.data.discussion.comments
 
       const subIds = (subIdMap[parentId] || [])
@@ -101,7 +104,7 @@ class Comments extends PureComponent {
   componentDidMount () {
     this.unsubscribe = this.props.subscribe({
       onCreate: (comment, parentId = 'root') => {
-        this.setState(({subIdMap}) => {
+        this.setState(({ subIdMap }) => {
           const subIds = subIdMap[parentId] || []
           subIds.push(comment.id)
 
@@ -172,12 +175,12 @@ class Comments extends PureComponent {
         return nodes.find(node => node.id === id)
       }, null)
       if (!closestParent) {
-        this.setState({focusError: t('discussion/focus/missing')})
+        this.setState({ focusError: t('discussion/focus/missing') })
         return
       }
       const parentIndex = parentIds.indexOf(closestParent.id)
       const depth = parentIds.length - parentIndex
-      this.setState({focusLoading: true})
+      this.setState({ focusLoading: true })
       fetchMore(closestParent.id, undefined, { depth })
         .then(() => {
           this.setState({
@@ -206,19 +209,19 @@ class Comments extends PureComponent {
       now
     } = this.props
 
-    const CommentLink = ({displayAuthor, commentId, children, ...props}) => {
+    const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
       if (displayAuthor && displayAuthor.username) {
-        return <Link route='profile' params={{slug: displayAuthor.username}} {...props}>
+        return <Link route='profile' params={{ slug: displayAuthor.username }} {...props}>
           {children}
         </Link>
       }
       if (commentId) {
         if (discussion.documentPath) {
-          return <PathLink path={discussion.documentPath} query={{focus: commentId}} replace scroll={false} {...props}>
+          return <PathLink path={discussion.documentPath} query={{ focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
-        return <Link route='discussion' params={{id: discussion.id, focus: commentId}} {...props}>
+        return <Link route='discussion' params={{ id: discussion.id, focus: commentId }} {...props}>
           {children}
         </Link>
       }
@@ -291,7 +294,7 @@ class Comments extends PureComponent {
               visualDepth={isRoot ? 0 : accumulator.visualDepth}
               count={leftCount + subCount}
               onClick={() => {
-                fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
+                fetchMore(comment.id, comment.comments.pageInfo.endCursor, { appendAfter })
                   .then(() => {
                     this.clearSubIds(comment.id)
                   })
@@ -299,7 +302,7 @@ class Comments extends PureComponent {
             />
           )
         } else if (accumulator.visualDepth === 1) {
-          accumulator.list.push(<div key={`br${comment.id}`} style={{height: 10}} />)
+          accumulator.list.push(<div key={`br${comment.id}`} style={{ height: 10 }} />)
         }
       })
       accumulator.pendingClosure = accumulator.pendingClosure
@@ -337,7 +340,7 @@ class Comments extends PureComponent {
               visualDepth={portal.visualDepth}
               count={portalAccumulator.count}
               onClick={() => {
-                this.setState(({closedPortals}) => ({
+                this.setState(({ closedPortals }) => ({
                   closedPortals: {
                     ...closedPortals,
                     [portalId]: false
@@ -353,7 +356,7 @@ class Comments extends PureComponent {
                 t={t}
                 visualDepth={accumulator.visualDepth}
                 onClick={() => {
-                  this.setState(({closedPortals}) => ({
+                  this.setState(({ closedPortals }) => ({
                     closedPortals: {
                       ...closedPortals,
                       [portalId]: true
@@ -423,7 +426,7 @@ class Comments extends PureComponent {
       const replyBlockedMsg = (
         waitUntilDate &&
         waitUntilDate > now &&
-        t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})
+        t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })
       ) || ''
 
       SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
@@ -536,7 +539,7 @@ class Comments extends PureComponent {
     const {
       discussionId,
       t,
-      data: {loading, error, discussion},
+      data: { loading, error, discussion },
       fetchMore
     } = this.props
 
@@ -552,7 +555,7 @@ class Comments extends PureComponent {
         loading={loading || (hasFocus && focusLoading)}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const {totalCount, pageInfo, nodes} = discussion.comments
+          const { totalCount, pageInfo, nodes } = discussion.comments
 
           const accumulator = this.renderComments(nodes)
 
@@ -607,12 +610,12 @@ export default compose(
   isAdmin,
   submitComment,
   graphql(query, {
-    props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
+    props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
       data,
-      fetchMore: (parentId, after, {appendAfter, depth} = {}) => {
+      fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
         return fetchMore({
-          variables: {discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1},
-          updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
+          variables: { discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1 },
+          updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
             let nodes = previousResult.discussion.comments.nodes
             const nodeIndex = nodes.reduce(
               (index, node) => {
@@ -645,7 +648,7 @@ export default compose(
                 appendIndex = nodes.indexOf(nodeIndex[appendAfter.id])
                 if (appendIndex === -1) {
                   appendIndex = 0
-                  debug('fetchMore:append', 'node not found', appendIndex, {appendAfter, nodes})
+                  debug('fetchMore:append', 'node not found', appendIndex, { appendAfter, nodes })
                 }
               }
               nodes.splice(appendIndex + 1, 0, ...newNodes)
@@ -667,7 +670,7 @@ export default compose(
           }
         })
       },
-      subscribe: ({onCreate}) => {
+      subscribe: ({ onCreate }) => {
         return subscribeToMore({
           document: commentsSubscription,
           variables: {

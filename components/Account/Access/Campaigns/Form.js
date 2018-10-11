@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { compose } from 'react-apollo'
 import isEmail from 'validator/lib/isEmail'
 
-import {
-  Button, Field, Label, InlineSpinner, Interaction, A
-} from '@project-r/styleguide'
+import { A, Button, Field, InlineSpinner, Interaction, Label } from '@project-r/styleguide'
 
 import ErrorMessage from '../../../ErrorMessage'
 import withT from '../../../../lib/withT'
@@ -120,7 +118,7 @@ class Form extends Component {
           )
           : (
             <Fragment>
-              <H3 style={{marginTop: 30}}>
+              <H3 style={{ marginTop: 30 }}>
                 {t.pluralize(
                   'Account/Access/Campaigns/Form/title',
                   { count: campaign.slots.used }

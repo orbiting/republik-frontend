@@ -1,17 +1,8 @@
-import React, { Fragment} from 'react'
-import { graphql, compose } from 'react-apollo'
+import React, { Fragment } from 'react'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import {
-  Label,
-  Container,
-  P,
-  RawHtml,
-  colors,
-  mediaQueries,
-  fontFamilies,
-  Interaction
-} from '@project-r/styleguide'
+import { colors, Container, fontFamilies, Interaction, Label, mediaQueries, P, RawHtml } from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
 import { prefixHover } from '../../lib/utils/hover'
@@ -207,7 +198,7 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
               { count: countFormat(membershipStats.count) }
             )}
           </Interaction.H2>
-          <ListWithQuery singleRow first={6} onSelect={(id) => {
+          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
             Router.push(`/community?id=${id}`).then(() => {
               window.scrollTo(0, 0)
               return false

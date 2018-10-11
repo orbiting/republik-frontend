@@ -1,30 +1,20 @@
-import React, {Fragment, PureComponent} from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 import { css } from 'glamor'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { matchPath, Router } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
 import withT from '../../lib/withT'
-import {
-  isNotificationSupported,
-  getNotificationPermission
-} from '../../lib/utils/notification'
-import {
-  Loader,
-  A,
-  Dropdown,
-  InlineSpinner,
-  fontStyles,
-  mediaQueries,
-  colors
-} from '@project-r/styleguide'
+import { getNotificationPermission, isNotificationSupported } from '../../lib/utils/notification'
+import { A, colors, Dropdown, fontStyles, InlineSpinner, Loader, mediaQueries } from '@project-r/styleguide'
 import NotificationIcon from './NotificationIcon'
 import {
   DISCUSSION_NOTIFICATION_OPTIONS,
+  webNotificationSubscription,
   withDiscussionPreferences,
   withSetDiscussionPreferences,
-  webNotificationSubscription,
   withUpdateNotificationSettings
 } from './enhancers'
 
@@ -152,7 +142,7 @@ class NotificationOptions extends PureComponent {
     } = discussion
 
     const clearUrl = () => {
-      const { url: { asPath, query } } = this.props
+      const { router: { asPath, query } } = this.props
       const result = matchPath(asPath)
       const params = {
         ...query,
@@ -192,7 +182,7 @@ class NotificationOptions extends PureComponent {
   render () {
     const {
       t,
-      data: {loading, error, me, discussion},
+      data: { loading, error, me, discussion },
       setDiscussionPreferences
     } = this.props
 
@@ -249,7 +239,7 @@ class NotificationOptions extends PureComponent {
                 </A>
               )}
               {notificationsChannelEnabled && <Fragment>
-                <NotificationIcon off={selectedValue === 'NONE'} style={{fontSize: '14px', color}} fill={color} onClick={() => {
+                <NotificationIcon off={selectedValue === 'NONE'} style={{ fontSize: '14px', color }} fill={color} onClick={() => {
                   this.setState(state => ({
                     expanded: !state.expanded
                   }))
@@ -330,6 +320,7 @@ NotificationOptions.propTypes = {
 
 export default compose(
   withT,
+  withRouter,
   withDiscussionPreferences,
   withSetDiscussionPreferences,
   withUpdateNotificationSettings

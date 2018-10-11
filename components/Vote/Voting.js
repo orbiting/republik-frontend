@@ -7,7 +7,7 @@ import voteT from './voteT'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 
-const {H3, P} = Interaction
+const { H3, P } = Interaction
 
 const POLL_STATES = {
   START: 'START',
@@ -82,17 +82,17 @@ class Voting extends React.Component {
     this.reset = (e) => {
       e.preventDefault()
       this.setState(
-        {selectedValue: null},
+        { selectedValue: null },
         this.transition(POLL_STATES.START)
       )
     }
 
     this.transition = (nextState, callback) => {
-      this.setState({pollState: nextState}, callback && callback())
+      this.setState({ pollState: nextState }, callback && callback())
     }
 
     this.renderWarning = () => {
-      const {pollState, selectedValue} = this.state
+      const { pollState, selectedValue } = this.state
       if (pollState === POLL_STATES.READY && !selectedValue) {
         return (
           <P {...styles.error}>
@@ -105,17 +105,16 @@ class Voting extends React.Component {
     }
 
     this.submitVotingBallot = async () => {
-      const {submitVotingBallot} = this.props
-      const {selectedValue} = this.state
+      const { submitVotingBallot } = this.props
+      const { selectedValue } = this.state
       await submitVotingBallot(selectedValue)
 
       this.transition(POLL_STATES.DONE)
-
     }
 
     this.renderActions = () => {
-      const {onFinish, vt} = this.props
-      const {pollState} = this.state
+      const { onFinish, vt } = this.props
+      const { pollState } = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/voting/labelReset')}</A>
 
@@ -165,22 +164,22 @@ class Voting extends React.Component {
   }
 
   render () {
-    const {vt, data: {voting}} = this.props
-    const {pollState, selectedValue} = this.state
-    const {P} = Interaction
+    const { vt, data: { voting } } = this.props
+    const { pollState, selectedValue } = this.state
+    const { P } = Interaction
     return (
       <div {...styles.card}>
         <H3>{voting.description}</H3>
-        <div style={{position: 'relative'}}>
+        <div style={{ position: 'relative' }}>
           {pollState === POLL_STATES.DONE &&
           <div {...styles.thankyou}>
             <P>
-              {vt('vote/voting/thankyou', {submissionDate: messageDateFormat(Date.now())})}
+              {vt('vote/voting/thankyou', { submissionDate: messageDateFormat(Date.now()) })}
             </P>
           </div>
           }
           <div {...styles.cardBody}>
-            {voting.options.map(({id, label}) => (
+            {voting.options.map(({ id, label }) => (
               <Fragment key={id}>
                 <Radio
                   value={id}
@@ -190,7 +189,7 @@ class Voting extends React.Component {
                   checked={id === selectedValue}
                   onChange={() =>
                     this.setState(
-                      {selectedValue: id},
+                      { selectedValue: id },
                       this.transition(POLL_STATES.DIRTY)
                     )
                   }
@@ -221,11 +220,11 @@ Voting.propTypes = {
       options: PropTypes.arrayOf(
         PropTypes.shape({
           id: PropTypes.string,
-          label: PropTypes.string,
+          label: PropTypes.string
         })
-      ),
-    }),
-  }),
+      )
+    })
+  })
 }
 
 Voting.defaultProps = {
@@ -264,7 +263,7 @@ const query = gql`
 export default compose(
   voteT,
   graphql(submitVotingBallotMutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       submitVotingBallot: optionId => {
         return mutate({
           variables: {
@@ -275,7 +274,7 @@ export default compose(
     })
   }),
   graphql(query, {
-    options: ({slug}) => ({
+    options: ({ slug }) => ({
       variables: {
         slug
       }

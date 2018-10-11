@@ -79,7 +79,7 @@ class FilterButton extends Component {
         }}
       >
         {label}
-        <span {...styles.count} style={{visibility}}>{count}</span>
+        <span {...styles.count} style={{ visibility }}>{count}</span>
       </button>
     )
   }
@@ -104,7 +104,7 @@ class FilterButtonGroup extends Component {
     const { filterBucketKey, filters } = this.props
     return (
       <Fragment>
-        {filters.map(({key, label, count, selected, loadingFilters, onClickHandler}) => (
+        {filters.map(({ key, label, count, selected, loadingFilters, onClickHandler }) => (
           <FilterButton
             key={key}
             filterBucketKey={filterBucketKey}

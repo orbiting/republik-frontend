@@ -21,7 +21,7 @@ export const parseSliceRanges = ranges => (
   })
 )
 
-const Extract = ({schema, mdast, ranges, unpack}) => {
+const Extract = ({ schema, mdast, ranges, unpack }) => {
   const sliceNode = (tree, [[start, end], ...childRanges]) => {
     const children = tree.children.slice(start, end)
 

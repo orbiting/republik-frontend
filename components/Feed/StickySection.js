@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
-import { mediaQueries, colors } from '@project-r/styleguide'
+import { colors, mediaQueries } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import withInNativeApp from '../../lib/withInNativeApp'
 
@@ -73,7 +73,7 @@ class StickySection extends Component {
         const nextSticky = (y > offset) && // scroll pos is below top of section
           (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
         if (sticky !== nextSticky) {
-          this.setState({sticky: nextSticky})
+          this.setState({ sticky: nextSticky })
         }
       }
     }

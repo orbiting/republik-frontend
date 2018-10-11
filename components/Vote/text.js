@@ -4,28 +4,28 @@ import { fontFamilies, fontStyles, Interaction, mediaQueries, RawHtml } from '@p
 
 const { H2, P, Headline } = Interaction
 
-export const Section = ({children}) =>
+export const Section = ({ children }) =>
   <section {...css({
     marginTop: 30
   })}>
     {children}
   </section>
 
-export const Title = ({children}) =>
+export const Title = ({ children }) =>
   <Headline {...css({
     marginBottom: 35
   })}>
     {children}
   </Headline>
 
-export const Heading = ({children}) =>
+export const Heading = ({ children }) =>
   <H2 {...css({
     marginBottom: 20
   })}>
     {children}
   </H2>
 
-export const Strong = ({children}) =>
+export const Strong = ({ children }) =>
   <strong {...css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontWeight: 'normal'
@@ -40,19 +40,19 @@ const PMedium = (props) =>
     {props.children}
   </P>
 
-export const Body = ({dangerousHTML}) =>
+export const Body = ({ dangerousHTML }) =>
   <span>
     {
       dangerousHTML.split('\n\n')
         .map((c, i) =>
           <PMedium key={i}>
-            <RawHtml dangerouslySetInnerHTML={{__html: c}} />
+            <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
           </PMedium>
         )
     }
   </span>
 
-const PSmall = ({children, indent = true}) =>
+const PSmall = ({ children, indent = true }) =>
   <P {...css({
     marginTop: 10,
     marginLeft: indent ? 20 : 0,
@@ -70,19 +70,19 @@ const PSmall = ({children, indent = true}) =>
     {children}
   </P>
 
-export const Small = ({dangerousHTML, indent = true}) =>
+export const Small = ({ dangerousHTML, indent = true }) =>
   <div>
     {
       dangerousHTML.split('\n\n')
         .map((c, i) =>
           <PSmall key={i} indent={indent}>
-            <RawHtml dangerouslySetInnerHTML={{__html: c}} />
+            <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
           </PSmall>
         )
     }
   </div>
 
-export const Caption = ({children}) =>
+export const Caption = ({ children }) =>
   <div {...css({
     margin: '5px auto 0 auto',
     width: '100%',

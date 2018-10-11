@@ -1,5 +1,4 @@
 import React from 'react'
-import withData from '../lib/apollo/withData'
 
 import Frame from '../components/Frame'
 import StatusError from '../components/StatusError'
@@ -13,13 +12,13 @@ class ErrorPage extends React.Component {
   }
 
   render () {
-    const { url, statusCode, serverContext } = this.props
+    const { statusCode, serverContext } = this.props
     return (
-      <Frame url={url} raw>
-        <StatusError url={url} statusCode={statusCode} serverContext={serverContext} />
+      <Frame raw>
+        <StatusError statusCode={statusCode} serverContext={serverContext} />
       </Frame>
     )
   }
 }
 
-export default withData(ErrorPage)
+export default ErrorPage

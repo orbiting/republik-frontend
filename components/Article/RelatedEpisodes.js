@@ -5,14 +5,14 @@ import { romanize } from '../../lib/utils/romanize'
 import { timeFormat } from '../../lib/utils/format'
 
 import {
-  colors,
   Breakout,
   Center,
+  colors,
   Editorial,
+  TeaserFrontCredit,
   TeaserFrontTile,
   TeaserFrontTileHeadline,
-  TeaserFrontTileRow,
-  TeaserFrontCredit
+  TeaserFrontTileRow
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -25,7 +25,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
   const image = (episode && episode.image) || (meta && meta.image)
-  const align = image ? {align: 'top'} : {}
+  const align = image ? { align: 'top' } : {}
 
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import { Button, InlineSpinner } from '@project-r/styleguide'
@@ -36,7 +36,7 @@ class NewsletterSubscription extends Component {
 
     return (
       <Fragment>
-        <div style={{margin: '20px 0', textAlign: 'left'}}>
+        <div style={{ margin: '20px 0', textAlign: 'left' }}>
           <Consents
             accepted={consents}
             required={requiredConsents}
@@ -50,17 +50,17 @@ class NewsletterSubscription extends Component {
         {!!error && <ErrorMessage error={error} />}
         <br />
         {this.state.updating
-          ? <div style={{textAlign: 'center'}}><InlineSpinner /></div>
+          ? <div style={{ textAlign: 'center' }}><InlineSpinner /></div>
           : (
-            <div style={{opacity: consentsError ? 0.5 : 1}}>
+            <div style={{ opacity: consentsError ? 0.5 : 1 }}>
               <Button
                 primary
                 onClick={() => {
                   if (consentsError) {
-                    this.setState({dirty: true})
+                    this.setState({ dirty: true })
                     return
                   }
-                  this.setState({updating: true}, () => {
+                  this.setState({ updating: true }, () => {
                     updateNewsletterSubscription({
                       consents
                     })

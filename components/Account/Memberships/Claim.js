@@ -18,10 +18,7 @@ import FieldSet from '../../FieldSet'
 import { withSignOut } from '../../Auth/SignOut'
 import { withSignIn } from '../../Auth/SignIn'
 
-import {
-  Field, Button, Interaction,
-  colors
-} from '@project-r/styleguide'
+import { Button, colors, Field, Interaction } from '@project-r/styleguide'
 
 const requiredConsents = [
   'PRIVACY', 'TOS', 'STATUTE'
@@ -78,7 +75,7 @@ class ClaimMembership extends Component {
       dirty: shouldValidate
     }))
   }
-  checkUserFields ({me, t}) {
+  checkUserFields ({ me, t }) {
     const defaultValues = {
       firstName: (me && me.firstName) || '',
       lastName: (me && me.lastName) || '',
@@ -106,8 +103,8 @@ class ClaimMembership extends Component {
     )
   }
   claim (newTokenType) {
-    const {me} = this.props
-    const {values} = this.state
+    const { me } = this.props
+    const { values } = this.state
 
     this.setState(() => ({
       loading: true
@@ -129,7 +126,7 @@ class ClaimMembership extends Component {
 
     if (!me) {
       this.props.signIn(values.email, 'claim', this.state.consents, newTokenType)
-        .then(({data}) => {
+        .then(({ data }) => {
           this.setState(() => ({
             polling: true,
             signInResponse: data.signIn
@@ -163,7 +160,7 @@ class ClaimMembership extends Component {
     claim()
   }
   render () {
-    const {t} = this.props
+    const { t } = this.props
 
     const {
       serverError,
@@ -213,7 +210,7 @@ class ClaimMembership extends Component {
 
     return (
       <div>
-        <H2 style={{marginBottom: 20}}>
+        <H2 style={{ marginBottom: 20 }}>
           {t('memberships/claim/lead')}
         </H2>
         <Field label={t('pledge/contact/firstName/label')}
@@ -251,7 +248,7 @@ class ClaimMembership extends Component {
         <br />
         <br />
         {!!this.state.showErrors && errorMessages.length > 0 && (
-          <div style={{color: colors.error, marginBottom: 40}}>
+          <div style={{ color: colors.error, marginBottom: 40 }}>
             {t('memberships/claim/error/title')}<br />
             <ul>
               {errorMessages.map((error, i) => (
@@ -269,7 +266,7 @@ class ClaimMembership extends Component {
             }))
           }} />
         <br /><br />
-        <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
+        <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
           <Button
             onClick={() => {
               if (errorMessages.length) {
@@ -315,7 +312,7 @@ const updateName = gql`mutation updateName($firstName: String!, $lastName: Strin
 
 export default compose(
   graphql(claimMembership, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       claim: voucherCode => mutate({
         variables: {
           voucherCode
@@ -324,7 +321,7 @@ export default compose(
     })
   }),
   graphql(updateName, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       updateName: variables => mutate({
         variables,
         refetchQueries: [{

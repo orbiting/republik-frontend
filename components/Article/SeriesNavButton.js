@@ -8,12 +8,8 @@ import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 import { prefixHover } from '../../lib/utils/hover'
 
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
-import {
-  mediaQueries,
-  fontFamilies,
-  colors
-} from '@project-r/styleguide'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import { colors, fontFamilies, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   button: css({
@@ -92,7 +88,6 @@ const SeriesNavButton = ({
   id,
   children,
   t,
-  url,
   series,
   onSecondaryNavExpandedChange,
   expanded
@@ -116,7 +111,7 @@ const SeriesNavButton = ({
       {...styles.menu}
       aria-expanded={expanded}
     >
-      <SeriesNavPanel t={t} url={url} series={series} />
+      <SeriesNavPanel t={t} series={series} />
     </div>
   </Fragment>
 )

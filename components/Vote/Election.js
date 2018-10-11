@@ -11,7 +11,7 @@ import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
 import { timeFormat } from '../../lib/utils/format'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const messageDateFormat = timeFormat('%e. %B %Y')
 
@@ -98,11 +98,11 @@ class Election extends Component {
     }
 
     this.transition = (nextState, callback) => {
-      this.setState({electionState: nextState}, callback && callback())
+      this.setState({ electionState: nextState }, callback && callback())
     }
 
     this.toggleSelection = (candidate) => {
-      const {data: {election: {numSeats}}, onChange} = this.props
+      const { data: { election: { numSeats } }, onChange } = this.props
       const allowMultiple = numSeats > 1
       const collection = this.state.vote
       const existingItem =
@@ -121,12 +121,12 @@ class Election extends Component {
 
     this.reset = e => {
       e.preventDefault()
-      this.setState({vote: [], electionState: ELECTION_STATES.START}, () => this.props.onChange([]))
+      this.setState({ vote: [], electionState: ELECTION_STATES.START }, () => this.props.onChange([]))
     }
 
     this.renderActions = () => {
-      const {onFinish, vt} = this.props
-      const {electionState} = this.state
+      const { onFinish, vt } = this.props
+      const { electionState } = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/election/labelReset')}</A>
 
@@ -177,14 +177,14 @@ class Election extends Component {
     }
 
     this.renderWarning = () => {
-      const {electionState, vote} = this.state
-      const {data: {election: {numSeats}}, vt} = this.props
+      const { electionState, vote } = this.state
+      const { data: { election: { numSeats } }, vt } = this.props
       if (electionState === ELECTION_STATES.READY && vote.length < numSeats) {
         return (
           <P {...styles.error}>
             { vote.length < 1
               ? vt('vote/election/labelConfirmEmpty')
-              : vt('vote/election/labelConfirmCount', {numVotes: vote.length, numSeats})
+              : vt('vote/election/labelConfirmCount', { numVotes: vote.length, numSeats })
             }
           </P>
         )
@@ -195,8 +195,8 @@ class Election extends Component {
   }
 
   render () {
-    const {data: {election}, isSticky, mandatoryCandidates, vt} = this.props
-    const {vote, electionState} = this.state
+    const { data: { election }, isSticky, mandatoryCandidates, vt } = this.props
+    const { vote, electionState } = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
 
     if (!inProgress) {
@@ -204,7 +204,7 @@ class Election extends Component {
         <div {...styles.wrapper}>
           <div {...styles.thankyou}>
             <P>
-              {vt('vote/election/thankyou', {submissionDate: messageDateFormat(Date.now())})}
+              {vt('vote/election/thankyou', { submissionDate: messageDateFormat(Date.now()) })}
             </P>
           </div>
         </div>
@@ -246,7 +246,7 @@ class Election extends Component {
           {recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={{...fontStyles.sansSerifRegular18}}
+            style={{ ...fontStyles.sansSerifRegular18 }}
             onClick={() => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY
@@ -290,7 +290,7 @@ Election.propTypes = {
 }
 
 Election.defaultProps = {
-  data: {election: {candidacies: []}},
+  data: { election: { candidacies: [] } },
   isSticky: false,
   onChange: () => {},
   mandatoryCandidates: []
@@ -339,7 +339,7 @@ const query = gql`
 export default compose(
   voteT,
   graphql(query, {
-    options: ({slug}) => ({
+    options: ({ slug }) => ({
       variables: {
         slug
       }

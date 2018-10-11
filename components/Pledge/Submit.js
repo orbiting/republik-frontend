@@ -29,9 +29,10 @@ import {
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
+import { STRIPE_PLEDGE_ID_QUERY_KEY } from '../Payment/constants'
 import Consents, { getConsentsError } from './Consents'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const objectValues = (object) => Object.keys(object).map(key => object[key])
 const simpleHash = (object, delimiter = '|') => {
@@ -43,7 +44,7 @@ const simpleHash = (object, delimiter = '|') => {
   }).join(delimiter)
 }
 
-const getRequiredConsents = ({requiresStatutes}) => [
+const getRequiredConsents = ({ requiresStatutes }) => [
   'PRIVACY', 'TOS', requiresStatutes && 'STATUTE'
 ].filter(Boolean)
 
@@ -97,7 +98,7 @@ class Submit extends Component {
     }
   }
   submitVariables (props) {
-    const {user, total, options, reason} = props
+    const { user, total, options, reason } = props
 
     return {
       total,
@@ -107,7 +108,7 @@ class Submit extends Component {
     }
   }
   submitPledge () {
-    const {t, me} = this.props
+    const { t, me } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
@@ -162,7 +163,7 @@ class Submit extends Component {
       ...variables,
       consents: getRequiredConsents(this.props)
     })
-      .then(({data}) => {
+      .then(({ data }) => {
         if (data.submitPledge.emailVerify) {
           this.setState(() => ({
             loading: false,
@@ -207,7 +208,7 @@ class Submit extends Component {
     }
   }
   payWithPayPal (pledgeId) {
-    const {t} = this.props
+    const { t } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/paypal'),
@@ -217,7 +218,7 @@ class Submit extends Component {
     })
   }
   payWithPostFinance (pledgeId, pledgeResponse) {
-    const {t} = this.props
+    const { t } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/postfinance'),
@@ -230,7 +231,7 @@ class Submit extends Component {
     })
   }
   payWithPaymentSlip (pledgeId) {
-    const {values} = this.state
+    const { values } = this.state
     this.pay({
       pledgeId,
       method: 'PAYMENTSLIP',
@@ -246,16 +247,16 @@ class Submit extends Component {
     })
   }
   pay (data) {
-    const {t, me, user} = this.props
+    const { t, me, user } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
     }))
     this.props.pay(data)
-      .then(({data: {payPledge}}) => {
+      .then(({ data: { payPledge } }) => {
         if (!me) {
           this.props.signIn(user.email, 'pledge')
-            .then(({data: {signIn}}) => gotoMerci({
+            .then(({ data: { signIn } }) => gotoMerci({
               id: payPledge.pledgeId,
               email: user.email,
               ...encodeSignInResponseQuery(signIn)
@@ -305,7 +306,7 @@ class Submit extends Component {
           loading: t('pledge/submit/loading/stripe/3dsecure')
         })
       },
-      returnUrl: `${PUBLIC_BASE_URL}/angebote?pledgeId=${pledgeId}&stripe=1`
+      returnUrl: `${PUBLIC_BASE_URL}/angebote?${STRIPE_PLEDGE_ID_QUERY_KEY}=${pledgeId}&stripe=1`
     })
       .then(source => {
         this.setState({
@@ -396,35 +397,35 @@ class Submit extends Component {
           dirty={this.state.dirty} />
         <br /><br />
         {(emailVerify && !me) && (
-          <div style={{marginBottom: 40}}>
-            <P style={{marginBottom: 10}}>
+          <div style={{ marginBottom: 40 }}>
+            <P style={{ marginBottom: 10 }}>
               {t('pledge/submit/emailVerify/note')}
             </P>
             <SignIn context='pledge' email={user.email} />
           </div>
         )}
         {(emailVerify && me) && (
-          <div style={{marginBottom: 40}}>
+          <div style={{ marginBottom: 40 }}>
             <P>{t('pledge/submit/emailVerify/done')}</P>
           </div>
         )}
         {!!submitError && (
-          <P style={{color: colors.error, marginBottom: 40}}>
+          <P style={{ color: colors.error, marginBottom: 40 }}>
             {submitError}
           </P>
         )}
         {!!paymentError && (
-          <P style={{color: colors.error, marginBottom: 40}}>
+          <P style={{ color: colors.error, marginBottom: 40 }}>
             {paymentError}
           </P>
         )}
         {!!signInError && (
-          <P style={{color: colors.error, marginBottom: 40}}>
+          <P style={{ color: colors.error, marginBottom: 40 }}>
             {signInError}
           </P>
         )}
         {loading ? (
-          <div style={{textAlign: 'center'}}>
+          <div style={{ textAlign: 'center' }}>
             <InlineSpinner />
             <br />
             {loading}
@@ -432,7 +433,7 @@ class Submit extends Component {
         ) : (
           <div>
             {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{color: colors.error, marginBottom: 40}}>
+              <div style={{ color: colors.error, marginBottom: 40 }}>
                 {t('pledge/submit/error/title')}<br />
                 <ul>
                   {errorMessages.map((error, i) => (
@@ -450,7 +451,7 @@ class Submit extends Component {
                 }))
               }} />
             <br /><br />
-            <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
+            <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
               <Button
                 block
                 onClick={() => {
@@ -512,11 +513,11 @@ const setPendingOrder = order => {
 export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
-      props: ({mutate}) => ({
+      props: ({ mutate }) => ({
         pay: variables => mutate({
           variables,
           refetchQueries: [
-            {query: addressQuery}
+            { query: addressQuery }
           ]
         }).then(response => {
           return new Promise((resolve, reject) => {
@@ -558,7 +559,7 @@ export const withPay = Component => {
 
 const SubmitWithMutations = compose(
   graphql(submitPledge, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       submit: variables => {
         setPendingOrder(variables)
 

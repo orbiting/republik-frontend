@@ -2,12 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import { mediaQueries, fontFamilies } from '@project-r/styleguide'
-import {
-  ZINDEX_POPOVER,
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../../constants'
+import { fontFamilies, mediaQueries } from '@project-r/styleguide'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
 
 const paddingTop = 3 + 1 // max hr height from header plus a pixel for zoom cases
 
@@ -37,7 +33,7 @@ const menuStyle = css({
   }
 })
 
-const Popover = ({ items, expanded, id, children, url }) => (
+const Popover = ({ items, expanded, id, children }) => (
   <div
     id={id}
     aria-expanded={expanded}

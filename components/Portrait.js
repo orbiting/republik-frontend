@@ -1,5 +1,5 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import {
   P, Interaction, A, Label, mediaQueries, slug
@@ -48,15 +48,15 @@ const portraitImageRightStyle = css({
   }
 })
 
-const Portrait = ({odd, image, description, name, age, title, email}) => (
+const Portrait = ({ odd, image, description, name, age, title, email }) => (
   <div {...portraitStyle}>
     <a id={slug(name)} {...anchorStyle} />
-    <Interaction.H3 style={{marginBottom: 0}}>
+    <Interaction.H3 style={{ marginBottom: 0 }}>
       {name},&nbsp;{age}
     </Interaction.H3>
     <Label>{title}</Label><br /><br />
     <img className={odd ? portraitImageLeftStyle : portraitImageRightStyle} src={image} alt='' />
-    <P style={{marginTop: 0, marginBottom: 10}}>
+    <P style={{ marginTop: 0, marginBottom: 10 }}>
       {description}
     </P>
     <Interaction.P><A href={`mailto:${email}`}>{email}</A></Interaction.P>

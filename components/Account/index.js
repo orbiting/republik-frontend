@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { max } from 'd3-array'
 import { css } from 'glamor'
@@ -23,9 +23,7 @@ import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
-import {
-  H1, Interaction, mediaQueries
-} from '@project-r/styleguide'
+import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
 
@@ -34,7 +32,7 @@ import PaymentSources from './PaymentSources'
 
 import { APP_OPTIONS } from '../../lib/constants'
 
-import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const { H2, P } = Interaction
 
@@ -52,7 +50,7 @@ const styles = {
 
 const AccountAnchor = ({ children, id }) => {
   return (
-    <div style={{marginBottom: 80}}>
+    <div style={{ marginBottom: 80 }}>
       <a {...styles.accountAnchor} id={id} />
       {children}
     </div>
@@ -167,7 +165,7 @@ export default compose(
   withT,
   withInNativeApp,
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       const isReady = (
         !data.loading &&
         !data.error &&

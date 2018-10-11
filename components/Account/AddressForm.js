@@ -63,7 +63,7 @@ export const fields = (t) => [
   }
 ]
 
-const Form = ({t, values, errors, dirty, onChange}) => (
+const Form = ({ t, values, errors, dirty, onChange }) => (
   <FieldSet
     values={values}
     errors={errors}

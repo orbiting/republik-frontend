@@ -30,7 +30,7 @@ const styles = {
     marginTop: 8,
     marginBottom: 8,
     // marginLeft: -26,
-    marginRight: -20
+    marginRight: 0
   }),
   summary: css({
     width: '100%',
@@ -86,7 +86,10 @@ const styles = {
   details: css({
     width: '100%',
     marginTop: 10,
-    marginBottom: 5
+    marginBottom: 5,
+    [mediaQueries.lUp]: {
+      marginTop: 5,
+    },
   }),
   portrait: css({
     display: 'block',
@@ -111,7 +114,7 @@ const styles = {
     }
   }),
   recommendation: css({
-    marginTop: 15
+    marginTop: 10
   }),
   wrapper: css({
     width: '100%',
@@ -129,6 +132,11 @@ const styles = {
     [mediaQueries.onlyS]: {
       marginTop: 0
     }
+  }),
+  selection: css({
+    width: 14,
+    paddingTop: 3,
+    marginRight: 5
   })
 }
 
@@ -241,7 +249,7 @@ class ElectionBallotRow extends Component {
           }
         </div>
         { maxVotes > 0 && onChange &&
-        <div style={{width: 18, paddingTop: 2, marginRight: 5}}>
+        <div {...styles.selection}>
           <SelectionComponent
             black
             disabled={maxVotes > 1 && !selected && disabled}

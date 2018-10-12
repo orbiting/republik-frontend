@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-12T16:00:45.441Z",
+  "updated": "2018-10-12T19:05:55.187Z",
   "title": "live",
   "data": [
     {
@@ -199,8 +199,16 @@
       "value": "Wahl Mitglieder Genossenschaftsrat"
     },
     {
-      "key": "vote/members/body",
-      "value": "Und nun zum letzten und vielleicht interessantesten Teil dieser Wahl. Schön, dass Sie bis hier durchgehalten haben. Sie können <Strong>30 Personen wählen</Strong>, die sich ehrenamtlich für Project R engagieren. <Strong>Der Genossenschaftsrat repräsentiert Sie<Strong> und die rund 20’000 anderen Mitglieder. Und er verbindet die Mitglieder mit dem Vorstand. Dafür kann er Ihnen zum Beispiel Anträge unterbreiten, über die Sie abstimmen können. Sie haben weiter oben über die Finanzen abgestimmt. Das wird künftig auf Antrag des Rates und des Vorstandes geschehen.\r\n\nWir empfehlen Ihnen 30 Personen zur Wahl. Nicht weil wir uns einen besonders umgänglichen Rat wünschen, sondern einen vielfältigen. Wir haben darauf geachtet, dass verschiedene Altersgruppen, Regionen und Fähigkeiten vertreten sind und dass das Geschlechterverhältnis ausgeglichen ist. Es steht Ihnen aber frei, diese Empfehlung zu ignorieren und andere Personen zu wählen.\r\nLernen Sie hier die Kandidatinnen und Kandidaten kennen, diskutieren Sie hier (LINK Gen-Rat-Debatte) mit ihnen. Und geben Sie Ihre 30 Stimmen bis zum 28. Oktober 2018 ab.\r\n"
+      "key": "vote/members/body1",
+      "value": "Und nun zum letzten und vielleicht interessantesten Teil dieser Wahl. Schön, dass Sie bis hier durchgehalten haben. Sie können <Strong>30 Personen wählen</Strong>, die sich ehrenamtlich für Project R engagieren. <Strong>Der Genossenschaftsrat repräsentiert Sie</Strong> und die rund 20’000 anderen Mitglieder. Und er verbindet die Mitglieder mit dem Vorstand. Dafür kann er Ihnen zum Beispiel Anträge unterbreiten, über die Sie abstimmen können. Sie haben weiter oben über die Finanzen abgestimmt. Das wird künftig auf Antrag des Rates und des Vorstandes geschehen.\n"
+    },
+    {
+      "key": "vote/members/caption",
+      "value": "Die von Project R empfohlenen Kandidaten für den Genossenschaftsrat."
+    },
+    {
+      "key": "vote/members/body2",
+      "value": "Wir empfehlen Ihnen 30 Personen zur Wahl. Nicht weil wir uns einen besonders umgänglichen Rat wünschen, sondern einen vielfältigen. Wir haben darauf geachtet, dass verschiedene Altersgruppen, Regionen und Fähigkeiten vertreten sind und dass das Geschlechterverhältnis ausgeglichen ist. Es steht Ihnen aber frei, diese Empfehlung zu ignorieren und andere Personen zu wählen.\nLernen Sie hier die Kandidatinnen und Kandidaten kennen, diskutieren Sie hier (LINK Gen-Rat-Debatte) mit ihnen. Und geben Sie Ihre 30 Stimmen bis zum 28. Oktober 2018 ab.\n"
     },
     {
       "key": "vote/members/recommendation",

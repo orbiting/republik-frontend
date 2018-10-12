@@ -46,11 +46,11 @@ const styles = {
       width: '10%'
     },
     '& div:nth-child(3)': {
-      width: '35%',
-      paddingRight: 3
+      width: '40%',
+      paddingRight: 10
     },
     '& div:nth-child(4)': {
-      width: '20%',
+      width: '15%',
       paddingRight: 5
     },
     '& div:nth-child(5)': {

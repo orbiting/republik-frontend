@@ -4,10 +4,14 @@ import { Body, Heading, Section, Small, Title } from './text'
 import Collapsible from './Collapsible'
 import Voting from './Voting'
 import Election from './Election'
-import { Container, FigureCaption, FigureImage, mediaQueries, NarrowContainer, P } from '@project-r/styleguide'
+import {
+  Container,
+  FigureCaption,
+  FigureImage,
+  mediaQueries
+} from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import voteT from './voteT'
-
 import { CDN_FRONTEND_BASE_URL, ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG } from '../../lib/constants'
 
 const styles = {
@@ -19,6 +23,9 @@ const styles = {
     [mediaQueries.lUp]: {
       top: -HEADER_HEIGHT
     }
+  }),
+  image: css({
+    margin: '25px 0'
   })
 }
 
@@ -41,15 +48,15 @@ class VoteForm extends Component {
       <Container>
         <Section>
           <Title>{vt('vote/title')}</Title>
+          <div {...styles.image}>
+            <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`} />
+            <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
+          </div>
           <Body dangerousHTML={vt('vote/intro/body')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/intro/more')} />
           </Collapsible>
         </Section>
-        <div>
-          <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x` }/>
-          <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
-        </div>
 
         <Section>
           <a {...styles.anchor} id='jahresrechnung' />
@@ -64,11 +71,11 @@ class VoteForm extends Component {
         </Section>
 
         <Section>
-          <a { ...styles.anchor } id='discharge'/>
+          <a {...styles.anchor} id='discharge' />
           <Heading>{ vt('vote/discharge/title') }</Heading>
-          <Body dangerousHTML={ vt('vote/discharge/body') }/>
+          <Body dangerousHTML={vt('vote/discharge/body')} />
           <Collapsible>
-            <Small dangerousHTML={ vt('vote/discharge/more') }/>
+            <Small dangerousHTML={vt('vote/discharge/more')} />
           </Collapsible>
           <Voting
             slug='gen18discharge'
@@ -88,11 +95,11 @@ class VoteForm extends Component {
         </Section>
 
         <Section>
-          <a { ...styles.anchor } id='board'/>
+          <a {...styles.anchor} id='board' />
           <Heading>{ vt('vote/board/title') }</Heading>
-          <Body dangerousHTML={ vt('vote/board/body') }/>
+          <Body dangerousHTML={vt('vote/board/body')} />
           <Collapsible>
-            <Small dangerousHTML={ vt('vote/board/more') }/>
+            <Small dangerousHTML={vt('vote/board/more')} />
           </Collapsible>
           <Voting
             slug='gen18board'
@@ -115,7 +122,12 @@ class VoteForm extends Component {
         <Section>
           <a {...styles.anchor} id='genossenschaftsrat' />
           <Heading>{ vt('vote/members/title') }</Heading>
-          <Body dangerousHTML={vt('vote/members/body')} />
+          <Body dangerousHTML={vt('vote/members/body1')} />
+          <div {...styles.image}>
+            <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x`} />
+            <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
+          </div>
+          <Body dangerousHTML={vt('vote/members/body2')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/members/more')} />
           </Collapsible>

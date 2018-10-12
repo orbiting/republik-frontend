@@ -276,7 +276,7 @@ class Election extends Component {
           {recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={{ ...fontStyles.sansSerifRegular18 }}
+            style={{ ...fontStyles.sansSerifRegular16 }}
             onClick={() => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY

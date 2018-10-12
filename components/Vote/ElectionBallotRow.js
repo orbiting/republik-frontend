@@ -8,6 +8,7 @@ import { Strong } from './text'
 import FavoriteIcon from 'react-icons/lib/md/favorite'
 import StarsIcon from 'react-icons/lib/md/stars'
 import { Link } from '../../lib/routes'
+import voteT from './voteT'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -45,14 +46,14 @@ const styles = {
       width: '10%'
     },
     '& div:nth-child(3)': {
-      width: '35%'
+      width: '30%'
     },
     '& div:nth-child(4)': {
       width: '20%',
       paddingRight: 5
     },
     '& div:nth-child(5)': {
-      width: '5%'
+      width: '10%'
     },
     [mediaQueries.onlyS]: {
       '& div:nth-child(1)': {
@@ -154,7 +155,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory } = this.props
+    const {candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt} = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -205,10 +206,10 @@ class ElectionBallotRow extends Component {
             <div>
               <div style={{ width: 36, height: 18 }}>
                 {candidate.recommendation &&
-                <StarsIcon size={18} color={colors.lightText} />
+                <StarsIcon size={ 18 }/>
                 }
                 {mandatory &&
-                <FavoriteIcon size={18} color={colors.lightText} />
+                <FavoriteIcon size={ 18 }/>
                 }
               </div>
             </div>
@@ -226,10 +227,10 @@ class ElectionBallotRow extends Component {
                       <div>
                         <A href={`/~${d.id}`}>Profil</A>
                       </div>
-                      {candidate.comment && candidate.comment.id &&
+                      { candidate.comment && candidate.comment.id &&
                       <div>
-                        <Link route='voteDiscuss' params={{ focus: candidate.comment.id }} passHref>
-                          <A href={`/~${d.id}`}>Debatte</A>
+                        <Link route='voteDiscuss' params={ {focus: candidate.comment.id} } passHref>
+                          <A href={ `/~${d.id}` }>{ vt('vote/election/discussion') }</A>
                         </Link>
                       </div>
                       }
@@ -241,7 +242,7 @@ class ElectionBallotRow extends Component {
                 </div>
                 { candidate.recommendation &&
                   <div {...styles.recommendation}>
-                    <Strong>Wahlempfehlung der Republik:</Strong> {candidate.recommendation}
+                    <Strong>{ vt('vote/election/recommendation') }</Strong> { candidate.recommendation }
                   </div>
                 }
               </div>
@@ -282,4 +283,4 @@ ElectionBallotRow.propTypes = {
   candidate: PropTypes.object.isRequired
 }
 
-export default ElectionBallotRow
+export default voteT(ElectionBallotRow)

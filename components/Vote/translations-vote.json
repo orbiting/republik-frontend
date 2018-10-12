@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-10T14:05:10.426Z",
+  "updated": "2018-10-11T14:41:12.599Z",
   "title": "live",
   "data": [
     {
@@ -172,7 +172,7 @@
     },
     {
       "key": "vote/election/thankyou",
-      "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen.<br />\nDanke für Ihre Teilnahme!"
+      "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen. Danke für Ihre Teilnahme!"
     },
     {
       "key": "vote/election/votesRemaining",
@@ -209,6 +209,14 @@
     {
       "key": "vote/election/help",
       "value": "Sie können auch leer einlegen"
+    },
+    {
+      "key": "vote/election/recommendation",
+      "value": "Empfehlung von Project R"
+    },
+    {
+      "key": "vote/election/discussion",
+      "value": "Diskussion"
     },
     {
       "key": "vote/voting/labelVote",

@@ -236,23 +236,23 @@ class Election extends Component {
             </P>
             }
             {recommended.length > 0 &&
-            <span><StarsIcon size={18} color={colors.lightText} />{' '}{vt('vote/election/legendStar')}<br /></span>
+            <span><StarsIcon size={ 18 }/>{ ' ' }{ vt('vote/election/legendStar') }<br/></span>
             }
             {mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon color={colors.lightText} />{' '}{vt('vote/election/legendHeart')}</span>
+            <span><FavoriteIcon/>{ ' ' }{ vt('vote/election/legendHeart') }</span>
             }
           </div>
           }
           {recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={{ ...fontStyles.sansSerifRegular18 }}
-            onClick={() => this.setState({
+            style={ {...fontStyles.sansSerifRegular18} }
+            onClick={ () => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY
-            })}
+            }) }
           >
-            {vt('vote/members/recommendation')}
+            { vt('vote/members/recommendation') }
           </Button>
           }
         </div>

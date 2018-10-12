@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { A, Button, colors, fontFamilies, fontStyles, Interaction, Radio } from '@project-r/styleguide'
+import { A, Button, colors, fontFamilies, fontStyles, InlineSpinner, Interaction, Radio } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import voteT from './voteT'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
+import ErrorMessage from '../ErrorMessage'
 
 const { H3, P } = Interaction
 
@@ -30,9 +31,10 @@ const styles = {
   }),
   cardBody: css({
     marginTop: 15,
-    padding: '0 20px 15px 0px'
+    position: 'relative',
   }),
   cardActions: css({
+    marginTop: 15,
     height: 90,
     position: 'sticky',
 
@@ -56,15 +58,10 @@ const styles = {
   }),
   thankyou: css({
     background: colors.primaryBg,
+    padding: '30px 20px',
     display: 'flex',
-    width: '100%',
-    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    padding: 10,
     textAlign: 'center'
   })
 }
@@ -72,30 +69,31 @@ const styles = {
 const messageDateFormat = timeFormat('%e. %B %Y')
 
 class Voting extends React.Component {
+
   constructor (props) {
     super(props)
     this.state = {
       pollState: POLL_STATES.START,
-      selectedValue: null
+      selectedValue: null,
     }
 
     this.reset = (e) => {
       e.preventDefault()
       this.setState(
-        { selectedValue: null },
+        {selectedValue: null, error: null},
         this.transition(POLL_STATES.START)
       )
     }
 
     this.transition = (nextState, callback) => {
-      this.setState({ pollState: nextState }, callback && callback())
+      this.setState({pollState: nextState}, callback && callback())
     }
 
     this.renderWarning = () => {
-      const { pollState, selectedValue } = this.state
+      const {pollState, selectedValue} = this.state
       if (pollState === POLL_STATES.READY && !selectedValue) {
         return (
-          <P {...styles.error}>
+          <P { ...styles.error }>
             Leer einlegen?
           </P>
         )
@@ -105,18 +103,35 @@ class Voting extends React.Component {
     }
 
     this.submitVotingBallot = async () => {
-      const { submitVotingBallot } = this.props
-      const { selectedValue } = this.state
-      await submitVotingBallot(selectedValue)
+      const {submitVotingBallot} = this.props
+      const {data: {voting}} = this.props
+      const {selectedValue} = this.state
 
-      this.transition(POLL_STATES.DONE)
+      this.setState({updating: true})
+
+      await submitVotingBallot(voting.id, selectedValue).then(() => {
+        return new Promise(resolve => setTimeout(resolve, 10000)) // insert delay to slow down UI
+      }).then(() => {
+        this.setState(() => ({
+          pollState: POLL_STATES.DONE,
+          updating: false,
+          error: null,
+        }))
+      }).then(() => window.scrollTo(0, 0))
+        .catch((error) => {
+          this.setState(() => ({
+            pollState: POLL_STATES.DIRTY,
+            updating: false,
+            error
+          }))
+        })
     }
 
     this.renderActions = () => {
-      const { onFinish, vt } = this.props
-      const { pollState } = this.state
+      const {vt} = this.props
+      const {pollState, updating} = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/voting/labelReset')}</A>
+      const resetLink = <A href='#' { ...styles.link } onClick={ this.reset }>{ vt('vote/voting/labelReset') }</A>
 
       switch (pollState) {
         case POLL_STATES.START:
@@ -124,11 +139,14 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={() => this.transition(POLL_STATES.READY)}
+                onClick={ e => {
+                  e.preventDefault()
+                  this.transition(POLL_STATES.READY)
+                } }
               >
-                {vt('vote/voting/labelVote')}
+                { vt('vote/voting/labelVote') }
               </Button>
-              <div {...styles.link}>{vt('vote/voting/help')}</div>
+              <div { ...styles.link }>{ vt('vote/voting/help') }</div>
             </Fragment>
           )
         case POLL_STATES.DIRTY:
@@ -136,11 +154,14 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={() => this.transition(POLL_STATES.READY)}
+                onClick={ e => {
+                  e.preventDefault()
+                  this.transition(POLL_STATES.READY)
+                } }
               >
-                {vt('vote/voting/labelVote')}
+                { vt('vote/voting/labelVote') }
               </Button>
-              {resetLink}
+              { resetLink }
             </Fragment>
           )
         case POLL_STATES.READY:
@@ -148,11 +169,16 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={() => this.submitVotingBallot()}
+                onClick={ e => {
+                  e.preventDefault()
+                  this.submitVotingBallot()
+                } }
               >
-                {vt('vote/voting/labelConfirm')}
+                { updating
+                  ? <InlineSpinner size={ 40 }/>
+                  : vt('vote/voting/labelConfirm') }
               </Button>
-              {resetLink}
+              { updating ? <A>&nbsp;</A> : resetLink }
             </Fragment>
           )
         case POLL_STATES.DONE:
@@ -161,31 +187,39 @@ class Voting extends React.Component {
           )
       }
     }
-  }
 
-  render () {
-    const { vt, data: { voting } } = this.props
-    const { pollState, selectedValue } = this.state
-    const { P } = Interaction
-    return (
-      <div {...styles.card}>
-        <H3>{voting.description}</H3>
-        <div style={{ position: 'relative' }}>
-          {pollState === POLL_STATES.DONE &&
-          <div {...styles.thankyou}>
-            <P>
-              {vt('vote/voting/thankyou', { submissionDate: messageDateFormat(Date.now()) })}
-            </P>
+    this.renderVotingBody = () => {
+      const {vt, data: {voting}} = this.props
+      const {pollState, selectedValue} = this.state
+      const {P} = Interaction
+
+      if (voting.userHasSubmitted) {
+        return (
+          <div { ...styles.cardBody }>
+            <div { ...styles.thankyou }>
+              <P>
+                { vt('vote/voting/thankyou', {submissionDate: messageDateFormat(new Date(voting.userSubmitDate))}) }
+              </P>
+            </div>
           </div>
-          }
+        )
+      } else if (new Date(voting.endDate) < Date.now()) {
+        return (
+          <div { ...styles.cardBody }>
+            <div { ...styles.thankyou }>
+              <P>
+                { vt('vote/voting/comingSoon') }
+              </P>
+            </div>
+          </div>
+        )
+      } else {
+        return (
           <div {...styles.cardBody}>
             {voting.options.map(({ id, label }) => (
               <Fragment key={id}>
                 <Radio
                   value={id}
-                  disabled={
-                    pollState === POLL_STATES.DONE
-                  }
                   checked={id === selectedValue}
                   onChange={() =>
                     this.setState(
@@ -199,14 +233,30 @@ class Voting extends React.Component {
                 <br />
               </Fragment>
             ))}
+            {
+              this.renderWarning()
+            }
+            <div { ...styles.cardActions }>
+              { this.renderActions() }
+            </div>
           </div>
-          {
-            this.renderWarning()
-          }
-          <div {...styles.cardActions}>
-            {this.renderActions()}
-          </div>
-        </div>
+        )
+      }
+    }
+  }
+
+  render () {
+    const {data: {voting}} = this.props
+    const {error, updating} = this.state
+    return (
+      <div { ...styles.card }>
+        <H3>{ voting.description }</H3>
+        { error &&
+        <ErrorMessage error={ error }/>
+        }
+        {
+          this.renderVotingBody()
+        }
       </div>
     )
   }
@@ -236,8 +286,9 @@ Voting.defaultProps = {
 }
 
 const submitVotingBallotMutation = gql`
-  mutation submitVotingBallot($optionId: ID!) {
-    submitVotingBallot(optionId: $optionId) {
+  mutation submitVotingBallot($votingId: ID!, $optionId: ID) {
+    submitVotingBallot(votingId: $votingId, optionId: $optionId) {
+      id
       userHasSubmitted
       userSubmitDate    
     }
@@ -250,6 +301,8 @@ const query = gql`
       id
       description
       slug
+      beginDate
+      endDate
       userSubmitDate
       userHasSubmitted
       options {
@@ -264,10 +317,11 @@ export default compose(
   voteT,
   graphql(submitVotingBallotMutation, {
     props: ({ mutate }) => ({
-      submitVotingBallot: optionId => {
+      submitVotingBallot: (votingId, optionId) => {
         return mutate({
           variables: {
-            optionId
+            votingId,
+            optionId,
           }
         })
       }

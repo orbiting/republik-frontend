@@ -1,7 +1,17 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { A, Button, colors, fontFamilies, fontStyles, InlineSpinner, Interaction, Radio } from '@project-r/styleguide'
+import {
+  A,
+  Button,
+  colors,
+  fontFamilies,
+  fontStyles,
+  InlineSpinner,
+  Interaction,
+  Radio,
+  RawHtml
+} from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import voteT from './voteT'
 import gql from 'graphql-tag'
@@ -14,7 +24,6 @@ const POLL_STATES = {
   START: 'START',
   DIRTY: 'DIRTY',
   READY: 'READY',
-  DONE: 'DONE'
 }
 
 const styles = {
@@ -80,13 +89,12 @@ class Voting extends React.Component {
     this.reset = (e) => {
       e.preventDefault()
       this.setState(
-        {selectedValue: null, error: null},
-        this.transition(POLL_STATES.START)
+        {
+          selectedValue: null,
+          error: null,
+          pollState: POLL_STATES.START
+        }
       )
-    }
-
-    this.transition = (nextState, callback) => {
-      this.setState({pollState: nextState}, callback && callback())
     }
 
     this.renderWarning = () => {
@@ -113,12 +121,10 @@ class Voting extends React.Component {
         return new Promise(resolve => setTimeout(resolve, 10000)) // insert delay to slow down UI
       }).then(() => {
         this.setState(() => ({
-          pollState: POLL_STATES.DONE,
           updating: false,
           error: null,
         }))
-      }).then(() => window.scrollTo(0, 0))
-        .catch((error) => {
+      }).catch((error) => {
           this.setState(() => ({
             pollState: POLL_STATES.DIRTY,
             updating: false,
@@ -141,7 +147,9 @@ class Voting extends React.Component {
                 primary
                 onClick={ e => {
                   e.preventDefault()
-                  this.transition(POLL_STATES.READY)
+                  this.setState(() => ({
+                    pollState: POLL_STATES.READY,
+                  }))
                 } }
               >
                 { vt('vote/voting/labelVote') }
@@ -156,7 +164,9 @@ class Voting extends React.Component {
                 primary
                 onClick={ e => {
                   e.preventDefault()
-                  this.transition(POLL_STATES.READY)
+                  this.setState(() => ({
+                    pollState: POLL_STATES.READY,
+                  }))
                 } }
               >
                 { vt('vote/voting/labelVote') }
@@ -181,7 +191,7 @@ class Voting extends React.Component {
               { updating ? <A>&nbsp;</A> : resetLink }
             </Fragment>
           )
-        case POLL_STATES.DONE:
+        default:
           return (
             null
           )
@@ -190,7 +200,7 @@ class Voting extends React.Component {
 
     this.renderVotingBody = () => {
       const {vt, data: {voting}} = this.props
-      const {pollState, selectedValue} = this.state
+      const {selectedValue} = this.state
       const {P} = Interaction
 
       if (voting.userHasSubmitted) {
@@ -198,18 +208,33 @@ class Voting extends React.Component {
           <div { ...styles.cardBody }>
             <div { ...styles.thankyou }>
               <P>
-                { vt('vote/voting/thankyou', {submissionDate: messageDateFormat(new Date(voting.userSubmitDate))}) }
+                {
+                  vt('vote/voting/thankyou',
+                    {submissionDate: messageDateFormat(new Date(voting.userSubmitDate))})
+                }
               </P>
             </div>
           </div>
         )
-      } else if (new Date(voting.endDate) < Date.now()) {
+      } else if (!voting.userIsEligible) {
         return (
           <div { ...styles.cardBody }>
             <div { ...styles.thankyou }>
-              <P>
-                { vt('vote/voting/comingSoon') }
-              </P>
+              <RawHtml
+                type={ P }
+                dangerouslySetInnerHTML={ {__html: vt('vote/voting/toolate')} }
+              />
+            </div>
+          </div>
+        )
+      } else if (Date.now() > new Date(voting.endDate)) {
+        return (
+          <div { ...styles.cardBody }>
+            <div { ...styles.thankyou }>
+              <RawHtml
+                type={ P }
+                dangerouslySetInnerHTML={ {__html: vt('vote/voting/gomingsoon')} }
+              />
             </div>
           </div>
         )
@@ -222,10 +247,10 @@ class Voting extends React.Component {
                   value={id}
                   checked={id === selectedValue}
                   onChange={() =>
-                    this.setState(
-                      { selectedValue: id },
-                      this.transition(POLL_STATES.DIRTY)
-                    )
+                    this.setState({
+                      selectedValue: id,
+                      pollState: POLL_STATES.DIRTY
+                    })
                   }
                 >
                   <span {...styles.optionText}>{label}</span>
@@ -247,7 +272,7 @@ class Voting extends React.Component {
 
   render () {
     const {data: {voting}} = this.props
-    const {error, updating} = this.state
+    const {error} = this.state
     return (
       <div { ...styles.card }>
         <H3>{ voting.description }</H3>
@@ -305,6 +330,7 @@ const query = gql`
       endDate
       userSubmitDate
       userHasSubmitted
+      userIsEligible
       options {
         id
         label

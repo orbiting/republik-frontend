@@ -46,14 +46,15 @@ const styles = {
       width: '10%'
     },
     '& div:nth-child(3)': {
-      width: '30%'
+      width: '35%',
+      paddingRight: 3
     },
     '& div:nth-child(4)': {
       width: '20%',
       paddingRight: 5
     },
     '& div:nth-child(5)': {
-      width: '10%'
+      width: '5%'
     },
     [mediaQueries.onlyS]: {
       '& div:nth-child(1)': {
@@ -118,6 +119,7 @@ const styles = {
     marginTop: 10
   }),
   wrapper: css({
+    minHeight: 45,
     width: '100%',
     display: 'flex',
     padding: 0
@@ -155,7 +157,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const {candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt} = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -206,10 +208,10 @@ class ElectionBallotRow extends Component {
             <div>
               <div style={{ width: 36, height: 18 }}>
                 {candidate.recommendation &&
-                <StarsIcon size={ 18 }/>
+                <StarsIcon size={18} />
                 }
                 {mandatory &&
-                <FavoriteIcon size={ 18 }/>
+                <FavoriteIcon size={18} />
                 }
               </div>
             </div>
@@ -229,8 +231,8 @@ class ElectionBallotRow extends Component {
                       </div>
                       { candidate.comment && candidate.comment.id &&
                       <div>
-                        <Link route='voteDiscuss' params={ {focus: candidate.comment.id} } passHref>
-                          <A href={ `/~${d.id}` }>{ vt('vote/election/discussion') }</A>
+                        <Link route='voteDiscuss' params={{ focus: candidate.comment.id }} passHref>
+                          <A href={`/~${d.id}`}>{ vt('vote/election/discussion') }</A>
                         </Link>
                       </div>
                       }

@@ -10,6 +10,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
 import { timeFormat } from '../../lib/utils/format'
+import ErrorMessage from '../ErrorMessage'
 
 const { P } = Interaction
 
@@ -119,13 +120,39 @@ class Election extends Component {
       }, () => onChange(this.state.vote))
     }
 
+    this.submitBallot = async () => {
+      const { onFinish, submitElectionBallot, data: { election: { id } } } = this.props
+      const { vote } = this.state
+
+      this.setState({ updating: true })
+
+      await submitElectionBallot(id, vote.map(c => c.id))
+        .then(() => {
+          this.setState(() => ({
+            updating: false,
+            error: null
+          }), onFinish)
+        }).catch((error) => {
+          this.setState(() => ({
+            updating: false,
+            error
+          }))
+        })
+    }
+
     this.reset = e => {
       e.preventDefault()
-      this.setState({ vote: [], electionState: ELECTION_STATES.START }, () => this.props.onChange([]))
+      this.setState({
+        vote: [],
+        electionState: ELECTION_STATES.START,
+        error: null
+      },
+      () => this.props.onChange([])
+      )
     }
 
     this.renderActions = () => {
-      const { onFinish, vt } = this.props
+      const { vt } = this.props
       const { electionState } = this.state
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/election/labelReset')}</A>
@@ -161,7 +188,7 @@ class Election extends Component {
               <Button
                 primary
                 onClick={() =>
-                  this.transition(ELECTION_STATES.DONE, onFinish)
+                  this.submitBallot()
                 }
               >
                 {vt('vote/election/labelConfirm')}
@@ -196,7 +223,10 @@ class Election extends Component {
 
   render () {
     const { data: { election }, isSticky, mandatoryCandidates, vt } = this.props
-    const { vote, electionState } = this.state
+
+    if (!election) { return null }
+
+    const { vote, electionState, error } = this.state
     const inProgress = electionState !== ELECTION_STATES.DONE
 
     if (!inProgress) {
@@ -236,21 +266,21 @@ class Election extends Component {
             </P>
             }
             {recommended.length > 0 &&
-            <span><StarsIcon size={ 18 }/>{ ' ' }{ vt('vote/election/legendStar') }<br/></span>
+            <span><StarsIcon size={18} />{ ' ' }{ vt('vote/election/legendStar') }<br /></span>
             }
             {mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon/>{ ' ' }{ vt('vote/election/legendHeart') }</span>
+            <span><FavoriteIcon />{ ' ' }{ vt('vote/election/legendHeart') }</span>
             }
           </div>
           }
           {recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={ {...fontStyles.sansSerifRegular18} }
-            onClick={ () => this.setState({
+            style={{ ...fontStyles.sansSerifRegular18 }}
+            onClick={() => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY
-            }) }
+            })}
           >
             { vt('vote/members/recommendation') }
           </Button>
@@ -267,6 +297,9 @@ class Election extends Component {
           />
           {inProgress &&
           <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
+            { error &&
+            <ErrorMessage error={error} />
+            }
             {
               this.renderWarning()
             }
@@ -296,9 +329,22 @@ Election.defaultProps = {
   mandatoryCandidates: []
 }
 
+const submitElectionBallotMutation = gql`
+  mutation submitElectionBallot($electionId: ID!, $candidacyIds: [ID!]!) {
+    submitElectionBallot(electionId: $electionId, candidacyIds: $candidacyIds) {
+      id
+      userHasSubmitted
+      userSubmitDate    
+    }
+  }
+`
+
 const query = gql`
   query getElection($slug: String!) {
     election(slug: $slug) {
+    id
+    userHasSubmitted
+    userSubmitDate    
     description
     beginDate
     numSeats
@@ -338,6 +384,18 @@ const query = gql`
 
 export default compose(
   voteT,
+  graphql(submitElectionBallotMutation, {
+    props: ({ mutate }) => ({
+      submitElectionBallot: (electionId, candidacyIds) => {
+        return mutate({
+          variables: {
+            electionId,
+            candidacyIds
+          }
+        })
+      }
+    })
+  }),
   graphql(query, {
     options: ({ slug }) => ({
       variables: {

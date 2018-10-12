@@ -4,11 +4,11 @@ import { Body, Heading, Section, Small, Title } from './text'
 import Collapsible from './Collapsible'
 import Voting from './Voting'
 import Election from './Election'
-import { mediaQueries } from '@project-r/styleguide'
+import { Container, FigureCaption, FigureImage, mediaQueries, NarrowContainer, P } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import voteT from './voteT'
 
-import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG } from '../../lib/constants'
+import { CDN_FRONTEND_BASE_URL, ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG } from '../../lib/constants'
 
 const styles = {
   anchor: css({
@@ -38,7 +38,7 @@ class VoteForm extends Component {
     const { vt } = this.props
 
     return (
-      <div style={{ marginTop: 0 }}>
+      <Container>
         <Section>
           <Title>{vt('vote/title')}</Title>
           <Body dangerousHTML={vt('vote/intro/body')} />
@@ -46,9 +46,14 @@ class VoteForm extends Component {
             <Small dangerousHTML={vt('vote/intro/more')} />
           </Collapsible>
         </Section>
+        <div>
+          <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x` }/>
+          <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
+        </div>
+
         <Section>
           <a {...styles.anchor} id='jahresrechnung' />
-          <Heading>Jahresrechnung</Heading>
+          <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
           <Body dangerousHTML={vt('vote/jahresrechnung/body')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/jahresrechnung/more')} />
@@ -59,20 +64,20 @@ class VoteForm extends Component {
         </Section>
 
         <Section>
-          <a {...styles.anchor} id='revisionsbericht' />
-          <Heading>Revisionsbericht</Heading>
-          <Body dangerousHTML={vt('vote/revisionsbericht/body')} />
+          <a { ...styles.anchor } id='discharge'/>
+          <Heading>{ vt('vote/discharge/title') }</Heading>
+          <Body dangerousHTML={ vt('vote/discharge/body') }/>
           <Collapsible>
-            <Small dangerousHTML={vt('vote/revisionsbericht/more')} />
+            <Small dangerousHTML={ vt('vote/discharge/more') }/>
           </Collapsible>
           <Voting
-            slug='gen18revision'
+            slug='gen18discharge'
           />
         </Section>
 
         <Section>
           <a {...styles.anchor} id='budget' />
-          <Heading>Budget</Heading>
+          <Heading>{ vt('vote/budget/title') }</Heading>
           <Body dangerousHTML={vt('vote/budget/body')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/budget/more')} />
@@ -83,8 +88,20 @@ class VoteForm extends Component {
         </Section>
 
         <Section>
+          <a { ...styles.anchor } id='board'/>
+          <Heading>{ vt('vote/board/title') }</Heading>
+          <Body dangerousHTML={ vt('vote/board/body') }/>
+          <Collapsible>
+            <Small dangerousHTML={ vt('vote/board/more') }/>
+          </Collapsible>
+          <Voting
+            slug='gen18board'
+          />
+        </Section>
+
+        <Section>
           <a {...styles.anchor} id='president' />
-          <Heading>Präsidium</Heading>
+          <Heading>{ vt('vote/president/title') }</Heading>
           <Body dangerousHTML={vt('vote/president/body')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/president/more')} />
@@ -97,7 +114,7 @@ class VoteForm extends Component {
 
         <Section>
           <a {...styles.anchor} id='genossenschaftsrat' />
-          <Heading>Genossenschaftsrat</Heading>
+          <Heading>{ vt('vote/members/title') }</Heading>
           <Body dangerousHTML={vt('vote/members/body')} />
           <Collapsible>
             <Small dangerousHTML={vt('vote/members/more')} />
@@ -108,7 +125,7 @@ class VoteForm extends Component {
             mandatoryCandidates={this.state.president}
           />
         </Section>
-      </div>
+      </Container>
     )
   }
 }

@@ -117,20 +117,20 @@ class Voting extends React.Component {
 
       this.setState({updating: true})
 
-      await submitVotingBallot(voting.id, selectedValue).then(() => {
-        return new Promise(resolve => setTimeout(resolve, 10000)) // insert delay to slow down UI
-      }).then(() => {
-        this.setState(() => ({
-          updating: false,
-          error: null,
-        }))
-      }).catch((error) => {
+      await submitVotingBallot(voting.id, selectedValue)
+        .then(() => {
+          this.setState(() => ({
+            updating: false,
+            error: null,
+          }))
+        }).catch((error) => {
           this.setState(() => ({
             pollState: POLL_STATES.DIRTY,
             updating: false,
             error
           }))
         })
+
     }
 
     this.renderActions = () => {
@@ -272,6 +272,8 @@ class Voting extends React.Component {
 
   render () {
     const {data: {voting}} = this.props
+    if (!voting)
+      return null
     const {error} = this.state
     return (
       <div { ...styles.card }>

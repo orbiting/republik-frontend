@@ -368,6 +368,7 @@ const query = gql`
         id
       }
       election {
+        slug
         discussion {
           id
         }

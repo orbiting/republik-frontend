@@ -246,7 +246,7 @@ class ElectionBallotRow extends Component {
                       { candidate.comment && candidate.comment.id &&
                       <div>
                         <Link route='voteDiscuss' params={ {
-                          discussionId: candidate.election.discussion.id,
+                          discussion: candidate.election.slug,
                           commentId: candidate.comment.id
                         } } passHref>
                           <A>{ vt('vote/election/discussion') }</A>

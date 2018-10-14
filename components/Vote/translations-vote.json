@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-14T10:24:59.338Z",
+  "updated": "2018-10-14T13:57:00.755Z",
   "title": "live",
   "data": [
     {
@@ -296,7 +296,15 @@
     },
     {
       "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Danke fürs Mitmachen. Die Resultate der Abstimmungen und Wahlen werden am 31. Oktober hier publiziert."
+      "value": "Alles erledigt. Danke fürs Mitmachen! Die Resultate der Abstimmungen und Wahlen werden am 31. Oktober hier publiziert."
+    },
+    {
+      "key": "vote/discussion/title",
+      "value": "Diskutieren Sie mit!"
+    },
+    {
+      "key": "vote/discussion/intro",
+      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputateeleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellusviverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiamultricies nisi vel augue."
     },
     {
       "key": "common/moreInfo",

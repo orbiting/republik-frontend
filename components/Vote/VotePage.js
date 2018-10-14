@@ -109,7 +109,7 @@ class VoteForm extends Component {
           </Section>
 
           <Section>
-            <a { ...styles.anchor } id='jahresrechnung'/>
+            <a { ...styles.anchor } id='accounts'/>
             <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
             <Body dangerousHTML={ vt('vote/jahresrechnung/body') }/>
             <Collapsible>

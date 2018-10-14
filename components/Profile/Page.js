@@ -194,6 +194,9 @@ const getPublicUser = gql`
           description
           beginDate
           endDate
+          discussion {
+            id
+          }
         }
         id
         yearOfBirth

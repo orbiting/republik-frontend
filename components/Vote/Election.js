@@ -352,7 +352,6 @@ const query = gql`
     beginDate
     numSeats
     discussion {
-      documentPath
       comments {
         totalCount
         nodes {
@@ -367,6 +366,11 @@ const query = gql`
       recommendation
       comment {
         id
+      }
+      election {
+        discussion {
+          id
+        }
       }
       user {
         id

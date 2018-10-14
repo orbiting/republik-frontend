@@ -3,28 +3,56 @@ import { compose, graphql } from 'react-apollo'
 import Frame from '../../components/Frame'
 import Discussion from '../../components/Discussion/Discussion'
 import gql from 'graphql-tag'
+import { withRouter } from 'next/router'
+import { Interaction, NarrowContainer } from '@project-r/styleguide'
 
-import { ELECTION_COOP_MEMBERS_SLUG } from '../../lib/constants'
+import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG, VOTING_COOP_BOARD_SLUG, } from '../../lib/constants'
 import voteT from './voteT'
+import { Body, Section, Title } from './text'
 
-const DiscussionPage = ({url, data}) => (
-  <Frame url={url}>
-    <h1>Hello</h1>
-    <Discussion discussionId={data.election.discussion.id} focusId={url.query.focus} mute={!!url.query.mute} url={url}/>
+const DiscussionPage = ({router, data, vt}) => console.log('ElectionDiscussionPage.js:19 [router.query]', router.query) || (
+  <Frame>
+    <NarrowContainer>
+      <Title>{ vt('vote/discussion/title') }</Title>
+      <Section>
+        <Body dangerousHTML={ vt('vote/discussion/intro') }/>
+      </Section>
+      <Discussion
+        discussionId={ router.query.discussionId }
+        focusId={ router.query.commentId }
+        mute={ !!router.query.mute }
+      />
+    </NarrowContainer>
   </Frame>
 )
 
-const query = gql`
-  query { 
-    election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
-      discussion {
-        id
-      }
+const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG].map(slug => `
+  ${slug}: election(slug: "${slug}") {
+    discussion {
+      id
     }
+   }
+`).join('\n')
+
+const votingsQuery = [
+  VOTING_COOP_BOARD_SLUG
+].map(slug => `
+  ${slug}: voting(slug: "${slug}") {
+    discussion {
+      id
+    }
+  }
+`).join('\n')
+
+const query = gql`
+  query {
+    ${electionsQuery}
+    ${votingsQuery}
   }
 `
 
 export default compose(
   voteT,
+  withRouter,
   graphql(query),
 )(DiscussionPage)

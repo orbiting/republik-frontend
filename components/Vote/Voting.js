@@ -23,7 +23,7 @@ const { H3, P } = Interaction
 const POLL_STATES = {
   START: 'START',
   DIRTY: 'DIRTY',
-  READY: 'READY',
+  READY: 'READY'
 }
 
 const styles = {
@@ -40,7 +40,7 @@ const styles = {
   }),
   cardBody: css({
     marginTop: 15,
-    position: 'relative',
+    position: 'relative'
   }),
   cardActions: css({
     marginTop: 15,
@@ -78,12 +78,11 @@ const styles = {
 const messageDateFormat = timeFormat('%e. %B %Y')
 
 class Voting extends React.Component {
-
   constructor (props) {
     super(props)
     this.state = {
       pollState: POLL_STATES.START,
-      selectedValue: null,
+      selectedValue: null
     }
 
     this.reset = (e) => {
@@ -98,10 +97,10 @@ class Voting extends React.Component {
     }
 
     this.renderWarning = () => {
-      const {pollState, selectedValue} = this.state
+      const { pollState, selectedValue } = this.state
       if (pollState === POLL_STATES.READY && !selectedValue) {
         return (
-          <P { ...styles.error }>
+          <P {...styles.error}>
             Leer einlegen?
           </P>
         )
@@ -111,17 +110,17 @@ class Voting extends React.Component {
     }
 
     this.submitVotingBallot = async () => {
-      const {submitVotingBallot} = this.props
-      const {data: {voting}} = this.props
-      const {selectedValue} = this.state
+      const { submitVotingBallot } = this.props
+      const { data: { voting } } = this.props
+      const { selectedValue } = this.state
 
-      this.setState({updating: true})
+      this.setState({ updating: true })
 
       await submitVotingBallot(voting.id, selectedValue)
         .then(() => {
           this.setState(() => ({
             updating: false,
-            error: null,
+            error: null
           }))
         }).catch((error) => {
           this.setState(() => ({
@@ -130,14 +129,13 @@ class Voting extends React.Component {
             error
           }))
         })
-
     }
 
     this.renderActions = () => {
-      const {vt} = this.props
-      const {pollState, updating} = this.state
+      const { vt } = this.props
+      const { pollState, updating } = this.state
 
-      const resetLink = <A href='#' { ...styles.link } onClick={ this.reset }>{ vt('vote/voting/labelReset') }</A>
+      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{ vt('vote/voting/labelReset') }</A>
 
       switch (pollState) {
         case POLL_STATES.START:
@@ -145,16 +143,16 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={ e => {
+                onClick={e => {
                   e.preventDefault()
                   this.setState(() => ({
-                    pollState: POLL_STATES.READY,
+                    pollState: POLL_STATES.READY
                   }))
-                } }
+                }}
               >
                 { vt('vote/voting/labelVote') }
               </Button>
-              <div { ...styles.link }>{ vt('vote/voting/help') }</div>
+              <div {...styles.link}>{ vt('vote/voting/help') }</div>
             </Fragment>
           )
         case POLL_STATES.DIRTY:
@@ -162,12 +160,12 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={ e => {
+                onClick={e => {
                   e.preventDefault()
                   this.setState(() => ({
-                    pollState: POLL_STATES.READY,
+                    pollState: POLL_STATES.READY
                   }))
-                } }
+                }}
               >
                 { vt('vote/voting/labelVote') }
               </Button>
@@ -179,13 +177,13 @@ class Voting extends React.Component {
             <Fragment>
               <Button
                 primary
-                onClick={ e => {
+                onClick={e => {
                   e.preventDefault()
                   this.submitVotingBallot()
-                } }
+                }}
               >
                 { updating
-                  ? <InlineSpinner size={ 40 }/>
+                  ? <InlineSpinner size={40} />
                   : vt('vote/voting/labelConfirm') }
               </Button>
               { updating ? <A>&nbsp;</A> : resetLink }
@@ -199,18 +197,18 @@ class Voting extends React.Component {
     }
 
     this.renderVotingBody = () => {
-      const {vt, data: {voting}} = this.props
-      const {selectedValue} = this.state
-      const {P} = Interaction
+      const { vt, data: { voting } } = this.props
+      const { selectedValue } = this.state
+      const { P } = Interaction
 
       if (voting.userHasSubmitted) {
         return (
-          <div { ...styles.cardBody }>
-            <div { ...styles.thankyou }>
+          <div {...styles.cardBody}>
+            <div {...styles.thankyou}>
               <P>
                 {
                   vt('vote/voting/thankyou',
-                    {submissionDate: messageDateFormat(new Date(voting.userSubmitDate))})
+                    { submissionDate: messageDateFormat(new Date(voting.userSubmitDate)) })
                 }
               </P>
             </div>
@@ -218,22 +216,22 @@ class Voting extends React.Component {
         )
       } else if (!voting.userIsEligible) {
         return (
-          <div { ...styles.cardBody }>
-            <div { ...styles.thankyou }>
+          <div {...styles.cardBody}>
+            <div {...styles.thankyou}>
               <RawHtml
-                type={ P }
-                dangerouslySetInnerHTML={ {__html: vt('vote/voting/toolate')} }
+                type={P}
+                dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
               />
             </div>
           </div>
         )
       } else if (Date.now() > new Date(voting.endDate)) {
         return (
-          <div { ...styles.cardBody }>
-            <div { ...styles.thankyou }>
+          <div {...styles.cardBody}>
+            <div {...styles.thankyou}>
               <RawHtml
-                type={ P }
-                dangerouslySetInnerHTML={ {__html: vt('vote/voting/gomingsoon')} }
+                type={P}
+                dangerouslySetInnerHTML={{ __html: vt('vote/voting/gomingsoon') }}
               />
             </div>
           </div>
@@ -244,6 +242,7 @@ class Voting extends React.Component {
             {voting.options.map(({ id, label }) => (
               <Fragment key={id}>
                 <Radio
+                  black
                   value={id}
                   checked={id === selectedValue}
                   onChange={() =>
@@ -261,7 +260,7 @@ class Voting extends React.Component {
             {
               this.renderWarning()
             }
-            <div { ...styles.cardActions }>
+            <div {...styles.cardActions}>
               { this.renderActions() }
             </div>
           </div>
@@ -271,15 +270,14 @@ class Voting extends React.Component {
   }
 
   render () {
-    const {data: {voting}} = this.props
-    if (!voting)
-      return null
-    const {error} = this.state
+    const { data: { voting } } = this.props
+    if (!voting) { return null }
+    const { error } = this.state
     return (
-      <div { ...styles.card }>
+      <div {...styles.card}>
         <H3>{ voting.description }</H3>
         { error &&
-        <ErrorMessage error={ error }/>
+        <ErrorMessage error={error} />
         }
         {
           this.renderVotingBody()
@@ -349,7 +347,7 @@ export default compose(
         return mutate({
           variables: {
             votingId,
-            optionId,
+            optionId
           }
         })
       }

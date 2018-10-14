@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-14T17:08:31.637Z",
+  "updated": "2018-10-14T17:48:36.360Z",
   "title": "live",
   "data": [
     {
@@ -297,6 +297,14 @@
     {
       "key": "vote/common/thankyou",
       "value": "Alles erledigt. Danke fürs Mitmachen! Die Resultate der Abstimmungen und Wahlen werden am 31. Oktober hier publiziert."
+    },
+    {
+      "key": "vote/voting/optionJa",
+      "value": "Ja"
+    },
+    {
+      "key": "vote/voting/optionNein",
+      "value": "Nein"
     },
     {
       "key": "vote/discussion/title",

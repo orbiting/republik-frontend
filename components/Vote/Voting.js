@@ -252,7 +252,7 @@ class Voting extends React.Component {
                     })
                   }
                 >
-                  <span {...styles.optionText}>{label}</span>
+                  <span { ...styles.optionText }>{ vt(`vote/voting/option${label}`) }</span>
                 </Radio>
                 <br />
               </Fragment>

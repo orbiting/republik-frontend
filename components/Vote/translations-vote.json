@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-12T19:05:55.187Z",
+  "updated": "2018-10-14T10:24:59.338Z",
   "title": "live",
   "data": [
     {
@@ -293,6 +293,10 @@
     {
       "key": "vote/voting/help",
       "value": "Sie können auch leer einlegen"
+    },
+    {
+      "key": "vote/common/thankyou",
+      "value": "Alles erledigt. Danke fürs Mitmachen. Die Resultate der Abstimmungen und Wahlen werden am 31. Oktober hier publiziert."
     },
     {
       "key": "common/moreInfo",

@@ -228,8 +228,8 @@ class Election extends Component {
 
     if (!election) { return null }
 
-    const { vote, electionState, error } = this.state
-    const inProgress = electionState !== ELECTION_STATES.DONE
+    const {vote, error} = this.state
+    const inProgress = !election.userHasSubmitted
 
     if (!inProgress) {
       return (
@@ -252,43 +252,44 @@ class Election extends Component {
       return acc
     }, [[], []])
 
-    const showHeader = recommended.length > 0 || election.numSeats > 1
+    const showHeader = recommended.length > 0 && election.numSeats > 1
 
     return (
       <div {...styles.wrapper}>
-        <div {...(showHeader && styles.header)}>
-          {election.numSeats > 1 &&
-          <div {...styles.info}>
-            {inProgress &&
+        { showHeader &&
+        <div { ...styles.header }>
+          { election.numSeats > 1 &&
+          <div { ...styles.info }>
+            { inProgress &&
             <P>
-              <strong>{vt('vote/election/votesRemaining', {
+              <strong>{ vt('vote/election/votesRemaining', {
                 count: election.numSeats - vote.length,
                 max: election.numSeats
-              })}</strong>
+              }) }</strong>
             </P>
             }
-            {recommended.length > 0 &&
-            <span><StarsIcon size={18} />{ ' ' }{ vt('vote/election/legendStar') }<br /></span>
+            { recommended.length > 0 &&
+            <span><StarsIcon size={ 18 }/>{ ' ' }{ vt('vote/election/legendStar') }<br/></span>
             }
-            {mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon />{ ' ' }{ vt('vote/election/legendHeart') }</span>
+            { mandatoryCandidates.length > 0 &&
+            <span><FavoriteIcon/>{ ' ' }{ vt('vote/election/legendHeart') }</span>
             }
           </div>
           }
-          {recommended.length > 0 && inProgress &&
+          { election.numSeats > 1 && recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={{ ...fontStyles.sansSerifRegular16 }}
-            onClick={() => this.setState({
+            style={ {...fontStyles.sansSerifRegular16} }
+            onClick={ () => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY
-            })}
+            }) }
           >
             { vt('vote/members/recommendation') }
           </Button>
           }
         </div>
-        <div />
+        }
         <div {...styles.wrapper}>
           <ElectionBallot
             maxVotes={election.numSeats}

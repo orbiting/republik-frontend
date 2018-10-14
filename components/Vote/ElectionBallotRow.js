@@ -20,13 +20,13 @@ const styles = {
   }),
   statement: css({
     [mediaQueries.onlyS]: {
-      marginBottom: 15,
+      marginBottom: 10,
       ...fontStyles.serifTitle22
     },
     ...fontStyles.serifTitle26
   }),
   summaryWrapper: css({
-    padding: 5,
+    padding: '13px 20px 15px 20px',
     background: colors.secondaryBg,
     marginTop: 8,
     marginBottom: 8,
@@ -71,6 +71,7 @@ const styles = {
   summaryMobile: css({
     display: 'none',
     [mediaQueries.onlyS]: {
+      marginBottom: 25,
       width: '100%',
       lineHeight: 1.4,
       display: 'block'
@@ -101,9 +102,10 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     filter: 'grayscale(1)',
-    marginRight: 8
+    marginRight: 15,
   }),
   profile: css({
+    marginTop: 5,
     display: 'flex',
     alignItems: 'start',
     [mediaQueries.onlyS]: {
@@ -115,11 +117,17 @@ const styles = {
       filter: 'grayscale(1)'
     }
   }),
+  profileFooter: css({
+    marginTop: 8,
+    paddingBottom: 5,
+  }),
   recommendation: css({
-    marginTop: 10
+    marginTop: 25
   }),
   wrapper: css({
-    minHeight: 45,
+    [mediaQueries.mUp]: {
+      minHeight: 45,
+    },
     width: '100%',
     display: 'flex',
     padding: 0
@@ -193,11 +201,15 @@ class ElectionBallotRow extends Component {
           <div
             {...styles.summary}
             style={{ cursor: interactive ? 'pointer' : 'default' }}
-            onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
+            onClick={ () => onChange(candidate) }
           >
             <div>
               {interactive
-                ? <A>{d.name}</A>
+                ? <A onClick={ e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  this.toggleExpanded(d.id)
+                } }>{ d.name }</A>
                 : d.name
               }
 
@@ -217,7 +229,9 @@ class ElectionBallotRow extends Component {
             </div>
           </div>
           { expanded &&
-            <div {...styles.summaryWrapper}>
+          <div
+            { ...styles.summaryWrapper }
+          >
               <div {...styles.summaryMobile}>
                 { summary }
               </div>
@@ -226,7 +240,7 @@ class ElectionBallotRow extends Component {
                   <div>
                     <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
                     <div>
-                      <div>
+                      <div { ...styles.profileFooter }>
                         <A href={`/~${d.id}`}>Profil</A>
                       </div>
                       { candidate.comment && candidate.comment.id &&

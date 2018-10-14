@@ -40,7 +40,9 @@ const styles = {
     zIndex: 10,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
-      top: HEADER_HEIGHT_MOBILE
+      top: HEADER_HEIGHT_MOBILE,
+      textAlign: 'center',
+      margin: '0 -20px',
     }
   }),
   info: css({
@@ -241,11 +243,11 @@ class Election extends Component {
       )
     }
 
-    const listOfCandidates = electionState === ELECTION_STATES.READY
-      ? election.candidacies.filter(c => vote.some(v => v.id === c.id))
-      : election.candidacies
+    // const listOfCandidates = electionState === ELECTION_STATES.READY
+    //   ? election.candidacies.filter(c => vote.some(v => v.id === c.id))
+    //   : election.candidacies
 
-    const [recommended, others] = listOfCandidates.reduce((acc, cur) => {
+    const [recommended, others] = election.candidacies.reduce((acc, cur) => {
       acc[cur.recommendation ? 0 : 1].push(cur)
       return acc
     }, [[], []])
@@ -362,9 +364,9 @@ const query = gql`
       yearOfBirth
       city
       recommendation
-#      comment {
-#        id
-#      }
+      comment {
+        id
+      }
       user {
         id
         name

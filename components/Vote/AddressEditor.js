@@ -9,6 +9,7 @@ import {
 } from '@project-r/styleguide'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
+import withT from '../../lib/withT'
 
 const DEFAULT_COUNTRY = COUNTRIES[0]
 
@@ -66,10 +67,8 @@ class AddressEditor extends Component {
   }
 
   render () {
-    const { data } = this.props
+    const { data, t } = this.props
     const { values, errors, error, dirty, updating } = this.state
-
-    console.log('AddressEditor.js:76 [errors]', errors)
 
     return (
       <Loader loading={data.loading} error={data.error} render={() =>
@@ -93,7 +92,7 @@ class AddressEditor extends Component {
             <Button primary onClick={this.save}>
               {updating
                 ? <InlineSpinner size={40} />
-                : 'Save'
+                : t('Account/Update/submit')
               }
             </Button>
           </div>
@@ -106,6 +105,14 @@ class AddressEditor extends Component {
 const updateAddressMutation = gql`mutation updateAddress($address: AddressInput) {
   updateMe(address: $address) {
     id
+    address {
+      name
+      line1
+      line2
+      postalCode
+      city
+      country
+    }
   }
 }`
 
@@ -126,14 +133,14 @@ const query = gql`
 `
 
 export default compose(
+  withT,
   graphql(updateAddressMutation, {
     props: ({ mutate }) => ({
       updateAddress: address => {
         return mutate({
           variables: {
             address
-          },
-          refetchQueries: [{ query }]
+          }
         })
       }
     })

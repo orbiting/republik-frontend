@@ -14,7 +14,7 @@ import {
   FigureImage,
   Interaction,
   mediaQueries,
-  RawHtml,
+  RawHtml
 } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import voteT from './voteT'
@@ -25,14 +25,13 @@ import {
   VOTING_COOP_ACCOUNTS_SLUG,
   VOTING_COOP_BOARD_SLUG,
   VOTING_COOP_BUDGET_SLUG,
-  VOTING_COOP_DISCHARGE_SLUG,
+  VOTING_COOP_DISCHARGE_SLUG
 } from '../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from './votingStage'
-import ElectionCandidacy from './ElectionCandidacy'
 import Loader from '../Loader'
+import VoteInfo from './VoteInfo'
 
-const {P} = Interaction
-
+const { P } = Interaction
 
 const styles = {
   anchor: css({
@@ -67,7 +66,7 @@ class VoteForm extends Component {
   }
 
   render () {
-    const {vt, data} = this.props
+    const { vt, data } = this.props
 
     const meta = {
       title: vt('info/title'),
@@ -80,131 +79,130 @@ class VoteForm extends Component {
       VOTING_COOP_ACCOUNTS_SLUG,
       VOTING_COOP_DISCHARGE_SLUG,
       VOTING_COOP_BUDGET_SLUG,
-      VOTING_COOP_BOARD_SLUG,
+      VOTING_COOP_BOARD_SLUG
     ].map(slug => this.props.data[slug] && this.props.data[slug].userHasSubmitted).every(Boolean)
 
-    const {beginDate, endDate} = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
+    const { beginDate, endDate } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
     const votingStage = getVotingStage(beginDate, endDate)
 
     return (
-      <Loader loading={ data.loading } error={ data.error } render={ () => {
-
+      <Loader loading={data.loading} error={data.error} render={() => {
         if (votingStage === VOTING_STAGES.INFO) {
           return (
-            <Frame meta={ meta }>
-              <ElectionCandidacy/>
+            <Frame meta={meta}>
+              <VoteInfo />
             </Frame>
           )
         }
 
         return (
-          <Frame meta={ meta }>
+          <Frame meta={meta}>
             <Container>
               <Section>
                 <Title>{ vt('vote/title') }</Title>
-                <div { ...styles.image }>
-                  <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x` }/>
+                <div {...styles.image}>
+                  <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
-                <Body dangerousHTML={ vt('vote/intro/body') }/>
+                <Body dangerousHTML={vt('vote/intro/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/intro/more') }/>
+                  <Small dangerousHTML={vt('vote/intro/more')} />
                 </Collapsible>
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='accounts'/>
+                <a {...styles.anchor} id='accounts' />
                 <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/jahresrechnung/body') }/>
+                <Body dangerousHTML={vt('vote/jahresrechnung/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/jahresrechnung/more') }/>
+                  <Small dangerousHTML={vt('vote/jahresrechnung/more')} />
                 </Collapsible>
                 <Voting
-                  slug={ VOTING_COOP_ACCOUNTS_SLUG }
+                  slug={VOTING_COOP_ACCOUNTS_SLUG}
                 />
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='discharge'/>
+                <a {...styles.anchor} id='discharge' />
                 <Heading>{ vt('vote/discharge/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/discharge/body') }/>
+                <Body dangerousHTML={vt('vote/discharge/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/discharge/more') }/>
+                  <Small dangerousHTML={vt('vote/discharge/more')} />
                 </Collapsible>
                 <Voting
-                  slug={ VOTING_COOP_DISCHARGE_SLUG }
+                  slug={VOTING_COOP_DISCHARGE_SLUG}
                 />
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='budget'/>
+                <a {...styles.anchor} id='budget' />
                 <Heading>{ vt('vote/budget/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/budget/body') }/>
+                <Body dangerousHTML={vt('vote/budget/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/budget/more') }/>
+                  <Small dangerousHTML={vt('vote/budget/more')} />
                 </Collapsible>
                 <Voting
-                  slug={ VOTING_COOP_BUDGET_SLUG }
+                  slug={VOTING_COOP_BUDGET_SLUG}
                 />
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='board'/>
+                <a {...styles.anchor} id='board' />
                 <Heading>{ vt('vote/board/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/board/body') }/>
+                <Body dangerousHTML={vt('vote/board/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/board/more') }/>
+                  <Small dangerousHTML={vt('vote/board/more')} />
                 </Collapsible>
                 <Voting
-                  slug={ VOTING_COOP_BOARD_SLUG }
+                  slug={VOTING_COOP_BOARD_SLUG}
                 />
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='president'/>
+                <a {...styles.anchor} id='president' />
                 <Heading>{ vt('vote/president/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/president/body') }/>
+                <Body dangerousHTML={vt('vote/president/body')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/president/more') }/>
+                  <Small dangerousHTML={vt('vote/president/more')} />
                 </Collapsible>
                 <Election
-                  slug={ ELECTION_COOP_PRESIDENT_SLUG }
-                  onChange={ this.onVoteChange('president') }
+                  slug={ELECTION_COOP_PRESIDENT_SLUG}
+                  onChange={this.onVoteChange('president')}
                 />
               </Section>
 
               <Section>
-                <a { ...styles.anchor } id='genossenschaftsrat'/>
+                <a {...styles.anchor} id='genossenschaftsrat' />
                 <Heading>{ vt('vote/members/title') }</Heading>
-                <Body dangerousHTML={ vt('vote/members/body1') }/>
-                <div { ...styles.image }>
+                <Body dangerousHTML={vt('vote/members/body1')} />
+                <div {...styles.image}>
                   <FigureImage
-                    src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x` }/>
+                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x`} />
                   <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
                 </div>
-                <Body dangerousHTML={ vt('vote/members/body2') }/>
+                <Body dangerousHTML={vt('vote/members/body2')} />
                 <Collapsible>
-                  <Small dangerousHTML={ vt('vote/members/more') }/>
+                  <Small dangerousHTML={vt('vote/members/more')} />
                 </Collapsible>
                 <Election
-                  slug={ ELECTION_COOP_MEMBERS_SLUG }
+                  slug={ELECTION_COOP_MEMBERS_SLUG}
                   isSticky
-                  mandatoryCandidates={ this.state.president }
+                  mandatoryCandidates={this.state.president}
                 />
               </Section>
               { isDone &&
-              <div { ...styles.thankyou }>
+              <div {...styles.thankyou}>
                 <RawHtml
-                  type={ P }
-                  dangerouslySetInnerHTML={ {
+                  type={P}
+                  dangerouslySetInnerHTML={{
                     __html: vt('vote/common/thankyou')
-                  } }/>
+                  }} />
               </div>
               }
             </Container>
           </Frame>
         )
-      } }/>
+      }} />
     )
   }
 }

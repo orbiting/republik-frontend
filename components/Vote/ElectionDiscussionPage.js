@@ -11,39 +11,37 @@ import gql from 'graphql-tag'
 import {
   ELECTION_COOP_MEMBERS_SLUG,
   ELECTION_COOP_PRESIDENT_SLUG,
-  VOTING_COOP_BOARD_DISCUSSION,
+  VOTING_COOP_BOARD_SLUG,
   VOTING_COOP_META_DISCUSSION
 } from '../../lib/constants'
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const DISCUSSION_TITLES = {
   [VOTING_COOP_META_DISCUSSION]: 'vote/discussion/meta',
-  [VOTING_COOP_BOARD_DISCUSSION]: 'vote/discussion/board',
+  [VOTING_COOP_BOARD_SLUG]: 'vote/discussion/board',
   [ELECTION_COOP_PRESIDENT_SLUG]: 'vote/discussion/president',
-  [ELECTION_COOP_MEMBERS_SLUG]: 'vote/discussion/members',
+  [ELECTION_COOP_MEMBERS_SLUG]: 'vote/discussion/members'
 }
 
 const styles = {
   tabBar: css({
     margin: '30px 0',
     padding: '10px 0 0 0',
-    borderTop: `0.5px solid ${colors.divider}`,
+    borderTop: `0.5px solid ${colors.divider}`
   }),
   tab: css({
     marginRight: 20,
     display: 'inline-block'
-  }),
+  })
 }
 
-const DiscussionPage = ({router, data, vt}) => {
-
+const DiscussionPage = ({ router, data, vt }) => {
   return (
-    <Loader loading={ data.loading } error={ data.error } render={ () => {
-
+    <Loader loading={data.loading} error={data.error} render={() => {
       const isValid = DISCUSSION_TITLES[router.query.discussion]
       const selectedDiscussion = isValid ? router.query.discussion : ELECTION_COOP_MEMBERS_SLUG
 
@@ -55,21 +53,22 @@ const DiscussionPage = ({router, data, vt}) => {
           <NarrowContainer>
             <Title>{ vt('vote/discussion/title') }</Title>
             <Section>
-              <Body dangerousHTML={ vt('vote/discussion/intro') }/>
+              <Body dangerousHTML={vt('vote/discussion/intro')} />
             </Section>
             <div>
-              <div { ...styles.tabBar }>
+              <div {...styles.tabBar}>
                 {
                   [
                     VOTING_COOP_META_DISCUSSION,
+                    VOTING_COOP_BOARD_SLUG,
                     ELECTION_COOP_PRESIDENT_SLUG,
                     ELECTION_COOP_MEMBERS_SLUG
                   ].map(id =>
-                    <div key={ id } { ...styles.tab }>
+                    <div key={id} {...styles.tab}>
                       <P>
-                        <Link route='voteDiscuss' params={ {
-                          discussion: (data[id] && data[id].discussion.slug) || id,
-                        } } passHref scroll={ false }>
+                        <Link route='voteDiscuss' params={{
+                          discussion: (data[id] && data[id].discussion.slug) || id
+                        }} passHref scroll={false}>
                           { selectedDiscussion === id ? (
                             <Strong>{ vt(`${DISCUSSION_TITLES[id]}Title`) }</Strong>
                           ) : (
@@ -84,17 +83,17 @@ const DiscussionPage = ({router, data, vt}) => {
                   )
                 }
               </div>
-              <Body dangerousHTML={ vt(`${translationKey}Intro`) }/>
+              <Body dangerousHTML={vt(`${translationKey}Intro`)} />
               <Discussion
-                discussionId={ discussionId }
-                focusId={ router.query.commentId }
-                mute={ !!router.query.mute }
+                discussionId={discussionId}
+                focusId={router.query.commentId}
+                mute={!!router.query.mute}
               />
             </div>
           </NarrowContainer>
         </Frame>
       )
-    } }/>
+    }} />
   )
 }
 
@@ -112,12 +111,17 @@ const query = gql`
       id
     }
    }
+  ${VOTING_COOP_BOARD_SLUG}: voting(slug: "${VOTING_COOP_BOARD_SLUG}") {
+    id
+    discussion {
+      id
+    }
+   }
   }
 `
 
 export default compose(
   voteT,
   withRouter,
-  graphql(query),
+  graphql(query)
 )(DiscussionPage)
-

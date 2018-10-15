@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { ascending } from 'd3-array'
-import { Checkbox, RawHtml } from '@project-r/styleguide'
+import {
+  Checkbox, RawHtml
+} from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 

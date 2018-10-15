@@ -14,9 +14,13 @@ import PaymentForm, { query } from '../Payment/Form'
 import loadStripe from '../Payment/stripe'
 import { P } from './Elements'
 
-import { Button, colors, InlineSpinner } from '@project-r/styleguide'
+import {
+  Button, InlineSpinner, colors
+} from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  PUBLIC_BASE_URL
+} from '../../lib/constants'
 
 const objectValues = (object) => Object.keys(object).map(key => object[key])
 

@@ -5,11 +5,11 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 
-import { submitComment, withDiscussionDisplayAuthor, withDiscussionPreferences } from './enhancers'
+import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { CommentComposer, CommentComposerPlaceholder, Interaction, linkRule, Loader } from '@project-r/styleguide'
+import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 
@@ -77,8 +77,7 @@ class DiscussionCommentComposer extends PureComponent {
       discussionClosed,
       discussionUserCanComment,
       data: { loading, error, discussion },
-      now,
-      parentId
+      now
     } = this.props
     const { state, showPreferences } = this.state
 
@@ -91,8 +90,7 @@ class DiscussionCommentComposer extends PureComponent {
         loading={loading}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
-          if (!me || discussionClosed || disableTopLevelComments) {
+          if (!me || discussionClosed) {
             return null
           } else {
             if (!discussionUserCanComment) {
@@ -137,22 +135,22 @@ class DiscussionCommentComposer extends PureComponent {
             return (
               <div>
                 <CommentComposer
-                  t={ t }
-                  displayAuthor={ displayAuthor }
-                  error={ this.state.error }
-                  onEditPreferences={ this.showPreferences }
-                  onCancel={ this.onCancel }
-                  submitComment={ this.submitComment }
-                  submitLabel={ t('submitComment/rootSubmitLabel') }
-                  secondaryActions={ <SecondaryActions/> }
-                  maxLength={ discussion && discussion.rules && discussion.rules.maxLength }
+                  t={t}
+                  displayAuthor={displayAuthor}
+                  error={this.state.error}
+                  onEditPreferences={this.showPreferences}
+                  onCancel={this.onCancel}
+                  submitComment={this.submitComment}
+                  submitLabel={t('submitComment/rootSubmitLabel')}
+                  secondaryActions={<SecondaryActions />}
+                  maxLength={discussion && discussion.rules && discussion.rules.maxLength}
                 />
-                { showPreferences && (
+                {showPreferences && (
                   <DiscussionPreferences
-                    discussionId={ discussionId }
-                    onClose={ this.closePreferences }
+                    discussionId={discussionId}
+                    onClose={this.closePreferences}
                   />
-                ) }
+                )}
               </div>
             )
           }

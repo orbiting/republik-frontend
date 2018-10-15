@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import {
-  Checkbox,
-  Dropdown,
-  Field,
-  Interaction,
-  Label,
   Loader,
+  Field,
+  Dropdown,
+  Checkbox,
   Overlay,
-  OverlayBody,
   OverlayToolbar,
   OverlayToolbarClose,
-  OverlayToolbarConfirm
+  OverlayToolbarConfirm,
+  OverlayBody,
+  Interaction,
+  Label
 } from '@project-r/styleguide'
 import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
 

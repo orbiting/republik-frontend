@@ -7,14 +7,25 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { matchPath, Router } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
 import withT from '../../lib/withT'
-import { getNotificationPermission, isNotificationSupported } from '../../lib/utils/notification'
-import { A, colors, Dropdown, fontStyles, InlineSpinner, Loader, mediaQueries } from '@project-r/styleguide'
+import {
+  isNotificationSupported,
+  getNotificationPermission
+} from '../../lib/utils/notification'
+import {
+  Loader,
+  A,
+  Dropdown,
+  InlineSpinner,
+  fontStyles,
+  mediaQueries,
+  colors
+} from '@project-r/styleguide'
 import NotificationIcon from './NotificationIcon'
 import {
   DISCUSSION_NOTIFICATION_OPTIONS,
-  webNotificationSubscription,
   withDiscussionPreferences,
   withSetDiscussionPreferences,
+  webNotificationSubscription,
   withUpdateNotificationSettings
 } from './enhancers'
 

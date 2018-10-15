@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
 import { nest } from 'd3-collection'
@@ -7,7 +7,13 @@ import gql from 'graphql-tag'
 import Link from '../Link/Href'
 import withT from '../../lib/withT'
 
-import { colors, fontStyles, FormatTag, Loader, mediaQueries } from '@project-r/styleguide'
+import {
+  Loader,
+  FormatTag,
+  colors,
+  fontStyles,
+  mediaQueries
+} from '@project-r/styleguide'
 
 const styles = {
   h2: css({

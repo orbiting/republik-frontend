@@ -9,7 +9,13 @@ import withT from '../../lib/withT'
 import { negativeColors } from '../Frame/Footer'
 import { prefixHover } from '../../lib/utils/hover'
 
-import { colors, Editorial, fontStyles, mediaQueries, TeaserFrontCredit } from '@project-r/styleguide'
+import {
+  Editorial,
+  colors,
+  fontStyles,
+  mediaQueries,
+  TeaserFrontCredit
+} from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 

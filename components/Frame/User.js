@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { colors, DEFAULT_PROFILE_PICTURE, mediaQueries } from '@project-r/styleguide'
+import { colors, mediaQueries, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'

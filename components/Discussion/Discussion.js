@@ -49,7 +49,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId = null, mute, disableTopLevelComments} = this.props
+    const { t, discussionId, focusId = null, mute } = this.props
     const { orderBy, reload, now } = this.state
 
     const OrderBy = ({ children, value }) => (

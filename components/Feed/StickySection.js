@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
-import { colors, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, colors } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
 import withInNativeApp from '../../lib/withInNativeApp'
 

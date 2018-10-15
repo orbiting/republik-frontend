@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { nest } from 'd3-collection'
 import { timeFormat } from '../../lib/utils/format'
 import { css } from 'glamor'
@@ -13,7 +13,14 @@ import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 import withInNativeApp from '../../lib/withInNativeApp'
 
-import { A, Center, Interaction, mediaQueries, Spinner, TeaserFeed } from '@project-r/styleguide'
+import {
+  A,
+  Center,
+  Spinner,
+  TeaserFeed,
+  Interaction,
+  mediaQueries
+} from '@project-r/styleguide'
 
 const styles = {
   container: css({

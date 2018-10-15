@@ -13,7 +13,10 @@ import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
-import { linkRule, RawHtml } from '@project-r/styleguide'
+import {
+  RawHtml,
+  linkRule
+} from '@project-r/styleguide'
 
 class PledgeList extends Component {
   componentDidMount () {

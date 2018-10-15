@@ -1,7 +1,11 @@
 import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
-import { A, Container, Interaction } from '@project-r/styleguide'
+import {
+  A,
+  Container,
+  Interaction
+} from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import Frame from '../Frame'

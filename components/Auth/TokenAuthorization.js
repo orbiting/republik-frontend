@@ -1,17 +1,14 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import { css } from 'glamor'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
   Button,
-  colors,
-  FieldSet,
-  fontFamilies,
-  InlineSpinner,
-  Interaction,
-  Label,
-  Loader
+  InlineSpinner, Loader,
+  Interaction, Label,
+  fontFamilies, colors,
+  FieldSet
 } from '@project-r/styleguide'
 
 import Consents, { getConsentsError } from '../Pledge/Consents'

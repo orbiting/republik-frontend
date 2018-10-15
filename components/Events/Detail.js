@@ -5,13 +5,18 @@ import { parseDate, swissTime } from '../../lib/utils/format'
 import { intersperse } from '../../lib/utils/helpers'
 import withT from '../../lib/withT'
 
-import { A, colors, fontFamilies, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
+import {
+  Interaction, A, RawHtml, colors,
+  fontFamilies, mediaQueries
+} from '@project-r/styleguide'
 
 import { CONTENT_PADDING } from '../constants'
 
 import ActionBar from '../ActionBar'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  PUBLIC_BASE_URL
+} from '../../lib/constants'
 
 const BLOCK_PADDING_TOP = 10
 

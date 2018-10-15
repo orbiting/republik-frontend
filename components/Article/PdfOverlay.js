@@ -1,14 +1,9 @@
 import React, { Component, Fragment } from 'react'
 
 import {
-  A,
-  Button,
-  Checkbox,
-  Interaction,
-  Overlay,
-  OverlayBody,
-  OverlayToolbar,
-  OverlayToolbarConfirm
+  Overlay, OverlayBody,
+  OverlayToolbar, OverlayToolbarConfirm,
+  Interaction, A, Button, Checkbox
 } from '@project-r/styleguide'
 
 import DownloadIcon from 'react-icons/lib/md/file-download'

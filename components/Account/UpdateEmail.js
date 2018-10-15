@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 
@@ -8,7 +8,9 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
 
-import { A, Button, Field, InlineSpinner, Interaction, Loader } from '@project-r/styleguide'
+import {
+  Loader, InlineSpinner, Button, A, Field, Interaction
+} from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
 

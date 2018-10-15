@@ -5,14 +5,14 @@ import { romanize } from '../../lib/utils/romanize'
 import { timeFormat } from '../../lib/utils/format'
 
 import {
+  colors,
   Breakout,
   Center,
-  colors,
   Editorial,
-  TeaserFrontCredit,
   TeaserFrontTile,
   TeaserFrontTileHeadline,
-  TeaserFrontTileRow
+  TeaserFrontTileRow,
+  TeaserFrontCredit
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')

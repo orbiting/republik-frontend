@@ -7,7 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
-import { AudioPlayer, colors, Logo, mediaQueries } from '@project-r/styleguide'
+import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 
 import withMembership from '../Auth/withMembership'
 
@@ -25,13 +25,13 @@ import BackIcon from '../Icons/Back'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  LOGO_PADDING,
-  LOGO_PADDING_MOBILE,
-  LOGO_WIDTH,
-  LOGO_WIDTH_MOBILE,
   NAVBAR_HEIGHT,
   NAVBAR_HEIGHT_MOBILE,
-  ZINDEX_HEADER
+  ZINDEX_HEADER,
+  LOGO_WIDTH,
+  LOGO_PADDING,
+  LOGO_WIDTH_MOBILE,
+  LOGO_PADDING_MOBILE
 } from '../constants'
 
 const SEARCH_BUTTON_WIDTH = 28

@@ -6,7 +6,10 @@ import SignIn from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
 import { gotoMerci } from './Merci'
 
-import { Interaction, Loader } from '@project-r/styleguide'
+import {
+  Loader,
+  Interaction
+} from '@project-r/styleguide'
 
 const { P } = Interaction
 

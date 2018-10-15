@@ -3,13 +3,13 @@ import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
-import PdfOverlay, { countImages, getPdfUrl } from './PdfOverlay'
+import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -22,7 +22,11 @@ import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 
-import { Center, colors, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  mediaQueries,
+  Center
+} from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { PUBLIC_BASE_URL } from '../../lib/constants'

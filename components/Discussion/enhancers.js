@@ -1,4 +1,4 @@
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import uuid from 'uuid/v4'
 import mkDebug from 'debug'
@@ -6,7 +6,7 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
 
-import { APP_OPTIONS, DISCUSSION_POLL_INTERVAL_MS } from '../../lib/constants'
+import { DISCUSSION_POLL_INTERVAL_MS, APP_OPTIONS } from '../../lib/constants'
 
 const debug = mkDebug('discussion')
 
@@ -261,7 +261,6 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
       maxLength
       minInterval
       anonymity
-      disableTopLevelComments
     }
     userWaitUntil
     documentPath
@@ -444,7 +443,6 @@ query discussionPreferences($discussionId: ID!) {
       maxLength
       minInterval
       anonymity
-      disableTopLevelComments
     }
     userWaitUntil
     userPreference {

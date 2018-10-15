@@ -10,7 +10,12 @@ import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
-import { colors, fontFamilies, Loader, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  fontFamilies,
+  Loader,
+  mediaQueries
+} from '@project-r/styleguide'
 
 export const OFFER_SORT = {
   ABO: 1,

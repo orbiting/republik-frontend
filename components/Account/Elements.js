@@ -4,7 +4,13 @@ import { css, merge } from 'glamor'
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
 
-import { colors, fontStyles, Interaction, Label, linkRule } from '@project-r/styleguide'
+import {
+  colors,
+  Interaction,
+  Label,
+  linkRule,
+  fontStyles
+} from '@project-r/styleguide'
 
 const styles = {
   item: css({

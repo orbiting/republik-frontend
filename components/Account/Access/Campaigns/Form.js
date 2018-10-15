@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { compose } from 'react-apollo'
 import isEmail from 'validator/lib/isEmail'
 
-import { A, Button, Field, InlineSpinner, Interaction, Label } from '@project-r/styleguide'
+import {
+  Button, Field, Label, InlineSpinner, Interaction, A
+} from '@project-r/styleguide'
 
 import ErrorMessage from '../../../ErrorMessage'
 import withT from '../../../../lib/withT'

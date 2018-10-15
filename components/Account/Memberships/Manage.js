@@ -6,10 +6,12 @@ import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
 
-import { A, Item as AccountItem, P } from '../Elements'
+import { Item as AccountItem, P, A } from '../Elements'
 import FieldSet from '../../FieldSet'
 
-import { Button, colors, InlineSpinner } from '@project-r/styleguide'
+import {
+  Button, InlineSpinner, colors
+} from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 

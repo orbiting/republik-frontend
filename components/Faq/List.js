@@ -7,11 +7,18 @@ import Loader from '../Loader'
 import Meta from '../Frame/Meta'
 import withT from '../../lib/withT'
 
-import { colors, fontFamilies, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
+import {
+  Interaction, RawHtml, colors,
+  fontFamilies, mediaQueries
+} from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT, HEADER_HEIGHT_MOBILE
+} from '../constants'
 
-import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
+} from '../../lib/constants'
 
 import { nest } from 'd3-collection'
 

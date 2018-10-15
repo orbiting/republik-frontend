@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
 import { meQuery } from '../../lib/apollo/withMe'
 
-import { A, InlineSpinner } from '@project-r/styleguide'
+import {
+  A, InlineSpinner
+} from '@project-r/styleguide'
 
 class SignOut extends Component {
   constructor (props) {

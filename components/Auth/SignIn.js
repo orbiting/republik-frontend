@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { compose, graphql, withApollo } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
@@ -12,7 +12,15 @@ import { prefixHover } from '../../lib/utils/hover'
 
 import ErrorMessage from '../ErrorMessage'
 
-import { Button, colors, Field, InlineSpinner, Interaction, Label, RawHtml } from '@project-r/styleguide'
+import {
+  Button,
+  InlineSpinner,
+  Interaction,
+  Field,
+  Label,
+  RawHtml,
+  colors
+} from '@project-r/styleguide'
 
 import Poller from './Poller'
 

@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { colors } from '@project-r/styleguide'
+import {
+  colors
+} from '@project-r/styleguide'
 
 const Icon = ({ width, fill }) => (
   <svg width={12} height={16} viewBox='0 0 12 16'>

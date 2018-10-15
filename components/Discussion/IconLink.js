@@ -10,7 +10,9 @@ import { focusSelector } from '../../lib/utils/scroll'
 
 import { withCount } from './enhancers'
 
-import { colors, fontStyles } from '@project-r/styleguide'
+import {
+  colors, fontStyles
+} from '@project-r/styleguide'
 
 const styles = {
   a: css({

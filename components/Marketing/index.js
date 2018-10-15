@@ -1,8 +1,17 @@
 import React, { Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import { colors, Container, fontFamilies, Interaction, Label, mediaQueries, P, RawHtml } from '@project-r/styleguide'
+import {
+  Label,
+  Container,
+  P,
+  RawHtml,
+  colors,
+  mediaQueries,
+  fontFamilies,
+  Interaction
+} from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
 import { prefixHover } from '../../lib/utils/hover'

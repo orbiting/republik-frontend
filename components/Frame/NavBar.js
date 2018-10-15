@@ -3,13 +3,19 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import { Link, matchPath, Router } from '../../lib/routes'
+import { Link, Router, matchPath } from '../../lib/routes'
 
 import { prefixHover } from '../../lib/utils/hover'
 
 import { colors, mediaQueries } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, NAVBAR_HEIGHT, NAVBAR_HEIGHT_MOBILE, ZINDEX_NAVBAR } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  NAVBAR_HEIGHT,
+  NAVBAR_HEIGHT_MOBILE,
+  ZINDEX_NAVBAR
+} from '../constants'
 
 const LINKS = [
   {

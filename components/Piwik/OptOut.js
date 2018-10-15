@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
-import { A, Label, mediaQueries } from '@project-r/styleguide'
+import {
+  Label, A, mediaQueries
+} from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import jsonp from '../../lib/utils/jsonp'
 import { PIWIK_URL_BASE } from '../../lib/constants'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT, HEADER_HEIGHT_MOBILE
+} from '../constants'
 
 const styles = {
   anchor: css({

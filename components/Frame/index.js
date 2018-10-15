@@ -1,11 +1,14 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import { Container, fontFamilies, mediaQueries, RawHtml } from '@project-r/styleguide'
+import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'

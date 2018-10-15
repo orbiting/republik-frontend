@@ -14,11 +14,11 @@ import withT from '../../lib/withT'
 import StatusError from '../StatusError'
 import { parseDate } from '../../lib/utils/format'
 
-import { Interaction, linkRule, mediaQueries, NarrowContainer } from '@project-r/styleguide'
+import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
 
 import { CONTENT_PADDING } from '../constants'
 
-import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import Event from './Detail'
 

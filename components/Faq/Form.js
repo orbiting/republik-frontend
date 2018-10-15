@@ -14,10 +14,11 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import Poller from '../Auth/Poller'
 
-import { Button, Field, InlineSpinner, Interaction } from '@project-r/styleguide'
+import {
+  Interaction, InlineSpinner, Field, Button
+} from '@project-r/styleguide'
 
 import { H2 } from './List'
-
 const { P } = Interaction
 
 const submitQuestion = gql`

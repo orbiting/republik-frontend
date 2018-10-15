@@ -6,9 +6,14 @@ import withT from '../../lib/withT'
 import { trackEventOnClick } from '../../lib/piwik'
 
 import Close from 'react-icons/lib/md/close'
-import { Center, mediaQueries } from '@project-r/styleguide'
+import {
+  Center,
+  mediaQueries
+} from '@project-r/styleguide'
 import { negativeColors } from '../Frame/Footer'
-import { ZINDEX_BOTTOM_PANEL } from '../constants'
+import {
+  ZINDEX_BOTTOM_PANEL
+} from '../constants'
 
 const PADDING = 15
 const IOS_BOTTOM_HOT_AREA = 44

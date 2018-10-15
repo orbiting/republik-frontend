@@ -1,25 +1,22 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
-import {
-  commentsSubscription,
-  downvoteComment,
-  editComment,
-  isAdmin,
-  query,
-  submitComment,
-  unpublishComment,
-  upvoteComment,
-  withDiscussionDisplayAuthor
-} from './enhancers'
+import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { colors, CommentTreeCollapse, CommentTreeLoadMore, CommentTreeRow, Label, Loader } from '@project-r/styleguide'
+import {
+  Loader,
+  CommentTreeLoadMore,
+  CommentTreeCollapse,
+  CommentTreeRow,
+  Label,
+  colors
+} from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'

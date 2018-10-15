@@ -1,16 +1,19 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { getNotificationPermission, isNotificationSupported } from '../../lib/utils/notification'
+import {
+  isNotificationSupported,
+  getNotificationPermission
+} from '../../lib/utils/notification'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { A, Checkbox, Dropdown, InlineSpinner, Loader } from '@project-r/styleguide'
+import { A, Loader, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
 
 import {
   DISCUSSION_NOTIFICATION_CHANNELS,

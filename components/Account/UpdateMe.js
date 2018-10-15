@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { intersperse } from '../../lib/utils/helpers'
 import { errorToString } from '../../lib/utils/errors'
@@ -8,7 +8,9 @@ import { swissTime } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import AddressForm, { COUNTRIES, fields as addressFields } from './AddressForm'
 
-import { A, Button, colors, InlineSpinner, Interaction, Label, Loader } from '@project-r/styleguide'
+import {
+  Loader, InlineSpinner, Interaction, Label, Button, A, colors
+} from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
 

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 
 import { WithoutMembership } from '../Auth/withMembership'
@@ -13,7 +13,15 @@ import { countFormat } from '../../lib/utils/format'
 import withInNativeApp from '../../lib/withInNativeApp'
 import BottomPanel from './PayNoteBottomPanel'
 
-import { Button, Center, colors, fontStyles, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
+import {
+  Button,
+  Center,
+  Interaction,
+  colors,
+  fontStyles,
+  linkRule,
+  mediaQueries
+} from '@project-r/styleguide'
 
 import { negativeColors } from '../Frame/Footer'
 

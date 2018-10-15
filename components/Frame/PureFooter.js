@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import 'glamor/reset'
 import IconLink from '../IconLink'
-import { fontFamilies, Label, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
 import { EMAIL_CONTACT } from '../../lib/constants'
 import { prefixHover } from '../../lib/utils/hover'
 

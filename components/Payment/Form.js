@@ -4,13 +4,20 @@ import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { A, colors, fontFamilies, Interaction, Label, Loader } from '@project-r/styleguide'
+import {
+  Interaction, Label, A,
+  colors, fontFamilies,
+  Loader
+} from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
 
 import AddressForm from '../Account/AddressForm'
 
-import { PAYPAL_FORM_ACTION, PF_FORM_ACTION } from '../../lib/constants'
+import {
+  PF_FORM_ACTION,
+  PAYPAL_FORM_ACTION
+} from '../../lib/constants'
 
 import * as postfinance from './postfinance'
 import * as paypal from './paypal'

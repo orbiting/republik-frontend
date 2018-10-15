@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, matchPath } from '../../lib/routes'
+import { matchPath, Link } from '../../lib/routes'
 import AreaLink from './Area'
 
 export default ({ path, query = {}, passHref, replace, scroll, children }) => {

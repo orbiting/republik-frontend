@@ -18,7 +18,10 @@ import FieldSet from '../../FieldSet'
 import { withSignOut } from '../../Auth/SignOut'
 import { withSignIn } from '../../Auth/SignIn'
 
-import { Button, colors, Field, Interaction } from '@project-r/styleguide'
+import {
+  Field, Button, Interaction,
+  colors
+} from '@project-r/styleguide'
 
 const requiredConsents = [
   'PRIVACY', 'TOS', 'STATUTE'

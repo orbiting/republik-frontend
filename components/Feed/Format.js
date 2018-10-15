@@ -1,8 +1,8 @@
 import React from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Center, Interaction, Loader, TeaserFeed } from '@project-r/styleguide'
+import { Center, TeaserFeed, Interaction, Loader } from '@project-r/styleguide'
 import Link from '../Link/Href'
 
 import withT from '../../lib/withT'

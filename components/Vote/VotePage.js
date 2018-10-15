@@ -29,6 +29,7 @@ import {
 } from '../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from './votingStage'
 import ElectionCandidacy from './ElectionCandidacy'
+import Loader from '../Loader'
 
 const {P} = Interaction
 
@@ -66,7 +67,7 @@ class VoteForm extends Component {
   }
 
   render () {
-    const { vt } = this.props
+    const {vt, data} = this.props
 
     const meta = {
       title: vt('info/title'),
@@ -85,119 +86,125 @@ class VoteForm extends Component {
     const {beginDate, endDate} = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
     const votingStage = getVotingStage(beginDate, endDate)
 
-    if (votingStage === VOTING_STAGES.INFO) {
-      return (
-        <Frame meta={ meta }>
-          <ElectionCandidacy/>
-        </Frame>
-      )
-    }
-
     return (
-      <Frame meta={ meta }>
-        <Container>
-          <Section>
-            <Title>{ vt('vote/title') }</Title>
-            <div { ...styles.image }>
-              <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x` }/>
-              <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
-            </div>
-            <Body dangerousHTML={ vt('vote/intro/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/intro/more') }/>
-            </Collapsible>
-          </Section>
+      <Loader loading={ data.loading } error={ data.error } render={ () => {
 
-          <Section>
-            <a { ...styles.anchor } id='accounts'/>
-            <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/jahresrechnung/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/jahresrechnung/more') }/>
-            </Collapsible>
-            <Voting
-              slug={ VOTING_COOP_ACCOUNTS_SLUG }
-            />
-          </Section>
+        if (votingStage === VOTING_STAGES.INFO) {
+          return (
+            <Frame meta={ meta }>
+              <ElectionCandidacy/>
+            </Frame>
+          )
+        }
 
-          <Section>
-            <a { ...styles.anchor } id='discharge'/>
-            <Heading>{ vt('vote/discharge/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/discharge/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/discharge/more') }/>
-            </Collapsible>
-            <Voting
-              slug={ VOTING_COOP_DISCHARGE_SLUG }
-            />
-          </Section>
+        return (
+          <Frame meta={ meta }>
+            <Container>
+              <Section>
+                <Title>{ vt('vote/title') }</Title>
+                <div { ...styles.image }>
+                  <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x` }/>
+                  <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
+                </div>
+                <Body dangerousHTML={ vt('vote/intro/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/intro/more') }/>
+                </Collapsible>
+              </Section>
 
-          <Section>
-            <a { ...styles.anchor } id='budget'/>
-            <Heading>{ vt('vote/budget/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/budget/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/budget/more') }/>
-            </Collapsible>
-            <Voting
-              slug={ VOTING_COOP_BUDGET_SLUG }
-            />
-          </Section>
+              <Section>
+                <a { ...styles.anchor } id='accounts'/>
+                <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/jahresrechnung/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/jahresrechnung/more') }/>
+                </Collapsible>
+                <Voting
+                  slug={ VOTING_COOP_ACCOUNTS_SLUG }
+                />
+              </Section>
 
-          <Section>
-            <a { ...styles.anchor } id='board'/>
-            <Heading>{ vt('vote/board/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/board/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/board/more') }/>
-            </Collapsible>
-            <Voting
-              slug={ VOTING_COOP_BOARD_SLUG }
-            />
-          </Section>
+              <Section>
+                <a { ...styles.anchor } id='discharge'/>
+                <Heading>{ vt('vote/discharge/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/discharge/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/discharge/more') }/>
+                </Collapsible>
+                <Voting
+                  slug={ VOTING_COOP_DISCHARGE_SLUG }
+                />
+              </Section>
 
-          <Section>
-            <a { ...styles.anchor } id='president'/>
-            <Heading>{ vt('vote/president/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/president/body') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/president/more') }/>
-            </Collapsible>
-            <Election
-              slug={ ELECTION_COOP_PRESIDENT_SLUG }
-              onChange={ this.onVoteChange('president') }
-            />
-          </Section>
+              <Section>
+                <a { ...styles.anchor } id='budget'/>
+                <Heading>{ vt('vote/budget/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/budget/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/budget/more') }/>
+                </Collapsible>
+                <Voting
+                  slug={ VOTING_COOP_BUDGET_SLUG }
+                />
+              </Section>
 
-          <Section>
-            <a { ...styles.anchor } id='genossenschaftsrat'/>
-            <Heading>{ vt('vote/members/title') }</Heading>
-            <Body dangerousHTML={ vt('vote/members/body1') }/>
-            <div { ...styles.image }>
-              <FigureImage src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x` }/>
-              <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
-            </div>
-            <Body dangerousHTML={ vt('vote/members/body2') }/>
-            <Collapsible>
-              <Small dangerousHTML={ vt('vote/members/more') }/>
-            </Collapsible>
-            <Election
-              slug={ ELECTION_COOP_MEMBERS_SLUG }
-              isSticky
-              mandatoryCandidates={ this.state.president }
-            />
-          </Section>
-          { isDone &&
-          <div { ...styles.thankyou }>
-            <RawHtml
-              type={ P }
-              dangerouslySetInnerHTML={ {
-                __html: vt('vote/common/thankyou')
-              } }/>
-          </div>
-          }
-        </Container>
-      </Frame>
+              <Section>
+                <a { ...styles.anchor } id='board'/>
+                <Heading>{ vt('vote/board/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/board/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/board/more') }/>
+                </Collapsible>
+                <Voting
+                  slug={ VOTING_COOP_BOARD_SLUG }
+                />
+              </Section>
+
+              <Section>
+                <a { ...styles.anchor } id='president'/>
+                <Heading>{ vt('vote/president/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/president/body') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/president/more') }/>
+                </Collapsible>
+                <Election
+                  slug={ ELECTION_COOP_PRESIDENT_SLUG }
+                  onChange={ this.onVoteChange('president') }
+                />
+              </Section>
+
+              <Section>
+                <a { ...styles.anchor } id='genossenschaftsrat'/>
+                <Heading>{ vt('vote/members/title') }</Heading>
+                <Body dangerousHTML={ vt('vote/members/body1') }/>
+                <div { ...styles.image }>
+                  <FigureImage
+                    src={ `${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x` }/>
+                  <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
+                </div>
+                <Body dangerousHTML={ vt('vote/members/body2') }/>
+                <Collapsible>
+                  <Small dangerousHTML={ vt('vote/members/more') }/>
+                </Collapsible>
+                <Election
+                  slug={ ELECTION_COOP_MEMBERS_SLUG }
+                  isSticky
+                  mandatoryCandidates={ this.state.president }
+                />
+              </Section>
+              { isDone &&
+              <div { ...styles.thankyou }>
+                <RawHtml
+                  type={ P }
+                  dangerouslySetInnerHTML={ {
+                    __html: vt('vote/common/thankyou')
+                  } }/>
+              </div>
+              }
+            </Container>
+          </Frame>
+        )
+      } }/>
     )
   }
 }

@@ -163,6 +163,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
+                key={'vote/election/labelVote'}
                 primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
@@ -175,6 +176,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
+                key={'vote/election/labelVote'}
                 primary
                 onClick={() => this.transition(ELECTION_STATES.READY)}
               >
@@ -187,6 +189,7 @@ class Election extends Component {
           return (
             <Fragment>
               <Button
+                key={'vote/election/labelConfirm'}
                 primary
                 onClick={() =>
                   this.submitBallot()

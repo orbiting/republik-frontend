@@ -143,6 +143,7 @@ class Voting extends React.Component {
           return (
             <Fragment>
               <Button
+                key={'vote/voting/labelVote'}
                 primary
                 onClick={e => {
                   e.preventDefault()
@@ -160,6 +161,7 @@ class Voting extends React.Component {
           return (
             <Fragment>
               <Button
+                key={'vote/voting/labelVote'}
                 primary
                 onClick={e => {
                   e.preventDefault()
@@ -177,6 +179,7 @@ class Voting extends React.Component {
           return (
             <Fragment>
               <Button
+                key={'vote/voting/labelVote'}
                 primary
                 onClick={e => {
                   e.preventDefault()

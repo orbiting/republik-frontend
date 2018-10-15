@@ -55,7 +55,7 @@ const styles = {
     }
   }),
   actions: css({
-    padding: '20px 0',
+    padding: '10px 0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -66,11 +66,10 @@ const styles = {
     position: 'sticky',
     bottom: 0
   }),
-  error: css({
+  confirm: css({
     textAlign: 'center',
     width: '80%',
-    margin: '10px auto',
-    color: colors.error
+    margin: '10px 0 15px 0'
   }),
   link: css({
     marginTop: 10
@@ -207,15 +206,15 @@ class Election extends Component {
       }
     }
 
-    this.renderWarning = () => {
+    this.renderConfirmation = () => {
       const { electionState, vote } = this.state
       const { data: { election: { numSeats } }, vt } = this.props
-      if (electionState === ELECTION_STATES.READY && vote.length < numSeats) {
+      if (electionState === ELECTION_STATES.READY) {
         return (
-          <P {...styles.error}>
-            { vote.length < 1
-              ? vt('vote/election/labelConfirmEmpty')
-              : vt('vote/election/labelConfirmCount', { numVotes: vote.length, numSeats })
+          <P {...styles.confirm}>
+            { vote.length < numSeats
+              ? vt('vote/election/labelConfirmCount', { numVotes: vote.length, numSeats, remaining: numSeats - vote.length })
+              : vt('vote/election/labelConfirmAll')
             }
           </P>
         )
@@ -223,12 +222,37 @@ class Election extends Component {
         return null
       }
     }
+
+    this.selectRecommendation = () => {
+      const { vote } = this.state
+      const { data: { election } } = this.props
+
+      const recommended = election.candidacies
+        .filter(c => c.recommendation)
+      const voteEqRecommendation = recommended
+        .filter(e => vote.find(u => u.id === e.id))
+        .filter(e => recommended.find(v => v.id === e.id))
+        .length < 1
+
+      let replace = true
+      if (!voteEqRecommendation) {
+        replace = window.confirm('Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?')
+      }
+      if (replace) {
+        this.setState({
+          vote: recommended,
+          electionState: ELECTION_STATES.DIRTY
+        })
+      }
+    }
   }
 
   render () {
     const { data: { election }, isSticky, mandatoryCandidates, vt } = this.props
 
-    if (!election) { return null }
+    if (!election) {
+      return null
+    }
 
     const { vote, error } = this.state
     const inProgress = !election.userHasSubmitted
@@ -282,10 +306,7 @@ class Election extends Component {
           <Button
             primary
             style={{ ...fontStyles.sansSerifRegular16 }}
-            onClick={() => this.setState({
-              vote: recommended,
-              electionState: ELECTION_STATES.DIRTY
-            })}
+            onClick={() => this.selectRecommendation()}
           >
             { vt('vote/members/recommendation') }
           </Button>
@@ -306,7 +327,7 @@ class Election extends Component {
             <ErrorMessage error={error} />
             }
             {
-              this.renderWarning()
+              this.renderConfirmation()
             }
             {
               this.renderActions()

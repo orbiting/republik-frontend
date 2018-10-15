@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T15:04:28.146Z",
+  "updated": "2018-10-15T16:21:49.592Z",
   "title": "live",
   "data": [
     {
@@ -240,11 +240,11 @@
     },
     {
       "key": "vote/election/labelConfirmCount",
-      "value": "Sie haben erst {numVotes} von {numSeats} Stimmen verteilt. Wollen Sie Ihre Wahl trotzdem bestätigen?"
+      "value": "Sie haben erst {numVotes} von {numSeats} Stimmen verteilt – wollen Sie die übrigen {remaining} leer einlegen?"
     },
     {
-      "key": "vote/election/labelConfirmEmpty",
-      "value": "Möchten Sie wirklich eine leere Stimme abgeben?"
+      "key": "vote/election/labelConfirmAll",
+      "value": "Wollen Sie den ausgewählten 30 Kandidaten Ihre Stimme geben?"
     },
     {
       "key": "vote/election/labelVote",

@@ -444,6 +444,7 @@ query discussionPreferences($discussionId: ID!) {
       maxLength
       minInterval
       anonymity
+      disableTopLevelComments
     }
     userWaitUntil
     userPreference {

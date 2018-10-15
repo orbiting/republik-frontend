@@ -476,7 +476,7 @@ class Profile extends Component {
                               maxVotes={0}
                             />
                           </div>
-                          { !(Date.now() < c.election.beginDate) &&
+                          { this.isMe() && !(Date.now() < c.election.beginDate) &&
                           <div style={ {marginTop: 10} }>
                             <Link route='voteSubmit' params={ {edit: true} } passHref>
                               <A>Kandidatur bearbeiten</A>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-14T17:48:36.360Z",
+  "updated": "2018-10-15T11:28:36.604Z",
   "title": "live",
   "data": [
     {
@@ -316,7 +316,7 @@
     },
     {
       "key": "vote/discussion/metaTitle",
-      "value": "Meta"
+      "value": "R-Crew"
     },
     {
       "key": "vote/discussion/metaIntro",
@@ -332,11 +332,11 @@
     },
     {
       "key": "vote/discussion/presidentTitle",
-      "value": "Präsident des Genossenschaftrats"
+      "value": "Ratspräsidium"
     },
     {
       "key": "vote/discussion/presidentIntro",
-      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. "
+      "value": "Aenean vulputateeleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellusviverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiamultricies nisi vel augue."
     },
     {
       "key": "vote/discussion/membersTitle",

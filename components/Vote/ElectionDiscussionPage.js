@@ -15,7 +15,7 @@ import {
   VOTING_COOP_META_DISCUSSION
 } from '../../lib/constants'
 import voteT from './voteT'
-import { Body, Heading, Section, Title } from './text'
+import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
 
 const {P} = Interaction
@@ -30,6 +30,8 @@ const DISCUSSION_TITLES = {
 const styles = {
   tabBar: css({
     margin: '30px 0',
+    padding: '10px 0 0 0',
+    borderTop: `0.5px solid ${colors.divider}`,
   }),
   tab: css({
     marginRight: 20,
@@ -42,14 +44,11 @@ const DiscussionPage = ({router, data, vt}) => {
   return (
     <Loader loading={ data.loading } error={ data.error } render={ () => {
 
-      const selectedDiscussion = router.query.discussion || ELECTION_COOP_MEMBERS_SLUG
+      const isValid = DISCUSSION_TITLES[router.query.discussion]
+      const selectedDiscussion = isValid ? router.query.discussion : ELECTION_COOP_MEMBERS_SLUG
 
-      const discussionId =
-        (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
-        || selectedDiscussion
-        || data[ELECTION_COOP_MEMBERS_SLUG].discussion.id
-
-      const translationKey = DISCUSSION_TITLES[selectedDiscussion || ELECTION_COOP_MEMBERS_SLUG]
+      const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id) || selectedDiscussion
+      const translationKey = DISCUSSION_TITLES[selectedDiscussion]
 
       return (
         <Frame>
@@ -58,36 +57,33 @@ const DiscussionPage = ({router, data, vt}) => {
             <Section>
               <Body dangerousHTML={ vt('vote/discussion/intro') }/>
             </Section>
-            { translationKey &&
             <div>
               <div { ...styles.tabBar }>
                 {
                   [
                     VOTING_COOP_META_DISCUSSION,
-                    VOTING_COOP_BOARD_DISCUSSION,
                     ELECTION_COOP_PRESIDENT_SLUG,
                     ELECTION_COOP_MEMBERS_SLUG
                   ].map(id =>
                     <div key={ id } { ...styles.tab }>
-                      <Link route='voteDiscuss' params={ {
-                        discussion: (data[id] && data[id].discussion.slug) || id,
-                      } }>
-                        { selectedDiscussion === id ? (
-                          <span style={ {color: colors.disabled} }>
-                            { vt(`${DISCUSSION_TITLES[id]}Title`) }
-                          </span>
-                        ) : (
-                          <A href='#'>
-                            { vt(`${DISCUSSION_TITLES[id]}Title`) }
-                          </A>
-                        )
-                        }
-                      </Link>
+                      <P>
+                        <Link route='voteDiscuss' params={ {
+                          discussion: (data[id] && data[id].discussion.slug) || id,
+                        } } passHref scroll={ false }>
+                          { selectedDiscussion === id ? (
+                            <Strong>{ vt(`${DISCUSSION_TITLES[id]}Title`) }</Strong>
+                          ) : (
+                            <A>
+                              { vt(`${DISCUSSION_TITLES[id]}Title`) }
+                            </A>
+                          )
+                          }
+                        </Link>
+                      </P>
                     </div>
                   )
                 }
               </div>
-              <Heading>{ vt(`${translationKey}Title`) }</Heading>
               <Body dangerousHTML={ vt(`${translationKey}Intro`) }/>
               <Discussion
                 discussionId={ discussionId }
@@ -95,8 +91,6 @@ const DiscussionPage = ({router, data, vt}) => {
                 mute={ !!router.query.mute }
               />
             </div>
-
-            }
           </NarrowContainer>
         </Frame>
       )

@@ -122,7 +122,7 @@ const styles = {
     paddingBottom: 5,
   }),
   recommendation: css({
-    marginTop: 25
+    marginTop: 20
   }),
   wrapper: css({
     [mediaQueries.mUp]: {

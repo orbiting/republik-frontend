@@ -37,7 +37,7 @@ const DiscussionPage = ({ router, data, vt }) => {
   return (
     <Loader loading={data.loading} error={data.error} render={() => {
       const isValid = DISCUSSION_TITLES[router.query.discussion]
-      const selectedDiscussion = isValid ? router.query.discussion : ELECTION_COOP_MEMBERS_SLUG
+      const selectedDiscussion = isValid ? router.query.discussion : VOTING_COOP_BOARD_SLUG
       const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
       const translationKey = DISCUSSION_TITLES[selectedDiscussion]
 

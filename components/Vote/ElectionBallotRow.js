@@ -174,13 +174,13 @@ class ElectionBallotRow extends Component {
     const summary =
       <Fragment>
         <div>
-          { candidate.yearOfBirth || MISSING_VALUE }
+          {candidate.yearOfBirth || MISSING_VALUE}
         </div>
         <div>
-          { (d.credentials.find(c => c.isListed) || {}).description || MISSING_VALUE }
+          {(d.credentials.find(c => c.isListed) || {}).description || MISSING_VALUE}
         </div>
         <div>
-          { candidate.city || MISSING_VALUE }
+          {candidate.city || MISSING_VALUE}
         </div>
       </Fragment>
 

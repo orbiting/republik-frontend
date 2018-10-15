@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T14:09:57.470Z",
+  "updated": "2018-10-15T15:04:28.146Z",
   "title": "live",
   "data": [
     {
@@ -136,15 +136,15 @@
     },
     {
       "key": "vote/jahresrechnung/body",
-      "value": "Bevor wir zu den Köpfen kommen, gehen wir ins Geld. Sie haben uns mit Ihrem Jahresabonnement viel Geld gegeben. Sie haben ein Recht darauf zu wissen, was damit geschehen ist, und als Genossenschafter über die Jahresrechnung abzustimmen.\n\nWenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>integrierten Geschäftsbericht</A>  der beiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>Jahresrechnung 2017/18 der Project R Genossenschaft</A> inklusive Revisionsbericht, über die Sie abstimmen.\n"
+      "value": "Bevor wir zu den Köpfen kommen, gehen wir ins Geld. Sie haben uns mit Ihrem Jahresabonnement viel Geld gegeben. Sie haben ein Recht darauf zu wissen, was damit geschehen ist, und als Genossenschafter über die Jahresrechnung< abzustimmen.\n\nWenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den <a target=\"_blank\" href='/geschaeftsbericht'>integrierten Geschäftsbericht</A>  der beiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Jahresrechnung%202017-18.pdf'>Jahresrechnung 2017/18 der Project R Genossenschaft</A> inklusive Revisionsbericht, über die Sie abstimmen.\n"
     },
     {
       "key": "vote/jahresrechnung/more",
-      "value": "<strong>Was, wenn die Jahresrechnung abgelehnt wird?</strong>\n\nNun, dann wird es richtig kompliziert. Wir könnten zum Beispiel die Steuererklärung für die Genossenschaft nicht einreichen. Natürlich ist es Ihr gutes Recht, die Jahresrechnung abzulehnen. Aber wir würden uns sehr wünschen, dass Sie uns in der Wahldebatte dazu (LINK Metadebatte) vorher kurz anschreiben. Vielleicht finden wir einen gemeinsamen Weg. \n\n<strong>Weitere Fragen?</strong>\n\nHaben Sie zur Jahresrechnung Fragen an die R-Crew? Schreiben Sie uns in der Wahldebatte (LINK Metadebatte). Oder haben Sie Fragen an die Revisoren zur Durchführung und zum Ergebnis der Prüfung? Auch diese können Sie in der Wahldebatte (LINK Metadebatte) stellen. Wir sammeln die Fragen bis zum 23. Oktober, und Sie erhalten dort bis zum 25. Oktober eine Antwort.\n"
+      "value": "<strong>Was, wenn die Jahresrechnung abgelehnt wird?</strong>\n\nNun, dann wird es richtig kompliziert. Wir könnten zum Beispiel die Steuererklärung für die Genossenschaft nicht einreichen. Natürlich ist es Ihr gutes Recht, die Jahresrechnung abzulehnen. Aber wir würden uns sehr wünschen, dass Sie uns in der <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Wahldebatte dazu</a> vorher kurz anschreiben. Vielleicht finden wir einen gemeinsamen Weg. \n\n<strong>Weitere Fragen?</strong>\n\nHaben Sie zur Jahresrechnung Fragen an die R-Crew? Schreiben Sie uns in der <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Wahldebatte</a>. Oder haben Sie Fragen an die Revisoren zur Durchführung und zum Ergebnis der Prüfung? Auch diese können Sie in der <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Wahldebatte</a> stellen. Wir sammeln die Fragen bis zum 23. Oktober, und Sie erhalten dort bis zum 25. Oktober eine Antwort.\n"
     },
     {
       "key": "vote/revisionsbericht/body",
-      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>hier</A>."
+      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Revisionsbericht.pdf'>hier</A>."
     },
     {
       "key": "vote/revisionsbericht/more",
@@ -168,7 +168,7 @@
     },
     {
       "key": "vote/budget/body",
-      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>Budget inklusive Erläuterungen</A>vor. Es zeigt, wie das Geld der rund 20’000 Verlegerinnen und Verleger verwendet werden soll. Möchten Sie dem Vorstand die Befugnis erteilen, Ausgaben im Rahmen dieses Budgets zu tätigen? Stimmen Sie darüber ab."
+      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Budget%202018-19.pdf'>Budget inklusive Erläuterungen</A>vor. Es zeigt, wie das Geld der rund 20’000 Verlegerinnen und Verleger verwendet werden soll. Möchten Sie dem Vorstand die Befugnis erteilen, Ausgaben im Rahmen dieses Budgets zu tätigen? Stimmen Sie darüber ab."
     },
     {
       "key": "vote/budget/more",

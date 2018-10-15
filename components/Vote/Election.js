@@ -1,5 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { A, Button, colors, fontFamilies, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
+import {
+  A,
+  Button,
+  colors,
+  fontFamilies,
+  fontStyles,
+  Interaction,
+  mediaQueries,
+  InlineSpinner
+} from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
 import gql from 'graphql-tag'
@@ -147,9 +156,7 @@ class Election extends Component {
         vote: [],
         electionState: ELECTION_STATES.START,
         error: null
-      },
-      () => this.props.onChange([])
-      )
+      }, () => this.props.onChange([]))
     }
 
     this.renderActions = () => {
@@ -186,6 +193,7 @@ class Election extends Component {
             </Fragment>
           )
         case ELECTION_STATES.READY:
+          const { updating } = this.state
           return (
             <Fragment>
               <Button
@@ -195,7 +203,9 @@ class Election extends Component {
                   this.submitBallot()
                 }
               >
-                {vt('vote/election/labelConfirm')}
+                { updating
+                  ? <InlineSpinner size={40} />
+                  : vt('vote/election/labelConfirm') }
               </Button>
               {resetLink}
             </Fragment>

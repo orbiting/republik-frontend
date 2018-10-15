@@ -10,6 +10,7 @@ import Election from './Election'
 import {
   colors,
   Container,
+  NarrowContainer,
   FigureCaption,
   FigureImage,
   Interaction,
@@ -30,6 +31,7 @@ import {
 import { getVotingStage, VOTING_STAGES } from './votingStage'
 import Loader from '../Loader'
 import VoteInfo from './VoteInfo'
+import AddressEditor from './AddressEditor'
 
 const { P } = Interaction
 
@@ -91,6 +93,21 @@ class VoteForm extends Component {
           if (votingStage === VOTING_STAGES.INFO) {
             return (
               <VoteInfo />
+            )
+          }
+
+          const { me: { address } } = data
+          if (!Object.keys(address).map(k => address[k]).every(Boolean)) {
+            return (
+              <div>
+                <NarrowContainer>
+                  <Heading>{vt('common/missingAddressTitle')}</Heading>
+                  <P>{vt('common/missingAddressBody')}</P>
+                  <Section>
+                    <AddressEditor />
+                  </Section>
+                </NarrowContainer>
+              </div>
             )
           }
 
@@ -232,6 +249,16 @@ const votingsQuery = [
 
 const query = gql`
   query {
+    me {
+      id
+      address {
+        name
+        line1
+        postalCode
+        city
+        country
+      }
+    }
     ${electionsQuery}
     ${votingsQuery}
   }

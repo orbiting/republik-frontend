@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T19:34:35.479Z",
+  "updated": "2018-10-15T21:29:30.940Z",
   "title": "live",
   "data": [
     {
@@ -357,6 +357,14 @@
     {
       "key": "common/missingUsername",
       "value": "Profil URL fehlt"
+    },
+    {
+      "key": "common/missingAddressTitle",
+      "value": "Bevor Sie abstimmen (nur kurz)"
+    },
+    {
+      "key": "common/missingAddressBody",
+      "value": "Leider wissen wir zu wenig über Sie. Um an der Urabstimmung teilnehmen zu können, bitten wir Sie, uns Ihre Adresse anzugeben. Danke!"
     }
   ]
 }

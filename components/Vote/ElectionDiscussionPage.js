@@ -8,12 +8,7 @@ import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import {
-  ELECTION_COOP_MEMBERS_SLUG,
-  ELECTION_COOP_PRESIDENT_SLUG,
-  VOTING_COOP_BOARD_SLUG,
-  VOTING_COOP_META_DISCUSSION
-} from '../../lib/constants'
+import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG, VOTING_COOP_BOARD_SLUG } from '../../lib/constants'
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
@@ -21,7 +16,6 @@ import Loader from '../Loader'
 const { P } = Interaction
 
 const DISCUSSION_TITLES = {
-  [VOTING_COOP_META_DISCUSSION]: 'vote/discussion/meta',
   [VOTING_COOP_BOARD_SLUG]: 'vote/discussion/board',
   [ELECTION_COOP_PRESIDENT_SLUG]: 'vote/discussion/president',
   [ELECTION_COOP_MEMBERS_SLUG]: 'vote/discussion/members'
@@ -44,8 +38,7 @@ const DiscussionPage = ({ router, data, vt }) => {
     <Loader loading={data.loading} error={data.error} render={() => {
       const isValid = DISCUSSION_TITLES[router.query.discussion]
       const selectedDiscussion = isValid ? router.query.discussion : ELECTION_COOP_MEMBERS_SLUG
-
-      const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id) || selectedDiscussion
+      const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
       const translationKey = DISCUSSION_TITLES[selectedDiscussion]
 
       return (
@@ -59,7 +52,6 @@ const DiscussionPage = ({ router, data, vt }) => {
               <div {...styles.tabBar}>
                 {
                   [
-                    VOTING_COOP_META_DISCUSSION,
                     VOTING_COOP_BOARD_SLUG,
                     ELECTION_COOP_PRESIDENT_SLUG,
                     ELECTION_COOP_MEMBERS_SLUG

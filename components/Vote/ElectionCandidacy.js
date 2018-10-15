@@ -7,6 +7,7 @@ import { A, colors, InlineSpinner, Interaction, Label, mediaQueries, NarrowConta
 import withT from '../../lib/withT'
 import Button from '@project-r/styleguide/lib/components/Button'
 import FieldSet from '../FieldSet'
+import Frame from '../../components/Frame'
 
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -247,7 +248,7 @@ class ElectionCandidacy extends React.Component {
     const { values, errors, error, dirty, isEditing, updating } = this.state
     const { t, vt } = this.props
     const { data } = this.props
-    const { me = {} } = data
+    const { me = {}, election = {} } = data
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
@@ -283,146 +284,157 @@ class ElectionCandidacy extends React.Component {
       recommendation: candidate ? candidate.recommendation : undefined
     }
 
+    if (new Date() >= election.candidacyEndDate) {
+      return (
+        <Frame meta={meta}>
+          <NarrowContainer>
+            <P>{ vt('vote/candidacy/tooLate') }</P>
+          </NarrowContainer>
+        </Frame>
+      )
+    }
+
     return (
-      <NarrowContainer>
-        <Title>
-          { candidate
-            ? vt('info/candidacy/title2')
-            : vt('info/candidacy/title')
-          }
-        </Title>
-        <div { ...styles.previewWrapper }>
-          <H2>{ vt('info/candidacy/previewTitle') }</H2>
-          <div style={ {margin: `15px 0`} }>
-            <P>{ vt('info/candidacy/previewLabel') }</P>
+      <Frame meta={meta}>
+        <NarrowContainer>
+          <Title>
+            { candidate
+              ? vt('info/candidacy/title2')
+              : vt('info/candidacy/title')
+            }
+          </Title>
+          <div {...styles.previewWrapper}>
+            <H2>{ vt('info/candidacy/previewTitle') }</H2>
+            <div style={{ margin: `15px 0` }}>
+              <P>{ vt('info/candidacy/previewLabel') }</P>
+            </div>
+            <ElectionBallotRow
+              maxVotes={0}
+              expanded
+              candidate={candidacyPreview}
+            />
           </div>
-          <ElectionBallotRow
-            maxVotes={ 0 }
-            expanded
-            candidate={ candidacyPreview }
-          />
-        </div>
-        <div>
-          {
-            (isEditing || !candidate) ? (
-              <Fragment>
-                <Section>
-                  <H2>{ t('Account/Update/address/label') }</H2>
-                  <div { ...styles.vSpace }>
-                    <FieldSet
-                      values={ values }
-                      errors={ errors }
-                      dirty={ dirty }
-                      fields={ addressFields(t) }
-                      onChange={ this.onChange }
-                      isEditing
-                    />
-                  </div>
-                </Section>
-                <Section>
-                  <H2>{ vt('info/candidacy/candidacyTitle') }</H2>
-                  <div { ...styles.vSpace } style={ {width: 104, height: 104, background: 'black'} }>
-                    <Portrait
-                      user={ me }
-                      isEditing
-                      isMe
-                      onChange={ this.onChange }
-                      values={ values }
-                      errors={ errors }
-                      dirty={ dirty }/>
-                  </div>
-                  <div { ...styles.vSpace }>
-                    { !me.username &&
-                    <UsernameField
-                      user={ me }
-                      values={ values }
-                      errors={ errors }
-                      onChange={ this.onChange }
-                    />
-                    }
-                    <FieldSet
-                      values={ values }
-                      isEditing={ isEditing }
-                      errors={ errors }
-                      dirty={ dirty }
-                      fields={ fields(t, vt) }
-                      onChange={ this.onChange }
-                    />
-                  </div>
-                </Section>
-                { error &&
-                <div { ...styles.vSpace }>
-                  <ErrorMessage error={ error }/>
-                </div>
-                }
-                <div { ...styles.section }>
-                  <Small indent={ false } dangerousHTML={ vt('info/candidacy/finePrint') }/>
-                </div>
-                { !isValid &&
-                <div { ...styles.vSpace }>
-                  <div { ...styles.error }>
-                    { vt('info/candidacy/missingFields') }
-                    <ul>
-                      { Object.keys(combinedErrors).map(k => !!combinedErrors[k] &&
-                        <li key={ k }>{ combinedErrors[k] }</li>) }
-                    </ul>
-                  </div>
-                </div>
-                }
-                <div { ...styles.vSpace }>
-                  { (isEditing || !candidate) &&
-                  <div { ...styles.saveButton }>
-                    { updating
-                      ? <InlineSpinner/>
-                      : <Button
-                        type='submit'
-                        block
-                        primary
-                        big
-                        onClick={ this.save }
-                        disabled={ updating || !isValid }
-                      >
-                        { candidate
-                          ? vt('info/candidacy/saveChanges')
-                          : vt('info/candidacy/sumbitCandidacy')
-                        }
-                      </Button>
-                    }
+          <div>
+            {
+              (isEditing || !candidate) ? (
+                <Fragment>
+                  <Section>
+                    <H2>{ t('Account/Update/address/label') }</H2>
+                    <div {...styles.vSpace}>
+                      <FieldSet
+                        values={values}
+                        errors={errors}
+                        dirty={dirty}
+                        fields={addressFields(t)}
+                        onChange={this.onChange}
+                        isEditing
+                      />
+                    </div>
+                  </Section>
+                  <Section>
+                    <H2>{ vt('info/candidacy/candidacyTitle') }</H2>
+                    <div {...styles.vSpace} style={{ width: 104, height: 104, background: 'black' }}>
+                      <Portrait
+                        user={me}
+                        isEditing
+                        isMe
+                        onChange={this.onChange}
+                        values={values}
+                        errors={errors}
+                        dirty={dirty} />
+                    </div>
+                    <div {...styles.vSpace}>
+                      { !me.username &&
+                      <UsernameField
+                        user={me}
+                        values={values}
+                        errors={errors}
+                        onChange={this.onChange}
+                      />
+                      }
+                      <FieldSet
+                        values={values}
+                        isEditing={isEditing}
+                        errors={errors}
+                        dirty={dirty}
+                        fields={fields(t, vt)}
+                        onChange={this.onChange}
+                      />
+                    </div>
+                  </Section>
+                  { error &&
+                  <div {...styles.vSpace}>
+                    <ErrorMessage error={error} />
                   </div>
                   }
-                  <div { ...styles.vSpace }>
-                    <Body dangerousHTML={ vt('info/footer') }/>
+                  <div {...styles.section}>
+                    <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
                   </div>
-                </div>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <div { ...styles.vSpace }>
-                  <Body dangerousHTML={ vt('info/candidacy/confirmation') }/>
-                </div>
-                <div { ...styles.vSpace }>
-                  <A href='#' onClick={ (e) => {
-                    e.preventDefault()
-                    this.startEditing()
-                  } }>
-                    { vt('info/candidacy/edit') }
-                  </A>
-                </div>
-                { this.props.me.roles.some(r => r === 'admin') &&
-                <div { ...styles.vSpace }>
-                  ADMIN TOOL: <A href='#' onClick={ (e) => {
-                  e.preventDefault()
-                  this.cancel()
-                } }>
-                  { vt('info/candidacy/delete') }
-                </A>
-                </div>
-                }
-              </Fragment>
-            )
-          }
-        </div>
-      </NarrowContainer>
+                  { !isValid &&
+                  <div {...styles.vSpace}>
+                    <div {...styles.error}>
+                      { vt('info/candidacy/missingFields') }
+                      <ul>
+                        { Object.keys(combinedErrors).map(k => !!combinedErrors[k] &&
+                          <li key={k}>{ combinedErrors[k] }</li>) }
+                      </ul>
+                    </div>
+                  </div>
+                  }
+                  <div {...styles.vSpace}>
+                    { (isEditing || !candidate) &&
+                    <div {...styles.saveButton}>
+                      { updating
+                        ? <InlineSpinner />
+                        : <Button
+                          type='submit'
+                          block
+                          primary
+                          onClick={this.save}
+                          disabled={updating || !isValid}
+                        >
+                          { candidate
+                            ? vt('info/candidacy/saveChanges')
+                            : vt('info/candidacy/sumbitCandidacy')
+                          }
+                        </Button>
+                      }
+                    </div>
+                    }
+                    <div {...styles.vSpace}>
+                      <Body dangerousHTML={vt('info/footer')} />
+                    </div>
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <div {...styles.vSpace}>
+                    <Body dangerousHTML={vt('info/candidacy/confirmation')} />
+                  </div>
+                  <div {...styles.vSpace}>
+                    <A href='#' onClick={(e) => {
+                      e.preventDefault()
+                      this.startEditing()
+                    }}>
+                      { vt('info/candidacy/edit') }
+                    </A>
+                  </div>
+                  { this.props.me.roles.some(r => r === 'admin') &&
+                  <div {...styles.vSpace}>
+                    ADMIN TOOL: <A href='#' onClick={(e) => {
+                      e.preventDefault()
+                      this.cancel()
+                    }}>
+                      { vt('info/candidacy/delete') }
+                    </A>
+                  </div>
+                  }
+                </Fragment>
+              )
+            }
+          </div>
+        </NarrowContainer>
+      </Frame>
     )
   }
 }
@@ -487,6 +499,10 @@ const publishCredential = gql`
 
 const query = gql`
   query {
+    election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
+      candidacyBeginDate
+      candidacyEndDate
+    }
     me {
       id
       name

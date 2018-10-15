@@ -86,17 +86,15 @@ class VoteForm extends Component {
     const votingStage = getVotingStage(beginDate, endDate)
 
     return (
-      <Loader loading={data.loading} error={data.error} render={() => {
-        if (votingStage === VOTING_STAGES.INFO) {
-          return (
-            <Frame meta={meta}>
+      <Frame meta={meta}>
+        <Loader loading={data.loading} error={data.error} render={() => {
+          if (votingStage === VOTING_STAGES.INFO) {
+            return (
               <VoteInfo />
-            </Frame>
-          )
-        }
+            )
+          }
 
-        return (
-          <Frame meta={meta}>
+          return (
             <Container>
               <Section>
                 <Title>{ vt('vote/title') }</Title>
@@ -200,9 +198,9 @@ class VoteForm extends Component {
               </div>
               }
             </Container>
-          </Frame>
-        )
-      }} />
+          )
+        }} />
+      </Frame>
     )
   }
 }

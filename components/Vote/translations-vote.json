@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T12:31:56.297Z",
+  "updated": "2018-10-15T14:03:27.513Z",
   "title": "live",
   "data": [
     {
@@ -113,6 +113,10 @@
     {
       "key": "info/candidacy/credentialMissing",
       "value": "Funktion fehlt"
+    },
+    {
+      "key": "vote/candidacy/tooLate",
+      "value": "Die Anmeldefrist für diese Wahl ist leider abgelaufen."
     },
     {
       "key": "vote/title",
@@ -315,16 +319,8 @@
       "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium.Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputateeleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellusviverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiamultricies nisi vel augue."
     },
     {
-      "key": "vote/discussion/metaTitle",
-      "value": "R-Crew"
-    },
-    {
-      "key": "vote/discussion/metaIntro",
-      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. "
-    },
-    {
       "key": "vote/discussion/boardTitle",
-      "value": "Vorstand"
+      "value": "Project R-Crew"
     },
     {
       "key": "vote/discussion/boardIntro",
@@ -332,7 +328,7 @@
     },
     {
       "key": "vote/discussion/presidentTitle",
-      "value": "Ratspräsidium"
+      "value": "Präsidium"
     },
     {
       "key": "vote/discussion/presidentIntro",
@@ -352,7 +348,7 @@
     },
     {
       "key": "common/hamburgerEntry",
-      "value": "Genossenschaftsrat"
+      "value": "Urabstimmung"
     },
     {
       "key": "common/missingUsername",

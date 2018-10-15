@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T16:21:49.592Z",
+  "updated": "2018-10-15T19:34:35.479Z",
   "title": "live",
   "data": [
     {
@@ -245,6 +245,10 @@
     {
       "key": "vote/election/labelConfirmAll",
       "value": "Wollen Sie den ausgewählten 30 Kandidaten Ihre Stimme geben?"
+    },
+    {
+      "key": "vote/election/confirmRecommendation",
+      "value": "Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?'"
     },
     {
       "key": "vote/election/labelVote",

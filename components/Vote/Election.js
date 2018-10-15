@@ -226,18 +226,18 @@ class Election extends Component {
 
     this.selectRecommendation = () => {
       const { vote } = this.state
-      const { data: { election } } = this.props
+      const { data: { election }, vt } = this.props
 
       const recommended = election.candidacies
         .filter(c => c.recommendation)
       const voteEqRecommendation = recommended
-        .filter(e => vote.find(u => u.id === e.id))
-        .filter(e => recommended.find(v => v.id === e.id))
+        .filter(e => !vote.find(u => u.id === e.id))
+        .concat(vote.filter(e => !recommended.find(u => u.id === e.id)))
         .length < 1
 
       let replace = true
-      if (!voteEqRecommendation) {
-        replace = window.confirm('Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?')
+      if (vote.length > 0 && !voteEqRecommendation) {
+        replace = window.confirm(vt('vote/election/confirmRecommendation'))
       }
       if (replace) {
         this.setState({

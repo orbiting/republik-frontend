@@ -29,7 +29,8 @@ const POLL_STATES = {
 const styles = {
   card: css({
     margin: '40px auto',
-    border: `1px solid ${colors.neutral}`,
+    // border: `1px solid ${colors.neutral}`,
+    background: colors.primaryBg,
     padding: 25,
     maxWidth: 550,
     width: '100%'
@@ -252,7 +253,7 @@ class Voting extends React.Component {
                     })
                   }
                 >
-                  <span { ...styles.optionText }>{ vt(`vote/voting/option${label}`) }</span>
+                  <span {...styles.optionText}>{ vt(`vote/voting/option${label}`) }</span>
                 </Radio>
                 <br />
               </Fragment>

@@ -42,7 +42,7 @@ const styles = {
       flexDirection: 'column-reverse',
       top: HEADER_HEIGHT_MOBILE,
       textAlign: 'center',
-      margin: '0 -20px',
+      margin: '0 -20px'
     }
   }),
   info: css({
@@ -55,13 +55,12 @@ const styles = {
     }
   }),
   actions: css({
-    minHeight: 148,
     padding: '20px 0',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: colors.primaryBg
   }),
   sticky: css({
     position: 'sticky',
@@ -228,7 +227,7 @@ class Election extends Component {
 
     if (!election) { return null }
 
-    const {vote, error} = this.state
+    const { vote, error } = this.state
     const inProgress = !election.userHasSubmitted
 
     if (!inProgress) {
@@ -257,9 +256,9 @@ class Election extends Component {
     return (
       <div {...styles.wrapper}>
         { showHeader &&
-        <div { ...styles.header }>
+        <div {...styles.header}>
           { election.numSeats > 1 &&
-          <div { ...styles.info }>
+          <div {...styles.info}>
             { inProgress &&
             <P>
               <strong>{ vt('vote/election/votesRemaining', {
@@ -269,21 +268,21 @@ class Election extends Component {
             </P>
             }
             { recommended.length > 0 &&
-            <span><StarsIcon size={ 18 }/>{ ' ' }{ vt('vote/election/legendStar') }<br/></span>
+            <span><StarsIcon size={18} />{ ' ' }{ vt('vote/election/legendStar') }<br /></span>
             }
             { mandatoryCandidates.length > 0 &&
-            <span><FavoriteIcon/>{ ' ' }{ vt('vote/election/legendHeart') }</span>
+            <span><FavoriteIcon />{ ' ' }{ vt('vote/election/legendHeart') }</span>
             }
           </div>
           }
           { election.numSeats > 1 && recommended.length > 0 && inProgress &&
           <Button
             primary
-            style={ {...fontStyles.sansSerifRegular16} }
-            onClick={ () => this.setState({
+            style={{ ...fontStyles.sansSerifRegular16 }}
+            onClick={() => this.setState({
               vote: recommended,
               electionState: ELECTION_STATES.DIRTY
-            }) }
+            })}
           >
             { vt('vote/members/recommendation') }
           </Button>

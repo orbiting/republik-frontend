@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { compose, graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { InlineSpinner } from '@project-r/styleguide'

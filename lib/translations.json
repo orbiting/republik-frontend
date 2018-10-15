@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-11T13:03:27.361Z",
+  "updated": "2018-10-11T14:42:04.861Z",
   "title": "live",
   "data": [
     {
@@ -1637,6 +1637,14 @@
     {
       "key": "styleguide/CommentActions/downvote",
       "value": "-1"
+    },
+    {
+      "key": "styleguide/CommentActions/expand",
+      "value": "Alles lesen"
+    },
+    {
+      "key": "styleguide/CommentActions/collapse",
+      "value": "Weniger"
     },
     {
       "key": "styleguide/CommentTeaser/commentLink",

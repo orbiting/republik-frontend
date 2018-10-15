@@ -462,6 +462,7 @@ class Comments extends PureComponent {
           replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
+          collapsable={discussion && discussion.collapsable}
         />
       )
 

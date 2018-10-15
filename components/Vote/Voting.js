@@ -67,11 +67,13 @@ const styles = {
     color: colors.error
   }),
   thankyou: css({
-    background: colors.primaryBg,
     padding: '30px 20px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center'
+  }),
+  confirm: css({
     textAlign: 'center'
   })
 }
@@ -97,13 +99,19 @@ class Voting extends React.Component {
       )
     }
 
-    this.renderWarning = () => {
+    this.renderConfirmation = () => {
       const { pollState, selectedValue } = this.state
-      if (pollState === POLL_STATES.READY && !selectedValue) {
+      const { vt, data: { voting } } = this.props
+      if (pollState === POLL_STATES.READY) {
         return (
-          <P {...styles.error}>
-            Leer einlegen?
-          </P>
+          <div {...styles.confirm}>
+            <P>
+              { selectedValue
+                ? `${vt(`vote/voting/option${voting.options.find(o => o.id === selectedValue).label}`)} stimmen?`
+                : 'Leer einlegen?'
+              }
+            </P>
+          </div>
         )
       } else {
         return null
@@ -262,7 +270,7 @@ class Voting extends React.Component {
               </Fragment>
             ))}
             {
-              this.renderWarning()
+              this.renderConfirmation()
             }
             <div {...styles.cardActions}>
               { this.renderActions() }

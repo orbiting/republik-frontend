@@ -32,7 +32,7 @@ const styles = {
   header: css({
     position: 'sticky',
     padding: '20px 0',
-    top: HEADER_HEIGHT,
+    top: HEADER_HEIGHT - 1,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -40,7 +40,7 @@ const styles = {
     zIndex: 10,
     [mediaQueries.onlyS]: {
       flexDirection: 'column-reverse',
-      top: HEADER_HEIGHT_MOBILE,
+      top: HEADER_HEIGHT_MOBILE - 1,
       textAlign: 'center',
       margin: '0 -20px'
     }
@@ -235,7 +235,7 @@ class Election extends Component {
         <div {...styles.wrapper}>
           <div {...styles.thankyou}>
             <P>
-              {vt('vote/election/thankyou', { submissionDate: messageDateFormat(Date.now()) })}
+              {vt('vote/election/thankyou', { submissionDate: messageDateFormat(new Date(election.userSubmitDate)) })}
             </P>
           </div>
         </div>

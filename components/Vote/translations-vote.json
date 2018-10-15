@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T14:03:27.513Z",
+  "updated": "2018-10-15T14:09:57.470Z",
   "title": "live",
   "data": [
     {
@@ -336,7 +336,7 @@
     },
     {
       "key": "vote/discussion/membersTitle",
-      "value": "Ratsmitglieder"
+      "value": "Genossenschaftsrat"
     },
     {
       "key": "vote/discussion/membersIntro",

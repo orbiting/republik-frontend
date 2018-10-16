@@ -30,8 +30,7 @@ const messageDateFormat = timeFormat('%e. %B %Y')
 const ELECTION_STATES = {
   START: 'START',
   DIRTY: 'DIRTY',
-  READY: 'READY',
-  DONE: 'DONE'
+  READY: 'READY'
 }
 
 const styles = {
@@ -210,10 +209,6 @@ class Election extends Component {
               </Button>
               {resetLink}
             </Fragment>
-          )
-        case ELECTION_STATES.DONE:
-          return (
-            null
           )
       }
     }

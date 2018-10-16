@@ -191,7 +191,7 @@ class VoteForm extends Component {
                 <Body dangerousHTML={vt('vote/members/body1')} />
                 <div {...styles.image}>
                   <FigureImage
-                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/council_candidates.png?resize=650x`} />
+                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/grid.genossenschaftsrat3.jpg?resize=650x`} />
                   <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
                 </div>
                 <Body dangerousHTML={vt('vote/members/body2')} />

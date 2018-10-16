@@ -24,15 +24,15 @@ const DISCUSSION_TITLES = {
 
 const styles = {
   tabBar: css({
-    margin: '30px 0',
-    padding: '10px 0 0 0',
+    margin: '30px 0px',
+    padding: '10px 0px 15px 0px',
     borderTop: `0.5px solid ${colors.divider}`,
     position: 'sticky',
+    background: '#fff',
+    zIndex: 10,
     top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
-      top: HEADER_HEIGHT_MOBILE - 1,
-      textAlign: 'center',
-      margin: '0 -20px'
+      top: HEADER_HEIGHT_MOBILE - 1
     }
   }),
   tab: css({

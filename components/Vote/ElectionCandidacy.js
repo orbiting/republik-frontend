@@ -246,58 +246,60 @@ class ElectionCandidacy extends React.Component {
   }
 
   render () {
-    const { values, errors, error, dirty, isEditing, updating } = this.state
     const { t, vt } = this.props
     const { data } = this.props
-    const { me = {}, election = {} } = data
 
     const meta = {
       title: `${vt('info/title')}: ${vt('info/candidacy/title')}`,
       description: vt('info/description')
     }
 
-    const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
-
-    const combinedErrors = {
-      username: (values.username || me.username) ? undefined : vt('common/missingUsername'),
-      ...errors
-    }
-
-    const isValid = !Object.keys(combinedErrors).some(k => Boolean(combinedErrors[k]))
-
-    const { name } = me
-    const { statement, birthday, disclosures, credential, city, portrait, portraitPreview } = values
-    const parsedBirthday = birthdayParse(birthday)
-
-    const candidacyPreview = me && {
-      user: {
-        name,
-        statement,
-        disclosures,
-        credentials: [{
-          description: credential,
-          isListed: true
-        }],
-        portrait: portraitPreview || portrait
-      },
-      city,
-      yearOfBirth: parsedBirthday ? parsedBirthday.getFullYear() : undefined,
-      recommendation: candidate ? candidate.recommendation : undefined
-    }
-
-    if (new Date() >= new Date(election.candidacyEndDate)) {
-      return (
-        <Frame meta={meta}>
-          <NarrowContainer>
-            <P>{ vt('vote/candidacy/tooLate') }</P>
-          </NarrowContainer>
-        </Frame>
-      )
-    }
-
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
+          const { me, election } = data
+          if (!election) {
+            return null
+          }
+          const { values, errors, error, dirty, isEditing, updating } = this.state
+
+          const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
+
+          const combinedErrors = {
+            username: (values.username || me.username) ? undefined : vt('common/missingUsername'),
+            ...errors
+          }
+
+          const isValid = !Object.keys(combinedErrors).some(k => Boolean(combinedErrors[k]))
+
+          const { name } = me
+          const { statement, birthday, disclosures, credential, city, portrait, portraitPreview } = values
+          const parsedBirthday = birthdayParse(birthday)
+
+          const candidacyPreview = me && {
+            user: {
+              name,
+              statement,
+              disclosures,
+              credentials: [{
+                description: credential,
+                isListed: true
+              }],
+              portrait: portraitPreview || portrait
+            },
+            city,
+            yearOfBirth: parsedBirthday ? parsedBirthday.getFullYear() : undefined,
+            recommendation: candidate ? candidate.recommendation : undefined
+          }
+
+          if (new Date() >= new Date(election.candidacyEndDate)) {
+            return (
+              <NarrowContainer>
+                <P>{ vt('vote/candidacy/tooLate') }</P>
+              </NarrowContainer>
+            )
+          }
+
           return (
             <NarrowContainer>
               <Title>

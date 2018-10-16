@@ -258,104 +258,106 @@ class Election extends Component {
     const { data, isSticky, mandatoryCandidates, vt, showMeta } = this.props
     const { election } = data
 
-    if (!election) {
-      return null
-    }
-
-    const { vote, error } = this.state
-    const inProgress = !election.userHasSubmitted
-
-    if (!inProgress) {
-      return (
-        <div {...styles.wrapper}>
-          <div {...styles.thankyou}>
-            <P>
-              {vt('vote/election/thankyou', { submissionDate: messageDateFormat(new Date(election.userSubmitDate)) })}
-            </P>
-          </div>
-        </div>
-      )
-    }
-
-    const [recommended, others] = election.candidacies.reduce((acc, cur) => {
-      acc[cur.recommendation ? 0 : 1].push(cur)
-      return acc
-    }, [[], []])
-
-    const showHeader = recommended.length > 0 && election.numSeats > 1
-
-    if (!election.userIsEligible) {
-      return (
-        <div {...styles.wrapper}>
-          <div {...styles.thankyou}>
-            <RawHtml
-              type={P}
-              dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
-            />
-          </div>
-        </div>
-      )
-    }
-
     return (
-      <Loader loading={data.loading} error={data.error} render={() =>
-        <div {...styles.wrapper}>
-          {showHeader &&
-          <div {...styles.header}>
-            {election.numSeats > 1 &&
-            <div {...styles.info}>
-              {inProgress &&
-              <P>
-                <strong>{vt('vote/election/votesRemaining', {
-                  count: election.numSeats - vote.length,
-                  max: election.numSeats
-                })}</strong>
-              </P>
-              }
-              {recommended.length > 0 &&
-              <span><StarsIcon size={18} />{' '}{vt('vote/election/legendStar')}<br /></span>
-              }
-              {mandatoryCandidates.length > 0 &&
-              <span><FavoriteIcon />{' '}{vt('vote/election/legendHeart')}</span>
-              }
+      <Loader loading={data.loading} error={data.error} render={() => {
+        if (!election) {
+          return null
+        }
+
+        const { vote, error } = this.state
+        const inProgress = !election.userHasSubmitted
+
+        if (!inProgress) {
+          return (
+            <div {...styles.wrapper}>
+              <div {...styles.thankyou}>
+                <P>
+                  {vt('vote/election/thankyou', { submissionDate: messageDateFormat(new Date(election.userSubmitDate)) })}
+                </P>
+              </div>
             </div>
-            }
-            {election.numSeats > 1 && recommended.length > 0 && inProgress &&
-            <Button
-              primary
-              style={{ ...fontStyles.sansSerifRegular16 }}
-              onClick={() => this.selectRecommendation()}
-            >
-              {vt('vote/members/recommendation')}
-            </Button>
-            }
-          </div>
-          }
+          )
+        }
+
+        const [recommended, others] = election.candidacies.reduce((acc, cur) => {
+          acc[cur.recommendation ? 0 : 1].push(cur)
+          return acc
+        }, [[], []])
+
+        const showHeader = recommended.length > 0 && election.numSeats > 1
+
+        if (!election.userIsEligible) {
+          return (
+            <div {...styles.wrapper}>
+              <div {...styles.thankyou}>
+                <RawHtml
+                  type={P}
+                  dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
+                />
+              </div>
+            </div>
+          )
+        }
+
+        return (
           <div {...styles.wrapper}>
-            <ElectionBallot
-              maxVotes={election.numSeats}
-              candidacies={recommended.concat(others)}
-              selected={vote}
-              mandatory={mandatoryCandidates}
-              onChange={this.toggleSelection}
-              showMeta={showMeta}
-            />
-            {inProgress &&
-            <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
-              {error &&
-              <ErrorMessage error={error} />
+            {showHeader &&
+            <div {...styles.header}>
+              {election.numSeats > 1 &&
+              <div {...styles.info}>
+                {inProgress &&
+                <P>
+                  <strong>{vt('vote/election/votesRemaining', {
+                    count: election.numSeats - vote.length,
+                    max: election.numSeats
+                  })}</strong>
+                </P>
+                }
+                {recommended.length > 0 &&
+                <span><StarsIcon size={18} />{' '}{vt('vote/election/legendStar')}<br /></span>
+                }
+                {mandatoryCandidates.length > 0 &&
+                <span><FavoriteIcon />{' '}{vt('vote/election/legendHeart')}</span>
+                }
+              </div>
               }
-              {
-                this.renderConfirmation()
-              }
-              {
-                this.renderActions()
+              {election.numSeats > 1 && recommended.length > 0 && inProgress &&
+              <Button
+                primary
+                style={{ ...fontStyles.sansSerifRegular16 }}
+                onClick={() => this.selectRecommendation()}
+              >
+                {vt('vote/members/recommendation')}
+              </Button>
               }
             </div>
             }
+            <div {...styles.wrapper}>
+              <ElectionBallot
+                maxVotes={election.numSeats}
+                candidacies={recommended.concat(others)}
+                selected={vote}
+                mandatory={mandatoryCandidates}
+                onChange={this.toggleSelection}
+                showMeta={showMeta}
+              />
+              {inProgress &&
+              <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
+                {error &&
+                <ErrorMessage error={error} />
+                }
+                {
+                  this.renderConfirmation()
+                }
+                {
+                  this.renderActions()
+                }
+              </div>
+              }
+            </div>
           </div>
-        </div>
-      } />
+        )
+      }} />
     )
   }
 }

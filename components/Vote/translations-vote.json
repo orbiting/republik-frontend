@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T15:20:58.086Z",
+  "updated": "2018-10-16T15:42:41.754Z",
   "title": "live",
   "data": [
     {
@@ -252,11 +252,11 @@
     },
     {
       "key": "vote/election/labelConfirmAll/1",
-      "value": "Wollen Sie der ausgewählten Kandidatin Ihre Stimme geben?"
+      "value": "Wollen Sie der ausgewählten Person Ihre Stimme geben?"
     },
     {
       "key": "vote/election/labelConfirmAll/other",
-      "value": "Wollen Sie den ausgewählten {numSeats} Kandidatinnen Ihre Stimme geben?"
+      "value": "Wollen Sie den ausgewählten {numSeats} Person Ihre Stimme geben?"
     },
     {
       "key": "vote/election/confirmRecommendation",

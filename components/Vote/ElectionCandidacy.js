@@ -285,7 +285,7 @@ class ElectionCandidacy extends React.Component {
       recommendation: candidate ? candidate.recommendation : undefined
     }
 
-    if (new Date() >= election.candidacyEndDate) {
+    if (new Date() >= new Date(election.candidacyEndDate)) {
       return (
         <Frame meta={meta}>
           <NarrowContainer>
@@ -504,6 +504,10 @@ const publishCredential = gql`
 
 const query = gql`
   query {
+    election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
+      id
+      candidacyEndDate
+    }
     me {
       id
       name
@@ -518,9 +522,6 @@ const query = gql`
       candidacies {
         election {
           slug
-        }
-        comment {
-          id
         }
         id
         yearOfBirth

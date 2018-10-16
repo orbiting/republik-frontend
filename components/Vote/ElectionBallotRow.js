@@ -249,7 +249,7 @@ class ElectionBallotRow extends Component {
                           discussion: candidate.election.slug,
                           commentId: candidate.comment.id
                         }} passHref>
-                          <A>{ vt('vote/election/discussion') }</A>
+                          <A target='_blank'>{ vt('vote/election/discussion') }</A>
                         </Link>
                       </div>
                     }

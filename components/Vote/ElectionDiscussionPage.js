@@ -2,11 +2,12 @@ import React from 'react'
 import Frame from '../../components/Frame'
 import Discussion from '../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { A, colors, Interaction, NarrowContainer } from '@project-r/styleguide'
+import { A, colors, Interaction, NarrowContainer, mediaQueries } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG, VOTING_COOP_BOARD_SLUG } from '../../lib/constants'
 import voteT from './voteT'
@@ -25,7 +26,14 @@ const styles = {
   tabBar: css({
     margin: '30px 0',
     padding: '10px 0 0 0',
-    borderTop: `0.5px solid ${colors.divider}`
+    borderTop: `0.5px solid ${colors.divider}`,
+    position: 'sticky',
+    top: HEADER_HEIGHT - 1,
+    [mediaQueries.onlyS]: {
+      top: HEADER_HEIGHT_MOBILE - 1,
+      textAlign: 'center',
+      margin: '0 -20px'
+    }
   }),
   tab: css({
     marginRight: 20,

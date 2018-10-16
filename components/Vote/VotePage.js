@@ -78,7 +78,7 @@ class VoteForm extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
-          const { beginDate, endDate, userisEligible } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
+          const { beginDate, endDate, userIsEligible } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
           const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
             return (
@@ -86,8 +86,10 @@ class VoteForm extends Component {
             )
           }
 
+          console.log('VotePage.js:89 [this.props.data[ELECTION_COOP_MEMBERS_SLUG]]', this.props.data[ELECTION_COOP_MEMBERS_SLUG])
+
           const { me: { address } } = data
-          if (userisEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
+          if (userIsEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
             return (
               <div>
                 <NarrowContainer>
@@ -240,7 +242,8 @@ const votingsQuery = [
   ${slug}: voting(slug: "${slug}") {
     id
     userHasSubmitted
-    userSubmitDate    
+    userSubmitDate
+    userIsEligible
     beginDate
     endDate
    }

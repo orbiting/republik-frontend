@@ -86,7 +86,7 @@ class VoteForm extends Component {
             )
           }
 
-          const { me: { address } } = data
+          const { me: { address = {} } } = data
           if (!Object.keys(address).map(k => address[k]).every(Boolean)) {
             return (
               <div>

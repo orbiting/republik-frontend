@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T17:45:06.552Z",
+  "updated": "2018-10-16T17:57:15.456Z",
   "title": "live",
   "data": [
     {
@@ -324,7 +324,7 @@
     },
     {
       "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 31. Oktober werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a target=\"_blank\" href='https://www.republik.ch/'>Republik</A>."
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 31. Oktober werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
     },
     {
       "key": "vote/voting/optionYES",
@@ -348,7 +348,7 @@
     },
     {
       "key": "vote/discussion/boardIntro",
-      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\nHaben Sie Fragen zur Jahresrechnung?<br />\nRegt sich beim Budget Widerspruch in Ihnen?<br />\nOder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?<br />"
+      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<ul>\n<li>Haben Sie Fragen zur Jahresrechnung?</li>\n<li>Regt sich beim Budget Widerspruch in Ihnen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</li>\n</ul>"
     },
     {
       "key": "vote/discussion/presidentTitle",
@@ -356,7 +356,7 @@
     },
     {
       "key": "vote/discussion/presidentIntro",
-      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\nWie würden Sie den Rat organisieren?<br />\nWas finden Sie wichtig beim Aufbau des Rates?<br />\nWelche Themenschwerpunkte möchten Sie setzen?<br />\n"
+      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\n<ul>\n<lI>Wie würden Sie den Rat organisieren?</li>\n<li>Was finden Sie wichtig beim Aufbau des Rates?</li>\n<li>Welche Themenschwerpunkte möchten Sie setzen?</li>\n</ul>\n"
     },
     {
       "key": "vote/discussion/membersTitle",
@@ -364,7 +364,7 @@
     },
     {
       "key": "vote/discussion/membersIntro",
-      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\nWofür möchten Sie sich im Rat einsetzen?<br />\nWas ist Ihre Motivation, für den Rat zu kandidieren?<br />\nWelche Qualitäten und Ideen bringen Sie ins Gremium?<br />"
+      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\n<ul>\n<li>Wofür möchten Sie sich im Rat einsetzen?</li>\n<li>Was ist Ihre Motivation, für den Rat zu kandidieren?</li>\n<li>Welche Qualitäten und Ideen bringen Sie ins Gremium?</li>\n</ul>"
     },
     {
       "key": "common/moreInfo",

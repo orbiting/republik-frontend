@@ -78,7 +78,7 @@ class VoteForm extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
-          const { beginDate, endDate } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
+          const { beginDate, endDate, userisEligible } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
           const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
             return (
@@ -87,7 +87,7 @@ class VoteForm extends Component {
           }
 
           const { me: { address } } = data
-          if (!address || !Object.keys(address).map(k => address[k]).every(Boolean)) {
+          if (userisEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
             return (
               <div>
                 <NarrowContainer>

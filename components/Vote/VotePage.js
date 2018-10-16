@@ -182,6 +182,7 @@ class VoteForm extends Component {
                   <Small dangerousHTML={vt('vote/president/more')} />
                 </Collapsible>
                 <Election
+                  showMeta={false}
                   slug={ELECTION_COOP_PRESIDENT_SLUG}
                   onChange={this.onVoteChange('president')}
                 />

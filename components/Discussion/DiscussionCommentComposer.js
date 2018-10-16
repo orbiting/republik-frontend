@@ -77,7 +77,8 @@ class DiscussionCommentComposer extends PureComponent {
       discussionClosed,
       discussionUserCanComment,
       data: { loading, error, discussion },
-      now
+      now,
+      parentId
     } = this.props
     const { state, showPreferences } = this.state
 
@@ -90,7 +91,8 @@ class DiscussionCommentComposer extends PureComponent {
         loading={loading}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          if (!me || discussionClosed) {
+          const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
+          if (!me || discussionClosed || disableTopLevelComments) {
             return null
           } else {
             if (!discussionUserCanComment) {

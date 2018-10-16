@@ -261,6 +261,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
       maxLength
       minInterval
       anonymity
+      disableTopLevelComments
     }
     userWaitUntil
     documentPath
@@ -443,6 +444,7 @@ query discussionPreferences($discussionId: ID!) {
       maxLength
       minInterval
       anonymity
+      disableTopLevelComments
     }
     userWaitUntil
     userPreference {

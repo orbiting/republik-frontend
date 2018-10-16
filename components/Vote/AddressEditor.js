@@ -5,11 +5,13 @@ import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import {
   Button,
-  InlineSpinner
+  InlineSpinner,
+  colors
 } from '@project-r/styleguide'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import withT from '../../lib/withT'
+import voteT from './voteT'
 
 const DEFAULT_COUNTRY = COUNTRIES[0]
 
@@ -17,7 +19,6 @@ class AddressEditor extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      showErrors: true,
       errors: {},
       dirty: {},
       ...this.deriveStateFromProps(props)
@@ -67,8 +68,11 @@ class AddressEditor extends Component {
   }
 
   render () {
-    const { data, t } = this.props
+    const { data, t, vt } = this.props
     const { values, errors, error, dirty, updating } = this.state
+    const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
+
+    console.log('AddressEditor.js:75 [errors]', errors)
 
     return (
       <Loader loading={data.loading} error={data.error} render={() =>
@@ -88,8 +92,17 @@ class AddressEditor extends Component {
               <ErrorMessage error={error} />
             </div>
           }
+          { !isValid &&
+            <div style={{ color: colors.error }}>
+              { vt('info/candidacy/missingFields') }
+              <ul>
+                { Object.keys(errors).map(k => !!errors[k] &&
+                  <li key={k}>{ errors[k] }</li>) }
+              </ul>
+            </div>
+          }
           <div>
-            <Button primary onClick={this.save}>
+            <Button primary onClick={this.save} disabled={!isValid}>
               {updating
                 ? <InlineSpinner size={40} />
                 : t('Account/Update/submit')
@@ -134,6 +147,7 @@ const query = gql`
 
 export default compose(
   withT,
+  voteT,
   graphql(updateAddressMutation, {
     props: ({ mutate }) => ({
       updateAddress: address => {

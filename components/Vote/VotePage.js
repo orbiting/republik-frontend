@@ -86,8 +86,6 @@ class VoteForm extends Component {
             )
           }
 
-          console.log('VotePage.js:89 [this.props.data[ELECTION_COOP_MEMBERS_SLUG]]', this.props.data[ELECTION_COOP_MEMBERS_SLUG])
-
           const { me: { address } } = data
           if (userIsEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
             return (
@@ -227,7 +225,8 @@ const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG
   ${slug}: election(slug: "${slug}") {
     id
     userHasSubmitted
-    userSubmitDate    
+    userSubmitDate
+    userIsEligible    
     beginDate
     endDate
    }

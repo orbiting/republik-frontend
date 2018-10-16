@@ -476,6 +476,7 @@ class Profile extends Component {
                               expanded
                               maxVotes={0}
                               showMeta={false}
+                              profile
                             />
                           </div>
                           { this.isMe() && c.election && (new Date() < new Date(c.election.candidacyEndDate)) &&

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { A, Checkbox, colors, DEFAULT_PROFILE_PICTURE, fontStyles, mediaQueries, Radio } from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
@@ -9,6 +10,7 @@ import FavoriteIcon from 'react-icons/lib/md/favorite'
 import StarsIcon from 'react-icons/lib/md/stars'
 import { Link } from '../../lib/routes'
 import voteT from './voteT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -165,7 +167,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, showMeta } = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, showMeta, inNativeApp, profile } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -183,6 +185,10 @@ class ElectionBallotRow extends Component {
           {candidate.city || MISSING_VALUE}
         </div>
       </Fragment>
+
+    const target = inNativeApp || profile
+      ? undefined
+      : '_blank'
 
     return (
       <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
@@ -242,16 +248,16 @@ class ElectionBallotRow extends Component {
                 <div>
                   <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
                   <div>
-                    <div {...styles.profileFooter}>
-                      <A href={`/~${d.id}`} target='_blank'>Profil</A>
-                    </div>
-                    { candidate.comment && candidate.comment.id &&
+                    {!profile && <div {...styles.profileFooter}>
+                      <A href={`/~${d.username || d.id}`} target={target}>Profil</A>
+                    </div>}
+                    {candidate.comment && candidate.comment.id &&
                       <div>
                         <Link route='voteDiscuss' params={{
                           discussion: candidate.election.slug,
                           focus: candidate.comment.id
                         }} passHref>
-                          <A target='_blank'>{ vt('vote/election/discussion') }</A>
+                          <A target={target}>{ vt('vote/election/discussion') }</A>
                         </Link>
                       </div>
                     }
@@ -296,6 +302,7 @@ ElectionBallotRow.defaultProps = {
 }
 
 ElectionBallotRow.propTypes = {
+  profile: PropTypes.bool,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
   maxVotes: PropTypes.number,
@@ -306,4 +313,7 @@ ElectionBallotRow.propTypes = {
   showMeta: true
 }
 
-export default voteT(ElectionBallotRow)
+export default compose(
+  withInNativeApp,
+  voteT
+)(ElectionBallotRow)

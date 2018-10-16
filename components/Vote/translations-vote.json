@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T14:25:47.107Z",
+  "updated": "2018-10-16T14:35:42.973Z",
   "title": "live",
   "data": [
     {
@@ -248,7 +248,7 @@
     },
     {
       "key": "vote/election/confirmRecommendation",
-      "value": "Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?'"
+      "value": "Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?"
     },
     {
       "key": "vote/election/labelVote",

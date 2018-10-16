@@ -221,7 +221,7 @@ class Election extends Component {
           <P {...styles.confirm}>
             { vote.length < numSeats
               ? vt('vote/election/labelConfirmCount', { numVotes: vote.length, numSeats, remaining: numSeats - vote.length })
-              : vt('vote/election/labelConfirmAll')
+              : vt('vote/election/labelConfirmAll', { numSeats })
             }
           </P>
         )

@@ -102,7 +102,7 @@ const styles = {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     filter: 'grayscale(1)',
-    marginRight: 15,
+    marginRight: 15
   }),
   profile: css({
     marginTop: 5,
@@ -119,14 +119,14 @@ const styles = {
   }),
   profileFooter: css({
     marginTop: 8,
-    paddingBottom: 5,
+    paddingBottom: 5
   }),
   recommendation: css({
     marginTop: 20
   }),
   wrapper: css({
     [mediaQueries.mUp]: {
-      minHeight: 45,
+      minHeight: 45
     },
     width: '100%',
     display: 'flex',
@@ -201,15 +201,15 @@ class ElectionBallotRow extends Component {
           <div
             {...styles.summary}
             style={{ cursor: interactive ? 'pointer' : 'default' }}
-            onClick={ () => onChange(candidate) }
+            onClick={() => onChange(candidate)}
           >
             <div>
               {interactive
-                ? <A onClick={ e => {
+                ? <A onClick={e => {
                   e.preventDefault()
                   e.stopPropagation()
                   this.toggleExpanded(d.id)
-                } }>{ d.name }</A>
+                }}>{ d.name }</A>
                 : d.name
               }
 
@@ -230,42 +230,42 @@ class ElectionBallotRow extends Component {
           </div>
           { expanded &&
           <div
-            { ...styles.summaryWrapper }
+            {...styles.summaryWrapper}
           >
-              <div {...styles.summaryMobile}>
-                { summary }
-              </div>
-              <div {...styles.details}>
-                <div {...styles.profile}>
+            <div {...styles.summaryMobile}>
+              { summary }
+            </div>
+            <div {...styles.details}>
+              <div {...styles.profile}>
+                <div>
+                  <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
                   <div>
-                    <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
-                    <div>
-                      <div { ...styles.profileFooter }>
-                        <A href={`/~${d.id}`}>Profil</A>
-                      </div>
-                      { candidate.comment && candidate.comment.id &&
+                    <div {...styles.profileFooter}>
+                      <A href={`/~${d.id}`} target='_blank'>Profil</A>
+                    </div>
+                    { candidate.comment && candidate.comment.id &&
                       <div>
-                        <Link route='voteDiscuss' params={ {
+                        <Link route='voteDiscuss' params={{
                           discussion: candidate.election.slug,
                           commentId: candidate.comment.id
-                        } } passHref>
+                        }} passHref>
                           <A>{ vt('vote/election/discussion') }</A>
                         </Link>
                       </div>
-                      }
-                    </div>
-                  </div>
-                  <div {...styles.statement}>
-                    {d.statement || MISSING_VALUE}
+                    }
                   </div>
                 </div>
-                { candidate.recommendation &&
-                  <div {...styles.recommendation}>
-                    <Strong>{ vt('vote/election/recommendation') }</Strong> { candidate.recommendation }
-                  </div>
-                }
+                <div {...styles.statement}>
+                  {d.statement || MISSING_VALUE}
+                </div>
               </div>
+              { candidate.recommendation &&
+              <div {...styles.recommendation}>
+                <Strong>{ vt('vote/election/recommendation') }</Strong> { candidate.recommendation }
+              </div>
+              }
             </div>
+          </div>
           }
         </div>
         { maxVotes > 0 && onChange &&

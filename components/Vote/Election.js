@@ -7,7 +7,8 @@ import {
   fontStyles,
   Interaction,
   mediaQueries,
-  InlineSpinner
+  InlineSpinner,
+  RawHtml
 } from '@project-r/styleguide'
 import { compose, graphql } from 'react-apollo'
 import PropTypes from 'prop-types'
@@ -281,16 +282,25 @@ class Election extends Component {
       )
     }
 
-    // const listOfCandidates = electionState === ELECTION_STATES.READY
-    //   ? election.candidacies.filter(c => vote.some(v => v.id === c.id))
-    //   : election.candidacies
-
     const [recommended, others] = election.candidacies.reduce((acc, cur) => {
       acc[cur.recommendation ? 0 : 1].push(cur)
       return acc
     }, [[], []])
 
     const showHeader = recommended.length > 0 && election.numSeats > 1
+
+    if (!election.userIsEligible) {
+      return (
+        <div {...styles.wrapper}>
+          <div {...styles.thankyou}>
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
+            />
+          </div>
+        </div>
+      )
+    }
 
     return (
       <Loader loading={data.loading} error={data.error} render={() =>
@@ -383,6 +393,7 @@ const query = gql`
   query getElection($slug: String!) {
     election(slug: $slug) {
     id
+    userIsEligible
     userHasSubmitted
     userSubmitDate    
     description

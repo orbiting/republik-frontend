@@ -34,15 +34,20 @@ const styles = {
 }
 
 const DiscussionPage = ({ router, data, vt }) => {
-  return (
-    <Loader loading={data.loading} error={data.error} render={() => {
-      const isValid = DISCUSSION_TITLES[router.query.discussion]
-      const selectedDiscussion = isValid ? router.query.discussion : VOTING_COOP_BOARD_SLUG
-      const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
-      const translationKey = DISCUSSION_TITLES[selectedDiscussion]
+  const meta = {
+    title: vt('info/title'),
+    description: vt('info/description')
+  }
 
-      return (
-        <Frame>
+  return (
+    <Frame meta={meta}>
+      <Loader loading={data.loading} error={data.error} render={() => {
+        const isValid = DISCUSSION_TITLES[router.query.discussion]
+        const selectedDiscussion = isValid ? router.query.discussion : VOTING_COOP_BOARD_SLUG
+        const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
+        const translationKey = DISCUSSION_TITLES[selectedDiscussion]
+
+        return (
           <NarrowContainer>
             <Title>{ vt('vote/discussion/title') }</Title>
             <Section>
@@ -83,9 +88,9 @@ const DiscussionPage = ({ router, data, vt }) => {
               />
             </div>
           </NarrowContainer>
-        </Frame>
-      )
-    }} />
+        )
+      }} />
+    </Frame>
   )
 }
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-15T21:29:30.940Z",
+  "updated": "2018-10-16T11:09:28.119Z",
   "title": "live",
   "data": [
     {
@@ -268,7 +268,7 @@
     },
     {
       "key": "vote/election/recommendation",
-      "value": "Empfehlung von Project R"
+      "value": "Empfehlung von Project R:"
     },
     {
       "key": "vote/election/discussion",
@@ -276,11 +276,11 @@
     },
     {
       "key": "vote/voting/comingsoon",
-      "value": "Diese Abstimmung ist leider schon vorbei! "
+      "value": "Die Abstimmungen und Wahlen sind leider schon vorbei. Die Resultate publizieren wir hier am 31. Oktober."
     },
     {
       "key": "vote/voting/toolate",
-      "value": "An dieser Abstimmung können nur Verleger teilnehmen, die bis zum 16. Oktober ein Jahresabonnement gekauft haben."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Verlegerinnen und Verleger teilnehmen, die bis zum 16. Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten. Die Resultate sehen Sie hier ab dem 31. Oktober."
     },
     {
       "key": "vote/voting/labelVote",
@@ -304,7 +304,7 @@
     },
     {
       "key": "vote/common/thankyou",
-      "value": "Alles erledigt. Danke fürs Mitmachen! Die Resultate der Abstimmungen und Wahlen werden am 31. Oktober hier publiziert."
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 31. Oktober werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zum <a target=\"_blank\" href='https://www.republik.ch/'>Magazin</A>."
     },
     {
       "key": "vote/voting/optionYES",

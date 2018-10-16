@@ -75,21 +75,11 @@ class VoteForm extends Component {
       description: vt('info/description')
     }
 
-    const isDone = [
-      ELECTION_COOP_MEMBERS_SLUG,
-      ELECTION_COOP_PRESIDENT_SLUG,
-      VOTING_COOP_ACCOUNTS_SLUG,
-      VOTING_COOP_DISCHARGE_SLUG,
-      VOTING_COOP_BUDGET_SLUG,
-      VOTING_COOP_BOARD_SLUG
-    ].map(slug => this.props.data[slug] && this.props.data[slug].userHasSubmitted).every(Boolean)
-
-    const { beginDate, endDate } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
-    const votingStage = getVotingStage(beginDate, endDate)
-
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
+          const { beginDate, endDate } = this.props.data[ELECTION_COOP_MEMBERS_SLUG] || {}
+          const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
             return (
               <VoteInfo />
@@ -110,6 +100,15 @@ class VoteForm extends Component {
               </div>
             )
           }
+
+          const isDone = [
+            ELECTION_COOP_MEMBERS_SLUG,
+            ELECTION_COOP_PRESIDENT_SLUG,
+            VOTING_COOP_ACCOUNTS_SLUG,
+            VOTING_COOP_DISCHARGE_SLUG,
+            VOTING_COOP_BUDGET_SLUG,
+            VOTING_COOP_BOARD_SLUG
+          ].map(slug => this.props.data[slug] && this.props.data[slug].userHasSubmitted).every(Boolean)
 
           return (
             <Container>

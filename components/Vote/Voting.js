@@ -107,7 +107,7 @@ class Voting extends React.Component {
           <div {...styles.confirm}>
             <P>
               { selectedValue
-                ? `${vt(`vote/voting/option${voting.options.find(o => o.id === selectedValue).label}`)} stimmen?`
+                ? `Mit ${vt(`vote/voting/option${voting.options.find(o => o.id === selectedValue).label}`)} stimmen?`
                 : 'Leer einlegen?'
               }
             </P>

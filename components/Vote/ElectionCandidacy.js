@@ -514,6 +514,7 @@ const query = gql`
       statement
       disclosures
       birthday
+      username
       candidacies {
         election {
           slug

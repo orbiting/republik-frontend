@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T14:15:59.757Z",
+  "updated": "2018-10-16T14:25:47.107Z",
   "title": "live",
   "data": [
     {
@@ -320,7 +320,7 @@
     },
     {
       "key": "vote/discussion/intro",
-      "value": "Im Zeitraum der Urabstimmung (LINK Urabstimmung) vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie hier Ihre Fragen: Genossenschaftsrat.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten des Genossenschaftsrats für das Präsidium ins Gespräch kommen? Das können Sie hier: Präsidium.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die Project-R-Crew.\n"
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie hier Ihre Fragen: <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18m'>Genossenschaftsrat</A>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Das können Sie hier: <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18p'>Präsidium</A>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Project-R-Crew</A>."
     },
     {
       "key": "vote/discussion/boardTitle",
@@ -328,7 +328,7 @@
     },
     {
       "key": "vote/discussion/boardIntro",
-      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. "
+      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<strong>Haben Sie Fragen zur Jahresrechnung?</strong><br />\n<strong>Oder regt sich beim Budget Widerspruch in Ihnen?</strong><br />\n<strong>Möchten Sie mehr zur Nachwahl für den Vorstand oder zur Wahl für den Genossenschaftsrat erfahren?</strong><br />\n<strong>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</strong><br />"
     },
     {
       "key": "vote/discussion/presidentTitle",
@@ -336,7 +336,7 @@
     },
     {
       "key": "vote/discussion/presidentIntro",
-      "value": "Aenean vulputateeleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellusviverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiamultricies nisi vel augue."
+      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\n<strong>Wie würden Sie den Rat organisieren?</strong><br />\n<strong>Was finden Sie wichtig beim Aufbau des Rates?</strong><br />\n<strong>Welche Themenschwerpunkte möchten Sie setzen?</strong><br />\n"
     },
     {
       "key": "vote/discussion/membersTitle",
@@ -344,7 +344,7 @@
     },
     {
       "key": "vote/discussion/membersIntro",
-      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesqueeu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,fringilla vel, aliquet nec, vulputate eget, arcu. "
+      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\n<strong>Wofür möchten Sie sich im Rat einsetzen?</strong><br />\n<strong>Was ist Ihre Motivation, für den Rat zu kandidieren?</strong><br />\n<strong>Welche Qualitäten und Ideen bringen Sie ins Gremium?</strong><br />"
     },
     {
       "key": "common/moreInfo",

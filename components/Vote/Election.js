@@ -220,8 +220,8 @@ class Election extends Component {
         return (
           <P {...styles.confirm}>
             { vote.length < numSeats
-              ? vt('vote/election/labelConfirmCount', { numVotes: vote.length, numSeats, remaining: numSeats - vote.length })
-              : vt('vote/election/labelConfirmAll', { numSeats })
+              ? vt.pluralize('vote/election/labelConfirmCount', { count: vote.length, numSeats, remaining: numSeats - vote.length })
+              : vt.pluralize('vote/election/labelConfirmAll', { numSeats, count: numSeats })
             }
           </P>
         )

@@ -1,14 +1,14 @@
 {
-  "updated": "2018-10-16T15:42:41.754Z",
+  "updated": "2018-10-16T16:56:54.338Z",
   "title": "live",
   "data": [
     {
       "key": "info/description",
-      "value": "Project R: Wahlen und Abstimmungen"
+      "value": "Urabstimmung der Project R Genossenschaft"
     },
     {
       "key": "info/title",
-      "value": "Engagieren Sie sich für Project R!"
+      "value": "Ihre Stimme für Project R!"
     },
     {
       "key": "info/intro/body1",
@@ -332,7 +332,7 @@
     },
     {
       "key": "vote/discussion/intro",
-      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie hier Ihre Fragen: <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Das können Sie hier: <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
     },
     {
       "key": "vote/discussion/boardTitle",
@@ -348,7 +348,7 @@
     },
     {
       "key": "vote/discussion/presidentIntro",
-      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\n<strong>Wie würden Sie den Rat organisieren?</strong><br />\n<strong>Was finden Sie wichtig beim Aufbau des Rates?</strong><br />\n<strong>Welche Themenschwerpunkte möchten Sie setzen?</strong><br />\n"
+      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\nWie würden Sie den Rat organisieren?<br />\nWas finden Sie wichtig beim Aufbau des Rates?<br />\nWelche Themenschwerpunkte möchten Sie setzen?<br />\n"
     },
     {
       "key": "vote/discussion/membersTitle",
@@ -356,7 +356,7 @@
     },
     {
       "key": "vote/discussion/membersIntro",
-      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\n<strong>Wofür möchten Sie sich im Rat einsetzen?</strong><br />\n<strong>Was ist Ihre Motivation, für den Rat zu kandidieren?</strong><br />\n<strong>Welche Qualitäten und Ideen bringen Sie ins Gremium?</strong><br />"
+      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\nWofür möchten Sie sich im Rat einsetzen?<br />\nWas ist Ihre Motivation, für den Rat zu kandidieren?<br />\nWelche Qualitäten und Ideen bringen Sie ins Gremium?<br />"
     },
     {
       "key": "common/moreInfo",

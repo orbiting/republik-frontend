@@ -23,17 +23,20 @@ const DISCUSSION_TITLES = {
 }
 
 const styles = {
-  tabBar: css({
-    margin: '30px 0px',
-    padding: '10px 0px 15px 0px',
-    borderTop: `0.5px solid ${colors.divider}`,
-    position: 'sticky',
+  tabBarWRapper: css({
+    margin: '0 -10px',
+    padding: '0 10px',
     background: '#fff',
+    position: 'sticky',
     zIndex: 10,
     top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE - 1
     }
+  }),
+  tabBar: css({
+    padding: '10px 0px 20px 0px',
+    borderTop: `0.5px solid ${colors.divider}`
   }),
   tab: css({
     marginRight: 20,
@@ -62,31 +65,33 @@ const DiscussionPage = ({ router, data, vt }) => {
               <Body dangerousHTML={vt('vote/discussion/intro')} />
             </Section>
             <div>
-              <div {...styles.tabBar}>
-                {
-                  [
-                    VOTING_COOP_BOARD_SLUG,
-                    ELECTION_COOP_PRESIDENT_SLUG,
-                    ELECTION_COOP_MEMBERS_SLUG
-                  ].map(id =>
-                    <div key={id} {...styles.tab}>
-                      <P>
-                        <Link route='voteDiscuss' params={{
-                          discussion: (data[id] && data[id].discussion.slug) || id
-                        }} passHref scroll={false}>
-                          { selectedDiscussion === id ? (
-                            <Strong>{ vt(`${DISCUSSION_TITLES[id]}Title`) }</Strong>
-                          ) : (
-                            <A>
-                              { vt(`${DISCUSSION_TITLES[id]}Title`) }
-                            </A>
-                          )
-                          }
-                        </Link>
-                      </P>
-                    </div>
-                  )
-                }
+              <div {...styles.tabBarWRapper}>
+                <div {...styles.tabBar}>
+                  {
+                    [
+                      VOTING_COOP_BOARD_SLUG,
+                      ELECTION_COOP_PRESIDENT_SLUG,
+                      ELECTION_COOP_MEMBERS_SLUG
+                    ].map(id =>
+                      <div key={id} {...styles.tab}>
+                        <P>
+                          <Link route='voteDiscuss' params={{
+                            discussion: (data[id] && data[id].discussion.slug) || id
+                          }} passHref scroll={false}>
+                            { selectedDiscussion === id ? (
+                              <Strong>{ vt(`${DISCUSSION_TITLES[id]}Title`) }</Strong>
+                            ) : (
+                              <A>
+                                { vt(`${DISCUSSION_TITLES[id]}Title`) }
+                              </A>
+                            )
+                            }
+                          </Link>
+                        </P>
+                      </div>
+                    )
+                  }
+                </div>
               </div>
               <Body dangerousHTML={vt(`${translationKey}Intro`)} />
               <Discussion

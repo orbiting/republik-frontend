@@ -10,7 +10,8 @@ import {
   InlineSpinner,
   Interaction,
   Radio,
-  RawHtml
+  RawHtml,
+  Loader
 } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
 import voteT from './voteT'
@@ -282,19 +283,26 @@ class Voting extends React.Component {
   }
 
   render () {
-    const { data: { voting } } = this.props
-    if (!voting) { return null }
-    const { error } = this.state
+    const { data } = this.props
     return (
-      <div {...styles.card}>
-        <H3>{ voting.description }</H3>
-        { error &&
-        <ErrorMessage error={error} />
-        }
-        {
-          this.renderVotingBody()
-        }
-      </div>
+      <Loader loading={data.loading} error={data.error} render={() => {
+        const { voting } = data
+        if (!voting) { return null }
+
+        const { error } = this.state
+
+        return (
+          <div {...styles.card}>
+            <H3>{ voting.description }</H3>
+            { error &&
+            <ErrorMessage error={error} />
+            }
+            {
+              this.renderVotingBody()
+            }
+          </div>
+        )
+      }} />
     )
   }
 }
@@ -312,14 +320,6 @@ Voting.propTypes = {
       )
     })
   })
-}
-
-Voting.defaultProps = {
-  data: {
-    voting: {
-      options: []
-    }
-  }
 }
 
 const submitVotingBallotMutation = gql`

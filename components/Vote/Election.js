@@ -255,7 +255,7 @@ class Election extends Component {
   }
 
   render () {
-    const { data, isSticky, mandatoryCandidates, vt } = this.props
+    const { data, isSticky, mandatoryCandidates, vt, showMeta } = this.props
     const { election } = data
 
     if (!election) {
@@ -338,6 +338,7 @@ class Election extends Component {
               selected={vote}
               mandatory={mandatoryCandidates}
               onChange={this.toggleSelection}
+              showMeta={showMeta}
             />
             {inProgress &&
             <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
@@ -364,14 +365,16 @@ Election.propTypes = {
   isSticky: PropTypes.bool,
   slug: PropTypes.string.isRequired,
   onChange: PropTypes.func,
-  mandatoryCandidates: PropTypes.array
+  mandatoryCandidates: PropTypes.array,
+  showMeta: PropTypes.bool
 }
 
 Election.defaultProps = {
   data: { election: { candidacies: [] } },
   isSticky: false,
   onChange: () => {},
-  mandatoryCandidates: []
+  mandatoryCandidates: [],
+  showMeta: true
 }
 
 const submitElectionBallotMutation = gql`

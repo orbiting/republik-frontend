@@ -165,7 +165,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt } = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, showMeta } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -218,14 +218,16 @@ class ElectionBallotRow extends Component {
               summary
             }
             <div>
-              <div style={{ width: 36, height: 18 }}>
-                {candidate.recommendation &&
-                <StarsIcon size={18} />
-                }
-                {mandatory &&
-                <FavoriteIcon size={18} />
-                }
-              </div>
+              { showMeta &&
+                <div style={{ width: 36, height: 18 }}>
+                  {candidate.recommendation &&
+                  <StarsIcon size={18} />
+                  }
+                  {mandatory &&
+                  <FavoriteIcon size={18} />
+                  }
+                </div>
+              }
             </div>
           </div>
           { expanded &&
@@ -247,7 +249,7 @@ class ElectionBallotRow extends Component {
                       <div>
                         <Link route='voteDiscuss' params={{
                           discussion: candidate.election.slug,
-                          commentId: candidate.comment.id
+                          focus: candidate.comment.id
                         }} passHref>
                           <A target='_blank'>{ vt('vote/election/discussion') }</A>
                         </Link>
@@ -289,7 +291,8 @@ ElectionBallotRow.defaultProps = {
   maxVotes: 1,
   expanded: false,
   interactive: true,
-  onChange: () => {}
+  onChange: () => {},
+  showMeta: PropTypes.bool
 }
 
 ElectionBallotRow.propTypes = {
@@ -299,7 +302,8 @@ ElectionBallotRow.propTypes = {
   expanded: PropTypes.bool,
   interactive: PropTypes.bool,
   onChange: PropTypes.func,
-  candidate: PropTypes.object.isRequired
+  candidate: PropTypes.object.isRequired,
+  showMeta: true
 }
 
 export default voteT(ElectionBallotRow)

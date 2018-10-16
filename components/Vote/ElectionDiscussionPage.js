@@ -96,7 +96,7 @@ const DiscussionPage = ({ router, data, vt }) => {
               <Body dangerousHTML={vt(`${translationKey}Intro`)} />
               <Discussion
                 discussionId={discussionId}
-                focusId={router.query.commentId}
+                focusId={router.query.focus}
                 mute={!!router.query.mute}
               />
             </div>

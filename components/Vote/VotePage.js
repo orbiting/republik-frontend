@@ -116,7 +116,7 @@ class VoteForm extends Component {
               <Section>
                 <Title>{ vt('vote/title') }</Title>
                 <div {...styles.image}>
-                  <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`} />
+                  <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
                 <VoteCounter slug={ELECTION_COOP_MEMBERS_SLUG} />
@@ -182,6 +182,7 @@ class VoteForm extends Component {
                   <Small dangerousHTML={vt('vote/president/more')} />
                 </Collapsible>
                 <Election
+                  showMeta={false}
                   slug={ELECTION_COOP_PRESIDENT_SLUG}
                   onChange={this.onVoteChange('president')}
                 />
@@ -193,7 +194,7 @@ class VoteForm extends Component {
                 <Body dangerousHTML={vt('vote/members/body1')} />
                 <div {...styles.image}>
                   <FigureImage
-                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/grid.genossenschaftsrat3.jpg?resize=650x`} />
+                    src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/grid.genossenschaftsrat3.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/members/caption') }</FigureCaption>
                 </div>
                 <Body dangerousHTML={vt('vote/members/body2')} />

@@ -1,8 +1,8 @@
 import React from 'react'
 import { css } from 'glamor'
-import { fontFamilies, fontStyles, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
+import { colors, fontFamilies, fontStyles, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
 
-const { H2, P, Headline } = Interaction
+const { H2, Headline } = Interaction
 
 export const Section = ({ children }) =>
   <section {...css({
@@ -34,14 +34,23 @@ export const Strong = ({ children }) =>
   </strong>
 
 const PMedium = (props) =>
-  <P {...css({
-    marginBottom: 15
+  <div {...css({
+    color: colors.text,
+    ...fontStyles.sansSerifRegular16,
+    marginBottom: 15,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    },
+    '& strong': {
+      fontFamily: fontFamilies.sansSerifMedium,
+      fontWeight: 'normal'
+    }
   })}>
     {props.children}
-  </P>
+  </div>
 
 export const Body = ({ dangerousHTML }) =>
-  <span>
+  <div>
     {
       dangerousHTML.split('\n\n')
         .map((c, i) =>
@@ -50,13 +59,12 @@ export const Body = ({ dangerousHTML }) =>
           </PMedium>
         )
     }
-  </span>
+  </div>
 
 const PSmall = ({ children, indent = true }) =>
-  <P {...css({
+  <div {...css({
     marginTop: 10,
     marginLeft: indent ? 20 : 0,
-    marginBottom: 15,
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16,
@@ -68,7 +76,7 @@ const PSmall = ({ children, indent = true }) =>
     }
   })}>
     {children}
-  </P>
+  </div>
 
 export const Small = ({ dangerousHTML, indent = true }) =>
   <div>

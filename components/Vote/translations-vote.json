@@ -1,14 +1,14 @@
 {
-  "updated": "2018-10-01T12:14:40.758Z",
+  "updated": "2018-10-16T17:57:15.456Z",
   "title": "live",
   "data": [
     {
       "key": "info/description",
-      "value": "Project R: Wahlen und Abstimmungen"
+      "value": "Urabstimmung der Project R Genossenschaft"
     },
     {
       "key": "info/title",
-      "value": "Engagieren Sie sich für Project R!"
+      "value": "Ihre Stimme für Project R!"
     },
     {
       "key": "info/intro/body1",
@@ -20,7 +20,7 @@
     },
     {
       "key": "vote/intro/caption",
-      "value": "Nadja Schnetzler informiert am 18. Juni 2018 in Zürich über den Genossenschaftsrat. Es folgten Veranstaltungen in Chur, Luzern, Biel, Basel und Bern. Bild: Isabelle Schwab."
+      "value": "Was für ein Interesse: Project R informiert in Zürich über den Genossenschaftsrat. Bild: Republik."
     },
     {
       "key": "info/marketing/intro",
@@ -36,7 +36,7 @@
     },
     {
       "key": "info/council/more",
-      "value": "<strong>Bin ich geeignet?</strong>\n\nDer Zweck der Project R Genossenschaft ist «die Förderung der Demokratie durch Stärkung, Erhalt und\nWeiterentwicklung des Journalismus als vierte Gewalt». Grosse Worte. Nun etwas konkreter: Wir suchen Menschen,\ndie den Genossenschaftsrat mit uns aufbauen – und der Genossenschaft Leben und Geist geben. Das wird Ihnen\nNerven abverlangen. Und ein wenig Zeit. Sie müssen leidenschaftlich sein, neugierig, interessiert an einer\nkonstruktiven Debattenkultur.\n\n<strong>Was habe ich zu tun?</strong>\n\nEs gibt, wie immer im Leben, Pflicht und Musse. Zunächst der wohl eher trockene Teil. Sie werden als Rätin die\nJahresrechnung, den Geschäftsbericht und das Budget der Genossenschaft genau lesen müssen. Dies, weil Sie dazu\nEmpfehlungen abgeben können. Schon allein dazu sind zwei Sitzungen im Jahr\nPflicht. Mehr sind möglich, wenn der Rat es für richtig hält. Damit hat der Rat seine Pflicht getan und kann\nsich den wirklich prickelnden Dingen zuwenden. Dazu nämlich, an der Weiterentwicklung des Journalismus im Allgemeinen und der\n«Republik» im Besonderen mitzuwirken. Wir freuen uns auf Ihre Ideen, Ihre Projektvorschläge, und ja:\nWir freuen uns auf Ihre Kritik.\n\n<strong>Noch mehr Informationen?</strong>\n\nHier finden Sie das <a target=\"_blank\" href=\"/static/genossenschaft/Zweck%20und%20Aufgaben%20Genossenschaftsrat%20Version%20Juni%202018.pdf\">Infoblatt zum Zweck und zu den Aufgaben</A>, das wir an den Infoveranstaltungen zwischen dem 18. Juni und dem 12. September verteilt haben.\n\nLesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original zu\nlesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A> (Artikel 26, 27 und 28)."
+      "value": "<strong>Bin ich geeignet?</strong>\n\nDer Zweck der Project R Genossenschaft ist «die Förderung der Demokratie durch Stärkung, Erhalt und Weiterentwicklung des Journalismus als vierte Gewalt». Grosse Worte. Nun etwas konkreter: Wir suchen Menschen, die den Genossenschaftsrat mit uns aufbauen – und der Genossenschaft Leben und Geist geben. Das wird Ihnen Nerven abverlangen. Und ein wenig Zeit. Sie müssen leidenschaftlich sein, neugierig, interessiert an einer konstruktiven Debattenkultur.\n\n<strong>Was habe ich zu tun?</strong>\n\nEs gibt, wie immer im Leben, Pflicht und Musse. Zunächst der wohl eher trockene Teil. Sie werden als Rätin die Jahresrechnung, den Geschäftsbericht und das Budget der Genossenschaft genau lesen müssen. Dies, weil Sie dazu Empfehlungen abgeben können. Schon allein dazu sind zwei Sitzungen im Jahr Pflicht. Mehr sind möglich, wenn der Rat es für richtig hält. Damit hat der Rat seine Pflicht getan und kann sich den wirklich prickelnden Dingen zuwenden. Dazu nämlich, an der Weiterentwicklung des Journalismus im Allgemeinen und der «Republik» im Besonderen mitzuwirken. Wir freuen uns auf Ihre Ideen, Ihre Projektvorschläge, und ja: Wir freuen uns auf Ihre Kritik.\n\n<strong>Noch mehr Informationen?</strong>\n\nHier finden Sie das <a target=\"_blank\" href=\"/static/genossenschaft/Zweck%20und%20Aufgaben%20Genossenschaftsrat%20Version%20Juni%202018.pdf\">Infoblatt zum Zweck und zu den Aufgaben</A>, das wir an den Infoveranstaltungen zwischen dem 18. Juni und dem 12. September verteilt haben.\n\nLesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original zu\nlesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A> (Artikel 26, 27 und 28)."
     },
     {
       "key": "info/council/body2",
@@ -44,7 +44,7 @@
     },
     {
       "key": "info/council/more2",
-      "value": "<strong>Zur Kandidatur</strong>\n\nUm wählbar zu sein, müssen Sie zwei Bedingungen erfüllen. Erstens müssen Sie am 16. Oktober Mitglied der Project\nR Genossenschaft sein (also ein Jahresabonnement der «Republik» erworben haben). Zweitens müssen Sie bis dann Ihre\nKandidatur auf dieser Wahlplattform online bestätigt haben. Auch Kandidatinnen und Kandidaten, die der Vorstand\nzur Wahl empfiehlt, müssen sich online registrieren.\n\n<strong>Was bisher geschah</strong>\n\nAm 23. Mai 2018 haben wir mit <a target=\"_blank\" href='https://project-r.construction/newsletter/genossenschafts-rat'>diesem Newsletter</A> zum ersten Mal über die Wahl informiert und zu den\nInformationsveranstaltungen eingeladen.\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten\ndurchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen zusammengestellt und\nsie informiert. Auch die Interessenten, die nicht zur Wahl vorgeschlagen wurden, wurden informiert. Sie können\nnatürlich trotzdem für den Rat kandidieren, wie überhaupt alle Mitglieder der Genossenschaft.\n\n<strong>Was als Nächstes geschieht</strong>\n\nBis zum 16. Oktober haben Sie Zeit zu kandidieren. Das heisst: Sie müssen sich hier registrieren, Ihr Profil\nausfüllen und es bestätigen.\n\nZwischen dem 17. und dem 28. Oktober ist Wahlkampf. Sie können sich die Profile aller Kandidatinnen anschauen,\nund Sie sehen auch, wen der Vorstand warum zur Wahl empfiehlt. Wenn Sie Fragen an die Kandidatinnen haben, dann\nkönnen Sie online mit ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das relative Mehr.\nDas heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in ihrer Geschichte einen Rat. Wir werden das Resultat hier\nauf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n\n<strong>Zum Wahlsystem</strong>\n\nFür das Wahlsystem haben wir Kritik einstecken müssen. Wenn der Vorstand seine Favoriten empfiehlt, ist dann das\nGanze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte Alternativlosigkeit? Warum trauen wir den\nMitgliedern nicht zu, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen\nnachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller schlechten\nVarianten. Aus drei Gründen bleiben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Mitgliederstruktur angemessen\nvertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen. Wir haben bei der\nWahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die Anforderungen der Statuten erfüllt\nwerden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre wahnsinnig\nkompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler. Haben Sie eine\nelegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den Einwand.\nAber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist es zumindest\nmöglich, die Irrtümer des Vorstandes zu korrigieren.\n\nDie detaillierten Bestimmungen zu den Wahlen finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'> Statuten der Project R Genossenschaft</A> (Artikel 9, 16, 17, 18, 20 und 21)."
+      "value": "<strong>Zur Kandidatur</strong>\n\nUm wählbar zu sein, müssen Sie zwei Bedingungen erfüllen. Erstens müssen Sie am 16. Oktober Mitglied der Project R Genossenschaft sein (also ein Jahresabonnement der «Republik» erworben haben). Zweitens müssen Sie bis dann Ihre Kandidatur auf dieser Wahlplattform online bestätigt haben. Auch Kandidatinnen und Kandidaten, die der Vorstand zur Wahl empfiehlt, müssen sich online registrieren.\n\n<strong>Was bisher geschah</strong>\n\nAm 23. Mai 2018 haben wir mit <a target=\"_blank\" href='https://project-r.construction/newsletter/genossenschafts-rat'>diesem Newsletter</A> zum ersten Mal über die Wahl informiert und zu den\nInformationsveranstaltungen eingeladen.\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten durchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen zusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl vorgeschlagen wurden, wurden informiert. Sie können natürlich trotzdem für den Rat kandidieren, wie überhaupt alle Mitglieder der Genossenschaft.\n\n<strong>Was als Nächstes geschieht</strong>\n\nBis zum 16. Oktober haben Sie Zeit zu kandidieren. Das heisst: Sie müssen sich hier registrieren, Ihr Profil ausfüllen und es bestätigen.\n\nZwischen dem 17. und dem 28. Oktober ist Wahlkampf. Sie können sich die Profile aller Kandidatinnen anschauen, und Sie sehen auch, wen der Vorstand warum zur Wahl empfiehlt. Wenn Sie Fragen an die Kandidatinnen haben, dann können Sie online mit ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das relative Mehr. Das heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in ihrer Geschichte einen Rat. Wir werden das Resultat hier auf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n\n<strong>Zum Wahlsystem</strong>\n\nFür das Wahlsystem haben wir Kritik einstecken müssen. Wenn der Vorstand seine Favoriten empfiehlt, ist dann das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte Alternativlosigkeit? Warum trauen wir den Mitgliedern nicht zu, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen nachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller schlechten Varianten. Aus drei Gründen bleiben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Mitgliederstruktur angemessen vertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen. Wir haben bei der Wahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die Anforderungen der Statuten erfüllt werden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre wahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler. Haben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den Einwand. Aber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist es zumindest möglich, die Irrtümer des Vorstandes zu korrigieren.\n\nDie detaillierten Bestimmungen zu den Wahlen finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'> Statuten der Project R Genossenschaft</A> (Artikel 9, 16, 17, 18, 20 und 21)."
     },
     {
       "key": "info/candidacy/title",
@@ -115,56 +115,256 @@
       "value": "Funktion fehlt"
     },
     {
+      "key": "vote/candidacy/tooLate",
+      "value": "Die Anmeldefrist für diese Wahl ist leider abgelaufen."
+    },
+    {
       "key": "vote/title",
-      "value": "Wahlen und Abstimmungen"
+      "value": "Ihre Stimme für Project R!"
+    },
+    {
+      "key": "vote/intro/counter1",
+      "value": "Es haben bereits"
+    },
+    {
+      "key": "vote/intro/counter2",
+      "value": "Verlegerinnen und Verleger gewählt und abgestimmt."
     },
     {
       "key": "vote/intro/body",
-      "value": "Schön, sind Sie hier. Die «Republik» ist ein journalistisches Experiment. Und ein demokratisches. Denn das\ngrösste Teilstück der «Republik» gehört einer Genossenschaft: Project R. Und die Genossenschaft, liebe\nVerlegerinnen und Verleger, die gehört Ihnen.\nSie können mitbestimmen! Wählen Sie den Genossenschaftsrat, und stimmen Sie über die Finanzen ab. Bis zum\n28. Oktober 2018 sind die virtuellen Urnen offen.\n\nSie wählen einerseits, wer im Genossenschaftsrat von Project R sitzt – und andererseits, wer diesen Rat\npräsidiert. Zudem können Sie über einen Wahlvorschlag für den Vorstand abstimmen. Und damit das\ndemokratische Paket komplett ist, finden zeitgleich eine Reihe von Abstimmungen über die Finanzen der\nGenossenschaft statt. Sie haben also zu tun.\n\nWählen und abstimmen können alle Personen, die am 16. Oktober Mitglieder der Project R Genossenschaft\nwaren (und bis zur Stimmabgabe sind). Wenn Sie ein Jahresabo der «Republik» abgeschlossen haben, sind Sie\ndas."
+      "value": "Schön, sind Sie hier, liebe Verlegerin, lieber Verleger. Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches. Denn das grösste Teilstück der «Republik» gehört der Project R Genossenschaft. Die Mitglieder? Alle, die ein Jahresabo der «Republik» haben. Und damit wären wir wieder bei Ihnen: Sie können mitbestimmen! Bis zum 28. Oktober 2018 um 24 Uhr sind die virtuellen Urnen offen.\n\nÜber folgende Themen können Sie abstimmen. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung. \n\n<ol>\n<li><a href=\"#accounts\">Jahresrechnung und Revisionsbericht 2017/2018</a></li>\n<li><a href=\"#discharge\">Entlastung des Vorstands</a></li>\n<li><a href=\"#budget\">Budget 2018/2019</a></li>\n<li><a href=\"#board\">Nachwahlen Vorstand</a></li>\n<li><a href=\"#president\">Wahl Präsidium Genossenschaftsrat</a></li>\n<li><a href=\"#genossenschaftsrat\">Wahl Mitglieder Genossenschaftsrat</a></li>\n</ol>\n\nSie wählen also, wer im Genossenschaftsrat von Project R sitzt – und wer diesen Rat präsidiert. Zudem können Sie über einen Wahlvorschlag für den Vorstand abstimmen. Und es findet zeitgleich eine Reihe von Abstimmungen über die Finanzen der Genossenschaft statt. Sie haben also zu tun."
     },
     {
       "key": "vote/intro/more",
-      "value": "<strong>Der Zeitplan</strong>\n\n28.9.–16.10. Interessierte Mitglieder können für den Genossenschaftsrat kandidieren.<br />\n17.10.–28.10. Mitglieder wählen die 30 Genossenschaftsrätinnen und das Ratspräsidium. Und sie stimmen über die Jahresrechnung, den Revisionsbericht des Geschäftsjahres 2017/2018 sowie über das Budget des Jahres 2018/2019 ab.<br />\n31.10. Wir geben die Wahl- und Abstimmungsresultate bekannt.\n\nDie detaillierten Wahl- und Abstimmungsbedingungen finden Sie in den <a target=\"_blank\" href='https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf'>Statuten der Project R Genossenschaft</A>.\n\nMehr zum Bauplan von Project R und der «Republik» finden Sie <a target=\"_blank\" href='https://project-r.construction/newsletter/2017-03-15-aufbau'>hier</A>.<br />\nMehr zur Finanzierung finden Sie <a target=\"_blank\" href='https://project-r.construction/newsletter/2017-11-22-finanzierung'>hier</A>."
+      "value": "<strong>Wer kann abstimmen und wählen?</strong>\n\nWählen und abstimmen können alle Personen, die am 16. Oktober Mitglied der Project R Genossenschaft waren (und bis zur Stimmabgabe sind). Wenn Sie ein Jahresabo der «Republik» abgeschlossen haben, sind Sie das.\n\n<strong>Wie gebe ich meine Stimme ab?</strong>\n\nWenn Sie Ihre Stimme einmal abgegeben und bestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen. Darum: Nehmen Sie sich Zeit. Sie können eine Pause einlegen und einzelne Fragen zu einem späteren Zeitpunkt beantworten.\n\nFür die Abstimmungen und die Vorstandswahl wählen Sie eine der Alternativen «Ja» oder «Nein» oder legen Sie leer ein, indem Sie keine Antwort auswählen. Dann klicken Sie auf «Abstimmen» und «Stimme bestätigen». \n\nDen Genossenschaftsrat und dessen Präsidium wählen Sie, indem Sie die Kandidatinnen oder Kandidaten in der Liste auswählen und anschliessend auf «Wählen» und dann auf «Wahl bestätigen» klicken. Sie können sich der Stimme enthalten, indem Sie keine Kandidatin oder keinen Kandidaten auswählen und trotzdem auf «Wählen» und dann auf «Wahl bestätigen» klicken.\n\n<strong>Wie werden die Abstimmungen ausgezählt?</strong>\n\nSie haben, wie jedes Mitglied, eine Stimme für jeden Abstimmungsgegenstand und die Nachwahl für den Vorstand. Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten können oder wollen. Wir weisen die leeren Stimmen aus, sie zählen für die Stimmbeteiligung, für die Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ein Abstimmungsgegenstand gilt als angenommen, wenn mit über der Hälfte der abgegebenen Stimmen ein «Ja» erreicht wird, ohne Berücksichtigung der Enthaltungen.\n\n<strong>Wie werden die Wahlen ausgezählt?</strong>\n\nFür die Wahlen des Genossenschaftsrats und dessen Präsidium gilt das relative Mehr, das heisst, die Kandidatinnen und Kandidaten mit den meisten Stimmen sind gewählt. Sie haben für jeden offenen Sitz eine Stimme. Enthaltungen zählen für die Stimmbeteiligung, nicht aber für die Ermittlung des relativen Mehrs. \n\n<strong>Der Zeitplan?</strong>\n\n17.10.–28.10.2018: Die Mitglieder von Project R wählen und stimmen ab.<br />\n31.10.2018: Wir geben die Wahl- und Abstimmungsresultate bekannt.\n\n<strong>Statuten und Finanzierung</strong>\n\nDie detaillierten Wahl- und Abstimmungsbedingungen finden Sie in den <a target=\"_blank\" target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A>.<br />\nMehr zum Bauplan und zur Finanzierung finden Sie <a target=\"_blank\" target=\"_blank\" href='https://project-r.construction/newsletter/2017-11-22-finanzierung'>in diesem Newsletter</A>."
+    },
+    {
+      "key": "vote/jahresrechnung/title",
+      "value": "Jahresrechnung und Revisionsbericht 2017/2018"
     },
     {
       "key": "vote/jahresrechnung/body",
-      "value": "Bevor wir zu den Köpfen kommen, gehen wir zuerst ins Geld. Sie haben uns mit Ihrem Jahresabonnement viel\nGeld gegeben. Sie haben ein Recht darauf, zu wissen, was damit geschehen ist, und als Genossenschafter\nüber die Jahresrechnung abzustimmen.\n\nWenn Sie es genau wissen möchten, dann empfehlen wir Ihnen, den <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>integrierten Geschäftsbericht</A> der\nbeiden Gesellschaften Republik AG und Project R Genossenschaft zu lesen. Ein Teil davon ist die <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>Jahresrechnung 2017/18 der Project R Genossenschaft</A>, über die Sie abstimmen."
+      "value": "Bevor wir zu den Köpfen kommen, reden wir über Geld. Sie haben uns mit Ihrem Jahresabonnement viel Geld gegeben. Sie haben ein Recht darauf zu wissen, was damit geschehen ist, und über die Jahresrechnung abzustimmen.\n\nDie genauen Zahlen finden Sie im <a target=\"_blank\" href='/geschaeftsbericht'>integrierten Geschäftsbericht</A> der beiden Gesellschaften Republik AG und Project R Genossenschaft. Ein Teil davon ist die <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Jahresrechnung%202017-18.pdf'>Jahresrechnung 2017/2018 der Project R Genossenschaft inklusive Revisionsbericht</A>, über die Sie abstimmen."
     },
     {
       "key": "vote/jahresrechnung/more",
-      "value": "Sie haben, wie jedes Mitglied, eine Stimme für diese Frage. Wählen Sie eine der Alternativen «Ja», «Nein» oder\n«Leer einlegen», und klicken Sie auf «Abstimmen». Wenn Sie Ihre Stimme einmal abgegeben und bestätigt haben,\nkönnen Sie sie nicht mehr ändern oder zurücknehmen.\n\nSie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten\nkönnen oder wollen. Wir weisen die leeren Stimmen aus, und sie zählen für die Stimmbeteiligung. Für die\nBeschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ob die Jahresrechnung angenommen wird,\nentscheidet das Verhältnis zwischen den Ja-Stimmen und den Nein-Stimmen."
+      "value": "<strong>Was, wenn die Jahresrechnung abgelehnt wird?</strong>\n\nNun, dann wird es richtig kompliziert. Wir könnten zum Beispiel die Steuererklärung für die Genossenschaft nicht einreichen. Natürlich ist es Ihr gutes Recht, die Jahresrechnung abzulehnen. Aber wir würden uns sehr wünschen, dass Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A> dazu vorher kurz anschreiben. Vielleicht finden wir einen gemeinsamen Weg. \n\n<strong>Weitere Fragen?</strong>\n\nHaben Sie zur Jahresrechnung Fragen an die R-Crew? Schreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>. Oder haben Sie Fragen an die Revisoren zur Durchführung und zum Ergebnis der Prüfung? Auch diese können Sie in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A> stellen. Wir sammeln die Fragen bis zum 23. Oktober, und Sie erhalten dort bis zum 25. Oktober eine Antwort."
     },
     {
       "key": "vote/revisionsbericht/body",
-      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>hier</A>."
+      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Revisionsbericht.pdf'>hier</A>."
     },
     {
       "key": "vote/revisionsbericht/more",
       "value": "Auch zu dieser Fragen haben Sie, wie jedes Mitglied, eine Stimme. Wählen Sie eine der Alternativen «Ja»,\n«Nein» oder «Leer einlegen», und klicken Sie auf «Abstimmen». Wenn Sie Ihre Stimme einmal abgegeben und\nbestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen.\n\nSie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht\nbeantworten\nkönnen oder wollen. Wir weisen die leeren Stimmen aus, und sie zählen für die Stimmbeteiligung. Für die\nBeschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ob der Revisionsbericht angenommen wird,\nentscheidet das Verhältnis zwischen den Ja-Stimmen und den Nein-Stimmen."
     },
     {
+      "key": "vote/discharge/title",
+      "value": "Entlastung des Vorstandes"
+    },
+    {
+      "key": "vote/discharge/body",
+      "value": "Der Vorstand und die Mitarbeitenden der Project R Genossenschaft haben im Geschäftsjahr 2017/2018 mit Ihren Mitgliederbeiträgen gewirtschaftet und sind für diese Tätigkeiten verantwortlich. Stimmen Sie ab, ob Sie dem Vorstand die Entlastung erteilen und ihn damit aus der Haftung entlassen möchten."
+    },
+    {
+      "key": "vote/discharge/more",
+      "value": "<strong>Was bedeutet die Entlastung?</strong>\n\nWir müssen hier genau sein. Darum haben wir unseren Anwalt gebeten, diese Erklärung zu formulieren: «In einer Genossenschaft liegt es in der Kompetenz der Gesamtheit der Mitglieder, dem Vorstand die Décharge/Entlastung zu erteilen (<a target=\"_blank\" href='https://www.admin.ch/opc/de/classified-compilation/19110009/index.html#a879'>Art. 879 Abs. 2 Ziff. 4 OR</A>). Mit der Fassung des Entlastungsbeschlusses verzichtet die Genossenschaft auf die Geltendmachung von Verantwortlichkeitsansprüchen gegenüber dem Vorstand für dessen Tätigkeit während des abgelaufenen Geschäftsjahres. Die Genossenschaft entlässt den Vorstand mit anderen Worten aus der Haftung. Die Wirkung der Décharge ist insofern begrenzt, als sie nur für Sachverhalte gilt, die der Gesamtheit der Mitglieder zum Zeitpunkt der Décharge bekannt waren. Die Entlastung gilt gegenüber den Mitgliedern des Vorstands sowie gegenüber jenen Personen, welche Weisungen des Vorstands entgegennehmen und ausführen.» \n\n<strong>Haben Sie Fragen?</strong>\n\nSchreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>."
+    },
+    {
+      "key": "vote/budget/title",
+      "value": "Budget 2018/2019"
+    },
+    {
       "key": "vote/budget/body",
-      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses Budget\ninklusive <a target=\"_blank\" href='/static/genossenschaft/placeholder.pdf'>Erläuterungen</A> vor. Es zeigt, wie das Geld der rund 20’000 Verlegerinnen und Verleger\nverwendet werden soll. Stimmen Sie darüber ab."
+      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Budget%202018-19.pdf'>Budget inklusive Erläuterungen</A> vor. Es zeigt, wie das Geld der Mitglieder verwendet werden soll. Möchten Sie dem Vorstand die Befugnis erteilen, Ausgaben im Rahmen dieses Budgets zu tätigen? Stimmen Sie darüber ab."
     },
     {
       "key": "vote/budget/more",
-      "value": "Für diejenigen, die schon zur Jahresrechnung und zum Revisionsbericht mehr Informationen wollten, nichts\nNeues: Sie haben für diese Frage, wie jedes Mitglied, eine Stimme. Wählen Sie eine der Alternativen\n«Ja», «Nein» oder «Leer einlegen», und klicken Sie auf «Abstimmen». Wenn Sie Ihre Stimme einmal\nabgegeben und bestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen.\n\nSie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht\nbeantworten können oder wollen. Wir weisen die leeren Stimmen aus, und sie zählen für die\nStimmbeteiligung. Für die Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ob das Budget\nangenommen wird, entscheidet das Verhältnis zwischen den Ja-Stimmen und den Nein-Stimmen."
+      "value": "<strong>Was, wenn das Budget abgelehnt wird?</strong>\n\nAuch hier überlassen wir das Wort unserem Anwalt: «Mit der Genehmigung des Budgets erhält der Vorstand die Befugnis, die im Budget veranschlagten Ausgaben zu tätigen. Liegt kein von der Urabstimmung genehmigtes Budget vor, sollte der Vorstand nur solche Ausgaben tätigen, welche für die Fortführung der Geschäftstätigkeit absolut notwendig sind.» \n\n<strong>Haben Sie Fragen?</strong>\n\nSchreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>."
+    },
+    {
+      "key": "vote/board/title",
+      "value": "Nachwahlen Vorstand"
+    },
+    {
+      "key": "vote/board/body",
+      "value": "Damit der Vorstand von Project R drei Personen stark ist, schlägt der bisherige Vorstand Ihnen <a target=\"_blank\" href='https://www.republik.ch/~sreinhard'>Sylvie Reinhard</A> und <a target=\"_blank\" href='https://www.republik.ch/~pschmid'>Peter Schmid</A> zur Wahl vor. Sind Sie mit dem Wahlvorschlag einverstanden?"
+    },
+    {
+      "key": "vote/board/more",
+      "value": "<strong>Was, wenn der Vorschlag abgelehnt wird?</strong>\n\nDann würde der Vorstand zusammen mit dem Genossenschaftsrat eine weitere Urabstimmung mit einem neuen Wahlvorschlag durchführen.\n\n<strong>Warum kommt es zu dieser Nachwahl?</strong>\n\nNadja Schnetzler, Laurent Burst und Susanne Sugimoto treten aus dem Vorstand zurück. Darüber haben wir am 5. Oktober 2018 in diesem <a target=\"_blank\" target=\"_blank\" href='https://project-r.construction/newsletter/2018-10-05-geschaeftsbericht'>Newsletter</A> informiert.\n\nDer Vorstand muss aus mindestens drei Personen bestehen. Die zur Wahl Vorgeschlagenen wählen Sie in die laufende Amtszeit, die bis zum 30. Juni 2020 dauert. Anschliessend finden jährlich Vorstandswahlen statt. Die Bestimmungen dazu finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A> (Artikel 29).\n\n<strong>Haben Sie Fragen? </strong>\n\nSchreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>."
+    },
+    {
+      "key": "vote/president/title",
+      "value": "Wahl Präsidium Genossenschaftsrat"
     },
     {
       "key": "vote/president/body",
-      "value": "Der Genossenschaftsrat wird eine Präsidentin oder einen Präsidenten haben. Sie oder er leitet den Rat\nund arbeitet eng mit dem Vorstand zusammen. Wir schlagen Ihnen drei (vier, fünf) Personen für das\nPräsidium vor. Informieren Sie sich hier über die Kandidatinnen und Kandidaten, und debattieren Sie mit\nihnen. Wem geben Sie Ihre Stimme?"
+      "value": "Der Genossenschaftsrat wird eine Präsidentin oder einen Präsidenten haben. Er oder sie leitet den Rat und arbeitet eng mit dem Vorstand zusammen. Wir schlagen Ihnen drei Personen für das Präsidium vor. Informieren Sie sich über die Kandidatinnen und Kandidaten und stellen Sie ihnen <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18p\n'>hier Fragen</A>. Wem geben Sie Ihre Stimme?"
     },
     {
       "key": "vote/president/more",
-      "value": "Für diese Wahl haben Sie eine Stimme. Es gilt das relative Mehr, das heisst, die Kandidatin oder der\nKandidat mit den meisten Stimmen ist für das Präsidium gewählt. Dazu müssen Sie auch in den\nGenossenschaftsrat gewählt sein. Wählen Sie also unbedingt jemanden, den Sie auch in den\nGenossenschaftsrat wählen. Wenn Sie sich nach unserer Wahlempfehlung richten, ist das kein Problem. Wir\nhaben alle Kandidatinnen und Kandidaten auch für den Genossenschaftsrat zur Wahl empfohlen.\n\nWas genau macht der Präsident oder die Präsidentin eigentlich? Nun, eine ganze Menge. Die ganzen\nRatssitzungen organisieren zum Beispiel. All das, was der Rat tut, vor- und nachbereiten. Vernetzen,\nvermitteln, verbinden. Daneben wird Madame oder Monsieur le Président eng mit dem Vorstand\nzusammenarbeiten. Sie oder er nimmt an dessen Sitzungen als Berater teil. Beschliesst der Vorstand also\nbeispielsweise, künftig statt Journalismus klassisch-gregorianische Chöre zu fördern, ist es an der\nPräsidentin, Alarm zu schlagen."
+      "value": "<strong>Was genau macht der Präsident oder die Präsidentin?</strong>\n\nNun, eine ganze Menge. Die ganzen Ratssitzungen organisieren zum Beispiel. All das, was der Rat tut, vor- und nachbereiten. Vernetzen, vermitteln, verbinden. Daneben wird Madame oder Monsieur le Président eng mit dem Vorstand zusammenarbeiten. Sie oder er nimmt an dessen Sitzungen als Berater teil.\n\n<strong>Wie wurden die zwei Kandidatinnen und der Kandidat ausgewählt?</strong>\n\nSie haben sich für den Genossenschaftsrat interessiert und an einer der Infoveranstaltungen teilgenommen, zu denen wir am 23. Mai 2018 mit diesem <target=\"_blank\" href='https://project-r.construction/newsletter/genossenschafts-rat'>Newsletter</A> eingeladen hatten. Dort haben sie, wie rund 70 weitere Personen, Interesse am Präsidium signalisiert. Danach haben wir 8 Personen ausgewählt, die Erfahrung in der Leitung von Gremien mitbringen, und sie zu einem Gespräch eingeladen. Anschliessend hat der Vorstand beschlossen, Ihnen Tanja Messerli, Philipp Schori und Nina Scheu zur Wahl vorzuschlagen."
     },
     {
-      "key": "vote/members/body",
-      "value": "Und nun zum letzten und vielleicht interessantesten Teil dieser Wahl. Schön, dass Sie bis hier\ndurchgehalten haben. Sie können <Strong>30 Personen wählen</Strong>, die sich ehrenamtlich für Project R engagieren. <Strong>Der\nGenossenschaftsrat repräsentiert Sie</Strong> und die rund 20’000 anderen Mitglieder. Und er verbindet die\nMitglieder mit dem Vorstand. Dafür kann er Ihnen z. B. Anträge unterbreiten, über die Sie\nabstimmen können. Wie heute über die Finanzen.\n\nWir empfehlen Ihnen 30 Personen zur Wahl. Nicht weil wir uns einen besonders umgänglichen Rat wünschen,\nsondern einen vielfältigen. Wir haben darauf geachtet, dass verschiedene Altersgruppen, Regionen und\nFähigkeiten vertreten sind und dass das Geschlechterverhältnis ausgeglichen ist. Es steht Ihnen aber\nfrei, diese Empfehlung zu ignorieren und andere Personen zu wählen.\n\nLernen Sie hier die Kandidatinnen und Kandidaten kennen, und debattieren Sie mit Ihnen. Und geben Sie\nIhre 30 Stimmen bis zum 23. Oktober 2018 ab."
+      "key": "vote/members/title",
+      "value": "Wahl Mitglieder Genossenschaftsrat"
+    },
+    {
+      "key": "vote/members/body1",
+      "value": "Und nun zum letzten und vielleicht interessantesten Teil dieser Wahl:  Wählen Sie 30 Personen, die sich ehrenamtlich für Project R engagieren. \nDer Genossenschaftsrat repräsentiert Sie und die rund 20’500 anderen Mitglieder. Und er verbindet die Mitglieder mit dem Vorstand. Dafür kann er Ihnen zum Beispiel Anträge unterbreiten, über die Sie abstimmen können. "
+    },
+    {
+      "key": "vote/members/caption",
+      "value": "Was für eine Auswahl: Kandidatinnen und Kandidaten für den Genossenschaftsrat von Project R."
+    },
+    {
+      "key": "vote/members/body2",
+      "value": "Wir empfehlen Ihnen 30 Personen zur Wahl. Nicht weil wir uns einen besonders umgänglichen Rat wünschen, sondern einen besonders vielfältigen. Wir haben darauf geachtet, dass verschiedene Altersgruppen, Regionen und Fähigkeiten vertreten sind und dass das Geschlechterverhältnis ausgeglichen ist. Es steht Ihnen aber frei, diese Empfehlung zu ignorieren und andere Personen zu wählen.\nLernen Sie hier die Kandidatinnen und Kandidaten kennen und <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18m'>diskutieren Sie mit ihnen</A>. Bis zum 28. Oktober 2018 können Sie Ihre Stimme abgeben."
+    },
+    {
+      "key": "vote/members/recommendation",
+      "value": "Wahlempfehlung übernehmen"
     },
     {
       "key": "vote/members/more",
-      "value": "<strong>Zum Rat</strong>\n\nDer Rat trifft sich zu mindestens zwei Sitzungen im Jahr, zum ersten Mal am 24. November 2018.\nSpätestens nach drei Jahren sind Neuwahlen. Wir stellen uns den Rat als eine Mischung aus Parlament,\nAufsichts- und Kontrollgremium, Thinktank, Debattierklub und Ideenentwicklungslabor vor. Wie genau der\nRat arbeit und mit Ihnen in Kontakt tritt, wird eine der ersten Aufgaben für die Rätinnen und Räte sein.\n\nLesetipp: Wenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original\nzu lesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie\nin den <a target=\"_blank\" href='https://assets.project-r.construction/media/statuten_project_r_genossenschaft_unterschrieben.pdf'>Artikeln 19, 26 bis 28</A>.\n\n<strong>Zum Wahlsystem</strong>\n\nFür diese Wahl gilt das relative Mehr, das heisst, die 30 Kandidatinnen und Kandidaten mit den meisten\nStimmen sind für den Genossenschaftsrat gewählt.\n\nKandidieren konnten alle Mitglieder, die sich bis zum 16. Oktober online registriert haben. Der Vorstand\nder Genossenschaft hat allerdings eine Wahlempfehlung für 30 Kandidatinnen und Kandidaten abgegeben.\nSind Sie damit nicht einverstanden? Debattieren Sie hier (LINK Wahldebatte) mit uns und den anderen\nMitgliedern.\n\nFür das Wahlsystem haben wir schon im Vorfeld Kritik einstecken müssen. Wenn der Vorstand seine\nFavoriten empfiehlt, ist das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte\nAlternativlosigkeit? Warum trauen wir den Mitgliedern nicht, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Das ist uns bewusst. Darum haben wir auch lange und hart über Alternativen\nnachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller\nschlechten Varianten. Aus drei Gründen blieben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität<br />\nIn den Statuten der Genossenschaft ist festgehalten, dass die Zusammensetzung der Mitgliederstruktur\nangemessen vertreten sein soll: Im Rat sollen verschiedene Alter, Geschlechter, Regionen zusammenkommen.\nWir haben bei der Wahlempfehlung darauf geachtet. Das erhöht die Wahrscheinlichkeit, dass die\nAnforderungen der Statuten erfüllt werden.\n\n2. Einfachheit<br />\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre\nwahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler.\nHaben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir die nächsten Wahlen so durchführen.\n\n3. Legitimität<br />\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den\nEinwand. Aber: Jedes Mitglied kann ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. So ist\nes zumindest möglich, die Irrtümer des Vorstandes zu korrigieren.\n\n<strong>Zum Wahlablauf</strong>\n\nAm 23. Mai 2018 haben wir mit diesem Newsletter zum ersten Mal über die Wahl informiert und zu\nInformationsveranstaltungen eingeladen: https://project-r.construction/newsletter/genossenschafts-rat\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten\ndurchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen\nzusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl empfohlen wurden, wurden\ninformiert. Sie konnten trotzdem für den Rat kandidieren, so wie überhaupt alle Mitglieder der\nGenossenschaft.\n\nBis zum 16. Oktober hatten die Interessierten Zeit, zu kandidieren. Das heisst: Sie haben sich hier\nregistriert und ihr Profil ausgefüllt.\n\nNun ist bis zum 28. Oktober Wahlkampf. Wenn Sie Fragen an die Kandidatinnen haben, dann können Sie\nonline mit Ihnen debattieren. Sobald Sie überzeugt sind, können Sie Ihren Wunschrat wählen.\n\nAm 29. und 30. Oktober werden wir viel Kaffee trinken und in Ruhe die Wahl auswerten. Es gilt das\nrelative Mehr. Das heisst: Die 30 Personen mit den meisten Stimmen bekommen einen Sitz.\n\nAm 31. Oktober hat die Genossenschaft zum ersten Mal in Ihrer Geschichte einen Rat. Wir werden das\nResultat hier auf der Plattform verkünden und einen angemessen staatstragenden Newsletter verschicken.\n"
+      "value": "<strong>Was macht der Rat?</strong>\n\nMit dem Genossenschaftsrat haben die Mitglieder von Project R eine Stimme. Die Ratsmitglieder werden also viel zuhören müssen: uns und allen Mitgliedern der Genossenschaft. Der Vorstand von Project R und die Redaktion der «Republik» versprechen im Gegenzug, dem Rat zuzuhören. Auf die Inhalte der «Republik» kann die Genossenschaft jedoch keinen direkten Einfluss nehmen. Es gilt die Redaktionsfreiheit.\n\nDer Rat trifft sich zu mindestens zwei Sitzungen im Jahr, zum ersten Mal am 24. November 2018. Spätestens nach drei Jahren sind Neuwahlen. Wir stellen uns den Rat als eine Mischung aus Parlament, Aufsichts- und Kontrollgremium, Thinktank, Debattierklub und Ideenentwicklungslabor vor. Festzulegen, wie genau der Rat arbeitet und wie er mit Ihnen in Kontakt tritt, wird eine der ersten Aufgaben für die Rätinnen und Räte sein. \n\nWenn Sie es ganz genau wissen wollen, dann legen wir Ihnen ans Herz, die Statuten im Original zu lesen. Die sind zwar ziemlich trocken – dafür aber präzise. Alles zum Genossenschaftsrat finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A> (Artikel 26, 27 und 28).\n\n\n<strong>Was ist bisher geschehen?</strong>\n\nAm 23. Mai 2018 haben wir mit diesem <a target=\"_blank\" href='https://project-r.construction/newsletter/genossenschafts-rat'>Newsletter</A> zum ersten Mal über die Wahl informiert und zu Informationsveranstaltungen eingeladen.\n\nZwischen dem 18. Juni und dem 12. September haben wir sechs Informationsveranstaltungen in sechs Städten durchgeführt, und es haben sich rund 150 Personen für eine Kandidatur interessiert.\n\nAm 27. September hat der Vorstand aus diesen Personen eine Wahlempfehlung von 30 Personen zusammengestellt und sie informiert. Auch die Interessenten, die nicht zur Wahl empfohlen wurden, wurden informiert. Sie konnten trotzdem für den Rat kandidieren, so wie überhaupt alle Mitglieder der Genossenschaft.\n\nBis zum 16. Oktober hatten die Interessierten Zeit zu kandidieren. Das heisst: Sie haben sich hier registriert und ihr Profil ausgefüllt.\n\n\n<strong>Wie kam es zur Wahlempfehlung?</strong>\nAn den Infoveranstaltungen zum Rat haben sich rund 150 Personen für eine Kandidatur interessiert. Für 30 von ihnen haben wir eine Wahlempfehlung ausgesprochen und dabei auf Durchmischung geachtet.\n\n<ul>\n<li>Altersgruppen: Der jüngste Kandidat ist 17 Jahre alt, die älteste Kandidatin 72. Dazwischen sind die Altersgruppen relativ gleichmässig verteilt, und der Durchschnitt liegt bei einem Alter von 42 Jahren.</li>\n<li>Regionen: Wir haben Kandidatinnen aus allen Grossregionen (mit Ausnahme des Tessins) empfohlen und darauf geachtet, dass Zürich nicht die Mehrheit im Rat stellt.</li>\n<li>Geschlecht: 15 Frauen und 15 Männer.</li>\n<li>Fähigkeiten und Wissen: Wir haben darauf geachtet, dass möglichst verschiedene Berufsgruppen und Kompetenzen vertreten sind.</li>\n</ul>\n\n<strong>Warum dieses Wahlsystem?</strong>\n\nFür das Wahlsystem haben wir schon im Vorfeld Kritik einstecken müssen zum Beispiel an den Informationsveranstaltungen. Wenn der Vorstand seine Favoriten empfiehlt, ist das Ganze nicht ein reines Abnicken mit unumstösslichem Ausgang? Gelebte Alternativlosigkeit? Warum trauen wir den Mitgliedern nicht zu, selber die besten Kandidatinnen zu finden?\n\nDie Kritik hat etwas Wahres. Darum haben wir auch lange und hart über Alternativen nachgedacht. Um Winston Churchill zu paraphrasieren: Dieses Wahlsystem ist für uns die beste aller schlechten Varianten. Aus drei Gründen blieben wir trotz Kritik bei diesem System.\n\n1. Repräsentativität\nIn den Statuten der Genossenschaft ist festgehalten, dass die Zusammensetzung der Mitgliederstruktur angemessen vertreten sein soll. Wir haben bei der Wahlempfehlung darauf geachtet. \n\n2. Einfachheit\nWäre das nicht auch anders möglich gewesen? Ja, aber alles, was uns dazu eingefallen ist, wäre wahnsinnig kompliziert. Nicht für uns, das wäre verkraftbar, sondern für die Wählerinnen und Wähler. Haben Sie eine elegantere Lösung? Bitte, her damit. Dann werden wir, wenn immer möglich, die nächsten Wahlen so durchführen.\n\n3. Legitimität\nDie Wahl mit Empfehlung ist für manche weniger legitim als eine ganz freie Wahl. Wir verstehen den Einwand. Aber: Jedes Mitglied konnte ohne weitere Hürden kandidieren – ob auf der Liste oder nicht. Und einige Mitglieder haben diese Möglichkeit genutzt. Sie stehen nun genauso zur Wahl wie die Kandidatinnen und Kandidaten, welche wir Ihnen vorschlagen. \n\nDie detaillierten Bestimmungen zu den Wahlen finden Sie in den <a target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A> (Artikel 9, 16, 17, 18, 20 und 21).\n\n<strong>Sind Sie damit nicht einverstanden oder haben Sie Fragen?</strong>\n\nSchreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>."
+    },
+    {
+      "key": "vote/election/thankyou",
+      "value": "Ihre Wahl ist am {submissionDate} bei uns eingegangen. Danke für Ihre Teilnahme!"
+    },
+    {
+      "key": "vote/election/votesRemaining",
+      "value": "Sie haben noch {count} von {max} Stimmen übrig!"
+    },
+    {
+      "key": "vote/election/legendStar",
+      "value": "von der Republik zur Wahl empfohlen"
+    },
+    {
+      "key": "vote/election/legendHeart",
+      "value": "Ihre Wahl für das Präsidium"
+    },
+    {
+      "key": "vote/election/labelConfirmCount/0",
+      "value": "Wollen Sie leer einlegen?"
+    },
+    {
+      "key": "vote/election/labelConfirmCount/1",
+      "value": "Sie haben nur eine von Ihren {numSeats} Stimmen verteilt – wollen Sie die übrigen {remaining} leer einlegen?"
+    },
+    {
+      "key": "vote/election/labelConfirmCount/other",
+      "value": "Sie haben erst {count} von {numSeats} Stimmen verteilt – wollen Sie die übrigen {remaining} leer einlegen?"
+    },
+    {
+      "key": "vote/election/labelConfirmAll/1",
+      "value": "Wollen Sie der ausgewählten Person Ihre Stimme geben?"
+    },
+    {
+      "key": "vote/election/labelConfirmAll/other",
+      "value": "Wollen Sie den ausgewählten {numSeats} Person Ihre Stimme geben?"
+    },
+    {
+      "key": "vote/election/confirmRecommendation",
+      "value": "Wollen Sie Ihre Wahl durch die Empfehlung ersetzen?"
+    },
+    {
+      "key": "vote/election/labelVote",
+      "value": "Wählen"
+    },
+    {
+      "key": "vote/election/labelConfirm",
+      "value": "Wahl bestätigen"
+    },
+    {
+      "key": "vote/election/labelReset",
+      "value": "Formular zurücksetzen"
+    },
+    {
+      "key": "vote/election/help",
+      "value": "Sie können auch leer einlegen"
+    },
+    {
+      "key": "vote/election/recommendation",
+      "value": "Empfehlung von Project R:"
+    },
+    {
+      "key": "vote/election/discussion",
+      "value": "Diskussion"
+    },
+    {
+      "key": "vote/voting/comingsoon",
+      "value": "Die Abstimmungen und Wahlen sind leider schon vorbei. Die Resultate publizieren wir hier am 31. Oktober."
+    },
+    {
+      "key": "vote/voting/toolate",
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die bis zum 16. Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten. Die Resultate sehen Sie hier ab dem 31. Oktober."
+    },
+    {
+      "key": "vote/voting/labelVote",
+      "value": "Abstimmen"
+    },
+    {
+      "key": "vote/voting/labelConfirm",
+      "value": "Stimme bestätigen"
+    },
+    {
+      "key": "vote/voting/thankyou",
+      "value": "Ihre Stimme ist am {submissionDate} bei uns eingegangen.\nDanke für Ihre Teilnahme!"
+    },
+    {
+      "key": "vote/voting/labelReset",
+      "value": "Zurücksetzen"
+    },
+    {
+      "key": "vote/voting/help",
+      "value": "Sie können auch leer einlegen"
+    },
+    {
+      "key": "vote/common/thankyou",
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme! \n \nAm 31. Oktober werden wir hier die Resultate der Abstimmungen und Wahlen verkünden und einen angemessen staatstragenden Newsletter verschicken.\n \nZurück zur <a href='https://www.republik.ch/'>Republik</A>."
+    },
+    {
+      "key": "vote/voting/optionYES",
+      "value": "Ja"
+    },
+    {
+      "key": "vote/voting/optionNO",
+      "value": "Nein"
+    },
+    {
+      "key": "vote/discussion/title",
+      "value": "Fragen Sie!"
+    },
+    {
+      "key": "vote/discussion/intro",
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
+    },
+    {
+      "key": "vote/discussion/boardTitle",
+      "value": "Project-R-Crew"
+    },
+    {
+      "key": "vote/discussion/boardIntro",
+      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<ul>\n<li>Haben Sie Fragen zur Jahresrechnung?</li>\n<li>Regt sich beim Budget Widerspruch in Ihnen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</li>\n</ul>"
+    },
+    {
+      "key": "vote/discussion/presidentTitle",
+      "value": "Präsidium"
+    },
+    {
+      "key": "vote/discussion/presidentIntro",
+      "value": "Hier können Sie alles fragen, was Sie für Ihre Wahlentscheidung brauchen. Wichtig: Wir wünschen uns einen sachlich-konstruktiven Ton. Bitte vermeiden Sie darum Wahlkampfrhetorik. Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Sie könnten den Kandidatinnen beispielsweise zu folgenden Themen auf den Zahn fühlen:\n\n<ul>\n<lI>Wie würden Sie den Rat organisieren?</li>\n<li>Was finden Sie wichtig beim Aufbau des Rates?</li>\n<li>Welche Themenschwerpunkte möchten Sie setzen?</li>\n</ul>\n"
+    },
+    {
+      "key": "vote/discussion/membersTitle",
+      "value": "Genossenschaftsrat"
+    },
+    {
+      "key": "vote/discussion/membersIntro",
+      "value": "Fragen Sie Ihre Kandidatinnen! Im Sinne der Übersichtlichkeit haben wir für jeden einzelnen Kandidaten einen Thread angelegt. Hier ein paar Fragen, die wir spannend fänden:\n\n<ul>\n<li>Wofür möchten Sie sich im Rat einsetzen?</li>\n<li>Was ist Ihre Motivation, für den Rat zu kandidieren?</li>\n<li>Welche Qualitäten und Ideen bringen Sie ins Gremium?</li>\n</ul>"
     },
     {
       "key": "common/moreInfo",
@@ -172,11 +372,19 @@
     },
     {
       "key": "common/hamburgerEntry",
-      "value": "Genossenschaftsrat"
+      "value": "Urabstimmung"
     },
     {
       "key": "common/missingUsername",
       "value": "Profil URL fehlt"
+    },
+    {
+      "key": "common/missingAddressTitle",
+      "value": "Bevor Sie abstimmen (nur kurz)"
+    },
+    {
+      "key": "common/missingAddressBody",
+      "value": "Leider wissen wir zu wenig über Sie. Um an der Urabstimmung teilnehmen zu können, bitten wir Sie, uns Ihre Adresse anzugeben. Danke!"
     }
   ]
 }

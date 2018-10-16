@@ -72,8 +72,6 @@ class AddressEditor extends Component {
     const { values, errors, error, dirty, updating } = this.state
     const isValid = !Object.keys(errors).some(k => Boolean(errors[k]))
 
-    console.log('AddressEditor.js:75 [errors]', errors)
-
     return (
       <Loader loading={data.loading} error={data.error} render={() =>
         <>

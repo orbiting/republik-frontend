@@ -32,7 +32,7 @@ class Discussion extends PureComponent {
     super(props)
 
     this.state = {
-      orderBy: 'HOT', // DiscussionOrder
+      orderBy: 'DATE', // DiscussionOrder
       reload: 0,
       now: Date.now()
     }
@@ -74,9 +74,9 @@ class Discussion extends PureComponent {
         <NotificationOptions discussionId={discussionId} mute={mute} />
 
         <div {...styles.orderByContainer}>
-          <OrderBy value='HOT' />
           <OrderBy value='DATE' />
           <OrderBy value='VOTES' />
+          <OrderBy value='HOT' />
           <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={(e) => {
             e.preventDefault()
             this.setState(({ reload }) => ({ reload: reload + 1 }))

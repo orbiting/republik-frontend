@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T14:36:33.133Z",
+  "updated": "2018-10-16T14:42:39.386Z",
   "title": "live",
   "data": [
     {
@@ -320,7 +320,7 @@
     },
     {
       "key": "vote/discussion/intro",
-      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie hier Ihre Fragen: <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18m'>Genossenschaftsrat</A>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Das können Sie hier: <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18p'>Präsidium</A>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Project-R-Crew</A>."
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie hier Ihre Fragen: <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Das können Sie hier: <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
     },
     {
       "key": "vote/discussion/boardTitle",

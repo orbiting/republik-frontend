@@ -247,7 +247,7 @@ class ElectionBallotRow extends Component {
                       <div>
                         <Link route='voteDiscuss' params={{
                           discussion: candidate.election.slug,
-                          commentId: candidate.comment.id
+                          focus: candidate.comment.id
                         }} passHref>
                           <A target='_blank'>{ vt('vote/election/discussion') }</A>
                         </Link>

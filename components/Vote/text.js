@@ -55,7 +55,7 @@ const PMedium = (props) =>
 
 export const Body = withInNativeApp(({ dangerousHTML, inNativeApp }) => {
   const html = inNativeApp
-    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank" /, '')
+    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
     : dangerousHTML
   return (
     <div>

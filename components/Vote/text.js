@@ -47,7 +47,7 @@ const PMedium = (props) =>
       fontWeight: 'normal'
     },
     '& ul': {
-      paddingLeft: 20
+      paddingLeft: 25
     }
   })}>
     {props.children}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import { colors, fontFamilies, fontStyles, Interaction, mediaQueries, RawHtml } from '@project-r/styleguide'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const { H2, Headline } = Interaction
 
@@ -44,22 +45,32 @@ const PMedium = (props) =>
     '& strong': {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'normal'
+    },
+    '& ul': {
+      paddingLeft: 20
     }
   })}>
     {props.children}
   </div>
 
-export const Body = ({ dangerousHTML }) =>
-  <div>
-    {
-      dangerousHTML.split('\n\n')
-        .map((c, i) =>
-          <PMedium key={i}>
-            <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
-          </PMedium>
-        )
-    }
-  </div>
+export const Body = withInNativeApp(({ dangerousHTML, inNativeApp }) => {
+  const html = inNativeApp
+    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
+    : dangerousHTML
+  return (
+    <div>
+      {
+        html
+          .split('\n\n')
+          .map((c, i) =>
+            <PMedium key={i}>
+              <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
+            </PMedium>
+          )
+      }
+    </div>
+  )
+})
 
 const PSmall = ({ children, indent = true }) =>
   <div {...css({
@@ -78,17 +89,23 @@ const PSmall = ({ children, indent = true }) =>
     {children}
   </div>
 
-export const Small = ({ dangerousHTML, indent = true }) =>
-  <div>
-    {
-      dangerousHTML.split('\n\n')
-        .map((c, i) =>
-          <PSmall key={i} indent={indent}>
-            <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
-          </PSmall>
-        )
-    }
-  </div>
+export const Small = withInNativeApp(({ dangerousHTML, inNativeApp, indent = true }) => {
+  const html = inNativeApp
+    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
+    : dangerousHTML
+  return (
+    <div>
+      {
+        html.split('\n\n')
+          .map((c, i) =>
+            <PSmall key={i} indent={indent}>
+              <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
+            </PSmall>
+          )
+      }
+    </div>
+  )
+})
 
 export const Caption = ({ children }) =>
   <div {...css({

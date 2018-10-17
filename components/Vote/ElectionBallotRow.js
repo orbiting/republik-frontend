@@ -11,6 +11,7 @@ import StarsIcon from 'react-icons/lib/md/stars'
 import { Link } from '../../lib/routes'
 import voteT from './voteT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import withT from '../../lib/withT'
 
 const MISSING_VALUE = <span>…</span>
 
@@ -48,15 +49,15 @@ const styles = {
       width: '10%'
     },
     '& div:nth-child(3)': {
-      width: '40%',
+      width: '35%',
       paddingRight: 10
     },
     '& div:nth-child(4)': {
       width: '15%',
-      paddingRight: 5
+      paddingRight: 15
     },
     '& div:nth-child(5)': {
-      width: '5%'
+      width: '10%'
     },
     [mediaQueries.onlyS]: {
       '& div:nth-child(1)': {
@@ -123,8 +124,8 @@ const styles = {
     marginTop: 8,
     paddingBottom: 5
   }),
-  recommendation: css({
-    marginTop: 20
+  moreInfo: css({
+    marginTop: 15
   }),
   wrapper: css({
     [mediaQueries.mUp]: {
@@ -167,7 +168,7 @@ class ElectionBallotRow extends Component {
   }
 
   render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, showMeta, inNativeApp, profile } = this.props
+    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, t, showMeta, inNativeApp, profile } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
@@ -267,8 +268,13 @@ class ElectionBallotRow extends Component {
                   {d.statement || MISSING_VALUE}
                 </div>
               </div>
+              { d.disclosures &&
+              <div {...styles.moreInfo}>
+                <Strong>{ t('profile/disclosures/label') }:</Strong> { d.disclosures }
+              </div>
+              }
               { candidate.recommendation &&
-              <div {...styles.recommendation}>
+              <div {...styles.moreInfo}>
                 <Strong>{ vt('vote/election/recommendation') }</Strong> { candidate.recommendation }
               </div>
               }
@@ -291,16 +297,6 @@ class ElectionBallotRow extends Component {
   }
 }
 
-ElectionBallotRow.defaultProps = {
-  selected: false,
-  disabled: false,
-  maxVotes: 1,
-  expanded: false,
-  interactive: true,
-  onChange: () => {},
-  showMeta: PropTypes.bool
-}
-
 ElectionBallotRow.propTypes = {
   profile: PropTypes.bool,
   selected: PropTypes.bool,
@@ -310,10 +306,21 @@ ElectionBallotRow.propTypes = {
   interactive: PropTypes.bool,
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired,
+  showMeta: PropTypes.bool
+}
+
+ElectionBallotRow.defaultProps = {
+  selected: false,
+  disabled: false,
+  maxVotes: 1,
+  expanded: false,
+  interactive: true,
+  onChange: () => {},
   showMeta: true
 }
 
 export default compose(
   withInNativeApp,
-  voteT
+  voteT,
+  withT
 )(ElectionBallotRow)

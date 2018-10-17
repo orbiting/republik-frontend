@@ -428,6 +428,7 @@ const query = gql`
         email
         statement
         portrait
+        disclosures
         credentials {
           isListed
           description

@@ -298,7 +298,7 @@ ElectionBallotRow.defaultProps = {
   expanded: false,
   interactive: true,
   onChange: () => {},
-  showMeta: PropTypes.bool
+  showMeta: true
 }
 
 ElectionBallotRow.propTypes = {
@@ -310,7 +310,7 @@ ElectionBallotRow.propTypes = {
   interactive: PropTypes.bool,
   onChange: PropTypes.func,
   candidate: PropTypes.object.isRequired,
-  showMeta: true
+  showMeta: PropTypes.bool
 }
 
 export default compose(

@@ -44,6 +44,9 @@ const PMedium = (props) =>
     '& strong': {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'normal'
+    },
+    '& ul': {
+      paddingLeft: 20
     }
   })}>
     {props.children}

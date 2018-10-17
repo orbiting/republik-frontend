@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-17T13:15:41.066Z",
+  "updated": "2018-10-17T15:46:44.613Z",
   "title": "live",
   "data": [
     {
@@ -240,7 +240,7 @@
     },
     {
       "key": "vote/election/legendStar",
-      "value": "von der Republik zur Wahl empfohlen"
+      "value": "von Project R zur Wahl empfohlen"
     },
     {
       "key": "vote/election/legendHeart",
@@ -348,7 +348,7 @@
     },
     {
       "key": "vote/discussion/boardIntro",
-      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<ul>\n<li>Haben Sie Fragen zur Jahresrechnung?</li>\n<li>Regt sich beim Budget Widerspruch in Ihnen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</li>\n</ul>"
+      "value": "Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Hier ist der richtige Ort dafür. \n\n<ul>\n<li>Haben Sie Fragen zur Jahresrechnung?</li>\n<li>Regt sich beim Budget Widerspruch in Ihnen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen und Wählen?</li>\n</ul>\n\nLesen Sie dazu auch «<a href='https://www.republik.ch/2018/10/17/ihre-entscheidung'>Ihre Entscheidung</A>»."
     },
     {
       "key": "vote/discussion/presidentTitle",

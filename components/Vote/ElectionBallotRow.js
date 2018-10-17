@@ -49,15 +49,15 @@ const styles = {
       width: '10%'
     },
     '& div:nth-child(3)': {
-      width: '40%',
+      width: '35%',
       paddingRight: 10
     },
     '& div:nth-child(4)': {
       width: '15%',
-      paddingRight: 5
+      paddingRight: 15
     },
     '& div:nth-child(5)': {
-      width: '5%'
+      width: '10%'
     },
     [mediaQueries.onlyS]: {
       '& div:nth-child(1)': {

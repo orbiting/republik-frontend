@@ -91,7 +91,7 @@ const PSmall = ({ children, indent = true }) =>
 
 export const Small = withInNativeApp(({ dangerousHTML, inNativeApp, indent = true }) => {
   const html = inNativeApp
-    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank" /, '')
+    ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
     : dangerousHTML
   return (
     <div>

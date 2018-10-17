@@ -47,8 +47,15 @@ class AddressEditor extends Component {
   }
 
   deriveStateFromProps ({ data }) {
-    const { address } = data.me || {}
-    const { name, line1, line2, city, postalCode, country = DEFAULT_COUNTRY } = address || {}
+    const { name: meName, address } = data.me || {}
+    const name = (address && address.name) || meName
+    const {
+      line1,
+      line2,
+      city,
+      postalCode,
+      country = DEFAULT_COUNTRY
+    } = address || {}
     return {
       values: {
         name,
@@ -131,6 +138,7 @@ const query = gql`
   query {
     me {
       id
+      name
       address {
         name
         line1

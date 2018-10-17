@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-11T14:42:04.861Z",
+  "updated": "2018-10-16T15:29:20.374Z",
   "title": "live",
   "data": [
     {
@@ -1463,6 +1463,10 @@
       "value": "Hottest"
     },
     {
+      "key": "components/Discussion/OrderBy/REPLIES",
+      "value": "Meiste Antworten"
+    },
+    {
       "key": "components/Discussion/reload",
       "value": "neu laden"
     },
@@ -1563,6 +1567,14 @@
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
     },
     {
+      "key": "discussion/share/title",
+      "value": "Beitrag teilen"
+    },
+    {
+      "key": "discussion/share/emailSubject",
+      "value": "Republik: {title}"
+    },
+    {
       "key": "styleguide/AudioPlayer/aria",
       "value": "Audio-Player"
     },
@@ -1635,8 +1647,32 @@
       "value": "+1"
     },
     {
+      "key": "styleguide/CommentActions/upvote/count/0",
+      "value": "Keine Stimmen dafür"
+    },
+    {
+      "key": "styleguide/CommentActions/upvote/count/1",
+      "value": "Eine Stimme dafür"
+    },
+    {
+      "key": "styleguide/CommentActions/upvote/count/other",
+      "value": "{count} Stimmen dafür"
+    },
+    {
       "key": "styleguide/CommentActions/downvote",
       "value": "-1"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/0",
+      "value": "Keine Gegenstimmen"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/1",
+      "value": "Eine Gegenstimme"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/other",
+      "value": "{count} Gegenstimmen"
     },
     {
       "key": "styleguide/CommentActions/expand",
@@ -1645,6 +1681,10 @@
     {
       "key": "styleguide/CommentActions/collapse",
       "value": "Weniger"
+    },
+    {
+      "key": "styleguide/CommentActions/share",
+      "value": "Beitrag teilen"
     },
     {
       "key": "styleguide/CommentTeaser/commentLink",

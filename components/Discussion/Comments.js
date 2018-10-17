@@ -203,7 +203,8 @@ class Comments extends PureComponent {
       discussionUserCanComment,
       discussionClosed,
       data: { discussion },
-      now
+      now,
+      shareComment
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -431,6 +432,7 @@ class Comments extends PureComponent {
         tail,
         otherChild
       }, null, 2)}</BlockLabel>)
+
       accumulator.list.push(
         <CommentTreeRow
           key={comment.id}
@@ -463,6 +465,7 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
+          onShare={shareComment ? () => { shareComment(discussion.documentPath, comment.id) } : undefined}
         />
       )
 

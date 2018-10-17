@@ -89,7 +89,8 @@ export const fragments = {
       content
       published
       adminUnpublished
-      score
+      downVotes
+      upVotes
       userVote
       userCanEdit
       displayAuthor {
@@ -336,7 +337,8 @@ ${fragments.comment}
               published: true,
               adminUnpublished: false,
               userCanEdit: true,
-              score: 0,
+              downVotes: 0,
+              upVotes: 0,
               userVote: null,
               displayAuthor: discussionDisplayAuthor,
               createdAt: (new Date()).toISOString(),

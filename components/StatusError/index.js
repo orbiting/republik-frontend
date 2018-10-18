@@ -63,20 +63,26 @@ export default compose(
         !data.loading &&
         data.redirection
 
+      let loading = data.loading
+
       if (redirection) {
         const [pathname, query] = router.asPath.split('?')
         const withQuery = query && redirectionPathWithQuery.indexOf(pathname) !== -1
         const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
         const targetIsExternal = target.startsWith('http') && !target.startsWith(PUBLIC_BASE_URL)
+
         if (serverContext) {
           if (!inNativeApp || !targetIsExternal) {
             serverContext.res.redirect(
               redirection.status || 302,
               target
             )
+          } else {
+            loading = true
           }
           serverContext.res.end()
         } else {
+          loading = true
           let clientTarget = target
           let afterRouting
           if (inNativeApp && targetIsExternal) {
@@ -98,7 +104,7 @@ export default compose(
       }
 
       return {
-        loading: data.loading
+        loading
       }
     }
   })

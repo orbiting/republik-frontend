@@ -41,6 +41,9 @@ const styles = {
   tab: css({
     marginRight: 20,
     display: 'inline-block'
+  }),
+  count: css({
+    marginLeft: 5
   })
 }
 
@@ -87,6 +90,7 @@ const DiscussionPage = ({ router, data, vt }) => {
                             )
                             }
                           </Link>
+                          <span {...styles.count}>({data[id] && data[id].discussion.comments.nodes.length})</span>
                         </P>
                       </div>
                     )
@@ -113,18 +117,36 @@ const query = gql`
     id
     discussion {
       id
+      comments {
+        id
+        nodes {
+          id
+        }
+      }
     }
    }
   ${ELECTION_COOP_MEMBERS_SLUG}: election(slug: "${ELECTION_COOP_MEMBERS_SLUG}") {
     id
     discussion {
       id
+      comments {
+        id
+        nodes {
+          id
+        }
+      }
     }
    }
   ${VOTING_COOP_BOARD_SLUG}: voting(slug: "${VOTING_COOP_BOARD_SLUG}") {
     id
     discussion {
       id
+      comments {
+        id
+        nodes {
+          id
+        }
+      }
     }
    }
   }

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
@@ -18,7 +19,7 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import { Link } from '../../lib/routes'
+import { Link, cleanAsPath } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 
@@ -203,7 +204,8 @@ class Comments extends PureComponent {
       discussionUserCanComment,
       discussionClosed,
       data: { discussion },
-      now
+      now,
+      router
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -214,7 +216,7 @@ class Comments extends PureComponent {
       }
       if (commentId) {
         if (discussion.documentPath) {
-          return <PathLink path={discussion.documentPath} query={{ focus: commentId }} replace scroll={false} {...props}>
+          return <PathLink path={cleanAsPath(discussion.documentPath)} query={{ ...router.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
@@ -606,6 +608,7 @@ export default compose(
   unpublishComment,
   isAdmin,
   submitComment,
+  withRouter,
   graphql(query, {
     props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
       data,

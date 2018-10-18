@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-11T13:03:27.361Z",
+  "updated": "2018-10-17T07:59:16.370Z",
   "title": "live",
   "data": [
     {
@@ -2364,11 +2364,19 @@
     },
     {
       "key": "shareholder/contact",
-      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:"
+      "value": "Für Auskünfte kontaktieren Sie die Erste-Hilfe-Abteilung:"
     },
     {
       "key": "shareholder/contact/email",
-      "value": "susanne.sugimoto@republik.ch"
+      "value": "kontakt@republik.ch"
+    },
+    {
+      "key": "shareholder/contact/phone",
+      "value": "+41 79 787 47 65"
+    },
+    {
+      "key": "shareholder/contact/phone/link",
+      "value": "+41797874765"
     },
     {
       "key": "feed/loadMore",

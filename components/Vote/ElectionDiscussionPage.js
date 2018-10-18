@@ -94,7 +94,7 @@ const DiscussionPage = ({ router, data, vt }) => {
                             }
                           </Link>
 
-                          <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.nodes.length}</span>
+                          <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
                         </P>
                       </div>
                     )
@@ -123,9 +123,7 @@ const query = gql`
       id
       comments {
         id
-        nodes {
-          id
-        }
+        totalCount
       }
     }
    }
@@ -135,9 +133,7 @@ const query = gql`
       id
       comments {
         id
-        nodes {
-          id
-        }
+        totalCount
       }
     }
    }
@@ -147,9 +143,7 @@ const query = gql`
       id
       comments {
         id
-        nodes {
-          id
-        }
+        totalCount
       }
     }
    }

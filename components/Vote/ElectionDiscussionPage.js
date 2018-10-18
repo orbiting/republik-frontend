@@ -2,7 +2,7 @@ import React from 'react'
 import Frame from '../../components/Frame'
 import Discussion from '../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { A, colors, Interaction, NarrowContainer, mediaQueries, fontStyles } from '@project-r/styleguide'
+import { A, colors, Interaction, Center, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
@@ -65,7 +65,7 @@ const DiscussionPage = ({ router, data, vt }) => {
         const translationKey = DISCUSSION_TITLES[selectedDiscussion]
 
         return (
-          <NarrowContainer>
+          <Center>
             <Title>{ vt('vote/discussion/title') }</Title>
             <Section>
               <Body dangerousHTML={vt('vote/discussion/intro')} />
@@ -85,16 +85,18 @@ const DiscussionPage = ({ router, data, vt }) => {
                             discussion: (data[id] && data[id].discussion.slug) || id
                           }} passHref scroll={false}>
                             { selectedDiscussion === id ? (
-                              <Strong>{ vt(`${DISCUSSION_TITLES[id]}Title`) }</Strong>
+                              <Strong>
+                                { vt(`${DISCUSSION_TITLES[id]}Title`) }
+                                <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
+                              </Strong>
                             ) : (
                               <A>
                                 { vt(`${DISCUSSION_TITLES[id]}Title`) }
+                                <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
                               </A>
                             )
                             }
                           </Link>
-
-                          <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
                         </P>
                       </div>
                     )
@@ -108,7 +110,7 @@ const DiscussionPage = ({ router, data, vt }) => {
                 mute={!!router.query.mute}
               />
             </div>
-          </NarrowContainer>
+          </Center>
         )
       }} />
     </Frame>

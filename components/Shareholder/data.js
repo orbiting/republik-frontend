@@ -2,6 +2,8 @@ import { hierarchy } from 'd3-hierarchy'
 import { nest } from 'd3-collection'
 import { sum } from 'd3-array'
 
+// Make sure to update share image when changing data
+// - static/social-media/aktionariat.png
 const data = [
   { Kategorie: 'Project R Gen',
     'Aktionärin': 'Project R',

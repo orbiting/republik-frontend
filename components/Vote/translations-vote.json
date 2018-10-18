@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-17T15:46:44.613Z",
+  "updated": "2018-10-18T09:26:04.433Z",
   "title": "live",
   "data": [
     {
@@ -176,7 +176,7 @@
     },
     {
       "key": "vote/budget/body",
-      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses <a target=\"_blank\" href='https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Project+R+-+Budget+2018-19.pdf'>Budget inklusive Erläuterungen</A> vor. Es zeigt, wie das Geld der Mitglieder verwendet werden soll. Möchten Sie dem Vorstand die Befugnis erteilen, Ausgaben im Rahmen dieses Budgets zu tätigen? Stimmen Sie darüber ab."
+      "value": "Nun zur letzten Finanzfrage. Für das nächste Geschäftsjahr legt Ihnen der Vorstand dieses <a target=\"_blank\" href='https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Project+R+-+Budget+2018-19.pdf'>Budget</a> vor. Es zeigt, wie das Geld der Mitglieder verwendet werden soll. Möchten Sie dem Vorstand die Befugnis erteilen, Ausgaben im Rahmen dieses Budgets zu tätigen? Stimmen Sie darüber ab."
     },
     {
       "key": "vote/budget/more",

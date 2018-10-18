@@ -2,7 +2,7 @@ import React from 'react'
 import Frame from '../../components/Frame'
 import Discussion from '../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { A, colors, Interaction, NarrowContainer, mediaQueries } from '@project-r/styleguide'
+import { A, colors, Interaction, NarrowContainer, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
@@ -13,6 +13,7 @@ import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG, VOTING_COOP_B
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
+import Icon from '../Icons/Discussion'
 
 const { P } = Interaction
 
@@ -43,7 +44,9 @@ const styles = {
     display: 'inline-block'
   }),
   count: css({
-    marginLeft: 5
+    marginLeft: 10,
+    color: colors.primary,
+    ...fontStyles.sansSerifMedium16
   })
 }
 
@@ -90,7 +93,8 @@ const DiscussionPage = ({ router, data, vt }) => {
                             )
                             }
                           </Link>
-                          <span {...styles.count}>({data[id] && data[id].discussion.comments.nodes.length})</span>
+
+                          <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.nodes.length}</span>
                         </P>
                       </div>
                     )

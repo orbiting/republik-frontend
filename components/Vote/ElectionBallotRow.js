@@ -224,8 +224,8 @@ class ElectionBallotRow extends Component {
             {
               summary
             }
-            <div>
-              { showMeta &&
+            { showMeta &&
+              <div>
                 <div style={{ width: 36, height: 18 }}>
                   {candidate.recommendation &&
                   <StarsIcon size={18} />
@@ -234,8 +234,8 @@ class ElectionBallotRow extends Component {
                   <FavoriteIcon size={18} />
                   }
                 </div>
-              }
-            </div>
+              </div>
+            }
           </div>
           { expanded &&
           <div

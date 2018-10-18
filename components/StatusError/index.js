@@ -5,7 +5,7 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Router } from '../../lib/routes'
+import { Router, cleanAsPath } from '../../lib/routes'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Loader from '../Loader'
@@ -54,7 +54,7 @@ export default compose(
     skip: props => props.statusCode !== 404 || !props.router.asPath,
     options: ({ router: { asPath } }) => ({
       variables: {
-        path: asPath.split('?')[0]
+        path: cleanAsPath(asPath)
       }
     }),
     props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, me } }) => {

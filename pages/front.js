@@ -4,7 +4,7 @@ import { withRouter } from 'next/router'
 
 import { Loader } from '@project-r/styleguide'
 
-import { Router, routes } from '../lib/routes'
+import { Router, routes, cleanAsPath } from '../lib/routes'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import StatusError from '../components/StatusError'
@@ -15,7 +15,7 @@ import withInNativeApp from '../lib/withInNativeApp'
 const KNOWN_PATHS = ['/feuilleton']
 
 const isPathKnown = (router) => {
-  return KNOWN_PATHS.indexOf(router.asPath.split('?')[0]) !== -1
+  return KNOWN_PATHS.indexOf(cleanAsPath(router.asPath)) !== -1
 }
 
 class FrontPage extends Component {

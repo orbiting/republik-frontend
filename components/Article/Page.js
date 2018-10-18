@@ -13,6 +13,7 @@ import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
@@ -497,7 +498,7 @@ const ComposedPage = compose(
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {
-        path: asPath.split('?')[0]
+        path: cleanAsPath(asPath)
       }
     })
   })

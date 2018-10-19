@@ -9,7 +9,6 @@ import Voting from './Voting'
 import Election from './Election'
 import {
   colors,
-  Container,
   NarrowContainer,
   FigureCaption,
   FigureImage,
@@ -90,15 +89,13 @@ class VoteForm extends Component {
           const { me: { address } } = data
           if (userIsEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
             return (
-              <div>
-                <NarrowContainer>
-                  <Heading>{vt('common/missingAddressTitle')}</Heading>
-                  <P>{vt('common/missingAddressBody')}</P>
-                  <Section>
-                    <AddressEditor />
-                  </Section>
-                </NarrowContainer>
-              </div>
+              <NarrowContainer>
+                <Heading>{vt('common/missingAddressTitle')}</Heading>
+                <P>{vt('common/missingAddressBody')}</P>
+                <Section>
+                  <AddressEditor />
+                </Section>
+              </NarrowContainer>
             )
           }
 
@@ -112,7 +109,7 @@ class VoteForm extends Component {
           ].map(slug => this.props.data[slug] && this.props.data[slug].userHasSubmitted).every(Boolean)
 
           return (
-            <Container>
+            <>
               <Section>
                 <Title>{ vt('vote/title') }</Title>
                 <div {...styles.image}>
@@ -216,7 +213,7 @@ class VoteForm extends Component {
                   }} />
               </div>
               }
-            </Container>
+            </>
           )
         }} />
       </Frame>

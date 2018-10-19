@@ -400,7 +400,9 @@ const query = gql`
     beginDate
     numSeats
     discussion {
+      id
       comments {
+        id
         totalCount
         nodes {
           content

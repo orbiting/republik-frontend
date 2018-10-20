@@ -4,7 +4,7 @@ import { withRouter } from 'next/router'
 
 import withT from '../lib/withT'
 
-import Frame from '../components/Frame'
+import Frame, { MainContainer, Content } from '../components/Frame'
 import ImageCover from '../components/ImageCover'
 
 import { Editorial, Interaction } from '@project-r/styleguide'
@@ -29,17 +29,20 @@ export default compose(
   return (
     <Frame
       meta={meta}
-      cover={
-        <ImageCover
-          image={{
-            src: meta.image,
-            alt: 'Taufe des Namen und Logo in Bern'
-          }}
-        />
-      }
+      raw
     >
-      <H1>Offene Stellen</H1>
-      <P>Zur Zeit haben wir keine offenen Stellen.</P>
+      <ImageCover
+        image={{
+          src: meta.image,
+          alt: 'Taufe des Namen und Logo in Bern'
+        }}
+      />
+      <MainContainer>
+        <Content>
+          <H1>Offene Stellen</H1>
+          <P>Zur Zeit haben wir keine offenen Stellen.</P>
+        </Content>
+      </MainContainer>
     </Frame>
   )
 })

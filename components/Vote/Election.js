@@ -52,7 +52,7 @@ const styles = {
       flexDirection: 'column-reverse',
       top: HEADER_HEIGHT_MOBILE - 1,
       textAlign: 'center',
-      margin: '0 -20px'
+      margin: '0 0px'
     }
   }),
   info: css({

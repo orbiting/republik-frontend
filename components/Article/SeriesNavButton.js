@@ -24,6 +24,7 @@ const styles = {
       boxShadow: 'none',
       outline: 'none'
     },
+    fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
     position: 'absolute',
     textAlign: 'left',

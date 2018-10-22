@@ -18,6 +18,7 @@ import SSRCachingBoundary from '../SSRCachingBoundary'
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { cleanAsPath } from '../../lib/routes'
 
 const schema = createFrontSchema({
   Link
@@ -114,7 +115,7 @@ export default compose(
   graphql(getDocument, {
     options: props => ({
       variables: {
-        path: props.path || props.router.asPath.split('?')[0],
+        path: props.path || cleanAsPath(props.router.asPath),
         first: 15
       }
     }),

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
+import { parse } from 'url'
 
 import { format, parse } from 'url'
 import withT from '../../lib/withT'
@@ -234,7 +235,9 @@ class Comments extends PureComponent {
       }
       if (commentId) {
         if (discussion.documentPath) {
-          return <PathLink path={discussion.documentPath} query={{ focus: commentId }} replace scroll={false} {...props}>
+          const documentPathObject = parse(discussion.documentPath, true)
+
+          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }

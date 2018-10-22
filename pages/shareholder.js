@@ -30,7 +30,10 @@ const ShareholderPage = ({ t }) => {
       <Table />
 
       <P>
-        {t('shareholder/contact')}{' '}
+        {t('shareholder/contact')}<br />
+        <A href={`tel:${t('shareholder/contact/phone/link')}`}>
+          {t('shareholder/contact/phone')}
+        </A>{', '}
         <A href={`mailto:${t('shareholder/contact/email')}`}>
           {t('shareholder/contact/email')}
         </A>

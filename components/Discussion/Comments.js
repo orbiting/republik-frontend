@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 
+import { format, parse } from 'url'
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
@@ -87,9 +88,21 @@ class Comments extends PureComponent {
     }
 
     this.toggleShare = (path, commentId) => {
+      let shareUrl
+      if (path) {
+        const documentPathObject = parse(path, true)
+        const sharePath = format({
+          pathname: documentPathObject.pathname,
+          query: {
+            ...documentPathObject.query,
+            focus: commentId
+          }
+        })
+        shareUrl = PUBLIC_BASE_URL + sharePath
+      }
       this.setState({
         showShareOverlay: !this.state.showShareOverlay,
-        shareUrl: `${PUBLIC_BASE_URL + path}?focus=${commentId}`
+        shareUrl
       })
     }
   }
@@ -601,7 +614,7 @@ class Comments extends PureComponent {
           const shareOverlay = showShareOverlay && shareUrl && (
             <ShareOverlay
               discussionId={discussionId}
-              onClose={this.toggleShare}
+              onClose={() => this.toggleShare(null)}
               url={shareUrl}
               title={discussion ? discussion.title : ''}
             />

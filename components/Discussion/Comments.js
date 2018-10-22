@@ -58,7 +58,7 @@ class Comments extends PureComponent {
       maxVisualDepth: 3,
       closedPortals: {},
       hasFocus: !!props.focusId,
-      showShareOverlay: false
+      shareUrl: undefined
     }
 
     this.showPreferences = () => {
@@ -100,10 +100,7 @@ class Comments extends PureComponent {
         })
         shareUrl = PUBLIC_BASE_URL + sharePath
       }
-      this.setState({
-        showShareOverlay: !this.state.showShareOverlay,
-        shareUrl
-      })
+      this.setState({ shareUrl })
     }
   }
   clearSubIds (parentId) {
@@ -571,7 +568,6 @@ class Comments extends PureComponent {
       subIdMap,
       hasFocus,
       focusLoading,
-      showShareOverlay,
       shareUrl
     } = this.state
 
@@ -611,7 +607,7 @@ class Comments extends PureComponent {
             />
           )
 
-          const shareOverlay = showShareOverlay && shareUrl && (
+          const shareOverlay = !!shareUrl && (
             <ShareOverlay
               discussionId={discussionId}
               onClose={() => this.toggleShare(null)}

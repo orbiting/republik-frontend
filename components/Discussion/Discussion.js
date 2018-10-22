@@ -6,11 +6,6 @@ import { A, colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
-import ShareOverlay from './ShareOverlay'
-
-import {
-  PUBLIC_BASE_URL
-} from '../../lib/constants'
 
 const styles = {
   orderByContainer: css({
@@ -42,15 +37,7 @@ class Discussion extends PureComponent {
     this.state = {
       orderBy: 'DATE', // DiscussionOrder
       reload: 0,
-      now: Date.now(),
-      showShareOverlay: false
-    }
-
-    this.toggleShare = (path, commentId) => {
-      this.setState({
-        showShareOverlay: !this.state.showShareOverlay,
-        shareUrl: `${PUBLIC_BASE_URL + path}?focus=${commentId}`
-      })
+      now: Date.now()
     }
   }
 
@@ -66,7 +53,7 @@ class Discussion extends PureComponent {
 
   render () {
     const { t, discussionId, focusId = null, mute } = this.props
-    const { orderBy, reload, now, showShareOverlay, shareUrl } = this.state
+    const { orderBy, reload, now } = this.state
 
     const OrderBy = ({ children, value }) => (
       <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
@@ -78,13 +65,6 @@ class Discussion extends PureComponent {
 
     return (
       <Fragment>
-        {showShareOverlay && shareUrl && (
-          <ShareOverlay
-            discussionId={discussionId}
-            onClose={this.toggleShare}
-            url={shareUrl}
-          />
-        )}
         <div data-discussion-id={discussionId}>
           <DiscussionCommentComposer
             discussionId={discussionId}
@@ -119,7 +99,6 @@ class Discussion extends PureComponent {
             reload={reload}
             orderBy={orderBy}
             now={now}
-            shareComment={this.toggleShare}
           />
         </div>
       </Fragment>

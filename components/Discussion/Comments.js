@@ -8,6 +8,7 @@ import timeago from '../../lib/timeago'
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
+import ShareOverlay from './ShareOverlay'
 
 import {
   Loader,
@@ -18,6 +19,7 @@ import {
   colors
 } from '@project-r/styleguide'
 
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
@@ -54,7 +56,8 @@ class Comments extends PureComponent {
       showPreferences: false,
       maxVisualDepth: 3,
       closedPortals: {},
-      hasFocus: !!props.focusId
+      hasFocus: !!props.focusId,
+      showShareOverlay: false
     }
 
     this.showPreferences = () => {
@@ -81,6 +84,13 @@ class Comments extends PureComponent {
             }))
           }
         })
+    }
+
+    this.toggleShare = (path, commentId) => {
+      this.setState({
+        showShareOverlay: !this.state.showShareOverlay,
+        shareUrl: `${PUBLIC_BASE_URL + path}?focus=${commentId}`
+      })
     }
   }
   clearSubIds (parentId) {
@@ -203,8 +213,7 @@ class Comments extends PureComponent {
       discussionUserCanComment,
       discussionClosed,
       data: { discussion },
-      now,
-      shareComment
+      now
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -465,7 +474,7 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
-          onShare={shareComment ? () => { shareComment(discussion.documentPath, comment.id) } : undefined}
+          onShare={() => { this.toggleShare(discussion.documentPath, comment.id) }}
         />
       )
 
@@ -548,7 +557,9 @@ class Comments extends PureComponent {
       showPreferences,
       subIdMap,
       hasFocus,
-      focusLoading
+      focusLoading,
+      showShareOverlay,
+      shareUrl
     } = this.state
 
     return (
@@ -587,12 +598,21 @@ class Comments extends PureComponent {
             />
           )
 
+          const shareOverlay = showShareOverlay && shareUrl && (
+            <ShareOverlay
+              discussionId={discussionId}
+              onClose={this.toggleShare}
+              url={shareUrl}
+            />
+          )
+
           return (
             <Fragment>
               {accumulator.list}
               <br />
               {tail}
               {discussionPreferences}
+              {shareOverlay}
             </Fragment>
           )
         }}

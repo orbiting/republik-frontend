@@ -251,6 +251,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
   }
   discussion(id: $discussionId) {
     id
+    title
     userPreference {
       anonymity
       credential {

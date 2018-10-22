@@ -603,6 +603,7 @@ class Comments extends PureComponent {
               discussionId={discussionId}
               onClose={this.toggleShare}
               url={shareUrl}
+              title={discussion ? discussion.title : ''}
             />
           )
 

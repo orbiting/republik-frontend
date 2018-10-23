@@ -10,6 +10,8 @@ import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 
+import { shouldIgnoreClick } from '../Link/utils'
+
 import Detail from './Detail'
 
 import {
@@ -129,14 +131,14 @@ const styles = {
   })
 }
 
-export const Item = ({ image, name, isActive, onClick, singleRow, minColumns, style }) => {
+export const Item = ({ image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns)
     : singleRow
       ? styles.singleRowItem
       : styles.item
   return (
-    <div {...itemStyles} style={style} onClick={onClick}>
+    <a href={href} {...itemStyles} style={style} onClick={onClick}>
       <span {...styles.aspect}>
         <img src={image} {...styles.aspectImg} />
         <span {...styles.aspectFade}
@@ -144,7 +146,7 @@ export const Item = ({ image, name, isActive, onClick, singleRow, minColumns, st
       </span>
       {!isActive && <span {...styles.name}>{name}</span>}
       {isActive && <span {...styles.itemArrow} />}
-    </div>
+    </a>
   )
 }
 
@@ -278,7 +280,12 @@ class List extends Component {
               isActive={isActive}
               singleRow={singleRow}
               minColumns={minColumns}
-              onClick={() => {
+              href={`/community?id=${id}`}
+              onClick={(e) => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
                 if (onSelect(id) === false) {
                   return
                 }

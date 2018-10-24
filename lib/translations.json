@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T09:55:41.594Z",
+  "updated": "2018-10-24T13:30:49.296Z",
   "title": "live",
   "data": [
     {
@@ -1552,7 +1552,7 @@
     },
     {
       "key": "discussion/meta/focus/title",
-      "value": "Beitrag in «{discussionTitle}»"
+      "value": "{authorName} in «{discussionTitle}»"
     },
     {
       "key": "discussion/missing",

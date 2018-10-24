@@ -281,6 +281,10 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
         preview(length: 300) {
           string
         }
+        displayAuthor {
+          id
+          name
+        }
       }
       nodes {
         ...Comment

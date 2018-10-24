@@ -627,9 +627,11 @@ class Comments extends PureComponent {
           const metaTags = focus && meta && (
             <Meta data={{
               ...meta,
-              title: t('discussion/meta/focus/title', { discussionTitle: meta.title }),
-              facebookDescription: focus.preview ? focus.preview.string : undefined,
-              twitterDescription: focus.preview ? focus.preview.string : undefined,
+              title: t('discussion/meta/focus/title', {
+                authorName: focus.displayAuthor.name,
+                discussionTitle: meta.title
+              }),
+              description: focus.preview ? focus.preview.string : undefined,
               url: getFocusUrl(meta.url, focus.id)
             }} />
           )

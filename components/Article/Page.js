@@ -412,7 +412,7 @@ class ArticlePage extends Component {
       <Frame
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
-        meta={router.query.focus ? undefined : meta}
+        meta={meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={(isMember && seriesNavButton) || actionBar}

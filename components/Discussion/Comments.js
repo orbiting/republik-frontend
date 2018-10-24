@@ -99,14 +99,6 @@ class Comments extends PureComponent {
           }
         })
     }
-
-    this.toggleShare = (path, commentId) => {
-      let shareUrl
-      if (path) {
-        shareUrl = getFocusUrl(path, commentId)
-      }
-      this.setState({ shareUrl })
-    }
   }
   clearSubIds (parentId) {
     this.setState(({ subIdMap }) => {
@@ -491,7 +483,8 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
-          onShare={() => { this.toggleShare(discussion.documentPath, comment.id) }}
+          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
+
         />
       )
 
@@ -618,7 +611,7 @@ class Comments extends PureComponent {
           const shareOverlay = !!shareUrl && (
             <ShareOverlay
               discussionId={discussionId}
-              onClose={() => this.toggleShare(null)}
+              onClose={() => this.setState({ shareUrl: undefined })}
               url={shareUrl}
               title={discussion ? discussion.title : ''}
             />

@@ -192,11 +192,20 @@ const getPublicUser = gql`
         election {
           slug
           description
+          beginDate
+          endDate
+          candidacyEndDate
+          discussion {
+            id
+          }
         }
         id
         yearOfBirth
         city
         recommendation
+        comment {
+          id
+        }
       }
     }
   }
@@ -466,13 +475,17 @@ class Profile extends Component {
                               candidate={{ ...c, user }}
                               expanded
                               maxVotes={0}
+                              showMeta={false}
+                              profile
                             />
                           </div>
+                          { this.isMe() && c.election && (new Date() < new Date(c.election.candidacyEndDate)) &&
                           <div style={{ marginTop: 10 }}>
                             <Link route='voteSubmit' params={{ edit: true }} passHref>
                               <A>Kandidatur bearbeiten</A>
                             </Link>
                           </div>
+                          }
                         </div>
                       )
                       }

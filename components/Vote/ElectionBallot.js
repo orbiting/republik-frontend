@@ -12,7 +12,7 @@ const styles = {
 
 class ElectionBallot extends React.Component {
   render () {
-    const { candidacies, selected, maxVotes, onChange } = this.props
+    const { candidacies, selected, mandatory, maxVotes, onChange, showMeta } = this.props
 
     return (
       <div {...styles.table}>
@@ -21,10 +21,12 @@ class ElectionBallot extends React.Component {
             <ElectionBallotRow
               key={d.id}
               maxVotes={maxVotes}
-              selected={selected.some(id => d.id === id)}
+              selected={selected.some(c => d.id === c.id)}
+              mandatory={mandatory.some(c => d.user.id === c.user.id)}
               onChange={onChange}
               candidate={d}
               disabled={selected.length >= maxVotes}
+              showMeta={showMeta}
             />
           )
         }
@@ -36,6 +38,7 @@ class ElectionBallot extends React.Component {
 ElectionBallot.propTypes = {
   candidacies: PropTypes.array,
   selected: PropTypes.array,
+  mandatory: PropTypes.array,
   maxVotes: PropTypes.number,
   disabled: PropTypes.bool
 }
@@ -43,8 +46,10 @@ ElectionBallot.propTypes = {
 ElectionBallot.defaultProps = {
   candidacies: [],
   selected: [],
+  mandatory: [],
   maxVotes: 1,
-  disabled: false
+  disabled: false,
+  showMeta: true
 }
 
 export default ElectionBallot

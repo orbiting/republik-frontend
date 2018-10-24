@@ -2,6 +2,8 @@ import { hierarchy } from 'd3-hierarchy'
 import { nest } from 'd3-collection'
 import { sum } from 'd3-array'
 
+// Make sure to update share image when changing data
+// - static/social-media/aktionariat.png
 const data = [
   { Kategorie: 'Project R Gen',
     'Aktionärin': 'Project R',
@@ -59,11 +61,6 @@ const data = [
     'Nominal CHF': '0.10',
     Anzahl: '10000' },
   { Kategorie: 'Gründerteam',
-    'Aktionärin': 'François Zosso',
-    Typ: 'A',
-    'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Gründerteam',
     'Aktionärin': 'David Schärer',
     Typ: 'A',
     'Nominal CHF': '0.10',
@@ -77,7 +74,7 @@ const data = [
     'Aktionärin': 'Republik AG',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '20000' },
+    Anzahl: '30000' },
   { Kategorie: 'Geldgeber',
     'Aktionärin': 'Gebrüder Meili',
     Typ: 'B',

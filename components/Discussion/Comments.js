@@ -22,6 +22,7 @@ import {
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
+import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 
@@ -44,6 +45,18 @@ const mergeCounts = (a, b) => {
       {}
     )
   }
+}
+
+const getFocusUrl = (path, commentId) => {
+  const documentPathObject = parse(path, true)
+  const sharePath = format({
+    pathname: documentPathObject.pathname,
+    query: {
+      ...documentPathObject.query,
+      focus: commentId
+    }
+  })
+  return PUBLIC_BASE_URL + sharePath
 }
 
 class Comments extends PureComponent {
@@ -90,15 +103,7 @@ class Comments extends PureComponent {
     this.toggleShare = (path, commentId) => {
       let shareUrl
       if (path) {
-        const documentPathObject = parse(path, true)
-        const sharePath = format({
-          pathname: documentPathObject.pathname,
-          query: {
-            ...documentPathObject.query,
-            focus: commentId
-          }
-        })
-        shareUrl = PUBLIC_BASE_URL + sharePath
+        shareUrl = getFocusUrl(path, commentId)
       }
       this.setState({ shareUrl })
     }
@@ -560,7 +565,8 @@ class Comments extends PureComponent {
       discussionId,
       t,
       data: { loading, error, discussion },
-      fetchMore
+      fetchMore,
+      meta
     } = this.props
 
     const {
@@ -568,6 +574,7 @@ class Comments extends PureComponent {
       subIdMap,
       hasFocus,
       focusLoading,
+      focus,
       shareUrl
     } = this.state
 
@@ -616,8 +623,19 @@ class Comments extends PureComponent {
             />
           )
 
+          const metaTags = focus && meta && (
+            <Meta data={{
+              ...meta,
+              title: t('discussion/meta/focus/title', { discussionTitle: meta.title }),
+              facebookDescription: focus.preview ? focus.preview.string : undefined,
+              twitterDescription: focus.preview ? focus.preview.string : undefined,
+              url: getFocusUrl(meta.url, focus.id)
+            }} />
+          )
+
           return (
             <Fragment>
+              {metaTags}
               {accumulator.list}
               <br />
               {tail}

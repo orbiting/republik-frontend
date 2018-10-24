@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-16T15:29:20.374Z",
+  "updated": "2018-10-24T09:55:41.594Z",
   "title": "live",
   "data": [
     {
@@ -1551,6 +1551,10 @@
       "value": "Sie können Ihren Beitrag mit Markdown formatieren"
     },
     {
+      "key": "discussion/meta/focus/title",
+      "value": "Beitrag in «{discussionTitle}»"
+    },
+    {
       "key": "discussion/missing",
       "value": "Diese Diskussion fehlt in unserer Datenbank."
     },
@@ -2412,11 +2416,19 @@
     },
     {
       "key": "shareholder/contact",
-      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:"
+      "value": "Für Auskünfte kontaktieren Sie die Erste-Hilfe-Abteilung:"
     },
     {
       "key": "shareholder/contact/email",
-      "value": "susanne.sugimoto@republik.ch"
+      "value": "kontakt@republik.ch"
+    },
+    {
+      "key": "shareholder/contact/phone",
+      "value": "+41 79 787 47 65"
+    },
+    {
+      "key": "shareholder/contact/phone/link",
+      "value": "+41797874765"
     },
     {
       "key": "feed/loadMore",
@@ -2949,6 +2961,26 @@
     {
       "key": "memberships/latestPeriod/overdue",
       "value": "Überfällig seit dem {formattedEndDate}."
+    },
+    {
+      "key": "memberships/ABO/manage/prolong/link",
+      "value": "Mitgliedschaft und Abonnement verlängern"
+    },
+    {
+      "key": "memberships/ABO/manage/cancel/link",
+      "value": "Mitgliedschaft und Abonnement kündigen"
+    },
+    {
+      "key": "memberships/ABO/manage/upgrade/link",
+      "value": "Mitgliedschaft und Abonnement upgraden"
+    },
+    {
+      "key": "memberships/ABO/manage/reactivate",
+      "value": "Mitgliedschaft und Abonnement reaktivieren"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/prolong/link",
+      "value": "Abonnement verlängern"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",

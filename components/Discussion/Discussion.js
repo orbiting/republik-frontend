@@ -52,7 +52,7 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const { t, discussionId, focusId = null, mute } = this.props
+    const { t, discussionId, focusId = null, mute, meta } = this.props
     const { orderBy, reload, now } = this.state
 
     const OrderBy = ({ children, value }) => (
@@ -99,6 +99,7 @@ class Discussion extends PureComponent {
             reload={reload}
             orderBy={orderBy}
             now={now}
+            meta={meta}
           />
         </div>
       </Fragment>

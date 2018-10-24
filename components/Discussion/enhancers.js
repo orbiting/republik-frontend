@@ -86,6 +86,9 @@ export const fragments = {
     fragment Comment on Comment {
       id
       text
+      preview(length: 300) {
+        string
+      }
       content
       published
       adminUnpublished

@@ -86,9 +86,6 @@ export const fragments = {
     fragment Comment on Comment {
       id
       text
-      preview(length: 300) {
-        string
-      }
       content
       published
       adminUnpublished
@@ -281,6 +278,9 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
       focus {
         id
         parentIds
+        preview(length: 300) {
+          string
+        }
       }
       nodes {
         ...Comment

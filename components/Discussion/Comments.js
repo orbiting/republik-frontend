@@ -576,7 +576,6 @@ class Comments extends PureComponent {
       subIdMap,
       hasFocus,
       focusLoading,
-      focus,
       shareUrl
     } = this.state
 
@@ -585,7 +584,7 @@ class Comments extends PureComponent {
         loading={loading || (hasFocus && focusLoading)}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const { totalCount, pageInfo, nodes } = discussion.comments
+          const { totalCount, pageInfo, nodes, focus } = discussion.comments
 
           const accumulator = this.renderComments(nodes)
 

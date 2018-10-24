@@ -14,6 +14,7 @@ import {
   Loader
 } from '@project-r/styleguide'
 import { timeFormat } from '../../lib/utils/format'
+import withMe from '../../lib/apollo/withMe'
 import voteT from './voteT'
 import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
@@ -210,41 +211,32 @@ class Voting extends React.Component {
     }
 
     this.renderVotingBody = () => {
-      const { vt, data: { voting } } = this.props
+      const { vt, data: { voting }, me } = this.props
       const { selectedValue } = this.state
       const { P } = Interaction
 
+      let dangerousDisabledHTML = this.props.dangerousDisabledHTML
       if (voting.userHasSubmitted) {
-        return (
-          <div {...styles.cardBody}>
-            <div {...styles.thankyou}>
-              <P>
-                {
-                  vt('vote/voting/thankyou',
-                    { submissionDate: messageDateFormat(new Date(voting.userSubmitDate)) })
-                }
-              </P>
-            </div>
-          </div>
-        )
-      } else if (!voting.userIsEligible) {
-        return (
-          <div {...styles.cardBody}>
-            <div {...styles.thankyou}>
-              <RawHtml
-                type={P}
-                dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
-              />
-            </div>
-          </div>
-        )
+        dangerousDisabledHTML = vt('vote/voting/thankyou', {
+          submissionDate: messageDateFormat(new Date(voting.userSubmitDate))
+        })
       } else if (Date.now() > new Date(voting.endDate)) {
+        dangerousDisabledHTML = vt('vote/voting/ended')
+      } else if (!me) {
+        dangerousDisabledHTML = vt('vote/voting/notSignedIn')
+      } else if (!voting.userIsEligible) {
+        dangerousDisabledHTML = vt('vote/voting/notEligible')
+      }
+
+      if (dangerousDisabledHTML) {
         return (
           <div {...styles.cardBody}>
             <div {...styles.thankyou}>
               <RawHtml
                 type={P}
-                dangerouslySetInnerHTML={{ __html: vt('vote/voting/gomingsoon') }}
+                dangerouslySetInnerHTML={{
+                  __html: dangerousDisabledHTML
+                }}
               />
             </div>
           </div>
@@ -353,6 +345,7 @@ const query = gql`
 
 export default compose(
   voteT,
+  withMe,
   graphql(submitVotingBallotMutation, {
     props: ({ mutate }) => ({
       submitVotingBallot: (votingId, optionId) => {

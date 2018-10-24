@@ -19,6 +19,7 @@ import StarsIcon from 'react-icons/lib/md/stars'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
+import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
@@ -255,7 +256,7 @@ class Election extends Component {
   }
 
   render () {
-    const { data, isSticky, mandatoryCandidates, vt, showMeta } = this.props
+    const { data, isSticky, mandatoryCandidates, vt, showMeta, me } = this.props
     const { election } = data
 
     return (
@@ -265,18 +266,20 @@ class Election extends Component {
         }
 
         const { vote, error } = this.state
-        const inProgress = !election.userHasSubmitted
+        const hasEnded = Date.now() > new Date(election.endDate)
+        const inProgress = !hasEnded && election.userIsEligible && !election.userHasSubmitted
 
-        if (!inProgress) {
-          return (
-            <div {...styles.wrapper}>
-              <div {...styles.thankyou}>
-                <P>
-                  {vt('vote/election/thankyou', { submissionDate: messageDateFormat(new Date(election.userSubmitDate)) })}
-                </P>
-              </div>
-            </div>
-          )
+        let disabledMessage = this.props.disabledMessage
+        if (election.userHasSubmitted) {
+          disabledMessage = vt('vote/election/thankyou', {
+            submissionDate: messageDateFormat(new Date(election.userSubmitDate))
+          })
+        } else if (hasEnded) {
+          disabledMessage = vt('vote/election/ended')
+        } else if (!me) {
+          disabledMessage = vt('vote/election/notSignedIn')
+        } else if (!election.userIsEligible) {
+          disabledMessage = vt('vote/election/notEligible')
         }
 
         const [recommended, others] = election.candidacies.reduce((acc, cur) => {
@@ -285,19 +288,6 @@ class Election extends Component {
         }, [[], []])
 
         const showHeader = recommended.length > 0 && election.numSeats > 1
-
-        if (!election.userIsEligible) {
-          return (
-            <div {...styles.wrapper}>
-              <div {...styles.thankyou}>
-                <RawHtml
-                  type={P}
-                  dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
-                />
-              </div>
-            </div>
-          )
-        }
 
         return (
           <div {...styles.wrapper}>
@@ -332,13 +322,23 @@ class Election extends Component {
               }
             </div>
             }
+            {disabledMessage && <div {...styles.wrapper} style={{ marginBottom: 30 }}>
+              <div {...styles.thankyou}>
+                <RawHtml
+                  type={P}
+                  dangerouslySetInnerHTML={{
+                    __html: disabledMessage
+                  }}
+                />
+              </div>
+            </div>}
             <div {...styles.wrapper}>
               <ElectionBallot
                 maxVotes={election.numSeats}
                 candidacies={recommended.concat(others)}
                 selected={vote}
                 mandatory={mandatoryCandidates}
-                onChange={this.toggleSelection}
+                onChange={inProgress ? this.toggleSelection : undefined}
                 showMeta={showMeta}
               />
               {inProgress &&
@@ -398,15 +398,13 @@ const query = gql`
     userSubmitDate    
     description
     beginDate
+    endDate
     numSeats
     discussion {
       id
       comments {
         id
         totalCount
-        nodes {
-          content
-        }
       }
     }
     candidacies {
@@ -443,6 +441,7 @@ const query = gql`
 
 export default compose(
   voteT,
+  withMe,
   graphql(submitElectionBallotMutation, {
     props: ({ mutate }) => ({
       submitElectionBallot: (electionId, candidacyIds) => {

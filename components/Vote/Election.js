@@ -267,20 +267,21 @@ class Election extends Component {
 
         const { vote, error } = this.state
         const hasEnded = Date.now() > new Date(election.endDate)
-        const inProgress = !hasEnded && election.userIsEligible && !election.userHasSubmitted
 
-        let disabledMessage = this.props.disabledMessage
+        let dangerousDisabledHTML = this.props.dangerousDisabledHTML
         if (election.userHasSubmitted) {
-          disabledMessage = vt('vote/election/thankyou', {
+          dangerousDisabledHTML = vt('vote/election/thankyou', {
             submissionDate: messageDateFormat(new Date(election.userSubmitDate))
           })
         } else if (hasEnded) {
-          disabledMessage = vt('vote/election/ended')
+          dangerousDisabledHTML = vt('vote/election/ended')
         } else if (!me) {
-          disabledMessage = vt('vote/election/notSignedIn')
+          dangerousDisabledHTML = vt('vote/election/notSignedIn')
         } else if (!election.userIsEligible) {
-          disabledMessage = vt('vote/election/notEligible')
+          dangerousDisabledHTML = vt('vote/election/notEligible')
         }
+
+        const inProgress = !dangerousDisabledHTML
 
         const [recommended, others] = election.candidacies.reduce((acc, cur) => {
           acc[cur.recommendation ? 0 : 1].push(cur)
@@ -322,12 +323,12 @@ class Election extends Component {
               }
             </div>
             }
-            {disabledMessage && <div {...styles.wrapper} style={{ marginBottom: 30 }}>
+            {dangerousDisabledHTML && <div {...styles.wrapper} style={{ marginBottom: 30 }}>
               <div {...styles.thankyou}>
                 <RawHtml
                   type={P}
                   dangerouslySetInnerHTML={{
-                    __html: disabledMessage
+                    __html: dangerousDisabledHTML
                   }}
                 />
               </div>

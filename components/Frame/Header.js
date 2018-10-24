@@ -22,6 +22,8 @@ import Pullable from './Pullable'
 import Search from 'react-icons/lib/md/search'
 import BackIcon from '../Icons/Back'
 
+import { shouldIgnoreClick } from '../Link/utils'
+
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
@@ -338,14 +340,7 @@ class Header extends Component {
                 aria-label={t('header/logo/magazine/aria')}
                 href={'/'}
                 onClick={e => {
-                  if (
-                    e.currentTarget.nodeName === 'A' &&
-                    (e.metaKey ||
-                      e.ctrlKey ||
-                      e.shiftKey ||
-                      (e.nativeEvent && e.nativeEvent.which === 2))
-                  ) {
-                    // ignore click for new tab / new window behavior
+                  if (shouldIgnoreClick(e)) {
                     return
                   }
                   e.preventDefault()

@@ -21,6 +21,7 @@ import {
 import { ZINDEX_FOOTER } from '../constants'
 
 import IconLink from '../IconLink'
+import { shouldIgnoreClick } from '../Link/utils'
 
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
@@ -226,9 +227,7 @@ class Footer extends Component {
                   <a
                     href='/konto#teilen'
                     onClick={(e) => {
-                      if (e.currentTarget.nodeName === 'A' &&
-                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                        // ignore click for new tab / new window behavior
+                      if (shouldIgnoreClick(e)) {
                         return
                       }
 

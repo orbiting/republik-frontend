@@ -13,6 +13,7 @@ const ProfileLink = ({ children, userId, username }) => {
       params={{
         slug: `${username || userId}`
       }}
+      passHref
     >
       {children}
     </Link>

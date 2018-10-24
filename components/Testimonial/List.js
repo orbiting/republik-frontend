@@ -10,9 +10,9 @@ import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 
-import Detail from './Detail'
+import { shouldIgnoreClick } from '../Link/utils'
 
-import Play from '../Icons/Play'
+import Detail from './Detail'
 
 import {
   PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL
@@ -75,17 +75,26 @@ const styles = {
   item: getItemStyles(false),
   singleRowItem: getItemStyles(true),
   aspect: css({
+    display: 'block',
     width: '100%',
     paddingBottom: '100%',
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: '#ccc',
-    '& > *': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%'
-    }
+    backgroundColor: '#ccc'
+  }),
+  aspectImg: css({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%'
+  }),
+  aspectFade: css({
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0
   }),
   itemArrow: css({
     position: 'absolute',
@@ -122,21 +131,22 @@ const styles = {
   })
 }
 
-export const Item = ({ image, name, video, isActive, onClick, imageRenderer, singleRow, minColumns, style }) => {
+export const Item = ({ image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns)
     : singleRow
       ? styles.singleRowItem
       : styles.item
   return (
-    <div {...itemStyles} style={style} onClick={onClick}>
-      <div {...styles.aspect}>
-        {imageRenderer ? imageRenderer() : <img src={image} />}
-      </div>
-      {!!video && <div {...styles.play}><Play /></div>}
-      {!isActive && <div {...styles.name}>{name}</div>}
-      {isActive && <div {...styles.itemArrow} />}
-    </div>
+    <a href={href} {...itemStyles} style={style} onClick={onClick}>
+      <span {...styles.aspect}>
+        <img src={image} {...styles.aspectImg} />
+        <span {...styles.aspectFade}
+          style={{ opacity: isActive ? 0 : 1 }} />
+      </span>
+      {!isActive && <span {...styles.name}>{name}</span>}
+      {isActive && <span {...styles.itemArrow} />}
+    </a>
   )
 }
 
@@ -270,7 +280,12 @@ class List extends Component {
               isActive={isActive}
               singleRow={singleRow}
               minColumns={minColumns}
-              onClick={() => {
+              href={`/community?id=${id}`}
+              onClick={(e) => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
                 if (onSelect(id) === false) {
                   return
                 }

@@ -12,6 +12,7 @@ import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
 import withMembership from '../../Auth/withMembership'
+import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
@@ -150,9 +151,7 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
                     style={{ cursor: 'pointer' }}
                     href='/konto#teilen'
                     onClick={(e) => {
-                      if (e.currentTarget.nodeName === 'A' &&
-                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                        // ignore click for new tab / new window behavior
+                      if (shouldIgnoreClick(e)) {
                         return
                       }
 

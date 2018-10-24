@@ -9,7 +9,15 @@ import {
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { countFormat } from '../../lib/utils/format'
-import { ELECTION_STATS_POLL_INTERVAL } from '../../lib/constants'
+import {
+  ELECTION_STATS_POLL_INTERVAL,
+  ELECTION_COOP_MEMBERS_SLUG,
+  ELECTION_COOP_PRESIDENT_SLUG,
+  VOTING_COOP_ACCOUNTS_SLUG,
+  VOTING_COOP_BOARD_SLUG,
+  VOTING_COOP_BUDGET_SLUG,
+  VOTING_COOP_DISCHARGE_SLUG
+} from '../../lib/constants'
 import voteT from './voteT'
 
 const styles = {
@@ -32,46 +40,64 @@ const styles = {
   })
 }
 
-const VoteCounter = ({ data, vt }) =>
+const VoteCounter = ({ data, vt, hasEnded }) =>
   <Loader loading={data.loading} error={data.error} render={() => {
-    const { elections, votings } = data
-    const counts = elections.concat(votings).map(o => o.turnout.submitted)
+    const votingsAndElections = [
+      ELECTION_COOP_MEMBERS_SLUG,
+      ELECTION_COOP_PRESIDENT_SLUG,
+      VOTING_COOP_ACCOUNTS_SLUG,
+      VOTING_COOP_DISCHARGE_SLUG,
+      VOTING_COOP_BUDGET_SLUG,
+      VOTING_COOP_BOARD_SLUG
+    ].map(slug => data[slug])
+
+    const counts = votingsAndElections.map(d => d.turnout.submitted)
     const minSubmitted = Math.min(...counts)
 
     return (
       <div {...styles.wrapper}>
-        <div>{vt('vote/intro/counter1')}</div>
+        <div>{vt(`vote/intro/counter1${hasEnded ? '/ended' : ''}`)}</div>
         <div {...styles.number}>{countFormat(minSubmitted)}</div>
         <div>{vt('vote/intro/counter2')}</div>
       </div>
     )
   }} />
 
+const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG].map(slug => `
+  ${slug}: election(slug: "${slug}") {
+    id
+    turnout {
+      submitted
+    }
+   }
+`).join('\n')
+
+const votingsQuery = [
+  VOTING_COOP_ACCOUNTS_SLUG,
+  VOTING_COOP_DISCHARGE_SLUG,
+  VOTING_COOP_BUDGET_SLUG,
+  VOTING_COOP_BOARD_SLUG
+].map(slug => `
+  ${slug}: voting(slug: "${slug}") {
+    id
+    turnout {
+      submitted
+    }
+   }
+`).join('\n')
+
 const query = gql`
-  {
-    elections {
-      id
-      turnout {
-        submitted
-      }
-    }
-    votings {
-      id
-      turnout {
-        submitted
-      }
-    }
+  query voteCounter {
+    ${electionsQuery}
+    ${votingsQuery}
   }
 `
 
 export default compose(
   voteT,
   graphql(query, {
-    options: ({ slug }) => ({
-      variables: {
-        slug
-      },
+    options: {
       pollInterval: ELECTION_STATS_POLL_INTERVAL
-    })
+    }
   })
 )(VoteCounter)

@@ -129,7 +129,7 @@ class VoteForm extends Component {
                   <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
-                <VoteCounter slug={ELECTION_COOP_MEMBERS_SLUG} />
+                <VoteCounter hasEnded={hasEnded} />
                 <Body dangerousHTML={vt('vote/intro/body1')} />
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />
@@ -270,6 +270,9 @@ const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG
     userIsEligible    
     beginDate
     endDate
+    turnout {
+      submitted
+    }
    }
 `).join('\n')
 
@@ -286,11 +289,14 @@ const votingsQuery = [
     userIsEligible
     beginDate
     endDate
+    turnout {
+      submitted
+    }
    }
 `).join('\n')
 
 const query = gql`
-  query {
+  query votePage {
     me {
       id
       address {

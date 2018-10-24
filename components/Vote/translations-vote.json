@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T22:50:04.451Z",
+  "updated": "2018-10-24T23:34:43.753Z",
   "title": "live",
   "data": [
     {
@@ -125,6 +125,10 @@
     {
       "key": "vote/intro/counter1",
       "value": "Es haben bereits"
+    },
+    {
+      "key": "vote/intro/counter1/ended",
+      "value": "Es haben"
     },
     {
       "key": "vote/intro/counter2",

@@ -55,7 +55,7 @@ const styles = {
   })
 }
 
-class VoteForm extends Component {
+class VotePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -240,7 +240,6 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Election
                   slug={ELECTION_COOP_MEMBERS_SLUG}
-                  isSticky
                   mandatoryCandidates={this.state.president}
                   dangerousDisabledHTML={dangerousDisabledHTML}
                 />
@@ -315,4 +314,4 @@ const query = gql`
 export default compose(
   voteT,
   graphql(query)
-)(VoteForm)
+)(VotePage)

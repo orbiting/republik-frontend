@@ -109,8 +109,8 @@ class Election extends Component {
       electionState: ELECTION_STATES.START
     }
 
-    this.transition = (nextState, callback) => {
-      this.setState({ electionState: nextState }, callback && callback())
+    this.transition = (nextState) => {
+      this.setState({ electionState: nextState })
     }
 
     this.toggleSelection = (candidate) => {
@@ -256,7 +256,7 @@ class Election extends Component {
   }
 
   render () {
-    const { data, isSticky, mandatoryCandidates, vt, showMeta, me } = this.props
+    const { data, mandatoryCandidates, vt, showMeta, me } = this.props
     const { election } = data
 
     return (
@@ -343,7 +343,7 @@ class Election extends Component {
                 showMeta={showMeta}
               />
               {inProgress &&
-              <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
+              <div {...styles.actions}>
                 {error &&
                 <ErrorMessage error={error} />
                 }
@@ -365,7 +365,6 @@ class Election extends Component {
 
 Election.propTypes = {
   onFinish: PropTypes.func,
-  isSticky: PropTypes.bool,
   slug: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   mandatoryCandidates: PropTypes.array,
@@ -374,7 +373,6 @@ Election.propTypes = {
 
 Election.defaultProps = {
   data: { election: { candidacies: [] } },
-  isSticky: false,
   onChange: () => {},
   mandatoryCandidates: [],
   showMeta: true

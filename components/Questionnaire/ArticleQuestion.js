@@ -18,7 +18,7 @@ import {
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
-const { H2, H3, P, A } = Interaction
+const { H2, P, H3, A } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
@@ -32,7 +32,7 @@ const renderCredits = (node) => {
 
 const ArticleItem = ({ title, credits }) =>
   <div>
-    <H3>{title}</H3>
+    <H3 {...css({ ...fontStyles.serifTitle26 })}>{title}</H3>
     <P>{credits && credits.map(renderCredits).join(' ')}</P>
   </div>
 
@@ -73,8 +73,7 @@ class ArticleQuestion extends Component {
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10,
-        background: colors.primaryBg
+        marginTop: 20,
       })}>
         <ArticleItem title={document.title}
           credits={document.credits} />
@@ -136,6 +135,7 @@ class ArticleQuestion extends Component {
               this.renderSelectedItem()
             ) : (
               <Autocomplete
+                label='Artikel'
                 items={items}
                 onChange={value => this.handleChange(value)}
                 onFilterChange={filter => this.setState({ filter }, () => this.performSearch(filter))}

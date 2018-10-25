@@ -4,6 +4,7 @@ import { compose, graphql, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css, merge, select } from 'glamor'
 import debounce from 'lodash.debounce'
+import { range } from 'd3-array'
 
 import {
   colors,
@@ -22,18 +23,21 @@ import { questionStyles } from './questionStyles'
 const { H2, H3, P, A } = Interaction
 
 const styles = {
+  sliderWrapper: css({
+    height: 25,
+  }),
   slider: css({
     '-webkit-appearance': 'none',
-    background: colors.primaryBg,
+    background: colors.secondaryBg,
     width: '100%',
-    height: 25,
+    height: 5,
     outline: 'none',
-    opacity: 0.7,
-    transition: 'opacity .2s',
+    opacity: 1,
     '::-webkit-slider-thumb': {
       '-webkit-appearance': 'none',
-      width: 25,
-      height: 25,
+      borderRadius: 12,
+      width: 24,
+      height: 24,
       background: colors.primary
     },
     '::-moz-range-thumb': {
@@ -46,7 +50,7 @@ const styles = {
     background: colors.secondaryBg,
     '::-webkit-slider-thumb': {
       '-webkit-appearance': 'none',
-      background: '#000'
+      background: colors.disabled
     },
     '::-moz-range-thumb': {
       background: '#000'
@@ -78,7 +82,7 @@ class RangeQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : {}
+    return props.question.userAnswer ? props.question.userAnswer.payload : {value: null}
   }
 
   componentWillReceiveProps (nextProps) {
@@ -105,17 +109,23 @@ class RangeQuestion extends Component {
       : Math.abs(max - min) /
           (ticks.length % 2 === 0 ? ticks.length : ticks.length + 1)
 
+    const defaultValue = min < 0 || max < 0 && !(min < 0 && max < 0)
+      ? 0
+      : Math.abs(min - max) / 2
+
     return (
-      <input
-        {...styles.slider}
-        {...(!value && styles.sliderDefault)}
-        type='range'
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={this.handleChange}
-      />
+      <div {...styles.sliderWrapper}>
+        <input
+          {...styles.slider}
+          {...(!value && styles.sliderDefault)}
+          type='range'
+          min={min}
+          max={max}
+          step={step}
+          value={value || defaultValue}
+          onChange={this.handleChange}
+        />
+      </div>
     )
   }
 

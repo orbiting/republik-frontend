@@ -19,17 +19,6 @@ import {
 import TextInput from './TextInput/TextInput'
 const { H2 } = Interaction
 
-const styles = {
-  textArea: css({
-    padding: 10,
-    background: colors.secondaryBg,
-    ...fontStyles.sansSerifRegular18
-  }),
-  textAreaActive: css({
-    background: colors.primaryBg
-  })
-}
-
 class TextQuestion extends Component {
   constructor (props) {
     super(props)
@@ -70,7 +59,6 @@ class TextQuestion extends Component {
         <div {...questionStyles.body}>
           <TextInput
             placeholder='Bitte erläutern Sie Ihre Gründe'
-            formProps={merge(styles.textArea, value && styles.textAreaActive)}
             text={value || ''}
             onChange={this.handleChange}
             maxLength={maxLength}

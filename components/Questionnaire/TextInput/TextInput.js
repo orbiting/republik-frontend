@@ -7,11 +7,9 @@ import TextInputProgress from './TextInputProgress'
 
 const styles = {
   form: css({
-    background: colors.secondaryBg,
     borderTop: '1px solid white'
   }),
   textArea: css({
-    padding: '6px 12px 0',
     width: '100%',
     minWidth: '100%',
     maxWidth: '100%',
@@ -20,7 +18,7 @@ const styles = {
     border: 'none',
     outline: 'none',
     boxSizing: 'border-box',
-    ...fontStyles.serifRegular16,
+    ...fontStyles.sansSerifRegular21,
     color: colors.text
   }),
   textAreaEmpty: css({
@@ -76,9 +74,9 @@ class TextInput extends Component {
   }
 
   render () {
-    const { text, placeholder, onChange, formProps } = this.props
+    const { text, placeholder, onChange } = this.props
     return (
-      <div {...styles.form} {...formProps}>
+      <div {...styles.form}>
         <Textarea
           {...styles.textArea}
           {...(text === '' ? styles.textAreaEmpty : {})}

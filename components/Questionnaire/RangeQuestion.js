@@ -82,8 +82,7 @@ class RangeQuestion extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.question.userAnswer &&
-      nextProps.question.userAnswer !== this.props.question.userAnswer) {
+    if (nextProps.question.userAnswer !== this.props.question.userAnswer) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }

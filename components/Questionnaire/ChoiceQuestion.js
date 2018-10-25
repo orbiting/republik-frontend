@@ -24,28 +24,44 @@ const { H2 } = Interaction
 const styles = {
   options: css({
     display: 'flex',
-    width: '100%'
+    width: '100%',
+    flexWrap: 'wrap',
   }),
   optionGroup: css({
-  })
+    width: '100%',
+    [mediaQueries.mUp]: {
+      width: '50%',
+    }
+  }),
+  option: css({
+    clear: 'both',
+    paddingBottom: 10,
+  }),
 }
 
 class ChoiceQuestion extends Component {
-  handleChange = (nextValue) => {
-    const { onChange, question: { userAnswer, id, type: { cardinality } } } = this.props
 
-    // const next = new Set(userAnswer)
+  handleChange = (value) => {
+    const { onChange, question: { userAnswer, type: { cardinality } } } = this.props
+    const nextValue = new Set(userAnswer ? userAnswer.payload.value : [])
 
-    const nextAnswer = cardinality > 1
-      ? [nextValue]
-      : [nextValue]
+    if (cardinality === 0 || cardinality > 1) {
+      if (nextValue.has(value)) {
+        nextValue.delete(value)
+      } else {
+        nextValue.add(value)
+      }
+    } else {
+      nextValue.clear()
+      nextValue.add(value)
+    }
 
-    onChange(nextAnswer)
+    onChange([...nextValue])
   }
 
   render () {
     const { question: { text, userAnswer, type: { cardinality, options } } } = this.props
-    const OptionComponent = cardinality > 1 ? Checkbox : Radio
+    const OptionComponent = (cardinality === 0 || cardinality > 1) ? Checkbox : Radio
     const optionGroups = nest().key(o => o.category).entries(options)
     const groupCount = Object.keys(optionGroups).length
     const userAnswerValues = userAnswer ? userAnswer.payload.value : []
@@ -62,16 +78,20 @@ class ChoiceQuestion extends Component {
                 {key !== 'null' &&
                   <h4>{key}</h4>
                 }
+                <div>
                 {
                   values.map((o, i) =>
-                    <div key={i}>
-                      <OptionComponent onChange={() => this.handleChange(o.value)} checked={userAnswerValues.some(v => v === o.value)}>
+                    <div key={i} {...styles.option}>
+                      <OptionComponent
+                        onChange={() => this.handleChange(o.value)}
+                        checked={userAnswerValues.some(v => v === o.value)}
+                      >
                         {o.label}
                       </OptionComponent>
-                      <br />
                     </div>
                   )
                 }
+                </div>
               </div>
             )
           }

@@ -46,10 +46,6 @@ class ArticleQuestion extends Component {
     }
   }
 
-  deriveStateFromProps (props) {
-    return { value: props.question.userAnswer ? props.question.userAnswer.payload : null }
-  }
-
   handleChange = (value) => {
     const { onChange } = this.props
     if (!value) {
@@ -60,10 +56,13 @@ class ArticleQuestion extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.question.userAnswer &&
-      nextProps.question.userAnswer !== this.props.question.userAnswer) {
+    if (nextProps.question.userAnswer !== this.props.question.userAnswer) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
+  }
+
+  deriveStateFromProps (props) {
+    return { value: props.question.userAnswer ? props.question.userAnswer.payload : null }
   }
 
   renderSelectedItem = () => {
@@ -117,8 +116,7 @@ class ArticleQuestion extends Component {
           title: n.entity.meta.title,
           credit: n.entity.meta.credits
         },
-        text: <ArticleItem title={n.entity.meta.title}
-          credits={(n.entity.meta.credits || [])} />,
+        text: <ArticleItem title={n.entity.meta.title} credits={(n.entity.meta.credits || [])} />,
         value: n.entity.meta.path
       })) : []
     this.setState({ items })
@@ -139,7 +137,6 @@ class ArticleQuestion extends Component {
             ) : (
               <Autocomplete
                 items={items}
-                value={value}
                 onChange={value => this.handleChange(value)}
                 onFilterChange={filter => this.setState({ filter }, () => this.performSearch(filter))}
               />

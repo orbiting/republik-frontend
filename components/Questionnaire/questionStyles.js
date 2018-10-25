@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Loader from '../Loader'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 
 import {
   colors,

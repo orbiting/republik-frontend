@@ -41,12 +41,11 @@ class TextQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : null
+    return props.question.userAnswer ? props.question.userAnswer.payload : {value: null}
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.question.userAnswer &&
-      nextProps.question.userAnswer !== this.props.question.userAnswer) {
+    if (nextProps.question.userAnswer !== this.props.question.userAnswer) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
@@ -61,7 +60,7 @@ class TextQuestion extends Component {
   }
 
   render () {
-    const { question: { text, type: { maxLength } }, onChange } = this.props
+    const { question: { text, type: { maxLength } } } = this.props
     const { value } = this.state
     return (
       <div>

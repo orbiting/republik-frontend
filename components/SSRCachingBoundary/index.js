@@ -25,7 +25,7 @@ const webpCacheKey = (headers, baseKey) => {
     console.warn('[SSRCache] headers missing!')
   }
   return headers && headers.accept && headers.accept.indexOf('image/webp') !== -1
-    ? `${baseKey}webp`
+    ? `${baseKey}:webp`
     : baseKey
 }
 

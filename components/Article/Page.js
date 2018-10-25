@@ -446,7 +446,7 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article}>
-                <SSRCachingBoundary cacheKey={article.id}>
+                <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                   {() => renderMdast({
                     ...article.content,
                     format: meta.format

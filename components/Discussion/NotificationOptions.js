@@ -29,6 +29,8 @@ import {
   withUpdateNotificationSettings
 } from './enhancers'
 
+import { shouldIgnoreClick } from '../Link/utils'
+
 const styles = {
   container: css({
     marginTop: 20,
@@ -234,9 +236,7 @@ class NotificationOptions extends PureComponent {
                 <A {...styles.link}
                   href='/konto#benachrichtigungen'
                   onClick={(e) => {
-                    if (e.currentTarget.nodeName === 'A' &&
-                      (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                      // ignore click for new tab / new window behavior
+                    if (shouldIgnoreClick(e)) {
                       return
                     }
 
@@ -289,9 +289,7 @@ class NotificationOptions extends PureComponent {
                     <A {...styles.link}
                       href='/konto#benachrichtigungen'
                       onClick={(e) => {
-                        if (e.currentTarget.nodeName === 'A' &&
-                          (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-                          // ignore click for new tab / new window behavior
+                        if (shouldIgnoreClick(e)) {
                           return
                         }
 

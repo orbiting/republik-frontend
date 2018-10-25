@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T08:00:53.182Z",
+  "updated": "2018-10-25T12:11:16.468Z",
   "title": "live",
   "data": [
     {
@@ -127,12 +127,20 @@
       "value": "Es haben bereits"
     },
     {
+      "key": "vote/intro/counter1/ended",
+      "value": "Es haben"
+    },
+    {
       "key": "vote/intro/counter2",
       "value": "Verlegerinnen und Verleger gewählt und abgestimmt."
     },
     {
-      "key": "vote/intro/body",
-      "value": "Schön, sind Sie hier, liebe Verlegerin, lieber Verleger. Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches. Denn das grösste Teilstück der «Republik» gehört der Project R Genossenschaft. Die Mitglieder? Alle, die ein Jahresabo der «Republik» haben. Und damit wären wir wieder bei Ihnen: Sie können mitbestimmen! Bis zum 28. Oktober 2018 um 24 Uhr sind die virtuellen Urnen offen.\n\nÜber folgende Themen können Sie abstimmen. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung. \n\n<ol>\n<li><a href=\"#accounts\">Jahresrechnung und Revisionsbericht 2017/2018</a></li>\n<li><a href=\"#discharge\">Entlastung des Vorstands</a></li>\n<li><a href=\"#budget\">Budget 2018/2019</a></li>\n<li><a href=\"#board\">Nachwahlen Vorstand</a></li>\n<li><a href=\"#president\">Wahl Präsidium Genossenschaftsrat</a></li>\n<li><a href=\"#genossenschaftsrat\">Wahl Mitglieder Genossenschaftsrat</a></li>\n</ol>\n\nSie wählen also, wer im Genossenschaftsrat von Project R sitzt – und wer diesen Rat präsidiert. Zudem können Sie über einen Wahlvorschlag für den Vorstand abstimmen. Und es findet zeitgleich eine Reihe von Abstimmungen über die Finanzen der Genossenschaft statt. Sie haben also zu tun."
+      "key": "vote/intro/body1",
+      "value": "Schön, sind Sie hier, liebe Verlegerin, lieber Verleger. Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches. Denn das grösste Teilstück der «Republik» gehört der Project R Genossenschaft. Die Mitglieder? Alle, die ein Jahresabo der «Republik» haben. Und damit wären wir wieder bei Ihnen: Sie können mitbestimmen! Bis zum 28. Oktober 2018 um 24 Uhr sind die virtuellen Urnen offen."
+    },
+    {
+      "key": "vote/intro/body2",
+      "value": "Über folgende Themen können Sie abstimmen. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung. \n\n<ol>\n<li><a href=\"#accounts\">Jahresrechnung und Revisionsbericht 2017/2018</a></li>\n<li><a href=\"#discharge\">Entlastung des Vorstands</a></li>\n<li><a href=\"#budget\">Budget 2018/2019</a></li>\n<li><a href=\"#board\">Nachwahlen Vorstand</a></li>\n<li><a href=\"#president\">Wahl Präsidium Genossenschaftsrat</a></li>\n<li><a href=\"#genossenschaftsrat\">Wahl Mitglieder Genossenschaftsrat</a></li>\n</ol>\n\nSie wählen also, wer im Genossenschaftsrat von Project R sitzt – und wer diesen Rat präsidiert. Zudem können Sie über einen Wahlvorschlag für den Vorstand abstimmen. Und es findet zeitgleich eine Reihe von Abstimmungen über die Finanzen der Genossenschaft statt. Sie haben also zu tun."
     },
     {
       "key": "vote/intro/more",
@@ -295,14 +303,6 @@
       "value": "Diskussion"
     },
     {
-      "key": "vote/voting/comingsoon",
-      "value": "Die Abstimmungen und Wahlen sind leider schon vorbei. Die Resultate publizieren wir hier am 31. Oktober."
-    },
-    {
-      "key": "vote/voting/toolate",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die bis zum 16. Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten. Die Resultate sehen Sie hier ab dem 31. Oktober."
-    },
-    {
       "key": "vote/voting/labelVote",
       "value": "Abstimmen"
     },
@@ -380,11 +380,55 @@
     },
     {
       "key": "common/missingAddressTitle",
-      "value": "Bevor Sie abstimmen (nur kurz)"
+      "value": "Bevor Sie abstimmen"
     },
     {
       "key": "common/missingAddressBody",
-      "value": "Leider wissen wir zu wenig über Sie. Um an der Urabstimmung teilnehmen zu können, bitten wir Sie, uns Ihre Adresse anzugeben. Danke!"
+      "value": "Um an der Urabstimmung teilnehmen zu können, bitten wir Sie, uns Ihre Adresse anzugeben. Danke!"
+    },
+    {
+      "key": "common/missingAddressDisabledMessage",
+      "value": "Bitte geben Sie Ihre <a href=\"#adresse\">Adresse</a> an, bevor Sie teilnehmen."
+    },
+    {
+      "key": "common/signInTitle",
+      "value": "Melden Sie sich an."
+    },
+    {
+      "key": "common/signInBody",
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben."
+    },
+    {
+      "key": "vote/voting/notSignedIn",
+      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
+    },
+    {
+      "key": "vote/voting/notEligible",
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
+    },
+    {
+      "key": "vote/voting/ended",
+      "value": "Die Urnen sind geschlossen. Sie können nicht mehr abstimmen."
+    },
+    {
+      "key": "vote/election/notSignedIn",
+      "value": "Sie müssen sich anmelden, um an dieser Wahl teilzunehmen.\n(Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
+    },
+    {
+      "key": "vote/election/notEligible",
+      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
+    },
+    {
+      "key": "vote/election/ended",
+      "value": "Die Urnen sind geschlossen. Sie können nicht mehr wählen."
+    },
+    {
+      "key": "vote/ended",
+      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 31.&nbsp;Oktober."
+    },
+    {
+      "key": "vote/sm/description",
+      "value": "Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches: Bis zum 28. Oktober sind die virtuellen Urnen offen."
     }
   ]
 }

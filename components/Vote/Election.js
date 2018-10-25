@@ -19,6 +19,7 @@ import StarsIcon from 'react-icons/lib/md/stars'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import ElectionBallot from './ElectionBallot'
 import voteT from './voteT'
+import withMe from '../../lib/apollo/withMe'
 import { timeFormat } from '../../lib/utils/format'
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
@@ -108,8 +109,8 @@ class Election extends Component {
       electionState: ELECTION_STATES.START
     }
 
-    this.transition = (nextState, callback) => {
-      this.setState({ electionState: nextState }, callback && callback())
+    this.transition = (nextState) => {
+      this.setState({ electionState: nextState })
     }
 
     this.toggleSelection = (candidate) => {
@@ -255,7 +256,7 @@ class Election extends Component {
   }
 
   render () {
-    const { data, isSticky, mandatoryCandidates, vt, showMeta } = this.props
+    const { data, mandatoryCandidates, vt, showMeta, me } = this.props
     const { election } = data
 
     return (
@@ -265,19 +266,22 @@ class Election extends Component {
         }
 
         const { vote, error } = this.state
-        const inProgress = !election.userHasSubmitted
+        const hasEnded = Date.now() > new Date(election.endDate)
 
-        if (!inProgress) {
-          return (
-            <div {...styles.wrapper}>
-              <div {...styles.thankyou}>
-                <P>
-                  {vt('vote/election/thankyou', { submissionDate: messageDateFormat(new Date(election.userSubmitDate)) })}
-                </P>
-              </div>
-            </div>
-          )
+        let dangerousDisabledHTML = this.props.dangerousDisabledHTML
+        if (election.userHasSubmitted) {
+          dangerousDisabledHTML = vt('vote/election/thankyou', {
+            submissionDate: messageDateFormat(new Date(election.userSubmitDate))
+          })
+        } else if (hasEnded) {
+          dangerousDisabledHTML = vt('vote/election/ended')
+        } else if (!me) {
+          dangerousDisabledHTML = vt('vote/election/notSignedIn')
+        } else if (!election.userIsEligible) {
+          dangerousDisabledHTML = vt('vote/election/notEligible')
         }
+
+        const inProgress = !dangerousDisabledHTML
 
         const [recommended, others] = election.candidacies.reduce((acc, cur) => {
           acc[cur.recommendation ? 0 : 1].push(cur)
@@ -285,19 +289,6 @@ class Election extends Component {
         }, [[], []])
 
         const showHeader = recommended.length > 0 && election.numSeats > 1
-
-        if (!election.userIsEligible) {
-          return (
-            <div {...styles.wrapper}>
-              <div {...styles.thankyou}>
-                <RawHtml
-                  type={P}
-                  dangerouslySetInnerHTML={{ __html: vt('vote/voting/toolate') }}
-                />
-              </div>
-            </div>
-          )
-        }
 
         return (
           <div {...styles.wrapper}>
@@ -332,17 +323,27 @@ class Election extends Component {
               }
             </div>
             }
+            {dangerousDisabledHTML && <div {...styles.wrapper} style={{ marginBottom: 30 }}>
+              <div {...styles.thankyou}>
+                <RawHtml
+                  type={P}
+                  dangerouslySetInnerHTML={{
+                    __html: dangerousDisabledHTML
+                  }}
+                />
+              </div>
+            </div>}
             <div {...styles.wrapper}>
               <ElectionBallot
                 maxVotes={election.numSeats}
                 candidacies={recommended.concat(others)}
                 selected={vote}
                 mandatory={mandatoryCandidates}
-                onChange={this.toggleSelection}
+                onChange={inProgress ? this.toggleSelection : undefined}
                 showMeta={showMeta}
               />
               {inProgress &&
-              <div {...styles.actions} {...(isSticky && vote.length > 0 && styles.sticky)}>
+              <div {...styles.actions}>
                 {error &&
                 <ErrorMessage error={error} />
                 }
@@ -364,7 +365,6 @@ class Election extends Component {
 
 Election.propTypes = {
   onFinish: PropTypes.func,
-  isSticky: PropTypes.bool,
   slug: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   mandatoryCandidates: PropTypes.array,
@@ -373,7 +373,6 @@ Election.propTypes = {
 
 Election.defaultProps = {
   data: { election: { candidacies: [] } },
-  isSticky: false,
   onChange: () => {},
   mandatoryCandidates: [],
   showMeta: true
@@ -398,15 +397,13 @@ const query = gql`
     userSubmitDate    
     description
     beginDate
+    endDate
     numSeats
     discussion {
       id
       comments {
         id
         totalCount
-        nodes {
-          content
-        }
       }
     }
     candidacies {
@@ -443,6 +440,7 @@ const query = gql`
 
 export default compose(
   voteT,
+  withMe,
   graphql(submitElectionBallotMutation, {
     props: ({ mutate }) => ({
       submitElectionBallot: (electionId, candidacyIds) => {

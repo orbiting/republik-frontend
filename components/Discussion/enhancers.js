@@ -89,7 +89,8 @@ export const fragments = {
       content
       published
       adminUnpublished
-      score
+      downVotes
+      upVotes
       userVote
       userCanEdit
       displayAuthor {
@@ -250,6 +251,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
   }
   discussion(id: $discussionId) {
     id
+    title
     userPreference {
       anonymity
       credential {
@@ -265,6 +267,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
     }
     userWaitUntil
     documentPath
+    collapsable
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount
       directTotalCount
@@ -275,6 +278,13 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
       focus {
         id
         parentIds
+        preview(length: 300) {
+          string
+        }
+        displayAuthor {
+          id
+          name
+        }
       }
       nodes {
         ...Comment
@@ -336,7 +346,8 @@ ${fragments.comment}
               published: true,
               adminUnpublished: false,
               userCanEdit: true,
-              score: 0,
+              downVotes: 0,
+              upVotes: 0,
               userVote: null,
               displayAuthor: discussionDisplayAuthor,
               createdAt: (new Date()).toISOString(),

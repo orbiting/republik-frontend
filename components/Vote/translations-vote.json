@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T23:34:43.753Z",
+  "updated": "2018-10-25T12:11:16.468Z",
   "title": "live",
   "data": [
     {
@@ -388,43 +388,47 @@
     },
     {
       "key": "common/missingAddressDisabledMessage",
-      "value": "Sie müssen ihre <a href=\"#adresse\">Adresse</a> angeben bevor Sie teilnehmen können."
+      "value": "Bitte geben Sie Ihre <a href=\"#adresse\">Adresse</a> an, bevor Sie teilnehmen."
     },
     {
       "key": "common/signInTitle",
-      "value": "Melden Sie sich an um teilzunehmen"
+      "value": "Melden Sie sich an."
     },
     {
       "key": "common/signInBody",
-      "value": "Es können nur Personen teilnehmen, die vor dem 16.&nbsp;Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten."
+      "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben."
     },
     {
       "key": "vote/voting/notSignedIn",
-      "value": "Sie müssen sich anmelden und bereits am 16.&nbsp;Oktober ein Jahresabonnement bessesen haben um an dieser Abstimmung teilzunehmen."
+      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
     },
     {
       "key": "vote/voting/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die bis zum 16.&nbsp;Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
     },
     {
       "key": "vote/voting/ended",
-      "value": "Die Abstimmungen ist vorbei."
+      "value": "Die Urnen sind geschlossen. Sie können nicht mehr abstimmen."
     },
     {
       "key": "vote/election/notSignedIn",
-      "value": "Sie müssen sich anmelden und bereits am 16.&nbsp;Oktober ein Jahresabonnement bessesen haben um an dieser Wahl teilzunehmen."
+      "value": "Sie müssen sich anmelden, um an dieser Wahl teilzunehmen.\n(Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
     },
     {
       "key": "vote/election/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die bis zum 16. Oktober ein Jahresabonnement gekauft haben. So wollen es unsere Statuten. Die Resultate sehen Sie hier ab dem 31. Oktober."
+      "value": "Bitte entschuldigen Sie. An dieser Wahl können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
     },
     {
       "key": "vote/election/ended",
-      "value": "Die Wahl ist vorbei."
+      "value": "Die Urnen sind geschlossen. Sie können nicht mehr wählen."
     },
     {
       "key": "vote/ended",
-      "value": "Die Abstimmungen und Wahlen sind vorbei. Die Resultate publizieren wir hier am 31. Oktober."
+      "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 31.&nbsp;Oktober."
+    },
+    {
+      "key": "vote/sm/description",
+      "value": "Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches: Bis zum 28. Oktober sind die virtuellen Urnen offen."
     }
   ]
 }

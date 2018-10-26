@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
+import { format, parse } from 'url'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
@@ -8,6 +9,7 @@ import timeago from '../../lib/timeago'
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
+import ShareOverlay from './ShareOverlay'
 
 import {
   Loader,
@@ -18,7 +20,9 @@ import {
   colors
 } from '@project-r/styleguide'
 
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
+import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 
@@ -43,6 +47,18 @@ const mergeCounts = (a, b) => {
   }
 }
 
+const getFocusUrl = (path, commentId) => {
+  const documentPathObject = parse(path, true)
+  const sharePath = format({
+    pathname: documentPathObject.pathname,
+    query: {
+      ...documentPathObject.query,
+      focus: commentId
+    }
+  })
+  return PUBLIC_BASE_URL + sharePath
+}
+
 class Comments extends PureComponent {
   constructor (props, ...args) {
     super(props, ...args)
@@ -54,7 +70,8 @@ class Comments extends PureComponent {
       showPreferences: false,
       maxVisualDepth: 3,
       closedPortals: {},
-      hasFocus: !!props.focusId
+      hasFocus: !!props.focusId,
+      shareUrl: undefined
     }
 
     this.showPreferences = () => {
@@ -214,7 +231,9 @@ class Comments extends PureComponent {
       }
       if (commentId) {
         if (discussion.documentPath) {
-          return <PathLink path={discussion.documentPath} query={{ focus: commentId }} replace scroll={false} {...props}>
+          const documentPathObject = parse(discussion.documentPath, true)
+
+          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
@@ -431,6 +450,7 @@ class Comments extends PureComponent {
         tail,
         otherChild
       }, null, 2)}</BlockLabel>)
+
       accumulator.list.push(
         <CommentTreeRow
           key={comment.id}
@@ -462,6 +482,9 @@ class Comments extends PureComponent {
           replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
+          collapsable={discussion && discussion.collapsable}
+          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
+
         />
       )
 
@@ -537,14 +560,16 @@ class Comments extends PureComponent {
       discussionId,
       t,
       data: { loading, error, discussion },
-      fetchMore
+      fetchMore,
+      meta
     } = this.props
 
     const {
       showPreferences,
       subIdMap,
       hasFocus,
-      focusLoading
+      focusLoading,
+      shareUrl
     } = this.state
 
     return (
@@ -552,7 +577,7 @@ class Comments extends PureComponent {
         loading={loading || (hasFocus && focusLoading)}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const { totalCount, pageInfo, nodes } = discussion.comments
+          const { totalCount, pageInfo, nodes, focus } = discussion.comments
 
           const accumulator = this.renderComments(nodes)
 
@@ -583,12 +608,35 @@ class Comments extends PureComponent {
             />
           )
 
+          const shareOverlay = !!shareUrl && (
+            <ShareOverlay
+              discussionId={discussionId}
+              onClose={() => this.setState({ shareUrl: undefined })}
+              url={shareUrl}
+              title={discussion ? discussion.title : ''}
+            />
+          )
+
+          const metaTags = focus && meta && (
+            <Meta data={{
+              ...meta,
+              title: t('discussion/meta/focus/title', {
+                authorName: focus.displayAuthor.name,
+                discussionTitle: meta.title
+              }),
+              description: focus.preview ? focus.preview.string : undefined,
+              url: getFocusUrl(meta.url, focus.id)
+            }} />
+          )
+
           return (
             <Fragment>
+              {metaTags}
               {accumulator.list}
               <br />
               {tail}
               {discussionPreferences}
+              {shareOverlay}
             </Fragment>
           )
         }}

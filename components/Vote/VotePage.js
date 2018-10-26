@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from './text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import Frame from '../../components/Frame'
+import Frame from '../Frame'
+import SignIn from '../Auth/SignIn'
 import Collapsible from './Collapsible'
 import Voting from './Voting'
 import Election from './Election'
 import {
   colors,
-  NarrowContainer,
   FigureCaption,
   FigureImage,
   Interaction,
@@ -51,11 +51,11 @@ const styles = {
   thankyou: css({
     marginTop: 25,
     padding: 25,
-    background: colors.secondaryBg
+    background: colors.primaryBg
   })
 }
 
-class VoteForm extends Component {
+class VotePage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -72,7 +72,8 @@ class VoteForm extends Component {
 
     const meta = {
       title: vt('info/title'),
-      description: vt('info/description')
+      description: vt('vote/sm/description'),
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote.jpg`
     }
 
     return (
@@ -86,38 +87,72 @@ class VoteForm extends Component {
             )
           }
 
-          const { me: { address } } = data
-          if (userIsEligible && (!address || !Object.keys(address).map(k => address[k]).every(Boolean))) {
-            return (
-              <NarrowContainer>
-                <Heading>{vt('common/missingAddressTitle')}</Heading>
-                <P>{vt('common/missingAddressBody')}</P>
-                <Section>
-                  <AddressEditor />
-                </Section>
-              </NarrowContainer>
-            )
-          }
+          const { me } = data
 
-          const isDone = [
+          const votingsAndElections = [
             ELECTION_COOP_MEMBERS_SLUG,
             ELECTION_COOP_PRESIDENT_SLUG,
             VOTING_COOP_ACCOUNTS_SLUG,
             VOTING_COOP_DISCHARGE_SLUG,
             VOTING_COOP_BUDGET_SLUG,
             VOTING_COOP_BOARD_SLUG
-          ].map(slug => this.props.data[slug] && this.props.data[slug].userHasSubmitted).every(Boolean)
+          ].map(slug => this.props.data[slug])
+
+          const userIsDone = votingsAndElections
+            .map(d => d.userHasSubmitted)
+            .every(Boolean)
+
+          const now = new Date()
+          const hasEnded = votingsAndElections
+            .map(d => now > new Date(d.endDate))
+            .every(Boolean)
+
+          const missingAdress = userIsEligible && !me.address
+
+          const dangerousDisabledHTML = missingAdress
+            ? vt('common/missingAddressDisabledMessage')
+            : undefined
 
           return (
-            <>
+            <Fragment>
+              {hasEnded &&
+              <div {...styles.thankyou}>
+                <RawHtml
+                  type={P}
+                  dangerouslySetInnerHTML={{
+                    __html: vt('vote/ended')
+                  }} />
+              </div>}
               <Section>
                 <Title>{ vt('vote/title') }</Title>
                 <div {...styles.image}>
                   <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
-                <VoteCounter slug={ELECTION_COOP_MEMBERS_SLUG} />
-                <Body dangerousHTML={vt('vote/intro/body')} />
+                <VoteCounter hasEnded={hasEnded} />
+                <Body dangerousHTML={vt('vote/intro/body1')} />
+                {missingAdress && <Fragment>
+                  <a {...styles.anchor} id='adresse' />
+                  <Heading>{vt('common/missingAddressTitle')}</Heading>
+                  <P>{vt('common/missingAddressBody')}</P>
+                  <div style={{ margin: '30px 0' }}>
+                    <AddressEditor />
+                  </div>
+                </Fragment>}
+                {!me && !hasEnded && <div style={{ margin: '30px 0' }}>
+                  <SignIn beforeForm={(
+                    <Fragment>
+                      <Heading>{vt('common/signInTitle')}</Heading>
+                      <RawHtml
+                        type={P}
+                        dangerouslySetInnerHTML={{
+                          __html: vt('common/signInBody')
+                        }}
+                      />
+                    </Fragment>
+                  )} />
+                </div>}
+                <Body dangerousHTML={vt('vote/intro/body2')} />
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/intro/more')} />
                 </Collapsible>
@@ -132,6 +167,7 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Voting
                   slug={VOTING_COOP_ACCOUNTS_SLUG}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
 
@@ -144,6 +180,7 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Voting
                   slug={VOTING_COOP_DISCHARGE_SLUG}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
 
@@ -156,6 +193,7 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Voting
                   slug={VOTING_COOP_BUDGET_SLUG}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
 
@@ -168,6 +206,7 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Voting
                   slug={VOTING_COOP_BOARD_SLUG}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
 
@@ -182,6 +221,7 @@ class VoteForm extends Component {
                   showMeta={false}
                   slug={ELECTION_COOP_PRESIDENT_SLUG}
                   onChange={this.onVoteChange('president')}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
 
@@ -200,11 +240,11 @@ class VoteForm extends Component {
                 </Collapsible>
                 <Election
                   slug={ELECTION_COOP_MEMBERS_SLUG}
-                  isSticky
                   mandatoryCandidates={this.state.president}
+                  dangerousDisabledHTML={dangerousDisabledHTML}
                 />
               </Section>
-              { isDone &&
+              { userIsDone &&
               <div {...styles.thankyou}>
                 <RawHtml
                   type={P}
@@ -213,7 +253,7 @@ class VoteForm extends Component {
                   }} />
               </div>
               }
-            </>
+            </Fragment>
           )
         }} />
       </Frame>
@@ -229,6 +269,9 @@ const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG
     userIsEligible    
     beginDate
     endDate
+    turnout {
+      submitted
+    }
    }
 `).join('\n')
 
@@ -245,11 +288,14 @@ const votingsQuery = [
     userIsEligible
     beginDate
     endDate
+    turnout {
+      submitted
+    }
    }
 `).join('\n')
 
 const query = gql`
-  query {
+  query votePage {
     me {
       id
       address {
@@ -268,4 +314,4 @@ const query = gql`
 export default compose(
   voteT,
   graphql(query)
-)(VoteForm)
+)(VotePage)

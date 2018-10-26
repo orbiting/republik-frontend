@@ -411,7 +411,8 @@ class ArticlePage extends Component {
     return (
       <Frame
         raw
-        meta={meta}
+        // Meta tags for a focus comment are rendered in Discussion/Commments.js
+        meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={(isMember && seriesNavButton) || actionBar}
@@ -445,7 +446,7 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article}>
-                <SSRCachingBoundary cacheKey={article.id}>
+                <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                   {() => renderMdast({
                     ...article.content,
                     format: meta.format
@@ -461,7 +462,8 @@ class ArticlePage extends Component {
                 <Discussion
                   discussionId={meta.discussionId}
                   focusId={router.query.focus}
-                  mute={!!router.query.mute} />
+                  mute={!!router.query.mute}
+                  meta={meta} />
               </Center>}
               {isMember && (
                 <Fragment>

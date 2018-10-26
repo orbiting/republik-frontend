@@ -177,13 +177,13 @@ class ElectionBallotRow extends Component {
     const summary =
       <Fragment>
         <div>
-          {candidate.yearOfBirth || MISSING_VALUE}
+          {candidate.yearOfBirth}
         </div>
         <div>
           {(d.credentials.find(c => c.isListed) || {}).description || MISSING_VALUE}
         </div>
         <div>
-          {candidate.city || MISSING_VALUE}
+          {candidate.city}
         </div>
       </Fragment>
 
@@ -207,25 +207,24 @@ class ElectionBallotRow extends Component {
         >
           <div
             {...styles.summary}
-            style={{ cursor: interactive ? 'pointer' : 'default' }}
-            onClick={() => onChange(candidate)}
+            style={{ cursor: onChange ? 'pointer' : 'default' }}
+            onClick={onChange ? () => onChange(candidate) : undefined}
           >
             <div>
               {interactive
-                ? <A onClick={e => {
+                ? <A href='#' onClick={e => {
                   e.preventDefault()
                   e.stopPropagation()
                   this.toggleExpanded(d.id)
                 }}>{ d.name }</A>
                 : d.name
               }
-
             </div>
             {
               summary
             }
-            <div>
-              { showMeta &&
+            { showMeta &&
+              <div>
                 <div style={{ width: 36, height: 18 }}>
                   {candidate.recommendation &&
                   <StarsIcon size={18} />
@@ -234,8 +233,8 @@ class ElectionBallotRow extends Component {
                   <FavoriteIcon size={18} />
                   }
                 </div>
-              }
-            </div>
+              </div>
+            }
           </div>
           { expanded &&
           <div
@@ -285,7 +284,6 @@ class ElectionBallotRow extends Component {
         { maxVotes > 0 && onChange &&
         <div {...styles.selection}>
           <SelectionComponent
-            black
             disabled={maxVotes > 1 && !selected && disabled}
             checked={selected}
             onChange={() => onChange(candidate)}
@@ -315,7 +313,6 @@ ElectionBallotRow.defaultProps = {
   maxVotes: 1,
   expanded: false,
   interactive: true,
-  onChange: () => {},
   showMeta: true
 }
 

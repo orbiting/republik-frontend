@@ -41,7 +41,7 @@ const Preview = ({ me, isMember, meta, t }) => {
     </Frame>
     }
     {me && <Front
-      beforeNote={
+      before={
         <Box>
           <Container>
             <Prestitial me={me} isMember={isMember} t={t} />

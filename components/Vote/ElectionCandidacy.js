@@ -3,9 +3,8 @@ import { withRouter } from 'next/router'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
-import { A, colors, InlineSpinner, Interaction, Label, mediaQueries, NarrowContainer } from '@project-r/styleguide'
+import { A, colors, InlineSpinner, Interaction, Button, Label, mediaQueries, NarrowContainer } from '@project-r/styleguide'
 import withT from '../../lib/withT'
-import Button from '@project-r/styleguide/lib/components/Button'
 import FieldSet from '../FieldSet'
 import Frame from '../../components/Frame'
 

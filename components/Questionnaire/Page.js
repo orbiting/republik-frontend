@@ -23,7 +23,7 @@ import RangeQuestion from './RangeQuestion'
 import ChoiceQuestion from './ChoiceQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
-const { Headline, P, H3 } = Interaction
+const { Headline, P } = Interaction
 
 const QUESTION_TYPES = {
   QuestionTypeDocument: ArticleQuestion,
@@ -166,10 +166,9 @@ class Page extends Component {
               <div {...styles.count}>
                 <div>
                   <div style={{ display: 'flex' }}>
-                    <H3>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</H3>
+                    <P>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</P>
                     {questionCount === userAnswerCount && <div style={{ marginLeft: 5, marginTop: 3 }}><CheckCircle size={22} color={colors.primary} /></div>}
                   </div>
-                  <P>Um den Fragebogen abzuschliessen und Ihre Antworten zu übermitteln, klicken Sie bitte am Ende der Seite auf «Abschicken».</P>
                 </div>
                 {
                   error &&

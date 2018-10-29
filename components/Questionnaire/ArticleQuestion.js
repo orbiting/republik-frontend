@@ -14,7 +14,7 @@ import {
 
 import { questionStyles } from './questionStyles'
 
-const { H2, P, H3 } = Interaction
+const { H2, H3 } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
@@ -29,7 +29,7 @@ const renderCredits = (node) => {
 const ArticleItem = ({ title, credits }) =>
   <div>
     <H3 {...css({ ...fontStyles.serifTitle26, lineHeight: '28px' })}>{title}</H3>
-    <P>{credits && credits.map(renderCredits).join(' ')}</P>
+    <div>{credits && credits.map(renderCredits).join(' ')}</div>
   </div>
 
 class ArticleQuestion extends Component {

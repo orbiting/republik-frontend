@@ -90,7 +90,7 @@ class RangeQuestion extends Component {
           Math.max(acc[1], cur.value)
         ]
       },
-      [0, 0]
+      [Number.MAX_VALUE, Number.MIN_VALUE]
     )
 
     const step = kind === 'continous'
@@ -131,7 +131,7 @@ class RangeQuestion extends Component {
     )
   }
 
-  onChangeDebounced = debounce(this.props.onChange, 300)
+  onChangeDebounced = debounce(this.props.onChange, 1000)
 
   handleChange = (ev) => {
     const value = +ev.target.value

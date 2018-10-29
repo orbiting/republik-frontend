@@ -13,6 +13,7 @@ import {
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
+import withT from '../../lib/withT'
 
 const { H2, H3 } = Interaction
 
@@ -28,7 +29,7 @@ const renderCredits = (node) => {
 
 const ArticleItem = ({ title, credits }) =>
   <div>
-    <H3 {...css({ ...fontStyles.serifTitle26, lineHeight: '28px' })}>{title}</H3>
+    <H3 {...css({ ...fontStyles.serifTitle22, lineHeight: '24px' })}>{title}</H3>
     <div>{credits && credits.map(renderCredits).join(' ')}</div>
   </div>
 
@@ -132,7 +133,7 @@ class ArticleQuestion extends Component {
   }, 200)
 
   render () {
-    const { question: { text } } = this.props
+    const { question: { text }, t } = this.props
     const { value, items } = this.state
     return (
       <div>
@@ -145,7 +146,7 @@ class ArticleQuestion extends Component {
               this.renderSelectedItem()
             ) : (
               <Autocomplete
-                label='Artikel suchen'
+                label={t('questionnaire/article/label')}
                 items={items}
                 onChange={value => this.handleChange(value)}
                 onFilterChange={this.handleFilterChange}
@@ -178,6 +179,6 @@ query getSearchResults($search: String, $after: String, $sort: SearchSortInput, 
 `
 
 export default compose(
+  withT,
   withApollo
-//  graphql()
 )(ArticleQuestion)

@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import { questionStyles } from './questionStyles'
 import { nest } from 'd3-collection'
@@ -95,14 +93,4 @@ class ChoiceQuestion extends Component {
   }
 }
 
-const query = gql`
-{
-  me {
-    id
-  }
-}
-`
-
-export default compose(
-  graphql(query)
-)(ChoiceQuestion)
+export default ChoiceQuestion

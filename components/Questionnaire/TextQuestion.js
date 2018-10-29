@@ -6,6 +6,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 import TextInput from './TextInput/TextInput'
+import withT from '../../lib/withT'
 const { H2 } = Interaction
 
 class TextQuestion extends Component {
@@ -28,7 +29,7 @@ class TextQuestion extends Component {
     }
   }
 
-  onChangeDebounced = debounce(this.props.onChange, 300)
+  onChangeDebounced = debounce(this.props.onChange, 1000)
 
   handleChange = (ev) => {
     const { question: { maxLength } } = this.props
@@ -40,24 +41,22 @@ class TextQuestion extends Component {
   }
 
   render () {
-    const { question: { text, maxLength } } = this.props
+    const { question: { text, maxLength }, t } = this.props
     const { value } = this.state
     return (
       <div>
         { text &&
         <H2 {...questionStyles.label}>{text}</H2>
         }
-        <div {...questionStyles.body}>
-          <TextInput
-            placeholder='Bitte erläutern Sie Ihre Gründe'
-            text={value || ''}
-            onChange={this.handleChange}
-            maxLength={maxLength}
-          />
-        </div>
+        <TextInput
+          placeholder={t('questionnaire/text/label', { maxLength })}
+          text={value || ''}
+          onChange={this.handleChange}
+          maxLength={maxLength}
+        />
       </div>
     )
   }
 }
 
-export default TextQuestion
+export default withT(TextQuestion)

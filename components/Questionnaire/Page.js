@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Frame from '../Frame'
 import Loader from '../Loader'
-import ErrorMessage from '../ErrorMessage'
 
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
@@ -14,7 +13,8 @@ import {
   mediaQueries,
   Button,
   A,
-  InlineSpinner
+  InlineSpinner,
+  fontFamilies
 } from '@project-r/styleguide'
 
 import TextQuestion from './TextQuestion'
@@ -22,6 +22,8 @@ import ArticleQuestion from './ArticleQuestion'
 import RangeQuestion from './RangeQuestion'
 import ChoiceQuestion from './ChoiceQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import withT from '../../lib/withT'
+import { errorToString } from '../../lib/utils/errors'
 
 const { Headline, P } = Interaction
 
@@ -53,6 +55,13 @@ const styles = {
     textAlign: 'center',
     marginTop: 10
   }),
+  strong: css({
+    fontFamily: fontFamilies.sansSerifMedium
+  }),
+  error: css({
+    color: colors.error,
+    fontFamily: fontFamilies.sansSerifMedium
+  }),
   thankyou: css({
     background: colors.primaryBg,
     display: 'flex',
@@ -62,14 +71,11 @@ const styles = {
     marginTop: 30,
     padding: 30,
     textAlign: 'center'
+  }),
+  progressIcon: css({
+    marginLeft: 5,
+    marginTop: 3
   })
-}
-
-const SURVEY_STATES = {
-  READY: 'READY',
-  CONFIRM: 'CONFIRM',
-  RESET: 'RESET',
-  DONE: 'DONE'
 }
 
 class Page extends Component {
@@ -121,20 +127,11 @@ class Page extends Component {
     )
   }
 
-  renderMessages = () => {
-    switch (this.state.surveyState) {
-      case SURVEY_STATES.READY:
-        return (
-          null
-        )
-    }
-  }
-
   render () {
-    const { data } = this.props
+    const { data, t } = this.props
     const meta = {
-      title: 'Leserumfrage',
-      description: 'Machen Sie mit!'
+      title: t('questionnaire/title'),
+      description: t('questionnaire/description')
     }
 
     return (
@@ -150,10 +147,10 @@ class Page extends Component {
           if (userHasSubmitted) {
             return (
               <>
-                <Headline>Umfrage</Headline>
+                <Headline>{t('questionnaire/title')}</Headline>
                 <div {...styles.thankyou}>
                   <P>
-                    Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen!
+                    {t('questionnaire/thankyou')}
                   </P>
                 </div>
               </>
@@ -163,14 +160,23 @@ class Page extends Component {
           return (
             <div>
               <Headline>Umfrage</Headline>
+              <P>{t('questionnaire/intro')}</P>
               <div {...styles.count}>
                 <div style={{ display: 'flex' }}>
-                  <P>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</P>
-                  {questionCount === userAnswerCount && <div style={{ marginLeft: 5, marginTop: 3 }}><CheckCircle size={22} color={colors.primary} /></div>}
+                  { error
+                    ? <P {...styles.error}>{errorToString(error)}</P>
+                    : <>
+                      <P {...styles.strong}>{t('questionnaire/header', { questionCount, userAnswerCount })}</P>
+                      {
+                        questionCount === userAnswerCount
+                          ? <div {...styles.progressIcon}><CheckCircle size={22} color={colors.primary} /></div>
+                          : this.state.updating
+                            ? <div style={{ marginLeft: 5, marginTop: 3 }}><InlineSpinner size={24} /></div>
+                            : null
+                      }
+                      </>
+                  }
                 </div>
-                {error &&
-                  <ErrorMessage error={error} />
-                }
               </div>
               {
                 questions.map(q =>
@@ -185,9 +191,6 @@ class Page extends Component {
                   )
                 )
               }
-              {
-                this.renderMessages()
-              }
               <div {...styles.actions}>
                 <Button
                   primary
@@ -196,13 +199,13 @@ class Page extends Component {
                 >
                   { this.state.updating
                     ? <InlineSpinner size={40} />
-                    : `Abschicken`
+                    : t('questionnaire/submit')
                   }
                 </Button>
                 <div {...styles.reset}>
                   {userAnswerCount < 1
-                    ? 'Bitte beantworten Sie mindestens eine Frage'
-                    : <A href='#' onClick={this.handleReset}>Abbrechen</A>
+                    ? t('questionnaire/invalid')
+                    : <A href='#' onClick={this.handleReset}>{t('questionnaire/cancel')}</A>
                   }
                 </div>
               </div>
@@ -296,6 +299,7 @@ const query = gql`
 `
 
 export default compose(
+  withT,
   graphql(submitQuestionnaireMutation, {
     props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {

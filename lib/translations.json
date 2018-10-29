@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T13:30:49.296Z",
+  "updated": "2018-10-29T12:56:36.032Z",
   "title": "live",
   "data": [
     {
@@ -3421,6 +3421,46 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "questionnaire/title",
+      "value": "Umfrage"
+    },
+    {
+      "key": "questionnaire/description",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "questionnaire/intro",
+      "value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturientmontes, nascetur ridiculus mus. "
+    },
+    {
+      "key": "questionnaire/header",
+      "value": "Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet."
+    },
+    {
+      "key": "questionnaire/invalid",
+      "value": "Bitte beantworten Sie mindestens eine Frage"
+    },
+    {
+      "key": "questionnaire/submit",
+      "value": "Abschicken"
+    },
+    {
+      "key": "questionnaire/cancel",
+      "value": "Abbrechen"
+    },
+    {
+      "key": "questionnaire/thankyou",
+      "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen!"
+    },
+    {
+      "key": "questionnaire/article/label",
+      "value": "Artikel suchen"
+    },
+    {
+      "key": "questionnaire/text/label",
+      "value": "max. {maxLength} Zeichen"
     }
   ]
 }

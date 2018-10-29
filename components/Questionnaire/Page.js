@@ -38,7 +38,7 @@ const styles = {
     zIndex: 10,
     minHeight: 20,
     position: 'sticky',
-    padding: '20px 0',
+    padding: '10px 0',
     borderBottom: `0.5px solid ${colors.divider}`,
     top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
@@ -164,17 +164,12 @@ class Page extends Component {
             <div>
               <Headline>Umfrage</Headline>
               <div {...styles.count}>
-                <div>
-                  <div style={{ display: 'flex' }}>
-                    <P>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</P>
-                    {questionCount === userAnswerCount && <div style={{ marginLeft: 5, marginTop: 3 }}><CheckCircle size={22} color={colors.primary} /></div>}
-                  </div>
+                <div style={{ display: 'flex' }}>
+                  <P>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</P>
+                  {questionCount === userAnswerCount && <div style={{ marginLeft: 5, marginTop: 3 }}><CheckCircle size={22} color={colors.primary} /></div>}
                 </div>
-                {
-                  error &&
-                  <div>
-                    <ErrorMessage error={error} />
-                  </div>
+                {error &&
+                  <ErrorMessage error={error} />
                 }
               </div>
               {

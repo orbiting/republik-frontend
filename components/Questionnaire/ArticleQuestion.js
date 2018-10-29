@@ -150,7 +150,7 @@ class ArticleQuestion extends Component {
               <Autocomplete
                 label={t('questionnaire/article/label')}
                 items={items}
-                onChange={value => this.handleChange(value)}
+                onChange={this.handleChange}
                 onFilterChange={this.handleFilterChange}
               />
             )

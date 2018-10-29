@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { compose, withApollo } from 'react-apollo'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import debounce from 'lodash.debounce'
 
 import {
@@ -11,38 +11,79 @@ import {
 import { questionStyles } from './questionStyles'
 const { H2 } = Interaction
 
+const thumbSize = 24
+
+const thumbStyle = {
+  borderWidth: 0,
+  borderRadius: '50%',
+  width: thumbSize,
+  height: thumbSize,
+  background: colors.primary,
+  outline: 'none'
+}
+
+const trackStyle = {
+  background: colors.secondaryBg,
+  height: 5
+}
+
 const styles = {
   sliderWrapper: css({
-    height: 25
+    minHeight: 30,
+    maxHeight: 50
   }),
   slider: css({
-    '-webkit-appearance': 'none',
-    background: colors.secondaryBg,
+    WebkitAppearance: 'none',
     width: '100%',
-    height: 5,
+    background: 'transparent',
     outline: 'none',
-    opacity: 1,
+    ':focus': {
+      outline: 'none'
+    },
+    // thumb
     '::-webkit-slider-thumb': {
-      '-webkit-appearance': 'none',
-      borderRadius: 12,
-      width: 24,
-      height: 24,
-      background: colors.primary
+      ...thumbStyle,
+      WebkitAppearance: 'none',
+      marginTop: -9
     },
     '::-moz-range-thumb': {
-      width: 25,
-      height: 25,
-      background: colors.primary
+      ...thumbStyle
+    },
+    '::-ms-thumb': {
+      ...thumbStyle
+    },
+    // track
+    '::-webkit-slider-runnable-track': {
+      ...trackStyle,
+      width: '100%'
+    },
+    '::-moz-range-track': {
+      ...trackStyle,
+      width: '100%'
+    },
+    '::-ms-track': {
+      width: '100%',
+      borderColor: 'transparent',
+      color: 'transparent',
+      background: 'transparent',
+      height: thumbSize
+    },
+    '::-ms-fill-lower': {
+      ...trackStyle
+    },
+    '::-ms-fill-upper': {
+      ...trackStyle
     }
   }),
-  sliderDefault: css({
-    background: colors.secondaryBg,
+  sliderEmpty: css({
     '::-webkit-slider-thumb': {
-      '-webkit-appearance': 'none',
       background: colors.disabled
     },
     '::-moz-range-thumb': {
-      background: '#000'
+      background: colors.disabled
+    },
+    '::-ms-thumb': {
+      background: colors.disabled
     }
   }),
   ticks: css({
@@ -61,6 +102,8 @@ const styles = {
     }
   })
 }
+
+const sliderDefault = merge(styles.slider, styles.sliderEmpty)
 
 class RangeQuestion extends Component {
   constructor (props) {
@@ -105,13 +148,12 @@ class RangeQuestion extends Component {
     return (
       <div {...styles.sliderWrapper}>
         <input
-          {...styles.slider}
-          {...(value === null && styles.sliderDefault)}
+          {...(value === null ? sliderDefault : styles.slider)}
           type='range'
           min={min}
           max={max}
           step={step}
-          value={value || defaultValue}
+          value={value === null || defaultValue}
           onChange={this.handleChange}
         />
       </div>
@@ -131,7 +173,7 @@ class RangeQuestion extends Component {
     )
   }
 
-  onChangeDebounced = debounce(this.props.onChange, 1000)
+  onChangeDebounced = debounce(this.props.onChange, 500)
 
   handleChange = (ev) => {
     const value = +ev.target.value
@@ -161,5 +203,4 @@ class RangeQuestion extends Component {
 
 export default compose(
   withApollo
-//  graphql()
 )(RangeQuestion)

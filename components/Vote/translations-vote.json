@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-28T23:17:49.218Z",
+  "updated": "2018-10-29T21:17:07.797Z",
   "title": "live",
   "data": [
     {
@@ -436,11 +436,19 @@
     },
     {
       "key": "vote/voting/label",
-      "value": "{formattedCount} ausgefüllte Stimmen"
+      "value": "{formattedFilledCount} Stimmen"
     },
     {
       "key": "vote/voting/turnout",
-      "value": "Stimmbeteiligung: {formattedPercent}, leere Stimmen: {formattedEmptyCount}."
+      "value": "Stimmbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
+    },
+    {
+      "key": "vote/voting/winner/YES",
+      "value": "Angenommen mit {formattedPercent} Ja-Stimmen."
+    },
+    {
+      "key": "vote/voting/winner/NO",
+      "value": "Abgelehnt mit {formattedPercent} Nein-Stimmen."
     },
     {
       "key": "vote/election/elected/1",
@@ -460,7 +468,7 @@
     },
     {
       "key": "vote/election/turnout",
-      "value": "Stimmbeteiligung {formattedPercent}, leere Stimmen: {formattedEmptyCount}, ausgefüllte Stimmen: {formattedFilledCount}."
+      "value": "Wahlbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
     }
   ]
 }

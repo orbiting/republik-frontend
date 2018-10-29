@@ -1,30 +1,19 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql, withApollo } from 'react-apollo'
-import Close from 'react-icons/lib/md/close'
-import { css, merge, select } from 'glamor'
+import { compose, withApollo } from 'react-apollo'
+import { css } from 'glamor'
 import debounce from 'lodash.debounce'
-import { range } from 'd3-array'
 
 import {
   colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  TextInput,
-  fontStyles,
-  Autocomplete
+  Interaction
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
-const { H2, H3, P, A } = Interaction
+const { H2 } = Interaction
 
 const styles = {
   sliderWrapper: css({
-    height: 25,
+    height: 25
   }),
   slider: css({
     '-webkit-appearance': 'none',
@@ -82,7 +71,7 @@ class RangeQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : {value: null}
+    return props.question.userAnswer ? props.question.userAnswer.payload : { value: null }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -109,7 +98,7 @@ class RangeQuestion extends Component {
       : Math.abs(max - min) /
           (ticks.length % 2 === 0 ? ticks.length : ticks.length + 1)
 
-    const defaultValue = min < 0 || max < 0 && !(min < 0 && max < 0)
+    const defaultValue = (min < 0 || max < 0) && !(min < 0 && max < 0)
       ? 0
       : Math.abs(min - max) / 2
 
@@ -142,7 +131,7 @@ class RangeQuestion extends Component {
     )
   }
 
-  onChangeDebounced = debounce(this.props.onChange, 100, {maxWait: 300})
+  onChangeDebounced = debounce(this.props.onChange, 300)
 
   handleChange = (ev) => {
     const value = +ev.target.value

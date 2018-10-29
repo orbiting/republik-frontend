@@ -1,25 +1,20 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
-import { compose, graphql, withApollo } from 'react-apollo'
+import { compose, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
 import debounce from 'lodash.debounce'
 
 import {
+  Autocomplete,
   colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  TextInput,
   fontStyles,
-  Autocomplete
+  Interaction
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
-const { H2, P, H3, A } = Interaction
+
+const { H2, P, H3 } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
@@ -78,7 +73,7 @@ class ArticleQuestion extends Component {
         paddingTop: 15,
         paddingBottom: 15,
         borderTop: `1px solid ${colors.text}`,
-        borderBottom: `1px solid ${colors.text}`,
+        borderBottom: `1px solid ${colors.text}`
       })}>
         <ArticleItem title={document.title}
           credits={document.credits} />
@@ -94,9 +89,9 @@ class ArticleQuestion extends Component {
   handleFilterChange = (filter) => {
     this.performSearch.cancel()
     if (filter.length < 3) {
-      this.setState({filter, items: []})
+      this.setState({ filter, items: [] })
     } else {
-      this.setState({filter}, () => this.performSearch(filter))
+      this.setState({ filter }, () => this.performSearch(filter))
     }
   }
 

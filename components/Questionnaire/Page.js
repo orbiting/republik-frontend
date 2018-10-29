@@ -6,19 +6,15 @@ import ErrorMessage from '../ErrorMessage'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import CheckCircle from 'react-icons/lib/md/check-circle'
 
 import {
   colors,
-  Container,
-  FigureCaption,
-  FigureImage,
   Interaction,
   mediaQueries,
-  RawHtml,
-  TextInput,
   Button,
   A,
-  InlineSpinner,
+  InlineSpinner
 } from '@project-r/styleguide'
 
 import TextQuestion from './TextQuestion'
@@ -44,17 +40,18 @@ const styles = {
     position: 'sticky',
     padding: '20px 0',
     borderBottom: `0.5px solid ${colors.divider}`,
-    top: HEADER_HEIGHT-1,
+    top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
-      top: HEADER_HEIGHT_MOBILE-1,
+      top: HEADER_HEIGHT_MOBILE - 1
     }
   }),
   actions: css({
     textAlign: 'center',
-    margin: '20px auto 20px auto',
+    margin: '20px auto 20px auto'
   }),
   reset: css({
     textAlign: 'center',
+    marginTop: 10
   }),
   thankyou: css({
     background: colors.primaryBg,
@@ -68,17 +65,22 @@ const styles = {
   })
 }
 
-class Page extends Component {
+const SURVEY_STATES = {
+  READY: 'READY',
+  CONFIRM: 'CONFIRM',
+  RESET: 'RESET',
+  DONE: 'DONE'
+}
 
+class Page extends Component {
   constructor (props) {
     super(props)
     this.state = {}
   }
 
-  handleChange = (questionType, questionId, answerId) => async (value) => {
-    const valueArg = value !== null ? { value } : null
-    this.setState({updating: true})
-    this.props.submitAnswer(questionType, questionId, valueArg, answerId)
+  processSubmit = (fn, ...args) => {
+    this.setState({ updating: true })
+    fn(...args)
       .then(() =>
         this.setState(() => ({
           updating: false,
@@ -93,6 +95,41 @@ class Page extends Component {
       })
   }
 
+  handleChange = (questionType, questionId, answerId) => (value) => {
+    const valueArg = value !== null ? { value } : null
+    this.processSubmit(
+      this.props.submitAnswer,
+      questionType, questionId, valueArg, answerId
+    )
+  }
+
+  handleSubmit = e => {
+    const { submitQuestionnaire, data: { questionnaire: { id } } } = this.props
+    e.preventDefault()
+    this.processSubmit(
+      submitQuestionnaire,
+      id
+    )
+  }
+
+  handleReset = e => {
+    const { resetQuestionnaire, data: { questionnaire: { id } } } = this.props
+    e.preventDefault()
+    this.processSubmit(
+      resetQuestionnaire,
+      id
+    )
+  }
+
+  renderMessages = () => {
+    switch (this.state.surveyState) {
+      case SURVEY_STATES.READY:
+        return (
+          null
+        )
+    }
+  }
+
   render () {
     const { data } = this.props
     const meta = {
@@ -103,33 +140,35 @@ class Page extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
-          const { questionnaire: { id, userHasSubmitted, questions } } = data
-          const { submitQuestionnaire, resetQuestionnaire } = this.props
+          const { questionnaire: { userHasSubmitted, questions } } = data
 
-          const questionCount = questions.map(q => q.text).filter(Boolean).length
+          const questionCount = questions.filter(Boolean).length
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
 
           const { error } = this.state
 
           if (userHasSubmitted) {
             return (
-              <Container>
+              <>
                 <Headline>Umfrage</Headline>
                 <div {...styles.thankyou}>
                   <P>
                     Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen!
                   </P>
                 </div>
-              </Container>
+              </>
             )
           }
 
           return (
-            <Container>
+            <div>
               <Headline>Umfrage</Headline>
               <div {...styles.count}>
                 <div>
-                  <H3>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</H3>
+                  <div style={{ display: 'flex' }}>
+                    <H3>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</H3>
+                    {questionCount === userAnswerCount && <div style={{ marginLeft: 5, marginTop: 3 }}><CheckCircle size={22} color={colors.primary} /></div>}
+                  </div>
                   <P>Um den Fragebogen abzuschliessen und Ihre Antworten zu übermitteln, klicken Sie bitte am Ende der Seite auf «Abschicken».</P>
                 </div>
                 {
@@ -147,27 +186,33 @@ class Page extends Component {
                       onChange: this.handleChange(q.__typename, q.id, q.userAnswer ? q.userAnswer.id : undefined),
                       question: q,
                       key: q.id,
-                      disabled: userHasSubmitted,
+                      disabled: userHasSubmitted
                     }
                   )
                 )
               }
+              {
+                this.renderMessages()
+              }
               <div {...styles.actions}>
                 <Button
                   primary
-                  onClick={() => submitQuestionnaire(id)}
-                  disabled={this.state.updating}
+                  onClick={this.handleSubmit}
+                  disabled={this.state.updating || userAnswerCount < 1}
                 >
                   { this.state.updating
-                      ? <InlineSpinner size={40} />
-                      : `Abschicken`
+                    ? <InlineSpinner size={40} />
+                    : `Abschicken`
                   }
                 </Button>
                 <div {...styles.reset}>
-                  <A href='#' onClick={e => { e.preventDefault(); resetQuestionnaire(id) }}>Abbrechen</A>
+                  {userAnswerCount < 1
+                    ? 'Bitte beantworten Sie mindestens eine Frage'
+                    : <A href='#' onClick={this.handleReset}>Abbrechen</A>
+                  }
                 </div>
               </div>
-            </Container>
+            </div>
           )
         }} />
       </Frame>
@@ -258,7 +303,7 @@ const query = gql`
 
 export default compose(
   graphql(submitQuestionnaireMutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {
         return mutate({
           variables: {
@@ -269,13 +314,13 @@ export default compose(
     })
   }),
   graphql(resetQuestionnaireMutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       resetQuestionnaire: (id) => {
         return mutate({
           variables: {
             id
           },
-          refetchQueries: [{query}]
+          refetchQueries: [{ query }]
         })
       }
     })

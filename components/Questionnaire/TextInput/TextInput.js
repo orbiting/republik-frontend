@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import Textarea from 'react-textarea-autosize'
-import { colors, fontStyles } from '@project-r/styleguide'
+import { colors, fontStyles, Field } from '@project-r/styleguide'
 import TextInputProgress from './TextInputProgress'
+import AutosizeInput from 'react-textarea-autosize'
+import { styles as fieldSetStyles } from '../../FieldSet'
 
 const styles = {
   form: css({
@@ -14,6 +15,7 @@ const styles = {
     minWidth: '100%',
     maxWidth: '100%',
     minHeight: '60px',
+    padding: 0,
     background: 'transparent',
     border: 'none',
     outline: 'none',
@@ -77,14 +79,16 @@ class TextInput extends Component {
     const { text, placeholder, onChange } = this.props
     return (
       <div {...styles.form}>
-        <Textarea
-          {...styles.textArea}
-          {...(text === '' ? styles.textAreaEmpty : {})}
-          placeholder={placeholder}
+        <Field
+          label={placeholder}
+          renderInput={({ ref, ...inputProps }) => (
+            <AutosizeInput
+              {...inputProps}
+              {...fieldSetStyles.autoSize}
+              inputRef={ref} />
+          )}
           value={text}
-          rows='1'
-          onChange={onChange}
-        />
+          onChange={onChange} />
         {this.renderProgress()}
       </div>
     )
@@ -96,14 +100,12 @@ TextInput.propTypes = {
   text: PropTypes.string,
   maxLength: PropTypes.number,
   onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  overflow: PropTypes.bool
+  disabled: PropTypes.bool
 }
 
 TextInput.defaultProps = {
   placeholder: '',
-  text: '',
-  overflow: true
+  text: ''
 }
 
 export default TextInput

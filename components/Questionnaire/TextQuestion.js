@@ -1,20 +1,9 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql } from 'react-apollo'
-import Loader from '../Loader'
-import { css, merge } from 'glamor'
-import Question, { questionStyles } from './questionStyles'
+import { questionStyles } from './questionStyles'
 import debounce from 'lodash.debounce'
 
 import {
-  colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  fontStyles
+  Interaction
 } from '@project-r/styleguide'
 import TextInput from './TextInput/TextInput'
 const { H2 } = Interaction
@@ -30,7 +19,7 @@ class TextQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : {value: null}
+    return props.question.userAnswer ? props.question.userAnswer.payload : { value: null }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -39,7 +28,7 @@ class TextQuestion extends Component {
     }
   }
 
-  onChangeDebounced = debounce(this.props.onChange, 500, {maxWait: 1000})
+  onChangeDebounced = debounce(this.props.onChange, 300)
 
   handleChange = (ev) => {
     const { question: { maxLength } } = this.props

@@ -153,7 +153,7 @@ class RangeQuestion extends Component {
           min={min}
           max={max}
           step={step}
-          value={value === null || defaultValue}
+          value={value === null ? defaultValue : value}
           onChange={this.handleChange}
         />
       </div>

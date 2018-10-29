@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Frame from '../Frame'
 import Loader from '../Loader'
+import ErrorMessage from '../ErrorMessage'
 
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
@@ -24,16 +25,15 @@ import TextQuestion from './TextQuestion'
 import ArticleQuestion from './ArticleQuestion'
 import RangeQuestion from './RangeQuestion'
 import ChoiceQuestion from './ChoiceQuestion'
-import debounce from 'lodash.debounce'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const { Headline, P, H3 } = Interaction
 
 const QUESTION_TYPES = {
-  Document: ArticleQuestion,
-  Text: TextQuestion,
-  Choice: ChoiceQuestion,
-  Range: RangeQuestion
+  QuestionTypeDocument: ArticleQuestion,
+  QuestionTypeText: TextQuestion,
+  QuestionTypeChoice: ChoiceQuestion,
+  QuestionTypeRange: RangeQuestion
 }
 
 const styles = {
@@ -43,6 +43,7 @@ const styles = {
     minHeight: 20,
     position: 'sticky',
     padding: '20px 0',
+    borderBottom: `0.5px solid ${colors.divider}`,
     top: HEADER_HEIGHT-1,
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE-1,
@@ -74,15 +75,22 @@ class Page extends Component {
     this.state = {}
   }
 
-  submitAnswerDebounced = debounce(this.props.submitAnswer, 500)
-
-  handleChange = (questionId, answerId) => (value, applyDebounce) => {
-    const valueArg = value ? { value } : null
-    if (applyDebounce) {
-      this.submitAnswerDebounced(questionId, valueArg, answerId)
-    } else {
-      this.props.submitAnswer(questionId, valueArg, answerId)
-    }
+  handleChange = (questionType, questionId, answerId) => async (value) => {
+    const valueArg = value !== null ? { value } : null
+    this.setState({updating: true})
+    this.props.submitAnswer(questionType, questionId, valueArg, answerId)
+      .then(() =>
+        this.setState(() => ({
+          updating: false,
+          error: null
+        }))
+      )
+      .catch((error) => {
+        this.setState(() => ({
+          updating: false,
+          error
+        }))
+      })
   }
 
   render () {
@@ -100,6 +108,8 @@ class Page extends Component {
 
           const questionCount = questions.map(q => q.text).filter(Boolean).length
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
+
+          const { error } = this.state
 
           if (userHasSubmitted) {
             return (
@@ -122,13 +132,19 @@ class Page extends Component {
                   <H3>Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet.</H3>
                   <P>Um den Fragebogen abzuschliessen und Ihre Antworten zu übermitteln, klicken Sie bitte am Ende der Seite auf «Abschicken».</P>
                 </div>
+                {
+                  error &&
+                  <div>
+                    <ErrorMessage error={error} />
+                  </div>
+                }
               </div>
               {
                 questions.map(q =>
                   React.createElement(
-                    QUESTION_TYPES[q.type.type],
+                    QUESTION_TYPES[q.__typename],
                     {
-                      onChange: this.handleChange(q.id, q.userAnswer ? q.userAnswer.id : undefined),
+                      onChange: this.handleChange(q.__typename, q.id, q.userAnswer ? q.userAnswer.id : undefined),
                       question: q,
                       key: q.id,
                       disabled: userHasSubmitted,
@@ -136,21 +152,21 @@ class Page extends Component {
                   )
                 )
               }
-              {
-                !userHasSubmitted &&
-                  <div {...styles.actions}>
-                    <Button
-                      primary
-                      onClick={() => submitQuestionnaire(id)}
-                      disabled={userHasSubmitted}
-                    >
-                      Abschicken
-                    </Button>
-                    <div {...styles.reset}>
-                      <A href='#' onClick={e => { e.preventDefault(); resetQuestionnaire(id) }}>Abbrechen</A>
-                    </div>
-                  </div>
-              }
+              <div {...styles.actions}>
+                <Button
+                  primary
+                  onClick={() => submitQuestionnaire(id)}
+                  disabled={this.state.updating}
+                >
+                  { this.state.updating
+                      ? <InlineSpinner size={40} />
+                      : `Abschicken`
+                  }
+                </Button>
+                <div {...styles.reset}>
+                  <A href='#' onClick={e => { e.preventDefault(); resetQuestionnaire(id) }}>Abbrechen</A>
+                </div>
+              </div>
             </Container>
           )
         }} />
@@ -165,10 +181,12 @@ mutation submitAnswer($questionId: ID!, $payload: JSON) {
     questionId: $questionId,
     payload: $payload
   }) {
-    id
-    userAnswer {
+    ... on QuestionInterface {
       id
-      payload
+      userAnswer {
+        id
+        payload
+      }
     }
   }
 }
@@ -203,40 +221,35 @@ const query = gql`
     userHasSubmitted
     userSubmitDate
     questions {
-      id
-      order
-      text
-      type {
-        __typename
-        ... on QuestionTypeText {
-          type
-          maxLength
-        }
-        ... on QuestionTypeChoice {
-          type
-          cardinality
-          options {
-            label
-            value
-            category
-          }
-        }
-        ... on QuestionTypeRange {
-          type
-          kind
-          ticks {
-            label
-            value
-          }
-        }
-        ... on QuestionTypeDocument {
-          type
-          template
+      ... on QuestionInterface {
+        id
+        order
+        text
+        userAnswer {
+          id
+          payload
         }
       }
-      userAnswer {
-        id
-        payload
+      ... on QuestionTypeText {
+        maxLength
+      }
+      ... on QuestionTypeChoice {
+        cardinality
+        options {
+          label
+          value
+          category
+        }
+      }
+      ... on QuestionTypeRange {
+        kind
+        ticks {
+          label
+          value
+        }
+      }
+      ... on QuestionTypeDocument {
+        template
       }
     }
   }
@@ -269,12 +282,12 @@ export default compose(
   }),
   graphql(submitAnswerMutation, {
     props: ({ mutate }) => ({
-      submitAnswer: (questionId, payload, answerId) => {
+      submitAnswer: (questionType, questionId, payload, answerId) => {
         const optimistic = {
           optimisticResponse: {
             __typename: 'Mutation',
             submitAnswer: {
-              __typename: 'Question',
+              __typename: 'QuestionInterface',
               id: questionId,
               userAnswer: {
                 __typename: 'Answer',

@@ -92,7 +92,7 @@ class RangeQuestion extends Component {
   }
 
   renderInput = () => {
-    const { question: { type: { ticks, kind } } } = this.props
+    const { question: { ticks, kind } } = this.props
     const { value } = this.state
     const [ min, max ] = ticks.reduce(
       (acc, cur) => {
@@ -117,7 +117,7 @@ class RangeQuestion extends Component {
       <div {...styles.sliderWrapper}>
         <input
           {...styles.slider}
-          {...(!value && styles.sliderDefault)}
+          {...(value === null && styles.sliderDefault)}
           type='range'
           min={min}
           max={max}
@@ -130,7 +130,7 @@ class RangeQuestion extends Component {
   }
 
   renderLabels = () => {
-    const { question: { type: { ticks } } } = this.props
+    const { question: { ticks } } = this.props
     return (
       <div {...styles.ticks}>
         {
@@ -142,11 +142,12 @@ class RangeQuestion extends Component {
     )
   }
 
+  onChangeDebounced = debounce(this.props.onChange, 100, {maxWait: 300})
+
   handleChange = (ev) => {
     const value = +ev.target.value
-    const { onChange } = this.props
     this.setState({ value })
-    onChange(value, true)
+    this.onChangeDebounced(value)
   }
 
   render () {

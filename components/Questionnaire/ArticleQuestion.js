@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { compose, graphql, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
+import debounce from 'lodash.debounce'
 
 import {
   colors,
@@ -22,7 +23,7 @@ const { H2, P, H3, A } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
-    return node.value
+    return node.value.trim()
   } else {
     if (node.children) {
       return node.children.map(renderCredits)
@@ -32,7 +33,7 @@ const renderCredits = (node) => {
 
 const ArticleItem = ({ title, credits }) =>
   <div>
-    <H3 {...css({ ...fontStyles.serifTitle26 })}>{title}</H3>
+    <H3 {...css({ ...fontStyles.serifTitle26, lineHeight: '28px' })}>{title}</H3>
     <P>{credits && credits.map(renderCredits).join(' ')}</P>
   </div>
 
@@ -74,6 +75,10 @@ class ArticleQuestion extends Component {
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 20,
+        paddingTop: 15,
+        paddingBottom: 15,
+        borderTop: `1px solid ${colors.text}`,
+        borderBottom: `1px solid ${colors.text}`,
       })}>
         <ArticleItem title={document.title}
           credits={document.credits} />
@@ -81,14 +86,23 @@ class ArticleQuestion extends Component {
           {...css({
             width: 24
           })}
-          onClick={() => this.handleChange(null)}><Close size={24} /></div>
+          onClick={() => this.handleChange(null)}><Close color={colors.primary} size={24} /></div>
       </div>
     )
   }
 
-  performSearch = async (search) => {
+  handleFilterChange = (filter) => {
+    this.performSearch.cancel()
+    if (filter.length < 3) {
+      this.setState({filter, items: []})
+    } else {
+      this.setState({filter}, () => this.performSearch(filter))
+    }
+  }
+
+  performSearch = debounce((search) => {
     const { client } = this.props
-    const res = await client.query({
+    client.query({
       query,
       variables: {
         search,
@@ -107,19 +121,20 @@ class ArticleQuestion extends Component {
           }
         ]
       }
+    }).then(res => {
+      const items = res.data ? res.data.search.nodes
+        .filter(n => n.entity)
+        .map(n => ({
+          document: {
+            title: n.entity.meta.title,
+            credits: n.entity.meta.credits
+          },
+          text: <ArticleItem title={n.entity.meta.title} credits={(n.entity.meta.credits || [])} />,
+          value: n.entity.meta.path
+        })) : []
+      this.setState({ items })
     })
-    const items = res.data ? res.data.search.nodes
-      .filter(n => n.entity)
-      .map(n => ({
-        document: {
-          title: n.entity.meta.title,
-          credit: n.entity.meta.credits
-        },
-        text: <ArticleItem title={n.entity.meta.title} credits={(n.entity.meta.credits || [])} />,
-        value: n.entity.meta.path
-      })) : []
-    this.setState({ items })
-  }
+  }, 200)
 
   render () {
     const { question: { text } } = this.props
@@ -135,10 +150,10 @@ class ArticleQuestion extends Component {
               this.renderSelectedItem()
             ) : (
               <Autocomplete
-                label='Artikel'
+                label='Artikel suchen'
                 items={items}
                 onChange={value => this.handleChange(value)}
-                onFilterChange={filter => this.setState({ filter }, () => this.performSearch(filter))}
+                onFilterChange={this.handleFilterChange}
               />
             )
           }

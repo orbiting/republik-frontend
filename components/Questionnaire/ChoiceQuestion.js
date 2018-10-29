@@ -11,6 +11,7 @@ import {
   FigureCaption,
   FigureImage,
   Interaction,
+  fontFamilies,
   mediaQueries,
   RawHtml,
   TextInput,
@@ -19,7 +20,7 @@ import {
   Radio,
   Label
 } from '@project-r/styleguide'
-const { H2 } = Interaction
+const { H2 , H3 } = Interaction
 
 const styles = {
   options: css({
@@ -33,6 +34,10 @@ const styles = {
       width: '50%',
     }
   }),
+  optionGroupHeader: css({
+    marginTop: 5,
+    marginBottom: 15,
+  }),
   option: css({
     clear: 'both',
     paddingBottom: 10,
@@ -42,7 +47,7 @@ const styles = {
 class ChoiceQuestion extends Component {
 
   handleChange = (value) => {
-    const { onChange, question: { userAnswer, type: { cardinality } } } = this.props
+    const { onChange, question: { userAnswer, cardinality } } = this.props
     const nextValue = new Set(userAnswer ? userAnswer.payload.value : [])
 
     if (cardinality === 0 || cardinality > 1) {
@@ -60,10 +65,9 @@ class ChoiceQuestion extends Component {
   }
 
   render () {
-    const { question: { text, userAnswer, type: { cardinality, options } } } = this.props
+    const { question: { text, userAnswer, cardinality, options } } = this.props
     const OptionComponent = (cardinality === 0 || cardinality > 1) ? Checkbox : Radio
     const optionGroups = nest().key(o => o.category).entries(options)
-    const groupCount = Object.keys(optionGroups).length
     const userAnswerValues = userAnswer ? userAnswer.payload.value : []
 
     return (
@@ -76,7 +80,7 @@ class ChoiceQuestion extends Component {
             optionGroups.map(({ key, values }) =>
               <div key={key} {...styles.optionGroup}>
                 {key !== 'null' &&
-                  <h4>{key}</h4>
+                  <H3 {...styles.optionGroupHeader}>{key}</H3>
                 }
                 <div>
                 {

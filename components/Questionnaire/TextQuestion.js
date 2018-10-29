@@ -39,17 +39,19 @@ class TextQuestion extends Component {
     }
   }
 
+  onChangeDebounced = debounce(this.props.onChange, 500, {maxWait: 1000})
+
   handleChange = (ev) => {
-    const { question: { type: { maxLength } }, onChange } = this.props
+    const { question: { maxLength } } = this.props
     const value = ev.target.value
-    this.setState({ value })
     if (value.length <= +maxLength) {
-      onChange(value, true)
+      this.setState({ value })
+      this.onChangeDebounced(value)
     }
   }
 
   render () {
-    const { question: { text, type: { maxLength } } } = this.props
+    const { question: { text, maxLength } } = this.props
     const { value } = this.state
     return (
       <div>

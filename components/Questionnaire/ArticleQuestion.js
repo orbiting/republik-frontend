@@ -15,7 +15,7 @@ import {
 import { questionStyles } from './questionStyles'
 import withT from '../../lib/withT'
 
-const { H2, H3 } = Interaction
+const { H2, H3, P } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
@@ -71,10 +71,8 @@ class ArticleQuestion extends Component {
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 20,
-        paddingTop: 15,
         paddingBottom: 15,
-        borderTop: `1px solid ${colors.text}`,
-        borderBottom: `1px solid ${colors.text}`
+        borderBottom: `1px solid ${colors.disabled}`
       })}>
         <ArticleItem title={document.title}
           credits={document.credits} />
@@ -82,7 +80,7 @@ class ArticleQuestion extends Component {
           {...css({
             width: 24
           })}
-          onClick={() => this.handleChange(null)}><Close color={colors.primary} size={24} /></div>
+          onClick={() => this.handleChange(null)}><Close size={24} /></div>
       </div>
     )
   }
@@ -137,9 +135,13 @@ class ArticleQuestion extends Component {
     const { value, items } = this.state
     return (
       <div>
-        { text &&
-          <H2 {...questionStyles.label}>{text}</H2>
-        }
+        <div {...questionStyles.label}>
+          { text &&
+            <H2>{text}</H2>
+          }
+          <P {...questionStyles.help}>{t('questionnaire/article/help')}</P>
+        </div>
+
         <div {...questionStyles.body}>
           {
             value ? (

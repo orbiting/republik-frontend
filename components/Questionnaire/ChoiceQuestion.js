@@ -9,7 +9,8 @@ import {
   Checkbox,
   Radio
 } from '@project-r/styleguide'
-const { H2, H3 } = Interaction
+import withT from '../../lib/withT'
+const { H2, H3, P } = Interaction
 
 const styles = {
   options: css({
@@ -21,6 +22,9 @@ const styles = {
     width: '100%',
     [mediaQueries.mUp]: {
       width: '50%'
+    },
+    [mediaQueries.lUp]: {
+      width: '33%'
     }
   }),
   optionGroupHeader: css({
@@ -53,16 +57,22 @@ class ChoiceQuestion extends Component {
   }
 
   render () {
-    const { question: { text, userAnswer, cardinality, options } } = this.props
-    const OptionComponent = (cardinality === 0 || cardinality > 1) ? Checkbox : Radio
+    const { question: { text, userAnswer, cardinality, options }, t } = this.props
+    const multipleAllowed = (cardinality === 0 || cardinality > 1)
+    const OptionComponent = multipleAllowed ? Checkbox : Radio
     const optionGroups = nest().key(o => o.category).entries(options)
     const userAnswerValues = userAnswer ? userAnswer.payload.value : []
 
     return (
       <div>
-        { text &&
-        <H2 {...questionStyles.label}>{text}</H2>
-        }
+        <div {...questionStyles.label}>
+          { text &&
+          <H2>{text}</H2>
+          }
+          { multipleAllowed &&
+          <P {...questionStyles.help}>{t('questionnaire/choice/helpMultiple')}</P>
+          }
+        </div>
         <div {...questionStyles.body} {...styles.options}>
           {
             optionGroups.map(({ key, values }) =>
@@ -93,4 +103,4 @@ class ChoiceQuestion extends Component {
   }
 }
 
-export default ChoiceQuestion
+export default withT(ChoiceQuestion)

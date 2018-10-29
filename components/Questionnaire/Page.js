@@ -38,10 +38,11 @@ const styles = {
   count: css({
     background: '#fff',
     zIndex: 10,
-    minHeight: 20,
     position: 'sticky',
     padding: '10px 0',
     borderBottom: `0.5px solid ${colors.divider}`,
+    display: 'flex',
+    minHeight: 55,
     top: HEADER_HEIGHT - 1,
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE - 1
@@ -74,7 +75,8 @@ const styles = {
   }),
   progressIcon: css({
     marginLeft: 5,
-    marginTop: 3
+    marginTop: 3,
+    minHeight: 30
   })
 }
 
@@ -162,21 +164,19 @@ class Page extends Component {
               <Headline>Umfrage</Headline>
               <P>{t('questionnaire/intro')}</P>
               <div {...styles.count}>
-                <div style={{ display: 'flex' }}>
-                  { error
-                    ? <P {...styles.error}>{errorToString(error)}</P>
-                    : <>
-                      <P {...styles.strong}>{t('questionnaire/header', { questionCount, userAnswerCount })}</P>
-                      {
-                        questionCount === userAnswerCount
-                          ? <div {...styles.progressIcon}><CheckCircle size={22} color={colors.primary} /></div>
-                          : this.state.updating
-                            ? <div style={{ marginLeft: 5, marginTop: 3 }}><InlineSpinner size={24} /></div>
-                            : null
-                      }
-                      </>
-                  }
-                </div>
+                { error
+                  ? <P {...styles.error}>{errorToString(error)}</P>
+                  : <>
+                    <P {...styles.strong}>{t('questionnaire/header', { questionCount, userAnswerCount })}</P>
+                    {
+                      questionCount === userAnswerCount
+                        ? <div {...styles.progressIcon}><CheckCircle size={22} color={colors.primary} /></div>
+                        : this.state.updating
+                          ? <div style={{ marginLeft: 5, marginTop: 3 }}><InlineSpinner size={24} /></div>
+                          : null
+                    }
+                    </>
+                }
               </div>
               {
                 questions.map(q =>

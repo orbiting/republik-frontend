@@ -2,7 +2,10 @@ import { css } from 'glamor'
 
 export const questionStyles = {
   label: css({
-    margin: '50px 0 20px 0'
+    margin: '30px 0 10px 0'
+  }),
+  help: css({
+    paddingTop: 15
   }),
   body: css({
     margin: '5px 0 10px 0',

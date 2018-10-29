@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-29T12:56:36.032Z",
+  "updated": "2018-10-29T15:18:09.296Z",
   "title": "live",
   "data": [
     {
@@ -3455,12 +3455,20 @@
       "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen!"
     },
     {
+      "key": "questionnaire/article/help",
+      "value": "Suchen Sie mit Titel oder Stichwort nach dem Artikel. Sie dürfen diese Frage auch überspringen."
+    },
+    {
       "key": "questionnaire/article/label",
       "value": "Artikel suchen"
     },
     {
       "key": "questionnaire/text/label",
       "value": "max. {maxLength} Zeichen"
+    },
+    {
+      "key": "questionnaire/choice/helpMultiple",
+      "value": "Sie dürfen mehrere Optionen auswählen."
     }
   ]
 }

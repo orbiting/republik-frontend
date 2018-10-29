@@ -126,15 +126,9 @@ class RangeQuestion extends Component {
   renderInput = () => {
     const { question: { ticks, kind } } = this.props
     const { value } = this.state
-    const [ min, max ] = ticks.reduce(
-      (acc, cur) => {
-        return [
-          Math.min(acc[0], cur.value),
-          Math.max(acc[1], cur.value)
-        ]
-      },
-      [Number.MAX_VALUE, Number.MIN_VALUE]
-    )
+    const tickValues = ticks.map(t => t.value)
+    const max = Math.max(...tickValues)
+    const min = Math.min(...tickValues)
 
     const step = kind === 'continous'
       ? ticks.length / 100
@@ -153,7 +147,7 @@ class RangeQuestion extends Component {
           min={min}
           max={max}
           step={step}
-          value={value === null || defaultValue}
+          value={value === null ? defaultValue : value}
           onChange={this.handleChange}
         />
       </div>

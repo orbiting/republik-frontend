@@ -65,7 +65,7 @@ const styles = {
 
 class Front extends Component {
   render () {
-    const { data, fetchMore, data: { front }, t, before, renderBefore, renderAfter } = this.props
+    const { data, fetchMore, data: { front }, t, renderBefore, renderAfter } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
@@ -77,7 +77,6 @@ class Front extends Component {
         raw
         meta={meta}
       >
-        {before}
         {renderBefore && renderBefore(meta)}
         <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
           if (!front) {

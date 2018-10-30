@@ -235,8 +235,9 @@ class Page extends Component {
 }
 
 const submitAnswerMutation = gql`
-mutation submitAnswer($questionId: ID!, $payload: JSON) {
+mutation submitAnswer($answerId: ID!, $questionId: ID!, $payload: JSON) {
   submitAnswer(answer: {
+    id: $answerId,
     questionId: $questionId,
     payload: $payload
   }) {
@@ -358,10 +359,11 @@ export default compose(
         }
         return mutate({
           variables: {
+            answerId,
             questionId,
             payload
           },
-          ...(answerId ? optimistic : {})
+          ...optimistic
         })
       }
     })

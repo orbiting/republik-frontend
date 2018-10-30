@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose, withApollo } from 'react-apollo'
 import { css, merge } from 'glamor'
 import debounce from 'lodash.debounce'
+import uuid from 'uuid/v4'
 
 import {
   colors,
@@ -116,6 +117,7 @@ class RangeQuestion extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
       ...this.deriveStateFromProps(props)
     }
   }
@@ -180,7 +182,7 @@ class RangeQuestion extends Component {
   onChangeDebounced = debounce(this.props.onChange, 500)
 
   handleChange = value => {
-    const answerId = this.props.question.userAnswer ? this.props.question.userAnswer.id : undefined
+    const { answerId } = this.state
     this.setState({ value })
     this.onChangeDebounced(answerId, value)
   }

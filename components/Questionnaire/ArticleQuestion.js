@@ -4,6 +4,7 @@ import { compose, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
 import debounce from 'lodash.debounce'
+import uuid from 'uuid/v4'
 
 import {
   Autocomplete,
@@ -53,13 +54,14 @@ class ArticleQuestion extends Component {
     this.state = {
       filter: '',
       items: [],
+      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
       ...this.deriveStateFromProps(props)
     }
   }
 
   handleChange = (value) => {
     const { onChange } = this.props
-    const answerId = this.props.question.userAnswer ? this.props.question.userAnswer.id : undefined
+    const { answerId } = this.state
     if (!value) {
       this.setState({ value: null, document: null }, () => onChange(answerId, null))
     } else {

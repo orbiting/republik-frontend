@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 import questionStyles from './questionStyles'
 import { nest } from 'd3-collection'
+import uuid from 'uuid/v4'
 
 import {
   Interaction,
@@ -44,6 +45,12 @@ const styles = {
 }
 
 class ChoiceQuestion extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid()
+    }
+  }
   handleChange = (value) => {
     const { onChange, question: { userAnswer, cardinality } } = this.props
     const nextValue = new Set(userAnswer ? userAnswer.payload.value : [])
@@ -59,7 +66,7 @@ class ChoiceQuestion extends Component {
       nextValue.add(value)
     }
 
-    const answerId = userAnswer ? userAnswer.id : undefined
+    const { answerId } = this.state
 
     onChange(answerId, [...nextValue])
   }

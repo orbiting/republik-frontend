@@ -33,12 +33,6 @@ const styles = {
     maxHeight: 50,
     width: '100%'
   }),
-  mouseCatcher: css({
-    position: 'absolute',
-    height: 24,
-    width: 24,
-    left: 'calc(50% - 12px)'
-  }),
   slider: css({
     WebkitAppearance: 'none',
     width: '100%',
@@ -148,12 +142,6 @@ class RangeQuestion extends Component {
 
     return (
       <div {...styles.sliderWrapper}>
-        { (value === null) && // catch clicks on slider thumb to set default value
-          <div
-            {...styles.mouseCatcher}
-            onMouseEnter={() => this.handleChange(defaultValue)}
-          />
-        }
         <input
           {...(value === null ? sliderDefault : styles.slider)}
           type='range'
@@ -162,6 +150,7 @@ class RangeQuestion extends Component {
           step={step}
           value={value === null ? defaultValue : value}
           onChange={e => this.handleChange(+e.target.value)}
+          onMouseDownCapture={() => (value === null) && this.handleChange(defaultValue)}
         />
       </div>
     )

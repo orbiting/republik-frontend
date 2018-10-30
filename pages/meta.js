@@ -18,27 +18,7 @@ import {
 
 } from '@project-r/styleguide'
 import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
-
-const BEHIND_GALLERY = [
-  {
-    src: 'https://assets.publikator.project-r.construction/assets/orbiting/newsletter-rechfertigungs-newsletter/images/9ac942f4bbf7876e274a8431c090e2569396b243.jpeg?size=4026x2265&resize=2000x',
-    alt: 'Lorem ipsum dolor',
-    caption: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaeget dolor.',
-    credit: 'Laurent Burst'
-  },
-  {
-    src: 'https://assets.project-r.construction/images/header_jobs.jpg',
-    alt: 'Lorem ipsum dolor',
-    caption: 'One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly.',
-    credit: 'Laurent Burst'
-  },
-  {
-    src: 'https://cdn.republik.space/s3/republik-assets/github/republik/newsletter-editorial-03-02-18/images/3441a605f74e9354e1ab4ce8765eda3fcbe691e7.jpeg?size=3503x1970&resize=1280x',
-    alt: 'Lorem ipsum dolor',
-    caption: 'One morning, when Gregor Samsa woke from troubled dreams.',
-    credit: 'Laurentine Verylong Burst'
-  }
-]
+import { data as BEHIND_GALLERY } from '../lib/meta/gallery.json'
 
 class MetaPage extends Component {
   static async getInitialProps () {
@@ -96,7 +76,10 @@ class MetaPage extends Component {
             <Figure>
               <div style={{ cursor: 'pointer' }} onClick={this.toggleGallery}>
                 <FigureImage
-                  src={galleryImage.src}
+                  {...FigureImage.utils.getResizedSrcs(
+                    galleryImage.src,
+                    700
+                  )}
                   alt={galleryImage.alt} />
               </div>
               <FigureCaption>

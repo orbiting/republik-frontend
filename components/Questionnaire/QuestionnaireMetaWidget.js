@@ -84,7 +84,7 @@ const SignupTile = ({ t }) =>
     </TeaserFrontLead>
   </TeaserFrontTile>
 
-class MetaWidget extends Component {
+class QuestionnaireMetaWidget extends Component {
   render () {
     const { data, t } = this.props
     return (
@@ -132,4 +132,4 @@ export default compose(
       pollInterval: ELECTION_STATS_POLL_INTERVAL
     }
   })
-)(MetaWidget)
+)(QuestionnaireMetaWidget)

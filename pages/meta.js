@@ -17,7 +17,7 @@ import {
   FigureByline
 
 } from '@project-r/styleguide'
-import MetaWidget from '../components/Questionnaire/MetaWidget'
+import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
 
 const BEHIND_GALLERY = [
   {
@@ -77,7 +77,7 @@ class MetaPage extends Component {
                 </TitleBlock>
               </div>
             }
-            <MetaWidget />
+            <QuestionnaireMetaWidget />
           </div>
         )}
         renderAfter={galleryImage ? () => (

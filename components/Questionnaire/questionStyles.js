@@ -2,7 +2,7 @@ import { css } from 'glamor'
 
 export default {
   label: css({
-    margin: '30px 0 10px 0'
+    margin: '50px 0 10px 0'
   }),
   help: css({
     paddingTop: 15

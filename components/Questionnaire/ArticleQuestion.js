@@ -21,10 +21,10 @@ const { H2, H3, P } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
-    return node.value.trim()
+    return node.value
   } else {
     if (node.children) {
-      return node.children.map(renderCredits)
+      return node.children.map(renderCredits).join('')
     }
   }
 }
@@ -45,7 +45,7 @@ const styles = {
 const ArticleItem = ({ title, credits }) =>
   <div>
     <H3 {...styles.previewTitle}>{title}</H3>
-    <div {...styles.previewCredits}>{credits && credits.map(renderCredits).join(' ')}</div>
+    <div {...styles.previewCredits}>{credits && credits.map(renderCredits).join('')}</div>
   </div>
 
 class ArticleQuestion extends Component {

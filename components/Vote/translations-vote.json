@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-29T21:17:07.797Z",
+  "updated": "2018-10-30T00:11:32.755Z",
   "title": "live",
   "data": [
     {
@@ -435,8 +435,8 @@
       "value": "Vielen Dank für Ihr Vertrauen und Ihr Engagement. Lesen Sie unseren <a href=\"#nl\">Resultatsverkündung</a> und die <a href=\"#\">Analyse von Stefan Scheidegger</a>. Die <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Wahldebatte</a> ist weiterhin für Verlerginnen und Verleger offen."
     },
     {
-      "key": "vote/voting/label",
-      "value": "{formattedFilledCount} Stimmen"
+      "key": "vote/votes",
+      "value": "{formattedCount} Stimmen"
     },
     {
       "key": "vote/voting/turnout",

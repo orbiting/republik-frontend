@@ -261,6 +261,7 @@ const electionsQuery = ELECTIONS.map(({ slug }) => `
           id
           user {
             id
+            username
             name
           }
           recommendation

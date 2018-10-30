@@ -15,37 +15,43 @@ const percentFormat = swissNumbers.format('.1%')
 const VOTE_BAR_CONFIG = {
   type: 'Bar',
   numberFormat: '.1%',
-  color: 'color',
+  color: 'option',
   colorSort: 'none',
-  colorRange: ['rgb(75,151,201)', 'rgb(239,69,51)'],
+  colorRange: 'diverging1',
   highlight: 'true',
   sort: 'none',
-  y: 'label',
-  xTicks: []
+  inlineValue: true,
+  inlineLabel: 'option',
+  inlineSecondaryLabel: 'votes'
 }
 const ELECTION_BAR_CONFIG_SINGLE = {
   type: 'Bar',
   numberFormat: 's',
-  color: 'color',
+  color: 'elected',
   colorSort: 'none',
-  colorRange: ['rgb(75,151,201)', '#bbb'],
+  colorRange: ['rgb(24,100,170)', '#bbb'],
   sort: 'none',
   y: 'label',
-  xTicks: [],
   column: 'category',
-  columns: 1
+  columns: 1,
+  inlineValue: true,
+  inlineValueUnit: 'Stimmen',
+  link: 'href'
 }
 const ELECTION_BAR_CONFIG_MULTIPLE = {
   type: 'Bar',
   numberFormat: 's',
-  color: 'color',
+  color: 'elected',
   colorSort: 'none',
-  colorRange: ['rgb(75,151,201)', '#bbb'],
+  colorRange: ['rgb(24,100,170)', '#bbb'],
   sort: 'none',
   y: 'label',
   column: 'category',
   columns: 2,
-  minInnerWidth: 170
+  minInnerWidth: 170,
+  inlineValue: true,
+  inlineValueUnit: 'Stimmen',
+  link: 'href'
 }
 
 const VoteResult = ({ votings, elections, vt, t }) =>
@@ -57,10 +63,10 @@ const VoteResult = ({ votings, elections, vt, t }) =>
       const filledCount = sum(results, r => r.count)
       const values = results.map(result => ({
         value: String(result.count / filledCount),
-        color: result.option.label // ,
-        // label: vt('vote/voting/label', {
-        //   formattedFilledCount: countFormat(filledCount)
-        // })
+        option: vt(`vote/voting/option${result.option.label}`),
+        votes: vt('vote/votes', {
+          formattedCount: countFormat(result.count)
+        })
       }))
       const emptyVotes = data.result.options.find(result => !result.option).count
 
@@ -75,7 +81,7 @@ const VoteResult = ({ votings, elections, vt, t }) =>
           <Chart t={t}
             config={VOTE_BAR_CONFIG}
             values={values} />
-          <Editorial.Note style={{ marginTop: -10 }}>
+          <Editorial.Note style={{ marginTop: 10 }}>
             {vt('vote/voting/turnout', {
               formattedPercent: percentFormat(submitted / eligible),
               formattedCount: countFormat(emptyVotes + filledCount),
@@ -94,8 +100,9 @@ const VoteResult = ({ votings, elections, vt, t }) =>
       const numNotElected = results.filter(r => !r.elected).length
       const values = results.map(result => ({
         value: String(result.count),
-        color: result.elected ? '1' : '0',
+        elected: result.elected ? '1' : '0',
         label: result.candidacy.user.name,
+        href: `/~${result.candidacy.user.username || result.candidacy.user.id}`,
         category: result.elected
           ? vt.pluralize('vote/election/elected', {
             count: numElected
@@ -116,7 +123,7 @@ const VoteResult = ({ votings, elections, vt, t }) =>
               ? ELECTION_BAR_CONFIG_SINGLE
               : ELECTION_BAR_CONFIG_MULTIPLE}
             values={values} />
-          <Editorial.Note style={{ marginTop: numElected === 1 ? -10 : 10 }}>
+          <Editorial.Note style={{ marginTop: 10 }}>
             {vt('vote/election/turnout', {
               formattedPercent: percentFormat(submitted / eligible),
               formattedCount: countFormat(emptyVotes + filledCount),

@@ -19,19 +19,21 @@ import {
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import voteT from './voteT'
 import {
-  CDN_FRONTEND_BASE_URL,
-  ELECTION_COOP_MEMBERS_SLUG,
-  ELECTION_COOP_PRESIDENT_SLUG,
-  VOTING_COOP_ACCOUNTS_SLUG,
-  VOTING_COOP_BOARD_SLUG,
-  VOTING_COOP_BUDGET_SLUG,
-  VOTING_COOP_DISCHARGE_SLUG
+  CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from './votingStage'
 import Loader from '../Loader'
 import VoteInfo from './VoteInfo'
 import AddressEditor from './AddressEditor'
 import VoteCounter from './VoteCounter'
+import VoteResult from './VoteResult'
+
+import {
+  ELECTION_COOP_MEMBERS_SLUG,
+  ELECTION_COOP_PRESIDENT_SLUG,
+  ELECTIONS,
+  VOTINGS
+} from './constants'
 
 const { P } = Interaction
 
@@ -90,13 +92,9 @@ class VotePage extends Component {
           const { me } = data
 
           const votingsAndElections = [
-            ELECTION_COOP_MEMBERS_SLUG,
-            ELECTION_COOP_PRESIDENT_SLUG,
-            VOTING_COOP_ACCOUNTS_SLUG,
-            VOTING_COOP_DISCHARGE_SLUG,
-            VOTING_COOP_BUDGET_SLUG,
-            VOTING_COOP_BOARD_SLUG
-          ].map(slug => this.props.data[slug])
+            ...VOTINGS.map(({ slug }) => data[slug]),
+            ...ELECTIONS.map(({ slug }) => data[slug])
+          ]
 
           const userIsDone = votingsAndElections
             .map(d => d.userHasSubmitted)
@@ -107,6 +105,10 @@ class VotePage extends Component {
             .map(d => now > new Date(d.endDate))
             .every(Boolean)
 
+          const hasResults = votingsAndElections
+            .map(d => d.result)
+            .every(Boolean)
+
           const missingAdress = userIsEligible && !me.address
 
           const dangerousDisabledHTML = missingAdress
@@ -115,7 +117,22 @@ class VotePage extends Component {
 
           return (
             <Fragment>
-              {hasEnded &&
+              {hasResults && <Section>
+                <Title>{ vt('vote/result/title') }</Title>
+                <Body dangerousHTML={vt('vote/result/lead')} />
+                <VoteResult
+                  votings={VOTINGS.map(({ id, slug }) => ({
+                    id,
+                    data: data[slug]
+                  }))}
+                  elections={ELECTIONS.map(({ id, slug }) => ({
+                    id,
+                    data: data[slug]
+                  }))} />
+                <Body dangerousHTML={vt('vote/result/after')} />
+                <div style={{ height: 80 }} />
+              </Section>}
+              {hasEnded && !hasResults &&
               <div {...styles.thankyou}>
                 <RawHtml
                   type={P}
@@ -158,57 +175,20 @@ class VotePage extends Component {
                 </Collapsible>
               </Section>
 
-              <Section>
-                <a {...styles.anchor} id='accounts' />
-                <Heading>{ vt('vote/jahresrechnung/title') }</Heading>
-                <Body dangerousHTML={vt('vote/jahresrechnung/body')} />
-                <Collapsible>
-                  <Small dangerousHTML={vt('vote/jahresrechnung/more')} />
-                </Collapsible>
-                <Voting
-                  slug={VOTING_COOP_ACCOUNTS_SLUG}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
-              </Section>
-
-              <Section>
-                <a {...styles.anchor} id='discharge' />
-                <Heading>{ vt('vote/discharge/title') }</Heading>
-                <Body dangerousHTML={vt('vote/discharge/body')} />
-                <Collapsible>
-                  <Small dangerousHTML={vt('vote/discharge/more')} />
-                </Collapsible>
-                <Voting
-                  slug={VOTING_COOP_DISCHARGE_SLUG}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
-              </Section>
-
-              <Section>
-                <a {...styles.anchor} id='budget' />
-                <Heading>{ vt('vote/budget/title') }</Heading>
-                <Body dangerousHTML={vt('vote/budget/body')} />
-                <Collapsible>
-                  <Small dangerousHTML={vt('vote/budget/more')} />
-                </Collapsible>
-                <Voting
-                  slug={VOTING_COOP_BUDGET_SLUG}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
-              </Section>
-
-              <Section>
-                <a {...styles.anchor} id='board' />
-                <Heading>{ vt('vote/board/title') }</Heading>
-                <Body dangerousHTML={vt('vote/board/body')} />
-                <Collapsible>
-                  <Small dangerousHTML={vt('vote/board/more')} />
-                </Collapsible>
-                <Voting
-                  slug={VOTING_COOP_BOARD_SLUG}
-                  dangerousDisabledHTML={dangerousDisabledHTML}
-                />
-              </Section>
+              {VOTINGS.map(({ id, slug }) => (
+                <Section key={id}>
+                  <a {...styles.anchor} id={id} />
+                  <Heading>{ vt(`vote/${id}/title`) }</Heading>
+                  <Body dangerousHTML={vt(`vote/${id}/body`)} />
+                  <Collapsible>
+                    <Small dangerousHTML={vt(`vote/${id}/more`)} />
+                  </Collapsible>
+                  <Voting
+                    slug={slug}
+                    dangerousDisabledHTML={dangerousDisabledHTML}
+                  />
+                </Section>
+              ))}
 
               <Section>
                 <a {...styles.anchor} id='president' />
@@ -261,7 +241,7 @@ class VotePage extends Component {
   }
 }
 
-const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG].map(slug => `
+const electionsQuery = ELECTIONS.map(({ slug }) => `
   ${slug}: election(slug: "${slug}") {
     id
     userHasSubmitted
@@ -270,17 +250,28 @@ const electionsQuery = [ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG
     beginDate
     endDate
     turnout {
+      eligible
       submitted
+    }
+    result {
+      candidacies {
+        count
+        elected
+        candidacy {
+          id
+          user {
+            id
+            username
+            name
+          }
+          recommendation
+        }
+      }
     }
    }
 `).join('\n')
 
-const votingsQuery = [
-  VOTING_COOP_ACCOUNTS_SLUG,
-  VOTING_COOP_DISCHARGE_SLUG,
-  VOTING_COOP_BUDGET_SLUG,
-  VOTING_COOP_BOARD_SLUG
-].map(slug => `
+const votingsQuery = VOTINGS.map(({ slug }) => `
   ${slug}: voting(slug: "${slug}") {
     id
     userHasSubmitted
@@ -288,8 +279,20 @@ const votingsQuery = [
     userIsEligible
     beginDate
     endDate
+    description
     turnout {
+      eligible
       submitted
+    }
+    result {
+      options {
+        count
+        winner
+        option {
+          id
+          label
+        }
+      }
     }
    }
 `).join('\n')

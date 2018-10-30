@@ -4,6 +4,7 @@ import { compose, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
 import debounce from 'lodash.debounce'
+import uuid from 'uuid/v4'
 
 import {
   Autocomplete,
@@ -20,17 +21,17 @@ const { H2, H3, P } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
-    return node.value.trim()
+    return node.value
   } else {
     if (node.children) {
-      return node.children.map(renderCredits)
+      return node.children.map(renderCredits).join('')
     }
   }
 }
 
 const styles = {
   previewTitle: css({
-    ...fontStyles.serifTitle22,
+    ...fontStyles.sansSerifMedium22,
     lineHeight: '24px'
   }),
   previewCredits: css({
@@ -44,7 +45,7 @@ const styles = {
 const ArticleItem = ({ title, credits }) =>
   <div>
     <H3 {...styles.previewTitle}>{title}</H3>
-    <div {...styles.previewCredits}>{credits && credits.map(renderCredits).join(' ')}</div>
+    <div {...styles.previewCredits}>{credits && credits.map(renderCredits).join('')}</div>
   </div>
 
 class ArticleQuestion extends Component {
@@ -53,13 +54,14 @@ class ArticleQuestion extends Component {
     this.state = {
       filter: '',
       items: [],
+      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
       ...this.deriveStateFromProps(props)
     }
   }
 
   handleChange = (value) => {
     const { onChange } = this.props
-    const answerId = this.props.question.userAnswer ? this.props.question.userAnswer.id : undefined
+    const { answerId } = this.state
     if (!value) {
       this.setState({ value: null, document: null }, () => onChange(answerId, null))
     } else {

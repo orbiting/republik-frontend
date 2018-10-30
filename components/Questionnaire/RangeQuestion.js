@@ -148,8 +148,11 @@ class RangeQuestion extends Component {
 
     return (
       <div {...styles.sliderWrapper}>
-        { value === null && // catch clicks on slider thumb to set default value
-          <div {...styles.mouseCatcher} onClick={() => this.handleChange(defaultValue)} />
+        { (value === null) && // catch clicks on slider thumb to set default value
+          <div
+            {...styles.mouseCatcher}
+            onMouseEnter={() => this.handleChange(defaultValue)}
+          />
         }
         <input
           {...(value === null ? sliderDefault : styles.slider)}

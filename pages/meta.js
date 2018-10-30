@@ -75,9 +75,9 @@ class MetaPage extends Component {
                   <Interaction.Headline>{meta.title}</Interaction.Headline>
                   <Editorial.Lead>{meta.description}</Editorial.Lead>
                 </TitleBlock>
-                <MetaWidget/>
               </div>
             }
+            <MetaWidget />
           </div>
         )}
         renderAfter={galleryImage ? () => (

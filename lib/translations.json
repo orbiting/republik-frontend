@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-29T15:18:09.296Z",
+  "updated": "2018-10-30T09:53:28.909Z",
   "title": "live",
   "data": [
     {
@@ -3453,6 +3453,10 @@
     {
       "key": "questionnaire/thankyou",
       "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen!"
+    },
+    {
+      "key": "questionnaire/thankyou2",
+      "value": "Hier finden Sie eine Übersicht über die Resultate."
     },
     {
       "key": "questionnaire/article/help",

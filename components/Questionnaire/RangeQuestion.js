@@ -8,8 +8,7 @@ import {
   Interaction
 } from '@project-r/styleguide'
 
-import { questionStyles } from './questionStyles'
-const { H2 } = Interaction
+import questionStyles from './questionStyles'
 
 const thumbSize = 24
 
@@ -29,8 +28,16 @@ const trackStyle = {
 
 const styles = {
   sliderWrapper: css({
+    position: 'relative',
     minHeight: 30,
-    maxHeight: 50
+    maxHeight: 50,
+    width: '100%'
+  }),
+  mouseCatcher: css({
+    position: 'absolute',
+    height: 24,
+    width: 24,
+    left: 'calc(50% - 12px)'
   }),
   slider: css({
     WebkitAppearance: 'none',
@@ -141,6 +148,9 @@ class RangeQuestion extends Component {
 
     return (
       <div {...styles.sliderWrapper}>
+        { value === null && // catch clicks on slider thumb to set default value
+          <div {...styles.mouseCatcher} onClick={() => this.handleChange(defaultValue)} />
+        }
         <input
           {...(value === null ? sliderDefault : styles.slider)}
           type='range'
@@ -148,7 +158,7 @@ class RangeQuestion extends Component {
           max={max}
           step={step}
           value={value === null ? defaultValue : value}
-          onChange={this.handleChange}
+          onChange={e => this.handleChange(+e.target.value)}
         />
       </div>
     )
@@ -169,10 +179,10 @@ class RangeQuestion extends Component {
 
   onChangeDebounced = debounce(this.props.onChange, 500)
 
-  handleChange = (ev) => {
-    const value = +ev.target.value
+  handleChange = value => {
+    const answerId = this.props.question.userAnswer ? this.props.question.userAnswer.id : undefined
     this.setState({ value })
-    this.onChangeDebounced(value)
+    this.onChangeDebounced(answerId, value)
   }
 
   render () {
@@ -180,7 +190,7 @@ class RangeQuestion extends Component {
     return (
       <div>
         { text &&
-          <H2 {...questionStyles.label}>{text}</H2>
+          <Interaction.H2 {...questionStyles.label}>{text}</Interaction.H2>
         }
         <div {...questionStyles.body}>
           {

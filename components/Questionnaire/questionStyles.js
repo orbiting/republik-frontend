@@ -1,6 +1,6 @@
 import { css } from 'glamor'
 
-export const questionStyles = {
+export default {
   label: css({
     margin: '30px 0 10px 0'
   }),

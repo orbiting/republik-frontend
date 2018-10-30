@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { questionStyles } from './questionStyles'
+import questionStyles from './questionStyles'
 import { nest } from 'd3-collection'
 
 import {
@@ -16,24 +16,30 @@ const styles = {
   options: css({
     display: 'flex',
     width: '100%',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginTop: 20
   }),
   optionGroup: css({
-    width: '100%',
-    [mediaQueries.mUp]: {
-      width: '50%'
-    },
-    [mediaQueries.lUp]: {
-      width: '33%'
-    }
+    width: '100%'
   }),
   optionGroupHeader: css({
     marginTop: 5,
     marginBottom: 15
   }),
+  optionList: css({
+    columnCount: 1,
+    [mediaQueries.mUp]: {
+      columnCount: 2
+    },
+    [mediaQueries.lUp]: {
+      columnCount: 3
+    }
+  }),
   option: css({
-    clear: 'both',
-    paddingBottom: 10
+    marginTop: 1,
+    marginBottom: 5,
+    display: 'flex',
+    breakInside: 'avoid-column'
   })
 }
 
@@ -53,7 +59,9 @@ class ChoiceQuestion extends Component {
       nextValue.add(value)
     }
 
-    onChange([...nextValue])
+    const answerId = userAnswer ? userAnswer.id : undefined
+
+    onChange(answerId, [...nextValue])
   }
 
   render () {
@@ -80,7 +88,7 @@ class ChoiceQuestion extends Component {
                 {key !== 'null' &&
                   <H3 {...styles.optionGroupHeader}>{key}</H3>
                 }
-                <div>
+                <div {...(multipleAllowed && styles.optionList)}>
                   {
                     values.map((o, i) =>
                       <div key={i} {...styles.option}>

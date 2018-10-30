@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Frame from '../Frame'
 import Loader from '../Loader'
+import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
@@ -24,6 +25,8 @@ import ChoiceQuestion from './ChoiceQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
+import { Link, Router } from '../../lib/routes'
+import StatusError from '../StatusError'
 
 const { Headline, P } = Interaction
 
@@ -65,7 +68,6 @@ const styles = {
   }),
   thankyou: css({
     background: colors.primaryBg,
-    display: 'flex',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -88,7 +90,7 @@ class Page extends Component {
 
   processSubmit = (fn, ...args) => {
     this.setState({ updating: true })
-    fn(...args)
+    return fn(...args)
       .then(() =>
         this.setState(() => ({
           updating: false,
@@ -98,26 +100,27 @@ class Page extends Component {
       .catch((error) => {
         this.setState(() => ({
           updating: false,
+          submitting: false,
           error
         }))
       })
   }
 
-  handleChange = (questionType, questionId, answerId) => (value) => {
-    const valueArg = value !== null ? { value } : null
+  createHandleChange = (questionId) => (answerId, value) => {
+    const payload = value !== null ? { value } : null
     this.processSubmit(
       this.props.submitAnswer,
-      questionType, questionId, valueArg, answerId
+      questionId, payload, answerId
     )
   }
 
-  handleSubmit = e => {
+  handleSubmit = () => {
+    this.setState({ submitting: true })
     const { submitQuestionnaire, data: { questionnaire: { id } } } = this.props
-    e.preventDefault()
     this.processSubmit(
       submitQuestionnaire,
       id
-    )
+    ).then(() => Router.pushRoute('/verlag').then(() => window.scrollTo(0, 0)))
   }
 
   handleReset = e => {
@@ -126,7 +129,7 @@ class Page extends Component {
     this.processSubmit(
       resetQuestionnaire,
       id
-    )
+    ).then(() => window.scrollTo(0, 0))
   }
 
   render () {
@@ -139,14 +142,19 @@ class Page extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
+          // handle not found or not started
+          if (!data.questionnaire || new Date(data.questionnaire.beginDate) > new Date()) {
+            return (
+              <StatusError
+                statusCode={404}
+                serverContext={this.props.serverContext} />
+            )
+          }
+
+          // handle already submitted
           const { questionnaire: { userHasSubmitted, questions } } = data
-
-          const questionCount = questions.filter(Boolean).length
-          const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
-
-          const { error } = this.state
-
-          if (userHasSubmitted) {
+          const { error, submitting, updating } = this.state
+          if (!submitting && userHasSubmitted) {
             return (
               <>
                 <Headline>{t('questionnaire/title')}</Headline>
@@ -154,11 +162,20 @@ class Page extends Component {
                   <P>
                     {t('questionnaire/thankyou')}
                   </P>
+                  <P>
+                    <Link route='/verlag' passHref>
+                      <A>Hier</A>
+                    </Link>{' '}
+                    {t('questionnaire/thankyou2')}
+                  </P>
                 </div>
               </>
             )
           }
 
+          // handle questions
+          const questionCount = questions.filter(Boolean).length
+          const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
           return (
             <div>
               <Headline>Umfrage</Headline>
@@ -171,7 +188,7 @@ class Page extends Component {
                     {
                       questionCount === userAnswerCount
                         ? <div {...styles.progressIcon}><CheckCircle size={22} color={colors.primary} /></div>
-                        : this.state.updating
+                        : (updating || submitting)
                           ? <div style={{ marginLeft: 5, marginTop: 3 }}><InlineSpinner size={24} /></div>
                           : null
                     }
@@ -183,7 +200,7 @@ class Page extends Component {
                   React.createElement(
                     QUESTION_TYPES[q.__typename],
                     {
-                      onChange: this.handleChange(q.__typename, q.id, q.userAnswer ? q.userAnswer.id : undefined),
+                      onChange: this.createHandleChange(q.id),
                       question: q,
                       key: q.id,
                       disabled: userHasSubmitted
@@ -195,9 +212,9 @@ class Page extends Component {
                 <Button
                   primary
                   onClick={this.handleSubmit}
-                  disabled={this.state.updating || userAnswerCount < 1}
+                  disabled={updating || submitting || userAnswerCount < 1}
                 >
-                  { this.state.updating
+                  { (updating || submitting)
                     ? <InlineSpinner size={40} />
                     : t('questionnaire/submit')
                   }
@@ -238,8 +255,6 @@ const resetQuestionnaireMutation = gql`
 mutation resetQuestionnaire($id: ID!) {
   resetQuestionnaire(id: $id) {
     id
-    userSubmitDate
-    userHasSubmitted
   }
 }
 `
@@ -255,8 +270,8 @@ mutation submitQuestionnaire($id: ID!) {
 `
 
 const query = gql`
-{
-  questionnaire(slug: "renew18") {
+query getQuestionnaire($slug: String!) {
+  questionnaire(slug: $slug) {
     id
     beginDate
     endDate
@@ -300,6 +315,7 @@ const query = gql`
 
 export default compose(
   withT,
+  withRouter,
   graphql(submitQuestionnaireMutation, {
     props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {
@@ -312,20 +328,20 @@ export default compose(
     })
   }),
   graphql(resetQuestionnaireMutation, {
-    props: ({ mutate }) => ({
+    props: ({ mutate, ownProps: { router } }) => ({
       resetQuestionnaire: (id) => {
         return mutate({
           variables: {
             id
           },
-          refetchQueries: [{ query }]
+          refetchQueries: [{ query, variables: { slug: router.query.slug } }]
         })
       }
     })
   }),
   graphql(submitAnswerMutation, {
     props: ({ mutate }) => ({
-      submitAnswer: (questionType, questionId, payload, answerId) => {
+      submitAnswer: (questionId, payload, answerId) => {
         const optimistic = {
           optimisticResponse: {
             __typename: 'Mutation',
@@ -350,5 +366,11 @@ export default compose(
       }
     })
   }),
-  graphql(query)
+  graphql(query, {
+    options: ({ router }) => ({
+      variables: {
+        slug: router.query.slug
+      }
+    })
+  })
 )(Page)

@@ -9,10 +9,11 @@ import {
   Autocomplete,
   colors,
   fontStyles,
-  Interaction
+  Interaction,
+  mediaQueries
 } from '@project-r/styleguide'
 
-import { questionStyles } from './questionStyles'
+import questionStyles from './questionStyles'
 import withT from '../../lib/withT'
 
 const { H2, H3, P } = Interaction
@@ -27,10 +28,23 @@ const renderCredits = (node) => {
   }
 }
 
+const styles = {
+  previewTitle: css({
+    ...fontStyles.serifTitle22,
+    lineHeight: '24px'
+  }),
+  previewCredits: css({
+    ...fontStyles.sansSerifRegular14,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular16
+    }
+  })
+}
+
 const ArticleItem = ({ title, credits }) =>
   <div>
-    <H3 {...css({ ...fontStyles.serifTitle22, lineHeight: '24px' })}>{title}</H3>
-    <div>{credits && credits.map(renderCredits).join(' ')}</div>
+    <H3 {...styles.previewTitle}>{title}</H3>
+    <div {...styles.previewCredits}>{credits && credits.map(renderCredits).join(' ')}</div>
   </div>
 
 class ArticleQuestion extends Component {
@@ -45,10 +59,11 @@ class ArticleQuestion extends Component {
 
   handleChange = (value) => {
     const { onChange } = this.props
+    const answerId = this.props.question.userAnswer ? this.props.question.userAnswer.id : undefined
     if (!value) {
-      this.setState({ value: null, document: null }, () => onChange(null))
+      this.setState({ value: null, document: null }, () => onChange(answerId, null))
     } else {
-      this.setState({ value }, () => onChange(value.value))
+      this.setState({ value }, () => onChange(answerId, value.value))
     }
   }
 

@@ -31,7 +31,7 @@ const renderCredits = (node) => {
 
 const styles = {
   previewTitle: css({
-    ...fontStyles.serifTitle22,
+    ...fontStyles.sansSerifMedium22,
     lineHeight: '24px'
   }),
   previewCredits: css({

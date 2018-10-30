@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { questionStyles } from './questionStyles'
+import questionStyles from './questionStyles'
 import debounce from 'lodash.debounce'
 
 import {
@@ -32,11 +32,12 @@ class TextQuestion extends Component {
   onChangeDebounced = debounce(this.props.onChange, 1000)
 
   handleChange = (ev) => {
-    const { question: { maxLength } } = this.props
+    const { question: { userAnswer, maxLength } } = this.props
+    const answerId = userAnswer ? userAnswer.id : undefined
     const value = ev.target.value
     if (value.length <= +maxLength) {
       this.setState({ value })
-      this.onChangeDebounced(value)
+      this.onChangeDebounced(answerId, value)
     }
   }
 

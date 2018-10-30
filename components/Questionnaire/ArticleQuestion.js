@@ -1,28 +1,25 @@
 import React, { Component } from 'react'
 import gql from 'graphql-tag'
-import { compose, graphql, withApollo } from 'react-apollo'
+import { compose, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
+import debounce from 'lodash.debounce'
 
 import {
+  Autocomplete,
   colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  TextInput,
   fontStyles,
-  Autocomplete
+  Interaction
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
-const { H2, P, H3, A } = Interaction
+import withT from '../../lib/withT'
+
+const { H2, H3, P } = Interaction
 
 const renderCredits = (node) => {
   if (node.type === 'text') {
-    return node.value
+    return node.value.trim()
   } else {
     if (node.children) {
       return node.children.map(renderCredits)
@@ -32,8 +29,8 @@ const renderCredits = (node) => {
 
 const ArticleItem = ({ title, credits }) =>
   <div>
-    <H3 {...css({ ...fontStyles.serifTitle26 })}>{title}</H3>
-    <P>{credits && credits.map(renderCredits).join(' ')}</P>
+    <H3 {...css({ ...fontStyles.serifTitle22, lineHeight: '24px' })}>{title}</H3>
+    <div>{credits && credits.map(renderCredits).join(' ')}</div>
   </div>
 
 class ArticleQuestion extends Component {
@@ -74,6 +71,8 @@ class ArticleQuestion extends Component {
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: 20,
+        paddingBottom: 15,
+        borderBottom: `1px solid ${colors.disabled}`
       })}>
         <ArticleItem title={document.title}
           credits={document.credits} />
@@ -86,9 +85,18 @@ class ArticleQuestion extends Component {
     )
   }
 
-  performSearch = async (search) => {
+  handleFilterChange = (filter) => {
+    this.performSearch.cancel()
+    if (filter.length < 3) {
+      this.setState({ filter, items: [] })
+    } else {
+      this.setState({ filter }, () => this.performSearch(filter))
+    }
+  }
+
+  performSearch = debounce((search) => {
     const { client } = this.props
-    const res = await client.query({
+    client.query({
       query,
       variables: {
         search,
@@ -107,38 +115,43 @@ class ArticleQuestion extends Component {
           }
         ]
       }
+    }).then(res => {
+      const items = res.data ? res.data.search.nodes
+        .filter(n => n.entity)
+        .map(n => ({
+          document: {
+            title: n.entity.meta.title,
+            credits: n.entity.meta.credits
+          },
+          text: <ArticleItem title={n.entity.meta.title} credits={(n.entity.meta.credits || [])} />,
+          value: n.entity.meta.path
+        })) : []
+      this.setState({ items })
     })
-    const items = res.data ? res.data.search.nodes
-      .filter(n => n.entity)
-      .map(n => ({
-        document: {
-          title: n.entity.meta.title,
-          credit: n.entity.meta.credits
-        },
-        text: <ArticleItem title={n.entity.meta.title} credits={(n.entity.meta.credits || [])} />,
-        value: n.entity.meta.path
-      })) : []
-    this.setState({ items })
-  }
+  }, 200)
 
   render () {
-    const { question: { text } } = this.props
+    const { question: { text }, t } = this.props
     const { value, items } = this.state
     return (
       <div>
-        { text &&
-          <H2 {...questionStyles.label}>{text}</H2>
-        }
+        <div {...questionStyles.label}>
+          { text &&
+            <H2>{text}</H2>
+          }
+          <P {...questionStyles.help}>{t('questionnaire/article/help')}</P>
+        </div>
+
         <div {...questionStyles.body}>
           {
             value ? (
               this.renderSelectedItem()
             ) : (
               <Autocomplete
-                label='Artikel'
+                label={t('questionnaire/article/label')}
                 items={items}
-                onChange={value => this.handleChange(value)}
-                onFilterChange={filter => this.setState({ filter }, () => this.performSearch(filter))}
+                onChange={this.handleChange}
+                onFilterChange={this.handleFilterChange}
               />
             )
           }
@@ -168,6 +181,6 @@ query getSearchResults($search: String, $after: String, $sort: SearchSortInput, 
 `
 
 export default compose(
+  withT,
   withApollo
-//  graphql()
 )(ArticleQuestion)

@@ -68,10 +68,12 @@ class MetaPage extends Component {
       <Front
         renderBefore={meta => (
           <div style={{ marginTop: 20 }}>
-            <TitleBlock center>
-              <Interaction.Headline>{meta.title}</Interaction.Headline>
-              <Editorial.Lead>{meta.description}</Editorial.Lead>
-            </TitleBlock>
+            { meta &&
+              <TitleBlock center>
+                <Interaction.Headline>{meta.title}</Interaction.Headline>
+                <Editorial.Lead>{meta.description}</Editorial.Lead>
+              </TitleBlock>
+            }
           </div>
         )}
         renderAfter={galleryImage ? () => (

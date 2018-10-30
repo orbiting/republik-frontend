@@ -1,20 +1,11 @@
-import React, { Component } from 'react'
 import { css } from 'glamor'
-
-import {
-  colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  TextInput
-} from '@project-r/styleguide'
 
 export const questionStyles = {
   label: css({
-    margin: '50px 0 10px 0'
+    margin: '30px 0 10px 0'
+  }),
+  help: css({
+    paddingTop: 15
   }),
   body: css({
     margin: '5px 0 10px 0',

@@ -1,59 +1,89 @@
 import React, { Component } from 'react'
-import gql from 'graphql-tag'
-import { compose, graphql, withApollo } from 'react-apollo'
-import Close from 'react-icons/lib/md/close'
-import { css, merge, select } from 'glamor'
+import { compose, withApollo } from 'react-apollo'
+import { css, merge } from 'glamor'
 import debounce from 'lodash.debounce'
-import { range } from 'd3-array'
 
 import {
   colors,
-  NarrowContainer,
-  FigureCaption,
-  FigureImage,
-  Interaction,
-  mediaQueries,
-  RawHtml,
-  TextInput,
-  fontStyles,
-  Autocomplete
+  Interaction
 } from '@project-r/styleguide'
 
 import { questionStyles } from './questionStyles'
-const { H2, H3, P, A } = Interaction
+const { H2 } = Interaction
+
+const thumbSize = 24
+
+const thumbStyle = {
+  borderWidth: 0,
+  borderRadius: '50%',
+  width: thumbSize,
+  height: thumbSize,
+  background: colors.primary,
+  outline: 'none'
+}
+
+const trackStyle = {
+  background: colors.secondaryBg,
+  height: 5
+}
 
 const styles = {
   sliderWrapper: css({
-    height: 25,
+    minHeight: 30,
+    maxHeight: 50
   }),
   slider: css({
-    '-webkit-appearance': 'none',
-    background: colors.secondaryBg,
+    WebkitAppearance: 'none',
     width: '100%',
-    height: 5,
+    background: 'transparent',
     outline: 'none',
-    opacity: 1,
+    ':focus': {
+      outline: 'none'
+    },
+    // thumb
     '::-webkit-slider-thumb': {
-      '-webkit-appearance': 'none',
-      borderRadius: 12,
-      width: 24,
-      height: 24,
-      background: colors.primary
+      ...thumbStyle,
+      WebkitAppearance: 'none',
+      marginTop: -9
     },
     '::-moz-range-thumb': {
-      width: 25,
-      height: 25,
-      background: colors.primary
+      ...thumbStyle
+    },
+    '::-ms-thumb': {
+      ...thumbStyle
+    },
+    // track
+    '::-webkit-slider-runnable-track': {
+      ...trackStyle,
+      width: '100%'
+    },
+    '::-moz-range-track': {
+      ...trackStyle,
+      width: '100%'
+    },
+    '::-ms-track': {
+      width: '100%',
+      borderColor: 'transparent',
+      color: 'transparent',
+      background: 'transparent',
+      height: thumbSize
+    },
+    '::-ms-fill-lower': {
+      ...trackStyle
+    },
+    '::-ms-fill-upper': {
+      ...trackStyle
     }
   }),
-  sliderDefault: css({
-    background: colors.secondaryBg,
+  sliderEmpty: css({
     '::-webkit-slider-thumb': {
-      '-webkit-appearance': 'none',
       background: colors.disabled
     },
     '::-moz-range-thumb': {
-      background: '#000'
+      background: colors.disabled
+    },
+    '::-ms-thumb': {
+      background: colors.disabled
     }
   }),
   ticks: css({
@@ -73,6 +103,8 @@ const styles = {
   })
 }
 
+const sliderDefault = merge(styles.slider, styles.sliderEmpty)
+
 class RangeQuestion extends Component {
   constructor (props) {
     super(props)
@@ -82,7 +114,7 @@ class RangeQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : {value: null}
+    return props.question.userAnswer ? props.question.userAnswer.payload : { value: null }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -92,37 +124,30 @@ class RangeQuestion extends Component {
   }
 
   renderInput = () => {
-    const { question: { type: { ticks, kind } } } = this.props
+    const { question: { ticks, kind } } = this.props
     const { value } = this.state
-    const [ min, max ] = ticks.reduce(
-      (acc, cur) => {
-        return [
-          Math.min(acc[0], cur.value),
-          Math.max(acc[1], cur.value)
-        ]
-      },
-      [0, 0]
-    )
+    const tickValues = ticks.map(t => t.value)
+    const max = Math.max(...tickValues)
+    const min = Math.min(...tickValues)
 
     const step = kind === 'continous'
       ? ticks.length / 100
       : Math.abs(max - min) /
           (ticks.length % 2 === 0 ? ticks.length : ticks.length + 1)
 
-    const defaultValue = min < 0 || max < 0 && !(min < 0 && max < 0)
+    const defaultValue = (min < 0 || max < 0) && !(min < 0 && max < 0)
       ? 0
       : Math.abs(min - max) / 2
 
     return (
       <div {...styles.sliderWrapper}>
         <input
-          {...styles.slider}
-          {...(!value && styles.sliderDefault)}
+          {...(value === null ? sliderDefault : styles.slider)}
           type='range'
           min={min}
           max={max}
           step={step}
-          value={value || defaultValue}
+          value={value === null ? defaultValue : value}
           onChange={this.handleChange}
         />
       </div>
@@ -130,7 +155,7 @@ class RangeQuestion extends Component {
   }
 
   renderLabels = () => {
-    const { question: { type: { ticks } } } = this.props
+    const { question: { ticks } } = this.props
     return (
       <div {...styles.ticks}>
         {
@@ -142,11 +167,12 @@ class RangeQuestion extends Component {
     )
   }
 
+  onChangeDebounced = debounce(this.props.onChange, 500)
+
   handleChange = (ev) => {
     const value = +ev.target.value
-    const { onChange } = this.props
     this.setState({ value })
-    onChange(value, true)
+    this.onChangeDebounced(value)
   }
 
   render () {
@@ -171,5 +197,4 @@ class RangeQuestion extends Component {
 
 export default compose(
   withApollo
-//  graphql()
 )(RangeQuestion)

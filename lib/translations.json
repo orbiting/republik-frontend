@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-30T09:53:28.909Z",
+  "updated": "2018-10-30T15:55:53.763Z",
   "title": "live",
   "data": [
     {
@@ -3424,7 +3424,7 @@
     },
     {
       "key": "questionnaire/title",
-      "value": "Umfrage"
+      "value": "Republik-Umfrage"
     },
     {
       "key": "questionnaire/description",
@@ -3456,7 +3456,7 @@
     },
     {
       "key": "questionnaire/thankyou2",
-      "value": "Hier finden Sie eine Übersicht über die Resultate."
+      "value": " finden Sie eine Übersicht über die Resultate."
     },
     {
       "key": "questionnaire/article/help",
@@ -3473,6 +3473,22 @@
     {
       "key": "questionnaire/choice/helpMultiple",
       "value": "Sie dürfen mehrere Optionen auswählen."
+    },
+    {
+      "key": "pages/meta/questionnaire/counterText",
+      "value": "Mitglieder haben bei der Umfrage bereits mitgemacht."
+    },
+    {
+      "key": "pages/meta/questionnaire/thankyou",
+      "value": "Danke fürs Mitmachen!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionTitle",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionLabel",
+      "value": "Jetzt mitmachen"
     }
   ]
 }

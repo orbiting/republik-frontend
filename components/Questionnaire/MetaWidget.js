@@ -100,7 +100,7 @@ class MetaWidget extends Component {
             }
             <TeaserFrontTile color={colors.text} bgColor='#fff'>
               <TeaserFrontTileHeadline.Interaction>
-                <div {...styles.number}>{countFormat(12345 + submitted)}</div>
+                <div {...styles.number}>{countFormat(submitted)}</div>
               </TeaserFrontTileHeadline.Interaction>
               <TeaserFrontLead>
                 <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>

@@ -17,6 +17,7 @@ import {
   FigureByline
 
 } from '@project-r/styleguide'
+import MetaWidget from '../components/Questionnaire/MetaWidget'
 
 const BEHIND_GALLERY = [
   {
@@ -69,10 +70,13 @@ class MetaPage extends Component {
         renderBefore={meta => (
           <div style={{ marginTop: 20 }}>
             { meta &&
-              <TitleBlock center>
-                <Interaction.Headline>{meta.title}</Interaction.Headline>
-                <Editorial.Lead>{meta.description}</Editorial.Lead>
-              </TitleBlock>
+              <div>
+                <TitleBlock center>
+                  <Interaction.Headline>{meta.title}</Interaction.Headline>
+                  <Editorial.Lead>{meta.description}</Editorial.Lead>
+                </TitleBlock>
+                <MetaWidget/>
+              </div>
             }
           </div>
         )}

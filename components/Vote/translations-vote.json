@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-30T00:11:32.755Z",
+  "updated": "2018-10-30T13:54:53.007Z",
   "title": "live",
   "data": [
     {
@@ -444,11 +444,11 @@
     },
     {
       "key": "vote/voting/winner/YES",
-      "value": "Angenommen mit {formattedPercent} Ja-Stimmen."
+      "value": "Die Vorlage wurde angenommen."
     },
     {
       "key": "vote/voting/winner/NO",
-      "value": "Abgelehnt mit {formattedPercent} Nein-Stimmen."
+      "value": "Die Vorlage wurde abgelehnt."
     },
     {
       "key": "vote/election/elected/1",

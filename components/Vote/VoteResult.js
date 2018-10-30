@@ -75,9 +75,9 @@ const VoteResult = ({ votings, elections, vt, t }) =>
       return (
         <Fragment key={id}>
           <ChartTitle>{data.description}</ChartTitle>
-          <ChartLead>{vt(`vote/voting/winner/${winner.option.label}`, {
+          {!!winner && <ChartLead>{vt(`vote/voting/winner/${winner.option.label}`, {
             formattedPercent: percentFormat(winner.count / filledCount)
-          })}</ChartLead>
+          })}</ChartLead>}
           <Chart t={t}
             config={VOTE_BAR_CONFIG}
             values={values} />

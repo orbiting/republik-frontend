@@ -18,12 +18,12 @@ import {
 
 } from '@project-r/styleguide'
 import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
-import { data as BEHIND_GALLERY } from '../lib/meta/gallery.json'
+import { data as gallery } from '../lib/meta/gallery.json'
 
 class MetaPage extends Component {
   static async getInitialProps () {
     return {
-      galleryItems: shuffle(BEHIND_GALLERY)
+      galleryItems: shuffle(gallery)
     }
   }
   constructor (props) {
@@ -48,20 +48,16 @@ class MetaPage extends Component {
     return (
       <Front
         renderBefore={meta => (
-          <div style={{ marginTop: 20 }}>
-            { meta &&
-              <div>
-                <TitleBlock center>
-                  <Interaction.Headline>{meta.title}</Interaction.Headline>
-                  <Editorial.Lead>{meta.description}</Editorial.Lead>
-                </TitleBlock>
-              </div>
-            }
+          meta && <div style={{ marginTop: 20 }}>
+            <TitleBlock center>
+              <Interaction.Headline>{meta.title}</Interaction.Headline>
+              <Editorial.Lead>{meta.description}</Editorial.Lead>
+            </TitleBlock>
             <QuestionnaireMetaWidget />
           </div>
         )}
-        renderAfter={galleryImage ? () => (
-          <Center style={{ marginBottom: 100 }}>
+        renderAfter={galleryImage ? meta => (
+          meta && <Center style={{ marginBottom: 100 }}>
             <Interaction.H3 style={{
               marginTop: 30,
               marginBottom: 20,

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-31T16:21:03.145Z",
+  "updated": "2018-10-31T17:35:59.390Z",
   "title": "live",
   "data": [
     {
@@ -3480,7 +3480,7 @@
     },
     {
       "key": "pages/meta/questionnaire/counterText",
-      "value": "Mitglieder haben bei der Umfrage bereits teilgenommen."
+      "value": "Mitglieder haben an der Umfrage bereits teilgenommen."
     },
     {
       "key": "pages/meta/questionnaire/thankyou",

@@ -19,6 +19,17 @@ import {
 } from '@project-r/styleguide'
 import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
 import { data as gallery } from '../lib/meta/gallery.json'
+import withT from '../lib/withT'
+
+const GallerHeading = withT(({ t }) => (
+  <Interaction.H3 style={{
+    marginTop: 30,
+    marginBottom: 20,
+    textAlign: 'center'
+  }}>
+    {t('pages/meta/behind/gallery')}
+  </Interaction.H3>
+))
 
 class MetaPage extends Component {
   static async getInitialProps () {
@@ -58,13 +69,7 @@ class MetaPage extends Component {
         )}
         renderAfter={galleryImage ? meta => (
           meta && <Center style={{ marginBottom: 100 }}>
-            <Interaction.H3 style={{
-              marginTop: 30,
-              marginBottom: 20,
-              textAlign: 'center'
-            }}>
-              Bilder aus der Redaktion
-            </Interaction.H3>
+            <GallerHeading />
             {this.state.gallery && <Gallery
               onClose={this.toggleGallery}
               items={galleryItems}

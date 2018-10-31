@@ -160,7 +160,11 @@ class Page extends Component {
                 <Headline>{t('questionnaire/title')}</Headline>
                 <div {...styles.thankyou}>
                   <P>
-                    {t('questionnaire/thankyou')}
+                    {t.elements('questionnaire/thankyou', {
+                      metaLink: <Link key='meta' route='/verlag' passHref>
+                        <A>{t('questionnaire/thankyou/metaText')}</A>
+                      </Link>
+                    })}
                   </P>
                   <P>
                     <Link route='/verlag' passHref>

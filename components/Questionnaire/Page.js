@@ -15,7 +15,8 @@ import {
   Button,
   A,
   InlineSpinner,
-  fontFamilies
+  fontFamilies,
+  RawHtml
 } from '@project-r/styleguide'
 
 import TextQuestion from './TextQuestion'
@@ -38,6 +39,9 @@ const QUESTION_TYPES = {
 }
 
 const styles = {
+  intro: css({
+    marginTop: 35
+  }),
   count: css({
     background: '#fff',
     zIndex: 10,
@@ -67,11 +71,11 @@ const styles = {
     fontFamily: fontFamilies.sansSerifMedium
   }),
   thankyou: css({
+    marginTop: 35,
     background: colors.primaryBg,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 30,
     padding: 30,
     textAlign: 'center'
   }),
@@ -182,8 +186,10 @@ class Page extends Component {
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
           return (
             <div>
-              <Headline>Umfrage</Headline>
-              <P>{t('questionnaire/intro')}</P>
+              <Headline>{t('questionnaire/title')}</Headline>
+              <div {...styles.intro}>
+                <RawHtml type={P} dangerouslySetInnerHTML={{ __html: t('questionnaire/intro') }} /><br />
+              </div>
               <div {...styles.count}>
                 { error
                   ? <P {...styles.error}>{errorToString(error)}</P>

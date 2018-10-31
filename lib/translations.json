@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-31T09:59:13.042Z",
+  "updated": "2018-10-31T10:04:24.023Z",
   "title": "live",
   "data": [
     {
@@ -3460,7 +3460,7 @@
     },
     {
       "key": "questionnaire/article/help",
-      "value": "Suchen Sie mit Titel oder Stichwort nach dem Artikel. Sie können diese Frage auch überspringen."
+      "value": "Suchen Sie mit dem Titel oder einem Stichwort nach dem Artikel. Sie können diese Frage auch überspringen."
     },
     {
       "key": "questionnaire/article/label",

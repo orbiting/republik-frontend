@@ -37,9 +37,9 @@ const styles = {
     }
   }),
   option: css({
-    marginTop: 1,
+    marginTop: 0,
     marginBottom: 5,
-    display: 'flex',
+    display: 'table',
     breakInside: 'avoid-column'
   })
 }

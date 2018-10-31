@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-30T13:54:53.007Z",
+  "updated": "2018-10-31T13:02:45.591Z",
   "title": "live",
   "data": [
     {
@@ -332,7 +332,7 @@
     },
     {
       "key": "vote/discussion/intro",
-      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober fanden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
     },
     {
       "key": "vote/discussion/boardTitle",
@@ -424,15 +424,15 @@
     },
     {
       "key": "vote/result/title",
-      "value": "Die Resultate der Urabstimmung"
+      "value": "So haben Sie entschieden"
     },
     {
       "key": "vote/result/lead",
-      "value": "Die kompletten Ergebnisse in der Übersicht."
+      "value": "Willkommen zu den Resultaten der ersten Urabstimmung von Project R. Die Abstimmungen und Wahlen fanden vom 17. bis zum 28.&nbsp;Oktober 2018 statt. Die Gesamtstimmbeteiligung betrug 24,8&nbsp;%. Eingeladen waren alle Verlegerinnen und Verleger der «Republik», die 20’446 Mitglieder der Project R Genossenschaft. 5072 von Ihnen haben teilgenommen, herzlichen Dank!"
     },
     {
       "key": "vote/result/after",
-      "value": "Vielen Dank für Ihr Vertrauen und Ihr Engagement. Lesen Sie unseren <a href=\"#nl\">Resultatsverkündung</a> und die <a href=\"#\">Analyse von Stefan Scheidegger</a>. Die <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Wahldebatte</a> ist weiterhin für Verlerginnen und Verleger offen."
+      "value": "Vielen Dank für Ihr Vertrauen, Ihr Engagement, <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Ihre Fragen und Ihre Kritik</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"#nl\">Newsletter</a>."
     },
     {
       "key": "vote/votes",
@@ -469,6 +469,10 @@
     {
       "key": "vote/election/turnout",
       "value": "Wahlbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
+    },
+    {
+      "key": "vote/election/members/footnote",
+      "value": "4657 Personen haben mindestens eine Stimme abgegeben. Davon haben 2466, oder 53,0%, den Wahlvorschlag für den Genossenschaftsrat unverändert übernommen."
     }
   ]
 }

@@ -118,6 +118,7 @@ const VoteResult = ({ votings, elections, vt, t }) =>
       const emptyVotes = empty ? empty.count : 0
 
       const { eligible, submitted } = data.turnout
+      const manualFootnote = vt(`vote/election/${id}/footnote`, undefined, null)
 
       return (
         <Fragment key={id}>
@@ -134,6 +135,7 @@ const VoteResult = ({ votings, elections, vt, t }) =>
               formattedEmptyCount: countFormat(emptyVotes),
               formattedFilledCount: countFormat(filledCount)
             })}
+            {manualFootnote ? <span> {manualFootnote}</span> : null}
           </Editorial.Note>
         </Fragment>
       )

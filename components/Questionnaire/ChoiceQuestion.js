@@ -68,7 +68,7 @@ class ChoiceQuestion extends Component {
 
     const { answerId } = this.state
 
-    onChange(answerId, [...nextValue])
+    onChange(answerId, Array.from(nextValue))
   }
 
   render () {

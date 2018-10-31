@@ -72,7 +72,7 @@ class VotePage extends Component {
     const { vt, data } = this.props
 
     const meta = {
-      title: vt('info/title'),
+      title: vt('vote/sm/title'),
       description: vt('vote/sm/description'),
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote.jpg`
     }

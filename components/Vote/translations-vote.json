@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-31T13:02:45.591Z",
+  "updated": "2018-10-31T14:42:49.225Z",
   "title": "live",
   "data": [
     {
@@ -419,8 +419,12 @@
       "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 31.&nbsp;Oktober."
     },
     {
+      "key": "vote/sm/title",
+      "value": "Project R hat abgestimmt: Das sind die Resultate"
+    },
+    {
       "key": "vote/sm/description",
-      "value": "Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches: Bis zum 28. Oktober sind die virtuellen Urnen offen."
+      "value": "Danke an alle, die sich am demokratischen Experiment beteiligt haben."
     },
     {
       "key": "vote/result/title",

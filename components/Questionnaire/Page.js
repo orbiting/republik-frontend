@@ -351,9 +351,14 @@ export default compose(
     })
   }),
   graphql(submitAnswerMutation, {
-    props: ({ mutate }) => ({
+    props: ({ mutate, ownProps: { router } }) => ({
       submitAnswer: (questionId, payload, answerId) => {
-        const optimistic = {
+        return mutate({
+          variables: {
+            answerId,
+            questionId,
+            payload
+          },
           optimisticResponse: {
             __typename: 'Mutation',
             submitAnswer: {
@@ -365,15 +370,14 @@ export default compose(
                 payload
               }
             }
-          }
-        }
-        return mutate({
-          variables: {
-            answerId,
-            questionId,
-            payload
           },
-          ...optimistic
+          update: (proxy, { data: { submitAnswer } }) => {
+            const queryObj = { query, variables: { slug: router.query.slug } }
+            const data = proxy.readQuery(queryObj)
+            const questionIx = data.questionnaire.questions.findIndex(q => q.id === questionId)
+            data.questionnaire.questions[questionIx].userAnswer = submitAnswer.userAnswer
+            proxy.writeQuery({ ...queryObj, data })
+          }
         })
       }
     })

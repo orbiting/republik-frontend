@@ -194,13 +194,6 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
           />
           <br />
           <NavLink
-            route='meta'
-            translation={t('nav/meta')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
-          <NavLink
             route='events'
             translation={t('nav/events')}
             active={active}
@@ -219,6 +212,13 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
               <br />
             </Fragment>
           )}
+          <NavLink
+            route='meta'
+            translation={t('nav/meta')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}

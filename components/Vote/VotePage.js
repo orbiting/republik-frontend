@@ -25,7 +25,6 @@ import { getVotingStage, VOTING_STAGES } from './votingStage'
 import Loader from '../Loader'
 import VoteInfo from './VoteInfo'
 import AddressEditor from './AddressEditor'
-import VoteCounter from './VoteCounter'
 import VoteResult from './VoteResult'
 
 import {
@@ -146,7 +145,6 @@ class VotePage extends Component {
                   <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
-                <VoteCounter hasEnded={hasEnded} />
                 <Body dangerousHTML={vt('vote/intro/body1')} />
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />

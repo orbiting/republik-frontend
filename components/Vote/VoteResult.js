@@ -68,7 +68,9 @@ const VoteResult = ({ votings, elections, vt, t }) =>
           formattedCount: countFormat(result.count)
         })
       }))
-      const emptyVotes = data.result.options.find(result => !result.option).count
+
+      const empty = data.result.options.find(result => !result.option)
+      const emptyVotes = empty ? empty.count : 0
 
       const { eligible, submitted } = data.turnout
 
@@ -111,7 +113,9 @@ const VoteResult = ({ votings, elections, vt, t }) =>
             count: numNotElected
           })
       }))
-      const emptyVotes = data.result.candidacies.find(result => !result.candidacy).count
+
+      const empty = data.result.candidacies.find(result => !result.candidacy)
+      const emptyVotes = empty ? empty.count : 0
 
       const { eligible, submitted } = data.turnout
 

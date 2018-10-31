@@ -41,13 +41,13 @@ const Preview = ({ me, isMember, meta, t }) => {
     </Frame>
     }
     {me && <Front
-      beforeNote={
+      renderBefore={() => (
         <Box>
           <Container>
             <Prestitial me={me} isMember={isMember} t={t} />
           </Container>
         </Box>
-      }
+      )}
       meta={meta}
       path='/preview-front'
     />}

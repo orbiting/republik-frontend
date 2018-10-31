@@ -18,6 +18,7 @@
     "precommit": "lint-staged",
     "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
+    "meta-gallery": "gsheets --key=1lN4fGI7yHWoWewEbdpaRDWqysAOvO0Xtd1cdImIKG3Q --title=gallery --pretty --out lib/meta/gallery.json",
     "analyze": "BUNDLE_ANALYZE=both next build",
     "analyze:server": "BUNDLE_ANALYZE=server next build",
     "analyze:browser": "BUNDLE_ANALYZE=browser next build",
@@ -92,7 +93,7 @@
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "^6.5.0",
+    "@project-r/styleguide": "^6.6.0",
     "@zeit/next-bundle-analyzer": "^0.1.2",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",

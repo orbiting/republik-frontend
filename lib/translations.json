@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-24T13:30:49.296Z",
+  "updated": "2018-10-31T10:04:24.023Z",
   "title": "live",
   "data": [
     {
@@ -3421,6 +3421,78 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "questionnaire/title",
+      "value": "Republik-Umfrage"
+    },
+    {
+      "key": "questionnaire/description",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "questionnaire/intro",
+      "value": "Geehrte Frau Verlegerin<br/>\nGeehrter Herr Verleger<br/>\n<br/>\nEs freut uns ausserordentlich, dass Sie Ihre Aufsichtspflicht wahrnehmen. Und zur Verbesserung der Republik beitragen. Antworten Sie ohne Rücksicht, ohne Skrupel, aber mit Weisheit. Und ohne Furcht: Es wird Sie nicht mehr als 10 Minuten kosten.<br/>\n<br/>\nMit Dank<br/>\nIhre Crew von Project R und der Republik"
+    },
+    {
+      "key": "questionnaire/header",
+      "value": "Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet."
+    },
+    {
+      "key": "questionnaire/invalid",
+      "value": "Bitte beantworten Sie mindestens eine Frage."
+    },
+    {
+      "key": "questionnaire/submit",
+      "value": "Abschicken"
+    },
+    {
+      "key": "questionnaire/cancel",
+      "value": "Abbrechen"
+    },
+    {
+      "key": "questionnaire/thankyou",
+      "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen! {metaLink} finden Sie eine Übersicht über die Resultate."
+    },
+    {
+      "key": "questionnaire/thankyou/metaText",
+      "value": "Hier"
+    },
+    {
+      "key": "questionnaire/article/help",
+      "value": "Suchen Sie mit dem Titel oder einem Stichwort nach dem Artikel. Sie können diese Frage auch überspringen."
+    },
+    {
+      "key": "questionnaire/article/label",
+      "value": "Artikel suchen"
+    },
+    {
+      "key": "questionnaire/text/label",
+      "value": "max. {maxLength} Zeichen"
+    },
+    {
+      "key": "questionnaire/choice/helpMultiple",
+      "value": "Sie dürfen mehrere Optionen auswählen."
+    },
+    {
+      "key": "pages/meta/questionnaire/counterText",
+      "value": "Mitglieder haben bei der Umfrage bereits mitgemacht."
+    },
+    {
+      "key": "pages/meta/questionnaire/thankyou",
+      "value": "Danke fürs Mitmachen!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionTitle",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionLabel",
+      "value": "Jetzt mitmachen"
+    },
+    {
+      "key": "pages/meta/behind/gallery",
+      "value": "Hinter den Kulissen"
     }
   ]
 }

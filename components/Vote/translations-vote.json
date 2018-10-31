@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-25T12:11:16.468Z",
+  "updated": "2018-10-31T14:57:54.330Z",
   "title": "live",
   "data": [
     {
@@ -147,24 +147,16 @@
       "value": "<strong>Wer kann abstimmen und wählen?</strong>\n\nWählen und abstimmen können alle Personen, die am 16. Oktober Mitglied der Project R Genossenschaft waren (und bis zur Stimmabgabe sind). Wenn Sie ein Jahresabo der «Republik» erworben haben, sind Sie das.\n\n<strong>Wie gebe ich meine Stimme ab?</strong>\n\nWenn Sie Ihre Stimme einmal abgegeben und bestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen. Darum: Nehmen Sie sich Zeit. Sie können eine Pause einlegen und einzelne Fragen zu einem späteren Zeitpunkt beantworten.\n\nFür die Abstimmungen und die Vorstandswahl wählen Sie eine der Alternativen «Ja» oder «Nein» oder legen Sie leer ein, indem Sie keine Antwort auswählen. Dann klicken Sie auf «Abstimmen» und «Stimme bestätigen». \n\nDen Genossenschaftsrat und dessen Präsidium wählen Sie, indem Sie die Kandidatinnen oder Kandidaten in der Liste auswählen und anschliessend auf «Wählen» und dann auf «Wahl bestätigen» klicken. Sie können sich der Stimme enthalten, indem Sie keine Kandidatin oder keinen Kandidaten auswählen und trotzdem auf «Wählen» und dann auf «Wahl bestätigen» klicken.\n\n<strong>Wie werden die Abstimmungen ausgezählt?</strong>\n\nSie haben, wie jedes Mitglied, eine Stimme für jeden Abstimmungsgegenstand und die Nachwahl für den Vorstand. Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten können oder wollen. Wir weisen die leeren Stimmen aus, sie zählen für die Stimmbeteiligung, für die Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ein Abstimmungsgegenstand gilt als angenommen, wenn mit über der Hälfte der abgegebenen Stimmen ein «Ja» erreicht wird, ohne Berücksichtigung der Enthaltungen.\n\n<strong>Wie werden die Wahlen ausgezählt?</strong>\n\nFür die Wahlen des Genossenschaftsrats und dessen Präsidium gilt das relative Mehr, das heisst, die Kandidatinnen und Kandidaten mit den meisten Stimmen sind gewählt. Sie haben für jeden offenen Sitz eine Stimme. Enthaltungen zählen für die Stimmbeteiligung, nicht aber für die Ermittlung des relativen Mehrs. \n\n<strong>Der Zeitplan?</strong>\n\n17.10.–28.10.2018: Die Mitglieder von Project R wählen und stimmen ab.<br />\n31.10.2018: Wir geben die Wahl- und Abstimmungsresultate bekannt.\n\n<strong>Statuten und Finanzierung</strong>\n\nDie detaillierten Wahl- und Abstimmungsbedingungen finden Sie in den <a target=\"_blank\" target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A>.<br />\nMehr zum Bauplan und zur Finanzierung finden Sie <a target=\"_blank\" target=\"_blank\" href='https://project-r.construction/newsletter/2017-11-22-finanzierung'>in diesem Newsletter</A>."
     },
     {
-      "key": "vote/jahresrechnung/title",
+      "key": "vote/accounts/title",
       "value": "Jahresrechnung und Revisionsbericht 2017/2018"
     },
     {
-      "key": "vote/jahresrechnung/body",
+      "key": "vote/accounts/body",
       "value": "Bevor wir zu den Köpfen kommen, reden wir über Geld. Sie haben uns mit Ihrem Jahresabonnement viel Geld gegeben. Sie haben ein Recht darauf zu wissen, was damit geschehen ist, und über die Jahresrechnung abzustimmen.\n\nDie genauen Zahlen finden Sie im <a target=\"_blank\" href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf'>integrierten Geschäftsbericht</A> der beiden Gesellschaften Republik AG und Project R Genossenschaft. Ein Teil davon ist die <a target=\"_blank\" href='https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Project+R+-+Jahresrechnung+2017-18.pdf'>Jahresrechnung 2017/2018 der Project R Genossenschaft inklusive Revisionsbericht</A>, über die Sie abstimmen."
     },
     {
-      "key": "vote/jahresrechnung/more",
+      "key": "vote/accounts/more",
       "value": "<strong>Was, wenn die Jahresrechnung abgelehnt wird?</strong>\n\nNun, dann wird es richtig kompliziert. Wir könnten zum Beispiel die Steuererklärung für die Genossenschaft nicht einreichen. Natürlich ist es Ihr gutes Recht, die Jahresrechnung abzulehnen. Aber wir würden uns sehr wünschen, dass Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A> dazu vorher kurz anschreiben. Vielleicht finden wir einen gemeinsamen Weg. \n\n<strong>Weitere Fragen?</strong>\n\nHaben Sie zur Jahresrechnung Fragen an die R-Crew? Schreiben Sie uns in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A>. Oder haben Sie Fragen an die Revisoren zur Durchführung und zum Ergebnis der Prüfung? Auch diese können Sie in der <a target=\"_blank\" href='/vote/genossenschaft/diskutieren?discussion=gen18board'>Wahldebatte</A> stellen. Wir sammeln die Fragen bis zum 23. Oktober, und Sie erhalten dort bis zum 25. Oktober eine Antwort."
-    },
-    {
-      "key": "vote/revisionsbericht/body",
-      "value": "Vertrauen ist gut, Kontrolle ist besser. Und das in zweierlei Hinsicht. Erstens haben die Revisoren der\nBDO AG unsere Jahresrechnung sehr genau gelesen. Sie haben kritische Fragen dazu gestellt und sie\nschliesslich für gut befunden. Und zweitens ist es nun an Ihnen, die Wächter zu überwachen. Sie stimmen\nüber den Revisionsbericht ab. Lesen können Sie diesen <a target=\"_blank\" href='/static/genossenschaft/Project%20R%20-%20Revisionsbericht.pdf'>hier</A>."
-    },
-    {
-      "key": "vote/revisionsbericht/more",
-      "value": "Auch zu dieser Fragen haben Sie, wie jedes Mitglied, eine Stimme. Wählen Sie eine der Alternativen «Ja»,\n«Nein» oder «Leer einlegen», und klicken Sie auf «Abstimmen». Wenn Sie Ihre Stimme einmal abgegeben und\nbestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen.\n\nSie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht\nbeantworten\nkönnen oder wollen. Wir weisen die leeren Stimmen aus, und sie zählen für die Stimmbeteiligung. Für die\nBeschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ob der Revisionsbericht angenommen wird,\nentscheidet das Verhältnis zwischen den Ja-Stimmen und den Nein-Stimmen."
     },
     {
       "key": "vote/discharge/title",
@@ -340,7 +332,7 @@
     },
     {
       "key": "vote/discussion/intro",
-      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober finden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/genossenschaft'>Urabstimmung</A> vom 17. bis zum 28. Oktober fanden drei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
     },
     {
       "key": "vote/discussion/boardTitle",
@@ -427,8 +419,64 @@
       "value": "Guten Tag. Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 31.&nbsp;Oktober."
     },
     {
+      "key": "vote/sm/title",
+      "value": "Project R hat abgestimmt: Das sind die Resultate"
+    },
+    {
       "key": "vote/sm/description",
-      "value": "Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches: Bis zum 28. Oktober sind die virtuellen Urnen offen."
+      "value": "Danke an alle, die sich am demokratischen Experiment beteiligt haben."
+    },
+    {
+      "key": "vote/result/title",
+      "value": "So haben Sie entschieden"
+    },
+    {
+      "key": "vote/result/lead",
+      "value": "Willkommen zu den Resultaten der ersten Urabstimmung von Project R. Die Abstimmungen und Wahlen fanden vom 17. bis zum 28.&nbsp;Oktober 2018 statt. Die Gesamtstimmbeteiligung betrug 24,8&nbsp;%. Eingeladen waren alle Verlegerinnen und Verleger der «Republik», die 20’446 Mitglieder der Project R Genossenschaft. 5072 von Ihnen haben teilgenommen, herzlichen Dank!"
+    },
+    {
+      "key": "vote/result/after",
+      "value": "Vielen Dank für Ihr Vertrauen, Ihr Engagement, <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Ihre Fragen und Ihre Kritik</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"https://project-r.construction/newsletter/2018-10-31-resultate-urabstimmung-umfrage\">Newsletter</a>."
+    },
+    {
+      "key": "vote/votes",
+      "value": "{formattedCount} Stimmen"
+    },
+    {
+      "key": "vote/voting/turnout",
+      "value": "Stimmbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
+    },
+    {
+      "key": "vote/voting/winner/YES",
+      "value": "Die Vorlage wurde angenommen."
+    },
+    {
+      "key": "vote/voting/winner/NO",
+      "value": "Die Vorlage wurde abgelehnt."
+    },
+    {
+      "key": "vote/election/elected/1",
+      "value": "Gewählt ist"
+    },
+    {
+      "key": "vote/election/elected/other",
+      "value": "Gewählt sind"
+    },
+    {
+      "key": "vote/election/notElected/1",
+      "value": "Nicht gewählt ist"
+    },
+    {
+      "key": "vote/election/notElected/other",
+      "value": "Nicht gewählt sind"
+    },
+    {
+      "key": "vote/election/turnout",
+      "value": "Wahlbeteiligung: {formattedPercent}. Es sind {formattedCount} Stimmen eingegangen, davon {formattedEmptyCount} leer."
+    },
+    {
+      "key": "vote/election/members/footnote",
+      "value": "4657 Personen haben mindestens eine Stimme abgegeben. Davon haben 2466, oder 53,0%, den Wahlvorschlag für den Genossenschaftsrat unverändert übernommen."
     }
   ]
 }

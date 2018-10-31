@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-31T14:42:49.225Z",
+  "updated": "2018-10-31T14:57:54.330Z",
   "title": "live",
   "data": [
     {
@@ -436,7 +436,7 @@
     },
     {
       "key": "vote/result/after",
-      "value": "Vielen Dank für Ihr Vertrauen, Ihr Engagement, <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Ihre Fragen und Ihre Kritik</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"#nl\">Newsletter</a>."
+      "value": "Vielen Dank für Ihr Vertrauen, Ihr Engagement, <a href=\"/vote/genossenschaft/diskutieren?discussion=gen18board\">Ihre Fragen und Ihre Kritik</a>. Lesen Sie zu den Resultaten auch unseren <a href=\"https://project-r.construction/newsletter/2018-10-31-resultate-urabstimmung-umfrage\">Newsletter</a>."
     },
     {
       "key": "vote/votes",

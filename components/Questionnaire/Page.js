@@ -170,12 +170,6 @@ class Page extends Component {
                       </Link>
                     })}
                   </P>
-                  <P>
-                    <Link route='/verlag' passHref>
-                      <A>Hier</A>
-                    </Link>{' '}
-                    {t('questionnaire/thankyou2')}
-                  </P>
                 </div>
               </>
             )

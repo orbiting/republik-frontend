@@ -63,9 +63,9 @@ class ArticleQuestion extends Component {
     const { onChange } = this.props
     const { answerId } = this.state
     if (!value) {
-      this.setState({ value: null, document: null }, () => onChange(answerId, null))
+      this.setState({ value: null, document: {} }, () => onChange(answerId, null))
     } else {
-      this.setState({ value }, () => onChange(answerId, value.value))
+      this.setState({ ...value }, () => onChange(answerId, value.value))
     }
   }
 
@@ -76,11 +76,12 @@ class ArticleQuestion extends Component {
   }
 
   deriveStateFromProps (props) {
-    return { value: props.question.userAnswer ? props.question.userAnswer.payload : null }
+    return props.question.userAnswer ? props.question.userAnswer.payload : null
   }
 
   renderSelectedItem = () => {
-    const { value: { document } } = this.state
+    const { document } = this.state
+
     return (
       <div {...css({
         display: 'flex',

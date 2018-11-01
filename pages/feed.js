@@ -19,7 +19,7 @@ const FeedPage = ({ me, t }) => {
 }
 
 export default compose(
-  enforceMembership,
+  enforceMembership(),
   withMe,
   withT
 )(FeedPage)

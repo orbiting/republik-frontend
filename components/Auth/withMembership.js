@@ -16,7 +16,7 @@ import withAuthorization, { PageCenter } from './withAuthorization'
 const UnauthorizedMessage = compose(
   withT,
   withInNativeApp
-)(({ t, me, inNativeIOSApp }) => {
+)(({ t, me, inNativeIOSApp, unauthorizedTexts: { title, description } }) => {
   if (inNativeIOSApp) {
     return (
       <Fragment>
@@ -64,34 +64,36 @@ const UnauthorizedMessage = compose(
   }
   return (
     <Fragment>
-      <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
+      <Interaction.H1>{title || t('withMembership/title')}</Interaction.H1>
       <br />
       <SignIn beforeForm={(
         <Interaction.P style={{ marginBottom: 20 }}>
-          {t.elements('withMembership/signIn/note', {
-            buyLink: (
-              <Link key='pledge' route='pledge'>
-                <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
-              </Link>
-            ),
-            moreLink: (
-              <Link route='index'>
-                <a {...linkRule}>
-                  {t('withMembership/signIn/note/moreText')}
-                </a>
-              </Link>
-            )
-          })}
+          { description ||
+            t.elements('withMembership/signIn/note', {
+              buyLink: (
+                <Link key='pledge' route='pledge'>
+                  <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
+                </Link>
+              ),
+              moreLink: (
+                <Link route='index'>
+                  <a {...linkRule}>
+                    {t('withMembership/signIn/note/moreText')}
+                  </a>
+                </Link>
+              )
+            }
+            )}
         </Interaction.P>
       )} />
     </Fragment>
   )
 })
 
-export const UnauthorizedPage = ({ me }) => (
-  <Frame raw>
+export const UnauthorizedPage = ({ me, meta, unauthorizedTexts }) => (
+  <Frame meta={meta} raw>
     <PageCenter>
-      <UnauthorizedMessage me={me} />
+      <UnauthorizedMessage {...{ me, unauthorizedTexts }} />
     </PageCenter>
   </Frame>
 )
@@ -113,11 +115,11 @@ export const WithMembership = withAuthorization(['member'])(({
   return null
 })
 
-export const enforceMembership = WrappedComponent => withAuthorization(['member'])(({ isAuthorized, me, ...props }) => {
+export const enforceMembership = (meta, unauthorizedTexts) => WrappedComponent => withAuthorization(['member'])(({ isAuthorized, me, ...props }) => {
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} />
+  return <UnauthorizedPage {...{ me, meta, unauthorizedTexts }} />
 })
 
 export default withAuthorization(['member'], 'isMember')

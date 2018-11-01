@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-01T14:14:30.982Z",
+  "updated": "2018-11-01T14:52:05.716Z",
   "title": "live",
   "data": [
     {
@@ -3499,16 +3499,8 @@
       "value": "Vielen Dank für Ihr Interesse an unserer Umfrage. Unsere Mitglieder und Abonnentinnen können daran teilnehmen – {buyLink}"
     },
     {
-      "key": "pages/meta/questionnaire/unauthorized2",
-      "value": "Sie haben schon ein Abo?"
-    },
-    {
       "key": "pages/meta/questionnaire/unauthorized/buyText",
       "value": "kommen Sie an Bord!"
-    },
-    {
-      "key": "pages/meta/questionnaire/unauthorized/accountText",
-      "value": "Jetzt anmelden."
     },
     {
       "key": "pages/meta/questionnaire/socialTitle",

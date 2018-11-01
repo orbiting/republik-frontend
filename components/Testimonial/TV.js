@@ -90,7 +90,7 @@ const fontSizeBoost = length => {
 }
 
 const Item = ({ loading, error, t, statement }) => (
-  <Loader loading={!statement && loading} error={!statement && error} render={() => {
+  <Loader loading={loading || (!statement && !error)} error={error} render={() => {
     const { statement: statementString, portrait, name, role, sequenceNumber } = statement
     return (
       <div {...styles.container}>
@@ -141,7 +141,7 @@ const query = gql`query statements {
 export default compose(
   withT,
   graphql(query, {
-    props: ({ data, ownProps: { name } }) => {
+    props: ({ data }) => {
       return ({
         loading: data.loading,
         error: data.error,

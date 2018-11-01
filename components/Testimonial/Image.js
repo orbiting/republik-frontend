@@ -52,10 +52,7 @@ class Image extends Component {
   }
   render () {
     const {
-      statement,
-      statement: {
-        portrait, name, sequenceNumber
-      }
+      statement
     } = this.props
 
     return (
@@ -69,8 +66,8 @@ class Image extends Component {
               this.next()
               this.tick()
             }}
-            src={portrait}
-            alt={`${sequenceNumber} – ${name}`} />
+            src={statement.portrait}
+            alt={`${statement.sequenceNumber} – ${statement.name}`} />
         )} />
       </div>
     )
@@ -88,7 +85,7 @@ const query = gql`query aSequence($sequenceNumber: Int!, $orderDirection: OrderD
 
 export default compose(
   graphql(query, {
-    props: ({ data, ownProps: { name } }) => {
+    props: ({ data }) => {
       return ({
         loading: data.loading,
         error: data.error,

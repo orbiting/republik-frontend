@@ -7,8 +7,7 @@ import { t } from '../lib/withT'
 import { Link } from '../lib/routes'
 
 import {
-  A,
-  Interaction
+  A
 } from '@project-r/styleguide'
 
 const meta = {
@@ -22,26 +21,13 @@ const meta = {
   twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
 }
 
-const description =
-  <>
-    <Interaction.P>
-      {
-        t.elements('pages/meta/questionnaire/unauthorized', {
-          buyLink: (
-            <Link key='pledge' route='pledge'>
-              <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
-            </Link>
-          )
-        })
-      }
-    </Interaction.P>
-    <br />
-    <Interaction.P>
-      {
-        t('pages/meta/questionnaire/unauthorized2')
-      }
-    </Interaction.P>
-  </>
+const description = t.elements('pages/meta/questionnaire/unauthorized', {
+  buyLink: (
+    <Link key='pledge' route='pledge'>
+      <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
+    </Link>
+  )
+})
 
 export default compose(
   enforceMembership(meta, { title: t('questionnaire/title'), description })

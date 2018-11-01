@@ -212,58 +212,65 @@ class Search extends Component {
         this.setState({ isMobile })
       }
     }
+
+    this.setStateFromQuery = (query) => {
+      let filters = DEFAULT_FILTERS
+      let newState = {}
+      const decodedQuery = !!query.q && decodeURIComponent(query.q)
+
+      if (decodedQuery && decodedQuery !== this.state.searchQuery) {
+        newState = {
+          ...newState,
+          searchQuery: decodedQuery,
+          submittedQuery: decodedQuery,
+          filterQuery: decodedQuery
+        }
+      }
+
+      if (query.filters) {
+        const rawFilters = typeof query.filters === 'string' ? query.filters : query.filters[0]
+        const sanitizedFilters = deserializeFilters(rawFilters)
+        const serializedFilters = serializeFilters(sanitizedFilters)
+
+        if (serializedFilters !== this.state.serializedFilters) {
+          newState = {
+            ...newState,
+            filters: filters.concat(sanitizedFilters),
+            serializedFilters
+          }
+        }
+      }
+
+      if (query.sort) {
+        const rawSort = typeof query.sort === 'string' ? query.sort : query.sort[0]
+        const sanitizedSort = deserializeSort(rawSort)
+        const serializedSort = serializeSort(sanitizedSort)
+
+        if (serializedSort !== this.state.serializedSort) {
+          newState = {
+            ...newState,
+            sort: sanitizedSort,
+            serializedSort
+          }
+        }
+      }
+
+      if (newState.submittedQuery || newState.filters || newState.sort) {
+        this.setState(newState)
+      }
+    }
   }
 
   componentWillReceiveProps ({ query }) {
-    let filters = DEFAULT_FILTERS
-    let newState = {}
-    const decodedQuery = !!query.q && decodeURIComponent(query.q)
-
-    if (decodedQuery && decodedQuery !== this.state.searchQuery) {
-      newState = {
-        ...newState,
-        searchQuery: decodedQuery,
-        submittedQuery: decodedQuery,
-        filterQuery: decodedQuery
-      }
-    }
-
-    if (query.filters) {
-      const rawFilters = typeof query.filters === 'string' ? query.filters : query.filters[0]
-      const sanitizedFilters = deserializeFilters(rawFilters)
-      const serializedFilters = serializeFilters(sanitizedFilters)
-
-      if (serializedFilters !== this.state.serializedFilters) {
-        newState = {
-          ...newState,
-          filters: filters.concat(sanitizedFilters),
-          serializedFilters
-        }
-      }
-    }
-
-    if (query.sort) {
-      const rawSort = typeof query.sort === 'string' ? query.sort : query.sort[0]
-      const sanitizedSort = deserializeSort(rawSort)
-      const serializedSort = serializeSort(sanitizedSort)
-
-      if (serializedSort !== this.state.serializedSort) {
-        newState = {
-          ...newState,
-          sort: sanitizedSort,
-          serializedSort
-        }
-      }
-    }
-
-    if (newState.submittedQuery || newState.filters || newState.sort) {
-      this.setState(newState)
-    }
+    this.setStateFromQuery(query)
   }
 
   componentDidMount () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    if (this.props.query) {
+      this.setStateFromQuery(this.props.query)
+    }
   }
 
   componentWillUnmount () {

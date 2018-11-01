@@ -137,11 +137,7 @@ class Page extends Component {
   }
 
   render () {
-    const { data, t } = this.props
-    const meta = {
-      title: t('questionnaire/title'),
-      description: t('questionnaire/description')
-    }
+    const { data, t, meta } = this.props
 
     return (
       <Frame meta={meta}>

@@ -20,6 +20,6 @@ const FormatsPage = ({ t }) => {
 }
 
 export default compose(
-  enforceMembership,
+  enforceMembership(),
   withT
 )(FormatsPage)

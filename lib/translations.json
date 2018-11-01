@@ -1,5 +1,5 @@
 {
-  "updated": "2018-10-31T17:35:59.390Z",
+  "updated": "2018-11-01T14:52:05.716Z",
   "title": "live",
   "data": [
     {
@@ -3493,6 +3493,22 @@
     {
       "key": "pages/meta/questionnaire/actionLabel",
       "value": "Jetzt mitmachen"
+    },
+    {
+      "key": "pages/meta/questionnaire/unauthorized",
+      "value": "Vielen Dank für Ihr Interesse an unserer Umfrage. Unsere Mitglieder und Abonnentinnen können daran teilnehmen – {buyLink}"
+    },
+    {
+      "key": "pages/meta/questionnaire/unauthorized/buyText",
+      "value": "kommen Sie an Bord!"
+    },
+    {
+      "key": "pages/meta/questionnaire/socialTitle",
+      "value": "Ist die Republik auf Kurs? Sagen Sie es uns!"
+    },
+    {
+      "key": "pages/meta/questionnaire/socialDescription",
+      "value": "Um an der Umfrage teilzunehmen, müssen Sie Mitglied oder Abonnentin sein."
     },
     {
       "key": "pages/meta/behind/gallery",

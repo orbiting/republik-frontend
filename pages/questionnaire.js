@@ -7,31 +7,41 @@ import { t } from '../lib/withT'
 import { Link } from '../lib/routes'
 
 import {
-  A
+  A,
+  Interaction
 } from '@project-r/styleguide'
 
 const meta = {
   title: t('questionnaire/title'),
   description: t('questionnaire/description'),
-  facebookTitle: t('pages/meta/questionnaire/facebookTitle'),
-  twitterTitle: t('pages/meta/questionnaire/twitterTitle'),
+  facebookTitle: t('pages/meta/questionnaire/socialTitle'),
+  facebookDescription: t('pages/meta/questionnaire/socialDescription'),
+  twitterTitle: t('pages/meta/questionnaire/socialTitle'),
+  twitterDescription: t('pages/meta/questionnaire/socialDescription'),
   facebookImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/facebookImage.png`,
   twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
 }
 
-const description = t.elements('pages/meta/questionnaire/unauthorized', {
-  buyLink: (
-    <Link key='pledge' route='pledge'>
-      <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
-    </Link>
-  ),
-  accountLink: (
-    <Link key='account' route='account'>
-      <A>{t('pages/meta/questionnaire/unauthorized/accountText')}</A>
-    </Link>
-  )
-}
-)
+const description =
+  <>
+    <Interaction.P>
+      {
+        t.elements('pages/meta/questionnaire/unauthorized', {
+          buyLink: (
+            <Link key='pledge' route='pledge'>
+              <A>{t('pages/meta/questionnaire/unauthorized/buyText')}</A>
+            </Link>
+          )
+        })
+      }
+    </Interaction.P>
+    <br />
+    <Interaction.P>
+      {
+        t('pages/meta/questionnaire/unauthorized2')
+      }
+    </Interaction.P>
+  </>
 
 export default compose(
   enforceMembership(meta, { title: t('questionnaire/title'), description })

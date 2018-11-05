@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-01T14:52:05.716Z",
+  "updated": "2018-11-02T09:33:22.990Z",
   "title": "live",
   "data": [
     {
@@ -3456,7 +3456,7 @@
     },
     {
       "key": "questionnaire/thankyou",
-      "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen! {metaLink} finden Sie eine Übersicht über die Resultate."
+      "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen! {metaLink} finden Sie eine Übersicht zum aktuellen Stand des Irrtums."
     },
     {
       "key": "questionnaire/thankyou/metaText",

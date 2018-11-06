@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-02T09:33:22.990Z",
+  "updated": "2018-11-06T11:09:59.953Z",
   "title": "live",
   "data": [
     {
@@ -1952,7 +1952,7 @@
     },
     {
       "key": "package/ABO/price",
-      "value": "{formattedCHF}"
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO/userPrice/teaser",
@@ -1960,7 +1960,7 @@
     },
     {
       "key": "package/ABO/title",
-      "value": "Abo und Mitgliedschaft für ein Jahr"
+      "value": "Abo und Mitgliedschaft"
     },
     {
       "key": "package/ABO/description",

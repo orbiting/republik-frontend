@@ -33,7 +33,7 @@ query getQuestionnaireResults($slug: String!) {
         }
       }
       ... on QuestionTypeChoice {
-        results: result {
+        results: result(min: 3) {
           count
           option {
             label
@@ -45,7 +45,7 @@ query getQuestionnaireResults($slug: String!) {
         }
       }
       ... on QuestionTypeDocument {
-        results: result {
+        results: result(min: 3) {
           count
           document {
             meta {

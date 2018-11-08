@@ -16,7 +16,7 @@ import withAuthorization, { PageCenter } from './withAuthorization'
 const UnauthorizedMessage = compose(
   withT,
   withInNativeApp
-)(({ t, me, inNativeIOSApp, unauthorizedTexts: { title, description } }) => {
+)(({ t, me, inNativeIOSApp, unauthorizedTexts: { title, description } = {} }) => {
   if (inNativeIOSApp) {
     return (
       <Fragment>

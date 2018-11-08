@@ -119,11 +119,13 @@ export default compose(
         loading: data.loading,
         error: data.error,
         pledges: (
-          !data.loading &&
-          !data.error &&
-          data.me &&
-          data.me.pledges
-        ) || []
+          (
+            !data.loading &&
+            !data.error &&
+            data.me &&
+            data.me.pledges
+          ) || []
+        ).filter(pledge => pledge.status !== 'DRAFT')
       }
     }
   })

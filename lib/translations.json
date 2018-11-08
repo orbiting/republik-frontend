@@ -3231,6 +3231,22 @@
       "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {
+      "key": "feedback/autoArticle/selected/headline",
+      "value": "Debatte zu {link}"
+    },
+    {
+      "key": "feedback/linkedArticle/selected/headline",
+      "value": "Debatte zu {link}"
+    },
+    {
+      "key": "feedback/linkedArticle/selected/note",
+      "value": "Dieser Artikel hat eine verlinkte {link}."
+    },
+    {
+      "key": "feedback/linkedArticle/selected/note/linktext",
+      "value": "Debatte"
+    },
+    {
       "key": "tokenAuthorization/error",
       "value": "Ungültiger Link"
     },

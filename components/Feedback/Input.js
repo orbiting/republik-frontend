@@ -83,7 +83,6 @@ class Input extends Component {
 
   render () {
     const { t, value, filter, onFilterChange, onChange, onReset, items } = this.props
-    console.log(value, filter)
 
     return (
       <div>

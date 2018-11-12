@@ -101,9 +101,11 @@ class Search extends Component {
       })
     }
 
+    this.onFilterChange = (filter) => {
+      this.setState({ inputFilter: filter })
+    }
+
     this.onReset = () => {
-      this.clearUrl()
-      console.log('reset')
       this.setState({
         inputValue: null,
         inputFilter: ''

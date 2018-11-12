@@ -14,11 +14,11 @@ import withT from '../../lib/withT'
 import { countFormat } from '../../lib/utils/format'
 
 const query = gql`
-query getQuestionnaireResults($slug: String!) {
+query getQuestionnaireResults($slug: String!, $orderFilter: [Int!]) {
   questionnaire(slug: $slug) {
     id
     slug
-    questions {
+    questions(orderFilter: $orderFilter) {
       id
       text
       turnout {

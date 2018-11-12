@@ -63,7 +63,7 @@ const RelatedEpisodes = ({ t, episodes, path }) => {
   return !!(previousEpisode || nextEpisode) && (
     <Center>
       <Breakout size='breakout'>
-        <TeaserFrontTileRow columns={2}>
+        <TeaserFrontTileRow columns={2} mobileReverse>
           {previousEpisode && (
             <Tile
               t={t}

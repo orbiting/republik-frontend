@@ -6,8 +6,12 @@ import { ascending } from 'd3-array'
 
 import Chart, { ChartTitle } from '@project-r/styleguide/lib/components/Chart'
 
+import { Editorial } from '@project-r/styleguide'
+
 import Loader from '../Loader'
 import withT from '../../lib/withT'
+
+import { countFormat } from '../../lib/utils/format'
 
 const query = gql`
 query getQuestionnaireResults($slug: String!) {
@@ -185,7 +189,13 @@ const BinBars = withT(({ t, question }) => {
   )
 })
 
-const Results = ({ data }) => {
+const DefaultWrapper = ({ children }) => (
+  <div style={{ marginBottom: 40 }}>
+    {children}
+  </div>
+)
+
+const Results = ({ data, t, Wrapper = DefaultWrapper }) => {
   return <Loader loading={data.loading} error={data.error} render={() => {
     return data.questionnaire.questions.map(question => {
       const { id, text } = question
@@ -195,16 +205,23 @@ const Results = ({ data }) => {
       }
 
       return (
-        <div style={{ marginBottom: 40 }} key={id}>
+        <Wrapper key={id}>
           { text && <ChartTitle>{text}</ChartTitle> }
           { question.results && <RankedBars question={question} />}
           { question.result && <BinBars question={question} />}
-        </div>
+          { <Editorial.Note style={{ marginTop: 10 }}>
+            {t('questionnaire/turnout', {
+              formattedSubmittedCount: countFormat(question.turnout.submitted),
+              formattedSkippedCount: countFormat(question.turnout.skipped)
+            })}
+          </Editorial.Note> }
+        </Wrapper>
       )
     })
   }} />
 }
 
 export default compose(
+  withT,
   graphql(query)
 )(Results)

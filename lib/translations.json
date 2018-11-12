@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-02T09:33:22.990Z",
+  "updated": "2018-11-12T15:43:03.788Z",
   "title": "live",
   "data": [
     {
@@ -1952,7 +1952,7 @@
     },
     {
       "key": "package/ABO/price",
-      "value": "{formattedCHF}"
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO/userPrice/teaser",
@@ -1960,7 +1960,7 @@
     },
     {
       "key": "package/ABO/title",
-      "value": "Abo und Mitgliedschaft für ein Jahr"
+      "value": "Abo und Mitgliedschaft"
     },
     {
       "key": "package/ABO/description",
@@ -3231,6 +3231,14 @@
       "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {
+      "key": "feedback/autoArticle/selected/headline",
+      "value": "Debatte zu {link}"
+    },
+    {
+      "key": "feedback/linkedArticle/selected/headline",
+      "value": "Debatte zu {link}"
+    },
+    {
       "key": "tokenAuthorization/error",
       "value": "Ungültiger Link"
     },
@@ -3453,6 +3461,10 @@
     {
       "key": "questionnaire/cancel",
       "value": "Abbrechen"
+    },
+    {
+      "key": "questionnaire/turnout",
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",

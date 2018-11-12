@@ -23,9 +23,13 @@ query getQuestionnaireResults($slug: String!) {
       }
       __typename
       ... on QuestionTypeRange {
+        ticks {
+          label
+          value
+        }
         result {
           median
-          histogram {
+          histogram(ticks: 10) {
             x0
             x1
             count
@@ -45,7 +49,7 @@ query getQuestionnaireResults($slug: String!) {
         }
       }
       ... on QuestionTypeDocument {
-        results: result(min: 3) {
+        results: result(min: 3, top: 30) {
           count
           document {
             meta {
@@ -64,7 +68,7 @@ const RANKED_CATEGORY_BAR_CONFIG = {
   type: 'Bar',
   numberFormat: 's',
   colorSort: 'none',
-  colorRange: ['rgb(24,100,170)', '#bbb'],
+  colorRange: ['#62790E'],
   sort: 'none',
   y: 'label',
   column: 'category',
@@ -79,7 +83,7 @@ const RANKED_BAR_CONFIG = {
   type: 'Bar',
   numberFormat: 's',
   colorSort: 'none',
-  colorRange: ['rgb(24,100,170)', '#bbb'],
+  colorRange: ['#62790E'],
   sort: 'none',
   y: 'label',
   minInnerWidth: 170,
@@ -92,18 +96,22 @@ const STACKED_BAR_CONFIG = {
   numberFormat: '.0%',
   color: 'label',
   colorSort: 'none',
-  colorRange: ['rgb(187,21,26)', 'rgb(239,69,51)', '#bbb', 'rgb(75,151,201)', 'rgb(24,100,170)'],
+  colorRange: [
+    '#3D155B', '#A46FDA',
+    '#B9EB56', '#90AA00', '#62790E'
+  ],
   sort: 'none',
   barStyle: 'large',
-  // inlineValue: true,
-  // inlineSecondaryLabel: 'label',
   colorLegend: true
 }
 
-const HISTO_BAR_CONFIG = {
-  type: 'TimeBar',
-  numberFormat: 's',
-  sort: 'none'
+const BIN_BAR_CONFIG = {
+  ...STACKED_BAR_CONFIG,
+  colorRange: [
+    '#3D155B', '#542785', '#A46FDA', '#C79CF0',
+    '#bbb', '#bbb',
+    '#D6FA90', '#B9EB56', '#90AA00', '#62790E'
+  ]
 }
 
 const RankedBars = withT(({ t, question }) => {
@@ -112,7 +120,7 @@ const RankedBars = withT(({ t, question }) => {
       <Chart t={t}
         config={RANKED_BAR_CONFIG}
         values={question.results
-          .filter(result => result.count >= 3 && result.document)
+          .filter(result => result.document)
           .map(result => ({
             label: result.document && result.document.meta.title,
             href: result.document && result.document.meta.path,
@@ -139,28 +147,40 @@ const RankedBars = withT(({ t, question }) => {
         )} />
     )
   }
-  const mapResult = result => ({
+
+  const numberPerColumn = question.results.length / 3
+  const mapResult = (result, i) => ({
     label: result.option.label,
-    category: result.option.category,
+    category:
+      result.option.category ||
+      `Top ${numberPerColumn * (1 + Math.floor(i / numberPerColumn))}`,
     value: String(result.count)
   })
-  const filter = result => result.count >= 3
   return (
     <Chart t={t}
       config={RANKED_CATEGORY_BAR_CONFIG}
-      values={question.results.filter(filter).map(mapResult)} />
+      values={question.results.map(mapResult)} />
   )
 })
 
-const HistoBars = withT(({ t, question }) => {
-  const mapResult = result => ({
-    year: 10 + (result.x0 * 10),
-    value: String(result.count)
-  })
+const BinBars = withT(({ t, question }) => {
+  const mapResult = (result, i) => {
+    const tick = question.ticks.find(tick => (
+      (i === 0 && tick.value === result.x0) ||
+      tick.value === result.x1
+    ))
+    return {
+      label: tick ? tick.label : `${result.x0}`,
+      value: String(result.count / question.turnout.submitted)
+    }
+  }
 
   return (
     <Chart t={t}
-      config={HISTO_BAR_CONFIG}
+      config={{
+        ...BIN_BAR_CONFIG,
+        colorLegendValues: question.ticks.map(tick => tick.label)
+      }}
       values={question.result.histogram.map(mapResult)} />
   )
 })
@@ -178,7 +198,7 @@ const Results = ({ data }) => {
         <div style={{ marginBottom: 40 }} key={id}>
           { text && <ChartTitle>{text}</ChartTitle> }
           { question.results && <RankedBars question={question} />}
-          { question.result && <HistoBars question={question} />}
+          { question.result && <BinBars question={question} />}
         </div>
       )
     })

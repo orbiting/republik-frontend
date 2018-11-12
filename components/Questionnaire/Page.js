@@ -79,7 +79,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 30
   }),
   progressIcon: css({
     marginLeft: 5,
@@ -320,7 +321,7 @@ query getQuestionnaire($slug: String!) {
 export default compose(
   withT,
   withRouter,
-  withAuthorization(['admin', 'editor'], 'showResults'),
+  withAuthorization(['supporter', 'editor'], 'showResults'),
   graphql(submitQuestionnaireMutation, {
     props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {

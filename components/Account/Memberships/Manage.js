@@ -49,7 +49,7 @@ class Manage extends Component {
     return (
       <Fragment>
         {membership.active &&
-          !isCancelling &&
+          membership.renew &&
           membership.type.name === 'MONTHLY_ABO' &&
           <P>
             <Interaction.Cursive>

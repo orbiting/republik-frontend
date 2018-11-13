@@ -5,12 +5,13 @@ import gql from 'graphql-tag'
 import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
+import { Link } from '../../../lib/routes'
 
 import { Item as AccountItem, P, A } from '../Elements'
 import FieldSet from '../../FieldSet'
 
 import {
-  Button, InlineSpinner, colors
+  Button, InlineSpinner, colors, linkRule, Interaction
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -47,6 +48,20 @@ class Manage extends Component {
 
     return (
       <Fragment>
+        {membership.active &&
+          !isCancelling &&
+          membership.type.name === 'MONTHLY_ABO' &&
+          <P>
+            <Interaction.Cursive>
+              {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
+                buyLink: <Link route='pledge' params={{ package: 'ABO' }}>
+                  <a {...linkRule}>
+                    {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
+                  </a>
+                </Link>
+              })}
+            </Interaction.Cursive>
+          </P>}
         {membership.active && membership.renew && !isCancelling &&
           <A href='#cancel' onClick={(e) => {
             e.preventDefault()

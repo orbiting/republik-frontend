@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-13T16:03:24.761Z",
+  "updated": "2018-11-13T23:20:31.452Z",
   "title": "live",
   "data": [
     {
@@ -3525,6 +3525,18 @@
     {
       "key": "pages/meta/behind/gallery",
       "value": "Hinter den Kulissen"
+    },
+    {
+      "key": "package/PROLONG/title",
+      "value": "Abo-Verlängern"
+    },
+    {
+      "key": "package/PROLONG/description",
+      "value": "Es freut uns dass Sie weiterhin dabei bleiben."
+    },
+    {
+      "key": "option/BENEFACTOR_ABO/label",
+      "value": "Gönnermitgliedschaft"
     }
   ]
 }

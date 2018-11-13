@@ -61,9 +61,9 @@ class Pledge extends Component {
     }
   }
   submitPledgeProps ({ values, query, pledge }) {
-    const { crowdfunding } = this.props
+    const { packages } = this.props
     const pkg = query.package
-      ? crowdfunding.packages.find(
+      ? packages.find(
         pkg => pkg.name === query.package.toUpperCase()
       )
       : null
@@ -83,7 +83,7 @@ class Pledge extends Component {
       options: pkg ? pkg.options.map(option => ({
         amount: values[option.id] || option.minAmount,
         price: option.price,
-        templateId: option.id
+        templateId: option.templateId
       })) : [],
       reason: userPrice ? values.reason : undefined,
       id: pledge ? pledge.id : undefined
@@ -146,12 +146,13 @@ class Pledge extends Component {
       <Loader loading={loading} error={error} render={() => {
         const {
           query, me, t,
-          crowdfunding,
           receiveError,
-          crowdfundingName
+          crowdfundingName,
+          hasEnded,
+          packages
         } = this.props
 
-        if (crowdfunding.hasEnded && !this.props.pledge) {
+        if (hasEnded && !this.props.pledge) {
           return (
             <div>
               <H1>{t('pledge/title')}</H1>
@@ -165,7 +166,7 @@ class Pledge extends Component {
         const showSignIn = this.state.showSignIn && !me
 
         const pkg = query.package
-          ? crowdfunding.packages.find(
+          ? packages.find(
             pkg => pkg.name === query.package.toUpperCase()
           )
           : null
@@ -196,7 +197,8 @@ class Pledge extends Component {
                     this.setState(FieldSet.utils.mergeFields(fields))
                   }} />
               ) : (
-                <Accordion crowdfundingName={crowdfundingName} extended />
+                <Accordion crowdfundingName={crowdfundingName}
+                  packages={packages} extended />
               )}
             </div>
             {pkg && (
@@ -318,6 +320,7 @@ query pledgeForm($crowdfundingName: String!) {
         minAmount
         maxAmount
         defaultAmount
+        templateId
         reward {
           ... on MembershipType {
             id
@@ -331,16 +334,66 @@ query pledgeForm($crowdfundingName: String!) {
       }
     }
   }
+  me {
+    id
+    customPackages {
+      id
+      name
+      paymentMethods
+      options {
+        id
+        price
+        userPrice
+        minAmount
+        maxAmount
+        defaultAmount
+        templateId
+        reward {
+          ... on MembershipType {
+            id
+            name
+          }
+          ... on Goodie {
+            id
+            name
+          }
+        }
+        customization {
+          membership {
+            id
+            type {
+              name
+            }
+            periods {
+              kind
+              beginDate
+              endDate
+            }
+          }
+          additionalPeriods {
+            kind
+            beginDate
+            endDate
+          }
+        }
+      }
+    }
+  }
 }
 `
 
 const PledgeWithQueries = compose(
   graphql(query, {
     props: ({ data }) => {
+      const packages = []
+        .concat(data.crowdfunding && data.crowdfunding.packages)
+        .concat(data.me && data.me.customPackages)
+        .filter(Boolean)
       return {
         loading: data.loading,
         error: data.error,
-        crowdfunding: data.crowdfunding
+        packages,
+        hasEnded: data.crowdfunding && data.crowdfunding.hasEnded
       }
     }
   }),

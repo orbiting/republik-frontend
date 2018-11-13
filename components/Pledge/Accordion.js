@@ -18,6 +18,7 @@ import {
 } from '@project-r/styleguide'
 
 export const OFFER_SORT = {
+  PROLONG: 0,
   ABO: 1,
   MONTHLY_ABO: 2,
   BENEFACTOR: 3,
@@ -176,7 +177,7 @@ class Accordion extends Component {
 
     const {
       t,
-      crowdfunding: { packages },
+      packages,
       crowdfundingName,
       children
     } = this.props
@@ -290,11 +291,12 @@ Accordion.propTypes = {
 }
 
 const AccordionWithQuery = graphql(query, {
+  skip: props => !!props.packages,
   props: ({ data }) => {
     return {
       loading: data.loading,
       error: data.error,
-      crowdfunding: data.crowdfunding
+      packages: data.crowdfunding && data.crowdfunding.packages
     }
   }
 })(Accordion)

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-13T10:22:02.338Z",
+  "updated": "2018-11-13T14:39:47.006Z",
   "title": "live",
   "data": [
     {
@@ -2975,10 +2975,6 @@
       "value": "Mitgliedschaft und Abonnement kündigen"
     },
     {
-      "key": "memberships/ABO/manage/upgrade/link",
-      "value": "Mitgliedschaft und Abonnement upgraden"
-    },
-    {
       "key": "memberships/ABO/manage/reactivate",
       "value": "Mitgliedschaft und Abonnement reaktivieren"
     },
@@ -2992,7 +2988,11 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
-      "value": "Auf Jahresabo upgraden"
+      "value": "Wenn Sie ein {buyLink}, beenden wir automatisch Ihr Monatsabo."
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/upgrade/link/buyText",
+      "value": "Jahresabo lösen"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",

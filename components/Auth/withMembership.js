@@ -1,65 +1,102 @@
 import React, { Fragment } from 'react'
-import Frame from '../Frame'
+import { compose } from 'react-apollo'
+
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
+import withInNativeApp from '../../lib/withInNativeApp'
+
+import Frame from '../Frame'
 import SignIn from './SignIn'
 import Me from './Me'
-import { Link } from '../../lib/routes'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 
-const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
-  <Frame url={url} raw>
-    <PageCenter>
-      {!me ? (
-        <Fragment>
-          <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
+const UnauthorizedMessage = compose(
+  withT,
+  withInNativeApp
+)(({ t, me, inNativeIOSApp, unauthorizedTexts: { title, description } = {} }) => {
+  if (inNativeIOSApp) {
+    return (
+      <Fragment>
+        {me && <Interaction.H1 style={{ marginBottom: 10 }}>
+          {t('withMembership/ios/unauthorized/title')}
+        </Interaction.H1>}
+        <br />
+        <Me
+          beforeSignedInAs={(
+            <Interaction.P style={{ marginBottom: 20 }}>
+              {t('withMembership/ios/unauthorized/noMembership')}
+            </Interaction.P>
+          )}
+          beforeSignInForm={(
+            <Interaction.P style={{ marginBottom: 20 }}>
+              {t('withMembership/ios/unauthorized/signIn')}
+            </Interaction.P>
+          )} />
+      </Fragment>
+    )
+  }
+  if (me) {
+    return (
+      <Fragment>
+        <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
+        <Interaction.P>
+          {t.elements('withMembership/unauthorized', {
+            buyLink: (
+              <Link key='pledge' route='pledge'>
+                <a {...linkRule}>{t('withMembership/unauthorized/buyText')}</a>
+              </Link>
+            ),
+            accountLink: (
+              <Link key='account' route='account'>
+                <a {...linkRule}>{t('withMembership/unauthorized/accountText')}</a>
+              </Link>
+            )
+          })}
           <br />
-          <SignIn />
-          <Interaction.P>
-            {t.elements('withMembership/signIn/note', {
+        </Interaction.P>
+        <br />
+        <Me />
+      </Fragment>
+    )
+  }
+  return (
+    <Fragment>
+      <Interaction.H1>{title || t('withMembership/title')}</Interaction.H1>
+      <br />
+      <SignIn beforeForm={(
+        <Interaction.P style={{ marginBottom: 20 }}>
+          { description ||
+            t.elements('withMembership/signIn/note', {
               buyLink: (
-                <Link route='pledge'>
+                <Link key='pledge' route='pledge'>
                   <a {...linkRule}>{t('withMembership/signIn/note/buyText')}</a>
                 </Link>
-              )
-            })}
-          </Interaction.P>
-          <br />
-          <Interaction.P>
-            <Link route='index'>
-              <a {...linkRule}>
-                {t('withMembership/signIn/home')}
-              </a>
-            </Link>
-          </Interaction.P>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <Interaction.H1>{t('withMembership/title')}</Interaction.H1>
-          <Interaction.P>
-            {t.elements('withMembership/unauthorized', {
-              buyLink: (
-                <Link route='pledge'>
-                  <a {...linkRule}>{t('withMembership/unauthorized/buyText')}</a>
-                </Link>
               ),
-              accountLink: (
-                <Link route='account'>
-                  <a {...linkRule}>{t('withMembership/unauthorized/accountText')}</a>
+              moreLink: (
+                <Link route='index'>
+                  <a {...linkRule}>
+                    {t('withMembership/signIn/note/moreText')}
+                  </a>
                 </Link>
               )
-            })}
-            <br />
-          </Interaction.P>
-          <br />
-          <Me />
-        </Fragment>
-      )}
+            }
+            )}
+        </Interaction.P>
+      )} />
+    </Fragment>
+  )
+})
+
+export const UnauthorizedPage = ({ me, meta, unauthorizedTexts }) => (
+  <Frame meta={meta} raw>
+    <PageCenter>
+      <UnauthorizedMessage {...{ me, unauthorizedTexts }} />
     </PageCenter>
   </Frame>
-))
+)
 
 export const WithoutMembership = withAuthorization(['member'])(({
   isAuthorized, render
@@ -78,11 +115,11 @@ export const WithMembership = withAuthorization(['member'])(({
   return null
 })
 
-export const enforceMembership = WrappedComponent => withAuthorization(['member'])(({isAuthorized, me, ...props}) => {
+export const enforceMembership = (meta, unauthorizedTexts) => WrappedComponent => withAuthorization(['member'])(({ isAuthorized, me, ...props }) => {
   if (isAuthorized) {
-    return <WrappedComponent {...props} />
+    return <WrappedComponent meta={meta} {...props} />
   }
-  return <UnauthorizedPage me={me} url={props.url} />
+  return <UnauthorizedPage {...{ me, meta, unauthorizedTexts }} />
 })
 
 export default withAuthorization(['member'], 'isMember')

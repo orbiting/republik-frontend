@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import withT from '../../lib/withT'
-import {errorToString} from '../../lib/utils/errors'
-import {meQuery} from '../../lib/apollo/withMe'
+import { errorToString } from '../../lib/utils/errors'
+import { meQuery } from '../../lib/apollo/withMe'
 
 import {
   A, InlineSpinner
@@ -18,8 +18,8 @@ class SignOut extends Component {
     }
   }
   render () {
-    const {t, Link = A} = this.props
-    const {loading, error} = this.state
+    const { t, Link = A } = this.props
+    const { loading, error } = this.state
 
     return (
       <span>
@@ -33,11 +33,15 @@ class SignOut extends Component {
               loading: true
             }))
             this.props.signOut()
-              .then(({data}) => {
+              .then(({ data }) => {
                 if (data) {
                   this.setState(() => ({
                     loading: false
                   }))
+                  // re-load after sign in
+                  // - clear apollo cache
+                  // - clears potentially authenticated ws conntection
+                  window.location.reload()
                 } else {
                   this.setState(() => ({
                     error: t('signOut/error'),
@@ -71,7 +75,7 @@ mutation signOut {
 
 export const withSignOut = compose(
   graphql(signOutMutation, {
-    props: ({mutate, ownProps}) => ({
+    props: ({ mutate, ownProps }) => ({
       signOut: () => mutate({
         refetchQueries: [{
           query: meQuery

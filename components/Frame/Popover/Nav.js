@@ -1,21 +1,50 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
+import Footer from '../Footer'
 import SignIn from '../../Auth/SignIn'
 import SignOut from '../../Auth/SignOut'
-import { matchPath, Link, Router } from '../../../lib/routes'
+import { Link, matchPath, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
+import withInNativeApp from '../../../lib/withInNativeApp'
+import { prefixHover } from '../../../lib/utils/hover'
 
-import {
-  Interaction,
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import NavBar from '../NavBar'
+import withMembership from '../../Auth/withMembership'
+import { shouldIgnoreClick } from '../../Link/utils'
+
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
+
+import { colors, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
+import voteT from '../../Vote/voteT'
 
 const styles = {
   container: css({
+    minHeight: '100%',
+    display: 'flex',
+    flexDirection: 'column'
+  }),
+  hr: css({
+    margin: 0,
+    display: 'block',
+    border: 0,
+    height: 1,
+    color: colors.divider,
+    backgroundColor: colors.divider,
+    width: '100%'
+  }),
+  hrFixed: css({
+    position: 'fixed',
+    top: HEADER_HEIGHT_MOBILE - 1,
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT - 1
+    }
+  }),
+  sections: css({
     ...fontStyles.sansSerifRegular21,
+    flexGrow: 1,
+    marginBottom: 20,
     paddingTop: '20px',
     [mediaQueries.mUp]: {
       display: 'flex',
@@ -23,10 +52,11 @@ const styles = {
     }
   }),
   section: css({
+    margin: '0px 20px',
     '& + &': {
       borderTop: `1px solid ${colors.divider}`,
-      margin: '25px 0',
-      padding: '25px 0'
+      margin: '25px 20px',
+      paddingTop: '25px'
     },
     [mediaQueries.mUp]: {
       '& + &': {
@@ -50,18 +80,18 @@ const styles = {
     ':visited': {
       color: colors.text
     },
-    ':hover': {
+    [prefixHover()]: {
       color: colors.primary
     },
     cursor: 'pointer',
     [mediaQueries.mUp]: {
-      fontSize: 48,
-      lineHeight: '80px'
+      fontSize: 34,
+      lineHeight: '60px'
     }
   })
 }
 
-const SignoutLink = ({children, ...props}) => (
+const SignoutLink = ({ children, ...props }) => (
   <a {...styles.link} {...props}>{children}</a>
 )
 
@@ -94,77 +124,118 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, url, closeHandler, children, t }) => {
-  const active = matchPath(url.asPath)
+const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember }) => {
+  const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>
-      <div {...styles.section}>
-        {me && (
-          <div>
-            <NavLink
-              route='account'
-              translation={t('Frame/Popover/myaccount')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='profile'
-              params={{ slug: me.username || me.id }}
-              translation={t('Frame/Popover/myprofile')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-          </div>
-        )}
-        {me ? (
-          <SignOut Link={SignoutLink} />
-        ) : (
-          <div>
-            <Interaction.P style={{ marginBottom: '20px' }}>
-              {t('me/signedOut')}
-            </Interaction.P>
-            <SignIn />
-          </div>
-        )}
-        <br />
+      <hr {...styles.hr} {...styles.hrFixed} />
+      {isMember && <Fragment>
+        <NavBar router={router} />
+        <hr {...styles.hr} />
+      </Fragment>}
+      <div {...styles.sections}>
+        <div {...styles.section}>
+          {me && (
+            <div>
+              <NavLink
+                route='account'
+                translation={t('Frame/Popover/myaccount')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+              {me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    {...styles.link}
+                    style={{ cursor: 'pointer' }}
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (shouldIgnoreClick(e)) {
+                        return
+                      }
+
+                      Router
+                        .pushRoute('/konto#teilen')
+                        .then(closeHandler)
+                    }}>
+                    {t('nav/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
+              <NavLink
+                route='profile'
+                params={{ slug: me.username || me.id }}
+                translation={t('Frame/Popover/myprofile')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </div>
+          )}
+          {me ? (
+            <SignOut Link={SignoutLink} />
+          ) : (
+            <SignIn beforeForm={(
+              <Interaction.P style={{ marginBottom: '20px' }}>
+                {t('me/signedOut')}
+              </Interaction.P>
+            )} />
+          )}
+          <br />
+        </div>
+        <div {...styles.section}>
+          <NavLink
+            route='community'
+            translation={t('nav/community')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
+            route='meta'
+            translation={t('nav/meta')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
+            route='legal/imprint'
+            translation={t('nav/team')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
+            route='events'
+            translation={t('nav/events')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          {!inNativeIOSApp && (
+            <Fragment>
+              <NavLink
+                route='pledge'
+                params={me ? { package: 'ABO_GIVE' } : undefined}
+                translation={t(me ? 'nav/give' : 'nav/offers')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
+        </div>
       </div>
-      <div {...styles.section}>
-        {me && (
-          <div>
-            <NavLink
-              route='feed'
-              translation={t('nav/feed')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='formats'
-              translation={t('nav/formats')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-            <NavLink
-              route='events'
-              translation={t('nav/events')}
-              active={active}
-              closeHandler={closeHandler}
-            />
-            <br />
-          </div>
-        )}
-        <NavLink
-          route='community'
-          translation={t('nav/community')}
-          active={active}
-          closeHandler={closeHandler}
-        />
-      </div>
+      {inNativeApp && <Footer />}
     </div>
   )
 }
 
-export default withT(Nav)
+export default compose(
+  withT,
+  voteT,
+  withInNativeApp,
+  withMembership
+)(Nav)

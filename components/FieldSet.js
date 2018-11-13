@@ -1,5 +1,5 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import AutosizeInput from 'react-textarea-autosize'
 import MaskedInput from 'react-maskedinput'
@@ -35,7 +35,7 @@ const FieldSetWithMaskAndAutoSize = props => (
         ? props.additionalFieldProps(field)
         : {}
       if (field.autoSize) {
-        fieldProps.renderInput = ({ref, ...inputProps}) => (
+        fieldProps.renderInput = ({ ref, ...inputProps }) => (
           <AutosizeInput {...styles.autoSize}
             {...inputProps}
             inputRef={ref} />

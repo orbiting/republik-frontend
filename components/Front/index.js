@@ -3,6 +3,8 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { InlineSpinner } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
+import StatusError from '../StatusError'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -11,11 +13,12 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
-import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { cleanAsPath } from '../../lib/routes'
 
 const schema = createFrontSchema({
   Link
@@ -62,7 +65,7 @@ const styles = {
 
 class Front extends Component {
   render () {
-    const { url, data, fetchMore, data: { front }, t } = this.props
+    const { data, fetchMore, data: { front }, t, renderBefore, renderAfter } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
@@ -72,10 +75,16 @@ class Front extends Component {
     return (
       <Frame
         raw
-        url={url}
         meta={meta}
       >
-        <Loader loading={data.loading || !front} error={data.error} message={t('pages/magazine/title')} render={() => {
+        {renderBefore && renderBefore(meta)}
+        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
+          if (!front) {
+            return <StatusError
+              statusCode={404}
+              serverContext={this.props.serverContext} />
+          }
+
           const hasNextPage = front.children.pageInfo.hasNextPage
           return <InfiniteScroll
             loadMore={fetchMore}
@@ -87,7 +96,7 @@ class Front extends Component {
                 <InlineSpinner size={28} />
               </div>
             }>
-            <SSRCachingBoundary key='content' cacheKey={webpCacheKey(this.props.headers, front.id)}>
+            <SSRCachingBoundary key='content' cacheKey={front.id}>
               {() => renderMdast({
                 type: 'root',
                 children: front.children.nodes.map(v => v.body)
@@ -95,6 +104,7 @@ class Front extends Component {
             </SSRCachingBoundary>
           </InfiniteScroll>
         }} />
+        {renderAfter && renderAfter(meta)}
       </Frame>
     )
   }
@@ -102,14 +112,15 @@ class Front extends Component {
 
 export default compose(
   withT,
+  withRouter,
   graphql(getDocument, {
-    options: () => ({
+    options: props => ({
       variables: {
-        path: '/',
+        path: props.path || cleanAsPath(props.router.asPath),
         first: 15
       }
     }),
-    props: ({data, ownProps: {serverContext}}) => {
+    props: ({ data, ownProps: { serverContext } }) => {
       if (serverContext && !data.error && !data.loading && !data.front) {
         serverContext.res.statusCode = 503
       }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
+import { css } from 'glamor'
 import Head from 'next/head'
 
 import withT from '../../lib/withT'
@@ -74,7 +74,7 @@ const fontSizeBoost = length => {
   return 0
 }
 
-const Item = ({loading, error, t, statement: {statement, portrait, name, sequenceNumber}}) => (
+const Item = ({ loading, error, t, statement: { statement, portrait, name, sequenceNumber } }) => (
   <Loader loading={loading} error={error} render={() => (
     <div {...styles.container}>
       <Head>
@@ -83,7 +83,7 @@ const Item = ({loading, error, t, statement: {statement, portrait, name, sequenc
       <img {...styles.image} src={portrait} />
       <div {...styles.text}>
         {statement && <P {...styles.quote}
-          style={{fontSize: 24 + fontSizeBoost(statement.length)}}>
+          style={{ fontSize: 24 + fontSizeBoost(statement.length) }}>
           «{statement}»
         </P>}
         {!!sequenceNumber && (
@@ -116,7 +116,7 @@ query statements($first: Int!, $focus: String) {
 export default compose(
   withT,
   graphql(query, {
-    props: ({data, ownProps: {name}}) => {
+    props: ({ data, ownProps: { name } }) => {
       return ({
         loading: data.loading,
         error: data.error,

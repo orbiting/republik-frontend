@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import withHeaders from '../../lib/withHeaders'
 
 let getHtml
 if (!process.browser) {
@@ -19,17 +20,21 @@ if (!process.browser) {
   }
 }
 
-export const webpCacheKey = (headers = {}, baseKey) => {
-  return headers.accept && headers.accept.indexOf('image/webp') !== -1
-  ? `${baseKey}webp`
-  : baseKey
+const webpCacheKey = (headers, baseKey) => {
+  if (!headers) {
+    console.warn('[SSRCache] headers missing!')
+  }
+  return headers && headers.accept && headers.accept.indexOf('image/webp') !== -1
+    ? `${baseKey}:webp`
+    : baseKey
 }
 
-const SSRCachingBoundary = ({cacheKey, children}) => getHtml
+const SSRCachingBoundary = withHeaders(({ cacheKey, headers, children }) => getHtml
   ? <div dangerouslySetInnerHTML={{
-    __html: getHtml(cacheKey, children)
+    __html: getHtml(webpCacheKey(headers, cacheKey), children)
   }} />
   : <div>{children()}</div>
+)
 
 SSRCachingBoundary.propTypes = {
   cacheKey: PropTypes.string.isRequired,

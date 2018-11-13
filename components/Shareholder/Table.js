@@ -1,8 +1,8 @@
 import React from 'react'
-import {css, merge} from 'glamor'
-import {formatLocale} from 'd3-format'
+import { css, merge } from 'glamor'
+import { formatLocale } from 'd3-format'
 
-import {groupped, total, totalChf, colors} from './data'
+import { groupped, total, totalChf, colors } from './data'
 
 import {
   fontFamilies
@@ -68,8 +68,8 @@ const styles = {
   })
 }
 
-const Table = ({children}) => (
-  <div style={{overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING}}>
+const Table = ({ children }) => (
+  <div style={{ overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING }}>
     <table {...styles.table}>
       {children}
     </table>
@@ -90,12 +90,12 @@ export default () => (
       {groupped.children.map((group, i) => {
         const elements = [
           <tr key={i}>
-            <td {...styles.groupTd} style={{lineHeight: '1.3em'}}>
-              <span {...styles.highlight} style={{color: colors[group.data.Kategorie]}}>
+            <td {...styles.groupTd} style={{ lineHeight: '1.3em' }}>
+              <span {...styles.highlight} style={{ color: colors[group.data.Kategorie] }}>
                 {group.data.Kategorie.replace(/ /g, '\u00a0')}
               </span>
               <br />
-              <span style={{fontSize: 12}}>
+              <span style={{ fontSize: 12 }}>
                 Typ&nbsp;{group.data.Typ}, CHF&nbsp;{group.data['Nominal CHF']}
               </span>
             </td>

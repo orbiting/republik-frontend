@@ -1,6 +1,5 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import withData from '../lib/apollo/withData'
 import withT from '../lib/withT'
 import Frame from '../components/Frame'
 
@@ -11,7 +10,7 @@ import Sunburst, { radius } from '../components/Shareholder/Sunburst'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const ShareholderPage = ({ url, t }) => {
+const ShareholderPage = ({ t }) => {
   const meta = {
     title: t('shareholder/pageTitle'),
     description: t('shareholder/description'),
@@ -19,7 +18,7 @@ const ShareholderPage = ({ url, t }) => {
   }
 
   return (
-    <Frame url={url} meta={meta} indented>
+    <Frame meta={meta} indented>
       <H1>{t('shareholder/title')}</H1>
       <H2>{t('shareholder/description')}</H2>
 
@@ -31,7 +30,10 @@ const ShareholderPage = ({ url, t }) => {
       <Table />
 
       <P>
-        {t('shareholder/contact')}{' '}
+        {t('shareholder/contact')}<br />
+        <A href={`tel:${t('shareholder/contact/phone/link')}`}>
+          {t('shareholder/contact/phone')}
+        </A>{', '}
         <A href={`mailto:${t('shareholder/contact/email')}`}>
           {t('shareholder/contact/email')}
         </A>
@@ -40,4 +42,4 @@ const ShareholderPage = ({ url, t }) => {
   )
 }
 
-export default compose(withData, withT)(ShareholderPage)
+export default compose(withT)(ShareholderPage)

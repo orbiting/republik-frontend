@@ -6,7 +6,7 @@ import {
   imageResizeUrl
 } from 'mdast-react-render/lib/utils'
 
-export default ({data, data: {image}}) => {
+export default ({ data, data: { image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
 
   const facebookImage = data.facebookImage || image

@@ -1,7 +1,7 @@
 import React from 'react'
-import { graphql, compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
 import Head from 'next/head'
 
@@ -9,9 +9,7 @@ import withT from '../../lib/withT'
 
 import Loader from '../Loader'
 
-import {
-  P, Interaction, Logo, fontFamilies
-} from '@project-r/styleguide'
+import { fontFamilies, Interaction, Logo, P } from '@project-r/styleguide'
 
 const toViewport = px => `${px / 18}vw`
 
@@ -92,7 +90,7 @@ const fontSizeBoost = length => {
 }
 
 const Item = ({ loading, error, t, statement }) => (
-  <Loader loading={!statement && loading} error={!statement && error} render={() => {
+  <Loader loading={loading || (!statement && !error)} error={error} render={() => {
     const { statement: statementString, portrait, name, role, sequenceNumber } = statement
     return (
       <div {...styles.container}>
@@ -109,14 +107,14 @@ const Item = ({ loading, error, t, statement }) => (
               {role}
             </Interaction.P>
             {statementString && <P {...styles.quote}
-              style={{fontSize: toViewport(24 + fontSizeBoost(statementString.length))}}>
+              style={{ fontSize: toViewport(24 + fontSizeBoost(statementString.length)) }}>
             «{statementString}»
-          </P>}
+            </P>}
             {!!sequenceNumber && (
-            <div {...styles.number}>{t('memberships/sequenceNumber/label', {
-              sequenceNumber
-            })}</div>
-          )}
+              <div {...styles.number}>{t('memberships/sequenceNumber/label', {
+                sequenceNumber
+              })}</div>
+            )}
           </div>
           <div {...styles.logo}>
             <Logo />
@@ -143,7 +141,7 @@ const query = gql`query statements {
 export default compose(
   withT,
   graphql(query, {
-    props: ({data, ownProps: {name}}) => {
+    props: ({ data }) => {
       return ({
         loading: data.loading,
         error: data.error,
@@ -152,7 +150,7 @@ export default compose(
           data.statements.nodes[0]
       })
     },
-    options: ({duration}) => ({
+    options: ({ duration }) => ({
       pollInterval: duration
     })
   })

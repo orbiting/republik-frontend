@@ -1,6 +1,7 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { withRouter } from 'next/router'
 import { timeDay } from 'd3-time'
 import { Link } from '../../lib/routes'
 import { css } from 'glamor'
@@ -50,8 +51,9 @@ const query = gql`
 
 const Overview = compose(
   withT,
+  withRouter,
   graphql(query, {
-    props: ({ data, ownProps: { url: { query: { slug } }, t } }) => {
+    props: ({ data, ownProps: { router: { query: { slug } }, t } }) => {
       const error = data.error
       let event
       if (slug && data.events && !error) {
@@ -65,7 +67,7 @@ const Overview = compose(
       }
     }
   })
-)(({ events, event, t, loading, error, url, serverContext }) => (
+)(({ events, event, t, loading, error, serverContext }) => (
   <Loader
     loading={loading}
     error={error}
@@ -74,7 +76,6 @@ const Overview = compose(
         if (event === 404) {
           return (
             <StatusError
-              url={url}
               statusCode={404}
               serverContext={serverContext} />
           )

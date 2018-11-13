@@ -34,7 +34,7 @@ const PAYMENT_METHODS = [
   {
     disabled: false,
     key: 'STRIPE',
-    Icon: ({state: {stripe}, values}) => {
+    Icon: ({ state: { stripe }, values }) => {
       let cardType = null
       if (stripe && values && values.cardNumber) {
         cardType = stripe.card.cardType(values.cardNumber)
@@ -44,11 +44,11 @@ const PAYMENT_METHODS = [
       }
       return (
         <span>
-          <span style={{opacity: !cardType || cardType === 'Visa' ? 1 : 0.4}}>
+          <span style={{ opacity: !cardType || cardType === 'Visa' ? 1 : 0.4 }}>
             <PSPIcons.Visa />
           </span>
-          <span style={{display: 'inline-block', width: 10}} />
-          <span style={{opacity: !cardType || cardType === 'MasterCard' ? 1 : 0.4}}>
+          <span style={{ display: 'inline-block', width: 10 }} />
+          <span style={{ opacity: !cardType || cardType === 'MasterCard' ? 1 : 0.4 }}>
             <PSPIcons.Mastercard />
           </span>
         </span>
@@ -121,7 +121,7 @@ const styles = {
   })
 }
 
-const {H2, P} = Interaction
+const { H2, P } = Interaction
 
 class PaymentForm extends Component {
   constructor (...args) {
@@ -183,7 +183,7 @@ class PaymentForm extends Component {
       }
     }
   }
-  createStripeSource ({total, metadata, on3DSecure, returnUrl}) {
+  createStripeSource ({ total, metadata, on3DSecure, returnUrl }) {
     const { values, t } = this.props
     return loadStripe().then(stripe => {
       return new Promise((resolve, reject) => {
@@ -289,7 +289,7 @@ class PaymentForm extends Component {
         <div {...styles.secure}>
           <LockIcon /> {t('payment/secure')}
         </div>
-        <Loader style={{minHeight: (PAYMENT_METHOD_HEIGHT + 20) * 2}} loading={loadingPaymentSources} render={() => {
+        <Loader style={{ minHeight: (PAYMENT_METHOD_HEIGHT) * 2 }} loading={loadingPaymentSources} render={() => {
           const visiblePaymentSources = paymentSources
             ? paymentSources.filter(ps => (
               (!onlyChargable || ps.status === 'CHARGEABLE') && ps.isDefault
@@ -688,7 +688,7 @@ export default compose(
       fetchPolicy: 'network-only',
       ssr: false
     },
-    props: ({data}) => ({
+    props: ({ data }) => ({
       paymentSources: data.me && data.me.paymentSources,
       loadingPaymentSources: data.loading
     })

@@ -12,7 +12,7 @@ import MdClose from 'react-icons/lib/md/close'
 import withT from '../../lib/withT'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
-export const getPdfUrl = (meta, {images = true, download = false} = {}) => {
+export const getPdfUrl = (meta, { images = true, download = false } = {}) => {
   const query = [
     !images && 'images=0',
     download && 'download=1'
@@ -55,9 +55,9 @@ class PdfOverlay extends Component {
 
     const imageCount = countImages(article.content)
 
-    return <Overlay onClose={onClose} mUpStyle={{maxWidth: 300, minHeight: 'none'}}>
+    return <Overlay onClose={onClose} mUpStyle={{ maxWidth: 300, minHeight: 'none' }}>
       <OverlayToolbar>
-        <Interaction.Emphasis style={{padding: '15px 20px', fontSize: 16}}>
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/pdf/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
@@ -69,7 +69,7 @@ class PdfOverlay extends Component {
           <Checkbox
             checked={images}
             onChange={(_, checked) => {
-              this.setState({images: checked})
+              this.setState({ images: checked })
             }}>
             {t.pluralize('article/pdf/images', {
               count: imageCount
@@ -79,11 +79,11 @@ class PdfOverlay extends Component {
         </Fragment>}
         <Button block onClick={(e) => {
           e.preventDefault()
-          window.location = getPdfUrl(article.meta, {images})
+          window.location = getPdfUrl(article.meta, { images })
         }}>
           {t('article/pdf/open')}
         </Button>
-        <div style={{textAlign: 'center', marginTop: 10}}>
+        <div style={{ textAlign: 'center', marginTop: 10 }}>
           <A target='_blank'
             href={getPdfUrl(article.meta, {
               images,

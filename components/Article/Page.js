@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
+import { withRouter } from 'next/router'
 import Frame from '../Frame'
 import ActionBar from '../ActionBar'
 import { graphql, compose } from 'react-apollo'
@@ -11,13 +12,16 @@ import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
 import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
-import SSRCachingBoundary, { webpCacheKey } from '../SSRCachingBoundary'
+import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
+import ArticleGallery from './ArticleGallery'
 
 import {
   colors,
@@ -66,10 +70,11 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
+      title={title}
       shareOverlayTitle={t('article/share/title')}
       fill={colors.text}
       dossierUrl={dossierUrl}
@@ -79,9 +84,14 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
         title
       })}
       onAudioClick={onAudioClick}
+      inNativeApp={inNativeApp}
     />
     {discussionId && process.browser &&
-      <DiscussionIconLink discussionId={discussionId} shouldUpdate={!discussionPage} path={discussionPath} style={{marginLeft: 7}} />
+      <DiscussionIconLink
+        discussionId={discussionId}
+        discussionPage={discussionPage}
+        path={discussionPath}
+        style={{ marginLeft: 7 }} />
     }
   </div>
 )
@@ -95,6 +105,7 @@ const getDocument = gql`
         template
         path
         title
+        kind
         description
         image
         facebookDescription
@@ -165,10 +176,26 @@ class ArticlePage extends Component {
     }
 
     this.toggleAudio = () => {
-      this.setState({
-        showAudioPlayer: !this.state.showAudioPlayer
-      })
+      if (this.props.inNativeApp) {
+        const { audioSource, title, path } = this.props.data.article.meta
+        if (!audioSource) {
+          return
+        }
+        postMessage({
+          type: 'play-audio',
+          payload: {
+            url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
+            title,
+            sourcePath: path
+          }
+        })
+      } else {
+        this.setState({
+          showAudioPlayer: !this.state.showAudioPlayer
+        })
+      }
     }
+
     this.togglePdf = () => {
       this.setState({
         showPdf: !this.state.showPdf
@@ -180,6 +207,7 @@ class ArticlePage extends Component {
       secondaryNavExpanded: false,
       showSecondary: false,
       showAudioPlayer: false,
+      isAwayFromBottomBar: true,
       ...this.deriveStateFromProps(props)
     }
 
@@ -188,6 +216,9 @@ class ArticlePage extends Component {
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY
+      if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
+        this.setState({ isAwayFromBottomBar })
+      }
 
       const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
@@ -211,6 +242,7 @@ class ArticlePage extends Component {
         }
       }
     }
+
     this.measure = () => {
       if (!this.state.isSeries) {
         if (this.bar) {
@@ -242,7 +274,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article } }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -266,11 +298,15 @@ class ArticlePage extends Component {
         discussionPath={discussion && discussion.meta.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onPdfClick={(
-          hasPdf && countImages(article.content) > 0 &&
-          this.togglePdf
-        )}
-        pdfUrl={hasPdf && getPdfUrl(meta)} />
+        onPdfClick={hasPdf && countImages(article.content) > 0
+          ? this.togglePdf
+          : undefined
+        }
+        pdfUrl={hasPdf
+          ? getPdfUrl(meta)
+          : undefined}
+        inNativeApp={inNativeApp}
+      />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
@@ -279,7 +315,20 @@ class ArticlePage extends Component {
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}
         </div>
-      )
+      ),
+      getVideoPlayerProps: inNativeApp && !inNativeIOSApp
+        ? props => ({
+          ...props,
+          fullWindow: true,
+          onFull: isFull => {
+            postMessage({
+              type: isFull
+                ? 'fullscreen-enter'
+                : 'fullscreen-exit'
+            })
+          }
+        })
+        : undefined
     })
 
     const isSeries = meta && !!meta.series
@@ -301,20 +350,23 @@ class ArticlePage extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
+
     this.measure()
   }
+
   componentDidUpdate () {
     this.measure()
   }
+
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
 
   render () {
-    const { url, t, data, data: {article}, isMember } = this.props
+    const { router, t, data, data: { article }, isMember } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer } = this.state
+    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -322,7 +374,6 @@ class ArticlePage extends Component {
     const seriesNavButton = series ? (
       <SeriesNavButton
         t={t}
-        url={url}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
@@ -334,23 +385,22 @@ class ArticlePage extends Component {
         ? meta
         : meta.format && meta.format.meta
     )
-    const formatColor = formatMeta && formatMeta.color
+    const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
 
     const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
-    if (url.query.extract) {
+    if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
         if (!article) {
           return <StatusError
-            url={url}
             statusCode={404}
             serverContext={this.props.serverContext} />
         }
 
         return <Extract
-          ranges={url.query.extract}
+          ranges={router.query.extract}
           schema={schema}
-          unpack={url.query.unpack}
+          unpack={router.query.unpack}
           mdast={{
             ...article.content,
             format: meta.format
@@ -361,8 +411,8 @@ class ArticlePage extends Component {
     return (
       <Frame
         raw
-        url={url}
-        meta={meta}
+        // Meta tags for a focus comment are rendered in Discussion/Commments.js
+        meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={(isMember && seriesNavButton) || actionBar}
@@ -374,45 +424,66 @@ class ArticlePage extends Component {
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
             return <StatusError
-              url={url}
               statusCode={404}
               serverContext={this.props.serverContext} />
           }
 
           const isFormat = meta.template === 'format'
+          const isNewsletterSource = router.query.utm_source && router.query.utm_source === 'newsletter'
+          const payNoteVariation = series
+            ? 'series'
+            : this.props.payNoteVariation
 
           return (
             <Fragment>
-              {!isFormat && <PayNote.Before />}
+              {!isFormat && !isNewsletterSource && (
+                <PayNote.Before
+                  variation={payNoteVariation}
+                  expanded={isAwayFromBottomBar} />
+              )}
               {this.state.showPdf &&
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <SSRCachingBoundary cacheKey={webpCacheKey(this.props.headers, article.id)}>
-                {() => renderMdast({
-                  ...article.content,
-                  format: meta.format
-                }, schema)}
-              </SSRCachingBoundary>
-              {meta.template === 'article' && <Center>
-                <div ref={this.bottomBarRef} {...styles.bar}>
-                  {actionBar}
-                </div>
-              </Center>}
+              <ArticleGallery article={article}>
+                <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
+                  {() => renderMdast({
+                    ...article.content,
+                    format: meta.format
+                  }, schema)}
+                </SSRCachingBoundary>
+              </ArticleGallery>
+              {!isFormat && (
+                <PayNote.After
+                  variation={payNoteVariation}
+                  bottomBarRef={this.bottomBarRef} />
+              )}
               {meta.discussionId && <Center>
                 <Discussion
                   discussionId={meta.discussionId}
-                  focusId={url.query.focus}
-                  mute={!!url.query.mute}
-                  url={url} />
+                  focusId={router.query.focus}
+                  mute={!!router.query.mute}
+                  meta={meta} />
               </Center>}
+              {isMember && (
+                <Fragment>
+                  {meta.template === 'article' && <Center>
+                    <div ref={this.bottomBarRef} {...styles.bar}>
+                      {actionBar}
+                    </div>
+                  </Center>}
+                </Fragment>
+              )}
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              <br />
-              <br />
-              <br />
-              <br />
-              {!isFormat && <PayNote.After isSeries={!!series} />}
+              {isMember && (
+                <Fragment>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                </Fragment>
+              )}
             </Fragment>
           )
         }} />
@@ -421,14 +492,24 @@ class ArticlePage extends Component {
   }
 }
 
-export default compose(
+const ComposedPage = compose(
   withT,
   withMembership,
+  withInNativeApp,
+  withRouter,
   graphql(getDocument, {
-    options: ({url: {asPath}}) => ({
+    options: ({ router: { asPath } }) => ({
       variables: {
-        path: asPath.split('?')[0]
+        path: cleanAsPath(asPath)
       }
     })
   })
 )(ArticlePage)
+
+ComposedPage.getInitialProps = () => {
+  return {
+    payNoteVariation: PayNote.getRandomVariation()
+  }
+}
+
+export default ComposedPage

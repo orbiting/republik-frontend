@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import {css} from 'glamor'
-import {max} from 'd3-array'
+import { css, merge } from 'glamor'
+import { max } from 'd3-array'
 
 import Meta from '../Frame/Meta'
 
@@ -10,9 +10,9 @@ import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 
-import Detail from './Detail'
+import { shouldIgnoreClick } from '../Link/utils'
 
-import Play from '../Icons/Play'
+import Detail from './Detail'
 
 import {
   PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL
@@ -23,59 +23,78 @@ import {
   Field, A
 } from '@project-r/styleguide'
 
-const {P} = Interaction
+const { P } = Interaction
 
 const SIZES = [
-  {minWidth: 0, columns: 1},
-  {minWidth: 200, columns: 2},
-  {minWidth: 400, columns: 3},
-  {minWidth: 600, columns: 4},
-  {minWidth: 880, columns: 5}
+  { minWidth: 0, columns: 1 },
+  { minWidth: 200, columns: 2 },
+  { minWidth: 400, columns: 3 },
+  { minWidth: 600, columns: 4 },
+  { minWidth: 880, columns: 5 }
 ]
 
 const PADDING = 5
+
+const getItemStyles = (singleRow, minColumns = 1) => {
+  const sizes = [
+    { minWidth: 0, columns: minColumns },
+    ...SIZES.filter(({ minWidth, columns }) => columns > minColumns)
+  ]
+  return css({
+    cursor: 'pointer',
+    display: 'block',
+    lineHeight: 0,
+    padding: PADDING,
+    position: 'relative',
+    flexShrink: singleRow ? 0 : undefined,
+    ...sizes.reduce((styles, size) => {
+      const width = `${100 / size.columns}%`
+      if (size.minWidth) {
+        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
+          width
+        }
+      } else {
+        styles.width = width
+      }
+      return styles
+    }, {})
+  })
+}
+
 const styles = {
   grid: css({
     margin: '0 -5px',
-    ':after': {
-      content: '""',
-      display: 'table',
-      clear: 'both'
-    }
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }),
-  item: css({
-    cursor: 'pointer',
-    float: 'left',
-    ...(SIZES.reduce(
-      (styles, size) => {
-        const width = `${100 / size.columns}%`
-        if (size.minWidth) {
-          styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-            width
-          }
-        } else {
-          styles.width = width
-        }
-        return styles
-      },
-      {}
-    )),
-    lineHeight: 0,
-    padding: PADDING,
-    position: 'relative'
+  singleRowGrid: css({
+    flexWrap: 'nowrap',
+    overflow: 'hidden'
   }),
+  item: getItemStyles(false),
+  singleRowItem: getItemStyles(true),
   aspect: css({
+    display: 'block',
     width: '100%',
     paddingBottom: '100%',
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: '#ccc',
-    '& > *': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%'
-    }
+    backgroundColor: '#ccc'
+  }),
+  aspectImg: css({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%'
+  }),
+  aspectFade: css({
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.15)',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0
   }),
   itemArrow: css({
     position: 'absolute',
@@ -112,16 +131,24 @@ const styles = {
   })
 }
 
-export const Item = ({image, name, video, isActive, onClick, imageRenderer, style}) => (
-  <div {...styles.item} style={style} onClick={onClick}>
-    <div {...styles.aspect}>
-      {imageRenderer ? imageRenderer() : <img src={image} />}
-    </div>
-    {!!video && <div {...styles.play}><Play /></div>}
-    {!isActive && <div {...styles.name}>{name}</div>}
-    {isActive && <div {...styles.itemArrow} />}
-  </div>
-)
+export const Item = ({ image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
+  const itemStyles = minColumns
+    ? getItemStyles(singleRow, minColumns)
+    : singleRow
+      ? styles.singleRowItem
+      : styles.item
+  return (
+    <a href={href} {...itemStyles} style={style} onClick={onClick}>
+      <span {...styles.aspect}>
+        <img src={image} {...styles.aspectImg} />
+        <span {...styles.aspectFade}
+          style={{ opacity: isActive ? 0 : 1 }} />
+      </span>
+      {!isActive && <span {...styles.name}>{name}</span>}
+      {isActive && <span {...styles.itemArrow} />}
+    </a>
+  )
+}
 
 const AUTO_INFINITE = 300
 
@@ -141,7 +168,7 @@ class List extends Component {
       ))
       const size = SIZES[sizeIndex]
       const columns = size.columns
-      if (columns !== this.state.columns) {
+      if (columns !== this.state.columns && this.props.statements) {
         this.setState(() => ({
           columns,
           open: {
@@ -153,12 +180,12 @@ class List extends Component {
     }
     this.ref = ref => { this.container = ref }
     this.onScroll = () => {
-      const {statements, isPage, hasMore} = this.props
+      const { statements, isPage, hasMore } = this.props
 
       if (this.container && isPage && statements) {
         const bbox = this.container.getBoundingClientRect()
         if (bbox.bottom < window.innerHeight * 2) {
-          const {isFetchingMore, endless} = this.state
+          const { isFetchingMore, endless } = this.state
           if (
             isFetchingMore || !hasMore ||
             (statements.length >= AUTO_INFINITE && !endless)
@@ -173,7 +200,7 @@ class List extends Component {
               this.props.focus,
               this.props.query
             ].join('_')
-            this.props.loadMore().then(({data}) => {
+            this.props.loadMore().then(({ data }) => {
               if (query !== this.query) {
                 this.setState(() => ({
                   isFetchingMore: false
@@ -207,11 +234,16 @@ class List extends Component {
     const {
       loading, error, statements, t,
       onSelect, focus, isPage,
-      search, hasMore, totalCount
+      search, hasMore, totalCount,
+      singleRow, minColumns
     } = this.props
-    const {columns, open} = this.state
+    const { columns, open } = this.state
 
     const hasEndText = !search
+
+    const gridStyles = !singleRow
+      ? styles.grid
+      : merge(styles.grid, styles.singleRowGrid)
 
     return (
       <Loader loading={!statements || loading} error={error} render={() => {
@@ -222,7 +254,7 @@ class List extends Component {
           statements[0]
         )
 
-        statements.forEach(({id, portrait, name}, i) => {
+        statements.forEach(({ id, portrait, name }, i) => {
           const row = Math.floor(i / columns)
           const offset = i % columns
           const openId = open[row - 1]
@@ -246,7 +278,14 @@ class List extends Component {
               image={portrait}
               name={name}
               isActive={isActive}
-              onClick={() => {
+              singleRow={singleRow}
+              minColumns={minColumns}
+              href={`/community?id=${id}`}
+              onClick={(e) => {
+                if (shouldIgnoreClick(e)) {
+                  return
+                }
+                e.preventDefault()
                 if (onSelect(id) === false) {
                   return
                 }
@@ -290,10 +329,10 @@ class List extends Component {
           })
 
         return (
-          <div {...styles.grid} ref={this.ref}>
+          <div {...gridStyles} ref={this.ref}>
             {!!isPage && <Meta data={metaData} />}
             {items}
-            <div style={{clear: 'left', marginBottom: 20}} />
+            <div style={{ clear: 'left', marginBottom: 20 }} />
             {
               statements.length >= AUTO_INFINITE &&
               !this.state.endless &&
@@ -358,7 +397,7 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
 export const ListWithQuery = compose(
   withT,
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       return ({
         loading: data.loading,
         error: data.error,
@@ -376,7 +415,7 @@ export const ListWithQuery = compose(
                 ...fetchMoreResult,
                 statements: {
                   ...fetchMoreResult.statements,
-                  nodes: nodes.filter(({id}, index, all) => (
+                  nodes: nodes.filter(({ id }, index, all) => (
                     index === all.findIndex(node => node.id === id)
                   ))
                 }
@@ -405,8 +444,8 @@ class Container extends Component {
     this.state = {}
   }
   render () {
-    const {t, url: {query: {id}}, isPage} = this.props
-    const {query} = this.state
+    const { t, id, isPage } = this.props
+    const { query } = this.state
 
     const seed = this.state.seed || this.props.seed
 
@@ -422,13 +461,13 @@ class Container extends Component {
             }))
           }} />
         <div {...styles.options}>
-          <A style={{float: 'right', cursor: 'pointer'}} onClick={() => {
+          <A style={{ float: 'right', cursor: 'pointer' }} onClick={() => {
             this.setState(() => ({
               seed: generateSeed()
             }))
           }}>{t('testimonial/search/seed')}</A>
         </div>
-        <br style={{clear: 'left'}} />
+        <br style={{ clear: 'left' }} />
         <ListWithQuery
           isPage={isPage}
           focus={query ? undefined : id || this.state.clearedFocus}
@@ -443,7 +482,7 @@ class Container extends Component {
               Router.pushRoute(
                 'community',
                 {},
-                {shallow: true}
+                { shallow: true }
               )
             })
           }}

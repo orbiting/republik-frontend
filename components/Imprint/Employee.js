@@ -13,16 +13,24 @@ const ProfileLink = ({ children, userId, username }) => {
       params={{
         slug: `${username || userId}`
       }}
+      passHref
     >
       {children}
     </Link>
   )
 }
 
-const Employee = ({ userId, username, name, title, portrait }) => {
+const Employee = ({ name, title, user }) => {
   const displayName = name + (title ? `, ${title}` : '')
+  if (!user) {
+    return <Item name={displayName} style={{ cursor: 'default' }} />
+  }
+  const { id, hasPublicProfile, portrait, username } = user
+  if (!hasPublicProfile) {
+    return <Item image={portrait} name={displayName} style={{ cursor: 'default' }} />
+  }
   return (
-    <ProfileLink userId={userId} username={username}>
+    <ProfileLink userId={id} username={username}>
       <Item image={portrait} name={displayName} />
     </ProfileLink>
   )

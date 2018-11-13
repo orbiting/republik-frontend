@@ -3,6 +3,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const SIDEBAR_WIDTH = 120
 const MARGIN_WIDTH = 20
@@ -57,13 +58,22 @@ class StickySection extends Component {
     this.onScroll = () => {
       if (this.sectionRef) {
         const { sticky, isSmall, height } = this.state
-        const { hasSpaceAfter } = this.props
-        const y = window.pageYOffset + (isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT)
+        const { hasSpaceAfter, inNativeApp } = this.props
+
+        const headerHeight = isSmall
+          ? HEADER_HEIGHT_MOBILE
+          : HEADER_HEIGHT
+
+        const y = window.pageYOffset + (inNativeApp
+          ? 0
+          : headerHeight
+        )
+
         const offset = this.sectionRef.offsetTop
         const nextSticky = (y > offset) && // scroll pos is below top of section
           (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
         if (sticky !== nextSticky) {
-          this.setState({sticky: nextSticky})
+          this.setState({ sticky: nextSticky })
         }
       }
     }
@@ -90,17 +100,19 @@ class StickySection extends Component {
   }
 
   render () {
-    const { children, label } = this.props
+    const { children, label, inNativeApp } = this.props
     const { sticky, width, isMedium } = this.state
+
     return (
       <section ref={this.setSectionRef}>
         <div {...style.header}>
           <div
             {...style.label}
-            {...(sticky && style.sticky)}
+            {...(sticky ? style.sticky : undefined)}
             style={{
+              top: inNativeApp && sticky && -1,
               position: sticky ? 'fixed' : 'relative',
-              width: isMedium ? width : SIDEBAR_WIDTH
+              width: isMedium ? width : (width ? SIDEBAR_WIDTH : '100%')
             }}>
             {
               label
@@ -124,4 +136,4 @@ StickySection.defaultProps = {
   hasSpaceAfter: true
 }
 
-export default StickySection
+export default withInNativeApp(StickySection)

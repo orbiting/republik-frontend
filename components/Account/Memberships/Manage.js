@@ -50,13 +50,13 @@ class Manage extends Component {
         {membership.active &&
           !isCancelling &&
           membership.type.name === 'MONTHLY_ABO' &&
-          <A style={{display: 'block'}} href='/angebote?package=ABO'>
+          <A style={{ display: 'block' }} href='/angebote?package=ABO'>
             {t(`memberships/${membership.type.name}/manage/upgrade/link`)}
           </A>}
         {membership.active && membership.renew && !isCancelling &&
           <A href='#cancel' onClick={(e) => {
             e.preventDefault()
-            this.setState({isCancelling: true})
+            this.setState({ isCancelling: true })
           }}>
             {t.first([
               `memberships/${membership.type.name}/manage/cancel/link`,
@@ -131,7 +131,7 @@ class Manage extends Component {
             ])}
           </A>}
         {!!remoteError &&
-          <P style={{color: colors.error, marginTop: 10}}>{remoteError}</P>}
+          <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
       </Fragment>
     )
   }
@@ -196,15 +196,15 @@ mutation reactivateMembership($id: ID!) {
 export default compose(
   withT,
   graphql(cancelMembership, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       cancel: (variables) =>
-        mutate({variables})
+        mutate({ variables })
     })
   }),
   graphql(reactivateMembership, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       reactivate: (variables) =>
-        mutate({variables})
+        mutate({ variables })
     })
   })
 )(Manage)

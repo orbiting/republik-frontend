@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -9,7 +9,7 @@ import { errorToString } from '../../lib/utils/errors'
 
 import { withPay } from './Submit'
 import PledgeForm from './Form'
-import { gotoMerci } from './Merci'
+import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
@@ -41,7 +41,7 @@ class PledgeReceivePayment extends Component {
   constructor (props, context) {
     super(props, context)
 
-    const {query, t} = props
+    const { query, t } = props
 
     const state = this.state = {}
     if (query.orderID) {
@@ -63,7 +63,7 @@ class PledgeReceivePayment extends Component {
             encodeURIComponent(
               t(
                 'pledge/recievePayment/pf/mailto/subject',
-                {status: query.STATUS}
+                { status: query.STATUS }
               )
             )}&body=${
             encodeURIComponent(
@@ -150,7 +150,7 @@ class PledgeReceivePayment extends Component {
                 encodeURIComponent(
                   t(
                     'pledge/recievePayment/paypal/mailto/subject',
-                    {status: query.st}
+                    { status: query.st }
                   )
                 )}&body=${
                 encodeURIComponent(
@@ -183,7 +183,7 @@ class PledgeReceivePayment extends Component {
     }
 
     this.queryFromPledge = () => {
-      const {pledge} = this.props
+      const { pledge } = this.props
 
       const query = {
         package: pledge.package.name
@@ -194,8 +194,8 @@ class PledgeReceivePayment extends Component {
       return query
     }
   }
-  checkStripeSource ({query}) {
-    const {t} = this.props
+  checkStripeSource ({ query }) {
+    const { t } = this.props
 
     loadStripe()
       .then(stripe => {
@@ -225,8 +225,8 @@ class PledgeReceivePayment extends Component {
         }))
       })
   }
-  pay ({method, pspPayload, sourceId}) {
-    const {me, pledge, pledgeId} = this.props
+  pay ({ method, pspPayload, sourceId }) {
+    const { me, pledge, pledgeId } = this.props
 
     this.props.pay({
       pledgeId,
@@ -234,13 +234,13 @@ class PledgeReceivePayment extends Component {
       pspPayload,
       sourceId
     })
-      .then(({data: {payPledge}}) => {
+      .then(({ data: { payPledge } }) => {
         if (!me) {
           this.props.signIn(pledge.user.email, 'pledge')
-            .then(({data: {signIn}}) => gotoMerci({
+            .then(({ data: { signIn } }) => gotoMerci({
               id: payPledge.pledgeId,
               email: pledge.user.email,
-              phrase: signIn.phrase
+              ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
               id: payPledge.pledgeId,
@@ -272,14 +272,14 @@ class PledgeReceivePayment extends Component {
     // }
     // Router.replaceRoute(route, params, {shallow: true})
 
-    const {action} = this.state
+    const { action } = this.state
     if (action) {
       this[action.method](action.argument)
     }
   }
   render () {
-    const {loading, error, pledge, crowdfundingName, query, t} = this.props
-    const {processing, receiveError} = this.state
+    const { loading, error, pledge, crowdfundingName, query, t } = this.props
+    const { processing, receiveError } = this.state
 
     if (processing) {
       return <Loader loading message={t('pledge/submit/loading/pay')} />

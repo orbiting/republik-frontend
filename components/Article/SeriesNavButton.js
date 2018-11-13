@@ -6,6 +6,8 @@ import SeriesNavPanel from './SeriesNavPanel'
 import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
+import { prefixHover } from '../../lib/utils/hover'
+
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
   mediaQueries,
@@ -16,12 +18,13 @@ import {
 const styles = {
   button: css({
     cursor: 'pointer',
-    '&, &:hover, &:focus': {
+    [`&, ${prefixHover()}, &:focus`]: {
       backgroundColor: 'transparent',
       border: 'none',
       boxShadow: 'none',
       outline: 'none'
     },
+    fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
     position: 'absolute',
     textAlign: 'left',
@@ -36,7 +39,7 @@ const styles = {
     backgroundColor: negativeColors.primaryBg,
     color: negativeColors.text,
     fontFamily: fontFamilies.sansSerifRegular,
-    position: 'absolute',
+    position: 'fixed',
     visibility: 'hidden',
     whiteSpace: 'normal',
     opacity: 0,
@@ -50,7 +53,7 @@ const styles = {
     display: 'flex',
     boxSizing: 'border-box',
     top: HEADER_HEIGHT_MOBILE,
-    left: '-15px',
+    left: 0,
     height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     width: '100vw',
     flexDirection: 'column',
@@ -85,12 +88,11 @@ const styles = {
   })
 }
 
-export default ({
+const SeriesNavButton = ({
   items,
   id,
   children,
   t,
-  url,
   series,
   onSecondaryNavExpandedChange,
   expanded
@@ -110,8 +112,13 @@ export default ({
         </span>
       </span>
     </button>
-    <div {...styles.menu} aria-expanded={expanded}>
-      <SeriesNavPanel t={t} url={url} series={series} />
+    <div
+      {...styles.menu}
+      aria-expanded={expanded}
+    >
+      <SeriesNavPanel t={t} series={series} />
     </div>
   </Fragment>
 )
+
+export default SeriesNavButton

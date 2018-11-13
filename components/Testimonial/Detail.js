@@ -59,7 +59,7 @@ const Detail = ({
       <H3 {...styles.detailTitle}>
         {hasPublicProfile ? (
           <Link route='profile' params={{ slug: username || id }}>
-            <a {...linkRule} style={{color: 'inherit'}}>
+            <a {...linkRule} style={{ color: 'inherit' }}>
               {name}
             </a>
           </Link>
@@ -92,6 +92,9 @@ const Detail = ({
       {share && (
         <ActionBar
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
+          title={t('testimonial/detail/share/title', {
+            name
+          })}
           emailSubject={t('testimonial/detail/share/emailSubject', {
             name
           })}

@@ -29,12 +29,12 @@ const styles = {
   })
 }
 
-const {H3} = Interaction
+const { H3 } = Interaction
 
 const hourFormat = timeFormat('%H:%M')
 const dayFormat = timeFormat('%d. %B %Y')
 
-export const Item = withT(({t, highlighted, title, createdAt, children}) => (
+export const Item = withT(({ t, highlighted, title, createdAt, children }) => (
   <div {...styles.item} {...(highlighted && styles.itemHighlighted)}>
     <H3>
       {title}
@@ -49,5 +49,5 @@ export const Item = withT(({t, highlighted, title, createdAt, children}) => (
   </div>
 ))
 
-export const A = ({children, ...props}) => <a {...props} {...styles.a}>{children}</a>
-export const P = ({children, ...props}) => <p {...props} {...styles.p}>{children}</p>
+export const A = ({ children, ...props }) => <a {...props} {...styles.a}>{children}</a>
+export const P = ({ children, ...props }) => <p {...props} {...styles.p}>{children}</p>

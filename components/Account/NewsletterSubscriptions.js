@@ -2,12 +2,11 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import Loader from '../Loader'
 import withT from '../../lib/withT'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { InlineSpinner, Checkbox } from '@project-r/styleguide'
+import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 
 const styles = {
   headline: css({
@@ -21,6 +20,10 @@ const styles = {
     '& > span': {
       display: 'inline'
     }
+  }),
+  label: css({
+    display: 'block',
+    paddingLeft: '28px'
   })
 }
 
@@ -92,12 +95,18 @@ class NewsletterSubscriptions extends Component {
                       }).then(finish)
                     }}
                   >
-                    {t(`account/newsletterSubscriptions/${name}/label`)}
-                    {mutating[name] && (
-                      <span {...styles.spinnerWrapper}>
-                        <InlineSpinner size={24} />
-                      </span>
-                    )}
+                    <span {...styles.label}>
+                      {t(`account/newsletterSubscriptions/${name}/label`)}
+                      {mutating[name] && (
+                        <span {...styles.spinnerWrapper}>
+                          <InlineSpinner size={24} />
+                        </span>
+                      )}
+                      <br />
+                      <Label>
+                        {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                      </Label>
+                    </span>
                   </Checkbox>
                 </p>
               ))}

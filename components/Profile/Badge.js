@@ -41,7 +41,7 @@ const Badge = ({ t, badge, size }) => {
       <IconLink
         icon={badgeData.icon}
         size={size - 8}
-        style={{padding: 0}} />
+        style={{ padding: 0 }} />
     </span>
   )
 }

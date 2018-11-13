@@ -1,16 +1,16 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
-import {parseDate, swissTime} from '../../lib/utils/format'
-import {intersperse} from '../../lib/utils/helpers'
+import { parseDate, swissTime } from '../../lib/utils/format'
+import { intersperse } from '../../lib/utils/helpers'
 import withT from '../../lib/withT'
 
 import {
-  Interaction, A, colors,
+  Interaction, A, RawHtml, colors,
   fontFamilies, mediaQueries
 } from '@project-r/styleguide'
 
-import {CONTENT_PADDING} from '../constants'
+import { CONTENT_PADDING } from '../constants'
 
 import ActionBar from '../ActionBar'
 
@@ -52,11 +52,11 @@ const styles = {
   })
 }
 
-const Label = ({children}) => (
+const Label = ({ children }) => (
   <div {...styles.label}>{children}</div>
 )
 
-const {H1, P} = Interaction
+const { H1, P } = Interaction
 
 const weekday = swissTime.format('%A')
 
@@ -91,12 +91,12 @@ const Event = withT(({
       <div {...styles.block}>
         <Label>{t('events/labels/description')}</Label>
         <H1 {...styles.title}>{title}</H1>
-        <P>
-          {intersperse(
-            (description || '').split('\n'),
-            (d, i) => <br key={i} />
-          )}
-        </P>
+        <RawHtml
+          type={P}
+          key={slug}
+          dangerouslySetInnerHTML={{
+            __html: description.split('\n').join('<br />')
+          }} />
         {!!link && (
           <P>
             <A href={link} target='_blank' rel='noopener'>
@@ -121,6 +121,7 @@ const Event = withT(({
         {!!where && <hr {...styles.hr} />}
         <P>
           <ActionBar
+            title={title}
             url={`${PUBLIC_BASE_URL}/veranstaltung/${slug}`}
             emailSubject={title}
             tweet={title}

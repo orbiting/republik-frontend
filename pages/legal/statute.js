@@ -1,5 +1,4 @@
 import React from 'react'
-import withData from '../../lib/apollo/withData'
 import Frame from '../../components/Frame'
 
 import md from 'markdown-in-js'
@@ -13,14 +12,14 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../../lib/constants'
 
-export default withData(({url}) => {
+export default () => {
   const meta = {
     title: 'Statuten',
     description: ''
   }
 
   return (
-    <Frame url={url} meta={meta} indented>
+    <Frame meta={meta} indented>
       <H1>
         {meta.title}
       </H1>
@@ -426,4 +425,4 @@ Der Vorstand hat folgende unübertragbaren und unentziehbaren Aufgaben:
       `}
     </Frame>
   )
-})
+}

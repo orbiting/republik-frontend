@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { SUPPORTED_FILTER } from './constants'
 
 import {
   colors,
@@ -78,7 +79,7 @@ class FilterButton extends Component {
         }}
       >
         {label}
-        <span {...styles.count} style={{visibility}}>{count}</span>
+        <span {...styles.count} style={{ visibility }}>{count}</span>
       </button>
     )
   }
@@ -103,7 +104,7 @@ class FilterButtonGroup extends Component {
     const { filterBucketKey, filters } = this.props
     return (
       <Fragment>
-        {filters.map(({key, label, count, selected, loadingFilters, onClickHandler}) => (
+        {filters.map(({ key, label, count, selected, loadingFilters, onClickHandler }) => (
           <FilterButton
             key={key}
             filterBucketKey={filterBucketKey}
@@ -173,7 +174,7 @@ class Filter extends Component {
       aggregation.kind &&
       aggregation.kind.buckets
         .filter(
-          bucket => bucket.value !== 'editorial'
+          bucket => SUPPORTED_FILTER.kind.indexOf(bucket.value) > -1
         )
         .map(bucket => filterButtonProps('kind', bucket))
 

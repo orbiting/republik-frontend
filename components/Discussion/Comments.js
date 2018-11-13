@@ -1,17 +1,18 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
+import { format, parse } from 'url'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
-import Loader from '../Loader'
-
 import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
+import ShareOverlay from './ShareOverlay'
 
 import {
+  Loader,
   CommentTreeLoadMore,
   CommentTreeCollapse,
   CommentTreeRow,
@@ -19,7 +20,9 @@ import {
   colors
 } from '@project-r/styleguide'
 
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
+import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
 
@@ -29,7 +32,7 @@ const debug = mkDebug('comments')
 
 const SHOW_DEBUG = false
 
-const BlockLabel = ({children}) => <Label style={{display: 'block'}}>{children}</Label>
+const BlockLabel = ({ children }) => <Label style={{ display: 'block' }}>{children}</Label>
 
 const mergeCounts = (a, b) => {
   return {
@@ -44,6 +47,18 @@ const mergeCounts = (a, b) => {
   }
 }
 
+const getFocusUrl = (path, commentId) => {
+  const documentPathObject = parse(path, true)
+  const sharePath = format({
+    pathname: documentPathObject.pathname,
+    query: {
+      ...documentPathObject.query,
+      focus: commentId
+    }
+  })
+  return PUBLIC_BASE_URL + sharePath
+}
+
 class Comments extends PureComponent {
   constructor (props, ...args) {
     super(props, ...args)
@@ -55,7 +70,8 @@ class Comments extends PureComponent {
       showPreferences: false,
       maxVisualDepth: 3,
       closedPortals: {},
-      hasFocus: !!props.focusId
+      hasFocus: !!props.focusId,
+      shareUrl: undefined
     }
 
     this.showPreferences = () => {
@@ -85,7 +101,7 @@ class Comments extends PureComponent {
     }
   }
   clearSubIds (parentId) {
-    this.setState(({subIdMap}) => {
+    this.setState(({ subIdMap }) => {
       const { nodes } = this.props.data.discussion.comments
 
       const subIds = (subIdMap[parentId] || [])
@@ -102,7 +118,7 @@ class Comments extends PureComponent {
   componentDidMount () {
     this.unsubscribe = this.props.subscribe({
       onCreate: (comment, parentId = 'root') => {
-        this.setState(({subIdMap}) => {
+        this.setState(({ subIdMap }) => {
           const subIds = subIdMap[parentId] || []
           subIds.push(comment.id)
 
@@ -173,12 +189,12 @@ class Comments extends PureComponent {
         return nodes.find(node => node.id === id)
       }, null)
       if (!closestParent) {
-        this.setState({focusError: t('discussion/focus/missing')})
+        this.setState({ focusError: t('discussion/focus/missing') })
         return
       }
       const parentIndex = parentIds.indexOf(closestParent.id)
       const depth = parentIds.length - parentIndex
-      this.setState({focusLoading: true})
+      this.setState({ focusLoading: true })
       fetchMore(closestParent.id, undefined, { depth })
         .then(() => {
           this.setState({
@@ -207,19 +223,21 @@ class Comments extends PureComponent {
       now
     } = this.props
 
-    const CommentLink = ({displayAuthor, commentId, children, ...props}) => {
+    const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
       if (displayAuthor && displayAuthor.username) {
-        return <Link route='profile' params={{slug: displayAuthor.username}} {...props}>
+        return <Link route='profile' params={{ slug: displayAuthor.username }} {...props}>
           {children}
         </Link>
       }
       if (commentId) {
         if (discussion.documentPath) {
-          return <PathLink path={discussion.documentPath} query={{focus: commentId}} replace scroll={false} {...props}>
+          const documentPathObject = parse(discussion.documentPath, true)
+
+          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
-        return <Link route='discussion' params={{id: discussion.id, focus: commentId}} {...props}>
+        return <Link route='discussion' params={{ id: discussion.id, focus: commentId }} {...props}>
           {children}
         </Link>
       }
@@ -292,7 +310,7 @@ class Comments extends PureComponent {
               visualDepth={isRoot ? 0 : accumulator.visualDepth}
               count={leftCount + subCount}
               onClick={() => {
-                fetchMore(comment.id, comment.comments.pageInfo.endCursor, {appendAfter})
+                fetchMore(comment.id, comment.comments.pageInfo.endCursor, { appendAfter })
                   .then(() => {
                     this.clearSubIds(comment.id)
                   })
@@ -300,7 +318,7 @@ class Comments extends PureComponent {
             />
           )
         } else if (accumulator.visualDepth === 1) {
-          accumulator.list.push(<div key={`br${comment.id}`} style={{height: 10}} />)
+          accumulator.list.push(<div key={`br${comment.id}`} style={{ height: 10 }} />)
         }
       })
       accumulator.pendingClosure = accumulator.pendingClosure
@@ -338,7 +356,7 @@ class Comments extends PureComponent {
               visualDepth={portal.visualDepth}
               count={portalAccumulator.count}
               onClick={() => {
-                this.setState(({closedPortals}) => ({
+                this.setState(({ closedPortals }) => ({
                   closedPortals: {
                     ...closedPortals,
                     [portalId]: false
@@ -354,7 +372,7 @@ class Comments extends PureComponent {
                 t={t}
                 visualDepth={accumulator.visualDepth}
                 onClick={() => {
-                  this.setState(({closedPortals}) => ({
+                  this.setState(({ closedPortals }) => ({
                     closedPortals: {
                       ...closedPortals,
                       [portalId]: true
@@ -424,7 +442,7 @@ class Comments extends PureComponent {
       const replyBlockedMsg = (
         waitUntilDate &&
         waitUntilDate > now &&
-        t('styleguide/CommentComposer/wait', {time: timeAheadFromNow(waitUntilDate)})
+        t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })
       ) || ''
 
       SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
@@ -432,6 +450,7 @@ class Comments extends PureComponent {
         tail,
         otherChild
       }, null, 2)}</BlockLabel>)
+
       accumulator.list.push(
         <CommentTreeRow
           key={comment.id}
@@ -463,6 +482,9 @@ class Comments extends PureComponent {
           replyBlockedMsg={replyBlockedMsg}
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
+          collapsable={discussion && discussion.collapsable}
+          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
+
         />
       )
 
@@ -537,15 +559,17 @@ class Comments extends PureComponent {
     const {
       discussionId,
       t,
-      data: {loading, error, discussion},
-      fetchMore
+      data: { loading, error, discussion },
+      fetchMore,
+      meta
     } = this.props
 
     const {
       showPreferences,
       subIdMap,
       hasFocus,
-      focusLoading
+      focusLoading,
+      shareUrl
     } = this.state
 
     return (
@@ -553,7 +577,7 @@ class Comments extends PureComponent {
         loading={loading || (hasFocus && focusLoading)}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const {totalCount, pageInfo, nodes} = discussion.comments
+          const { totalCount, pageInfo, nodes, focus } = discussion.comments
 
           const accumulator = this.renderComments(nodes)
 
@@ -584,12 +608,35 @@ class Comments extends PureComponent {
             />
           )
 
+          const shareOverlay = !!shareUrl && (
+            <ShareOverlay
+              discussionId={discussionId}
+              onClose={() => this.setState({ shareUrl: undefined })}
+              url={shareUrl}
+              title={discussion ? discussion.title : ''}
+            />
+          )
+
+          const metaTags = focus && meta && (
+            <Meta data={{
+              ...meta,
+              title: t('discussion/meta/focus/title', {
+                authorName: focus.displayAuthor.name,
+                discussionTitle: meta.title
+              }),
+              description: focus.preview ? focus.preview.string : undefined,
+              url: getFocusUrl(meta.url, focus.id)
+            }} />
+          )
+
           return (
             <Fragment>
+              {metaTags}
               {accumulator.list}
               <br />
               {tail}
               {discussionPreferences}
+              {shareOverlay}
             </Fragment>
           )
         }}
@@ -608,12 +655,12 @@ export default compose(
   isAdmin,
   submitComment,
   graphql(query, {
-    props: ({ownProps: {discussionId, orderBy}, data: {fetchMore, subscribeToMore, ...data}}) => ({
+    props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
       data,
-      fetchMore: (parentId, after, {appendAfter, depth} = {}) => {
+      fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
         return fetchMore({
-          variables: {discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1},
-          updateQuery: (previousResult, {fetchMoreResult: {discussion}}) => {
+          variables: { discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1 },
+          updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
             let nodes = previousResult.discussion.comments.nodes
             const nodeIndex = nodes.reduce(
               (index, node) => {
@@ -646,7 +693,7 @@ export default compose(
                 appendIndex = nodes.indexOf(nodeIndex[appendAfter.id])
                 if (appendIndex === -1) {
                   appendIndex = 0
-                  debug('fetchMore:append', 'node not found', appendIndex, {appendAfter, nodes})
+                  debug('fetchMore:append', 'node not found', appendIndex, { appendAfter, nodes })
                 }
               }
               nodes.splice(appendIndex + 1, 0, ...newNodes)
@@ -668,7 +715,7 @@ export default compose(
           }
         })
       },
-      subscribe: ({onCreate}) => {
+      subscribe: ({ onCreate }) => {
         return subscribeToMore({
           document: commentsSubscription,
           variables: {

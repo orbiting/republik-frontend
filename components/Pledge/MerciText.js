@@ -5,11 +5,9 @@ import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import Loader from '../Loader'
+import { Loader, Interaction, RawHtml, Lead } from '@project-r/styleguide'
 
-import { Interaction, RawHtml, Lead } from '@project-r/styleguide'
-
-const { H1, P } = Interaction
+const { H1 } = Interaction
 
 const getPledgeById = gql`
   query pledge($id: ID!) {
@@ -23,8 +21,8 @@ const getPledgeById = gql`
 `
 
 class MerciText extends Component {
-  render() {
-    const { pledgeId, me, t, loading, error, pledge } = this.props
+  render () {
+    const { me, t, loading, error, pledge } = this.props
 
     return (
       <Loader

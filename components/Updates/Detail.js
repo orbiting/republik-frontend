@@ -1,7 +1,7 @@
 import React from 'react'
-import {css} from 'glamor'
+import { css } from 'glamor'
 
-import {swissTime} from '../../lib/utils/format'
+import { swissTime } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 
 import {
@@ -9,7 +9,7 @@ import {
   fontFamilies, mediaQueries
 } from '@project-r/styleguide'
 
-import {CONTENT_PADDING} from '../constants'
+import { CONTENT_PADDING } from '../constants'
 
 import ActionBar from '../ActionBar'
 
@@ -62,7 +62,7 @@ const styles = {
   })
 }
 
-const Content = ({children, ...props}) => (
+const Content = ({ children, ...props }) => (
   <div {...props} {...styles.content}>{children}</div>
 )
 
@@ -102,6 +102,7 @@ const Update = withT(({
 
       <P>
         <ActionBar
+          title={title}
           url={`${PUBLIC_BASE_URL}/updates/${slug}`}
           emailSubject={title}
           tweet={title} />

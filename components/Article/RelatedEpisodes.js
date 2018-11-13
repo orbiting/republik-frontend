@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { romanize } from '../../lib/utils/romanize'
@@ -25,7 +25,7 @@ const Tile = ({ t, episode, index, LinkComponent = DefaultLink }) => {
   const meta = episode && episode.document && episode.document.meta
   const route = meta && meta.path
   const image = (episode && episode.image) || (meta && meta.image)
-  const align = image ? {align: 'top'} : {}
+  const align = image ? { align: 'top' } : {}
 
   if (route) {
     LinkComponent = ({ children }) => <Link route={route}>{children}</Link>
@@ -60,31 +60,27 @@ const RelatedEpisodes = ({ t, episodes, path }) => {
   previousEpisode = currentEpisodeIndex > 0 && episodes[currentEpisodeIndex - 1]
   nextEpisode = episodes[currentEpisodeIndex + 1]
 
-  return (
-    <Fragment>
-      {(previousEpisode || nextEpisode) && (
-        <Center>
-          <Breakout size='breakout'>
-            <TeaserFrontTileRow columns={2}>
-              {previousEpisode && (
-                <Tile
-                  t={t}
-                  episode={previousEpisode}
-                  index={currentEpisodeIndex - 1}
-                />
-              )}
-              {nextEpisode && (
-                <Tile
-                  t={t}
-                  episode={nextEpisode}
-                  index={currentEpisodeIndex + 1}
-                />
-              )}
-            </TeaserFrontTileRow>
-          </Breakout>
-        </Center>
-      )}
-    </Fragment>
+  return !!(previousEpisode || nextEpisode) && (
+    <Center>
+      <Breakout size='breakout'>
+        <TeaserFrontTileRow columns={2} mobileReverse>
+          {previousEpisode && (
+            <Tile
+              t={t}
+              episode={previousEpisode}
+              index={currentEpisodeIndex - 1}
+            />
+          )}
+          {nextEpisode && (
+            <Tile
+              t={t}
+              episode={nextEpisode}
+              index={currentEpisodeIndex + 1}
+            />
+          )}
+        </TeaserFrontTileRow>
+      </Breakout>
+    </Center>
   )
 }
 

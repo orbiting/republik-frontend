@@ -87,8 +87,8 @@ class PaymentSources extends Component {
         })
       })
   }
-  checkStripeSource ({query}) {
-    const {t} = this.props
+  checkStripeSource ({ query }) {
+    const { t } = this.props
 
     loadStripe()
       .then(stripe => {
@@ -117,11 +117,11 @@ class PaymentSources extends Component {
   componentDidMount () {
     const { query } = this.props
     if (query.stripe) {
-      this.checkStripeSource({query})
+      this.checkStripeSource({ query })
       Router.replaceRoute(
         'account',
         {},
-        {shallow: true}
+        { shallow: true }
       )
     }
   }
@@ -165,7 +165,7 @@ class PaymentSources extends Component {
           errors={errors}
           dirty={dirty} />
         {!!remoteError && (
-          <P style={{color: colors.error, marginBottom: 40}}>
+          <P style={{ color: colors.error, marginBottom: 40 }}>
             {remoteError}
           </P>
         )}
@@ -179,7 +179,7 @@ class PaymentSources extends Component {
         {!loading && values.newSource && (
           <Fragment>
             {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{color: colors.error, marginBottom: 40}}>
+              <div style={{ color: colors.error, marginBottom: 40 }}>
                 {t('account/paymentSource/error')}<br />
                 <ul>
                   {errorMessages.map((error, i) => (
@@ -189,7 +189,7 @@ class PaymentSources extends Component {
               </div>
             )}
             <Button
-              style={{opacity: errorMessages.length ? 0.5 : 1}}
+              style={{ opacity: errorMessages.length ? 0.5 : 1 }}
               onClick={() => {
                 if (errorMessages.length) {
                   this.setState(state => {
@@ -238,7 +238,7 @@ export default compose(
   withT,
   withMe,
   graphql(addSource, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       addSource: source => {
         return mutate({
           variables: {

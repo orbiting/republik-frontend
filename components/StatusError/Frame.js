@@ -4,7 +4,10 @@ import React, { Fragment, Component } from 'react'
 import { css } from 'glamor'
 import { range } from 'd3-array'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../constants'
 
 import {
   NarrowContainer,
@@ -21,13 +24,12 @@ const styles = {
     fontFamily: fontFamilies.sansSerifMedium,
     backgroundColor: colors.primaryBg,
     top: HEADER_HEIGHT_MOBILE,
-    height: 200,
-    lineHeigt: 200,
+    height: 220,
+    paddingTop: 20,
     fontSize: 150,
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT,
-      height: 400,
-      lineHeigt: 400,
+      height: 420,
       fontSize: 300
     }
   }),
@@ -64,7 +66,7 @@ class Header extends Component {
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
-        this.setState({isMobile})
+        this.setState({ isMobile })
       }
     }
     this.handleScroll = () => {
@@ -107,7 +109,7 @@ class Header extends Component {
               {...styles.headline}
               {...styles.secondary}
               style={t(y(scroll, i * space), z(scroll, i * space))}>
-              <span style={{opacity: o(scroll, i * space)}}>
+              <span style={{ opacity: o(scroll, i * space) }}>
                 {statusCode}
               </span>
             </div>

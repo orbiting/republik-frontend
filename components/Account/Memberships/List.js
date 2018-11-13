@@ -45,7 +45,7 @@ class MembershipsList extends Component {
 
 export default compose(
   graphql(query, {
-    props: ({data}) => {
+    props: ({ data }) => {
       return {
         loading: data.loading,
         error: data.error,

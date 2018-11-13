@@ -6,8 +6,9 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
-import track from '../../lib/piwik'
-import { Link } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
+import withInNativeApp from '../../lib/withInNativeApp'
+import { prefixHover } from '../../lib/utils/hover'
 
 import {
   BrandMark,
@@ -20,6 +21,7 @@ import {
 import { ZINDEX_FOOTER } from '../constants'
 
 import IconLink from '../IconLink'
+import { shouldIgnoreClick } from '../Link/utils'
 
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
@@ -81,7 +83,7 @@ const styles = {
       ':visited': {
         color: negativeColors.text
       },
-      ':hover': {
+      [prefixHover()]: {
         color: negativeColors.lightText
       }
     }
@@ -134,34 +136,9 @@ const styles = {
   })
 }
 
-const trackRoles = me =>
-  track([
-    'setCustomDimension',
-    1,
-    me
-      ? [].concat(me.roles).sort().join(' ') || 'none'
-      : 'guest'
-  ])
-
 class Footer extends Component {
-  componentDidMount () {
-    const { me } = this.props
-    trackRoles(me)
-    track(['trackPageView'])
-  }
-  componentWillReceiveProps ({ me }) {
-    if (
-      me !== this.props.me &&
-      ((!me || !this.props.me) || me.email !== this.props.me.email)
-    ) {
-      // start new visit with potentially different roles
-      track(['appendToTrackingUrl', 'new_visit=1'])
-      track(['deleteCookies'])
-      trackRoles(me)
-    }
-  }
   render () {
-    const { t, me, signOut } = this.props
+    const { t, me, signOut, inNativeApp, inNativeIOSApp } = this.props
     return (
       <div {...styles.bg}>
         <Container style={{ overflow: 'hidden' }}>
@@ -189,10 +166,6 @@ class Footer extends Component {
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/about/title')}</div>
-              <Link route='crew'>
-                <a>{t('footer/crew')}</a>
-              </Link>
-              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
               </Link>
@@ -205,11 +178,11 @@ class Footer extends Component {
                 <a>{t('footer/media')}</a>
               </Link>
               <br />
-              <a href='/manifest' target='_blank'>
+              <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
               </a>
               <br />
-              <a href='/en' target='_blank'>
+              <a href='/en' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/en')}
               </a>
               <br />
@@ -249,16 +222,38 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
+              {me && me.accessCampaigns.length > 0 &&
+                <Fragment>
+                  <a
+                    href='/konto#teilen'
+                    onClick={(e) => {
+                      if (shouldIgnoreClick(e)) {
+                        return
+                      }
+
+                      Router.pushRoute('/konto#teilen')
+                    }}>
+                    {t('footer/me/share')}
+                  </a>
+                  <br />
+                </Fragment>
+              }
               {!!me && <Fragment>
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <a>{t('footer/me/profile')}</a>
                 </Link>
                 <br />
               </Fragment>}
-              <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
-                <a>{t('footer/me/give')}</a>
-              </Link>
-              <br />
+              {!inNativeIOSApp && (
+                <Fragment>
+                  <Link
+                    route='pledge'
+                    params={me ? { package: 'ABO_GIVE' } : undefined}>
+                    <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
+                  </Link>
+                  <br />
+                </Fragment>
+              )}
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
               </Link>
@@ -284,7 +279,7 @@ class Footer extends Component {
           <div {...styles.lastLine}>
             <Link route='index'>
               <a {...styles.logo} {...styles.left}>
-                <Logo fill={negativeColors.text} width={140} />
+                <Logo fill={negativeColors.text} height={20} />
               </a>
             </Link>
             <Link route='index'>
@@ -314,4 +309,4 @@ class Footer extends Component {
   }
 }
 
-export default compose(withT, withMe, withSignOut)(Footer)
+export default compose(withT, withMe, withSignOut, withInNativeApp)(Footer)

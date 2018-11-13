@@ -1,7 +1,7 @@
-import React, {PureComponent} from 'react'
-import {css} from 'glamor'
+import React, { Fragment, PureComponent } from 'react'
+import { css } from 'glamor'
 import withT from '../../lib/withT'
-import {A, colors, fontStyles} from '@project-r/styleguide'
+import { A, colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
@@ -20,7 +20,10 @@ const styles = {
     border: 'none',
     padding: '0',
     cursor: 'pointer',
-    marginRight: '40px'
+    marginRight: '20px',
+    [mediaQueries.mUp]: {
+      marginRight: '40px'
+    }
   }),
   selectedOrderBy: css({
     textDecoration: 'underline'
@@ -32,7 +35,7 @@ class Discussion extends PureComponent {
     super(props)
 
     this.state = {
-      orderBy: 'HOT', // DiscussionOrder
+      orderBy: 'DATE', // DiscussionOrder
       reload: 0,
       now: Date.now()
     }
@@ -49,54 +52,57 @@ class Discussion extends PureComponent {
   }
 
   render () {
-    const {t, discussionId, focusId = null, mute, url} = this.props
-    const {orderBy, reload, now} = this.state
+    const { t, discussionId, focusId = null, mute, meta } = this.props
+    const { orderBy, reload, now } = this.state
 
-    const OrderBy = ({children, value}) => (
+    const OrderBy = ({ children, value }) => (
       <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
-        this.setState({orderBy: value})
+        this.setState({ orderBy: value })
       }}>
         {t(`components/Discussion/OrderBy/${value}`)}
       </button>
     )
 
     return (
-      <div data-discussion-id={discussionId}>
-        <DiscussionCommentComposer
-          discussionId={discussionId}
-          orderBy={orderBy}
-          focusId={focusId}
-          depth={1}
-          parentId={null}
-          now={now}
-        />
+      <Fragment>
+        <div data-discussion-id={discussionId}>
+          <DiscussionCommentComposer
+            discussionId={discussionId}
+            orderBy={orderBy}
+            focusId={focusId}
+            depth={1}
+            parentId={null}
+            now={now}
+          />
 
-        <NotificationOptions discussionId={discussionId} mute={mute} url={url} />
+          <NotificationOptions discussionId={discussionId} mute={mute} />
 
-        <div {...styles.orderByContainer}>
-          <OrderBy value='HOT' />
-          <OrderBy value='DATE' />
-          <OrderBy value='VOTES' />
-          <A style={{float: 'right', lineHeight: '25px', cursor: 'pointer'}} href='' onClick={(e) => {
-            e.preventDefault()
-            this.setState(({ reload }) => ({ reload: reload + 1 }))
-          }}>
-            {t('components/Discussion/reload')}
-          </A>
-          <br style={{clear: 'both'}} />
+          <div {...styles.orderByContainer}>
+            <OrderBy value='DATE' />
+            <OrderBy value='VOTES' />
+            <OrderBy value='REPLIES' />
+            <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={(e) => {
+              e.preventDefault()
+              this.setState(({ reload }) => ({ reload: reload + 1 }))
+            }}>
+              {t('components/Discussion/reload')}
+            </A>
+            <br style={{ clear: 'both' }} />
+          </div>
+
+          <Comments
+            depth={1}
+            key={orderBy}
+            discussionId={discussionId}
+            focusId={focusId}
+            parentId={null}
+            reload={reload}
+            orderBy={orderBy}
+            now={now}
+            meta={meta}
+          />
         </div>
-
-        <Comments
-          depth={1}
-          key={orderBy}
-          discussionId={discussionId}
-          focusId={focusId}
-          parentId={null}
-          reload={reload}
-          orderBy={orderBy}
-          now={now}
-        />
-      </div>
+      </Fragment>
     )
   }
 }

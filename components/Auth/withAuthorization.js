@@ -23,12 +23,12 @@ const checkRoles = (me, roles) => {
 const styles = {
   center: css({
     width: '100%',
-    maxWidth: '540px',
-    margin: '20vh auto',
+    maxWidth: 600,
+    margin: '10vh auto',
     padding: 20
   })
 }
-export const PageCenter = ({children}) => (
+export const PageCenter = ({ children }) => (
   <div {...styles.center}>
     {children}
   </div>
@@ -36,14 +36,14 @@ export const PageCenter = ({children}) => (
 
 const withAuthorization = (roles, key = 'isAuthorized') =>
   WrappedComponent =>
-    withMe(({me, ...props}) =>
+    withMe(({ me, ...props }) =>
       <WrappedComponent {...props}
         me={me}
-        {...{[key]: checkRoles(me, roles)}} />
+        {...{ [key]: checkRoles(me, roles) }} />
     )
 
-const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
-  <Frame url={url} raw>
+const UnauthorizedPage = withT(({ t, me, roles = [] }) => (
+  <Frame raw>
     <PageCenter>
       {!me ? (
         <Fragment>
@@ -68,11 +68,11 @@ const UnauthorizedPage = withT(({t, me, url, roles = []}) => (
   </Frame>
 ))
 
-export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({isAuthorized, me, ...props}) => {
+export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({ isAuthorized, me, ...props }) => {
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} url={props.url} />
+  return <UnauthorizedPage me={me} />
 })
 
 export default withAuthorization

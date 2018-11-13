@@ -1,5 +1,5 @@
 {
-  "updated": "2018-07-06T11:45:20.778Z",
+  "updated": "2018-11-13T10:22:02.338Z",
   "title": "live",
   "data": [
     {
@@ -25,6 +25,42 @@
     {
       "key": "nav/community",
       "value": "Community"
+    },
+    {
+      "key": "nav/meta",
+      "value": "Verlag"
+    },
+    {
+      "key": "nav/team",
+      "value": "Team"
+    },
+    {
+      "key": "nav/offers",
+      "value": "Angebote"
+    },
+    {
+      "key": "nav/give",
+      "value": "Verschenken"
+    },
+    {
+      "key": "nav/share",
+      "value": "Republik teilen"
+    },
+    {
+      "key": "navbar/front",
+      "value": "Magazin"
+    },
+    {
+      "key": "navbar/feed",
+      "value": "Feed"
+    },
+    {
+      "key": "navbar/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "navbar/formats",
+      "value": "Rubriken"
     },
     {
       "key": "pages/magazine/title",
@@ -104,15 +140,15 @@
     },
     {
       "key": "withMembership/signIn/note",
-      "value": "Noch nicht Verlegerin? {buyLink}"
+      "value": "Noch nicht Verlegerin? {buyLink} {moreLink}"
     },
     {
       "key": "withMembership/signIn/note/buyText",
       "value": "Jetzt beitreten!"
     },
     {
-      "key": "withMembership/signIn/home",
-      "value": "Mehr über die Republik erfahren."
+      "key": "withMembership/signIn/note/moreText",
+      "value": "Mehr erfahren."
     },
     {
       "key": "withMembership/unauthorized",
@@ -125,6 +161,18 @@
     {
       "key": "withMembership/unauthorized/accountText",
       "value": "Konto ansehen"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/title",
+      "value": "Verlegerbereich"
+    },
+    {
+      "key": "withMembership/ios/unauthorized/noMembership",
+      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie unsere Webseite, um mehr zu erfahren."
+    },
+    {
+      "key": "withMembership/ios/unauthorized/signIn",
+      "value": "Die Nutzung der App erfordert eine Mitgliedschaft oder ein Abo bei der Republik. "
     },
     {
       "key": "signIn/button",
@@ -148,31 +196,71 @@
     },
     {
       "key": "signIn/success",
-      "value": "Erfolgreich angemeldet als {nameOrEmail} ({seconds}s)"
+      "value": "Erfolgreich als {nameOrEmail} angemeldet."
     },
     {
-      "key": "signIn/polling",
-      "value": "Vielen Dank! \n<br /><br />\nJetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, und klicken Sie den Link. In dem Mail finden Sie folgende drei seltsame, fett gedruckte Wörter:<br /><br />«{phrase}»<br /><br />Kontrollieren Sie, ob in Ihrem Mail die gleichen drei zugegeben absurden Wörter stehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)\n<br /><br />\nSollten Sie keine Mail erhalten haben, ist es möglich, dass Sie sich bei der Eingabe Ihrer E-Mail-Adresse vertippt haben. Die Adresse, die Sie uns gegeben haben lautete: {email}\n<br /><br />\nSollte das der Fall sein, versuchen Sie es {link}."
+      "key": "signIn/polling/APP/title",
+      "value": "Zugriff via Republik-App bestätigen"
     },
     {
-      "key": "signIn/polling/link",
-      "value": "hier nochmal"
+      "key": "signIn/polling/APP/text",
+      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Benachrichtigung</b> geschickt. Bitte prüfen Sie Ihr Smartphone oder Tablet."
     },
     {
-      "key": "signIn/polling/short",
-      "value": "Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Gehen Sie zu Ihrem \nPostfach ({email}), öffnen Sie das Mail, und klicken Sie den Link.<br \n/><br />\nIn dem Mail finden Sie folgende drei \nseltsame, fett gedruckte Wörter:<br /><br />  \n<b>«{phrase}»</b>\n.<br /><br /> \nKontrollieren Sie, ob in Ihrer Mail die gleichen drei zugegeben absurden Wörter \nstehen. (Das ist leider nötig. Es ist eine Sicherheitsmassnahme, damit \nniemand mit Ihrer Mailadresse Unfug treiben kann.)\n"
+      "key": "signIn/polling/EMAIL_TOKEN/title",
+      "value": "Zugriff via E-Mail bestätigen"
     },
     {
-      "key": "signIn/cancel",
-      "value": "abbrechen"
+      "key": "signIn/polling/EMAIL_TOKEN/text",
+      "value": "Wir haben Ihnen <b>eine E-Mail</b> geschickt, mit der Sie diesen Zugriff freischalten können."
+    },
+    {
+      "key": "signIn/polling/switch/APP",
+      "value": "Zugriff via Republik-App bestätigen?"
+    },
+    {
+      "key": "signIn/polling/switch/EMAIL_TOKEN",
+      "value": "Zugriff via E-Mail bestätigen?"
+    },
+    {
+      "key": "signIn/polling/phrase",
+      "value": "Seltsame Wörter (eine Sicherheitsmassnahme)"
+    },
+    {
+      "key": "signIn/polling/phrase/EMAIL_TOKEN/hint",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+    },
+    {
+      "key": "signIn/polling/phrase/APP/hint",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsmaske in der Republik-App, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+    },
+    {
+      "key": "signIn/polling/phrase/hint/show",
+      "value": "Wie funktioniert diese Sicherheitsmassnahme?"
+    },
+    {
+      "key": "signIn/polling/email",
+      "value": "E-Mail-Adresse"
+    },
+    {
+      "key": "signIn/polling/cancel",
+      "value": "Vertippt? E-Mail-Adresse erneut eingeben."
     },
     {
       "key": "signIn/email/error/empty",
-      "value": "E-Mail fehlt"
+      "value": "E-Mail-Adresse fehlt"
     },
     {
       "key": "signIn/email/error/invalid",
-      "value": "E-Mail ungültig"
+      "value": "E-Mail-Adresse ungültig"
+    },
+    {
+      "key": "cookies/disabled/error",
+      "value": "Cookies nicht erlaubt"
+    },
+    {
+      "key": "cookies/disabled/error/explanation",
+      "value": "Es scheint, als könnten wir Ihnen keinen Keks (Cookie) unterjubeln. Bitte erlauben Sie uns in Ihrem Browser ein Cookie zu hinterlegen. Nur damit gestatten Sie uns, Sie wiederzuerkennen und entsprechenden Zugriff auf Artikel und Diskussionen zu ermöglichen.<br />\n<ul>\n<li><a href=\"https://wiki.selfhtml.org/wiki/Sicherheit/Cookies_erlauben\" target=\"_blank\">Cookies für republik.ch erlauben?</a></li>\n<li><a href=\"/datenschutz\" target=\"_blank\">Mehr über Datenschutz bei der Republik AG erfahren?</a></li>\n</ul>\nWir helfen Ihnen per E-Mail unter <a href=\"mailto:kontakt@republik.ch\">kontakt@republik.ch</a> gerne weiter."
     },
     {
       "key": "signOut/label",
@@ -199,164 +287,84 @@
       "value": "System nicht verfügbar"
     },
     {
-      "key": "error/503",
-      "value": "Systemfehler"
+      "key": "marketing/title",
+      "value": "Unabhängiger Journalismus. Werbefrei."
     },
     {
-      "key": "memberships/sequenceNumber/label",
-      "value": "Abo #{sequenceNumber}"
-    },
-    {
-      "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
-    },
-    {
-      "key": "marketing/cover/headline",
-      "value": "Unabhängiger Journalismus.<br />Werbefrei."
-    },
-    {
-      "key": "marketing/cover/button/label",
-      "value": "Mitglied werden"
-    },
-    {
-      "key": "marketing/cover/button/caption",
-      "value": "Abo und Mitgliedschaft für CHF 240 pro Jahr"
-    },
-    {
-      "key": "marketing/headline",
-      "value": "Willkommen in der Republik!"
-    },
-    {
-      "key": "marketing/intro",
-      "value": "Die Republik ist ein Magazin für Politik, Wirtschaft, Gesellschaft. Kurz: für alles, was verwickelt oder komplex ist. Unser Job ist, dass Sie ein vernünftiges Leben führen (mit Familie, Beruf, Hobby), während wir uns durch den Lärm der Welt arbeiten. Und Ihnen das Wesentliche bringen, mal als Konzentrat, mal als Panorama. Wir versprechen, dass wir nicht mehr als drei Artikel pro Tag liefern werden.\n    <br />\n    <br />\nDie Republik ist ohne Werbung finanziert: Unsere Leser sind die einzigen Kundinnen. Und folgerichtig unsere einzigen Chefs. Mit einem Abonnement werden Sie deshalb automatisch unsere Verlegerin. (Zusammen mit aktuell {count} Mitverlegern.) Es wäre schön, Sie an Bord zu haben!"
-    },
-    {
-      "key": "marketing/signin/button/label",
-      "value": "Anmelden"
+      "key": "marketing/lead",
+      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wird von seinen Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
     },
     {
       "key": "marketing/join/button/label",
       "value": "Mitglied werden"
     },
     {
-      "key": "marketing/cta/title",
-      "value": "Abo und Mitgliedschaft"
-    },
-    {
-      "key": "marketing/cta/subtitle",
-      "value": "CHF 240/Jahr"
-    },
-    {
-      "key": "marketing/cta/text",
-      "value": "Willkommen in der Republik! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik."
-    },
-    {
-      "key": "marketing/cta/button/label",
-      "value": "An Bord kommen"
-    },
-    {
-      "key": "marketing/preview/title",
-      "value": "Preview bestellen"
-    },
-    {
-      "key": "marketing/preview/text",
-      "value": "Wir erwarten keinesfalls, dass Sie bei einem derart bedeutenden Entscheid die Katze im Sack kaufen. Und senden Ihnen deshalb gerne eine kleine Sammlung von Artikeln der letzten Zeit per Mail zu."
-    },
-    {
-      "key": "marketing/preview/email/label",
-      "value": "Ihre E-Mail"
-    },
-    {
-      "key": "marketing/preview/email/error/empty",
-      "value": "E-Mail fehlt"
-    },
-    {
-      "key": "marketing/preview/email/error/invalid",
-      "value": "E-Mail ungültig"
-    },
-    {
       "key": "marketing/preview/button/label",
-      "value": "Bestellen"
+      "value": "Probelesen"
     },
     {
-      "key": "marketing/preview/success",
-      "value": "Wir haben Ihnen eine kleine Sammlung von Beiträgen per Mail zugeschickt."
+      "key": "marketing/signin",
+      "value": "Sie haben schon ein Abo? {link}"
     },
     {
-      "key": "marketing/offers/title",
-      "value": "Angebote"
+      "key": "marketing/signin/link",
+      "value": "Jetzt anmelden"
+    },
+    {
+      "key": "marketing/community/title",
+      "value": "{count} Personen sind schon dabei"
+    },
+    {
+      "key": "marketing/community/link",
+      "value": "Zur Community"
+    },
+    {
+      "key": "marketing/signup/title",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "marketing/signup/lead",
+      "value": "Bitte tragen Sie unten Ihre E-Mail Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
+    },
+    {
+      "key": "marketing/signup/button/label",
+      "value": "Anmelden"
+    },
+    {
+      "key": "marketing/preview/prestitial/noMembership",
+      "value": "Danke für Ihr Interesse an der Republik! Hier wie versprochen unser Musterköfferchen. Wir wünschen eine anregende Lektüre – und würden uns freuen, wenn Sie an Bord kommen. {link}."
+    },
+    {
+      "key": "marketing/preview/prestitial/noMembership/link",
+      "value": "Hier geht es zu unseren Angeboten"
+    },
+    {
+      "key": "marketing/preview/prestitial/withMembership",
+      "value": "Hoppla! Sie haben ja bereits ein Abo und können sich in der Republik nach Herzenslust umsehen. "
+    },
+    {
+      "key": "marketing/preview/prestitial/hasPreview",
+      "value": "Schön, Sie wiederzusehen. Diese fünf Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+    },
+    {
+      "key": "marketing/preview/prestitial/hasPreview/link",
+      "value": "Wie wär’s mit einem Abonnement"
+    },
+    {
+      "key": "marketing/preview/page/pageTitle",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "marketing/preview/page/title",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "marketing/preview/page/description",
+      "value": "Melden Sie sich an, um kostenlos fünf Artikel zu lesen."
     },
     {
       "key": "marketing/offers/claim",
       "value": "Gutscheincode einlösen"
-    },
-    {
-      "key": "marketing/offers/userPrice",
-      "value": "Kann-mir-das-nicht-leisten-Mitgliedschaft"
-    },
-    {
-      "key": "marketing/noActiveMembership",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Das kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in Ihrem {link}."
-    },
-    {
-      "key": "marketing/noActiveMembership/link",
-      "value": "Konto"
-    },
-    {
-      "key": "pledge/contact/title",
-      "value": "Ihre Kontaktinformationen"
-    },
-    {
-      "key": "pledge/contact/signedinAs",
-      "value": "Sie sind angemeldet als: {nameOrEmail}"
-    },
-    {
-      "key": "pledge/contact/pastPledges/1",
-      "value": "Sie haben bereits ein Konto bei uns mitgemacht."
-    },
-    {
-      "key": "pledge/contact/pastPledges/other",
-      "value": "Sie haben bereits {count} mal mitgemacht."
-    },
-    {
-      "key": "pledge/contact/signOut",
-      "value": "abmelden"
-    },
-    {
-      "key": "pledge/contact/signIn/show",
-      "value": "Schon mal ausgefüllt?"
-    },
-    {
-      "key": "pledge/contact/signIn/hide",
-      "value": "Das erste Mal hier?"
-    },
-    {
-      "key": "pledge/contact/firstName/label",
-      "value": "Ihr Vorname"
-    },
-    {
-      "key": "pledge/contact/firstName/error/empty",
-      "value": "Vorname fehlt"
-    },
-    {
-      "key": "pledge/contact/lastName/label",
-      "value": "Ihr Nachname"
-    },
-    {
-      "key": "pledge/contact/lastName/error/empty",
-      "value": "Nachname fehlt"
-    },
-    {
-      "key": "pledge/contact/email/label",
-      "value": "Ihre E-Mail"
-    },
-    {
-      "key": "pledge/contact/email/error/empty",
-      "value": "E-Mail fehlt"
-    },
-    {
-      "key": "pledge/contact/email/error/invalid",
-      "value": "E-Mail ungültig"
     },
     {
       "key": "formats/pageTitle",
@@ -377,6 +385,22 @@
     {
       "key": "formats/title/meta",
       "value": "Zur Lage der Republik"
+    },
+    {
+      "key": "formats/title/feuilleton",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "formats/title/scribble",
+      "value": "Ameisen"
+    },
+    {
+      "key": "formats/latest",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "formats/loadMore",
+      "value": "Mehr Beiträge"
     },
     {
       "key": "crew/pageTitle",
@@ -400,7 +424,7 @@
     },
     {
       "key": "jobs/title",
-      "value": "Offene Stellen: Kulturredaktorin (60 - 80%)"
+      "value": "Offene Stellen"
     },
     {
       "key": "jobs/description",
@@ -449,6 +473,10 @@
     {
       "key": "account/signedOut/signIn",
       "value": "Bitte anmelden:"
+    },
+    {
+      "key": "account/ios/box",
+      "value": "Besuchen Sie unsere Webseite, um ihre Mitgliedschaft zu verwalten."
     },
     {
       "key": "Account/title",
@@ -540,7 +568,7 @@
     },
     {
       "key": "Account/Update/email/label",
-      "value": "Ihre E-Mail-Adresse"
+      "value": "E-Mail-Adresse"
     },
     {
       "key": "Account/Update/email/updating",
@@ -676,7 +704,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/title",
-      "value": "Ihre Newsletter"
+      "value": "Newsletter"
     },
     {
       "key": "account/newsletterSubscriptions/noMembership",
@@ -691,16 +719,56 @@
       "value": "Republik – Das tägliche Update"
     },
     {
+      "key": "account/newsletterSubscriptions/DAILY/frequency",
+      "value": "montags, dienstags, mittwochs und freitags"
+    },
+    {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
       "value": "Republik – Der Wochenüberblick"
+    },
+    {
+      "key": "account/newsletterSubscriptions/WEEKLY/frequency",
+      "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/label",
+      "value": "Republik – Das Feuilleton"
+    },
+    {
+      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
+      "value": "donnerstags"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
       "value": "Project R – Wichtige Updates"
     },
     {
+      "key": "account/newsletterSubscriptions/PROJECTR/frequency",
+      "value": "unregelmässig"
+    },
+    {
+      "key": "account/authSettings/title",
+      "value": "Anmeldung"
+    },
+    {
+      "key": "account/authSettings/firstfactor/label",
+      "value": "Am liebsten melde ich mich an per:"
+    },
+    {
+      "key": "account/authSettings/firstfactor/EMAIL_TOKEN/label",
+      "value": "E-Mail"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/label",
+      "value": "App"
+    },
+    {
+      "key": "account/authSettings/firstfactor/APP/disabled",
+      "value": "Sie müssen sich zuerst im App anmelden um neue Anmeldungen im App bestätigen zu können."
+    },
+    {
       "key": "account/notificationOptions/title",
-      "value": "Ihre Benachrichtigungen in Debatten"
+      "value": "Debatten-Benachrichtigungen"
     },
     {
       "key": "account/discussionNotificationChannels/intro",
@@ -744,7 +812,7 @@
     },
     {
       "key": "account/pledges/title",
-      "value": "Ihre Einkäufe"
+      "value": "Einkäufe"
     },
     {
       "key": "account/pledges/payment/method/STRIPE",
@@ -801,6 +869,90 @@
     {
       "key": "account/pledges/ABO_GIVE/promo",
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
+    },
+    {
+      "key": "Account/Access/Grants/explanation",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
+    },
+    {
+      "key": "Account/Access/Grants/grant",
+      "value": "... durch {grantee} bis zum {endAt}"
+    },
+    {
+      "key": "Account/Access/Grants/link/pledges",
+      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
+    },
+    {
+      "key": "Account/Access/Campaigns/title",
+      "value": "Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/title/0",
+      "value": "Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/title/other",
+      "value": "Einen weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/reset",
+      "value": "weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/0",
+      "value": "Alle verfügbaren Plätze vergeben."
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/1",
+      "value": "noch einen Platz übrig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/freeSlots/other",
+      "value": "noch {count} Plätze übrig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/button/submit",
+      "value": "Teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/label",
+      "value": "E-Mail-Adresse"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/missing",
+      "value": "E-Mail-Adresse fehlt"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/email/invalid",
+      "value": "E-Mail-Adresse unvollständig"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/mutationError/hint",
+      "value": "Falls das Problem weiterhin besteht, schreiben Sie uns: kontakt@republik.ch"
+    },
+    {
+      "key": "Account/Access/Campaigns/Revoke/link/revoke",
+      "value": "Zugriff entfernen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Revoke/mutationError",
+      "value": "Fehler: Zugriff kann im Moment nicht gelöscht werden"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/title/1",
+      "value": "Geteilter Zugriff"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/title/other",
+      "value": "Geteilte Zugriffe"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/recipient",
+      "value": "an {recipient}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/endAt",
+      "value": "gültig bis zum {endAt}"
     },
     {
       "key": "profile/documents/title/other",
@@ -947,6 +1099,18 @@
       "value": "Steckbrief"
     },
     {
+      "key": "profile/disclosures/label",
+      "value": "Interessenbindungen"
+    },
+    {
+      "key": "profile/disclosures/tooLong",
+      "value": "Interessenbindungen, maximal 140 Zeichen"
+    },
+    {
+      "key": "profile/disclosures/explanation",
+      "value": "Keine Interessenbindungen? Lassen Sie das Feld leer."
+    },
+    {
       "key": "profile/statement/label",
       "value": "Statement"
     },
@@ -959,8 +1123,16 @@
       "value": "Statement, maximal 140 Zeichen"
     },
     {
-      "key": "profile/share/title",
+      "key": "profile/share/overlayTitle",
       "value": "Profil teilen"
+    },
+    {
+      "key": "profile/share/title",
+      "value": "Profil von {name}"
+    },
+    {
+      "key": "profile/share/emailSubject",
+      "value": "Profil von {name}"
     },
     {
       "key": "profile/preview",
@@ -1091,6 +1263,10 @@
       "value": "{name} unterstützt Republik"
     },
     {
+      "key": "testimonial/detail/share/title",
+      "value": "{name} unterstützt Republik"
+    },
+    {
       "key": "api/testimonial/image/required",
       "value": "Ein neues Testimonial braucht ein Bild."
     },
@@ -1137,6 +1313,10 @@
     {
       "key": "header/nav/search/aria",
       "value": "Suche"
+    },
+    {
+      "key": "header/back",
+      "value": "zurück"
     },
     {
       "key": "header/logo/feed/aria",
@@ -1235,6 +1415,10 @@
       "value": "Profil"
     },
     {
+      "key": "footer/offers",
+      "value": "Angebote"
+    },
+    {
       "key": "footer/me/give",
       "value": "Verschenken"
     },
@@ -1245,6 +1429,10 @@
     {
       "key": "footer/me/claim",
       "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "footer/me/share",
+      "value": "Republik teilen"
     },
     {
       "key": "footer/me/faq",
@@ -1277,6 +1465,10 @@
     {
       "key": "components/Discussion/OrderBy/HOT",
       "value": "Hottest"
+    },
+    {
+      "key": "components/Discussion/OrderBy/REPLIES",
+      "value": "Meiste Antworten"
     },
     {
       "key": "components/Discussion/reload",
@@ -1363,6 +1555,10 @@
       "value": "Sie können Ihren Beitrag mit Markdown formatieren"
     },
     {
+      "key": "discussion/meta/focus/title",
+      "value": "{authorName} in «{discussionTitle}»"
+    },
+    {
       "key": "discussion/missing",
       "value": "Diese Diskussion fehlt in unserer Datenbank."
     },
@@ -1377,6 +1573,14 @@
     {
       "key": "discussion/focus/missing",
       "value": "Dieser spezifische Beitrag ging verloren. Versuchen Sie die Seite neu zu laden."
+    },
+    {
+      "key": "discussion/share/title",
+      "value": "Beitrag teilen"
+    },
+    {
+      "key": "discussion/share/emailSubject",
+      "value": "Republik: {title}"
     },
     {
       "key": "styleguide/AudioPlayer/aria",
@@ -1451,8 +1655,44 @@
       "value": "+1"
     },
     {
+      "key": "styleguide/CommentActions/upvote/count/0",
+      "value": "Keine Stimmen dafür"
+    },
+    {
+      "key": "styleguide/CommentActions/upvote/count/1",
+      "value": "Eine Stimme dafür"
+    },
+    {
+      "key": "styleguide/CommentActions/upvote/count/other",
+      "value": "{count} Stimmen dafür"
+    },
+    {
       "key": "styleguide/CommentActions/downvote",
       "value": "-1"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/0",
+      "value": "Keine Gegenstimmen"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/1",
+      "value": "Eine Gegenstimme"
+    },
+    {
+      "key": "styleguide/CommentActions/downvote/count/other",
+      "value": "{count} Gegenstimmen"
+    },
+    {
+      "key": "styleguide/CommentActions/expand",
+      "value": "Alles lesen"
+    },
+    {
+      "key": "styleguide/CommentActions/collapse",
+      "value": "Weniger"
+    },
+    {
+      "key": "styleguide/CommentActions/share",
+      "value": "Beitrag teilen"
     },
     {
       "key": "styleguide/CommentTeaser/commentLink",
@@ -1711,12 +1951,16 @@
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen."
     },
     {
+      "key": "package/ABO/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
       "key": "package/ABO/userPrice/teaser",
       "value": "Sie können sich den Betrag nicht leisten?"
     },
     {
       "key": "package/ABO/title",
-      "value": "Abo und Mitgliedschaft für ein Jahr"
+      "value": "Abo und Mitgliedschaft"
     },
     {
       "key": "package/ABO/description",
@@ -1728,7 +1972,7 @@
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF}"
+      "value": "ab {formattedCHF} für ein Jahr"
     },
     {
       "key": "package/ABO_GIVE/title",
@@ -1747,6 +1991,10 @@
       "value": "Gönner-Mitgliedschaft"
     },
     {
+      "key": "package/BENEFACTOR/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
     },
@@ -1759,12 +2007,16 @@
       "value": "Monats-Abonnement"
     },
     {
+      "key": "package/MONTHLY_ABO/price",
+      "value": "{formattedCHF}"
+    },
+    {
       "key": "package/MONTHLY_ABO/description",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verleger oder Verlegerin der Republik. (Keine Angst: Sie können beides jederzeit kündigen.)"
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verlegerin oder Verleger der Republik. Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen."
     },
     {
       "key": "package/MONTHLY_ABO/description/short",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin - und können jederzeit künden."
+      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin – und können Ihr Abonnement jederzeit kündigen."
     },
     {
       "key": "package/choose",
@@ -1812,7 +2064,7 @@
     },
     {
       "key": "payment/method/STRIPE",
-      "value": "Visa/MasterCard"
+      "value": "Visa/Mastercard"
     },
     {
       "key": "payment/method/PAYMENTSLIP",
@@ -1844,11 +2096,11 @@
     },
     {
       "key": "payment/stripe/prefered",
-      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte ist für uns das bevorzugte Zahlungsmittel."
+      "value": "Falls es für Sie keinen Unterschied macht: Die Kreditkarte (Visa, Mastercard) ist für uns das bevorzugte Zahlungsmittel."
     },
     {
       "key": "payment/stripe/only",
-      "value": "Das Monatsabo ist nur mit Kreditkarte verfügbar."
+      "value": "Das Monatsabo ist nur mit Kreditkarte (Visa, Mastercard) verfügbar."
     },
     {
       "key": "payment/stripe/js/loading",
@@ -2168,11 +2420,19 @@
     },
     {
       "key": "shareholder/contact",
-      "value": "Für Auskünfte kontaktieren Sie Susanne Sugimoto, Geschäftsführung und Kommunikation:"
+      "value": "Für Auskünfte kontaktieren Sie die Erste-Hilfe-Abteilung:"
     },
     {
       "key": "shareholder/contact/email",
-      "value": "susanne.sugimoto@republik.ch"
+      "value": "kontakt@republik.ch"
+    },
+    {
+      "key": "shareholder/contact/phone",
+      "value": "+41 79 787 47 65"
+    },
+    {
+      "key": "shareholder/contact/phone/link",
+      "value": "+41797874765"
     },
     {
       "key": "feed/loadMore",
@@ -2192,7 +2452,11 @@
     },
     {
       "key": "article/payNote/before",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde für Sie von einem grosszügigen Mitglied unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
+    },
+    {
+      "key": "article/payNote/before/ios",
+      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2203,12 +2467,232 @@
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
+      "key": "article/payNote/after/ios",
+      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen, es hat Ihnen gefallen."
+    },
+    {
       "key": "article/payNote/after/buyText",
       "value": "Erfahren Sie mehr."
     },
     {
       "key": "article/payNote/after/series",
       "value": "Dieser Artikel ist Teil einer Serie. Werden Sie Verleger, um alle Episoden zu lesen."
+    },
+    {
+      "key": "article/payNote/secondaryAction/text",
+      "value": "Noch nicht überzeugt? {link}"
+    },
+    {
+      "key": "article/payNote/secondaryAction/linkText",
+      "value": "Jetzt probelesen"
+    },
+    {
+      "key": "article/payNote/series/before",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+    },
+    {
+      "key": "article/payNote/series/before/buy/button",
+      "value": "Ja, ich will!"
+    },
+    {
+      "key": "article/payNote/series/after/title",
+      "value": "Wollen Sie mehr lesen?"
+    },
+    {
+      "key": "article/payNote/series/after",
+      "value": "Dieser Beitrag ist Teil einer Serie. Wollen Sie die ganze Geschichte? Dann kommen Sie an Bord! Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität."
+    },
+    {
+      "key": "article/payNote/series/after/buy/button",
+      "value": "An Bord kommen!"
+    },
+    {
+      "key": "article/payNote/180920-v1/before",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+    },
+    {
+      "key": "article/payNote/180920-v1/before/buy/button",
+      "value": "Ja, ich will!"
+    },
+    {
+      "key": "article/payNote/180920-v1/after/title",
+      "value": "Wenn Sie schon hier sind …"
+    },
+    {
+      "key": "article/payNote/180920-v1/after",
+      "value": "… treffen Sie eine Entscheidung: Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+    },
+    {
+      "key": "article/payNote/180920-v1/after/buy/button",
+      "value": "Ich bin dabei."
+    },
+    {
+      "key": "article/payNote/180920-v2/before",
+      "value": "Wir sind die Republik. Wir liefern Journalismus – mit Sorgfalt, mit Tiefe, mit Witz, aber ohne Werbung. Unser Ziel ist, Ihnen das Wesentliche zu liefern. Also nicht das Wetter, sondern das Klima. Denn wir wollen Ihre Zeit nicht mit Unfug verschwenden. Wollen Sie täglich das Beste, was wir zustande bringen?"
+    },
+    {
+      "key": "article/payNote/180920-v2/before/buy/button",
+      "value": "Republik abonnieren!"
+    },
+    {
+      "key": "article/payNote/180920-v2/after/title",
+      "value": "Wenn Sie gerade da sind …"
+    },
+    {
+      "key": "article/payNote/180920-v2/after",
+      "value": "… hat Ihnen dieser Beitrag gefallen? Wir sind die Republik. Ein unabhängiges Online-Magazin, das vergangenen Januar gestartet ist. Unser Job ist, Ihnen jeden Tag Artikel zu liefern, die in die Tiefe gehen. Die besten Analysen, Reportagen, Interviews, Kulturrezensionen, Bundeshausnachrichten, die wir hinkriegen. Wollen Sie ab heute jeden Tag das Klügste lesen, was uns einfällt?"
+    },
+    {
+      "key": "article/payNote/180920-v2/after/buy/button",
+      "value": "Republik abonnieren!"
+    },
+    {
+      "key": "article/payNote/180920-v3/before",
+      "value": "{count} Verlegerinnen können sich vielleicht irren. Aber alle haben den Mut gehabt, die Republik zu unterstützen. Unser kühnes Ziel: eine gewichtige Stimme in der Schweizer Medienlandschaft zu sein. Das können wir nicht allein, sondern nur gemeinsam. Mit Ihnen?"
+    },
+    {
+      "key": "article/payNote/180920-v3/before/buy/button",
+      "value": "Verleger werden!"
+    },
+    {
+      "key": "article/payNote/180920-v3/after/title",
+      "value": "Wenn Sie schon da sind …"
+    },
+    {
+      "key": "article/payNote/180920-v3/after",
+      "value": "… wir sind die Republik, ein junges Medienunternehmen mit {count} Verlegerinnen und Journalisten. Unser Ziel: eine gewichtige Stimme in der Schweizer Medienlandschaft zu sein. Und eine vernünftige in der politischen Debatte. Unser digitales Magazin berichtet über Politik, Wirtschaft, Gesellschaft und Kultur. Dafür brauchen wir Sie. Wollen Sie Verlegerin oder Verleger der Republik werden?"
+    },
+    {
+      "key": "article/payNote/180920-v3/after/buy/button",
+      "value": "Unbedingt!"
+    },
+    {
+      "key": "article/payNote/180920-v4/before",
+      "value": "Wir sind die Republik. Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+    },
+    {
+      "key": "article/payNote/180920-v4/before/buy/button",
+      "value": "Natürlich!"
+    },
+    {
+      "key": "article/payNote/180920-v4/after/title",
+      "value": "Wenn Sie gerade da sind …"
+    },
+    {
+      "key": "article/payNote/180920-v4/after",
+      "value": "… wollen Sie heute ein Risiko eingehen? Und zusammen mit uns Ihre Zeit, Ihr Vertrauen und Ihr Geld in unabhängigen Journalismus investieren? Entweder mit Vorsicht via ein monatlich kündbares Abonnement? Oder tollkühn via eines über ein Jahr?"
+    },
+    {
+      "key": "article/payNote/180920-v4/after/buy/button",
+      "value": "Ja, ich wage es!"
+    },
+    {
+      "key": "article/payNote/180920-v5/before",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+    },
+    {
+      "key": "article/payNote/180920-v5/before/buy/button",
+      "value": "Republik unterstützen!"
+    },
+    {
+      "key": "article/payNote/180920-v5/after/title",
+      "value": "Da Sie schon hier sind – eine Warnung!"
+    },
+    {
+      "key": "article/payNote/180920-v5/after",
+      "value": "Wir von der Republik wollen Sie als Abonnentin gewinnen. Deshalb sagen wir Ihnen nur ungern, dass Lesen nicht ohne Risiko ist. Schopenhauer warnte, dass gleichsam mit fremdem Kopf denkt, wer liest. Und dadurch allmählich die Fähigkeit verliert, selber zu denken. Sein Schluss: «Solches aber ist der Fall sehr vieler Gelehrter: Sie haben sich dumm gelesen.» Deshalb versprechen wir Ihnen, falls Sie uns abonnieren, Ihnen so wenig wie möglich zu liefern: nur das Wesentliche. Und nur im Notfall mehr als drei Texte pro Tag. "
+    },
+    {
+      "key": "article/payNote/180920-v5/after/buy/button",
+      "value": "Okay, weniger ist mehr!"
+    },
+    {
+      "key": "article/payNote/180920-v6/before",
+      "value": "Wir sind die Republik und haben das ehrgeizige Ziel, für Sie so etwas wie die Steuererklärung zu werden. Denn unabhängiger Journalismus ist wie die Steuern – ein notwendiges Ärgernis. Wie der US-Republikaner Oliver Wendell Holmes (1841–1935) sagte: «Ich zahle gerne Steuern. Damit kaufe ich mir Zivilisation.»"
+    },
+    {
+      "key": "article/payNote/180920-v6/before/buy/button",
+      "value": "Zivilisation kaufen!"
+    },
+    {
+      "key": "article/payNote/180920-v6/after/title",
+      "value": "Wenn Sie schon hier sind …"
+    },
+    {
+      "key": "article/payNote/180920-v6/after",
+      "value": "Wir sind die Republik – ein digitales Magazin ohne Werbung und ohne Kompromisse im Journalismus. Und hätten Sie gerne an Bord. Mit dem ehrgeizigen Ziel, für Sie so etwas wie Ihre Steuererklärung zu werden. Denn unabhängiger Journalismus ist wie die Steuern – ein notwendiges Ärgernis. Ganz so, wie es der US-Republikaner Oliver Wendell Holmes (1841-1935) sagte: «Ich zahle gerne Steuern. Damit kaufe ich mir Zivilisation.»"
+    },
+    {
+      "key": "article/payNote/180920-v6/after/buy/button",
+      "value": "Ich kaufe Zivilisation."
+    },
+    {
+      "key": "article/payNote/180920-v7/before",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+    },
+    {
+      "key": "article/payNote/180920-v7/before/buy/button",
+      "value": "Ja, ich will!"
+    },
+    {
+      "key": "article/payNote/180920-v7/after/title",
+      "value": "Ihr Urteil?"
+    },
+    {
+      "key": "article/payNote/180920-v7/after",
+      "value": "Ihr Urteil lautet natürlich: Sie sind zur Freiheit verurteilt – lebenslänglich. Und zwar von Jean-Paul Sartre, der Konsumgüterindustrie, der liberalen Revolution von 1848, dem Feminismus, dem Historienfilm «Braveheart», Pippi Langstrumpf, der Verfassung, dem Zufall. Und von uns. Es wäre schön, wenn Sie sich die Freiheit nehmen würden, bei unserem Magazin an Bord zu kommen."
+    },
+    {
+      "key": "article/payNote/180920-v7/after/buy/button",
+      "value": "Freiheit nehmen!"
+    },
+    {
+      "key": "article/payNote/180920-v8/before",
+      "value": "Sie glauben, dass Meinungsvielfalt darin besteht, dass es linke und rechte Medien gibt? Die dann im Schützengraben aufeinander schiessen? Wir glauben das nicht. Die Aufgabe des Journalismus ist, eine gemeinsame Grundlage zu schaffen, auf der man um seine Interessen kämpft. Dafür arbeitet die Republik."
+    },
+    {
+      "key": "article/payNote/180920-v8/before/buy/button",
+      "value": "Republik abonnieren!"
+    },
+    {
+      "key": "article/payNote/180920-v8/after/title",
+      "value": "War dieser Artikel genug Mainstream?"
+    },
+    {
+      "key": "article/payNote/180920-v8/after",
+      "value": "Sie glauben, dass Meinungsvielfalt darin besteht, dass es linke und rechte Medien gibt? Die dann im Schützengraben aufeinander schiessen? Wir glauben das nicht. Denn in einem gespaltenen Mediensystem debattieren die Leute nicht über zwei Blickwinkel auf die Wirklichkeit. Sondern sie debattieren in zwei Wirklichkeiten. Die Aufgabe des Journalismus ist, eine gemeinsame Grundlage zu schaffen, auf der man dann um seine Interessen kämpft. Eine Gesellschaft ist nur so gut wie ihre Debatten. Dafür arbeiten wir in der Republik."
+    },
+    {
+      "key": "article/payNote/180920-v8/after/buy/button",
+      "value": "Ich bin dabei!"
+    },
+    {
+      "key": "article/payNote/180920-v9/before",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+    },
+    {
+      "key": "article/payNote/180920-v9/before/buy/button",
+      "value": "Republik unterstützen!"
+    },
+    {
+      "key": "article/payNote/180920-v9/after/title",
+      "value": "Sie haben in diesem Artikel viele Worte gelesen …"
+    },
+    {
+      "key": "article/payNote/180920-v9/after",
+      "value": "… aber die wichtigsten drei fehlten. Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+    },
+    {
+      "key": "article/payNote/180920-v9/after/buy/button",
+      "value": "Ich bin an Bord."
+    },
+    {
+      "key": "article/payNote/bottomPanel/close",
+      "value": "Schliessen"
+    },
+    {
+      "key": "article/payNote/bottomPanel/actions/later",
+      "value": "Später"
     },
     {
       "key": "article/share/title",
@@ -2299,8 +2783,8 @@
       "value": "mit {count} Bildern"
     },
     {
-      "key": "merci/postpay/waiting",
-      "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre Mailadresse bestätigen. Wir haben Ihnen ein kurzes Mail an die Adresse {email} geschickt. Dieses enthält fett gedruckt die drei seltsamen Wörter: <b>«{phrase}»</b>.<br /><br />Gehen Sie zu Ihrem Postfach, öffnen Sie das Mail, kontrollieren Sie, ob dort die drei gleichen seltsamen Wörter stehen. Sind es dieselben, klicken Sie den Link darunter. <br /><br /> (Die Sache mit den drei Wörtern ist leider nötig. Es ist eine Sicherheitsmassnahme, damit niemand mit Ihrer Mailadresse Unfug treiben kann.)"
+      "key": "merci/postpay/lead",
+      "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     },
     {
       "key": "merci/postpay/reclaim",
@@ -2317,6 +2801,26 @@
     {
       "key": "merci/claim/loading",
       "value": "überprüfen"
+    },
+    {
+      "key": "merci/postpay/signInError/title",
+      "value": "E-Mail-Verifizierung fehlgeschlagen"
+    },
+    {
+      "key": "merci/postpay/signInError/text",
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an <a href=\"{mailto}\">kontakt@republik.ch</a>."
+    },
+    {
+      "key": "merci/postpay/signInError/email/subject",
+      "value": "E-Mail-Verifizierung fehlgeschlagen nach dem Bezahlen"
+    },
+    {
+      "key": "merci/postpay/signInError/email/body",
+      "value": "E-Mail-Adresse:\n{email}\n\nBuchungsreferenz:\n{pledgeId}\n\nFehler:\n{error}"
+    },
+    {
+      "key": "merci/postpay/signInError/retry",
+      "value": "erneut versuchen"
     },
     {
       "key": "merci/empty/title",
@@ -2363,6 +2867,10 @@
       "value": "Gesicht zeigen"
     },
     {
+      "key": "merci/share/title",
+      "value": "Ein neues, unabhängiges Magazin"
+    },
+    {
       "key": "merci/share/tweetTemplate",
       "value": "Journalismus ist mehr als nur ein Geschäft für irgendwelche Konzerne, beteilige dich."
     },
@@ -2376,11 +2884,11 @@
     },
     {
       "key": "memberships/title/1",
-      "value": "Ihr Abonnement"
+      "value": "Abonnement"
     },
     {
       "key": "memberships/title/other",
-      "value": "Ihre Abonnements"
+      "value": "Abonnements"
     },
     {
       "key": "memberships/giver/giveable/show",
@@ -2459,6 +2967,26 @@
       "value": "Überfällig seit dem {formattedEndDate}."
     },
     {
+      "key": "memberships/ABO/manage/prolong/link",
+      "value": "Mitgliedschaft und Abonnement verlängern"
+    },
+    {
+      "key": "memberships/ABO/manage/cancel/link",
+      "value": "Mitgliedschaft und Abonnement kündigen"
+    },
+    {
+      "key": "memberships/ABO/manage/upgrade/link",
+      "value": "Mitgliedschaft und Abonnement upgraden"
+    },
+    {
+      "key": "memberships/ABO/manage/reactivate",
+      "value": "Mitgliedschaft und Abonnement reaktivieren"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/manage/prolong/link",
+      "value": "Abonnement verlängern"
+    },
+    {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
       "value": "Abonnement kündigen"
     },
@@ -2480,7 +3008,7 @@
     },
     {
       "key": "memberships/claim/lead",
-      "value": "Willkommen ab Bord! Hier können Sie Ihren Gutscheincode einlösen."
+      "value": "Willkommen an Bord! Hier können Sie Ihren Gutscheincode einlösen."
     },
     {
       "key": "memberships/claim/voucherCode/label",
@@ -2516,11 +3044,31 @@
     },
     {
       "key": "notifications/email-confirmed/title",
-      "value": "E-Mail-Adresse ist bestätigt"
+      "value": "Zugriff bestätigt"
     },
     {
       "key": "notifications/email-confirmed/text",
-      "value": "Perfekt! Ihre E-Mail-Adresse ist somit bestätigt. Sie können dieses Fenster wieder schliessen."
+      "value": "Vielen Dank."
+    },
+    {
+      "key": "notifications/email-confirmed/claim/text",
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+    },
+    {
+      "key": "notifications/email-confirmed/preview/text",
+      "value": "Bitte kehren Sie zum vorherigen Fenster zurück, um den Vorgang abzuschliessen. "
+    },
+    {
+      "key": "notifications/session-denied/title",
+      "value": "Zugriff abgelehnt"
+    },
+    {
+      "key": "notifications/session-denied/text",
+      "value": "Sie haben den Schwarzleser vor einem leeren Bildschirm sitzen lassen."
+    },
+    {
+      "key": "notifications/closeNote",
+      "value": "Sie können dieses Fenster schliessen. "
     },
     {
       "key": "notifications/invalid-token/title",
@@ -2555,8 +3103,12 @@
       "value": "bestätigen"
     },
     {
-      "key": "notifications/links/home",
-      "value": "Startseite"
+      "key": "notifications/closeButton",
+      "value": "Magazin ansehen"
+    },
+    {
+      "key": "notifications/closeButton/app",
+      "value": "OK"
     },
     {
       "key": "notifications/links/merci",
@@ -2668,27 +3220,31 @@
     },
     {
       "key": "tokenAuthorization/title/existing",
-      "value": "Anmeldung für Ihr bestehendes Republik-Konto bestätigen"
+      "value": "Zugriff geben?"
     },
     {
       "key": "tokenAuthorization/title/new",
-      "value": "Anmeldung für ein neues Republik-Konto bestätigen"
+      "value": "Nutzung Ihrer E-Mail-Adresse erlauben?"
+    },
+    {
+      "key": "tokenAuthorization/title/sessionInfo",
+      "value": "Möchten Sie folgendem Gerät Zugriff geben?"
+    },
+    {
+      "key": "feedback/autoArticle/selected/headline",
+      "value": "Debatte zu {link}"
+    },
+    {
+      "key": "feedback/linkedArticle/selected/headline",
+      "value": "Debatte zu {link}"
     },
     {
       "key": "tokenAuthorization/error",
       "value": "Ungültiger Link"
     },
     {
-      "key": "tokenAuthorization/email",
-      "value": "E-Mail-Adresse: {email}"
-    },
-    {
-      "key": "tokenAuthorization/differentSession",
-      "value": "Folgendes Gerät möchte Zugriff erhalten:"
-    },
-    {
       "key": "tokenAuthorization/after",
-      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, ignorieren Sie diese. Bei Verdachtsmomenten wenden Sie sich bitte an kontakt@republik.ch."
+      "value": "Falls Sie diese Anfrage nicht ausgelöst haben, wählen Sie «Nein». Haben Sie den Verdacht, dass jemand Unbekanntes sich mit Ihrem Abonnement Zugang verschaffen will? Dann wenden Sie sich bitte an kontakt@republik.ch."
     },
     {
       "key": "tokenAuthorization/location",
@@ -2703,20 +3259,40 @@
       "value": "Seltsame Wörter"
     },
     {
-      "key": "tokenAuthorization/device",
-      "value": "Gerät"
-    },
-    {
-      "key": "tokenAuthorization/button",
-      "value": "bestätigen"
-    },
-    {
-      "key": "tokenAuthorization/button/differentSession",
-      "value": "Zugriff erteilen"
+      "key": "tokenAuthorization/email",
+      "value": "Ihre E-Mail-Adresse"
     },
     {
       "key": "tokenAuthorization/ip",
       "value": "IP-Adresse"
+    },
+    {
+      "key": "tokenAuthorization/grant",
+      "value": "Ja"
+    },
+    {
+      "key": "tokenAuthorization/deny",
+      "value": "Nein"
+    },
+    {
+      "key": "tokenAuthorization/fields/explanation",
+      "value": "Um Ihr Konto zu aktivieren, benötigen wir noch folgende Informationen:"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/firstName",
+      "value": "Ihr Vorname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/firstName/missing",
+      "value": "Vorname fehlt"
+    },
+    {
+      "key": "tokenAuthorization/fields/label/lastName",
+      "value": "Ihr Nachname"
+    },
+    {
+      "key": "tokenAuthorization/fields/error/lastName/missing",
+      "value": "Nachname fehlt"
     },
     {
       "key": "search/input/label",
@@ -2857,6 +3433,98 @@
     {
       "key": "styleguide/DynamicComponent/error",
       "value": "Diese Komponente kann, aufgrund eines technischen Fehlers, nicht dargestellt werden."
+    },
+    {
+      "key": "questionnaire/title",
+      "value": "Republik-Umfrage"
+    },
+    {
+      "key": "questionnaire/description",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "questionnaire/intro",
+      "value": "Geehrte Frau Verlegerin<br/>\nGeehrter Herr Verleger<br/>\n<br/>\nEs freut uns ausserordentlich, dass Sie Ihre Aufsichtspflicht wahrnehmen. Und zur Verbesserung der Republik beitragen. Antworten Sie ohne Rücksicht, ohne Skrupel, aber mit Weisheit. Und ohne Furcht: Es wird Sie nicht mehr als 10 Minuten kosten.<br/>\n<br/>\nMit Dank<br/>\nIhre Crew von Project R und der Republik"
+    },
+    {
+      "key": "questionnaire/header",
+      "value": "Sie haben {userAnswerCount} von {questionCount} Fragen beantwortet."
+    },
+    {
+      "key": "questionnaire/invalid",
+      "value": "Bitte beantworten Sie mindestens eine Frage."
+    },
+    {
+      "key": "questionnaire/submit",
+      "value": "Abschicken"
+    },
+    {
+      "key": "questionnaire/cancel",
+      "value": "Abbrechen"
+    },
+    {
+      "key": "questionnaire/turnout",
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
+    },
+    {
+      "key": "questionnaire/thankyou",
+      "value": "Ihre Meinung ist bei uns angekommen. Danke fürs Mitmachen! {metaLink} finden Sie eine Übersicht zum aktuellen Stand des Irrtums."
+    },
+    {
+      "key": "questionnaire/thankyou/metaText",
+      "value": "Hier"
+    },
+    {
+      "key": "questionnaire/article/help",
+      "value": "Suchen Sie mit dem Titel oder einem Stichwort nach dem Artikel. Sie können diese Frage auch überspringen."
+    },
+    {
+      "key": "questionnaire/article/label",
+      "value": "Artikel suchen"
+    },
+    {
+      "key": "questionnaire/text/label",
+      "value": "max. {maxLength} Zeichen"
+    },
+    {
+      "key": "questionnaire/choice/helpMultiple",
+      "value": "Sie dürfen mehrere Optionen auswählen."
+    },
+    {
+      "key": "pages/meta/questionnaire/counterText",
+      "value": "Mitglieder haben an der Umfrage bereits teilgenommen."
+    },
+    {
+      "key": "pages/meta/questionnaire/thankyou",
+      "value": "Danke fürs Mitmachen!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionTitle",
+      "value": "Sagen Sie uns Ihre Meinung!"
+    },
+    {
+      "key": "pages/meta/questionnaire/actionLabel",
+      "value": "Jetzt mitmachen"
+    },
+    {
+      "key": "pages/meta/questionnaire/unauthorized",
+      "value": "Vielen Dank für Ihr Interesse an unserer Umfrage. Unsere Mitglieder und Abonnentinnen können daran teilnehmen – {buyLink}"
+    },
+    {
+      "key": "pages/meta/questionnaire/unauthorized/buyText",
+      "value": "kommen Sie an Bord!"
+    },
+    {
+      "key": "pages/meta/questionnaire/socialTitle",
+      "value": "Ist die Republik auf Kurs? Sagen Sie es uns!"
+    },
+    {
+      "key": "pages/meta/questionnaire/socialDescription",
+      "value": "Um an der Umfrage teilzunehmen, müssen Sie Mitglied oder Abonnentin sein."
+    },
+    {
+      "key": "pages/meta/behind/gallery",
+      "value": "Hinter den Kulissen"
     }
   ]
 }

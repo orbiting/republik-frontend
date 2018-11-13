@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import Loader from '../Loader'
 import withT from '../../lib/withT'
 import {
   isNotificationSupported,
@@ -14,7 +13,7 @@ import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { A, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
+import { A, Loader, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
 
 import {
   DISCUSSION_NOTIFICATION_CHANNELS,
@@ -106,7 +105,7 @@ class NotificationOptions extends Component {
 
           return (
             <Fragment>
-              <P style={{marginTop: 20}}>{t('account/discussionNotificationChannels/intro')}</P>
+              <P style={{ marginTop: 20 }}>{t('account/discussionNotificationChannels/intro')}</P>
               {DISCUSSION_NOTIFICATION_CHANNELS.map((channel) => (
                 <p key={channel}>
                   <Checkbox
@@ -153,7 +152,7 @@ class NotificationOptions extends Component {
                 <WarningContainer>
                   <P>
                     {t('account/discussionNotificationChannels/WEB/hint/default')}<br />
-                    <A style={{cursor: 'pointer'}} onClick={(e) => {
+                    <A style={{ cursor: 'pointer' }} onClick={(e) => {
                       e.preventDefault()
                       this.confirmPermission()
                     }}>{t('account/discussionNotificationChannels/WEB/enable')}</A>

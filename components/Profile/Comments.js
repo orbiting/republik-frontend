@@ -13,20 +13,21 @@ const Comments = ({ t, comments }) => {
   }
   return (
     <div>
-      <Interaction.H3 style={{marginBottom: 20}}>
+      <Interaction.H3 style={{ marginBottom: 20 }}>
         {t.pluralize('profile/comments/title', {
           count: comments.totalCount
         })}
       </Interaction.H3>
       {comments.nodes.filter(comment => comment.content).map((comment) => {
         const discussion = comment.discussion || {}
+        const commentUrl = discussion.documentPath && `${discussion.documentPath}${discussion.documentPath.indexOf('?') === -1 ? '?' : '&'}focus=${comment.id}`
         return (
           <CommentTeaser
             key={comment.id}
             title={discussion.title}
             content={comment.content}
             timeago={timeagoFromNow(t, comment.createdAt)}
-            commentUrl={discussion.documentPath && `${discussion.documentPath}?focus=${comment.id}`}
+            commentUrl={commentUrl}
             t={t}
           />
         )

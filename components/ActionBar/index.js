@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { compose } from 'react-apollo'
 
 import IconLink from '../IconLink'
 import ShareOverlay from './ShareOverlay'
 import withT from '../../lib/withT'
+import { postMessage } from '../../lib/withInNativeApp'
+import track from '../../lib/piwik'
 
 import { colors } from '@project-r/styleguide'
+
+import { shouldIgnoreClick } from '../Link/utils'
 
 const styles = {
   buttonGroup: css({
@@ -34,6 +39,7 @@ class ActionBar extends Component {
     const {
       t,
       url,
+      title,
       tweet,
       emailSubject,
       emailBody,
@@ -44,7 +50,8 @@ class ActionBar extends Component {
       onAudioClick,
       onPdfClick,
       pdfUrl,
-      shareOverlayTitle
+      shareOverlayTitle,
+      inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -53,13 +60,28 @@ class ActionBar extends Component {
         icon: 'share',
         href: url,
         onClick: e => {
-          if (e.currentTarget.nodeName === 'A' &&
-            (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-            // ignore click for new tab / new window behavior
-            return
-          }
           e.preventDefault()
-          this.toggleShare()
+
+          if (inNativeApp) {
+            postMessage({
+              type: 'share',
+              payload: {
+                title,
+                url,
+                subject: emailSubject,
+                dialogTitle: shareOverlayTitle
+              }
+            })
+            e.target.blur()
+          } else {
+            this.toggleShare()
+            track([
+              'trackEvent',
+              'ActionBar',
+              'share',
+              url
+            ])
+          }
         },
         title: t('article/actionbar/share')
       },
@@ -79,9 +101,7 @@ class ActionBar extends Component {
         icon: 'pdf',
         href: pdfUrl,
         onClick: onPdfClick && (e => {
-          if (e.currentTarget.nodeName === 'A' &&
-            (e.metaKey || e.ctrlKey || e.shiftKey || (e.nativeEvent && e.nativeEvent.which === 2))) {
-            // ignore click for new tab / new window behavior
+          if (shouldIgnoreClick(e)) {
             return
           }
           e.preventDefault()
@@ -111,8 +131,7 @@ class ActionBar extends Component {
             emailSubject={emailSubject}
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
-        )
-        }
+        )}
         <span {...styles.buttonGroup}>
           {icons
             .filter(Boolean)
@@ -143,4 +162,6 @@ ActionBar.defaultProps = {
   emailAttachUrl: true
 }
 
-export default withT(ActionBar)
+export default compose(
+  withT
+)(ActionBar)

@@ -7,29 +7,29 @@ import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
-import Loader from '../Loader'
 
 import {
-  InlineSpinner, Button, A, Field, Interaction
+  Loader, InlineSpinner, Button, A, Field, Interaction
 } from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
 
-const CancelLink = ({children, onClick, ...props}) =>
+const CancelLink = ({ children, onClick, ...props }) =>
   <A
     onClick={(e) => {
       e.preventDefault()
       onClick(e)
     }}
     {...props}
-    style={{display: 'block', marginTop: 5, cursor: 'pointer'}}>
+    style={{ display: 'block', marginTop: 5, cursor: 'pointer' }}>
     {children}
   </A>
 
 const InlineLoader = ({ children }) => (
-  <div style={{textAlign: 'center'}}>
+  <div style={{ textAlign: 'center' }}>
     <InlineSpinner />
     <br />
+    {children}
   </div>)
 
 class UpdateEmail extends Component {
@@ -67,7 +67,7 @@ class UpdateEmail extends Component {
       return
     }
 
-    this.setState(() => ({updating: true}))
+    this.setState(() => ({ updating: true }))
     this.props.updateEmail({
       email: value,
       userId: me.id
@@ -139,7 +139,7 @@ class UpdateEmail extends Component {
             e.preventDefault()
             this.cancelEditing()
           }}
-          >
+        >
           {t('Account/Update/cancel')}
         </CancelLink>
       </Fragment>
@@ -160,17 +160,17 @@ class UpdateEmail extends Component {
       <Loader loading={loading || !me} error={error} render={() => {
         const body = (
           updating
-          ? (
-            <InlineLoader>
-              {t('Account/Update/email/updating')}
-            </InlineLoader>
-          )
-          : isEditing
-          ? this.renderForm()
-          : this.renderEditButton()
+            ? (
+              <InlineLoader>
+                {t('Account/Update/email/updating')}
+              </InlineLoader>
+            )
+            : isEditing
+              ? this.renderForm()
+              : this.renderEditButton()
         )
-        return <div style={{marginBottom: 80}}>
-          <H2 style={{marginBottom: 8}}>{t('Account/Update/email/label')}</H2>
+        return <div style={{ marginBottom: 80 }}>
+          <H2 style={{ marginBottom: 8 }}>{t('Account/Update/email/label')}</H2>
           <P>
             {me.email || ''}
           </P>
@@ -198,7 +198,7 @@ const mutation = gql`
 
 export default compose(
   graphql(mutation, {
-    props: ({mutate}) => ({
+    props: ({ mutate }) => ({
       updateEmail: variables => {
         return mutate({
           variables,

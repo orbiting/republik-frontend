@@ -3,23 +3,22 @@ import { compose } from 'react-apollo'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
-import withData from '../lib/apollo/withData'
+import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
-import withMembership from '../components/Auth/withMembership'
+import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
 
 import {
-  SALES_UP,
-  CROWDFUNDING_NAME,
   PUBLIC_BASE_URL,
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
-
-const IndexPage = ({ url, t, isMember, headers }) => {
+const IndexPage = ({ t, me, isMember, inNativeIOSApp }) => {
   if (isMember) {
     // does it's own meta
-    return <Front url={url} headers={headers} />
+    return <Front />
+  }
+  if (inNativeIOSApp) {
+    return <UnauthorizedPage me={me} />
   }
   const meta = {
     pageTitle: t('pages/index/pageTitle'),
@@ -29,18 +28,14 @@ const IndexPage = ({ url, t, isMember, headers }) => {
     url: `${PUBLIC_BASE_URL}/`
   }
   return (
-    <Frame
-      raw
-      url={url}
-      meta={meta}
-    >
-      <Marketing crowdfundingName={PLEDGE_CROWDFUNDING_NAME} />
+    <Frame raw meta={meta}>
+      <Marketing />
     </Frame>
   )
 }
 
 export default compose(
-  withData,
   withMembership,
+  withInNativeApp,
   withT
 )(IndexPage)

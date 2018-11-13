@@ -1,8 +1,10 @@
+const path = require('path')
 const express = require('express')
 const basicAuth = require('express-basic-auth')
 const dotenv = require('dotenv')
 const next = require('next')
 const compression = require('compression')
+const helmet = require('helmet')
 
 const DEV = process.env.NODE_ENV
   ? process.env.NODE_ENV !== 'production'
@@ -29,6 +31,16 @@ const handler = routes.getRequestHandler(app)
 app.prepare().then(() => {
   const server = express()
 
+  server.use(helmet({
+    hsts: {
+      maxAge: 60 * 60 * 24 * 365, // 1 year to get preload approval
+      preload: true,
+      includeSubDomains: true
+    },
+    referrerPolicy: {
+      policy: 'no-referrer'
+    }
+  }))
   server.use(compression())
 
   if (!DEV) {
@@ -49,7 +61,9 @@ app.prepare().then(() => {
       '/__webpack_hmr',
       '/static/',
       '/manifest',
-      '/mitteilung'
+      '/mitteilung',
+      '/.well-known/apple-app-site-association',
+      '/.well-known/assetlinks.json'
     ]
 
     server.use((req, res, next) => {
@@ -104,6 +118,18 @@ app.prepare().then(() => {
   // PayPal donate return url can be posted to
   server.post('/en', (req, res) => {
     return app.render(req, res, '/en', req.query)
+  })
+
+  // iOS app universal links setup
+  server.use('/.well-known/apple-app-site-association', (req, res) => {
+    res.set('Content-Type', 'application/json')
+    res.sendFile(path.join(__dirname, '../static', '.well-known', 'apple-app-site-association'))
+  })
+
+  // android app universal links setup
+  server.use('/.well-known/assetlinks.json', (req, res) => {
+    res.set('Content-Type', 'application/json')
+    res.sendFile(path.join(__dirname, '../static', '.well-known', 'assetlinks.json'))
   })
 
   server.use(handler)

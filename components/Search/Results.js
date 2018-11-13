@@ -156,7 +156,7 @@ class Results extends Component {
         const minHeight = this.panelRef.getBoundingClientRect().height
         this.panelRef.style.minHeight = currentMinHeight
         if (shouldMeasure && minHeight !== this.state.minHeight) {
-          this.setState({minHeight})
+          this.setState({ minHeight })
         }
       }
     }
@@ -175,10 +175,16 @@ class Results extends Component {
       this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
     }
     if (!props.dataAggregations || !props.dataAggregations.search) return
-    const { search } = props.dataAggregations
-    const { aggregations, totalCount } = search
-    this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(totalCount)
-    this.props.onAggregationsLoaded && this.props.onAggregationsLoaded(aggregations)
+
+    const { search: nextSearchAggs } = props.dataAggregations
+    const { search: searchAggs = {} } = this.props.dataAggregations || {}
+
+    if (searchAggs.totalCount !== nextSearchAggs.totalCount) {
+      this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(nextSearchAggs.totalCount)
+    }
+    if (searchAggs.aggregations !== nextSearchAggs.aggregations) {
+      this.props.onAggregationsLoaded && this.props.onAggregationsLoaded(nextSearchAggs.aggregations)
+    }
   }
 
   render () {

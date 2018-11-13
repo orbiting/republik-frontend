@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {css} from 'glamor'
+import React, { Component, Fragment } from 'react'
+import { css } from 'glamor'
 
 import Link from '../Link/Href'
 
@@ -36,18 +36,29 @@ class IconLink extends Component {
     this.unsubscribe()
   }
   render () {
-    const { path, discussionId, count, style } = this.props
-    return <Link href={path} passHref>
-      <a href='#diskussion' onClick={(e) => {
+    const { path, discussionPage, discussionId, count, style } = this.props
+
+    const content = <Fragment>
+      <Icon size={24} fill={colors.primary} />
+      {count > 0 && (
+        <span {...iconLinkStyles.text} {...styles.text}>
+          &nbsp;{count}
+        </span>
+      )}
+    </Fragment>
+
+    if (discussionPage) {
+      return <a href='#' onClick={(e) => {
         e.preventDefault()
         focusSelector(`[data-discussion-id='${discussionId}']`)
       }} {...iconLinkStyles.link} {...styles.a} style={style}>
-        <Icon size={24} fill={colors.primary} />
-        {count > 0 && (
-          <span {...iconLinkStyles.text} {...styles.text}>
-            &nbsp;{count}
-          </span>
-        )}
+        {content}
+      </a>
+    }
+
+    return <Link href={path} passHref>
+      <a {...iconLinkStyles.link} {...styles.a} style={style}>
+        {content}
       </a>
     </Link>
   }

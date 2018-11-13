@@ -12,7 +12,7 @@ import { WithoutMembership } from '../Auth/withMembership'
 
 const getFeedDocuments = gql`
 query getFeedDocuments($formatId: String!) {
-  documents(format: $formatId) {
+  documents(format: $formatId, first: 100) {
     totalCount
     nodes {
       meta {
@@ -40,11 +40,11 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
       return (
         <Center>
           <Interaction.H2>
-            {t.pluralize('format/feed/title', {count: documents.totalCount})}
+            {t.pluralize('format/feed/title', { count: documents.totalCount })}
           </Interaction.H2>
           <br /><br />
           <WithoutMembership render={() => (
-            <Box style={{padding: '15px 20px'}}>
+            <Box style={{ padding: '15px 20px' }}>
               <Interaction.P>
                 {t('format/feed/payNote')}
               </Interaction.P>

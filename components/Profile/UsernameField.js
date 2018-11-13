@@ -10,13 +10,13 @@ import {
 } from '@project-r/styleguide'
 
 const diacritics = [
-  {base: 'a', letters: ['ä', 'â', 'à']},
-  {base: 'c', letters: ['ç']},
-  {base: 'e', letters: ['é', 'ê', 'è', 'ë']},
-  {base: 'i', letters: ['î', 'ï']},
-  {base: 'o', letters: ['ö', 'ô']},
-  {base: 'u', letters: ['ü', 'ù', 'û']},
-  {base: 'ss', letters: ['ß']}
+  { base: 'a', letters: ['ä', 'â', 'à'] },
+  { base: 'c', letters: ['ç'] },
+  { base: 'e', letters: ['é', 'ê', 'è', 'ë'] },
+  { base: 'i', letters: ['î', 'ï'] },
+  { base: 'o', letters: ['ö', 'ô'] },
+  { base: 'u', letters: ['ü', 'ù', 'û'] },
+  { base: 'ss', letters: ['ß'] }
 ]
 
 const diacriticsMap = diacritics.reduce(
@@ -30,7 +30,7 @@ const diacriticsMap = diacritics.reduce(
 )
 
 const toUsername = string => string
-  .toLowerCase()
+  .toLowerCase() // eslint-disable-next-line no-control-regex
   .replace(/[^\u0000-\u007E]/g, a => diacriticsMap[a] || a)
   .replace(/[^.0-9a-z]+/g, ' ')
   .trim()
@@ -112,7 +112,7 @@ class UsernameField extends Component {
             }
           })
         }} />
-      <Label style={{display: 'block', marginTop: -10, marginBottom: 10}}>
+      <Label style={{ display: 'block', marginTop: -10, marginBottom: 10 }}>
         {t('profile/username/note')}
       </Label>
     </Fragment>

@@ -1,12 +1,18 @@
 import React from 'react'
+import { compose } from 'react-apollo'
 import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../constants'
 import { css } from 'glamor'
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import 'glamor/reset'
 
@@ -18,16 +24,27 @@ css.global('body', {
   fontFamily: fontFamilies.sansSerifRegular
 })
 
+// avoid gray rects over links and icons on iOS
+css.global('*', {
+  WebkitTapHighlightColor: 'transparent'
+})
+// avoid orange highlight, observed around full screen gallery, on Android
+css.global('div:focus', {
+  outline: 'none'
+})
+
 const styles = {
   container: css({
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
   }),
-  coverless: css({
-    paddingTop: HEADER_HEIGHT_MOBILE,
+  padHeader: css({
+    // minus 1px for first sticky hr from header
+    // - otherwise there is a jump when scroll 0 and opening hamburger
+    paddingTop: HEADER_HEIGHT_MOBILE - 1,
     [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT
+      paddingTop: HEADER_HEIGHT - 1
     }
   }),
   bodyGrower: css({
@@ -43,26 +60,29 @@ const styles = {
   })
 }
 
-export const MainContainer = ({children}) =>
+export const MainContainer = ({ children }) => (
   <Container style={{ maxWidth: '840px' }}>
     {children}
   </Container>
-export const Content = ({children, style}) =>
+)
+
+export const Content = ({ children, style }) => (
   <div {...styles.content} style={style}>{children}</div>
+)
 
 const Index = ({
   t,
+  me,
   children,
-  url,
   raw,
   meta,
   nav,
   cover,
+  inNativeApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
   showSecondary,
-  headerInline,
   formatColor,
   audioSource,
   audioCloseHandler,
@@ -71,23 +91,25 @@ const Index = ({
   <div {...styles.container}>
     <div
       {...styles.bodyGrower}
-      className={!cover ? styles.coverless : undefined}
+      {...(!cover
+        ? styles.padHeader
+        : undefined
+      )}
     >
       {!!meta && <Meta data={meta} />}
       <Header
-        url={url}
+        me={me}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
-        inline={headerInline}
         formatColor={formatColor}
         audioSource={audioSource}
         audioCloseHandler={audioCloseHandler}
       />
       <noscript>
-        <Box style={{padding: 30}}>
+        <Box style={{ padding: 30 }}>
           <RawHtml
             dangerouslySetInnerHTML={{
               __html: t('noscript')
@@ -102,8 +124,12 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    <Footer />
+    {!inNativeApp && <Footer />}
   </div>
 )
 
-export default withT(Index)
+export default compose(
+  withMe,
+  withT,
+  withInNativeApp
+)(Index)

@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import { isWebUri } from 'valid-url'
 
 import IconLink from '../IconLink'
-import FieldSet, { styles as fieldSetStyles} from '../FieldSet'
+import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import UsernameField from './UsernameField'
 import { DEFAULT_VALUES } from './Page'
@@ -46,7 +46,7 @@ const fields = t => [
   }
 ]
 
-const AccessRoleDropdown = ({t, ...props}) => (
+const AccessRoleDropdown = ({ t, ...props }) => (
   <Dropdown
     items={['ADMIN', 'EDITOR', 'MEMBER', 'PUBLIC'].map(value => ({
       value: value,
@@ -66,7 +66,7 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
           <br /><br />
         </Label>
       }
-      <div style={{opacity: user.isAdminUnlisted ? 0.5 : 1}}>
+      <div style={{ opacity: user.isAdminUnlisted ? 0.5 : 1 }}>
         <Checkbox
           checked={values.isListed}
           disabled={(
@@ -208,11 +208,11 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
           icon='key'
           size={20}
           title={t('profile/contact/pgpPublicKey/label')}
-          style={{paddingBottom: 5, paddingLeft: 0}}>
+          style={{ paddingBottom: 5, paddingLeft: 0 }}>
           {user.pgpPublicKeyId.toUpperCase()}
         </IconLink>}
       {user.email &&
-        <Label style={{display: 'block', marginBottom: 20}}>
+        <Label style={{ display: 'block', marginBottom: 20 }}>
           {t(`profile/contact/access/${user.emailAccessRole}/note`, {
             field: t('profile/contact/email/label')
           }, '')}
@@ -221,14 +221,14 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
         <Interaction.P>
           <a
             href={`tel:${user.phoneNumber}`}
-            style={{color: 'inherit', textDecoration: 'none'}}>
+            style={{ color: 'inherit', textDecoration: 'none' }}>
             {user.phoneNumber}
           </a>
-          <Label style={{display: 'block', marginBottom: 5}}>
+          <Label style={{ display: 'block', marginBottom: 5 }}>
             {user.phoneNumberNote}
           </Label>
         </Interaction.P>
-        <Label style={{display: 'block', marginBottom: 20}}>
+        <Label style={{ display: 'block', marginBottom: 20 }}>
           {t(`profile/contact/access/${user.phoneNumberAccessRole}/note`, {
             field: t('profile/contact/phoneNumber/label')
           }, '')}

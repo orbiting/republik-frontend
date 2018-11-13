@@ -1,27 +1,25 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 import AutosizeInput from 'react-textarea-autosize'
 
-import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import {withSignOut} from '../Auth/SignOut'
-import {withSignIn} from '../Auth/SignIn'
+import { withSignOut } from '../Auth/SignOut'
+import { withSignIn } from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
-import RawHtmlElements from '../RawHtmlElements'
-import FieldSet, {styles as fieldSetStyles} from '../FieldSet'
+import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import Poller from '../Auth/Poller'
 
 import {
-  Interaction, InlineSpinner, Field, Button, A, linkRule
+  Interaction, InlineSpinner, Field, Button
 } from '@project-r/styleguide'
 
-import {H2} from './List'
-const {P} = Interaction
+import { H2 } from './List'
+const { P } = Interaction
 
 const submitQuestion = gql`
 mutation submitQuestion($question: String!) {
@@ -64,7 +62,7 @@ class QuestionForm extends Component {
       dirty: shouldValidate
     }))
   }
-  checkUserFields ({me, t}) {
+  checkUserFields ({ me, t }) {
     const defaultValues = {
       email: (me && me.email) || ''
     }
@@ -74,9 +72,9 @@ class QuestionForm extends Component {
     }
     this.handleEmail(values.email, false, t)
   }
-  send () {
-    const {me} = this.props
-    const {values} = this.state
+  send (newTokenType) {
+    const { me } = this.props
+    const { values } = this.state
 
     this.setState(() => ({
       loading: true,
@@ -99,11 +97,11 @@ class QuestionForm extends Component {
     }
 
     if (!me) {
-      this.props.signIn(values.email)
-        .then(({data}) => {
+      this.props.signIn(values.email, 'faq', undefined, newTokenType)
+        .then(({ data }) => {
           this.setState(() => ({
             polling: true,
-            phrase: data.signIn.phrase
+            signInResponse: data.signIn
           }))
         })
         .catch(catchError)
@@ -143,12 +141,12 @@ class QuestionForm extends Component {
     )
   }
   render () {
-    const {t} = this.props
+    const { t } = this.props
 
     const {
       dirty, values, errors,
       success,
-      polling, phrase,
+      polling, signInResponse,
       loading, serverError
     } = this.state
 
@@ -183,7 +181,7 @@ class QuestionForm extends Component {
           <br />
           <Field label={t('faq/form/question/label')}
             name='question'
-            renderInput={({ref, ...inputProps}) => (
+            renderInput={({ ref, ...inputProps }) => (
               <AutosizeInput
                 {...inputProps}
                 {...fieldSetStyles.autoSize}
@@ -198,7 +196,7 @@ class QuestionForm extends Component {
           {loading
             ? <InlineSpinner />
             : (
-              <div style={{opacity: errorMessages.length ? 0.5 : 1}}>
+              <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
                 <Button type='submit'>
                   {t('faq/form/question/submit')}
                 </Button>
@@ -207,36 +205,29 @@ class QuestionForm extends Component {
           }
 
           {!!polling && (
-            <div>
-              <P>
-                <RawHtmlElements t={t} translationKey='signIn/polling' replacements={{
-                  phrase: <b key='phrase'>{phrase}</b>,
-                  email: <b key='email'>{values.email}</b>,
-                  link: (
-                    <Link route='signin'>
-                      <a {...linkRule}>{t('signIn/polling/link')}</a>
-                    </Link>
-                  )
-                }} />
-              </P>
-              <Poller onSuccess={() => {
+            <Poller
+              tokenType={signInResponse.tokenType}
+              phrase={signInResponse.phrase}
+              email={values.email}
+              alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+              onCancel={() => {
+                this.setState(() => ({
+                  polling: false,
+                  loading: false
+                }))
+              }}
+              onTokenTypeChange={(altTokenType) => {
+                this.send(altTokenType)
+              }}
+              onSuccess={(me) => {
                 this.setState(() => ({
                   polling: false
                 }))
                 this.send()
               }} />
-              <br /><br />
-              <A href='#' onClick={(e) => {
-                e.preventDefault()
-                this.setState(() => ({
-                  polling: false,
-                  loading: false
-                }))
-              }}>{t('signIn/cancel')}</A>
-            </div>
           )}
           {!!serverError && <ErrorMessage error={serverError} />}
-          {!!success && <div style={{marginTop: 20}}>
+          {!!success && <div style={{ marginTop: 20 }}>
             <Interaction.H3>
               {t('faq/form/merci/title')}
             </Interaction.H3>

@@ -53,7 +53,7 @@ query getQuestionnaireResults($slug: String!, $orderFilter: [Int!]) {
         }
       }
       ... on QuestionTypeDocument {
-        results: result(min: 3, top: 30) {
+        results: result(min: 3, top: 20) {
           count
           document {
             meta {

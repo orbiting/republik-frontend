@@ -170,7 +170,12 @@ class Page extends Component {
                     })}
                   </P>
                 </div>
-                {showResults && <Results slug={router.query.slug} />}
+                {showResults && <>
+                  <P style={{ marginBottom: 20, color: colors.error }}>
+                    Diese Resultate werden <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
+                  </P>
+                  <Results slug={router.query.slug} />
+                </>}
               </>
             )
           }

@@ -133,25 +133,6 @@ const RankedBars = withT(({ t, question }) => {
           }))} />
     )
   }
-  if (question.options && question.options.length === 5) {
-    const mapResult = result => {
-      return {
-        index: question.options.findIndex(option => (
-          option.label === result.option.label
-        )),
-        label: result.option.label,
-        category: result.option.category,
-        value: String(result.count / question.turnout.submitted)
-      }
-    }
-    return (
-      <Chart t={t}
-        config={STACKED_BAR_CONFIG}
-        values={question.results.map(mapResult).sort(
-          (a, b) => ascending(a.index, b.index)
-        )} />
-    )
-  }
 
   const numberPerColumn = question.results.length / 3
   const mapResult = (result, i) => ({
@@ -168,7 +149,27 @@ const RankedBars = withT(({ t, question }) => {
   )
 })
 
-const BinBars = withT(({ t, question }) => {
+const SentimentBar = withT(({ t, question }) => {
+  const mapResult = result => {
+    return {
+      index: question.options.findIndex(option => (
+        option.label === result.option.label
+      )),
+      label: result.option.label,
+      category: result.option.category,
+      value: String(result.count / question.turnout.submitted)
+    }
+  }
+  return (
+    <Chart t={t}
+      config={STACKED_BAR_CONFIG}
+      values={question.results.map(mapResult).sort(
+        (a, b) => ascending(a.index, b.index)
+      )} />
+  )
+})
+
+const HistogramBar = withT(({ t, question }) => {
   const mapResult = (result, i) => {
     const tick = question.ticks.find(tick => (
       (i === 0 && tick.value === result.x0) ||
@@ -205,11 +206,26 @@ const Results = ({ data, t, Wrapper = DefaultWrapper }) => {
         return null
       }
 
+      let ResultChart
+      if (question.__typename === 'QuestionTypeRange') {
+        ResultChart = HistogramBar
+      } else {
+        /* We assume that questions with 5 answers are sentiment
+         * questions that shall be displayed as stacked bars.
+         *
+         * The answers are roughly:
+         * - disagree strongly, disagree
+         * - sometimes, agree, agree strongly
+         */
+        const isSentimentQuestion = question.options && question.options.length === 5
+
+        ResultChart = isSentimentQuestion ? SentimentBar : RankedBars
+      }
+
       return (
         <Wrapper key={id}>
           { text && <ChartTitle>{text}</ChartTitle> }
-          { question.results && <RankedBars question={question} />}
-          { question.result && <BinBars question={question} />}
+          { ResultChart && <ResultChart question={question} /> }
           { <Editorial.Note style={{ marginTop: 10 }}>
             {t('questionnaire/turnout', {
               formattedSubmittedCount: countFormat(question.turnout.submitted),

@@ -15,6 +15,9 @@ query myBelongings {
       overdue
       pledge {
         id
+        package {
+          name
+        }
         options {
           price
           reward {

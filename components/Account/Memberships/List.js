@@ -55,7 +55,7 @@ export default compose(
             !data.error &&
             data.me &&
             data.me.memberships &&
-            data.me.memberships.filter(m => !m.voucherCode)
+            data.me.memberships.filter(m => m.pledge.package.name !== 'ABO_GIVE')
           ) || []
         )
       }

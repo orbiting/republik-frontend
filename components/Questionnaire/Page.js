@@ -25,9 +25,11 @@ import RangeQuestion from './RangeQuestion'
 import ChoiceQuestion from './ChoiceQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
+import withAuthorization from '../Auth/withAuthorization'
 import { errorToString } from '../../lib/utils/errors'
 import { Link, Router } from '../../lib/routes'
 import StatusError from '../StatusError'
+import Results from './Results'
 
 const { Headline, P } = Interaction
 
@@ -77,7 +79,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 30
   }),
   progressIcon: css({
     marginLeft: 5,
@@ -137,7 +140,7 @@ class Page extends Component {
   }
 
   render () {
-    const { data, t, meta } = this.props
+    const { data, t, meta, showResults, router } = this.props
 
     return (
       <Frame meta={meta}>
@@ -167,6 +170,12 @@ class Page extends Component {
                     })}
                   </P>
                 </div>
+                {showResults && <>
+                  <P style={{ marginBottom: 20, color: colors.error }}>
+                    Diese Resultate werden <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
+                  </P>
+                  <Results slug={router.query.slug} />
+                </>}
               </>
             )
           }
@@ -317,6 +326,7 @@ query getQuestionnaire($slug: String!) {
 export default compose(
   withT,
   withRouter,
+  withAuthorization(['supporter', 'editor'], 'showResults'),
   graphql(submitQuestionnaireMutation, {
     props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -23,6 +23,8 @@ import {
 } from '@project-r/styleguide'
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
+
+import Results from './Results'
 
 const styles = {
   number: css({
@@ -84,6 +86,12 @@ const SignupTile = ({ t }) =>
     </TeaserFrontLead>
   </TeaserFrontTile>
 
+const ResultWrapper = ({ children }) => (
+  <TeaserFrontTile align='top' color={colors.text} bgColor='#fff'>
+    {children}
+  </TeaserFrontTile>
+)
+
 class QuestionnaireMetaWidget extends Component {
   render () {
     const { data, t } = this.props
@@ -92,21 +100,28 @@ class QuestionnaireMetaWidget extends Component {
         const { questionnaire: { userHasSubmitted, turnout: { submitted } } } = data
 
         return (
-          <TeaserFrontTileRow columns={2}>
-            {userHasSubmitted
-              ? <ThankYouTile t={t} />
-              : <SignupTile t={t} />
+          <Fragment>
+            <TeaserFrontTileRow columns={2}>
+              {userHasSubmitted
+                ? <ThankYouTile t={t} />
+                : <SignupTile t={t} />
 
-            }
-            <TeaserFrontTile color={colors.text} bgColor='#fff'>
-              <TeaserFrontTileHeadline.Interaction>
-                <div {...styles.number}>{countFormat(submitted)}</div>
-              </TeaserFrontTileHeadline.Interaction>
-              <TeaserFrontLead>
-                <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
-              </TeaserFrontLead>
-            </TeaserFrontTile>
-          </TeaserFrontTileRow>
+              }
+              <TeaserFrontTile color={colors.text} bgColor='#fff'>
+                <TeaserFrontTileHeadline.Interaction>
+                  <div {...styles.number}>{countFormat(submitted)}</div>
+                </TeaserFrontTileHeadline.Interaction>
+                <TeaserFrontLead>
+                  <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
+                </TeaserFrontLead>
+              </TeaserFrontTile>
+            </TeaserFrontTileRow>
+            <TeaserFrontTileRow columns={2}>
+              <Results
+                slug='2018'
+                Wrapper={ResultWrapper} orderFilter={[1, 11]} />
+            </TeaserFrontTileRow>
+          </Fragment>
         )
       }} />
     )

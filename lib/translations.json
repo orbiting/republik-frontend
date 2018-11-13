@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-12T15:43:03.788Z",
+  "updated": "2018-11-13T10:22:02.338Z",
   "title": "live",
   "data": [
     {
@@ -228,7 +228,7 @@
     },
     {
       "key": "signIn/polling/phrase/EMAIL_TOKEN/hint",
-      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Betätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
+      "value": "Wie funktioniert diese Sicherheitsmassnahme? Vergleichen Sie diese Wörter. Stehen sie ebenfalls auf der Bestätigungsseite, können Sie sicher sein, dass Sie dieser Anfrage den Zugriff freischalten."
     },
     {
       "key": "signIn/polling/phrase/APP/hint",
@@ -3464,7 +3464,7 @@
     },
     {
       "key": "questionnaire/turnout",
-      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} haben diese Frage übersprungen."
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",

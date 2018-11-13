@@ -106,7 +106,8 @@ const STACKED_BAR_CONFIG = {
   ],
   sort: 'none',
   barStyle: 'large',
-  colorLegend: true
+  colorLegend: true,
+  domain: [0, 1]
 }
 
 const BIN_BAR_CONFIG = {

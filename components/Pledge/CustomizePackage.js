@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
+import { nest } from 'd3-collection'
 
 import withT from '../../lib/withT'
 import { chfFormat } from '../../lib/utils/format'
@@ -202,87 +203,114 @@ class CustomizePackage extends Component {
             ]
           )}
         </P>
-        <div {...styles.grid}>
-          {
-            configurableOptions.map((option, i) => {
-              const value = values[option.id] === undefined ? option.defaultAmount : values[option.id]
-              const label = t.pluralize(`option/${option.reward.name}/label`, {
-                count: value
-              }, t(`option/${option.reward.name}/label`))
-
-              const onFieldChange = (_, value, shouldValidate) => {
-                let error
-                const parsedValue = String(value).length
-                  ? parseInt(value, 10) || 0
-                  : ''
-                if (parsedValue > option.maxAmount) {
-                  error = t('package/customize/option/error/max', {
-                    label,
-                    maxAmount: option.maxAmount
-                  })
-                }
-                if (parsedValue < option.minAmount) {
-                  error = t('package/customize/option/error/min', {
-                    label,
-                    minAmount: option.minAmount
-                  })
-                }
-
-                const fields = FieldSet.utils.fieldsState({
-                  field: option.id,
-                  value: parsedValue,
-                  error,
-                  dirty: shouldValidate
-                })
-                const minPrice = calculateMinPrice(
-                  pkg,
-                  {
-                    ...values,
-                    ...fields.values
-                  },
-                  userPrice
-                )
-                let price = values.price
-                if (
-                  minPrice !== absolutMinPrice &&
-                  (!this.state.customPrice || minPrice > values.price)
-                ) {
-                  fields.values.price = price = minPrice
-                  this.setState(() => ({ customPrice: false }))
-                }
-                fields.errors.price = priceError(
-                  price,
-                  minPrice,
-                  t
-                )
-                onChange(fields)
-              }
-
+        {
+          nest()
+            .key(d => d.customization && d.customization.membership
+              ? d.customization.membership.id
+              : '')
+            .entries(configurableOptions)
+            .map(({ key, values: options }) => {
+              const membership = options[0].customization && options[0].customization.membership
               return (
-                <div key={option.id} {...styles.span} style={{
-                  width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
-                    ? '100%' : '50%'
-                }}>
-                  <div style={{ marginBottom: 20 }}>
-                    <Field
-                      ref={i === 0 ? this.focusRefSetter : undefined}
-                      label={label}
-                      error={dirty[option.id] && errors[option.id]}
-                      value={value}
-                      onInc={value < option.maxAmount && (() => {
-                        onFieldChange(undefined, value + 1, dirty[option.id])
-                      })}
-                      onDec={value > option.minAmount && (() => {
-                        onFieldChange(undefined, value - 1, dirty[option.id])
-                      })}
-                      onChange={onFieldChange}
-                    />
+                <Fragment key={key}>
+                  {membership && <P>
+                    <Interaction.Emphasis>
+                      {[
+                        t(
+                          `memberships/type/${membership.type.name}`,
+                          {},
+                          membership.type.name
+                        ),
+                        `(${t('memberships/sequenceNumber/suffix', membership)})`
+                      ].join(' ')}
+                    </Interaction.Emphasis>
+                  </P>}
+                  <div {...styles.grid}>
+                    {
+                      options.map((option, i) => {
+                        const valueKey = option.id
+                        const value = values[valueKey] === undefined ? option.defaultAmount : values[valueKey]
+                        const label = t.pluralize(`option/${option.reward.name}/label`, {
+                          count: value
+                        }, t(`option/${option.reward.name}/label`))
+
+                        const onFieldChange = (_, value, shouldValidate) => {
+                          let error
+                          const parsedValue = String(value).length
+                            ? parseInt(value, 10) || 0
+                            : ''
+                          if (parsedValue > option.maxAmount) {
+                            error = t('package/customize/option/error/max', {
+                              label,
+                              maxAmount: option.maxAmount
+                            })
+                          }
+                          if (parsedValue < option.minAmount) {
+                            error = t('package/customize/option/error/min', {
+                              label,
+                              minAmount: option.minAmount
+                            })
+                          }
+
+                          const fields = FieldSet.utils.fieldsState({
+                            field: valueKey,
+                            value: parsedValue,
+                            error,
+                            dirty: shouldValidate
+                          })
+                          const minPrice = calculateMinPrice(
+                            pkg,
+                            {
+                              ...values,
+                              ...fields.values
+                            },
+                            userPrice
+                          )
+                          let price = values.price
+                          if (
+                            minPrice !== absolutMinPrice &&
+                          (!this.state.customPrice || minPrice > values.price)
+                          ) {
+                            fields.values.price = price = minPrice
+                            this.setState(() => ({ customPrice: false }))
+                          }
+                          fields.errors.price = priceError(
+                            price,
+                            minPrice,
+                            t
+                          )
+                          onChange(fields)
+                        }
+
+                        return (
+                          <div key={option.id} {...styles.span} style={{
+                            width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
+                              ? '100%' : '50%'
+                          }}>
+                            <div style={{ marginBottom: 20 }}>
+                              <Field
+                                ref={i === 0 ? this.focusRefSetter : undefined}
+                                label={label}
+                                error={dirty[valueKey] && errors[valueKey]}
+                                value={value}
+                                onInc={value < option.maxAmount && (() => {
+                                  onFieldChange(undefined, value + 1, dirty[valueKey])
+                                })}
+                                onDec={value > option.minAmount && (() => {
+                                  onFieldChange(undefined, value - 1, dirty[valueKey])
+                                })}
+                                onChange={onFieldChange}
+                              />
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
                   </div>
-                </div>
+                </Fragment>
               )
             })
-          }
-        </div>
+        }
         {!!userPrice && (<div>
           <P>
             {t('package/customize/userPrice/beforeReason')}

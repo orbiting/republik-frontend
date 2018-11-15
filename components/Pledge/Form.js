@@ -83,7 +83,10 @@ class Pledge extends Component {
       options: pkg ? pkg.options.map(option => ({
         amount: values[option.id] || option.minAmount,
         price: option.price,
-        templateId: option.templateId
+        templateId: option.templateId,
+        customization: option.customization && option.customization.membership
+          ? { membershipId: option.customization.membership.id }
+          : undefined
       })) : [],
       reason: userPrice ? values.reason : undefined,
       id: pledge ? pledge.id : undefined
@@ -187,6 +190,7 @@ class Pledge extends Component {
             <div style={{ marginBottom: 40 }}>
               {pkg ? (
                 <CustomizePackage
+                  key={pkg.id}
                   crowdfundingName={crowdfundingName}
                   values={values}
                   errors={errors}
@@ -361,6 +365,7 @@ query pledgeForm($crowdfundingName: String!) {
         customization {
           membership {
             id
+            sequenceNumber
             type {
               name
             }

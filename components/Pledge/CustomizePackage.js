@@ -9,7 +9,7 @@ import { chfFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
-import { A, Field, fontFamilies, Interaction, Label, mediaQueries } from '@project-r/styleguide'
+import { A, Field, Radio, fontFamilies, Interaction, Label, mediaQueries } from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
@@ -220,6 +220,10 @@ class CustomizePackage extends Component {
             .entries(configurableOptions)
             .map(({ key: groupId, values: options }) => {
               const membership = options[0].customization && options[0].customization.membership
+              const Wrapper = groupId
+                ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
+                : ({ children }) => <div {...styles.grid}>{children}</div>
+
               return (
                 <Fragment key={groupId}>
                   {membership && <P>
@@ -234,7 +238,7 @@ class CustomizePackage extends Component {
                       ].join(' ')}
                     </Interaction.Emphasis>
                   </P>}
-                  <div {...styles.grid}>
+                  <Wrapper>
                     {
                       options.map((option, i) => {
                         const fieldKey = getOptionFieldKey(option)
@@ -304,6 +308,24 @@ class CustomizePackage extends Component {
                           onChange(fields)
                         }
 
+                        if (groupId && option.minAmount === 0 && option.maxAmount === 1) {
+                          return (<Radio
+                            value='1'
+                            checked={!!+value}
+                            onChange={(event) => {
+                              onFieldChange(undefined, 1, dirty[fieldKey])
+                            }}>
+                            <span style={{
+                              display: 'inline-block',
+                              verticalAlign: 'top',
+                              marginRight: 20
+                            }}>
+                              {label}<br />
+                              {option.price / 100}
+                            </span>
+                          </Radio>)
+                        }
+
                         return (
                           <div key={option.id} {...styles.span} style={{
                             width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
@@ -311,7 +333,7 @@ class CustomizePackage extends Component {
                           }}>
                             <div style={{ marginBottom: 20 }}>
                               <Field
-                                ref={i === 0 ? this.focusRefSetter : undefined}
+                                ref={i === 0 && !groupId ? this.focusRefSetter : undefined}
                                 label={label}
                                 error={dirty[fieldKey] && errors[fieldKey]}
                                 value={value}
@@ -328,7 +350,7 @@ class CustomizePackage extends Component {
                         )
                       })
                     }
-                  </div>
+                  </Wrapper>
                 </Fragment>
               )
             })

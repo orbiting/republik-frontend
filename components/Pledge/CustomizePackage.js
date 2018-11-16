@@ -94,6 +94,11 @@ const styles = {
   })
 }
 
+export const getOptionFieldKey = option => [
+  option.customization && option.customization.membership && option.customization.membership.id,
+  option.templateId
+].filter(Boolean).join('-')
+
 class CustomizePackage extends Component {
   constructor (props) {
     super(props)
@@ -209,10 +214,10 @@ class CustomizePackage extends Component {
               ? d.customization.membership.id
               : '')
             .entries(configurableOptions)
-            .map(({ key, values: options }) => {
+            .map(({ key: groupId, values: options }) => {
               const membership = options[0].customization && options[0].customization.membership
               return (
-                <Fragment key={key}>
+                <Fragment key={groupId}>
                   {membership && <P>
                     <Interaction.Emphasis>
                       {[
@@ -228,8 +233,10 @@ class CustomizePackage extends Component {
                   <div {...styles.grid}>
                     {
                       options.map((option, i) => {
-                        const valueKey = option.id
-                        const value = values[valueKey] === undefined ? option.defaultAmount : values[valueKey]
+                        const fieldKey = getOptionFieldKey(option)
+                        let value = values[fieldKey] === undefined
+                          ? option.defaultAmount
+                          : values[fieldKey]
                         const label = t.pluralize(`option/${option.reward.name}/label`, {
                           count: value
                         }, t(`option/${option.reward.name}/label`))
@@ -252,12 +259,23 @@ class CustomizePackage extends Component {
                             })
                           }
 
-                          const fields = FieldSet.utils.fieldsState({
-                            field: valueKey,
+                          let fields = FieldSet.utils.fieldsState({
+                            field: fieldKey,
                             value: parsedValue,
                             error,
                             dirty: shouldValidate
                           })
+                          if (groupId) {
+                            // unselect all other options from group
+                            options.filter(other => other !== option).forEach(other => {
+                              fields = FieldSet.utils.mergeField({
+                                field: getOptionFieldKey(other),
+                                value: '',
+                                error: undefined,
+                                dirty: false
+                              })(fields)
+                            })
+                          }
                           const minPrice = calculateMinPrice(
                             pkg,
                             {
@@ -291,13 +309,13 @@ class CustomizePackage extends Component {
                               <Field
                                 ref={i === 0 ? this.focusRefSetter : undefined}
                                 label={label}
-                                error={dirty[valueKey] && errors[valueKey]}
+                                error={dirty[fieldKey] && errors[fieldKey]}
                                 value={value}
                                 onInc={value < option.maxAmount && (() => {
-                                  onFieldChange(undefined, value + 1, dirty[valueKey])
+                                  onFieldChange(undefined, value + 1, dirty[fieldKey])
                                 })}
                                 onDec={value > option.minAmount && (() => {
-                                  onFieldChange(undefined, value - 1, dirty[valueKey])
+                                  onFieldChange(undefined, value - 1, dirty[fieldKey])
                                 })}
                                 onChange={onFieldChange}
                               />

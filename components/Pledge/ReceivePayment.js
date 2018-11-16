@@ -24,6 +24,11 @@ query($pledgeId: ID!) {
     options {
       templateId
       amount
+      customization {
+        membership {
+          id
+        }
+      }
     }
     total
     donation

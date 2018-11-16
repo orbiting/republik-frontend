@@ -21,7 +21,7 @@ import {
 
 import Accordion from './Accordion'
 import Submit from './Submit'
-import CustomizePackage from './CustomizePackage'
+import CustomizePackage, { getOptionFieldKey } from './CustomizePackage'
 
 const { H1, H2, P } = Interaction
 
@@ -40,7 +40,7 @@ class Pledge extends Component {
       values.reason = pledge.reason
       values.price = pledge.total
       pledge.options.forEach(option => {
-        values[option.templateId] = option.amount
+        values[getOptionFieldKey(option)] = option.amount
       })
       basePledge = {
         values: {
@@ -80,14 +80,16 @@ class Pledge extends Component {
         lastName: values.lastName,
         email: values.email
       },
-      options: pkg ? pkg.options.map(option => ({
-        amount: values[option.id] || option.minAmount,
-        price: option.price,
-        templateId: option.templateId,
-        customization: option.customization && option.customization.membership
-          ? { membershipId: option.customization.membership.id }
-          : undefined
-      })) : [],
+      options: pkg ? pkg.options.map(option => {
+        return {
+          amount: values[getOptionFieldKey(option)] || option.minAmount,
+          price: option.price,
+          templateId: option.templateId,
+          customization: option.customization && option.customization.membership
+            ? { membershipId: option.customization.membership.id }
+            : undefined
+        }
+      }) : [],
       reason: userPrice ? values.reason : undefined,
       id: pledge ? pledge.id : undefined
     }

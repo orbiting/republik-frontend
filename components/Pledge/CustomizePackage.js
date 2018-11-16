@@ -22,7 +22,11 @@ const calculateMinPrice = (pkg, state, userPrice) => {
   return Math.max(pkg.options.reduce(
     (price, option) => price + (option.userPrice && userPrice
       ? 0
-      : (option.price * (state[option.id] !== undefined ? state[option.id] : option.minAmount))
+      : option.price * (
+        state[getOptionFieldKey(option)] !== undefined
+          ? state[getOptionFieldKey(option)]
+          : option.minAmount
+      )
     ),
     0
   ), absolutMinPrice)
@@ -53,6 +57,11 @@ const priceError = (price, minPrice, t) => {
 const reasonError = (value = '', t) => {
   return value.trim().length === 0 && t('package/customize/userPrice/reason/error')
 }
+
+export const getOptionFieldKey = option => [
+  option.customization && option.customization.membership && option.customization.membership.id,
+  option.templateId
+].filter(Boolean).join('-')
 
 const GUTTER = 42
 const styles = {
@@ -93,11 +102,6 @@ const styles = {
     }
   })
 }
-
-export const getOptionFieldKey = option => [
-  option.customization && option.customization.membership && option.customization.membership.id,
-  option.templateId
-].filter(Boolean).join('-')
 
 class CustomizePackage extends Component {
   constructor (props) {
@@ -287,7 +291,7 @@ class CustomizePackage extends Component {
                           let price = values.price
                           if (
                             minPrice !== absolutMinPrice &&
-                          (!this.state.customPrice || minPrice > values.price)
+                            (!this.state.customPrice || minPrice > values.price)
                           ) {
                             fields.values.price = price = minPrice
                             this.setState(() => ({ customPrice: false }))

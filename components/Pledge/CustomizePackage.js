@@ -224,6 +224,36 @@ class CustomizePackage extends Component {
                 ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
                 : ({ children }) => <div {...styles.grid}>{children}</div>
 
+              const resetLabel = groupId && t(`option/${pkg.name}/resetGroup`, {}, null)
+              const groupValue = groupId && options.find(option => {
+                const fieldKey = getOptionFieldKey(option)
+                const value = values[fieldKey] === undefined
+                  ? option.defaultAmount
+                  : values[fieldKey]
+                return value
+              })
+              const reset = resetLabel && <Radio
+                value='0'
+                checked={!groupValue}
+                onChange={(event) => {
+                  onChange(options.reduce((fields, option) => {
+                    return FieldSet.utils.mergeField({
+                      field: getOptionFieldKey(option),
+                      value: '',
+                      error: undefined,
+                      dirty: false
+                    })(fields)
+                  }, {}))
+                }}>
+                <span style={{
+                  display: 'inline-block',
+                  verticalAlign: 'top',
+                  marginRight: 20
+                }}>
+                  {resetLabel}
+                </span>
+              </Radio>
+
               return (
                 <Fragment key={groupId}>
                   {membership && <P>
@@ -245,9 +275,16 @@ class CustomizePackage extends Component {
                         let value = values[fieldKey] === undefined
                           ? option.defaultAmount
                           : values[fieldKey]
-                        const label = t.pluralize(`option/${option.reward.name}/label`, {
+                        const label = t.first([
+                          `option/${pkg.name}/${option.reward.name}/label/${value}`,
+                          `option/${pkg.name}/${option.reward.name}/label/other`,
+                          `option/${pkg.name}/${option.reward.name}/label`,
+                          `option/${option.reward.name}/label/${value}`,
+                          `option/${option.reward.name}/label/other`,
+                          `option/${option.reward.name}/label`
+                        ], {
                           count: value
-                        }, t(`option/${option.reward.name}/label`))
+                        })
 
                         const onFieldChange = (_, value, shouldValidate) => {
                           let error
@@ -309,21 +346,26 @@ class CustomizePackage extends Component {
                         }
 
                         if (groupId && option.minAmount === 0 && option.maxAmount === 1) {
-                          return (<Radio
+                          return <Radio
                             value='1'
-                            checked={!!+value}
+                            checked={!!value}
                             onChange={(event) => {
                               onFieldChange(undefined, 1, dirty[fieldKey])
                             }}>
                             <span style={{
                               display: 'inline-block',
                               verticalAlign: 'top',
-                              marginRight: 20
+                              marginRight: 40
                             }}>
-                              {label}<br />
-                              {option.price / 100}
+                              <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
+                              {t.first([
+                                `package/${pkg.name}/price`,
+                                'package/price'
+                              ], {
+                                formattedCHF: `CHF ${option.price / 100}`
+                              })}
                             </span>
-                          </Radio>)
+                          </Radio>
                         }
 
                         return (
@@ -350,6 +392,7 @@ class CustomizePackage extends Component {
                         )
                       })
                     }
+                    {reset}
                   </Wrapper>
                 </Fragment>
               )

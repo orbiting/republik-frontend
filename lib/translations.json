@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-14T18:22:47.580Z",
+  "updated": "2018-11-16T18:13:03.553Z",
   "title": "live",
   "data": [
     {
@@ -3371,10 +3371,6 @@
       "value": "Vimeo"
     },
     {
-      "key": "styleguide/charts/confidence95-legend",
-      "value": "95-Prozent-Konfidenzintervall"
-    },
-    {
       "key": "styleguide/charts/y-cut",
       "value": "Achse gekürzt"
     },
@@ -3535,8 +3531,20 @@
       "value": "Es freut uns dass Sie weiterhin dabei bleiben."
     },
     {
-      "key": "option/BENEFACTOR_ABO/label",
-      "value": "Gönnermitgliedschaft"
+      "key": "package/PROLONG/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "option/PROLONG/ABO/label",
+      "value": "Regulär"
+    },
+    {
+      "key": "option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönner"
+    },
+    {
+      "key": "option/PROLONG/resetGroup",
+      "value": "Später"
     }
   ]
 }

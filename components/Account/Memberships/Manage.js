@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
@@ -36,11 +37,6 @@ class Manage extends Component {
       updating,
       remoteError
     } = this.state
-
-    if (membership.type.name !== 'MONTHLY_ABO') {
-      // currently only MONTHLY_ABO actions are active
-      return null
-    }
 
     if (updating) {
       return <InlineSpinner />
@@ -112,7 +108,7 @@ class Manage extends Component {
             {t('memberships/manage/cancel/button')}
           </Button>
         </Fragment>}
-        {!membership.renew &&
+        {!membership.renew && !!membership.periods.length &&
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()
             this.setState({
@@ -145,7 +141,7 @@ class Manage extends Component {
     )
   }
   render () {
-    const { t, membership, highlighted } = this.props
+    const { t, membership, highlighted, actions } = this.props
     const createdAt = new Date(membership.createdAt)
     const latestPeriod = membership.periods[0]
     const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
@@ -176,10 +172,18 @@ class Manage extends Component {
             { formattedEndDate }
           )}
         </P>}
-        {this.renderActions()}
+        {actions && this.renderActions()}
       </AccountItem>
     )
   }
+}
+
+Manage.propTypes = {
+  actions: PropTypes.bool.isRequired
+}
+
+Manage.defaultProps = {
+  actions: true
 }
 
 const cancelMembership = gql`

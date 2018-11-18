@@ -45,6 +45,7 @@ export const Item = withT(({ t, highlighted, title, createdAt, children }) => (
         formattedTime: hourFormat(createdAt)
       })}
     </Label>
+    <br />
     {children}
   </div>
 ))

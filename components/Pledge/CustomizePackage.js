@@ -65,7 +65,7 @@ const reasonError = (value = '', t) => {
 }
 
 export const getOptionFieldKey = option => [
-  option.customization && option.customization.membership && option.customization.membership.id,
+  option.optionGroup,
   option.templateId
 ].filter(Boolean).join('-')
 
@@ -220,27 +220,26 @@ class CustomizePackage extends Component {
         </P>
         {
           nest()
-            .key(d => d.customization && d.customization.membership
-              ? d.customization.membership.id
+            .key(d => d.optionGroup
+              ? d.optionGroup
               : '')
             .entries(configurableOptions)
-            .map(({ key: groupId, values: options }) => {
-              const selectedGroupOption = groupId && options.find(option => {
+            .map(({ key: group, values: options }) => {
+              const selectedGroupOption = group && options.find(option => {
                 const fieldKey = getOptionFieldKey(option)
                 const value = values[fieldKey] === undefined
                   ? option.defaultAmount
                   : values[fieldKey]
                 return value
               })
-              const customization = (selectedGroupOption || options[0]).customization || {}
-              const membership = customization && customization.membership
-              const additionalPeriods = customization && customization.additionalPeriods
+              const baseOption = selectedGroupOption || options[0]
+              const { membership, additionalPeriods } = baseOption
 
-              const Wrapper = groupId
+              const Wrapper = group
                 ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
                 : ({ children }) => <div {...styles.grid}>{children}</div>
 
-              const resetLabel = groupId && t(`option/${pkg.name}/resetGroup`, {}, null)
+              const resetLabel = group && t(`option/${pkg.name}/resetGroup`, {}, null)
               const reset = resetLabel && <Fragment>
                 <Radio
                   value='0'
@@ -269,7 +268,7 @@ class CustomizePackage extends Component {
               </Fragment>
 
               return (
-                <Fragment key={groupId}>
+                <Fragment key={group}>
                   {membership && <ManageMembership
                     membership={membership}
                     actions={false}
@@ -356,7 +355,7 @@ class CustomizePackage extends Component {
                             error,
                             dirty: shouldValidate
                           })
-                          if (groupId) {
+                          if (group) {
                             // unselect all other options from group
                             options.filter(other => other !== option).forEach(other => {
                               fields = FieldSet.utils.mergeField({
@@ -391,7 +390,7 @@ class CustomizePackage extends Component {
                           onChange(fields)
                         }
 
-                        if (groupId && option.minAmount === 0 && option.maxAmount === 1) {
+                        if (group && option.minAmount === 0 && option.maxAmount === 1) {
                           return <Radio
                             value='1'
                             checked={!!value}
@@ -421,7 +420,7 @@ class CustomizePackage extends Component {
                           }}>
                             <div style={{ marginBottom: 20 }}>
                               <Field
-                                ref={i === 0 && !groupId ? this.focusRefSetter : undefined}
+                                ref={i === 0 && !group ? this.focusRefSetter : undefined}
                                 label={label}
                                 error={dirty[fieldKey] && errors[fieldKey]}
                                 value={value}

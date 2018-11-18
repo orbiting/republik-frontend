@@ -85,8 +85,8 @@ class Pledge extends Component {
           amount: values[getOptionFieldKey(option)] || option.minAmount,
           price: option.price,
           templateId: option.templateId,
-          customization: option.customization && option.customization.membership
-            ? { membershipId: option.customization.membership.id }
+          membershipId: option.membership
+            ? option.membership.id
             : undefined
         }
       }) : [],
@@ -364,30 +364,29 @@ query pledgeForm($crowdfundingName: String!) {
             name
           }
         }
-        customization {
-          membership {
-            id
-            claimerName
-            voucherCode
-            createdAt
-            sequenceNumber
-            renew
-            active
-            overdue
-            type {
-              name
-            }
-            periods {
-              kind
-              beginDate
-              endDate
-            }
+        optionGroup
+        membership {
+          id
+          claimerName
+          voucherCode
+          createdAt
+          sequenceNumber
+          renew
+          active
+          overdue
+          type {
+            name
           }
-          additionalPeriods {
+          periods {
             kind
             beginDate
             endDate
           }
+        }
+        additionalPeriods {
+          kind
+          beginDate
+          endDate
         }
       }
     }

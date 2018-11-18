@@ -18,6 +18,7 @@ import { Router } from '../../lib/routes'
 
 import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
 import { P as SmallP } from '../Account/Elements'
+import List from '../List'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -31,7 +32,7 @@ const calculateMinPrice = (pkg, state, userPrice) => {
       : option.price * (
         state[getOptionFieldKey(option)] !== undefined
           ? state[getOptionFieldKey(option)]
-          : option.minAmount
+          : option.defaultAmount || option.minAmount
       )
     ),
     0
@@ -282,35 +283,37 @@ class CustomizePackage extends Component {
                           })}
                         </Interaction.Emphasis>
                       </SmallP>
-                      {additionalPeriods.length > 1 && additionalPeriods.map(period => {
-                        const beginDate = new Date(period.beginDate)
-                        const endDate = new Date(period.endDate)
-                        const formattedEndDate = dayFormat(endDate)
-                        const days = timeDay.count(beginDate, endDate)
+                      {additionalPeriods.length > 1 && <List>
+                        {additionalPeriods.map(period => {
+                          const beginDate = new Date(period.beginDate)
+                          const endDate = new Date(period.endDate)
+                          const formattedEndDate = dayFormat(endDate)
+                          const days = timeDay.count(beginDate, endDate)
 
-                        const title = t.first([
-                          `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
-                          `option/${pkg.name}/additionalPeriods/title`
-                        ], {
-                          formattedEndDate,
-                          days
-                        })
-                        const explanation = t.first([
-                          `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
-                          `option/${pkg.name}/additionalPeriods/explanation`
-                        ], {
-                          formattedEndDate,
-                          days
-                        }, '')
+                          const title = t.first([
+                            `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
+                            `option/${pkg.name}/additionalPeriods/title`
+                          ], {
+                            formattedEndDate,
+                            days
+                          })
+                          const explanation = t.first([
+                            `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
+                            `option/${pkg.name}/additionalPeriods/explanation`
+                          ], {
+                            formattedEndDate,
+                            days
+                          }, '')
 
-                        return (
-                          <SmallP key={formattedEndDate}>
-                            <Interaction.Emphasis>{title}</Interaction.Emphasis>
-                            <br />
-                            {explanation && <Label>{explanation}</Label>}
-                          </SmallP>
-                        )
-                      })}
+                          return (
+                            <List.Item key={formattedEndDate}>
+                              {title}
+                              <br />
+                              {explanation && <Label>{explanation}</Label>}
+                            </List.Item>
+                          )
+                        })}
+                      </List>}
                     </div>
                   }
                   <Wrapper>

@@ -367,7 +367,13 @@ query pledgeForm($crowdfundingName: String!) {
         customization {
           membership {
             id
+            claimerName
+            voucherCode
+            createdAt
             sequenceNumber
+            renew
+            active
+            overdue
             type {
               name
             }

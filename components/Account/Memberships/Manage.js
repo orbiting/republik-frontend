@@ -17,7 +17,7 @@ import {
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-class Manage extends Component {
+class Actions extends Component {
   constructor (...args) {
     super(...args)
     this.state = {
@@ -27,7 +27,7 @@ class Manage extends Component {
       errors: {}
     }
   }
-  renderActions () {
+  render () {
     const { t, membership } = this.props
     const {
       isCancelling,
@@ -140,50 +140,6 @@ class Manage extends Component {
       </Fragment>
     )
   }
-  render () {
-    const { t, membership, highlighted, actions } = this.props
-    const createdAt = new Date(membership.createdAt)
-    const latestPeriod = membership.periods[0]
-    const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
-
-    return (
-      <AccountItem
-        highlighted={highlighted}
-        createdAt={createdAt}
-        title={[
-          t(
-            `memberships/type/${membership.type.name}`,
-            {},
-            membership.type.name
-          ),
-          `(${t('memberships/sequenceNumber/suffix', membership)})`
-        ].join(' ')}>
-        {!!latestPeriod && <P>
-          {membership.active && !membership.overdue && t.first(
-            [
-              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-              `memberships/latestPeriod/renew/${membership.renew}`
-            ],
-            { formattedEndDate },
-            ''
-          )}
-          {membership.overdue && t(
-            'memberships/latestPeriod/overdue',
-            { formattedEndDate }
-          )}
-        </P>}
-        {actions && this.renderActions()}
-      </AccountItem>
-    )
-  }
-}
-
-Manage.propTypes = {
-  actions: PropTypes.bool.isRequired
-}
-
-Manage.defaultProps = {
-  actions: true
 }
 
 const cancelMembership = gql`
@@ -206,7 +162,7 @@ mutation reactivateMembership($id: ID!) {
 }
 `
 
-export default compose(
+export const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
     props: ({ mutate }) => ({
@@ -220,4 +176,53 @@ export default compose(
         mutate({ variables })
     })
   })
+)(Actions)
+
+const Manage = ({ t, membership, highlighted, margin, actions }) => {
+  const createdAt = new Date(membership.createdAt)
+  const latestPeriod = membership.periods[0]
+  const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
+
+  return (
+    <AccountItem
+      margin={margin}
+      highlighted={highlighted}
+      createdAt={createdAt}
+      title={[
+        t(
+          `memberships/type/${membership.type.name}`,
+          {},
+          membership.type.name
+        ),
+        `(${t('memberships/sequenceNumber/suffix', membership)})`
+      ].join(' ')}>
+      {!!latestPeriod && <P>
+        {membership.active && !membership.overdue && t.first(
+          [
+            `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
+            `memberships/latestPeriod/renew/${membership.renew}`
+          ],
+          { formattedEndDate },
+          ''
+        )}
+        {membership.overdue && t(
+          'memberships/latestPeriod/overdue',
+          { formattedEndDate }
+        )}
+      </P>}
+      {actions && <ManageActions membership={membership} />}
+    </AccountItem>
+  )
+}
+
+Manage.propTypes = {
+  actions: PropTypes.bool.isRequired
+}
+
+Manage.defaultProps = {
+  actions: true
+}
+
+export default compose(
+  withT
 )(Manage)

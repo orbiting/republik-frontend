@@ -34,8 +34,11 @@ const { H3 } = Interaction
 const hourFormat = timeFormat('%H:%M')
 const dayFormat = timeFormat('%d. %B %Y')
 
-export const Item = withT(({ t, highlighted, title, createdAt, children }) => (
-  <div {...styles.item} {...(highlighted && styles.itemHighlighted)}>
+export const Item = withT(({ t, highlighted, title, createdAt, children, margin = true }) => (
+  <div
+    {...styles.item}
+    {...(highlighted && styles.itemHighlighted)}
+    style={{ marginBottom: !margin ? 0 : undefined }}>
     <H3>
       {title}
     </H3>

@@ -15,6 +15,8 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import { Router } from '../../lib/routes'
 
+import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
+
 const { P } = Interaction
 
 const absolutMinPrice = 100
@@ -232,42 +234,39 @@ class CustomizePackage extends Component {
                   : values[fieldKey]
                 return value
               })
-              const reset = resetLabel && <Radio
-                value='0'
-                checked={!groupValue}
-                onChange={(event) => {
-                  onChange(options.reduce((fields, option) => {
-                    return FieldSet.utils.mergeField({
-                      field: getOptionFieldKey(option),
-                      value: '',
-                      error: undefined,
-                      dirty: false
-                    })(fields)
-                  }, {}))
-                }}>
-                <span style={{
-                  display: 'inline-block',
-                  verticalAlign: 'top',
-                  marginRight: 20
-                }}>
-                  {resetLabel}
-                </span>
-              </Radio>
+              const reset = resetLabel && <Fragment>
+                <Radio
+                  value='0'
+                  checked={!groupValue}
+                  onChange={(event) => {
+                    onChange(options.reduce((fields, option) => {
+                      return FieldSet.utils.mergeField({
+                        field: getOptionFieldKey(option),
+                        value: '',
+                        error: undefined,
+                        dirty: false
+                      })(fields)
+                    }, {}))
+                  }}>
+                  <span style={{
+                    display: 'inline-block',
+                    verticalAlign: 'top',
+                    marginRight: 20
+                  }}>
+                    {resetLabel}
+                  </span>
+                </Radio>
+                {!groupValue && membership && <div style={{ marginTop: 10 }}>
+                  <ManageActions membership={membership} />
+                </div>}
+              </Fragment>
 
               return (
                 <Fragment key={groupId}>
-                  {membership && <P>
-                    <Interaction.Emphasis>
-                      {[
-                        t(
-                          `memberships/type/${membership.type.name}`,
-                          {},
-                          membership.type.name
-                        ),
-                        `(${t('memberships/sequenceNumber/suffix', membership)})`
-                      ].join(' ')}
-                    </Interaction.Emphasis>
-                  </P>}
+                  {membership && <ManageMembership
+                    membership={membership}
+                    actions={false}
+                    margin={false} />}
                   <Wrapper>
                     {
                       options.map((option, i) => {

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 import { nest } from 'd3-collection'
+import { timeDay } from 'd3-time'
 
 import withT from '../../lib/withT'
-import { chfFormat } from '../../lib/utils/format'
+import { chfFormat, timeFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
@@ -16,6 +17,9 @@ import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import { Router } from '../../lib/routes'
 
 import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
+import { P as SmallP } from '../Account/Elements'
+
+const dayFormat = timeFormat('%d. %B %Y')
 
 const { P } = Interaction
 
@@ -221,23 +225,26 @@ class CustomizePackage extends Component {
               : '')
             .entries(configurableOptions)
             .map(({ key: groupId, values: options }) => {
-              const membership = options[0].customization && options[0].customization.membership
-              const Wrapper = groupId
-                ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
-                : ({ children }) => <div {...styles.grid}>{children}</div>
-
-              const resetLabel = groupId && t(`option/${pkg.name}/resetGroup`, {}, null)
-              const groupValue = groupId && options.find(option => {
+              const selectedGroupOption = groupId && options.find(option => {
                 const fieldKey = getOptionFieldKey(option)
                 const value = values[fieldKey] === undefined
                   ? option.defaultAmount
                   : values[fieldKey]
                 return value
               })
+              const customization = (selectedGroupOption || options[0]).customization || {}
+              const membership = customization && customization.membership
+              const additionalPeriods = customization && customization.additionalPeriods
+
+              const Wrapper = groupId
+                ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
+                : ({ children }) => <div {...styles.grid}>{children}</div>
+
+              const resetLabel = groupId && t(`option/${pkg.name}/resetGroup`, {}, null)
               const reset = resetLabel && <Fragment>
                 <Radio
                   value='0'
-                  checked={!groupValue}
+                  checked={!selectedGroupOption}
                   onChange={(event) => {
                     onChange(options.reduce((fields, option) => {
                       return FieldSet.utils.mergeField({
@@ -256,7 +263,7 @@ class CustomizePackage extends Component {
                     {resetLabel}
                   </span>
                 </Radio>
-                {!groupValue && membership && <div style={{ marginTop: 10 }}>
+                {!selectedGroupOption && membership && <div style={{ marginTop: 10 }}>
                   <ManageActions membership={membership} />
                 </div>}
               </Fragment>
@@ -267,6 +274,46 @@ class CustomizePackage extends Component {
                     membership={membership}
                     actions={false}
                     margin={false} />}
+                  {additionalPeriods && additionalPeriods.length &&
+                    <div style={{ marginBottom: 20 }}>
+                      <SmallP>
+                        <Interaction.Emphasis>
+                          {t(`option/${pkg.name}/additionalPeriods/endDate`, {
+                            formattedEndDate: dayFormat(new Date(additionalPeriods[additionalPeriods.length - 1].endDate))
+                          })}
+                        </Interaction.Emphasis>
+                      </SmallP>
+                      {additionalPeriods.length > 1 && additionalPeriods.map(period => {
+                        const beginDate = new Date(period.beginDate)
+                        const endDate = new Date(period.endDate)
+                        const formattedEndDate = dayFormat(endDate)
+                        const days = timeDay.count(beginDate, endDate)
+
+                        const title = t.first([
+                          `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
+                          `option/${pkg.name}/additionalPeriods/title`
+                        ], {
+                          formattedEndDate,
+                          days
+                        })
+                        const explanation = t.first([
+                          `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
+                          `option/${pkg.name}/additionalPeriods/explanation`
+                        ], {
+                          formattedEndDate,
+                          days
+                        }, '')
+
+                        return (
+                          <SmallP key={formattedEndDate}>
+                            <Interaction.Emphasis>{title}</Interaction.Emphasis>
+                            <br />
+                            {explanation && <Label>{explanation}</Label>}
+                          </SmallP>
+                        )
+                      })}
+                    </div>
+                  }
                   <Wrapper>
                     {
                       options.map((option, i) => {

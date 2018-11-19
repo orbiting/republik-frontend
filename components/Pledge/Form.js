@@ -61,7 +61,7 @@ class Pledge extends Component {
     }
   }
   submitPledgeProps ({ values, query, pledge }) {
-    const { packages } = this.props
+    const { packages, me } = this.props
     const pkg = query.package
       ? packages.find(
         pkg => pkg.name === query.package.toUpperCase()
@@ -70,6 +70,8 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     return {
+      packageName: pkg ? pkg.name : undefined,
+      forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
         ? pkg.name !== 'MONTHLY_ABO' && pkg.name !== 'DONATE'
         : undefined,
@@ -87,6 +89,14 @@ class Pledge extends Component {
           templateId: option.templateId,
           membershipId: option.membership
             ? option.membership.id
+            : undefined,
+          /* ToDo: move logic to backend? */
+          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.name !== 'ABO_GIVE' && (
+            !option.membership ||
+            /* ToDo: handle login-less */
+            option.membership.user.id === (me && me.id)
+          )
+            ? true /* ToDo: check base pledge value once supported in backend */
             : undefined
         }
       }) : [],
@@ -328,6 +338,7 @@ query pledgeForm($crowdfundingName: String!) {
         defaultAmount
         templateId
         reward {
+          __typename
           ... on MembershipType {
             id
             name
@@ -355,6 +366,7 @@ query pledgeForm($crowdfundingName: String!) {
         defaultAmount
         templateId
         reward {
+          __typename
           ... on MembershipType {
             id
             name

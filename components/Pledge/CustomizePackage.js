@@ -327,6 +327,7 @@ class CustomizePackage extends Component {
                     {resetLabel}
                   </span>
                 </Radio>
+                {/* ToDo: handle login-less */}
                 {!selectedGroupOption && membership && me && membership.user.id === me.id && <div style={{ marginTop: 10 }}>
                   <ManageActions membership={membership} />
                 </div>}
@@ -335,13 +336,15 @@ class CustomizePackage extends Component {
               return (
                 <Fragment key={group}>
                   {membership && <ManageMembership
-                    title={membership.user.id !== (me && me.id) ? t(
-                      `memberships/title/${membership.type.name}/given`,
-                      {
-                        name: membership.user.name,
-                        sequenceNumber: membership.sequenceNumber
-                      }
-                    ) : undefined}
+                    title={/* ToDo: handle login-less */
+                      membership.user.id !== (me && me.id) ? t(
+                        `memberships/title/${membership.type.name}/given`,
+                        {
+                          name: membership.user.name,
+                          sequenceNumber: membership.sequenceNumber
+                        }
+                      ) : undefined
+                    }
                     membership={membership}
                     actions={false}
                     compact />}

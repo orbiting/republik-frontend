@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-19T00:43:24.614Z",
+  "updated": "2018-11-19T22:55:53.510Z",
   "title": "live",
   "data": [
     {
@@ -3536,7 +3536,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "plus {days} Tage Geburtstagsanwesenheitsgeschenk"
+      "value": "Plus {days} Tage Geburtstagsanwesenheitsgeschenk"
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
@@ -3561,6 +3561,22 @@
     {
       "key": "memberships/title/BENEFACTOR_ABO/given",
       "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "pledge/submit/autoPay",
+      "value": "Verlängerungen automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "pledge/submit/autoPay/note",
+      "value": "Wir erinnern Sie bevor wir abbuchen und Sie können das Abo jederzeit in Ihrem Konto künden."
+    },
+    {
+      "key": "pledge/submit/MONTHLY_ABO/autoPay/note",
+      "value": "Ihr Monatsabo verlängert sich automatisch. Sie können das Abo jederzeit in Ihrem Konto künden."
+    },
+    {
+      "key": "pledge/submit/PROLONG/autoPay",
+      "value": "Zukünftige Verlängerungen von meinem Abo automatisch von meiner Kreditkarte abbuchen."
     }
   ]
 }

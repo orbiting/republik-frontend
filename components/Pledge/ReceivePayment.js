@@ -14,6 +14,7 @@ import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
 
+// ToDo: query autoPay
 const pledgeQuery = gql`
 query($pledgeId: ID!) {
   pledge(id: $pledgeId) {

@@ -24,8 +24,8 @@ import {
 } from '../../lib/constants'
 
 import {
-  Interaction, Button,
-  colors, InlineSpinner
+  Interaction, Button, Checkbox,
+  colors, InlineSpinner, Label
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
@@ -102,7 +102,12 @@ class Submit extends Component {
 
     return {
       total,
-      options,
+      options: options.map(option => ({
+        ...option,
+        autoPay: option.autoPay !== undefined
+          ? this.getAutoPayValue()
+          : undefined
+      })),
       reason,
       user
     }
@@ -347,6 +352,70 @@ class Submit extends Component {
       ])
       .filter(Boolean)
   }
+  getAutoPayValue () {
+    const {
+      forceAutoPay,
+      options
+    } = this.props
+    const {
+      values: { paymentMethod },
+      autoPay
+    } = this.state
+
+    if (paymentMethod !== 'STRIPE') {
+      return undefined
+    }
+    if (forceAutoPay) {
+      return true
+    }
+    if (autoPay === undefined) {
+      return options.every(option => option.autoPay !== false)
+    }
+    return autoPay
+  }
+  renderAutoPay () {
+    const {
+      values: { paymentMethod }
+    } = this.state
+    if (paymentMethod !== 'STRIPE') {
+      return null
+    }
+    const {
+      t,
+      packageName,
+      forceAutoPay,
+      options
+    } = this.props
+
+    if (options.every(option => option.autoPay === undefined)) {
+      return null
+    }
+
+    const label = t.first([
+      `pledge/submit/${packageName}/autoPay`,
+      'pledge/submit/autoPay'
+    ])
+    const note = t.first([
+      `pledge/submit/${packageName}/autoPay/note`,
+      'pledge/submit/autoPay/note'
+    ], undefined, null)
+
+    return (
+      <div style={{ marginTop: 10 }}>
+        {forceAutoPay
+          ? note && <Label>{note}</Label>
+          : <Checkbox
+            checked={this.getAutoPayValue()}
+            onChange={(_, checked) => {
+              this.setState({ autoPay: checked })
+            }}>
+            {label}
+            {note && <br />}
+            {note && <Label>{note}</Label>}
+          </Checkbox>}
+      </div>
+    )
+  }
   render () {
     const {
       emailVerify,
@@ -450,6 +519,7 @@ class Submit extends Component {
                   consents: keys
                 }))
               }} />
+            {this.renderAutoPay()}
             <br /><br />
             <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
               <Button

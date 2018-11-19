@@ -178,24 +178,24 @@ export const ManageActions = compose(
   })
 )(Actions)
 
-const Manage = ({ t, membership, highlighted, margin, actions }) => {
+const Manage = ({ t, membership, highlighted, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
   const latestPeriod = membership.periods[0]
   const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
 
   return (
     <AccountItem
-      margin={margin}
+      compact={compact}
       highlighted={highlighted}
       createdAt={createdAt}
-      title={[
-        t(
-          `memberships/type/${membership.type.name}`,
-          {},
-          membership.type.name
-        ),
-        `(${t('memberships/sequenceNumber/suffix', membership)})`
-      ].join(' ')}>
+      title={
+        title || t(
+          `memberships/title/${membership.type.name}`,
+          {
+            sequenceNumber: membership.sequenceNumber
+          }
+        )
+      }>
       {!!latestPeriod && <P>
         {membership.active && !membership.overdue && t.first(
           [
@@ -216,6 +216,8 @@ const Manage = ({ t, membership, highlighted, margin, actions }) => {
 }
 
 Manage.propTypes = {
+  title: PropTypes.string,
+  membership: PropTypes.object.isRequired,
   actions: PropTypes.bool.isRequired
 }
 

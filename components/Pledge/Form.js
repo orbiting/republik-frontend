@@ -367,7 +367,10 @@ query pledgeForm($crowdfundingName: String!) {
         optionGroup
         membership {
           id
-          claimerName
+          user {
+            id
+            name
+          }
           voucherCode
           createdAt
           sequenceNumber

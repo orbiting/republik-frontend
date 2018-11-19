@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css, merge } from 'glamor'
 
 import withT from '../../lib/withT'
@@ -34,21 +34,23 @@ const { H3 } = Interaction
 const hourFormat = timeFormat('%H:%M')
 const dayFormat = timeFormat('%d. %B %Y')
 
-export const Item = withT(({ t, highlighted, title, createdAt, children, margin = true }) => (
+export const Item = withT(({ t, highlighted, title, createdAt, children, compact }) => (
   <div
     {...styles.item}
     {...(highlighted && styles.itemHighlighted)}
-    style={{ marginBottom: !margin ? 0 : undefined }}>
+    style={{ marginBottom: compact ? 0 : undefined }}>
     <H3>
       {title}
     </H3>
-    <Label>
-      {t('account/item/label', {
-        formattedDate: dayFormat(createdAt),
-        formattedTime: hourFormat(createdAt)
-      })}
-    </Label>
-    <br />
+    {!compact && <Fragment>
+      <Label>
+        {t('account/item/label', {
+          formattedDate: dayFormat(createdAt),
+          formattedTime: hourFormat(createdAt)
+        })}
+      </Label>
+      <br />
+    </Fragment>}
     {children}
   </div>
 ))

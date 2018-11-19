@@ -6,6 +6,7 @@ import { nest } from 'd3-collection'
 import { timeDay } from 'd3-time'
 
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
@@ -147,7 +148,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice,
+      t, pkg, userPrice, me,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -263,7 +264,7 @@ class CustomizePackage extends Component {
                     {resetLabel}
                   </span>
                 </Radio>
-                {!selectedGroupOption && membership && <div style={{ marginTop: 10 }}>
+                {!selectedGroupOption && membership && me && membership.user.id === me.id && <div style={{ marginTop: 10 }}>
                   <ManageActions membership={membership} />
                 </div>}
               </Fragment>
@@ -271,10 +272,17 @@ class CustomizePackage extends Component {
               return (
                 <Fragment key={group}>
                   {membership && <ManageMembership
+                    title={membership.user.id !== (me && me.id) ? t(
+                      `memberships/title/${membership.type.name}/given`,
+                      {
+                        name: membership.user.name,
+                        sequenceNumber: membership.sequenceNumber
+                      }
+                    ) : undefined}
                     membership={membership}
                     actions={false}
-                    margin={false} />}
-                  {additionalPeriods && additionalPeriods.length &&
+                    compact />}
+                  {additionalPeriods && !!additionalPeriods.length &&
                     <div style={{ marginBottom: 20 }}>
                       <SmallP>
                         <Interaction.Emphasis>
@@ -395,6 +403,7 @@ class CustomizePackage extends Component {
 
                         if (group && option.minAmount === 0 && option.maxAmount === 1) {
                           return <Radio
+                            key={option.id}
                             value='1'
                             checked={!!value}
                             onChange={(event) => {
@@ -505,10 +514,13 @@ CustomizePackage.propTypes = {
   errors: PropTypes.object.isRequired,
   dirty: PropTypes.object.isRequired,
   t: PropTypes.func.isRequired,
+  me: PropTypes.shape({
+    id: PropTypes.string.isRequired
+  }),
   userPrice: PropTypes.bool,
   pkg: PropTypes.shape({
     options: PropTypes.array.isRequired
   }).isRequired
 }
 
-export default withT(CustomizePackage)
+export default withMe(withT(CustomizePackage))

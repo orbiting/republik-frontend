@@ -11,7 +11,16 @@ import { chfFormat, timeFormat } from '../../lib/utils/format'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
-import { A, Field, Radio, fontFamilies, Interaction, Label, mediaQueries } from '@project-r/styleguide'
+import {
+  A,
+  Field,
+  Radio,
+  Checkbox,
+  fontFamilies,
+  Interaction,
+  Label,
+  mediaQueries
+} from '@project-r/styleguide'
 
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
@@ -249,7 +258,12 @@ class CustomizePackage extends Component {
                 ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
                 : ({ children }) => <div {...styles.grid}>{children}</div>
 
-              const resetLabel = group && t(`option/${pkg.name}/resetGroup`, {}, null)
+              const checkboxGroup = (
+                group && options.length === 1 &&
+                baseOption.minAmount === 0 &&
+                baseOption.maxAmount === 1
+              )
+              const resetLabel = group && !checkboxGroup && t(`option/${pkg.name}/resetGroup`, {}, null)
               const reset = resetLabel && <Fragment>
                 <Radio
                   value='0'
@@ -395,10 +409,13 @@ class CustomizePackage extends Component {
                           )
                           let price = values.price
                           if (
-                            minPrice !== absolutMinPrice &&
-                            (!this.state.customPrice || minPrice > values.price)
+                            !this.state.customPrice || minPrice > values.price
                           ) {
-                            fields.values.price = price = minPrice
+                            price = minPrice !== absolutMinPrice
+                              ? minPrice
+                              : ''
+                            fields.values.price = price
+                            fields.dirty.price = false
                             this.setState(() => ({ customPrice: false }))
                           }
                           fields.errors.price = priceError(
@@ -410,13 +427,7 @@ class CustomizePackage extends Component {
                         }
 
                         if (group && option.minAmount === 0 && option.maxAmount === 1) {
-                          return <Radio
-                            key={option.id}
-                            value='1'
-                            checked={!!value}
-                            onChange={(event) => {
-                              onFieldChange(undefined, 1, dirty[fieldKey])
-                            }}>
+                          const children = (
                             <span style={{
                               display: 'inline-block',
                               verticalAlign: 'top',
@@ -430,6 +441,25 @@ class CustomizePackage extends Component {
                                 formattedCHF: `CHF ${option.price / 100}`
                               })}
                             </span>
+                          )
+                          if (checkboxGroup) {
+                            return <Checkbox
+                              key={option.id}
+                              checked={!!value}
+                              onChange={(_, checked) => {
+                                onFieldChange(undefined, +checked, dirty[fieldKey])
+                              }}>
+                              {children}
+                            </Checkbox>
+                          }
+                          return <Radio
+                            key={option.id}
+                            value='1'
+                            checked={!!value}
+                            onChange={(event) => {
+                              onFieldChange(undefined, 1, dirty[fieldKey])
+                            }}>
+                            {children}
                           </Radio>
                         }
 

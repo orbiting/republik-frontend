@@ -371,7 +371,6 @@ query pledgeForm($crowdfundingName: String!) {
             id
             name
           }
-          voucherCode
           createdAt
           sequenceNumber
           renew

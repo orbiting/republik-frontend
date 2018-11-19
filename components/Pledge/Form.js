@@ -83,8 +83,11 @@ class Pledge extends Component {
         email: values.email
       },
       options: pkg ? pkg.options.map(option => {
+        const fieldKey = getOptionFieldKey(option)
         return {
-          amount: values[getOptionFieldKey(option)] || option.minAmount,
+          amount: values[fieldKey] === undefined
+            ? option.defaultAmount
+            : values[fieldKey],
           price: option.price,
           templateId: option.templateId,
           membershipId: option.membership

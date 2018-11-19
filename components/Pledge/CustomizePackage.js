@@ -146,6 +146,14 @@ class CustomizePackage extends Component {
       }
     })
   }
+  componentWillUnmount () {
+    this.props.onChange(FieldSet.utils.fieldsState({
+      field: 'price',
+      value: undefined,
+      error: undefined,
+      dirty: undefined
+    }))
+  }
   render () {
     const {
       t, pkg, userPrice, me,

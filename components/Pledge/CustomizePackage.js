@@ -35,13 +35,13 @@ const dayFormat = timeFormat('%d. %B %Y')
 const { P } = Interaction
 
 const absolutMinPrice = 100
-const calculateMinPrice = (pkg, state, userPrice) => {
+const calculateMinPrice = (pkg, values, userPrice) => {
   return Math.max(pkg.options.reduce(
     (price, option) => price + (option.userPrice && userPrice
       ? 0
       : option.price * (
-        state[getOptionFieldKey(option)] !== undefined
-          ? state[getOptionFieldKey(option)]
+        values[getOptionFieldKey(option)] !== undefined
+          ? values[getOptionFieldKey(option)]
           : option.defaultAmount || option.minAmount
       )
     ),
@@ -128,6 +128,47 @@ class CustomizePackage extends Component {
       this.focusRef = ref
     }
   }
+  calculateNextPrice (nextFields) {
+    const {
+      pkg, values, userPrice,
+      t
+    } = this.props
+
+    const minPrice = calculateMinPrice(
+      pkg,
+      {
+        ...values,
+        ...nextFields.values
+      },
+      userPrice
+    )
+    let price = values.price
+    if (
+      !this.state.customPrice || minPrice > price
+    ) {
+      price = minPrice !== absolutMinPrice
+        ? minPrice
+        : ''
+      this.setState({ customPrice: false })
+      return FieldSet.utils.mergeField({
+        field: 'price',
+        value: price,
+        error: priceError(
+          price,
+          minPrice,
+          t
+        ),
+        dirty: false
+      })(nextFields)
+    }
+    return FieldSet.utils.mergeField({
+      error: priceError(
+        price,
+        minPrice,
+        t
+      )
+    })(nextFields)
+  }
   componentDidMount () {
     if (this.focusRef && this.focusRef.input) {
       this.focusRef.input.focus()
@@ -194,7 +235,7 @@ class CustomizePackage extends Component {
       const minPrice = calculateMinPrice(pkg, values, userPrice)
       const error = priceError(price, minPrice, t)
 
-      this.setState(() => ({ customPrice: true }))
+      this.setState({ customPrice: true })
       onChange(FieldSet.utils.fieldsState({
         field: 'price',
         value: price,
@@ -269,14 +310,14 @@ class CustomizePackage extends Component {
                   value='0'
                   checked={!selectedGroupOption}
                   onChange={(event) => {
-                    onChange(options.reduce((fields, option) => {
+                    onChange(this.calculateNextPrice(options.reduce((fields, option) => {
                       return FieldSet.utils.mergeField({
                         field: getOptionFieldKey(option),
-                        value: '',
+                        value: 0,
                         error: undefined,
                         dirty: false
                       })(fields)
-                    }, {}))
+                    }, {})))
                   }}>
                   <span style={{
                     display: 'inline-block',
@@ -393,37 +434,13 @@ class CustomizePackage extends Component {
                             options.filter(other => other !== option).forEach(other => {
                               fields = FieldSet.utils.mergeField({
                                 field: getOptionFieldKey(other),
-                                value: '',
+                                value: 0,
                                 error: undefined,
                                 dirty: false
                               })(fields)
                             })
                           }
-                          const minPrice = calculateMinPrice(
-                            pkg,
-                            {
-                              ...values,
-                              ...fields.values
-                            },
-                            userPrice
-                          )
-                          let price = values.price
-                          if (
-                            !this.state.customPrice || minPrice > values.price
-                          ) {
-                            price = minPrice !== absolutMinPrice
-                              ? minPrice
-                              : ''
-                            fields.values.price = price
-                            fields.dirty.price = false
-                            this.setState(() => ({ customPrice: false }))
-                          }
-                          fields.errors.price = priceError(
-                            price,
-                            minPrice,
-                            t
-                          )
-                          onChange(fields)
+                          onChange(this.calculateNextPrice(fields))
                         }
 
                         if (group && option.minAmount === 0 && option.maxAmount === 1) {

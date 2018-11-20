@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-20T18:19:26.697Z",
+  "updated": "2018-11-20T22:53:35.283Z",
   "title": "live",
   "data": [
     {
@@ -3504,11 +3504,15 @@
     },
     {
       "key": "package/PROLONG/description",
-      "value": "Es freut uns dass Sie weiterhin dabei bleiben."
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, etwas Geld in unabhängigen Journalismus zu investieren."
     },
     {
       "key": "package/PROLONG/price",
       "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "package/PROLONG/price/give",
+      "value": "{formattedCHF}"
     },
     {
       "key": "option/PROLONG/ABO/label",
@@ -3555,6 +3559,10 @@
       "value": "Damit mindern wir unser Klumpenrisiko im Januar – werden ein Januar-März-Kamel! 🐫"
     },
     {
+      "key": "option/PROLONG/additionalPeriods/give",
+      "value": "{name} wird per E-Mail über die Verlängerung informiert. Und zu Danke angehalten."
+    },
+    {
       "key": "memberships/title/ABO",
       "value": "Mitgliedschaft und Abonnement (#{sequenceNumber})"
     },
@@ -3596,7 +3604,7 @@
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Vielen Dank für die Verlängerung des Vertrauens!<br />"
+      "value": "Vielen Dank für Ihre Verlängerung! Wir werden alles daran setzen Schritt für Schritt aufmerksamer, klarer, wacher, besser zu werden.<br />"
     },
     {
       "key": "pledge/title/PROLONG",

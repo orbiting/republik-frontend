@@ -489,9 +489,10 @@ class CustomizePackage extends Component {
                             }}>
                               <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
                               {t.first([
+                                isAboGive && `package/${pkg.name}/price/give`,
                                 `package/${pkg.name}/price`,
                                 'package/price'
-                              ], {
+                              ].filter(Boolean), {
                                 formattedCHF: chfFormat(option.price / 100)
                               })}
                             </span>
@@ -591,6 +592,11 @@ class CustomizePackage extends Component {
                         })}
                       </Interaction.Emphasis>
                     </SmallP>
+                    {isAboGive && <SmallP>
+                      {t(`option/${pkg.name}/additionalPeriods/give`, {
+                        name: membership.user.name
+                      })}
+                    </SmallP>}
                   </div>}
                 </Fragment>
               )

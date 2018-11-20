@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 import { nest } from 'd3-collection'
+import { sum, min } from 'd3-array'
 import { timeDay } from 'd3-time'
+import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
+import { intersperse } from '../../lib/utils/helpers'
+import { Router, Link } from '../../lib/routes'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
@@ -19,12 +25,9 @@ import {
   fontFamilies,
   Interaction,
   Label,
-  mediaQueries
+  mediaQueries,
+  Editorial
 } from '@project-r/styleguide'
-
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
-
-import { Router } from '../../lib/routes'
 
 import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
 import { P as SmallP } from '../Account/Elements'
@@ -35,7 +38,7 @@ const { P } = Interaction
 
 const absolutMinPrice = 100
 const calculateMinPrice = (pkg, values, userPrice) => {
-  return Math.max(pkg.options.reduce(
+  const minPrice = pkg.options.reduce(
     (price, option) => price + (option.userPrice && userPrice
       ? 0
       : option.price * (
@@ -45,7 +48,20 @@ const calculateMinPrice = (pkg, values, userPrice) => {
       )
     ),
     0
-  ), absolutMinPrice)
+  )
+  if (minPrice > absolutMinPrice) {
+    return minPrice
+  }
+  const groups = pkg.options.filter(option => option.optionGroup)
+  if (groups.length) {
+    return min(
+      groups,
+      option => option.userPrice && userPrice
+        ? 0
+        : option.price
+    ) || absolutMinPrice
+  }
+  return absolutMinPrice
 }
 
 const getPrice = ({ values, pkg, userPrice }) => {
@@ -127,7 +143,7 @@ class CustomizePackage extends Component {
       this.focusRef = ref
     }
   }
-  calculateNextPrice (nextFields) {
+  calculateNextPrice (nextFields, { reset } = {}) {
     const {
       pkg, values, userPrice,
       t
@@ -145,7 +161,7 @@ class CustomizePackage extends Component {
     if (
       !this.state.customPrice || minPrice > price
     ) {
-      price = minPrice !== absolutMinPrice
+      price = minPrice !== absolutMinPrice && !reset
         ? minPrice
         : ''
       this.setState({ customPrice: false })
@@ -205,7 +221,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice, me,
+      t, pkg, userPrice, me, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -231,7 +247,6 @@ class CustomizePackage extends Component {
       const price = String(value).length
         ? (Math.round(parseInt(value, 10)) * 100) || 0
         : 0
-      const minPrice = calculateMinPrice(pkg, values, userPrice)
       const error = priceError(price, minPrice, t)
 
       this.setState({ customPrice: true })
@@ -242,6 +257,52 @@ class CustomizePackage extends Component {
         dirty: shouldValidate
       }))
     }
+
+    const bonusValue = sum(
+      pkg.options
+        .filter(option => (
+          option.additionalPeriods &&
+          option.additionalPeriods.find(period => period.kind === 'BONUS')
+        ))
+        .map(option => {
+          const fieldKey = getOptionFieldKey(option)
+          let value = values[fieldKey] === undefined
+            ? option.defaultAmount
+            : values[fieldKey]
+          if (!value) {
+            return 0
+          }
+          const bonusDays = option.additionalPeriods
+            .filter(period => period.kind === 'BONUS')
+            .reduce(
+              (days, period) => days + timeDay.count(
+                new Date(period.beginDate), new Date(period.endDate)
+              ),
+              0
+            )
+          const regularDays = option.additionalPeriods
+            .filter(period => period.kind === 'REGULAR')
+            .reduce(
+              (days, period) => days + timeDay.count(
+                new Date(period.beginDate), new Date(period.endDate)
+              ),
+              0
+            )
+          return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100
+        })
+    )
+    const payMoreSuggestions = [
+      userPrice && { value: minPrice, key: 'normal' },
+      !userPrice && price && bonusValue && price < minPrice + bonusValue &&
+        { value: minPrice + bonusValue, key: 'bonus' },
+      !userPrice && price && price < minPrice * 1.5 &&
+        { value: minPrice * 1.5, key: '1.5' }
+    ].filter(Boolean)
+    const offerUserPrice = (
+      !userPrice &&
+      pkg.name === 'PROLONG' &&
+      pkg.options.find(option => option.userPrice)
+    )
 
     return (
       <div>
@@ -313,14 +374,17 @@ class CustomizePackage extends Component {
                     value='0'
                     checked={!selectedGroupOption}
                     onChange={(event) => {
-                      onChange(this.calculateNextPrice(options.reduce((fields, option) => {
-                        return FieldSet.utils.mergeField({
-                          field: getOptionFieldKey(option),
-                          value: 0,
-                          error: undefined,
-                          dirty: false
-                        })(fields)
-                      }, {})))
+                      onChange(this.calculateNextPrice(
+                        options.reduce((fields, option) => {
+                          return FieldSet.utils.mergeField({
+                            field: getOptionFieldKey(option),
+                            value: 0,
+                            error: undefined,
+                            dirty: false
+                          })(fields)
+                        }, {}),
+                        { reset: true }
+                      ))
                     }}>
                     <span style={{
                       display: 'inline-block',
@@ -428,7 +492,7 @@ class CustomizePackage extends Component {
                                 `package/${pkg.name}/price`,
                                 'package/price'
                               ], {
-                                formattedCHF: `CHF ${option.price / 100}`
+                                formattedCHF: chfFormat(option.price / 100)
                               })}
                             </span>
                           )
@@ -580,6 +644,39 @@ class CustomizePackage extends Component {
               }}
               onChange={onPriceChange} />
           }
+          {!fixedPrice && <SmallP>
+            {payMoreSuggestions.length > 0 && <Fragment>
+              <Interaction.Emphasis>
+                {t('package/customize/price/payMore')}
+              </Interaction.Emphasis>
+              {' '}
+              {intersperse(
+                payMoreSuggestions.map(({ value, key }) =>
+                  <Editorial.A key={key} href='#' onClick={(e) => {
+                    e.preventDefault()
+                    onPriceChange(undefined, value / 100, true)
+                    if (userPrice) {
+                      const params = { ...router.query }
+                      delete params.userPrice
+                      Router.replaceRoute('pledge', params)
+                    }
+                  }}>
+                    {t.elements(`package/customize/price/payMore/${key}`, {
+                      formattedCHF: chfFormat(value / 100)
+                    })}
+                  </Editorial.A>
+                ),
+                () => ', '
+              )}<br />
+            </Fragment>}
+            {offerUserPrice &&
+              <Link route='pledge' params={{ ...router.query, userPrice: 1 }} passHref replace>
+                <Editorial.A>
+                  {t('package/customize/price/payLess')}
+                </Editorial.A>
+              </Link>
+            }
+          </SmallP>}
         </div>
       </div>
     )
@@ -600,4 +697,8 @@ CustomizePackage.propTypes = {
   }).isRequired
 }
 
-export default withMe(withT(CustomizePackage))
+export default compose(
+  withRouter,
+  withMe,
+  withT
+)(CustomizePackage)

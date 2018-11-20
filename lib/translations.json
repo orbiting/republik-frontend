@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-20T17:09:24.887Z",
+  "updated": "2018-11-20T18:19:26.697Z",
   "title": "live",
   "data": [
     {
@@ -1904,7 +1904,7 @@
     },
     {
       "key": "package/customize/price/label",
-      "value": "Betrag"
+      "value": "Betrag in CHF"
     },
     {
       "key": "package/customize/price/error",
@@ -3548,7 +3548,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus {days} Bonustage als Geschenkt für Verlgerinnen des ersten Tages."
+      "value": "Plus {days} Bonustage als Geschenk für Verlgerinnen des ersten Tages."
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
@@ -3605,6 +3605,26 @@
     {
       "key": "pledge/title/member",
       "value": "Liebe Verlegerin, lieber Verleger"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Wollen Sie mehr zahlen?"
+    },
+    {
+      "key": "package/customize/price/payMore/normal",
+      "value": "Reguläre {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/bonus",
+      "value": "{formattedCHF} ohne Geschenk"
+    },
+    {
+      "key": "package/customize/price/payMore/1.5",
+      "value": "grosszügige {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payLess",
+      "value": "Können Sie sich den Betrag nicht leisten?"
     }
   ]
 }

@@ -6,7 +6,6 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 
-import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
@@ -14,7 +13,8 @@ import {
   colors,
   fontFamilies,
   Loader,
-  mediaQueries
+  mediaQueries,
+  Editorial
 } from '@project-r/styleguide'
 
 export const OFFER_SORT = {
@@ -108,21 +108,7 @@ const styles = {
   links: css({
     lineHeight: '24px',
     marginTop: 13,
-    fontSize: 16,
-    '& a': {
-      color: colors.text,
-      cursor: 'pointer',
-      textDecoration: 'underline'
-    },
-    [`& ${prefixHover()}`]: {
-      color: colors.secondary
-    },
-    '& a:focus': {
-      color: colors.secondary
-    },
-    '& a:active': {
-      color: colors.primary
-    }
+    fontSize: 16
   })
 }
 
@@ -273,10 +259,10 @@ class Accordion extends Component {
         <div {...styles.links}>
           {
             links.map((link, i) => (
-              <Link key={i} route={link.route} params={link.params}>
-                <a>
+              <Link key={i} route={link.route} params={link.params} passHref>
+                <Editorial.A>
                   {link.text}<br />
-                </a>
+                </Editorial.A>
               </Link>
             ))
           }

@@ -7,12 +7,10 @@ import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
 import { Link } from '../../../lib/routes'
-
 import { Item as AccountItem, P, A } from '../Elements'
-import FieldSet from '../../FieldSet'
 
 import {
-  Button, InlineSpinner, colors, linkRule, Interaction
+  InlineSpinner, colors, linkRule, Interaction
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -30,10 +28,6 @@ class Actions extends Component {
   render () {
     const { t, membership } = this.props
     const {
-      isCancelling,
-      values,
-      dirty,
-      errors,
       updating,
       remoteError
     } = this.state
@@ -58,56 +52,16 @@ class Actions extends Component {
               })}
             </Interaction.Cursive>
           </P>}
-        {membership.active && membership.renew && !isCancelling &&
-          <A href='#cancel' onClick={(e) => {
-            e.preventDefault()
-            this.setState({ isCancelling: true })
-          }}>
-            {t.first([
-              `memberships/${membership.type.name}/manage/cancel/link`,
-              'memberships/manage/cancel/link'
-            ])}
-          </A>}
-        {isCancelling && <Fragment>
-          <FieldSet
-            values={values}
-            errors={errors}
-            dirty={dirty}
-            fields={[
-              {
-                label: t('memberships/manage/cancel/reason'),
-                name: 'reason',
-                autoSize: true
-              }
-            ]}
-            onChange={fields => {
-              this.setState(FieldSet.utils.mergeFields(fields))
-            }} />
-          <Button primary onClick={() => {
-            this.setState({
-              updating: true
-            })
-            this.props.cancel({
-              id: membership.id,
-              reason: values.reason
-            })
-              .then(() => {
-                this.setState({
-                  updating: false,
-                  remoteError: undefined,
-                  isCancelling: false
-                })
-              })
-              .catch(error => {
-                this.setState({
-                  updating: false,
-                  remoteError: errorToString(error)
-                })
-              })
-          }}>
-            {t('memberships/manage/cancel/button')}
-          </Button>
-        </Fragment>}
+        {membership.active && membership.renew &&
+          <Link route='cancel' params={{ membershipId: membership.id }}>
+            <A>
+              {t.first([
+                `memberships/${membership.type.name}/manage/cancel/link`,
+                'memberships/manage/cancel/link'
+              ])}
+            </A>
+          </Link>
+        }
         {!membership.renew && !!membership.periods.length &&
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()

@@ -53,7 +53,7 @@ class Actions extends Component {
             </Interaction.Cursive>
           </P>}
         {membership.active && membership.renew &&
-          <Link route='cancel' params={{ membershipId: membership.id }}>
+          <Link route='cancel' params={{ membershipId: membership.id }} passHref>
             <A>
               {t.first([
                 `memberships/${membership.type.name}/manage/cancel/link`,

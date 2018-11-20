@@ -196,7 +196,9 @@ export default compose(
   }),
   graphql(myBelongings, {
     props: ({ data, ownProps: { membershipId, loading } }) => ({
-      membership: data.me.memberships.find(v => v.id === membershipId),
+      membership: data.me &&
+        data.me.memberships &&
+        data.me.memberships.find(v => v.id === membershipId),
       loading: loading || data.loading,
       error: data.error
     })

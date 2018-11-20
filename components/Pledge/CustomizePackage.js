@@ -296,7 +296,7 @@ class CustomizePackage extends Component {
               const { membership, additionalPeriods } = baseOption
 
               const Wrapper = group
-                ? ({ children }) => <div style={{ marginBottom: 20, marginTop: 5 }}>{children}</div>
+                ? ({ children }) => <div style={{ marginBottom: 10, marginTop: 5 }}>{children}</div>
                 : ({ children }) => <div {...styles.grid}>{children}</div>
 
               const checkboxGroup = (
@@ -306,39 +306,48 @@ class CustomizePackage extends Component {
               )
               const resetLabel = group && !checkboxGroup && t(`option/${pkg.name}/resetGroup`, {}, null)
               const reset = resetLabel && <Fragment>
-                <Radio
-                  value='0'
-                  checked={!selectedGroupOption}
-                  onChange={(event) => {
-                    onChange(this.calculateNextPrice(options.reduce((fields, option) => {
-                      return FieldSet.utils.mergeField({
-                        field: getOptionFieldKey(option),
-                        value: 0,
-                        error: undefined,
-                        dirty: false
-                      })(fields)
-                    }, {})))
-                  }}>
-                  <span style={{
-                    display: 'inline-block',
-                    verticalAlign: 'top',
-                    marginRight: 20
-                  }}>
-                    {resetLabel}
-                  </span>
-                </Radio>
+                <span style={{
+                  display: 'inline-block',
+                  whiteSpace: 'nowrap'
+                }}>
+                  <Radio
+                    value='0'
+                    checked={!selectedGroupOption}
+                    onChange={(event) => {
+                      onChange(this.calculateNextPrice(options.reduce((fields, option) => {
+                        return FieldSet.utils.mergeField({
+                          field: getOptionFieldKey(option),
+                          value: 0,
+                          error: undefined,
+                          dirty: false
+                        })(fields)
+                      }, {})))
+                    }}>
+                    <span style={{
+                      display: 'inline-block',
+                      verticalAlign: 'top',
+                      marginRight: 20,
+                      whiteSpace: 'nowrap'
+                    }}>
+                      {resetLabel}
+                    </span>
+                  </Radio>
+                </span>{' '}
                 {/* ToDo: handle login-less */}
                 {!selectedGroupOption && membership && me && membership.user.id === me.id && <div style={{ marginTop: 10 }}>
                   <ManageActions membership={membership} />
                 </div>}
               </Fragment>
 
+              /* ToDo: handle login-less */
+              const isAboGive = membership && membership.user.id !== (me && me.id)
+
               return (
                 <Fragment key={group}>
                   {membership && <ManageMembership
                     title={/* ToDo: handle login-less */
-                      membership.user.id !== (me && me.id) ? t(
-                        `memberships/title/${membership.type.name}/given`,
+                      isAboGive ? t(
+                        `memberships/title/${membership.type.name}/give`,
                         {
                           name: membership.user.name,
                           sequenceNumber: membership.sequenceNumber
@@ -348,48 +357,6 @@ class CustomizePackage extends Component {
                     membership={membership}
                     actions={false}
                     compact />}
-                  {additionalPeriods && !!additionalPeriods.length &&
-                    <div style={{ marginBottom: 20 }}>
-                      <SmallP>
-                        <Interaction.Emphasis>
-                          {t(`option/${pkg.name}/additionalPeriods/endDate`, {
-                            formattedEndDate: dayFormat(new Date(additionalPeriods[additionalPeriods.length - 1].endDate))
-                          })}
-                        </Interaction.Emphasis>
-                      </SmallP>
-                      {additionalPeriods.length > 1 && <List>
-                        {additionalPeriods.map(period => {
-                          const beginDate = new Date(period.beginDate)
-                          const endDate = new Date(period.endDate)
-                          const formattedEndDate = dayFormat(endDate)
-                          const days = timeDay.count(beginDate, endDate)
-
-                          const title = t.first([
-                            `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
-                            `option/${pkg.name}/additionalPeriods/title`
-                          ], {
-                            formattedEndDate,
-                            days
-                          })
-                          const explanation = t.first([
-                            `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
-                            `option/${pkg.name}/additionalPeriods/explanation`
-                          ], {
-                            formattedEndDate,
-                            days
-                          }, '')
-
-                          return (
-                            <List.Item key={formattedEndDate}>
-                              {title}
-                              <br />
-                              {explanation && <Label>{explanation}</Label>}
-                            </List.Item>
-                          )
-                        })}
-                      </List>}
-                    </div>
-                  }
                   <Wrapper>
                     {
                       options.map((option, i) => {
@@ -398,6 +365,10 @@ class CustomizePackage extends Component {
                           ? option.defaultAmount
                           : values[fieldKey]
                         const label = t.first([
+                          ...(isAboGive ? [
+                            `option/${pkg.name}/${option.reward.name}/label/give`,
+                            `option/${option.reward.name}/label/give`
+                          ] : []),
                           `option/${pkg.name}/${option.reward.name}/label/${value}`,
                           `option/${pkg.name}/${option.reward.name}/label/other`,
                           `option/${pkg.name}/${option.reward.name}/label`,
@@ -451,7 +422,7 @@ class CustomizePackage extends Component {
                             <span style={{
                               display: 'inline-block',
                               verticalAlign: 'top',
-                              marginRight: 40
+                              marginRight: 20
                             }}>
                               <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
                               {t.first([
@@ -472,15 +443,22 @@ class CustomizePackage extends Component {
                               {children}
                             </Checkbox>
                           }
-                          return <Radio
-                            key={option.id}
-                            value='1'
-                            checked={!!value}
-                            onChange={(event) => {
-                              onFieldChange(undefined, 1, dirty[fieldKey])
+                          return <Fragment key={option.id}>
+                            <span style={{
+                              display: 'inline-block',
+                              whiteSpace: 'nowrap',
+                              marginBottom: 10
                             }}>
-                            {children}
-                          </Radio>
+                              <Radio
+                                value='1'
+                                checked={!!value}
+                                onChange={(event) => {
+                                  onFieldChange(undefined, 1, dirty[fieldKey])
+                                }}>
+                                {children}
+                              </Radio>
+                            </span>{' '}
+                          </Fragment>
                         }
 
                         return (
@@ -509,6 +487,46 @@ class CustomizePackage extends Component {
                     }
                     {reset}
                   </Wrapper>
+                  {additionalPeriods && !!additionalPeriods.length && <div style={{ marginBottom: 20 }}>
+                    {additionalPeriods.length > 1 && <List>
+                      {additionalPeriods.map(period => {
+                        const beginDate = new Date(period.beginDate)
+                        const endDate = new Date(period.endDate)
+                        const formattedEndDate = dayFormat(endDate)
+                        const days = timeDay.count(beginDate, endDate)
+
+                        const title = t.first([
+                          `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
+                          `option/${pkg.name}/additionalPeriods/title`
+                        ], {
+                          formattedEndDate,
+                          days
+                        })
+                        const explanation = t.first([
+                          `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
+                          `option/${pkg.name}/additionalPeriods/explanation`
+                        ], {
+                          formattedEndDate,
+                          days
+                        }, '')
+
+                        return (
+                          <List.Item key={formattedEndDate}>
+                            {title}
+                            <br />
+                            {explanation && <Label>{explanation}</Label>}
+                          </List.Item>
+                        )
+                      })}
+                    </List>}
+                    <SmallP>
+                      <Interaction.Emphasis>
+                        {t(`option/${pkg.name}/additionalPeriods/endDate`, {
+                          formattedEndDate: dayFormat(new Date(additionalPeriods[additionalPeriods.length - 1].endDate))
+                        })}
+                      </Interaction.Emphasis>
+                    </SmallP>
+                  </div>}
                 </Fragment>
               )
             })

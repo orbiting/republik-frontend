@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-19T22:55:53.510Z",
+  "updated": "2018-11-20T01:22:59.587Z",
   "title": "live",
   "data": [
     {
@@ -3492,7 +3492,7 @@
     },
     {
       "key": "package/PROLONG/title",
-      "value": "Abo-Verlängern"
+      "value": "Verlängern"
     },
     {
       "key": "package/PROLONG/description",
@@ -3504,15 +3504,19 @@
     },
     {
       "key": "option/PROLONG/ABO/label",
-      "value": "Regulär"
+      "value": "Reguläre Verlängerung"
+    },
+    {
+      "key": "option/PROLONG/ABO/label/give",
+      "value": "Verlängerung schenken"
     },
     {
       "key": "option/PROLONG/BENEFACTOR_ABO/label",
-      "value": "Gönner"
+      "value": "Gönnerin oder Gönner"
     },
     {
       "key": "option/PROLONG/resetGroup",
-      "value": "Später"
+      "value": "gerade nicht"
     },
     {
       "key": "memberships/manage/reactivate",
@@ -3528,15 +3532,15 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",
-      "value": "Verlängerung bis am {formattedEndDate}"
+      "value": "Neu gültig bis am {formattedEndDate}"
     },
     {
       "key": "option/PROLONG/additionalPeriods/REGULAR/title",
-      "value": "Reguläre Verlängerung um ein Jahr"
+      "value": "Verlängerung um ein Jahr"
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus {days} Tage Geburtstagsanwesenheitsgeschenk"
+      "value": "{days} Tage Geburtstagsanwesenheitsgeschenk"
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
@@ -3555,11 +3559,11 @@
       "value": "Monats-Abonnement (#{sequenceNumber})"
     },
     {
-      "key": "memberships/title/ABO/given",
+      "key": "memberships/title/ABO/give",
       "value": "{name} (#{sequenceNumber})"
     },
     {
-      "key": "memberships/title/BENEFACTOR_ABO/given",
+      "key": "memberships/title/BENEFACTOR_ABO/give",
       "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
     },
     {
@@ -3577,6 +3581,14 @@
     {
       "key": "pledge/submit/PROLONG/autoPay",
       "value": "Zukünftige Verlängerungen von meinem Abo automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "Guten Tag, {name}"
+    },
+    {
+      "key": "merci/lead/package/PROLONG",
+      "value": "Vielen Dank für die Verlängerung des Vertrauens!<br />"
     }
   ]
 }

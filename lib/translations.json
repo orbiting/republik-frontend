@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-20T16:12:16.508Z",
+  "updated": "2018-11-20T17:09:24.887Z",
   "title": "live",
   "data": [
     {
@@ -3548,11 +3548,11 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus Bonus: {days} Tage geschenkt für Hoch-Risiko-Verlgerinnen"
+      "value": "Plus {days} Bonustage als Geschenkt für Verlgerinnen des ersten Tages."
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": "Damit mindern wir unser Klumpenrisiko im Januar. Und werden ein Kamel mit dem März."
+      "value": "Damit mindern wir unser Klumpenrisiko im Januar – werden ein Januar-März-Kamel! 🐫"
     },
     {
       "key": "memberships/title/ABO",

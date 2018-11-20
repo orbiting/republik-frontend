@@ -28,7 +28,6 @@ import { Router } from '../../lib/routes'
 
 import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
 import { P as SmallP } from '../Account/Elements'
-import List from '../List'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -487,9 +486,10 @@ class CustomizePackage extends Component {
                     }
                     {reset}
                   </Wrapper>
-                  {additionalPeriods && !!additionalPeriods.length && <div style={{ marginBottom: 20 }}>
-                    {additionalPeriods.length > 1 && <List>
-                      {additionalPeriods.map(period => {
+                  {additionalPeriods && !!additionalPeriods.length && !!selectedGroupOption && <div style={{ marginBottom: 20 }}>
+                    {additionalPeriods
+                      .filter((period, i) => period.kind !== 'REGULAR' || i > 0)
+                      .map(period => {
                         const beginDate = new Date(period.beginDate)
                         const endDate = new Date(period.endDate)
                         const formattedEndDate = dayFormat(endDate)
@@ -511,14 +511,15 @@ class CustomizePackage extends Component {
                         }, '')
 
                         return (
-                          <List.Item key={formattedEndDate}>
+                          <SmallP key={formattedEndDate}>
                             {title}
-                            <br />
-                            {explanation && <Label>{explanation}</Label>}
-                          </List.Item>
+                            {explanation && <Fragment>
+                              <br /><Label>{explanation}</Label>
+                            </Fragment>}
+                          </SmallP>
                         )
-                      })}
-                    </List>}
+                      })
+                    }
                     <SmallP>
                       <Interaction.Emphasis>
                         {t(`option/${pkg.name}/additionalPeriods/endDate`, {

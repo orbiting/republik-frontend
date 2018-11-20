@@ -10,6 +10,7 @@ import Loader from '../Loader'
 import FieldSet from '../FieldSet'
 import SignIn from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
+import withMembership from '../Auth/withMembership'
 import isEmail from 'validator/lib/isEmail'
 
 import {
@@ -157,7 +158,7 @@ class Pledge extends Component {
     } = this.state
 
     const {
-      loading, error
+      loading, error, isMember
     } = this.props
 
     return (
@@ -192,7 +193,14 @@ class Pledge extends Component {
 
         return (
           <div>
-            <H1>{t('pledge/title')}</H1>
+            <H1>
+              {t.first([
+                query.package && isMember && `pledge/title/${query.package}/member`,
+                query.package && `pledge/title/${query.package}`,
+                isMember && 'pledge/title/member',
+                'pledge/title'
+              ].filter(Boolean))}
+            </H1>
 
             {!!receiveError && (
               <P style={{ color: colors.error, marginBottom: 40 }}>
@@ -426,6 +434,7 @@ const PledgeWithQueries = compose(
       }
     }
   }),
+  withMembership, // provides isMember
   withSignOut,
   withT,
   withMe

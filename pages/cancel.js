@@ -7,7 +7,7 @@ import withT from '../lib/withT'
 
 const CancelMembershipPage = ({ router, t }) => {
   const meta = {
-    title: t('pages/account/cancel/title')
+    title: t('memberships/cancel/title')
   }
   const membershipId = router.query.membershipId
   return (

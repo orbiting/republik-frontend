@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-20T22:53:35.283Z",
+  "updated": "2018-11-20T23:30:06.401Z",
   "title": "live",
   "data": [
     {
@@ -2979,14 +2979,6 @@
       "value": "Abonnement reaktivieren"
     },
     {
-      "key": "memberships/manage/cancel/button",
-      "value": "Kündigung abschicken"
-    },
-    {
-      "key": "memberships/manage/cancel/reason",
-      "value": "Warum möchten Sie künden?"
-    },
-    {
       "key": "memberships/claim/lead",
       "value": "Willkommen an Bord! Hier können Sie Ihren Gutscheincode einlösen."
     },
@@ -3633,6 +3625,34 @@
     {
       "key": "package/customize/price/payLess",
       "value": "Können Sie sich den Betrag nicht leisten?"
+    },
+    {
+      "key": "memberships/cancel/notFound",
+      "value": "Mitgliedschaft nicht gefunden."
+    },
+    {
+      "key": "memberships/cancel/title",
+      "value": "Mitgliedschaft künden"
+    },
+    {
+      "key": "memberships/cancel/info",
+      "value": "Durch Ihre Kündigung wird Ihr Abo am Ende der Laufzeit abgestellt."
+    },
+    {
+      "key": "memberships/cancel/confirmation",
+      "value": "Sie haben das Abo erfolgreich gekündet."
+    },
+    {
+      "key": "memberships/cancel/description",
+      "value": "Warum möchten Sie künden?"
+    },
+    {
+      "key": "memberships/cancel/accountLink",
+      "value": "Zurück zum Konto"
+    },
+    {
+      "key": "memberships/cancel/button",
+      "value": "Kündigung abschicken"
     }
   ]
 }

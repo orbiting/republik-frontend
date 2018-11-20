@@ -9,12 +9,12 @@ import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { Content, MainContainer } from '../../Frame'
 import ErrorMessage from '../../ErrorMessage'
-import { Item, P, A } from '../Elements'
+import { Item, P } from '../Elements'
 
 import { Link } from '../../../lib/routes'
 
 import {
-  Loader, Field, Radio, Button, Interaction, InlineSpinner
+  Loader, A, Field, Radio, Button, Interaction, InlineSpinner
 } from '@project-r/styleguide'
 
 import myBelongings from '../belongingsQuery'
@@ -71,22 +71,22 @@ class CancelMembership extends Component {
             error={
               error ||
               (!membership && !loading &&
-                t('pages/account/cancel/notFound'))}
+                t('memberships/cancel/notFound'))}
             render={() => {
               const latestPeriod = membership.periods[0]
               const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
               if (isCancelled) {
                 return <Fragment>
-                  <Interaction.H1>{t('pages/account/cancel/title')}</Interaction.H1>
-                  <Interaction.P>{t('pages/account/cancel/confirmation')}</Interaction.P>
+                  <Interaction.H1>{t('memberships/cancel/title')}</Interaction.H1>
+                  <Interaction.P>{t('memberships/cancel/confirmation')}</Interaction.P>
                   <Link route='account' passHref>
-                    <A>{t('memberships/manage/cancel/accountLink')}</A>
+                    <A>{t('memberships/cancel/accountLink')}</A>
                   </Link>
                 </Fragment>
               }
               return (
                 <Fragment>
-                  <Interaction.H1>{t('pages/account/cancel/title')}</Interaction.H1>
+                  <Interaction.H1>{t('memberships/cancel/title')}</Interaction.H1>
                   {remoteError && <ErrorMessage error={remoteError} />}
                   <Item
                     createdAt={new Date(membership.createdAt)}
@@ -108,7 +108,7 @@ class CancelMembership extends Component {
                     </P>
                     }
                   </Item>
-                  <Interaction.P style={{ marginBottom: '30px' }}>{t('pages/account/cancel/info')}</Interaction.P>
+                  <Interaction.P style={{ marginBottom: '30px' }}>{t('memberships/cancel/info')}</Interaction.P>
                   {cancellationCategories.map(({ type, label }) => (
                     <div key={type}>
                       <Radio
@@ -122,7 +122,7 @@ class CancelMembership extends Component {
                   )}
                   {cancellationType === 'OTHER' &&
                     <Field
-                      label={t('memberships/manage/cancel/description')}
+                      label={t('memberships/cancel/description')}
                       value={reason}
                       renderInput={({ ref, ...inputProps }) => (
                         <AutosizeInput {...styles.autoSize}
@@ -165,12 +165,12 @@ class CancelMembership extends Component {
                   >
                     {isCancelling
                       ? <InlineSpinner size={28} />
-                      : t('memberships/manage/cancel/button')
+                      : t('memberships/cancel/button')
                     }
                   </Button>
-                  <br />
+                  <br /><br />
                   <Link route='account' passHref>
-                    <A>{t('memberships/manage/cancel/accountLink')}</A>
+                    <A>{t('memberships/cancel/accountLink')}</A>
                   </Link>
                 </Fragment>
               )

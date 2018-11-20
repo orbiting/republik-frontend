@@ -1,23 +1,43 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
+
+import withT from '../lib/withT'
+import withMe from '../lib/apollo/withMe'
+
 import Frame from '../components/Frame'
 import Cancel from '../components/Account/Memberships/Cancel'
-import withT from '../lib/withT'
+import SignIn from '../components/Auth/SignIn'
 
-const CancelMembershipPage = ({ router, t }) => {
+import { Interaction } from '@project-r/styleguide'
+
+const CancelMembershipPage = ({ router, me, t }) => {
+  const { membershipId } = router.query
+
   const meta = {
-    title: t('memberships/cancel/title')
+    title: t('memberships/cancel/title'),
+    description: ''
   }
-  const membershipId = router.query.membershipId
+
   return (
-    <Frame meta={meta} raw>
-      <Cancel membershipId={membershipId} />
+    <Frame meta={meta}>
+      <Interaction.H1>{meta.title}</Interaction.H1>
+      {me
+        ? <Cancel membershipId={membershipId} />
+        : <Fragment>
+          <br />
+          <SignIn context='cancel' beforeForm={(
+            <Interaction.P style={{ marginBottom: 20 }}>
+              { t('memberships/cancel/signIn') }
+            </Interaction.P>
+          )} />
+        </Fragment>}
     </Frame>
   )
 }
 
 export default compose(
+  withRouter,
   withT,
-  withRouter
+  withMe
 )(CancelMembershipPage)

@@ -7,7 +7,6 @@ import AutosizeInput from 'react-textarea-autosize'
 import { timeFormat } from '../../../lib/utils/format'
 import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
-import { Content, MainContainer } from '../../Frame'
 import ErrorMessage from '../../ErrorMessage'
 import { Item, P } from '../Elements'
 
@@ -64,119 +63,113 @@ class CancelMembership extends Component {
     const { loading, error, membership, cancellationCategories, t } = this.props
     const { isCancelled, isCancelling, remoteError, cancellationType, reason } = this.state
     return (
-      <MainContainer>
-        <Content>
-          <Loader
-            loading={loading}
-            error={
-              error ||
-              (!membership && !loading &&
-                t('memberships/cancel/notFound'))}
-            render={() => {
-              const latestPeriod = membership.periods[0]
-              const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
-              if (isCancelled) {
-                return <Fragment>
-                  <Interaction.H1>{t('memberships/cancel/title')}</Interaction.H1>
-                  <Interaction.P>{t('memberships/cancel/confirmation')}</Interaction.P>
-                  <Link route='account' passHref>
-                    <A>{t('memberships/cancel/accountLink')}</A>
-                  </Link>
-                </Fragment>
-              }
-              return (
-                <Fragment>
-                  <Interaction.H1>{t('memberships/cancel/title')}</Interaction.H1>
-                  {remoteError && <ErrorMessage error={remoteError} />}
-                  <Item
-                    createdAt={new Date(membership.createdAt)}
-                    title={t(
-                      `memberships/title/${membership.type.name}`,
-                      {
-                        sequenceNumber: membership.sequenceNumber
-                      })}
-                  >
-                    {!!latestPeriod && <P>
-                      {membership.active && !membership.overdue && t.first(
-                        [
-                          `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-                          `memberships/latestPeriod/renew/${membership.renew}`
-                        ],
-                        { formattedEndDate },
-                        ''
-                      )}
-                    </P>
-                    }
-                  </Item>
-                  <Interaction.P style={{ marginBottom: '30px' }}>{t('memberships/cancel/info')}</Interaction.P>
-                  {cancellationCategories.map(({ type, label }) => (
-                    <div key={type}>
-                      <Radio
-                        value={cancellationType}
-                        checked={cancellationType === type}
-                        onChange={() => this.setState({ cancellationType: type })}
-                      >
-                        {label}
-                      </Radio>
-                    </div>)
+      <Loader
+        loading={loading}
+        error={
+          error ||
+          (!membership && !loading &&
+            t('memberships/cancel/notFound'))}
+        render={() => {
+          const latestPeriod = membership.periods[0]
+          const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
+          if (isCancelled) {
+            return <Fragment>
+              <Interaction.P>{t('memberships/cancel/confirmation')}</Interaction.P>
+              <Link route='account' passHref>
+                <A>{t('memberships/cancel/accountLink')}</A>
+              </Link>
+            </Fragment>
+          }
+          return (
+            <Fragment>
+              {remoteError && <ErrorMessage error={remoteError} />}
+              <Item
+                createdAt={new Date(membership.createdAt)}
+                title={t(
+                  `memberships/title/${membership.type.name}`,
+                  {
+                    sequenceNumber: membership.sequenceNumber
+                  })}
+              >
+                {!!latestPeriod && <P>
+                  {membership.active && !membership.overdue && t.first(
+                    [
+                      `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
+                      `memberships/latestPeriod/renew/${membership.renew}`
+                    ],
+                    { formattedEndDate },
+                    ''
                   )}
-                  {cancellationType === 'OTHER' &&
-                    <Field
-                      label={t('memberships/cancel/description')}
-                      value={reason}
-                      renderInput={({ ref, ...inputProps }) => (
-                        <AutosizeInput {...styles.autoSize}
-                          {...inputProps}
-                          inputRef={ref} />
-                      )}
-                      onChange={(_, reason) => {
-                        this.setState({ reason })
-                      }} />
-                  }
-                  <Button
-                    style={{ marginTop: '30px' }}
-                    primary={!isCancelling}
-                    disabled={
-                      isCancelling || !cancellationType
-                    }
-                    onClick={() => {
-                      this.setState({
-                        isCancelling: true
-                      })
-                      this.props.cancel({
-                        id: membership.id,
-                        immediately: true,
-                        details: {
-                          type: cancellationType,
-                          reason
-                        }
-                      }).then(() => {
-                        this.setState({
-                          isCancelling: false,
-                          isCancelled: true
-                        })
-                      }).catch(error => {
-                        this.setState({
-                          isCancelling: false,
-                          remoteError: errorToString(error)
-                        })
-                      })
-                    }}
+                </P>
+                }
+              </Item>
+              <Interaction.P style={{ marginBottom: '30px' }}>{t('memberships/cancel/info')}</Interaction.P>
+              {cancellationCategories.map(({ type, label }) => (
+                <div key={type}>
+                  <Radio
+                    value={cancellationType}
+                    checked={cancellationType === type}
+                    onChange={() => this.setState({ cancellationType: type })}
                   >
-                    {isCancelling
-                      ? <InlineSpinner size={28} />
-                      : t('memberships/cancel/button')
+                    {label}
+                  </Radio>
+                </div>)
+              )}
+              {cancellationType === 'OTHER' &&
+                <Field
+                  label={t('memberships/cancel/description')}
+                  value={reason}
+                  renderInput={({ ref, ...inputProps }) => (
+                    <AutosizeInput {...styles.autoSize}
+                      {...inputProps}
+                      inputRef={ref} />
+                  )}
+                  onChange={(_, reason) => {
+                    this.setState({ reason })
+                  }} />
+              }
+              <Button
+                style={{ marginTop: '30px' }}
+                primary={!isCancelling}
+                disabled={
+                  isCancelling || !cancellationType
+                }
+                onClick={() => {
+                  this.setState({
+                    isCancelling: true
+                  })
+                  this.props.cancel({
+                    id: membership.id,
+                    immediately: true,
+                    details: {
+                      type: cancellationType,
+                      reason
                     }
-                  </Button>
-                  <br /><br />
-                  <Link route='account' passHref>
-                    <A>{t('memberships/cancel/accountLink')}</A>
-                  </Link>
-                </Fragment>
-              )
-            }} />
-        </Content>
-      </MainContainer>
+                  }).then(() => {
+                    this.setState({
+                      isCancelling: false,
+                      isCancelled: true
+                    })
+                  }).catch(error => {
+                    this.setState({
+                      isCancelling: false,
+                      remoteError: errorToString(error)
+                    })
+                  })
+                }}
+              >
+                {isCancelling
+                  ? <InlineSpinner size={28} />
+                  : t('memberships/cancel/button')
+                }
+              </Button>
+              <br /><br />
+              <Link route='account' passHref>
+                <A>{t('memberships/cancel/accountLink')}</A>
+              </Link>
+            </Fragment>
+          )
+        }} />
     )
   }
 }

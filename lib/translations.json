@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-20T23:30:06.401Z",
+  "updated": "2018-11-20T23:54:58.940Z",
   "title": "live",
   "data": [
     {
@@ -3633,6 +3633,10 @@
     {
       "key": "memberships/cancel/title",
       "value": "Mitgliedschaft künden"
+    },
+    {
+      "key": "memberships/cancel/signIn",
+      "value": "Sie müssen sich anmelden um zu künden."
     },
     {
       "key": "memberships/cancel/info",

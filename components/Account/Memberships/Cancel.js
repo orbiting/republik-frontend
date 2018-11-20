@@ -79,8 +79,8 @@ class CancelMembership extends Component {
                 return <Fragment>
                   <Interaction.H1>{t('pages/account/cancel/title')}</Interaction.H1>
                   <Interaction.P>{t('pages/account/cancel/confirmation')}</Interaction.P>
-                  <Link route='account'>
-                    <A>{t('memberships/manage/cancel/complete')}</A>
+                  <Link route='account' passHref>
+                    <A>{t('memberships/manage/cancel/accountLink')}</A>
                   </Link>
                 </Fragment>
               }
@@ -135,7 +135,7 @@ class CancelMembership extends Component {
                   }
                   <Button
                     style={{ marginTop: '30px' }}
-                    primary
+                    primary={!isCancelling}
                     disabled={
                       isCancelling || !cancellationType
                     }
@@ -163,13 +163,14 @@ class CancelMembership extends Component {
                       })
                     }}
                   >
-                    {(!isCancelling && t('memberships/manage/cancel/button')) ||
-                      <InlineSpinner size={28} />
+                    {isCancelling
+                      ? <InlineSpinner size={28} />
+                      : t('memberships/manage/cancel/button')
                     }
                   </Button>
                   <br />
-                  <Link route='account'>
-                    <A>{t('memberships/manage/cancel/abort')}</A>
+                  <Link route='account' passHref>
+                    <A>{t('memberships/manage/cancel/accountLink')}</A>
                   </Link>
                 </Fragment>
               )

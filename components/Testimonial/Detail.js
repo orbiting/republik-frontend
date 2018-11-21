@@ -99,7 +99,9 @@ const Detail = ({
             name
           })}
           download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
-          shareOverlayTitle={t('profile/share/title')}
+          shareOverlayTitle={t('profile/share/title', {
+            name
+          })}
         />
       )}
     </div>

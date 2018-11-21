@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-21T00:05:36.962Z",
+  "updated": "2018-11-21T13:18:16.272Z",
   "title": "live",
   "data": [
     {
@@ -3531,6 +3531,10 @@
       "value": "Mitgliedschaft und Abonnement verlängern"
     },
     {
+      "key": "memberships/manage/prolong/awaiting",
+      "value": "Sie haben bereits eine weitere Mitgliedschaft, diese wird automatisch zur Verlängerung genutzt."
+    },
+    {
       "key": "memberships/manage/cancel/link",
       "value": "Mitgliedschaft und Abonnement kündigen"
     },
@@ -3657,6 +3661,34 @@
     {
       "key": "memberships/cancel/button",
       "value": "Kündigung abschicken"
+    },
+    {
+      "key": "account/app/prolong/link",
+      "value": "Jetzt Mitgliedschaft verlängern."
+    },
+    {
+      "key": "testimonial/detail/share/package/PROLONG",
+      "value": "Ich habe mein Abo verlängert:"
+    },
+    {
+      "key": "pledge/form/statement/PROLONG/title",
+      "value": "{name} hat bereits das Abo verlängert."
+    },
+    {
+      "key": "pledge/form/statement/PROLONG/lead/member",
+      "value": "Verlängern Sie jetzt auch Ihr Abo."
+    },
+    {
+      "key": "pledge/form/statement/lead/signIn",
+      "value": "Melden Sie sich an um Ihr Abo zu verlängern. Oder falls Sie noch nicht Mitglied sind, jetzt ist ein guter Zeitpunkt um die Republik zu unterstützen."
+    },
+    {
+      "key": "pledge/form/statement/lead/notAvailable",
+      "value": "Zur Zeit ist für Sie keine Verlängerung verfügbar. Vermutlich haben Sie bereits verlängert. Alle Informationen finden Sie in Ihrem {accountLink}."
+    },
+    {
+      "key": "pledge/form/statement/lead/notAvailable/accountText",
+      "value": "Konto"
     }
   ]
 }

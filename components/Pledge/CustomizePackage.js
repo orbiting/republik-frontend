@@ -324,12 +324,7 @@ class CustomizePackage extends Component {
           {' '}
           <A href='/angebote' onClick={event => {
             event.preventDefault()
-            onChange(FieldSet.utils.fieldsState({
-              field: 'price',
-              value: undefined,
-              error: undefined,
-              dirty: undefined
-            }))
+            this.resetPrice()
             Router.replaceRoute('pledge', {}, { shallow: true })
           }}>
             {t('package/customize/changePackage')}

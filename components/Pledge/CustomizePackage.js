@@ -95,6 +95,13 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
+const getOptionValue = (option, values) => {
+  const fieldKey = getOptionFieldKey(option)
+  return values[fieldKey] === undefined
+    ? option.defaultAmount
+    : values[fieldKey]
+}
+
 const GUTTER = 42
 const styles = {
   grid: css({
@@ -265,10 +272,7 @@ class CustomizePackage extends Component {
           option.additionalPeriods.find(period => period.kind === 'BONUS')
         ))
         .map(option => {
-          const fieldKey = getOptionFieldKey(option)
-          let value = values[fieldKey] === undefined
-            ? option.defaultAmount
-            : values[fieldKey]
+          const value = getOptionValue(option, values)
           if (!value) {
             return 0
           }
@@ -288,7 +292,7 @@ class CustomizePackage extends Component {
               ),
               0
             )
-          return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100
+          return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100 * value
         })
     )
     const payMoreSuggestions = [
@@ -301,7 +305,9 @@ class CustomizePackage extends Component {
     const offerUserPrice = (
       !userPrice &&
       pkg.name === 'PROLONG' &&
-      pkg.options.find(option => option.userPrice)
+      pkg.options.every(option => {
+        return !getOptionValue(option, values) || option.userPrice
+      })
     )
 
     return (
@@ -346,11 +352,7 @@ class CustomizePackage extends Component {
             .entries(configurableOptions)
             .map(({ key: group, values: options }) => {
               const selectedGroupOption = group && options.find(option => {
-                const fieldKey = getOptionFieldKey(option)
-                const value = values[fieldKey] === undefined
-                  ? option.defaultAmount
-                  : values[fieldKey]
-                return value
+                return getOptionValue(option, values)
               })
               const baseOption = selectedGroupOption || options[0]
               const { membership, additionalPeriods } = baseOption
@@ -424,9 +426,7 @@ class CustomizePackage extends Component {
                     {
                       options.map((option, i) => {
                         const fieldKey = getOptionFieldKey(option)
-                        let value = values[fieldKey] === undefined
-                          ? option.defaultAmount
-                          : values[fieldKey]
+                        const value = getOptionValue(option, values)
                         const label = t.first([
                           ...(isAboGive ? [
                             `option/${pkg.name}/${option.reward.name}/label/give`,

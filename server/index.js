@@ -68,8 +68,9 @@ app.prepare().then(() => {
 
     server.use((req, res, next) => {
       const BACKDOOR_URL = process.env.CURTAIN_BACKDOOR_URL || ''
+      const cookieOptions = { maxAge: 1000 * 60 * 60 * 24 * 3, httpOnly: true }
       if (req.url === BACKDOOR_URL) {
-        res.cookie('OpenSesame', BACKDOOR_URL, { maxAge: 2880000, httpOnly: true })
+        res.cookie('OpenSesame', BACKDOOR_URL, cookieOptions)
         return res.redirect('/')
       }
 
@@ -77,8 +78,15 @@ app.prepare().then(() => {
         req.headers.cookie &&
         require('cookie').parse(req.headers.cookie)
       ) || {}
+      const hasCookie = cookies['OpenSesame'] === BACKDOOR_URL
+      if (hasCookie) {
+        // content behind backdoor should not be indexed
+        // even if a bot ends up with a cookie somehow
+        res.set('X-Robots-Tag', 'noindex')
+        res.cookie('OpenSesame', BACKDOOR_URL, cookieOptions)
+      }
       if (
-        cookies['OpenSesame'] === BACKDOOR_URL ||
+        hasCookie ||
         ALLOWED_PATHS.some(path => req.url.startsWith(path))
       ) {
         return next()

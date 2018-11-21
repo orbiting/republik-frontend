@@ -7,15 +7,17 @@ import { sum, min } from 'd3-array'
 import { timeDay } from 'd3-time'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
+import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 import { intersperse } from '../../lib/utils/helpers'
-import { Router, Link } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
+import { shouldIgnoreClick } from '../Link/utils'
 
 import {
   A,
@@ -218,13 +220,16 @@ class CustomizePackage extends Component {
       }
     })
   }
-  componentWillUnmount () {
+  resetPrice () {
     this.props.onChange(FieldSet.utils.fieldsState({
       field: 'price',
       value: undefined,
       error: undefined,
       dirty: undefined
     }))
+  }
+  componentWillUnmount () {
+    this.resetPrice()
   }
   render () {
     const {
@@ -241,6 +246,7 @@ class CustomizePackage extends Component {
       ))
 
     const minPrice = calculateMinPrice(pkg, values, userPrice)
+    const regularMinPrice = calculateMinPrice(pkg, values, false)
     const fixedPrice = pkg.name === 'MONTHLY_ABO'
 
     const hasNotebook = !!pkg.options.find(option => (
@@ -296,15 +302,16 @@ class CustomizePackage extends Component {
         })
     )
     const payMoreSuggestions = [
-      userPrice && { value: minPrice, key: 'normal' },
-      !userPrice && price && bonusValue && price < minPrice + bonusValue &&
+      userPrice && { value: regularMinPrice, key: 'normal' },
+      !userPrice && price >= minPrice && bonusValue && price < minPrice + bonusValue &&
         { value: minPrice + bonusValue, key: 'bonus' },
-      !userPrice && price && price < minPrice * 1.5 &&
+      !userPrice && price >= minPrice && price < minPrice * 1.5 &&
         { value: minPrice * 1.5, key: '1.5' }
     ].filter(Boolean)
     const offerUserPrice = (
       !userPrice &&
       pkg.name === 'PROLONG' &&
+      price <= regularMinPrice &&
       pkg.options.every(option => {
         return !getOptionValue(option, values) || option.userPrice
       })
@@ -476,6 +483,11 @@ class CustomizePackage extends Component {
                                 dirty: false
                               })(fields)
                             })
+                          }
+                          if (parsedValue && userPrice && !option.userPrice) {
+                            const params = { ...router.query }
+                            delete params.userPrice
+                            Router.replaceRoute('pledge', params, { shallow: true })
                           }
                           onChange(this.calculateNextPrice(fields))
                         }
@@ -664,7 +676,7 @@ class CustomizePackage extends Component {
                     if (userPrice) {
                       const params = { ...router.query }
                       delete params.userPrice
-                      Router.replaceRoute('pledge', params)
+                      Router.replaceRoute('pledge', params, { shallow: true })
                     }
                   }}>
                     {t.elements(`package/customize/price/payMore/${key}`, {
@@ -676,11 +688,29 @@ class CustomizePackage extends Component {
               )}<br />
             </Fragment>}
             {offerUserPrice &&
-              <Link route='pledge' params={{ ...router.query, userPrice: 1 }} passHref replace>
-                <Editorial.A>
-                  {t('package/customize/price/payLess')}
-                </Editorial.A>
-              </Link>
+              <Editorial.A
+                href={format({
+                  pathname: '/angebote',
+                  query: { ...router.query, userPrice: 1 }
+                })}
+                onClick={(e) => {
+                  if (shouldIgnoreClick(e)) {
+                    return
+                  }
+                  e.preventDefault()
+                  this.resetPrice()
+                  Router.replaceRoute(
+                    'pledge',
+                    { ...router.query, userPrice: 1 },
+                    { shallow: true }
+                  ).then(() => {
+                    if (this.focusRef && this.focusRef.input) {
+                      this.focusRef.input.focus()
+                    }
+                  })
+                }}>
+                {t('package/customize/price/payLess')}
+              </Editorial.A>
             }
           </SmallP>}
         </div>

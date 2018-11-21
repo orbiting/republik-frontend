@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-21T13:18:16.272Z",
+  "updated": "2018-11-21T16:43:34.666Z",
   "title": "live",
   "data": [
     {
@@ -3496,7 +3496,7 @@
     },
     {
       "key": "package/PROLONG/description",
-      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, etwas Geld in unabhängigen Journalismus zu investieren."
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, in unabhängigen Journalismus zu investieren."
     },
     {
       "key": "package/PROLONG/price",
@@ -3520,7 +3520,7 @@
     },
     {
       "key": "option/PROLONG/resetGroup",
-      "value": "noch nicht"
+      "value": "jetzt nicht"
     },
     {
       "key": "memberships/manage/reactivate",
@@ -3548,15 +3548,15 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus {days} Bonustage als Geschenk für Verlgerinnen des ersten Tages."
+      "value": "Plus {days} zusätzliche Tage als Geschenk für Verlegerinnen des ersten Tages."
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": "Damit mindern wir unser Klumpenrisiko im Januar – werden ein Januar-März-Kamel! 🐫"
+      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
     },
     {
       "key": "option/PROLONG/additionalPeriods/give",
-      "value": "{name} wird per E-Mail über die Verlängerung informiert. Und zu Dank angehalten."
+      "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert. Und zu Dank angehalten."
     },
     {
       "key": "memberships/title/ABO",
@@ -3584,7 +3584,7 @@
     },
     {
       "key": "pledge/submit/autoPay/note",
-      "value": "Wir erinnern Sie bevor wir abbuchen und Sie können jederzeit in Ihrem Konto künden."
+      "value": "Wir erinnern Sie, bevor wir abbuchen. Und Sie können jederzeit in Ihrem Konto künden."
     },
     {
       "key": "pledge/submit/MONTHLY_ABO/autoPay/note",
@@ -3600,11 +3600,11 @@
     },
     {
       "key": "merci/lead/package/PROLONG",
-      "value": "Vielen Dank für Ihre Verlängerung! Wir werden alles daran setzen Schritt für Schritt aufmerksamer, klarer, wacher, besser zu werden.<br />"
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
     },
     {
       "key": "pledge/title/PROLONG",
-      "value": "Willkommen zur Verlängerung!"
+      "value": "Gehen wir in die Verlängerung!"
     },
     {
       "key": "pledge/title/member",
@@ -3612,7 +3612,7 @@
     },
     {
       "key": "package/customize/price/payMore",
-      "value": "Wollen Sie mehr zahlen?"
+      "value": "Möchten Sie mehr bezahlen?"
     },
     {
       "key": "package/customize/price/payMore/normal",
@@ -3620,7 +3620,7 @@
     },
     {
       "key": "package/customize/price/payMore/bonus",
-      "value": "{formattedCHF} ohne Geschenk"
+      "value": "Ich kompensiere die zusätzlichen Tage: {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/1.5",
@@ -3648,7 +3648,7 @@
     },
     {
       "key": "memberships/cancel/confirmation",
-      "value": "Sie haben das Abo erfolgreich gekündet."
+      "value": "Sie haben ihr Abo erfolgreich gekündet."
     },
     {
       "key": "memberships/cancel/description",

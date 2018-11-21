@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-21T16:43:34.666Z",
+  "updated": "2018-11-21T17:57:56.538Z",
   "title": "live",
   "data": [
     {
@@ -3644,7 +3644,7 @@
     },
     {
       "key": "memberships/cancel/info",
-      "value": "Durch Ihre Kündigung wird Ihr Abo am Ende der Laufzeit abgestellt."
+      "value": "Ich möchte die Republik aus folgendem Grund nicht mehr unterstützen:"
     },
     {
       "key": "memberships/cancel/confirmation",
@@ -3652,7 +3652,7 @@
     },
     {
       "key": "memberships/cancel/description",
-      "value": "Warum möchten Sie künden?"
+      "value": "Grund"
     },
     {
       "key": "memberships/cancel/accountLink",

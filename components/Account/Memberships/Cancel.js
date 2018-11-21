@@ -103,7 +103,9 @@ class CancelMembership extends Component {
                 </P>
                 }
               </Item>
-              <Interaction.P style={{ marginBottom: '30px' }}>{t('memberships/cancel/info')}</Interaction.P>
+              <Interaction.P style={{ marginBottom: 5 }}>
+                {t('memberships/cancel/info')}
+              </Interaction.P>
               {cancellationCategories.map(({ type, label }) => (
                 <div key={type}>
                   <Radio

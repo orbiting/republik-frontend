@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 
 import withT from '../../lib/withT'
 import { timeFormat } from '../../lib/utils/format'
@@ -8,7 +8,6 @@ import {
   colors,
   Interaction,
   Label,
-  linkRule,
   fontStyles
 } from '@project-r/styleguide'
 
@@ -22,7 +21,6 @@ const styles = {
   itemHighlighted: css({
     backgroundColor: colors.primaryBg
   }),
-  a: merge(linkRule, fontStyles.sansSerifMedium16),
   p: css({
     margin: 0,
     ...fontStyles.sansSerifRegular16
@@ -55,5 +53,4 @@ export const Item = withT(({ t, highlighted, title, createdAt, children, compact
   </div>
 ))
 
-export const A = ({ children, ...props }) => <a {...props} {...styles.a}>{children}</a>
 export const P = ({ children, ...props }) => <p {...props} {...styles.p}>{children}</p>

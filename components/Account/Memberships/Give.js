@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import withT from '../../../lib/withT'
 
 import {
-  RawHtml
+  RawHtml, A
 } from '@project-r/styleguide'
 
 import List, { Item } from '../../List'
 
-import { A, P } from '../Elements'
+import { P } from '../Elements'
 
 class MembershipGiver extends Component {
   constructor (props) {

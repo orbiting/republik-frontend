@@ -7,10 +7,10 @@ import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
 import { Link } from '../../../lib/routes'
-import { Item as AccountItem, P, A } from '../Elements'
+import { Item as AccountItem, P } from '../Elements'
 
 import {
-  InlineSpinner, colors, linkRule, Interaction
+  InlineSpinner, colors, linkRule, Interaction, A
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')

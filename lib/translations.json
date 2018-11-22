@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-22T18:24:06.413Z",
+  "updated": "2018-11-22T20:59:34.460Z",
   "title": "live",
   "data": [
     {
@@ -3676,22 +3676,22 @@
     },
     {
       "key": "pledge/form/statement/PROLONG/title",
-      "value": "{name} hat bereits das Abo verlängert."
+      "value": "{name} hat bereits das Abo verlängert"
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/member",
-      "value": "Verlängern Sie jetzt auch Ihr Abo."
+      "key": "pledge/form/statement/PROLONG/lead/available",
+      "value": "Jetzt sind Sie dran!"
     },
     {
-      "key": "pledge/form/statement/lead/signIn",
+      "key": "pledge/form/statement/PROLONG/lead/signIn",
       "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
     },
     {
-      "key": "pledge/form/statement/lead/notAvailable",
-      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Vermutlich haben Sie bereits verlängert. Alle Informationen finden Sie in Ihrem {accountLink}."
+      "key": "pledge/form/statement/PROLONG/lead/notAvailable",
+      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Entweder haben Sie bereits verlängert oder Sie sind noch nicht Mitglied. Alle Informationen finden Sie in Ihrem {accountLink}."
     },
     {
-      "key": "pledge/form/statement/lead/notAvailable/accountText",
+      "key": "pledge/form/statement/PROLONG/lead/accountText",
       "value": "Konto"
     },
     {
@@ -3704,7 +3704,7 @@
     },
     {
       "key": "pledge/form/statement/share/title",
-      "value": "{name} hat bereits das Abo verlängert."
+      "value": "{name} hat bereits das Abo verlängert"
     },
     {
       "key": "pledge/form/statement/share/description",

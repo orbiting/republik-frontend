@@ -4,6 +4,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
 
+import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -160,16 +161,17 @@ class Pledge extends Component {
     } = this.state
 
     const {
-      loading, error, isMember, t, statement, query
+      loading, error, isMember, t, me, statement, query, packages
     } = this.props
 
-    const statementTitle = statement && t(`pledge/form/statement/${query.package}/title`, statement)
+    const queryPackage = query.package && query.package.toUpperCase()
+    const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
 
     const meta = statementTitle
       ? {
         title: t('pledge/form/statement/share/title', statement),
         description: t('pledge/form/statement/share/description'),
-        image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&pkg=${query.package}`)}`
+        image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&pkg=${queryPackage}`)}`
       }
       : {
         title: t('pledge/meta/title'),
@@ -182,11 +184,9 @@ class Pledge extends Component {
         <Meta data={meta} />
         <Loader loading={loading} error={error} render={() => {
           const {
-            me,
             receiveError,
             crowdfundingName,
-            hasEnded,
-            packages
+            hasEnded
           } = this.props
 
           if (hasEnded && !this.props.pledge) {
@@ -202,29 +202,36 @@ class Pledge extends Component {
 
           const showSignIn = this.state.showSignIn && !me
 
-          const pkg = query.package
+          const pkg = queryPackage
             ? packages.find(
-              pkg => pkg.name === query.package.toUpperCase()
+              pkg => pkg.name === queryPackage
             )
             : null
           const userPrice = !!query.userPrice
 
           return (
             <div>
-              {statementTitle && <div style={{ marginBottom: 20 }}>
+              {statementTitle && <div style={{ marginBottom: 40 }}>
                 <P>
                   <Interaction.Emphasis>
                     {statementTitle}
                   </Interaction.Emphasis><br />
-                  {/* ToDo: handle all cases: sign in, member, no pkg */}
-                  {t(`pledge/form/statement/${query.package}/lead/member`)}
+                  {t.elements(`pledge/form/statement/${queryPackage}/lead/${me
+                    ? pkg ? 'available' : 'notAvailable'
+                    : 'signIn'}`, {
+                    accountLink: <Link key='account' route='account' passHref>
+                      <A>
+                        {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
+                      </A>
+                    </Link>
+                  })}
                 </P>
+                {!me && <div style={{ marginTop: 20 }}><SignIn /></div>}
               </div>}
-
               <H1>
                 {t.first([
-                  query.package && isMember && `pledge/title/${query.package}/member`,
-                  query.package && `pledge/title/${query.package}`,
+                  pkg && isMember && `pledge/title/${pkg.name}/member`,
+                  pkg && `pledge/title/${pkg.name}`,
                   isMember && 'pledge/title/member',
                   'pledge/title'
                 ].filter(Boolean))}
@@ -287,7 +294,7 @@ class Pledge extends Component {
                         {!!showSignIn && (
                           <span>
                             <br /><br />
-                            <SignIn />
+                            <SignIn context='pledge' />
                           </span>
                         )}
                         <br />
@@ -449,8 +456,8 @@ query pledgeForm($crowdfundingName: String!) {
 `
 
 const shareRefQuery = gql`
-query statements($ref: String!) {
-  statements(focus: $ref, first: 1) {
+query statements($id: String!) {
+  statements(focus: $id, first: 1) {
     nodes {
       id
       name
@@ -463,10 +470,10 @@ const PledgeWithQueries = compose(
   graphql(shareRefQuery, {
     options: ({ query }) => ({
       variables: {
-        ref: query.ref
+        id: query.utm_content
       }
     }),
-    skip: props => !props.query.ref,
+    skip: props => !props.query.utm_content,
     props: ({ data }) => {
       return {
         statement: data.statements &&

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-22T17:18:07.154Z",
+  "updated": "2018-11-22T18:24:06.413Z",
   "title": "live",
   "data": [
     {
@@ -3693,6 +3693,22 @@
     {
       "key": "pledge/form/statement/lead/notAvailable/accountText",
       "value": "Konto"
+    },
+    {
+      "key": "pledge/meta/title",
+      "value": "Jetzt Mitglied und Abonnentin werden"
+    },
+    {
+      "key": "pledge/meta/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/form/statement/share/title",
+      "value": "{name} hat bereits das Abo verlängert."
+    },
+    {
+      "key": "pledge/form/statement/share/description",
+      "value": "Verlängern Sie jetzt auch Ihr Abo."
     }
   ]
 }

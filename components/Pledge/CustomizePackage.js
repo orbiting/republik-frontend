@@ -309,15 +309,14 @@ class CustomizePackage extends Component {
     )
     const payMoreSuggestions = [
       userPrice && { value: regularMinPrice, key: 'normal' },
-      !userPrice && price >= minPrice && bonusValue && price < minPrice + bonusValue &&
+      !userPrice && price >= minPrice && bonusValue &&
         { value: minPrice + bonusValue, key: 'bonus' },
-      !userPrice && price >= minPrice && price < minPrice * 1.5 &&
+      !userPrice && price >= minPrice &&
         { value: minPrice * 1.5, key: '1.5' }
     ].filter(Boolean)
     const offerUserPrice = (
       !userPrice &&
       pkg.name === 'PROLONG' &&
-      price <= regularMinPrice &&
       pkg.options.every(option => {
         return !getOptionValue(option, values) || option.userPrice
       })
@@ -328,7 +327,7 @@ class CustomizePackage extends Component {
         /* ToDo: test login-less */
         option.membership.user.id === (me && me.id)
       ))
-    const cancableMembership = ownMembershipOption && ownMembershipOption.membership
+    const offerCancelMembership = ownMembershipOption && ownMembershipOption.membership
 
     const optionGroups = nest()
       .key(d => d.optionGroup
@@ -731,19 +730,19 @@ class CustomizePackage extends Component {
                 <br />
               </Fragment>
             }
+            {offerCancelMembership &&
+              <Fragment>
+                <Link route='cancel' params={{ membershipId: offerCancelMembership.id }} passHref>
+                  <Editorial.A>
+                    {t.first([
+                      `memberships/${offerCancelMembership.type.name}/manage/cancel/link`,
+                      'memberships/manage/cancel/link'
+                    ])}
+                  </Editorial.A>
+                </Link>
+              </Fragment>
+            }
           </SmallP>}
-          {cancableMembership &&
-            <Fragment>
-              <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
-                <Editorial.A>
-                  {t.first([
-                    `memberships/${cancableMembership.type.name}/manage/cancel/link`,
-                    'memberships/manage/cancel/link'
-                  ])}
-                </Editorial.A>
-              </Link>
-            </Fragment>
-          }
         </div>
       </div>
     )

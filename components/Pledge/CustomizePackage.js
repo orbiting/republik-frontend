@@ -13,7 +13,7 @@ import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 import { intersperse } from '../../lib/utils/helpers'
-import { Router } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
@@ -31,7 +31,7 @@ import {
   Editorial
 } from '@project-r/styleguide'
 
-import ManageMembership, { ManageActions } from '../Account/Memberships/Manage'
+import ManageMembership from '../Account/Memberships/Manage'
 import { P as SmallP } from '../Account/Elements'
 
 const dayFormat = timeFormat('%d. %B %Y')
@@ -152,7 +152,7 @@ class CustomizePackage extends Component {
       this.focusRef = ref
     }
   }
-  calculateNextPrice (nextFields, { reset } = {}) {
+  calculateNextPrice (nextFields) {
     const {
       pkg, values, userPrice,
       t
@@ -170,7 +170,7 @@ class CustomizePackage extends Component {
     if (
       !this.state.customPrice || minPrice > price
     ) {
-      price = minPrice !== absolutMinPrice && !reset
+      price = minPrice !== absolutMinPrice
         ? minPrice
         : ''
       this.setState({ customPrice: false })
@@ -322,6 +322,19 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
     )
+    const ownMembershipOption = pkg.options
+      .find(option => (
+        option.membership &&
+        /* ToDo: test login-less */
+        option.membership.user.id === (me && me.id)
+      ))
+    const cancableMembership = ownMembershipOption && ownMembershipOption.membership
+
+    const optionGroups = nest()
+      .key(d => d.optionGroup
+        ? d.optionGroup
+        : '')
+      .entries(configurableOptions)
 
     return (
       <div>
@@ -353,268 +366,257 @@ class CustomizePackage extends Component {
           )}
         </P>
         {
-          nest()
-            .key(d => d.optionGroup
-              ? d.optionGroup
-              : '')
-            .entries(configurableOptions)
-            .map(({ key: group, values: options }) => {
-              const selectedGroupOption = group && options.find(option => {
-                return getOptionValue(option, values)
-              })
-              const baseOption = selectedGroupOption || options[0]
-              const { membership, additionalPeriods } = baseOption
+          optionGroups.map(({ key: group, values: options }) => {
+            const selectedGroupOption = group && options.find(option => {
+              return getOptionValue(option, values)
+            })
+            const baseOption = selectedGroupOption || options[0]
+            const { membership, additionalPeriods } = baseOption
 
-              const Wrapper = group
-                ? ({ children }) => <div style={{ marginBottom: 10, marginTop: 5 }}>{children}</div>
-                : ({ children }) => <div {...styles.grid}>{children}</div>
+            const Wrapper = group
+              ? ({ children }) => <div style={{ marginBottom: 10, marginTop: 5 }}>{children}</div>
+              : ({ children }) => <div {...styles.grid}>{children}</div>
 
-              const checkboxGroup = (
-                group && options.length === 1 &&
-                baseOption.minAmount === 0 &&
-                baseOption.maxAmount === 1
-              )
-              const resetLabel = group && !checkboxGroup && t(`option/${pkg.name}/resetGroup`, {}, null)
-              const reset = resetLabel && <Fragment>
-                <span style={{
-                  display: 'inline-block',
-                  whiteSpace: 'nowrap'
-                }}>
-                  <Radio
-                    value='0'
-                    checked={!selectedGroupOption}
-                    onChange={(event) => {
-                      if (userPrice) {
-                        this.resetUserPrice()
-                      }
-                      onChange(this.calculateNextPrice(
-                        options.reduce((fields, option) => {
-                          return FieldSet.utils.mergeField({
-                            field: getOptionFieldKey(option),
-                            value: 0,
-                            error: undefined,
-                            dirty: false
-                          })(fields)
-                        }, {}),
-                        { reset: true }
-                      ))
-                    }}>
-                    <span style={{
-                      display: 'inline-block',
-                      verticalAlign: 'top',
-                      marginRight: 20,
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {resetLabel}
-                    </span>
-                  </Radio>
-                </span>{' '}
-                {/* ToDo: handle login-less */}
-                {!selectedGroupOption && membership && me && membership.user.id === me.id && <div style={{ marginTop: 10 }}>
-                  <ManageActions membership={membership} />
-                </div>}
-              </Fragment>
-
-              /* ToDo: handle login-less */
-              const isAboGive = membership && membership.user.id !== (me && me.id)
-
-              return (
-                <Fragment key={group}>
-                  {membership && <ManageMembership
-                    title={/* ToDo: handle login-less */
-                      isAboGive ? t(
-                        `memberships/title/${membership.type.name}/give`,
-                        {
-                          name: membership.user.name,
-                          sequenceNumber: membership.sequenceNumber
-                        }
-                      ) : undefined
+            const checkboxGroup = (
+              group && options.length === 1 &&
+              baseOption.minAmount === 0 &&
+              baseOption.maxAmount === 1
+            )
+            const reset = group && optionGroups.length > 1 && !checkboxGroup && <Fragment>
+              <span style={{
+                display: 'inline-block',
+                whiteSpace: 'nowrap'
+              }}>
+                <Radio
+                  value='0'
+                  checked={!selectedGroupOption}
+                  onChange={(event) => {
+                    if (userPrice) {
+                      this.resetUserPrice()
                     }
-                    membership={membership}
-                    actions={false}
-                    compact />}
-                  <Wrapper>
-                    {
-                      options.map((option, i) => {
-                        const fieldKey = getOptionFieldKey(option)
-                        const value = getOptionValue(option, values)
-                        const label = t.first([
-                          ...(isAboGive ? [
-                            `option/${pkg.name}/${option.reward.name}/label/give`,
-                            `option/${option.reward.name}/label/give`
-                          ] : []),
-                          `option/${pkg.name}/${option.reward.name}/label/${value}`,
-                          `option/${pkg.name}/${option.reward.name}/label/other`,
-                          `option/${pkg.name}/${option.reward.name}/label`,
-                          `option/${option.reward.name}/label/${value}`,
-                          `option/${option.reward.name}/label/other`,
-                          `option/${option.reward.name}/label`
-                        ], {
-                          count: value
-                        })
+                    onChange(this.calculateNextPrice(
+                      options.reduce((fields, option) => {
+                        return FieldSet.utils.mergeField({
+                          field: getOptionFieldKey(option),
+                          value: 0,
+                          error: undefined,
+                          dirty: false
+                        })(fields)
+                      }, {})
+                    ))
+                  }}>
+                  <span style={{
+                    display: 'inline-block',
+                    verticalAlign: 'top',
+                    marginRight: 20,
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {t(`option/${pkg.name}/resetGroup`, {}, null)}
+                  </span>
+                </Radio>
+              </span>
+            </Fragment>
 
-                        const onFieldChange = (_, value, shouldValidate) => {
-                          let error
-                          const parsedValue = String(value).length
-                            ? parseInt(value, 10) || 0
-                            : ''
-                          if (parsedValue > option.maxAmount) {
-                            error = t('package/customize/option/error/max', {
-                              label,
-                              maxAmount: option.maxAmount
-                            })
-                          }
-                          if (parsedValue < option.minAmount) {
-                            error = t('package/customize/option/error/min', {
-                              label,
-                              minAmount: option.minAmount
-                            })
-                          }
+            /* ToDo: test login-less */
+            const isAboGive = membership && membership.user.id !== (me && me.id)
 
-                          let fields = FieldSet.utils.fieldsState({
-                            field: fieldKey,
-                            value: parsedValue,
-                            error,
-                            dirty: shouldValidate
+            return (
+              <Fragment key={group}>
+                {membership && <ManageMembership
+                  title={/* ToDo: test login-less */
+                    isAboGive ? t(
+                      `memberships/title/${membership.type.name}/give`,
+                      {
+                        name: membership.user.name,
+                        sequenceNumber: membership.sequenceNumber
+                      }
+                    ) : undefined
+                  }
+                  membership={membership}
+                  actions={false}
+                  compact />}
+                <Wrapper>
+                  {
+                    options.map((option, i) => {
+                      const fieldKey = getOptionFieldKey(option)
+                      const value = getOptionValue(option, values)
+                      const label = t.first([
+                        ...(isAboGive ? [
+                          `option/${pkg.name}/${option.reward.name}/label/give`,
+                          `option/${option.reward.name}/label/give`
+                        ] : []),
+                        `option/${pkg.name}/${option.reward.name}/label/${value}`,
+                        `option/${pkg.name}/${option.reward.name}/label/other`,
+                        `option/${pkg.name}/${option.reward.name}/label`,
+                        `option/${option.reward.name}/label/${value}`,
+                        `option/${option.reward.name}/label/other`,
+                        `option/${option.reward.name}/label`
+                      ], {
+                        count: value
+                      })
+
+                      const onFieldChange = (_, value, shouldValidate) => {
+                        let error
+                        const parsedValue = String(value).length
+                          ? parseInt(value, 10) || 0
+                          : ''
+                        if (parsedValue > option.maxAmount) {
+                          error = t('package/customize/option/error/max', {
+                            label,
+                            maxAmount: option.maxAmount
                           })
-                          if (group) {
-                            // unselect all other options from group
-                            options.filter(other => other !== option).forEach(other => {
-                              fields = FieldSet.utils.mergeField({
-                                field: getOptionFieldKey(other),
-                                value: 0,
-                                error: undefined,
-                                dirty: false
-                              })(fields)
-                            })
-                          }
-                          if (parsedValue && userPrice && !option.userPrice) {
-                            this.resetUserPrice()
-                          }
-                          onChange(this.calculateNextPrice(fields))
+                        }
+                        if (parsedValue < option.minAmount) {
+                          error = t('package/customize/option/error/min', {
+                            label,
+                            minAmount: option.minAmount
+                          })
                         }
 
-                        if (group && option.minAmount === 0 && option.maxAmount === 1) {
-                          const children = (
-                            <span style={{
-                              display: 'inline-block',
-                              verticalAlign: 'top',
-                              marginRight: 20
+                        let fields = FieldSet.utils.fieldsState({
+                          field: fieldKey,
+                          value: parsedValue,
+                          error,
+                          dirty: shouldValidate
+                        })
+                        if (group) {
+                          // unselect all other options from group
+                          options.filter(other => other !== option).forEach(other => {
+                            fields = FieldSet.utils.mergeField({
+                              field: getOptionFieldKey(other),
+                              value: 0,
+                              error: undefined,
+                              dirty: false
+                            })(fields)
+                          })
+                        }
+                        if (parsedValue && userPrice && !option.userPrice) {
+                          this.resetUserPrice()
+                        }
+                        onChange(this.calculateNextPrice(fields))
+                      }
+
+                      if (group && option.minAmount === 0 && option.maxAmount === 1) {
+                        const children = (
+                          <span style={{
+                            display: 'inline-block',
+                            verticalAlign: 'top',
+                            marginRight: 20
+                          }}>
+                            <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
+                            {t.first([
+                              isAboGive && `package/${pkg.name}/price/give`,
+                              `package/${pkg.name}/price`,
+                              'package/price'
+                            ].filter(Boolean), {
+                              formattedCHF: chfFormat(option.price / 100)
+                            })}
+                          </span>
+                        )
+                        if (checkboxGroup) {
+                          return <Checkbox
+                            key={option.id}
+                            checked={!!value}
+                            onChange={(_, checked) => {
+                              onFieldChange(undefined, +checked, dirty[fieldKey])
                             }}>
-                              <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
-                              {t.first([
-                                isAboGive && `package/${pkg.name}/price/give`,
-                                `package/${pkg.name}/price`,
-                                'package/price'
-                              ].filter(Boolean), {
-                                formattedCHF: chfFormat(option.price / 100)
-                              })}
-                            </span>
-                          )
-                          if (checkboxGroup) {
-                            return <Checkbox
-                              key={option.id}
+                            {children}
+                          </Checkbox>
+                        }
+                        return <Fragment key={option.id}>
+                          <span style={{
+                            display: 'inline-block',
+                            whiteSpace: 'nowrap',
+                            marginBottom: 10
+                          }}>
+                            <Radio
+                              value='1'
                               checked={!!value}
-                              onChange={(_, checked) => {
-                                onFieldChange(undefined, +checked, dirty[fieldKey])
+                              onChange={(event) => {
+                                onFieldChange(undefined, 1, dirty[fieldKey])
                               }}>
                               {children}
-                            </Checkbox>
-                          }
-                          return <Fragment key={option.id}>
-                            <span style={{
-                              display: 'inline-block',
-                              whiteSpace: 'nowrap',
-                              marginBottom: 10
-                            }}>
-                              <Radio
-                                value='1'
-                                checked={!!value}
-                                onChange={(event) => {
-                                  onFieldChange(undefined, 1, dirty[fieldKey])
-                                }}>
-                                {children}
-                              </Radio>
-                            </span>{' '}
-                          </Fragment>
-                        }
+                            </Radio>
+                          </span>{' '}
+                        </Fragment>
+                      }
 
-                        return (
-                          <div key={option.id} {...styles.span} style={{
-                            width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
-                              ? '100%' : '50%'
-                          }}>
-                            <div style={{ marginBottom: 20 }}>
-                              <Field
-                                ref={i === 0 && !group ? this.focusRefSetter : undefined}
-                                label={label}
-                                error={dirty[fieldKey] && errors[fieldKey]}
-                                value={value}
-                                onInc={value < option.maxAmount && (() => {
-                                  onFieldChange(undefined, value + 1, dirty[fieldKey])
-                                })}
-                                onDec={value > option.minAmount && (() => {
-                                  onFieldChange(undefined, value - 1, dirty[fieldKey])
-                                })}
-                                onChange={onFieldChange}
-                              />
-                            </div>
+                      return (
+                        <div key={option.id} {...styles.span} style={{
+                          width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
+                            ? '100%' : '50%'
+                        }}>
+                          <div style={{ marginBottom: 20 }}>
+                            <Field
+                              ref={i === 0 && !group ? this.focusRefSetter : undefined}
+                              label={label}
+                              error={dirty[fieldKey] && errors[fieldKey]}
+                              value={value}
+                              onInc={value < option.maxAmount && (() => {
+                                onFieldChange(undefined, value + 1, dirty[fieldKey])
+                              })}
+                              onDec={value > option.minAmount && (() => {
+                                onFieldChange(undefined, value - 1, dirty[fieldKey])
+                              })}
+                              onChange={onFieldChange}
+                            />
                           </div>
-                        )
-                      })
-                    }
-                    {reset}
-                  </Wrapper>
-                  {additionalPeriods && !!additionalPeriods.length && !!selectedGroupOption && <div style={{ marginBottom: 20 }}>
-                    {additionalPeriods
-                      .filter((period, i) => period.kind !== 'REGULAR' || i > 0)
-                      .map(period => {
-                        const beginDate = new Date(period.beginDate)
-                        const endDate = new Date(period.endDate)
-                        const formattedEndDate = dayFormat(endDate)
-                        const days = timeDay.count(beginDate, endDate)
+                        </div>
+                      )
+                    })
+                  }
+                  {reset}
+                </Wrapper>
+                {additionalPeriods && !!additionalPeriods.length && !!selectedGroupOption && <div style={{ marginBottom: 20 }}>
+                  {additionalPeriods
+                    .filter((period, i) => period.kind !== 'REGULAR' || i > 0)
+                    .map(period => {
+                      const beginDate = new Date(period.beginDate)
+                      const endDate = new Date(period.endDate)
+                      const formattedEndDate = dayFormat(endDate)
+                      const days = timeDay.count(beginDate, endDate)
 
-                        const title = t.first([
-                          `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
-                          `option/${pkg.name}/additionalPeriods/title`
-                        ], {
-                          formattedEndDate,
-                          days
-                        })
-                        const explanation = t.first([
-                          `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
-                          `option/${pkg.name}/additionalPeriods/explanation`
-                        ], {
-                          formattedEndDate,
-                          days
-                        }, '')
-
-                        return (
-                          <SmallP key={formattedEndDate}>
-                            {title}
-                            {explanation && <Fragment>
-                              <br /><Label>{explanation}</Label>
-                            </Fragment>}
-                          </SmallP>
-                        )
+                      const title = t.first([
+                        `option/${pkg.name}/additionalPeriods/${period.kind}/title`,
+                        `option/${pkg.name}/additionalPeriods/title`
+                      ], {
+                        formattedEndDate,
+                        days
                       })
-                    }
-                    <SmallP>
-                      <Interaction.Emphasis>
-                        {t(`option/${pkg.name}/additionalPeriods/endDate`, {
-                          formattedEndDate: dayFormat(new Date(additionalPeriods[additionalPeriods.length - 1].endDate))
-                        })}
-                      </Interaction.Emphasis>
-                    </SmallP>
-                    {isAboGive && <SmallP>
-                      {t(`option/${pkg.name}/additionalPeriods/give`, {
-                        name: membership.user.name
+                      const explanation = t.first([
+                        `option/${pkg.name}/additionalPeriods/${period.kind}/explanation`,
+                        `option/${pkg.name}/additionalPeriods/explanation`
+                      ], {
+                        formattedEndDate,
+                        days
+                      }, '')
+
+                      return (
+                        <SmallP key={formattedEndDate}>
+                          {title}
+                          {explanation && <Fragment>
+                            <br /><Label>{explanation}</Label>
+                          </Fragment>}
+                        </SmallP>
+                      )
+                    })
+                  }
+                  <SmallP>
+                    <Interaction.Emphasis>
+                      {t(`option/${pkg.name}/additionalPeriods/endDate`, {
+                        formattedEndDate: dayFormat(new Date(additionalPeriods[additionalPeriods.length - 1].endDate))
                       })}
-                    </SmallP>}
-                  </div>}
-                </Fragment>
-              )
-            })
+                    </Interaction.Emphasis>
+                  </SmallP>
+                  {isAboGive && <SmallP>
+                    {t(`option/${pkg.name}/additionalPeriods/give`, {
+                      name: membership.user.name
+                    })}
+                  </SmallP>}
+                </div>}
+              </Fragment>
+            )
+          })
         }
         {!!userPrice && (<div>
           <P>
@@ -688,7 +690,7 @@ class CustomizePackage extends Component {
               )}<br />
             </Fragment>}
             {offerUserPrice &&
-              <Editorial.A
+              <Fragment><Editorial.A
                 href={format({
                   pathname: '/angebote',
                   query: { ...router.query, userPrice: 1 }
@@ -724,7 +726,17 @@ class CustomizePackage extends Component {
                   })
                 }}>
                 {t('package/customize/price/payLess')}
-              </Editorial.A>
+              </Editorial.A><br /></Fragment>
+            }
+            {cancableMembership &&
+              <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
+                <Editorial.A>
+                  {t.first([
+                    `memberships/${cancableMembership.type.name}/manage/cancel/link`,
+                    'memberships/manage/cancel/link'
+                  ])}
+                </Editorial.A>
+              </Link>
             }
           </SmallP>}
         </div>

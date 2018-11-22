@@ -116,7 +116,7 @@ mutation reactivateMembership($id: ID!) {
 }
 `
 
-export const ManageActions = compose(
+const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
     props: ({ mutate }) => ({

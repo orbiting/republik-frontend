@@ -689,8 +689,21 @@ class CustomizePackage extends Component {
                 () => ', '
               )}<br />
             </Fragment>}
+            {cancableMembership &&
+              <Fragment>
+                <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
+                  <Editorial.A>
+                    {t.first([
+                      `memberships/${cancableMembership.type.name}/manage/cancel/link`,
+                      'memberships/manage/cancel/link'
+                    ])}
+                  </Editorial.A>
+                </Link>
+                <br />
+              </Fragment>
+            }
             {offerUserPrice &&
-              <Fragment><Editorial.A
+              <Editorial.A
                 href={format({
                   pathname: '/angebote',
                   query: { ...router.query, userPrice: 1 }
@@ -726,17 +739,7 @@ class CustomizePackage extends Component {
                   })
                 }}>
                 {t('package/customize/price/payLess')}
-              </Editorial.A><br /></Fragment>
-            }
-            {cancableMembership &&
-              <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
-                <Editorial.A>
-                  {t.first([
-                    `memberships/${cancableMembership.type.name}/manage/cancel/link`,
-                    'memberships/manage/cancel/link'
-                  ])}
-                </Editorial.A>
-              </Link>
+              </Editorial.A>
             }
           </SmallP>}
         </div>

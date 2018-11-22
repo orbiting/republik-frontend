@@ -228,6 +228,12 @@ class CustomizePackage extends Component {
       dirty: undefined
     }))
   }
+  resetUserPrice () {
+    const { router } = this.props
+    const params = { ...router.query }
+    delete params.userPrice
+    Router.replaceRoute('pledge', params, { shallow: true })
+  }
   componentWillUnmount () {
     this.resetPrice()
   }
@@ -378,6 +384,9 @@ class CustomizePackage extends Component {
                     value='0'
                     checked={!selectedGroupOption}
                     onChange={(event) => {
+                      if (userPrice) {
+                        this.resetUserPrice()
+                      }
                       onChange(this.calculateNextPrice(
                         options.reduce((fields, option) => {
                           return FieldSet.utils.mergeField({
@@ -480,9 +489,7 @@ class CustomizePackage extends Component {
                             })
                           }
                           if (parsedValue && userPrice && !option.userPrice) {
-                            const params = { ...router.query }
-                            delete params.userPrice
-                            Router.replaceRoute('pledge', params, { shallow: true })
+                            this.resetUserPrice()
                           }
                           onChange(this.calculateNextPrice(fields))
                         }
@@ -669,9 +676,7 @@ class CustomizePackage extends Component {
                     e.preventDefault()
                     onPriceChange(undefined, value / 100, true)
                     if (userPrice) {
-                      const params = { ...router.query }
-                      delete params.userPrice
-                      Router.replaceRoute('pledge', params, { shallow: true })
+                      this.resetUserPrice()
                     }
                   }}>
                     {t.elements(`package/customize/price/payMore/${key}`, {
@@ -694,6 +699,20 @@ class CustomizePackage extends Component {
                   }
                   e.preventDefault()
                   this.resetPrice()
+
+                  const selectedUserPriceOption = pkg.options.find(option => {
+                    return getOptionValue(option, values) && option.userPrice
+                  })
+                  if (!selectedUserPriceOption) {
+                    const firstUserPriceOption = pkg.options.find(option => {
+                      return option.userPrice
+                    })
+                    onChange(FieldSet.utils.fieldsState({
+                      field: getOptionFieldKey(firstUserPriceOption),
+                      value: firstUserPriceOption.maxAmount
+                    }))
+                  }
+
                   Router.replaceRoute(
                     'pledge',
                     { ...router.query, userPrice: 1 },

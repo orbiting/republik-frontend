@@ -672,21 +672,32 @@ class CustomizePackage extends Component {
               </Interaction.Emphasis>
               {' '}
               {intersperse(
-                payMoreSuggestions.map(({ value, key }) =>
-                  <Editorial.A key={key} href='#' onClick={(e) => {
+                payMoreSuggestions.map(({ value, key }) => {
+                  const label = t.elements(`package/customize/price/payMore/${key}`, {
+                    formattedCHF: chfFormat(value / 100)
+                  })
+                  if (price >= value) {
+                    return label
+                  }
+                  return <Editorial.A key={key} href='#' onClick={(e) => {
                     e.preventDefault()
                     onPriceChange(undefined, value / 100, true)
                     if (userPrice) {
                       this.resetUserPrice()
                     }
                   }}>
-                    {t.elements(`package/customize/price/payMore/${key}`, {
-                      formattedCHF: chfFormat(value / 100)
-                    })}
+                    {label}
                   </Editorial.A>
-                ),
+                }),
                 () => ', '
-              )}<br />
+              )}
+              {price >= payMoreSuggestions[payMoreSuggestions.length - 1].value && <Fragment>
+                {'. '}
+                <Interaction.Emphasis>
+                  {t('package/customize/price/payMore/thx')}
+                </Interaction.Emphasis>
+              </Fragment>}
+              <br />
             </Fragment>}
             {offerUserPrice &&
               <Fragment>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-22T16:41:36.253Z",
+  "updated": "2018-11-22T16:52:51.557Z",
   "title": "live",
   "data": [
     {
@@ -3625,6 +3625,10 @@
     {
       "key": "package/customize/price/payMore/1.5",
       "value": "Grosszügige {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx",
+      "value": "Danke!"
     },
     {
       "key": "package/customize/price/payLess",

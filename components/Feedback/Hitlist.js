@@ -1,11 +1,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
+import { compose } from 'react-apollo'
+
 import withT from '../../lib/withT'
 
-import NewPage from 'react-icons/lib/md/open-in-new'
+import ArticleItem from './ArticleItem'
+import { withActiveDiscussions } from './enhancers'
+
+import { Router } from '../../lib/routes'
 
 import {
+  Loader,
   colors,
   fontStyles,
   mediaQueries
@@ -42,37 +48,24 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }
-  }),
-  label: css({
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  }),
-  icon: css({
-    display: 'inline-block',
-    marginLeft: 10,
-    marginTop: '-2px',
-    [mediaQueries.mUp]: {
-
-    }
   })
 }
 
-const RowItem = ({ onClick, label, selected, newPage }) => (
+const RowItem = ({ onClick, label, selected, path }) => (
   <button
     {...styles.button}
     style={{ color: selected ? colors.primary : undefined }}
     onClick={e => {
       e.preventDefault()
       e.stopPropagation()
-      onClick()
+      if (path) {
+        Router.pushRoute(path)
+      } else {
+        onClick()
+      }
     }}
   >
-    <span {...styles.label}>{label}</span>
-    {newPage && (
-      <div {...styles.icon} title={'Zur Debattenseite'}>
-        <NewPage size={24} fill={colors.disabled} />
-      </div>)}
+    <ArticleItem title={label} newPage={!!path} />
   </button>
 )
 
@@ -109,22 +102,40 @@ class Hitlist extends Component {
   }
 
   render () {
-    const { items, value, onChange } = this.props
+    const { discussionId, ignoreDiscussionId, onChange, data } = this.props
+    console.log(data)
+
+    const activeDiscussions = data &&
+      data.activeDiscussions &&
+      data.activeDiscussions.filter(
+        activeDiscussion => activeDiscussion.discussion.id !== ignoreDiscussionId
+      ).slice(0, 5)
 
     return (
-      <div>
-        {items.slice(0, 5).map(item => {
-          const selected = value && value.id === item.value.id
+
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
           return (
-            <RowItem
-              key={item.value.id}
-              label={item.text}
-              selected={selected}
-              onClick={() => { onChange(selected ? null : item.value) }}
-              newPage={item.value && item.value.discussion && item.value.discussion.type !== 'auto'} />
+            <div>
+              {activeDiscussions && activeDiscussions.map(activeDiscussion => {
+                const discussion = activeDiscussion.discussion
+                const selected = discussionId && discussionId === discussion.id
+                const path = discussion.document && discussion.document.meta.template === 'discussion' && discussion.path
+                return (
+                  <RowItem
+                    key={discussion.id}
+                    label={discussion.title}
+                    selected={selected}
+                    onClick={() => { onChange(selected ? null : discussion.id) }}
+                    path={path} />
+                )
+              })}
+            </div>
           )
-        })}
-      </div>
+        }}
+      />
     )
   }
 }
@@ -138,4 +149,7 @@ Hitlist.propTypes = {
   onReset: PropTypes.func
 }
 
-export default withT(Hitlist)
+export default compose(
+  withT,
+  withActiveDiscussions
+)(Hitlist)

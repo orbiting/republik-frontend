@@ -266,7 +266,7 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
       disableTopLevelComments
     }
     userWaitUntil
-    documentPath
+    path
     collapsable
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount

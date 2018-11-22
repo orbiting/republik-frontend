@@ -22,6 +22,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
+import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import {
   colors,
@@ -114,12 +115,14 @@ const getDocument = gql`
         twitterDescription
         twitterImage
         twitterTitle
-        discussionId
-        discussion {
-          meta {
-            path
-            discussionId
-          }
+        ownDiscussion {
+          id
+          closed
+        }
+        linkedDiscussion {
+          id
+          path
+          closed
         }
         color
         format {
@@ -422,6 +425,7 @@ class ArticlePage extends Component {
         audioCloseHandler={this.toggleAudio}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
+          console.log(meta)
           if (!article) {
             return <StatusError
               statusCode={404}
@@ -433,6 +437,8 @@ class ArticlePage extends Component {
           const payNoteVariation = series
             ? 'series'
             : this.props.payNoteVariation
+
+          const ownDiscussionId = meta.ownDiscussion && meta.ownDiscussion.id
 
           return (
             <Fragment>
@@ -458,9 +464,14 @@ class ArticlePage extends Component {
                   variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
-              {meta.discussionId && <Center>
+              {meta.template === 'article' && ownDiscussionId && <Center>
+                <AutoDiscussionTeaser
+                  discussionId={ownDiscussionId}
+                />
+              </Center>}
+              {meta.template === 'discussion' && ownDiscussionId && <Center>
                 <Discussion
-                  discussionId={meta.discussionId}
+                  discussionId={ownDiscussionId}
                   focusId={router.query.focus}
                   mute={!!router.query.mute}
                   meta={meta} />

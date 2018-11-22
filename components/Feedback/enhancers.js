@@ -1,6 +1,28 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
+const getActiveDiscussions = gql`
+query getActiveDiscussions($lastDays: Int!) {
+  activeDiscussions(lastDays: $lastDays) {
+    beginDate
+    endDate
+    count
+    discussion {
+      id
+      title
+      path
+      document {
+        id
+        meta {
+          title
+          template
+        }
+      }
+    }
+  }
+}
+`
+
 const getSearchAggregations = gql`  
 query getSearchAggregations( 
     $search: String, 
@@ -27,111 +49,63 @@ query getSearchAggregations(
 }  
 `
 
-const getSearchResults = gql`
-query getSearchResults(
-    $search: String,
-    $after: String,
-    $sort: SearchSortInput,
-    $filters: [SearchGenericFilterInput!],
-    $trackingId: ID) {
-  search(
-      first: 100,
-      after: $after,
-      search: $search,
-      sort: $sort,
-      filters: $filters,
-      trackingId: $trackingId) {
-    totalCount
-    trackingId
-    aggregations {
-      key
-      count
-      label
-      buckets {
-        value
-        count
-        label
+const getComments = gql`
+query getComments($after: String) {
+  comments(
+    first: 10,
+    after: $after,
+    orderBy: DATE,
+    orderDirection: DESC) {
+      id
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
       }
-    }
-    pageInfo {
-      hasNextPage
-      endCursor
-      hasPreviousPage
-      startCursor
-    }
-    nodes {
-      entity {
-        __typename
-        ... on Document {
-          meta {
-            title
-            color
-            path
-            kind
-            template
-            description
-            credits
-            publishDate
-            format {
-              meta {
-                path
-                title
-                color
-                kind
-              }
-            }
-          }
+      nodes {
+        id
+        text
+        content
+        published
+        adminUnpublished
+        downVotes
+        upVotes
+        userVote
+        userCanEdit
+        preview(length:240) {
+          string
+          more
         }
-        ... on Comment {
+        displayAuthor {
           id
-          content
-          text
-          preview(length:240) {
-            string
-            more
-          }
-          createdAt
-          displayAuthor {
-            id
-            name
-            username
-            profilePicture
-            credential {
-              description
-              verified
-            }
-          }
-          published
-          updatedAt
-          discussion {
-            id
-            title
-            documentPath
-          }
-        }
-        ... on User {
-          id
+          name
           username
-          firstName
-          lastName
-          credentials {
-            verified
+          credential {
             description
-            isListed
+            verified
           }
-          portrait
-          hasPublicProfile
+          profilePicture
+        }
+        updatedAt
+        createdAt
+        parentIds
+        discussion {
+          id
+          title
+          path
         }
       }
-      highlights {
-        path
-        fragments
-      }
-      score
     }
-  }
 }
 `
+
+export const withActiveDiscussions = graphql(getActiveDiscussions, {
+  options: props => ({
+    variables: {
+      lastDays: props.lastDays || 7
+    }
+  })
+})
 
 export const withAggregations = graphql(getSearchAggregations, {
   skip: props => props.searchQuery === props.filterQuery,
@@ -147,13 +121,9 @@ export const withAggregations = graphql(getSearchAggregations, {
   })
 })
 
-export const withResults = graphql(getSearchResults, {
+export const withComments = graphql(getComments, {
   options: props => ({
     variables: {
-      search: props.searchQuery,
-      sort: props.sort,
-      filters: props.filters,
-      trackingId: props.trackingId
     }
   }),
   props: ({ data, ownProps }) => ({
@@ -161,23 +131,19 @@ export const withResults = graphql(getSearchResults, {
     fetchMore: ({ after }) =>
       data.fetchMore({
         variables: {
-          after,
-          search: ownProps.searchQuery,
-          sort: ownProps.sort,
-          filters: ownProps.filters,
-          trackingId: ownProps.trackingId
+          after
         },
         updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
           const nodes = [
-            ...previousResult.search.nodes,
-            ...fetchMoreResult.search.nodes
+            ...previousResult.comments.nodes,
+            ...fetchMoreResult.comments.nodes
           ]
           return {
             ...previousResult,
-            totalCount: fetchMoreResult.search.pageInfo.hasNextPage
-              ? fetchMoreResult.search.totalCount
+            totalCount: fetchMoreResult.comments.pageInfo.hasNextPage
+              ? fetchMoreResult.comments.totalCount
               : nodes.length,
-            search: {
+            comments: {
               ...previousResult.search,
               ...fetchMoreResult.search,
               nodes

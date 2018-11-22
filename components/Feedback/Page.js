@@ -13,6 +13,7 @@ import withT from '../../lib/withT'
 
 import Hitlist from './Hitlist'
 import Input from './Input'
+import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 import Link from '../Link/Href'
 
@@ -71,6 +72,7 @@ class Search extends Component {
     super(props, ...args)
 
     this.state = {
+      articleDiscussionId: undefined,
       loading: false,
       isMobile: true,
       trackingId: undefined,
@@ -90,12 +92,12 @@ class Search extends Component {
       })
     }
 
-    this.onHitlistChange = (value) => {
-      if (value === this.state.article) {
+    this.onHitlistChange = (id) => {
+      if (id === this.state.articleDiscussionId) {
         return
       }
       this.setState({
-        article: value,
+        articleDiscussionId: id,
         inputFilter: '',
         inputValue: null
       })
@@ -126,11 +128,36 @@ class Search extends Component {
         this.setState({ isMobile })
       }
     }
+
+    this.selectArticleTab = () => {
+      this.setState({ selectedView: 'article' })
+    }
+
+    this.selectGeneralTab = () => {
+      this.setState({
+        selectedView: 'general',
+        discussionId: GENERAL_DISCUSSION_ID
+      })
+    }
   }
 
   componentDidMount () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    const { query } = this.props
+    if (query && query.id) {
+      const isGeneral = query.id === GENERAL_DISCUSSION_ID
+      if (isGeneral) {
+        this.setState({
+          selectedView: 'general'
+        })
+      } else {
+        this.setState({
+          articleDiscussionId: query.id,
+          selectedView: 'article'
+        })
+      }
+    }
   }
 
   componentWillUnmount () {
@@ -140,6 +167,7 @@ class Search extends Component {
   render () {
     const { t } = this.props
     const {
+      articleDiscussionId,
       selectedView,
       article,
       inputValue,
@@ -226,9 +254,13 @@ class Search extends Component {
       value: d
     }))
 
-    const selectedDiscussionId = selectedView === 'general'
-      ? GENERAL_DISCUSSION_ID
-      : selectedView === 'article' && article && article.discussion && article.discussion.type === 'auto' && article.discussion.id
+    const selectedDiscussionId =
+      selectedView === 'general'
+        ? GENERAL_DISCUSSION_ID
+        : selectedView === 'article'
+          ? (articleDiscussionId ||
+            (article && article.discussion && article.discussion.type === 'auto' && article.discussion.id))
+          : undefined
 
     const linkedDiscussion = selectedView === 'article' && article && article.discussion && article.discussion.type !== 'auto' && article.discussion
 
@@ -251,12 +283,12 @@ class Search extends Component {
           <div {...styles.tab}>
             <Button
               dimmed={selectedView && selectedView !== 'article'}
-              onClick={() => { this.setState({ selectedView: 'article' }) }}>
+              onClick={this.selectArticleTab}>
             Artikel
             </Button>
             <Button
               dimmed={selectedView && selectedView !== 'general'}
-              onClick={() => { this.setState({ selectedView: 'general' }) }}>
+              onClick={this.selectGeneralTab}>
             Allgemein
             </Button>
           </div>
@@ -265,12 +297,13 @@ class Search extends Component {
               <div {...styles.hitlistHeadline}>
                 <Interaction.H3>Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?</Interaction.H3>
               </div>
-              <Label style={{ display: 'block', marginBottom: 10 }}>Gerade aktive Diskussion zu Artikeln</Label>
+              <Label style={{ display: 'block', marginBottom: 10 }}>Gerade aktive Diskussionen</Label>
               <Hitlist
-                items={items}
+                discussionId={articleDiscussionId}
                 value={article}
                 onChange={this.onHitlistChange}
                 onReset={this.onReset}
+                ignoreDiscussionId={GENERAL_DISCUSSION_ID}
               />
               <Input
                 items={items}
@@ -290,7 +323,7 @@ class Search extends Component {
               </div>}
               {article && linkedDiscussion && <Fragment>
                 <div {...styles.selectedHeadline}>
-                  <Interaction.H3>
+                  <Interaction.H3 {...styles.selectedHeadline}>
                     {t.elements('feedback/linkedArticle/selected/headline', {
                       link: ArticleLink
                     })}
@@ -304,6 +337,16 @@ class Search extends Component {
           )}
           {selectedDiscussionId && (
             <Discussion discussionId={selectedDiscussionId} />
+          )}
+          {!selectedDiscussionId && (
+            <Fragment>
+              <div {...styles.selectedHeadline}>
+                <Interaction.H3>
+              Neueste Beiträge
+                </Interaction.H3>
+              </div>
+              <LatestComments />
+            </Fragment>
           )}
         </Center>
       </Frame>

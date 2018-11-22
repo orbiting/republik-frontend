@@ -689,59 +689,61 @@ class CustomizePackage extends Component {
                 () => ', '
               )}<br />
             </Fragment>}
-            {cancableMembership &&
+            {offerUserPrice &&
               <Fragment>
-                <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
-                  <Editorial.A>
-                    {t.first([
-                      `memberships/${cancableMembership.type.name}/manage/cancel/link`,
-                      'memberships/manage/cancel/link'
-                    ])}
-                  </Editorial.A>
-                </Link>
+                <Editorial.A
+                  href={format({
+                    pathname: '/angebote',
+                    query: { ...router.query, userPrice: 1 }
+                  })}
+                  onClick={(e) => {
+                    if (shouldIgnoreClick(e)) {
+                      return
+                    }
+                    e.preventDefault()
+                    this.resetPrice()
+
+                    const selectedUserPriceOption = pkg.options.find(option => {
+                      return getOptionValue(option, values) && option.userPrice
+                    })
+                    if (!selectedUserPriceOption) {
+                      const firstUserPriceOption = pkg.options.find(option => {
+                        return option.userPrice
+                      })
+                      onChange(FieldSet.utils.fieldsState({
+                        field: getOptionFieldKey(firstUserPriceOption),
+                        value: firstUserPriceOption.maxAmount
+                      }))
+                    }
+
+                    Router.replaceRoute(
+                      'pledge',
+                      { ...router.query, userPrice: 1 },
+                      { shallow: true }
+                    ).then(() => {
+                      if (this.focusRef && this.focusRef.input) {
+                        this.focusRef.input.focus()
+                      }
+                    })
+                  }}>
+                  {t('package/customize/price/payLess')}
+                </Editorial.A>
                 <br />
               </Fragment>
             }
-            {offerUserPrice &&
-              <Editorial.A
-                href={format({
-                  pathname: '/angebote',
-                  query: { ...router.query, userPrice: 1 }
-                })}
-                onClick={(e) => {
-                  if (shouldIgnoreClick(e)) {
-                    return
-                  }
-                  e.preventDefault()
-                  this.resetPrice()
-
-                  const selectedUserPriceOption = pkg.options.find(option => {
-                    return getOptionValue(option, values) && option.userPrice
-                  })
-                  if (!selectedUserPriceOption) {
-                    const firstUserPriceOption = pkg.options.find(option => {
-                      return option.userPrice
-                    })
-                    onChange(FieldSet.utils.fieldsState({
-                      field: getOptionFieldKey(firstUserPriceOption),
-                      value: firstUserPriceOption.maxAmount
-                    }))
-                  }
-
-                  Router.replaceRoute(
-                    'pledge',
-                    { ...router.query, userPrice: 1 },
-                    { shallow: true }
-                  ).then(() => {
-                    if (this.focusRef && this.focusRef.input) {
-                      this.focusRef.input.focus()
-                    }
-                  })
-                }}>
-                {t('package/customize/price/payLess')}
-              </Editorial.A>
-            }
           </SmallP>}
+          {cancableMembership &&
+            <Fragment>
+              <Link route='cancel' params={{ membershipId: cancableMembership.id }} passHref>
+                <Editorial.A>
+                  {t.first([
+                    `memberships/${cancableMembership.type.name}/manage/cancel/link`,
+                    'memberships/manage/cancel/link'
+                  ])}
+                </Editorial.A>
+              </Link>
+            </Fragment>
+          }
         </div>
       </div>
     )

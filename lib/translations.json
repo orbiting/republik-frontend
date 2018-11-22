@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-21T17:57:56.538Z",
+  "updated": "2018-11-22T16:41:36.253Z",
   "title": "live",
   "data": [
     {
@@ -2964,7 +2964,7 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
-      "value": "Abonnement kündigen"
+      "value": "Abonnement künden"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
@@ -3496,7 +3496,7 @@
     },
     {
       "key": "package/PROLONG/description",
-      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserinnen. Als Bürger. Als Menschen, die bereit sind, in unabhängigen Journalismus zu investieren."
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Mensch, der bereit ist, in unabhängigen Journalismus zu investieren."
     },
     {
       "key": "package/PROLONG/price",
@@ -3520,7 +3520,7 @@
     },
     {
       "key": "option/PROLONG/resetGroup",
-      "value": "jetzt nicht"
+      "value": "Jetzt nicht"
     },
     {
       "key": "memberships/manage/reactivate",
@@ -3540,7 +3540,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",
-      "value": "Neu gültig bis am {formattedEndDate}"
+      "value": "Neu gültig bis zum {formattedEndDate}"
     },
     {
       "key": "option/PROLONG/additionalPeriods/REGULAR/title",
@@ -3548,7 +3548,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus {days} zusätzliche Tage als Geschenk für Verlegerinnen des ersten Tages."
+      "value": "Plus {days} zusätzliche Tage als Geschenk für Verlegerinnen des ersten Tages"
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
@@ -3568,7 +3568,7 @@
     },
     {
       "key": "memberships/title/MONTHLY_ABO",
-      "value": "Monats-Abonnement (#{sequenceNumber})"
+      "value": "Monatsabonnement (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/ABO/give",
@@ -3580,15 +3580,15 @@
     },
     {
       "key": "pledge/submit/autoPay",
-      "value": "Verlängerungen automatisch von meiner Kreditkarte abbuchen."
+      "value": "Verlängerungen automatisch von meiner Kreditkarte abbuchen"
     },
     {
       "key": "pledge/submit/autoPay/note",
-      "value": "Wir erinnern Sie, bevor wir abbuchen. Und Sie können jederzeit in Ihrem Konto künden."
+      "value": "Wir erinnern Sie, bevor wir abbuchen. Und Sie können jederzeit in Ihrem Konto kündigen."
     },
     {
       "key": "pledge/submit/MONTHLY_ABO/autoPay/note",
-      "value": "Ihr Monatsabo verlängert sich automatisch. Sie können das Abo jederzeit in Ihrem Konto künden."
+      "value": "Ihr Monatsabo verlängert sich automatisch. Sie können das Abo jederzeit in Ihrem Konto kündigen."
     },
     {
       "key": "pledge/submit/PROLONG/autoPay",
@@ -3624,23 +3624,23 @@
     },
     {
       "key": "package/customize/price/payMore/1.5",
-      "value": "grosszügige {formattedCHF}"
+      "value": "Grosszügige {formattedCHF}"
     },
     {
       "key": "package/customize/price/payLess",
-      "value": "Können Sie sich den Betrag nicht leisten?"
+      "value": "Ich kann mir den Betrag nicht leisten"
     },
     {
       "key": "memberships/cancel/notFound",
-      "value": "Mitgliedschaft nicht gefunden."
+      "value": "Mitgliedschaft nicht gefunden"
     },
     {
       "key": "memberships/cancel/title",
-      "value": "Mitgliedschaft künden"
+      "value": "Mitgliedschaft kündigen"
     },
     {
       "key": "memberships/cancel/signIn",
-      "value": "Sie müssen sich anmelden um zu künden."
+      "value": "Sie müssen sich anmelden, um zu kündigen."
     },
     {
       "key": "memberships/cancel/info",
@@ -3648,7 +3648,7 @@
     },
     {
       "key": "memberships/cancel/confirmation",
-      "value": "Sie haben ihr Abo erfolgreich gekündet."
+      "value": "Sie haben Ihr Abo erfolgreich gekündigt."
     },
     {
       "key": "memberships/cancel/description",
@@ -3664,11 +3664,11 @@
     },
     {
       "key": "account/app/prolong/link",
-      "value": "Jetzt Mitgliedschaft verlängern."
+      "value": "Jetzt Mitgliedschaft verlängern"
     },
     {
       "key": "testimonial/detail/share/package/PROLONG",
-      "value": "Ich habe mein Abo verlängert:"
+      "value": "Ich habe mein Abo verlängert"
     },
     {
       "key": "pledge/form/statement/PROLONG/title",
@@ -3680,11 +3680,11 @@
     },
     {
       "key": "pledge/form/statement/lead/signIn",
-      "value": "Melden Sie sich an um Ihr Abo zu verlängern. Oder falls Sie noch nicht Mitglied sind, jetzt ist ein guter Zeitpunkt um die Republik zu unterstützen."
+      "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
     },
     {
       "key": "pledge/form/statement/lead/notAvailable",
-      "value": "Zur Zeit ist für Sie keine Verlängerung verfügbar. Vermutlich haben Sie bereits verlängert. Alle Informationen finden Sie in Ihrem {accountLink}."
+      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Vermutlich haben Sie bereits verlängert. Alle Informationen finden Sie in Ihrem {accountLink}."
     },
     {
       "key": "pledge/form/statement/lead/notAvailable/accountText",

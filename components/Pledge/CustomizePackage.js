@@ -172,7 +172,9 @@ class CustomizePackage extends Component {
       price = minPrice !== absolutMinPrice
         ? minPrice
         : ''
-      this.setState({ customPrice: false })
+      if (this.state.customPrice) {
+        this.setState({ customPrice: false })
+      }
       return FieldSet.utils.mergeField({
         field: 'price',
         value: price,
@@ -306,7 +308,7 @@ class CustomizePackage extends Component {
           return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100 * value
         })
     )
-    const payMoreSuggestions = [
+    const payMoreSuggestions = pkg.name === 'DONATE' ? [] : [
       userPrice && { value: regularMinPrice, key: 'normal' },
       !userPrice && price >= minPrice && bonusValue &&
         { value: minPrice + bonusValue, key: 'bonus' },
@@ -456,6 +458,7 @@ class CustomizePackage extends Component {
                         const parsedValue = String(value).length
                           ? parseInt(value, 10) || 0
                           : ''
+
                         if (parsedValue > option.maxAmount) {
                           error = t('package/customize/option/error/max', {
                             label,

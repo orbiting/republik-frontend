@@ -307,12 +307,13 @@ class GiveStatement extends Component {
                 </A>
                 <br />
                 <br />
-                <Label>
+                <P>
                   {t.first([
                     `statement/share/${pkg}/please`,
                     'statement/share/please'
                   ])}
-                </Label><br /><br />
+                </P>
+                <br />
                 <ActionBar
                   url={pkg
                     ? `${PUBLIC_BASE_URL}/angebote?package=${pkg}&utm_campaign=${pkg}-STATEMENTS&utm_content=${data.id}`

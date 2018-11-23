@@ -26,7 +26,7 @@ class Actions extends Component {
     }
   }
   render () {
-    const { t, membership } = this.props
+    const { t, membership, prolong, accessToken } = this.props
     const {
       updating,
       remoteError
@@ -89,6 +89,21 @@ class Actions extends Component {
               'memberships/manage/reactivate'
             ])}
           </A>}
+        {prolong &&
+          <P>
+            <Link route='pledge' params={{
+              package: 'PROLONG',
+              token: accessToken
+            }} passHref>
+              <A>
+                {t.first([
+                  `memberships/${membership.type.name}/manage/prolong/link`,
+                  'memberships/manage/prolong/link'
+                ])}
+              </A>
+            </Link>
+          </P>
+        }
         {!!remoteError &&
           <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
       </Fragment>
@@ -132,7 +147,7 @@ const ManageActions = compose(
   })
 )(Actions)
 
-const Manage = ({ t, membership, highlighted, title, compact, actions }) => {
+const Manage = ({ t, membership, highlighted, prolong, accessToken, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
   const latestPeriod = membership.periods[0]
   const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
@@ -164,7 +179,7 @@ const Manage = ({ t, membership, highlighted, title, compact, actions }) => {
           { formattedEndDate }
         )}
       </P>}
-      {actions && <ManageActions membership={membership} />}
+      {actions && <ManageActions membership={membership} prolong={prolong} accessToken={accessToken} />}
     </AccountItem>
   )
 }
@@ -172,7 +187,9 @@ const Manage = ({ t, membership, highlighted, title, compact, actions }) => {
 Manage.propTypes = {
   title: PropTypes.string,
   membership: PropTypes.object.isRequired,
-  actions: PropTypes.bool.isRequired
+  actions: PropTypes.bool.isRequired,
+  prolong: PropTypes.bool,
+  accessToken: PropTypes.string
 }
 
 Manage.defaultProps = {

@@ -4,6 +4,17 @@ export default gql`
 query myBelongings {
   me {
     id
+    accessToken(scope: CUSTOM_PLEDGE)
+    customPackages {
+      id
+      name
+      options {
+        id
+        membership {
+          id
+        }
+      }
+    }
     memberships {
       id
       claimerName
@@ -13,6 +24,9 @@ query myBelongings {
       renew
       active
       overdue
+      user {
+        id
+      }
       pledge {
         id
         package {

@@ -105,6 +105,10 @@ const getOptionValue = (option, values) => {
 
 const GUTTER = 42
 const styles = {
+  group: css({
+    marginBottom: 10,
+    marginTop: 5
+  }),
   grid: css({
     clear: 'both',
     width: `calc(100% + ${GUTTER}px)`,
@@ -401,10 +405,6 @@ class CustomizePackage extends Component {
             isAboGive,
             additionalPeriods
           }, i) => {
-            const Wrapper = group
-              ? ({ children }) => <div style={{ marginBottom: 10, marginTop: 5 }}>{children}</div>
-              : ({ children }) => <div {...styles.grid}>{children}</div>
-
             const reset = group && optionGroups.length > 1 && !checkboxGroup && <Fragment>
               <span style={{
                 display: 'inline-block',
@@ -461,7 +461,7 @@ class CustomizePackage extends Component {
                   membership={membership}
                   actions={false}
                   compact />}
-                <Wrapper>
+                <div {...styles[group ? 'group' : 'grid']}>
                   {
                     options.map((option, i) => {
                       const fieldKey = getOptionFieldKey(option)
@@ -594,7 +594,7 @@ class CustomizePackage extends Component {
                     })
                   }
                   {reset}
-                </Wrapper>
+                </div>
                 {additionalPeriods && !!additionalPeriods.length && !!selectedGroupOption && <div style={{ marginBottom: 20 }}>
                   {additionalPeriods
                     .filter((period, i) => period.kind !== 'REGULAR' || i > 0)

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T13:47:35.869Z",
+  "updated": "2018-11-23T14:37:55.351Z",
   "title": "live",
   "data": [
     {
@@ -3660,11 +3660,11 @@
     },
     {
       "key": "pledge/form/statement/share/title",
-      "value": "{name} hat bereits das Abo verlängert"
+      "value": "{name} unterstützt die Republik auch im zweiten Jahr."
     },
     {
       "key": "pledge/form/statement/share/description",
-      "value": "Verlängern Sie jetzt auch Ihr Abo."
+      "value": "Verlängern auch Sie jetzt Ihr Abo."
     },
     {
       "key": "statement/title",

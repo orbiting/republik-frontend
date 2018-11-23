@@ -8,12 +8,13 @@ import { withSignOut } from '../Auth/SignOut'
 
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
-import { COUNTRIES } from '../Account/AddressForm'
+import { COUNTRIES, fields as getAddressFields } from '../Account/AddressForm'
 import { query as addressQuery } from '../Account/UpdateMe'
 
 import FieldSet from '../FieldSet'
@@ -58,7 +59,8 @@ class Submit extends Component {
         name: [
           props.user.firstName,
           props.user.lastName
-        ].filter(Boolean).join(' ')
+        ].filter(Boolean).join(' '),
+        ...(props.customMe && props.customMe.address)
       },
       errors: {},
       dirty: {},
@@ -80,13 +82,16 @@ class Submit extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    const {
+      dirty
+    } = this.state
     const nextName = [
       nextProps.user.firstName,
       nextProps.user.lastName
     ].filter(Boolean).join(' ')
     if (
       nextName !== this.state.values.name &&
-      !this.state.dirty.name
+      !dirty.name
     ) {
       this.setState((state) => ({
         values: {
@@ -94,6 +99,28 @@ class Submit extends Component {
           name: nextName
         }
       }))
+    }
+
+    const addressFields = getAddressFields(this.props.t)
+    const addressDirty = addressFields.find(field => dirty[field.name])
+    if (!addressDirty) {
+      const nextAddress = (nextProps.customMe && nextProps.customMe.address) || addressFields.reduce(
+        (values, field) => {
+          values[field.name] = ''
+          return values
+        },
+        {}
+      )
+      if (
+        nextAddress !== (this.props.customMe && this.props.customMe.address)
+      ) {
+        this.setState((state) => ({
+          values: {
+            ...state.values,
+            ...nextAddress
+          }
+        }))
+      }
     }
   }
   submitVariables (props) {
@@ -643,6 +670,7 @@ const SubmitWithMutations = compose(
   }),
   withSignOut,
   withPay,
+  withMe,
   withT
 )(Submit)
 

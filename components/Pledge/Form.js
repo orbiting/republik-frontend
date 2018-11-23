@@ -6,6 +6,7 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 import { CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Meta from '../Frame/Meta'
@@ -63,13 +64,18 @@ class Pledge extends Component {
       dirty: {}
     }
   }
-  submitPledgeProps ({ values, query, pledge }) {
-    const { packages, customMe } = this.props
-    const pkg = query.package
+  getPkg (base) {
+    const { query } = base || this.props
+    const { packages } = this.props
+    return query.package
       ? packages.find(
         pkg => pkg.name === query.package.toUpperCase()
       )
       : null
+  }
+  submitPledgeProps ({ values, query, pledge }) {
+    const { customMe } = this.props
+    const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
 
     return {
@@ -149,6 +155,14 @@ class Pledge extends Component {
     if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
     }
+    if (nextProps.me !== this.props.me) {
+      const prevPkg = this.getPkg()
+      this.props.refetchPackages().then(() => {
+        if (this.getPkg() !== prevPkg) {
+          window.scrollTo(0, 0)
+        }
+      })
+    }
   }
   componentDidMount () {
     this.checkUserFields(this.props)
@@ -166,11 +180,7 @@ class Pledge extends Component {
     } = this.props
 
     const queryPackage = query.package && query.package.toUpperCase()
-    const pkg = queryPackage
-      ? packages.find(
-        pkg => pkg.name === queryPackage
-      )
-      : null
+    const pkg = this.getPkg()
 
     const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
     const packageInstruction = t.elements(
@@ -210,7 +220,8 @@ class Pledge extends Component {
           const {
             receiveError,
             crowdfundingName,
-            hasEnded
+            hasEnded,
+            me
           } = this.props
 
           if (hasEnded && !this.props.pledge) {
@@ -224,7 +235,7 @@ class Pledge extends Component {
             )
           }
 
-          const showSignIn = this.state.showSignIn && !customMe
+          const showSignIn = this.state.showSignIn && !me
           const userPrice = !!query.userPrice
 
           return (
@@ -238,7 +249,9 @@ class Pledge extends Component {
                   </Fragment>}
                   {packageInstruction}
                 </P>
-                {!customMe && <div style={{ marginTop: 20 }}><SignIn /></div>}
+                {!customMe && <div style={{ marginTop: 20 }}>
+                  <SignIn context='pledge' />
+                </div>}
               </div>}
               <H1>
                 {t.first([
@@ -280,10 +293,10 @@ class Pledge extends Component {
                 <Fragment>
                   <H2>{t('pledge/contact/title')}</H2>
                   <div style={{ marginTop: 10, marginBottom: 40 }}>
-                    {customMe ? (
+                    {me ? (
                       <span>
                         {t('pledge/contact/signedinAs', {
-                          nameOrEmail: customMe.name ? `${customMe.name.trim()} (${customMe.email})` : customMe.email
+                          nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
                         })}
                         {' '}<A href='#' onClick={(e) => {
                           e.preventDefault()
@@ -298,7 +311,7 @@ class Pledge extends Component {
                         {/* TODO: add active membership info */}
                         <br /><br />
                       </span>
-                    ) : (
+                    ) : !customMe && (
                       <span>
                         <A href='#' onClick={(e) => {
                           e.preventDefault()
@@ -417,6 +430,15 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     lastName
     email
     isUserOfCurrentSession
+    hasAddress
+    address {
+      name
+      line1
+      line2
+      postalCode
+      city
+      country
+    }
     customPackages {
       id
       name
@@ -512,6 +534,7 @@ const PledgeWithQueries = compose(
         .concat(data.me && data.me.customPackages)
         .filter(Boolean)
       return {
+        refetchPackages: data.refetch,
         loading: data.loading,
         error: data.error,
         packages,
@@ -522,7 +545,8 @@ const PledgeWithQueries = compose(
   }),
   withMembership, // provides isMember
   withSignOut,
-  withT
+  withT,
+  withMe
 )(Pledge)
 
 export default PledgeWithQueries

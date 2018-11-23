@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T13:08:51.424Z",
+  "updated": "2018-11-23T13:34:54.361Z",
   "title": "live",
   "data": [
     {
@@ -3729,6 +3729,10 @@
     {
       "key": "package/customize/price/label/total",
       "value": "Gesamtbetrag in CHF"
+    },
+    {
+      "key": "package/customize/group/aboGive",
+      "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiter laufen?"
     }
   ]
 }

@@ -334,6 +334,29 @@ class CustomizePackage extends Component {
         ? d.optionGroup
         : '')
       .entries(configurableOptions)
+      .map(({ key: group, values: options }) => {
+        const selectedGroupOption = group && options.find(option => {
+          return getOptionValue(option, values)
+        })
+        const baseOption = selectedGroupOption || options[0]
+        const { membership, additionalPeriods } = baseOption
+        const checkboxGroup = (
+          group && options.length === 1 &&
+          baseOption.minAmount === 0 &&
+          baseOption.maxAmount === 1
+        )
+        const isAboGive = membership && membership.user.id !== (customMe && customMe.id)
+
+        return {
+          group,
+          checkboxGroup,
+          options,
+          selectedGroupOption,
+          membership,
+          isAboGive,
+          additionalPeriods
+        }
+      })
     const multipleThings = configurableOptions.length && (
       optionGroups.length > 1 ||
       !optionGroups[0].key
@@ -369,22 +392,19 @@ class CustomizePackage extends Component {
           )}
         </P>
         {
-          optionGroups.map(({ key: group, values: options }) => {
-            const selectedGroupOption = group && options.find(option => {
-              return getOptionValue(option, values)
-            })
-            const baseOption = selectedGroupOption || options[0]
-            const { membership, additionalPeriods } = baseOption
-
+          optionGroups.map(({
+            group,
+            checkboxGroup,
+            options,
+            selectedGroupOption,
+            membership,
+            isAboGive,
+            additionalPeriods
+          }, i) => {
             const Wrapper = group
               ? ({ children }) => <div style={{ marginBottom: 10, marginTop: 5 }}>{children}</div>
               : ({ children }) => <div {...styles.grid}>{children}</div>
 
-            const checkboxGroup = (
-              group && options.length === 1 &&
-              baseOption.minAmount === 0 &&
-              baseOption.maxAmount === 1
-            )
             const reset = group && optionGroups.length > 1 && !checkboxGroup && <Fragment>
               <span style={{
                 display: 'inline-block',
@@ -420,10 +440,14 @@ class CustomizePackage extends Component {
               </span>
             </Fragment>
 
-            const isAboGive = membership && membership.user.id !== (customMe && customMe.id)
+            const nextGroup = optionGroups[i + 1]
+            const prevGroup = optionGroups[i - 1]
 
             return (
               <Fragment key={group}>
+                {isAboGive && (!prevGroup || !prevGroup.isAboGive) && <P style={{ marginTop: 30 }}>
+                  {t('package/customize/group/aboGive')}
+                </P>}
                 {membership && <ManageMembership
                   title={
                     isAboGive ? t(
@@ -504,7 +528,8 @@ class CustomizePackage extends Component {
                           <span style={{
                             display: 'inline-block',
                             verticalAlign: 'top',
-                            marginRight: 20
+                            marginRight: 20,
+                            marginTop: checkboxGroup ? -2 : 0
                           }}>
                             <Interaction.Emphasis>{label}</Interaction.Emphasis><br />
                             {t.first([
@@ -617,6 +642,7 @@ class CustomizePackage extends Component {
                     })}
                   </SmallP>}
                 </div>}
+                {isAboGive && (!nextGroup || !nextGroup.isAboGive) && <div style={{ height: 30 }} />}
               </Fragment>
             )
           })

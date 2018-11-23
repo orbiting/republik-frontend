@@ -26,7 +26,7 @@ class Actions extends Component {
     }
   }
   render () {
-    const { t, membership, prolong, accessToken } = this.props
+    const { t, membership, prolong, accessToken, waitingMemberships } = this.props
     const {
       updating,
       remoteError
@@ -52,7 +52,10 @@ class Actions extends Component {
               })}
             </Interaction.Cursive>
           </P>}
-        {membership.active && membership.renew &&
+        {!prolong && membership.active && membership.renew && waitingMemberships && <P>
+          {t('memberships/manage/prolong/awaiting')}
+        </P>}
+        {membership.active && membership.renew && <P>
           <Link route='cancel' params={{ membershipId: membership.id }} passHref>
             <A>
               {t.first([
@@ -61,8 +64,8 @@ class Actions extends Component {
               ])}
             </A>
           </Link>
-        }
-        {!membership.renew && !!membership.periods.length &&
+        </P>}
+        {!membership.renew && !!membership.periods.length && <P>
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()
             this.setState({
@@ -88,7 +91,8 @@ class Actions extends Component {
               `memberships/${membership.type.name}/manage/reactivate`,
               'memberships/manage/reactivate'
             ])}
-          </A>}
+          </A>
+        </P>}
         {prolong &&
           <P>
             <Link route='pledge' params={{
@@ -147,7 +151,7 @@ const ManageActions = compose(
   })
 )(Actions)
 
-const Manage = ({ t, membership, highlighted, prolong, accessToken, title, compact, actions }) => {
+const Manage = ({ t, membership, highlighted, prolong, accessToken, waitingMemberships, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
   const latestPeriod = membership.periods[0]
   const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
@@ -179,7 +183,7 @@ const Manage = ({ t, membership, highlighted, prolong, accessToken, title, compa
           { formattedEndDate }
         )}
       </P>}
-      {actions && <ManageActions membership={membership} prolong={prolong} accessToken={accessToken} />}
+      {actions && <ManageActions membership={membership} prolong={prolong} accessToken={accessToken} waitingMemberships={waitingMemberships} />}
     </AccountItem>
   )
 }

@@ -21,7 +21,8 @@ class MembershipsList extends Component {
       loading, error,
       highlightId,
       prolongIds,
-      accessToken
+      accessToken,
+      waitingMemberships
     } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
@@ -39,7 +40,8 @@ class MembershipsList extends Component {
                 membership={membership}
                 prolong={prolongIds.includes(membership.id)}
                 accessToken={accessToken}
-                highlighted={highlightId === membership.pledge.id} />
+                highlighted={highlightId === membership.pledge.id}
+                waitingMemberships={waitingMemberships} />
             ))}
           </div>
         )
@@ -57,6 +59,17 @@ export default compose(
         data.me.customPackages &&
         data.me.customPackages.find(p => p.name === 'PROLONG')
       )
+
+      const memberships = (
+        !data.loading &&
+        !data.error &&
+        data.me &&
+        data.me.memberships &&
+        data.me.memberships.filter(m => (
+          m.pledge.package.name !== 'ABO_GIVE' ||
+          (me.id === m.user.id && !m.voucherCode)
+        ))
+      ) || []
       return {
         loading: data.loading,
         error: data.error,
@@ -66,18 +79,8 @@ export default compose(
             .filter(option => option.membership)
             .map(option => option.membership.id)
         ) || [],
-        memberships: (
-          (
-            !data.loading &&
-            !data.error &&
-            data.me &&
-            data.me.memberships &&
-            data.me.memberships.filter(m => (
-              m.pledge.package.name !== 'ABO_GIVE' ||
-              (me.id === m.user.id && !m.voucherCode)
-            ))
-          ) || []
-        )
+        memberships,
+        waitingMemberships: memberships.some(m => !m.active && !m.periods.length)
       }
     }
   }),

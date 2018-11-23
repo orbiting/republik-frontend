@@ -194,7 +194,7 @@ class Pledge extends Component {
       {
         accountLink: <Link key='account' route='account' passHref>
           <A>
-            {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
+            {t(`pledge/form/instruction/${queryPackage}/accountText`)}
           </A>
         </Link>
       },

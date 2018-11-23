@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import isEmail from 'validator/lib/isEmail'
+import { withRouter } from 'next/router'
 
-import { Link } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -20,7 +21,8 @@ import {
   Interaction,
   Field,
   A, colors,
-  RawHtml
+  RawHtml,
+  Label
 } from '@project-r/styleguide'
 
 import Accordion from './Accordion'
@@ -151,17 +153,20 @@ class Pledge extends Component {
     this.handleLastName(values.lastName || '', false, props.t)
     this.handleEmail(values.email || '', false, props.t)
   }
+  refetchPackages () {
+    const prevPkg = this.getPkg()
+    this.props.refetchPackages().then(() => {
+      if (this.getPkg() !== prevPkg) {
+        window.scrollTo(0, 0)
+      }
+    })
+  }
   componentWillReceiveProps (nextProps) {
     if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
     }
     if (nextProps.me !== this.props.me) {
-      const prevPkg = this.getPkg()
-      this.props.refetchPackages().then(() => {
-        if (this.getPkg() !== prevPkg) {
-          window.scrollTo(0, 0)
-        }
-      })
+      this.refetchPackages()
     }
   }
   componentDidMount () {
@@ -294,7 +299,7 @@ class Pledge extends Component {
                   <H2>{t('pledge/contact/title')}</H2>
                   <div style={{ marginTop: 10, marginBottom: 40 }}>
                     {me ? (
-                      <span>
+                      <Fragment>
                         {t('pledge/contact/signedinAs', {
                           nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
                         })}
@@ -310,23 +315,23 @@ class Pledge extends Component {
                         <br /><br />
                         {/* TODO: add active membership info */}
                         <br /><br />
-                      </span>
+                      </Fragment>
                     ) : !customMe && (
-                      <span>
+                      <Fragment>
                         <A href='#' onClick={(e) => {
                           e.preventDefault()
                           this.setState(() => ({ showSignIn: !showSignIn }))
                         }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
                         {!!showSignIn && (
-                          <span>
+                          <Fragment>
                             <br /><br />
                             <SignIn context='pledge' />
-                          </span>
+                          </Fragment>
                         )}
                         <br />
-                      </span>
+                      </Fragment>
                     )}
-                    {!showSignIn && <span>
+                    {!showSignIn && <Fragment>
                       <Field label={t('pledge/contact/firstName/label')}
                         name='firstName'
                         error={dirty.firstName && errors.firstName}
@@ -343,16 +348,36 @@ class Pledge extends Component {
                           this.handleLastName(value, shouldValidate, t)
                         }} />
                       <br />
-                      <Field label={t('pledge/contact/email/label')}
-                        name='email'
-                        type='email'
-                        error={dirty.email && errors.email}
-                        value={values.email}
-                        onChange={(_, value, shouldValidate) => {
-                          this.handleEmail(value, shouldValidate, t)
-                        }} />
+                      {customMe && !customMe.isUserOfCurrentSession
+                        ? <Fragment>
+                          <Interaction.P>
+                            <Label>{t('pledge/contact/email/label')}</Label><br />
+                            {values.email}
+                          </Interaction.P>
+                          <br />
+                          <A href='#' onClick={(e) => {
+                            e.preventDefault()
+
+                            const { router } = this.props
+                            const params = { ...router.query }
+                            delete params.token
+                            Router.replaceRoute('pledge', params, { shallow: true }).then(() => {
+                              this.refetchPackages()
+                            })
+                          }}>
+                            {t('pledge/contact/signIn/wrongToken')}
+                          </A>
+                        </Fragment>
+                        : <Field label={t('pledge/contact/email/label')}
+                          name='email'
+                          type='email'
+                          error={dirty.email && errors.email}
+                          value={values.email}
+                          onChange={(_, value, shouldValidate) => {
+                            this.handleEmail(value, shouldValidate, t)
+                          }} />}
                       <br /><br />
-                    </span>}
+                    </Fragment>}
                   </div>
 
                   <Submit
@@ -546,7 +571,8 @@ const PledgeWithQueries = compose(
   withMembership, // provides isMember
   withSignOut,
   withT,
-  withMe
+  withMe,
+  withRouter
 )(Pledge)
 
 export default PledgeWithQueries

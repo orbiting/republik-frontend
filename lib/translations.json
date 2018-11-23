@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T16:58:19.986Z",
+  "updated": "2018-11-23T20:59:50.715Z",
   "title": "live",
   "data": [
     {
@@ -2183,6 +2183,10 @@
       "value": "Schon mal ausgefüllt?\n"
     },
     {
+      "key": "pledge/contact/signIn/customMe",
+      "value": "anmelden"
+    },
+    {
       "key": "pledge/contact/signIn/hide",
       "value": "Das erste Mal hier?"
     },
@@ -3733,6 +3737,10 @@
     {
       "key": "package/customize/group/aboGive",
       "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiterlaufen?"
+    },
+    {
+      "key": "pledge/contact/signIn/wrongToken",
+      "value": "Ist das nicht Ihre E-Mail-Adresse?"
     }
   ]
 }

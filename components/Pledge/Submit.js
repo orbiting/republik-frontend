@@ -287,29 +287,41 @@ class Submit extends Component {
     })
   }
   pay (data) {
-    const { t, me, user } = this.props
+    const { t, me, customMe, user, packageName } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
     }))
     this.props.pay(data)
       .then(({ data: { payPledge } }) => {
+        const baseQuery = {
+          package: packageName,
+          id: payPledge.pledgeId
+        }
+        if (customMe && customMe.isListed) {
+          baseQuery.statement = customMe.id
+        }
         if (!me) {
+          if (customMe) {
+            gotoMerci({
+              ...baseQuery,
+              email: customMe.email
+            })
+            return
+          }
           this.props.signIn(user.email, 'pledge')
             .then(({ data: { signIn } }) => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: user.email,
               ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
-              id: data.pledgeId,
+              ...baseQuery,
               email: user.email,
               signInError: errorToString(error)
             }))
         } else {
-          gotoMerci({
-            id: payPledge.pledgeId
-          })
+          gotoMerci(baseQuery)
         }
       })
       .catch(error => {

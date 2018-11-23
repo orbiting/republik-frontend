@@ -455,6 +455,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     lastName
     email
     isUserOfCurrentSession
+    isListed
     hasAddress
     address {
       name
@@ -520,7 +521,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
 `
 
 const shareRefQuery = gql`
-query statements($id: String!) {
+query statementsShareRef($id: String!) {
   statements(focus: $id, first: 1) {
     nodes {
       id

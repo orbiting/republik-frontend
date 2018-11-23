@@ -4,15 +4,14 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 
 import withT from '../../lib/withT'
-import { PUBLIC_BASE_URL, ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 
 import ErrorMessage from '../ErrorMessage'
 import Loader from '../Loader'
 import FieldSet from '../FieldSet'
 
-import { Item } from './List'
+import PledgeShare from '../Pledge/Share'
 
-import ActionBar from '../ActionBar'
+import { Item } from './List'
 
 import {
   Interaction, Button, A, linkRule, InlineSpinner, Label
@@ -307,28 +306,7 @@ class GiveStatement extends Component {
                 </A>
                 <br />
                 <br />
-                <P>
-                  {t.first([
-                    `statement/share/${pkg}/please`,
-                    'statement/share/please'
-                  ])}
-                </P>
-                <br />
-                <ActionBar
-                  url={pkg
-                    ? `${PUBLIC_BASE_URL}/angebote?package=${pkg}&utm_campaign=${pkg}-STATEMENTS&utm_content=${data.id}`
-                    : `${PUBLIC_BASE_URL}/community?id=${data.id}`}
-                  title={t.first([
-                    `statement/share/${pkg}/title`,
-                    `statement/share/title`
-                  ], data)}
-                  emailSubject={t.first([
-                    `statement/share/${pkg}/title`,
-                    `statement/share/title`
-                  ], data)}
-                  download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${data.updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${data.id}${pkg ? `&package=${pkg}` : ''}`}
-                  shareOverlayTitle={t('statement/share/overlayTitle', data)}
-                />
+                <PledgeShare pkg={pkg} statement={data} />
               </div>
             )}
           </form>

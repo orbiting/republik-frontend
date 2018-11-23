@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-22T20:59:34.460Z",
+  "updated": "2018-11-22T23:46:01.745Z",
   "title": "live",
   "data": [
     {
@@ -1175,6 +1175,10 @@
       "value": "Porträtbild ändern"
     },
     {
+      "key": "profile/portrait/empty",
+      "value": "Sie müssen ein Porträtbild hochladen"
+    },
+    {
       "key": "testimonial/meta/pageTitle",
       "value": "Community – Republik"
     },
@@ -1199,46 +1203,6 @@
       "value": "Jetzt Mitglied werden."
     },
     {
-      "key": "testimonial/title",
-      "value": "Jetzt ein Statement abgeben"
-    },
-    {
-      "key": "testimonial/description",
-      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
-    },
-    {
-      "key": "testimonial/submit",
-      "value": "veröffentlichen"
-    },
-    {
-      "key": "testimonial/role/label",
-      "value": "Bezeichnung"
-    },
-    {
-      "key": "testimonial/role/tooLong",
-      "value": "Bezeichnung, maximal 60 Zeichen"
-    },
-    {
-      "key": "testimonial/update",
-      "value": "aktualisieren"
-    },
-    {
-      "key": "testimonial/unpublished",
-      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
-    },
-    {
-      "key": "testimonial/unpublish/user",
-      "value": "Statement zurücknehmen"
-    },
-    {
-      "key": "testimonial/viewLive",
-      "value": "ansehen"
-    },
-    {
-      "key": "testimonial/unpublished/user",
-      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
-    },
-    {
       "key": "testimonial/search/label",
       "value": "Suchen"
     },
@@ -1257,14 +1221,6 @@
     {
       "key": "testimonial/infinite/endless",
       "value": "Das waren {count} Verleger und Verlegerinnen. Weitere {remaining} anschauen?"
-    },
-    {
-      "key": "testimonial/detail/share/emailSubject",
-      "value": "{name} unterstützt Republik"
-    },
-    {
-      "key": "testimonial/detail/share/title",
-      "value": "{name} unterstützt Republik"
     },
     {
       "key": "api/testimonial/image/required",
@@ -3679,12 +3635,12 @@
       "value": "{name} hat bereits das Abo verlängert"
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/available",
-      "value": "Jetzt sind Sie dran!"
-    },
-    {
       "key": "pledge/form/statement/PROLONG/lead/signIn",
       "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
+    },
+    {
+      "key": "pledge/form/statement/PROLONG/lead/available",
+      "value": "Jetzt sind Sie dran!"
     },
     {
       "key": "pledge/form/statement/PROLONG/lead/notAvailable",
@@ -3709,6 +3665,66 @@
     {
       "key": "pledge/form/statement/share/description",
       "value": "Verlängern Sie jetzt auch Ihr Abo."
+    },
+    {
+      "key": "statement/title",
+      "value": "Jetzt ein Statement abgeben"
+    },
+    {
+      "key": "statement/title/update",
+      "value": "Jetzt Ihr Statement aktualisieren"
+    },
+    {
+      "key": "statement/description",
+      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
+    },
+    {
+      "key": "statement/description/update",
+      "value": "Ihr Statement erscheint auf unserer Community-Seite."
+    },
+    {
+      "key": "statement/adminUnpublished",
+      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "statement/submit/update",
+      "value": "aktualisieren"
+    },
+    {
+      "key": "statement/submit",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "statement/unpublish",
+      "value": "Statement zurücknehmen"
+    },
+    {
+      "key": "statement/unpublished",
+      "value": "Sie haben Ihr Statement zurückgezogen."
+    },
+    {
+      "key": "statement/viewLive",
+      "value": "Ansehen"
+    },
+    {
+      "key": "statement/share/overlayTitle",
+      "value": "Statement von {name}"
+    },
+    {
+      "key": "statement/share/title",
+      "value": "{name} unterstützt die Republik"
+    },
+    {
+      "key": "statement/share/PROLONG/title",
+      "value": "{name} hat bereits das Abo verlängert"
+    },
+    {
+      "key": "statement/share/please",
+      "value": "Teilen Sie dass Sie die Republik unterstützen:"
+    },
+    {
+      "key": "statement/share/PROLONG/please",
+      "value": "Teilen Sie dass Sie Ihr Abo verlängert haben:"
     }
   ]
 }

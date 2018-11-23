@@ -17,7 +17,7 @@ class CommunityPage extends Component {
     const { router: { query }, seed } = this.props
 
     if (query.share) {
-      return <Share focus={query.share} pkg={query.pkg} />
+      return <Share focus={query.share} pkg={query.package} />
     }
 
     if (query.tv) {

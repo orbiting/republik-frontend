@@ -171,7 +171,7 @@ class Pledge extends Component {
       ? {
         title: t('pledge/form/statement/share/title', statement),
         description: t('pledge/form/statement/share/description'),
-        image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&pkg=${queryPackage}`)}`
+        image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&package=${queryPackage}`)}`
       }
       : {
         title: t('pledge/meta/title'),

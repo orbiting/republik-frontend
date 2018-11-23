@@ -268,7 +268,8 @@ class PaymentForm extends Component {
       onChange,
       paymentSources,
       loadingPaymentSources,
-      onlyChargable
+      onlyChargable,
+      withoutAddress
     } = this.props
     const { paymentMethod } = values
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
@@ -427,7 +428,7 @@ class PaymentForm extends Component {
             </P>
           )
         }} />
-        {(paymentMethodForm === 'PAYMENTSLIP') && (
+        {(paymentMethodForm === 'PAYMENTSLIP') && !withoutAddress && (
           <div>
             <Label>
               {t('payment/paymentslip/explanation')}

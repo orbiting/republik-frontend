@@ -141,6 +141,10 @@ class Submit extends Component {
         : accessToken
     }
   }
+  withoutAddress () {
+    const { customMe } = this.props
+    return customMe && customMe.hasAddress && !customMe.isUserOfCurrentSession
+  }
   submitPledge () {
     const { t, customMe } = this.props
     const errorMessages = this.getErrorMessages()
@@ -270,14 +274,16 @@ class Submit extends Component {
       pledgeId,
       method: 'PAYMENTSLIP',
       paperInvoice: values.paperInvoice || false,
-      address: {
-        name: values.name,
-        line1: values.line1,
-        line2: values.line2,
-        postalCode: values.postalCode,
-        city: values.city,
-        country: values.country
-      }
+      address: this.withoutAddress()
+        ? undefined
+        : {
+          name: values.name,
+          line1: values.line1,
+          line2: values.line2,
+          postalCode: values.postalCode,
+          city: values.city,
+          country: values.country
+        }
     })
   }
   pay (data) {
@@ -463,10 +469,12 @@ class Submit extends Component {
     return (
       <div>
         <PaymentForm
+          key={me && me.id}
           ref={this.paymentRef}
           t={t}
           loadSources={!!me}
           onlyChargable
+          withoutAddress={this.withoutAddress()}
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,

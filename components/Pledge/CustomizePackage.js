@@ -594,7 +594,7 @@ class CustomizePackage extends Component {
                         <SmallP key={formattedEndDate}>
                           {title}
                           {explanation && <Fragment>
-                            <br /><Label>{explanation}</Label>
+                            <Label style={{ display: 'block' }}>{explanation}</Label>
                           </Fragment>}
                         </SmallP>
                       )

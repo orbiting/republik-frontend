@@ -286,8 +286,8 @@ class GiveStatement extends Component {
                   )
               )
             }
-            {data && !data.isListed && (
-              <ErrorMessage error={t('statement/unpublished')} />
+            {data && !data.isListed && data.statement && data.portrait && (
+              <Label style={{ display: 'block', marginTop: 10 }}>{t('statement/unpublished')}</Label>
             )}
             {data && data.isListed && (
               <div style={{ marginTop: 20 }}>

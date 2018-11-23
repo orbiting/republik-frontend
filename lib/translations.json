@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T01:35:25.011Z",
+  "updated": "2018-11-23T10:43:58.103Z",
   "title": "live",
   "data": [
     {
@@ -3700,7 +3700,7 @@
     },
     {
       "key": "statement/unpublished",
-      "value": "Sie haben Ihr Statement zurückgezogen."
+      "value": "Ihr Statement ist zur Zeit nicht publik."
     },
     {
       "key": "statement/viewLive",

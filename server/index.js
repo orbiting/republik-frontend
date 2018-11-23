@@ -65,6 +65,7 @@ app.prepare().then(() => {
       '/.well-known/apple-app-site-association',
       '/.well-known/assetlinks.json'
     ]
+    const ALLOWED_UAS = (process.env.CURTAIN_UA_ALLOW_LIST || '').split(',')
 
     server.use((req, res, next) => {
       const BACKDOOR_URL = process.env.CURTAIN_BACKDOOR_URL || ''
@@ -87,7 +88,8 @@ app.prepare().then(() => {
       }
       if (
         hasCookie ||
-        ALLOWED_PATHS.some(path => req.url.startsWith(path))
+        ALLOWED_PATHS.some(path => req.url.startsWith(path)) ||
+        ALLOWED_UAS.some(ua => req.get('User-Agent').includes(ua))
       ) {
         return next()
       }

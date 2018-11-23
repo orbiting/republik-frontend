@@ -8,7 +8,6 @@ import { withSignOut } from '../Auth/SignOut'
 
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
-import { meQuery } from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 
@@ -98,7 +97,7 @@ class Submit extends Component {
     }
   }
   submitVariables (props) {
-    const { user, total, options, reason } = props
+    const { user, total, options, reason, accessToken, customMe } = props
 
     return {
       total,
@@ -109,11 +108,14 @@ class Submit extends Component {
           : undefined
       })),
       reason,
-      user
+      user,
+      accessToken: customMe && customMe.isUserOfCurrentSession
+        ? undefined
+        : accessToken
     }
   }
   submitPledge () {
-    const { t, me } = this.props
+    const { t, customMe } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
@@ -136,7 +138,7 @@ class Submit extends Component {
     }
 
     const variables = this.submitVariables(this.props)
-    if (me && me.email !== variables.user.email) {
+    if (customMe && customMe.email !== variables.user.email) {
       this.props.signOut().then(() => {
         this.submitPledge()
       })
@@ -554,8 +556,8 @@ Submit.propTypes = {
 }
 
 const submitPledge = gql`
-  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!]) {
-    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}, consents: $consents) {
+  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!], $accessToken: ID) {
+    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason, accessToken: $accessToken}, consents: $consents) {
       pledgeId
       userId
       emailVerify
@@ -634,10 +636,7 @@ const SubmitWithMutations = compose(
         setPendingOrder(variables)
 
         return mutate({
-          variables,
-          refetchQueries: [{
-            query: meQuery
-          }]
+          variables
         })
       }
     })

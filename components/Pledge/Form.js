@@ -6,7 +6,6 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
-import withMe from '../../lib/apollo/withMe'
 import { CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Meta from '../Frame/Meta'
@@ -65,7 +64,7 @@ class Pledge extends Component {
     }
   }
   submitPledgeProps ({ values, query, pledge }) {
-    const { packages, me } = this.props
+    const { packages, customMe } = this.props
     const pkg = query.package
       ? packages.find(
         pkg => pkg.name === query.package.toUpperCase()
@@ -74,6 +73,7 @@ class Pledge extends Component {
     const userPrice = !!query.userPrice
 
     return {
+      accessToken: query.token,
       packageName: pkg ? pkg.name : undefined,
       forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
@@ -100,8 +100,7 @@ class Pledge extends Component {
           /* ToDo: move logic to backend? */
           autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.name !== 'ABO_GIVE' && (
             !option.membership ||
-            /* ToDo: handle login-less */
-            option.membership.user.id === (me && me.id)
+            option.membership.user.id === (customMe && customMe.id)
           )
             ? true /* ToDo: check base pledge value once supported in backend */
             : undefined
@@ -139,13 +138,15 @@ class Pledge extends Component {
     }))
   }
   checkUserFields (props) {
-    const values = props.me ? props.me : this.state.values
+    const values = props.customMe
+      ? props.customMe
+      : this.state.values
     this.handleFirstName(values.firstName || '', false, props.t)
     this.handleLastName(values.lastName || '', false, props.t)
     this.handleEmail(values.email || '', false, props.t)
   }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.me !== this.props.me) {
+    if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
     }
   }
@@ -161,7 +162,7 @@ class Pledge extends Component {
     } = this.state
 
     const {
-      loading, error, isMember, t, me, statement, query, packages
+      loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
     const queryPackage = query.package && query.package.toUpperCase()
@@ -200,7 +201,7 @@ class Pledge extends Component {
             )
           }
 
-          const showSignIn = this.state.showSignIn && !me
+          const showSignIn = this.state.showSignIn && !customMe
 
           const pkg = queryPackage
             ? packages.find(
@@ -216,7 +217,7 @@ class Pledge extends Component {
                   <Interaction.Emphasis>
                     {statementTitle}
                   </Interaction.Emphasis><br />
-                  {t.elements(`pledge/form/statement/${queryPackage}/lead/${me
+                  {t.elements(`pledge/form/statement/${queryPackage}/lead/${customMe
                     ? pkg ? 'available' : 'notAvailable'
                     : 'signIn'}`, {
                     accountLink: <Link key='account' route='account' passHref>
@@ -226,7 +227,7 @@ class Pledge extends Component {
                     </Link>
                   })}
                 </P>
-                {!me && <div style={{ marginTop: 20 }}><SignIn /></div>}
+                {!customMe && <div style={{ marginTop: 20 }}><SignIn /></div>}
               </div>}
               <H1>
                 {t.first([
@@ -253,6 +254,7 @@ class Pledge extends Component {
                     values={values}
                     errors={errors}
                     dirty={dirty}
+                    customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}
                     onChange={(fields) => {
@@ -267,10 +269,10 @@ class Pledge extends Component {
                 <Fragment>
                   <H2>{t('pledge/contact/title')}</H2>
                   <div style={{ marginTop: 10, marginBottom: 40 }}>
-                    {me ? (
+                    {customMe ? (
                       <span>
                         {t('pledge/contact/signedinAs', {
-                          nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
+                          nameOrEmail: customMe.name ? `${customMe.name.trim()} (${customMe.email})` : customMe.email
                         })}
                         {' '}<A href='#' onClick={(e) => {
                           e.preventDefault()
@@ -331,7 +333,7 @@ class Pledge extends Component {
 
                   <Submit
                     query={query}
-                    me={me}
+                    customMe={customMe}
                     {...this.submitPledgeProps({ values, query })}
                     basePledge={basePledge
                       ? this.submitPledgeProps(basePledge)
@@ -367,7 +369,7 @@ Pledge.propTypes = {
 }
 
 const query = gql`
-query pledgeForm($crowdfundingName: String!) {
+query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
   crowdfunding(name: $crowdfundingName) {
     id
     name
@@ -398,8 +400,12 @@ query pledgeForm($crowdfundingName: String!) {
       }
     }
   }
-  me {
+  me(accessToken: $accessToken) {
     id
+    firstName
+    lastName
+    email
+    isUserOfCurrentSession
     customPackages {
       id
       name
@@ -483,6 +489,12 @@ const PledgeWithQueries = compose(
     }
   }),
   graphql(query, {
+    options: ({ query, crowdfundingName }) => ({
+      variables: {
+        crowdfundingName,
+        accessToken: query.token
+      }
+    }),
     props: ({ data }) => {
       const packages = []
         .concat(data.crowdfunding && data.crowdfunding.packages)
@@ -492,14 +504,14 @@ const PledgeWithQueries = compose(
         loading: data.loading,
         error: data.error,
         packages,
-        hasEnded: data.crowdfunding && data.crowdfunding.hasEnded
+        hasEnded: data.crowdfunding && data.crowdfunding.hasEnded,
+        customMe: data.me
       }
     }
   }),
   withMembership, // provides isMember
   withSignOut,
-  withT,
-  withMe
+  withT
 )(Pledge)
 
 export default PledgeWithQueries

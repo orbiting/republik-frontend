@@ -294,6 +294,7 @@ class PledgeReceivePayment extends Component {
           ...this.queryFromPledge()
         }
 
+        // ToDo: access token?
         return (
           <PledgeForm
             crowdfundingName={crowdfundingName}

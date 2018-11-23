@@ -10,7 +10,6 @@ import { withRouter } from 'next/router'
 import { format } from 'url'
 
 import withT from '../../lib/withT'
-import withMe from '../../lib/apollo/withMe'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
 import { intersperse } from '../../lib/utils/helpers'
 import { Router, Link } from '../../lib/routes'
@@ -239,7 +238,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice, me, router,
+      t, pkg, userPrice, customMe, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -324,8 +323,7 @@ class CustomizePackage extends Component {
     const ownMembershipOption = pkg.options
       .find(option => (
         option.membership &&
-        /* ToDo: test login-less */
-        option.membership.user.id === (me && me.id)
+        option.membership.user.id === (customMe && customMe.id)
       ))
     const offerCancelMembership = ownMembershipOption && ownMembershipOption.membership
 
@@ -416,13 +414,12 @@ class CustomizePackage extends Component {
               </span>
             </Fragment>
 
-            /* ToDo: test login-less */
-            const isAboGive = membership && membership.user.id !== (me && me.id)
+            const isAboGive = membership && membership.user.id !== (customMe && customMe.id)
 
             return (
               <Fragment key={group}>
                 {membership && <ManageMembership
-                  title={/* ToDo: test login-less */
+                  title={
                     isAboGive ? t(
                       `memberships/title/${membership.type.name}/give`,
                       {
@@ -776,6 +773,5 @@ CustomizePackage.propTypes = {
 
 export default compose(
   withRouter,
-  withMe,
   withT
 )(CustomizePackage)

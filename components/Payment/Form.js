@@ -158,7 +158,7 @@ class PaymentForm extends Component {
       const chargablePaymentSource =
         paymentSources &&
         paymentSources.find(ps => (
-          ps.status === 'CHARGEABLE' && ps.isDefault
+          ps.status === 'CHARGEABLE' && ps.isDefault && !ps.isExpired
         ))
       const stripeAllowed = allowedMethods
         ? allowedMethods.indexOf('STRIPE') !== -1
@@ -293,7 +293,7 @@ class PaymentForm extends Component {
         <Loader style={{ minHeight: (PAYMENT_METHOD_HEIGHT) * 2 }} loading={loadingPaymentSources} render={() => {
           const visiblePaymentSources = paymentSources
             ? paymentSources.filter(ps => (
-              (!onlyChargable || ps.status === 'CHARGEABLE') && ps.isDefault
+              (!onlyChargable || (ps.status === 'CHARGEABLE' && !ps.isExpired)) && ps.isDefault
             ))
             : []
           const hasVisiblePaymentSources = !!visiblePaymentSources.length
@@ -675,6 +675,7 @@ query myPaymentSources {
       expMonth
       expYear
       isDefault
+      isExpired
     }
   }
 }

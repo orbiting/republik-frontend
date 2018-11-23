@@ -166,7 +166,26 @@ class Pledge extends Component {
     } = this.props
 
     const queryPackage = query.package && query.package.toUpperCase()
+    const pkg = queryPackage
+      ? packages.find(
+        pkg => pkg.name === queryPackage
+      )
+      : null
+
     const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
+    const packageInstruction = t.elements(`pledge/form/instruction/${queryPackage}/${customMe
+      ? pkg
+        ? statementTitle
+          ? 'availableWithStatement'
+          : 'available'
+        : 'notAvailable'
+      : 'signIn'}`, {
+      accountLink: <Link key='account' route='account' passHref>
+        <A>
+          {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
+        </A>
+      </Link>
+    }, '')
 
     const meta = statementTitle
       ? {
@@ -202,30 +221,18 @@ class Pledge extends Component {
           }
 
           const showSignIn = this.state.showSignIn && !customMe
-
-          const pkg = queryPackage
-            ? packages.find(
-              pkg => pkg.name === queryPackage
-            )
-            : null
           const userPrice = !!query.userPrice
 
           return (
             <div>
-              {statementTitle && <div style={{ marginBottom: 40 }}>
+              {(statementTitle || packageInstruction) && <div style={{ marginBottom: 40 }}>
                 <P>
-                  <Interaction.Emphasis>
-                    {statementTitle}
-                  </Interaction.Emphasis><br />
-                  {t.elements(`pledge/form/statement/${queryPackage}/lead/${customMe
-                    ? pkg ? 'available' : 'notAvailable'
-                    : 'signIn'}`, {
-                    accountLink: <Link key='account' route='account' passHref>
-                      <A>
-                        {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
-                      </A>
-                    </Link>
-                  })}
+                  {statementTitle && <Fragment>
+                    <Interaction.Emphasis>
+                      {statementTitle}
+                    </Interaction.Emphasis><br />
+                  </Fragment>}
+                  {packageInstruction}
                 </P>
                 {!customMe && <div style={{ marginTop: 20 }}><SignIn /></div>}
               </div>}

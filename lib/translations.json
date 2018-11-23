@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T14:37:55.351Z",
+  "updated": "2018-11-23T16:58:19.986Z",
   "title": "live",
   "data": [
     {
@@ -3500,7 +3500,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/title",
-      "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages"
+      "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages."
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
@@ -3532,7 +3532,7 @@
     },
     {
       "key": "pledge/submit/autoPay",
-      "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen"
+      "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen."
     },
     {
       "key": "pledge/submit/autoPay/note",
@@ -3556,7 +3556,7 @@
     },
     {
       "key": "pledge/title/PROLONG",
-      "value": "Verlängern Sie Ihr Investment"
+      "value": "Verlängern Sie Ihr Investment."
     },
     {
       "key": "pledge/title/member",
@@ -3572,11 +3572,11 @@
     },
     {
       "key": "package/customize/price/payMore/bonus",
-      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
+      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}."
     },
     {
       "key": "package/customize/price/payMore/1.5",
-      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}."
     },
     {
       "key": "package/customize/price/payMore/thx",
@@ -3584,7 +3584,7 @@
     },
     {
       "key": "package/customize/price/payLess",
-      "value": "Ich kann mir den Betrag nicht leisten"
+      "value": "Ich kann mir den Betrag nicht leisten."
     },
     {
       "key": "package/customize/userPrice/beforePrice",
@@ -3632,22 +3632,22 @@
     },
     {
       "key": "pledge/form/statement/PROLONG/title",
-      "value": "{name} hat bereits das Abo verlängert"
+      "value": "{name} hat das Abo bereits verlängert."
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/signIn",
+      "key": "pledge/form/instruction/PROLONG/signIn",
       "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/available",
+      "key": "pledge/form/instruction/PROLONG/availableWithStatement",
       "value": "Jetzt sind Sie dran!"
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/notAvailable",
-      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Entweder haben Sie bereits verlängert oder Sie sind noch nicht Mitglied. Alle Informationen finden Sie in Ihrem {accountLink}."
+      "key": "pledge/form/instruction/PROLONG/notAvailable",
+      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Entweder haben Sie bereits verlängert, oder Sie sind noch nicht Mitglied. Alle Informationen finden Sie in Ihrem {accountLink}."
     },
     {
-      "key": "pledge/form/statement/PROLONG/lead/accountText",
+      "key": "pledge/form/instruction/PROLONG/accountText",
       "value": "Konto"
     },
     {
@@ -3668,11 +3668,11 @@
     },
     {
       "key": "statement/title",
-      "value": "Jetzt ein Statement abgeben"
+      "value": "Jetzt ein Statement abgeben."
     },
     {
       "key": "statement/title/update",
-      "value": "Jetzt Ihr Statement aktualisieren"
+      "value": "Jetzt Ihr Statement aktualisieren."
     },
     {
       "key": "statement/description",
@@ -3684,7 +3684,7 @@
     },
     {
       "key": "statement/adminUnpublished",
-      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+      "value": "Wir können Ihr Statement leider nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
     },
     {
       "key": "statement/submit/update",
@@ -3700,11 +3700,11 @@
     },
     {
       "key": "statement/unpublished",
-      "value": "Ihr Statement ist zur Zeit nicht publik."
+      "value": "Ihr Statement ist zurzeit nicht publik."
     },
     {
       "key": "statement/viewLive",
-      "value": "Ansehen"
+      "value": "ansehen"
     },
     {
       "key": "statement/share/overlayTitle",
@@ -3712,7 +3712,7 @@
     },
     {
       "key": "statement/share/title",
-      "value": "{name} unterstützt die Republik"
+      "value": "{name} unterstützt die Republik."
     },
     {
       "key": "statement/share/PROLONG/title",
@@ -3732,7 +3732,7 @@
     },
     {
       "key": "package/customize/group/aboGive",
-      "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiter laufen?"
+      "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiterlaufen?"
     }
   ]
 }

@@ -80,7 +80,7 @@ const fontSizeBoost = length => {
   return 0
 }
 
-const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, sequenceNumber } }) => {
+const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, sequenceNumber } = {} }) => {
   const headline = t(`testimonial/detail/share/package/${pkg}`, undefined, '')
   const invert = pkg === 'PROLONG'
 

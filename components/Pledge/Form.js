@@ -173,19 +173,23 @@ class Pledge extends Component {
       : null
 
     const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
-    const packageInstruction = t.elements(`pledge/form/instruction/${queryPackage}/${customMe
-      ? pkg
-        ? statementTitle
-          ? 'availableWithStatement'
-          : 'available'
-        : 'notAvailable'
-      : 'signIn'}`, {
-      accountLink: <Link key='account' route='account' passHref>
-        <A>
-          {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
-        </A>
-      </Link>
-    }, '')
+    const packageInstruction = t.elements(
+      `pledge/form/instruction/${queryPackage}/${customMe
+        ? pkg
+          ? statementTitle
+            ? 'availableWithStatement'
+            : 'available'
+          : 'notAvailable'
+        : 'signIn'}`,
+      {
+        accountLink: <Link key='account' route='account' passHref>
+          <A>
+            {t(`pledge/form/statement/${queryPackage}/lead/accountText`)}
+          </A>
+        </Link>
+      },
+      ''
+    )
 
     const meta = statementTitle
       ? {
@@ -225,7 +229,7 @@ class Pledge extends Component {
 
           return (
             <div>
-              {(statementTitle || packageInstruction) && <div style={{ marginBottom: 40 }}>
+              {(statementTitle || (packageInstruction && !!packageInstruction.length)) && <div style={{ marginBottom: 40 }}>
                 <P>
                   {statementTitle && <Fragment>
                     <Interaction.Emphasis>

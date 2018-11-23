@@ -334,6 +334,10 @@ class CustomizePackage extends Component {
         ? d.optionGroup
         : '')
       .entries(configurableOptions)
+    const multipleThings = configurableOptions.length && (
+      optionGroups.length > 1 ||
+      !optionGroups[0].key
+    )
 
     return (
       <div>
@@ -652,7 +656,7 @@ class CustomizePackage extends Component {
               <Label>{t('package/customize/price/label')}</Label><br />
               {price / 100}
             </Interaction.P>
-            : <Field label={t('package/customize/price/label')}
+            : <Field label={t(`package/customize/price/label${multipleThings ? '/total' : ''}`)}
               ref={(configurableOptions.length || userPrice)
                 ? undefined : this.focusRefSetter}
               error={dirty.price && errors.price}

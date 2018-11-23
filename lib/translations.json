@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T12:47:38.245Z",
+  "updated": "2018-11-23T13:08:51.424Z",
   "title": "live",
   "data": [
     {
@@ -1887,10 +1887,6 @@
       "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
     },
     {
-      "key": "package/customize/userPrice/beforePrice",
-      "value": "Wie viel können Sie bezahlen?"
-    },
-    {
       "key": "package/price",
       "value": "{formattedCHF}"
     },
@@ -3591,6 +3587,10 @@
       "value": "Ich kann mir den Betrag nicht leisten"
     },
     {
+      "key": "package/customize/userPrice/beforePrice",
+      "value": "Wie viel können Sie bezahlen?"
+    },
+    {
       "key": "memberships/cancel/notFound",
       "value": "Mitgliedschaft nicht gefunden"
     },
@@ -3725,6 +3725,10 @@
     {
       "key": "statement/share/PROLONG/please",
       "value": "Teilen Sie, dass Sie Ihr Abo verlängert haben:"
+    },
+    {
+      "key": "package/customize/price/label/total",
+      "value": "Gesamtbetrag in CHF"
     }
   ]
 }

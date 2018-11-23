@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T13:34:54.361Z",
+  "updated": "2018-11-23T13:47:35.869Z",
   "title": "live",
   "data": [
     {
@@ -3508,7 +3508,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/give",
-      "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert. Und zu Dank angehalten."
+      "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
     },
     {
       "key": "memberships/title/ABO",

@@ -359,7 +359,7 @@ class CustomizePackage extends Component {
       })
     const multipleThings = configurableOptions.length && (
       optionGroups.length > 1 ||
-      !optionGroups[0].key
+      !optionGroups[0].group
     )
 
     return (

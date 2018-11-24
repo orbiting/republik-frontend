@@ -211,7 +211,7 @@ class Merci extends Component {
                   {t('merci/action/read')}
                 </Button>
               </Link>
-              {!me.hasPublicProfile && (
+              {me && !me.hasPublicProfile && (
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <Button style={buttonStyle}>
                     {t('merci/action/profile')}

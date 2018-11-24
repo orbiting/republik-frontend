@@ -41,6 +41,17 @@ const Share = ({ pkg, statement, me, t }) => {
         `statement/share/${pkg}/title`,
         `statement/share/title`
       ], statement),
+      emailBody: t.first([
+        `statement/share/${pkg}/emailBody`,
+        `statement/share/emailBody`
+      ], {
+        url: `${PUBLIC_BASE_URL}/angebote?package=${pkg}`,
+        backerName: me ? me.name : ''
+      }, '') || undefined,
+      emailAttachUrl: !t.first([
+        `statement/share/${pkg}/emailBody`,
+        `statement/share/emailBody`
+      ], undefined, false),
       download: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}${pkg ? `&package=${pkg}` : ''}`)}`,
       shareOverlayTitle: t('statement/share/overlayTitle', statement)
     }

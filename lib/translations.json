@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T13:14:56.076Z",
+  "updated": "2018-11-24T13:32:01.875Z",
   "title": "live",
   "data": [
     {
@@ -3745,6 +3745,10 @@
     {
       "key": "statement/share/PROLONG/please",
       "value": "Teilen Sie, dass Sie Ihr Abo verlängert haben:"
+    },
+    {
+      "key": "statement/share/PROLONG/emailBody",
+      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben mein Republik-Abo verlängert.\nJetzt Abo verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
     },
     {
       "key": "package/customize/price/label/total",

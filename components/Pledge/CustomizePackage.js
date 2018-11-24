@@ -11,7 +11,6 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import { chfFormat, timeFormat } from '../../lib/utils/format'
-import { intersperse } from '../../lib/utils/helpers'
 import { Router, Link } from '../../lib/routes'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
@@ -27,11 +26,11 @@ import {
   Interaction,
   Label,
   mediaQueries,
-  Editorial
+  Editorial,
+  fontStyles
 } from '@project-r/styleguide'
 
 import ManageMembership from '../Account/Memberships/Manage'
-import { P as SmallP } from '../Account/Elements'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
@@ -144,8 +143,23 @@ const styles = {
     [mediaQueries.mUp]: {
       paddingLeft: 30
     }
+  }),
+  ul: css({
+    marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 25
+  }),
+  ulNote: css({
+    marginTop: -5,
+    marginBottom: 5
+  }),
+  smallP: css({
+    margin: 0,
+    ...fontStyles.sansSerifRegular16
   })
 }
+
+const SmallP = ({ children, ...props }) => <p {...props} {...styles.smallP}>{children}</p>
 
 class CustomizePackage extends Component {
   constructor (props) {
@@ -699,39 +713,37 @@ class CustomizePackage extends Component {
               }}
               onChange={onPriceChange} />
           }
-          {!fixedPrice && <SmallP>
+          {!fixedPrice && <div {...styles.smallP}>
             {payMoreSuggestions.length > 0 && <Fragment>
               <Interaction.Emphasis>
                 {t('package/customize/price/payMore')}
               </Interaction.Emphasis>
-              {' '}
-              {intersperse(
-                payMoreSuggestions.map(({ value, key }) => {
+              <ul {...styles.ul}>
+                {payMoreSuggestions.map(({ value, key }) => {
                   const label = t.elements(`package/customize/price/payMore/${key}`, {
                     formattedCHF: chfFormat(value / 100)
                   })
                   if (price >= value) {
-                    return label
+                    return <li key={key}>{label}</li>
                   }
-                  return <Editorial.A key={key} href='#' onClick={(e) => {
-                    e.preventDefault()
-                    onPriceChange(undefined, value / 100, true)
-                    if (userPrice) {
-                      this.resetUserPrice()
-                    }
-                  }}>
-                    {label}
-                  </Editorial.A>
-                }),
-                () => ', '
-              )}
-              {price >= payMoreSuggestions[payMoreSuggestions.length - 1].value && <Fragment>
-                {'. '}
+                  return <li key={key}>
+                    <Editorial.A href='#' onClick={(e) => {
+                      e.preventDefault()
+                      onPriceChange(undefined, value / 100, true)
+                      if (userPrice) {
+                        this.resetUserPrice()
+                      }
+                    }}>
+                      {label}
+                    </Editorial.A>
+                  </li>
+                })}
+              </ul>
+              {price >= payMoreSuggestions[payMoreSuggestions.length - 1].value && <div {...styles.ulNote}>
                 <Interaction.Emphasis>
                   {t('package/customize/price/payMore/thx')}
                 </Interaction.Emphasis>
-              </Fragment>}
-              <br />
+              </div>}
             </Fragment>}
             {offerUserPrice &&
               <Fragment>
@@ -787,7 +799,7 @@ class CustomizePackage extends Component {
                 </Link>
               </Fragment>
             }
-          </SmallP>}
+          </div>}
         </div>
       </div>
     )

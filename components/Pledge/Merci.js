@@ -91,7 +91,7 @@ class Merci extends Component {
     if (query.claim) {
       return (
         <MainContainer><Content>
-          <ClaimPledge t={t} me={me} id={query.claim} />
+          <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
         </Content></MainContainer>
       )
     }
@@ -113,7 +113,7 @@ class Merci extends Component {
             }} />
           <P>
             {!!query.id && (
-              <Link route='account' params={{ claim: query.id }}>
+              <Link route='account' params={{ claim: query.id, package: query.package }}>
                 <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
               </Link>
             )}

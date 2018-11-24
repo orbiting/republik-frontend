@@ -22,7 +22,7 @@ const styles = {
 const chJan16 = new Date('2019-01-15T23:00:00.000Z')
 
 const ProlongBox = ({ t, prolongBeforeDate, router }) => {
-  if (router.pathname === '/pledge') {
+  if (router.pathname === '/pledge' || router.pathname === '/cancel') {
     return null
   }
   const date = new Date(prolongBeforeDate)

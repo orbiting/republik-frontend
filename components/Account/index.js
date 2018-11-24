@@ -21,6 +21,7 @@ import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
+import GiveStatement from '../Testimonial/GiveStatement'
 import Box from '../Frame/Box'
 
 import {
@@ -71,7 +72,7 @@ class Account extends Component {
   }
 
   render () {
-    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp } = this.props
+    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, hasProlongPledge, merci, inNativeIOSApp } = this.props
 
     return <Loader
       loading={loading}
@@ -110,6 +111,9 @@ class Account extends Component {
                   </P>
                 </Box>
                 }
+                {hasPledges && <AccountAnchor id='statement'>
+                  <GiveStatement pkg={hasProlongPledge ? 'PROLONG' : undefined} />
+                </AccountAnchor>}
                 {!inNativeIOSApp &&
                   <AccountAnchor id='abos'>
                     <MembershipList highlightId={query.id} />
@@ -197,6 +201,9 @@ export default compose(
         loading: data.loading,
         error: data.error,
         hasPledges,
+        hasProlongPledge: hasPledges && !!data.me.pledges.find(pledge => (
+          pledge.package.name === 'PROLONG'
+        )),
         acceptedStatue: (
           hasPledges &&
           !!data.me.pledges.find(pledge => (

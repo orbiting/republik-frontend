@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import withT from '../../../lib/withT'
+import withMe from '../../../lib/apollo/withMe'
 
 import {
   Interaction, Loader
@@ -18,7 +19,9 @@ class MembershipsList extends Component {
     const {
       memberships, t,
       loading, error,
-      highlightId
+      highlightId,
+      prolongIds,
+      waitingMemberships
     } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
@@ -34,7 +37,9 @@ class MembershipsList extends Component {
             {memberships.map(membership => (
               <Manage key={membership.id}
                 membership={membership}
-                highlighted={highlightId === membership.pledge.id} />
+                prolong={prolongIds.includes(membership.id)}
+                highlighted={highlightId === membership.pledge.id}
+                waitingMemberships={waitingMemberships} />
             ))}
           </div>
         )
@@ -44,20 +49,35 @@ class MembershipsList extends Component {
 }
 
 export default compose(
+  withMe,
   graphql(query, {
-    props: ({ data }) => {
+    props: ({ data, ownProps: { me } }) => {
+      const prolongPackage = (
+        data.me &&
+        data.me.customPackages &&
+        data.me.customPackages.find(p => p.name === 'PROLONG')
+      )
+
+      const memberships = (
+        !data.loading &&
+        !data.error &&
+        data.me &&
+        data.me.memberships &&
+        data.me.memberships.filter(m => (
+          m.pledge.package.name !== 'ABO_GIVE' ||
+          (me.id === m.user.id && !m.voucherCode)
+        ))
+      ) || []
       return {
         loading: data.loading,
         error: data.error,
-        memberships: (
-          (
-            !data.loading &&
-            !data.error &&
-            data.me &&
-            data.me.memberships &&
-            data.me.memberships.filter(m => m.pledge.package.name !== 'ABO_GIVE')
-          ) || []
-        )
+        prolongIds: (
+          prolongPackage && prolongPackage.options
+            .filter(option => option.membership)
+            .map(option => option.membership.id)
+        ) || [],
+        memberships,
+        waitingMemberships: memberships.some(m => !m.active && !m.periods.length)
       }
     }
   }),

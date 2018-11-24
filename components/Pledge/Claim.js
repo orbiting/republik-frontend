@@ -22,7 +22,7 @@ class ClaimPledge extends Component {
     }
   }
   claim () {
-    const { me, id } = this.props
+    const { me, id, pkg } = this.props
     const { loading, error } = this.state
 
     if (loading || error || !me) {
@@ -34,7 +34,8 @@ class ClaimPledge extends Component {
     this.props.claim(id)
       .then(() => {
         gotoMerci({
-          id
+          id,
+          package: pkg
         })
       })
       .catch(error => {

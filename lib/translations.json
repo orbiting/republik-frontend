@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-14T16:11:31.593Z",
+  "updated": "2018-11-24T13:32:01.875Z",
   "title": "live",
   "data": [
     {
@@ -1175,6 +1175,10 @@
       "value": "Porträtbild ändern"
     },
     {
+      "key": "profile/portrait/empty",
+      "value": "Sie müssen ein Porträtbild hochladen"
+    },
+    {
       "key": "testimonial/meta/pageTitle",
       "value": "Community – Republik"
     },
@@ -1199,46 +1203,6 @@
       "value": "Jetzt Mitglied werden."
     },
     {
-      "key": "testimonial/title",
-      "value": "Jetzt ein Statement abgeben"
-    },
-    {
-      "key": "testimonial/description",
-      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
-    },
-    {
-      "key": "testimonial/submit",
-      "value": "veröffentlichen"
-    },
-    {
-      "key": "testimonial/role/label",
-      "value": "Bezeichnung"
-    },
-    {
-      "key": "testimonial/role/tooLong",
-      "value": "Bezeichnung, maximal 60 Zeichen"
-    },
-    {
-      "key": "testimonial/update",
-      "value": "aktualisieren"
-    },
-    {
-      "key": "testimonial/unpublished",
-      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
-    },
-    {
-      "key": "testimonial/unpublish/user",
-      "value": "Statement zurücknehmen"
-    },
-    {
-      "key": "testimonial/viewLive",
-      "value": "ansehen"
-    },
-    {
-      "key": "testimonial/unpublished/user",
-      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
-    },
-    {
       "key": "testimonial/search/label",
       "value": "Suchen"
     },
@@ -1257,14 +1221,6 @@
     {
       "key": "testimonial/infinite/endless",
       "value": "Das waren {count} Verleger und Verlegerinnen. Weitere {remaining} anschauen?"
-    },
-    {
-      "key": "testimonial/detail/share/emailSubject",
-      "value": "{name} unterstützt Republik"
-    },
-    {
-      "key": "testimonial/detail/share/title",
-      "value": "{name} unterstützt Republik"
     },
     {
       "key": "api/testimonial/image/required",
@@ -1904,7 +1860,7 @@
     },
     {
       "key": "package/customize/price/label",
-      "value": "Betrag"
+      "value": "Betrag in CHF"
     },
     {
       "key": "package/customize/price/error",
@@ -1929,10 +1885,6 @@
     {
       "key": "package/customize/userPrice/beforeReason",
       "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
-    },
-    {
-      "key": "package/customize/userPrice/beforePrice",
-      "value": "Wie viel können Sie zahlen pro Jahr?"
     },
     {
       "key": "package/price",
@@ -2231,6 +2183,10 @@
       "value": "Schon mal ausgefüllt?\n"
     },
     {
+      "key": "pledge/contact/signIn/customMe",
+      "value": "anmelden"
+    },
+    {
       "key": "pledge/contact/signIn/hide",
       "value": "Das erste Mal hier?"
     },
@@ -2376,7 +2332,7 @@
     },
     {
       "key": "pledge/recievePayment/noPledge",
-      "value": "Das Produkt wurde nicht gefunden."
+      "value": "Die Bestellung wurde nicht gefunden. Kontaktieren Sie uns unter kontakt@republik.ch mit folgender Bestellungsreferenz: {pledgeId}."
     },
     {
       "key": "pledge/recievePayment/paypal/cancel",
@@ -2783,6 +2739,14 @@
       "value": "mit {count} Bildern"
     },
     {
+      "key": "article/autodiscussionteaser/text",
+      "value": "Haben Sie {link}  zu diesem Artikel?"
+    },
+    {
+      "key": "article/autodiscussionteaser/linktext",
+      "value": "Lob oder Kritik"
+    },
+    {
       "key": "merci/postpay/lead",
       "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     },
@@ -2835,6 +2799,10 @@
       "value": "Jetzt mitmachen"
     },
     {
+      "key": "merci/title/noName",
+      "value": "Willkommen an Bord"
+    },
+    {
       "key": "merci/title",
       "value": "Willkommen an Bord, {name}"
     },
@@ -2845,6 +2813,14 @@
     {
       "key": "merci/title/package/DONATE",
       "value": "Guten Tag, {name}"
+    },
+    {
+      "key": "merci/title/package/ABO_GIVE/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/DONATE/noName",
+      "value": "Guten Tag"
     },
     {
       "key": "merci/lead",
@@ -2935,28 +2911,12 @@
       "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
     },
     {
-      "key": "memberships/type/ABO",
-      "value": "Mitgliedschaft und Abonnement"
-    },
-    {
-      "key": "memberships/type/BENEFACTOR_ABO",
-      "value": "Gönner-Mitgliedschaft und -Abonnement"
-    },
-    {
-      "key": "memberships/type/REDUCED_ABO",
-      "value": "Mitgliedschaft und Abonnement (reduziert)"
-    },
-    {
-      "key": "memberships/type/MONTHLY_ABO",
-      "value": "Monats-Abonnement"
-    },
-    {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}."
+      "value": "Gültig bis {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus."
+      "value": "Läuft am {formattedEndDate} aus"
     },
     {
       "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
@@ -2964,19 +2924,7 @@
     },
     {
       "key": "memberships/latestPeriod/overdue",
-      "value": "Überfällig seit dem {formattedEndDate}."
-    },
-    {
-      "key": "memberships/ABO/manage/prolong/link",
-      "value": "Mitgliedschaft und Abonnement verlängern"
-    },
-    {
-      "key": "memberships/ABO/manage/cancel/link",
-      "value": "Mitgliedschaft und Abonnement kündigen"
-    },
-    {
-      "key": "memberships/ABO/manage/reactivate",
-      "value": "Mitgliedschaft und Abonnement reaktivieren"
+      "value": "Überfällig seit dem {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",
@@ -2984,7 +2932,7 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
-      "value": "Abonnement kündigen"
+      "value": "Abonnement künden"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
@@ -2997,14 +2945,6 @@
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",
       "value": "Abonnement reaktivieren"
-    },
-    {
-      "key": "memberships/manage/cancel/button",
-      "value": "Kündigung abschicken"
-    },
-    {
-      "key": "memberships/manage/cancel/reason",
-      "value": "Warum möchten Sie künden?"
     },
     {
       "key": "memberships/claim/lead",
@@ -3033,10 +2973,6 @@
     {
       "key": "memberships/sequenceNumber/label",
       "value": "Abo #{sequenceNumber}"
-    },
-    {
-      "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
     },
     {
       "key": "notifications/pageTitle",
@@ -3371,10 +3307,6 @@
       "value": "Vimeo"
     },
     {
-      "key": "styleguide/charts/confidence95-legend",
-      "value": "95-Prozent-Konfidenzintervall"
-    },
-    {
       "key": "styleguide/charts/y-cut",
       "value": "Achse gekürzt"
     },
@@ -3525,6 +3457,350 @@
     {
       "key": "pages/meta/behind/gallery",
       "value": "Hinter den Kulissen"
+    },
+    {
+      "key": "package/PROLONG/title",
+      "value": "Verlängern"
+    },
+    {
+      "key": "package/PROLONG/description",
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
+    },
+    {
+      "key": "package/PROLONG/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "package/PROLONG/price/give",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "option/PROLONG/ABO/label",
+      "value": "Reguläre Verlängerung"
+    },
+    {
+      "key": "option/PROLONG/ABO/label/give",
+      "value": "Verlängerung schenken"
+    },
+    {
+      "key": "option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönnerin oder Gönner"
+    },
+    {
+      "key": "option/PROLONG/resetGroup",
+      "value": "Jetzt nicht"
+    },
+    {
+      "key": "memberships/manage/reactivate",
+      "value": "Kündigung zurücknehmen"
+    },
+    {
+      "key": "memberships/manage/prolong/link",
+      "value": "Jetzt verlängern"
+    },
+    {
+      "key": "memberships/manage/prolong/awaiting",
+      "value": "Sie haben bereits eine weitere Mitgliedschaft, diese wird automatisch zur Verlängerung genutzt."
+    },
+    {
+      "key": "memberships/manage/cancel/link",
+      "value": "Mitgliedschaft und Abonnement kündigen"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/endDate",
+      "value": "Neu gültig bis {formattedEndDate}"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/REGULAR/title",
+      "value": "Verlängerung um ein Jahr"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/BONUS/title",
+      "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages."
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
+      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/give",
+      "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
+    },
+    {
+      "key": "memberships/title/ABO",
+      "value": "Mitgliedschaft und Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/BENEFACTOR_ABO",
+      "value": "Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/MONTHLY_ABO",
+      "value": "Monatsabonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO/give",
+      "value": "{name} (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/BENEFACTOR_ABO/give",
+      "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "pledge/submit/autoPay",
+      "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "pledge/submit/autoPay/note",
+      "value": "Wir erinnern Sie, bevor wir abbuchen. Und Sie können jederzeit in Ihrem Konto kündigen."
+    },
+    {
+      "key": "pledge/submit/MONTHLY_ABO/autoPay/note",
+      "value": "Ihr Monatsabo verlängert sich automatisch. Sie können das Abo jederzeit in Ihrem Konto kündigen."
+    },
+    {
+      "key": "pledge/submit/PROLONG/autoPay",
+      "value": "Keine Bürokratie mehr: zukünftige Verlängerungen meines Abos automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "Guten Tag, {name}"
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/lead/package/PROLONG",
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
+    },
+    {
+      "key": "pledge/title/PROLONG",
+      "value": "Verlängern Sie Ihr Investment."
+    },
+    {
+      "key": "pledge/title/member",
+      "value": "Willkommen an Bord!"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
+      "key": "package/customize/price/payMore/normal",
+      "value": "Reguläre {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/bonus",
+      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/1.5",
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx",
+      "value": "Danke!"
+    },
+    {
+      "key": "package/customize/price/payLess",
+      "value": "Ich kann mir den Betrag nicht leisten"
+    },
+    {
+      "key": "package/customize/userPrice/beforePrice",
+      "value": "Wie viel können Sie bezahlen?"
+    },
+    {
+      "key": "memberships/cancel/notFound",
+      "value": "Mitgliedschaft nicht gefunden"
+    },
+    {
+      "key": "memberships/cancel/title",
+      "value": "Mitgliedschaft kündigen"
+    },
+    {
+      "key": "memberships/cancel/signIn",
+      "value": "Sie müssen sich anmelden, um zu kündigen."
+    },
+    {
+      "key": "memberships/cancel/info",
+      "value": "Ich möchte die Republik aus folgendem Grund nicht mehr unterstützen:"
+    },
+    {
+      "key": "memberships/cancel/confirmation",
+      "value": "Sie haben Ihr Abo erfolgreich gekündigt."
+    },
+    {
+      "key": "memberships/cancel/description",
+      "value": "Grund"
+    },
+    {
+      "key": "memberships/cancel/accountLink",
+      "value": "Zurück zum Konto"
+    },
+    {
+      "key": "memberships/cancel/button",
+      "value": "Kündigung abschicken"
+    },
+    {
+      "key": "account/app/prolong/link",
+      "value": "Jetzt Mitgliedschaft verlängern"
+    },
+    {
+      "key": "testimonial/detail/share/package/PROLONG",
+      "value": "Ich habe mein Abo verlängert"
+    },
+    {
+      "key": "pledge/form/statement/PROLONG/title",
+      "value": "{name} hat das Abo bereits verlängert."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/signIn",
+      "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/availableWithStatement",
+      "value": "Jetzt sind Sie dran!"
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/notAvailable",
+      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Entweder haben Sie bereits verlängert, oder Sie sind noch nicht Mitglied. Alle Informationen finden Sie in Ihrem {accountLink}."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/accountText",
+      "value": "Konto"
+    },
+    {
+      "key": "pledge/meta/title",
+      "value": "Jetzt Mitglied und Abonnentin werden"
+    },
+    {
+      "key": "pledge/meta/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/form/statement/share/title",
+      "value": "{name} unterstützt die Republik auch im zweiten Jahr."
+    },
+    {
+      "key": "pledge/form/statement/share/description",
+      "value": "Verlängern auch Sie jetzt Ihr Abo."
+    },
+    {
+      "key": "statement/title",
+      "value": "Jetzt ein Statement abgeben."
+    },
+    {
+      "key": "statement/title/update",
+      "value": "Jetzt Ihr Statement aktualisieren."
+    },
+    {
+      "key": "statement/description",
+      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
+    },
+    {
+      "key": "statement/description/update",
+      "value": "Ihr Statement erscheint auf unserer Community-Seite."
+    },
+    {
+      "key": "statement/adminUnpublished",
+      "value": "Wir können Ihr Statement leider nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "statement/submit/update",
+      "value": "aktualisieren"
+    },
+    {
+      "key": "statement/submit",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "statement/unpublish",
+      "value": "Statement zurücknehmen"
+    },
+    {
+      "key": "statement/unpublished",
+      "value": "Ihr Statement ist zurzeit nicht publik."
+    },
+    {
+      "key": "statement/viewLive",
+      "value": "ansehen"
+    },
+    {
+      "key": "statement/share/overlayTitle",
+      "value": "Statement von {name}"
+    },
+    {
+      "key": "statement/share/title",
+      "value": "{name} unterstützt die Republik."
+    },
+    {
+      "key": "statement/share/PROLONG/title",
+      "value": "{name} hat bereits das Abo verlängert"
+    },
+    {
+      "key": "statement/share/please",
+      "value": "Teilen Sie, dass Sie die Republik unterstützen:"
+    },
+    {
+      "key": "statement/share/PROLONG/please",
+      "value": "Teilen Sie, dass Sie Ihr Abo verlängert haben:"
+    },
+    {
+      "key": "statement/share/PROLONG/emailBody",
+      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben mein Republik-Abo verlängert.\nJetzt Abo verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
+    },
+    {
+      "key": "package/customize/price/label/total",
+      "value": "Gesamtbetrag in CHF"
+    },
+    {
+      "key": "package/customize/group/aboGive",
+      "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiterlaufen?"
+    },
+    {
+      "key": "pledge/contact/signIn/wrongToken",
+      "value": "Ist das nicht Ihre E-Mail-Adresse?"
+    },
+    {
+      "key": "prolongNecessary/jan15",
+      "value": "Mit der Republik ins zweite Jahr: {link}"
+    },
+    {
+      "key": "prolongNecessary/jan15/linkText",
+      "value": "jetzt verlängern"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label",
+      "value": "Abo und Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label/give",
+      "value": "Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönner-Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
+      "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "option/suffix/endDate",
+      "value": " bis {formattedEndDate}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN",
+      "value": "Danke, {name}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN/noName",
+      "value": "Danke"
+    },
+    {
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung! <br />"
     }
   ]
 }

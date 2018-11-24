@@ -96,6 +96,17 @@ const styles = {
     right: 0,
     bottom: 0
   }),
+  previewImage: css({
+    filter: 'grayscale(1)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'block'
+  }),
   itemArrow: css({
     position: 'absolute',
     bottom: 0,
@@ -131,7 +142,7 @@ const styles = {
   })
 }
 
-export const Item = ({ image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
+export const Item = ({ previewImage, image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns)
     : singleRow
@@ -140,7 +151,11 @@ export const Item = ({ image, name, isActive, href, onClick, singleRow, minColum
   return (
     <a href={href} {...itemStyles} style={style} onClick={onClick}>
       <span {...styles.aspect}>
-        <img src={image} {...styles.aspectImg} />
+        {previewImage
+          ? <span {...styles.previewImage} style={{
+            backgroundImage: `url(${previewImage})`
+          }} />
+          : <img src={image} {...styles.aspectImg} />}
         <span {...styles.aspectFade}
           style={{ opacity: isActive ? 0 : 1 }} />
       </span>

@@ -2,26 +2,32 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import isEmail from 'validator/lib/isEmail'
+import { withRouter } from 'next/router'
 
+import { Router, Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import { CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 
+import Meta from '../Frame/Meta'
 import Loader from '../Loader'
 import FieldSet from '../FieldSet'
 import SignIn from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
-import isEmail from 'validator/lib/isEmail'
+import withMembership from '../Auth/withMembership'
 
 import {
   Interaction,
   Field,
   A, colors,
-  RawHtml
+  RawHtml,
+  Label
 } from '@project-r/styleguide'
 
 import Accordion from './Accordion'
 import Submit from './Submit'
-import CustomizePackage from './CustomizePackage'
+import CustomizePackage, { getOptionFieldKey } from './CustomizePackage'
 
 const { H1, H2, P } = Interaction
 
@@ -40,7 +46,7 @@ class Pledge extends Component {
       values.reason = pledge.reason
       values.price = pledge.total
       pledge.options.forEach(option => {
-        values[option.templateId] = option.amount
+        values[getOptionFieldKey(option)] = option.amount
       })
       basePledge = {
         values: {
@@ -60,16 +66,24 @@ class Pledge extends Component {
       dirty: {}
     }
   }
-  submitPledgeProps ({ values, query, pledge }) {
-    const { crowdfunding } = this.props
-    const pkg = query.package
-      ? crowdfunding.packages.find(
+  getPkg (base) {
+    const { query } = base || this.props
+    const { packages } = this.props
+    return query.package
+      ? packages.find(
         pkg => pkg.name === query.package.toUpperCase()
       )
       : null
+  }
+  submitPledgeProps ({ values, query, pledge }) {
+    const { customMe } = this.props
+    const pkg = this.getPkg({ query })
     const userPrice = !!query.userPrice
 
     return {
+      accessToken: query.token,
+      packageName: pkg ? pkg.name : undefined,
+      forceAutoPay: pkg ? pkg.name === 'MONTHLY_ABO' : undefined,
       requiresStatutes: pkg
         ? pkg.name !== 'MONTHLY_ABO' && pkg.name !== 'DONATE'
         : undefined,
@@ -80,11 +94,26 @@ class Pledge extends Component {
         lastName: values.lastName,
         email: values.email
       },
-      options: pkg ? pkg.options.map(option => ({
-        amount: values[option.id] || option.minAmount,
-        price: option.price,
-        templateId: option.id
-      })) : [],
+      options: pkg ? pkg.options.map(option => {
+        const fieldKey = getOptionFieldKey(option)
+        return {
+          amount: values[fieldKey] === undefined
+            ? option.defaultAmount
+            : values[fieldKey],
+          price: option.price,
+          templateId: option.templateId,
+          membershipId: option.membership
+            ? option.membership.id
+            : undefined,
+          /* ToDo: move logic to backend? */
+          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.name !== 'ABO_GIVE' && (
+            !option.membership ||
+            option.membership.user.id === (customMe && customMe.id)
+          )
+            ? true /* ToDo: check base pledge value once supported in backend */
+            : undefined
+        }
+      }) : [],
       reason: userPrice ? values.reason : undefined,
       id: pledge ? pledge.id : undefined
     }
@@ -117,14 +146,27 @@ class Pledge extends Component {
     }))
   }
   checkUserFields (props) {
-    const values = props.me ? props.me : this.state.values
+    const values = props.customMe
+      ? props.customMe
+      : this.state.values
     this.handleFirstName(values.firstName || '', false, props.t)
     this.handleLastName(values.lastName || '', false, props.t)
     this.handleEmail(values.email || '', false, props.t)
   }
+  refetchPackages () {
+    const prevPkg = this.getPkg()
+    this.props.refetchPackages().then(() => {
+      if (this.getPkg() !== prevPkg) {
+        window.scrollTo(0, 0)
+      }
+    })
+  }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.me !== this.props.me) {
+    if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
+    }
+    if (nextProps.me !== this.props.me) {
+      this.refetchPackages()
     }
   }
   componentDidMount () {
@@ -139,160 +181,234 @@ class Pledge extends Component {
     } = this.state
 
     const {
-      loading, error
+      loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
-    return (
-      <Loader loading={loading} error={error} render={() => {
-        const {
-          query, me, t,
-          crowdfunding,
-          receiveError,
-          crowdfundingName
-        } = this.props
+    const queryPackage = query.package && query.package.toUpperCase()
+    const pkg = this.getPkg()
 
-        if (crowdfunding.hasEnded && !this.props.pledge) {
+    const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
+    const packageInstruction = t.elements(
+      `pledge/form/instruction/${queryPackage}/${customMe
+        ? pkg
+          ? statementTitle
+            ? 'availableWithStatement'
+            : 'available'
+          : 'notAvailable'
+        : 'signIn'}`,
+      {
+        accountLink: <Link key='account' route='account' passHref>
+          <A>
+            {t(`pledge/form/instruction/${queryPackage}/accountText`)}
+          </A>
+        </Link>
+      },
+      ''
+    )
+
+    const meta = statementTitle
+      ? {
+        title: t('pledge/form/statement/share/title', statement),
+        description: t('pledge/form/statement/share/description'),
+        image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&package=${queryPackage}`)}`
+      }
+      : {
+        title: t('pledge/meta/title'),
+        description: t('pledge/meta/description'),
+        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
+      }
+
+    return (
+      <Fragment>
+        <Meta data={meta} />
+        <Loader loading={loading} error={error} render={() => {
+          const {
+            receiveError,
+            crowdfundingName,
+            hasEnded,
+            me
+          } = this.props
+
+          if (hasEnded && !this.props.pledge) {
+            return (
+              <div>
+                <H1>{t('pledge/title')}</H1>
+                <RawHtml type={P} dangerouslySetInnerHTML={{
+                  __html: t('ended/pledge/lead')
+                }} />
+              </div>
+            )
+          }
+
+          const showSignIn = this.state.showSignIn && !me
+          const userPrice = !!query.userPrice
+
           return (
             <div>
-              <H1>{t('pledge/title')}</H1>
-              <RawHtml type={P} dangerouslySetInnerHTML={{
-                __html: t('ended/pledge/lead')
-              }} />
-            </div>
-          )
-        }
+              {(statementTitle || (packageInstruction && !!packageInstruction.length)) && <div style={{ marginBottom: 40 }}>
+                <P>
+                  {statementTitle && <Fragment>
+                    <Interaction.Emphasis>
+                      {statementTitle}
+                    </Interaction.Emphasis><br />
+                  </Fragment>}
+                  {packageInstruction}
+                </P>
+                {!customMe && <div style={{ marginTop: 20 }}>
+                  <SignIn context='pledge' />
+                </div>}
+              </div>}
+              <H1>
+                {t.first([
+                  pkg && isMember && `pledge/title/${pkg.name}/member`,
+                  pkg && `pledge/title/${pkg.name}`,
+                  isMember && 'pledge/title/member',
+                  'pledge/title'
+                ].filter(Boolean))}
+              </H1>
 
-        const showSignIn = this.state.showSignIn && !me
-
-        const pkg = query.package
-          ? crowdfunding.packages.find(
-            pkg => pkg.name === query.package.toUpperCase()
-          )
-          : null
-        const userPrice = !!query.userPrice
-
-        return (
-          <div>
-            <H1>{t('pledge/title')}</H1>
-
-            {!!receiveError && (
-              <P style={{ color: colors.error, marginBottom: 40 }}>
-                <RawHtml dangerouslySetInnerHTML={{
-                  __html: receiveError
-                }} />
-              </P>
-            )}
-
-            <div style={{ marginBottom: 40 }}>
-              {pkg ? (
-                <CustomizePackage
-                  crowdfundingName={crowdfundingName}
-                  values={values}
-                  errors={errors}
-                  dirty={dirty}
-                  userPrice={userPrice}
-                  pkg={pkg}
-                  onChange={(fields) => {
-                    this.setState(FieldSet.utils.mergeFields(fields))
+              {!!receiveError && (
+                <P style={{ color: colors.error, marginBottom: 40 }}>
+                  <RawHtml dangerouslySetInnerHTML={{
+                    __html: receiveError
                   }} />
-              ) : (
-                <Accordion crowdfundingName={crowdfundingName} extended />
+                </P>
               )}
-            </div>
-            {pkg && (
-              <Fragment>
-                <H2>{t('pledge/contact/title')}</H2>
-                <div style={{ marginTop: 10, marginBottom: 40 }}>
-                  {me ? (
-                    <span>
-                      {t('pledge/contact/signedinAs', {
-                        nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
-                      })}
-                      {' '}<A href='#' onClick={(e) => {
-                        e.preventDefault()
-                        this.props.signOut().then(() => {
-                          this.handleFirstName('', false, t)
-                          this.handleLastName('', false, t)
-                          this.handleEmail('', false, t)
-                          this.setState(() => ({ showSignIn: false }))
-                        })
-                      }}>{t('pledge/contact/signOut')}</A>
-                      <br /><br />
-                      {/* TODO: add active membership info */}
-                      <br /><br />
-                    </span>
-                  ) : (
-                    <span>
-                      <A href='#' onClick={(e) => {
-                        e.preventDefault()
-                        this.setState(() => ({ showSignIn: !showSignIn }))
-                      }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
-                      {!!showSignIn && (
-                        <span>
-                          <br /><br />
-                          <SignIn />
-                        </span>
-                      )}
-                      <br />
-                    </span>
-                  )}
-                  {!showSignIn && <span>
-                    <Field label={t('pledge/contact/firstName/label')}
-                      name='firstName'
-                      error={dirty.firstName && errors.firstName}
-                      value={values.firstName}
-                      onChange={(_, value, shouldValidate) => {
-                        this.handleFirstName(value, shouldValidate, t)
-                      }} />
-                    <br />
-                    <Field label={t('pledge/contact/lastName/label')}
-                      name='lastName'
-                      error={dirty.lastName && errors.lastName}
-                      value={values.lastName}
-                      onChange={(_, value, shouldValidate) => {
-                        this.handleLastName(value, shouldValidate, t)
-                      }} />
-                    <br />
-                    <Field label={t('pledge/contact/email/label')}
-                      name='email'
-                      type='email'
-                      error={dirty.email && errors.email}
-                      value={values.email}
-                      onChange={(_, value, shouldValidate) => {
-                        this.handleEmail(value, shouldValidate, t)
-                      }} />
-                    <br /><br />
-                  </span>}
-                </div>
 
-                <Submit
-                  query={query}
-                  me={me}
-                  {...this.submitPledgeProps({ values, query })}
-                  basePledge={basePledge
-                    ? this.submitPledgeProps(basePledge)
-                    : undefined}
-                  errors={errors}
-                  onError={() => {
-                    this.setState((state) => {
-                      const dirty = {
-                        ...state.dirty
-                      }
-                      Object.keys(state.errors).forEach(field => {
-                        if (state.errors[field]) {
-                          dirty[field] = true
+              <div style={{ marginBottom: 40 }}>
+                {pkg ? (
+                  <CustomizePackage
+                    key={pkg.id}
+                    crowdfundingName={crowdfundingName}
+                    values={values}
+                    errors={errors}
+                    dirty={dirty}
+                    customMe={customMe}
+                    userPrice={userPrice}
+                    pkg={pkg}
+                    onChange={(fields) => {
+                      this.setState(FieldSet.utils.mergeFields(fields))
+                    }} />
+                ) : (
+                  <Accordion crowdfundingName={crowdfundingName}
+                    packages={packages} extended />
+                )}
+              </div>
+              {pkg && (
+                <Fragment>
+                  <H2>{t('pledge/contact/title')}</H2>
+                  <div style={{ marginTop: 10, marginBottom: 40 }}>
+                    {me ? (
+                      <Fragment>
+                        {t('pledge/contact/signedinAs', {
+                          nameOrEmail: me.name ? `${me.name.trim()} (${me.email})` : me.email
+                        })}
+                        {' '}<A href='#' onClick={(e) => {
+                          e.preventDefault()
+                          this.props.signOut().then(() => {
+                            this.handleFirstName('', false, t)
+                            this.handleLastName('', false, t)
+                            this.handleEmail('', false, t)
+                            this.setState(() => ({ showSignIn: false }))
+                          })
+                        }}>{t('pledge/contact/signOut')}</A>
+                        <br /><br />
+                        {/* TODO: add active membership info */}
+                        <br /><br />
+                      </Fragment>
+                    ) : !customMe && (
+                      <Fragment>
+                        <A href='#' onClick={(e) => {
+                          e.preventDefault()
+                          this.setState(() => ({ showSignIn: !showSignIn }))
+                        }}>{t(`pledge/contact/signIn/${showSignIn ? 'hide' : 'show'}`)}</A>
+                        {!!showSignIn && (
+                          <Fragment>
+                            <br /><br />
+                            <SignIn context='pledge' />
+                          </Fragment>
+                        )}
+                        <br />
+                      </Fragment>
+                    )}
+                    {!showSignIn && <Fragment>
+                      <Field label={t('pledge/contact/firstName/label')}
+                        name='firstName'
+                        error={dirty.firstName && errors.firstName}
+                        value={values.firstName}
+                        onChange={(_, value, shouldValidate) => {
+                          this.handleFirstName(value, shouldValidate, t)
+                        }} />
+                      <br />
+                      <Field label={t('pledge/contact/lastName/label')}
+                        name='lastName'
+                        error={dirty.lastName && errors.lastName}
+                        value={values.lastName}
+                        onChange={(_, value, shouldValidate) => {
+                          this.handleLastName(value, shouldValidate, t)
+                        }} />
+                      <br />
+                      {customMe && !customMe.isUserOfCurrentSession
+                        ? <Fragment>
+                          <Interaction.P>
+                            <Label>{t('pledge/contact/email/label')}</Label><br />
+                            {values.email}
+                          </Interaction.P>
+                          <br />
+                          <A href='#' onClick={(e) => {
+                            e.preventDefault()
+
+                            const { router } = this.props
+                            const params = { ...router.query }
+                            delete params.token
+                            Router.replaceRoute('pledge', params, { shallow: true }).then(() => {
+                              this.refetchPackages()
+                            })
+                          }}>
+                            {t('pledge/contact/signIn/wrongToken')}
+                          </A>
+                        </Fragment>
+                        : <Field label={t('pledge/contact/email/label')}
+                          name='email'
+                          type='email'
+                          error={dirty.email && errors.email}
+                          value={values.email}
+                          onChange={(_, value, shouldValidate) => {
+                            this.handleEmail(value, shouldValidate, t)
+                          }} />}
+                      <br /><br />
+                    </Fragment>}
+                  </div>
+
+                  <Submit
+                    query={query}
+                    customMe={customMe}
+                    {...this.submitPledgeProps({ values, query })}
+                    basePledge={basePledge
+                      ? this.submitPledgeProps(basePledge)
+                      : undefined}
+                    errors={errors}
+                    onError={() => {
+                      this.setState((state) => {
+                        const dirty = {
+                          ...state.dirty
+                        }
+                        Object.keys(state.errors).forEach(field => {
+                          if (state.errors[field]) {
+                            dirty[field] = true
+                          }
+                        })
+                        return {
+                          dirty
                         }
                       })
-                      return {
-                        dirty
-                      }
-                    })
-                  }} />
-              </Fragment>
-            )}
-          </div>
-        )
-      }} />
+                    }} />
+                </Fragment>
+              )}
+            </div>
+          )
+        }} />
+      </Fragment>
     )
   }
 }
@@ -302,7 +418,7 @@ Pledge.propTypes = {
 }
 
 const query = gql`
-query pledgeForm($crowdfundingName: String!) {
+query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
   crowdfunding(name: $crowdfundingName) {
     id
     name
@@ -318,7 +434,9 @@ query pledgeForm($crowdfundingName: String!) {
         minAmount
         maxAmount
         defaultAmount
+        templateId
         reward {
+          __typename
           ... on MembershipType {
             id
             name
@@ -331,22 +449,131 @@ query pledgeForm($crowdfundingName: String!) {
       }
     }
   }
+  me(accessToken: $accessToken) {
+    id
+    firstName
+    lastName
+    email
+    isUserOfCurrentSession
+    isListed
+    hasAddress
+    address {
+      name
+      line1
+      line2
+      postalCode
+      city
+      country
+    }
+    customPackages {
+      id
+      name
+      paymentMethods
+      options {
+        id
+        price
+        userPrice
+        minAmount
+        maxAmount
+        defaultAmount
+        templateId
+        reward {
+          __typename
+          ... on MembershipType {
+            id
+            name
+          }
+          ... on Goodie {
+            id
+            name
+          }
+        }
+        optionGroup
+        membership {
+          id
+          user {
+            id
+            name
+          }
+          createdAt
+          sequenceNumber
+          renew
+          active
+          overdue
+          type {
+            name
+          }
+          periods {
+            kind
+            beginDate
+            endDate
+          }
+        }
+        additionalPeriods {
+          kind
+          beginDate
+          endDate
+        }
+      }
+    }
+  }
 }
 `
 
+const shareRefQuery = gql`
+query statementsShareRef($id: String!) {
+  statements(focus: $id, first: 1) {
+    nodes {
+      id
+      name
+      updatedAt
+    }
+  }
+}`
+
 const PledgeWithQueries = compose(
-  graphql(query, {
+  graphql(shareRefQuery, {
+    options: ({ query }) => ({
+      variables: {
+        id: query.utm_content
+      }
+    }),
+    skip: props => !props.query.utm_content,
     props: ({ data }) => {
       return {
-        loading: data.loading,
-        error: data.error,
-        crowdfunding: data.crowdfunding
+        statement: data.statements &&
+          data.statements.nodes &&
+          data.statements.nodes[0]
       }
     }
   }),
+  graphql(query, {
+    options: ({ query, crowdfundingName }) => ({
+      variables: {
+        crowdfundingName,
+        accessToken: query.token
+      }
+    }),
+    props: ({ data }) => {
+      const packages = []
+        .concat(data.crowdfunding && data.crowdfunding.packages)
+        .concat(data.me && data.me.customPackages)
+        .filter(Boolean)
+      return {
+        refetchPackages: data.refetch,
+        loading: data.loading,
+        error: data.error,
+        packages,
+        hasEnded: data.crowdfunding && data.crowdfunding.hasEnded,
+        customMe: data.me
+      }
+    }
+  }),
+  withMembership, // provides isMember
   withSignOut,
   withT,
-  withMe
+  withMe,
+  withRouter
 )(Pledge)
 
 export default PledgeWithQueries

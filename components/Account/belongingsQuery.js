@@ -4,6 +4,16 @@ export default gql`
 query myBelongings {
   me {
     id
+    customPackages {
+      id
+      name
+      options {
+        id
+        membership {
+          id
+        }
+      }
+    }
     memberships {
       id
       claimerName
@@ -13,6 +23,9 @@ query myBelongings {
       renew
       active
       overdue
+      user {
+        id
+      }
       pledge {
         id
         package {
@@ -77,6 +90,17 @@ query myBelongings {
         maxAmount
         amount
         price
+        membership {
+          id
+          user {
+            id
+            name
+          }
+          sequenceNumber
+        }
+        additionalPeriods {
+          endDate
+        }
       }
       status
       total

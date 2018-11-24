@@ -302,10 +302,10 @@ class Submit extends Component {
           baseQuery.statement = customMe.id
         }
         if (!me) {
-          if (customMe) {
+          if (customMe || packageName === 'PROLONG') {
             gotoMerci({
               ...baseQuery,
-              email: customMe.email
+              email: user.email
             })
             return
           }

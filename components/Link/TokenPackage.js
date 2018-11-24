@@ -23,7 +23,7 @@ const TokenPackageLink = compose(
       accessToken: data.me && data.me.accessToken
     })
   })
-)(({ loading, accessToken, params, ...props }) => {
+)(({ loading, accessToken, children, params, inNativeApp, inNativeIOSApp, ...props }) => {
   if (loading) {
     return '...'
   }
@@ -31,7 +31,9 @@ const TokenPackageLink = compose(
   if (accessToken) {
     p.token = accessToken
   }
-  return <Link route='pledge' params={p} {...props} />
+  return <Link route='pledge' {...props} params={p}>
+    {children}
+  </Link>
 })
 
 export default TokenPackageLink

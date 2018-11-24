@@ -1,11 +1,13 @@
 import React from 'react'
 import { withRouter } from 'next/router'
-
-import TokenPackageLink from '../Link/TokenPackage'
+import { compose } from 'react-apollo'
 
 import { Editorial, colors, mediaQueries } from '@project-r/styleguide'
 
 import { css } from 'glamor'
+
+import TokenPackageLink from '../Link/TokenPackage'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 const styles = {
   box: css({
@@ -21,7 +23,10 @@ const styles = {
 
 const chJan16 = new Date('2019-01-15T23:00:00.000Z')
 
-const ProlongBox = ({ t, prolongBeforeDate, router }) => {
+const ProlongBox = ({
+  t, prolongBeforeDate, router,
+  inNativeApp, inNativeIOSApp
+}) => {
   if (router.pathname === '/pledge' || router.pathname === '/cancel') {
     return null
   }
@@ -30,7 +35,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
     return <div {...styles.box}>
       {t.elements('prolongNecessary/jan15', {
         link: <TokenPackageLink key='link' params={{ package: 'PROLONG' }} passHref>
-          <Editorial.A>
+          <Editorial.A target={inNativeApp && !inNativeIOSApp ? '_blank' : undefined}>
             {t('prolongNecessary/jan15/linkText')}
           </Editorial.A>
         </TokenPackageLink>
@@ -40,4 +45,7 @@ const ProlongBox = ({ t, prolongBeforeDate, router }) => {
   return null
 }
 
-export default withRouter(ProlongBox)
+export default compose(
+  withRouter,
+  withInNativeApp
+)(ProlongBox)

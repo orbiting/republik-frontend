@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T02:11:17.927Z",
+  "updated": "2018-11-24T10:02:29.114Z",
   "title": "live",
   "data": [
     {
@@ -2912,7 +2912,7 @@
     },
     {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Gültig bis am {formattedEndDate}."
+      "value": "Gültig bis {formattedEndDate}."
     },
     {
       "key": "memberships/latestPeriod/renew/false",
@@ -3580,7 +3580,7 @@
     },
     {
       "key": "pledge/title/member",
-      "value": "Liebe Verlegerin, lieber Verleger"
+      "value": "Willkommen an Bord!"
     },
     {
       "key": "package/customize/price/payMore",
@@ -3592,11 +3592,11 @@
     },
     {
       "key": "package/customize/price/payMore/bonus",
-      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}."
+      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/1.5",
-      "value": "Ich bin für Grosszügigkeit: {formattedCHF}."
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/thx",
@@ -3604,7 +3604,7 @@
     },
     {
       "key": "package/customize/price/payLess",
-      "value": "Ich kann mir den Betrag nicht leisten."
+      "value": "Ich kann mir den Betrag nicht leisten"
     },
     {
       "key": "package/customize/userPrice/beforePrice",

@@ -273,6 +273,10 @@ class CustomizePackage extends Component {
         : 0
       const error = priceError(price, minPrice, t)
 
+      if (userPrice && price >= regularMinPrice) {
+        this.resetUserPrice()
+      }
+
       this.setState({ customPrice: true })
       onChange(FieldSet.utils.fieldsState({
         field: 'price',

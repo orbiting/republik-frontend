@@ -237,9 +237,17 @@ class PledgeReceivePayment extends Component {
       sourceId
     })
       .then(({ data: { payPledge } }) => {
+        if (!pledge || (!pledge.user && !me)) {
+          gotoMerci({
+            id: pledgeId
+          })
+          return
+        }
         const baseQuery = {
-          package: pledge.package.name,
           id: pledgeId
+        }
+        if (pledge.package) {
+          baseQuery.package = pledge.package.name
         }
         if (!me) {
           if (baseQuery.package === 'PROLONG') {
@@ -281,13 +289,6 @@ class PledgeReceivePayment extends Component {
 
     const { action } = this.state
     if (action) {
-      const { pledge } = this.props
-      if (!pledge) {
-        this.setState({
-          processing: false
-        })
-        return
-      }
       this[action.method](action.argument)
     }
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T12:53:46.264Z",
+  "updated": "2018-11-24T13:14:56.076Z",
   "title": "live",
   "data": [
     {
@@ -3785,6 +3785,18 @@
     {
       "key": "option/suffix/endDate",
       "value": " bis {formattedEndDate}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN",
+      "value": "Danke, {name}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN/noName",
+      "value": "Danke"
+    },
+    {
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung! <br />"
     }
   ]
 }

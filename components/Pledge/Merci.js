@@ -187,7 +187,7 @@ class Merci extends Component {
           <H1>
             {t.first(
               [
-                `merci/title/package/${query.package}${noNameSuffix}`,
+                `merci/title/package/${query.package || 'UNKOWN'}${noNameSuffix}`,
                 `merci/title${noNameSuffix}`
               ],
               {
@@ -199,7 +199,7 @@ class Merci extends Component {
             type={Lead}
             dangerouslySetInnerHTML={{
               __html: t.first([
-                `merci/lead/package/${query.package}`,
+                `merci/lead/package/${query.package || 'UNKOWN'}`,
                 'merci/lead'
               ])
             }}

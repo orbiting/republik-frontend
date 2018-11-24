@@ -237,22 +237,31 @@ class PledgeReceivePayment extends Component {
       sourceId
     })
       .then(({ data: { payPledge } }) => {
+        const baseQuery = {
+          package: pledge.package.name,
+          id: pledgeId
+        }
         if (!me) {
+          if (baseQuery.package === 'PROLONG') {
+            gotoMerci({
+              ...baseQuery,
+              email: pledge.user.email
+            })
+            return
+          }
           this.props.signIn(pledge.user.email, 'pledge')
             .then(({ data: { signIn } }) => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               signInError: errorToString(error)
             }))
         } else {
-          gotoMerci({
-            id: payPledge.pledgeId
-          })
+          gotoMerci(baseQuery)
         }
       })
       .catch(error => {

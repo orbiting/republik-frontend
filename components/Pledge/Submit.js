@@ -573,6 +573,7 @@ class Submit extends Component {
             <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
               <Button
                 block
+                primary={!errorMessages.length}
                 onClick={() => {
                   this.submitPledge()
                 }}>

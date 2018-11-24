@@ -38,7 +38,8 @@ import {
   linkRule,
   mediaQueries,
   RawHtml,
-  TeaserFeed
+  TeaserFeed,
+  Editorial
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 
@@ -361,8 +362,8 @@ class Profile extends Component {
                         {t.elements('profile/preview/notEligible',
                           {
                             link: (
-                              <Link route='account' key='account'>
-                                <a {...linkRule}>{t('profile/preview/notEligible/link')}</a>
+                              <Link route='account' key='account' passHref>
+                                <Editorial.A>{t('profile/preview/notEligible/link')}</Editorial.A>
                               </Link>
                             )
                           }

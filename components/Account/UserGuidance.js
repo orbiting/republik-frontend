@@ -10,7 +10,7 @@ import Box from '../Frame/Box'
 import { MainContainer } from '../Frame'
 import { P } from './Elements'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, Editorial } from '@project-r/styleguide'
 
 const styles = {
   list: css({
@@ -39,23 +39,22 @@ const UserGuidance = ({ t, signOut }) => (
                   </b>
                 ),
                 signOutLink: (
-                  <a
+                  <Editorial.A
                     key='signOut'
                     href='#abmelden'
-                    {...linkRule}
                     onClick={e => {
                       e.preventDefault()
                       signOut()
                     }}
                   >
                     {t('Account/noActiveMembership/signOutLink')}
-                  </a>
+                  </Editorial.A>
                 ),
                 pledgeLink: (
-                  <Link route='pledge' key='pledge'>
-                    <a {...linkRule}>
+                  <Link route='pledge' key='pledge' passHref>
+                    <Editorial.A>
                       {t('Account/noActiveMembership/pledgeLink')}
-                    </a>
+                    </Editorial.A>
                   </Link>
                 )
               })}

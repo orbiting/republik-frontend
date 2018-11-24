@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import {
-  A,
+  Editorial,
   Container,
   Interaction
 } from '@project-r/styleguide'
@@ -21,7 +21,14 @@ const Prestitial = ({ me, isMember, t }) => {
   const text = me && !isMember
     ? t.elements(
       'marketing/preview/prestitial/noMembership',
-      { link: <Link route='pledge'><A style={{ cursor: 'pointer' }}><br />{t('marketing/preview/prestitial/noMembership/link')}</A></Link> }
+      {
+        link: <Link route='pledge' passHref>
+          <Editorial.A>
+            <br />
+            {t('marketing/preview/prestitial/noMembership/link')}
+          </Editorial.A>
+        </Link>
+      }
     )
     : t('marketing/preview/prestitial/withMembership')
 

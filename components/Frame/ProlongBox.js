@@ -10,7 +10,7 @@ import { css } from 'glamor'
 const styles = {
   box: css({
     padding: 15,
-    backgroundColor: colors.secondaryBg,
+    backgroundColor: colors.primaryBg,
     textAlign: 'center',
     fontSize: 13,
     [mediaQueries.mUp]: {

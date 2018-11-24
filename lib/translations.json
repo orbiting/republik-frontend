@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-23T22:17:36.092Z",
+  "updated": "2018-11-24T00:00:35.421Z",
   "title": "live",
   "data": [
     {
@@ -3757,6 +3757,22 @@
     {
       "key": "pledge/contact/signIn/wrongToken",
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label",
+      "value": "Abo und Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label/give",
+      "value": "Mitgliedschaft für {name} (#{sequenceNumber})"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönner-Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
+      "value": "Mitgliedschaft für {name} (#{sequenceNumber})"
     }
   ]
 }

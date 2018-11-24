@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
+
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
@@ -45,7 +47,7 @@ class PledgeList extends Component {
     })
   }
   render () {
-    const { pledges, t, highlightId } = this.props
+    const { pledges, t, highlightId, me } = this.props
 
     return <Fragment>
       {pledges.map(pledge => {
@@ -60,15 +62,28 @@ class PledgeList extends Component {
             title={t(`package/${pledge.package.name}/title`)}
             createdAt={createdAt}>
             <List>
-              {!!options.length && options.map((option, i) => (
-                <Item key={`option-${i}`}>
-                  {option.amount}
-                  {' '}
-                  {t.pluralize(`option/${option.reward.name}/label`, {
-                    count: option.amount
-                  }, option.reward.name)}
-                </Item>
-              ))}
+              {!!options.length && options.map((option, i) => {
+                const isAboGive = option.membership && (option.membership.user.id !== me.id)
+                return (
+                  <Item key={`option-${i}`}>
+                    {option.maxAmount > 1 ? `${option.amount} ` : ''}
+                    {t.first([
+                      isAboGive && `pledge/option/${pledge.package.name}/${option.reward.name}/label/give`,
+                      isAboGive && `option/${option.reward.name}/label/give`,
+                      `pledge/option/${pledge.package.name}/${option.reward.name}/label/${option.amount}`,
+                      `pledge/option/${pledge.package.name}/${option.reward.name}/label/other`,
+                      `pledge/option/${pledge.package.name}/${option.reward.name}/label`,
+                      `option/${option.reward.name}/label/${option.amount}`,
+                      `option/${option.reward.name}/label/other`,
+                      `option/${option.reward.name}/label`
+                    ].filter(Boolean), {
+                      count: option.amount,
+                      name: option.membership && option.membership.user.name,
+                      sequenceNumber: option.membership && option.membership.sequenceNumber
+                    })}
+                  </Item>
+                )
+              })}
               {
                 pledge.payments.map((payment, i) => (
                   <Item key={`payment-${i}`}>
@@ -113,6 +128,7 @@ class PledgeList extends Component {
 
 export default compose(
   withT,
+  withMe,
   graphql(query, {
     props: ({ data }) => {
       return {

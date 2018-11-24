@@ -91,6 +91,14 @@ query myBelongings {
         maxAmount
         amount
         price
+        membership {
+          id
+          user {
+            id
+            name
+          }
+          sequenceNumber
+        }
       }
       status
       total

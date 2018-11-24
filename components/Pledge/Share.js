@@ -41,7 +41,7 @@ const Share = ({ pkg, statement, me, t }) => {
         `statement/share/${pkg}/title`,
         `statement/share/title`
       ], statement),
-      download: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${statement.updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${statement.id}${pkg ? `&package=${pkg}` : ''}`,
+      download: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}${pkg ? `&package=${pkg}` : ''}`)}`,
       shareOverlayTitle: t('statement/share/overlayTitle', statement)
     }
 

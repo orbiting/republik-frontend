@@ -21,7 +21,6 @@ class MembershipsList extends Component {
       loading, error,
       highlightId,
       prolongIds,
-      accessToken,
       waitingMemberships
     } = this.props
     return (
@@ -39,7 +38,6 @@ class MembershipsList extends Component {
               <Manage key={membership.id}
                 membership={membership}
                 prolong={prolongIds.includes(membership.id)}
-                accessToken={accessToken}
                 highlighted={highlightId === membership.pledge.id}
                 waitingMemberships={waitingMemberships} />
             ))}
@@ -73,7 +71,6 @@ export default compose(
       return {
         loading: data.loading,
         error: data.error,
-        accessToken: data.me && data.me.accessToken,
         prolongIds: (
           prolongPackage && prolongPackage.options
             .filter(option => option.membership)

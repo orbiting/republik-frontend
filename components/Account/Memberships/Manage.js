@@ -9,6 +9,8 @@ import { timeFormat } from '../../../lib/utils/format'
 import { Link } from '../../../lib/routes'
 import { Item as AccountItem, P } from '../Elements'
 
+import TokenPackageLink from '../../Link/TokenPackage'
+
 import {
   InlineSpinner, colors, linkRule, Interaction, A
 } from '@project-r/styleguide'
@@ -26,7 +28,7 @@ class Actions extends Component {
     }
   }
   render () {
-    const { t, membership, prolong, accessToken, waitingMemberships } = this.props
+    const { t, membership, prolong, waitingMemberships } = this.props
     const {
       updating,
       remoteError
@@ -95,9 +97,8 @@ class Actions extends Component {
         </P>}
         {prolong &&
           <P>
-            <Link route='pledge' params={{
-              package: 'PROLONG',
-              token: accessToken
+            <TokenPackageLink params={{
+              package: 'PROLONG'
             }} passHref>
               <A>
                 {t.first([
@@ -105,7 +106,7 @@ class Actions extends Component {
                   'memberships/manage/prolong/link'
                 ])}
               </A>
-            </Link>
+            </TokenPackageLink>
           </P>
         }
         {!!remoteError &&
@@ -151,7 +152,7 @@ const ManageActions = compose(
   })
 )(Actions)
 
-const Manage = ({ t, membership, highlighted, prolong, accessToken, waitingMemberships, title, compact, actions }) => {
+const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
   const latestPeriod = membership.periods[0]
   const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
@@ -183,7 +184,7 @@ const Manage = ({ t, membership, highlighted, prolong, accessToken, waitingMembe
           { formattedEndDate }
         )}
       </P>}
-      {actions && <ManageActions membership={membership} prolong={prolong} accessToken={accessToken} waitingMemberships={waitingMemberships} />}
+      {actions && <ManageActions membership={membership} prolong={prolong} waitingMemberships={waitingMemberships} />}
     </AccountItem>
   )
 }
@@ -192,8 +193,7 @@ Manage.propTypes = {
   title: PropTypes.string,
   membership: PropTypes.object.isRequired,
   actions: PropTypes.bool.isRequired,
-  prolong: PropTypes.bool,
-  accessToken: PropTypes.string
+  prolong: PropTypes.bool
 }
 
 Manage.defaultProps = {

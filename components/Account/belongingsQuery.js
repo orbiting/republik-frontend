@@ -4,7 +4,6 @@ export default gql`
 query myBelongings {
   me {
     id
-    accessToken(scope: CUSTOM_PLEDGE)
     customPackages {
       id
       name

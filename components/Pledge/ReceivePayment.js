@@ -273,10 +273,6 @@ class PledgeReceivePayment extends Component {
   }
   componentDidMount () {
     // TODO: Test and re-enable psp payload purging after processing it
-    // const {pledge} = this.props
-    // if (!pledge) {
-    //   return
-    // }
     // const url = {
     //   route: '/angebote',
     //   params: this.queryFromPledge()
@@ -285,6 +281,13 @@ class PledgeReceivePayment extends Component {
 
     const { action } = this.state
     if (action) {
+      const { pledge } = this.props
+      if (!pledge) {
+        this.setState({
+          processing: false
+        })
+        return
+      }
       this[action.method](action.argument)
     }
   }
@@ -322,7 +325,9 @@ const PledgeReceivePaymentById = compose(
     props: ({ data, ownProps }) => {
       let error = data.error
       if (data.pledge === null) {
-        error = ownProps.t('pledge/recievePayment/noPledge')
+        error = ownProps.t('pledge/recievePayment/noPledge', {
+          pledgeId: ownProps.pledgeId
+        })
       }
       return {
         loading: data.loading,

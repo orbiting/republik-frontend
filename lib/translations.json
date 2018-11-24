@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T11:16:17.917Z",
+  "updated": "2018-11-24T12:53:46.264Z",
   "title": "live",
   "data": [
     {
@@ -2332,7 +2332,7 @@
     },
     {
       "key": "pledge/recievePayment/noPledge",
-      "value": "Das Produkt wurde nicht gefunden."
+      "value": "Die Bestellung wurde nicht gefunden. Kontaktieren Sie uns unter kontakt@republik.ch mit folgender Bestellungsreferenz: {pledgeId}."
     },
     {
       "key": "pledge/recievePayment/paypal/cancel",
@@ -2912,11 +2912,11 @@
     },
     {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Gültig bis {formattedEndDate}."
+      "value": "Gültig bis {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus."
+      "value": "Läuft am {formattedEndDate} aus"
     },
     {
       "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
@@ -2924,7 +2924,7 @@
     },
     {
       "key": "memberships/latestPeriod/overdue",
-      "value": "Überfällig seit dem {formattedEndDate}."
+      "value": "Überfällig seit dem {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",
@@ -3508,7 +3508,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",
-      "value": "Neu gültig bis zum {formattedEndDate}"
+      "value": "Neu gültig bis {formattedEndDate}"
     },
     {
       "key": "option/PROLONG/additionalPeriods/REGULAR/title",

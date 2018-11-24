@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T00:00:35.421Z",
+  "updated": "2018-11-24T00:52:50.040Z",
   "title": "live",
   "data": [
     {
@@ -3759,6 +3759,14 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
+      "key": "prolongNecessary/jan15",
+      "value": "Mit der Republik ins zweite Jahr: {link}."
+    },
+    {
+      "key": "prolongNecessary/jan15/linkText",
+      "value": "jetzt verlängern"
+    },
+    {
       "key": "pledge/option/PROLONG/ABO/label",
       "value": "Abo und Mitgliedschaft"
     },
@@ -3772,7 +3780,7 @@
     },
     {
       "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
-      "value": "Mitgliedschaft für {name} (#{sequenceNumber})"
+      "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber})"
     }
   ]
 }

@@ -4,7 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
-import { chfFormat } from '../../lib/utils/format'
+import { timeFormat, chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 import { Link } from '../../lib/routes'
 
@@ -19,6 +19,8 @@ import {
   RawHtml,
   linkRule
 } from '@project-r/styleguide'
+
+const dayFormat = timeFormat('%d. %B %Y')
 
 class PledgeList extends Component {
   componentDidMount () {
@@ -63,7 +65,12 @@ class PledgeList extends Component {
             createdAt={createdAt}>
             <List>
               {!!options.length && options.map((option, i) => {
-                const isAboGive = option.membership && (option.membership.user.id !== me.id)
+                const { membership, additionalPeriods } = option
+                const isAboGive = membership && (membership.user.id !== me.id)
+                const endDate = additionalPeriods &&
+                  additionalPeriods.length &&
+                  additionalPeriods[additionalPeriods.length - 1].endDate
+
                 return (
                   <Item key={`option-${i}`}>
                     {option.maxAmount > 1 ? `${option.amount} ` : ''}
@@ -79,7 +86,10 @@ class PledgeList extends Component {
                     ].filter(Boolean), {
                       count: option.amount,
                       name: option.membership && option.membership.user.name,
-                      sequenceNumber: option.membership && option.membership.sequenceNumber
+                      sequenceNumber: option.membership && option.membership.sequenceNumber,
+                      endDateSuffix: endDate ? t('option/suffix/endDate', {
+                        formattedEndDate: dayFormat(new Date(endDate))
+                      }) : ''
                     })}
                   </Item>
                 )

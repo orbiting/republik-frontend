@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T10:02:29.114Z",
+  "updated": "2018-11-24T11:16:17.917Z",
   "title": "live",
   "data": [
     {
@@ -3772,7 +3772,7 @@
     },
     {
       "key": "pledge/option/PROLONG/ABO/label/give",
-      "value": "Mitgliedschaft für {name} (#{sequenceNumber})"
+      "value": "Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
     },
     {
       "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label",
@@ -3780,7 +3780,11 @@
     },
     {
       "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
-      "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber})"
+      "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "option/suffix/endDate",
+      "value": " bis {formattedEndDate}"
     }
   ]
 }

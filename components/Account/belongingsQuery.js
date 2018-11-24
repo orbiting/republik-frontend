@@ -98,6 +98,9 @@ query myBelongings {
           }
           sequenceNumber
         }
+        additionalPeriods {
+          endDate
+        }
       }
       status
       total

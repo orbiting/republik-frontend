@@ -31,7 +31,7 @@ const Share = ({ pkg, statement, me, t }) => {
     }
     : {
       url: packagePlease
-        ? `${PUBLIC_BASE_URL}/angebote?package=${pkg}&utm_campaign=${pkg}-STATEMENTS&utm_content=${statement.id}`
+        ? `${PUBLIC_BASE_URL}/angebote?package=${pkg}&ref=${statement.id}&utm_campaign=${pkg}-STATEMENTS&utm_content=${statement.id}`
         : `${PUBLIC_BASE_URL}/community?id=${statement.id}`,
       title: t.first([
         `statement/share/${pkg}/title`,

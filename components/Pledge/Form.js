@@ -535,10 +535,10 @@ const PledgeWithQueries = compose(
   graphql(shareRefQuery, {
     options: ({ query }) => ({
       variables: {
-        id: query.utm_content
+        id: query.utm_content || query.ref
       }
     }),
-    skip: props => !props.query.utm_content,
+    skip: props => !(props.query.utm_content || props.query.ref),
     props: ({ data }) => {
       return {
         statement: data.statements &&

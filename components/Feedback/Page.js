@@ -11,7 +11,7 @@ import Frame from '../Frame'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import Hitlist from './Hitlist'
+import ActiveDiscussions from './ActiveDiscussions'
 import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
@@ -101,7 +101,7 @@ class Search extends Component {
       })
     }
 
-    this.onChangeFromHitlist = selectedObj => {
+    this.onChangeFromActiveDiscussions = selectedObj => {
       const articleDiscussionId = selectedObj && selectedObj.discussionId
       if (
         articleDiscussionId &&
@@ -234,10 +234,10 @@ class Search extends Component {
                 <Interaction.H3>Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?</Interaction.H3>
               </div>
               <Label style={{ display: 'block', marginBottom: 10 }}>Gerade aktive Diskussionen</Label>
-              <Hitlist
+              <ActiveDiscussions
                 discussionId={articleDiscussionId}
                 value={meta}
-                onChange={this.onChangeFromHitlist}
+                onChange={this.onChangeFromActiveDiscussions}
                 onReset={this.onReset}
                 ignoreDiscussionId={GENERAL_DISCUSSION_ID}
               />

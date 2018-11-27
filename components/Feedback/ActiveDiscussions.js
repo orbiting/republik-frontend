@@ -69,7 +69,7 @@ const RowItem = ({ onClick, label, selected, path }) => (
   </button>
 )
 
-class Hitlist extends Component {
+class ActiveDiscussions extends Component {
   constructor (props, ...args) {
     super(props, ...args)
 
@@ -147,7 +147,7 @@ class Hitlist extends Component {
   }
 }
 
-Hitlist.propTypes = {
+ActiveDiscussions.propTypes = {
   t: PropTypes.func,
   value: PropTypes.object,
   allowSearch: PropTypes.bool,
@@ -159,4 +159,4 @@ Hitlist.propTypes = {
 export default compose(
   withT,
   withActiveDiscussions
-)(Hitlist)
+)(ActiveDiscussions)

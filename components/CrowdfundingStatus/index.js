@@ -263,7 +263,6 @@ query crowdfundingStatus($crowdfundingName: String!) {
     status {
       people
       money
-      memberships
     }
     endDate
     hasEnded

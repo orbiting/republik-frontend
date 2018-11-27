@@ -2,22 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import debounce from 'lodash.debounce'
-import gql from 'graphql-tag'
 import { compose, withApollo } from 'react-apollo'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
 import Search from 'react-icons/lib/md/search'
 
-import ArticleItem from './ArticleItem'
+import ArticleItem, { NoResultsItem } from './ArticleItem'
+import { getArticleSearchResults } from './enhancers'
 
 import {
   Autocomplete,
-  Interaction,
   Spinner,
-  colors,
-  fontStyles,
-  mediaQueries
+  colors
 } from '@project-r/styleguide'
 
 const styles = {
@@ -28,56 +25,8 @@ const styles = {
     border: 'none',
     padding: '0',
     cursor: 'pointer'
-  }),
-  previewTitle: css({
-    // ...fontStyles.sansSerifMedium22,
-    // lineHeight: '24px'
-  }),
-  previewCredits: css({
-    ...fontStyles.sansSerifRegular14,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular16
-    }
-  }),
-  noResults: css({
-    color: colors.disabled
   })
 }
-
-const { P } = Interaction
-
-const query = gql`
-query getSearchResults($search: String, $after: String, $sort: SearchSortInput, $filters: [SearchGenericFilterInput!], $trackingId: ID) {
-  search(first: 5, after: $after, search: $search, sort: $sort, filters: $filters, trackingId: $trackingId) {
-    nodes {
-      entity {
-        __typename
-        ... on Document {
-          meta {
-            title
-            path
-            credits
-            ownDiscussion {
-              id
-              closed
-            }
-            linkedDiscussion {
-              id
-              path
-              closed
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`
-
-const NoResultsItem = ({ title }) =>
-  <div>
-    <P {...styles.noResults}>{title}</P>
-  </div>
 
 const Icon = ({ IconComponent, onClick, title, fill }) => (
   <button
@@ -93,7 +42,7 @@ const Icon = ({ IconComponent, onClick, title, fill }) => (
   </button>
 )
 
-class Input extends Component {
+class ArticleSearch extends Component {
   constructor (props, ...args) {
     super(props, ...args)
 
@@ -101,34 +50,15 @@ class Input extends Component {
       filter: '',
       items: [],
       loading: false
-      // filter: '',
-      /* items: [
-        {text: 'Januar', value: '01'},
-        {text: 'Februar', value: '02'},
-        {text: 'März', value: '03'},
-        {text: 'April', value: '04'},
-        {text: 'Mai', value: '05'},
-        {text: 'Juni', value: '06'},
-        {text: 'Juli', value: '07'},
-        {text: 'August', value: '08'},
-        {text: 'September', value: '09'},
-        {text: 'Oktober', value: '10'},
-        {text: 'November', value: '10'},
-        {text: 'Dezember', value: '10'}
-      ] */
-    }
-
-    this.setFocusRef = ref => {
-      this.focusRef = ref
     }
   }
 
   onChange = (value) => {
-    // const { onChange } = this.props
+    const { onChange } = this.props
     if (!value) {
-      this.setState({ value: null, document: {} }, () => { console.log('no value') })
+      this.setState({ value: null, meta: {} }, () => { onChange && onChange(null) })
     } else {
-      this.setState({ ...value }, () => { console.log('value:', value) })
+      this.setState({ ...value }, () => { onChange && onChange(value) })
     }
   }
 
@@ -145,7 +75,7 @@ class Input extends Component {
     this.setState({ loading: true })
     const { client } = this.props
     client.query({
-      query,
+      query: getArticleSearchResults,
       variables: {
         search,
         'sort': {
@@ -164,50 +94,51 @@ class Input extends Component {
         ]
       }
     }).then(res => {
-      const filteredNodes = res.data && res.data.search.nodes
-        .filter(n => n.entity &&
-          n.entity.meta &&
-          (
-            (n.entity.meta.ownDiscussion && !n.entity.meta.ownDiscussion.closed) ||
-            (n.entity.meta.linkedDiscussion && !n.entity.meta.linkedDiscussion.closed)))
-      console.log(filteredNodes)
+      const filteredNodes =
+        res.data &&
+        res.data.search.nodes.filter(n => {
+          const meta = n.entity && n.entity.meta
+          return (
+            meta &&
+            ((meta.ownDiscussion && !meta.ownDiscussion.closed) ||
+              (meta.linkedDiscussion && !meta.linkedDiscussion.closed))
+          )
+        })
       const items = filteredNodes.length
-        ? filteredNodes.map(n => ({
-          document: {
-            title: n.entity.meta.title,
-            credits: n.entity.meta.credits
-          },
-          text: <ArticleItem
-            title={n.entity.meta.title}
-            newPage={n.entity.meta.linkedDiscussion && !n.entity.meta.linkedDiscussion.closed} />,
-          value: n // n.entity.meta.path
-        })) : [{
-          document: {
-          },
+        ? filteredNodes.map(n => {
+          const meta = n.entity && n.entity.meta
+          const linkedDiscussion =
+              meta &&
+              meta.linkedDiscussion &&
+              !meta.linkedDiscussion.closed &&
+              meta.linkedDiscussion
+          const discussionId =
+              meta &&
+              ((meta.ownDiscussion &&
+                !meta.ownDiscussion.closed &&
+                meta.ownDiscussion.id) ||
+                (linkedDiscussion && linkedDiscussion.id))
+
+          return {
+            discussionId,
+            routePath: linkedDiscussion && linkedDiscussion.path,
+            meta: {
+              title: meta.title,
+              credits: meta.credits
+            },
+            text: <ArticleItem
+              title={meta.title}
+              newPage={!!linkedDiscussion} />,
+            value: discussionId // n.entity.meta.path
+          }
+        }) : [{
+          discussionId: null,
           text: <NoResultsItem title={'Keine Diskussion gefunden'} />,
           value: 'none'
         }]
       this.setState({ items, loading: false })
     })
   }, 200)
-
-  updateFocus () {
-    if (this.focusRef && this.focusRef.input) {
-      if (this.props.allowFocus) {
-        this.focusRef.input.focus()
-      } else {
-        this.focusRef.input.blur()
-      }
-    }
-  }
-
-  componentDidMount () {
-    this.updateFocus()
-  }
-
-  componentDidUpdate () {
-    this.updateFocus()
-  }
 
   render () {
     const { t, onReset } = this.props
@@ -247,7 +178,7 @@ class Input extends Component {
   }
 }
 
-Input.propTypes = {
+ArticleSearch.propTypes = {
   t: PropTypes.func,
   value: PropTypes.object,
   allowSearch: PropTypes.bool,
@@ -259,4 +190,4 @@ Input.propTypes = {
 export default compose(
   withT,
   withApollo
-)(Input)
+)(ArticleSearch)

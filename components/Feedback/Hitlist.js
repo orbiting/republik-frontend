@@ -65,7 +65,7 @@ const RowItem = ({ onClick, label, selected, path }) => (
       }
     }}
   >
-    <ArticleItem title={label} newPage={!!path} />
+    <ArticleItem title={label} newPage={!!path} selected={selected} />
   </button>
 )
 
@@ -103,7 +103,6 @@ class Hitlist extends Component {
 
   render () {
     const { discussionId, ignoreDiscussionId, onChange, data } = this.props
-    console.log(data)
 
     const activeDiscussions = data &&
       data.activeDiscussions &&
@@ -128,7 +127,15 @@ class Hitlist extends Component {
                     key={discussion.id}
                     label={discussion.title}
                     selected={selected}
-                    onClick={() => { onChange(selected ? null : discussion.id) }}
+                    onClick={() => {
+                      onChange(selected ? null : {
+                        discussionId: discussion.id,
+                        meta: {
+                          title: discussion.document.meta.title,
+                          credits: discussion.document.meta.credits
+                        }
+                      })
+                    }}
                     path={path} />
                 )
               })}

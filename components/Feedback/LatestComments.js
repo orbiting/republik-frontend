@@ -25,7 +25,7 @@ class LatestComments extends Component {
             <div>
               {comments && comments.nodes.map(
                 node => (
-                  <CommentTeaser t={t} {...node} />
+                  <CommentTeaser key={node.id} t={t} {...node} />
                 )
 
               )}

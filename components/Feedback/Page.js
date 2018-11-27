@@ -12,7 +12,7 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import Hitlist from './Hitlist'
-import Input from './Input'
+import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 import Link from '../Link/Href'
@@ -77,40 +77,54 @@ class Search extends Component {
       isMobile: true,
       trackingId: undefined,
       selectedView: undefined,
-      article: undefined,
-      inputFilter: undefined,
-      inputValue: undefined
+      meta: undefined,
+      searchFilter: undefined,
+      searchValue: undefined
     }
 
-    this.onInputChange = (value) => {
-      if (!value || value === this.state.article) {
+    this.onChangeFromSearch = (selectedObj) => {
+      if (!selectedObj) {
+        return
+      }
+      const { discussionId, meta, routePath, title } = selectedObj
+      if (routePath) {
+        Router.pushRoute(routePath)
+        return
+      }
+      if (!discussionId || discussionId === this.state.articleDiscussionId) {
         return
       }
       this.setState({
-        article: value,
-        inputValue: { text: value.title, value: value }
+        articleDiscussionId: discussionId,
+        meta,
+        searchValue: { text: title, value: selectedObj }
       })
     }
 
-    this.onHitlistChange = (id) => {
-      if (id === this.state.articleDiscussionId) {
+    this.onChangeFromHitlist = selectedObj => {
+      const articleDiscussionId = selectedObj && selectedObj.discussionId
+      if (
+        articleDiscussionId &&
+        articleDiscussionId === this.state.articleDiscussionId
+      ) {
         return
       }
       this.setState({
-        articleDiscussionId: id,
-        inputFilter: '',
-        inputValue: null
+        articleDiscussionId,
+        meta: selectedObj && selectedObj.meta,
+        searchFilter: '',
+        searchValue: null
       })
     }
 
     this.onFilterChange = (filter) => {
-      this.setState({ inputFilter: filter })
+      this.setState({ searchFilter: filter })
     }
 
     this.onReset = () => {
       this.setState({
-        inputValue: null,
-        inputFilter: ''
+        searchValue: null,
+        searchFilter: ''
       })
     }
 
@@ -169,111 +183,33 @@ class Search extends Component {
     const {
       articleDiscussionId,
       selectedView,
-      article,
-      inputValue,
-      inputFilter
+      meta,
+      searchValue,
+      searchFilter
     } = this.state
 
-    const meta = {
+    const pageMeta = {
       title: t('pages/search/title'),
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    /* const items = [
-        {text: 'Januar', value: '01'},
-        {text: 'Februar', value: '02'},
-        {text: 'März', value: '03'},
-        {text: 'April', value: '04'},
-        {text: 'Mai', value: '05'},
-        {text: 'Juni', value: '06'},
-        {text: 'Juli', value: '07'},
-        {text: 'August', value: '08'},
-        {text: 'September', value: '09'},
-        {text: 'Oktober', value: '10'},
-        {text: 'November', value: '10'},
-        {text: 'Dezember', value: '10'}
-      ] */
-    const articleDiscussions = [
-      {
-        id: 'id1',
-        title: 'Autodiskussion zum Dieselskandal',
-        discussion: {
-          id: '38f238fa-938a-466e-9d4e-1c72000654c5',
-          type: 'auto'
-        },
-        path: '/2018/03/01/someslug'
-      },
-      {
-        id: 'id2',
-        title: 'Eine verlinkte Debatte',
-        path: '/2018/03/01/someotherslug',
-        discussion: {
-          id: '38f238fa-938a-466e-9d4e-1c72000654c5',
-          path: '/2018/10/25/daniels-achte-debatte/diskussion',
-          title: 'Eine verlinkte Debatte',
-          description: 'Hier steht eine Deskription',
-          kind: 'editorial'
-        }
-      },
-      {
-        id: 'id3',
-        title: 'Artikel nummer drei'
-      },
-      {
-        id: 'id4',
-        title: 'Der vierte Artikel'
-      },
-      {
-        id: 'id5',
-        title: 'Foifer undes Weggli'
-      },
-      {
-        id: 'id6',
-        title: 'Sex sells'
-      },
-      {
-        id: 'id7',
-        title: 'Siebenhundert Zeichen'
-      },
-      {
-        id: 'id8',
-        title: 'Achtung 8'
-      },
-      {
-        id: 'id9',
-        title: 'Neunmalklug'
-      },
-      {
-        id: 'id10',
-        title: 'Dezidiert dekadent'
-      }
-    ]
-
-    const items = articleDiscussions.map(d => ({
-      text: d.title,
-      value: d
-    }))
-
     const selectedDiscussionId =
       selectedView === 'general'
         ? GENERAL_DISCUSSION_ID
-        : selectedView === 'article'
-          ? (articleDiscussionId ||
-            (article && article.discussion && article.discussion.type === 'auto' && article.discussion.id))
-          : undefined
+        : selectedView === 'article' && articleDiscussionId
 
-    const linkedDiscussion = selectedView === 'article' && article && article.discussion && article.discussion.type !== 'auto' && article.discussion
+    const linkedDiscussion = selectedView === 'article' && meta && meta.discussion
 
-    const ArticleLink = article && (
-      <Link href={article.path} passHref key='articlelink'>
-        <a {...linkRule} href={article.path}>
-        «{article.title}»
+    const ArticleLink = meta && (
+      <Link href={meta.path} passHref key='articlelink'>
+        <a {...linkRule} href={meta.path}>
+        «{meta.title}»
         </a>
       </Link>
     )
 
     return (
-      <Frame raw meta={meta}>
+      <Frame raw meta={pageMeta}>
         <Center {...styles.container}>
           <div {...styles.intro}>
             <Interaction.P>
@@ -300,28 +236,27 @@ class Search extends Component {
               <Label style={{ display: 'block', marginBottom: 10 }}>Gerade aktive Diskussionen</Label>
               <Hitlist
                 discussionId={articleDiscussionId}
-                value={article}
-                onChange={this.onHitlistChange}
+                value={meta}
+                onChange={this.onChangeFromHitlist}
                 onReset={this.onReset}
                 ignoreDiscussionId={GENERAL_DISCUSSION_ID}
               />
-              <Input
-                items={items}
-                value={inputValue}
-                filter={inputFilter}
-                onChange={this.onInputChange}
+              <ArticleSearch
+                value={searchValue}
+                filter={searchFilter}
+                onChange={this.onChangeFromSearch}
                 onReset={this.onReset}
                 onFilterChange={this.onFilterChange}
               />
 
-              {article && !linkedDiscussion && <div {...styles.selectedHeadline}>
+              {meta && !linkedDiscussion && <div {...styles.selectedHeadline}>
                 <Interaction.H3>
                   {t.elements('feedback/autoArticle/selected/headline', {
                     link: ArticleLink
                   })}
                 </Interaction.H3>
               </div>}
-              {article && linkedDiscussion && <Fragment>
+              {meta && linkedDiscussion && <Fragment>
                 <div {...styles.selectedHeadline}>
                   <Interaction.H3 {...styles.selectedHeadline}>
                     {t.elements('feedback/linkedArticle/selected/headline', {
@@ -354,7 +289,6 @@ class Search extends Component {
   }
 }
 
-// export default Search
 export default compose(
   // enforceMembership,
   withMe,

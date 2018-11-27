@@ -13,15 +13,29 @@ import {
 
 const { P } = Interaction
 
+const containerStyle = {
+  display: 'inline-block',
+  position: 'relative',
+  maxWidth: '100%',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis'
+}
+
 const styles = {
-  title: css({
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+  container: css({
+    ...containerStyle
+  }),
+  containerWithIcon: css({
+    ...containerStyle,
+    paddingRight: '30px',
+    [mediaQueries.mUp]: {
+      paddingRight: '40px'
+    }
   }),
   icon: css({
-    display: 'inline-block',
-    marginLeft: 10,
+    position: 'absolute',
+    right: 0,
     marginTop: '-2px',
     [mediaQueries.mUp]: {
 
@@ -29,13 +43,17 @@ const styles = {
   })
 }
 
-const ArticleItem = ({ t, title, newPage }) => (
-  <P>
-    <span {...styles.title}>{title}</span>
+export const NoResultsItem = ({ title }) => (
+  <P style={{ color: colors.disabled }}>{title}</P>
+)
+
+const ArticleItem = ({ t, title, newPage, selected }) => (
+  <P {...(newPage ? styles.containerWithIcon : styles.container)}>
+    <span style={{ color: selected ? colors.primary : undefined }}>{title}</span>
     {newPage && (
-      <div {...styles.icon} title={'Zur Debattenseite'}>
+      <span {...styles.icon} title={'Zur Debattenseite'}>
         <NewPage size={24} fill={colors.disabled} />
-      </div>
+      </span>
     )}
   </P>
 )

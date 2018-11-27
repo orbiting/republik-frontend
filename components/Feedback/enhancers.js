@@ -23,30 +23,45 @@ query getActiveDiscussions($lastDays: Int!) {
 }
 `
 
-const getSearchAggregations = gql`  
-query getSearchAggregations( 
-    $search: String, 
-    $filters: [SearchGenericFilterInput!],
-    $trackingId: ID) {
-  search(  
-      first: 1,  
-      search: $search, 
-      filters: $filters,
-      trackingId: $trackingId) {
-    totalCount
-    trackingId
-    aggregations {
-      key
-      count
-      label
-      buckets {
-        value
-        count
-        label
+export const getArticleSearchResults = gql`
+query getArticleSearchResults(
+  $search: String,
+  $after: String,
+  $sort: SearchSortInput,
+  $filters: [SearchGenericFilterInput!],
+  $trackingId: ID
+) {
+  search(
+    first: 5,
+    after: $after,
+    search: $search,
+    sort: $sort,
+    filters: $filters,
+    trackingId: $trackingId
+  ) {
+    nodes {
+      entity {
+        __typename
+        ... on Document {
+          meta {
+            title
+            path
+            credits
+            ownDiscussion {
+              id
+              closed
+            }
+            linkedDiscussion {
+              id
+              path
+              closed
+            }
+          }
+        }
       }
     }
-  }  
-}  
+  }
+}
 `
 
 const getComments = gql`
@@ -104,20 +119,6 @@ export const withActiveDiscussions = graphql(getActiveDiscussions, {
     variables: {
       lastDays: props.lastDays || 7
     }
-  })
-})
-
-export const withAggregations = graphql(getSearchAggregations, {
-  skip: props => props.searchQuery === props.filterQuery,
-  options: props => ({
-    variables: {
-      search: props.filterQuery,
-      filters: props.filters,
-      trackingId: props.trackingId
-    }
-  }),
-  props: ({ data, ownProps }) => ({
-    dataAggregations: data
   })
 })
 

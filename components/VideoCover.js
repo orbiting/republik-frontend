@@ -143,7 +143,7 @@ class VideoCover extends Component {
             })
           }}>
           <div {...styles.maxWidth}>
-            <img src={src.poster} {...styles.poster} style={heightStyle} />
+            <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
             {!!cursor && <div {...styles.cursor} />}
             <div {...styles.play} style={{ top: !cursor ? '45%' : undefined }}>
               <Play />

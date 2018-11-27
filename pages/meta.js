@@ -43,8 +43,7 @@ const GallerHeading = withT(({ t }) => (
 
 const VIDEO = {
   hls: 'https://player.vimeo.com/external/302582824.m3u8?s=ff89737dc63069796cb3cd632002370aba760cd7',
-  mp4: 'https://player.vimeo.com/external/302582824.sd.mp4?s=ae6d9676b61e1a9848da9749d3e06870ea4790f2&profile_id=165',
-  poster: `${CDN_FRONTEND_BASE_URL}/static/video/prolong.jpg`,
+  mp4: 'https://player.vimeo.com/external/302582824.hd.mp4?s=155e598b32730ef7b493d5b145576985ce65a5a1&profile_id=175',
   thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/prolong.jpg`
 }
 

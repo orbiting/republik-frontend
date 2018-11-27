@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-24T13:32:01.875Z",
+  "updated": "2018-11-27T15:40:10.334Z",
   "title": "live",
   "data": [
     {
@@ -3801,6 +3801,42 @@
     {
       "key": "merci/lead/package/UNKOWN",
       "value": "Vielen Dank für Ihre Unterstützung! <br />"
+    },
+    {
+      "key": "crowdfunding/status/goal/people",
+      "value": "von {count} Mitgliedern"
+    },
+    {
+      "key": "crowdfunding/status/goal/money",
+      "value": "von {formattedCHF}"
+    },
+    {
+      "key": "crowdfunding/status/time/label",
+      "value": "bis Deadline"
+    },
+    {
+      "key": "crowdfunding/status/time/days/1",
+      "value": "1 Tag"
+    },
+    {
+      "key": "crowdfunding/status/time/days/other",
+      "value": "{count} Tage"
+    },
+    {
+      "key": "crowdfunding/status/time/hours/1",
+      "value": "1 Stunde"
+    },
+    {
+      "key": "crowdfunding/status/time/hours/other",
+      "value": "{count} Stunden"
+    },
+    {
+      "key": "crowdfunding/status/time/minutes/1",
+      "value": "1 Minute"
+    },
+    {
+      "key": "crowdfunding/status/time/minutes/other",
+      "value": "{count} Minuten"
     }
   ]
 }

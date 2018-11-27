@@ -27,7 +27,7 @@ const ProlongBox = ({
   t, prolongBeforeDate, router,
   inNativeApp, inNativeIOSApp
 }) => {
-  if (router.pathname === '/pledge' || router.pathname === '/cancel') {
+  if (router.pathname === '/pledge' || router.pathname === '/cancel' || router.pathname === '/meta') {
     return null
   }
   const date = new Date(prolongBeforeDate)

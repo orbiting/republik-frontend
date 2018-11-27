@@ -75,9 +75,9 @@ const styles = {
   })
 }
 
-const widthForGoal = (goal, status, accessor) => {
+const widthForGoal = (goal, status, statusAccessor, goalAccessor) => {
   return Math.ceil(
-    Math.min(1, status[accessor] / goal[accessor]) * 10000
+    Math.min(1, status[statusAccessor] / goal[goalAccessor]) * 10000
   ) / 100 + '%'
 }
 
@@ -88,12 +88,12 @@ class GoalBar extends Component {
     this.state = {}
   }
   render () {
-    const { status, goals, accessor, format, showLast } = this.props
+    const { status, goals, statusAccessor, goalAccessor, format, showLast } = this.props
     const goal = goals[goals.length - 1]
 
     const uniqueGoals = goals
       .filter((d, i) => (
-        i === goals.findIndex(g => g[accessor] === d[accessor])
+        i === goals.findIndex(g => g[goalAccessor] === d[goalAccessor])
       ))
       .reverse()
 
@@ -104,13 +104,13 @@ class GoalBar extends Component {
     return (
       <div {...styles.bar} style={{ zIndex: hover ? 1 : 0 }}>
         <div {...styles.barInner} style={{
-          width: widthForGoal(goal, status, accessor)
+          width: widthForGoal(goal, status, statusAccessor, goalAccessor)
         }} />
         {uniqueGoals.length > 1 && uniqueGoals.map((uniqueGoal, i) => (
           <div key={i}
             {...merge(styles.goal, i === 0 && styles.currentGoal)}
             style={{
-              width: widthForGoal(goal, uniqueGoal, accessor)
+              width: widthForGoal(goal, uniqueGoal, goalAccessor, goalAccessor)
             }}
             onTouchStart={(e) => {
               e.preventDefault()
@@ -130,10 +130,10 @@ class GoalBar extends Component {
             {uniqueGoal === hover && (
               <div {...styles.noInteraction}>
                 <div {...styles.goalBar} style={{
-                  width: widthForGoal(uniqueGoal, status, accessor)
+                  width: widthForGoal(uniqueGoal, status, statusAccessor, goalAccessor)
                 }} />
                 <div {...styles.goalNumber}>
-                  {format(uniqueGoal[accessor])}
+                  {format(uniqueGoal[goalAccessor])}
                 </div>
                 {!!hover.description && <div {...styles.arrow} />}
               </div>

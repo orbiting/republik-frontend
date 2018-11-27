@@ -6,7 +6,8 @@ import Play from './Icons/Play'
 import { scrollIt } from '../lib/utils/scroll'
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
+  HEADER_HEIGHT_MOBILE,
+  ZINDEX_HEADER
 } from './constants'
 
 import {
@@ -46,7 +47,8 @@ const styles = {
     position: 'relative',
     margin: '0 auto',
     maxWidth: `${MAX_HEIGHT_VH * (ASPECT_RATIO)}vh`,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    textAlign: 'center'
   }),
   poster: css({
     width: 'auto',
@@ -125,7 +127,10 @@ class VideoCover extends Component {
       maxHeight: limitedHeight ? `${MAX_HEIGHT_VH}vh` : undefined
     }
     return (
-      <div {...styles.wrapper} style={heightStyle}>
+      <div {...styles.wrapper} style={{
+        ...heightStyle,
+        zIndex: !limitedHeight ? ZINDEX_HEADER + 1 : undefined
+      }}>
         <div {...styles.cover}
           style={{ opacity: cover ? 1 : 0 }}
           onClick={() => {
@@ -140,7 +145,7 @@ class VideoCover extends Component {
           <div {...styles.maxWidth}>
             <img src={src.poster} {...styles.poster} style={heightStyle} />
             {!!cursor && <div {...styles.cursor} />}
-            <div {...styles.play}>
+            <div {...styles.play} style={{ top: !cursor ? '45%' : undefined }}>
               <Play />
             </div>
           </div>
@@ -155,6 +160,10 @@ class VideoCover extends Component {
           forceMuted={muted}
           loop={loop}
           onPlay={() => {
+            if (this.player && this.player.video) {
+              const { top } = this.player.video.getBoundingClientRect()
+              scrollIt(window.pageYOffset + top, 400)
+            }
             this.setState(() => ({
               playing: true
             }))
@@ -181,8 +190,14 @@ class VideoCover extends Component {
                   ? HEADER_HEIGHT_MOBILE
                   : HEADER_HEIGHT
                 const duration = 800
+
+                let top = 0
+                if (this.player && this.player.video) {
+                  top = window.pageYOffset + this.player.video.getBoundingClientRect().top
+                }
+
                 scrollIt(
-                  (windowHeight * MAX_HEIGHT) - topFixed + 10,
+                  top + Math.min(this.state.videoHeight, this.state.windowHeight * MAX_HEIGHT) - topFixed + 10,
                   duration
                 )
                 setTimeout(

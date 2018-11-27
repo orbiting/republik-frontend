@@ -6,7 +6,7 @@ import Loader from '../Loader'
 import { Router } from '../../lib/routes'
 
 import {
-  ELECTION_STATS_POLL_INTERVAL
+  STATUS_POLL_INTERVAL_MS
 } from '../../lib/constants'
 
 import {
@@ -144,7 +144,7 @@ export default compose(
   withT,
   graphql(query, {
     options: {
-      pollInterval: ELECTION_STATS_POLL_INTERVAL
+      pollInterval: STATUS_POLL_INTERVAL_MS
     }
   })
 )(QuestionnaireMetaWidget)

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-27T15:40:10.334Z",
+  "updated": "2018-11-27T18:35:44.487Z",
   "title": "live",
   "data": [
     {
@@ -3807,6 +3807,14 @@
       "value": "von {count} Mitgliedern"
     },
     {
+      "key": "crowdfunding/status/goal/memberships",
+      "value": "von {count} Mitgliedschaften"
+    },
+    {
+      "key": "crowdfunding/status/goal/PROLONG/memberships",
+      "value": "Ziel: {count} Mitgliedschaften werden verlängert"
+    },
+    {
       "key": "crowdfunding/status/goal/money",
       "value": "von {formattedCHF}"
     },
@@ -3837,6 +3845,34 @@
     {
       "key": "crowdfunding/status/time/minutes/other",
       "value": "{count} Minuten"
+    },
+    {
+      "key": "crowdfunding/status/time/ended",
+      "value": "Das Crowdfunding ist vorbei."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/PROLONG",
+      "value": "Die Vorverlängerungsphase ist vorbei."
+    },
+    {
+      "key": "meta/prolong/title",
+      "value": "Mit der Republik ins zweite Jahr"
+    },
+    {
+      "key": "meta/prolong/signIn",
+      "value": "Melden Sie sich an, um Ihr {prolongLink}. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die {pledgeLink}."
+    },
+    {
+      "key": "meta/prolong/signIn/prolongText",
+      "value": "Abo zu verlängern"
+    },
+    {
+      "key": "meta/prolong/signIn/pledgeText",
+      "value": "Republik zu unterstützen"
+    },
+    {
+      "key": "meta/prolong/available",
+      "value": "Jetzt verlängern"
     }
   ]
 }

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -58,7 +59,7 @@ class Status extends Component {
     const msLeft = 1000 - now.getMilliseconds() + 50
     let msToNextTick = (60 - now.getSeconds()) * 1000 + msLeft
 
-    const { crowdfunding: { endDate } } = this.props
+    const endDate = this.props.endDate || this.props.crowdfunding.endDate
     if (endDate) {
       const end = new Date(endDate)
       if (end < now) {
@@ -95,7 +96,13 @@ class Status extends Component {
       return null
     }
 
-    const { crowdfunding: { goals, status, endDate }, t } = this.props
+    const endDate = this.props.endDate || this.props.crowdfunding.endDate
+    const {
+      crowdfundingName,
+      crowdfunding: { goals, status },
+      t,
+      money, people, memberships
+    } = this.props
     const now = new Date()
     const nextMinute = timeMinute.ceil(new Date())
 
@@ -117,35 +124,35 @@ class Status extends Component {
       .sort((a, b) => ascending(a.people, b.people))
     const goal = goalsByPeople[goalsByPeople.length - 1]
 
-    const peopleLabel = t.elements('crowdfunding/status/goal/people', {
-      count: (
-        <a key='count' {...styles.hoverGoal}
-          onTouchStart={(e) => {
-            e.preventDefault()
-            this.setState({
-              showGoal: true
-            })
-          }}
-          onTouchEnd={() => this.setState({
-            showGoal: false
-          })}
-          onMouseOver={() => this.setState({
+    const createHoverGoalCount = (format, value) => (
+      <a key='count' {...styles.hoverGoal}
+        onTouchStart={(e) => {
+          e.preventDefault()
+          this.setState({
             showGoal: true
-          })}
-          onMouseOut={() => this.setState({
-            showGoal: false
-          })}>
-          {countFormat(goal.people)}
-        </a>
-      )
-    })
+          })
+        }}
+        onTouchEnd={() => this.setState({
+          showGoal: false
+        })}
+        onMouseOver={() => this.setState({
+          showGoal: true
+        })}
+        onMouseOut={() => this.setState({
+          showGoal: false
+        })}>
+        {format(value)}
+      </a>
+    )
 
     if (this.props.compact) {
       return (
         <div style={{ paddingTop: 10 }}>
           <P>
             <span {...styles.smallNumber}>{countFormat(status.people)}</span>
-            <Label>{peopleLabel}</Label>
+            <Label>{t.elements('crowdfunding/status/goal/people', {
+              count: createHoverGoalCount(countFormat, goal.people)
+            })}</Label>
           </P>
           <Bar goals={goalsByPeople}
             showLast={this.state.showGoal}
@@ -157,29 +164,41 @@ class Status extends Component {
     }
 
     return (
-      <div>
-        <P>
-          <span {...styles.primaryNumber}>{countFormat(status.people)}</span>
-          <Label>{peopleLabel}</Label>
-        </P>
-        <Bar goals={goalsByPeople}
-          showLast={this.state.showGoal}
-          status={status}
-          accessor='people'
-          format={countFormat} />
-        <P>
-          <span {...styles.secondaryNumber}>{chfFormat(status.money / 100)}</span>
-          <Label>
-            {t('crowdfunding/status/goal/money', {
-              formattedCHF: chfFormat(goal.money / 100)
-            })}
-          </Label>
-        </P>
-        <Bar
-          goals={goalsByPeople}
-          status={status}
-          accessor='money'
-          format={(value) => chfFormat(value / 100)} />
+      <Fragment>
+        {[
+          people && {
+            accessor: 'people',
+            format: countFormat
+          },
+          memberships && {
+            accessor: 'memberships',
+            // until backend supports this we just assume people goal is membership goal
+            goalAccessor: 'people',
+            format: countFormat
+          },
+          money && {
+            accessor: 'money',
+            format: (value) => chfFormat(value / 100)
+          }
+        ].filter(Boolean).map(({ accessor, goalAccessor, format }, i) => (
+          <Fragment key={accessor}>
+            <P>
+              <span {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}>{countFormat(status.people)}</span>
+              <Label>{t.first.elements([
+                `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
+                `crowdfunding/status/goal/${accessor}`
+              ], {
+                count: createHoverGoalCount(format, goal[goalAccessor || accessor])
+              })}</Label>
+            </P>
+            <Bar goals={goalsByPeople}
+              showLast={this.state.showGoal}
+              status={status}
+              statusAccessor={accessor}
+              goalAccessor={goalAccessor || accessor}
+              format={format} />
+          </Fragment>
+        ))}
         <P>
           <span {...styles.smallNumber}>
             {minutes >= 0 ? (
@@ -210,17 +229,26 @@ class Status extends Component {
                 )
               ].filter(Boolean).join(' ')
             ) : (
-              t('crowdfunding/status/time/ended')
+              t.first([
+                `crowdfunding/status/time/ended/${crowdfundingName}`,
+                'crowdfunding/status/time/ended'
+              ])
             )}
           </span>
           <Label>{t('crowdfunding/status/time/label')}</Label>
         </P>
-      </div>
+      </Fragment>
     )
   }
 }
 
 export const RawStatus = Status
+
+RawStatus.propTypes = {
+  people: PropTypes.bool,
+  memberships: PropTypes.bool,
+  money: PropTypes.bool
+}
 
 const query = gql`
 query crowdfundingStatus($crowdfundingName: String!) {

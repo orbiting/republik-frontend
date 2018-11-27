@@ -6,7 +6,7 @@ import {
 } from '@project-r/styleguide'
 
 import {
-  CROWDFUNDING_NAME, SALES_UP
+  CROWDFUNDING_PLEDGE
 } from '../lib/constants'
 
 import Frame from '../components/Frame'
@@ -14,8 +14,6 @@ import PledgeForm from '../components/Pledge/Form'
 import PledgeReceivePayment from '../components/Pledge/ReceivePayment'
 
 import { PSP_PLEDGE_ID_QUERY_KEYS } from '../components/Payment/constants'
-
-const PLEDGE_CROWDFUNDING_NAME = SALES_UP || CROWDFUNDING_NAME
 
 class PledgePage extends Component {
   render () {
@@ -29,12 +27,12 @@ class PledgePage extends Component {
         <NarrowContainer>
           {pledgeId ? (
             <PledgeReceivePayment
-              crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
+              crowdfundingName={CROWDFUNDING_PLEDGE}
               pledgeId={pledgeId}
               query={query} />
           ) : (
             <PledgeForm
-              crowdfundingName={PLEDGE_CROWDFUNDING_NAME}
+              crowdfundingName={CROWDFUNDING_PLEDGE}
               query={query} />
           )}
         </NarrowContainer>

@@ -75,7 +75,7 @@ const CrowdfundingRevival = compose(
       </Interaction.P>}
       <List>
         <List.Item>Erneuern weniger als 50 Prozent von Ihnen, müssen wir radikal über die Bücher gehen – beim Produkt, bei der Strategie, beim Organigramm.</List.Item>
-        <List.Item><Highlight>Erneuern etwas mehr als 50 Prozent</Highlight>, liegt ein langer, steiniger, aber machbarer Weg vor uns bis zum Punkt von 28'000 Verlegerinnen, die wir für eine ausgeglichene Rechnung brauchen.</List.Item>
+        <List.Item><Highlight>Erneuern etwas mehr als 50 Prozent</Highlight>, liegt ein langer, steiniger, aber machbarer Weg vor uns bis zum Punkt von 28&nbsp;000 Verlegerinnen, die wir für eine ausgeglichene Rechnung brauchen.</List.Item>
         <List.Item><Highlight>Schaffen wir, dass zwei von drei Verlegerinnen an Bord bleiben</Highlight>, liegt ebenfalls eine Menge an Risiko und Ärger vor uns. Nur wird sich dieser weit konzentrierter um das zukünftige Produkt als um die zukünftige Bilanz drehen.</List.Item>
       </List>
     </Center>

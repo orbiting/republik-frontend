@@ -181,7 +181,7 @@ class Status extends Component {
         ].filter(Boolean).map(({ accessor, goalAccessor, format }, i) => (
           <Fragment key={accessor}>
             <P>
-              <span {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}>{countFormat(status.people)}</span>
+              <span {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}>{countFormat(status[accessor])}</span>
               <Label>{t.first.elements([
                 `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
                 `crowdfunding/status/goal/${accessor}`

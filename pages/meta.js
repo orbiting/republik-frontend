@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { shuffle } from 'd3-array'
 import { compose } from 'react-apollo'
+import { timeDay } from 'd3-time'
 
 import { postMessage } from '../lib/withInNativeApp'
 import { Link } from '../lib/routes'
@@ -59,7 +60,11 @@ const CrowdfundingRevival = compose(
         crowdfundingName={CROWDFUNDING_META}
         endDate='2019-01-15T11:00:00Z'
         memberships />
-      {me && me.prolongBeforeDate !== null &&
+      {(
+        me &&
+        me.prolongBeforeDate !== null &&
+        timeDay.count(new Date(), new Date(me.prolongBeforeDate)) < 365
+      ) &&
         <TokenPackageLink params={{ package: 'PROLONG' }}>
           <Button style={{ marginBottom: 30 }} primary>{t('meta/prolong/available')}</Button>
         </TokenPackageLink>}

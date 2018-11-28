@@ -109,6 +109,10 @@ class MetaPage extends Component {
     const galleryImage = galleryItems[0]
     return (
       <Front
+        containerStyle={{
+          maxWidth: 1200,
+          margin: '0 auto'
+        }}
         renderBefore={meta => (
           meta && <CrowdfundingRevival />
           /* <TitleBlock center>

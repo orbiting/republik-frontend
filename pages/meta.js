@@ -112,12 +112,13 @@ class MetaPage extends Component {
   render () {
     const { galleryItems = [] } = this.props
     const galleryImage = galleryItems[0]
+    const containerStyle = {
+      maxWidth: 1200,
+      margin: '0 auto'
+    }
     return (
       <Front
-        containerStyle={{
-          maxWidth: 1200,
-          margin: '0 auto'
-        }}
+        containerStyle={containerStyle}
         renderBefore={meta => (
           meta && <CrowdfundingRevival />
           /* <TitleBlock center>
@@ -126,7 +127,7 @@ class MetaPage extends Component {
           </TitleBlock> */
         )}
         renderAfter={galleryImage ? meta => (
-          meta && <div style={{ marginBottom: 100 }}>
+          meta && <div style={{ ...containerStyle, marginBottom: 100 }}>
             <QuestionnaireMetaWidget />
             <Center>
               <GallerHeading />

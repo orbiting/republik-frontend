@@ -9,7 +9,6 @@ import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
-import ProgressNote from './ProgressNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
@@ -23,6 +22,8 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
+
+import withReadingProgress from './withReadingProgress'
 
 import {
   colors,
@@ -40,8 +41,6 @@ import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
 import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
-
-import debounce from 'lodash.debounce'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -215,10 +214,7 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
-      showProgressPrompt: false,
       trackProgress: false,
-      progressElements: [],
-      progressElementIndex: 0,
       mobile: true,
       ...this.deriveStateFromProps(props)
     }
@@ -236,9 +232,6 @@ class ArticlePage extends Component {
       }
 
       const headerHeight = this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-
-      // const progress = y / this.containerHeight
-      // console.log(progress, this.containerHeight)
 
       if (
         isAwayFromBottomBar &&
@@ -259,11 +252,8 @@ class ArticlePage extends Component {
           this.setState({ secondaryNavExpanded: false })
         }
       }
-      /* if (y !== this.state.pageYOffset) {
-        this.setState({ pageYOffset: y }, this.saveProgress)
-      } */
       if (y !== this.state.pageYOffset) {
-        this.saveProgress()
+        this.props.saveProgress()
       }
     }
 
@@ -284,81 +274,6 @@ class ArticlePage extends Component {
         const bottomRect = this.bottomBar.getBoundingClientRect()
         this.bottomBarY = window.pageYOffset + bottomRect.top
       }
-      if (this.container) {
-        /* const containerRect = this.container.getBoundingClientRect()
-        this.containerY = window.pageYOffset + containerRect.top
-        this.containerHeight = containerRect.height */
-        const { width, height } = this.container.getBoundingClientRect()
-        const cleanWidth = Math.min(width, 695)
-        if (cleanWidth !== this.state.width || height !== this.state.height) {
-          this.setState({ width: cleanWidth, height }, undefined /* this.restore */)
-        }
-      }
-      // this.onScroll()
-    }
-
-    this.measureProgress = (downwards = true) => {
-      const progressElements = this.getProgressElements()
-      const progressElementIndex = this.state.progressElementIndex || 0
-      if (!progressElements) {
-        console.log('empty')
-        return
-      }
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-
-      let progressElement, nextIndex
-      if (downwards) {
-        console.log('search downwards...', progressElementIndex, progressElements.length)
-        for (let i = progressElementIndex; i < progressElements.length; i++) {
-          progressElement = progressElements[i]
-          console.log(progressElement, i)
-          const { top } = progressElement.getBoundingClientRect()
-          if (top > headerHeight) {
-            console.log('found downwards', progressElement)
-            nextIndex = i
-            break
-          }
-        }
-      } else {
-        console.log('search upwards...', progressElementIndex, progressElements.length)
-        for (let i = progressElementIndex; i > -1; i--) {
-          progressElement = progressElements[i]
-          console.log(progressElement, i)
-          const { top } = progressElement.getBoundingClientRect()
-          if (top < headerHeight) {
-            console.log('found upwards', progressElements[i + 1])
-            progressElement = progressElements[i + 1]
-            nextIndex = i + 1
-            break
-          } else {
-            progressElement = undefined
-          }
-        }
-      }
-      this.setState({
-        progressElement,
-        progressElementIndex: nextIndex
-      })
-    }
-
-    this.getProgressElements = () => {
-      if (this.state.progressElements && this.state.progressElements.length > 0) {
-        return this.state.progressElements
-      }
-      const progressElements = [...(this.container.getElementsByClassName('pos'))]
-      this.setState({ progressElements })
-    }
-
-    this.handleLoad = () => {
-      console.log('load')
-      this.measure()
-      const progressElements = this.getProgressElements()
-      console.log(this.container, progressElements)
-      // this.setState({progressElements: [...progressElements]})
-
-      // this.restore()
-      // this.measureProgress(true)
     }
 
     this.onPrimaryNavExpandedChange = expanded => {
@@ -373,58 +288,6 @@ class ArticlePage extends Component {
         primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
-    }
-  }
-
-  getProgress = () => {
-    const percent = this.state.pageYOffset / this.state.height
-    const { progressElement } = this.state
-    return JSON.stringify({
-      percent,
-      id: progressElement && progressElement.id
-    })
-  }
-
-  saveProgress = debounce(() => {
-    console.log('scroll END')
-    const y = window.pageYOffset
-    const downwards = y > this.state.pageYOffset
-
-    if (y !== this.state.pageYOffset) {
-      console.log('downwards', downwards)
-      this.setState({ pageYOffset: y })
-      this.measureProgress(downwards)
-    }
-
-    window.localStorage.setItem('progress', this.getProgress())
-  }, 300)
-
-  restore = () => {
-    console.log('restore')
-    const progress = JSON.parse(window.localStorage.getItem('progress') || {})
-    console.log(progress)
-    const { percent, id } = progress
-    const { mobile } = this.state
-    const progressElements = this.getProgressElements()
-    let foundIndex
-    const progressElement = progressElements.find((element, index) => {
-      foundIndex = index
-      return element.id === id
-    })
-    console.log(percent, id, foundIndex)
-    if (progressElement) {
-      this.setState({
-        progressElement: progressElement,
-        progressElementIndex: foundIndex
-      })
-      const { top } = progressElement.getBoundingClientRect()
-      console.log('restored', top)
-      window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 20 : 50))
-      return
-    }
-    if (percent) {
-      const offset = (percent * this.state.height) + HEADER_HEIGHT
-      window.scrollTo(0, offset)
     }
   }
 
@@ -487,16 +350,11 @@ class ArticlePage extends Component {
 
     const isSeries = meta && !!meta.series
 
-    const progress = typeof window !== 'undefined' && article ? JSON.parse(window.localStorage.getItem('progress')) : {}
-    const { id, percent } = progress
-    const showProgressPrompt = !!id || !!percent
-
     return {
       schema,
       meta,
       actionBar,
-      isSeries,
-      showProgressPrompt
+      isSeries
     }
   }
 
@@ -507,8 +365,8 @@ class ArticlePage extends Component {
   }
 
   componentDidMount () {
-    console.log('mount')
-    window.addEventListener('load', this.handleLoad)
+    console.log('mount', this.foo)
+    // window.addEventListener('load', this.handleLoad)
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
 
@@ -528,12 +386,9 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember } = this.props
+    const { router, t, data, data: { article }, isMember, progressPrompt } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar, width,
-      height,
-      pageYOffset,
-      showProgressPrompt } = this.state
+    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -603,13 +458,7 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              {showProgressPrompt && (
-                <ProgressNote onClick={() => {
-                  console.log('clicked')
-                  this.restore()
-                  this.setState({ showProgressPrompt: false })
-                }} />
-              )}
+              {article && progressPrompt}
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   variation={payNoteVariation}
@@ -620,7 +469,7 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article}>
-                <div ref={this.containerRef}>
+                <div ref={this.props.progressArticleRef}>
                   <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderMdast({
                       ...article.content,
@@ -660,9 +509,6 @@ class ArticlePage extends Component {
                   <br />
                 </Fragment>
               )}
-              <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: '#666', padding: 10 }}>
-                <p>width: {width} – pageYOffset: {pageYOffset} - Product {width * pageYOffset} - total: {width * height} - Percent {(width * pageYOffset) / (width * height)}</p>
-              </div>
             </Fragment>
           )
         }} />
@@ -676,6 +522,7 @@ const ComposedPage = compose(
   withMembership,
   withInNativeApp,
   withRouter,
+  withReadingProgress,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

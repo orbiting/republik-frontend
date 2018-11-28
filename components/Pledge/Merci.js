@@ -221,7 +221,10 @@ class Merci extends Component {
             </div>
           )} />
           <div style={{ marginBottom: 40, marginTop: 20 }}>
-            <Share pkg={query.package} statementId={query.statement} />
+            <Share pkg={query.package} statementId={
+              query.statement ||
+              (me && me.isListed ? me.id : undefined)
+            } />
           </div>
         </Content></MainContainer>
         <Account query={query} merci />

@@ -172,8 +172,6 @@ class Status extends Component {
           },
           memberships && {
             accessor: 'memberships',
-            // until backend supports this we just assume people goal is membership goal
-            goalAccessor: 'people',
             format: countFormat
           },
           money && {
@@ -194,8 +192,7 @@ class Status extends Component {
             <Bar goals={goalsByPeople}
               showLast={this.state.showGoal}
               status={status}
-              statusAccessor={accessor}
-              goalAccessor={goalAccessor || accessor}
+              accessor={accessor}
               format={format} />
           </Fragment>
         ))}
@@ -258,6 +255,7 @@ query crowdfundingStatus($crowdfundingName: String!) {
     goals {
       people
       money
+      memberships
       description
     }
     status {

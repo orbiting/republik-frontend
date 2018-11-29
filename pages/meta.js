@@ -5,6 +5,7 @@ import { timeDay } from 'd3-time'
 
 import { postMessage } from '../lib/withInNativeApp'
 import { Link } from '../lib/routes'
+import { countFormat } from '../lib/utils/format'
 
 import Front from '../components/Front'
 import Status from '../components/CrowdfundingStatus'
@@ -48,6 +49,10 @@ const VIDEO = {
   thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/prolong.jpg`
 }
 
+const Number = ({ value }) => <span style={{ whiteSpace: 'nowrap' }}>
+  {countFormat(value)}
+</span>
+
 const CrowdfundingRevival = compose(
   withT,
   withMe
@@ -80,8 +85,8 @@ const CrowdfundingRevival = compose(
       </Interaction.P>}
       <List>
         <List.Item>Erneuern weniger als 50 Prozent von Ihnen, müssen wir radikal über die Bücher gehen – beim Produkt, bei der Strategie, beim Organigramm.</List.Item>
-        <List.Item><Highlight>Erneuern etwas mehr als 50 Prozent</Highlight>, liegt ein langer, steiniger, aber machbarer Weg vor uns bis zum Punkt von 28&nbsp;000 Verlegerinnen, die wir für eine ausgeglichene Rechnung brauchen.</List.Item>
-        <List.Item><Highlight>Schaffen wir, dass zwei von drei Verlegerinnen an Bord bleiben</Highlight>, liegt ebenfalls eine Menge an Risiko und Ärger vor uns. Nur wird sich dieser weit konzentrierter um das zukünftige Produkt als um die zukünftige Bilanz drehen.</List.Item>
+        <List.Item><Highlight>Erneuern etwas mehr als 50 Prozent (<Number value={8000} />)</Highlight>, liegt ein langer, steiniger, aber machbarer Weg vor uns bis zum Punkt von <Number value={28000} /> Verlegerinnen, die wir für eine ausgeglichene Rechnung brauchen.</List.Item>
+        <List.Item><Highlight>Schaffen wir, dass zwei von drei Verlegerinnen (<Number value={10660} />) an Bord bleiben</Highlight>, liegt ebenfalls eine Menge an Risiko und Ärger vor uns. Nur wird sich dieser weit konzentrierter um das zukünftige Produkt als um die zukünftige Bilanz drehen.</List.Item>
       </List>
     </Center>
   </Fragment>

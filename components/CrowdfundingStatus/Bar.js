@@ -26,10 +26,14 @@ const styles = {
     left: 0,
     height: HEIGHT,
     backgroundColor: 'transparent',
+    boxSizing: 'content-box',
     borderRight: `2px solid ${BAR_COLOR}`
   }),
   currentGoal: css({
     borderRight: 'none'
+  }),
+  lowerGoal: css({
+    borderRight: '2px solid #fff'
   }),
   goalNumber: css({
     color: colors.secondary,
@@ -77,8 +81,8 @@ const styles = {
 
 const widthForGoal = (goal, status, accessor) => {
   return Math.ceil(
-    Math.min(1, status[accessor] / goal[accessor]) * 10000
-  ) / 100 + '%'
+    Math.min(1, status[accessor] / goal[accessor]) * 1000000
+  ) / 10000 + '%'
 }
 
 class GoalBar extends Component {
@@ -108,7 +112,11 @@ class GoalBar extends Component {
         }} />
         {uniqueGoals.length > 1 && uniqueGoals.map((uniqueGoal, i) => (
           <div key={i}
-            {...merge(styles.goal, i === 0 && styles.currentGoal)}
+            {...merge(
+              styles.goal,
+              i === 0 && styles.currentGoal,
+              i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
+            )}
             style={{
               width: widthForGoal(goal, uniqueGoal, accessor)
             }}

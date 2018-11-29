@@ -14,7 +14,7 @@ import {
 } from '../../lib/constants'
 
 import {
-  P, Label, fontFamilies
+  P, Label, fontFamilies, mediaQueries
 } from '@project-r/styleguide'
 
 import Bar from './Bar'
@@ -22,21 +22,28 @@ import Bar from './Bar'
 const styles = {
   primaryNumber: css({
     display: 'block',
-    marginBottom: -10,
+    marginBottom: -3,
+    [mediaQueries.mUp]: {
+      marginBottom: -8
+    },
     fontSize: 80,
     fontFamily: fontFamilies.sansSerifRegular,
     lineHeight: 1
   }),
   secondaryNumber: css({
     display: 'block',
-    marginBottom: -5,
+    [mediaQueries.mUp]: {
+      marginBottom: -3
+    },
     fontSize: 43,
     fontFamily: fontFamilies.sansSerifRegular,
     lineHeight: 1
   }),
   smallNumber: css({
     display: 'block',
-    marginBottom: -5,
+    [mediaQueries.mUp]: {
+      marginBottom: -3
+    },
     fontSize: 22,
     fontFamily: fontFamilies.sansSerifRegular,
     lineHeight: 1

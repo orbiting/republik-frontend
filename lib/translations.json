@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-27T22:46:34.102Z",
+  "updated": "2018-11-29T15:31:27.391Z",
   "title": "live",
   "data": [
     {
@@ -3812,7 +3812,7 @@
     },
     {
       "key": "crowdfunding/status/goal/PROLONG/memberships",
-      "value": "Ziel: {count} Mitgliedschaften werden verlängert."
+      "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
     },
     {
       "key": "crowdfunding/status/goal/money",

@@ -19,6 +19,8 @@ import {
   PAYPAL_FORM_ACTION
 } from '../../lib/constants'
 
+import { inNativeAppBrowser } from '../../lib/withInNativeApp'
+
 import * as postfinance from './postfinance'
 import * as paypal from './paypal'
 import loadStripe from './stripe'
@@ -56,7 +58,7 @@ const PAYMENT_METHODS = [
     }
   },
   {
-    disabled: false,
+    disabled: inNativeAppBrowser,
     key: 'POSTFINANCECARD',
     bgColor: '#FCCC12',
     Icon: PSPIcons.Postcard
@@ -66,7 +68,7 @@ const PAYMENT_METHODS = [
     key: 'PAYMENTSLIP'
   },
   {
-    disabled: false,
+    disabled: inNativeAppBrowser,
     key: 'PAYPAL',
     Icon: PSPIcons.PayPal
   }

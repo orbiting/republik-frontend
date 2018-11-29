@@ -80,6 +80,34 @@ class FaqList extends Component {
     super(...args)
 
     this.state = {}
+
+    this.renderFaq = (faq, i) => {
+      const active = this.state[slug(faq.question)]
+      return (
+        <div key={i} {...styles.faq}>
+          <a {...styles.faqAnchor} id={slug(faq.question)} />
+          <P {...merge(styles.question, active && styles.active)}>
+            <a href={`#${slug(faq.question)}`}
+              onClick={e => {
+                e.preventDefault()
+                this.setState(() => ({
+                  [slug(faq.question)]: !active
+                }))
+              }}>
+              {faq.question}
+            </a>
+          </P>
+          {active && (
+            <RawHtml
+              type={AnswerP}
+              key={`answer${i}`}
+              dangerouslySetInnerHTML={{
+                __html: faq.answer.split('\n').join('<br />')
+              }} />
+          )}
+        </div>
+      )
+    }
   }
   componentDidMount () {
     if (window.location.hash) {
@@ -89,9 +117,19 @@ class FaqList extends Component {
     }
   }
   render () {
-    const { data: { loading, error, faqs }, t } = this.props
+    const { data: { loading, error, faqs }, t, filter } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
+        if (filter) {
+          return <div>
+            {faqs
+              .filter(faq => filter.indexOf(slug(faq.question)) !== -1)
+              .sort((a, b) => filter.indexOf(slug(a.question)) - filter.indexOf(slug(b.question)))
+              .map(this.renderFaq)
+            }
+          </div>
+        }
+
         const faqsByCategory = nest()
           .key(d => d.category)
           .entries(faqs)
@@ -114,33 +152,7 @@ class FaqList extends Component {
             {faqsByCategory.map(({ key: title, values }) => (
               <div {...styles.category} key={title}>
                 <H2>{title}</H2>
-                {values.map((faq, i) => {
-                  const active = this.state[slug(faq.question)]
-                  return (
-                    <div key={i} {...styles.faq}>
-                      <a {...styles.faqAnchor} id={slug(faq.question)} />
-                      <P {...merge(styles.question, active && styles.active)}>
-                        <a href={`#${slug(faq.question)}`}
-                          onClick={e => {
-                            e.preventDefault()
-                            this.setState(() => ({
-                              [slug(faq.question)]: !active
-                            }))
-                          }}>
-                          {faq.question}
-                        </a>
-                      </P>
-                      {active && (
-                        <RawHtml
-                          type={AnswerP}
-                          key={`answer${i}`}
-                          dangerouslySetInnerHTML={{
-                            __html: faq.answer.split('\n').join('<br />')
-                          }} />
-                      )}
-                    </div>
-                  )
-                })}
+                {values.map(this.renderFaq)}
               </div>
             ))}
           </div>

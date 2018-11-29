@@ -24,7 +24,7 @@ const blinkBg = css.keyframes({
   }
 })
 
-const MAX_HEIGHT = 0.8
+const MAX_HEIGHT = 0.7
 const MAX_HEIGHT_VH = MAX_HEIGHT * 100
 const ASPECT_RATIO = 2 / 1
 
@@ -33,7 +33,10 @@ const styles = {
     position: 'relative',
     height: `${(1 / ASPECT_RATIO) * 100}vw`,
     backgroundColor: '#000',
-    transition: 'height 200ms'
+    transition: 'height 200ms',
+    '& > div': {
+      height: '100%'
+    }
   }),
   cover: css({
     position: 'absolute',
@@ -145,7 +148,7 @@ class VideoCover extends Component {
           <div {...styles.maxWidth}>
             <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
             {!!cursor && <div {...styles.cursor} />}
-            <div {...styles.play} style={{ top: !cursor ? '45%' : undefined }}>
+            <div {...styles.play} style={{ top: !cursor ? '60%' : undefined }}>
               <Play />
             </div>
           </div>
@@ -214,7 +217,7 @@ class VideoCover extends Component {
               this.setState(() => ({ cover: true }))
             }
           }}
-          style={heightStyle} />
+          style={heightStyle.height ? heightStyle : { height: '100%' }} />
       </div>
     )
   }

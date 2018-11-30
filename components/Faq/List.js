@@ -4,8 +4,6 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 
 import Loader from '../Loader'
-import Meta from '../Frame/Meta'
-import withT from '../../lib/withT'
 
 import {
   Interaction, RawHtml, colors,
@@ -15,10 +13,6 @@ import {
 import {
   HEADER_HEIGHT, HEADER_HEIGHT_MOBILE
 } from '../constants'
-
-import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
-} from '../../lib/constants'
 
 import { nest } from 'd3-collection'
 
@@ -75,7 +69,7 @@ const slug = string => string
   .trim()
   .replace(/\s+/g, '-')
 
-class FaqList extends Component {
+export class RawList extends Component {
   constructor (...args) {
     super(...args)
 
@@ -117,16 +111,12 @@ class FaqList extends Component {
     }
   }
   render () {
-    const { data: { loading, error, faqs }, t, filter } = this.props
+    const { data: { loading, error, faqs }, flat } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
-        if (filter) {
+        if (flat) {
           return <div>
-            {faqs
-              .filter(faq => filter.indexOf(slug(faq.question)) !== -1)
-              .sort((a, b) => filter.indexOf(slug(a.question)) - filter.indexOf(slug(b.question)))
-              .map(this.renderFaq)
-            }
+            {faqs.map(this.renderFaq)}
           </div>
         }
 
@@ -136,19 +126,6 @@ class FaqList extends Component {
 
         return (
           <div>
-            <Meta data={{
-              pageTitle: t('faq/pageTitle'),
-              title: t('faq/title'),
-              description: t('faq/metaDescription'),
-              url: `${PUBLIC_BASE_URL}/faq`,
-              image: `${CDN_FRONTEND_BASE_URL}/static/social-media/faq.png`
-            }} />
-            <H2>{t('faq/before/title')}</H2>
-            <Interaction.H3>{t('faq/before/support/title')}</Interaction.H3>
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t('faq/before/support/text')
-            }} />
-            <br />
             {faqsByCategory.map(({ key: title, values }) => (
               <div {...styles.category} key={title}>
                 <H2>{title}</H2>
@@ -173,6 +150,5 @@ query {
 `
 
 export default compose(
-  withT,
   graphql(publishedFaqs)
-)(FaqList)
+)(RawList)

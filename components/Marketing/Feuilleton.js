@@ -16,24 +16,25 @@ import {
   colors,
   mediaQueries
 } from '@project-r/styleguide'
+import { ascending } from 'd3-array'
 
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Link, Router } from '../../lib/routes'
 
 import Employee from '../Imprint/Employee'
-import FaqList from '../Faq/List'
+import { RawList as FaqList } from '../Faq/List'
 
 import { ListWithQuery } from '../Testimonial/List'
 
 import { buttonStyles, sharedStyles } from './styles'
 
 const query = gql`
-query marketingMembershipStats {
+query feuilletonMarketingPage {
   membershipStats {
     count
   }
- employees {
+  employees {
     title
     name
     group
@@ -44,6 +45,11 @@ query marketingMembershipStats {
       portrait
       username
     }
+  }
+  faqs {
+    category
+    question
+    answer
   }
 }
 `
@@ -96,19 +102,12 @@ const styles = {
   })
 }
 
-const authorNames = [
-  'Barbara Villiger Heilig',
-  'Daniel Binswanger',
-  'Daniel Graf'
-]
-
-const faqSlugFilter = [
-  'ich-bin-interessiert-an-der-republik-gibt-es-ein-probe-abonnement',
-  'gibt-es-studentinnen-oder-rentnerabonnemente',
-  'kann-ich-die-republik-auf-mehreren-geräten-lesen',
-  'wie-logge-ich-mich-ein-brauche-ich-ein-passwort',
-  'ich-muss-mich-jeden-tag-neu-anmelden-wie-kann-ich-das-ändern',
-  'ich-habe-einen-input-für-ein-thema-über-welches-ich-gern-in-der-republik-lesen-würde'
+const faqQs = [
+  'Ich bin interessiert an der Republik. Gibt es ein Probe-Abonnement?',
+  'Gibt es Studentinnen- oder Rentnerabonnemente?',
+  'Kann ich die Republik auf mehreren Geräten lesen?',
+  'Wie logge ich mich ein? Brauche ich ein Passwort?',
+  'Ich habe einen Input für ein Thema, über welches ich gern in der Republik lesen würde.'
 ]
 
 const Subheader = ({ children }) => (
@@ -120,17 +119,10 @@ const QuoteContainer = ({ children }) => (
 )
 
 const FeuilletonMarketingPage = ({
-  me,
   t,
-  crowdfundingName,
-  loading,
-  data: { membershipStats, employees },
-  ...props
+  data,
+  data: { membershipStats, employees }
 }) => {
-  const filteredEmployees = employees
-    ? employees.filter(employee => authorNames.indexOf(employee.name) !== -1)
-    : []
-
   return (
     <Fragment>
       <Container>
@@ -219,30 +211,26 @@ const FeuilletonMarketingPage = ({
             }}
           />
         </Editorial.P>
-        <Subheader>{t('marketing/feuilleton/who/title')}</Subheader>
-        {filteredEmployees.length && <div {...styles.employees}>
-          {filteredEmployees.filter(
-            employee =>
-              authorNames.indexOf(employee.name) !== -1
-          )
-            .map((employee, index) => (
+        {employees && employees.length && <Fragment>
+          <Subheader>{t('marketing/feuilleton/who/title')}</Subheader>
+          <div {...styles.employees}>
+            {employees.map((employee, index) => (
               <Employee
                 {...employee}
                 singleRow
                 key={index}
-                style={{ width: `${100 / filteredEmployees.length}%` }}
+                style={{ width: `${100 / employees.length}%` }}
               />
-            )
-            )}
-        </div>
-        }
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('marketing/feuilleton/who/text')
-            }}
-          />
-        </Editorial.P>
+            ))}
+          </div>
+          <Editorial.P>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('marketing/feuilleton/who/text')
+              }}
+            />
+          </Editorial.P>
+        </Fragment>}
         <QuoteContainer>
           <PullQuote {...styles.pullQuoteText}>
             <Editorial.Format {...styles.format}>
@@ -258,11 +246,15 @@ const FeuilletonMarketingPage = ({
         </QuoteContainer>
       </Center>
       <Container>
-        {!loading && membershipStats && <div {...styles.communityWidget}>
+        <div {...styles.communityWidget}>
           <Interaction.H2 {...sharedStyles.communityHeadline}>
             {t(
               'marketing/community/title',
-              { count: countFormat(membershipStats.count) }
+              {
+                count: membershipStats
+                  ? countFormat(membershipStats.count)
+                  : `~${countFormat(22500)}`
+              }
             )}
           </Interaction.H2>
           <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
@@ -276,22 +268,39 @@ const FeuilletonMarketingPage = ({
               <a>{t('marketing/community/link')}</a>
             </Link>
           </Interaction.P>
-        </div>}
+        </div>
       </Container>
-      <Center style={{ marginBottom: 80 }}>
+      {data.faqs && data.faqs.length && <Center style={{ marginBottom: 80 }}>
         <Interaction.H3 {...styles.faqHeader}>{t('marketing/feuilleton/faq/title')}</Interaction.H3>
-        <FaqList filter={faqSlugFilter} />
+        <FaqList data={data} flat />
         <Interaction.P {...styles.faqCta}>
           <Link route='faq'>
             <a {...styles.link}>{t('marketing/feuilleton/faq/link')}</a>
           </Link>
         </Interaction.P>
-      </Center>
+      </Center>}
     </Fragment>
   )
 }
 
 export default compose(
   withT,
-  graphql(query)
+  graphql(query, {
+    props: ({ data }) => {
+      const { faqs, employees } = data
+      return {
+        data: {
+          ...data,
+          employees: employees && employees
+            .filter(employee => employee.title && employee.title.match(/feuilleton/i)),
+          faqs: faqs && faqs
+            .filter(faq => faqQs.indexOf(faq.question) !== -1)
+            .sort((a, b) => ascending(
+              faqQs.indexOf(a.question),
+              faqQs.indexOf(b.question)
+            ))
+        }
+      }
+    }
+  })
 )(FeuilletonMarketingPage)

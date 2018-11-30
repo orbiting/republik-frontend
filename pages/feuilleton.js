@@ -24,8 +24,8 @@ const FeuilletonPage = ({ t, me, isMember, inNativeIOSApp }) => {
     pageTitle: t('pages/feuilleton/pageTitle'),
     title: t('pages/feuilleton/title'),
     description: t('pages/feuilleton/description'),
-    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
-    url: `${PUBLIC_BASE_URL}/`
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/feuilleton.jpg`,
+    url: `${PUBLIC_BASE_URL}/feuilleton`
   }
   return (
     <Frame raw meta={meta}>

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-29T15:31:27.391Z",
+  "updated": "2018-11-30T13:50:20.212Z",
   "title": "live",
   "data": [
     {
@@ -77,6 +77,18 @@
     {
       "key": "pages/index/description",
       "value": "Kommen Sie jetzt an Bord."
+    },
+    {
+      "key": "pages/feuilleton/pageTitle",
+      "value": "Republik Feuilleton"
+    },
+    {
+      "key": "pages/feuilleton/title",
+      "value": "Lesen Sie Kulturjournalismus mit Relevanz!"
+    },
+    {
+      "key": "pages/feuilleton/description",
+      "value": "Die Republik ist ein digitales Magazin, sein Feuilleton steht für Kulturkritik auf der Höhe unserer Zeit. Die Republik wird von ihren Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
     },
     {
       "key": "discussion/pageTitle",
@@ -365,6 +377,90 @@
     {
       "key": "marketing/offers/claim",
       "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "marketing/feuilleton/title",
+      "value": "Kultur-Journalismus mit&nbsp;Relevanz<br />Für eine Kritik der Gegenwart"
+    },
+    {
+      "key": "marketing/feuilleton/lead",
+      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin, ihr Feuilleton steht für Kulturkritik auf der Höhe unserer Zeit. Die Republik wird von ihren Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
+    },
+    {
+      "key": "marketing/feuilleton/what/title",
+      "value": "Was?"
+    },
+    {
+      "key": "marketing/feuilleton/what/text",
+      "value": "Kritik: Wir rezensieren nicht entlang des Premierenkalenders und der Bestsellerliste. Besprochen wird nur, was wirklich wichtig ist. Von den klassischen Künsten bis zu Pop, Foto, Games.<br /><br />\nÜberblick: Die Fülle an Events und neuen Werken ist erschlagend. Wir schaffen Überblick durch substanzielle Hintergrundtexte.<br /><br />\nDebatte: Unser Fokus liegt auf den gesellschaftlichen Fragen der Gegenwart. Darauf suchen wir Antworten, die tiefer dringen.\n\n"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/format",
+      "value": "Für eine Kultur der Kritik"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/text",
+      "value": "«Kunst stellt uns vor Rätsel, die wir ergründen – und die uns ergründen.»"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/source",
+      "value": "Barbara Villiger Heilig"
+    },
+    {
+      "key": "marketing/feuilleton/why/title",
+      "value": "Warum?"
+    },
+    {
+      "key": "marketing/feuilleton/why/text",
+      "value": "Die Verlage haben flächendeckend ihre Feuilletons abgebaut. Doch eine kritische Öffentlichkeit ist auf Reflexion angewiesen – heute mehr denn je.<br /><br />\nGuter Kulturjournalismus stellt die Ideen auf die Probe, die in der Gesellschaft zirkulieren – und sich in den Künsten widerspiegeln. Wir versuchen, den Blick auf das zu lenken, was besonders faszinierend und relevant ist – und auf das, was vehementen Widerspruch verdient."
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/format",
+      "value": "Kulturjournalismus. Ein Anti-Manifest"
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/text",
+      "value": "«So manches Feuilleton ist nur noch die Arena eines permanenten Kulturkampfes.»"
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/source",
+      "value": "Daniel Binswanger"
+    },
+    {
+      "key": "marketing/feuilleton/audience/title",
+      "value": "Für wen?"
+    },
+    {
+      "key": "marketing/feuilleton/audience/text",
+      "value": "Für die, die von Kulturkritik mehr erwarten als «Daumen hoch / Daumen runter»-Rezensionen.<br /><br />\nDie, für die Kultur mehr als «l’art pour l’art» ist – die aber darauf bestehen, dass Kunst ihren eigenen Gesetzen folgt.<br /><br />\nFür alle, denen die grossen Fragen der Gegenwart nicht gleichgültig sind. Und die ahnen, dass wir für geistreiche Antworten auch die Kunst und ihre Kritik brauchen werden."
+    },
+    {
+      "key": "marketing/feuilleton/who/title",
+      "value": "Wer wir sind"
+    },
+    {
+      "key": "marketing/feuilleton/who/text",
+      "value": "Die Feuilleton-Redaktion der Republik, das sind: Barbara Villiger Heilig, Daniel Binswanger und Daniel Graf. Doch ein gutes Feuilleton ist viel mehr als die Redaktion. Wir wollen den klügsten Köpfen der Schweiz eine Plattform bieten und die interessantesten Stimmen der internationalen Debatten hier versammeln. Und mit Ihnen, den Verlegerinnen und Verlegern, ihre Ideen diskutieren."
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/format",
+      "value": "Wir Rezensenten"
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/text",
+      "value": "«Kritik ist Ausdruck aktiver Zeitgenossenschaft.»"
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/source",
+      "value": "Daniel Graf"
+    },
+    {
+      "key": "marketing/feuilleton/faq/title",
+      "value": "Häufig gestellte Fragen"
+    },
+    {
+      "key": "marketing/feuilleton/faq/link",
+      "value": "Weitere Fragen"
     },
     {
       "key": "formats/pageTitle",

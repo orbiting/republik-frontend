@@ -12,7 +12,7 @@ import StatusError from '../components/StatusError'
 import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
 
-const KNOWN_PATHS = ['/feuilleton']
+const KNOWN_PATHS = []
 
 const isPathKnown = (router) => {
   return KNOWN_PATHS.indexOf(cleanAsPath(router.asPath)) !== -1

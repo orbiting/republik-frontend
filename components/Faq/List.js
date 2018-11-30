@@ -4,8 +4,6 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 
 import Loader from '../Loader'
-import Meta from '../Frame/Meta'
-import withT from '../../lib/withT'
 
 import {
   Interaction, RawHtml, colors,
@@ -15,10 +13,6 @@ import {
 import {
   HEADER_HEIGHT, HEADER_HEIGHT_MOBILE
 } from '../constants'
-
-import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
-} from '../../lib/constants'
 
 import { nest } from 'd3-collection'
 
@@ -75,11 +69,39 @@ const slug = string => string
   .trim()
   .replace(/\s+/g, '-')
 
-class FaqList extends Component {
+export class RawList extends Component {
   constructor (...args) {
     super(...args)
 
     this.state = {}
+
+    this.renderFaq = (faq, i) => {
+      const active = this.state[slug(faq.question)]
+      return (
+        <div key={i} {...styles.faq}>
+          <a {...styles.faqAnchor} id={slug(faq.question)} />
+          <P {...merge(styles.question, active && styles.active)}>
+            <a href={`#${slug(faq.question)}`}
+              onClick={e => {
+                e.preventDefault()
+                this.setState(() => ({
+                  [slug(faq.question)]: !active
+                }))
+              }}>
+              {faq.question}
+            </a>
+          </P>
+          {active && (
+            <RawHtml
+              type={AnswerP}
+              key={`answer${i}`}
+              dangerouslySetInnerHTML={{
+                __html: faq.answer.split('\n').join('<br />')
+              }} />
+          )}
+        </div>
+      )
+    }
   }
   componentDidMount () {
     if (window.location.hash) {
@@ -89,58 +111,25 @@ class FaqList extends Component {
     }
   }
   render () {
-    const { data: { loading, error, faqs }, t } = this.props
+    const { data: { loading, error, faqs }, flat } = this.props
     return (
       <Loader loading={loading} error={error} render={() => {
+        if (flat) {
+          return <div>
+            {faqs.map(this.renderFaq)}
+          </div>
+        }
+
         const faqsByCategory = nest()
           .key(d => d.category)
           .entries(faqs)
 
         return (
           <div>
-            <Meta data={{
-              pageTitle: t('faq/pageTitle'),
-              title: t('faq/title'),
-              description: t('faq/metaDescription'),
-              url: `${PUBLIC_BASE_URL}/faq`,
-              image: `${CDN_FRONTEND_BASE_URL}/static/social-media/faq.png`
-            }} />
-            <H2>{t('faq/before/title')}</H2>
-            <Interaction.H3>{t('faq/before/support/title')}</Interaction.H3>
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t('faq/before/support/text')
-            }} />
-            <br />
             {faqsByCategory.map(({ key: title, values }) => (
               <div {...styles.category} key={title}>
                 <H2>{title}</H2>
-                {values.map((faq, i) => {
-                  const active = this.state[slug(faq.question)]
-                  return (
-                    <div key={i} {...styles.faq}>
-                      <a {...styles.faqAnchor} id={slug(faq.question)} />
-                      <P {...merge(styles.question, active && styles.active)}>
-                        <a href={`#${slug(faq.question)}`}
-                          onClick={e => {
-                            e.preventDefault()
-                            this.setState(() => ({
-                              [slug(faq.question)]: !active
-                            }))
-                          }}>
-                          {faq.question}
-                        </a>
-                      </P>
-                      {active && (
-                        <RawHtml
-                          type={AnswerP}
-                          key={`answer${i}`}
-                          dangerouslySetInnerHTML={{
-                            __html: faq.answer.split('\n').join('<br />')
-                          }} />
-                      )}
-                    </div>
-                  )
-                })}
+                {values.map(this.renderFaq)}
               </div>
             ))}
           </div>
@@ -161,6 +150,5 @@ query {
 `
 
 export default compose(
-  withT,
   graphql(publishedFaqs)
-)(FaqList)
+)(RawList)

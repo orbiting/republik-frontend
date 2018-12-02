@@ -87,7 +87,7 @@
     "gsheets": "^2.0.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.4",
-    "nodemon": "^1.18.4",
+    "nodemon": "^1.18.7",
     "react-test-renderer": "^16.5.2",
     "standard": "^12.0.1",
     "tape": "^4.9.1"

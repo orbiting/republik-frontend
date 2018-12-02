@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import questionStyles from './questionStyles'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
 
 import {

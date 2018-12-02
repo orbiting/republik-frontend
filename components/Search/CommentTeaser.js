@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import get from 'lodash.get'
+import get from 'lodash/get'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'

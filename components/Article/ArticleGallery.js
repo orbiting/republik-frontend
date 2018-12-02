@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import {
   imageSizeInfo
 } from 'mdast-react-render/lib/utils'

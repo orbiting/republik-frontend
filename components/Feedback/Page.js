@@ -20,14 +20,13 @@ import Link from '../Link/Href'
 import {
   Button,
   Center,
-  TeaserFeed,
   Interaction,
   Label,
   linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
-const GENERAL_DISCUSSION_ID = '42ef501f-0be6-4120-b2cc-785182301595'
+const GENERAL_DISCUSSION_ID = '6f6fc787-f197-4aac-9f9b-cfb679a6199b' // 42ef501f-0be6-4120-b2cc-785182301595'
 
 const styles = {
   container: css({
@@ -48,6 +47,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     marginBottom: 20,
+    position: 'relative',
     '& > button': {
       flexGrow: 1,
       width: '50%'
@@ -76,9 +76,8 @@ class Search extends Component {
       loading: false,
       isMobile: true,
       trackingId: undefined,
-      selectedView: undefined,
+      tab: undefined,
       meta: undefined,
-      searchFilter: undefined,
       searchValue: undefined
     }
 
@@ -98,7 +97,7 @@ class Search extends Component {
         articleDiscussionId: discussionId,
         meta,
         searchValue: { text: title, value: selectedObj }
-      })
+      }, this.updateUrl)
     }
 
     this.onChangeFromActiveDiscussions = selectedObj => {
@@ -112,19 +111,29 @@ class Search extends Component {
       this.setState({
         articleDiscussionId,
         meta: selectedObj && selectedObj.meta,
-        searchFilter: '',
         searchValue: null
-      })
+      }, this.updateUrl)
     }
 
-    this.onFilterChange = (filter) => {
-      this.setState({ searchFilter: filter })
+    this.onArticleClick = selectedObj => {
+      const articleDiscussionId = selectedObj && selectedObj.discussionId
+      if (
+        !articleDiscussionId
+      ) {
+        return
+      }
+      this.setState({
+        articleDiscussionId,
+        meta: selectedObj && selectedObj.meta,
+        searchValue: null,
+        tab: 'article',
+        focusId: selectedObj && selectedObj.focusId
+      }, this.updateUrl)
     }
 
     this.onReset = () => {
       this.setState({
-        searchValue: null,
-        searchFilter: ''
+        searchValue: null
       })
     }
 
@@ -144,34 +153,67 @@ class Search extends Component {
     }
 
     this.selectArticleTab = () => {
-      this.setState({ selectedView: 'article' })
+      const isSelected = this.state.tab === 'article'
+      this.setState({ tab: isSelected ? '' : 'article', focusId: null }, this.updateUrl)
     }
 
     this.selectGeneralTab = () => {
+      const isSelected = this.state.tab === 'general'
       this.setState({
-        selectedView: 'general',
-        discussionId: GENERAL_DISCUSSION_ID
-      })
+        tab: isSelected ? '' : 'general',
+        discussionId: isSelected ? null : GENERAL_DISCUSSION_ID,
+        focusId: null
+      }, this.updateUrl)
+    }
+
+    this.setStateFromQuery = (query) => {
+      if (!query) {
+        return
+      }
+      const { id, t, focus } = query
+      const isGeneral = id === GENERAL_DISCUSSION_ID || t === 'general'
+      if (isGeneral) {
+        this.setState({
+          tab: 'general',
+          focusId: focus
+        })
+      } else if (id || t === 'article') {
+        this.setState({
+          articleDiscussionId: id,
+          tab: 'article',
+          focusId: focus
+        })
+      }
+    }
+
+    this.pushUrl = (params) => {
+      Router.replaceRoute(
+        'feedback',
+        params,
+        { shallow: true }
+      )
+    }
+
+    this.updateUrl = () => {
+      const { articleDiscussionId, tab, focusId } = this.state
+      const id =
+        tab === 'article' && articleDiscussionId
+          ? encodeURIComponent(articleDiscussionId)
+          : undefined
+      const focus = focusId ? encodeURIComponent(focusId) : undefined
+      const t = tab || undefined
+      this.pushUrl({ id, t, focus })
+    }
+
+    this.clearUrl = () => {
+      this.pushUrl({})
     }
   }
 
   componentDidMount () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
-    const { query } = this.props
-    if (query && query.id) {
-      const isGeneral = query.id === GENERAL_DISCUSSION_ID
-      if (isGeneral) {
-        this.setState({
-          selectedView: 'general'
-        })
-      } else {
-        this.setState({
-          articleDiscussionId: query.id,
-          selectedView: 'article'
-        })
-      }
-    }
+    this.setStateFromQuery(this.props.query)
   }
 
   componentWillUnmount () {
@@ -182,23 +224,23 @@ class Search extends Component {
     const { t } = this.props
     const {
       articleDiscussionId,
-      selectedView,
+      tab,
       meta,
       searchValue,
-      searchFilter
+      focusId
     } = this.state
 
     const pageMeta = {
-      title: t('pages/search/title'),
+      title: t('pages/feedback/title'),
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
     const selectedDiscussionId =
-      selectedView === 'general'
+      tab === 'general'
         ? GENERAL_DISCUSSION_ID
-        : selectedView === 'article' && articleDiscussionId
+        : tab === 'article' && articleDiscussionId
 
-    const linkedDiscussion = selectedView === 'article' && meta && meta.discussion
+    const linkedDiscussion = tab === 'article' && meta && meta.discussion
 
     const ArticleLink = meta && (
       <Link href={meta.path} passHref key='articlelink'>
@@ -218,17 +260,19 @@ class Search extends Component {
           </div>
           <div {...styles.tab}>
             <Button
-              dimmed={selectedView && selectedView !== 'article'}
+              style={{ zIndex: 1 }}
+              dimmed={tab && tab !== 'article'}
               onClick={this.selectArticleTab}>
             Artikel
             </Button>
             <Button
-              dimmed={selectedView && selectedView !== 'general'}
+              style={{ marginLeft: '-1px', zIndex: tab === 'general' ? 1 : undefined }}
+              dimmed={tab && tab !== 'general'}
               onClick={this.selectGeneralTab}>
             Allgemein
             </Button>
           </div>
-          {selectedView === 'article' && (
+          {tab === 'article' && (
             <Fragment>
               <div {...styles.hitlistHeadline}>
                 <Interaction.H3>Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?</Interaction.H3>
@@ -243,10 +287,8 @@ class Search extends Component {
               />
               <ArticleSearch
                 value={searchValue}
-                filter={searchFilter}
                 onChange={this.onChangeFromSearch}
                 onReset={this.onReset}
-                onFilterChange={this.onFilterChange}
               />
 
               {meta && !linkedDiscussion && <div {...styles.selectedHeadline}>
@@ -256,31 +298,22 @@ class Search extends Component {
                   })}
                 </Interaction.H3>
               </div>}
-              {meta && linkedDiscussion && <Fragment>
-                <div {...styles.selectedHeadline}>
-                  <Interaction.H3 {...styles.selectedHeadline}>
-                    {t.elements('feedback/linkedArticle/selected/headline', {
-                      link: ArticleLink
-                    })}
-                  </Interaction.H3>
-                </div>
-                <TeaserFeed {...linkedDiscussion} />
-
-              </Fragment>}
-
             </Fragment>
           )}
           {selectedDiscussionId && (
-            <Discussion discussionId={selectedDiscussionId} />
+            <Discussion discussionId={selectedDiscussionId} focusId={focusId} />
           )}
           {!selectedDiscussionId && (
             <Fragment>
               <div {...styles.selectedHeadline}>
                 <Interaction.H3>
-              Neueste Beiträge
+                  {t('feedback/latestComments/headline')}
                 </Interaction.H3>
               </div>
-              <LatestComments />
+              <LatestComments
+                onArticleClick={this.onArticleClick}
+                filter={tab === 'article' ? [GENERAL_DISCUSSION_ID] : undefined}
+              />
             </Fragment>
           )}
         </Center>

@@ -9,11 +9,11 @@ import {
   Loader
 } from '@project-r/styleguide'
 
-import CommentTeaser from '../Search/CommentTeaser'
+import CommentTeaser from './CommentTeaser'
 
 class LatestComments extends Component {
   render () {
-    const { t, data } = this.props
+    const { t, data, onArticleClick, filter = [] } = this.props
 
     return (
       <Loader
@@ -23,12 +23,14 @@ class LatestComments extends Component {
           const { comments } = data
           return (
             <div>
-              {comments && comments.nodes.map(
-                node => (
-                  <CommentTeaser key={node.id} t={t} {...node} />
-                )
+              {comments && comments.nodes
+                .filter(node => filter.indexOf(node.discussion.id) === -1)
+                .map(
+                  node => (
+                    <CommentTeaser key={node.id} t={t} {...node} onArticleClick={onArticleClick} />
+                  )
 
-              )}
+                )}
             </div>
           )
         }} />

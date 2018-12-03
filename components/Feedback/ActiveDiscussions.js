@@ -121,7 +121,8 @@ class ActiveDiscussions extends Component {
               {activeDiscussions && activeDiscussions.map(activeDiscussion => {
                 const discussion = activeDiscussion.discussion
                 const selected = discussionId && discussionId === discussion.id
-                const path = discussion.document && discussion.document.meta.template === 'discussion' && discussion.path
+                const path = discussion.document && discussion.document.meta && discussion.document.meta.template === 'discussion' && discussion.path
+                const meta = discussion.document ? discussion.document.meta : {}
                 return (
                   <RowItem
                     key={discussion.id}
@@ -131,8 +132,9 @@ class ActiveDiscussions extends Component {
                       onChange(selected ? null : {
                         discussionId: discussion.id,
                         meta: {
-                          title: discussion.document.meta.title,
-                          credits: discussion.document.meta.credits
+                          title: meta.title,
+                          credits: meta.credits,
+                          path: meta.path
                         }
                       })
                     }}

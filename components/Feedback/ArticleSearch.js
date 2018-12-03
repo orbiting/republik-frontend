@@ -51,6 +51,12 @@ class ArticleSearch extends Component {
       items: [],
       loading: false
     }
+
+    this.onReset = () => {
+      this.setState({ filter: '', value: null, isOpen: false, items: [] })
+      const { onReset } = this.props
+      onReset && onReset()
+    }
   }
 
   onChange = (value) => {
@@ -124,7 +130,8 @@ class ArticleSearch extends Component {
             routePath: linkedDiscussion && linkedDiscussion.path,
             meta: {
               title: meta.title,
-              credits: meta.credits
+              credits: meta.credits,
+              path: meta.path
             },
             text: <ArticleItem
               title={meta.title}
@@ -141,14 +148,16 @@ class ArticleSearch extends Component {
   }, 200)
 
   render () {
-    const { t, onReset } = this.props
-    const { value, filter, items, loading } = this.state
+    const { t } = this.props
+    const { value, filter, items, loading, isOpen } = this.state
 
     return (
       <div>
         <Autocomplete
           label={t('search/input/label')}
           value={value}
+          filter={filter}
+          isOpen={isOpen !== undefined ? isOpen : undefined}
           onChange={this.onChange}
           onFilterChange={this.onFilterChange}
           items={items}
@@ -158,11 +167,11 @@ class ArticleSearch extends Component {
                 <Spinner size={30} />
               </div>
             )
-              : value && filter ? (
+              : filter ? (
                 <Icon
                   IconComponent={Close}
                   fill={filter ? colors.text : colors.disabled}
-                  onClick={onReset}
+                  onClick={this.onReset}
                   title={t('search/input/reset/aria')}
                 />
               ) : (

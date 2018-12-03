@@ -16,6 +16,7 @@ query getActiveDiscussions($lastDays: Int!) {
         meta {
           title
           template
+          path
         }
       }
     }
@@ -108,6 +109,23 @@ query getComments($after: String) {
           id
           title
           path
+          document {
+            meta {
+              title
+              path
+              credits
+              template
+              ownDiscussion {
+                id
+                closed
+              }
+              linkedDiscussion {
+                id
+                path
+                closed
+              }
+            }
+          }
         }
       }
     }

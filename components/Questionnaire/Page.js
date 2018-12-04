@@ -72,7 +72,7 @@ const styles = {
     color: colors.error,
     fontFamily: fontFamilies.sansSerifMedium
   }),
-  thankyou: css({
+  closed: css({
     marginTop: 35,
     background: colors.primaryBg,
     width: '100%',
@@ -145,8 +145,9 @@ class Page extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
+          const now = new Date()
           // handle not found or not started
-          if (!data.questionnaire || new Date(data.questionnaire.beginDate) > new Date()) {
+          if (!data.questionnaire || new Date(data.questionnaire.beginDate) > now) {
             return (
               <StatusError
                 statusCode={404}
@@ -154,20 +155,25 @@ class Page extends Component {
             )
           }
 
+          const hasEnded = now > new Date(data.questionnaire.endDate)
+
           // handle already submitted
           const { questionnaire: { userHasSubmitted, questions } } = data
           const { error, submitting, updating } = this.state
-          if (!submitting && userHasSubmitted) {
+          if (!submitting && (hasEnded || userHasSubmitted)) {
             return (
               <>
                 <Headline>{t('questionnaire/title')}</Headline>
-                <div {...styles.thankyou}>
+                <div {...styles.closed}>
                   <P>
-                    {t.elements('questionnaire/thankyou', {
-                      metaLink: <Link key='meta' route='/verlag' passHref>
-                        <A>{t('questionnaire/thankyou/metaText')}</A>
-                      </Link>
-                    })}
+                    {userHasSubmitted
+                      ? t.elements('questionnaire/thankyou', {
+                        metaLink: <Link key='meta' route='/verlag' passHref>
+                          <A>{t('questionnaire/thankyou/metaText')}</A>
+                        </Link>
+                      })
+                      : t('questionnaire/ended')
+                    }
                   </P>
                 </div>
                 {showResults && <>

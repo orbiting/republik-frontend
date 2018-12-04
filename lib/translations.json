@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-04T12:52:28.017Z",
+  "updated": "2018-12-04T16:37:18.797Z",
   "title": "live",
   "data": [
     {
@@ -3501,6 +3501,10 @@
     {
       "key": "questionnaire/thankyou/metaText",
       "value": "Hier"
+    },
+    {
+      "key": "questionnaire/ended",
+      "value": "Die Umfrage ist vorbei."
     },
     {
       "key": "questionnaire/article/help",

@@ -7,15 +7,14 @@ import { Link } from '../../lib/routes'
 import timeago from '../../lib/timeago'
 
 import NewPage from 'react-icons/lib/md/open-in-new'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
 import {
-  CommentHeader,
+  Comment,
   CommentBodyParagraph,
   RawHtml,
   colors,
-  fontStyles,
-  linkRule,
-  mediaQueries
+  fontStyles
 } from '@project-r/styleguide'
 
 const styles = {
@@ -32,11 +31,12 @@ const styles = {
       fontStyle: 'normal'
     }
   }),
-  note: css({
-    ...fontStyles.sansSerifRegular14,
-    margin: '10px 0',
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular15
+  link: css({
+    ...fontStyles.link,
+    color: colors.text,
+    cursor: 'pointer',
+    '&:visited': {
+      color: colors.text
     }
   })
 }
@@ -95,8 +95,10 @@ export const CommentTeaser = ({
   published,
   createdAt,
   updatedAt,
+  parentIds,
+  tags,
   t,
-  onArticleClick
+  onTeaserClick
 }) => {
   const timeagoFromNow = createdAtString => {
     return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
@@ -110,12 +112,13 @@ export const CommentTeaser = ({
       Math.abs(highlight.lastIndexOf('.') - highlight.length) < 2)
 
   const meta = discussion && discussion.document && discussion.document.meta
-  const newPage = meta && meta.template === 'discussion'
+  const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
+  const newPage = !isGeneral && meta && meta.template === 'discussion'
   const onPage = meta && meta.template === 'article'
 
   const onClick = (e) => {
     e.preventDefault()
-    onArticleClick({
+    onTeaserClick({
       discussionId: discussion.id,
       meta: {
         title: meta.title,
@@ -136,84 +139,87 @@ export const CommentTeaser = ({
       </CommentLink>
       : children
   }
+  const contextTitle = isGeneral
+    ? parentIds.length === 0 && tags && <a {...styles.link} onClick={onClick}>{t(`discussion/tag/${tags[0]}`)}</a>
+    : discussion.title
+      ? onPage ? (
+        <Fragment>
+          {t.elements('feedback/commentTeaser/articleReference', {
+            link: (
+              <a {...styles.link} onClick={onClick}>
+                «{discussion.title}»
+              </a>
+            )
+          })}
+        </Fragment>
+      ) : newPage
+        ? (
+          <Fragment>
+            {t.elements('feedback/commentTeaser/discussionReference', {
+              link: (
+                <CommentLink
+                  key={id}
+                  commentId={id}
+                  discussion={discussion}
+                >
+                  <a {...styles.link}>
+                    «{discussion.title}»{' '}
+                    <span {...styles.icon} title={'Zur Debattenseite'}>
+                      <NewPage size={16} fill={colors.disabled} />
+                    </span>
+                  </a>
+                </CommentLink>
+              )
+            })}
+          </Fragment>
+        )
+        : undefined
+      : undefined
+  const context = contextTitle ? {
+    title: contextTitle,
+    description: undefined // TODO: render meta.credits mdast.
+  } : undefined
 
   return (
     <div {...styles.root}>
-      <CommentHeader
-        {...displayAuthor}
+      <Comment
+        displayAuthor={displayAuthor}
         Link={CommentLink}
         published={published}
         createdAt={createdAt}
         timeago={timeagoFromNow}
         t={t}
-      />
-
-      <CommentBodyParagraph>
-        <Wrapper
-          newPage={newPage}
-          commentId={id}
-          discussion={discussion}
-        >
-          <a {...styles.linkBlockStyle}
-            style={{ opacity: published ? 1 : 0.5 }}
-            onClick={newPage ? undefined : onClick}>
-            {!highlight && !!string && (
-              <Fragment>
-                {string}
-                {!!more && <span>{' '}…</span>}
-              </Fragment>
-            )}
-            {!!highlight && (
-              <Fragment>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: highlight
-                  }}
-                />
-                {!endsWithPunctuation && <span>{' '}…</span>}
-              </Fragment>
-            )}
-          </a>
-        </Wrapper>
-      </CommentBodyParagraph>
-
-      {onPage && discussion.title && (
-        <p {...styles.note}>
-          {t.elements('feedback/commentTeaser/articleReference', {
-            link: (
-              <CommentLink
-                key={id}
-                commentId={id}
-                discussion={discussion}
-              >
-                <a {...linkRule} onClick={onClick}>
-                  {discussion.title}
-                </a>
-              </CommentLink>
-            )
-          })}
-        </p>
-      )}
-      {newPage && discussion.title && (
-        <p {...styles.note}>
-          {t.elements('feedback/commentTeaser/discussionReference', {
-            link: (
-              <CommentLink
-                key={id}
-                commentId={id}
-                discussion={discussion}
-              >
-                <a {...linkRule}>
-                  {discussion.title}{' '}
-                  <span {...styles.icon} title={'Zur Debattenseite'}>
-                    <NewPage size={16} fill={colors.disabled} />
-                  </span>
-                </a>
-              </CommentLink>
-            )
-          })}
-        </p>
-      )}
+        context={context}
+      >
+        <CommentBodyParagraph>
+          <Wrapper
+            newPage={newPage}
+            commentId={id}
+            discussion={discussion}
+          >
+            <a {...styles.linkBlockStyle}
+              style={{ opacity: published ? 1 : 0.5 }}
+              onClick={newPage ? undefined : onClick}>
+              {!highlight && !!string && (
+                <Fragment>
+                  {string}
+                  {!!more && <span>{' '}…</span>}
+                </Fragment>
+              )}
+              {!!highlight && (
+                <Fragment>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: highlight
+                    }}
+                  />
+                  {!endsWithPunctuation && <span>{' '}…</span>}
+                </Fragment>
+              )}
+            </a>
+          </Wrapper>
+        </CommentBodyParagraph>
+      </Comment>
     </div>
   )
 }

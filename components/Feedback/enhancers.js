@@ -105,6 +105,7 @@ query getComments($after: String) {
         updatedAt
         createdAt
         parentIds
+        tags
         discussion {
           id
           title

@@ -4,7 +4,7 @@ import { compose } from 'react-apollo'
 
 import { Router } from '../../lib/routes'
 
-import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
+import { CDN_FRONTEND_BASE_URL, GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Frame from '../Frame'
@@ -25,8 +25,6 @@ import {
   linkRule,
   mediaQueries
 } from '@project-r/styleguide'
-
-const GENERAL_DISCUSSION_ID = '6f6fc787-f197-4aac-9f9b-cfb679a6199b' // 42ef501f-0be6-4120-b2cc-785182301595'
 
 const styles = {
   container: css({
@@ -115,18 +113,20 @@ class Search extends Component {
       }, this.updateUrl)
     }
 
-    this.onArticleClick = selectedObj => {
-      const articleDiscussionId = selectedObj && selectedObj.discussionId
+    this.onTeaserClick = selectedObj => {
+      const discussionId = selectedObj && selectedObj.discussionId
       if (
-        !articleDiscussionId
+        !discussionId
       ) {
         return
       }
+      const isGeneral = discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
+      const articleDiscussionId = isGeneral ? undefined : discussionId
       this.setState({
         articleDiscussionId,
         meta: selectedObj && selectedObj.meta,
         searchValue: null,
-        tab: 'article',
+        tab: isGeneral ? 'general' : 'article',
         focusId: selectedObj && selectedObj.focusId
       }, this.updateUrl)
     }
@@ -161,7 +161,7 @@ class Search extends Component {
       const isSelected = this.state.tab === 'general'
       this.setState({
         tab: isSelected ? '' : 'general',
-        discussionId: isSelected ? null : GENERAL_DISCUSSION_ID,
+        discussionId: isSelected ? null : GENERAL_FEEDBACK_DISCUSSION_ID,
         focusId: null
       }, this.updateUrl)
     }
@@ -171,7 +171,7 @@ class Search extends Component {
         return
       }
       const { id, t, focus } = query
-      const isGeneral = id === GENERAL_DISCUSSION_ID || t === 'general'
+      const isGeneral = id === GENERAL_FEEDBACK_DISCUSSION_ID || t === 'general'
       if (isGeneral) {
         this.setState({
           tab: 'general',
@@ -237,7 +237,7 @@ class Search extends Component {
 
     const selectedDiscussionId =
       tab === 'general'
-        ? GENERAL_DISCUSSION_ID
+        ? GENERAL_FEEDBACK_DISCUSSION_ID
         : tab === 'article' && articleDiscussionId
 
     const linkedDiscussion = tab === 'article' && meta && meta.discussion
@@ -272,6 +272,11 @@ class Search extends Component {
             Allgemein
             </Button>
           </div>
+          {!GENERAL_FEEDBACK_DISCUSSION_ID && (
+            <div style={{ color: 'red', marginTop: 20 }}>
+              GENERAL_FEEDBACK_DISCUSSION_ID is undefined
+            </div>
+          )}
           {tab === 'article' && (
             <Fragment>
               <div {...styles.hitlistHeadline}>
@@ -283,7 +288,7 @@ class Search extends Component {
                 value={meta}
                 onChange={this.onChangeFromActiveDiscussions}
                 onReset={this.onReset}
-                ignoreDiscussionId={GENERAL_DISCUSSION_ID}
+                ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
               />
               <ArticleSearch
                 value={searchValue}
@@ -311,8 +316,8 @@ class Search extends Component {
                 </Interaction.H3>
               </div>
               <LatestComments
-                onArticleClick={this.onArticleClick}
-                filter={tab === 'article' ? [GENERAL_DISCUSSION_ID] : undefined}
+                onTeaserClick={this.onTeaserClick}
+                filter={tab === 'article' ? [GENERAL_FEEDBACK_DISCUSSION_ID] : undefined}
               />
             </Fragment>
           )}

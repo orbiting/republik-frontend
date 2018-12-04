@@ -13,7 +13,7 @@ import CommentTeaser from './CommentTeaser'
 
 class LatestComments extends Component {
   render () {
-    const { t, data, onArticleClick, filter = [] } = this.props
+    const { t, data, onTeaserClick, filter = [] } = this.props
 
     return (
       <Loader
@@ -27,7 +27,7 @@ class LatestComments extends Component {
                 .filter(node => filter.indexOf(node.discussion.id) === -1)
                 .map(
                   node => (
-                    <CommentTeaser key={node.id} t={t} {...node} onArticleClick={onArticleClick} />
+                    <CommentTeaser key={node.id} t={t} {...node} onTeaserClick={onTeaserClick} />
                   )
 
                 )}

@@ -451,6 +451,18 @@ class Comments extends PureComponent {
         otherChild
       }, null, 2)}</BlockLabel>)
 
+      const isRoot = comment.parentIds.length === 0
+      const tags = isRoot && discussion && discussion.tags && discussion.tags.length
+        ? discussion.tags.map(tag => ({
+          label: t(`discussion/tag/${tag}`),
+          value: tag,
+          selected: comment.tags && !!comment.tags.find(commentTag => commentTag === tag)
+        }))
+        : undefined
+      const context = isRoot && comment.tags && comment.tags.length ? {
+        title: t(`discussion/tag/${comment.tags[0]}`)
+      } : undefined
+
       accumulator.list.push(
         <CommentTreeRow
           key={comment.id}
@@ -484,7 +496,8 @@ class Comments extends PureComponent {
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
           onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
-
+          tags={tags}
+          context={context}
         />
       )
 

@@ -425,7 +425,6 @@ class ArticlePage extends Component {
         audioCloseHandler={this.toggleAudio}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
-          console.log(meta)
           if (!article) {
             return <StatusError
               statusCode={404}

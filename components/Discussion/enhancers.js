@@ -106,6 +106,7 @@ export const fragments = {
       updatedAt
       createdAt
       parentIds
+      tags
     }
   `,
   connectionInfo: gql`
@@ -219,17 +220,17 @@ const optimisticContent = text => ({
 })
 
 export const editComment = graphql(gql`
-mutation discussionEditComment($commentId: ID!, $content: String!) {
-  editComment(id: $commentId, content: $content) {
+mutation discussionEditComment($commentId: ID!, $content: String!, $tags: [String!]) {
+  editComment(id: $commentId, content: $content, tags: $tags) {
     ...Comment
   }
 }
 ${fragments.comment}
 `, {
   props: ({ mutate }) => ({
-    editComment: (comment, content) => {
+    editComment: (comment, content, tags) => {
       return mutate({
-        variables: { commentId: comment.id, content },
+        variables: { commentId: comment.id, content, tags },
         optimisticResponse: {
           __typename: 'Mutation',
           submitComment: {
@@ -268,6 +269,8 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
     userWaitUntil
     path
     collapsable
+    tagRequired
+    tags
     comments(parentId: $parentId, after: $after, orderBy: $orderBy, first: 100, flatDepth: $depth, focusId: $focusId) {
       totalCount
       directTotalCount
@@ -308,8 +311,8 @@ export const submitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
   graphql(gql`
-mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!) {
-  submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content) {
+mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]) {
+  submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content, tags: $tags) {
     ...Comment
     discussion {
       id
@@ -323,7 +326,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 ${fragments.comment}
 `, {
     props: ({ ownProps: { t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor }, mutate }) => ({
-      submitComment: (parent, content) => {
+      submitComment: (parent, content, tags) => {
         if (!discussionDisplayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
         }
@@ -337,7 +340,7 @@ ${fragments.comment}
           : []
 
         return mutate({
-          variables: { discussionId, parentId, id, content },
+          variables: { discussionId, parentId, id, content, tags },
           optimisticResponse: {
             __typename: 'Mutation',
             submitComment: {
@@ -353,6 +356,7 @@ ${fragments.comment}
               createdAt: (new Date()).toISOString(),
               updatedAt: (new Date()).toISOString(),
               parentIds,
+              tags,
               __typename: 'Comment'
             }
           },
@@ -466,6 +470,8 @@ query discussionPreferences($discussionId: ID!) {
       }
       notifications
     }
+    tagRequired
+    tags
   }
 }
 `

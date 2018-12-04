@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-03T15:43:00.800Z",
+  "updated": "2018-12-04T16:48:40.625Z",
   "title": "live",
   "data": [
     {
@@ -1635,6 +1635,22 @@
       "value": "Republik: {title}"
     },
     {
+      "key": "discussion/tag/PRAISE",
+      "value": "Lob"
+    },
+    {
+      "key": "discussion/tag/CRITICISM",
+      "value": "Kritik"
+    },
+    {
+      "key": "discussion/tag/REQUEST",
+      "value": "Wünsche"
+    },
+    {
+      "key": "discussion/tag/NONE",
+      "value": "Keine Angabe"
+    },
+    {
       "key": "styleguide/AudioPlayer/aria",
       "value": "Audio-Player"
     },
@@ -2156,7 +2172,7 @@
     },
     {
       "key": "payment/stripe/js/failed",
-      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie bitte eine andere Zahlungsart."
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Die Verbindung zu stripe.com, unserem Dienstleister für Kreditkartenzahlungen, ist fehlgeschlagen. Mögliche Ursachen: ein temporärer Ausfall oder Ihre Browsererweiterungen. Wählen Sie bitte eine andere Zahlungsart."
     },
     {
       "key": "payment/stripe/card/label",
@@ -3517,6 +3533,10 @@
     {
       "key": "questionnaire/thankyou/metaText",
       "value": "Hier"
+    },
+    {
+      "key": "questionnaire/ended",
+      "value": "Die Umfrage ist vorbei."
     },
     {
       "key": "questionnaire/article/help",

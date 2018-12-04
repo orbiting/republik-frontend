@@ -49,12 +49,12 @@ class DiscussionCommentComposer extends PureComponent {
       })
     }
 
-    this.submitComment = content => {
+    this.submitComment = (content, tags) => {
       this.setState({
         state: 'submitting'
       })
 
-      this.props.submitComment(null, content).then(
+      this.props.submitComment(null, content, tags).then(
         () => {
           this.setState({
             state: 'idle',
@@ -134,6 +134,10 @@ class DiscussionCommentComposer extends PureComponent {
               )
             }
 
+            const tags = discussion && discussion.tags && discussion.tags.length
+              ? discussion.tags.map(tag => ({ label: t(`discussion/tag/${tag}`), value: tag }))
+              : undefined
+
             return (
               <div>
                 <CommentComposer
@@ -146,6 +150,7 @@ class DiscussionCommentComposer extends PureComponent {
                   submitLabel={t('submitComment/rootSubmitLabel')}
                   secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+                  tags={tags}
                 />
                 {showPreferences && (
                   <DiscussionPreferences

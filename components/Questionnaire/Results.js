@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { ascending } from 'd3-array'
+import { csvFormat } from 'd3-dsv'
 
 import Chart, { ChartTitle } from '@project-r/styleguide/lib/components/Chart'
 
@@ -12,6 +13,32 @@ import Loader from '../Loader'
 import withT from '../../lib/withT'
 
 import { countFormat } from '../../lib/utils/format'
+
+const DownloadableChart = ({ canDownload, ...props }) => <Fragment>
+  <Chart {...props} />
+  {canDownload && <Editorial.Note style={{ marginTop: 10, marginBottom: -5 }}>
+    Download:{' '}
+    <Editorial.A download='data.csv' onClick={(e) => {
+      const url = e.target.href = URL.createObjectURL(
+        new window.Blob(
+          [csvFormat(props.values)],
+          { type: 'text/csv' }
+        )
+      )
+      setTimeout(function () { URL.revokeObjectURL(url) }, 50)
+    }}>Data</Editorial.A>
+    {', '}
+    <Editorial.A download='config.json' onClick={(e) => {
+      const url = e.target.href = URL.createObjectURL(
+        new window.Blob(
+          [JSON.stringify(props.config, null, 2)],
+          { type: 'application/json' }
+        )
+      )
+      setTimeout(function () { URL.revokeObjectURL(url) }, 50)
+    }}>Config</Editorial.A>
+  </Editorial.Note>}
+</Fragment>
 
 const query = gql`
 query getQuestionnaireResults($slug: String!, $orderFilter: [Int!]) {
@@ -119,10 +146,10 @@ const BIN_BAR_CONFIG = {
   ]
 }
 
-const RankedBars = withT(({ t, question }) => {
+const RankedBars = withT(({ t, question, canDownload }) => {
   if (question.__typename === 'QuestionTypeDocument') {
     return (
-      <Chart t={t}
+      <DownloadableChart t={t} canDownload={canDownload}
         config={RANKED_BAR_CONFIG}
         values={question.results
           .filter(result => result.document)
@@ -143,13 +170,13 @@ const RankedBars = withT(({ t, question }) => {
     value: String(result.count)
   })
   return (
-    <Chart t={t}
+    <DownloadableChart t={t} canDownload={canDownload}
       config={RANKED_CATEGORY_BAR_CONFIG}
       values={question.results.map(mapResult)} />
   )
 })
 
-const SentimentBar = withT(({ t, question }) => {
+const SentimentBar = withT(({ t, question, canDownload }) => {
   const mapResult = result => {
     return {
       index: question.options.findIndex(option => (
@@ -161,7 +188,7 @@ const SentimentBar = withT(({ t, question }) => {
     }
   }
   return (
-    <Chart t={t}
+    <DownloadableChart t={t} canDownload={canDownload}
       config={STACKED_BAR_CONFIG}
       values={question.results.map(mapResult).sort(
         (a, b) => ascending(a.index, b.index)
@@ -169,7 +196,7 @@ const SentimentBar = withT(({ t, question }) => {
   )
 })
 
-const HistogramBar = withT(({ t, question }) => {
+const HistogramBar = withT(({ t, question, canDownload }) => {
   const mapResult = (result, i) => {
     const tick = question.ticks.find(tick => (
       (i === 0 && tick.value === result.x0) ||
@@ -182,7 +209,7 @@ const HistogramBar = withT(({ t, question }) => {
   }
 
   return (
-    <Chart t={t}
+    <DownloadableChart t={t} canDownload={canDownload}
       config={{
         ...BIN_BAR_CONFIG,
         colorLegendValues: question.ticks.map(tick => tick.label)
@@ -197,7 +224,7 @@ const DefaultWrapper = ({ children }) => (
   </div>
 )
 
-const Results = ({ data, t, Wrapper = DefaultWrapper }) => {
+const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
   return <Loader loading={data.loading} error={data.error} render={() => {
     return data.questionnaire.questions.map(question => {
       const { id, text } = question
@@ -225,7 +252,7 @@ const Results = ({ data, t, Wrapper = DefaultWrapper }) => {
       return (
         <Wrapper key={id}>
           { text && <ChartTitle>{text}</ChartTitle> }
-          { ResultChart && <ResultChart question={question} /> }
+          { ResultChart && <ResultChart canDownload={canDownload} question={question} /> }
           { <Editorial.Note style={{ marginTop: 10 }}>
             {t('questionnaire/turnout', {
               formattedSubmittedCount: countFormat(question.turnout.submitted),

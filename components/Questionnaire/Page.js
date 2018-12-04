@@ -180,7 +180,7 @@ class Page extends Component {
                   <P style={{ marginBottom: 20, color: colors.error }}>
                     Diese Resultate werden <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
                   </P>
-                  <Results slug={router.query.slug} />
+                  <Results canDownload slug={router.query.slug} />
                 </>}
               </>
             )

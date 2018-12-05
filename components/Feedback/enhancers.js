@@ -111,6 +111,7 @@ query getComments($after: String) {
           title
           path
           document {
+            id
             meta {
               title
               path

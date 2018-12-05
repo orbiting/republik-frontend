@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import get from 'lodash.get'
 import { matchType } from 'mdast-react-render/lib/utils'
 import { renderMdast } from 'mdast-react-render'
+import withT from '../../lib/withT'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
@@ -16,7 +16,6 @@ import {
   Comment,
   CommentBodyParagraph,
   Editorial,
-  RawHtml,
   colors,
   fontStyles
 } from '@project-r/styleguide'
@@ -82,7 +81,10 @@ const CommentLink = ({
   }
   if (discussion) {
     const focus = commentId
-    const path = discussion && discussion.document && discussion.document.meta && discussion.document.meta.path
+    const path = discussion &&
+      discussion.document &&
+      discussion.document.meta &&
+      discussion.document.meta.path
     if (path) {
       return (
         <PathLink
@@ -109,41 +111,32 @@ const CommentLink = ({
 }
 
 export const CommentTeaser = ({
+  t,
   id,
   discussion,
-  content,
   preview,
-  highlights,
   displayAuthor,
   published,
   createdAt,
   updatedAt,
   parentIds,
   tags,
-  t,
   onTeaserClick
 }) => {
   const timeagoFromNow = createdAtString => {
     return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
   }
   const { string, more } = preview
-  const highlight = get(highlights, 'highlights[0].fragments[0]', '').trim()
-  const endsWithPunctuation =
-    highlight &&
-    (Math.abs(highlight.lastIndexOf('...') - highlight.length) < 4 ||
-      Math.abs(highlight.lastIndexOf('…') - highlight.length) < 2 ||
-      Math.abs(highlight.lastIndexOf('.') - highlight.length) < 2)
-
-  const meta = discussion && discussion.document && discussion.document.meta
+  const meta = (discussion && discussion.document && discussion.document.meta) || {}
   const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
-  const newPage = !isGeneral && meta && meta.template === 'discussion'
-  const onPage = meta && meta.template === 'article'
+  const newPage = !isGeneral && meta.template === 'discussion'
+  const onPage = meta.template === 'article'
 
   const onClick = (e) => {
     e.preventDefault()
     onTeaserClick({
       discussionId: discussion.id,
-      meta: meta || {},
+      meta,
       focusId: id
     })
   }
@@ -158,6 +151,7 @@ export const CommentTeaser = ({
       </CommentLink>
       : children
   }
+
   const contextTitle = isGeneral
     ? parentIds.length === 0 && tags && (
       <a {...styles.link} onClick={onClick}>
@@ -187,7 +181,8 @@ export const CommentTeaser = ({
         </CommentLink>
       ))
       : undefined
-  const contextDescription = !isGeneral && meta && meta.credits && meta.credits.length > 0
+
+  const contextDescription = !isGeneral && meta.credits && meta.credits.length > 0
     ? renderMdast(meta.credits, creditSchema)
     : undefined
   const context = contextTitle ? {
@@ -198,12 +193,12 @@ export const CommentTeaser = ({
   return (
     <div {...styles.root}>
       <Comment
+        t={t}
         displayAuthor={displayAuthor}
         Link={CommentLink}
         published={published}
         createdAt={createdAt}
         timeago={timeagoFromNow}
-        t={t}
         context={context}
       >
         <CommentBodyParagraph>
@@ -215,20 +210,10 @@ export const CommentTeaser = ({
             <a {...styles.linkBlockStyle}
               style={{ opacity: published ? 1 : 0.5 }}
               onClick={newPage ? undefined : onClick}>
-              {!highlight && !!string && (
+              {!!string && (
                 <Fragment>
                   {string}
                   {!!more && <span>{' '}…</span>}
-                </Fragment>
-              )}
-              {!!highlight && (
-                <Fragment>
-                  <RawHtml
-                    dangerouslySetInnerHTML={{
-                      __html: highlight
-                    }}
-                  />
-                  {!endsWithPunctuation && <span>{' '}…</span>}
                 </Fragment>
               )}
             </a>
@@ -239,4 +224,4 @@ export const CommentTeaser = ({
   )
 }
 
-export default CommentTeaser
+export default withT(CommentTeaser)

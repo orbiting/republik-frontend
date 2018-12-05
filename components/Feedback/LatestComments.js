@@ -1,19 +1,14 @@
 import React, { Component } from 'react'
 import { compose } from 'react-apollo'
-
-import withT from '../../lib/withT'
-
 import { withComments } from './enhancers'
-
-import {
-  Loader
-} from '@project-r/styleguide'
 
 import CommentTeaser from './CommentTeaser'
 
+import { Loader } from '@project-r/styleguide'
+
 class LatestComments extends Component {
   render () {
-    const { t, data, onTeaserClick, filter = [] } = this.props
+    const { data, onTeaserClick, filter = [] } = this.props
 
     return (
       <Loader
@@ -27,9 +22,12 @@ class LatestComments extends Component {
                 .filter(node => filter.indexOf(node.discussion.id) === -1)
                 .map(
                   node => (
-                    <CommentTeaser key={node.id} t={t} {...node} onTeaserClick={onTeaserClick} />
+                    <CommentTeaser
+                      key={node.id}
+                      {...node}
+                      onTeaserClick={onTeaserClick}
+                    />
                   )
-
                 )}
             </div>
           )
@@ -39,6 +37,5 @@ class LatestComments extends Component {
 }
 
 export default compose(
-  withComments,
-  withT
+  withComments
 )(LatestComments)

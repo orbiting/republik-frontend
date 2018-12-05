@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import withT from '../../lib/withT'
-
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'
 
@@ -52,7 +50,7 @@ const styles = {
   })
 }
 
-const RowItem = ({ onClick, label, selected, path }) => (
+const ActiveDiscussionItem = ({ onClick, label, selected, path }) => (
   <button
     {...styles.button}
     style={{ color: selected ? colors.primary : undefined }}
@@ -66,7 +64,13 @@ const RowItem = ({ onClick, label, selected, path }) => (
       }
     }}
   >
-    <ArticleItem title={label} newPage={!!path} selected={selected} iconSize={24} Wrapper={Interaction.P} />
+    <ArticleItem
+      title={label}
+      newPage={!!path}
+      selected={selected}
+      iconSize={24}
+      Wrapper={Interaction.P}
+    />
   </button>
 )
 
@@ -81,7 +85,6 @@ class ActiveDiscussions extends Component {
       ).slice(0, 5)
 
     return (
-
       <Loader
         loading={data.loading}
         error={data.error}
@@ -94,18 +97,14 @@ class ActiveDiscussions extends Component {
                 const meta = discussion.document ? discussion.document.meta : {}
                 const path = meta && meta.template === 'discussion' && discussion.path
                 return (
-                  <RowItem
+                  <ActiveDiscussionItem
                     key={discussion.id}
                     label={discussion.title}
                     selected={selected}
                     onClick={() => {
                       onChange(selected ? null : {
                         discussionId: discussion.id,
-                        meta: {
-                          title: meta.title,
-                          credits: meta.credits,
-                          path: meta.path
-                        }
+                        meta
                       })
                     }}
                     path={path} />
@@ -126,6 +125,5 @@ ActiveDiscussions.propTypes = {
 }
 
 export default compose(
-  withT,
   withActiveDiscussions
 )(ActiveDiscussions)

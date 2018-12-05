@@ -13,7 +13,7 @@ import {
 
 const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const articleMeta = meta || documentMeta
-  if (!discussionId || !articleMeta) {
+  if (!discussionId || !articleMeta || !articleMeta.title) {
     return null
   }
 
@@ -35,6 +35,6 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
 }
 
 export default compose(
-  withDiscussionDocumentMeta,
-  withT
+  withT,
+  withDiscussionDocumentMeta
 )(ArticleDiscussionHeadline)

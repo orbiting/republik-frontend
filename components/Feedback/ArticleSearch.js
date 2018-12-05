@@ -135,13 +135,15 @@ class ArticleSearch extends Component {
               credits: meta.credits,
               path: meta.path
             },
-            text:
-          <ArticleItem
-            title={meta.title}
-            newPage={!!linkedDiscussion}
-            iconSize={24}
-            Wrapper={Interaction.P} />,
-            value: discussionId // n.entity.meta.path
+            text: (
+              <ArticleItem
+                title={meta.title}
+                newPage={!!linkedDiscussion}
+                iconSize={24}
+                Wrapper={Interaction.P}
+              />
+            ),
+            value: discussionId
           }
         }) : [{
           discussionId: null,
@@ -194,10 +196,8 @@ class ArticleSearch extends Component {
 
 ArticleSearch.propTypes = {
   t: PropTypes.func,
-  value: PropTypes.object,
-  allowSearch: PropTypes.bool,
+  client: PropTypes.object,
   onChange: PropTypes.func,
-  onSearch: PropTypes.func,
   onReset: PropTypes.func
 }
 

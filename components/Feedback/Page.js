@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
-import { compose } from 'react-apollo'
-
 import { Router } from '../../lib/routes'
+import withT from '../../lib/withT'
 
 import {
   CDN_FRONTEND_BASE_URL,
@@ -11,8 +10,6 @@ import {
 import { ZINDEX_CONTENT } from '../constants'
 
 import Frame from '../Frame'
-import withMe from '../../lib/apollo/withMe'
-import withT from '../../lib/withT'
 
 import ActiveDiscussions from './ActiveDiscussions'
 import ArticleDiscussionHeadline from './ArticleDiscussionHeadline'
@@ -321,7 +318,4 @@ class FeedbackPage extends Component {
   }
 }
 
-export default compose(
-  withMe,
-  withT
-)(FeedbackPage)
+export default withT(FeedbackPage)

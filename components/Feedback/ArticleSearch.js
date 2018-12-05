@@ -154,7 +154,7 @@ class ArticleSearch extends Component {
     return (
       <div>
         <Autocomplete
-          label={t('search/input/label')}
+          label={t('feedback/articleSearch/label')}
           value={value}
           filter={filter}
           isOpen={isOpen !== undefined ? isOpen : undefined}

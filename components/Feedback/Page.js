@@ -245,7 +245,7 @@ class Search extends Component {
     const ArticleLink = meta && (
       <Link href={meta.path} passHref key='articlelink'>
         <a {...linkRule} href={meta.path}>
-        «{meta.title}»
+          «{meta.title}»
         </a>
       </Link>
     )
@@ -255,7 +255,7 @@ class Search extends Component {
         <Center {...styles.container}>
           <div {...styles.intro}>
             <Interaction.P>
-          Lassen Sie uns reden. Über bestimmte Artikel oder die Republik im Allgemeinen. Miteinander und konstruktiv im Geist unserer Netiquette. Worüber wollen Sie reden?
+              {t('feedback/lead')}
             </Interaction.P>
           </div>
           <div {...styles.tab}>
@@ -263,26 +263,30 @@ class Search extends Component {
               style={{ zIndex: 1 }}
               dimmed={tab && tab !== 'article'}
               onClick={this.selectArticleTab}>
-            Artikel
+              {t('feedback/article/button')}
             </Button>
             <Button
               style={{ marginLeft: '-1px', zIndex: tab === 'general' ? 1 : undefined }}
               dimmed={tab && tab !== 'general'}
               onClick={this.selectGeneralTab}>
-            Allgemein
+              {t('feedback/general/button')}
             </Button>
           </div>
           {!GENERAL_FEEDBACK_DISCUSSION_ID && (
             <div style={{ color: 'red', marginTop: 20 }}>
-              GENERAL_FEEDBACK_DISCUSSION_ID is undefined
+              GENERAL_FEEDBACK_DISCUSSION_ID is undefined in .env
             </div>
           )}
           {tab === 'article' && (
             <Fragment>
               <div {...styles.hitlistHeadline}>
-                <Interaction.H3>Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?</Interaction.H3>
+                <Interaction.H3>
+                  {t('feedback/article/headline')}
+                </Interaction.H3>
               </div>
-              <Label style={{ display: 'block', marginBottom: 10 }}>Gerade aktive Diskussionen</Label>
+              <Label style={{ display: 'block', marginBottom: 10 }}>
+                {t('feedback/activeDiscussions/label')}
+              </Label>
               <ActiveDiscussions
                 discussionId={articleDiscussionId}
                 value={meta}

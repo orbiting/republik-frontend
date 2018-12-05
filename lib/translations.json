@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-04T16:48:40.625Z",
+  "updated": "2018-12-05T09:09:27.756Z",
   "title": "live",
   "data": [
     {
@@ -3287,6 +3287,26 @@
       "value": "Mitreden"
     },
     {
+      "key": "feedback/lead",
+      "value": "Lassen Sie uns reden. Über bestimmte Artikel oder die Republik im Allgemeinen. Miteinander und konstruktiv im Geist unserer Netiquette. Worüber wollen Sie reden?"
+    },
+    {
+      "key": "feedback/general/button",
+      "value": "Allgemein"
+    },
+    {
+      "key": "feedback/article/button",
+      "value": "Artikel"
+    },
+    {
+      "key": "feedback/article/headline",
+      "value": "Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?"
+    },
+    {
+      "key": "feedback/activeDiscussions/label",
+      "value": "Gerade aktive Diskussionen"
+    },
+    {
       "key": "feedback/autoArticle/selected/headline",
       "value": "Beiträge zum Artikel {link}"
     },
@@ -3301,6 +3321,10 @@
     {
       "key": "feedback/commentTeaser/articleReference",
       "value": "{link}"
+    },
+    {
+      "key": "feedback/articleSearch/label",
+      "value": "Suche"
     },
     {
       "key": "tokenAuthorization/error",

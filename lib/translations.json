@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-05T13:29:37.072Z",
+  "updated": "2018-12-05T16:52:14.020Z",
   "title": "live",
   "data": [
     {
@@ -3323,20 +3323,16 @@
       "value": "Neueste Beiträge"
     },
     {
-      "key": "feedback/commentTeaser/discussionReference",
-      "value": "{link}"
-    },
-    {
-      "key": "feedback/commentTeaser/articleReference",
-      "value": "{link}"
-    },
-    {
       "key": "feedback/articleSearch/label",
       "value": "Suche"
     },
     {
       "key": "feedback/articleSearch/empty",
       "value": "Keine Ergebnisse"
+    },
+    {
+      "key": "feedback/articleItem/newPage/title",
+      "value": "Zur Debattenseite"
     },
     {
       "key": "tokenAuthorization/error",

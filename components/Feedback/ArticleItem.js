@@ -43,7 +43,7 @@ const ArticleItem = ({ t, title, newPage, selected, iconSize, Wrapper = DefaultW
   >
     <span style={{ color: selected ? colors.primary : undefined }}>{title}</span>
     {newPage && (
-      <span {...styles.icon} title={'Zur Debattenseite'}>
+      <span {...styles.icon} title={t('feedback/articleItem/newPage/title')}>
         <NewPage size={iconSize} fill={colors.disabled} />
       </span>
     )}

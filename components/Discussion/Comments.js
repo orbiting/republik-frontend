@@ -230,8 +230,8 @@ class Comments extends PureComponent {
         </Link>
       }
       if (commentId) {
-        if (discussion.documentPath) {
-          const documentPathObject = parse(discussion.documentPath, true)
+        if (discussion.path) {
+          const documentPathObject = parse(discussion.path, true)
 
           return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
@@ -495,7 +495,7 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
-          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
+          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.path, comment.id) })}
           tags={tags}
           context={context}
         />

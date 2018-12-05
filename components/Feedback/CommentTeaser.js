@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import get from 'lodash.get'
+import { matchType } from 'mdast-react-render/lib/utils'
+import { renderMdast } from 'mdast-react-render'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
@@ -12,10 +14,30 @@ import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 import {
   Comment,
   CommentBodyParagraph,
+  Editorial,
   RawHtml,
   colors,
   fontStyles
 } from '@project-r/styleguide'
+
+const br = {
+  matchMdast: matchType('break'),
+  component: () => <br />,
+  isVoid: true
+}
+
+const link = {
+  matchMdast: matchType('link'),
+  props: node => ({
+    title: node.title,
+    href: node.url
+  }),
+  component: Editorial.A
+}
+
+const creditSchema = {
+  rules: [link, br]
+}
 
 const styles = {
   root: css({
@@ -140,44 +162,49 @@ export const CommentTeaser = ({
       : children
   }
   const contextTitle = isGeneral
-    ? parentIds.length === 0 && tags && <a {...styles.link} onClick={onClick}>{t(`discussion/tag/${tags[0]}`)}</a>
+    ? parentIds.length === 0 && tags && (
+      <a {...styles.link} onClick={onClick}>
+        {t(`discussion/tag/${tags[0]}`)}
+      </a>
+    )
     : discussion.title
-      ? onPage ? (
+      ? (onPage && (
         <Fragment>
           {t.elements('feedback/commentTeaser/articleReference', {
             link: (
               <a {...styles.link} onClick={onClick}>
-                «{discussion.title}»
+                  «{discussion.title}»
               </a>
             )
           })}
         </Fragment>
-      ) : newPage
-        ? (
-          <Fragment>
-            {t.elements('feedback/commentTeaser/discussionReference', {
-              link: (
-                <CommentLink
-                  key={id}
-                  commentId={id}
-                  discussion={discussion}
-                >
-                  <a {...styles.link}>
+      )) || (newPage && (
+        <Fragment>
+          {t.elements('feedback/commentTeaser/discussionReference', {
+            link: (
+              <CommentLink
+                key={id}
+                commentId={id}
+                discussion={discussion}
+              >
+                <a {...styles.link}>
                     «{discussion.title}»{' '}
-                    <span {...styles.icon} title={'Zur Debattenseite'}>
-                      <NewPage size={16} fill={colors.disabled} />
-                    </span>
-                  </a>
-                </CommentLink>
-              )
-            })}
-          </Fragment>
-        )
-        : undefined
+                  <span {...styles.icon} title={'Zur Debattenseite'}>
+                    <NewPage size={16} fill={colors.disabled} />
+                  </span>
+                </a>
+              </CommentLink>
+            )
+          })}
+        </Fragment>
+      ))
       : undefined
+  const contextDescription = !isGeneral && meta.credits && meta.credits.length > 0
+    ? renderMdast(meta.credits, creditSchema)
+    : undefined
   const context = contextTitle ? {
     title: contextTitle,
-    description: undefined // TODO: render meta.credits mdast.
+    description: contextDescription
   } : undefined
 
   return (

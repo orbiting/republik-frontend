@@ -4,7 +4,10 @@ import { compose } from 'react-apollo'
 
 import { Router } from '../../lib/routes'
 
-import { CDN_FRONTEND_BASE_URL, GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
+import {
+  CDN_FRONTEND_BASE_URL,
+  GENERAL_FEEDBACK_DISCUSSION_ID
+} from '../../lib/constants'
 import { ZINDEX_CONTENT } from '../constants'
 
 import Frame from '../Frame'
@@ -65,7 +68,7 @@ const styles = {
   })
 }
 
-class Search extends Component {
+class FeedbackPage extends Component {
   constructor (props, ...args) {
     super(props, ...args)
 
@@ -332,7 +335,6 @@ class Search extends Component {
 }
 
 export default compose(
-  // enforceMembership,
   withMe,
   withT
-)(Search)
+)(FeedbackPage)

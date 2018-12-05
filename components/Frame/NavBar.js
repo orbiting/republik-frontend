@@ -25,8 +25,8 @@ const LINKS = [
   },
   {
     key: 'feuilleton',
-    route: 'front',
-    params: { slug: 'feuilleton' }
+    route: 'feuilleton',
+    params: {}
   },
   {
     key: 'feed',

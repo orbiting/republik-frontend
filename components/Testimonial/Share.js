@@ -9,7 +9,7 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 
 import {
-  P, Logo, fontFamilies
+  Logo, fontFamilies
 } from '@project-r/styleguide'
 
 const styles = {
@@ -22,7 +22,7 @@ const styles = {
   logo: css({
     position: 'absolute',
     left: 628 + 50,
-    right: 50,
+    right: 210,
     bottom: 50
   }),
   image: css({
@@ -42,7 +42,9 @@ const styles = {
   }),
   quote: css({
     fontSize: 27,
-    lineHeight: 1.42
+    lineHeight: 1.42,
+    fontFamily: fontFamilies.serifRegular,
+    margin: '20px 0'
   }),
   number: css({
     fontSize: 30,
@@ -52,6 +54,10 @@ const styles = {
     fontSize: 60,
     lineHeight: '75px',
     marginBottom: 20
+  }),
+  headline: css({
+    fontSize: 32,
+    fontFamily: fontFamilies.sansSerifMedium
   })
 }
 
@@ -74,34 +80,43 @@ const fontSizeBoost = length => {
   return 0
 }
 
-const Item = ({ loading, error, t, statement: { statement, portrait, name, sequenceNumber } }) => (
-  <Loader loading={loading} error={error} render={() => (
-    <div {...styles.container}>
-      <Head>
-        <meta name='robots' content='noindex' />
-      </Head>
-      <img {...styles.image} src={portrait} />
-      <div {...styles.text}>
-        {statement && <P {...styles.quote}
-          style={{ fontSize: 24 + fontSizeBoost(statement.length) }}>
-          «{statement}»
-        </P>}
-        {!!sequenceNumber && (
-          <div {...styles.number}>{t('memberships/sequenceNumber/label', {
-            sequenceNumber
-          })}</div>
-        )}
+const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, sequenceNumber } = {} }) => {
+  const headline = t(`testimonial/detail/share/package/${pkg}`, undefined, '')
+  const invert = pkg === 'PROLONG'
+
+  return (
+    <Loader loading={loading} error={error} render={() => (
+      <div {...styles.container} style={invert ? {
+        backgroundColor: '#000',
+        color: '#fff'
+      } : undefined}>
+        <Head>
+          <meta name='robots' content='noindex' />
+        </Head>
+        <img {...styles.image} src={portrait} />
+        <div {...styles.text}>
+          {headline && <div {...styles.headline}>{headline}</div>}
+          {statement && <p {...styles.quote}
+            style={{ fontSize: 24 + fontSizeBoost(statement.length + headline.length) }}>
+            «{statement}»
+          </p>}
+          {!!sequenceNumber && (
+            <div {...styles.number}>{t('memberships/sequenceNumber/label', {
+              sequenceNumber
+            })}</div>
+          )}
+        </div>
+        <div {...styles.logo}>
+          <Logo fill={invert ? '#fff' : '#000'} />
+        </div>
       </div>
-      <div {...styles.logo}>
-        <Logo />
-      </div>
-    </div>
-  )} />
-)
+    )} />
+  )
+}
 
 const query = gql`
-query statements($first: Int!, $focus: String) {
-  statements(focus: $focus, first: $first) {
+query statements($focus: String!) {
+  statements(focus: $focus, first: 1) {
     totalCount
     nodes {
       id

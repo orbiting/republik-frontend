@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { compose, withApollo } from 'react-apollo'
 import Close from 'react-icons/lib/md/close'
 import { css } from 'glamor'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
 
 import {

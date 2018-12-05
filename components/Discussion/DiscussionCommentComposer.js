@@ -9,7 +9,7 @@ import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment }
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
+import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, Editorial } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 
@@ -101,10 +101,10 @@ class DiscussionCommentComposer extends PureComponent {
                   <Interaction.P>
                     {t.elements('submitComment/notEligible', {
                       pledgeLink: (
-                        <Link route='pledge' key='pledge'>
-                          <a {...linkRule}>
+                        <Link route='pledge' key='pledge' passHref>
+                          <Editorial.A>
                             {t('submitComment/notEligible/pledgeText')}
-                          </a>
+                          </Editorial.A>
                         </Link>
                       )
                     })}

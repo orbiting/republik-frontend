@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -6,7 +6,7 @@ import Loader from '../Loader'
 import { Router } from '../../lib/routes'
 
 import {
-  ELECTION_STATS_POLL_INTERVAL
+  STATUS_POLL_INTERVAL_MS
 } from '../../lib/constants'
 
 import {
@@ -23,6 +23,8 @@ import {
 } from '@project-r/styleguide'
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
+
+import Results from './Results'
 
 const styles = {
   number: css({
@@ -84,29 +86,43 @@ const SignupTile = ({ t }) =>
     </TeaserFrontLead>
   </TeaserFrontTile>
 
+const ResultWrapper = ({ children }) => (
+  <TeaserFrontTile align='top' color={colors.text} bgColor='#fff'>
+    {children}
+  </TeaserFrontTile>
+)
+
 class QuestionnaireMetaWidget extends Component {
   render () {
     const { data, t } = this.props
     return (
       <Loader loading={data.loading} error={data.error} render={() => {
-        const { questionnaire: { userHasSubmitted, turnout: { submitted } } } = data
+        const { questionnaire: { endDate, userHasSubmitted, turnout: { submitted } } } = data
+
+        const hasEnded = new Date() > new Date(endDate)
 
         return (
-          <TeaserFrontTileRow columns={2}>
-            {userHasSubmitted
-              ? <ThankYouTile t={t} />
-              : <SignupTile t={t} />
-
-            }
-            <TeaserFrontTile color={colors.text} bgColor='#fff'>
-              <TeaserFrontTileHeadline.Interaction>
-                <div {...styles.number}>{countFormat(submitted)}</div>
-              </TeaserFrontTileHeadline.Interaction>
-              <TeaserFrontLead>
-                <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
-              </TeaserFrontLead>
-            </TeaserFrontTile>
-          </TeaserFrontTileRow>
+          <Fragment>
+            {!hasEnded && <TeaserFrontTileRow columns={2}>
+              {userHasSubmitted
+                ? <ThankYouTile t={t} />
+                : <SignupTile t={t} />
+              }
+              <TeaserFrontTile color={colors.text} bgColor='#fff'>
+                <TeaserFrontTileHeadline.Interaction>
+                  <div {...styles.number}>{countFormat(submitted)}</div>
+                </TeaserFrontTileHeadline.Interaction>
+                <TeaserFrontLead>
+                  <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
+                </TeaserFrontLead>
+              </TeaserFrontTile>
+            </TeaserFrontTileRow>}
+            <TeaserFrontTileRow columns={2}>
+              <Results
+                slug='2018'
+                Wrapper={ResultWrapper} orderFilter={[1, 11]} />
+            </TeaserFrontTileRow>
+          </Fragment>
         )
       }} />
     )
@@ -118,6 +134,7 @@ const query = gql`
   questionnaire(slug: "2018") {
     id
     userHasSubmitted
+    endDate
     turnout {
       submitted
     }
@@ -129,7 +146,7 @@ export default compose(
   withT,
   graphql(query, {
     options: {
-      pollInterval: ELECTION_STATS_POLL_INTERVAL
+      pollInterval: STATUS_POLL_INTERVAL_MS
     }
   })
 )(QuestionnaireMetaWidget)

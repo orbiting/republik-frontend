@@ -25,9 +25,11 @@ import RangeQuestion from './RangeQuestion'
 import ChoiceQuestion from './ChoiceQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
+import withAuthorization from '../Auth/withAuthorization'
 import { errorToString } from '../../lib/utils/errors'
 import { Link, Router } from '../../lib/routes'
 import StatusError from '../StatusError'
+import Results from './Results'
 
 const { Headline, P } = Interaction
 
@@ -70,14 +72,15 @@ const styles = {
     color: colors.error,
     fontFamily: fontFamilies.sansSerifMedium
   }),
-  thankyou: css({
+  closed: css({
     marginTop: 35,
     background: colors.primaryBg,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 30
   }),
   progressIcon: css({
     marginLeft: 5,
@@ -137,13 +140,14 @@ class Page extends Component {
   }
 
   render () {
-    const { data, t, meta } = this.props
+    const { data, t, meta, showResults, router } = this.props
 
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
+          const now = new Date()
           // handle not found or not started
-          if (!data.questionnaire || new Date(data.questionnaire.beginDate) > new Date()) {
+          if (!data.questionnaire || new Date(data.questionnaire.beginDate) > now) {
             return (
               <StatusError
                 statusCode={404}
@@ -151,22 +155,33 @@ class Page extends Component {
             )
           }
 
+          const hasEnded = now > new Date(data.questionnaire.endDate)
+
           // handle already submitted
           const { questionnaire: { userHasSubmitted, questions } } = data
           const { error, submitting, updating } = this.state
-          if (!submitting && userHasSubmitted) {
+          if (!submitting && (hasEnded || userHasSubmitted)) {
             return (
               <>
                 <Headline>{t('questionnaire/title')}</Headline>
-                <div {...styles.thankyou}>
+                <div {...styles.closed}>
                   <P>
-                    {t.elements('questionnaire/thankyou', {
-                      metaLink: <Link key='meta' route='/verlag' passHref>
-                        <A>{t('questionnaire/thankyou/metaText')}</A>
-                      </Link>
-                    })}
+                    {userHasSubmitted
+                      ? t.elements('questionnaire/thankyou', {
+                        metaLink: <Link key='meta' route='/verlag' passHref>
+                          <A>{t('questionnaire/thankyou/metaText')}</A>
+                        </Link>
+                      })
+                      : t('questionnaire/ended')
+                    }
                   </P>
                 </div>
+                {showResults && <>
+                  <P style={{ marginBottom: 20, color: colors.error }}>
+                    Diese Resultate werden <Interaction.Emphasis>nur intern</Interaction.Emphasis> angezeigt.
+                  </P>
+                  <Results canDownload slug={router.query.slug} />
+                </>}
               </>
             )
           }
@@ -317,6 +332,7 @@ query getQuestionnaire($slug: String!) {
 export default compose(
   withT,
   withRouter,
+  withAuthorization(['supporter', 'editor'], 'showResults'),
   graphql(submitQuestionnaireMutation, {
     props: ({ mutate }) => ({
       submitQuestionnaire: (id) => {

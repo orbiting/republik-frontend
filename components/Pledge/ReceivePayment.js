@@ -14,6 +14,7 @@ import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
 
+// ToDo: query autoPay
 const pledgeQuery = gql`
 query($pledgeId: ID!) {
   pledge(id: $pledgeId) {
@@ -24,6 +25,7 @@ query($pledgeId: ID!) {
     options {
       templateId
       amount
+      optionGroup
     }
     total
     donation
@@ -235,22 +237,39 @@ class PledgeReceivePayment extends Component {
       sourceId
     })
       .then(({ data: { payPledge } }) => {
+        if (!pledge || (!pledge.user && !me)) {
+          gotoMerci({
+            id: pledgeId
+          })
+          return
+        }
+        const baseQuery = {
+          id: pledgeId
+        }
+        if (pledge.package) {
+          baseQuery.package = pledge.package.name
+        }
         if (!me) {
+          if (baseQuery.package === 'PROLONG') {
+            gotoMerci({
+              ...baseQuery,
+              email: pledge.user.email
+            })
+            return
+          }
           this.props.signIn(pledge.user.email, 'pledge')
             .then(({ data: { signIn } }) => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               signInError: errorToString(error)
             }))
         } else {
-          gotoMerci({
-            id: payPledge.pledgeId
-          })
+          gotoMerci(baseQuery)
         }
       })
       .catch(error => {
@@ -262,10 +281,6 @@ class PledgeReceivePayment extends Component {
   }
   componentDidMount () {
     // TODO: Test and re-enable psp payload purging after processing it
-    // const {pledge} = this.props
-    // if (!pledge) {
-    //   return
-    // }
     // const url = {
     //   route: '/angebote',
     //   params: this.queryFromPledge()
@@ -292,6 +307,7 @@ class PledgeReceivePayment extends Component {
           ...this.queryFromPledge()
         }
 
+        // ToDo: access token?
         return (
           <PledgeForm
             crowdfundingName={crowdfundingName}
@@ -310,7 +326,9 @@ const PledgeReceivePaymentById = compose(
     props: ({ data, ownProps }) => {
       let error = data.error
       if (data.pledge === null) {
-        error = ownProps.t('pledge/recievePayment/noPledge')
+        error = ownProps.t('pledge/recievePayment/noPledge', {
+          pledgeId: ownProps.pledgeId
+        })
       }
       return {
         loading: data.loading,

@@ -6,7 +6,6 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 
-import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
@@ -14,10 +13,12 @@ import {
   colors,
   fontFamilies,
   Loader,
-  mediaQueries
+  mediaQueries,
+  Editorial
 } from '@project-r/styleguide'
 
 export const OFFER_SORT = {
+  PROLONG: 0,
   ABO: 1,
   MONTHLY_ABO: 2,
   BENEFACTOR: 3,
@@ -107,21 +108,7 @@ const styles = {
   links: css({
     lineHeight: '24px',
     marginTop: 13,
-    fontSize: 16,
-    '& a': {
-      color: colors.text,
-      cursor: 'pointer',
-      textDecoration: 'underline'
-    },
-    [`& ${prefixHover()}`]: {
-      color: colors.secondary
-    },
-    '& a:focus': {
-      color: colors.secondary
-    },
-    '& a:active': {
-      color: colors.primary
-    }
+    fontSize: 16
   })
 }
 
@@ -176,7 +163,7 @@ class Accordion extends Component {
 
     const {
       t,
-      crowdfunding: { packages },
+      packages,
       crowdfundingName,
       children
     } = this.props
@@ -272,10 +259,10 @@ class Accordion extends Component {
         <div {...styles.links}>
           {
             links.map((link, i) => (
-              <Link key={i} route={link.route} params={link.params}>
-                <a>
+              <Link key={i} route={link.route} params={link.params} passHref>
+                <Editorial.A>
                   {link.text}<br />
-                </a>
+                </Editorial.A>
               </Link>
             ))
           }
@@ -290,11 +277,12 @@ Accordion.propTypes = {
 }
 
 const AccordionWithQuery = graphql(query, {
+  skip: props => !!props.packages,
   props: ({ data }) => {
     return {
       loading: data.loading,
       error: data.error,
-      crowdfunding: data.crowdfunding
+      packages: data.crowdfunding && data.crowdfunding.packages
     }
   }
 })(Accordion)

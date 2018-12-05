@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import get from 'lodash.get'
+import get from 'lodash/get'
 
 import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
@@ -97,7 +97,9 @@ export const CommentTeaser = ({
   const timeagoFromNow = createdAtString => {
     return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
   }
-  const { string, more } = preview
+  // preview may be undefined in production.
+  const string = preview && preview.string
+  const more = preview && preview.more
   const highlight = get(highlights, 'highlights[0].fragments[0]', '').trim()
   const endsWithPunctuation =
     highlight &&

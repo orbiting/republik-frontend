@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 
 import { Router } from '../../lib/routes'
 import track from '../../lib/piwik'

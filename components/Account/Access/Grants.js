@@ -1,6 +1,6 @@
 import { compose, graphql } from 'react-apollo'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, Editorial } from '@project-r/styleguide'
 
 import { Link } from '../../../lib/routes'
 import { MainContainer } from '../../Frame'
@@ -29,10 +29,10 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
         ))}
         {!inNativeIOSApp &&
           <P>
-            <Link route='pledge' key='pledge'>
-              <a {...linkRule}>
+            <Link route='pledge' key='pledge' passHref>
+              <Editorial.A>
                 {t('Account/Access/Grants/link/pledges')}
-              </a>
+              </Editorial.A>
             </Link>
           </P>
         }

@@ -8,13 +8,13 @@ import { withSignOut } from '../Auth/SignOut'
 
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
-import { meQuery } from '../../lib/apollo/withMe'
+import withMe from '../../lib/apollo/withMe'
 import { chfFormat } from '../../lib/utils/format'
 import track from '../../lib/piwik'
 
 import { gotoMerci, encodeSignInResponseQuery } from './Merci'
 
-import { COUNTRIES } from '../Account/AddressForm'
+import { COUNTRIES, fields as getAddressFields } from '../Account/AddressForm'
 import { query as addressQuery } from '../Account/UpdateMe'
 
 import FieldSet from '../FieldSet'
@@ -24,8 +24,8 @@ import {
 } from '../../lib/constants'
 
 import {
-  Interaction, Button,
-  colors, InlineSpinner
+  Interaction, Button, Checkbox,
+  colors, InlineSpinner, Label
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
@@ -59,7 +59,8 @@ class Submit extends Component {
         name: [
           props.user.firstName,
           props.user.lastName
-        ].filter(Boolean).join(' ')
+        ].filter(Boolean).join(' '),
+        ...(props.customMe && props.customMe.address)
       },
       errors: {},
       dirty: {},
@@ -81,13 +82,16 @@ class Submit extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    const {
+      dirty
+    } = this.state
     const nextName = [
       nextProps.user.firstName,
       nextProps.user.lastName
     ].filter(Boolean).join(' ')
     if (
       nextName !== this.state.values.name &&
-      !this.state.dirty.name
+      !dirty.name
     ) {
       this.setState((state) => ({
         values: {
@@ -96,19 +100,53 @@ class Submit extends Component {
         }
       }))
     }
+
+    const addressFields = getAddressFields(this.props.t)
+    const addressDirty = addressFields.find(field => dirty[field.name])
+    if (!addressDirty) {
+      const nextAddress = (nextProps.customMe && nextProps.customMe.address) || addressFields.reduce(
+        (values, field) => {
+          values[field.name] = ''
+          return values
+        },
+        {}
+      )
+      if (
+        nextAddress !== (this.props.customMe && this.props.customMe.address)
+      ) {
+        this.setState((state) => ({
+          values: {
+            ...state.values,
+            ...nextAddress
+          }
+        }))
+      }
+    }
   }
   submitVariables (props) {
-    const { user, total, options, reason } = props
+    const { user, total, options, reason, accessToken, customMe } = props
 
     return {
       total,
-      options,
+      options: options.map(option => ({
+        ...option,
+        autoPay: option.autoPay !== undefined
+          ? this.getAutoPayValue()
+          : undefined
+      })),
       reason,
-      user
+      user,
+      accessToken: customMe && customMe.isUserOfCurrentSession
+        ? undefined
+        : accessToken
     }
   }
+  withoutAddress () {
+    const { customMe } = this.props
+    return customMe && customMe.hasAddress && !customMe.isUserOfCurrentSession
+  }
   submitPledge () {
-    const { t, me } = this.props
+    const { t, customMe } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
@@ -131,7 +169,7 @@ class Submit extends Component {
     }
 
     const variables = this.submitVariables(this.props)
-    if (me && me.email !== variables.user.email) {
+    if (customMe && customMe.email !== variables.user.email) {
       this.props.signOut().then(() => {
         this.submitPledge()
       })
@@ -236,40 +274,54 @@ class Submit extends Component {
       pledgeId,
       method: 'PAYMENTSLIP',
       paperInvoice: values.paperInvoice || false,
-      address: {
-        name: values.name,
-        line1: values.line1,
-        line2: values.line2,
-        postalCode: values.postalCode,
-        city: values.city,
-        country: values.country
-      }
+      address: this.withoutAddress()
+        ? undefined
+        : {
+          name: values.name,
+          line1: values.line1,
+          line2: values.line2,
+          postalCode: values.postalCode,
+          city: values.city,
+          country: values.country
+        }
     })
   }
   pay (data) {
-    const { t, me, user } = this.props
+    const { t, me, customMe, user, packageName } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
     }))
     this.props.pay(data)
       .then(({ data: { payPledge } }) => {
+        const baseQuery = {
+          package: packageName,
+          id: payPledge.pledgeId
+        }
+        if (customMe && customMe.isListed) {
+          baseQuery.statement = customMe.id
+        }
         if (!me) {
+          if (customMe || packageName === 'PROLONG') {
+            gotoMerci({
+              ...baseQuery,
+              email: user.email
+            })
+            return
+          }
           this.props.signIn(user.email, 'pledge')
             .then(({ data: { signIn } }) => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: user.email,
               ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
-              id: data.pledgeId,
+              ...baseQuery,
               email: user.email,
               signInError: errorToString(error)
             }))
         } else {
-          gotoMerci({
-            id: payPledge.pledgeId
-          })
+          gotoMerci(baseQuery)
         }
       })
       .catch(error => {
@@ -347,6 +399,70 @@ class Submit extends Component {
       ])
       .filter(Boolean)
   }
+  getAutoPayValue () {
+    const {
+      forceAutoPay,
+      options
+    } = this.props
+    const {
+      values: { paymentMethod },
+      autoPay
+    } = this.state
+
+    if (paymentMethod !== 'STRIPE') {
+      return undefined
+    }
+    if (forceAutoPay) {
+      return true
+    }
+    if (autoPay === undefined) {
+      return options.every(option => option.autoPay !== false)
+    }
+    return autoPay
+  }
+  renderAutoPay () {
+    const {
+      values: { paymentMethod }
+    } = this.state
+    if (paymentMethod !== 'STRIPE') {
+      return null
+    }
+    const {
+      t,
+      packageName,
+      forceAutoPay,
+      options
+    } = this.props
+
+    if (options.every(option => option.autoPay === undefined)) {
+      return null
+    }
+
+    const label = t.first([
+      `pledge/submit/${packageName}/autoPay`,
+      'pledge/submit/autoPay'
+    ])
+    const note = t.first([
+      `pledge/submit/${packageName}/autoPay/note`,
+      'pledge/submit/autoPay/note'
+    ], undefined, null)
+
+    return (
+      <div style={{ marginTop: 10 }}>
+        {forceAutoPay
+          ? note && <Label>{note}</Label>
+          : <Checkbox
+            checked={this.getAutoPayValue()}
+            onChange={(_, checked) => {
+              this.setState({ autoPay: checked })
+            }}>
+            {label}
+            {note && <br />}
+            {note && <Label>{note}</Label>}
+          </Checkbox>}
+      </div>
+    )
+  }
   render () {
     const {
       emailVerify,
@@ -365,10 +481,12 @@ class Submit extends Component {
     return (
       <div>
         <PaymentForm
+          key={me && me.id}
           ref={this.paymentRef}
           t={t}
           loadSources={!!me}
           onlyChargable
+          withoutAddress={this.withoutAddress()}
           payload={{
             id: this.state.pledgeId,
             userId: this.state.userId,
@@ -450,10 +568,12 @@ class Submit extends Component {
                   consents: keys
                 }))
               }} />
+            {this.renderAutoPay()}
             <br /><br />
             <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
               <Button
                 block
+                primary={!errorMessages.length}
                 onClick={() => {
                   this.submitPledge()
                 }}>
@@ -484,8 +604,8 @@ Submit.propTypes = {
 }
 
 const submitPledge = gql`
-  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!]) {
-    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason}, consents: $consents) {
+  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!], $accessToken: ID) {
+    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason, accessToken: $accessToken}, consents: $consents) {
       pledgeId
       userId
       emailVerify
@@ -564,16 +684,14 @@ const SubmitWithMutations = compose(
         setPendingOrder(variables)
 
         return mutate({
-          variables,
-          refetchQueries: [{
-            query: meQuery
-          }]
+          variables
         })
       }
     })
   }),
   withSignOut,
   withPay,
+  withMe,
   withT
 )(Submit)
 

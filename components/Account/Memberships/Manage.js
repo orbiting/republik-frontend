@@ -1,21 +1,23 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import withT from '../../../lib/withT'
 import { errorToString } from '../../../lib/utils/errors'
 import { timeFormat } from '../../../lib/utils/format'
+import { Link } from '../../../lib/routes'
+import { Item as AccountItem, P } from '../Elements'
 
-import { Item as AccountItem, P, A } from '../Elements'
-import FieldSet from '../../FieldSet'
+import TokenPackageLink from '../../Link/TokenPackage'
 
 import {
-  Button, InlineSpinner, colors
+  InlineSpinner, colors, linkRule, Interaction, A
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
-class Manage extends Component {
+class Actions extends Component {
   constructor (...args) {
     super(...args)
     this.state = {
@@ -25,21 +27,12 @@ class Manage extends Component {
       errors: {}
     }
   }
-  renderActions () {
-    const { t, membership } = this.props
+  render () {
+    const { t, membership, prolong, waitingMemberships } = this.props
     const {
-      isCancelling,
-      values,
-      dirty,
-      errors,
       updating,
       remoteError
     } = this.state
-
-    if (membership.type.name !== 'MONTHLY_ABO') {
-      // currently only MONTHLY_ABO actions are active
-      return null
-    }
 
     if (updating) {
       return <InlineSpinner />
@@ -47,57 +40,34 @@ class Manage extends Component {
 
     return (
       <Fragment>
-        {membership.active && membership.renew && !isCancelling &&
-          <A href='#cancel' onClick={(e) => {
-            e.preventDefault()
-            this.setState({ isCancelling: true })
-          }}>
-            {t.first([
-              `memberships/${membership.type.name}/manage/cancel/link`,
-              'memberships/manage/cancel/link'
-            ])}
-          </A>}
-        {isCancelling && <Fragment>
-          <FieldSet
-            values={values}
-            errors={errors}
-            dirty={dirty}
-            fields={[
-              {
-                label: t('memberships/manage/cancel/reason'),
-                name: 'reason',
-                autoSize: true
-              }
-            ]}
-            onChange={fields => {
-              this.setState(FieldSet.utils.mergeFields(fields))
-            }} />
-          <Button primary onClick={() => {
-            this.setState({
-              updating: true
-            })
-            this.props.cancel({
-              id: membership.id,
-              reason: values.reason
-            })
-              .then(() => {
-                this.setState({
-                  updating: false,
-                  remoteError: undefined,
-                  isCancelling: false
-                })
-              })
-              .catch(error => {
-                this.setState({
-                  updating: false,
-                  remoteError: errorToString(error)
-                })
-              })
-          }}>
-            {t('memberships/manage/cancel/button')}
-          </Button>
-        </Fragment>}
-        {!membership.renew &&
+        {membership.active &&
+          membership.renew &&
+          membership.type.name === 'MONTHLY_ABO' &&
+          <P>
+            <Interaction.Cursive>
+              {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
+                buyLink: <Link route='pledge' params={{ package: 'ABO' }}>
+                  <a {...linkRule}>
+                    {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
+                  </a>
+                </Link>
+              })}
+            </Interaction.Cursive>
+          </P>}
+        {!prolong && membership.active && membership.renew && waitingMemberships && <P>
+          {t('memberships/manage/prolong/awaiting')}
+        </P>}
+        {membership.active && membership.renew && <P>
+          <Link route='cancel' params={{ membershipId: membership.id }} passHref>
+            <A>
+              {t.first([
+                `memberships/${membership.type.name}/manage/cancel/link`,
+                'memberships/manage/cancel/link'
+              ])}
+            </A>
+          </Link>
+        </P>}
+        {!membership.renew && !!membership.periods.length && <P>
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()
             this.setState({
@@ -123,46 +93,25 @@ class Manage extends Component {
               `memberships/${membership.type.name}/manage/reactivate`,
               'memberships/manage/reactivate'
             ])}
-          </A>}
+          </A>
+        </P>}
+        {prolong &&
+          <P>
+            <TokenPackageLink params={{
+              package: 'PROLONG'
+            }} passHref>
+              <A>
+                {t.first([
+                  `memberships/${membership.type.name}/manage/prolong/link`,
+                  'memberships/manage/prolong/link'
+                ])}
+              </A>
+            </TokenPackageLink>
+          </P>
+        }
         {!!remoteError &&
           <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
       </Fragment>
-    )
-  }
-  render () {
-    const { t, membership, highlighted } = this.props
-    const createdAt = new Date(membership.createdAt)
-    const latestPeriod = membership.periods[0]
-    const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
-
-    return (
-      <AccountItem
-        highlighted={highlighted}
-        createdAt={createdAt}
-        title={[
-          t(
-            `memberships/type/${membership.type.name}`,
-            {},
-            membership.type.name
-          ),
-          `(${t('memberships/sequenceNumber/suffix', membership)})`
-        ].join(' ')}>
-        {!!latestPeriod && <P>
-          {membership.active && !membership.overdue && t.first(
-            [
-              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-              `memberships/latestPeriod/renew/${membership.renew}`
-            ],
-            { formattedEndDate },
-            ''
-          )}
-          {membership.overdue && t(
-            'memberships/latestPeriod/overdue',
-            { formattedEndDate }
-          )}
-        </P>}
-        {this.renderActions()}
-      </AccountItem>
     )
   }
 }
@@ -187,7 +136,7 @@ mutation reactivateMembership($id: ID!) {
 }
 `
 
-export default compose(
+const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
     props: ({ mutate }) => ({
@@ -201,4 +150,56 @@ export default compose(
         mutate({ variables })
     })
   })
+)(Actions)
+
+const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title, compact, actions }) => {
+  const createdAt = new Date(membership.createdAt)
+  const latestPeriod = membership.periods[0]
+  const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
+
+  return (
+    <AccountItem
+      compact={compact}
+      highlighted={highlighted}
+      createdAt={createdAt}
+      title={
+        title || t(
+          `memberships/title/${membership.type.name}`,
+          {
+            sequenceNumber: membership.sequenceNumber
+          }
+        )
+      }>
+      {!!latestPeriod && <P>
+        {membership.active && !membership.overdue && t.first(
+          [
+            `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
+            `memberships/latestPeriod/renew/${membership.renew}`
+          ],
+          { formattedEndDate },
+          ''
+        )}
+        {membership.overdue && t(
+          'memberships/latestPeriod/overdue',
+          { formattedEndDate }
+        )}
+      </P>}
+      {actions && <ManageActions membership={membership} prolong={prolong} waitingMemberships={waitingMemberships} />}
+    </AccountItem>
+  )
+}
+
+Manage.propTypes = {
+  title: PropTypes.string,
+  membership: PropTypes.object.isRequired,
+  actions: PropTypes.bool.isRequired,
+  prolong: PropTypes.bool
+}
+
+Manage.defaultProps = {
+  actions: true
+}
+
+export default compose(
+  withT
 )(Manage)

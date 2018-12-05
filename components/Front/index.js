@@ -65,7 +65,15 @@ const styles = {
 
 class Front extends Component {
   render () {
-    const { data, fetchMore, data: { front }, t, renderBefore, renderAfter } = this.props
+    const {
+      data,
+      fetchMore,
+      data: { front },
+      t,
+      renderBefore,
+      renderAfter,
+      containerStyle
+    } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
@@ -96,12 +104,14 @@ class Front extends Component {
                 <InlineSpinner size={28} />
               </div>
             }>
-            <SSRCachingBoundary key='content' cacheKey={front.id}>
-              {() => renderMdast({
-                type: 'root',
-                children: front.children.nodes.map(v => v.body)
-              }, schema)}
-            </SSRCachingBoundary>
+            <div style={containerStyle}>
+              <SSRCachingBoundary key='content' cacheKey={front.id}>
+                {() => renderMdast({
+                  type: 'root',
+                  children: front.children.nodes.map(v => v.body)
+                }, schema)}
+              </SSRCachingBoundary>
+            </div>
           </InfiniteScroll>
         }} />
         {renderAfter && renderAfter(meta)}

@@ -17,7 +17,6 @@ import { shouldIgnoreClick } from '../../Link/utils'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import { colors, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
-import voteT from '../../Vote/voteT'
 
 const styles = {
   container: css({
@@ -124,7 +123,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember }) => {
+const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -235,7 +234,6 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
 
 export default compose(
   withT,
-  voteT,
   withInNativeApp,
   withMembership
 )(Nav)

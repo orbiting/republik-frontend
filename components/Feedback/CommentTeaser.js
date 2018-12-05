@@ -143,11 +143,7 @@ export const CommentTeaser = ({
     e.preventDefault()
     onTeaserClick({
       discussionId: discussion.id,
-      meta: {
-        title: meta.title,
-        credits: meta.credits,
-        path: meta.path
-      },
+      meta: meta || {},
       focusId: id
     })
   }

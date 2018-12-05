@@ -15,17 +15,16 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import ActiveDiscussions from './ActiveDiscussions'
+import ArticleDiscussionHeadline from './ArticleDiscussionHeadline'
 import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
-import Link from '../Link/Href'
 
 import {
   Button,
   Center,
   Interaction,
   Label,
-  linkRule,
   mediaQueries
 } from '@project-r/styleguide'
 
@@ -245,14 +244,6 @@ class FeedbackPage extends Component {
 
     const linkedDiscussion = tab === 'article' && meta && meta.discussion
 
-    const ArticleLink = meta && (
-      <Link href={meta.path} passHref key='articlelink'>
-        <a {...linkRule} href={meta.path}>
-          «{meta.title}»
-        </a>
-      </Link>
-    )
-
     return (
       <Frame raw meta={pageMeta}>
         <Center {...styles.container}>
@@ -303,12 +294,8 @@ class FeedbackPage extends Component {
                 onReset={this.onReset}
               />
 
-              {meta && !linkedDiscussion && <div {...styles.selectedHeadline}>
-                <Interaction.H3>
-                  {t.elements('feedback/autoArticle/selected/headline', {
-                    link: ArticleLink
-                  })}
-                </Interaction.H3>
+              {!linkedDiscussion && <div {...styles.selectedHeadline}>
+                <ArticleDiscussionHeadline meta={meta} discussionId={articleDiscussionId} />
               </div>}
             </Fragment>
           )}

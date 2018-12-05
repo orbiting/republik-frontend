@@ -20,7 +20,7 @@ const Comments = ({ t, comments }) => {
       </Interaction.H3>
       {comments.nodes.filter(comment => comment.content).map((comment) => {
         const discussion = comment.discussion || {}
-        const commentUrl = discussion.documentPath && `${discussion.documentPath}${discussion.documentPath.indexOf('?') === -1 ? '?' : '&'}focus=${comment.id}`
+        const commentUrl = discussion.path && `${discussion.path}${discussion.path.indexOf('?') === -1 ? '?' : '&'}focus=${comment.id}`
         return (
           <CommentTeaser
             key={comment.id}

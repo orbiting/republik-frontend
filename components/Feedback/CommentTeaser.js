@@ -8,7 +8,8 @@ import PathLink from '../Link/Path'
 import { Link } from '../../lib/routes'
 import timeago from '../../lib/timeago'
 
-import NewPage from 'react-icons/lib/md/open-in-new'
+import ArticleItem from './ArticleItem'
+
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
 import {
@@ -169,34 +170,25 @@ export const CommentTeaser = ({
     )
     : discussion.title
       ? (onPage && (
-        <Fragment>
-          {t.elements('feedback/commentTeaser/articleReference', {
-            link: (
-              <a {...styles.link} onClick={onClick} key='article'>
-                «{discussion.title}»
-              </a>
-            )
-          })}
-        </Fragment>
+        <a {...styles.link} onClick={onClick}>
+          <ArticleItem
+            iconSize={18}
+            title={`«${discussion.title}»`}
+            newPage={false} />
+        </a>
       )) || (newPage && (
-        <Fragment>
-          {t.elements('feedback/commentTeaser/discussionReference', {
-            link: (
-              <CommentLink
-                key={id}
-                commentId={id}
-                discussion={discussion}
-              >
-                <a {...styles.link}>
-                    «{discussion.title}»{' '}
-                  <span {...styles.icon} title={'Zur Debattenseite'}>
-                    <NewPage size={16} fill={colors.disabled} />
-                  </span>
-                </a>
-              </CommentLink>
-            )
-          })}
-        </Fragment>
+        <CommentLink
+          key={id}
+          commentId={id}
+          discussion={discussion}
+        >
+          <a {...styles.link}>
+            <ArticleItem
+              iconSize={18}
+              title={`«${discussion.title}»`}
+              newPage />
+          </a>
+        </CommentLink>
       ))
       : undefined
   const contextDescription = !isGeneral && meta && meta.credits && meta.credits.length > 0

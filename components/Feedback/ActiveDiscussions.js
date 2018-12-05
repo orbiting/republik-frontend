@@ -11,6 +11,7 @@ import { withActiveDiscussions } from './enhancers'
 import { Router } from '../../lib/routes'
 
 import {
+  Interaction,
   Loader,
   colors,
   fontStyles,
@@ -65,7 +66,7 @@ const RowItem = ({ onClick, label, selected, path }) => (
       }
     }}
   >
-    <ArticleItem title={label} newPage={!!path} selected={selected} />
+    <ArticleItem title={label} newPage={!!path} selected={selected} iconSize={24} Wrapper={Interaction.P} />
   </button>
 )
 

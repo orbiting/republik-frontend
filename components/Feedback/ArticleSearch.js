@@ -13,6 +13,7 @@ import { getArticleSearchResults } from './enhancers'
 
 import {
   Autocomplete,
+  Interaction,
   Spinner,
   colors
 } from '@project-r/styleguide'
@@ -134,9 +135,12 @@ class ArticleSearch extends Component {
               credits: meta.credits,
               path: meta.path
             },
-            text: <ArticleItem
-              title={meta.title}
-              newPage={!!linkedDiscussion} />,
+            text:
+          <ArticleItem
+            title={meta.title}
+            newPage={!!linkedDiscussion}
+            iconSize={24}
+            Wrapper={Interaction.P} />,
             value: discussionId // n.entity.meta.path
           }
         }) : [{

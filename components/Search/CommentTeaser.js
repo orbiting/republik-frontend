@@ -57,10 +57,10 @@ const CommentLink = ({
   }
   if (discussion) {
     const focus = commentId
-    if (discussion.documentPath) {
+    if (discussion.path) {
       return (
         <PathLink
-          path={discussion.documentPath}
+          path={discussion.path}
           query={{ focus }}
           passHref
           {...props}

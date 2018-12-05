@@ -106,7 +106,7 @@ query getSearchResults(
           discussion {
             id
             title
-            documentPath
+            path
           }
         }
         ... on User {

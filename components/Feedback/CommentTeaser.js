@@ -199,7 +199,7 @@ export const CommentTeaser = ({
         </Fragment>
       ))
       : undefined
-  const contextDescription = !isGeneral && meta.credits && meta.credits.length > 0
+  const contextDescription = !isGeneral && meta && meta.credits && meta.credits.length > 0
     ? renderMdast(meta.credits, creditSchema)
     : undefined
   const context = contextTitle ? {

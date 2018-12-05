@@ -172,8 +172,8 @@ export const CommentTeaser = ({
         <Fragment>
           {t.elements('feedback/commentTeaser/articleReference', {
             link: (
-              <a {...styles.link} onClick={onClick}>
-                  «{discussion.title}»
+              <a {...styles.link} onClick={onClick} key='article'>
+                «{discussion.title}»
               </a>
             )
           })}

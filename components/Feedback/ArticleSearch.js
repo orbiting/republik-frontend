@@ -78,6 +78,7 @@ class ArticleSearch extends Component {
   }
 
   performSearch = debounce((search) => {
+    const { t } = this.props
     this.setState({ loading: true })
     const { client } = this.props
     client.query({
@@ -140,7 +141,7 @@ class ArticleSearch extends Component {
           }
         }) : [{
           discussionId: null,
-          text: <NoResultsItem title={'Keine Diskussion gefunden'} />,
+          text: <NoResultsItem title={t('feedback/articleSearch/empty')} />,
           value: 'none'
         }]
       this.setState({ items, loading: false })

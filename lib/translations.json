@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-05T09:09:27.756Z",
+  "updated": "2018-12-05T09:29:59.894Z",
   "title": "live",
   "data": [
     {
@@ -3300,7 +3300,7 @@
     },
     {
       "key": "feedback/article/headline",
-      "value": "Welchen Artikel wollen Sie lesen oder darüber einen Beitrag erstellen?"
+      "value": "Zu welchem Artikel wollen Sie einen Beitrag schreiben oder lesen?"
     },
     {
       "key": "feedback/activeDiscussions/label",
@@ -3325,6 +3325,10 @@
     {
       "key": "feedback/articleSearch/label",
       "value": "Suche"
+    },
+    {
+      "key": "feedback/articleSearch/empty",
+      "value": "Keine Ergebnisse"
     },
     {
       "key": "tokenAuthorization/error",

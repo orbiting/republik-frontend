@@ -24,8 +24,8 @@ const DiscussionIndex = ({ t, data: { loading, error, discussions } }) => (
           {discussions.filter(d => d.title).map((d, i) => {
             const children = <A>{d.title || d.id}</A>
             let link
-            if (d.documentPath) {
-              link = <HrefLink href={d.documentPath} passHref>
+            if (d.path) {
+              link = <HrefLink href={d.path} passHref>
                 {children}
               </HrefLink>
             } else {
@@ -49,7 +49,7 @@ query discussions {
   discussions {
     id
     title
-    documentPath
+    path
   }
 }
 `

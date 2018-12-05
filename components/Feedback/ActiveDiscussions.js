@@ -70,37 +70,6 @@ const RowItem = ({ onClick, label, selected, path }) => (
 )
 
 class ActiveDiscussions extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-
-    this.state = {
-      inputValue: null,
-      filter: ''
-    }
-
-    this.setFocusRef = ref => {
-      this.focusRef = ref
-    }
-  }
-
-  updateFocus () {
-    if (this.focusRef && this.focusRef.input) {
-      if (this.props.allowFocus) {
-        this.focusRef.input.focus()
-      } else {
-        this.focusRef.input.blur()
-      }
-    }
-  }
-
-  componentDidMount () {
-    this.updateFocus()
-  }
-
-  componentDidUpdate () {
-    this.updateFocus()
-  }
-
   render () {
     const { discussionId, ignoreDiscussionId, onChange, data } = this.props
 
@@ -121,8 +90,8 @@ class ActiveDiscussions extends Component {
               {activeDiscussions && activeDiscussions.map(activeDiscussion => {
                 const discussion = activeDiscussion.discussion
                 const selected = discussionId && discussionId === discussion.id
-                const path = discussion.document && discussion.document.meta && discussion.document.meta.template === 'discussion' && discussion.path
                 const meta = discussion.document ? discussion.document.meta : {}
+                const path = meta && meta.template === 'discussion' && discussion.path
                 return (
                   <RowItem
                     key={discussion.id}
@@ -150,12 +119,9 @@ class ActiveDiscussions extends Component {
 }
 
 ActiveDiscussions.propTypes = {
-  t: PropTypes.func,
-  value: PropTypes.object,
-  allowSearch: PropTypes.bool,
-  onChange: PropTypes.func,
-  onSearch: PropTypes.func,
-  onReset: PropTypes.func
+  discussionId: PropTypes.string,
+  ignoreDiscussionId: PropTypes.string,
+  onChange: PropTypes.func
 }
 
 export default compose(

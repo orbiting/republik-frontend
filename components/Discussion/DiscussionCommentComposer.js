@@ -151,6 +151,7 @@ class DiscussionCommentComposer extends PureComponent {
                   secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
                   tags={tags}
+                  tagRequired={discussion.tagRequired}
                 />
                 {showPreferences && (
                   <DiscussionPreferences

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-05T09:29:59.894Z",
+  "updated": "2018-12-05T13:29:37.072Z",
   "title": "live",
   "data": [
     {
@@ -1697,6 +1697,14 @@
     {
       "key": "styleguide/CommentComposer/cancel",
       "value": "abbrechen"
+    },
+    {
+      "key": "styleguide/CommentComposerTags/tagRequired",
+      "value": "Bitte wählen Sie eine Kategorie aus:"
+    },
+    {
+      "key": "styleguide/CommentComposerTags/noTagRequired",
+      "value": "Bitte wählen Sie eine Kategorie aus:"
     },
     {
       "key": "styleguide/CommentActions/answer",

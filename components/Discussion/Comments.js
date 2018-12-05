@@ -587,7 +587,7 @@ class Comments extends PureComponent {
 
     return (
       <Loader
-        loading={loading || (hasFocus && focusLoading)}
+        loading={loading || (hasFocus && focusLoading) || discussion === undefined}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const { totalCount, pageInfo, nodes, focus } = discussion.comments

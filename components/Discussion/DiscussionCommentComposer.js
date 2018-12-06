@@ -134,10 +134,6 @@ class DiscussionCommentComposer extends PureComponent {
               )
             }
 
-            const tags = discussion && discussion.tags && discussion.tags.length
-              ? discussion.tags.map(tag => ({ label: t(`discussion/tag/${tag}`), value: tag }))
-              : undefined
-
             return (
               <div>
                 <CommentComposer
@@ -150,7 +146,7 @@ class DiscussionCommentComposer extends PureComponent {
                   submitLabel={t('submitComment/rootSubmitLabel')}
                   secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
-                  tags={tags}
+                  tags={discussion.tags}
                   tagRequired={discussion.tagRequired}
                 />
                 {showPreferences && (

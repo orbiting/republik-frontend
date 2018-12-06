@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-06T12:44:06.455Z",
+  "updated": "2018-12-06T13:34:27.395Z",
   "title": "live",
   "data": [
     {
@@ -1633,22 +1633,6 @@
     {
       "key": "discussion/share/emailSubject",
       "value": "Republik: {title}"
-    },
-    {
-      "key": "discussion/tag/PRAISE",
-      "value": "Lob"
-    },
-    {
-      "key": "discussion/tag/CRITICISM",
-      "value": "Kritik"
-    },
-    {
-      "key": "discussion/tag/REQUEST",
-      "value": "Wünsche"
-    },
-    {
-      "key": "discussion/tag/NONE",
-      "value": "Keine Angabe"
     },
     {
       "key": "styleguide/AudioPlayer/aria",

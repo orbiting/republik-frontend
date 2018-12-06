@@ -153,9 +153,9 @@ export const CommentTeaser = ({
   }
 
   const contextTitle = isGeneral
-    ? parentIds.length === 0 && tags && (
+    ? parentIds.length === 0 && tags && tags.length && (
       <a {...styles.link} onClick={onClick}>
-        {t(`discussion/tag/${tags[0]}`)}
+        {tags[0]}
       </a>
     )
     : discussion.title

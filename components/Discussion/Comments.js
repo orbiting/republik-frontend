@@ -453,14 +453,15 @@ class Comments extends PureComponent {
 
       const isRoot = comment.parentIds.length === 0
       const tags = isRoot && discussion && discussion.tags && discussion.tags.length
-        ? discussion.tags.map(tag => ({
-          label: t(`discussion/tag/${tag}`),
-          value: tag,
-          selected: comment.tags && !!comment.tags.find(commentTag => commentTag === tag)
-        }))
+        ? discussion.tags
         : undefined
-      const context = isRoot && comment.tags && comment.tags.length ? {
-        title: t(`discussion/tag/${comment.tags[0]}`)
+      // assuming frontend currently only supports one tag per comment.
+      const selectedTag = tags &&
+        comment.tags &&
+        comment.tags.length &&
+        comment.tags[0]
+      const context = selectedTag ? {
+        title: selectedTag
       } : undefined
 
       accumulator.list.push(
@@ -497,6 +498,7 @@ class Comments extends PureComponent {
           collapsable={discussion && discussion.collapsable}
           onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.path, comment.id) })}
           tags={tags}
+          selectedTag={selectedTag}
           context={context}
         />
       )

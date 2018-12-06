@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-05T16:52:14.020Z",
+  "updated": "2018-12-06T12:44:06.455Z",
   "title": "live",
   "data": [
     {
@@ -2860,15 +2860,15 @@
     },
     {
       "key": "article/autodiscussionteaser/title",
-      "value": "Reden Sie mit!"
+      "value": "Jetzt sind Sie am Zug!"
     },
     {
       "key": "article/autodiscussionteaser/text",
-      "value": "Das Artikelende ist erst der Anfang. Was denken Sie über diesen Artikel? Was finden Sie interessant, lobenswert oder kritikwürdig? Diskutieren Sie mit anderen Republik-Verlegern und vor allem: {link}"
+      "value": "Was gefällt Ihnen an diesem Artikel? Was gäbe es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
     },
     {
       "key": "article/autodiscussionteaser/linktext",
-      "value": "Reden Sie mit!"
+      "value": "Reden Sie mit"
     },
     {
       "key": "merci/postpay/lead",
@@ -3296,7 +3296,7 @@
     },
     {
       "key": "feedback/lead",
-      "value": "Lassen Sie uns reden. Über bestimmte Artikel oder die Republik im Allgemeinen. Miteinander und konstruktiv im Geist unserer Netiquette. Worüber wollen Sie reden?"
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir gemeinsam über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
     },
     {
       "key": "feedback/general/button",

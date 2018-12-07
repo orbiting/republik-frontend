@@ -440,6 +440,11 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
           ... on MembershipType {
             id
             name
+            interval
+            minIntervalCount
+            maxIntervalCount
+            defaultIntervalCount
+            intervalStepCount
           }
           ... on Goodie {
             id

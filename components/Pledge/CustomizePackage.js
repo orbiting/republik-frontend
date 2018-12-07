@@ -39,14 +39,27 @@ const { P } = Interaction
 const absolutMinPrice = 100
 const calculateMinPrice = (pkg, values, userPrice) => {
   const minPrice = pkg.options.reduce(
-    (price, option) => price + (option.userPrice && userPrice
-      ? 0
-      : option.price * (
-        values[getOptionFieldKey(option)] !== undefined
-          ? values[getOptionFieldKey(option)]
-          : option.defaultAmount || option.minAmount
+    (price, option) => {
+      const amount = values[getOptionFieldKey(option)] !== undefined
+        ? values[getOptionFieldKey(option)]
+        : option.defaultAmount || option.minAmount
+
+      // Price adopts to intervalCount
+      const intervalCount =
+        values[getOptionFieldKey(option) + '.interval'] ||
+        (option.reward && option.reward.defaultIntervalCount) ||
+        0
+
+      if (intervalCount > 0) {
+        return price + (option.price * intervalCount * amount)
+      }
+
+      // Price adopts to amount
+      return price + (option.userPrice && userPrice
+        ? 0
+        : option.price * amount
       )
-    ),
+    },
     0
   )
   if (minPrice > absolutMinPrice) {
@@ -100,6 +113,13 @@ const getOptionValue = (option, values) => {
   return values[fieldKey] === undefined
     ? option.defaultAmount
     : values[fieldKey]
+}
+
+const getOptionInterval = (option, values) => {
+  const fieldKeyInterval = getOptionFieldKey(option) + '.interval'
+  return values[fieldKeyInterval] === undefined
+    ? option.reward.defaultIntervalCount
+    : values[fieldKeyInterval]
 }
 
 const GUTTER = 42
@@ -499,6 +519,18 @@ class CustomizePackage extends Component {
                         count: value
                       })
 
+                      const fieldKeyInterval = getOptionFieldKey(option) + '.interval'
+                      const intervalCount = getOptionInterval(option, values)
+                      const interval = option.reward.interval
+                      const labelInterval = t.first([
+                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${value}`,
+                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/other`,
+                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label`,
+                        `option//${option.reward.name}/interval/${interval}/label/${value}`,
+                        `option/${option.reward.name}/interval/${interval}/label/other`,
+                        `option/${option.reward.name}/interval/${interval}/label`
+                      ])
+
                       const onFieldChange = (_, value, shouldValidate) => {
                         let error
                         const parsedValue = String(value).length
@@ -536,6 +568,72 @@ class CustomizePackage extends Component {
                           })
                         }
                         if (parsedValue && userPrice && !option.userPrice) {
+                          this.resetUserPrice()
+                        }
+                        onChange(this.calculateNextPrice(fields))
+                      }
+
+                      const onFieldIntervalChange = (_, interval, shouldValidate) => {
+                        let error
+                        const parsedInterval = String(interval).length
+                          ? parseInt(interval, 10) || 0
+                          : ''
+
+                        if (parsedInterval > option.reward.maxIntervalCount) {
+                          error = t('package/customize/option/error/max', {
+                            label: labelInterval,
+                            maxAmount: option.reward.maxIntervalCount
+                          })
+                        }
+                        if (parsedInterval < option.reward.minIntervalCount) {
+                          error = t('package/customize/option/error/min', {
+                            label: labelInterval,
+                            minAmount: option.reward.minIntervalCount
+                          })
+                        }
+
+                        // @TODO: Better error message. Describes if interval
+                        // is not a valid step.
+                        // @TODO: A invalid interval breaks inc/dec fn on
+                        // input field. Maybe find a proper abstraction here.
+                        const times = parsedInterval / option.reward.intervalStepCount
+
+                        if (
+                          option.reward.intervalStepCount * times !==
+                          option.reward.intervalStepCount * Math.round(times)
+                        ) {
+                          const potentialValue = option.reward.intervalStepCount * Math.ceil(times)
+
+                          const suggestedValue =
+                            potentialValue <= option.reward.maxIntervalCount
+                              ? potentialValue
+                              : option.reward.maxIntervalCount
+
+                          error = t('package/customize/option/error/step', {
+                            label: labelInterval,
+                            suggestedValue
+                          })
+                        }
+
+                        let fields = FieldSet.utils.fieldsState({
+                          field: fieldKeyInterval,
+                          value: parsedInterval,
+                          error,
+                          dirty: shouldValidate
+                        })
+                        /*
+                        if (group) {
+                          // unselect all other options from group
+                          options.filter(other => other !== option).forEach(other => {
+                            fields = FieldSet.utils.mergeField({
+                              field: getOptionFieldKey(other),
+                              value: 0,
+                              error: undefined,
+                              dirty: false
+                            })(fields)
+                          })
+                        } */
+                        if (parsedInterval && userPrice && !option.userPrice) {
                           this.resetUserPrice()
                         }
                         onChange(this.calculateNextPrice(fields))
@@ -606,6 +704,31 @@ class CustomizePackage extends Component {
                               })}
                               onChange={onFieldChange}
                             />
+                            {
+                              option.reward.maxIntervalCount - option.reward.minIntervalCount > 0 &&
+                              <Fragment>
+                                <Field
+                                  label={labelInterval}
+                                  error={dirty[fieldKeyInterval] && errors[fieldKeyInterval]}
+                                  value={intervalCount}
+                                  onInc={intervalCount < option.reward.maxIntervalCount && (() => {
+                                    onFieldIntervalChange(undefined, intervalCount + option.reward.intervalStepCount, dirty[fieldKeyInterval])
+                                  })}
+                                  onDec={intervalCount > option.reward.minIntervalCount && (() => {
+                                    onFieldIntervalChange(undefined, intervalCount - option.reward.intervalStepCount, dirty[fieldKeyInterval])
+                                  })}
+                                  onChange={onFieldIntervalChange}
+                                />
+                                { intervalCount >= option.reward.maxIntervalCount &&
+                                  <P>{
+                                    t.elements(
+                                      `option/${option.reward.name}/interval/notice/reachedMaxIntervalCount`,
+                                      { link: <Link key='xx' route='pledge' params={{ package: 'ABO_GIVE' }} passHref>{t('package/ABO_GIVE/title')}</Link> }
+                                    )
+                                  }</P>
+                                }
+                              </Fragment>
+                            }
                           </div>
                         </div>
                       )

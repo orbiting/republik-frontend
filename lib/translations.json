@@ -1971,6 +1971,10 @@
       "value": "{label}, minimal {minAmount}"
     },
     {
+      "key": "package/customize/option/error/step",
+      "value": "{label}, nicht zugelassen, vielleicht {suggestedValue}?"
+    },
+    {
       "key": "package/customize/userPrice/reason/label",
       "value": "Begründung"
     },
@@ -2012,31 +2016,35 @@
     },
     {
       "key": "package/ABO/description",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
-    },
-    {
-      "key": "package/ABO/description/short",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin."
+      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten unser Magazin im Jahresabonnement. Durch Ihren jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. "
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF} für ein Jahr"
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO_GIVE/title",
-      "value": "Verschenken"
+      "value": "Abo und Mitgliedschaft als Geschenk"
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen für 20 Franken etwas Handfestes dazu zu schenken. Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch (damit die Empfänger nicht nur Cleveres lesen, sondern auch schreiben können)."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: ein Jahr Republik. Und ein Jahr Mitgliedschaft bei der Project R Genossenschaft.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
-      "key": "package/ABO_GIVE/description/short",
-      "value": "Verschenken Sie für ein Jahr die Republik."
+      "key": "package/ABO_GIVE_MONTHS/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/title",
+      "value": "Monats-Abo als Geschenk"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/description",
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Gönner-Mitgliedschaft"
+      "value": "Abo und Gönner-Mitgliedschaft"
     },
     {
       "key": "package/BENEFACTOR/price",
@@ -2047,12 +2055,8 @@
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
     },
     {
-      "key": "package/BENEFACTOR/description/short",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert."
-    },
-    {
       "key": "package/MONTHLY_ABO/title",
-      "value": "Monats-Abonnement"
+      "value": "Monats-Abo"
     },
     {
       "key": "package/MONTHLY_ABO/price",
@@ -2061,10 +2065,6 @@
     {
       "key": "package/MONTHLY_ABO/description",
       "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verlegerin oder Verleger der Republik. Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen."
-    },
-    {
-      "key": "package/MONTHLY_ABO/description/short",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin – und können Ihr Abonnement jederzeit kündigen."
     },
     {
       "key": "package/choose",
@@ -2093,6 +2093,34 @@
     {
       "key": "option/TOTEBAG/label/1",
       "value": "Tasche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/label/other",
+      "value": "Mitgliedschaften"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/label/1",
+      "value": "Mitgliedschaft"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/year/label",
+      "value": "Anzahl Jahre"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label",
+      "value": "Anzahl Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/label",
+      "value": "Anzahl Wochen"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/label",
+      "value": "Anzahl Tage"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/notice/reachedMaxIntervalCount",
+      "value": "Vielleicht passt dieses Päckli besser? {link}"
     },
     {
       "key": "payment/title",

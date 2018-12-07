@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-07T12:46:28.232Z",
+  "updated": "2018-12-07T18:45:56.384Z",
   "title": "live",
   "data": [
     {
@@ -3484,7 +3484,7 @@
     },
     {
       "key": "questionnaire/turnout",
-      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Personen haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",

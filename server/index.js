@@ -47,6 +47,14 @@ app.prepare().then(() => {
     server.enable('trust proxy')
     server.use((req, res, next) => {
       if (`${req.protocol}://${req.get('Host')}` !== process.env.PUBLIC_BASE_URL) {
+        // temporary workaround for wrong link in newsletter
+        // weekend NL on 08.12.2018 contained
+        // - http://republik.ch/verschenken
+        // should have been
+        // - https://www.republik.ch/verlaengern
+        if (req.url === '/verschenken') {
+          res.redirect(process.env.PUBLIC_BASE_URL + '/angebote?package=PROLONG')
+        }
         return res.redirect(process.env.PUBLIC_BASE_URL + req.url)
       }
       return next()

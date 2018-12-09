@@ -280,7 +280,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice, customMe, router,
+      t, pkg, pkgsFilter, userPrice, customMe, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -417,7 +417,11 @@ class CustomizePackage extends Component {
           <A href='/angebote' onClick={event => {
             event.preventDefault()
             this.resetPrice()
-            Router.replaceRoute('pledge', {}, { shallow: true })
+            Router.replaceRoute(
+              'pledge',
+              { packages: pkgsFilter && pkgsFilter.join(',') },
+              { shallow: true }
+            )
           }}>
             {t('package/customize/changePackage')}
           </A>

@@ -2071,6 +2071,10 @@
       "value": "Auswählen"
     },
     {
+      "key": "package/pkgsFilter/showAll",
+      "value": "Sie interessieren Sie für unser vollständiges Angebot?"
+    },
+    {
       "key": "option/ABO/label/other",
       "value": "Mitgliedschaften"
     },

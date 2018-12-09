@@ -248,7 +248,7 @@ class Footer extends Component {
                 <Fragment>
                   <Link
                     route='pledge'
-                    params={me ? { package: 'ABO_GIVE' } : undefined}>
+                    params={me && { packages: 'ABO_GIVE,ABO_GIVE_MONTHS' }}>
                     <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
                   </Link>
                   <br />

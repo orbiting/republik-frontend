@@ -217,7 +217,7 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             <Fragment>
               <NavLink
                 route='pledge'
-                params={me ? { package: 'ABO_GIVE' } : undefined}
+                params={me && { packages: 'ABO_GIVE,ABO_GIVE_MONTHS' }}
                 translation={t(me ? 'nav/give' : 'nav/offers')}
                 active={active}
                 closeHandler={closeHandler}

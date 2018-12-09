@@ -154,17 +154,27 @@ class Accordion extends Component {
     const {
       t,
       packages,
+      pkgsFilter,
       crowdfundingName,
       children
     } = this.props
 
-    const links = [
-      {
+    const links = []
+
+    if (pkgsFilter) {
+      links.push({
+        route: 'pledge',
+        text: t('package/pkgsFilter/showAll')
+      })
+    }
+
+    if (links.length < 1) {
+      links.push({
         route: 'pledge',
         params: { package: 'ABO', userPrice: 1 },
         text: t('package/ABO/userPrice/teaser')
-      }
-    ]
+      })
+    }
 
     return (
       <div style={{ marginTop: 20 }}>
@@ -185,7 +195,8 @@ class Accordion extends Component {
 
               return (
                 <Link key={i} route='pledge' params={{
-                  package: pkg.name
+                  package: pkg.name,
+                  packages: pkgsFilter && pkgsFilter.join(',')
                 }}>
                   <a {...packageStyle}
                     onMouseOver={() => this.setState({
@@ -220,29 +231,31 @@ class Accordion extends Component {
               )
             })
         }
-        <Link route='claim'>
-          <a
-            {...merge(
-              styles.package,
-              activeIndex === packages.length && styles.packageHighlighted
-            )}
-            onMouseOver={() => this.setState({
-              activeIndex: packages.length
-            })}
-            onMouseOut={() => this.setState({
-              activeIndex: undefined
-            })}
-          >
-            <div {...styles.packageHeader}>
-              <div {...styles.packageTitle}>
-                {t('marketing/offers/claim')}
+        { !pkgsFilter &&
+          <Link route='claim'>
+            <a
+              {...merge(
+                styles.package,
+                activeIndex === packages.length && styles.packageHighlighted
+              )}
+              onMouseOver={() => this.setState({
+                activeIndex: packages.length
+              })}
+              onMouseOut={() => this.setState({
+                activeIndex: undefined
+              })}
+            >
+              <div {...styles.packageHeader}>
+                <div {...styles.packageTitle}>
+                  {t('marketing/offers/claim')}
+                </div>
+                <span {...styles.packageIcon}>
+                  <ChevronRightIcon size={24} />
+                </span>
               </div>
-              <span {...styles.packageIcon}>
-                <ChevronRightIcon size={24} />
-              </span>
-            </div>
-          </a>
-        </Link>
+            </a>
+          </Link>
+        }
         <div {...styles.buffer} />
         {children}
         <div {...styles.links}>

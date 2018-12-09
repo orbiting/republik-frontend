@@ -189,6 +189,12 @@ class Pledge extends Component {
       loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
+    const pkgsFilter = query.packages && query.packages.split(',').map(pkg => pkg.toUpperCase())
+
+    const filteredPkgs = pkgsFilter
+      ? packages.filter(pkg => pkgsFilter.includes(pkg.name))
+      : packages
+
     const queryPackage = query.package && query.package.toUpperCase()
     const pkg = this.getPkg()
 
@@ -291,12 +297,16 @@ class Pledge extends Component {
                     customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}
+                    pkgsFilter={pkgsFilter}
                     onChange={(fields) => {
                       this.setState(FieldSet.utils.mergeFields(fields))
                     }} />
                 ) : (
-                  <Accordion crowdfundingName={crowdfundingName}
-                    packages={packages} extended />
+                  <Accordion
+                    crowdfundingName={crowdfundingName}
+                    packages={filteredPkgs}
+                    pkgsFilter={pkgsFilter}
+                    extended />
                 )}
               </div>
               {pkg && (

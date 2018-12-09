@@ -566,8 +566,8 @@ const PledgeWithQueries = compose(
     }),
     props: ({ data }) => {
       const packages = []
-        .concat(data.crowdfunding && data.crowdfunding.packages)
         .concat(data.me && data.me.customPackages)
+        .concat(data.crowdfunding && data.crowdfunding.packages)
         .filter(Boolean)
       return {
         refetchPackages: data.refetch,

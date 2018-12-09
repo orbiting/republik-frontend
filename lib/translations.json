@@ -1964,11 +1964,11 @@
     },
     {
       "key": "package/customize/option/error/max",
-      "value": "{label}, maximal {maxAmount}"
+      "value": "{label}, höchstens {maxAmount}"
     },
     {
       "key": "package/customize/option/error/min",
-      "value": "{label}, minimal {minAmount}"
+      "value": "{label}, mindestens {minAmount}"
     },
     {
       "key": "package/customize/option/error/step",
@@ -2529,6 +2529,10 @@
     {
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
+    },
+    {
+      "key": "pledge/notice/goodies/delivery",
+      "value": "Hinweis: Artikel wie Notizbücher oder Taschen liefern wir innerhalb von 10 Werktagen."
     },
     {
       "key": "shareholder/pageTitle",

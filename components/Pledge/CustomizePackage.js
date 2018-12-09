@@ -302,6 +302,9 @@ class CustomizePackage extends Component {
     const hasTotebag = !!pkg.options.find(option => (
       option.reward && option.reward.name === 'TOTEBAG'
     ))
+    const hasGoodies = !!pkg.options.find(option => (
+      option.reward && option.reward.__typename === 'Goodie'
+    ))
 
     const onPriceChange = (_, value, shouldValidate) => {
       const price = String(value).length
@@ -725,12 +728,12 @@ class CustomizePackage extends Component {
                                   onChange={onFieldIntervalChange}
                                 />
                                 { intervalCount >= option.reward.maxIntervalCount &&
-                                  <P>{
+                                  <Fragment>{
                                     t.elements(
                                       `option/${option.reward.name}/interval/notice/reachedMaxIntervalCount`,
-                                      { link: <Link key='xx' route='pledge' params={{ package: 'ABO_GIVE' }} passHref>{t('package/ABO_GIVE/title')}</Link> }
+                                      { link: <Link key={`goodie-${option.reward.name}`} route='pledge' params={{ package: 'ABO_GIVE' }} passHref>{t('package/ABO_GIVE/title')}</Link> }
                                     )
-                                  }</P>
+                                  }</Fragment>
                                 }
                               </Fragment>
                             }
@@ -792,6 +795,11 @@ class CustomizePackage extends Component {
               </Fragment>
             )
           })
+        }
+        { hasGoodies &&
+          <div style={{ marginBottom: 20 }}>
+            {t('pledge/notice/goodies/delivery')}
+          </div>
         }
         {!!userPrice && (<div>
           <P>

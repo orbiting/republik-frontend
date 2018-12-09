@@ -89,7 +89,9 @@ class PledgeList extends Component {
                       sequenceNumber: option.membership && option.membership.sequenceNumber,
                       endDateSuffix: endDate ? t('option/suffix/endDate', {
                         formattedEndDate: dayFormat(new Date(endDate))
-                      }) : ''
+                      }) : '',
+                      interval: option.reward && option.reward.interval &&
+                        t.pluralize(`option/${option.reward.name}/interval/${option.reward.interval}/count`, { count: option.intervalCount })
                     })}
                   </Item>
                 )
@@ -121,7 +123,7 @@ class PledgeList extends Component {
             </List>
             <GiveMemberships
               memberships={pledge.memberships}
-              isGivePackage={pledge.package.name === 'ABO_GIVE'} />
+              isGivePackage={['ABO_GIVE', 'ABO_GIVE_MONTHS'].includes(pledge.package.name)} />
           </AccountItem>
         )
       })}

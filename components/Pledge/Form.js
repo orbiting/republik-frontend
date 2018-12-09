@@ -27,7 +27,7 @@ import {
 
 import Accordion from './Accordion'
 import Submit from './Submit'
-import CustomizePackage, { getOptionFieldKey } from './CustomizePackage'
+import CustomizePackage, { getOptionFieldKey, getOptionIntervalFieldKey } from './CustomizePackage'
 
 const { H1, H2, P } = Interaction
 
@@ -96,10 +96,15 @@ class Pledge extends Component {
       },
       options: pkg ? pkg.options.map(option => {
         const fieldKey = getOptionFieldKey(option)
+        const intervalFieldKey = getOptionIntervalFieldKey(option)
+
         return {
           amount: values[fieldKey] === undefined
             ? option.defaultAmount
             : values[fieldKey],
+          intervalCount: values[intervalFieldKey] !== undefined
+            ? values[intervalFieldKey]
+            : option.reward && option.reward.defaultIntervalCount,
           price: option.price,
           templateId: option.templateId,
           membershipId: option.membership

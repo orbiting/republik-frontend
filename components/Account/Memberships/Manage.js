@@ -165,9 +165,7 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
       title={
         title || t(
           `memberships/title/${membership.type.name}`,
-          {
-            sequenceNumber: membership.sequenceNumber
-          }
+          { sequenceNumber: membership.sequenceNumber }
         )
       }>
       {!!latestPeriod && <P>

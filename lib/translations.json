@@ -2103,20 +2103,68 @@
       "value": "Mitgliedschaft"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/label",
-      "value": "Anzahl Jahre"
+      "key": "option/ABO_GIVE_MONTHS/interval/year/label/1",
+      "value": "Jahr"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/label",
-      "value": "Anzahl Monate"
+      "key": "option/ABO_GIVE_MONTHS/interval/year/label/other",
+      "value": "Jahre"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/label",
-      "value": "Anzahl Wochen"
+      "key": "option/ABO_GIVE_MONTHS/interval/year/count/1",
+      "value": "ein Jahr"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/label",
-      "value": "Anzahl Tage"
+      "key": "option/ABO_GIVE_MONTHS/interval/year/count/other",
+      "value": "{count} Jahre"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
+      "value": "Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
+      "value": "Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/count/1",
+      "value": "einen Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/count/other",
+      "value": "{count} Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/label/1",
+      "value": "Woche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/label/other",
+      "value": "Wochen"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/count/1",
+      "value": "eine Woche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/count/other",
+      "value": "{count} Wochen"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/label/1",
+      "value": "Tag"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/label/other",
+      "value": "Tage"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/1",
+      "value": "einen Tag"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/other",
+      "value": "{count} Tage"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/interval/notice/reachedMaxIntervalCount",
@@ -2935,11 +2983,19 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/ABO_GIVE_MONTHS",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/DONATE",
       "value": "Guten Tag, {name}"
     },
     {
       "key": "merci/title/package/ABO_GIVE/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/ABO_GIVE_MONTHS/noName",
       "value": "Guten Tag"
     },
     {
@@ -2952,6 +3008,10 @@
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+    },
+    {
+      "key": "merci/lead/package/ABO_GIVE_MONTHS",
       "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
@@ -3520,7 +3580,7 @@
     },
     {
       "key": "questionnaire/turnout",
-      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Personen haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",
@@ -3664,7 +3724,11 @@
     },
     {
       "key": "memberships/title/MONTHLY_ABO",
-      "value": "Monatsabonnement (#{sequenceNumber})"
+      "value": "Monats-Abo (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO_GIVE_MONTHS",
+      "value": "Abonnement (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/ABO/give",
@@ -3913,6 +3977,18 @@
     {
       "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
       "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/1",
+      "value": "Monats-Abo als Geschenk für {interval}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/other",
+      "value": "Monats-Abos als Geschenk für {interval}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",
+      "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
     },
     {
       "key": "option/suffix/endDate",

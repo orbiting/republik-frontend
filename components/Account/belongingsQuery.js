@@ -81,6 +81,7 @@ query myBelongings {
         reward {
           ... on MembershipType {
             name
+            interval
           }
           ... on Goodie {
             name
@@ -89,6 +90,7 @@ query myBelongings {
         minAmount
         maxAmount
         amount
+        intervalCount
         price
         membership {
           id

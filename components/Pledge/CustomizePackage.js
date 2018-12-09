@@ -108,6 +108,8 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
+export const getOptionIntervalFieldKey = option => getOptionFieldKey(option) + '.interval'
+
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)
   return values[fieldKey] === undefined
@@ -116,7 +118,7 @@ const getOptionValue = (option, values) => {
 }
 
 const getOptionInterval = (option, values) => {
-  const fieldKeyInterval = getOptionFieldKey(option) + '.interval'
+  const fieldKeyInterval = getOptionIntervalFieldKey(option)
   return values[fieldKeyInterval] === undefined
     ? option.reward.defaultIntervalCount
     : values[fieldKeyInterval]
@@ -519,14 +521,14 @@ class CustomizePackage extends Component {
                         count: value
                       })
 
-                      const fieldKeyInterval = getOptionFieldKey(option) + '.interval'
+                      const fieldKeyInterval = getOptionIntervalFieldKey(option)
                       const intervalCount = getOptionInterval(option, values)
                       const interval = option.reward.interval
                       const labelInterval = t.first([
-                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${value}`,
+                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${intervalCount}`,
                         `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/other`,
                         `option/${pkg.name}/${option.reward.name}/interval/${interval}/label`,
-                        `option//${option.reward.name}/interval/${interval}/label/${value}`,
+                        `option/${option.reward.name}/interval/${interval}/label/${intervalCount}`,
                         `option/${option.reward.name}/interval/${interval}/label/other`,
                         `option/${option.reward.name}/interval/${interval}/label`
                       ])
@@ -592,17 +594,8 @@ class CustomizePackage extends Component {
                           })
                         }
 
-                        // @TODO: Better error message. Describes if interval
-                        // is not a valid step.
-                        // @TODO: A invalid interval breaks inc/dec fn on
-                        // input field. Maybe find a proper abstraction here.
-                        const times = parsedInterval / option.reward.intervalStepCount
-
-                        if (
-                          option.reward.intervalStepCount * times !==
-                          option.reward.intervalStepCount * Math.round(times)
-                        ) {
-                          const potentialValue = option.reward.intervalStepCount * Math.ceil(times)
+                        if (parsedInterval % option.reward.intervalStepCount > 0) {
+                          const potentialValue = parsedInterval - (parsedInterval % option.reward.intervalStepCount) + option.reward.intervalStepCount
 
                           const suggestedValue =
                             potentialValue <= option.reward.maxIntervalCount
@@ -712,10 +705,22 @@ class CustomizePackage extends Component {
                                   error={dirty[fieldKeyInterval] && errors[fieldKeyInterval]}
                                   value={intervalCount}
                                   onInc={intervalCount < option.reward.maxIntervalCount && (() => {
-                                    onFieldIntervalChange(undefined, intervalCount + option.reward.intervalStepCount, dirty[fieldKeyInterval])
+                                    onFieldIntervalChange(
+                                      undefined,
+                                      intervalCount % option.reward.intervalStepCount > 0
+                                        ? intervalCount - (intervalCount % option.reward.intervalStepCount) + option.reward.intervalStepCount
+                                        : intervalCount + option.reward.intervalStepCount,
+                                      dirty[fieldKeyInterval]
+                                    )
                                   })}
                                   onDec={intervalCount > option.reward.minIntervalCount && (() => {
-                                    onFieldIntervalChange(undefined, intervalCount - option.reward.intervalStepCount, dirty[fieldKeyInterval])
+                                    onFieldIntervalChange(
+                                      undefined,
+                                      intervalCount % option.reward.intervalStepCount > 0
+                                        ? intervalCount - (intervalCount % option.reward.intervalStepCount)
+                                        : intervalCount - option.reward.intervalStepCount,
+                                      dirty[fieldKeyInterval]
+                                    )
                                   })}
                                   onChange={onFieldIntervalChange}
                                 />

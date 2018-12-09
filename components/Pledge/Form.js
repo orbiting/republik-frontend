@@ -111,7 +111,7 @@ class Pledge extends Component {
             ? option.membership.id
             : undefined,
           /* ToDo: move logic to backend? */
-          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.name !== 'ABO_GIVE' && (
+          autoPay: option.reward && option.reward.__typename === 'MembershipType' && !['ABO_GIVE', 'ABO_GIVE_MONTHS'].includes(pkg.name) && (
             !option.membership ||
             option.membership.user.id === (customMe && customMe.id)
           )

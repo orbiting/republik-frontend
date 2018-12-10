@@ -283,11 +283,11 @@ class ArticlePage extends Component {
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
     }
 
-    const discussion = meta && meta.discussion
-    const linkedDiscussionId = meta && (
-      meta.discussionId ||
-      (discussion && discussion.meta.discussionId)
-    )
+    const linkedDiscussion = meta &&
+      meta.linkedDiscussion &&
+      !meta.linkedDiscussion.closed &&
+      meta.linkedDiscussion
+    const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
 
     const hasPdf = meta && meta.template === 'article'
 
@@ -296,9 +296,9 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        discussionPage={!!meta.discussionId}
+        discussionPage={meta && meta.template === 'discussion'}
         discussionId={linkedDiscussionId}
-        discussionPath={discussion && discussion.meta.path}
+        discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onPdfClick={hasPdf && countImages(article.content) > 0
@@ -438,6 +438,7 @@ class ArticlePage extends Component {
             : this.props.payNoteVariation
 
           const ownDiscussionId = meta.ownDiscussion && meta.ownDiscussion.id
+          const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           return (
             <Fragment>
@@ -463,7 +464,7 @@ class ArticlePage extends Component {
                   variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
-              {meta.template === 'article' && ownDiscussionId && <Center>
+              {meta.template === 'article' && ownDiscussionId && !linkedDiscussion && <Center>
                 <AutoDiscussionTeaser
                   discussionId={ownDiscussionId}
                 />

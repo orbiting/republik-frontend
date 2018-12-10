@@ -15,7 +15,7 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
   <InfoBox>
     <InfoBoxTitle>{t('article/autodiscussionteaser/title')}</InfoBoxTitle>
     <InfoBoxText>
-      {t.elements('article/autodiscussionteaser/text', { link: <Link key='feedback' route='feedback' params={{ id: discussionId }}>
+      {t.elements('article/autodiscussionteaser/text', { link: <Link key='feedback' route='discussion' params={{ id: discussionId }}>
         <a {...linkRule}>
           {t('article/autodiscussionteaser/linktext')}
         </a>

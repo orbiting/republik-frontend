@@ -1,19 +1,14 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { enforceMembership } from '../components/Auth/withMembership'
 import { withRouter } from 'next/router'
-import Frame from '../components/Frame'
-import Discussion from '../components/Discussion/Discussion'
-import DiscussionIndex from '../components/Discussion/DiscussionIndex'
+import Page from '../components/Feedback/Page'
 
 const DiscussionPage = ({ router: { query } }) => (
-  <Frame>
-    {query.id
-      ? <Discussion
-        discussionId={query.id}
-        focusId={query.focus}
-        mute={!!query.mute} />
-      : <DiscussionIndex />}
-  </Frame>
+  <Page query={query} />
 )
 
-export default compose(withRouter)(DiscussionPage)
+export default compose(
+  enforceMembership(),
+  withRouter
+)(DiscussionPage)

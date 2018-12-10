@@ -83,7 +83,7 @@ const CommentLink = ({
   if (tab) {
     return (
       <Link
-        route='feedback'
+        route='discussion'
         params={{ t: tab, id: discussion ? discussion.id : undefined, focus: commentId }}
         passHref
       >

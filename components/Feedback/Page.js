@@ -184,7 +184,7 @@ class FeedbackPage extends Component {
       const focus = focusId ? encodeURIComponent(focusId) : undefined
       const t = tab || undefined
       Router.replaceRoute(
-        'feedback',
+        'discussion',
         { id, t, focus },
         { shallow: true }
       )
@@ -192,7 +192,7 @@ class FeedbackPage extends Component {
 
     this.clearUrl = () => {
       Router.replaceRoute(
-        'feedback',
+        'discussion',
         {},
         { shallow: true }
       )
@@ -209,7 +209,7 @@ class FeedbackPage extends Component {
   }
 
   render () {
-    const { t } = this.props
+    const { t, query } = this.props
     const {
       articleDiscussionId,
       tab,
@@ -286,7 +286,11 @@ class FeedbackPage extends Component {
             </Fragment>
           )}
           {selectedDiscussionId && (
-            <Discussion discussionId={selectedDiscussionId} focusId={focusId} />
+            <Discussion
+              discussionId={selectedDiscussionId}
+              focusId={focusId}
+              mute={query && !!query.mute}
+            />
           )}
           {!selectedDiscussionId && (
             <Fragment>

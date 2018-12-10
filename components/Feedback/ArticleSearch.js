@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 import { compose, withApollo } from 'react-apollo'
 import withT from '../../lib/withT'
 

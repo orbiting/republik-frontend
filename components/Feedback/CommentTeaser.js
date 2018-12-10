@@ -67,6 +67,7 @@ const CommentLink = ({
   commentId,
   children,
   discussion,
+  tab,
   ...props
 }) => {
   if (displayAuthor && displayAuthor.username) {
@@ -74,6 +75,17 @@ const CommentLink = ({
       <Link
         route='profile'
         params={{ slug: displayAuthor.username }}
+      >
+        {children}
+      </Link>
+    )
+  }
+  if (tab) {
+    return (
+      <Link
+        route='feedback'
+        params={{ t: tab, id: discussion ? discussion.id : undefined, focus: commentId }}
+        passHref
       >
         {children}
       </Link>
@@ -141,31 +153,33 @@ export const CommentTeaser = ({
     })
   }
 
-  const Wrapper = ({ children, newPage, commentId, discussion }) => {
-    return newPage
-      ? <CommentLink
-        commentId={id}
-        discussion={discussion}
-      >
-        {children}
-      </CommentLink>
-      : children
-  }
-
   const contextTitle = isGeneral
     ? parentIds.length === 0 && tags && tags.length && (
-      <a {...styles.link} onClick={onClick}>
-        {tags[0]}
-      </a>
+      <CommentLink
+        key={id}
+        commentId={id}
+        tab='general'
+      >
+        <a {...styles.link} onClick={onClick}>
+          {tags[0]}
+        </a>
+      </CommentLink>
     )
     : discussion.title
       ? (onPage && (
-        <a {...styles.link} onClick={onClick}>
-          <ArticleItem
-            iconSize={18}
-            title={`«${discussion.title}»`}
-            newPage={false} />
-        </a>
+        <CommentLink
+          key={id}
+          commentId={id}
+          discussion={discussion}
+          tab='article'
+        >
+          <a {...styles.link} onClick={onClick}>
+            <ArticleItem
+              iconSize={18}
+              title={`«${discussion.title}»`}
+              newPage={false} />
+          </a>
+        </CommentLink>
       )) || (newPage && (
         <CommentLink
           key={id}
@@ -202,10 +216,11 @@ export const CommentTeaser = ({
         context={context}
       >
         <CommentBodyParagraph>
-          <Wrapper
+          <CommentLink
             newPage={newPage}
             commentId={id}
             discussion={discussion}
+            tab={isGeneral ? 'general' : onPage ? 'article' : undefined}
           >
             <a {...styles.linkBlockStyle}
               style={{ opacity: published ? 1 : 0.5 }}
@@ -217,7 +232,7 @@ export const CommentTeaser = ({
                 </Fragment>
               )}
             </a>
-          </Wrapper>
+          </CommentLink>
         </CommentBodyParagraph>
       </Comment>
     </div>

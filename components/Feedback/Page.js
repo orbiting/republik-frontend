@@ -68,6 +68,23 @@ class FeedbackPage extends Component {
   constructor (props, ...args) {
     super(props, ...args)
 
+    const { id, t, focus } = this.props.query
+    const isGeneral = id === GENERAL_FEEDBACK_DISCUSSION_ID || t === 'general'
+    let state = {}
+
+    if (isGeneral) {
+      state = {
+        tab: 'general',
+        focusId: focus
+      }
+    } else if (id || t === 'article') {
+      state = {
+        articleDiscussionId: id,
+        tab: 'article',
+        focusId: focus
+      }
+    }
+
     this.state = {
       articleDiscussionId: undefined,
       loading: false,
@@ -75,7 +92,8 @@ class FeedbackPage extends Component {
       trackingId: undefined,
       tab: undefined,
       meta: undefined,
-      searchValue: undefined
+      searchValue: undefined,
+      ...state
     }
 
     this.onChangeFromSearch = (selectedObj) => {
@@ -165,26 +183,6 @@ class FeedbackPage extends Component {
       }, this.updateUrl)
     }
 
-    this.setStateFromQuery = (query) => {
-      if (!query) {
-        return
-      }
-      const { id, t, focus } = query
-      const isGeneral = id === GENERAL_FEEDBACK_DISCUSSION_ID || t === 'general'
-      if (isGeneral) {
-        this.setState({
-          tab: 'general',
-          focusId: focus
-        })
-      } else if (id || t === 'article') {
-        this.setState({
-          articleDiscussionId: id,
-          tab: 'article',
-          focusId: focus
-        })
-      }
-    }
-
     this.pushUrl = (params) => {
       Router.replaceRoute(
         'feedback',
@@ -212,7 +210,6 @@ class FeedbackPage extends Component {
   componentDidMount () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
-    this.setStateFromQuery(this.props.query)
   }
 
   componentWillUnmount () {

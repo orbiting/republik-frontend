@@ -154,14 +154,6 @@ class FeedbackPage extends Component {
       })
     }
 
-    this.pushUrl = (params) => {
-      Router.replaceRoute(
-        'feedback',
-        params,
-        { shallow: true }
-      )
-    }
-
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
@@ -183,14 +175,6 @@ class FeedbackPage extends Component {
       }, this.updateUrl)
     }
 
-    this.pushUrl = (params) => {
-      Router.replaceRoute(
-        'feedback',
-        params,
-        { shallow: true }
-      )
-    }
-
     this.updateUrl = () => {
       const { articleDiscussionId, tab, focusId } = this.state
       const id =
@@ -199,11 +183,19 @@ class FeedbackPage extends Component {
           : undefined
       const focus = focusId ? encodeURIComponent(focusId) : undefined
       const t = tab || undefined
-      this.pushUrl({ id, t, focus })
+      Router.replaceRoute(
+        'feedback',
+        { id, t, focus },
+        { shallow: true }
+      )
     }
 
     this.clearUrl = () => {
-      this.pushUrl({})
+      Router.replaceRoute(
+        'feedback',
+        {},
+        { shallow: true }
+      )
     }
   }
 

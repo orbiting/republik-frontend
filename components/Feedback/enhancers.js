@@ -153,7 +153,7 @@ query getDiscussionDocumentMeta($id: ID!) {
 export const withActiveDiscussions = graphql(getActiveDiscussions, {
   options: props => ({
     variables: {
-      lastDays: props.lastDays || 7
+      lastDays: props.lastDays || 3
     }
   })
 })

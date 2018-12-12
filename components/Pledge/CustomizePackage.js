@@ -40,24 +40,24 @@ const absolutMinPrice = 100
 const calculateMinPrice = (pkg, values, userPrice) => {
   const minPrice = pkg.options.reduce(
     (price, option) => {
-      const amount = values[getOptionFieldKey(option)] !== undefined
-        ? values[getOptionFieldKey(option)]
+      const amountValue = values[getOptionFieldKey(option)]
+      const amount = amountValue !== undefined
+        ? amountValue
         : option.defaultAmount || option.minAmount
 
       // Price adopts to intervalCount
-      const intervalCount =
-        values[getOptionFieldKey(option) + '.interval'] ||
-        (option.reward && option.reward.defaultIntervalCount) ||
-        0
-
-      if (intervalCount > 0) {
-        return price + (option.price * intervalCount * amount)
-      }
+      const intervalValue = values[getOptionIntervalFieldKey(option)]
+      const intervalDefaultValue = option.reward && (option.reward.defaultIntervalCount || option.reward.minIntervalCount)
+      const intervalMultiplier = intervalValue !== undefined
+        ? intervalValue
+        : intervalDefaultValue !== undefined
+          ? intervalDefaultValue
+          : 1
 
       // Price adopts to amount
       return price + (option.userPrice && userPrice
         ? 0
-        : option.price * amount
+        : option.price * amount * intervalMultiplier
       )
     },
     0
@@ -108,7 +108,7 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
-export const getOptionIntervalFieldKey = option => getOptionFieldKey(option) + '.interval'
+export const getOptionIntervalFieldKey = option => `${getOptionFieldKey(option)}-interval`
 
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)

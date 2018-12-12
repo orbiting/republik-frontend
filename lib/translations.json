@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-04T16:37:18.797Z",
+  "updated": "2018-12-12T18:22:49.362Z",
   "title": "live",
   "data": [
     {
@@ -948,6 +948,14 @@
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/WAITING",
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+    },
+    {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING/",
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+    },
+    {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/PROJECT_R/WAITING",
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
@@ -1984,7 +1992,7 @@
     },
     {
       "key": "package/customize/userPrice/beforeReason",
-      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
+      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen gerecht scheint. "
     },
     {
       "key": "package/price",
@@ -2095,36 +2103,8 @@
       "value": "Tasche"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/label/other",
-      "value": "Mitgliedschaften"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/label/1",
-      "value": "Mitgliedschaft"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/label/1",
-      "value": "Jahr"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/label/other",
-      "value": "Jahre"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/1",
-      "value": "ein Jahr"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/other",
-      "value": "{count} Jahre"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
-      "value": "Monat"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
-      "value": "Monate"
+      "key": "option/ABO_GIVE_MONTHS/label",
+      "value": "Anzahl Abos"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
@@ -2135,36 +2115,20 @@
       "value": "{count} Monate"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/label/1",
-      "value": "Woche"
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
+      "value": "Monat pro Abo"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/label/other",
-      "value": "Wochen"
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
+      "value": "Monate pro Abo"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/1",
-      "value": "eine Woche"
+      "key": "package/customize/ABO_GIVE_MONTHS/years/1",
+      "value": "Verschenken Sie ein Jahr statt Monate"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/other",
-      "value": "{count} Wochen"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/label/1",
-      "value": "Tag"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/label/other",
-      "value": "Tage"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/1",
-      "value": "einen Tag"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/other",
-      "value": "{count} Tage"
+      "key": "package/customize/ABO_GIVE_MONTHS/years/other",
+      "value": "Verschenken Sie Jahre statt Monate"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
@@ -2915,12 +2879,16 @@
       "value": "mit {count} Bildern"
     },
     {
+      "key": "article/autodiscussionteaser/title",
+      "value": "Jetzt sind Sie am Zug!"
+    },
+    {
       "key": "article/autodiscussionteaser/text",
-      "value": "Haben Sie {link}  zu diesem Artikel?"
+      "value": "Was gefällt Ihnen an diesem Artikel? Was gäbe es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
     },
     {
       "key": "article/autodiscussionteaser/linktext",
-      "value": "Lob oder Kritik"
+      "value": "Reden Sie mit"
     },
     {
       "key": "merci/postpay/lead",
@@ -3355,12 +3323,48 @@
       "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {
-      "key": "feedback/autoArticle/selected/headline",
-      "value": "Debatte zu {link}"
+      "key": "pages/feedback/title",
+      "value": "Mitreden"
     },
     {
-      "key": "feedback/linkedArticle/selected/headline",
-      "value": "Debatte zu {link}"
+      "key": "feedback/lead",
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir gemeinsam über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+    },
+    {
+      "key": "feedback/general/button",
+      "value": "Allgemein"
+    },
+    {
+      "key": "feedback/article/button",
+      "value": "Artikel"
+    },
+    {
+      "key": "feedback/article/headline",
+      "value": "Zu welchem Artikel wollen Sie einen Beitrag schreiben oder lesen?"
+    },
+    {
+      "key": "feedback/activeDiscussions/label",
+      "value": "Aktive Diskussionen"
+    },
+    {
+      "key": "feedback/autoArticle/selected/headline",
+      "value": "Beiträge zum Artikel {link}"
+    },
+    {
+      "key": "feedback/latestComments/headline",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "feedback/articleSearch/label",
+      "value": "Suche"
+    },
+    {
+      "key": "feedback/articleSearch/empty",
+      "value": "Keine Ergebnisse"
+    },
+    {
+      "key": "feedback/articleItem/newPage/title",
+      "value": "Zur Debattenseite"
     },
     {
       "key": "tokenAuthorization/error",

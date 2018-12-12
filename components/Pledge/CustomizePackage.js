@@ -48,7 +48,7 @@ const calculateMinPrice = (pkg, values, userPrice) => {
       // Price adopts to periods
       const periodsValue = values[getOptionPeriodsFieldKey(option)]
       const periodsDefaultValue = option.reward && (option.reward.defaultPeriods || option.reward.minPeriods)
-      const intervalMultiplier = periodsValue !== undefined
+      const multiplier = periodsValue !== undefined
         ? periodsValue
         : periodsDefaultValue !== undefined
           ? periodsDefaultValue
@@ -57,7 +57,7 @@ const calculateMinPrice = (pkg, values, userPrice) => {
       // Price adopts to amount
       return price + (option.userPrice && userPrice
         ? 0
-        : option.price * amount * intervalMultiplier
+        : option.price * amount * multiplier
       )
     },
     0
@@ -108,20 +108,13 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
-export const getOptionPeriodsFieldKey = option => getOptionFieldKey(option) + '-periods'
+export const getOptionPeriodsFieldKey = option => `${getOptionFieldKey(option)}-periods`
 
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)
   return values[fieldKey] === undefined
     ? option.defaultAmount
     : values[fieldKey]
-}
-
-const getOptionPeriods = (option, values) => {
-  const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
-  return values[fieldKeyPeriods] === undefined
-    ? option.reward.defaultPeriods
-    : values[fieldKeyPeriods]
 }
 
 const GUTTER = 42
@@ -287,10 +280,33 @@ class CustomizePackage extends Component {
     } = this.props
 
     const price = getPrice(this.props)
-    const configurableOptions = pkg.options
-      .filter(option => (
-        option.minAmount !== option.maxAmount
-      ))
+    const configurableFields = pkg.options
+      .reduce(
+        (fields, option) => {
+          if (option.minAmount !== option.maxAmount) {
+            fields.push({
+              option,
+              key: getOptionFieldKey(option),
+              min: option.minAmount,
+              max: option.maxAmount,
+              default: option.defaultAmount
+            })
+          }
+          if (option.reward && option.reward.__typename === 'MembershipType' &&
+            option.reward.minPeriods - option.reward.maxPeriods !== 0) {
+            fields.push({
+              option,
+              key: getOptionPeriodsFieldKey(option),
+              min: option.reward.minPeriods,
+              max: option.reward.maxPeriods,
+              default: option.reward.defaultPeriods,
+              interval: option.reward.interval
+            })
+          }
+          return fields
+        },
+        []
+      )
 
     const minPrice = calculateMinPrice(pkg, values, userPrice)
     const regularMinPrice = calculateMinPrice(pkg, values, false)
@@ -355,7 +371,7 @@ class CustomizePackage extends Component {
           return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100 * value
         })
     )
-    const payMoreSuggestions = pkg.name === 'DONATE' ? [] : [
+    const payMoreSuggestions = pkg.name === 'DONATE' || pkg.name === 'ABO_GIVE_MONTHS' ? [] : [
       userPrice && { value: regularMinPrice, key: 'normal' },
       !userPrice && price >= minPrice && bonusValue &&
         { value: minPrice + bonusValue, key: 'bonus' },
@@ -377,18 +393,21 @@ class CustomizePackage extends Component {
     const offerCancelMembership = ownMembershipOption && ownMembershipOption.membership
 
     const optionGroups = nest()
-      .key(d => d.optionGroup
-        ? d.optionGroup
+      .key(d => d.option.optionGroup
+        ? d.option.optionGroup
         : '')
-      .entries(configurableOptions)
-      .map(({ key: group, values: options }) => {
+      .entries(configurableFields)
+      .map(({ key: group, values: fields }) => {
+        const options = fields
+          .map(field => field.option)
+          .filter((o, i, a) => a.indexOf(o) === i)
         const selectedGroupOption = group && options.find(option => {
           return getOptionValue(option, values)
         })
         const baseOption = selectedGroupOption || options[0]
         const { membership, additionalPeriods } = baseOption
         const checkboxGroup = (
-          group && options.length === 1 &&
+          group && fields.length === 1 &&
           baseOption.minAmount === 0 &&
           baseOption.maxAmount === 1
         )
@@ -398,13 +417,14 @@ class CustomizePackage extends Component {
           group,
           checkboxGroup,
           options,
+          fields,
           selectedGroupOption,
           membership,
           isAboGive,
           additionalPeriods
         }
       })
-    const multipleThings = configurableOptions.length && (
+    const multipleThings = configurableFields.length && (
       optionGroups.length > 1 ||
       !optionGroups[0].group
     )
@@ -446,6 +466,7 @@ class CustomizePackage extends Component {
           optionGroups.map(({
             group,
             checkboxGroup,
+            fields,
             options,
             selectedGroupOption,
             membership,
@@ -510,13 +531,25 @@ class CustomizePackage extends Component {
                   compact />}
                 <div {...styles[group ? 'group' : 'grid']}>
                   {
-                    options.map((option, i) => {
-                      const fieldKey = getOptionFieldKey(option)
-                      const value = getOptionValue(option, values)
+                    fields.map((field, i) => {
+                      const option = field.option
+                      const fieldKey = field.key
+                      const elementKey = [option.id, fieldKey].join('-')
+                      const value = values[fieldKey] === undefined
+                        ? field.default
+                        : values[fieldKey]
                       const label = t.first([
                         ...(isAboGive ? [
                           `option/${pkg.name}/${option.reward.name}/label/give`,
                           `option/${option.reward.name}/label/give`
+                        ] : []),
+                        ...(field.interval ? [
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
+                          `option/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                          `option/${option.reward.name}/interval/${field.interval}/label/other`,
+                          `option/${option.reward.name}/interval/${field.interval}/label`
                         ] : []),
                         `option/${pkg.name}/${option.reward.name}/label/${value}`,
                         `option/${pkg.name}/${option.reward.name}/label/other`,
@@ -528,34 +561,22 @@ class CustomizePackage extends Component {
                         count: value
                       })
 
-                      const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
-                      const periods = getOptionPeriods(option, values)
-                      const interval = option.reward.interval
-                      const labelPeriods = t.first([
-                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${periods}`,
-                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/other`,
-                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label`,
-                        `option/${option.reward.name}/interval/${interval}/label/${periods}`,
-                        `option/${option.reward.name}/interval/${interval}/label/other`,
-                        `option/${option.reward.name}/interval/${interval}/label`
-                      ])
-
                       const onFieldChange = (_, value, shouldValidate) => {
                         let error
                         const parsedValue = String(value).length
                           ? parseInt(value, 10) || 0
                           : ''
 
-                        if (parsedValue > option.maxAmount) {
+                        if (parsedValue > field.max) {
                           error = t('package/customize/option/error/max', {
                             label,
-                            maxAmount: option.maxAmount
+                            maxAmount: field.max
                           })
                         }
-                        if (parsedValue < option.minAmount) {
+                        if (parsedValue < field.min) {
                           error = t('package/customize/option/error/min', {
                             label,
-                            minAmount: option.minAmount
+                            minAmount: field.min
                           })
                         }
 
@@ -582,50 +603,7 @@ class CustomizePackage extends Component {
                         onChange(this.calculateNextPrice(fields))
                       }
 
-                      const onFieldIntervalChange = (_, interval, shouldValidate) => {
-                        let error
-                        const parsedInterval = String(interval).length
-                          ? parseInt(interval, 10) || 0
-                          : ''
-
-                        if (parsedInterval > option.reward.maxPeriods) {
-                          error = t('package/customize/option/error/max', {
-                            label: labelPeriods,
-                            maxAmount: option.reward.maxPeriods
-                          })
-                        }
-                        if (parsedInterval < option.reward.minPeriods) {
-                          error = t('package/customize/option/error/min', {
-                            label: labelPeriods,
-                            minAmount: option.reward.minPeriods
-                          })
-                        }
-
-                        let fields = FieldSet.utils.fieldsState({
-                          field: fieldKeyPeriods,
-                          value: parsedInterval,
-                          error,
-                          dirty: shouldValidate
-                        })
-                        /*
-                        if (group) {
-                          // unselect all other options from group
-                          options.filter(other => other !== option).forEach(other => {
-                            fields = FieldSet.utils.mergeField({
-                              field: getOptionFieldKey(other),
-                              value: 0,
-                              error: undefined,
-                              dirty: false
-                            })(fields)
-                          })
-                        } */
-                        if (parsedInterval && userPrice && !option.userPrice) {
-                          this.resetUserPrice()
-                        }
-                        onChange(this.calculateNextPrice(fields))
-                      }
-
-                      if (group && option.minAmount === 0 && option.maxAmount === 1) {
+                      if (group && field.min === 0 && field.max === 1) {
                         const children = (
                           <span style={{
                             display: 'inline-block',
@@ -645,7 +623,7 @@ class CustomizePackage extends Component {
                         )
                         if (checkboxGroup) {
                           return <Checkbox
-                            key={option.id}
+                            key={elementKey}
                             checked={!!value}
                             onChange={(_, checked) => {
                               onFieldChange(undefined, +checked, dirty[fieldKey])
@@ -653,7 +631,7 @@ class CustomizePackage extends Component {
                             {children}
                           </Checkbox>
                         }
-                        return <Fragment key={option.id}>
+                        return <Fragment key={elementKey}>
                           <span style={{
                             display: 'inline-block',
                             whiteSpace: 'nowrap',
@@ -672,8 +650,8 @@ class CustomizePackage extends Component {
                       }
 
                       return (
-                        <div key={option.id} {...styles.span} style={{
-                          width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
+                        <div key={elementKey} {...styles.span} style={{
+                          width: configurableFields.length === 1 || (configurableFields.length === 3 && i === 0)
                             ? '100%' : '50%'
                         }}>
                           <div style={{ marginBottom: 20 }}>
@@ -682,47 +660,14 @@ class CustomizePackage extends Component {
                               label={label}
                               error={dirty[fieldKey] && errors[fieldKey]}
                               value={value}
-                              onInc={value < option.maxAmount && (() => {
+                              onInc={value < field.max && (() => {
                                 onFieldChange(undefined, value + 1, dirty[fieldKey])
                               })}
-                              onDec={value > option.minAmount && (() => {
+                              onDec={value > field.min && (() => {
                                 onFieldChange(undefined, value - 1, dirty[fieldKey])
                               })}
                               onChange={onFieldChange}
                             />
-                            {
-                              option.reward.maxPeriods - option.reward.minPeriods > 0 &&
-                              <Fragment>
-                                <Field
-                                  label={labelPeriods}
-                                  error={dirty[fieldKeyPeriods] && errors[fieldKeyPeriods]}
-                                  value={periods}
-                                  onInc={periods < option.reward.maxPeriods && (() => {
-                                    onFieldIntervalChange(
-                                      undefined,
-                                      periods + 1,
-                                      dirty[fieldKeyPeriods]
-                                    )
-                                  })}
-                                  onDec={periods > option.reward.minPeriods && (() => {
-                                    onFieldIntervalChange(
-                                      undefined,
-                                      periods - 1,
-                                      dirty[fieldKeyPeriods]
-                                    )
-                                  })}
-                                  onChange={onFieldIntervalChange}
-                                />
-                                { periods >= option.reward.maxPeriods &&
-                                  <Fragment>{
-                                    t.elements(
-                                      `option/${option.reward.name}/periods/notice/reachedMax`,
-                                      { link: <Link key={`goodie-${option.reward.name}`} route='pledge' params={{ package: 'ABO_GIVE' }} passHref>{t('package/ABO_GIVE/title')}</Link> }
-                                    )
-                                  }</Fragment>
-                                }
-                              </Fragment>
-                            }
                           </div>
                         </div>
                       )
@@ -783,8 +728,10 @@ class CustomizePackage extends Component {
           })
         }
         { hasGoodies &&
-          <div style={{ marginBottom: 20 }}>
-            {t('pledge/notice/goodies/delivery')}
+          <div style={{ position: 'relative', top: -20 }}>
+            <Label>
+              {t('pledge/notice/goodies/delivery')}
+            </Label>
           </div>
         }
         {!!userPrice && (<div>
@@ -823,7 +770,7 @@ class CustomizePackage extends Component {
               {price / 100}
             </Interaction.P>
             : <Field label={t(`package/customize/price/label${multipleThings ? '/total' : ''}`)}
-              ref={(configurableOptions.length || userPrice)
+              ref={(configurableFields.length || userPrice)
                 ? undefined : this.focusRefSetter}
               error={dirty.price && errors.price}
               value={price / 100}
@@ -867,6 +814,40 @@ class CustomizePackage extends Component {
                 </Interaction.Emphasis>
               </div>}
             </Fragment>}
+            {pkg.name === 'ABO_GIVE_MONTHS' &&
+              <Fragment>
+                <Interaction.Emphasis>
+                  {t('package/customize/price/payMore')}
+                </Interaction.Emphasis>
+                <ul {...styles.ul}>
+                  <li><Editorial.A
+                    href={format({
+                      pathname: '/angebote',
+                      query: { ...router.query, package: 'ABO_GIVE' }
+                    })}
+                    onClick={(e) => {
+                      if (shouldIgnoreClick(e)) {
+                        return
+                      }
+                      e.preventDefault()
+                      this.resetPrice()
+
+                      Router.replaceRoute(
+                        'pledge',
+                        { ...router.query, package: 'ABO_GIVE' },
+                        { shallow: true }
+                      )
+                    }}>
+                    {t.pluralize('package/customize/ABO_GIVE_MONTHS/years', {
+                      count: getOptionValue(
+                        pkg.options.find(option => option.reward && option.reward.__typename === 'MembershipType'),
+                        values
+                      )
+                    })}
+                  </Editorial.A></li>
+                </ul>
+              </Fragment>
+            }
             {offerUserPrice &&
               <Fragment>
                 <Editorial.A

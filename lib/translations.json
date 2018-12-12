@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-12T23:24:07.146Z",
+  "updated": "2018-12-12T23:38:17.445Z",
   "title": "live",
   "data": [
     {
@@ -951,7 +951,7 @@
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
-      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING/",
+      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING",
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
@@ -971,7 +971,7 @@
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
-      "key": "account/pledges/ABO_GIVE/promo",
+      "key": "account/pledges/promo",
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
@@ -4003,11 +4003,11 @@
       "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
     },
     {
-      "key": "pledge/option/ABO_GIVE_MONTHS/interval/month/periods/1",
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
       "value": "einen Monat"
     },
     {
-      "key": "pledge/option/ABO_GIVE_MONTHS/interval/month/periods/other",
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
       "value": "{count} Monate"
     },
     {

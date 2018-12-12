@@ -75,6 +75,11 @@ query myBelongings {
       id
       package {
         name
+        group
+        company {
+          id
+          name
+        }
       }
       options {
         templateId

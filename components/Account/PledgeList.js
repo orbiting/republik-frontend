@@ -112,6 +112,7 @@ class PledgeList extends Component {
                     )}
                     <RawHtml dangerouslySetInnerHTML={{
                       __html: t.first([
+                        `account/pledges/payment/status/${payment.method}/${pledge.package.company.name}/${payment.status}`,
                         `account/pledges/payment/status/${payment.method}/${payment.status}`,
                         `account/pledges/payment/status/generic/${payment.status}`
                       ], {
@@ -126,14 +127,14 @@ class PledgeList extends Component {
             </List>
             <GiveMemberships
               memberships={pledge.memberships}
-              isGivePackage={['ABO_GIVE', 'ABO_GIVE_MONTHS'].includes(pledge.package.name)} />
+              isGivePackage={pledge.package.group === 'GIVE'} />
           </AccountItem>
         )
       })}
       <div style={{ marginTop: 30 }}>
-        <Link route='pledge' params={{ package: 'ABO_GIVE' }}>
+        <Link route='pledge' params={{ group: 'GIVE' }}>
           <a {...linkRule}>
-            {t('account/pledges/ABO_GIVE/promo')}
+            {t('account/pledges/promo')}
           </a>
         </Link>
       </div>

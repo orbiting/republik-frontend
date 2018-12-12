@@ -40,24 +40,24 @@ const absolutMinPrice = 100
 const calculateMinPrice = (pkg, values, userPrice) => {
   const minPrice = pkg.options.reduce(
     (price, option) => {
-      const amount = values[getOptionFieldKey(option)] !== undefined
-        ? values[getOptionFieldKey(option)]
+      const amountValue = values[getOptionFieldKey(option)]
+      const amount = amountValue !== undefined
+        ? amountValue
         : option.defaultAmount || option.minAmount
 
       // Price adopts to periods
-      const periods =
-        values[getOptionPeriodsFieldKey(option)] ||
-        (option.reward && option.reward.defaultPeriods) ||
-        0
-
-      if (periods > 0) {
-        return price + (option.price * periods * amount)
-      }
+      const periodsValue = values[getOptionPeriodsFieldKey(option)]
+      const periodsDefaultValue = option.reward && (option.reward.defaultPeriods || option.reward.minPeriods)
+      const intervalMultiplier = periodsValue !== undefined
+        ? periodsValue
+        : periodsDefaultValue !== undefined
+          ? periodsDefaultValue
+          : 1
 
       // Price adopts to amount
       return price + (option.userPrice && userPrice
         ? 0
-        : option.price * amount
+        : option.price * amount * intervalMultiplier
       )
     },
     0
@@ -108,7 +108,7 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
-export const getOptionPeriodsFieldKey = option => getOptionFieldKey(option) + '.periods'
+export const getOptionPeriodsFieldKey = option => getOptionFieldKey(option) + '-periods'
 
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)

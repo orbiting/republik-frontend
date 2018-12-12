@@ -316,7 +316,7 @@ class FeedbackPage extends Component {
               sharePath={asPath}
             />
           )}
-          {!selectedDiscussionId && (
+          {!tab && (
             <Fragment>
               <div {...styles.selectedHeadline}>
                 <Interaction.H3>

@@ -90,8 +90,8 @@ class PledgeList extends Component {
                       endDateSuffix: endDate ? t('option/suffix/endDate', {
                         formattedEndDate: dayFormat(new Date(endDate))
                       }) : '',
-                      interval: option.reward && option.reward.interval &&
-                        t.pluralize(`option/${option.reward.name}/interval/${option.reward.interval}/count`, { count: option.intervalCount })
+                      periods: option.reward && option.reward.interval &&
+                        t.pluralize(`option/${option.reward.name}/interval/${option.reward.interval}/periods`, { count: option.periods })
                     })}
                   </Item>
                 )

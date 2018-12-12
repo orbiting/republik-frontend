@@ -90,7 +90,7 @@ query myBelongings {
         minAmount
         maxAmount
         amount
-        intervalCount
+        periods
         price
         membership {
           id

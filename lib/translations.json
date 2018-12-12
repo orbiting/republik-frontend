@@ -1999,10 +1999,6 @@
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
     },
     {
-      "key": "package/DONATE/description/short",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen."
-    },
-    {
       "key": "package/ABO/price",
       "value": "{formattedCHF} pro Jahr"
     },
@@ -2032,7 +2028,7 @@
     },
     {
       "key": "package/ABO_GIVE_MONTHS/price",
-      "value": "{formattedCHF} pro Jahr"
+      "value": "{formattedCHF} pro Monat"
     },
     {
       "key": "package/ABO_GIVE_MONTHS/title",
@@ -2115,11 +2111,11 @@
       "value": "Jahre"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/count/1",
+      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/1",
       "value": "ein Jahr"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/count/other",
+      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/other",
       "value": "{count} Jahre"
     },
     {
@@ -2131,11 +2127,11 @@
       "value": "Monate"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/count/1",
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
       "value": "einen Monat"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/count/other",
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
       "value": "{count} Monate"
     },
     {
@@ -2147,11 +2143,11 @@
       "value": "Wochen"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/count/1",
+      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/1",
       "value": "eine Woche"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/count/other",
+      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/other",
       "value": "{count} Wochen"
     },
     {
@@ -2163,16 +2159,16 @@
       "value": "Tage"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/1",
+      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/1",
       "value": "einen Tag"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/other",
+      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/other",
       "value": "{count} Tage"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/notice/reachedMaxIntervalCount",
-      "value": "Vielleicht passt dieses Päckli besser? {link}"
+      "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
+      "value": "Ab zehn Monaten lohnt sich ein Jahres-Abo: {link}"
     },
     {
       "key": "payment/title",
@@ -2536,7 +2532,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Artikel wie Notizbücher oder Taschen liefern wir innerhalb von 10 Werktagen."
+      "value": "Hinweis: Artikel wie Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "shareholder/pageTitle",
@@ -3016,15 +3012,15 @@
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/lead/package/ABO_GIVE_MONTHS",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/action/read",
@@ -3988,11 +3984,11 @@
     },
     {
       "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/1",
-      "value": "Monats-Abo als Geschenk für {interval}"
+      "value": "Monats-Abo als Geschenk für {periods}"
     },
     {
       "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/other",
-      "value": "Monats-Abos als Geschenk für {interval}"
+      "value": "Monats-Abos als Geschenk für {periods}"
     },
     {
       "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",

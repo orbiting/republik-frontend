@@ -27,7 +27,7 @@ import {
 
 import Accordion from './Accordion'
 import Submit from './Submit'
-import CustomizePackage, { getOptionFieldKey, getOptionIntervalFieldKey } from './CustomizePackage'
+import CustomizePackage, { getOptionFieldKey, getOptionPeriodsFieldKey } from './CustomizePackage'
 
 const { H1, H2, P } = Interaction
 
@@ -96,15 +96,15 @@ class Pledge extends Component {
       },
       options: pkg ? pkg.options.map(option => {
         const fieldKey = getOptionFieldKey(option)
-        const intervalFieldKey = getOptionIntervalFieldKey(option)
+        const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
 
         return {
           amount: values[fieldKey] === undefined
             ? option.defaultAmount
             : values[fieldKey],
-          intervalCount: values[intervalFieldKey] !== undefined
-            ? values[intervalFieldKey]
-            : option.reward && option.reward.defaultIntervalCount,
+          periods: values[fieldKeyPeriods] !== undefined
+            ? values[fieldKeyPeriods]
+            : option.reward && option.reward.defaultPeriods,
           price: option.price,
           templateId: option.templateId,
           membershipId: option.membership
@@ -456,10 +456,9 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
             id
             name
             interval
-            minIntervalCount
-            maxIntervalCount
-            defaultIntervalCount
-            intervalStepCount
+            minPeriods
+            maxPeriods
+            defaultPeriods
           }
           ... on Goodie {
             id

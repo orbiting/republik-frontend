@@ -44,14 +44,14 @@ const calculateMinPrice = (pkg, values, userPrice) => {
         ? values[getOptionFieldKey(option)]
         : option.defaultAmount || option.minAmount
 
-      // Price adopts to intervalCount
-      const intervalCount =
-        values[getOptionFieldKey(option) + '.interval'] ||
-        (option.reward && option.reward.defaultIntervalCount) ||
+      // Price adopts to periods
+      const periods =
+        values[getOptionPeriodsFieldKey(option)] ||
+        (option.reward && option.reward.defaultPeriods) ||
         0
 
-      if (intervalCount > 0) {
-        return price + (option.price * intervalCount * amount)
+      if (periods > 0) {
+        return price + (option.price * periods * amount)
       }
 
       // Price adopts to amount
@@ -108,7 +108,7 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
-export const getOptionIntervalFieldKey = option => getOptionFieldKey(option) + '.interval'
+export const getOptionPeriodsFieldKey = option => getOptionFieldKey(option) + '.periods'
 
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)
@@ -117,11 +117,11 @@ const getOptionValue = (option, values) => {
     : values[fieldKey]
 }
 
-const getOptionInterval = (option, values) => {
-  const fieldKeyInterval = getOptionIntervalFieldKey(option)
-  return values[fieldKeyInterval] === undefined
-    ? option.reward.defaultIntervalCount
-    : values[fieldKeyInterval]
+const getOptionPeriods = (option, values) => {
+  const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
+  return values[fieldKeyPeriods] === undefined
+    ? option.reward.defaultPeriods
+    : values[fieldKeyPeriods]
 }
 
 const GUTTER = 42
@@ -528,14 +528,14 @@ class CustomizePackage extends Component {
                         count: value
                       })
 
-                      const fieldKeyInterval = getOptionIntervalFieldKey(option)
-                      const intervalCount = getOptionInterval(option, values)
+                      const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
+                      const periods = getOptionPeriods(option, values)
                       const interval = option.reward.interval
-                      const labelInterval = t.first([
-                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${intervalCount}`,
+                      const labelPeriods = t.first([
+                        `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/${periods}`,
                         `option/${pkg.name}/${option.reward.name}/interval/${interval}/label/other`,
                         `option/${pkg.name}/${option.reward.name}/interval/${interval}/label`,
-                        `option/${option.reward.name}/interval/${interval}/label/${intervalCount}`,
+                        `option/${option.reward.name}/interval/${interval}/label/${periods}`,
                         `option/${option.reward.name}/interval/${interval}/label/other`,
                         `option/${option.reward.name}/interval/${interval}/label`
                       ])
@@ -588,35 +588,21 @@ class CustomizePackage extends Component {
                           ? parseInt(interval, 10) || 0
                           : ''
 
-                        if (parsedInterval > option.reward.maxIntervalCount) {
+                        if (parsedInterval > option.reward.maxPeriods) {
                           error = t('package/customize/option/error/max', {
-                            label: labelInterval,
-                            maxAmount: option.reward.maxIntervalCount
+                            label: labelPeriods,
+                            maxAmount: option.reward.maxPeriods
                           })
                         }
-                        if (parsedInterval < option.reward.minIntervalCount) {
+                        if (parsedInterval < option.reward.minPeriods) {
                           error = t('package/customize/option/error/min', {
-                            label: labelInterval,
-                            minAmount: option.reward.minIntervalCount
-                          })
-                        }
-
-                        if (parsedInterval % option.reward.intervalStepCount > 0) {
-                          const potentialValue = parsedInterval - (parsedInterval % option.reward.intervalStepCount) + option.reward.intervalStepCount
-
-                          const suggestedValue =
-                            potentialValue <= option.reward.maxIntervalCount
-                              ? potentialValue
-                              : option.reward.maxIntervalCount
-
-                          error = t('package/customize/option/error/step', {
-                            label: labelInterval,
-                            suggestedValue
+                            label: labelPeriods,
+                            minAmount: option.reward.minPeriods
                           })
                         }
 
                         let fields = FieldSet.utils.fieldsState({
-                          field: fieldKeyInterval,
+                          field: fieldKeyPeriods,
                           value: parsedInterval,
                           error,
                           dirty: shouldValidate
@@ -705,36 +691,32 @@ class CustomizePackage extends Component {
                               onChange={onFieldChange}
                             />
                             {
-                              option.reward.maxIntervalCount - option.reward.minIntervalCount > 0 &&
+                              option.reward.maxPeriods - option.reward.minPeriods > 0 &&
                               <Fragment>
                                 <Field
-                                  label={labelInterval}
-                                  error={dirty[fieldKeyInterval] && errors[fieldKeyInterval]}
-                                  value={intervalCount}
-                                  onInc={intervalCount < option.reward.maxIntervalCount && (() => {
+                                  label={labelPeriods}
+                                  error={dirty[fieldKeyPeriods] && errors[fieldKeyPeriods]}
+                                  value={periods}
+                                  onInc={periods < option.reward.maxPeriods && (() => {
                                     onFieldIntervalChange(
                                       undefined,
-                                      intervalCount % option.reward.intervalStepCount > 0
-                                        ? intervalCount - (intervalCount % option.reward.intervalStepCount) + option.reward.intervalStepCount
-                                        : intervalCount + option.reward.intervalStepCount,
-                                      dirty[fieldKeyInterval]
+                                      periods + 1,
+                                      dirty[fieldKeyPeriods]
                                     )
                                   })}
-                                  onDec={intervalCount > option.reward.minIntervalCount && (() => {
+                                  onDec={periods > option.reward.minPeriods && (() => {
                                     onFieldIntervalChange(
                                       undefined,
-                                      intervalCount % option.reward.intervalStepCount > 0
-                                        ? intervalCount - (intervalCount % option.reward.intervalStepCount)
-                                        : intervalCount - option.reward.intervalStepCount,
-                                      dirty[fieldKeyInterval]
+                                      periods - 1,
+                                      dirty[fieldKeyPeriods]
                                     )
                                   })}
                                   onChange={onFieldIntervalChange}
                                 />
-                                { intervalCount >= option.reward.maxIntervalCount &&
+                                { periods >= option.reward.maxPeriods &&
                                   <Fragment>{
                                     t.elements(
-                                      `option/${option.reward.name}/interval/notice/reachedMaxIntervalCount`,
+                                      `option/${option.reward.name}/periods/notice/reachedMax`,
                                       { link: <Link key={`goodie-${option.reward.name}`} route='pledge' params={{ package: 'ABO_GIVE' }} passHref>{t('package/ABO_GIVE/title')}</Link> }
                                     )
                                   }</Fragment>

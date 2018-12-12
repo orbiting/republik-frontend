@@ -7,7 +7,11 @@ import {
   CDN_FRONTEND_BASE_URL,
   GENERAL_FEEDBACK_DISCUSSION_ID
 } from '../../lib/constants'
-import { ZINDEX_CONTENT } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  ZINDEX_CONTENT
+} from '../constants'
 
 import Frame from '../Frame'
 
@@ -155,6 +159,7 @@ class FeedbackPage extends Component {
     }
 
     this.handleResize = () => {
+      console.log('resize')
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
         this.setState({ isMobile })
@@ -190,18 +195,36 @@ class FeedbackPage extends Component {
       )
     }
 
-    this.clearUrl = () => {
-      Router.replaceRoute(
-        'discussion',
-        {},
-        { shallow: true }
-      )
+    this.setArticleRef = ref => {
+      this.articleRef = ref
+    }
+
+    this.scrollToArticleDiscussion = () => {
+      const { tab, articleDiscussionId, focusId } = this.state
+      if (!focusId && this.articleRef && tab === 'article' && articleDiscussionId) {
+        const headerHeight = window.innerWidth < mediaQueries.mBreakPoint
+          ? HEADER_HEIGHT_MOBILE
+          : HEADER_HEIGHT
+        setTimeout(() => {
+          const { top } = this.articleRef.getBoundingClientRect()
+          window.scrollTo({
+            top: top - headerHeight - 20,
+            left: 0,
+            behavior: 'smooth'
+          })
+        }, 100)
+      }
     }
   }
 
   componentDidMount () {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    this.scrollToArticleDiscussion()
+  }
+
+  componentDidUpdate () {
+    this.scrollToArticleDiscussion()
   }
 
   componentWillUnmount () {
@@ -280,7 +303,7 @@ class FeedbackPage extends Component {
                 onReset={this.onReset}
               />
 
-              {!linkedDiscussion && <div {...styles.selectedHeadline}>
+              {!linkedDiscussion && <div {...styles.selectedHeadline} ref={this.setArticleRef}>
                 <ArticleDiscussionHeadline meta={meta} discussionId={articleDiscussionId} />
               </div>}
             </Fragment>

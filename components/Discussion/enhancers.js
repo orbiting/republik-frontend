@@ -268,6 +268,22 @@ query discussion($discussionId: ID!, $parentId: ID, $after: String, $orderBy: Di
     }
     userWaitUntil
     path
+    document {
+      id
+      meta {
+        path
+        template
+        ownDiscussion {
+          id
+          closed
+        }
+        linkedDiscussion {
+          id
+          path
+          closed
+        }
+      }
+    }
     collapsable
     tagRequired
     tags

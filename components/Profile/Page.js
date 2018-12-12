@@ -180,10 +180,33 @@ const getPublicUser = gql`
         nodes {
           id
           content
+          preview(length:210) {
+            string
+            more
+          }
+          tags
           discussion {
             id
             title
             path
+            document {
+              id
+              meta {
+                title
+                path
+                credits
+                template
+                ownDiscussion {
+                  id
+                  closed
+                }
+                linkedDiscussion {
+                  id
+                  path
+                  closed
+                }
+              }
+            }
           }
           createdAt
         }

@@ -2,14 +2,14 @@ import React from 'react'
 import { CommentTeaser, Interaction } from '@project-r/styleguide'
 import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
-
-const timeagoFromNow = (t, createdAtString) => {
-  return timeago(t, (Date.now() - Date.parse(createdAtString)) / 1000)
-}
+import { CommentLink } from '../Feedback/LatestComments'
 
 const Comments = ({ t, comments }) => {
   if (!comments || !comments.totalCount) {
     return null
+  }
+  const timeagoFromNow = createdAtString => {
+    return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
   }
   return (
     <div>
@@ -20,14 +20,20 @@ const Comments = ({ t, comments }) => {
       </Interaction.H3>
       {comments.nodes.filter(comment => comment.content).map((comment) => {
         const discussion = comment.discussion || {}
-        const commentUrl = discussion.path && `${discussion.path}${discussion.path.indexOf('?') === -1 ? '?' : '&'}focus=${comment.id}`
+        const context = {
+          title: discussion.title
+        }
         return (
           <CommentTeaser
             key={comment.id}
-            title={discussion.title}
-            content={comment.content}
-            timeago={timeagoFromNow(t, comment.createdAt)}
-            commentUrl={commentUrl}
+            id={comment.id}
+            context={context}
+            preview={comment.preview}
+            createdAt={comment.createdAt}
+            tags={comment.tags}
+            discussion={discussion}
+            timeago={timeagoFromNow}
+            Link={CommentLink}
             t={t}
           />
         )

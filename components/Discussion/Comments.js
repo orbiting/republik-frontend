@@ -20,7 +20,7 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
@@ -230,16 +230,31 @@ class Comments extends PureComponent {
         </Link>
       }
       if (commentId) {
+        if (
+          discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID ||
+          (discussion.document &&
+            discussion.document.meta &&
+            discussion.document.meta.template === 'article' &&
+            discussion.document.meta.ownDiscussion &&
+            !discussion.document.meta.ownDiscussion.closed)
+        ) {
+          return (
+            <Link
+              route='discussion'
+              params={{ id: discussion.id, focus: commentId }}
+              {...props}
+            >
+              {children}
+            </Link>
+          )
+        }
         if (discussion.path) {
           const documentPathObject = parse(discussion.path, true)
 
-          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
+          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId, test: 1 }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
-        return <Link route='discussion' params={{ id: discussion.id, focus: commentId }} {...props}>
-          {children}
-        </Link>
       }
       return children
     }

@@ -2,14 +2,15 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
+import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 
+import { CommentLink } from '../Feedback/LatestComments'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
 import Filter from './Filter'
 import Sort from './Sort'
-import CommentTeaser from './CommentTeaser'
 import UserTeaser from './UserTeaser'
 
 import { withAggregations, withResults } from './enhancers'
@@ -19,6 +20,7 @@ import {
   fontStyles,
   linkRule,
   mediaQueries,
+  CommentTeaser,
   RawHtml,
   TeaserFeed
 } from '@project-r/styleguide'
@@ -217,6 +219,10 @@ class Results extends Component {
     const { minHeight } = this.state
     const keepCachedAggregations = preloadedTotalCount !== 0 && preloadedAggregations !== null
 
+    const timeagoFromNow = createdAtString => {
+      return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
+    }
+
     return (
       <div {...styles.container}>
         {resultsOutdated && !keepCachedAggregations && (
@@ -376,7 +382,12 @@ class Results extends Component {
                             {node.entity.__typename === 'Comment' && (
                               <CommentTeaser
                                 {...node.entity}
+                                context={{
+                                  title: node.entity.discussion.title
+                                }}
                                 highlights={node.highlights}
+                                timeago={timeagoFromNow}
+                                Link={CommentLink}
                                 t={t}
                               />
                             )}

@@ -91,7 +91,10 @@ class PledgeList extends Component {
                         formattedEndDate: dayFormat(new Date(endDate))
                       }) : '',
                       periods: option.reward && option.reward.interval &&
-                        t.pluralize(`option/${option.reward.name}/interval/${option.reward.interval}/periods`, { count: option.periods })
+                        t.pluralize(
+                          `option/${option.reward.name}/interval/${option.reward.interval}/periods`,
+                          { count: option.periods }
+                        )
                     })}
                   </Item>
                 )

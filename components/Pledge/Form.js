@@ -217,12 +217,7 @@ class Pledge extends Component {
       loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
-    const pkgsFilter = query.packages && query.packages.split(',').map(pkg => pkg.toUpperCase())
-
-    const filteredPkgs = pkgsFilter
-      ? packages.filter(pkg => pkgsFilter.includes(pkg.name))
-      : packages
-
+    const packageGroup = query.group
     const queryPackage = query.package && query.package.toUpperCase()
     const pkg = this.getPkg()
 
@@ -325,15 +320,14 @@ class Pledge extends Component {
                     customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}
-                    pkgsFilter={pkgsFilter}
                     onChange={(fields) => {
                       this.setState(FieldSet.utils.mergeFields(fields))
                     }} />
                 ) : (
                   <Accordion
                     crowdfundingName={crowdfundingName}
-                    packages={filteredPkgs}
-                    pkgsFilter={pkgsFilter}
+                    packages={packages}
+                    group={packageGroup}
                     extended />
                 )}
               </div>
@@ -469,6 +463,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     packages {
       id
       name
+      group
       paymentMethods
       options {
         id
@@ -515,6 +510,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     customPackages {
       id
       name
+      group
       paymentMethods
       options {
         id

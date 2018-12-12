@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-12T18:42:25.470Z",
+  "updated": "2018-12-12T23:24:07.146Z",
   "title": "live",
   "data": [
     {
@@ -2075,8 +2075,12 @@
       "value": "Auswählen"
     },
     {
-      "key": "package/pkgsFilter/showAll",
-      "value": "Sie interessieren sich für andere Angebote?"
+      "key": "package/group/ME",
+      "value": "Für mich"
+    },
+    {
+      "key": "package/group/GIVE",
+      "value": "Geschenke"
     },
     {
       "key": "option/ABO/label/other",
@@ -2113,14 +2117,6 @@
     {
       "key": "option/ABO_GIVE_MONTHS/label",
       "value": "Anzahl Abos"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
-      "value": "einen Monat"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
-      "value": "{count} Monate"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
@@ -4005,6 +4001,14 @@
     {
       "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",
       "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/interval/month/periods/1",
+      "value": "einen Monat"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/interval/month/periods/other",
+      "value": "{count} Monate"
     },
     {
       "key": "option/suffix/endDate",

@@ -281,7 +281,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, pkgsFilter, userPrice, customMe, router,
+      t, pkg, userPrice, customMe, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -447,7 +447,7 @@ class CustomizePackage extends Component {
             this.resetPrice()
             Router.replaceRoute(
               'pledge',
-              { packages: pkgsFilter && pkgsFilter.join(',') },
+              pkg.group ? { group: pkg.group } : undefined,
               { shallow: true }
             )
           }}>

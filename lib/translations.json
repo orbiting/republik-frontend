@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-06T13:34:27.395Z",
+  "updated": "2018-12-11T14:03:03.866Z",
   "title": "live",
   "data": [
     {
@@ -1972,11 +1972,15 @@
     },
     {
       "key": "package/customize/option/error/max",
-      "value": "{label}, maximal {maxAmount}"
+      "value": "{label}, höchstens {maxAmount}"
     },
     {
       "key": "package/customize/option/error/min",
-      "value": "{label}, minimal {minAmount}"
+      "value": "{label}, mindestens {minAmount}"
+    },
+    {
+      "key": "package/customize/option/error/step",
+      "value": "{label}, nicht zugelassen, vielleicht {suggestedValue}?"
     },
     {
       "key": "package/customize/userPrice/reason/label",
@@ -1988,7 +1992,7 @@
     },
     {
       "key": "package/customize/userPrice/beforeReason",
-      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
+      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen gerecht scheint. "
     },
     {
       "key": "package/price",
@@ -2001,10 +2005,6 @@
     {
       "key": "package/DONATE/description",
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
-    },
-    {
-      "key": "package/DONATE/description/short",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen."
     },
     {
       "key": "package/ABO/price",
@@ -2020,31 +2020,35 @@
     },
     {
       "key": "package/ABO/description",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
-    },
-    {
-      "key": "package/ABO/description/short",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin."
+      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten unser Magazin im Jahresabonnement. Durch Ihren jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. "
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF} für ein Jahr"
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO_GIVE/title",
-      "value": "Verschenken"
+      "value": "Abo und Mitgliedschaft als Geschenk"
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen für 20 Franken etwas Handfestes dazu zu schenken. Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch (damit die Empfänger nicht nur Cleveres lesen, sondern auch schreiben können)."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: ein Jahr Republik. Und ein Jahr Mitgliedschaft bei der Project R Genossenschaft.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
-      "key": "package/ABO_GIVE/description/short",
-      "value": "Verschenken Sie für ein Jahr die Republik."
+      "key": "package/ABO_GIVE_MONTHS/price",
+      "value": "{formattedCHF} pro Monat"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/title",
+      "value": "Monats-Abo als Geschenk"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/description",
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Gönner-Mitgliedschaft"
+      "value": "Abo und Gönner-Mitgliedschaft"
     },
     {
       "key": "package/BENEFACTOR/price",
@@ -2055,12 +2059,8 @@
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
     },
     {
-      "key": "package/BENEFACTOR/description/short",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert."
-    },
-    {
       "key": "package/MONTHLY_ABO/title",
-      "value": "Monats-Abonnement"
+      "value": "Monats-Abo"
     },
     {
       "key": "package/MONTHLY_ABO/price",
@@ -2071,12 +2071,12 @@
       "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verlegerin oder Verleger der Republik. Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen."
     },
     {
-      "key": "package/MONTHLY_ABO/description/short",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin – und können Ihr Abonnement jederzeit kündigen."
-    },
-    {
       "key": "package/choose",
       "value": "Auswählen"
+    },
+    {
+      "key": "package/pkgsFilter/showAll",
+      "value": "Sie interessieren sich für andere Angebote?"
     },
     {
       "key": "option/ABO/label/other",
@@ -2101,6 +2101,82 @@
     {
       "key": "option/TOTEBAG/label/1",
       "value": "Tasche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/label/other",
+      "value": "Mitgliedschaften"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/label/1",
+      "value": "Mitgliedschaft"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/year/label/1",
+      "value": "Jahr"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/year/label/other",
+      "value": "Jahre"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/year/count/1",
+      "value": "ein Jahr"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/year/count/other",
+      "value": "{count} Jahre"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
+      "value": "Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
+      "value": "Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/count/1",
+      "value": "einen Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/count/other",
+      "value": "{count} Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/label/1",
+      "value": "Woche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/label/other",
+      "value": "Wochen"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/count/1",
+      "value": "eine Woche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/week/count/other",
+      "value": "{count} Wochen"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/label/1",
+      "value": "Tag"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/label/other",
+      "value": "Tage"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/1",
+      "value": "einen Tag"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/day/unit/other",
+      "value": "{count} Tage"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/notice/reachedMaxIntervalCount",
+      "value": "Ab zehn Monaten lohnt sich ein Jahres-Abo: {link}"
     },
     {
       "key": "payment/title",
@@ -2461,6 +2537,10 @@
     {
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
+    },
+    {
+      "key": "pledge/notice/goodies/delivery",
+      "value": "Hinweis: Artikel wie Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "shareholder/pageTitle",
@@ -2919,11 +2999,19 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/ABO_GIVE_MONTHS",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/DONATE",
       "value": "Guten Tag, {name}"
     },
     {
       "key": "merci/title/package/ABO_GIVE/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/ABO_GIVE_MONTHS/noName",
       "value": "Guten Tag"
     },
     {
@@ -2936,6 +3024,10 @@
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+    },
+    {
+      "key": "merci/lead/package/ABO_GIVE_MONTHS",
       "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
@@ -3540,7 +3632,7 @@
     },
     {
       "key": "questionnaire/turnout",
-      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Personen haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",
@@ -3684,7 +3776,11 @@
     },
     {
       "key": "memberships/title/MONTHLY_ABO",
-      "value": "Monatsabonnement (#{sequenceNumber})"
+      "value": "Monats-Abo (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO_GIVE_MONTHS",
+      "value": "Abonnement (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/ABO/give",
@@ -3933,6 +4029,18 @@
     {
       "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
       "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/1",
+      "value": "Monats-Abo als Geschenk für {interval}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/other",
+      "value": "Monats-Abos als Geschenk für {interval}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",
+      "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
     },
     {
       "key": "option/suffix/endDate",

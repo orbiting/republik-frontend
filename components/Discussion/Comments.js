@@ -220,7 +220,8 @@ class Comments extends PureComponent {
       discussionUserCanComment,
       discussionClosed,
       data: { discussion },
-      now
+      now,
+      sharePath
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -511,7 +512,7 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
-          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.path, comment.id) })}
+          onShare={() => this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })}
           tags={tags}
           selectedTag={selectedTag}
           context={context}

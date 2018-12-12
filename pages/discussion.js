@@ -4,8 +4,8 @@ import { enforceMembership } from '../components/Auth/withMembership'
 import { withRouter } from 'next/router'
 import Page from '../components/Feedback/Page'
 
-const DiscussionPage = ({ router: { query } }) => (
-  <Page query={query} />
+const DiscussionPage = ({ router: { asPath, query } }) => (
+  <Page query={query} asPath={asPath} />
 )
 
 export default compose(

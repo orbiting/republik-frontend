@@ -232,7 +232,7 @@ class FeedbackPage extends Component {
   }
 
   render () {
-    const { t, query } = this.props
+    const { t, asPath, query } = this.props
     const {
       articleDiscussionId,
       tab,
@@ -313,6 +313,7 @@ class FeedbackPage extends Component {
               discussionId={selectedDiscussionId}
               focusId={focusId}
               mute={query && !!query.mute}
+              sharePath={asPath}
             />
           )}
           {!selectedDiscussionId && (

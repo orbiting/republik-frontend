@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-12T18:22:49.362Z",
+  "updated": "2018-12-12T18:34:14.677Z",
   "title": "live",
   "data": [
     {
@@ -2095,11 +2095,19 @@
       "value": "Notizbuch"
     },
     {
+      "key": "option/NOTEBOOK/label/0",
+      "value": "Notizbuch"
+    },
+    {
       "key": "option/TOTEBAG/label/other",
       "value": "Taschen"
     },
     {
       "key": "option/TOTEBAG/label/1",
+      "value": "Tasche"
+    },
+    {
+      "key": "option/TOTEBAG/label/0",
       "value": "Tasche"
     },
     {

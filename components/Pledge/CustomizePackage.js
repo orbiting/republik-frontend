@@ -117,7 +117,7 @@ const getOptionValue = (option, values) => {
     : values[fieldKey]
 }
 
-const GUTTER = 42
+const GUTTER = 20
 const styles = {
   group: css({
     marginBottom: 10,
@@ -127,6 +127,10 @@ const styles = {
     clear: 'both',
     width: `calc(100% + ${GUTTER}px)`,
     margin: `0 -${GUTTER / 2}px`,
+    [mediaQueries.mUp]: {
+      width: `calc(100% + ${GUTTER * 2}px)`,
+      margin: `0 -${GUTTER}px`
+    },
     ':after': {
       content: '""',
       display: 'table',
@@ -137,6 +141,10 @@ const styles = {
     float: 'left',
     paddingLeft: `${GUTTER / 2}px`,
     paddingRight: `${GUTTER / 2}px`,
+    [mediaQueries.mUp]: {
+      paddingLeft: `${GUTTER}px`,
+      paddingRight: `${GUTTER}px`
+    },
     minHeight: 1,
     width: '50%'
   }),
@@ -654,7 +662,7 @@ class CustomizePackage extends Component {
                           width: configurableFields.length === 1 || (configurableFields.length === 3 && i === 0)
                             ? '100%' : '50%'
                         }}>
-                          <div style={{ marginBottom: 20 }}>
+                          <div>
                             <Field
                               ref={i === 0 && !group ? this.focusRefSetter : undefined}
                               label={label}
@@ -728,7 +736,7 @@ class CustomizePackage extends Component {
           })
         }
         { hasGoodies &&
-          <div style={{ position: 'relative', top: -20 }}>
+          <div style={{ marginBottom: 20 }}>
             <Label>
               {t('pledge/notice/goodies/delivery')}
             </Label>

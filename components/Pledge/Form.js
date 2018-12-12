@@ -39,6 +39,34 @@ class Pledge extends Component {
     let basePledge
 
     const { pledge, query } = props
+
+    // ~ as url safe separator, backend code generating a membership ids link:
+    // https://github.com/orbiting/backends/blob/0abb797db8d0feb7af579c7efc85242cdf110016/servers/republik/modules/crowdfundings/lib/Mail.js#L476
+    const membershipIds = query.membershipIds && query.membershipIds.split('~')
+    if (membershipIds) {
+      const pkg = this.getPkg()
+      if (pkg) {
+        const matchingOptions = pkg.options.filter(option =>
+          option.membership &&
+          membershipIds.includes(option.membership.id)
+        )
+        if (matchingOptions.length) {
+          // we set all other options to the min amount (normally 0)
+          // - this unselect extending ones own memberhip when arriving from a membership_giver_prolong_notice
+          pkg.options.filter(option => option.membership).forEach(option => {
+            values[getOptionFieldKey(option)] = option.minAmount
+          })
+          // set matching options to max amount (normally 1)
+          matchingOptions
+            // only first one if grouped
+            .filter((option, i, all) => !option.optionGroup || all.findIndex(o => o.optionGroup === option.optionGroup) === i)
+            .forEach(option => {
+              values[getOptionFieldKey(option)] = option.maxAmount
+            })
+        }
+      }
+    }
+
     if (pledge) {
       values.email = pledge.user.email
       values.firstName = pledge.user.firstName

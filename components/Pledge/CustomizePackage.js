@@ -84,7 +84,7 @@ const getPrice = ({ values, pkg, userPrice }) => {
     if (userPrice) {
       return ''
     }
-    const minPrice = calculateMinPrice(pkg, {}, userPrice)
+    const minPrice = calculateMinPrice(pkg, values, userPrice)
     if (minPrice === absolutMinPrice) {
       return ''
     }

@@ -138,12 +138,19 @@ const STACKED_BAR_CONFIG = {
 }
 
 const BIN_BAR_CONFIG = {
-  ...STACKED_BAR_CONFIG,
+  type: 'Bar',
+  numberFormat: '.0%',
+  y: 'category',
+  color: 'color',
+  colorSort: 'none',
+  sort: 'none',
+  barStyle: 'large',
   colorRange: [
-    '#3D155B', '#542785', '#A46FDA', '#C79CF0',
+    '#62790E', '#90AA00', '#B9EB56', '#D6FA90',
     '#bbb', '#bbb',
-    '#D6FA90', '#B9EB56', '#90AA00', '#62790E'
-  ]
+    '#3D155B', '#542785', '#A46FDA', '#C79CF0'
+  ],
+  colorLegend: false
 }
 
 const RankedBars = withT(({ t, question, canDownload }) => {
@@ -199,22 +206,26 @@ const SentimentBar = withT(({ t, question, canDownload }) => {
 const HistogramBar = withT(({ t, question, canDownload }) => {
   const mapResult = (result, i) => {
     const tick = question.ticks.find(tick => (
-      (i === 0 && tick.value === result.x0) ||
+      tick.value === result.x0 ||
       tick.value === result.x1
-    ))
+    )) || (
+      result.x0 > 0
+        ? question.ticks[question.ticks.length - 1]
+        : question.ticks[0]
+    )
     return {
-      label: tick ? tick.label : `${result.x0}`,
+      category: tick.label,
+      color: `${result.x0}:${result.x1}`,
       value: String(result.count / question.turnout.submitted)
     }
   }
 
+  const values = question.result.histogram.map(mapResult).reverse()
+
   return (
     <DownloadableChart t={t} canDownload={canDownload}
-      config={{
-        ...BIN_BAR_CONFIG,
-        colorLegendValues: question.ticks.map(tick => tick.label)
-      }}
-      values={question.result.histogram.map(mapResult)} />
+      config={BIN_BAR_CONFIG}
+      values={values.slice(0, 6).concat(values.slice(-4).reverse())} />
   )
 })
 

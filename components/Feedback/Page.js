@@ -54,10 +54,16 @@ const styles = {
       width: '50%'
     }
   }),
-  hitlistHeadline: css({
-    margin: '30px 0 25px 0',
+  articleHeadline: css({
+    margin: '30px 0 20px 0',
     [mediaQueries.mUp]: {
-      margin: '43px 0 37px 0'
+      margin: '40px 0 20px 0'
+    }
+  }),
+  activeDiscussions: css({
+    marginTop: 30,
+    [mediaQueries.mUp]: {
+      marginTop: 40
     }
   }),
   selectedHeadline: css({
@@ -159,7 +165,6 @@ class FeedbackPage extends Component {
     }
 
     this.handleResize = () => {
-      console.log('resize')
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
         this.setState({ isMobile })
@@ -282,27 +287,28 @@ class FeedbackPage extends Component {
           )}
           {tab === 'article' && (
             <Fragment>
-              <div {...styles.hitlistHeadline}>
+              <div {...styles.articleHeadline}>
                 <Interaction.H3>
                   {t('feedback/article/headline')}
                 </Interaction.H3>
               </div>
-              <Label style={{ display: 'block', marginBottom: 10 }}>
-                {t('feedback/activeDiscussions/label')}
-              </Label>
-              <ActiveDiscussions
-                discussionId={articleDiscussionId}
-                value={meta}
-                onChange={this.onChangeFromActiveDiscussions}
-                onReset={this.onReset}
-                ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
-              />
               <ArticleSearch
                 value={searchValue}
                 onChange={this.onChangeFromSearch}
                 onReset={this.onReset}
               />
-
+              <div {...styles.activeDiscussions}>
+                <Label style={{ display: 'block', marginBottom: 10 }}>
+                  {t('feedback/activeDiscussions/label')}
+                </Label>
+                <ActiveDiscussions
+                  discussionId={articleDiscussionId}
+                  value={meta}
+                  onChange={this.onChangeFromActiveDiscussions}
+                  onReset={this.onReset}
+                  ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
+                />
+              </div>
               {!linkedDiscussion && <div {...styles.selectedHeadline} ref={this.setArticleRef}>
                 <ArticleDiscussionHeadline meta={meta} discussionId={articleDiscussionId} />
               </div>}

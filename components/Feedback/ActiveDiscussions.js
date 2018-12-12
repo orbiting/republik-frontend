@@ -6,27 +6,29 @@ import { compose } from 'react-apollo'
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'
 
-import { Router } from '../../lib/routes'
+import { Link, Router } from '../../lib/routes'
+import PathLink from '../Link/Path'
+import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
 import {
   Interaction,
   Loader,
   colors,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  linkRule
 } from '@project-r/styleguide'
 
 const styles = {
-  button: css({
+  item: css({
+    ...linkRule,
+    color: colors.text,
+    textDecoration: 'none',
     display: 'flex',
     alignItems: 'center',
     width: '100%',
     textAlign: 'left',
     padding: '10px 0',
-    outline: 'none',
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
     cursor: 'pointer',
     '&:hover': {
       background: colors.secondaryBg,
@@ -50,28 +52,73 @@ const styles = {
   })
 }
 
-const ActiveDiscussionItem = ({ onClick, label, selected, path }) => (
-  <button
-    {...styles.button}
-    style={{ color: selected ? colors.primary : undefined }}
-    onClick={e => {
-      e.preventDefault()
-      e.stopPropagation()
-      if (path) {
-        Router.pushRoute(path)
-      } else {
-        onClick()
-      }
-    }}
-  >
-    <ArticleItem
-      title={label}
-      newPage={!!path}
-      selected={selected}
-      iconSize={24}
-      Wrapper={Interaction.P}
-    />
-  </button>
+export const DiscussionLink = ({
+  children,
+  discussion
+}) => {
+  let tab
+  if (discussion && discussion.document) {
+    const meta = discussion.document.meta || {}
+    const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
+    const template = meta.template
+    tab =
+      (ownDiscussion && template === 'article' && 'article') ||
+      (discussion && discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID && 'general')
+  }
+  if (tab) {
+    return (
+      <Link
+        route='discussion'
+        params={{ t: tab, id: discussion.id }}
+        passHref
+      >
+        {children}
+      </Link>
+    )
+  }
+  if (discussion) {
+    const path = discussion &&
+      discussion.document &&
+      discussion.document.meta &&
+      discussion.document.meta.path
+    if (path) {
+      return (
+        <PathLink
+          path={path}
+          passHref
+        >
+          {children}
+        </PathLink>
+      )
+    }
+  }
+  return children
+}
+
+const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) => (
+  <DiscussionLink discussion={discussion} passHref>
+    <a
+      {...styles.item}
+      style={{ color: selected ? colors.primary : undefined }}
+      onClick={e => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (path) {
+          Router.pushRoute(path)
+        } else {
+          onClick()
+        }
+      }}
+    >
+      <ArticleItem
+        title={label}
+        newPage={!!path}
+        selected={selected}
+        iconSize={24}
+        Wrapper={Interaction.P}
+      />
+    </a>
+  </DiscussionLink>
 )
 
 class ActiveDiscussions extends Component {
@@ -82,7 +129,7 @@ class ActiveDiscussions extends Component {
       data.activeDiscussions &&
       data.activeDiscussions.filter(
         activeDiscussion => activeDiscussion.discussion.id !== ignoreDiscussionId
-      ).slice(0, 5)
+      ).slice(0, 10)
 
     return (
       <Loader
@@ -107,6 +154,7 @@ class ActiveDiscussions extends Component {
                         meta
                       })
                     }}
+                    discussion={discussion}
                     path={path} />
                 )
               })}

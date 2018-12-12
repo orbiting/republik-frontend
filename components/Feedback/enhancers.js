@@ -15,8 +15,12 @@ query getActiveDiscussions($lastDays: Int!) {
         id
         meta {
           title
-          template
           path
+          template
+          ownDiscussion {
+            id
+            closed
+          }
         }
       }
     }

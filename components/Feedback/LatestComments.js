@@ -126,7 +126,8 @@ class LatestComments extends Component {
                       published,
                       createdAt,
                       updatedAt,
-                      tags
+                      tags,
+                      parentIds
                     } = node
                     const meta = (discussion && discussion.document && discussion.document.meta) || {}
                     const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
@@ -169,9 +170,10 @@ class LatestComments extends Component {
                         timeago={timeagoFromNow}
                         context={articleContext}
                         tags={tags}
+                        parentIds={parentIds}
                         Link={CommentLink}
                         discussion={discussion}
-                        onPreviewClick={newPage ? undefined : onClick}
+                        onClick={newPage ? undefined : onClick}
                       />
                     )
                   }

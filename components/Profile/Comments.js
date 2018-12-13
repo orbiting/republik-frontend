@@ -31,6 +31,7 @@ const Comments = ({ t, comments }) => {
             preview={comment.preview}
             createdAt={comment.createdAt}
             tags={comment.tags}
+            parentIds={comment.parentIds}
             discussion={discussion}
             timeago={timeagoFromNow}
             Link={CommentLink}

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-12T16:09:32.874Z",
+  "updated": "2018-12-13T09:24:44.635Z",
   "title": "live",
   "data": [
     {
@@ -951,7 +951,7 @@
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
-      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING/",
+      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING",
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
@@ -971,7 +971,7 @@
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
-      "key": "account/pledges/ABO_GIVE/promo",
+      "key": "account/pledges/promo",
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
@@ -1755,8 +1755,12 @@
       "value": "Beitrag teilen"
     },
     {
-      "key": "styleguide/CommentTeaser/commentLink",
-      "value": "Zum Beitrag"
+      "key": "styleguide/CommentTeaser/comment/link",
+      "value": "Beitrag in {link}"
+    },
+    {
+      "key": "styleguide/CommentTeaser/reply/link",
+      "value": "Antwort in {link}"
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/1",
@@ -2075,8 +2079,12 @@
       "value": "Auswählen"
     },
     {
-      "key": "package/pkgsFilter/showAll",
-      "value": "Sie interessieren sich für andere Angebote?"
+      "key": "package/group/ME",
+      "value": "Für mich"
+    },
+    {
+      "key": "package/group/GIVE",
+      "value": "Geschenke"
     },
     {
       "key": "option/ABO/label/other",
@@ -2095,6 +2103,10 @@
       "value": "Notizbuch"
     },
     {
+      "key": "option/NOTEBOOK/label/0",
+      "value": "Notizbuch"
+    },
+    {
       "key": "option/TOTEBAG/label/other",
       "value": "Taschen"
     },
@@ -2103,76 +2115,28 @@
       "value": "Tasche"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/label/other",
-      "value": "Mitgliedschaften"
+      "key": "option/TOTEBAG/label/0",
+      "value": "Tasche"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/label/1",
-      "value": "Mitgliedschaft"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/label/1",
-      "value": "Jahr"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/label/other",
-      "value": "Jahre"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/1",
-      "value": "ein Jahr"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/year/periods/other",
-      "value": "{count} Jahre"
+      "key": "option/ABO_GIVE_MONTHS/label",
+      "value": "Anzahl Abos"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
-      "value": "Monat"
+      "value": "Monat pro Abo"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
-      "value": "Monate"
+      "value": "Monate pro Abo"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
-      "value": "einen Monat"
+      "key": "package/customize/ABO_GIVE_MONTHS/years/1",
+      "value": "Verschenken Sie ein Jahr statt Monate"
     },
     {
-      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
-      "value": "{count} Monate"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/label/1",
-      "value": "Woche"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/label/other",
-      "value": "Wochen"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/1",
-      "value": "eine Woche"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/week/periods/other",
-      "value": "{count} Wochen"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/label/1",
-      "value": "Tag"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/label/other",
-      "value": "Tage"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/1",
-      "value": "einen Tag"
-    },
-    {
-      "key": "option/ABO_GIVE_MONTHS/interval/day/periods/other",
-      "value": "{count} Tage"
+      "key": "package/customize/ABO_GIVE_MONTHS/years/other",
+      "value": "Verschenken Sie Jahre statt Monate"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
@@ -2540,7 +2504,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Artikel wie Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Vor Weihnachten können wir Bestellungen bis und mit Donnerstag 20. Dezember liefern."
     },
     {
       "key": "shareholder/pageTitle",
@@ -3107,8 +3071,16 @@
       "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
     },
     {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/1",
+      "value": "Sie können das Abo mit folgendem Gutscheincode verschenken:"
+    },
+    {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/other",
+      "value": "Sie können die Abos mit folgenden Gutscheincodes verschenken:"
+    },
+    {
       "key": "memberships/give/description/after",
-      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
+      "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
       "key": "memberships/latestPeriod/renew/true",
@@ -3824,7 +3796,7 @@
     },
     {
       "key": "pledge/title/member",
-      "value": "Willkommen an Bord!"
+      "value": "Das Angebot"
     },
     {
       "key": "package/customize/price/payMore",
@@ -3920,6 +3892,30 @@
     },
     {
       "key": "pledge/meta/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/group/GIVE/title",
+      "value": "Jetzt verschenken"
+    },
+    {
+      "key": "pledge/meta/group/GIVE/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/title",
+      "value": "Jetzt Mitgliedschaften verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/title",
+      "value": "Jetzt Abos verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/description",
       "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
     },
     {
@@ -4041,6 +4037,14 @@
     {
       "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",
       "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
+      "value": "einen Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
+      "value": "{count} Monate"
     },
     {
       "key": "option/suffix/endDate",

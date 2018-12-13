@@ -103,10 +103,24 @@ query getSearchResults(
           }
           published
           updatedAt
+          tags
+          parentIds
           discussion {
             id
             title
             path
+            document {
+              id
+              meta {
+                title
+                path
+                template
+                ownDiscussion {
+                  id
+                  closed
+                }
+              }
+            }
           }
         }
         ... on User {

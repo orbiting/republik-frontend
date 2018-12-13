@@ -243,7 +243,6 @@ class Comments extends PureComponent {
             <Link
               route='discussion'
               params={{ id: discussion.id, focus: commentId }}
-              {...props}
             >
               {children}
             </Link>

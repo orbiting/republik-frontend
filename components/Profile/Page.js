@@ -185,6 +185,7 @@ const getPublicUser = gql`
             more
           }
           tags
+          parentIds
           discussion {
             id
             title
@@ -194,7 +195,6 @@ const getPublicUser = gql`
               meta {
                 title
                 path
-                credits
                 template
                 ownDiscussion {
                   id

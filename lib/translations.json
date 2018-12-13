@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-12T23:38:17.445Z",
+  "updated": "2018-12-13T00:08:11.020Z",
   "title": "live",
   "data": [
     {
@@ -3067,8 +3067,16 @@
       "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
     },
     {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/1",
+      "value": "Sie können das Abo mit folgendem Gutscheincode verschenken:"
+    },
+    {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/other",
+      "value": "Sie können die Abos mit folgenden Gutscheincodes verschenken:"
+    },
+    {
       "key": "memberships/give/description/after",
-      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
+      "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
       "key": "memberships/latestPeriod/renew/true",

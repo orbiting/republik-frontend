@@ -127,7 +127,7 @@ class PledgeList extends Component {
             </List>
             <GiveMemberships
               memberships={pledge.memberships}
-              isGivePackage={pledge.package.group === 'GIVE'} />
+              pkg={pledge.package} />
           </AccountItem>
         )
       })}

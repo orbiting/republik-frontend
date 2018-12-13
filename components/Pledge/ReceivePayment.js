@@ -26,6 +26,7 @@ query($pledgeId: ID!) {
       templateId
       amount
       optionGroup
+      periods
     }
     total
     donation

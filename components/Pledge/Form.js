@@ -75,6 +75,9 @@ class Pledge extends Component {
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
+        if (option.periods !== null) {
+          values[getOptionPeriodsFieldKey(option)] = option.periods
+        }
       })
       basePledge = {
         values: {

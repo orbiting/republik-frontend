@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-13T00:08:11.020Z",
+  "updated": "2018-12-13T00:49:06.031Z",
   "title": "live",
   "data": [
     {
@@ -3888,6 +3888,30 @@
     },
     {
       "key": "pledge/meta/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/group/GIVE/title",
+      "value": "Jetzt verschenken"
+    },
+    {
+      "key": "pledge/meta/group/GIVE/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/title",
+      "value": "Jetzt Mitgliedschaften verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/description",
+      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/title",
+      "value": "Jetzt Abos verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/description",
       "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
     },
     {

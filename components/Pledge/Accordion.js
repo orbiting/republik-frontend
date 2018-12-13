@@ -168,13 +168,15 @@ class Accordion extends Component {
       .key(d => d.group)
       .entries(packages)
 
-    groups.sort(({ key: a }, { key: b }) => (
-      ascending(+(a !== group), +(b !== group)) ||
-      ascending(
-        groups.findIndex(d => d.key === a),
-        groups.findIndex(d => d.key === b)
-      )
-    ))
+    if (group) {
+      groups.sort(({ key: a }, { key: b }) => (
+        ascending(+(a !== group), +(b !== group)) ||
+        ascending(
+          groups.findIndex(d => d.key === a),
+          groups.findIndex(d => d.key === b)
+        )
+      ))
+    }
 
     return (
       <div style={{ marginTop: 20 }}>

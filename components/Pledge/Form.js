@@ -250,8 +250,16 @@ class Pledge extends Component {
         image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&package=${queryPackage}`)}`
       }
       : {
-        title: t('pledge/meta/title'),
-        description: t('pledge/meta/description'),
+        title: t.first([
+          pkg && `pledge/meta/package/${pkg.name}/title`,
+          packageGroup && `pledge/meta/group/${packageGroup}/title`,
+          'pledge/meta/title'
+        ]),
+        description: t.first([
+          pkg && `pledge/meta/package/${pkg.name}/description`,
+          packageGroup && `pledge/meta/group/${packageGroup}/description`,
+          'pledge/meta/description'
+        ]),
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
       }
 

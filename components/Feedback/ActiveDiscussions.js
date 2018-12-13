@@ -6,7 +6,7 @@ import { compose } from 'react-apollo'
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'
 
-import { Link, Router } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
@@ -100,15 +100,6 @@ const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) =>
     <a
       {...styles.item}
       style={{ color: selected ? colors.primary : undefined }}
-      onClick={e => {
-        e.preventDefault()
-        e.stopPropagation()
-        if (path) {
-          Router.pushRoute(path)
-        } else {
-          onClick()
-        }
-      }}
     >
       <ArticleItem
         title={label}
@@ -123,7 +114,7 @@ const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) =>
 
 class ActiveDiscussions extends Component {
   render () {
-    const { discussionId, ignoreDiscussionId, onChange, data } = this.props
+    const { discussionId, ignoreDiscussionId, data } = this.props
 
     const activeDiscussions = data &&
       data.activeDiscussions &&
@@ -151,12 +142,6 @@ class ActiveDiscussions extends Component {
                     key={discussion.id}
                     label={discussion.title}
                     selected={selected}
-                    onClick={() => {
-                      onChange(selected ? null : {
-                        discussionId: discussion.id,
-                        meta
-                      })
-                    }}
                     discussion={discussion}
                     path={path} />
                 )

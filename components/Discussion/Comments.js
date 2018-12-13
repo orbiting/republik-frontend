@@ -231,8 +231,9 @@ class Comments extends PureComponent {
         </Link>
       }
       if (commentId) {
+        const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
         if (
-          discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID ||
+          isGeneral ||
           (discussion.document &&
             discussion.document.meta &&
             discussion.document.meta.template === 'article' &&
@@ -242,7 +243,11 @@ class Comments extends PureComponent {
           return (
             <Link
               route='discussion'
-              params={{ id: discussion.id, focus: commentId }}
+              params={{
+                t: isGeneral ? 'general' : 'article',
+                id: discussion.id,
+                focus: commentId
+              }}
             >
               {children}
             </Link>
@@ -251,7 +256,7 @@ class Comments extends PureComponent {
         if (discussion.path) {
           const documentPathObject = parse(discussion.path, true)
 
-          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId, test: 1 }} replace scroll={false} {...props}>
+          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }

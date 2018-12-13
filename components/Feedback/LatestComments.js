@@ -40,13 +40,15 @@ export const CommentLink = ({
   discussion
 }) => {
   let tab
-  if (discussion && discussion.document) {
-    const meta = discussion.document.meta || {}
-    const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
-    const template = meta.template
-    tab =
-      (ownDiscussion && template === 'article' && 'article') ||
-      (discussion && discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID && 'general')
+  if (discussion) {
+    if (discussion.document) {
+      const meta = discussion.document.meta || {}
+      const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
+      const template = meta.template
+      tab = ownDiscussion && template === 'article' && 'article'
+    } else {
+      tab = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID && 'general'
+    }
   }
   if (displayAuthor && displayAuthor.username) {
     return (
@@ -100,7 +102,7 @@ export const CommentLink = ({
 
 class LatestComments extends Component {
   render () {
-    const { t, data, onTeaserClick, filter = [] } = this.props
+    const { t, data } = this.props
 
     const timeagoFromNow = createdAtString => {
       return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
@@ -115,7 +117,6 @@ class LatestComments extends Component {
           return (
             <div>
               {comments && comments.nodes
-                .filter(node => filter.indexOf(node.discussion.id) === -1)
                 .map(
                   node => {
                     const {
@@ -132,15 +133,6 @@ class LatestComments extends Component {
                     const meta = (discussion && discussion.document && discussion.document.meta) || {}
                     const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
                     const newPage = !isGeneral && meta.template === 'discussion'
-
-                    const onClick = (e) => {
-                      e.preventDefault()
-                      onTeaserClick({
-                        discussionId: discussion.id,
-                        meta,
-                        focusId: id
-                      })
-                    }
 
                     const contextTitle = !isGeneral && discussion.title
                       ? <ArticleItem
@@ -173,7 +165,6 @@ class LatestComments extends Component {
                         parentIds={parentIds}
                         Link={CommentLink}
                         discussion={discussion}
-                        onClick={newPage ? undefined : onClick}
                       />
                     )
                   }

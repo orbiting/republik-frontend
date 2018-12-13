@@ -80,84 +80,34 @@ class FeedbackPage extends Component {
   constructor (props, ...args) {
     super(props, ...args)
 
-    const { id, t, focus } = this.props.router.query
-    const isGeneral = id === GENERAL_FEEDBACK_DISCUSSION_ID || t === 'general'
-    let state = {}
-
-    if (isGeneral) {
-      state = {
-        tab: 'general',
-        focusId: focus
-      }
-    } else if (id || t === 'article') {
-      state = {
-        articleDiscussionId: id,
-        tab: 'article',
-        focusId: focus
-      }
-    }
-
     this.state = {
-      articleDiscussionId: undefined,
       loading: false,
       isMobile: true,
       trackingId: undefined,
-      tab: undefined,
-      meta: undefined,
-      searchValue: undefined,
-      ...state
+      searchValue: undefined
     }
 
     this.onChangeFromSearch = (selectedObj) => {
+      const { router: { query } } = this.props
       if (!selectedObj) {
         return
       }
-      const { discussionId, meta, routePath, title } = selectedObj
+      const { discussionId, routePath, title } = selectedObj
       if (routePath) {
         Router.pushRoute(routePath)
         return
       }
-      if (!discussionId || discussionId === this.state.articleDiscussionId) {
+      if (!discussionId || discussionId === query.id) {
         return
       }
       this.setState({
-        articleDiscussionId: discussionId,
-        meta,
         searchValue: { text: title, value: selectedObj }
-      }, this.updateUrl)
-    }
-
-    this.onChangeFromActiveDiscussions = selectedObj => {
-      const articleDiscussionId = selectedObj && selectedObj.discussionId
-      if (
-        articleDiscussionId &&
-        articleDiscussionId === this.state.articleDiscussionId
-      ) {
-        return
-      }
-      this.setState({
-        articleDiscussionId,
-        meta: selectedObj && selectedObj.meta,
-        searchValue: null
-      }, this.updateUrl)
-    }
-
-    this.onTeaserClick = selectedObj => {
-      const discussionId = selectedObj && selectedObj.discussionId
-      if (
-        !discussionId
-      ) {
-        return
-      }
-      const isGeneral = discussionId === GENERAL_FEEDBACK_DISCUSSION_ID
-      const articleDiscussionId = isGeneral ? undefined : discussionId
-      this.setState({
-        articleDiscussionId,
-        meta: selectedObj && selectedObj.meta,
-        searchValue: null,
-        tab: isGeneral ? 'general' : 'article',
-        focusId: selectedObj && selectedObj.focusId
-      }, this.updateUrl)
+      })
+      Router.pushRoute(
+        'discussion',
+        { id: discussionId, t: query.t },
+        { shallow: true }
+      )
     }
 
     this.onReset = () => {
@@ -174,30 +124,21 @@ class FeedbackPage extends Component {
     }
 
     this.selectArticleTab = () => {
-      const isSelected = this.state.tab === 'article'
-      this.setState({ tab: isSelected ? '' : 'article', focusId: null }, this.updateUrl)
+      const { router: { query } } = this.props
+      const isSelected = query.t === 'article'
+      Router.pushRoute(
+        'discussion',
+        isSelected ? undefined : { t: 'article' },
+        { shallow: true }
+      )
     }
 
     this.selectGeneralTab = () => {
-      const isSelected = this.state.tab === 'general'
-      this.setState({
-        tab: isSelected ? '' : 'general',
-        discussionId: isSelected ? null : GENERAL_FEEDBACK_DISCUSSION_ID,
-        focusId: null
-      }, this.updateUrl)
-    }
-
-    this.updateUrl = () => {
-      const { articleDiscussionId, tab, focusId } = this.state
-      const id =
-        tab === 'article' && articleDiscussionId
-          ? encodeURIComponent(articleDiscussionId)
-          : undefined
-      const focus = focusId ? encodeURIComponent(focusId) : undefined
-      const t = tab || undefined
-      Router.replaceRoute(
+      const { router: { query } } = this.props
+      const isSelected = query.t === 'general'
+      Router.pushRoute(
         'discussion',
-        { id, t, focus },
+        isSelected ? undefined : { t: 'general' },
         { shallow: true }
       )
     }
@@ -207,8 +148,8 @@ class FeedbackPage extends Component {
     }
 
     this.scrollToArticleDiscussion = () => {
-      const { tab, articleDiscussionId, focusId } = this.state
-      if (!focusId && this.articleRef && tab === 'article' && articleDiscussionId) {
+      const { tab, activeDiscussionId, focusId } = this.state
+      if (!focusId && this.articleRef && tab === 'article' && activeDiscussionId) {
         const headerHeight = window.innerWidth < mediaQueries.mBreakPoint
           ? HEADER_HEIGHT_MOBILE
           : HEADER_HEIGHT
@@ -241,11 +182,7 @@ class FeedbackPage extends Component {
   render () {
     const { t, router: { asPath, query } } = this.props
     const {
-      articleDiscussionId,
-      tab,
-      meta,
-      searchValue,
-      focusId
+      searchValue
     } = this.state
 
     const pageMeta = {
@@ -253,12 +190,12 @@ class FeedbackPage extends Component {
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    const selectedDiscussionId =
+    const tab = query.t
+
+    const activeDiscussionId =
       tab === 'general'
         ? GENERAL_FEEDBACK_DISCUSSION_ID
-        : tab === 'article' && articleDiscussionId
-
-    const linkedDiscussion = tab === 'article' && meta && meta.discussion
+        : tab === 'article' && query.id
 
     return (
       <Frame raw meta={pageMeta}>
@@ -304,22 +241,21 @@ class FeedbackPage extends Component {
                   {t('feedback/activeDiscussions/label')}
                 </Label>
                 <ActiveDiscussions
-                  discussionId={articleDiscussionId}
-                  value={meta}
+                  discussionId={activeDiscussionId}
                   onChange={this.onChangeFromActiveDiscussions}
                   onReset={this.onReset}
                   ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
                 />
               </div>
-              {!linkedDiscussion && <div {...styles.selectedHeadline} ref={this.setArticleRef}>
-                <ArticleDiscussionHeadline meta={meta} discussionId={articleDiscussionId} />
-              </div>}
+              <div {...styles.selectedHeadline} ref={this.setArticleRef}>
+                <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
+              </div>
             </Fragment>
           )}
-          {selectedDiscussionId && (
+          {activeDiscussionId && (
             <Discussion
-              discussionId={selectedDiscussionId}
-              focusId={focusId}
+              discussionId={activeDiscussionId}
+              focusId={query.focus}
               mute={query && !!query.mute}
               sharePath={asPath}
             />
@@ -331,10 +267,7 @@ class FeedbackPage extends Component {
                   {t('feedback/latestComments/headline')}
                 </Interaction.H3>
               </div>
-              <LatestComments
-                onTeaserClick={this.onTeaserClick}
-                filter={tab === 'article' ? [GENERAL_FEEDBACK_DISCUSSION_ID] : undefined}
-              />
+              <LatestComments />
             </Fragment>
           )}
         </Center>

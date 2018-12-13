@@ -889,7 +889,7 @@ class CustomizePackage extends Component {
                           })
                       }
 
-                      Router.replaceRoute(
+                      Router.pushRoute(
                         'pledge',
                         { package: 'ABO_GIVE' },
                         { shallow: true }

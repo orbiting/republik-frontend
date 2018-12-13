@@ -288,6 +288,13 @@ class Pledge extends Component {
           const showSignIn = this.state.showSignIn && !me
           const userPrice = !!query.userPrice
 
+          const ownMembershipOption = customMe && pkg && pkg.options.find(option => (
+            option.membership &&
+            option.membership.user &&
+            option.membership.user.id === customMe.id
+          ))
+          const ownMembership = ownMembershipOption && ownMembershipOption.membership
+
           return (
             <div>
               {(statementTitle || (packageInstruction && !!packageInstruction.length)) && <div style={{ marginBottom: 40 }}>
@@ -305,6 +312,7 @@ class Pledge extends Component {
               </div>}
               <H1>
                 {t.first([
+                  ownMembership && `pledge/title/${pkg.name}/${ownMembership.type.name}`,
                   pkg && isMember && `pledge/title/${pkg.name}/member`,
                   pkg && `pledge/title/${pkg.name}`,
                   isMember && 'pledge/title/member',
@@ -328,6 +336,7 @@ class Pledge extends Component {
                     values={values}
                     errors={errors}
                     dirty={dirty}
+                    ownMembership={ownMembership}
                     customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}

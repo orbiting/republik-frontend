@@ -281,7 +281,7 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice, customMe, router,
+      t, pkg, userPrice, customMe, ownMembership, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
@@ -398,12 +398,6 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
     )
-    const ownMembershipOption = pkg.options
-      .find(option => (
-        option.membership &&
-        option.membership.user.id === (customMe && customMe.id)
-      ))
-    const offerCancelMembership = ownMembershipOption && ownMembershipOption.membership
 
     const optionGroups = nest()
       .key(d => d.option.optionGroup
@@ -472,9 +466,11 @@ class CustomizePackage extends Component {
           )}
           {t.first(
             [
+              ownMembership && `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
+              ownMembership && `package/${pkg.name}/${ownMembership.type.name}/description`,
               `package/${crowdfundingName}/${pkg.name}/description`,
               `package/${pkg.name}/description`
-            ]
+            ].filter(Boolean)
           )}
         </P>
         {
@@ -951,12 +947,12 @@ class CustomizePackage extends Component {
                 <br />
               </Fragment>
             }
-            {offerCancelMembership &&
+            {ownMembership &&
               <Fragment>
-                <Link route='cancel' params={{ membershipId: offerCancelMembership.id }} passHref>
+                <Link route='cancel' params={{ membershipId: ownMembership.id }} passHref>
                   <Editorial.A>
                     {t.first([
-                      `memberships/${offerCancelMembership.type.name}/manage/cancel/link`,
+                      `memberships/${ownMembership.type.name}/manage/cancel/link`,
                       'memberships/manage/cancel/link'
                     ])}
                   </Editorial.A>

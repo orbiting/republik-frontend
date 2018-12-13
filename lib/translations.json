@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-13T01:06:01.731Z",
+  "updated": "2018-12-13T11:29:56.509Z",
   "title": "live",
   "data": [
     {
@@ -952,11 +952,11 @@
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING",
-      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PROJECT_R/WAITING",
-      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PAID",
@@ -1755,8 +1755,12 @@
       "value": "Beitrag teilen"
     },
     {
-      "key": "styleguide/CommentTeaser/commentLink",
-      "value": "Zum Beitrag"
+      "key": "styleguide/CommentTeaser/comment/link",
+      "value": "Beitrag in {link}"
+    },
+    {
+      "key": "styleguide/CommentTeaser/reply/link",
+      "value": "Antwort in {link}"
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/1",
@@ -2500,7 +2504,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Vor Weihnachten können wir Bestellungen bis und mit Donnerstag 20. Dezember liefern."
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Spätester Bestelltermin, damit die Sendung vor Weihnachten bei Ihnen eintrifft: Donnerstag, 20. Dezember 2018."
     },
     {
       "key": "shareholder/pageTitle",
@@ -3112,6 +3116,18 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",
+      "value": "Abonnement reaktivieren"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/prolong/link",
+      "value": "Abonnement verlängern"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/cancel/link",
+      "value": "Abonnement künden"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/reactivate",
       "value": "Abonnement reaktivieren"
     },
     {

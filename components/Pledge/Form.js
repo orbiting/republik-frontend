@@ -331,6 +331,7 @@ class Pledge extends Component {
                     customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}
+                    packages={packages}
                     onChange={(fields) => {
                       this.setState(FieldSet.utils.mergeFields(fields))
                     }} />

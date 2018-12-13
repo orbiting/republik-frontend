@@ -838,7 +838,7 @@ class CustomizePackage extends Component {
                   <li><Editorial.A
                     href={format({
                       pathname: '/angebote',
-                      query: { ...router.query, package: 'ABO_GIVE' }
+                      query: { package: 'ABO_GIVE' }
                     })}
                     onClick={(e) => {
                       if (shouldIgnoreClick(e)) {
@@ -847,9 +847,55 @@ class CustomizePackage extends Component {
                       e.preventDefault()
                       this.resetPrice()
 
+                      const aboGive = this.props.packages.find(p => p.name === 'ABO_GIVE')
+                      if (aboGive) {
+                        const numMembershipMonths = pkg.options.find(o => o.reward && o.reward.__typename === 'MembershipType')
+                        const numMembershipYears = aboGive.options.find(o => o.reward && o.reward.__typename === 'MembershipType')
+                        if (numMembershipMonths && numMembershipYears) {
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: getOptionFieldKey(numMembershipYears),
+                              value: Math.min(
+                                Math.max(
+                                  getOptionValue(numMembershipMonths, values),
+                                  numMembershipYears.minAmount
+                                ),
+                                numMembershipYears.maxAmount
+                              ),
+                              error: undefined,
+                              dirty: true
+                            })
+                          )
+                        }
+
+                        aboGive.options
+                          .filter(o => o.reward && o.reward.__typename === 'Goodie')
+                          .forEach(oYears => {
+                            const oMonths = pkg.options.find(d => (
+                              d.reward &&
+                              d.reward.__typename === oYears.reward.__typename &&
+                              d.reward.name === oYears.reward.name
+                            ))
+                            onChange(
+                              FieldSet.utils.fieldsState({
+                                field: getOptionFieldKey(oYears),
+                                value: Math.min(
+                                  Math.max(
+                                    getOptionValue(oMonths, values),
+                                    oYears.minAmount
+                                  ),
+                                  oYears.maxAmount
+                                ),
+                                error: undefined,
+                                dirty: true
+                              })
+                            )
+                          })
+                      }
+
                       Router.replaceRoute(
                         'pledge',
-                        { ...router.query, package: 'ABO_GIVE' },
+                        { package: 'ABO_GIVE' },
                         { shallow: true }
                       )
                     }}>

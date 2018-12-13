@@ -165,6 +165,7 @@ class LatestComments extends Component {
                         parentIds={parentIds}
                         Link={CommentLink}
                         discussion={discussion}
+                        newPage={newPage}
                       />
                     )
                   }

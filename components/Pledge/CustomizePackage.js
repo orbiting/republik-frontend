@@ -300,8 +300,13 @@ class CustomizePackage extends Component {
               default: option.defaultAmount
             })
           }
-          if (option.reward && option.reward.__typename === 'MembershipType' &&
-            option.reward.minPeriods - option.reward.maxPeriods !== 0) {
+          if (
+            option.reward &&
+            option.reward.__typename === 'MembershipType' &&
+            option.reward.minPeriods !== undefined &&
+            option.reward.maxPeriods !== undefined &&
+            option.reward.minPeriods - option.reward.maxPeriods !== 0
+          ) {
             fields.push({
               option,
               key: getOptionPeriodsFieldKey(option),

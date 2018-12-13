@@ -30,6 +30,7 @@ query myBelongings {
         id
         package {
           name
+          group
         }
         options {
           price
@@ -75,12 +76,18 @@ query myBelongings {
       id
       package {
         name
+        group
+        company {
+          id
+          name
+        }
       }
       options {
         templateId
         reward {
           ... on MembershipType {
             name
+            interval
           }
           ... on Goodie {
             name
@@ -89,6 +96,7 @@ query myBelongings {
         minAmount
         maxAmount
         amount
+        periods
         price
         membership {
           id

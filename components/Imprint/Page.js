@@ -52,7 +52,7 @@ export default () => {
 
       <H2>Aktionariat</H2>
       <P>
-        <A href='https://www.republik.ch/aktionariat'>
+        <A href='/aktionariat'>
         republik.ch/aktionariat
         </A>
       </P>
@@ -74,16 +74,17 @@ export default () => {
       <br />
 
       <H2>Publizistische Leitlinien</H2>
-      <P><A href='https://www.republik.ch/manifest'>republik.ch/manifest</A></P>
+      <P><A href='/manifest'>republik.ch/manifest</A></P>
       <br />
       <br />
 
       <H2>Mitgliedschaft und Abonnement</H2>
       <P>
-        <A href='https://www.republik.ch/angebote?package=ABO'>Jahresmitgliedschaft: CHF 240</A><br />
-        <A href='https://www.republik.ch/angebote?package=MONTHLY_ABO'>Monatsabonnement: CHF 22</A><br />
-        <A href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnermitgliedschaft: CHF 1000</A><br />
-        <A href='https://www.republik.ch/angebote?package=ABO_GIVE'>Jahresmitgliedschaft verschenken: CHF 240</A>
+        <A href='/angebote?package=ABO'>Jahresmitgliedschaft: CHF 240</A><br />
+        <A href='/angebote?package=MONTHLY_ABO'>Monatsabonnement: CHF 22</A><br />
+        <A href='/angebote?package=BENEFACTOR'>Gönnermitgliedschaft: CHF 1000</A><br />
+        <A href='/angebote?package=ABO_GIVE'>Jahresmitgliedschaft verschenken: CHF 240</A><br />
+        <A href='/angebote?package=ABO_GIVE_MONTHS'>Monatsabonnement verschenken: CHF 22</A>
       </P>
       <br />
       <H2>Dank</H2>

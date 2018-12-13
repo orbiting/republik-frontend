@@ -64,7 +64,7 @@ export default compose(
         data.me &&
         data.me.memberships &&
         data.me.memberships.filter(m => (
-          m.pledge.package.name !== 'ABO_GIVE' ||
+          m.pledge.package.group !== 'GIVE' ||
           (me.id === m.user.id && !m.voucherCode)
         ))
       ) || []

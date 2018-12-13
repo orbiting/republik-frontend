@@ -203,7 +203,7 @@ ${meta.url}
             <div>
               <EH1>Welcome Back</EH1>
               <EP>
-                If you have any questions about the donation process please <A href='mailto:nadja.schnetzler@project-r.construction'>contact us</A>.
+                If you have any questions about the donation process please <A href='mailto:kontakt@republik.ch'>contact us</A>.
               </EP>
             </div>
           )}
@@ -216,7 +216,7 @@ ${meta.url}
           </EP>
 
           <EP style={{ marginBottom: SPACE * 2 }}>
-            <A href='mailto:nadja.schnetzler@project-r.construction'>Get in touch with us!</A>
+            <A href='mailto:kontakt@republik.ch'>Get in touch with us!</A>
           </EP>
 
           <R />

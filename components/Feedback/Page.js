@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import { enforceMembership } from '../Auth/withMembership'
 import { withRouter } from 'next/router'
 import { Router } from '../../lib/routes'
 import withT from '../../lib/withT'
@@ -345,7 +344,6 @@ class FeedbackPage extends Component {
 }
 
 export default compose(
-  enforceMembership(),
   withT,
   withRouter
 )(FeedbackPage)

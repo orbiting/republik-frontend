@@ -452,7 +452,9 @@ class CustomizePackage extends Component {
             this.resetPrice()
             Router.replaceRoute(
               'pledge',
-              pkg.group ? { group: pkg.group } : undefined,
+              pkg.group && pkg.group !== 'ME'
+                ? { group: pkg.group }
+                : undefined,
               { shallow: true }
             )
           }}>

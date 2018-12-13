@@ -128,7 +128,10 @@ class ActiveDiscussions extends Component {
     const activeDiscussions = data &&
       data.activeDiscussions &&
       data.activeDiscussions.filter(
-        activeDiscussion => activeDiscussion.discussion.id !== ignoreDiscussionId
+        activeDiscussion => (
+          activeDiscussion.discussion.id !== ignoreDiscussionId &&
+          !activeDiscussion.discussion.closed
+        )
       ).slice(0, 10)
 
     return (

@@ -11,6 +11,7 @@ query getActiveDiscussions($lastDays: Int!) {
       id
       title
       path
+      closed
       document {
         id
         meta {

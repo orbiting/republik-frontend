@@ -142,7 +142,7 @@ class Pledge extends Component {
             ? option.membership.id
             : undefined,
           /* ToDo: move logic to backend? */
-          autoPay: option.reward && option.reward.__typename === 'MembershipType' && !['ABO_GIVE', 'ABO_GIVE_MONTHS'].includes(pkg.name) && (
+          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.group !== 'GIVE' && (
             !option.membership ||
             option.membership.user.id === (customMe && customMe.id)
           )
@@ -220,7 +220,7 @@ class Pledge extends Component {
       loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
-    const packageGroup = query.group
+    const queryGroup = query.group
     const queryPackage = query.package && query.package.toUpperCase()
     const pkg = this.getPkg()
 
@@ -252,12 +252,12 @@ class Pledge extends Component {
       : {
         title: t.first([
           pkg && `pledge/meta/package/${pkg.name}/title`,
-          packageGroup && `pledge/meta/group/${packageGroup}/title`,
+          queryGroup && `pledge/meta/group/${queryGroup}/title`,
           'pledge/meta/title'
         ]),
         description: t.first([
           pkg && `pledge/meta/package/${pkg.name}/description`,
-          packageGroup && `pledge/meta/group/${packageGroup}/description`,
+          queryGroup && `pledge/meta/group/${queryGroup}/description`,
           'pledge/meta/description'
         ]),
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
@@ -339,7 +339,7 @@ class Pledge extends Component {
                   <Accordion
                     crowdfundingName={crowdfundingName}
                     packages={packages}
-                    group={packageGroup}
+                    group={queryGroup}
                     extended />
                 )}
               </div>

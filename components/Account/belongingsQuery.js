@@ -30,6 +30,7 @@ query myBelongings {
         id
         package {
           name
+          group
         }
         options {
           price

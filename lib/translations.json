@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-13T11:29:56.509Z",
+  "updated": "2018-12-13T13:28:54.739Z",
   "title": "live",
   "data": [
     {
@@ -3900,35 +3900,35 @@
     },
     {
       "key": "pledge/meta/title",
-      "value": "Jetzt Mitglied und Abonnentin werden"
+      "value": "Republik-Mitglied und Abonnentin werden"
     },
     {
       "key": "pledge/meta/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/group/GIVE/title",
-      "value": "Jetzt verschenken"
+      "value": "Die Republik zum verschenken"
     },
     {
       "key": "pledge/meta/group/GIVE/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/title",
-      "value": "Jetzt Mitgliedschaften verschenken"
+      "value": "Republik Jahres-Abo und Mitgliedschaft verschenken"
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/package/ABO_GIVE_MONTHS/title",
-      "value": "Jetzt Abos verschenken"
+      "value": "Republik Monats-Abo verschenken"
     },
     {
       "key": "pledge/meta/package/ABO_GIVE_MONTHS/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/form/statement/share/title",

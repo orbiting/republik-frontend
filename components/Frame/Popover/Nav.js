@@ -143,6 +143,14 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 closeHandler={closeHandler}
               />
               <br />
+              <NavLink
+                route='profile'
+                params={{ slug: me.username || me.id }}
+                translation={t('Frame/Popover/myprofile')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
               {me.accessCampaigns.length > 0 &&
                 <Fragment>
                   <a
@@ -163,14 +171,18 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                   <br />
                 </Fragment>
               }
-              <NavLink
-                route='profile'
-                params={{ slug: me.username || me.id }}
-                translation={t('Frame/Popover/myprofile')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
+              {!inNativeIOSApp && (
+                <Fragment>
+                  <NavLink
+                    route='pledge'
+                    params={me ? { package: 'ABO_GIVE' } : undefined}
+                    translation={t(me ? 'nav/give' : 'nav/offers')}
+                    active={active}
+                    closeHandler={closeHandler}
+                  />
+                  <br />
+                </Fragment>
+              )}
             </div>
           )}
           {me ? (
@@ -186,6 +198,13 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
         </div>
         <div {...styles.section}>
           <NavLink
+            route='discussion'
+            translation={t('nav/discussion')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
             route='community'
             translation={t('nav/community')}
             active={active}
@@ -193,8 +212,8 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           />
           <br />
           <NavLink
-            route='meta'
-            translation={t('nav/meta')}
+            route='events'
+            translation={t('nav/events')}
             active={active}
             closeHandler={closeHandler}
           />
@@ -207,24 +226,11 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           />
           <br />
           <NavLink
-            route='events'
-            translation={t('nav/events')}
+            route='meta'
+            translation={t('nav/meta')}
             active={active}
             closeHandler={closeHandler}
           />
-          <br />
-          {!inNativeIOSApp && (
-            <Fragment>
-              <NavLink
-                route='pledge'
-                params={me ? { package: 'ABO_GIVE' } : undefined}
-                translation={t(me ? 'nav/give' : 'nav/offers')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
         </div>
       </div>
       {inNativeApp && <Footer />}

@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 import { Router } from '../../lib/routes'
+import { WithMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 
 import {
@@ -202,51 +203,61 @@ class FeedbackPage extends Component {
         <Center {...styles.container}>
           <div {...styles.intro}>
             <Interaction.P>
-              {t('feedback/lead')}
+              <WithMembership render={() => (
+                <Fragment>{t('feedback/lead')}</Fragment>
+              )} />
             </Interaction.P>
           </div>
-          <div {...styles.tab}>
-            <Button
-              style={{ zIndex: 1 }}
-              dimmed={tab && tab !== 'article'}
-              onClick={this.selectArticleTab}>
-              {t('feedback/article/button')}
-            </Button>
-            <Button
-              style={{ marginLeft: '-1px', zIndex: tab === 'general' ? 1 : undefined }}
-              dimmed={tab && tab !== 'general'}
-              onClick={this.selectGeneralTab}>
-              {t('feedback/general/button')}
-            </Button>
-          </div>
-          {!GENERAL_FEEDBACK_DISCUSSION_ID && (
-            <div style={{ color: 'red', marginTop: 20 }}>
-              GENERAL_FEEDBACK_DISCUSSION_ID is undefined in .env
-            </div>
-          )}
+          <WithMembership render={() => (
+            <Fragment>
+              <div {...styles.tab}>
+                <Button
+                  style={{ zIndex: 1 }}
+                  dimmed={tab && tab !== 'article'}
+                  onClick={this.selectArticleTab}>
+                  {t('feedback/article/button')}
+                </Button>
+                <Button
+                  style={{ marginLeft: '-1px', zIndex: tab === 'general' ? 1 : undefined }}
+                  dimmed={tab && tab !== 'general'}
+                  onClick={this.selectGeneralTab}>
+                  {t('feedback/general/button')}
+                </Button>
+              </div>
+              {!GENERAL_FEEDBACK_DISCUSSION_ID && (
+                <div style={{ color: 'red', marginTop: 20 }}>
+                  GENERAL_FEEDBACK_DISCUSSION_ID is undefined in .env
+                </div>
+              )}
+            </Fragment>
+          )} />
           {tab === 'article' && (
             <Fragment>
-              <div {...styles.articleHeadline}>
-                <Interaction.H3>
-                  {t('feedback/article/headline')}
-                </Interaction.H3>
-              </div>
-              <ArticleSearch
-                value={searchValue}
-                onChange={this.onChangeFromSearch}
-                onReset={this.onReset}
-              />
-              <div {...styles.activeDiscussions}>
-                <Label style={{ display: 'block', marginBottom: 10 }}>
-                  {t('feedback/activeDiscussions/label')}
-                </Label>
-                <ActiveDiscussions
-                  discussionId={activeDiscussionId}
-                  onChange={this.onChangeFromActiveDiscussions}
-                  onReset={this.onReset}
-                  ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
-                />
-              </div>
+              <WithMembership render={() => (
+                <Fragment>
+                  <div {...styles.articleHeadline}>
+                    <Interaction.H3>
+                      {t('feedback/article/headline')}
+                    </Interaction.H3>
+                  </div>
+                  <ArticleSearch
+                    value={searchValue}
+                    onChange={this.onChangeFromSearch}
+                    onReset={this.onReset}
+                  />
+                  <div {...styles.activeDiscussions}>
+                    <Label style={{ display: 'block', marginBottom: 10 }}>
+                      {t('feedback/activeDiscussions/label')}
+                    </Label>
+                    <ActiveDiscussions
+                      discussionId={activeDiscussionId}
+                      onChange={this.onChangeFromActiveDiscussions}
+                      onReset={this.onReset}
+                      ignoreDiscussionId={GENERAL_FEEDBACK_DISCUSSION_ID}
+                    />
+                  </div>
+                </Fragment>
+              )} />
               <div {...styles.selectedHeadline} ref={this.setArticleRef}>
                 <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
               </div>
@@ -261,14 +272,16 @@ class FeedbackPage extends Component {
             />
           )}
           {!tab && (
-            <Fragment>
-              <div {...styles.selectedHeadline}>
-                <Interaction.H3>
-                  {t('feedback/latestComments/headline')}
-                </Interaction.H3>
-              </div>
-              <LatestComments />
-            </Fragment>
+            <WithMembership render={() => (
+              <Fragment>
+                <div {...styles.selectedHeadline}>
+                  <Interaction.H3>
+                    {t('feedback/latestComments/headline')}
+                  </Interaction.H3>
+                </div>
+                <LatestComments />
+              </Fragment>
+            )} />
           )}
         </Center>
       </Frame>

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import { withDiscussionDocumentMeta } from './enhancers'
+import { WithMembership, WithoutMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 
 import Link from '../Link/Href'
@@ -27,9 +28,20 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
 
   return (
     <Interaction.H3>
-      {t.elements('feedback/autoArticle/selected/headline', {
-        link: ArticleLink
-      })}
+      <WithMembership render={() => (
+        <Fragment>
+          {t.elements('feedback/autoArticle/selected/headline', {
+            link: ArticleLink
+          })}
+        </Fragment>
+      )} />
+      <WithoutMembership render={() => (
+        <Fragment>
+          {t.elements('feedback/autoArticle/selected/headline', {
+            link: <Fragment>«{articleMeta.title}»</Fragment>
+          })}
+        </Fragment>
+      )} />
     </Interaction.H3>
   )
 }

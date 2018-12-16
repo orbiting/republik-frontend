@@ -27,7 +27,7 @@ import {
 
 import Accordion from './Accordion'
 import Submit from './Submit'
-import CustomizePackage, { getOptionFieldKey } from './CustomizePackage'
+import CustomizePackage, { getOptionFieldKey, getOptionPeriodsFieldKey } from './CustomizePackage'
 
 const { H1, H2, P } = Interaction
 
@@ -75,6 +75,9 @@ class Pledge extends Component {
       values.price = pledge.total
       pledge.options.forEach(option => {
         values[getOptionFieldKey(option)] = option.amount
+        if (option.periods !== null) {
+          values[getOptionPeriodsFieldKey(option)] = option.periods
+        }
       })
       basePledge = {
         values: {
@@ -124,17 +127,22 @@ class Pledge extends Component {
       },
       options: pkg ? pkg.options.map(option => {
         const fieldKey = getOptionFieldKey(option)
+        const fieldKeyPeriods = getOptionPeriodsFieldKey(option)
+
         return {
           amount: values[fieldKey] === undefined
             ? option.defaultAmount
             : values[fieldKey],
+          periods: values[fieldKeyPeriods] !== undefined
+            ? values[fieldKeyPeriods]
+            : option.reward && option.reward.defaultPeriods,
           price: option.price,
           templateId: option.templateId,
           membershipId: option.membership
             ? option.membership.id
             : undefined,
           /* ToDo: move logic to backend? */
-          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.name !== 'ABO_GIVE' && (
+          autoPay: option.reward && option.reward.__typename === 'MembershipType' && pkg.group !== 'GIVE' && (
             !option.membership ||
             option.membership.user.id === (customMe && customMe.id)
           )
@@ -212,6 +220,7 @@ class Pledge extends Component {
       loading, error, isMember, t, customMe, statement, query, packages
     } = this.props
 
+    const queryGroup = query.group
     const queryPackage = query.package && query.package.toUpperCase()
     const pkg = this.getPkg()
 
@@ -241,8 +250,16 @@ class Pledge extends Component {
         image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(statement.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${statement.id}&package=${queryPackage}`)}`
       }
       : {
-        title: t('pledge/meta/title'),
-        description: t('pledge/meta/description'),
+        title: t.first([
+          pkg && `pledge/meta/package/${pkg.name}/title`,
+          queryGroup && `pledge/meta/group/${queryGroup}/title`,
+          'pledge/meta/title'
+        ]),
+        description: t.first([
+          pkg && `pledge/meta/package/${pkg.name}/description`,
+          queryGroup && `pledge/meta/group/${queryGroup}/description`,
+          'pledge/meta/description'
+        ]),
         image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
       }
 
@@ -271,6 +288,13 @@ class Pledge extends Component {
           const showSignIn = this.state.showSignIn && !me
           const userPrice = !!query.userPrice
 
+          const ownMembershipOption = customMe && pkg && pkg.options.find(option => (
+            option.membership &&
+            option.membership.user &&
+            option.membership.user.id === customMe.id
+          ))
+          const ownMembership = ownMembershipOption && ownMembershipOption.membership
+
           return (
             <div>
               {(statementTitle || (packageInstruction && !!packageInstruction.length)) && <div style={{ marginBottom: 40 }}>
@@ -288,6 +312,7 @@ class Pledge extends Component {
               </div>}
               <H1>
                 {t.first([
+                  ownMembership && `pledge/title/${pkg.name}/${ownMembership.type.name}`,
                   pkg && isMember && `pledge/title/${pkg.name}/member`,
                   pkg && `pledge/title/${pkg.name}`,
                   isMember && 'pledge/title/member',
@@ -311,15 +336,20 @@ class Pledge extends Component {
                     values={values}
                     errors={errors}
                     dirty={dirty}
+                    ownMembership={ownMembership}
                     customMe={customMe}
                     userPrice={userPrice}
                     pkg={pkg}
+                    packages={packages}
                     onChange={(fields) => {
                       this.setState(FieldSet.utils.mergeFields(fields))
                     }} />
                 ) : (
-                  <Accordion crowdfundingName={crowdfundingName}
-                    packages={packages} extended />
+                  <Accordion
+                    crowdfundingName={crowdfundingName}
+                    packages={packages}
+                    group={queryGroup}
+                    extended />
                 )}
               </div>
               {pkg && (
@@ -454,6 +484,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     packages {
       id
       name
+      group
       paymentMethods
       options {
         id
@@ -468,6 +499,10 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
           ... on MembershipType {
             id
             name
+            interval
+            minPeriods
+            maxPeriods
+            defaultPeriods
           }
           ... on Goodie {
             id
@@ -496,6 +531,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
     customPackages {
       id
       name
+      group
       paymentMethods
       options {
         id
@@ -510,6 +546,10 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
           ... on MembershipType {
             id
             name
+            interval
+            minPeriods
+            maxPeriods
+            defaultPeriods
           }
           ... on Goodie {
             id
@@ -584,8 +624,8 @@ const PledgeWithQueries = compose(
     }),
     props: ({ data }) => {
       const packages = []
-        .concat(data.crowdfunding && data.crowdfunding.packages)
         .concat(data.me && data.me.customPackages)
+        .concat(data.crowdfunding && data.crowdfunding.packages)
         .filter(Boolean)
       return {
         refetchPackages: data.refetch,

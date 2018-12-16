@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-13T09:24:44.635Z",
+  "updated": "2018-12-13T17:59:05.091Z",
   "title": "live",
   "data": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "key": "nav/discussion",
-      "value": "Diskussion"
+      "value": "Dialog"
     },
     {
       "key": "nav/community",
@@ -952,11 +952,11 @@
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING",
-      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PROJECT_R/WAITING",
-      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PAID",
@@ -2504,7 +2504,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Vor Weihnachten können wir Bestellungen bis und mit Donnerstag 20. Dezember liefern."
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Spätester Bestelltermin, damit die Sendung vor Weihnachten bei Ihnen eintrifft: Donnerstag, 20. Dezember 2018."
     },
     {
       "key": "shareholder/pageTitle",
@@ -3119,6 +3119,18 @@
       "value": "Abonnement reaktivieren"
     },
     {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/prolong/link",
+      "value": "Abonnement verlängern"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/cancel/link",
+      "value": "Abonnement künden"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/reactivate",
+      "value": "Abonnement reaktivieren"
+    },
+    {
       "key": "memberships/claim/lead",
       "value": "Willkommen an Bord! Hier können Sie Ihren Gutscheincode einlösen."
     },
@@ -3340,11 +3352,11 @@
     },
     {
       "key": "pages/feedback/title",
-      "value": "Mitreden"
+      "value": "Dialog"
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir gemeinsam über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
     },
     {
       "key": "feedback/general/button",
@@ -3679,6 +3691,10 @@
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
     },
     {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
+    },
+    {
       "key": "package/PROLONG/price",
       "value": "{formattedCHF} pro Jahr"
     },
@@ -3791,6 +3807,10 @@
       "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
     },
     {
+      "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
+      "value": "Willkommen an Bord!"
+    },
+    {
       "key": "pledge/title/PROLONG",
       "value": "Verlängern Sie Ihr Investment."
     },
@@ -3888,35 +3908,35 @@
     },
     {
       "key": "pledge/meta/title",
-      "value": "Jetzt Mitglied und Abonnentin werden"
+      "value": "Republik-Mitglied und Abonnentin werden"
     },
     {
       "key": "pledge/meta/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/group/GIVE/title",
-      "value": "Jetzt verschenken"
+      "value": "Die Republik zum verschenken"
     },
     {
       "key": "pledge/meta/group/GIVE/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/title",
-      "value": "Jetzt Mitgliedschaften verschenken"
+      "value": "Republik Jahres-Abo und Mitgliedschaft verschenken"
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/meta/package/ABO_GIVE_MONTHS/title",
-      "value": "Jetzt Abos verschenken"
+      "value": "Republik Monats-Abo verschenken"
     },
     {
       "key": "pledge/meta/package/ABO_GIVE_MONTHS/description",
-      "value": "Lasst uns gemeinsam ein neues Fundament für unabhängigen Journalismus bauen!"
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
     },
     {
       "key": "pledge/form/statement/share/title",

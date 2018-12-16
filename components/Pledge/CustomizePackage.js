@@ -39,14 +39,27 @@ const { P } = Interaction
 const absolutMinPrice = 100
 const calculateMinPrice = (pkg, values, userPrice) => {
   const minPrice = pkg.options.reduce(
-    (price, option) => price + (option.userPrice && userPrice
-      ? 0
-      : option.price * (
-        values[getOptionFieldKey(option)] !== undefined
-          ? values[getOptionFieldKey(option)]
-          : option.defaultAmount || option.minAmount
+    (price, option) => {
+      const amountValue = values[getOptionFieldKey(option)]
+      const amount = amountValue !== undefined
+        ? amountValue
+        : option.defaultAmount || option.minAmount
+
+      // Price adopts to periods
+      const periodsValue = values[getOptionPeriodsFieldKey(option)]
+      const periodsDefaultValue = option.reward && (option.reward.defaultPeriods || option.reward.minPeriods)
+      const multiplier = periodsValue !== undefined
+        ? periodsValue
+        : periodsDefaultValue !== undefined
+          ? periodsDefaultValue
+          : 1
+
+      // Price adopts to amount
+      return price + (option.userPrice && userPrice
+        ? 0
+        : option.price * amount * multiplier
       )
-    ),
+    },
     0
   )
   if (minPrice > absolutMinPrice) {
@@ -95,6 +108,8 @@ export const getOptionFieldKey = option => [
   option.templateId
 ].filter(Boolean).join('-')
 
+export const getOptionPeriodsFieldKey = option => `${getOptionFieldKey(option)}-periods`
+
 const getOptionValue = (option, values) => {
   const fieldKey = getOptionFieldKey(option)
   return values[fieldKey] === undefined
@@ -102,7 +117,7 @@ const getOptionValue = (option, values) => {
     : values[fieldKey]
 }
 
-const GUTTER = 42
+const GUTTER = 20
 const styles = {
   group: css({
     marginBottom: 10,
@@ -112,6 +127,10 @@ const styles = {
     clear: 'both',
     width: `calc(100% + ${GUTTER}px)`,
     margin: `0 -${GUTTER / 2}px`,
+    [mediaQueries.mUp]: {
+      width: `calc(100% + ${GUTTER * 2}px)`,
+      margin: `0 -${GUTTER}px`
+    },
     ':after': {
       content: '""',
       display: 'table',
@@ -122,6 +141,10 @@ const styles = {
     float: 'left',
     paddingLeft: `${GUTTER / 2}px`,
     paddingRight: `${GUTTER / 2}px`,
+    [mediaQueries.mUp]: {
+      paddingLeft: `${GUTTER}px`,
+      paddingRight: `${GUTTER}px`
+    },
     minHeight: 1,
     width: '50%'
   }),
@@ -258,17 +281,45 @@ class CustomizePackage extends Component {
   }
   render () {
     const {
-      t, pkg, userPrice, customMe, router,
+      t, pkg, userPrice, customMe, ownMembership, router,
       crowdfundingName,
       values, errors, dirty,
       onChange
     } = this.props
 
     const price = getPrice(this.props)
-    const configurableOptions = pkg.options
-      .filter(option => (
-        option.minAmount !== option.maxAmount
-      ))
+    const configurableFields = pkg.options
+      .reduce(
+        (fields, option) => {
+          if (option.minAmount !== option.maxAmount) {
+            fields.push({
+              option,
+              key: getOptionFieldKey(option),
+              min: option.minAmount,
+              max: option.maxAmount,
+              default: option.defaultAmount
+            })
+          }
+          if (
+            option.reward &&
+            option.reward.__typename === 'MembershipType' &&
+            option.reward.minPeriods !== undefined &&
+            option.reward.maxPeriods !== undefined &&
+            option.reward.minPeriods - option.reward.maxPeriods !== 0
+          ) {
+            fields.push({
+              option,
+              key: getOptionPeriodsFieldKey(option),
+              min: option.reward.minPeriods,
+              max: option.reward.maxPeriods,
+              default: option.reward.defaultPeriods,
+              interval: option.reward.interval
+            })
+          }
+          return fields
+        },
+        []
+      )
 
     const minPrice = calculateMinPrice(pkg, values, userPrice)
     const regularMinPrice = calculateMinPrice(pkg, values, false)
@@ -279,6 +330,9 @@ class CustomizePackage extends Component {
     ))
     const hasTotebag = !!pkg.options.find(option => (
       option.reward && option.reward.name === 'TOTEBAG'
+    ))
+    const hasGoodies = !!pkg.options.find(option => (
+      option.reward && option.reward.__typename === 'Goodie'
     ))
 
     const onPriceChange = (_, value, shouldValidate) => {
@@ -330,7 +384,7 @@ class CustomizePackage extends Component {
           return Math.ceil((option.price / regularDays * bonusDays) / 100) * 100 * value
         })
     )
-    const payMoreSuggestions = pkg.name === 'DONATE' ? [] : [
+    const payMoreSuggestions = pkg.name === 'DONATE' || pkg.name === 'ABO_GIVE_MONTHS' ? [] : [
       userPrice && { value: regularMinPrice, key: 'normal' },
       !userPrice && price >= minPrice && bonusValue &&
         { value: minPrice + bonusValue, key: 'bonus' },
@@ -344,26 +398,23 @@ class CustomizePackage extends Component {
         return !getOptionValue(option, values) || option.userPrice
       })
     )
-    const ownMembershipOption = pkg.options
-      .find(option => (
-        option.membership &&
-        option.membership.user.id === (customMe && customMe.id)
-      ))
-    const offerCancelMembership = ownMembershipOption && ownMembershipOption.membership
 
     const optionGroups = nest()
-      .key(d => d.optionGroup
-        ? d.optionGroup
+      .key(d => d.option.optionGroup
+        ? d.option.optionGroup
         : '')
-      .entries(configurableOptions)
-      .map(({ key: group, values: options }) => {
+      .entries(configurableFields)
+      .map(({ key: group, values: fields }) => {
+        const options = fields
+          .map(field => field.option)
+          .filter((o, i, a) => a.indexOf(o) === i)
         const selectedGroupOption = group && options.find(option => {
           return getOptionValue(option, values)
         })
         const baseOption = selectedGroupOption || options[0]
         const { membership, additionalPeriods } = baseOption
         const checkboxGroup = (
-          group && options.length === 1 &&
+          group && fields.length === 1 &&
           baseOption.minAmount === 0 &&
           baseOption.maxAmount === 1
         )
@@ -373,13 +424,14 @@ class CustomizePackage extends Component {
           group,
           checkboxGroup,
           options,
+          fields,
           selectedGroupOption,
           membership,
           isAboGive,
           additionalPeriods
         }
       })
-    const multipleThings = configurableOptions.length && (
+    const multipleThings = configurableFields.length && (
       optionGroups.length > 1 ||
       !optionGroups[0].group
     )
@@ -392,7 +444,13 @@ class CustomizePackage extends Component {
           <A href='/angebote' onClick={event => {
             event.preventDefault()
             this.resetPrice()
-            Router.replaceRoute('pledge', {}, { shallow: true })
+            Router.replaceRoute(
+              'pledge',
+              pkg.group && pkg.group !== 'ME'
+                ? { group: pkg.group }
+                : undefined,
+              { shallow: true }
+            )
           }}>
             {t('package/customize/changePackage')}
           </A>
@@ -408,15 +466,18 @@ class CustomizePackage extends Component {
           )}
           {t.first(
             [
+              ownMembership && `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
+              ownMembership && `package/${pkg.name}/${ownMembership.type.name}/description`,
               `package/${crowdfundingName}/${pkg.name}/description`,
               `package/${pkg.name}/description`
-            ]
+            ].filter(Boolean)
           )}
         </P>
         {
           optionGroups.map(({
             group,
             checkboxGroup,
+            fields,
             options,
             selectedGroupOption,
             membership,
@@ -481,13 +542,25 @@ class CustomizePackage extends Component {
                   compact />}
                 <div {...styles[group ? 'group' : 'grid']}>
                   {
-                    options.map((option, i) => {
-                      const fieldKey = getOptionFieldKey(option)
-                      const value = getOptionValue(option, values)
+                    fields.map((field, i) => {
+                      const option = field.option
+                      const fieldKey = field.key
+                      const elementKey = [option.id, fieldKey].join('-')
+                      const value = values[fieldKey] === undefined
+                        ? field.default
+                        : values[fieldKey]
                       const label = t.first([
                         ...(isAboGive ? [
                           `option/${pkg.name}/${option.reward.name}/label/give`,
                           `option/${option.reward.name}/label/give`
+                        ] : []),
+                        ...(field.interval ? [
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label/other`,
+                          `option/${pkg.name}/${option.reward.name}/interval/${field.interval}/label`,
+                          `option/${option.reward.name}/interval/${field.interval}/label/${value}`,
+                          `option/${option.reward.name}/interval/${field.interval}/label/other`,
+                          `option/${option.reward.name}/interval/${field.interval}/label`
                         ] : []),
                         `option/${pkg.name}/${option.reward.name}/label/${value}`,
                         `option/${pkg.name}/${option.reward.name}/label/other`,
@@ -505,16 +578,16 @@ class CustomizePackage extends Component {
                           ? parseInt(value, 10) || 0
                           : ''
 
-                        if (parsedValue > option.maxAmount) {
+                        if (parsedValue > field.max) {
                           error = t('package/customize/option/error/max', {
                             label,
-                            maxAmount: option.maxAmount
+                            maxAmount: field.max
                           })
                         }
-                        if (parsedValue < option.minAmount) {
+                        if (parsedValue < field.min) {
                           error = t('package/customize/option/error/min', {
                             label,
-                            minAmount: option.minAmount
+                            minAmount: field.min
                           })
                         }
 
@@ -541,7 +614,7 @@ class CustomizePackage extends Component {
                         onChange(this.calculateNextPrice(fields))
                       }
 
-                      if (group && option.minAmount === 0 && option.maxAmount === 1) {
+                      if (group && field.min === 0 && field.max === 1) {
                         const children = (
                           <span style={{
                             display: 'inline-block',
@@ -561,7 +634,7 @@ class CustomizePackage extends Component {
                         )
                         if (checkboxGroup) {
                           return <Checkbox
-                            key={option.id}
+                            key={elementKey}
                             checked={!!value}
                             onChange={(_, checked) => {
                               onFieldChange(undefined, +checked, dirty[fieldKey])
@@ -569,7 +642,7 @@ class CustomizePackage extends Component {
                             {children}
                           </Checkbox>
                         }
-                        return <Fragment key={option.id}>
+                        return <Fragment key={elementKey}>
                           <span style={{
                             display: 'inline-block',
                             whiteSpace: 'nowrap',
@@ -588,20 +661,20 @@ class CustomizePackage extends Component {
                       }
 
                       return (
-                        <div key={option.id} {...styles.span} style={{
-                          width: configurableOptions.length === 1 || (configurableOptions.length === 3 && i === 0)
+                        <div key={elementKey} {...styles.span} style={{
+                          width: configurableFields.length === 1 || (configurableFields.length === 3 && i === 0)
                             ? '100%' : '50%'
                         }}>
-                          <div style={{ marginBottom: 20 }}>
+                          <div>
                             <Field
                               ref={i === 0 && !group ? this.focusRefSetter : undefined}
                               label={label}
                               error={dirty[fieldKey] && errors[fieldKey]}
                               value={value}
-                              onInc={value < option.maxAmount && (() => {
+                              onInc={value < field.max && (() => {
                                 onFieldChange(undefined, value + 1, dirty[fieldKey])
                               })}
-                              onDec={value > option.minAmount && (() => {
+                              onDec={value > field.min && (() => {
                                 onFieldChange(undefined, value - 1, dirty[fieldKey])
                               })}
                               onChange={onFieldChange}
@@ -665,6 +738,13 @@ class CustomizePackage extends Component {
             )
           })
         }
+        { hasGoodies &&
+          <div style={{ marginBottom: 20 }}>
+            <Label>
+              {t('pledge/notice/goodies/delivery')}
+            </Label>
+          </div>
+        }
         {!!userPrice && (<div>
           <P>
             {t('package/customize/userPrice/beforeReason')}
@@ -701,7 +781,7 @@ class CustomizePackage extends Component {
               {price / 100}
             </Interaction.P>
             : <Field label={t(`package/customize/price/label${multipleThings ? '/total' : ''}`)}
-              ref={(configurableOptions.length || userPrice)
+              ref={(configurableFields.length || userPrice)
                 ? undefined : this.focusRefSetter}
               error={dirty.price && errors.price}
               value={price / 100}
@@ -745,6 +825,86 @@ class CustomizePackage extends Component {
                 </Interaction.Emphasis>
               </div>}
             </Fragment>}
+            {pkg.name === 'ABO_GIVE_MONTHS' &&
+              <Fragment>
+                <Interaction.Emphasis>
+                  {t('package/customize/price/payMore')}
+                </Interaction.Emphasis>
+                <ul {...styles.ul}>
+                  <li><Editorial.A
+                    href={format({
+                      pathname: '/angebote',
+                      query: { package: 'ABO_GIVE' }
+                    })}
+                    onClick={(e) => {
+                      if (shouldIgnoreClick(e)) {
+                        return
+                      }
+                      e.preventDefault()
+                      this.resetPrice()
+
+                      const aboGive = this.props.packages.find(p => p.name === 'ABO_GIVE')
+                      if (aboGive) {
+                        const numMembershipMonths = pkg.options.find(o => o.reward && o.reward.__typename === 'MembershipType')
+                        const numMembershipYears = aboGive.options.find(o => o.reward && o.reward.__typename === 'MembershipType')
+                        if (numMembershipMonths && numMembershipYears) {
+                          onChange(
+                            FieldSet.utils.fieldsState({
+                              field: getOptionFieldKey(numMembershipYears),
+                              value: Math.min(
+                                Math.max(
+                                  getOptionValue(numMembershipMonths, values),
+                                  numMembershipYears.minAmount
+                                ),
+                                numMembershipYears.maxAmount
+                              ),
+                              error: undefined,
+                              dirty: true
+                            })
+                          )
+                        }
+
+                        aboGive.options
+                          .filter(o => o.reward && o.reward.__typename === 'Goodie')
+                          .forEach(oYears => {
+                            const oMonths = pkg.options.find(d => (
+                              d.reward &&
+                              d.reward.__typename === oYears.reward.__typename &&
+                              d.reward.name === oYears.reward.name
+                            ))
+                            onChange(
+                              FieldSet.utils.fieldsState({
+                                field: getOptionFieldKey(oYears),
+                                value: Math.min(
+                                  Math.max(
+                                    getOptionValue(oMonths, values),
+                                    oYears.minAmount
+                                  ),
+                                  oYears.maxAmount
+                                ),
+                                error: undefined,
+                                dirty: true
+                              })
+                            )
+                          })
+                      }
+
+                      Router.pushRoute(
+                        'pledge',
+                        { package: 'ABO_GIVE' },
+                        { shallow: true }
+                      )
+                    }}>
+                    {t.pluralize('package/customize/ABO_GIVE_MONTHS/years', {
+                      count: getOptionValue(
+                        pkg.options.find(option => option.reward && option.reward.__typename === 'MembershipType'),
+                        values
+                      )
+                    })}
+                  </Editorial.A></li>
+                </ul>
+              </Fragment>
+            }
             {offerUserPrice &&
               <Fragment>
                 <Editorial.A
@@ -787,12 +947,12 @@ class CustomizePackage extends Component {
                 <br />
               </Fragment>
             }
-            {offerCancelMembership &&
+            {ownMembership &&
               <Fragment>
-                <Link route='cancel' params={{ membershipId: offerCancelMembership.id }} passHref>
+                <Link route='cancel' params={{ membershipId: ownMembership.id }} passHref>
                   <Editorial.A>
                     {t.first([
-                      `memberships/${offerCancelMembership.type.name}/manage/cancel/link`,
+                      `memberships/${ownMembership.type.name}/manage/cancel/link`,
                       'memberships/manage/cancel/link'
                     ])}
                   </Editorial.A>

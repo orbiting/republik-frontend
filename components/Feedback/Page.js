@@ -148,8 +148,8 @@ class FeedbackPage extends Component {
     }
 
     this.scrollToArticleDiscussion = () => {
-      const { tab, activeDiscussionId, focusId } = this.state
-      if (!focusId && this.articleRef && tab === 'article' && activeDiscussionId) {
+      const { router: { query } } = this.props
+      if (!query.focus && this.articleRef && query.t === 'article' && query.id) {
         const headerHeight = window.innerWidth < mediaQueries.mBreakPoint
           ? HEADER_HEIGHT_MOBILE
           : HEADER_HEIGHT

@@ -197,13 +197,17 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           <br />
         </div>
         <div {...styles.section}>
-          <NavLink
-            route='discussion'
-            translation={t('nav/discussion')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='discussion'
+                translation={t('nav/discussion')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
           <NavLink
             route='community'
             translation={t('nav/community')}

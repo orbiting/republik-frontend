@@ -49,12 +49,12 @@ class DiscussionCommentComposer extends PureComponent {
       })
     }
 
-    this.submitComment = content => {
+    this.submitComment = (content, tags) => {
       this.setState({
         state: 'submitting'
       })
 
-      this.props.submitComment(null, content).then(
+      this.props.submitComment(null, content, tags).then(
         () => {
           this.setState({
             state: 'idle',
@@ -146,6 +146,8 @@ class DiscussionCommentComposer extends PureComponent {
                   submitLabel={t('submitComment/rootSubmitLabel')}
                   secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+                  tags={discussion.tags}
+                  tagRequired={discussion.tagRequired}
                 />
                 {showPreferences && (
                   <DiscussionPreferences

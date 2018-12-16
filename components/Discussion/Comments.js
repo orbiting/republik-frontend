@@ -20,7 +20,7 @@ import {
   colors
 } from '@project-r/styleguide'
 
-import { PUBLIC_BASE_URL } from '../../lib/constants'
+import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
@@ -220,7 +220,8 @@ class Comments extends PureComponent {
       discussionUserCanComment,
       discussionClosed,
       data: { discussion },
-      now
+      now,
+      sharePath
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -230,16 +231,35 @@ class Comments extends PureComponent {
         </Link>
       }
       if (commentId) {
-        if (discussion.documentPath) {
-          const documentPathObject = parse(discussion.documentPath, true)
+        const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
+        if (
+          isGeneral ||
+          (discussion.document &&
+            discussion.document.meta &&
+            discussion.document.meta.template === 'article' &&
+            discussion.document.meta.ownDiscussion &&
+            !discussion.document.meta.ownDiscussion.closed)
+        ) {
+          return (
+            <Link
+              route='discussion'
+              params={{
+                t: isGeneral ? 'general' : 'article',
+                id: discussion.id,
+                focus: commentId
+              }}
+            >
+              {children}
+            </Link>
+          )
+        }
+        if (discussion.path) {
+          const documentPathObject = parse(discussion.path, true)
 
           return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
             {children}
           </PathLink>
         }
-        return <Link route='discussion' params={{ id: discussion.id, focus: commentId }} {...props}>
-          {children}
-        </Link>
       }
       return children
     }
@@ -451,6 +471,19 @@ class Comments extends PureComponent {
         otherChild
       }, null, 2)}</BlockLabel>)
 
+      const isRoot = comment.parentIds.length === 0
+      const tags = isRoot && discussion && discussion.tags && discussion.tags.length
+        ? discussion.tags
+        : undefined
+      // assuming frontend currently only supports one tag per comment.
+      const selectedTag = tags &&
+        comment.tags &&
+        comment.tags.length &&
+        comment.tags[0]
+      const context = selectedTag ? {
+        title: selectedTag
+      } : undefined
+
       accumulator.list.push(
         <CommentTreeRow
           key={comment.id}
@@ -483,8 +516,10 @@ class Comments extends PureComponent {
           Link={CommentLink}
           secondaryActions={<SecondaryActions />}
           collapsable={discussion && discussion.collapsable}
-          onShare={() => this.setState({ shareUrl: getFocusUrl(discussion.documentPath, comment.id) })}
-
+          onShare={() => this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })}
+          tags={tags}
+          selectedTag={selectedTag}
+          context={context}
         />
       )
 
@@ -574,7 +609,7 @@ class Comments extends PureComponent {
 
     return (
       <Loader
-        loading={loading || (hasFocus && focusLoading)}
+        loading={loading || (hasFocus && focusLoading) || discussion === undefined}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const { totalCount, pageInfo, nodes, focus } = discussion.comments

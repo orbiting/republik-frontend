@@ -1,11 +1,7 @@
 {
-  "updated": "2018-12-15T15:22:00.000Z",
+  "updated": "2018-12-13T17:59:05.091Z",
   "title": "live",
   "data": [
-    {
-      "key": "styleguide/CommentTeaser/commentLink",
-      "value": "Zum Beitrag"
-    },
     {
       "key": "nav/magazine",
       "value": "Magazin"
@@ -24,7 +20,7 @@
     },
     {
       "key": "nav/discussion",
-      "value": "Diskussion"
+      "value": "Dialog"
     },
     {
       "key": "nav/community",
@@ -3356,11 +3352,11 @@
     },
     {
       "key": "pages/feedback/title",
-      "value": "Mitreden"
+      "value": "Dialog"
     },
     {
       "key": "feedback/lead",
-      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir gemeinsam über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
     },
     {
       "key": "feedback/general/button",

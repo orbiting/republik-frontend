@@ -199,7 +199,8 @@ class FeedbackPage extends Component {
         : tab === 'article' && query.id
 
     return (
-      <Frame raw meta={pageMeta}>
+      // Meta tags for a focus comment are rendered in Discussion/Commments.js
+      <Frame raw meta={activeDiscussionId && query.focus ? undefined : pageMeta}>
         <Center {...styles.container}>
           <div {...styles.intro}>
             <Interaction.P>
@@ -269,6 +270,10 @@ class FeedbackPage extends Component {
               focusId={query.focus}
               mute={query && !!query.mute}
               sharePath={asPath}
+              meta={{
+                ...pageMeta,
+                url: asPath
+              }}
             />
           )}
           {!tab && (

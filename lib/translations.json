@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-17T16:08:38.685Z",
+  "updated": "2018-12-17T17:51:50.689Z",
   "title": "live",
   "data": [
     {
@@ -265,6 +265,10 @@
     {
       "key": "signIn/email/error/invalid",
       "value": "E-Mail-Adresse ungültig"
+    },
+    {
+      "key": "signIn/context/grant/lead",
+      "value": "Geben Sie hier die E-Mail-Adresse an, auf die die Einladung ausgestellt wurde. Sie erhalten anschliessend eine E-Mail mit einem Bestätigungs-Link."
     },
     {
       "key": "cookies/disabled/error",
@@ -1641,6 +1645,10 @@
     {
       "key": "discussion/share/emailSubject",
       "value": "Republik: {title}"
+    },
+    {
+      "key": "discussion/closed",
+      "value": "Diese Diskussion ist geschlossen."
     },
     {
       "key": "styleguide/AudioPlayer/aria",

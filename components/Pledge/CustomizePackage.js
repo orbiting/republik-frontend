@@ -546,9 +546,11 @@ class CustomizePackage extends Component {
                       const option = field.option
                       const fieldKey = field.key
                       const elementKey = [option.id, fieldKey].join('-')
-                      const value = values[fieldKey] === undefined
-                        ? field.default
-                        : values[fieldKey]
+                      const value = (
+                        values[fieldKey] === undefined
+                          ? field.default
+                          : values[fieldKey]
+                      ) || ''
                       const label = t.first([
                         ...(isAboGive ? [
                           `option/${pkg.name}/${option.reward.name}/label/give`,

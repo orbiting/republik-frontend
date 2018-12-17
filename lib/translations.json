@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-13T17:59:05.091Z",
+  "updated": "2018-12-17T15:15:11.342Z",
   "title": "live",
   "data": [
     {
@@ -3360,15 +3360,15 @@
     },
     {
       "key": "feedback/general/button",
-      "value": "Allgemein"
+      "value": "Allgemeines"
     },
     {
       "key": "feedback/article/button",
-      "value": "Artikel"
+      "value": "Unsere Stücke"
     },
     {
       "key": "feedback/article/headline",
-      "value": "Zu welchem Artikel wollen Sie einen Beitrag schreiben oder lesen?"
+      "value": "Zu welchem Stück wollen Sie einen Beitrag schreiben oder lesen?"
     },
     {
       "key": "feedback/activeDiscussions/label",

@@ -54,7 +54,9 @@ const styles = {
     position: 'relative',
     '& > button': {
       flexGrow: 1,
-      width: '50%'
+      [mediaQueries.mUp]: {
+        width: '50%'
+      }
     }
   }),
   articleHeadline: css({

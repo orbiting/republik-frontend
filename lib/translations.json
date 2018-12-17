@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-17T15:37:07.592Z",
+  "updated": "2018-12-17T16:08:38.685Z",
   "title": "live",
   "data": [
     {
@@ -3353,6 +3353,18 @@
     {
       "key": "pages/feedback/title",
       "value": "Dialog"
+    },
+    {
+      "key": "feedback/unauthorized/title",
+      "value": "Republik-Dialog"
+    },
+    {
+      "key": "feedback/unauthorized",
+      "value": "Die Republik ist nur so stark wie Ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
+    },
+    {
+      "key": "feedback/unauthorized/buyText",
+      "value": "Kommen Sie jetzt an Bord!"
     },
     {
       "key": "feedback/lead",

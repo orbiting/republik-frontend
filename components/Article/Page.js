@@ -437,7 +437,7 @@ class ArticlePage extends Component {
             ? 'series'
             : this.props.payNoteVariation
 
-          const ownDiscussionId = meta.ownDiscussion && meta.ownDiscussion.id
+          const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           return (
@@ -464,14 +464,16 @@ class ArticlePage extends Component {
                   variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
-              {meta.template === 'article' && ownDiscussionId && !linkedDiscussion && <Center>
-                <AutoDiscussionTeaser
-                  discussionId={ownDiscussionId}
-                />
-              </Center>}
-              {meta.template === 'discussion' && ownDiscussionId && <Center>
+              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
+                <Center>
+                  <AutoDiscussionTeaser
+                    discussionId={ownDiscussion.id}
+                  />
+                </Center>
+              )}
+              {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
-                  discussionId={ownDiscussionId}
+                  discussionId={ownDiscussion.id}
                   focusId={router.query.focus}
                   mute={!!router.query.mute}
                   meta={meta} />

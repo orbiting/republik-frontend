@@ -11,7 +11,7 @@ import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
-import withMembership from '../../Auth/withMembership'
+import { withMembership } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'

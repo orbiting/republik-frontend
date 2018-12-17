@@ -12,6 +12,7 @@ import Me from './Me'
 import { Interaction, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
+import { withMembership } from './checkRoles'
 
 const UnauthorizedMessage = compose(
   withT,
@@ -122,4 +123,4 @@ export const enforceMembership = (meta, unauthorizedTexts) => WrappedComponent =
   return <UnauthorizedPage {...{ me, meta, unauthorizedTexts }} />
 })
 
-export default withAuthorization(['member'], 'isMember')
+export default withMembership

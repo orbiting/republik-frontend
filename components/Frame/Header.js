@@ -9,7 +9,7 @@ import { Router } from '../../lib/routes'
 
 import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
 
-import withMembership from '../Auth/withMembership'
+import { withMembership } from '../Auth/checkRoles'
 
 import Toggle from './Toggle'
 import User from './User'

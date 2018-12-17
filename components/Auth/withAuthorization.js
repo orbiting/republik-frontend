@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import Frame from '../Frame'
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import SignIn from './SignIn'
 import Me from './Me'
@@ -8,17 +7,7 @@ import { css } from 'glamor'
 
 import { Interaction } from '@project-r/styleguide'
 
-const checkRoles = (me, roles) => {
-  return !!(
-    me &&
-    (!roles || (
-      me.roles &&
-      me.roles.some(role =>
-        roles.indexOf(role) !== -1
-      )
-    ))
-  )
-}
+import { withAuthorization } from './checkRoles'
 
 const styles = {
   center: css({
@@ -33,14 +22,6 @@ export const PageCenter = ({ children }) => (
     {children}
   </div>
 )
-
-const withAuthorization = (roles, key = 'isAuthorized') =>
-  WrappedComponent =>
-    withMe(({ me, ...props }) =>
-      <WrappedComponent {...props}
-        me={me}
-        {...{ [key]: checkRoles(me, roles) }} />
-    )
 
 const UnauthorizedPage = withT(({ t, me, roles = [] }) => (
   <Frame raw>

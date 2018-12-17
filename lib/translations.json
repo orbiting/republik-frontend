@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-17T15:15:11.342Z",
+  "updated": "2018-12-17T15:37:07.592Z",
   "title": "live",
   "data": [
     {
@@ -2892,11 +2892,11 @@
     },
     {
       "key": "article/autodiscussionteaser/text",
-      "value": "Was gefällt Ihnen an diesem Artikel? Was gäbe es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
+      "value": "Was gefällt Ihnen an diesem Artikel? Was gibt es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
     },
     {
       "key": "article/autodiscussionteaser/linktext",
-      "value": "Reden Sie mit"
+      "value": "Reden Sie mit auf unserer neuen Dialogseite"
     },
     {
       "key": "merci/postpay/lead",

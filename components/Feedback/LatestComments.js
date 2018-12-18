@@ -2,36 +2,14 @@ import React, { Component } from 'react'
 import { compose } from 'react-apollo'
 import { withComments } from './enhancers'
 import withT from '../../lib/withT'
-import { matchType } from 'mdast-react-render/lib/utils'
-import { renderMdast } from 'mdast-react-render'
 import timeago from '../../lib/timeago'
 
-import ArticleItem from './ArticleItem'
 import { Link } from '../../lib/routes'
 import PathLink from '../Link/Path'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
-import { CommentTeaser, Editorial, Loader } from '@project-r/styleguide'
-
-const br = {
-  matchMdast: matchType('break'),
-  component: () => <br />,
-  isVoid: true
-}
-
-const link = {
-  matchMdast: matchType('link'),
-  props: node => ({
-    title: node.title,
-    href: node.url
-  }),
-  component: Editorial.A
-}
-
-const creditSchema = {
-  rules: [link, br]
-}
+import { CommentTeaser, Loader } from '@project-r/styleguide'
 
 export const CommentLink = ({
   displayAuthor,
@@ -134,21 +112,6 @@ class LatestComments extends Component {
                     const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
                     const newPage = !isGeneral && meta.template === 'discussion'
 
-                    const contextTitle = !isGeneral && discussion.title
-                      ? <ArticleItem
-                        iconSize={18}
-                        title={`«${discussion.title}»`}
-                        newPage={newPage} />
-                      : undefined
-
-                    const contextDescription = contextTitle && meta.credits && meta.credits.length > 0
-                      ? renderMdast(meta.credits, creditSchema)
-                      : undefined
-                    const articleContext = contextTitle ? {
-                      title: contextTitle,
-                      description: contextDescription
-                    } : undefined
-
                     return (
                       <CommentTeaser
                         key={id}
@@ -160,7 +123,6 @@ class LatestComments extends Component {
                         createdAt={createdAt}
                         updatedAt={updatedAt}
                         timeago={timeagoFromNow}
-                        context={articleContext}
                         tags={tags}
                         parentIds={parentIds}
                         Link={CommentLink}

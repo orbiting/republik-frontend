@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-17T17:51:50.689Z",
+  "updated": "2018-12-18T14:03:37.114Z",
   "title": "live",
   "data": [
     {
@@ -280,7 +280,7 @@
     },
     {
       "key": "signOut/label",
-      "value": "abmelden"
+      "value": "Abmelden"
     },
     {
       "key": "signOut/error",
@@ -2896,7 +2896,7 @@
     },
     {
       "key": "article/autodiscussionteaser/title",
-      "value": "Jetzt sind Sie am Zug!"
+      "value": "Jetzt sind Sie dran!"
     },
     {
       "key": "article/autodiscussionteaser/text",
@@ -3396,7 +3396,7 @@
     },
     {
       "key": "feedback/autoArticle/selected/headline",
-      "value": "Beiträge zum Artikel {link}"
+      "value": "Beiträge zu {link}"
     },
     {
       "key": "feedback/latestComments/headline",

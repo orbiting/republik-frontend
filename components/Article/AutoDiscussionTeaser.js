@@ -5,14 +5,13 @@ import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 
 import {
-  InfoBox,
   InfoBoxTitle,
   InfoBoxText,
   linkRule
 } from '@project-r/styleguide'
 
 const AutoDiscussionTeaser = ({ t, discussionId }) => (
-  <InfoBox>
+  <div>
     <InfoBoxTitle>{t('article/autodiscussionteaser/title')}</InfoBoxTitle>
     <InfoBoxText>
       {t.elements('article/autodiscussionteaser/text', {
@@ -22,7 +21,7 @@ const AutoDiscussionTeaser = ({ t, discussionId }) => (
           </a>
         </Link> })}
     </InfoBoxText>
-  </InfoBox>
+  </div>
 )
 
 export default compose(withT)(AutoDiscussionTeaser)

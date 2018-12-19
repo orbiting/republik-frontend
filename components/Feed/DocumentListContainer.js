@@ -64,7 +64,7 @@ class DocumentListContainer extends Component {
 
     return (
       <Query query={query}>
-        {({ loading, error, data, subscribeToMore, fetchMore }) => {
+        {({ loading, error, data, fetchMore }) => {
           const hasMore = data.documents && data.documents.pageInfo.hasNextPage
 
           return (
@@ -78,7 +78,6 @@ class DocumentListContainer extends Component {
                       data={processData(data)}
                       hasMore={hasMore}
                       loadMore={makeLoadMore(fetchMore, data)}
-                      subscribeToMore={subscribeToMore}
                     />
                   </>
                 )

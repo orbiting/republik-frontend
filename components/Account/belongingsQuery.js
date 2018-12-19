@@ -64,7 +64,7 @@ query myBelongings {
       grants {
         id
         email
-        endAt
+        beginBefore
       }
       slots {
         total

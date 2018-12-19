@@ -21,8 +21,9 @@ const grantMutation = gql`
   mutation grantAccess(
     $campaignId: ID!
     $email: String!
+    $message: String
   ) {
-    grantAccess(campaignId: $campaignId, email: $email) {
+    grantAccess(campaignId: $campaignId, email: $email, message: $message) {
       email
       endAt
     }

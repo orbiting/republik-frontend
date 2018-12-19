@@ -16,8 +16,8 @@ const Grants = ({ grant, revokeAccess, t }) => {
     recipient: <Emphasis key={`grant-recipient-${grant.id}`}>
       {grant.email}
     </Emphasis>,
-    endAt: <Emphasis key={`grant-end-${grant.id}`}>
-      {dayFormat(new Date(grant.endAt))}
+    beginBefore: <Emphasis key={`grant-before-${grant.id}`}>
+      {dayFormat(new Date(grant.beginBefore))}
     </Emphasis>
   }
 
@@ -25,7 +25,7 @@ const Grants = ({ grant, revokeAccess, t }) => {
     <Item key={`grant-item-${grant.id}`}>
       { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
       <br />
-      { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+      { t.elements('Account/Access/Campaigns/Grants/beginBefore', elements)}
       <br />
       <Revoke grant={grant} revokeAccess={revokeAccess} />
     </Item>

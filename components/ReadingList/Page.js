@@ -30,9 +30,12 @@ const query = gql`
   query getDocuments($cursor: String) {
     me {
       id
-      ${documentQueryFragment}
+      documents(feed: true, first: 50, after: $cursor) {
+        ...FeedDocumentConnection
+      }
     }
   }
+  ${documentQueryFragment}
 `
 
 const processData = data => data.me

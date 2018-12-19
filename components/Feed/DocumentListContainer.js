@@ -5,7 +5,7 @@ import Loader from '../Loader'
 import DocumentList from './DocumentList'
 
 export const documentQueryFragment = `
-  documents(first: 50, after: $cursor) {
+  fragment FeedDocumentConnection on DocumentConnection {
     totalCount
     pageInfo {
       endCursor

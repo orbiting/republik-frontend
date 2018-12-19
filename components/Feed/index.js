@@ -30,8 +30,11 @@ const styles = {
 
 const getDocuments = gql`
   query getDocuments($cursor: String) {
-    ${documentQueryFragment}
+    documents(feed: true, first: 50, after: $cursor) {
+      ...FeedDocumentConnection
+    }
   }
+  ${documentQueryFragment}
 `
 
 const getGreeting = gql`

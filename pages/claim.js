@@ -2,6 +2,7 @@ import React from 'react'
 
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
+import isEmail from 'validator/lib/isEmail'
 
 import { maybeDecode } from '../lib/utils/base64u'
 import ClaimMembership from '../components/Account/Memberships/Claim'
@@ -15,6 +16,7 @@ const Claim = ({ router: { query }, t }) => {
 
   context = ALLOWED_CONTEXT.includes(context) && context
   email = email && maybeDecode(email)
+  email = email && isEmail(email) ? email : ''
   code =
     code && maybeDecode(code)
       .substr(0, 10) // Limit code to 10 chars

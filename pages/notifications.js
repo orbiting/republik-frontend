@@ -13,6 +13,7 @@ import { intersperse } from '../lib/utils/helpers'
 import { Link } from '../lib/routes'
 import * as base64u from '../lib/utils/base64u'
 
+import RawHtmlTranslation from '../components/RawHtmlTranslation'
 import Me from '../components/Auth/Me'
 import TokenAuthorization from '../components/Auth/TokenAuthorization'
 import MacNewsletterSubscription from '../components/Auth/MacNewsletterSubscription'
@@ -34,7 +35,7 @@ import {
 } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, RawHtml, mediaQueries, colors, Button
+  Interaction, NarrowContainer, Logo, linkRule, mediaQueries, colors, Button
 } from '@project-r/styleguide'
 
 const styles = {
@@ -151,9 +152,10 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
       !me || ['claim', 'preview'].indexOf(context) !== -1
 
     content = <Fragment>
-      <RawHtml type={P} dangerouslySetInnerHTML={{
-        __html: t.first([`notifications/${type}/${context}/text`, `notifications/${type}/text`], query, '')
-      }} />
+      <RawHtmlTranslation first={[
+        `notifications/${type}/${context}/text`,
+        `notifications/${type}/text`
+      ]} replacements={query} missingValue='' />
       {afterTokenAuth && displayCloseNote
         ? <P> {t('notifications/closeNote')} </P>
         : (!hasCurtain || inNativeApp) && <div {...styles.button}>

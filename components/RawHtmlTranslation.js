@@ -14,7 +14,7 @@ const mapElement = (element, i) => typeof element === 'string'
   )
   : element
 
-const RawHtmlTranslation = ({ t, first, translationKey, replacements, missingValue }) => {
+const RawHtmlTranslation = ({ t, first, translationKey, replacements = {}, missingValue }) => {
   const safeReplacements = Object.keys(replacements).reduce((safe, key) => {
     const value = replacements[key]
     if (typeof value === 'string') {

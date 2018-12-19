@@ -20,8 +20,9 @@ class Feed extends Component {
   render () {
     const { documents } = this.props
     const nodes = documents
-      ? [...documents.nodes].filter(node => node.meta.template !== 'format')
+      ? [...documents.nodes]
       : []
+
     return (
       <>
         {

@@ -35,7 +35,7 @@ const query = gql`
   }
 `
 
-const processResult = data => data.me
+const processData = data => data.me
 
 class Page extends Component {
   render () {
@@ -50,7 +50,7 @@ class Page extends Component {
           <div {...styles.title}>Merkliste</div>
           <DocumentListContainer
             query={query}
-            processResult={processResult}
+            processData={processData}
           />
         </Center>
       </Frame>

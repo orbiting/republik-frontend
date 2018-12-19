@@ -60,13 +60,12 @@ const makeLoadMore = (fetchMore, data) => () =>
 
 class DocumentListContainer extends Component {
   render () {
-    const { query, processResult } = this.props
+    const { query, processData } = this.props
 
     return (
       <Query query={query}>
         {({ loading, error, data, subscribeToMore, fetchMore }) => {
-          const processedData = processResult(data)
-          const hasMore = processedData.documents && processedData.documents.pageInfo.hasNextPage
+          const hasMore = data.documents && data.documents.pageInfo.hasNextPage
 
           return (
             <Loader
@@ -75,13 +74,8 @@ class DocumentListContainer extends Component {
               render={() => {
                 return (
                   <>
-                    {
-                      this.props.renderBefore instanceof Function
-                        ? this.props.renderBefore(data)
-                        : null
-                    }
                     <DocumentList
-                      data={processedData}
+                      data={processData(data)}
                       hasMore={hasMore}
                       loadMore={makeLoadMore(fetchMore, data)}
                       subscribeToMore={subscribeToMore}
@@ -98,19 +92,12 @@ class DocumentListContainer extends Component {
 }
 
 DocumentListContainer.defaultProps = {
-  processResult: e => e
+  processData: e => e
 }
 
 DocumentListContainer.propTypes = {
-  query: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.shape({
-      kind: PropTypes.string,
-      definitions: PropTypes.array
-    })
-  ]),
-  processResult: PropTypes.func,
-  renderBefore: PropTypes.func
+  query: PropTypes.object.isRequired,
+  processData: PropTypes.func
 }
 
 export default DocumentListContainer

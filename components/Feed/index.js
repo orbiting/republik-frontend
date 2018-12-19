@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 import Frame from '../Frame'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import Loader from '../Loader'
 
 import {
   mediaQueries,
@@ -29,29 +30,96 @@ const styles = {
 
 const getDocuments = gql`
   query getDocuments($cursor: String) {
-    greeting {
-      text
-      id
-    }
     ${documentQueryFragment}
   }
 `
 
+const getGreeting = gql`
+  {
+    greeting {
+      text
+      id
+    }
+  }
+`
+
+const greetingSubscription = gql`
+  subscription {
+    greeting {
+      id
+      text
+    }
+  }
+`
+
 class Feed extends Component {
+  componentDidMount () {
+    this.subscribe()
+  }
+
+  componentDidUpdate () {
+    this.subscribe()
+  }
+
+  componentWillUnmount () {
+    this.unsubscribe && this.unsubscribe()
+  }
+
+  subscribe () {
+    if (!this.unsubscribe && this.props.data.greeting) {
+      this.unsubscribe = this.props.data.subscribeToMore({
+        document: greetingSubscription,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev
+          }
+          const { greeting } = subscriptionData.data.greeting
+          if (greeting) {
+            return {
+              ...prev,
+              greeting: {
+                ...greeting
+              }
+            }
+          } else {
+            return prev
+          }
+        }
+      })
+    }
+  }
+
   render () {
-    const { meta } = this.props
+    const { meta, data: { error, loading, greeting } } = this.props
 
     return (
       <Frame raw meta={meta}>
         <Center {...styles.container}>
-          <DocumentListContainer
-            renderBefore={({ greeting }) => greeting && (
-              <Interaction.H1 style={{ marginBottom: '40px' }}>
-                {greeting.text}
-              </Interaction.H1>
-            )}
-            query={getDocuments}
-          />
+          <Loader
+            error={error}
+            loading={loading}
+            render={() => {
+              return (
+                <>
+                  {greeting && (
+                    <Interaction.H1 style={{ marginBottom: '40px' }}>
+                      {greeting.text}
+                    </Interaction.H1>
+                  )}
+                  <DocumentListContainer
+                    query={getDocuments}
+                    processData={data => ({
+                      documents: {
+                        ...data.documents,
+                        nodes: data.documents.nodes
+                          .filter(node => node.meta.template !== 'format')
+                      }
+                    })}
+                  />
+                </>
+              )
+            }
+            } />
         </Center>
       </Frame>
     )
@@ -59,6 +127,7 @@ class Feed extends Component {
 }
 
 export default compose(
+  graphql(getGreeting),
   withT,
   withInNativeApp
 )(Feed)

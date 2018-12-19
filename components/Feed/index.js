@@ -112,7 +112,7 @@ class Feed extends Component {
                       documents: {
                         ...data.documents,
                         nodes: data.documents.nodes
-                          .filter(node => node.meta.template !== 'format')
+                          .filter(node => node.meta.template !== 'format' && node.meta.template !== 'front')
                       }
                     })}
                   />

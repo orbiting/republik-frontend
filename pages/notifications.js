@@ -152,10 +152,12 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
       !me || ['claim', 'preview'].indexOf(context) !== -1
 
     content = <Fragment>
-      <RawHtmlTranslation first={[
-        `notifications/${type}/${context}/text`,
-        `notifications/${type}/text`
-      ]} replacements={query} missingValue='' />
+      <P>
+        <RawHtmlTranslation first={[
+          `notifications/${type}/${context}/text`,
+          `notifications/${type}/text`
+        ]} replacements={query} missingValue='' />
+      </P>
       {afterTokenAuth && displayCloseNote
         ? <P> {t('notifications/closeNote')} </P>
         : (!hasCurtain || inNativeApp) && <div {...styles.button}>

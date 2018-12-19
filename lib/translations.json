@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-18T14:03:37.114Z",
+  "updated": "2018-12-19T17:50:04.868Z",
   "title": "live",
   "data": [
     {
@@ -3212,7 +3212,7 @@
     },
     {
       "key": "notifications/invalid-email/text",
-      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «<b>{email}</b>».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
+      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «{email}».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unavailable/title",

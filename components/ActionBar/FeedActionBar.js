@@ -38,7 +38,8 @@ const ActionBar = ({
     },
     hasGallery && {
       icon: 'gallery',
-      title: t('feed/actionbar/gallery')
+      title: t('feed/actionbar/gallery'),
+      size: 22
     },
     hasAudio && {
       icon: 'audio',
@@ -48,8 +49,8 @@ const ActionBar = ({
     hasVideo && {
       icon: 'video',
       title: t('feed/actionbar/video'),
-      size: 22,
-      style: { paddingTop: 1 }
+      size: 17,
+      style: { paddingTop: 5 }
     }
   ]
 

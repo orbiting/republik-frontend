@@ -23,7 +23,7 @@ import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
 import KeyIcon from 'react-icons/lib/fa/key'
-import VideoIcon from 'react-icons/lib/md/videocam'
+import VideoIcon from './Icons/Video'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5

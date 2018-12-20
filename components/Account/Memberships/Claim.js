@@ -65,19 +65,19 @@ class ClaimMembership extends Component {
     }))
   }
   handleVoucherCode (value, shouldValidate, t) {
-    const sanatizedValue = this.sanatizeVoucherCode(value)
+    const sanitizedValue = this.sanitizeVoucherCode(value)
 
     this.setState(FieldSet.utils.mergeField({
       field: 'voucherCode',
       value,
       error:
         (
-          sanatizedValue.length === 0 &&
+          sanitizedValue.length === 0 &&
           t('memberships/claim/voucherCode/label/error/empty')
         ) ||
         (
-          !this.isMembershipVoucherCode(sanatizedValue) &&
-          !this.isAccessGrantVoucherCode(sanatizedValue) &&
+          !this.isMembershipVoucherCode(sanitizedValue) &&
+          !this.isAccessGrantVoucherCode(sanitizedValue) &&
           t('memberships/claim/voucherCode/label/error/unrecognized')
         ),
       dirty: shouldValidate
@@ -89,7 +89,7 @@ class ClaimMembership extends Component {
   isAccessGrantVoucherCode (voucherCode) {
     return voucherCode.length === 5
   }
-  sanatizeVoucherCode (value) {
+  sanitizeVoucherCode (value) {
     return value.replace(/[^a-zA-Z0-9]/g, '').trim()
   }
   checkUserFields ({ me, t }) {
@@ -156,7 +156,7 @@ class ClaimMembership extends Component {
     }
 
     const claim = () => {
-      const code = this.sanatizeVoucherCode(values.voucherCode)
+      const code = this.sanitizeVoucherCode(values.voucherCode)
 
       if (this.isAccessGrantVoucherCode(code)) {
         this.props.claimAccess(code)

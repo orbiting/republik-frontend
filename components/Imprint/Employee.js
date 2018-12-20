@@ -20,18 +20,18 @@ const ProfileLink = ({ children, userId, username }) => {
   )
 }
 
-const Employee = ({ name, title, user }) => {
+const Employee = ({ name, title, user, style }) => {
   const displayName = name + (title ? `, ${title}` : '')
   if (!user) {
-    return <Item name={displayName} style={{ cursor: 'default' }} />
+    return <Item name={displayName} style={{ cursor: 'default', ...style }} />
   }
   const { id, hasPublicProfile, portrait, username } = user
   if (!hasPublicProfile) {
-    return <Item image={portrait} name={displayName} style={{ cursor: 'default' }} />
+    return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} />
   }
   return (
     <ProfileLink userId={id} username={username}>
-      <Item image={portrait} name={displayName} />
+      <Item image={portrait} name={displayName} style={style} />
     </ProfileLink>
   )
 }

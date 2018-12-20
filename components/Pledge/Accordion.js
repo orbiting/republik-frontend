@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { ascending } from 'd3-array'
 import { css, merge } from 'glamor'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
+import { nest } from 'd3-collection'
+import { ascending } from 'd3-array'
 
-import { prefixHover } from '../../lib/utils/hover'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
@@ -14,24 +14,11 @@ import {
   colors,
   fontFamilies,
   Loader,
-  mediaQueries
+  mediaQueries,
+  Editorial
 } from '@project-r/styleguide'
 
-export const OFFER_SORT = {
-  ABO: 1,
-  MONTHLY_ABO: 2,
-  BENEFACTOR: 3,
-  ABO_GIVE: 4,
-  DONATE: 5
-}
-
 const styles = {
-  title: css({
-    fontFamily: fontFamilies.sansSerifRegular,
-    fontSize: 19,
-    lineHeight: '28px',
-    marginBottom: 15
-  }),
   packageHeader: css({
     position: 'relative'
   }),
@@ -70,6 +57,17 @@ const styles = {
     borderBottom: 'none',
     borderTop: 'none'
   }),
+  groupTitle: css({
+    marginTop: 40,
+    marginBottom: 10,
+    fontFamily: fontFamilies.sansSerifMedium,
+    fontSize: 19,
+    lineHeight: '28px',
+    [mediaQueries.mUp]: {
+      fontSize: 25,
+      lineHeight: '33px'
+    }
+  }),
   packageTitle: css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontSize: 16,
@@ -101,27 +99,12 @@ const styles = {
   }),
   buffer: css({
     // catch negative margin from last package
-    marginTop: -1,
-    marginBottom: 20
+    marginTop: -1
   }),
   links: css({
     lineHeight: '24px',
     marginTop: 13,
-    fontSize: 16,
-    '& a': {
-      color: colors.text,
-      cursor: 'pointer',
-      textDecoration: 'underline'
-    },
-    [`& ${prefixHover()}`]: {
-      color: colors.secondary
-    },
-    '& a:focus': {
-      color: colors.secondary
-    },
-    '& a:active': {
-      color: colors.primary
-    }
+    fontSize: 16
   })
 }
 
@@ -133,6 +116,7 @@ query pledgeAccordion($crowdfundingName: String!) {
     packages {
       id
       name
+      group
       options {
         id
         price
@@ -160,8 +144,7 @@ class Accordion extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeIndex: undefined,
-      selectedIndex: undefined
+      hover: undefined
     }
   }
   render () {
@@ -171,115 +154,132 @@ class Accordion extends Component {
     }
 
     const {
-      activeIndex
+      hover
     } = this.state
 
     const {
       t,
-      crowdfunding: { packages },
-      crowdfundingName,
-      children
+      packages,
+      group,
+      crowdfundingName
     } = this.props
 
-    const links = [
-      {
-        route: 'pledge',
-        params: { package: 'ABO', userPrice: 1 },
-        text: t('package/ABO/userPrice/teaser')
-      }
-    ]
+    const groups = nest()
+      .key(d => d.group)
+      .entries(packages)
+
+    if (group) {
+      groups.sort(({ key: a }, { key: b }) => (
+        ascending(+(a !== group), +(b !== group)) ||
+        ascending(
+          groups.findIndex(d => d.key === a),
+          groups.findIndex(d => d.key === b)
+        )
+      ))
+    }
 
     return (
       <div style={{ marginTop: 20 }}>
         {
-          [...packages]
-            .sort((a, b) => ascending(OFFER_SORT[a.name], OFFER_SORT[b.name]))
-            .map((pkg, i) => {
-              const isActive = activeIndex === i
+          groups.map(({ key: group, values: pkgs }) => {
+            const links = [
+              group === 'ME' && {
+                route: 'pledge',
+                params: { package: 'ABO', userPrice: 1 },
+                text: t('package/ABO/userPrice/teaser')
+              }
+            ].filter(Boolean)
 
-              const price = pkg.options.reduce(
-                (amount, option) => amount + option.price * option.minAmount,
-                0
-              )
+            return <Fragment>
+              <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
+              {pkgs.map((pkg, i) => {
+                const isActive = hover === pkg.name
 
-              const packageStyle = merge(
-                styles.package,
-                isActive && styles.packageHighlighted
-              )
+                const price = pkg.options.reduce(
+                  (amount, option) => amount + option.price * option.minAmount,
+                  0
+                )
 
-              return (
-                <Link key={i} route='pledge' params={{
-                  package: pkg.name
-                }}>
-                  <a {...packageStyle}
+                const packageStyle = merge(
+                  styles.package,
+                  isActive && styles.packageHighlighted
+                )
+
+                return (
+                  <Link key={pkg.name} route='pledge' params={{ package: pkg.name }}>
+                    <a {...packageStyle}
+                      onMouseOver={() => this.setState({
+                        hover: pkg.name
+                      })}
+                      onMouseOut={() => this.setState({
+                        hover: undefined
+                      })}>
+                      <div {...styles.packageHeader}>
+                        <div {...styles.packageTitle}>
+                          {t.first(
+                            [
+                              `package/${crowdfundingName}/${pkg.name}/title`,
+                              `package/${pkg.name}/title`
+                            ]
+                          )}
+                        </div>
+                        {!!price && (<div {...styles.packagePrice}>
+                          {t.first([
+                            `package/${pkg.name}/price`,
+                            'package/price'
+                          ], {
+                            formattedCHF: `CHF ${price / 100}`
+                          })}
+                        </div>)}
+                        <span {...styles.packageIcon}>
+                          <ChevronRightIcon size={24} />
+                        </span>
+                      </div>
+                    </a>
+                  </Link>
+                )
+              })}
+              { group === 'ME' &&
+                <Link route='claim'>
+                  <a
+                    {...merge(
+                      styles.package,
+                      hover === 'claim' && styles.packageHighlighted
+                    )}
                     onMouseOver={() => this.setState({
-                      activeIndex: i
+                      hover: 'claim'
                     })}
                     onMouseOut={() => this.setState({
-                      activeIndex: undefined
-                    })}>
+                      hover: undefined
+                    })}
+                  >
                     <div {...styles.packageHeader}>
                       <div {...styles.packageTitle}>
-                        {t.first(
-                          [
-                            `package/${crowdfundingName}/${pkg.name}/title`,
-                            `package/${pkg.name}/title`
-                          ]
-                        )}
+                        {t('marketing/offers/claim')}
                       </div>
-                      {!!price && (<div {...styles.packagePrice}>
-                        {t.first([
-                          `package/${pkg.name}/price`,
-                          'package/price'
-                        ], {
-                          formattedCHF: `CHF ${price / 100}`
-                        })}
-                      </div>)}
                       <span {...styles.packageIcon}>
                         <ChevronRightIcon size={24} />
                       </span>
                     </div>
                   </a>
                 </Link>
-              )
-            })
-        }
-        <Link route='claim'>
-          <a
-            {...merge(
-              styles.package,
-              activeIndex === packages.length && styles.packageHighlighted
-            )}
-            onMouseOver={() => this.setState({
-              activeIndex: packages.length
-            })}
-            onMouseOut={() => this.setState({
-              activeIndex: undefined
-            })}
-          >
-            <div {...styles.packageHeader}>
-              <div {...styles.packageTitle}>
-                {t('marketing/offers/claim')}
+              }
+              <div {...styles.buffer} />
+              { !!links.length && <div {...styles.links}>
+                {
+                  links.map((link, i) => (
+                    <Link key={i} route={link.route} params={link.params} passHref>
+                      <Editorial.A>
+                        {link.text}<br />
+                      </Editorial.A>
+                    </Link>
+                  ))
+                }
               </div>
-              <span {...styles.packageIcon}>
-                <ChevronRightIcon size={24} />
-              </span>
-            </div>
-          </a>
-        </Link>
-        <div {...styles.buffer} />
-        {children}
-        <div {...styles.links}>
-          {
-            links.map((link, i) => (
-              <Link key={i} route={link.route} params={link.params}>
-                <a>
-                  {link.text}<br />
-                </a>
-              </Link>
-            ))
-          }
-        </div>
+              }
+            </Fragment>
+          })
+        }
       </div>
     )
   }
@@ -290,11 +290,12 @@ Accordion.propTypes = {
 }
 
 const AccordionWithQuery = graphql(query, {
+  skip: props => !!props.packages,
   props: ({ data }) => {
     return {
       loading: data.loading,
       error: data.error,
-      crowdfunding: data.crowdfunding
+      packages: data.crowdfunding && data.crowdfunding.packages
     }
   }
 })(Accordion)

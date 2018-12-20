@@ -37,8 +37,8 @@ import {
   Interaction,
   linkRule,
   mediaQueries,
-  RawHtml,
-  TeaserFeed
+  TeaserFeed,
+  Editorial
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 
@@ -180,10 +180,33 @@ const getPublicUser = gql`
         nodes {
           id
           content
+          preview(length:210) {
+            string
+            more
+          }
+          tags
+          parentIds
           discussion {
             id
             title
-            documentPath
+            path
+            document {
+              id
+              meta {
+                title
+                path
+                template
+                ownDiscussion {
+                  id
+                  closed
+                }
+                linkedDiscussion {
+                  id
+                  path
+                  closed
+                }
+              }
+            }
           }
           createdAt
         }
@@ -354,15 +377,13 @@ class Profile extends Component {
                   <Box>
                     <MainContainer>
                       {user.isEligibleForProfile &&
-                        <RawHtml type={Interaction.P} dangerouslySetInnerHTML={{
-                          __html: t('profile/preview')
-                        }} />}
+                        <Interaction.P>{t('profile/preview')}</Interaction.P>}
                       {!user.isEligibleForProfile && <Interaction.P>
                         {t.elements('profile/preview/notEligible',
                           {
                             link: (
-                              <Link route='account' key='account'>
-                                <a {...linkRule}>{t('profile/preview/notEligible/link')}</a>
+                              <Link route='account' key='account' passHref>
+                                <Editorial.A>{t('profile/preview/notEligible/link')}</Editorial.A>
                               </Link>
                             )
                           }

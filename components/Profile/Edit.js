@@ -38,7 +38,7 @@ const EditLink = ({ children, onClick, ...props }) =>
     {children}
   </a>
 
-const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
+const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublicProfile }) => {
   const {
     isEditing
   } = state
@@ -49,9 +49,7 @@ const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
     return (
       <Fragment>
         {!user.hasPublicProfile && user.isEligibleForProfile && user.username && <Button block primary onClick={() => {
-          update({
-            hasPublicProfile: true
-          })
+          setHasPublicProfile(true)
         }}>
           {t('profile/edit/publish')}
         </Button>}
@@ -133,9 +131,7 @@ const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
         {t('profile/edit/save')}
       </EditLink>}
       {user.hasPublicProfile && <EditLink onClick={() => {
-        update({
-          hasPublicProfile: false
-        })
+        setHasPublicProfile(false)
       }}>
         {t('profile/edit/unpublish')}
       </EditLink>}
@@ -226,10 +222,46 @@ const publishCredential = gql`
       description
     }
   }
+`
 
+const setHasPublicProfile = gql`
+  mutation setHasPublicProfile($hasPublicProfile: Boolean) {
+    updateMe(hasPublicProfile: $hasPublicProfile) {
+      id
+      hasPublicProfile
+      isListed
+    }
+  }
 `
 
 export default compose(
+  graphql(setHasPublicProfile, {
+    props: ({ mutate, ownProps: { setState } }) => ({
+      setHasPublicProfile: hasPublicProfile => {
+        setState({ updating: true })
+
+        return mutate({
+          variables: {
+            hasPublicProfile
+          }
+        })
+          .then(() => {
+            setState(() => ({
+              updating: false,
+              isEditing: false,
+              error: undefined,
+              values: {}
+            }))
+          })
+          .catch(error => {
+            setState(() => ({
+              updating: false,
+              error: errorToString(error)
+            }))
+          })
+      }
+    })
+  }),
   graphql(publishCredential, {
     props: ({ mutate, ownProps: { setState } }) => ({
       publishCredential: description => {

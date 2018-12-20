@@ -9,7 +9,7 @@ import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment }
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, linkRule } from '@project-r/styleguide'
+import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, Editorial } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 
@@ -49,12 +49,12 @@ class DiscussionCommentComposer extends PureComponent {
       })
     }
 
-    this.submitComment = content => {
+    this.submitComment = (content, tags) => {
       this.setState({
         state: 'submitting'
       })
 
-      this.props.submitComment(null, content).then(
+      this.props.submitComment(null, content, tags).then(
         () => {
           this.setState({
             state: 'idle',
@@ -92,8 +92,14 @@ class DiscussionCommentComposer extends PureComponent {
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
-          if (!me || discussionClosed || disableTopLevelComments) {
+          if (!me || disableTopLevelComments) {
             return null
+          } else if (discussionClosed) {
+            return (
+              <Box style={{ padding: '15px 20px' }}>
+                {t('discussion/closed')}
+              </Box>
+            )
           } else {
             if (!discussionUserCanComment) {
               return (
@@ -101,10 +107,10 @@ class DiscussionCommentComposer extends PureComponent {
                   <Interaction.P>
                     {t.elements('submitComment/notEligible', {
                       pledgeLink: (
-                        <Link route='pledge' key='pledge'>
-                          <a {...linkRule}>
+                        <Link route='pledge' key='pledge' passHref>
+                          <Editorial.A>
                             {t('submitComment/notEligible/pledgeText')}
-                          </a>
+                          </Editorial.A>
                         </Link>
                       )
                     })}
@@ -146,6 +152,8 @@ class DiscussionCommentComposer extends PureComponent {
                   submitLabel={t('submitComment/rootSubmitLabel')}
                   secondaryActions={<SecondaryActions />}
                   maxLength={discussion && discussion.rules && discussion.rules.maxLength}
+                  tags={discussion.tags}
+                  tagRequired={discussion.tagRequired}
                 />
                 {showPreferences && (
                   <DiscussionPreferences

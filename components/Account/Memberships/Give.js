@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import withT from '../../../lib/withT'
 
 import {
-  RawHtml
+  RawHtml, A
 } from '@project-r/styleguide'
 
 import List, { Item } from '../../List'
 
-import { A, P } from '../Elements'
+import { P } from '../Elements'
 
 class MembershipGiver extends Component {
   constructor (props) {
@@ -16,8 +16,10 @@ class MembershipGiver extends Component {
     this.state = {}
   }
   render () {
-    const { memberships, t, isGivePackage } = this.props
+    const { memberships, t, pkg } = this.props
     const { showGiveable, showGiven } = this.state
+
+    const isGivePackage = pkg.group === 'GIVE'
 
     const giveable = memberships.filter(m => m.voucherCode)
     const given = memberships.filter(m => m.claimerName)
@@ -44,7 +46,12 @@ class MembershipGiver extends Component {
             <RawHtml type={P} dangerouslySetInnerHTML={{
               __html: !isGivePackage
                 ? t('memberships/give/description/before/notGive')
-                : t.pluralize('memberships/give/description/before', {
+                : t.first([
+                  `memberships/give/${pkg.name}/description/before/${giveable.length}`,
+                  `memberships/give/${pkg.name}/description/before/other`,
+                  `memberships/give/description/before/${giveable.length}`,
+                  `memberships/give/description/before/other`
+                ], {
                   count: giveable.length
                 })
             }} />
@@ -57,7 +64,10 @@ class MembershipGiver extends Component {
               ))}
             </List>
             <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t('memberships/give/description/after')
+              __html: t.first([
+                `memberships/give/${pkg.name}/description/after`,
+                'memberships/give/description/after'
+              ])
             }} />
           </div>
         )}

@@ -22,6 +22,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
+import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import withReadingProgress from './withReadingProgress'
 
@@ -116,12 +117,14 @@ const getDocument = gql`
         twitterDescription
         twitterImage
         twitterTitle
-        discussionId
-        discussion {
-          meta {
-            path
-            discussionId
-          }
+        ownDiscussion {
+          id
+          closed
+        }
+        linkedDiscussion {
+          id
+          path
+          closed
         }
         color
         format {
@@ -297,11 +300,11 @@ class ArticlePage extends Component {
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
     }
 
-    const discussion = meta && meta.discussion
-    const linkedDiscussionId = meta && (
-      meta.discussionId ||
-      (discussion && discussion.meta.discussionId)
-    )
+    const linkedDiscussion = meta &&
+      meta.linkedDiscussion &&
+      !meta.linkedDiscussion.closed &&
+      meta.linkedDiscussion
+    const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
 
     const hasPdf = meta && meta.template === 'article'
 
@@ -310,9 +313,9 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        discussionPage={!!meta.discussionId}
+        discussionPage={meta && meta.template === 'discussion'}
         discussionId={linkedDiscussionId}
-        discussionPath={discussion && discussion.meta.path}
+        discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onPdfClick={hasPdf && countImages(article.content) > 0
@@ -456,6 +459,9 @@ class ArticlePage extends Component {
             ? 'series'
             : this.props.payNoteVariation
 
+          const ownDiscussion = meta.ownDiscussion
+          const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
+
           return (
             <Fragment>
               {article && progressPrompt}
@@ -483,9 +489,16 @@ class ArticlePage extends Component {
                   variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
-              {meta.discussionId && <Center>
+              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
+                <Center>
+                  <AutoDiscussionTeaser
+                    discussionId={ownDiscussion.id}
+                  />
+                </Center>
+              )}
+              {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
-                  discussionId={meta.discussionId}
+                  discussionId={ownDiscussion.id}
                   focusId={router.query.focus}
                   mute={!!router.query.mute}
                   meta={meta} />

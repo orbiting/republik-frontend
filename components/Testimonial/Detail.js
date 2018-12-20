@@ -67,7 +67,7 @@ const Detail = ({
           <span>{name}</span>
         )}{' '}
         <span {...styles.detailRole}>
-          {credentials[0] && credentials[0].description}
+          {credentials && credentials[0] && credentials[0].description}
         </span>
       </H3>
       {video ? (
@@ -92,14 +92,16 @@ const Detail = ({
       {share && (
         <ActionBar
           url={`${PUBLIC_BASE_URL}/community?id=${id}`}
-          title={t('testimonial/detail/share/title', {
+          title={t('statement/share/title', {
             name
           })}
-          emailSubject={t('testimonial/detail/share/emailSubject', {
+          emailSubject={t('statement/share/title', {
             name
           })}
-          download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${updatedAt}&url=${PUBLIC_BASE_URL}/community?share=${id}`}
-          shareOverlayTitle={t('profile/share/title')}
+          download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${id}`)}`}
+          shareOverlayTitle={t('statement/share/overlayTitle', {
+            name
+          })}
         />
       )}
     </div>

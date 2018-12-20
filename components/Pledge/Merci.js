@@ -12,22 +12,24 @@ import { WithMembership } from '../Auth/withMembership'
 import ErrorMessage from '../ErrorMessage'
 
 import Account from '../Account'
-import ActionBar from '../ActionBar'
 
 import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
-import MerciText from './MerciText'
+import Share from './Share'
 
-import { EMAIL_CONTACT, PUBLIC_BASE_URL } from '../../lib/constants'
+import { EMAIL_CONTACT } from '../../lib/constants'
 
 import {
   linkRule,
   Interaction,
   RawHtml,
   InlineSpinner,
-  Button
+  Button,
+  Lead
 } from '@project-r/styleguide'
+
+import RawHtmlTranslation from '../RawHtmlTranslation'
 
 const { H1, P } = Interaction
 
@@ -91,7 +93,7 @@ class Merci extends Component {
     if (query.claim) {
       return (
         <MainContainer><Content>
-          <ClaimPledge t={t} me={me} id={query.claim} />
+          <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
         </Content></MainContainer>
       )
     }
@@ -113,7 +115,7 @@ class Merci extends Component {
             }} />
           <P>
             {!!query.id && (
-              <Link route='account' params={{ claim: query.id }}>
+              <Link route='account' params={{ claim: query.id, package: query.package }}>
                 <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
               </Link>
             )}
@@ -125,25 +127,29 @@ class Merci extends Component {
       return (
         <MainContainer><Content>
           <H1>{t('merci/postpay/signInError/title')}</H1>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t('merci/postpay/signInError/text', {
-              email: query.email,
-              mailto: `mailto:${EMAIL_CONTACT}?subject=${
-                encodeURIComponent(
-                  t('merci/postpay/signInError/email/subject')
-                )}&body=${
-                encodeURIComponent(
-                  t(
-                    'merci/postpay/signInError/email/body',
-                    {
-                      pledgeId: query.id,
-                      email: email,
-                      error: signInError
-                    }
-                  )
-                )}`
-            })
-          }} />
+          <P>
+            <RawHtmlTranslation
+              translationKey='merci/postpay/signInError/text'
+              replacements={{
+                email: query.email,
+                contactEmailLink: <a key='contact' {...linkRule} href={
+                  `mailto:${EMAIL_CONTACT}?subject=${
+                    encodeURIComponent(
+                      t('merci/postpay/signInError/email/subject')
+                    )}&body=${
+                    encodeURIComponent(
+                      t(
+                        'merci/postpay/signInError/email/body',
+                        {
+                          pledgeId: query.id,
+                          email: email,
+                          error: signInError
+                        }
+                      )
+                    )}`
+                }>{EMAIL_CONTACT}</a>
+              }} />
+          </P>
           {!!signInError && <ErrorMessage error={signInError} />}
           <div style={{ margin: '20px 0' }}>
             {signInLoading ? <InlineSpinner /> : <Button
@@ -178,18 +184,32 @@ class Merci extends Component {
         </Content></MainContainer>
       )
     }
-    if (!me) {
-      return (
-        <Account query={query} merci />
-      )
-    }
-
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
+    const noNameSuffix = me ? '' : '/noName'
 
     return (
       <Fragment>
         <MainContainer><Content style={{ paddingBottom: 0 }}>
-          <MerciText pledgeId={query.id} />
+          <H1>
+            {t.first(
+              [
+                `merci/title/package/${query.package || 'UNKOWN'}${noNameSuffix}`,
+                `merci/title${noNameSuffix}`
+              ],
+              {
+                name: me && me.name
+              }
+            )}
+          </H1>
+          <RawHtml
+            type={Lead}
+            dangerouslySetInnerHTML={{
+              __html: t.first([
+                `merci/lead/package/${query.package || 'UNKOWN'}`,
+                'merci/lead'
+              ])
+            }}
+          />
           <WithMembership render={() => (
             <div style={{ marginTop: 10 }}>
               <Link route='index'>
@@ -197,7 +217,7 @@ class Merci extends Component {
                   {t('merci/action/read')}
                 </Button>
               </Link>
-              {!me.hasPublicProfile && (
+              {me && !me.hasPublicProfile && (
                 <Link route='profile' params={{ slug: me.username || me.id }}>
                   <Button style={buttonStyle}>
                     {t('merci/action/profile')}
@@ -206,18 +226,12 @@ class Merci extends Component {
               )}
             </div>
           )} />
-          <P style={{ marginBottom: 80 }}>
-            <ActionBar
-              url={`${PUBLIC_BASE_URL}/`}
-              title={t('merci/share/title')}
-              tweet={t('merci/share/tweetTemplate')}
-              emailSubject={t('merci/share/emailSubject')}
-              emailBody={t('merci/share/emailBody', {
-                url: `${PUBLIC_BASE_URL}/`,
-                backerName: me.name
-              })}
-              emailAttachUrl={false} />
-          </P>
+          <div style={{ marginBottom: 40, marginTop: 20 }}>
+            <Share pkg={query.package} statementId={
+              query.statement ||
+              (me && me.isListed ? me.id : undefined)
+            } />
+          </div>
         </Content></MainContainer>
         <Account query={query} merci />
       </Fragment>

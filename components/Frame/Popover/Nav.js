@@ -11,13 +11,12 @@ import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
-import withMembership from '../../Auth/withMembership'
+import { withMembership } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
 import { colors, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
-import voteT from '../../Vote/voteT'
 
 const styles = {
   container: css({
@@ -124,7 +123,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeIOSApp, isMember }) => {
+const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
   const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -140,6 +139,14 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
               <NavLink
                 route='account'
                 translation={t('Frame/Popover/myaccount')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+              <NavLink
+                route='profile'
+                params={{ slug: me.username || me.id }}
+                translation={t('Frame/Popover/myprofile')}
                 active={active}
                 closeHandler={closeHandler}
               />
@@ -164,14 +171,18 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
                   <br />
                 </Fragment>
               }
-              <NavLink
-                route='profile'
-                params={{ slug: me.username || me.id }}
-                translation={t('Frame/Popover/myprofile')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
+              {!inNativeIOSApp && (
+                <Fragment>
+                  <NavLink
+                    route='pledge'
+                    params={me ? { group: 'GIVE' } : undefined}
+                    translation={t(me ? 'nav/give' : 'nav/offers')}
+                    active={active}
+                    closeHandler={closeHandler}
+                  />
+                  <br />
+                </Fragment>
+              )}
             </div>
           )}
           {me ? (
@@ -186,6 +197,17 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
           <br />
         </div>
         <div {...styles.section}>
+          {isMember && (
+            <Fragment>
+              <NavLink
+                route='discussion'
+                translation={t('nav/discussion')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
+            </Fragment>
+          )}
           <NavLink
             route='community'
             translation={t('nav/community')}
@@ -194,8 +216,8 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
           />
           <br />
           <NavLink
-            route='meta'
-            translation={t('nav/meta')}
+            route='events'
+            translation={t('nav/events')}
             active={active}
             closeHandler={closeHandler}
           />
@@ -208,24 +230,11 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
           />
           <br />
           <NavLink
-            route='events'
-            translation={t('nav/events')}
+            route='meta'
+            translation={t('nav/meta')}
             active={active}
             closeHandler={closeHandler}
           />
-          <br />
-          {!inNativeIOSApp && (
-            <Fragment>
-              <NavLink
-                route='pledge'
-                params={me ? { package: 'ABO_GIVE' } : undefined}
-                translation={t(me ? 'nav/give' : 'nav/offers')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
         </div>
       </div>
       {inNativeApp && <Footer />}
@@ -235,7 +244,6 @@ const Nav = ({ me, router, closeHandler, children, t, vt, inNativeApp, inNativeI
 
 export default compose(
   withT,
-  voteT,
   withInNativeApp,
   withMembership
 )(Nav)

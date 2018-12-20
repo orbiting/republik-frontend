@@ -30,15 +30,16 @@ const SIZES = [
   { minWidth: 200, columns: 2 },
   { minWidth: 400, columns: 3 },
   { minWidth: 600, columns: 4 },
-  { minWidth: 880, columns: 5 }
+  { minWidth: 880, columns: 5 },
+  { minWidth: 1200, columns: 6 }
 ]
 
 const PADDING = 5
 
-const getItemStyles = (singleRow, minColumns = 1) => {
+const getItemStyles = (singleRow, minColumns = 1, maxColumns = 5) => {
   const sizes = [
     { minWidth: 0, columns: minColumns },
-    ...SIZES.filter(({ minWidth, columns }) => columns > minColumns)
+    ...SIZES.filter(({ minWidth, columns }) => columns > minColumns && columns <= maxColumns)
   ]
   return css({
     cursor: 'pointer',
@@ -96,6 +97,17 @@ const styles = {
     right: 0,
     bottom: 0
   }),
+  previewImage: css({
+    filter: 'grayscale(1)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'block'
+  }),
   itemArrow: css({
     position: 'absolute',
     bottom: 0,
@@ -131,16 +143,20 @@ const styles = {
   })
 }
 
-export const Item = ({ image, name, isActive, href, onClick, singleRow, minColumns, style }) => {
+export const Item = ({ previewImage, image, name, isActive, href, onClick, singleRow, minColumns, maxColumns, style }) => {
   const itemStyles = minColumns
-    ? getItemStyles(singleRow, minColumns)
+    ? getItemStyles(singleRow, minColumns, maxColumns)
     : singleRow
       ? styles.singleRowItem
       : styles.item
   return (
     <a href={href} {...itemStyles} style={style} onClick={onClick}>
       <span {...styles.aspect}>
-        <img src={image} {...styles.aspectImg} />
+        {previewImage
+          ? <span {...styles.previewImage} style={{
+            backgroundImage: `url(${previewImage})`
+          }} />
+          : <img src={image} {...styles.aspectImg} />}
         <span {...styles.aspectFade}
           style={{ opacity: isActive ? 0 : 1 }} />
       </span>
@@ -235,7 +251,7 @@ class List extends Component {
       loading, error, statements, t,
       onSelect, focus, isPage,
       search, hasMore, totalCount,
-      singleRow, minColumns
+      singleRow, minColumns, first
     } = this.props
     const { columns, open } = this.state
 
@@ -280,6 +296,7 @@ class List extends Component {
               isActive={isActive}
               singleRow={singleRow}
               minColumns={minColumns}
+              maxColumns={singleRow ? first : undefined}
               href={`/community?id=${id}`}
               onClick={(e) => {
                 if (shouldIgnoreClick(e)) {

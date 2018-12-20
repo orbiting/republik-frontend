@@ -12,8 +12,9 @@ import Me from './Me'
 import { Interaction, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
+import { withMembership } from './checkRoles'
 
-const UnauthorizedMessage = compose(
+export const UnauthorizedMessage = compose(
   withT,
   withInNativeApp
 )(({ t, me, inNativeIOSApp, unauthorizedTexts: { title, description } = {} }) => {
@@ -122,4 +123,4 @@ export const enforceMembership = (meta, unauthorizedTexts) => WrappedComponent =
   return <UnauthorizedPage {...{ me, meta, unauthorizedTexts }} />
 })
 
-export default withAuthorization(['member'], 'isMember')
+export default withMembership

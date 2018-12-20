@@ -5,6 +5,7 @@ import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
+import ProlongBox from './ProlongBox'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE
@@ -116,6 +117,8 @@ const Index = ({
             }} />
         </Box>
       </noscript>
+      {me && me.prolongBeforeDate !== null &&
+        <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />}
       {raw ? (
         children
       ) : (

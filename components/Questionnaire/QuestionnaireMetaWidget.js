@@ -6,7 +6,7 @@ import Loader from '../Loader'
 import { Router } from '../../lib/routes'
 
 import {
-  ELECTION_STATS_POLL_INTERVAL
+  STATUS_POLL_INTERVAL_MS
 } from '../../lib/constants'
 
 import {
@@ -97,15 +97,16 @@ class QuestionnaireMetaWidget extends Component {
     const { data, t } = this.props
     return (
       <Loader loading={data.loading} error={data.error} render={() => {
-        const { questionnaire: { userHasSubmitted, turnout: { submitted } } } = data
+        const { questionnaire: { endDate, userHasSubmitted, turnout: { submitted } } } = data
+
+        const hasEnded = new Date() > new Date(endDate)
 
         return (
           <Fragment>
-            <TeaserFrontTileRow columns={2}>
+            {!hasEnded && <TeaserFrontTileRow columns={2}>
               {userHasSubmitted
                 ? <ThankYouTile t={t} />
                 : <SignupTile t={t} />
-
               }
               <TeaserFrontTile color={colors.text} bgColor='#fff'>
                 <TeaserFrontTileHeadline.Interaction>
@@ -115,7 +116,7 @@ class QuestionnaireMetaWidget extends Component {
                   <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
                 </TeaserFrontLead>
               </TeaserFrontTile>
-            </TeaserFrontTileRow>
+            </TeaserFrontTileRow>}
             <TeaserFrontTileRow columns={2}>
               <Results
                 slug='2018'
@@ -133,6 +134,7 @@ const query = gql`
   questionnaire(slug: "2018") {
     id
     userHasSubmitted
+    endDate
     turnout {
       submitted
     }
@@ -144,7 +146,7 @@ export default compose(
   withT,
   graphql(query, {
     options: {
-      pollInterval: ELECTION_STATS_POLL_INTERVAL
+      pollInterval: STATUS_POLL_INTERVAL_MS
     }
   })
 )(QuestionnaireMetaWidget)

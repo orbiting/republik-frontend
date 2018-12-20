@@ -1,5 +1,5 @@
 {
-  "updated": "2018-11-14T16:11:31.593Z",
+  "updated": "2018-12-19T21:43:05.517Z",
   "title": "live",
   "data": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "key": "nav/discussion",
-      "value": "Diskussion"
+      "value": "Dialog"
     },
     {
       "key": "nav/community",
@@ -77,6 +77,18 @@
     {
       "key": "pages/index/description",
       "value": "Kommen Sie jetzt an Bord."
+    },
+    {
+      "key": "pages/feuilleton/pageTitle",
+      "value": "Republik Feuilleton"
+    },
+    {
+      "key": "pages/feuilleton/title",
+      "value": "Lesen Sie Kulturjournalismus mit Relevanz!"
+    },
+    {
+      "key": "pages/feuilleton/description",
+      "value": "Die Republik ist ein digitales Magazin, sein Feuilleton steht für Kulturkritik auf der Höhe unserer Zeit. Die Republik wird von ihren Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
     },
     {
       "key": "discussion/pageTitle",
@@ -255,6 +267,10 @@
       "value": "E-Mail-Adresse ungültig"
     },
     {
+      "key": "signIn/context/grant/lead",
+      "value": "Geben Sie hier die E-Mail-Adresse an, auf die die Einladung ausgestellt wurde. Sie erhalten anschliessend eine E-Mail mit einem Bestätigungs-Link."
+    },
+    {
       "key": "cookies/disabled/error",
       "value": "Cookies nicht erlaubt"
     },
@@ -264,7 +280,7 @@
     },
     {
       "key": "signOut/label",
-      "value": "abmelden"
+      "value": "Abmelden"
     },
     {
       "key": "signOut/error",
@@ -365,6 +381,90 @@
     {
       "key": "marketing/offers/claim",
       "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "marketing/feuilleton/title",
+      "value": "Kultur-Journalismus mit&nbsp;Relevanz<br />Für eine Kritik der Gegenwart"
+    },
+    {
+      "key": "marketing/feuilleton/lead",
+      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin, ihr Feuilleton steht für Kulturkritik auf der Höhe unserer Zeit. Die Republik wird von ihren Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
+    },
+    {
+      "key": "marketing/feuilleton/what/title",
+      "value": "Was?"
+    },
+    {
+      "key": "marketing/feuilleton/what/text",
+      "value": "Kritik: Wir rezensieren nicht entlang des Premierenkalenders und der Bestsellerliste. Besprochen wird nur, was wirklich wichtig ist. Von den klassischen Künsten bis zu Pop, Foto, Games.<br /><br />\nÜberblick: Die Fülle an Events und neuen Werken ist erschlagend. Wir schaffen Überblick durch substanzielle Hintergrundtexte.<br /><br />\nDebatte: Unser Fokus liegt auf den gesellschaftlichen Fragen der Gegenwart. Darauf suchen wir Antworten, die tiefer dringen.\n\n"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/format",
+      "value": "Für eine Kultur der Kritik"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/text",
+      "value": "«Kunst stellt uns vor Rätsel, die wir ergründen – und die uns ergründen.»"
+    },
+    {
+      "key": "marketing/feuilleton/what/quote/source",
+      "value": "Barbara Villiger Heilig"
+    },
+    {
+      "key": "marketing/feuilleton/why/title",
+      "value": "Warum?"
+    },
+    {
+      "key": "marketing/feuilleton/why/text",
+      "value": "Die Verlage haben flächendeckend ihre Feuilletons abgebaut. Doch eine kritische Öffentlichkeit ist auf Reflexion angewiesen – heute mehr denn je.<br /><br />\nGuter Kulturjournalismus stellt die Ideen auf die Probe, die in der Gesellschaft zirkulieren – und sich in den Künsten widerspiegeln. Wir versuchen, den Blick auf das zu lenken, was besonders faszinierend und relevant ist – und auf das, was vehementen Widerspruch verdient."
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/format",
+      "value": "Kulturjournalismus. Ein Anti-Manifest"
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/text",
+      "value": "«So manches Feuilleton ist nur noch die Arena eines permanenten Kulturkampfes.»"
+    },
+    {
+      "key": "marketing/feuilleton/why/quote/source",
+      "value": "Daniel Binswanger"
+    },
+    {
+      "key": "marketing/feuilleton/audience/title",
+      "value": "Für wen?"
+    },
+    {
+      "key": "marketing/feuilleton/audience/text",
+      "value": "Für die, die von Kulturkritik mehr erwarten als «Daumen hoch / Daumen runter»-Rezensionen.<br /><br />\nDie, für die Kultur mehr als «l’art pour l’art» ist – die aber darauf bestehen, dass Kunst ihren eigenen Gesetzen folgt.<br /><br />\nFür alle, denen die grossen Fragen der Gegenwart nicht gleichgültig sind. Und die ahnen, dass wir für geistreiche Antworten auch die Kunst und ihre Kritik brauchen werden."
+    },
+    {
+      "key": "marketing/feuilleton/who/title",
+      "value": "Wer wir sind"
+    },
+    {
+      "key": "marketing/feuilleton/who/text",
+      "value": "Die Feuilleton-Redaktion der Republik, das sind: Barbara Villiger Heilig, Daniel Binswanger und Daniel Graf. Doch ein gutes Feuilleton ist viel mehr als die Redaktion. Wir wollen den klügsten Köpfen der Schweiz eine Plattform bieten und die interessantesten Stimmen der internationalen Debatten hier versammeln. Und mit Ihnen, den Verlegerinnen und Verlegern, ihre Ideen diskutieren."
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/format",
+      "value": "Wir Rezensenten"
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/text",
+      "value": "«Kritik ist Ausdruck aktiver Zeitgenossenschaft.»"
+    },
+    {
+      "key": "marketing/feuilleton/who/quote/source",
+      "value": "Daniel Graf"
+    },
+    {
+      "key": "marketing/feuilleton/faq/title",
+      "value": "Häufig gestellte Fragen"
+    },
+    {
+      "key": "marketing/feuilleton/faq/link",
+      "value": "Weitere Fragen"
     },
     {
       "key": "formats/pageTitle",
@@ -855,6 +955,14 @@
       "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
     },
     {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/REPUBLIK/WAITING",
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-229215-3<br />\nIBAN: CH23 0900 0000 6122 9215 3<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nRepublik AG<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+    },
+    {
+      "key": "account/pledges/payment/status/PAYMENTSLIP/PROJECT_R/WAITING",
+      "value": "Bitte überweisen Sie {formattedTotal} mit der Mitteilung «{hrid}» im Betreff-Feld an:<br /><br />\nPC 61-11760-6<br />\nIBAN: CH50 0900 0000 6101 1760 6<br />\nBIC: POFICHBEXXX<br /><br />\nlautend auf:<br />\nProject R Genossenschaft<br />\nSihlhallenstrasse 1<br />\n8004 Zürich\n"
+    },
+    {
       "key": "account/pledges/payment/status/PAYMENTSLIP/PAID",
       "value": "{formattedTotal} bezahlt"
     },
@@ -867,7 +975,7 @@
       "value": "Sie haben die Zahlungsanweisungen per E-Mail erhalten. Und hier schon ein Überblick:"
     },
     {
-      "key": "account/pledges/ABO_GIVE/promo",
+      "key": "account/pledges/promo",
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
@@ -1175,6 +1283,10 @@
       "value": "Porträtbild ändern"
     },
     {
+      "key": "profile/portrait/empty",
+      "value": "Sie müssen ein Porträtbild hochladen"
+    },
+    {
       "key": "testimonial/meta/pageTitle",
       "value": "Community – Republik"
     },
@@ -1199,46 +1311,6 @@
       "value": "Jetzt Mitglied werden."
     },
     {
-      "key": "testimonial/title",
-      "value": "Jetzt ein Statement abgeben"
-    },
-    {
-      "key": "testimonial/description",
-      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
-    },
-    {
-      "key": "testimonial/submit",
-      "value": "veröffentlichen"
-    },
-    {
-      "key": "testimonial/role/label",
-      "value": "Bezeichnung"
-    },
-    {
-      "key": "testimonial/role/tooLong",
-      "value": "Bezeichnung, maximal 60 Zeichen"
-    },
-    {
-      "key": "testimonial/update",
-      "value": "aktualisieren"
-    },
-    {
-      "key": "testimonial/unpublished",
-      "value": "Wir können leider ihr Statement nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
-    },
-    {
-      "key": "testimonial/unpublish/user",
-      "value": "Statement zurücknehmen"
-    },
-    {
-      "key": "testimonial/viewLive",
-      "value": "ansehen"
-    },
-    {
-      "key": "testimonial/unpublished/user",
-      "value": "Sie haben ihr Statement zurückgezogen, es erscheint nicht mehr auf der Community-Seite."
-    },
-    {
       "key": "testimonial/search/label",
       "value": "Suchen"
     },
@@ -1257,14 +1329,6 @@
     {
       "key": "testimonial/infinite/endless",
       "value": "Das waren {count} Verleger und Verlegerinnen. Weitere {remaining} anschauen?"
-    },
-    {
-      "key": "testimonial/detail/share/emailSubject",
-      "value": "{name} unterstützt Republik"
-    },
-    {
-      "key": "testimonial/detail/share/title",
-      "value": "{name} unterstützt Republik"
     },
     {
       "key": "api/testimonial/image/required",
@@ -1583,6 +1647,10 @@
       "value": "Republik: {title}"
     },
     {
+      "key": "discussion/closed",
+      "value": "Diese Diskussion ist geschlossen."
+    },
+    {
       "key": "styleguide/AudioPlayer/aria",
       "value": "Audio-Player"
     },
@@ -1695,8 +1763,12 @@
       "value": "Beitrag teilen"
     },
     {
-      "key": "styleguide/CommentTeaser/commentLink",
-      "value": "Zum Beitrag"
+      "key": "styleguide/CommentTeaser/comment/link",
+      "value": "Beitrag in {link}"
+    },
+    {
+      "key": "styleguide/CommentTeaser/reply/link",
+      "value": "Antwort in {link}"
     },
     {
       "key": "styleguide/CommentTreeLoadMore/label/1",
@@ -1904,7 +1976,7 @@
     },
     {
       "key": "package/customize/price/label",
-      "value": "Betrag"
+      "value": "Betrag in CHF"
     },
     {
       "key": "package/customize/price/error",
@@ -1912,11 +1984,15 @@
     },
     {
       "key": "package/customize/option/error/max",
-      "value": "{label}, maximal {maxAmount}"
+      "value": "{label}, höchstens {maxAmount}"
     },
     {
       "key": "package/customize/option/error/min",
-      "value": "{label}, minimal {minAmount}"
+      "value": "{label}, mindestens {minAmount}"
+    },
+    {
+      "key": "package/customize/option/error/step",
+      "value": "{label}, nicht zugelassen, vielleicht {suggestedValue}?"
     },
     {
       "key": "package/customize/userPrice/reason/label",
@@ -1928,11 +2004,7 @@
     },
     {
       "key": "package/customize/userPrice/beforeReason",
-      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen fair scheint. "
-    },
-    {
-      "key": "package/customize/userPrice/beforePrice",
-      "value": "Wie viel können Sie zahlen pro Jahr?"
+      "value": "Journalismus kostet. Aber wir wollen niemanden ausschliessen. Falls Sie sich die 240 Franken nicht leisten können, bitten wir Sie um eine knappe Begründung und einen Preis, der Ihnen gerecht scheint. "
     },
     {
       "key": "package/price",
@@ -1945,10 +2017,6 @@
     {
       "key": "package/DONATE/description",
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
-    },
-    {
-      "key": "package/DONATE/description/short",
-      "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen."
     },
     {
       "key": "package/ABO/price",
@@ -1964,31 +2032,35 @@
     },
     {
       "key": "package/ABO/description",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin. Und werden automatisch Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verleger oder Verlegerin der Republik."
-    },
-    {
-      "key": "package/ABO/description/short",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten für ein Jahr unser Magazin."
+      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten unser Magazin im Jahresabonnement. Durch Ihren jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. "
     },
     {
       "key": "package/ABO_GIVE/price",
-      "value": "ab {formattedCHF} für ein Jahr"
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO_GIVE/title",
-      "value": "Verschenken"
+      "value": "Abo und Mitgliedschaft als Geschenk"
     },
     {
       "key": "package/ABO_GIVE/description",
-      "value": "Sie wollen Ihren Freunden oder Feinden das heisseste Magazin für ein Jahr schenken. Und haben die Gelegenheit, diesen für 20 Franken etwas Handfestes dazu zu schenken. Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch (damit die Empfänger nicht nur Cleveres lesen, sondern auch schreiben können)."
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: ein Jahr Republik. Und ein Jahr Mitgliedschaft bei der Project R Genossenschaft.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
-      "key": "package/ABO_GIVE/description/short",
-      "value": "Verschenken Sie für ein Jahr die Republik."
+      "key": "package/ABO_GIVE_MONTHS/price",
+      "value": "{formattedCHF} pro Monat"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/title",
+      "value": "Monats-Abo als Geschenk"
+    },
+    {
+      "key": "package/ABO_GIVE_MONTHS/description",
+      "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleich herzlich machen können: einige Monate Republik.\n\nEtwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je 20 Franken."
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Gönner-Mitgliedschaft"
+      "value": "Abo und Gönner-Mitgliedschaft"
     },
     {
       "key": "package/BENEFACTOR/price",
@@ -1999,12 +2071,8 @@
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
     },
     {
-      "key": "package/BENEFACTOR/description/short",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert."
-    },
-    {
       "key": "package/MONTHLY_ABO/title",
-      "value": "Monats-Abonnement"
+      "value": "Monats-Abo"
     },
     {
       "key": "package/MONTHLY_ABO/price",
@@ -2015,12 +2083,16 @@
       "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin. Und sind während der Zeit Ihres Abonnements Verlegerin oder Verleger der Republik. Das Monatsabonnement wird jeweils automatisch verlängert. Sie können es aber jederzeit in Ihrem Konto kündigen."
     },
     {
-      "key": "package/MONTHLY_ABO/description/short",
-      "value": "Schön, dass Sie dabei sind. Sie erhalten ab sofort unser Magazin – und können Ihr Abonnement jederzeit kündigen."
-    },
-    {
       "key": "package/choose",
       "value": "Auswählen"
+    },
+    {
+      "key": "package/group/ME",
+      "value": "Für mich"
+    },
+    {
+      "key": "package/group/GIVE",
+      "value": "Geschenke"
     },
     {
       "key": "option/ABO/label/other",
@@ -2039,12 +2111,44 @@
       "value": "Notizbuch"
     },
     {
+      "key": "option/NOTEBOOK/label/0",
+      "value": "Notizbuch"
+    },
+    {
       "key": "option/TOTEBAG/label/other",
       "value": "Taschen"
     },
     {
       "key": "option/TOTEBAG/label/1",
       "value": "Tasche"
+    },
+    {
+      "key": "option/TOTEBAG/label/0",
+      "value": "Tasche"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/label",
+      "value": "Anzahl Abos"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/1",
+      "value": "Monat pro Abo"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/label/other",
+      "value": "Monate pro Abo"
+    },
+    {
+      "key": "package/customize/ABO_GIVE_MONTHS/years/1",
+      "value": "Verschenken Sie ein Jahr statt Monate"
+    },
+    {
+      "key": "package/customize/ABO_GIVE_MONTHS/years/other",
+      "value": "Verschenken Sie Jahre statt Monate"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
+      "value": "Ab zehn Monaten lohnt sich ein Jahres-Abo: {link}"
     },
     {
       "key": "payment/title",
@@ -2108,7 +2212,7 @@
     },
     {
       "key": "payment/stripe/js/failed",
-      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Wählen Sie bitte eine andere Zahlungsart."
+      "value": "Kreditkartenzahlungen sind zurzeit nicht möglich. Die Verbindung zu stripe.com, unserem Dienstleister für Kreditkartenzahlungen, ist fehlgeschlagen. Mögliche Ursachen: ein temporärer Ausfall oder Ihre Browsererweiterungen. Wählen Sie bitte eine andere Zahlungsart."
     },
     {
       "key": "payment/stripe/card/label",
@@ -2229,6 +2333,10 @@
     {
       "key": "pledge/contact/signIn/show",
       "value": "Schon mal ausgefüllt?\n"
+    },
+    {
+      "key": "pledge/contact/signIn/customMe",
+      "value": "anmelden"
     },
     {
       "key": "pledge/contact/signIn/hide",
@@ -2352,7 +2460,7 @@
     },
     {
       "key": "pledge/recievePayment/pf/92",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/pf/invalid",
@@ -2372,11 +2480,11 @@
     },
     {
       "key": "pledge/recievePayment/error",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter {mailto}."
     },
     {
       "key": "pledge/recievePayment/noPledge",
-      "value": "Das Produkt wurde nicht gefunden."
+      "value": "Die Bestellung wurde nicht gefunden. Kontaktieren Sie uns unter kontakt@republik.ch mit folgender Bestellungsreferenz: {pledgeId}."
     },
     {
       "key": "pledge/recievePayment/paypal/cancel",
@@ -2388,7 +2496,7 @@
     },
     {
       "key": "pledge/recievePayment/paypal/contactUs",
-      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/subject",
@@ -2401,6 +2509,10 @@
     {
       "key": "pledge/recievePayment/3dsecure/failed",
       "value": "3-D Secure fehlgeschlagen. Versuchen Sie es bitte nochmals oder wählen Sie ein anderes Zahlungsmittel."
+    },
+    {
+      "key": "pledge/notice/goodies/delivery",
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Spätester Bestelltermin, damit die Sendung vor Weihnachten bei Ihnen eintrifft: Donnerstag, 20. Dezember 2018."
     },
     {
       "key": "shareholder/pageTitle",
@@ -2783,6 +2895,18 @@
       "value": "mit {count} Bildern"
     },
     {
+      "key": "article/autodiscussionteaser/title",
+      "value": "Jetzt sind Sie dran!"
+    },
+    {
+      "key": "article/autodiscussionteaser/text",
+      "value": "Was gefällt Ihnen an diesem Artikel? Was gibt es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
+    },
+    {
+      "key": "article/autodiscussionteaser/linktext",
+      "value": "Reden Sie mit auf unserer neuen Dialogseite"
+    },
+    {
       "key": "merci/postpay/lead",
       "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     },
@@ -2808,7 +2932,7 @@
     },
     {
       "key": "merci/postpay/signInError/text",
-      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an {contactEmailLink}."
     },
     {
       "key": "merci/postpay/signInError/email/subject",
@@ -2835,6 +2959,10 @@
       "value": "Jetzt mitmachen"
     },
     {
+      "key": "merci/title/noName",
+      "value": "Willkommen an Bord"
+    },
+    {
       "key": "merci/title",
       "value": "Willkommen an Bord, {name}"
     },
@@ -2843,8 +2971,24 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/ABO_GIVE_MONTHS",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/DONATE",
       "value": "Guten Tag, {name}"
+    },
+    {
+      "key": "merci/title/package/ABO_GIVE/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/ABO_GIVE_MONTHS/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/DONATE/noName",
+      "value": "Guten Tag"
     },
     {
       "key": "merci/lead",
@@ -2852,11 +2996,15 @@
     },
     {
       "key": "merci/lead/package/ABO_GIVE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+    },
+    {
+      "key": "merci/lead/package/ABO_GIVE_MONTHS",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/lead/package/DONATE",
-      "value": "Vielen Dank für Ihre Grosszügigkeit! Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+      "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/action/read",
@@ -2931,32 +3079,24 @@
       "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
     },
     {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/1",
+      "value": "Sie können das Abo mit folgendem Gutscheincode verschenken:"
+    },
+    {
+      "key": "memberships/give/ABO_GIVE_MONTHS/description/before/other",
+      "value": "Sie können die Abos mit folgenden Gutscheincodes verschenken:"
+    },
+    {
       "key": "memberships/give/description/after",
-      "value": "Die Gutscheincodes können dann von dem neuen Besitzer, der neuen Besitzerin auf der Seite auf <a href=\"/claim\">republik.ch/claim</a> eingelöst werden. Wer das tut, erhält pro Code ein Abo und eine Mitgliedschaft."
-    },
-    {
-      "key": "memberships/type/ABO",
-      "value": "Mitgliedschaft und Abonnement"
-    },
-    {
-      "key": "memberships/type/BENEFACTOR_ABO",
-      "value": "Gönner-Mitgliedschaft und -Abonnement"
-    },
-    {
-      "key": "memberships/type/REDUCED_ABO",
-      "value": "Mitgliedschaft und Abonnement (reduziert)"
-    },
-    {
-      "key": "memberships/type/MONTHLY_ABO",
-      "value": "Monats-Abonnement"
+      "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Ihre Jahresmitgliedschaft ist gültig bis am {formattedEndDate}."
+      "value": "Gültig bis {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus."
+      "value": "Läuft am {formattedEndDate} aus"
     },
     {
       "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
@@ -2964,19 +3104,7 @@
     },
     {
       "key": "memberships/latestPeriod/overdue",
-      "value": "Überfällig seit dem {formattedEndDate}."
-    },
-    {
-      "key": "memberships/ABO/manage/prolong/link",
-      "value": "Mitgliedschaft und Abonnement verlängern"
-    },
-    {
-      "key": "memberships/ABO/manage/cancel/link",
-      "value": "Mitgliedschaft und Abonnement kündigen"
-    },
-    {
-      "key": "memberships/ABO/manage/reactivate",
-      "value": "Mitgliedschaft und Abonnement reaktivieren"
+      "value": "Überfällig seit dem {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",
@@ -2984,7 +3112,7 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/cancel/link",
-      "value": "Abonnement kündigen"
+      "value": "Abonnement künden"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link",
@@ -2999,12 +3127,16 @@
       "value": "Abonnement reaktivieren"
     },
     {
-      "key": "memberships/manage/cancel/button",
-      "value": "Kündigung abschicken"
+      "key": "memberships/ABO_GIVE_MONTHS/manage/prolong/link",
+      "value": "Abonnement verlängern"
     },
     {
-      "key": "memberships/manage/cancel/reason",
-      "value": "Warum möchten Sie künden?"
+      "key": "memberships/ABO_GIVE_MONTHS/manage/cancel/link",
+      "value": "Abonnement künden"
+    },
+    {
+      "key": "memberships/ABO_GIVE_MONTHS/manage/reactivate",
+      "value": "Abonnement reaktivieren"
     },
     {
       "key": "memberships/claim/lead",
@@ -3033,10 +3165,6 @@
     {
       "key": "memberships/sequenceNumber/label",
       "value": "Abo #{sequenceNumber}"
-    },
-    {
-      "key": "memberships/sequenceNumber/suffix",
-      "value": "#{sequenceNumber}"
     },
     {
       "key": "notifications/pageTitle",
@@ -3084,7 +3212,7 @@
     },
     {
       "key": "notifications/invalid-email/text",
-      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «<b>{email}</b>».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
+      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «{email}».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unavailable/title",
@@ -3231,12 +3359,60 @@
       "value": "Möchten Sie folgendem Gerät Zugriff geben?"
     },
     {
-      "key": "feedback/autoArticle/selected/headline",
-      "value": "Debatte zu {link}"
+      "key": "pages/feedback/title",
+      "value": "Dialog"
     },
     {
-      "key": "feedback/linkedArticle/selected/headline",
-      "value": "Debatte zu {link}"
+      "key": "feedback/unauthorized/title",
+      "value": "Republik-Dialog"
+    },
+    {
+      "key": "feedback/unauthorized",
+      "value": "Die Republik ist nur so stark wie Ihre Community. Werden Sie ein Teil davon und lassen Sie uns miteinander reden. {buyLink}"
+    },
+    {
+      "key": "feedback/unauthorized/buyText",
+      "value": "Kommen Sie jetzt an Bord!"
+    },
+    {
+      "key": "feedback/lead",
+      "value": "Teilen Sie Ihr Wissen und Ihre Perspektive. Reden wir miteinander über die Republik und ihren Journalismus. Wo möchten Sie mitreden?"
+    },
+    {
+      "key": "feedback/general/button",
+      "value": "Allgemeines"
+    },
+    {
+      "key": "feedback/article/button",
+      "value": "Unsere Stücke"
+    },
+    {
+      "key": "feedback/article/headline",
+      "value": "Zu welchem Stück wollen Sie einen Beitrag schreiben oder lesen?"
+    },
+    {
+      "key": "feedback/activeDiscussions/label",
+      "value": "Aktive Diskussionen"
+    },
+    {
+      "key": "feedback/autoArticle/selected/headline",
+      "value": "Beiträge zu {link}"
+    },
+    {
+      "key": "feedback/latestComments/headline",
+      "value": "Neueste Beiträge"
+    },
+    {
+      "key": "feedback/articleSearch/label",
+      "value": "Suche"
+    },
+    {
+      "key": "feedback/articleSearch/empty",
+      "value": "Keine Ergebnisse"
+    },
+    {
+      "key": "feedback/articleItem/newPage/title",
+      "value": "Zur Debattenseite"
     },
     {
       "key": "tokenAuthorization/error",
@@ -3371,10 +3547,6 @@
       "value": "Vimeo"
     },
     {
-      "key": "styleguide/charts/confidence95-legend",
-      "value": "95-Prozent-Konfidenzintervall"
-    },
-    {
       "key": "styleguide/charts/y-cut",
       "value": "Achse gekürzt"
     },
@@ -3464,7 +3636,7 @@
     },
     {
       "key": "questionnaire/turnout",
-      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Befragte haben diese Frage übersprungen."
+      "value": "Basierend auf {formattedSubmittedCount} Antworten. {formattedSkippedCount} Personen haben diese Frage übersprungen."
     },
     {
       "key": "questionnaire/thankyou",
@@ -3473,6 +3645,10 @@
     {
       "key": "questionnaire/thankyou/metaText",
       "value": "Hier"
+    },
+    {
+      "key": "questionnaire/ended",
+      "value": "Die Umfrage ist vorbei."
     },
     {
       "key": "questionnaire/article/help",
@@ -3525,6 +3701,478 @@
     {
       "key": "pages/meta/behind/gallery",
       "value": "Hinter den Kulissen"
+    },
+    {
+      "key": "package/PROLONG/title",
+      "value": "Verlängern"
+    },
+    {
+      "key": "package/PROLONG/description",
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
+    },
+    {
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/description",
+      "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
+    },
+    {
+      "key": "package/PROLONG/price",
+      "value": "{formattedCHF} pro Jahr"
+    },
+    {
+      "key": "package/PROLONG/price/give",
+      "value": "{formattedCHF}"
+    },
+    {
+      "key": "option/PROLONG/ABO/label",
+      "value": "Reguläre Verlängerung"
+    },
+    {
+      "key": "option/PROLONG/ABO/label/give",
+      "value": "Verlängerung schenken"
+    },
+    {
+      "key": "option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönnerin oder Gönner"
+    },
+    {
+      "key": "option/PROLONG/resetGroup",
+      "value": "Jetzt nicht"
+    },
+    {
+      "key": "memberships/manage/reactivate",
+      "value": "Kündigung zurücknehmen"
+    },
+    {
+      "key": "memberships/manage/prolong/link",
+      "value": "Jetzt verlängern"
+    },
+    {
+      "key": "memberships/manage/prolong/awaiting",
+      "value": "Sie haben bereits eine weitere Mitgliedschaft, diese wird automatisch zur Verlängerung genutzt."
+    },
+    {
+      "key": "memberships/manage/cancel/link",
+      "value": "Mitgliedschaft und Abonnement kündigen"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/endDate",
+      "value": "Neu gültig bis {formattedEndDate}"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/REGULAR/title",
+      "value": "Verlängerung um ein Jahr"
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/BONUS/title",
+      "value": "Plus {days} zusätzliche Tage als Geschenk für Unterstützerinnen des ersten Tages."
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
+      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
+    },
+    {
+      "key": "option/PROLONG/additionalPeriods/give",
+      "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
+    },
+    {
+      "key": "memberships/title/ABO",
+      "value": "Mitgliedschaft und Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/BENEFACTOR_ABO",
+      "value": "Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/MONTHLY_ABO",
+      "value": "Monats-Abo (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO_GIVE_MONTHS",
+      "value": "Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO/give",
+      "value": "{name} (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/BENEFACTOR_ABO/give",
+      "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "pledge/submit/autoPay",
+      "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "pledge/submit/autoPay/note",
+      "value": "Wir erinnern Sie, bevor wir abbuchen. Und Sie können jederzeit in Ihrem Konto kündigen."
+    },
+    {
+      "key": "pledge/submit/MONTHLY_ABO/autoPay/note",
+      "value": "Ihr Monatsabo verlängert sich automatisch. Sie können das Abo jederzeit in Ihrem Konto kündigen."
+    },
+    {
+      "key": "pledge/submit/PROLONG/autoPay",
+      "value": "Keine Bürokratie mehr: zukünftige Verlängerungen meines Abos automatisch von meiner Kreditkarte abbuchen."
+    },
+    {
+      "key": "merci/title/package/PROLONG",
+      "value": "Guten Tag, {name}"
+    },
+    {
+      "key": "merci/title/package/PROLONG/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/lead/package/PROLONG",
+      "value": "Aus Mut wird Treue. Vielen Dank für Ihre Verlängerung! <br />"
+    },
+    {
+      "key": "pledge/title/PROLONG/ABO_GIVE_MONTHS",
+      "value": "Willkommen an Bord!"
+    },
+    {
+      "key": "pledge/title/PROLONG",
+      "value": "Verlängern Sie Ihr Investment."
+    },
+    {
+      "key": "pledge/title/member",
+      "value": "Das Angebot"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
+      "key": "package/customize/price/payMore/normal",
+      "value": "Reguläre {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/bonus",
+      "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/1.5",
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx",
+      "value": "Danke!"
+    },
+    {
+      "key": "package/customize/price/payLess",
+      "value": "Ich kann mir den Betrag nicht leisten"
+    },
+    {
+      "key": "package/customize/userPrice/beforePrice",
+      "value": "Wie viel können Sie bezahlen?"
+    },
+    {
+      "key": "memberships/cancel/notFound",
+      "value": "Mitgliedschaft nicht gefunden"
+    },
+    {
+      "key": "memberships/cancel/title",
+      "value": "Mitgliedschaft kündigen"
+    },
+    {
+      "key": "memberships/cancel/signIn",
+      "value": "Sie müssen sich anmelden, um zu kündigen."
+    },
+    {
+      "key": "memberships/cancel/info",
+      "value": "Ich möchte die Republik aus folgendem Grund nicht mehr unterstützen:"
+    },
+    {
+      "key": "memberships/cancel/confirmation",
+      "value": "Sie haben Ihr Abo erfolgreich gekündigt."
+    },
+    {
+      "key": "memberships/cancel/description",
+      "value": "Grund"
+    },
+    {
+      "key": "memberships/cancel/accountLink",
+      "value": "Zurück zum Konto"
+    },
+    {
+      "key": "memberships/cancel/button",
+      "value": "Kündigung abschicken"
+    },
+    {
+      "key": "account/app/prolong/link",
+      "value": "Jetzt Mitgliedschaft verlängern"
+    },
+    {
+      "key": "testimonial/detail/share/package/PROLONG",
+      "value": "Ich habe mein Abo verlängert"
+    },
+    {
+      "key": "pledge/form/statement/PROLONG/title",
+      "value": "{name} hat das Abo bereits verlängert."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/signIn",
+      "value": "Melden Sie sich an, um Ihr Abo zu verlängern. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die Republik zu unterstützen."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/availableWithStatement",
+      "value": "Jetzt sind Sie dran!"
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/notAvailable",
+      "value": "Zurzeit ist für Sie keine Verlängerung verfügbar. Entweder haben Sie bereits verlängert, oder Sie sind noch nicht Mitglied. Alle Informationen finden Sie in Ihrem {accountLink}."
+    },
+    {
+      "key": "pledge/form/instruction/PROLONG/accountText",
+      "value": "Konto"
+    },
+    {
+      "key": "pledge/meta/title",
+      "value": "Republik-Mitglied und Abonnentin werden"
+    },
+    {
+      "key": "pledge/meta/description",
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
+    },
+    {
+      "key": "pledge/meta/group/GIVE/title",
+      "value": "Die Republik zum verschenken"
+    },
+    {
+      "key": "pledge/meta/group/GIVE/description",
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/title",
+      "value": "Republik Jahres-Abo und Mitgliedschaft verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE/description",
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/title",
+      "value": "Republik Monats-Abo verschenken"
+    },
+    {
+      "key": "pledge/meta/package/ABO_GIVE_MONTHS/description",
+      "value": "Wir sind ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Unabhängig. Werbefrei."
+    },
+    {
+      "key": "pledge/form/statement/share/title",
+      "value": "{name} unterstützt die Republik auch im zweiten Jahr."
+    },
+    {
+      "key": "pledge/form/statement/share/description",
+      "value": "Verlängern auch Sie jetzt Ihr Abo."
+    },
+    {
+      "key": "statement/title",
+      "value": "Jetzt ein Statement abgeben."
+    },
+    {
+      "key": "statement/title/update",
+      "value": "Jetzt Ihr Statement aktualisieren."
+    },
+    {
+      "key": "statement/description",
+      "value": "Sie können ein Statement abgeben und es zusammen mit einem Porträtbild auf unserer Community-Seite veröffentlichen."
+    },
+    {
+      "key": "statement/description/update",
+      "value": "Ihr Statement erscheint auf unserer Community-Seite."
+    },
+    {
+      "key": "statement/adminUnpublished",
+      "value": "Wir können Ihr Statement leider nicht publizieren. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "statement/submit/update",
+      "value": "aktualisieren"
+    },
+    {
+      "key": "statement/submit",
+      "value": "veröffentlichen"
+    },
+    {
+      "key": "statement/unpublish",
+      "value": "Statement zurücknehmen"
+    },
+    {
+      "key": "statement/unpublished",
+      "value": "Ihr Statement ist zurzeit nicht publik."
+    },
+    {
+      "key": "statement/viewLive",
+      "value": "ansehen"
+    },
+    {
+      "key": "statement/share/overlayTitle",
+      "value": "Statement von {name}"
+    },
+    {
+      "key": "statement/share/title",
+      "value": "{name} unterstützt die Republik."
+    },
+    {
+      "key": "statement/share/PROLONG/title",
+      "value": "{name} hat bereits das Abo verlängert"
+    },
+    {
+      "key": "statement/share/please",
+      "value": "Teilen Sie, dass Sie die Republik unterstützen:"
+    },
+    {
+      "key": "statement/share/PROLONG/please",
+      "value": "Teilen Sie, dass Sie Ihr Abo verlängert haben:"
+    },
+    {
+      "key": "statement/share/PROLONG/emailBody",
+      "value": "Hallo\n\nEine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern Menschen, die bereit sind, langfristig in unabhängigen Journalismus zu investieren.\n\nIch habe soeben mein Republik-Abo verlängert.\nJetzt Abo verlängern oder Mitglied werden: {url}\n\nHerzliche Grüsse,  {backerName}"
+    },
+    {
+      "key": "package/customize/price/label/total",
+      "value": "Gesamtbetrag in CHF"
+    },
+    {
+      "key": "package/customize/group/aboGive",
+      "value": "Sie haben im letzten Jahr mindestens einer guten Freundin oder einem Feind einen Sitz in der Republik-Verlegerschaft geschenkt. Soll Ihr Geschenk weiterlaufen?"
+    },
+    {
+      "key": "pledge/contact/signIn/wrongToken",
+      "value": "Ist das nicht Ihre E-Mail-Adresse?"
+    },
+    {
+      "key": "prolongNecessary/jan15",
+      "value": "Mit der Republik ins zweite Jahr: {link}"
+    },
+    {
+      "key": "prolongNecessary/jan15/linkText",
+      "value": "jetzt verlängern"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label",
+      "value": "Abo und Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/ABO/label/give",
+      "value": "Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label",
+      "value": "Gönner-Mitgliedschaft"
+    },
+    {
+      "key": "pledge/option/PROLONG/BENEFACTOR_ABO/label/give",
+      "value": "Gönner-Mitgliedschaft für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/1",
+      "value": "Monats-Abo als Geschenk für {periods}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/other",
+      "value": "Monats-Abos als Geschenk für {periods}"
+    },
+    {
+      "key": "pledge/option/ABO_GIVE_MONTHS/ABO_GIVE_MONTHS/label/give",
+      "value": "Monats-Abo als Geschenk für {name} (#{sequenceNumber}){endDateSuffix}"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/1",
+      "value": "einen Monat"
+    },
+    {
+      "key": "option/ABO_GIVE_MONTHS/interval/month/periods/other",
+      "value": "{count} Monate"
+    },
+    {
+      "key": "option/suffix/endDate",
+      "value": " bis {formattedEndDate}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN",
+      "value": "Danke, {name}"
+    },
+    {
+      "key": "merci/title/package/UNKOWN/noName",
+      "value": "Danke"
+    },
+    {
+      "key": "merci/lead/package/UNKOWN",
+      "value": "Vielen Dank für Ihre Unterstützung! <br />"
+    },
+    {
+      "key": "crowdfunding/status/goal/people",
+      "value": "von {count} Mitgliedern"
+    },
+    {
+      "key": "crowdfunding/status/goal/memberships",
+      "value": "von {count} Mitgliedschaften"
+    },
+    {
+      "key": "crowdfunding/status/goal/PROLONG/memberships",
+      "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
+    },
+    {
+      "key": "crowdfunding/status/goal/money",
+      "value": "von {formattedCHF}"
+    },
+    {
+      "key": "crowdfunding/status/time/label",
+      "value": "bis Deadline"
+    },
+    {
+      "key": "crowdfunding/status/time/days/1",
+      "value": "1 Tag"
+    },
+    {
+      "key": "crowdfunding/status/time/days/other",
+      "value": "{count} Tage"
+    },
+    {
+      "key": "crowdfunding/status/time/hours/1",
+      "value": "1 Stunde"
+    },
+    {
+      "key": "crowdfunding/status/time/hours/other",
+      "value": "{count} Stunden"
+    },
+    {
+      "key": "crowdfunding/status/time/minutes/1",
+      "value": "1 Minute"
+    },
+    {
+      "key": "crowdfunding/status/time/minutes/other",
+      "value": "{count} Minuten"
+    },
+    {
+      "key": "crowdfunding/status/time/ended",
+      "value": "Das Crowdfunding ist vorbei."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/PROLONG",
+      "value": "Die Vorverlängerungsphase ist vorbei."
+    },
+    {
+      "key": "meta/prolong/title",
+      "value": "Mit der Republik ins zweite Jahr"
+    },
+    {
+      "key": "meta/prolong/signIn",
+      "value": "Melden Sie sich an, um Ihr {prolongLink}. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die {pledgeLink}."
+    },
+    {
+      "key": "meta/prolong/signIn/prolongText",
+      "value": "Abo zu verlängern"
+    },
+    {
+      "key": "meta/prolong/signIn/pledgeText",
+      "value": "Republik zu unterstützen"
+    },
+    {
+      "key": "meta/prolong/available",
+      "value": "Jetzt verlängern"
     }
   ]
 }

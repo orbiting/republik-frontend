@@ -55,13 +55,14 @@ npm run test
 An online magazine is financed by people pledging to pay for its content. And if a crowd forms around a magazine it becomes crowdfunded. Crowdfundings have a dedicated name in the backend. You can configure the currently active one via the environment. You can only point the front end at one crowdfunding at a time.
 
 ```
-CROWDFUNDING_NAME=REPUBLIK
+CROWDFUNDING=REPUBLIK
 ```
 
-Additionally you can configure a second `SALES_UP` crowdfunding. This can be used while the main crowdfunding is inactive but you still wish to sell something.
+Additionally you can configure `CROWDFUNDING_PLEDGE` and `CROWDFUNDING_META` crowdfundings. Both default to `CROWDFUNDING`. One controls the default sales channel and the other what is displayed on the meta page, e.g. prolongs.
 
 ```
-SALES_UP=LAUNCH
+CROWDFUNDING_PLEDGE=PRESALE
+CROWDFUNDING_META=PROLONG
 ```
 
 #### Payment

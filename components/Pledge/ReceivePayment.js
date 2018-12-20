@@ -14,6 +14,11 @@ import loadStripe from '../Payment/stripe'
 
 import { EMAIL_PAYMENT } from '../../lib/constants'
 
+import RawHtmlTranslation from '../RawHtmlTranslation'
+
+import { linkRule } from '@project-r/styleguide'
+
+// ToDo: query autoPay
 const pledgeQuery = gql`
 query($pledgeId: ID!) {
   pledge(id: $pledgeId) {
@@ -24,6 +29,8 @@ query($pledgeId: ID!) {
     options {
       templateId
       amount
+      optionGroup
+      periods
     }
     total
     donation
@@ -59,11 +66,11 @@ class PledgeReceivePayment extends Component {
         // https://e-payment-postfinance.v-psp.com/de/guides/integration%20guides/possible-errors
 
         const errorVariables = {
-          mailto: `mailto:${EMAIL_PAYMENT}?subject=${
+          mailto: <a key='mailto' {...linkRule} href={`mailto:${EMAIL_PAYMENT}?subject=${
             encodeURIComponent(
               t(
                 'pledge/recievePayment/pf/mailto/subject',
-                { status: query.STATUS }
+                { status: query.STATUS || '' }
               )
             )}&body=${
             encodeURIComponent(
@@ -74,45 +81,39 @@ class PledgeReceivePayment extends Component {
                   payload: JSON.stringify(query, null, 2)
                 }
               )
-            )}`
+            )}`}>{EMAIL_PAYMENT}</a>
         }
 
         switch (query.STATUS) {
           case '92':
-            state.receiveError = t(
-              'pledge/recievePayment/pf/92',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/pf/92'
+              replacements={errorVariables} />
             break
           case '93':
-            state.receiveError = t(
-              'pledge/recievePayment/pf/retry',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/pf/retry'
+              replacements={errorVariables} />
             break
           case '0':
-            state.receiveError = t(
-              'pledge/recievePayment/pf/invalid',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/pf/invalid'
+              replacements={errorVariables} />
             break
           case '1':
-            state.receiveError = t(
-              'pledge/recievePayment/pf/canceled',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/pf/canceled'
+              replacements={errorVariables} />
             break
           case '2':
-            state.receiveError = t(
-              'pledge/recievePayment/pf/denied',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/pf/denied'
+              replacements={errorVariables} />
             break
           default:
-            state.receiveError = t(
-              'pledge/recievePayment/error',
-              errorVariables
-            )
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/error'
+              replacements={errorVariables} />
         }
       }
     }
@@ -129,44 +130,50 @@ class PledgeReceivePayment extends Component {
       } else {
         // https://developer.paypal.com/docs/classic/ipn/integration-guide/IPNandPDTVariables/#id091EB04C0HS
         // - payment_status
+        const errorVariables = {
+          mailto: <a key='mailto' {...linkRule} href={`mailto:${EMAIL_PAYMENT}?subject=${
+            encodeURIComponent(
+              t(
+                'pledge/recievePayment/paypal/mailto/subject',
+                { status: query.st || '' }
+              )
+            )}&body=${
+            encodeURIComponent(
+              t(
+                'pledge/recievePayment/paypal/mailto/body',
+                {
+                  pledgeId: query.item_name,
+                  payload: JSON.stringify(query, null, 2)
+                }
+              )
+            )}`}>{EMAIL_PAYMENT}</a>
+        }
         switch (query.st) {
           case 'Cancel':
             // see cancel_return in ./paypal.js
-            state.receiveError = t('pledge/recievePayment/paypal/cancel')
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/paypal/cancel' />
             break
           case 'Denied':
           case 'Expired':
           case 'Failed':
           case 'Voided':
-            state.receiveError = t('pledge/recievePayment/paypal/deny')
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/paypal/deny' />
             break
           case 'Canceled_Reversal':
           case 'Refunded':
           case 'Reversed':
           case 'Processed':
           case 'Pending':
-            const errorVariables = {
-              mailto: `mailto:${EMAIL_PAYMENT}?subject=${
-                encodeURIComponent(
-                  t(
-                    'pledge/recievePayment/paypal/mailto/subject',
-                    { status: query.st }
-                  )
-                )}&body=${
-                encodeURIComponent(
-                  t(
-                    'pledge/recievePayment/paypal/mailto/body',
-                    {
-                      pledgeId: query.item_name,
-                      payload: JSON.stringify(query, null, 2)
-                    }
-                  )
-                )}`
-            }
-            state.receiveError = t('pledge/recievePayment/paypal/contactUs', errorVariables)
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/paypal/contactUs'
+              replacements={errorVariables} />
             break
           default:
-            state.receiveError = t('pledge/recievePayment/error')
+            state.receiveError = <RawHtmlTranslation
+              translationKey='pledge/recievePayment/error'
+              replacements={errorVariables} />
         }
       }
     }
@@ -235,22 +242,39 @@ class PledgeReceivePayment extends Component {
       sourceId
     })
       .then(({ data: { payPledge } }) => {
+        if (!pledge || (!pledge.user && !me)) {
+          gotoMerci({
+            id: pledgeId
+          })
+          return
+        }
+        const baseQuery = {
+          id: pledgeId
+        }
+        if (pledge.package) {
+          baseQuery.package = pledge.package.name
+        }
         if (!me) {
+          if (baseQuery.package === 'PROLONG') {
+            gotoMerci({
+              ...baseQuery,
+              email: pledge.user.email
+            })
+            return
+          }
           this.props.signIn(pledge.user.email, 'pledge')
             .then(({ data: { signIn } }) => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               ...encodeSignInResponseQuery(signIn)
             }))
             .catch(error => gotoMerci({
-              id: payPledge.pledgeId,
+              ...baseQuery,
               email: pledge.user.email,
               signInError: errorToString(error)
             }))
         } else {
-          gotoMerci({
-            id: payPledge.pledgeId
-          })
+          gotoMerci(baseQuery)
         }
       })
       .catch(error => {
@@ -262,10 +286,6 @@ class PledgeReceivePayment extends Component {
   }
   componentDidMount () {
     // TODO: Test and re-enable psp payload purging after processing it
-    // const {pledge} = this.props
-    // if (!pledge) {
-    //   return
-    // }
     // const url = {
     //   route: '/angebote',
     //   params: this.queryFromPledge()
@@ -292,6 +312,7 @@ class PledgeReceivePayment extends Component {
           ...this.queryFromPledge()
         }
 
+        // ToDo: access token?
         return (
           <PledgeForm
             crowdfundingName={crowdfundingName}
@@ -310,7 +331,9 @@ const PledgeReceivePaymentById = compose(
     props: ({ data, ownProps }) => {
       let error = data.error
       if (data.pledge === null) {
-        error = ownProps.t('pledge/recievePayment/noPledge')
+        error = ownProps.t('pledge/recievePayment/noPledge', {
+          pledgeId: ownProps.pledgeId
+        })
       }
       return {
         loading: data.loading,

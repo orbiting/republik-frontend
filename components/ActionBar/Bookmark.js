@@ -56,7 +56,7 @@ class Bookmark extends Component {
     const { bookmarked, mutating } = this.state
     const Icon = bookmarked ? IconBookmarked : IconDefault
     const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
-    const size = small ? 23 : 28
+    const size = small ? 23 : 27
 
     return (
       <a {...iconLinkStyles.link}

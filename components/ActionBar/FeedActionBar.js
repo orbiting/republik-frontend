@@ -21,6 +21,8 @@ const styles = {
 
 const ActionBar = ({
   t,
+  documentId,
+  listId,
   bookmarked,
   dossier,
   hasAudio,
@@ -56,8 +58,8 @@ const ActionBar = ({
       <span {...styles.buttonGroup}>
         <Bookmark
           bookmarked={bookmarked}
-          documentId={'foo'}
-          listId={'bar'}
+          documentId={documentId}
+          listId={listId}
           active={false}
           small
           style={{ marginLeft: '-4px' }}
@@ -91,6 +93,8 @@ const ActionBar = ({
 }
 
 ActionBar.propTypes = {
+  documentId: PropTypes.string.isRequired,
+  listId: PropTypes.string.isRequired,
   bookmarked: PropTypes.bool,
   dossier: PropTypes.object,
   hasAudio: PropTypes.bool,
@@ -102,6 +106,8 @@ ActionBar.propTypes = {
 
 // TODO: remove and wire up with API.
 ActionBar.defaultProps = {
+  documentId: 'foo',
+  listId: 'bar',
   dossier: {},
   hasAudio: true,
   hasGallery: true,

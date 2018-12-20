@@ -217,7 +217,6 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
-      trackProgress: false,
       mobile: true,
       ...this.deriveStateFromProps(props)
     }

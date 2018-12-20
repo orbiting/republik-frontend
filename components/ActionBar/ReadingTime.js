@@ -24,7 +24,7 @@ const ReadingTime = ({ minutes, fill, small }) => {
       fontSize,
       marginLeft: 5
     }}>
-      <span {...styles.text}>{minutes}'</span>
+      <span {...styles.text}>{minutes}{'\''}</span>
     </IconLink>
   )
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-20T10:18:13.531Z",
+  "updated": "2018-12-20T15:41:38.954Z",
   "title": "live",
   "data": [
     {
@@ -995,6 +995,10 @@
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
+      "key": "Account/Access/Grants/message/claimed",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen und Verleger Ihnen bis zum {maxEndAt} ihren Zugriff teilen."
+    },
+    {
       "key": "Account/Access/Grants/explanation",
       "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
     },
@@ -1004,7 +1008,7 @@
     },
     {
       "key": "Account/Access/Grants/link/pledges",
-      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
+      "value": "Ein eigenes Abonnement kaufen"
     },
     {
       "key": "Account/Access/Campaigns/title",
@@ -2583,11 +2587,11 @@
       "value": "+41797874765"
     },
     {
-      "key": "bookmark/title/active",
+      "key": "bookmark/title/bookmarked",
       "value": "Auf der Merkliste"
     },
     {
-      "key": "bookmark/title/inactive",
+      "key": "bookmark/title/default",
       "value": "Zur Merkliste hinzufügen"
     },
     {

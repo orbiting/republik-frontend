@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
+import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
+import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
@@ -50,7 +52,10 @@ class ActionBar extends Component {
       onAudioClick,
       onPdfClick,
       pdfUrl,
+      readingMinutes,
       shareOverlayTitle,
+      showBookmark,
+      bookmarked,
       inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
@@ -133,9 +138,22 @@ class ActionBar extends Component {
             emailAttachUrl={emailAttachUrl} />
         )}
         <span {...styles.buttonGroup}>
+          {showBookmark && (
+            <Bookmark
+              bookmarked={bookmarked}
+              documentId={'foo'}
+              listId={'bar'}
+              active={false}
+              size={28}
+              style={{ marginLeft: '-4px', paddingRight: 0 }}
+            />
+          )}
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
+          {readingMinutes && (
+            <ReadingTime minutes={readingMinutes} />
+          )}
         </span>
       </Fragment>
     )
@@ -152,7 +170,10 @@ ActionBar.propTypes = {
   onAudioClick: PropTypes.func,
   onPdfClick: PropTypes.func,
   pdfUrl: PropTypes.string,
-  shareOverlayTitle: PropTypes.string
+  readingMinutes: PropTypes.number,
+  shareOverlayTitle: PropTypes.string,
+  showBookmark: PropTypes.bool,
+  bookmarked: PropTypes.bool
 }
 
 ActionBar.defaultProps = {

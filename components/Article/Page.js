@@ -86,6 +86,8 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       })}
       onAudioClick={onAudioClick}
       inNativeApp={inNativeApp}
+      showBookmark
+      readingMinutes={14} // TODO: replace with API data.
     />
     {discussionId && process.browser &&
       <DiscussionIconLink
@@ -309,6 +311,8 @@ class ArticlePage extends Component {
           ? getPdfUrl(meta)
           : undefined}
         inNativeApp={inNativeApp}
+        showBookmark
+        readingMinutes={14} // TODO: replace with API data.
       />
     )
 

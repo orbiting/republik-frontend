@@ -36,12 +36,14 @@ class IconLink extends Component {
     this.unsubscribe()
   }
   render () {
-    const { path, discussionPage, discussionId, count, style } = this.props
+    const { path, discussionPage, discussionId, count, style, small } = this.props
+    const size = small ? 20 : 24
+    const fontSize = small ? '15px' : undefined
 
     const content = <Fragment>
-      <Icon size={24} fill={colors.primary} />
+      <Icon size={size} fill={colors.primary} />
       {count > 0 && (
-        <span {...iconLinkStyles.text} {...styles.text}>
+        <span {...iconLinkStyles.text} {...styles.text} style={{ fontSize }}>
           &nbsp;{count}
         </span>
       )}

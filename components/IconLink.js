@@ -9,10 +9,12 @@ import {
 } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
+import TimeIcon from './Icons/Time'
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
+import GalleryIcon from 'react-icons/lib/md/image'
 import LinkIcon from './Icons/Web'
 import MarkdownIcon from 'react-icons/lib/go/markdown'
 import MailIcon from 'react-icons/lib/md/mail-outline'
@@ -21,6 +23,7 @@ import ShareIcon from 'react-icons/lib/md/share'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
 import KeyIcon from 'react-icons/lib/fa/key'
+import VideoIcon from 'react-icons/lib/md/videocam'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -64,6 +67,9 @@ export const styles = {
       paddingRight: 0
     }
   }),
+  icon: css({
+    verticalAlign: 'middle'
+  }),
   text: css({
     display: 'inline-block',
     textOverflow: 'ellipsis',
@@ -96,7 +102,10 @@ const ICONS = {
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,
   key: KeyIcon,
-  pdf: PdfIcon
+  pdf: PdfIcon,
+  gallery: GalleryIcon,
+  time: TimeIcon,
+  video: VideoIcon
 }
 
 const IconLink = ({
@@ -125,9 +134,13 @@ const IconLink = ({
       rel={target === '_blank' ? 'noopener' : ''}
       title={title}
     >
-      <Icon fill={fill} size={size} />
+      <span {...styles.icon}>
+        <Icon fill={fill} size={size} />
+      </span>
       {children && (
-        <span {...(stacked ? styles.stackedText : styles.text)}>
+        <span
+          {...(stacked ? styles.stackedText : styles.text)}
+        >
           {!stacked && (
             <Fragment>&nbsp;</Fragment>
           )}{children}

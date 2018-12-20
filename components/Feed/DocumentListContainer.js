@@ -22,6 +22,17 @@ export const documentQueryFragment = `
         kind
         template
         color
+        audioSource {
+          mp3
+        }
+        dossier {
+          id
+        }
+        linkedDiscussion {
+          id
+          path
+          closed
+        }
         format {
           meta {
             path

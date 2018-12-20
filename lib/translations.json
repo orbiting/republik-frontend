@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-20T15:41:38.954Z",
+  "updated": "2018-12-20T16:12:20.817Z",
   "title": "live",
   "data": [
     {
@@ -1060,7 +1060,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/input/message/tooLong",
-      "value": "Persönliche Nachricht zu lang"
+      "value": "Persönliche Nachricht, höchstens {maxLength} Zeichen"
     },
     {
       "key": "Account/Access/Campaigns/Form/mutationError/hint",

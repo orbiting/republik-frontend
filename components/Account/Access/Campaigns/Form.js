@@ -109,7 +109,10 @@ class Form extends Component {
         value: values.message,
         validator: message => (
           message.trim().length > 255 &&
-          this.props.t('Account/Access/Campaigns/Form/input/message/tooLong')
+          this.props.t(
+            'Account/Access/Campaigns/Form/input/message/tooLong',
+            { maxLength: 255 }
+          )
         ),
         autoSize: true
       }

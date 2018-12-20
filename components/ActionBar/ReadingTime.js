@@ -18,13 +18,15 @@ const styles = {
 const ReadingTime = ({ minutes, fill, small }) => {
   const size = small ? 20 : 22
   const fontSize = small ? '15px' : undefined
+  const lineHeight = small ? '20px' : undefined
   return (
     <IconLink icon='time' fill={fill} size={size} style={{
       color: fill || undefined,
-      fontSize,
       marginLeft: 5
     }}>
-      <span {...styles.text}>{minutes}{'\''}</span>
+      <span {...styles.text} style={{ fontSize, lineHeight }}>
+        {minutes}{'\''}
+      </span>
     </IconLink>
   )
 }

@@ -85,7 +85,6 @@ const ActionBar = ({
             discussionId={linkedDiscussion.id}
             path={linkedDiscussion.path}
             small
-            style={{ marginLeft: 5 }}
           />
         )}
       </span>

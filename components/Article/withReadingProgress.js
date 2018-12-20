@@ -15,6 +15,11 @@ const withReadingProgress = WrappedComponent => {
     constructor (props) {
       super(props)
 
+      this.state = {
+        showProgressPrompt: false,
+        progressElements: null
+      }
+
       this.containerRef = ref => {
         this.container = ref
       }

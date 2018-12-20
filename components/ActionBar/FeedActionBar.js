@@ -50,7 +50,7 @@ const ActionBar = ({
       icon: 'video',
       title: t('feed/actionbar/video'),
       size: 17,
-      style: { paddingTop: 5 }
+      style: { paddingBottom: 2 }
     }
   ]
 

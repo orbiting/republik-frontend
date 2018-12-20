@@ -63,6 +63,10 @@
       "value": "Rubriken"
     },
     {
+      "key": "navbar/discussion",
+      "value": "Dialog"
+    },
+    {
       "key": "pages/magazine/title",
       "value": "Magazin"
     },
@@ -129,6 +133,22 @@
     {
       "key": "pages/profile/empty/content/linktext",
       "value": "Profilseite aktivieren oder bearbeiten"
+    },
+    {
+      "key": "pages/claim/meta/title",
+      "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "pages/claim/meta/description",
+      "value": "Lösen Sie hier Ihren Gutscheincode ein."
+    },
+    {
+      "key": "pages/claim/access/meta/title",
+      "value": "Gutscheincode einlösen (Zugriff teilen)"
+    },
+    {
+      "key": "pages/claim/access/meta/description",
+      "value": "Mit Ihrem Gutscheincode den geteilten Zugriff aktivieren."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -265,10 +285,6 @@
     {
       "key": "signIn/email/error/invalid",
       "value": "E-Mail-Adresse ungültig"
-    },
-    {
-      "key": "signIn/context/grant/lead",
-      "value": "Geben Sie hier die E-Mail-Adresse an, auf die die Einladung ausgestellt wurde. Sie erhalten anschliessend eine E-Mail mit einem Bestätigungs-Link."
     },
     {
       "key": "cookies/disabled/error",
@@ -1035,6 +1051,14 @@
       "value": "E-Mail-Adresse unvollständig"
     },
     {
+      "key": "Account/Access/Campaigns/Form/input/message/label",
+      "value": "Persönliche Nachricht"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/message/tooLong",
+      "value": "Persönliche Nachricht zu lang"
+    },
+    {
       "key": "Account/Access/Campaigns/Form/mutationError/hint",
       "value": "Falls das Problem weiterhin besteht, schreiben Sie uns: kontakt@republik.ch"
     },
@@ -1061,6 +1085,10 @@
     {
       "key": "Account/Access/Campaigns/Grants/endAt",
       "value": "gültig bis zum {endAt}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginBefore",
+      "value": "einlösbar bis zum {beginBefore}"
     },
     {
       "key": "profile/documents/title/other",
@@ -2547,8 +2575,32 @@
       "value": "+41797874765"
     },
     {
+      "key": "bookmark/title/active",
+      "value": "Auf der Merkliste"
+    },
+    {
+      "key": "bookmark/title/inactive",
+      "value": "Zur Merkliste hinzufügen"
+    },
+    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
+      "key": "feed/actionbar/dossier",
+      "value": "In einem Dossier"
+    },
+    {
+      "key": "feed/actionbar/gallery",
+      "value": "Bildstrecke"
+    },
+    {
+      "key": "feed/actionbar/audio",
+      "value": "Zum Hören"
+    },
+    {
+      "key": "feed/actionbar/video",
+      "value": "Video"
     },
     {
       "key": "format/feed/title/1",
@@ -3151,12 +3203,24 @@
       "value": "Gutscheincode fehlt"
     },
     {
+      "key": "memberships/claim/voucherCode/label/error/unrecognized",
+      "value": "Gutscheincode nicht erkannt"
+    },
+    {
       "key": "memberships/claim/button",
       "value": "Einlösen"
     },
     {
       "key": "memberships/claim/loading",
       "value": "überprüfen"
+    },
+    {
+      "key": "memberships/claim/access/lead",
+      "value": "Geteilten Zugriff aktivieren"
+    },
+    {
+      "key": "memberships/claim/access/body",
+      "value": "Sie wurden eingeladen, mit der Republik eine Testfahrt zu machen. Füllen Sie das folgende Formular vollständig aus und kommen Sie an Bord."
     },
     {
       "key": "memberships/claim/error/title",

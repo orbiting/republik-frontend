@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-19T16:50:02.288Z",
+  "updated": "2018-12-19T21:43:05.517Z",
   "title": "live",
   "data": [
     {
@@ -57,6 +57,10 @@
     {
       "key": "navbar/feuilleton",
       "value": "Feuilleton"
+    },
+    {
+      "key": "navbar/formats",
+      "value": "Rubriken"
     },
     {
       "key": "navbar/discussion",
@@ -144,7 +148,7 @@
     },
     {
       "key": "pages/claim/access/meta/description",
-      "value": "Lösen Sie hier Ihren Gutscheincode ein. (Zugriff teilen)"
+      "value": "Mit Ihrem Gutscheincode den geteilten Zugriff aktivieren."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -2484,7 +2488,7 @@
     },
     {
       "key": "pledge/recievePayment/pf/92",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/pf/invalid",
@@ -2504,7 +2508,7 @@
     },
     {
       "key": "pledge/recievePayment/error",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter {mailto}."
     },
     {
       "key": "pledge/recievePayment/noPledge",
@@ -2520,7 +2524,7 @@
     },
     {
       "key": "pledge/recievePayment/paypal/contactUs",
-      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/subject",
@@ -2980,7 +2984,7 @@
     },
     {
       "key": "merci/postpay/signInError/text",
-      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an {contactEmailLink}."
     },
     {
       "key": "merci/postpay/signInError/email/subject",
@@ -3212,11 +3216,11 @@
     },
     {
       "key": "memberships/claim/access/lead",
-      "value": "Geteilten Zugriff einlösen"
+      "value": "Geteilten Zugriff aktivieren"
     },
     {
       "key": "memberships/claim/access/body",
-      "value": "Hier können Sie Ihren 5-stelligen Gutscheincode einlösen. Dazu benötigen wir ein paar Angaben von Ihnen.<br />\n(Prüfen Sie die E-Mail-Adresse sorgfältig.)"
+      "value": "Sie wurden eingeladen, mit der Republik eine Testfahrt zu machen. Füllen Sie das folgende Formular vollständig aus und kommen Sie an Bord."
     },
     {
       "key": "memberships/claim/error/title",
@@ -3272,7 +3276,7 @@
     },
     {
       "key": "notifications/invalid-email/text",
-      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «<b>{email}</b>».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
+      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «{email}».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unavailable/title",

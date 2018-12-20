@@ -322,9 +322,7 @@ class Pledge extends Component {
 
               {!!receiveError && (
                 <P style={{ color: colors.error, marginBottom: 40 }}>
-                  <RawHtml dangerouslySetInnerHTML={{
-                    __html: receiveError
-                  }} />
+                  {receiveError}
                 </P>
               )}
 

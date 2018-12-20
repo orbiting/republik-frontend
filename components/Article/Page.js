@@ -225,7 +225,6 @@ class ArticlePage extends Component {
 
     this.onScroll = () => {
       const y = window.pageYOffset
-      // const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY

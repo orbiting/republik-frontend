@@ -158,11 +158,6 @@ class Form extends Component {
                   </ul>
                 </div>
               )}
-              {mutationError &&
-                <Fragment>
-                  <ErrorMessage error={mutationError} />
-                  <Label>{t('Account/Access/Campaigns/Form/mutationError/hint')}</Label>
-                </Fragment>}
               {isMutating
                 ? <InlineSpinner />
                 : <Button
@@ -195,6 +190,12 @@ class Form extends Component {
                     { count: campaign.slots.free }
                   )}
                 </Label>
+              }
+              {mutationError &&
+                <div>
+                  <ErrorMessage error={mutationError} />
+                  <Label>{t('Account/Access/Campaigns/Form/mutationError/hint')}</Label>
+                </div>
               }
             </Fragment>
           )

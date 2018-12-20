@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-19T21:43:05.517Z",
+  "updated": "2018-12-20T10:18:13.531Z",
   "title": "live",
   "data": [
     {
@@ -1081,6 +1081,14 @@
     {
       "key": "Account/Access/Campaigns/Grants/recipient",
       "value": "an {recipient}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/unclaimed",
+      "value": "noch nicht eingelöst"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginAt",
+      "value": "eingelöst am {beginAt}"
     },
     {
       "key": "Account/Access/Campaigns/Grants/endAt",

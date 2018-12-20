@@ -65,6 +65,8 @@ query myBelongings {
         id
         email
         beginBefore
+        beginAt
+        endAt
       }
       slots {
         total

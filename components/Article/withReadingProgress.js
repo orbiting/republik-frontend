@@ -14,10 +14,6 @@ const withReadingProgress = WrappedComponent => {
   return class extends Component {
     constructor (props) {
       super(props)
-      // this.handleChange = this.handleChange.bind(this);
-      // this.getProgressElements = this.getProgressElements.bind(this)
-      this.state = {
-      }
 
       this.containerRef = ref => {
         this.container = ref
@@ -29,10 +25,8 @@ const withReadingProgress = WrappedComponent => {
           : HEADER_HEIGHT
 
       this.handleLoad = () => {
-        console.log('load')
         this.measure()
-        const progressElements = this.getProgressElements()
-        console.log(this.container, progressElements)
+        this.getProgressElements()
       }
 
       this.measure = () => {
@@ -40,7 +34,7 @@ const withReadingProgress = WrappedComponent => {
           const { width, height, top } = this.container.getBoundingClientRect()
           const cleanWidth = Math.min(width, 695)
           if (cleanWidth !== this.state.width || height !== this.state.height || top !== this.state.top) {
-            this.setState({ width: cleanWidth, height, top }, undefined /* this.restore */)
+            this.setState({ width: cleanWidth, height, top })
           }
         }
       }
@@ -49,7 +43,6 @@ const withReadingProgress = WrappedComponent => {
         const progressElements = this.getProgressElements()
         const progressElementIndex = this.state.progressElementIndex || 0
         if (!progressElements) {
-          console.log('empty')
           return
         }
         const mobile = window.innerWidth < mediaQueries.mBreakPoint
@@ -57,13 +50,10 @@ const withReadingProgress = WrappedComponent => {
 
         let progressElement, nextIndex
         if (downwards) {
-          console.log('search downwards...', progressElementIndex, progressElements.length)
           for (let i = progressElementIndex; i < progressElements.length; i++) {
             progressElement = progressElements[i]
-            console.log(progressElement, i)
             const { top, height } = progressElement.getBoundingClientRect()
             if (i === 0 && top > window.innerHeight) {
-              console.log('first')
               break
             }
             const fillsHeight = top < headerHeight && headerHeight + top + height > window.innerHeight
@@ -74,15 +64,14 @@ const withReadingProgress = WrappedComponent => {
             }
           }
         } else {
-          console.log('search upwards...', progressElementIndex, progressElements.length)
+          // search upwards.
           for (let i = progressElementIndex; i > -1; i--) {
             progressElement = progressElements[i]
-            console.log(progressElement, i)
             const { top } = progressElement.getBoundingClientRect()
             if (top < headerHeight) {
-              console.log('found upwards', progressElements[i + 1])
               progressElement = progressElements[i + 1]
               nextIndex = i + 1
+              console.log('found upwards', progressElement)
               break
             } else {
               progressElement = undefined
@@ -117,7 +106,7 @@ const withReadingProgress = WrappedComponent => {
           percent === 0
             ? 0
             : Math.min(1, (yFromArticleTop + window.innerHeight) / this.state.height)
-        console.log('top', yFromArticleTop, percent, displayPercent)
+
         const { progressElement } = this.state
         this.setState({
           percent,
@@ -132,12 +121,10 @@ const withReadingProgress = WrappedComponent => {
       }
 
       this.saveProgress = debounce(() => {
-        console.log('scroll END')
         const y = window.pageYOffset
         const downwards = this.state.pageYOffset === undefined || y > this.state.pageYOffset
 
         if (y !== this.state.pageYOffset) {
-          console.log('downwards', downwards)
           this.setState({ pageYOffset: y })
           this.measureProgress(downwards)
         }
@@ -146,9 +133,7 @@ const withReadingProgress = WrappedComponent => {
       }, 300)
 
       this.restoreProgress = () => {
-        console.log('restore')
         const progress = JSON.parse(window.localStorage.getItem('progress') || {})
-        console.log(progress)
         const { percent, id } = progress
         const { mobile } = this.state
         const progressElements = this.getProgressElements()
@@ -157,14 +142,12 @@ const withReadingProgress = WrappedComponent => {
           foundIndex = index
           return element.id === id
         })
-        console.log(percent, id, foundIndex)
         if (progressElement) {
           this.setState({
             progressElement: progressElement,
             progressElementIndex: foundIndex
           })
           const { top } = progressElement.getBoundingClientRect()
-          console.log('restored', top)
           window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 20 : 50))
           return
         }
@@ -177,7 +160,6 @@ const withReadingProgress = WrappedComponent => {
     }
 
     componentDidMount () {
-      console.log('mount progress')
       window.addEventListener('load', this.handleLoad)
       window.addEventListener('resize', this.measure)
 
@@ -195,7 +177,6 @@ const withReadingProgress = WrappedComponent => {
     }
 
     componentDidUpdate () {
-      console.log('update progress')
       this.measure()
     }
 
@@ -203,7 +184,6 @@ const withReadingProgress = WrappedComponent => {
       const { showProgressPrompt, width, displayPercent, percent, pageYOffset } = this.state
       const progressPrompt = showProgressPrompt ? (
         <ProgressNote onClick={() => {
-          console.log('clicked')
           this.restoreProgress()
         }} />
       ) : null

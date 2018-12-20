@@ -368,18 +368,13 @@ class ArticlePage extends Component {
   }
 
   componentDidMount () {
-    console.log('mount', this.foo)
-    // window.addEventListener('load', this.handleLoad)
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
-
-    // setTimeout(this.restore, 500)
 
     this.measure()
   }
 
   componentDidUpdate () {
-    console.log('update')
     this.measure()
   }
 

@@ -19,8 +19,6 @@ const Claim = ({ router: { query }, t }) => {
   email = email && isEmail(email) ? email : ''
   code = code && sanitizeVoucherCode(maybeDecode(code))
 
-  console.log('code', code)
-
   const meta = {
     title: t.first([
       `pages/claim/${context}/meta/title`,

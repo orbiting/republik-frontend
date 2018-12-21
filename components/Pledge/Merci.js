@@ -29,6 +29,8 @@ import {
   Lead
 } from '@project-r/styleguide'
 
+import RawHtmlTranslation from '../RawHtmlTranslation'
+
 const { H1, P } = Interaction
 
 export const gotoMerci = (query) => {
@@ -125,25 +127,29 @@ class Merci extends Component {
       return (
         <MainContainer><Content>
           <H1>{t('merci/postpay/signInError/title')}</H1>
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: t('merci/postpay/signInError/text', {
-              email: query.email,
-              mailto: `mailto:${EMAIL_CONTACT}?subject=${
-                encodeURIComponent(
-                  t('merci/postpay/signInError/email/subject')
-                )}&body=${
-                encodeURIComponent(
-                  t(
-                    'merci/postpay/signInError/email/body',
-                    {
-                      pledgeId: query.id,
-                      email: email,
-                      error: signInError
-                    }
-                  )
-                )}`
-            })
-          }} />
+          <P>
+            <RawHtmlTranslation
+              translationKey='merci/postpay/signInError/text'
+              replacements={{
+                email: query.email,
+                contactEmailLink: <a key='contact' {...linkRule} href={
+                  `mailto:${EMAIL_CONTACT}?subject=${
+                    encodeURIComponent(
+                      t('merci/postpay/signInError/email/subject')
+                    )}&body=${
+                    encodeURIComponent(
+                      t(
+                        'merci/postpay/signInError/email/body',
+                        {
+                          pledgeId: query.id,
+                          email: email,
+                          error: signInError
+                        }
+                      )
+                    )}`
+                }>{EMAIL_CONTACT}</a>
+              }} />
+          </P>
           {!!signInError && <ErrorMessage error={signInError} />}
           <div style={{ margin: '20px 0' }}>
             {signInLoading ? <InlineSpinner /> : <Button

@@ -55,7 +55,6 @@ query myBelongings {
         title
         description
       }
-      granteeName
     }
     accessCampaigns {
       id

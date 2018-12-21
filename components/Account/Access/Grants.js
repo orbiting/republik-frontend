@@ -18,7 +18,7 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
   const maxEndAt =
     accessGrants.length > 0 &&
     accessGrants.reduce(
-      (acc, grant) => grant.endAt > acc ? grant.endAt : acc,
+      (acc, grant) => new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
       new Date()
     )
 

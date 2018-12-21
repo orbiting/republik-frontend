@@ -25,6 +25,22 @@ import {
 
 const { H2, P } = Interaction
 
+export const isMembershipVoucherCode = (voucherCode) => {
+  return voucherCode.length === 6
+}
+
+export const isAccessGrantVoucherCode = (voucherCode) => {
+  return voucherCode.length === 5
+}
+
+export const sanitizeVoucherCode = (value) => {
+  return value
+    .replace(/[^a-zA-Z0-9]/g, '')
+    .trim()
+    .substr(0, 6)
+    .toUpperCase()
+}
+
 class ClaimMembership extends Component {
   constructor (props) {
     super(props)
@@ -65,7 +81,7 @@ class ClaimMembership extends Component {
     }))
   }
   handleVoucherCode (value, shouldValidate, t) {
-    const sanitizedValue = this.sanitizeVoucherCode(value)
+    const sanitizedValue = sanitizeVoucherCode(value)
 
     this.setState(FieldSet.utils.mergeField({
       field: 'voucherCode',
@@ -76,21 +92,12 @@ class ClaimMembership extends Component {
           t('memberships/claim/voucherCode/label/error/empty')
         ) ||
         (
-          !this.isMembershipVoucherCode(sanitizedValue) &&
-          !this.isAccessGrantVoucherCode(sanitizedValue) &&
+          !isMembershipVoucherCode(sanitizedValue) &&
+          !isAccessGrantVoucherCode(sanitizedValue) &&
           t('memberships/claim/voucherCode/label/error/unrecognized')
         ),
       dirty: shouldValidate
     }))
-  }
-  isMembershipVoucherCode (voucherCode) {
-    return voucherCode.length === 6
-  }
-  isAccessGrantVoucherCode (voucherCode) {
-    return voucherCode.length === 5
-  }
-  sanitizeVoucherCode (value) {
-    return value.replace(/[^a-zA-Z0-9]/g, '').trim()
   }
   checkUserFields ({ me, t }) {
     const defaultValues = {
@@ -156,9 +163,9 @@ class ClaimMembership extends Component {
     }
 
     const claim = () => {
-      const code = this.sanitizeVoucherCode(values.voucherCode)
+      const code = sanitizeVoucherCode(values.voucherCode)
 
-      if (this.isAccessGrantVoucherCode(code)) {
+      if (isAccessGrantVoucherCode(code)) {
         this.props.claimAccess(code)
           .then(() => {
             gotoMerci({})
@@ -203,7 +210,7 @@ class ClaimMembership extends Component {
 
     if (
       values.voucherCode &&
-      this.isMembershipVoucherCode(values.voucherCode)
+      isMembershipVoucherCode(values.voucherCode)
     ) {
       requiredConsents.push('STATUTE')
     }

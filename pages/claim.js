@@ -5,7 +5,7 @@ import { withRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
 
 import { maybeDecode } from '../lib/utils/base64u'
-import ClaimMembership from '../components/Account/Memberships/Claim'
+import ClaimMembership, { sanitizeVoucherCode } from '../components/Account/Memberships/Claim'
 import Frame from '../components/Frame'
 import withT from '../lib/withT'
 
@@ -17,11 +17,9 @@ const Claim = ({ router: { query }, t }) => {
   context = ALLOWED_CONTEXT.includes(context) && context
   email = email && maybeDecode(email)
   email = email && isEmail(email) ? email : ''
-  code =
-    code && maybeDecode(code)
-      .substr(0, 10) // Limit code to 10 chars
-      .replace(/[^a-zA-Z0-9]/g, '') // Remove unknown (or unwanted) chars
-      .trim()
+  code = code && sanitizeVoucherCode(maybeDecode(code))
+
+  console.log('code', code)
 
   const meta = {
     title: t.first([

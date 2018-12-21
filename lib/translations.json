@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-19T21:43:05.517Z",
+  "updated": "2018-12-21T09:44:24.156Z",
   "title": "live",
   "data": [
     {
@@ -995,16 +995,20 @@
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
+      "key": "Account/Access/Grants/message/claimed",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen und Verleger Ihnen bis zum {maxEndAt} ihren Zugriff teilen."
+    },
+    {
       "key": "Account/Access/Grants/explanation",
       "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
     },
     {
       "key": "Account/Access/Grants/grant",
-      "value": "... durch {grantee} bis zum {endAt}"
+      "value": "... durch {granter} bis zum {endAt}"
     },
     {
       "key": "Account/Access/Grants/link/pledges",
-      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
+      "value": "Ein eigenes Abonnement kaufen"
     },
     {
       "key": "Account/Access/Campaigns/title",
@@ -1056,7 +1060,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/input/message/tooLong",
-      "value": "Persönliche Nachricht zu lang"
+      "value": "Persönliche Nachricht, höchstens {maxLength} Zeichen"
     },
     {
       "key": "Account/Access/Campaigns/Form/mutationError/hint",
@@ -1081,6 +1085,14 @@
     {
       "key": "Account/Access/Campaigns/Grants/recipient",
       "value": "an {recipient}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/unclaimed",
+      "value": "noch nicht eingelöst"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginAt",
+      "value": "eingelöst am {beginAt}"
     },
     {
       "key": "Account/Access/Campaigns/Grants/endAt",
@@ -2575,11 +2587,11 @@
       "value": "+41797874765"
     },
     {
-      "key": "bookmark/title/active",
+      "key": "bookmark/title/bookmarked",
       "value": "Auf der Merkliste"
     },
     {
-      "key": "bookmark/title/inactive",
+      "key": "bookmark/title/default",
       "value": "Zur Merkliste hinzufügen"
     },
     {

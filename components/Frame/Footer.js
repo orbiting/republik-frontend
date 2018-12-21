@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
@@ -46,6 +46,9 @@ const styles = {
     paddingBottom: 30,
     textRendering: 'optimizeLegibility',
     WebkitFontSmoothing: 'antialiased'
+  }),
+  bgBlack: css({
+    backgroundColor: '#000'
   }),
   grid: css({
     marginLeft: -COL_PADDING_S / 2,
@@ -138,10 +141,11 @@ const styles = {
 
 class Footer extends Component {
   render () {
-    const { t, me, signOut, inNativeApp, inNativeIOSApp } = this.props
+    const { t, me, signOut, inNativeApp, inNativeIOSApp, black } = this.props
     return (
-      <div {...styles.bg}>
+      <div {...merge(styles.bg, black && styles.bgBlack)}>
         <Container style={{ overflow: 'hidden' }}>
+          {black && <hr {...styles.hr} />}
           <div {...styles.grid}>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/contact/title')}</div>

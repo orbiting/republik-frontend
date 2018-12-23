@@ -9,8 +9,9 @@ import {
 import ErrorMessage from '../../../ErrorMessage'
 import FieldSet from '../../../FieldSet'
 import withT from '../../../../lib/withT'
+import { Link } from '../../../../lib/routes'
 
-const { H3 } = Interaction
+const { H3, P } = Interaction
 
 class Form extends Component {
   constructor (props) {
@@ -143,6 +144,16 @@ class Form extends Component {
                   { count: campaign.slots.used }
                 )}
               </H3>
+              <P>
+                {t.elements('Account/Access/Campaigns/Form/explanation', {
+                  linkClaim: <Link
+                    route='claim'
+                    params={{ context: 'access' }}
+                    passHref>
+                    <A>{t('Account/Access/Campaigns/Form/explanation/linkClaim')}</A>
+                  </Link>
+                })}
+              </P>
               <FieldSet
                 values={values}
                 errors={errors}

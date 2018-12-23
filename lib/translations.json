@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-21T09:44:24.156Z",
+  "updated": "2018-12-23T16:37:31.511Z",
   "title": "live",
   "data": [
     {
@@ -1015,12 +1015,28 @@
       "value": "Zugriff teilen"
     },
     {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice",
+      "value": "(Gutscheincodes können auf {linkClaim} eingelöst werden.)"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice/linkClaim",
+      "value": "republik.ch/abholen"
+    },
+    {
       "key": "Account/Access/Campaigns/Form/title/0",
       "value": "Zugriff teilen"
     },
     {
       "key": "Account/Access/Campaigns/Form/title/other",
       "value": "Einen weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation",
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
+      "value": "Link zur /abholen-Seite"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -1088,7 +1104,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Grants/unclaimed",
-      "value": "noch nicht eingelöst"
+      "value": "noch nicht eingelöst, Gutscheincode: {voucherCode}"
     },
     {
       "key": "Account/Access/Campaigns/Grants/beginAt",

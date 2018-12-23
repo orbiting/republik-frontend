@@ -63,6 +63,7 @@ query myBelongings {
       grants {
         id
         email
+        voucherCode
         beginBefore
         beginAt
         endAt

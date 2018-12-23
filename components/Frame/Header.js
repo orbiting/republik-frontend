@@ -35,6 +35,7 @@ import {
   LOGO_WIDTH_MOBILE,
   LOGO_PADDING_MOBILE
 } from '../constants'
+import { negativeColors } from './constants'
 
 const SEARCH_BUTTON_WIDTH = 28
 
@@ -50,7 +51,6 @@ const styles = {
     right: 0
   }),
   barOpaque: css({
-    backgroundColor: '#fff',
     height: HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
       height: HEADER_HEIGHT
@@ -96,7 +96,6 @@ const styles = {
     '@media print': {
       display: 'none'
     },
-    background: '#fff',
     position: 'absolute',
     overflow: 'hidden',
     top: 0,
@@ -164,8 +163,6 @@ const styles = {
     margin: 0,
     display: 'block',
     border: 0,
-    color: colors.divider,
-    backgroundColor: colors.divider,
     width: '100%',
     zIndex: ZINDEX_HEADER
   }),
@@ -316,9 +313,21 @@ class Header extends Component {
       : this.state.expanded
     )
     const secondaryVisible = showSecondary && !expanded
+    const dark = this.props.dark && !expanded
 
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
+
+    const bgStyle = opaque ? {
+      backgroundColor: dark ? negativeColors.primaryBg : '#fff'
+    } : undefined
+    const hrColor = dark ? negativeColors.containerBg : colors.divider
+    const hrColorStyle = {
+      color: hrColor,
+      backgroundColor: hrColor
+    }
+    const textFill = dark ? negativeColors.text : colors.text
+    const logoFill = dark ? '#fff' : '#000'
 
     const showNavBar = isMember
 
@@ -332,7 +341,7 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined}>
+        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined} style={bgStyle}>
           {opaque && <Fragment>
             <div {...styles.center} style={{ opacity: secondaryVisible ? 0 : 1 }}>
               <a
@@ -354,7 +363,7 @@ class Header extends Component {
                   }
                 }}
               >
-                <Logo />
+                <Logo fill={logoFill} />
               </a>
             </div>
             <div {...styles.leftItem} style={{
@@ -391,7 +400,7 @@ class Header extends Component {
                 }
               }}
               {...styles.leftItem} {...styles.back}>
-              <BackIcon size={25} fill='#000' />
+              <BackIcon size={25} fill={textFill} />
             </a>}
             {secondaryNav && !audioSource && (
               <div {...styles.secondary} style={{
@@ -416,11 +425,12 @@ class Header extends Component {
                 }
               }}>
               <Search
-                fill={colors.text}
+                fill={textFill}
                 size={28} />
             </button>}
-            <div {...styles.hamburger}>
+            <div {...styles.hamburger} style={bgStyle}>
               <Toggle
+                dark={dark}
                 expanded={expanded}
                 id='primary-menu'
                 title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
@@ -437,7 +447,7 @@ class Header extends Component {
               scrubberPosition='bottom'
               timePosition='left'
               t={t}
-              style={{ backgroundColor: '#fff', position: 'absolute', width: '100%', bottom: 0 }}
+              style={{ ...bgStyle, position: 'absolute', width: '100%', bottom: 0 }}
               controlsPadding={this.state.mobile ? 10 : 20}
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
@@ -448,8 +458,9 @@ class Header extends Component {
             <hr
               {...styles.stickyWithFallback}
               {...styles.hr}
-              {...styles.hrThin} />
-            <NavBar fixed={withoutSticky} router={router} />
+              {...styles.hrThin}
+              style={hrColorStyle} />
+            <NavBar fixed={withoutSticky} dark={dark} router={router} />
           </Fragment>
         )}
         {opaque && <hr
@@ -460,7 +471,7 @@ class Header extends Component {
           style={formatColor ? {
             color: formatColor,
             backgroundColor: formatColor
-          } : undefined} />}
+          } : hrColorStyle} />}
         <Popover expanded={expanded}>
           <NavPopover
             me={me}

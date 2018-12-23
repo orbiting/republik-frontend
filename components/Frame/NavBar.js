@@ -16,6 +16,7 @@ import {
   NAVBAR_HEIGHT_MOBILE,
   ZINDEX_NAVBAR
 } from '../constants'
+import { negativeColors } from './constants'
 
 const LINKS = [
   {
@@ -63,37 +64,19 @@ export const getNavBarStateFromRouter = router => {
   }
 }
 
-const linkStyle = {
-  fontSize: 15,
-  lineHeight: '18px',
-  textDecoration: 'none',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  color: colors.text,
-  ':visited': {
-    color: colors.text
-  },
-  [prefixHover()]: {
-    color: colors.primary
-  },
-  cursor: 'pointer',
-  [mediaQueries.mUp]: {
-    fontSize: 18,
-    lineHeight: '22px',
-    minWidth: '25%',
-    textAlign: 'center'
-  }
-}
-
 const styles = {
   container: css({
-    background: '#fff',
     alignItems: 'center',
     left: 0,
     right: 0,
     zIndex: ZINDEX_NAVBAR,
     position: 'relative'
+  }),
+  light: css({
+    backgroundColor: '#fff'
+  }),
+  dark: css({
+    backgroundColor: negativeColors.primaryBg
   }),
   fixed: css({
     position: 'fixed',
@@ -121,23 +104,64 @@ const styles = {
     }
   }),
   link: css({
-    ...linkStyle
+    fontSize: 15,
+    lineHeight: '18px',
+    textDecoration: 'none',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    [mediaQueries.mUp]: {
+      fontSize: 18,
+      lineHeight: '22px',
+      minWidth: '25%',
+      textAlign: 'center'
+    }
   }),
-  linkFaded: css({
-    ...linkStyle,
+  linkLight: css({
+    color: colors.text,
+    ':visited': {
+      color: colors.text
+    },
+    [prefixHover()]: {
+      color: colors.primary
+    }
+  }),
+  linkDark: css({
+    color: negativeColors.text,
+    ':visited': {
+      color: negativeColors.text
+    },
+    [prefixHover()]: {
+      color: negativeColors.lightText
+    }
+  }),
+  linkFadedLight: css({
     color: colors.disabled,
     ':visited': {
       color: colors.disabled
+    },
+    [prefixHover()]: {
+      color: colors.primary
+    }
+  }),
+  linkFadedDark: css({
+    color: colors.disabled,
+    ':visited': {
+      color: colors.disabled
+    },
+    [prefixHover()]: {
+      color: colors.lightText
     }
   })
 }
 
-const NavLink = ({ route, label, params, isActive, isFaded }) => {
+const NavLink = ({ route, label, params, isActive, isFaded, dark }) => {
   if (isActive) {
     return (
       <a
         {...styles.link}
-        style={{ cursor: 'pointer' }}
+        {...dark ? styles.linkDark : styles.linkLight}
         onClick={e => {
           e.preventDefault()
           Router.replaceRoute(route, params).then(() => {
@@ -152,12 +176,18 @@ const NavLink = ({ route, label, params, isActive, isFaded }) => {
 
   return (
     <Link route={route} params={params}>
-      <a {...(isFaded ? styles.linkFaded : styles.link)}>{label}</a>
+      <a
+        {...styles.link}
+        {...isFaded
+          ? dark ? styles.linkFadedDark : styles.linkFadedLight
+          : dark ? styles.linkDark : styles.linkLight}>
+        {label}
+      </a>
     </Link>
   )
 }
 
-const NavBar = ({ router, t, fixed }) => {
+const NavBar = ({ router, t, fixed, dark }) => {
   const { links, hasActiveLink } = getNavBarStateFromRouter(router)
 
   return (
@@ -165,11 +195,13 @@ const NavBar = ({ router, t, fixed }) => {
       {fixed && <div {...styles.height} />}
       <div
         {...styles.container}
+        {...(dark ? styles.dark : styles.light)}
         {...(fixed ? styles.fixed : undefined)}
       >
         <div {...styles.height} {...styles.wrapper}>
           {links.map((props) => (
             <NavLink {...props}
+              dark={dark}
               label={t(`navbar/${props.key}`)}
               isFaded={hasActiveLink} />
           ))}

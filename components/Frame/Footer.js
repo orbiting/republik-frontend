@@ -18,21 +18,16 @@ import {
   fontFamilies
 } from '@project-r/styleguide'
 
+import { negativeColors } from './constants'
 import { ZINDEX_FOOTER } from '../constants'
 
 import IconLink from '../IconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 
+export { negativeColors } from './constants'
+
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
-
-// TODO: Move negative colors to styleguide.
-export const negativeColors = {
-  primaryBg: '#191919',
-  text: '#f0f0f0',
-  lightText: '#828282',
-  divider: '#5b5b5b'
-}
 
 const styles = {
   bg: css({

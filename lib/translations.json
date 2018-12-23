@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-17T17:51:50.689Z",
+  "updated": "2018-12-21T09:44:24.156Z",
   "title": "live",
   "data": [
     {
@@ -61,6 +61,10 @@
     {
       "key": "navbar/formats",
       "value": "Rubriken"
+    },
+    {
+      "key": "navbar/discussion",
+      "value": "Dialog"
     },
     {
       "key": "pages/magazine/title",
@@ -129,6 +133,22 @@
     {
       "key": "pages/profile/empty/content/linktext",
       "value": "Profilseite aktivieren oder bearbeiten"
+    },
+    {
+      "key": "pages/claim/meta/title",
+      "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "pages/claim/meta/description",
+      "value": "Lösen Sie hier Ihren Gutscheincode ein."
+    },
+    {
+      "key": "pages/claim/access/meta/title",
+      "value": "Gutscheincode einlösen (Zugriff teilen)"
+    },
+    {
+      "key": "pages/claim/access/meta/description",
+      "value": "Mit Ihrem Gutscheincode den geteilten Zugriff aktivieren."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -267,10 +287,6 @@
       "value": "E-Mail-Adresse ungültig"
     },
     {
-      "key": "signIn/context/grant/lead",
-      "value": "Geben Sie hier die E-Mail-Adresse an, auf die die Einladung ausgestellt wurde. Sie erhalten anschliessend eine E-Mail mit einem Bestätigungs-Link."
-    },
-    {
       "key": "cookies/disabled/error",
       "value": "Cookies nicht erlaubt"
     },
@@ -280,7 +296,7 @@
     },
     {
       "key": "signOut/label",
-      "value": "abmelden"
+      "value": "Abmelden"
     },
     {
       "key": "signOut/error",
@@ -979,16 +995,20 @@
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
+      "key": "Account/Access/Grants/message/claimed",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen und Verleger Ihnen bis zum {maxEndAt} ihren Zugriff teilen."
+    },
+    {
       "key": "Account/Access/Grants/explanation",
       "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
     },
     {
       "key": "Account/Access/Grants/grant",
-      "value": "... durch {grantee} bis zum {endAt}"
+      "value": "... durch {granter} bis zum {endAt}"
     },
     {
       "key": "Account/Access/Grants/link/pledges",
-      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
+      "value": "Ein eigenes Abonnement kaufen"
     },
     {
       "key": "Account/Access/Campaigns/title",
@@ -1035,6 +1055,14 @@
       "value": "E-Mail-Adresse unvollständig"
     },
     {
+      "key": "Account/Access/Campaigns/Form/input/message/label",
+      "value": "Persönliche Nachricht"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/message/tooLong",
+      "value": "Persönliche Nachricht, höchstens {maxLength} Zeichen"
+    },
+    {
       "key": "Account/Access/Campaigns/Form/mutationError/hint",
       "value": "Falls das Problem weiterhin besteht, schreiben Sie uns: kontakt@republik.ch"
     },
@@ -1059,8 +1087,20 @@
       "value": "an {recipient}"
     },
     {
+      "key": "Account/Access/Campaigns/Grants/unclaimed",
+      "value": "noch nicht eingelöst"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginAt",
+      "value": "eingelöst am {beginAt}"
+    },
+    {
       "key": "Account/Access/Campaigns/Grants/endAt",
       "value": "gültig bis zum {endAt}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginBefore",
+      "value": "einlösbar bis zum {beginBefore}"
     },
     {
       "key": "profile/documents/title/other",
@@ -2460,7 +2500,7 @@
     },
     {
       "key": "pledge/recievePayment/pf/92",
-      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens ist ein technisches Problem bei PostFinance aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/pf/invalid",
@@ -2480,7 +2520,7 @@
     },
     {
       "key": "pledge/recievePayment/error",
-      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Zahlung fehlgeschlagen.<br />\n<br />\nBitte versuchen Sie es erneut oder kontaktieren Sie uns unter {mailto}."
     },
     {
       "key": "pledge/recievePayment/noPledge",
@@ -2496,7 +2536,7 @@
     },
     {
       "key": "pledge/recievePayment/paypal/contactUs",
-      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter <a href=\"{mailto}\">kontakt@republik.ch</a>. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
+      "value": "Während des Zahlungsverfahrens mit PayPal ist ein Problem aufgetreten, das zu einem nicht vorhersehbaren Resultat geführt hat.<br />\n<br />\nBitte nehmen Sie Kontakt mit uns auf unter {mailto}. Sie sollten es nicht erneut versuchen da die Buchung möglicherweise bereits akzeptiert wurde."
     },
     {
       "key": "pledge/recievePayment/paypal/mailto/subject",
@@ -2547,8 +2587,32 @@
       "value": "+41797874765"
     },
     {
+      "key": "bookmark/title/bookmarked",
+      "value": "Auf der Merkliste"
+    },
+    {
+      "key": "bookmark/title/default",
+      "value": "Zur Merkliste hinzufügen"
+    },
+    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
+      "key": "feed/actionbar/dossier",
+      "value": "In einem Dossier"
+    },
+    {
+      "key": "feed/actionbar/gallery",
+      "value": "Bildstrecke"
+    },
+    {
+      "key": "feed/actionbar/audio",
+      "value": "Zum Hören"
+    },
+    {
+      "key": "feed/actionbar/video",
+      "value": "Video"
     },
     {
       "key": "format/feed/title/1",
@@ -2896,7 +2960,7 @@
     },
     {
       "key": "article/autodiscussionteaser/title",
-      "value": "Jetzt sind Sie am Zug!"
+      "value": "Jetzt sind Sie dran!"
     },
     {
       "key": "article/autodiscussionteaser/text",
@@ -2932,7 +2996,7 @@
     },
     {
       "key": "merci/postpay/signInError/text",
-      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an <a href=\"{mailto}\">kontakt@republik.ch</a>."
+      "value": "Ihre Zahlungsinformationen wurden gespeichert. Leider konnte das System aber Ihre E-Mail-Adresse «{email}» zur Zeit nicht verifizieren. Versuchen Sie es in 10 Minuten erneut. Klappt das ein zweites Mal nicht, stehen wir Ihnen gerne mit Rat zur Verfügung. Schreiben Sie uns Ihr Problem an {contactEmailLink}."
     },
     {
       "key": "merci/postpay/signInError/email/subject",
@@ -3151,12 +3215,24 @@
       "value": "Gutscheincode fehlt"
     },
     {
+      "key": "memberships/claim/voucherCode/label/error/unrecognized",
+      "value": "Gutscheincode nicht erkannt"
+    },
+    {
       "key": "memberships/claim/button",
       "value": "Einlösen"
     },
     {
       "key": "memberships/claim/loading",
       "value": "überprüfen"
+    },
+    {
+      "key": "memberships/claim/access/lead",
+      "value": "Geteilten Zugriff aktivieren"
+    },
+    {
+      "key": "memberships/claim/access/body",
+      "value": "Sie wurden eingeladen, mit der Republik eine Testfahrt zu machen. Füllen Sie das folgende Formular vollständig aus und kommen Sie an Bord."
     },
     {
       "key": "memberships/claim/error/title",
@@ -3212,7 +3288,7 @@
     },
     {
       "key": "notifications/invalid-email/text",
-      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «<b>{email}</b>».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
+      "value": "Der von Ihnen aufgerufene Link enthält eine ungültige E-Mail-Adresse: «{email}».<br /><br />Es könnte sein, dass die Zeichenkodierung beim Übertragen korrumpiert wurde. Bitte versuchen Sie es mit einem anderen E-Mail-Programm.<br /><br />Und melden Sie uns, unter welchen Umständen dies passiert ist: <a href=\"mailto:kontakt@republik.ch?subject=Korrumpierte%20E-Mail-Adresse\">kontakt@republik.ch</a>."
     },
     {
       "key": "notifications/unavailable/title",
@@ -3396,7 +3472,7 @@
     },
     {
       "key": "feedback/autoArticle/selected/headline",
-      "value": "Beiträge zum Artikel {link}"
+      "value": "Beiträge zu {link}"
     },
     {
       "key": "feedback/latestComments/headline",

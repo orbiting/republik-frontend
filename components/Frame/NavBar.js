@@ -34,8 +34,8 @@ const LINKS = [
     params: {}
   },
   {
-    key: 'formats',
-    route: 'formats',
+    key: 'discussion',
+    route: 'discussion',
     params: {}
   }
 ]

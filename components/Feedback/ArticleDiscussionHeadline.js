@@ -9,6 +9,7 @@ import Link from '../Link/Href'
 
 import {
   Interaction,
+  inQuotes,
   linkRule
 } from '@project-r/styleguide'
 
@@ -21,7 +22,7 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const ArticleLink = (
     <Link href={articleMeta.path} passHref key='articlelink'>
       <a {...linkRule} href={articleMeta.path}>
-        «{articleMeta.title}»
+        {inQuotes(articleMeta.title)}
       </a>
     </Link>
   )
@@ -38,7 +39,7 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
       <WithoutMembership render={() => (
         <Fragment>
           {t.elements('feedback/autoArticle/selected/headline', {
-            link: <Fragment>«{articleMeta.title}»</Fragment>
+            link: <Fragment>{inQuotes(articleMeta.title)}</Fragment>
           })}
         </Fragment>
       )} />

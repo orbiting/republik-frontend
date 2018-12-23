@@ -55,7 +55,6 @@ query myBelongings {
         title
         description
       }
-      granteeName
     }
     accessCampaigns {
       id
@@ -64,6 +63,8 @@ query myBelongings {
       grants {
         id
         email
+        beginBefore
+        beginAt
         endAt
       }
       slots {

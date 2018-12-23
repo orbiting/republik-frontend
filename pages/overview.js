@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import Head from 'next/head'
 
 import { nest } from 'd3-collection'
 // import { lab } from 'd3-color'
@@ -14,25 +13,15 @@ import {
   Button,
   Editorial,
   Interaction,
-  Logo,
-  mediaQueries,
   Label,
   fontFamilies
 } from '@project-r/styleguide'
 
 import Loader from '../components/Loader'
-import Footer, { negativeColors } from '../components/Frame/Footer'
+import Frame from '../components/Frame'
+import { negativeColors } from '../components/Frame/constants'
 
 import { Link } from '../lib/routes'
-
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  LOGO_WIDTH,
-  LOGO_PADDING,
-  LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
-} from '../components/constants'
 
 const getDocument = gql`
 query getFrontOverview {
@@ -55,63 +44,12 @@ query getFrontOverview {
 `
 
 const styles = {
-  container: css({
-    backgroundColor: '#000',
-    color: '#fff',
-    minHeight: '100vh'
-  }),
-  bar: css({
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#000',
-    textAlign: 'center',
-    height: HEADER_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      height: HEADER_HEIGHT
-    },
-    '@media print': {
-      position: 'absolute',
-      backgroundColor: 'transparent'
-    },
-    borderBottom: `1px solid ${negativeColors.divider}`
-  }),
-  padHeader: css({
-    // minus 1px for first sticky hr from header
-    // - otherwise there is a jump when scroll 0 and opening hamburger
-    paddingTop: HEADER_HEIGHT_MOBILE - 1,
-    [mediaQueries.mUp]: {
-      paddingTop: HEADER_HEIGHT - 1
-    }
-  }),
   p: css({
     fontFamily: fontFamilies.sansSerifRegular,
     fontSize: 17,
     lineHeight: '26px',
-    color: '#fff',
+    color: negativeColors.text,
     margin: 0
-  }),
-  logo: css({
-    position: 'relative',
-    display: 'inline-block',
-    padding: LOGO_PADDING_MOBILE,
-    width: LOGO_WIDTH_MOBILE + LOGO_PADDING_MOBILE * 2,
-    [mediaQueries.mUp]: {
-      padding: LOGO_PADDING,
-      width: LOGO_WIDTH + LOGO_PADDING * 2
-    },
-    verticalAlign: 'middle'
-  }),
-  content: css({
-    maxWidth: 620,
-    margin: '0 auto',
-    textRendering: 'optimizeLegibility',
-    WebkitFontSmoothing: 'antialiased',
-    '& ::selection': {
-      color: '#000',
-      backgroundColor: '#fff'
-    }
   })
 }
 
@@ -119,168 +57,148 @@ const P = ({ children, ...props }) =>
   <p {...styles.p} {...props}>{children}</p>
 
 const A = ({ children, ...props }) =>
-  <Editorial.A style={{ color: '#fff' }} {...props}>{children}</Editorial.A>
+  <Editorial.A style={{ color: negativeColors.text }} {...props}>{children}</Editorial.A>
 
 const getMonth = swissTime.format('%B')
 
 class FrontOverview extends Component {
   render () {
     const { data } = this.props
-    const meta = {}
+    const meta = {
+      title: '2018, Monat für Monat'
+    }
 
     return (
-      <div {...styles.container}>
-        <Head>
-          <title>Republik</title>
-          <meta name='description' content={meta.description} />
-          <meta property='og:type' content='website' />
-          <meta property='og:url' content={meta.url} />
-          <meta property='og:title' content={meta.title} />
-          <meta property='og:description' content={meta.description} />
-          <meta property='og:image' content={meta.image} />
-          <meta name='twitter:card' content='summary_large_image' />
-          <meta name='twitter:site' content='@RepublikMagazin' />
-          <meta name='twitter:creator' content='@RepublikMagazin' />
-        </Head>
-        <div {...styles.bar}>
-          <div {...styles.logo}>
-            <Logo fill='#fff' />
-          </div>
-        </div>
-        <div {...styles.content} {...styles.padHeader}>
+      <Frame meta={meta} dark>
+        <Interaction.H1 style={{ color: negativeColors.text, marginBottom: 5 }}>
+          2018, Monat für Monat
+        </Interaction.H1>
 
-          <Interaction.H1 style={{ color: '#fff', marginBottom: 5, marginTop: 40 }}>
-            2018, Monat für Monat
-          </Interaction.H1>
+        <P>
+          <Label>signed_out</Label> Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? <Link route='pledge' passHref>
+            <A>Kommen Sie an Bord!</A>
+          </Link>
+        </P>
+        <P>
+          <Label>no_membership</Label> Werden Sie Mitglied, um alle Beiträge lesen zu können. <Link route='pledge' passHref>
+            <A>Kommen Sie an Bord!</A>
+          </Link>
+        </P>
+        <P>
+          <Label>members</Label> Lassen Sie das erste Jahr der Republik Revue passieren.
+        </P>
 
-          <P>
-            <Label>signed_out</Label> Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? <Link route='pledge' passHref>
-              <Editorial.A style={{ color: '#fff' }}>Kommen Sie an Bord!</Editorial.A>
-            </Link>
-          </P>
-          <P>
-            <Label>no_membership</Label> Werden Sie Mitglied, um alle Beiträge lesen zu können. <Link route='pledge' passHref>
-              <Editorial.A style={{ color: '#fff' }}>Kommen Sie an Bord!</Editorial.A>
-            </Link>
-          </P>
-          <P>
-            <Label>members</Label> Lassen Sie das erste Jahr der Republik Revue passieren.
-          </P>
-
-          <Loader loading={data.loading} error={data.error} render={() => {
-            const teasers = data.front.content.children.reduce((agg, rootChild) => {
-              // if (rootChild.identifier === 'TEASERGROUP') {
-              //   rootChild.children.forEach(child => {
-              //     agg.push({size: 1 / rootChild.children.length, node: child})
-              //   })
-              // } else {
-              agg.push({ size: 1, node: rootChild })
-              // }
-              return agg
-            }, []).reverse().filter((teaser, i, all) => {
-              let node = teaser.node
-              if (teaser.node.identifier === 'TEASERGROUP') {
-                node = teaser.node.children[0]
-              }
-
-              const link = data.front.links.find(l => (
-                l.entity.__typename === 'Document' &&
-                l.entity.meta.path === node.data.url
-              ))
-              if (!link) {
-                // console.warn('no link found', teaser)
-              }
-              teaser.index = i
-              teaser.publishDate = link
-                ? new Date(link.entity.meta.publishDate)
-                : all[i - 1].publishDate
-              return teaser.publishDate
-            })
-
-            const texts = {
-              Januar: <Fragment>
-                Die Republik geht mit irrational langen Beiträgen an den Start. Auftakt für den <A href='https://www.republik.ch/2018/01/17/warum-justiz'>Schwerpunkt Justiz</A>. Premiere der ersten Reportagen-Serie «Race, Class, Guns and God». Globi besucht das WEF, wir analysieren Fox News und verteidigen den Service public. «Plan Sotschi», «Akte Bern», «Falsche Flaschen» – Doping-Enthüllungen sorgen international für Aufsehen.
-              </Fragment>,
-              Februar: <Fragment>
-                Die Reportage über Peppe Grillos Fünf-Sterne Bewegung in Italien, die Recherche über <A href='https://www.republik.ch/2018/01/13/verdeckte-politwerbung-enttarnen'>Polit-Werbung auf Facebook</A>: digitale Themen werden zu einem Markenzeichen der Republik. Sybille Berg startet ihre Kolumne. Das Elend der SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die Audio-Podcast gehen in Serie. Und <A href='https://www.republik.ch/2018/02/12/sie-wir-und-unser-gemeinsames-unternehmen'>wir haben Ihnen zugehört</A>.
-              </Fragment>,
-              März: <Fragment>
-                Raiffeisen im Elend, «UBS im Dschungel» – Erklärstücke und Recherchen zu Wirtschaftskriminalität setzen Akzente. Und führen zur Frage: Sind deutsche Whistleblower in der Schweiz tatsächlich Spione? Auftakt zur Debatte um Sozialdetektive. Gespräche mit Politologin Silja Häusermann und Feministin Mona Eltahawy. Erstmals <A href='https://www.republik.ch/2018/03/01/die-republik-zum-hoeren'>lesen Autoren ihre Beiträge auch vor</A>.
-              </Fragment>,
-              April: <Fragment>
-                Der «Mord auf Malta» und das Baukartell in Graubünden – zwei Recherche-Serien schlagen ein. Porträt über die Schweizer Chefdiplomatin Christine Baeriswyl. Vorwürfe gegen den Zürcher Regierungsrat Mario Fehr. Gespräche mit Top-Ökonomen über die Zukunft Europas. Und: «Die 10 Gebote der Medienförderung» – unser Friedensangebot an Verleger Pietro Supino.
-              </Fragment>,
-              Mai: <Fragment>
-                Vollgeld für Dummies, Vollgeld für Nerds und der Libanon in der Panorama-Ansicht. Premiere des Videoformats «An der Bar» mit Carla Del Ponte. Wir führen Debatten mit Expertinnen und Lesern zum neuen EU-Datenschutzgesetz. Und erklären, wie die Republik die <A href='https://www.republik.ch/2018/05/19/der-neue-datenschutz-der-republik'>Daten ihrer Nutzerinnen schützt</A>. Die PDF-Funktion wird lanciert: ab sofort gibts die Republik auch auf Papier.
-              </Fragment>,
-              Juni: <Fragment>
-                Die Türkei vor den Wahlen als Mini-Soap, Mexiko vor den Wahlen in einem opulenten Zweiteiler. Erste interaktive Serie zum Siegeszug des Computers. Die illustrierte Recherche zum «FC Kreml»: Wer profitiert von der Fussball-WM in Russland? Die Republik hat jetzt eine Suchfunktion, die <A href='https://www.republik.ch/2018/06/16/ein-as-fuer-zwei-buben'>erste Chefredaktion</A> tritt ab – und eine <A href='https://www.republik.ch/2018/06/09/in-eigener-sache-zum-baukartell'>Klarstellung zu den Baukartell-Recherchen</A>.
-              </Fragment>,
-              Juli: <Fragment>
-                Das Leben der Eritreer in der Schweiz, das Gesicht als Passwort und das Milliarden-Geschäft mit Baby-Aalen: Reportagen, Analysen und Recherchen machen die Runde. Das Plädoyer für ein souveränes Europa und das Migrantinnen-Manifest geben zu reden. Wir fragen: Soll man Sex kaufen dürfen? Auch in Deutschland wird «Merkel, Machos und die Macht» ein Hit.
-              </Fragment>,
-              August: <Fragment>
-                Liebe, Sex und LSD, dazu – endlich! – der Start der «<A href='https://www.republik.ch/2018/08/21/ameisen-bevoelkern-die-republik'>Ameisen</A>». Die Österreicherin der Republik hält die Rede zur Nation. Wir erklären alles Wichtige zu den flankierenden Massnahmen. Die Wortkünstlerin Fatima Moumoumi im Porträt. Wir fragen: Wer ist der saudische Kronprinz? Das Community-Projekt «<A href='https://www.republik.ch/2018/08/15/ihre-nachbarin-denkt-anders-als-sie-treffen-sie-sich-zum-gespraech'>Schweiz spricht</A>» wird lanciert. Und Bilder-Galerien werden eingeführt.
-              </Fragment>,
-              September: <Fragment>
-                Brasilien vor dem Faschismus, die «vorletzten Tage der Menschheit», Chemnitz und Start der Drogen-Serie. Feministin Rebecca Solnit über die Unterdrückung der Frauen und Politologin Chantal Mouffé über Linkspopulismus. Die Abschaffung der Freiheit und die Lehren aus der Finanzkrise. «Das Land, wo bald die Zitronen blühn». <A href='https://www.republik.ch/2018/09/03/7-uhr-newsletter'>Feuilleton</A> und <A href='https://www.republik.ch/2018/09/01/app/diskussion'>App</A> – beides ist da!
-              </Fragment>,
-              Oktober: <Fragment>
-                Unser Recherche-Netzwerk deckt den CumEx-Skandal auf. Der Zuger CVP-Sicherheitsdirektor Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. «Der Idiot von Palermo» – eine Reportage. Google als Medienmäzen – die Recherche. Wir fragen: Wie recht hat das Volk? Podium zu #metoo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
-              </Fragment>,
-              November: <Fragment>
-                «Verrat in der Moschee» und die Analyse zum Ende der Sozialdemokratie werfen Wellen. Zwei ehemalige Kindersoldaten, die das Schicksal an den Internationalen Strafgerichtshof spült, bewegen. Wie die Politik beim Klimawandel versagt und KKS auf dem Weg in den Bundesrat. Soros in der Schweiz. Der Aussenminister sitzt «An der Bar». Und die <A href='https://www.republik.ch/umfrage/2018'>erste Leserinnen-Umfrage</A>.
-              </Fragment>,
-              Dezember: <Fragment>
-                Nicht der erste, sondern der definitive Artikel: «Aufstand der Peripherie» – die Analyse zu den Gelbwesten in Frankreich. Die Serie zum Klimawandel. Autobahnpläne in Biel. Vom Leben mit non-binärer Geschlechtsidentität. Betablocker als Modedroge. Wir stellen die Eine-Million-Dollar-Frage: Wer erfindet den Bullshit-Detektor? Und wir lancieren unsere <A href='https://www.republik.ch/2018/12/17/willkommen-im-neuen-republik-dialog'>Dialog-Plattform neu</A>.
-              </Fragment>
+        <Loader loading={data.loading} error={data.error} render={() => {
+          const teasers = data.front.content.children.reduce((agg, rootChild) => {
+            // if (rootChild.identifier === 'TEASERGROUP') {
+            //   rootChild.children.forEach(child => {
+            //     agg.push({size: 1 / rootChild.children.length, node: child})
+            //   })
+            // } else {
+            agg.push({ size: 1, node: rootChild })
+            // }
+            return agg
+          }, []).reverse().filter((teaser, i, all) => {
+            let node = teaser.node
+            if (teaser.node.identifier === 'TEASERGROUP') {
+              node = teaser.node.children[0]
             }
 
-            return nest()
-              .key(d => getMonth(d.publishDate))
-              .entries(teasers)
-              .slice(0, 13)
-              .map(({ key: month, values }) => {
-                return (
-                  <div style={{ marginTop: 50 }} key={month}>
-                    <Interaction.H2 style={{ color: '#fff', marginBottom: 5, marginTop: 0 }}>
-                      {month}
-                    </Interaction.H2>
-                    <P style={{ marginBottom: 20 }}>
-                      {texts[month]}
-                    </P>
-                    <div style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      flexWrap: 'wrap',
-                      justifyContent: 'flex-start',
-                      height: values.length * 8
-                    }}>
-                      {values.map(teaser => {
-                        return <a key={teaser.node.data.id} href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`} target='_blank'><img
-                          src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}&resize=160`}
-                          style={{
-                            width: 80,
-                            // width: 55 * teaser.size,
-                            marginBottom: 5,
-                            marginRight: 5
-                            // flex: '1 1 80px'
-                          }} /></a>
-                      })}
-                    </div>
-                  </div>
-                )
-              })
-          }} />
+            const link = data.front.links.find(l => (
+              l.entity.__typename === 'Document' &&
+              l.entity.meta.path === node.data.url
+            ))
+            if (!link) {
+              // console.warn('no link found', teaser)
+            }
+            teaser.index = i
+            teaser.publishDate = link
+              ? new Date(link.entity.meta.publishDate)
+              : all[i - 1].publishDate
+            return teaser.publishDate
+          })
 
-          <P style={{ marginBottom: 10, marginTop: 100 }}>
-            <Label>not members</Label> Geniessen Sie die stillen Stunden zum Lesen:
-          </P>
-          <Button white>Jetzt Mitglied werden</Button>
-          <div style={{ height: 100 }} />
-        </div>
-        <Footer black />
-      </div>
+          const texts = {
+            Januar: <Fragment>
+              Die Republik geht mit irrational langen Beiträgen an den Start. Auftakt für den <A href='https://www.republik.ch/2018/01/17/warum-justiz'>Schwerpunkt Justiz</A>. Premiere der ersten Reportagen-Serie «Race, Class, Guns and God». Globi besucht das WEF, wir analysieren Fox News und verteidigen den Service public. «Plan Sotschi», «Akte Bern», «Falsche Flaschen» – Doping-Enthüllungen sorgen international für Aufsehen.
+            </Fragment>,
+            Februar: <Fragment>
+              Die Reportage über Peppe Grillos Fünf-Sterne Bewegung in Italien, die Recherche über <A href='https://www.republik.ch/2018/01/13/verdeckte-politwerbung-enttarnen'>Polit-Werbung auf Facebook</A>: digitale Themen werden zu einem Markenzeichen der Republik. Sybille Berg startet ihre Kolumne. Das Elend der SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die Audio-Podcast gehen in Serie. Und <A href='https://www.republik.ch/2018/02/12/sie-wir-und-unser-gemeinsames-unternehmen'>wir haben Ihnen zugehört</A>.
+            </Fragment>,
+            März: <Fragment>
+              Raiffeisen im Elend, «UBS im Dschungel» – Erklärstücke und Recherchen zu Wirtschaftskriminalität setzen Akzente. Und führen zur Frage: Sind deutsche Whistleblower in der Schweiz tatsächlich Spione? Auftakt zur Debatte um Sozialdetektive. Gespräche mit Politologin Silja Häusermann und Feministin Mona Eltahawy. Erstmals <A href='https://www.republik.ch/2018/03/01/die-republik-zum-hoeren'>lesen Autoren ihre Beiträge auch vor</A>.
+            </Fragment>,
+            April: <Fragment>
+              Der «Mord auf Malta» und das Baukartell in Graubünden – zwei Recherche-Serien schlagen ein. Porträt über die Schweizer Chefdiplomatin Christine Baeriswyl. Vorwürfe gegen den Zürcher Regierungsrat Mario Fehr. Gespräche mit Top-Ökonomen über die Zukunft Europas. Und: «Die 10 Gebote der Medienförderung» – unser Friedensangebot an Verleger Pietro Supino.
+            </Fragment>,
+            Mai: <Fragment>
+              Vollgeld für Dummies, Vollgeld für Nerds und der Libanon in der Panorama-Ansicht. Premiere des Videoformats «An der Bar» mit Carla Del Ponte. Wir führen Debatten mit Expertinnen und Lesern zum neuen EU-Datenschutzgesetz. Und erklären, wie die Republik die <A href='https://www.republik.ch/2018/05/19/der-neue-datenschutz-der-republik'>Daten ihrer Nutzerinnen schützt</A>. Die PDF-Funktion wird lanciert: ab sofort gibts die Republik auch auf Papier.
+            </Fragment>,
+            Juni: <Fragment>
+              Die Türkei vor den Wahlen als Mini-Soap, Mexiko vor den Wahlen in einem opulenten Zweiteiler. Erste interaktive Serie zum Siegeszug des Computers. Die illustrierte Recherche zum «FC Kreml»: Wer profitiert von der Fussball-WM in Russland? Die Republik hat jetzt eine Suchfunktion, die <A href='https://www.republik.ch/2018/06/16/ein-as-fuer-zwei-buben'>erste Chefredaktion</A> tritt ab – und eine <A href='https://www.republik.ch/2018/06/09/in-eigener-sache-zum-baukartell'>Klarstellung zu den Baukartell-Recherchen</A>.
+            </Fragment>,
+            Juli: <Fragment>
+              Das Leben der Eritreer in der Schweiz, das Gesicht als Passwort und das Milliarden-Geschäft mit Baby-Aalen: Reportagen, Analysen und Recherchen machen die Runde. Das Plädoyer für ein souveränes Europa und das Migrantinnen-Manifest geben zu reden. Wir fragen: Soll man Sex kaufen dürfen? Auch in Deutschland wird «Merkel, Machos und die Macht» ein Hit.
+            </Fragment>,
+            August: <Fragment>
+              Liebe, Sex und LSD, dazu – endlich! – der Start der «<A href='https://www.republik.ch/2018/08/21/ameisen-bevoelkern-die-republik'>Ameisen</A>». Die Österreicherin der Republik hält die Rede zur Nation. Wir erklären alles Wichtige zu den flankierenden Massnahmen. Die Wortkünstlerin Fatima Moumoumi im Porträt. Wir fragen: Wer ist der saudische Kronprinz? Das Community-Projekt «<A href='https://www.republik.ch/2018/08/15/ihre-nachbarin-denkt-anders-als-sie-treffen-sie-sich-zum-gespraech'>Schweiz spricht</A>» wird lanciert. Und Bilder-Galerien werden eingeführt.
+            </Fragment>,
+            September: <Fragment>
+              Brasilien vor dem Faschismus, die «vorletzten Tage der Menschheit», Chemnitz und Start der Drogen-Serie. Feministin Rebecca Solnit über die Unterdrückung der Frauen und Politologin Chantal Mouffé über Linkspopulismus. Die Abschaffung der Freiheit und die Lehren aus der Finanzkrise. «Das Land, wo bald die Zitronen blühn». <A href='https://www.republik.ch/2018/09/03/7-uhr-newsletter'>Feuilleton</A> und <A href='https://www.republik.ch/2018/09/01/app/diskussion'>App</A> – beides ist da!
+            </Fragment>,
+            Oktober: <Fragment>
+              Unser Recherche-Netzwerk deckt den CumEx-Skandal auf. Der Zuger CVP-Sicherheitsdirektor Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. «Der Idiot von Palermo» – eine Reportage. Google als Medienmäzen – die Recherche. Wir fragen: Wie recht hat das Volk? Podium zu #metoo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
+            </Fragment>,
+            November: <Fragment>
+              «Verrat in der Moschee» und die Analyse zum Ende der Sozialdemokratie werfen Wellen. Zwei ehemalige Kindersoldaten, die das Schicksal an den Internationalen Strafgerichtshof spült, bewegen. Wie die Politik beim Klimawandel versagt und KKS auf dem Weg in den Bundesrat. Soros in der Schweiz. Der Aussenminister sitzt «An der Bar». Und die <A href='https://www.republik.ch/umfrage/2018'>erste Leserinnen-Umfrage</A>.
+            </Fragment>,
+            Dezember: <Fragment>
+              Nicht der erste, sondern der definitive Artikel: «Aufstand der Peripherie» – die Analyse zu den Gelbwesten in Frankreich. Die Serie zum Klimawandel. Autobahnpläne in Biel. Vom Leben mit non-binärer Geschlechtsidentität. Betablocker als Modedroge. Wir stellen die Eine-Million-Dollar-Frage: Wer erfindet den Bullshit-Detektor? Und wir lancieren unsere <A href='https://www.republik.ch/2018/12/17/willkommen-im-neuen-republik-dialog'>Dialog-Plattform neu</A>.
+            </Fragment>
+          }
+
+          return nest()
+            .key(d => getMonth(d.publishDate))
+            .entries(teasers)
+            .slice(0, 13)
+            .map(({ key: month, values }) => {
+              return (
+                <div style={{ marginTop: 50 }} key={month}>
+                  <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
+                    {month}
+                  </Interaction.H2>
+                  <P style={{ marginBottom: 20 }}>
+                    {texts[month]}
+                  </P>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexWrap: 'wrap',
+                    justifyContent: 'flex-start',
+                    height: values.length * 8
+                  }}>
+                    {values.map(teaser => {
+                      return <a key={teaser.node.data.id} href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`} target='_blank'><img
+                        src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}&resize=160`}
+                        style={{
+                          width: 80,
+                          // width: 55 * teaser.size,
+                          marginBottom: 5,
+                          marginRight: 5
+                          // flex: '1 1 80px'
+                        }} /></a>
+                    })}
+                  </div>
+                </div>
+              )
+            })
+        }} />
+
+        <P style={{ marginBottom: 10, marginTop: 100 }}>
+          <Label>not members</Label> Geniessen Sie die stillen Stunden zum Lesen:
+        </P>
+        <Button white>Jetzt Mitglied werden</Button>
+      </Frame>
     )
   }
 }

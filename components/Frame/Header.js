@@ -370,6 +370,7 @@ class Header extends Component {
               opacity: (secondaryVisible || backButton) ? 0 : 1
             }}>
               <User
+                dark={dark}
                 me={me}
                 title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
                 onClick={toggleExpanded}

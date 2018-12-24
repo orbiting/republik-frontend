@@ -13,11 +13,11 @@ import {
   Button,
   Editorial,
   Interaction,
-  Label,
   fontFamilies
 } from '@project-r/styleguide'
 
 import Loader from '../components/Loader'
+import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
 
@@ -63,9 +63,10 @@ const getMonth = swissTime.format('%B')
 
 class FrontOverview extends Component {
   render () {
-    const { data } = this.props
+    const { data, isMember, me } = this.props
     const meta = {
-      title: '2018, Monat für Monat'
+      title: 'Die Glut des Anfangs',
+      description: '2018, die ersten 310 Tage der Republik: Lassen Sie alle Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag.'
     }
 
     return (
@@ -75,17 +76,16 @@ class FrontOverview extends Component {
         </Interaction.H1>
 
         <P>
-          <Label>signed_out</Label> Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? <Link route='pledge' passHref>
-            <A>Kommen Sie an Bord!</A>
-          </Link>
-        </P>
-        <P>
-          <Label>no_membership</Label> Werden Sie Mitglied, um alle Beiträge lesen zu können. <Link route='pledge' passHref>
-            <A>Kommen Sie an Bord!</A>
-          </Link>
-        </P>
-        <P>
-          <Label>members</Label> Lassen Sie das erste Jahr der Republik Revue passieren.
+          {isMember
+            ? <Fragment>Lassen Sie das erste Jahr der Republik Revue passieren.</Fragment>
+            : me
+              ? <Fragment>Werden Sie Mitglied, um alle Beiträge lesen zu können. <Link route='pledge' passHref>
+                <A>Kommen Sie an Bord!</A>
+              </Link></Fragment>
+              : <Fragment>Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? <Link route='pledge' passHref>
+                <A>Kommen Sie an Bord!</A>
+              </Link>
+              </Fragment>}
         </P>
 
         <Loader loading={data.loading} error={data.error} render={() => {
@@ -126,7 +126,7 @@ class FrontOverview extends Component {
               Peppe Grillos Fünf-Sterne Bewegung in Italien, <A href='https://www.republik.ch/2018/01/13/verdeckte-politwerbung-enttarnen'>Polit-Werbung auf Facebook</A>: digitale Themen werden zu einem Markenzeichen der Republik. Sybille Berg startet ihre Kolumne. Das Elend der SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die Audio-Podcast gehen in Serie. Und <A href='https://www.republik.ch/2018/02/12/sie-wir-und-unser-gemeinsames-unternehmen'>wir haben Ihnen zugehört</A>.
             </Fragment>,
             März: <Fragment>
-              Raiffeisen im Elend, «UBS im Dschungel» – und die Frage: Sind deutsche Whistleblower in der Schweiz tatsächlich Spione? Gespräche mit Politologin Silja Häusermann und Feministin Mona Eltahawy. Auftakt zur Sozialdetektiv-Debatte. Erstmals <A href='https://www.republik.ch/2018/03/01/die-republik-zum-hoeren'>lesen Autoren ihre Beiträge auch vor</A> – zum Anhören als Podcast..
+              Raiffeisen im Elend, «UBS im Dschungel» – und die Frage: Sind deutsche Whistleblower in der Schweiz tatsächlich Spione? Gespräche mit Politologin Silja Häusermann und Feministin Mona Eltahawy. Auftakt zur Sozialdetektiv-Debatte. Erstmals <A href='https://www.republik.ch/2018/03/01/die-republik-zum-hoeren'>lesen Autoren ihre Beiträge auch vor</A> – zum Anhören als Podcast.
             </Fragment>,
             April: <Fragment>
               Der «Mord auf Malta» und das Baukartell in Graubünden. Porträt über die Schweizer Chefdiplomatin Christine Baeriswyl. Vorwürfe gegen den Zürcher Regierungsrat Mario Fehr. Gespräche mit Top-Ökonomen über die Zukunft Europas. Und: «Die 10 Gebote der Medienförderung».
@@ -194,15 +194,18 @@ class FrontOverview extends Component {
             })
         }} />
 
-        <P style={{ marginBottom: 10, marginTop: 100 }}>
-          <Label>not members</Label> Geniessen Sie die stillen Stunden zum Lesen:
-        </P>
-        <Button white>Jetzt Mitglied werden</Button>
+        {!isMember && <Fragment>
+          <P style={{ marginBottom: 10, marginTop: 100 }}>
+            Geniessen Sie die stillen Stunden zum Lesen:
+          </P>
+          <Button white>Jetzt Mitglied werden</Button>
+        </Fragment>}
       </Frame>
     )
   }
 }
 
 export default compose(
-  graphql(getDocument)
+  graphql(getDocument),
+  withMembership
 )(FrontOverview)

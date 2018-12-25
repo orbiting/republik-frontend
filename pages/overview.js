@@ -10,22 +10,24 @@ import { nest } from 'd3-collection'
 import { swissTime } from '../lib/utils/format'
 import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../lib/constants'
 
-import {
-  Button,
-  Interaction
-} from '@project-r/styleguide'
+import { Link } from '../lib/routes'
+import withT from '../lib/withT'
 
 import StatusError from '../components/StatusError'
 import Loader from '../components/Loader'
 import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
-
-import { Link } from '../lib/routes'
-import withT from '../lib/withT'
+// import { default as HrefLink } from '../components/Link/Href'
 
 import { A, P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
+
+import {
+  Button,
+  Interaction,
+  LazyLoad
+} from '@project-r/styleguide'
 
 const texts = {
   2018: text18
@@ -133,8 +135,8 @@ class FrontOverview extends Component {
       teaser.index = i
       teaser.publishDate = link
         ? new Date(link.entity.meta.publishDate)
-        : all[i - 1].publishDate
-      return teaser.publishDate >= startDate && teaser.publishDate < endDate
+        : i > 0 ? all[i - 1].publishDate : undefined
+      return teaser.publishDate && teaser.publishDate >= startDate && teaser.publishDate < endDate
     })
 
     if (!teasers.length) {
@@ -169,7 +171,7 @@ class FrontOverview extends Component {
           return nest()
             .key(d => formatMonth(d.publishDate))
             .entries(teasers)
-            .map(({ key: month, values }) => {
+            .map(({ key: month, values }, i) => {
               return (
                 <div style={{ marginTop: 50 }} key={month}>
                   <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
@@ -178,19 +180,22 @@ class FrontOverview extends Component {
                   <P style={{ marginBottom: 20 }}>
                     {texts[year] && texts[year][month]}
                   </P>
-                  <div {...styles.container} {...css({
-                    ...SIZES.reduce((styles, size) => {
-                      const height = values.length / size.columns * 66
-                      if (size.minWidth) {
-                        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-                          height
+                  <LazyLoad visible={i === 0} attributes={{
+                    ...styles.container,
+                    ...css({
+                      ...SIZES.reduce((styles, size) => {
+                        const height = values.length / size.columns * 66
+                        if (size.minWidth) {
+                          styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
+                            height
+                          }
+                        } else {
+                          styles.height = height
                         }
-                      } else {
-                        styles.height = height
-                      }
-                      return styles
-                    }, {})
-                  })}>
+                        return styles
+                      }, {})
+                    })
+                  }}>
                     {values.map(teaser => {
                       return <div key={teaser.node.data.id} {...styles.item}>
                         <a
@@ -204,7 +209,7 @@ class FrontOverview extends Component {
                         </a>
                       </div>
                     })}
-                  </div>
+                  </LazyLoad>
                 </div>
               )
             })

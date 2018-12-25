@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-// import { css } from 'glamor'
+import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
 import { nest } from 'd3-collection'
@@ -52,6 +52,42 @@ query getFrontOverview {
 `
 
 const formatMonth = swissTime.format('%B')
+
+const SIZES = [
+  { minWidth: 0, columns: 3 },
+  { minWidth: 330, columns: 4 },
+  { minWidth: 450, columns: 5 },
+  { minWidth: 570, columns: 6 },
+  { minWidth: 690, columns: 7 },
+  { minWidth: 810, columns: 8 }
+]
+
+const styles = {
+  container: css({
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    alignContent: 'flex-start',
+    width: '100%'
+  }),
+  item: css({
+    paddingBottom: 10,
+    paddingRight: 10,
+    lineHeight: 0,
+    ...SIZES.reduce((styles, size) => {
+      const width = `${100 / size.columns}%`
+      if (size.minWidth) {
+        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
+          width
+        }
+      } else {
+        styles.width = width
+      }
+      return styles
+    }, {})
+  })
+}
 
 class FrontOverview extends Component {
   render () {
@@ -142,22 +178,21 @@ class FrontOverview extends Component {
                   <P style={{ marginBottom: 20 }}>
                     {texts[year] && texts[year][month]}
                   </P>
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flexWrap: 'wrap',
-                    justifyContent: 'flex-start',
-                    alignContent: 'flex-start',
-                    height: values.length * 8,
-                    width: '100%'
-                  }}>
+                  <div {...styles.container} {...css({
+                    ...SIZES.reduce((styles, size) => {
+                      const height = values.length / size.columns * 66
+                      if (size.minWidth) {
+                        styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
+                          height
+                        }
+                      } else {
+                        styles.height = height
+                      }
+                      return styles
+                    }, {})
+                  })}>
                     {values.map(teaser => {
-                      return <div key={teaser.node.data.id} style={{
-                        paddingBottom: 10,
-                        paddingRight: 10,
-                        width: '12%',
-                        lineHeight: 0
-                      }}>
+                      return <div key={teaser.node.data.id} {...styles.item}>
                         <a
                           href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`}
                           target='_blank'>

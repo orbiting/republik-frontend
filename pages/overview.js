@@ -78,21 +78,66 @@ const styles = {
       }
       return styles
     }, {})
-  }),
-  hoverArea: css({
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
   })
+}
+
+const TeaserHover = ({ measurement, teaser, width }) => {
+  const hoverWidth = 300
+  return (
+    <div style={{
+      position: 'absolute',
+      zIndex: 1,
+      top: measurement.y - 20,
+      left: measurement.x > hoverWidth / 2
+        ? measurement.x + hoverWidth / 2 > width
+          ? width - hoverWidth
+          : measurement.x + measurement.width / 2 - hoverWidth / 2
+        : 0
+    }}>
+      <div style={{
+        width: hoverWidth,
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: '#E5E5E5',
+        minHeight: Math.floor(hoverWidth * measurement.height / measurement.width) - 2,
+        lineHeight: 0,
+        boxShadow: '0 2px 8px rgba(0,0,0,.4)'
+      }}>
+        <img
+          style={{
+            position: 'relative',
+            width: '100%'
+          }}
+          key={teaser.id}
+          src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=600`} />
+        {teaser.nodes.map((node, i) => {
+          const nodeWidth = 100 / teaser.nodes.length
+          const area = (
+            <a key={node.data.id} style={{
+              display: 'block',
+              position: 'absolute',
+              left: `${nodeWidth * i}%`,
+              width: `${nodeWidth}%`,
+              top: 0,
+              bottom: 0
+            }} />
+          )
+          if (node.data.url) {
+            return <HrefLink key={node.data.id} href={node.data.url} passHref>
+              {area}
+            </HrefLink>
+          }
+          return area
+        })}
+      </div>
+    </div>
+  )
 }
 
 class TeaserBlock extends Component {
   constructor (props, ...args) {
     super(props, ...args)
     this.blockRef = React.createRef()
-    this.hoverRef = React.createRef()
     this.state = {}
   }
   measure = () => {
@@ -116,72 +161,25 @@ class TeaserBlock extends Component {
         x: rect.left - left,
         y: rect.top - top,
         height: rect.height,
-        width: rect.width
+        width: rect.width,
+        left: rect.left
         // absoluteY: window.pageYOffset + rect.top
       }
     })
   }
   componentDidMount () {
     window.addEventListener('resize', this.measure)
-    this.hoverRef.current.addEventListener('touchstart', this.focus, { passive: false })
-    this.hoverRef.current.addEventListener('touchmove', this.focus)
-    this.hoverRef.current.addEventListener('touchend', this.blur)
     this.measure()
   }
   componentDidUpdate () {
     this.measure()
   }
   componentWillUnmount () {
-    if (this.hoverRef.current) {
-      this.hoverRef.current.removeEventListener('touchstart', this.focus)
-      this.hoverRef.current.removeEventListener('touchmove', this.focus)
-      this.hoverRef.current.removeEventListener('touchend', this.blur)
-    }
     window.removeEventListener('resize', this.measure)
-  }
-  focus = (event) => {
-    const parent = this.blockRef.current
-    if (!parent || !this.measurements) {
-      return
-    }
-    const { left, top } = parent.getBoundingClientRect()
-
-    let hoverTouch = false
-    let currentEvent = event
-    if (currentEvent.changedTouches) {
-      hoverTouch = true
-      currentEvent = currentEvent.changedTouches[0]
-    }
-
-    const focusX = currentEvent.clientX - left
-    const focusY = currentEvent.clientY - top
-
-    const measurement = this.measurements.find(teaser => {
-      return (
-        focusX + PADDING >= teaser.x &&
-        focusX <= teaser.x + teaser.width + PADDING &&
-        focusY + PADDING >= teaser.y &&
-        focusY <= teaser.y + teaser.height + PADDING
-      )
-    })
-
-    const hover = measurement
-      ? {
-        measurement,
-        teaser: this.props.teasers.find(t => t.id === measurement.id)
-      }
-      : false
-    if (hover) {
-      event.preventDefault()
-    }
-
-    this.setState({ hover, hoverTouch })
-  }
-  blur = () => {
-    this.setState({ hover: undefined })
+    clearTimeout(this.hoverTimeout)
   }
   render () {
-    const { hover, hoverTouch, width } = this.state
+    const { hover, width } = this.state
     const { teasers, lazy } = this.props
 
     return (
@@ -203,11 +201,43 @@ class TeaserBlock extends Component {
           })
         }}>
           {teasers.map(teaser => {
-            // `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`
-
             const nodeWidth = 100 / teaser.nodes.length
 
-            return <div key={teaser.id} {...styles.item}>
+            return <div key={teaser.id}
+              {...styles.item}
+              onMouseOver={event => {
+                if (!this.measurements) {
+                  return
+                }
+                const measurement = this.measurements.find(m => m.id === teaser.id)
+                if (!measurement) {
+                  return
+                }
+
+                let currentEvent = event
+                if (currentEvent.changedTouches) {
+                  currentEvent = currentEvent.changedTouches[0]
+                }
+
+                const focusX = currentEvent.clientX - measurement.left
+
+                this.setState({
+                  hover: {
+                    x: focusX / measurement.width,
+                    teaser,
+                    measurement
+                  }
+                })
+              }}
+              onMouseLeave={() => {
+                // prevent flicker
+                this.hoverTimeout = setTimeout(() => {
+                  if (this.state.hover === hover) {
+                    this.setState({ hover: false })
+                  }
+                }, 33)
+              }}>
+              {hover && hover.teaser === teaser && <TeaserHover {...hover} width={width} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <img
                   onLoad={this.measure}
@@ -237,37 +267,6 @@ class TeaserBlock extends Component {
             </div>
           })}
         </LazyLoad>
-        {hover && <div style={{
-          position: 'absolute',
-          top: hover.measurement.y - (hoverTouch ? 40 : 20),
-          left: hover.measurement.x > 300 / 2
-            ? hover.measurement.x + 300 / 2 > width
-              ? width - 300
-              : hover.measurement.x + hover.measurement.width / 2 - 150
-            : 0
-        }}>
-          <img
-            style={{
-              width: 300,
-              position: 'absolute',
-              bottom: 0,
-              boxShadow: '0 2px 8px rgba(0,0,0,.4)'
-            }}
-            key={hover.teaser.id}
-            src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${hover.teaser.id}`)}&resize=600`} />
-        </div>}
-        <div
-          {...styles.hoverArea}
-          onMouseEnter={this.focus}
-          onMouseMove={this.focus}
-          onMouseLeave={this.blur}
-          ref={
-            /* touch events are added via ref for { passive: false } on touchstart
-             * react does not support setting passive, which defaults to true in newer browsers
-             * https://github.com/facebook/react/issues/6436
-             */
-            this.hoverRef
-          } />
       </div>
     )
   }

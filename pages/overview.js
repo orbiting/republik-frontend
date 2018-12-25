@@ -9,6 +9,9 @@ import { swissTime } from '../lib/utils/format'
 
 import { Link } from '../lib/routes'
 import withT from '../lib/withT'
+import {
+  CDN_FRONTEND_BASE_URL
+} from '../lib/constants'
 
 import StatusError from '../components/StatusError'
 import Loader from '../components/Loader'
@@ -56,7 +59,10 @@ class FrontOverview extends Component {
       description: t.first([
         `overview/${year}/meta/description`,
         'overview/meta/description'
-      ], { year }, '')
+      ], { year }, ''),
+      image: year === 2018
+        ? `${CDN_FRONTEND_BASE_URL}/static/social-media/overview2018.png`
+        : undefined
     }
 
     const teasers = data.front && data.front.content.children.reduce((agg, rootChild) => {

@@ -85,6 +85,7 @@ const Index = ({
   nav,
   cover,
   inNativeApp,
+  inNativeIOSApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -106,7 +107,7 @@ const Index = ({
     >
       {!!meta && <Meta data={meta} />}
       <Header
-        dark={dark}
+        dark={dark && !inNativeIOSApp}
         me={me}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}

@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import { withRouter } from 'next/router'
 
 import { nest } from 'd3-collection'
 // import { lab } from 'd3-color'
@@ -16,12 +17,14 @@ import {
   fontFamilies
 } from '@project-r/styleguide'
 
+import StatusError from '../components/StatusError'
 import Loader from '../components/Loader'
 import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
 
 import { Link } from '../lib/routes'
+import withT from '../lib/withT'
 
 const getDocument = gql`
 query getFrontOverview {
@@ -59,66 +62,86 @@ const P = ({ children, ...props }) =>
 const A = ({ children, ...props }) =>
   <Editorial.A style={{ color: negativeColors.text }} {...props}>{children}</Editorial.A>
 
-const getMonth = swissTime.format('%B')
+const formatMonth = swissTime.format('%B')
 
 class FrontOverview extends Component {
   render () {
-    const { data, isMember, me } = this.props
+    const { data, isMember, me, router: { query }, t } = this.props
+
+    const year = +query.year
+    const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
+    const endDate = new Date(`${year}-12-31T23:00:00.000Z`)
+
     const meta = {
-      title: 'Die Glut des Anfangs',
-      description: '2018, die ersten 310 Tage der Republik: Lassen Sie alle Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag.'
+      title: t.first([
+        `overview/${year}/meta/title`,
+        'overview/meta/title'
+      ], { year }),
+      description: t.first([
+        `overview/${year}/meta/description`,
+        'overview/meta/description'
+      ], { year }, '')
+    }
+
+    const teasers = data.front && data.front.content.children.reduce((agg, rootChild) => {
+      // if (rootChild.identifier === 'TEASERGROUP') {
+      //   rootChild.children.forEach(child => {
+      //     agg.push({size: 1 / rootChild.children.length, node: child})
+      //   })
+      // } else {
+      agg.push({ size: 1, node: rootChild })
+      // }
+      return agg
+    }, []).reverse().filter((teaser, i, all) => {
+      let node = teaser.node
+      if (teaser.node.identifier === 'TEASERGROUP') {
+        node = teaser.node.children[0]
+      }
+
+      const link = data.front.links.find(l => (
+        l.entity.__typename === 'Document' &&
+        l.entity.meta.path === node.data.url
+      ))
+      if (!link) {
+        // console.warn('no link found', teaser)
+      }
+      teaser.index = i
+      teaser.publishDate = link
+        ? new Date(link.entity.meta.publishDate)
+        : all[i - 1].publishDate
+      return teaser.publishDate >= startDate && teaser.publishDate < endDate
+    })
+
+    if (!teasers.length) {
+      return (
+        <Frame raw>
+          <StatusError
+            statusCode={404}
+            serverContext={this.props.serverContext} />
+        </Frame>
+      )
     }
 
     return (
       <Frame meta={meta} dark>
         <Interaction.H1 style={{ color: negativeColors.text, marginBottom: 5 }}>
-          2018, Monat für Monat
+          {t.first([`overview/${year}/title`, 'overview/title'], { year })}
         </Interaction.H1>
 
         <P>
           {isMember
-            ? <Fragment>Lassen Sie das erste Jahr der Republik Revue passieren.</Fragment>
-            : me
-              ? <Fragment>Werden Sie Mitglied, um alle Beiträge lesen zu können. <Link route='pledge' passHref>
-                <A>Kommen Sie an Bord!</A>
-              </Link></Fragment>
-              : <Fragment>Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? <Link route='pledge' passHref>
-                <A>Kommen Sie an Bord!</A>
+            ? <Fragment>
+              {t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')}
+            </Fragment>
+            : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`, {
+              pledgeLink: <Link key='pledge' route='pledge' passHref>
+                <A>{t('overview/lead/pledgeText')}</A>
               </Link>
-              </Fragment>}
+            })}
         </P>
 
         <Loader loading={data.loading} error={data.error} render={() => {
-          const teasers = data.front.content.children.reduce((agg, rootChild) => {
-            // if (rootChild.identifier === 'TEASERGROUP') {
-            //   rootChild.children.forEach(child => {
-            //     agg.push({size: 1 / rootChild.children.length, node: child})
-            //   })
-            // } else {
-            agg.push({ size: 1, node: rootChild })
-            // }
-            return agg
-          }, []).reverse().filter((teaser, i, all) => {
-            let node = teaser.node
-            if (teaser.node.identifier === 'TEASERGROUP') {
-              node = teaser.node.children[0]
-            }
-
-            const link = data.front.links.find(l => (
-              l.entity.__typename === 'Document' &&
-              l.entity.meta.path === node.data.url
-            ))
-            if (!link) {
-              // console.warn('no link found', teaser)
-            }
-            teaser.index = i
-            teaser.publishDate = link
-              ? new Date(link.entity.meta.publishDate)
-              : all[i - 1].publishDate
-            return teaser.publishDate
-          })
-
-          const texts = {
+          const texts = year !== 2018 ? {} : {
             Januar: <Fragment>
               Die Republik geht mit irrational langen Beiträgen an den Start. Auftakt für den <A href='https://www.republik.ch/2018/01/17/warum-justiz'>Schwerpunkt Justiz</A>. Premiere der ersten Reportagen-Serie «Race, Class, Guns and God». Globi besucht das WEF, wir analysieren Fox News und verteidigen den Service public. Die Doping-Recherchen sorgen international für Aufsehen.
             </Fragment>,
@@ -158,9 +181,8 @@ class FrontOverview extends Component {
           }
 
           return nest()
-            .key(d => getMonth(d.publishDate))
+            .key(d => formatMonth(d.publishDate))
             .entries(teasers)
-            .slice(0, 13)
             .map(({ key: month, values }) => {
               return (
                 <div style={{ marginTop: 50 }} key={month}>
@@ -175,18 +197,27 @@ class FrontOverview extends Component {
                     flexDirection: 'column',
                     flexWrap: 'wrap',
                     justifyContent: 'flex-start',
-                    height: values.length * 8
+                    alignContent: 'flex-start',
+                    height: values.length * 8,
+                    width: '100%'
                   }}>
                     {values.map(teaser => {
-                      return <a key={teaser.node.data.id} href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`} target='_blank'><img
-                        src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}&resize=160`}
-                        style={{
-                          width: 80,
-                          // width: 55 * teaser.size,
-                          marginBottom: 5,
-                          marginRight: 5
-                          // flex: '1 1 80px'
-                        }} /></a>
+                      return <div key={teaser.node.data.id} style={{
+                        paddingBottom: 10,
+                        paddingRight: 10,
+                        width: '12%',
+                        lineHeight: 0
+                      }}>
+                        <a
+                          href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`}
+                          target='_blank'>
+                          <img
+                            src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}&resize=160`}
+                            style={{
+                              width: '100%'
+                            }} />
+                        </a>
+                      </div>
                     })}
                   </div>
                 </div>
@@ -196,9 +227,9 @@ class FrontOverview extends Component {
 
         {!isMember && <Fragment>
           <P style={{ marginBottom: 10, marginTop: 100 }}>
-            Geniessen Sie die stillen Stunden zum Lesen:
+            {t('overview/after/pledge')}
           </P>
-          <Button white>Jetzt Mitglied werden</Button>
+          <Button white>{t('overview/after/pledgeButton')}</Button>
         </Fragment>}
       </Frame>
     )
@@ -207,5 +238,7 @@ class FrontOverview extends Component {
 
 export default compose(
   graphql(getDocument),
-  withMembership
+  withMembership,
+  withRouter,
+  withT
 )(FrontOverview)

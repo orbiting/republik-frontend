@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-21T09:44:24.156Z",
+  "updated": "2018-12-25T01:38:33.836Z",
   "title": "live",
   "data": [
     {
@@ -1015,12 +1015,28 @@
       "value": "Zugriff teilen"
     },
     {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice",
+      "value": "(Gutscheincodes können auf {linkClaim} eingelöst werden.)"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice/linkClaim",
+      "value": "republik.ch/abholen"
+    },
+    {
       "key": "Account/Access/Campaigns/Form/title/0",
       "value": "Zugriff teilen"
     },
     {
       "key": "Account/Access/Campaigns/Form/title/other",
       "value": "Einen weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation",
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
+      "value": "Link zur /abholen-Seite"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -1088,7 +1104,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Grants/unclaimed",
-      "value": "noch nicht eingelöst"
+      "value": "noch nicht eingelöst, Gutscheincode: {voucherCode}"
     },
     {
       "key": "Account/Access/Campaigns/Grants/beginAt",
@@ -4249,6 +4265,50 @@
     {
       "key": "meta/prolong/available",
       "value": "Jetzt verlängern"
+    },
+    {
+      "key": "overview/meta/title",
+      "value": "Jahresüberblick {year}"
+    },
+    {
+      "key": "overview/meta/description",
+      "value": "Lassen Sie Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag."
+    },
+    {
+      "key": "overview/meta/2018/title",
+      "value": "Die Glut des Anfangs"
+    },
+    {
+      "key": "overview/meta/2018/description",
+      "value": "2018, das erste Jahr der Republik: Lassen Sie alle Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag."
+    },
+    {
+      "key": "overview/title",
+      "value": "{year}, Monat für Monat"
+    },
+    {
+      "key": "overview/2018/lead",
+      "value": "Lassen Sie das erste Jahr der Republik Revue passieren."
+    },
+    {
+      "key": "overview/lead/signIn",
+      "value": "Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledge",
+      "value": "Werden Sie Mitglied, um alle Beiträge lesen zu können. {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledgeText",
+      "value": "Kommen Sie an Bord!"
+    },
+    {
+      "key": "overview/after/pledge",
+      "value": "Geniessen Sie die stillen Stunden zum Lesen:"
+    },
+    {
+      "key": "overview/after/pledgeButton",
+      "value": "Jetzt Mitglied werden"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-23T16:37:31.511Z",
+  "updated": "2018-12-25T21:23:26.444Z",
   "title": "live",
   "data": [
     {
@@ -4265,6 +4265,50 @@
     {
       "key": "meta/prolong/available",
       "value": "Jetzt verlängern"
+    },
+    {
+      "key": "overview/meta/title",
+      "value": "Jahresüberblick {year}"
+    },
+    {
+      "key": "overview/meta/description",
+      "value": "Lassen Sie Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag."
+    },
+    {
+      "key": "overview/meta/2018/title",
+      "value": "Schauen Sie auf dieses Jahr!"
+    },
+    {
+      "key": "overview/meta/2018/description",
+      "value": "2018, das waren auch die ersten 300 Tage Republik. Lassen Sie alle Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren."
+    },
+    {
+      "key": "overview/title",
+      "value": "{year}, Monat für Monat"
+    },
+    {
+      "key": "overview/2018/lead",
+      "value": "Lassen Sie das erste Jahr der Republik Revue passieren."
+    },
+    {
+      "key": "overview/lead/signIn",
+      "value": "Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledge",
+      "value": "Werden Sie Mitglied, um alle Beiträge lesen zu können. {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledgeText",
+      "value": "Kommen Sie an Bord!"
+    },
+    {
+      "key": "overview/after/pledge",
+      "value": "Geniessen Sie die stillen Stunden zum Lesen:"
+    },
+    {
+      "key": "overview/after/pledgeButton",
+      "value": "Jetzt Mitglied werden"
     }
   ]
 }

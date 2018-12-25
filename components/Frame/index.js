@@ -14,6 +14,7 @@ import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import { negativeColors } from './constants'
 
 import 'glamor/reset'
 
@@ -51,6 +52,10 @@ const styles = {
   bodyGrower: css({
     flexGrow: 1
   }),
+  darkBody: css({
+    backgroundColor: negativeColors.containerBg,
+    color: negativeColors.text
+  }),
   content: css({
     paddingTop: 40,
     paddingBottom: 60,
@@ -87,7 +92,8 @@ const Index = ({
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick
+  onSearchClick,
+  dark
 }) => (
   <div {...styles.container}>
     <div
@@ -96,9 +102,11 @@ const Index = ({
         ? styles.padHeader
         : undefined
       )}
+      {...(dark ? styles.darkBody : undefined)}
     >
       {!!meta && <Meta data={meta} />}
       <Header
+        dark={dark}
         me={me}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}

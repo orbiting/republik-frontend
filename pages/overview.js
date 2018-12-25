@@ -18,7 +18,7 @@ import Loader from '../components/Loader'
 import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
-// import { default as HrefLink } from '../components/Link/Href'
+import HrefLink from '../components/Link/Href'
 
 import { A, P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
@@ -111,19 +111,15 @@ class FrontOverview extends Component {
     }
 
     const teasers = data.front && data.front.content.children.reduce((agg, rootChild) => {
-      // if (rootChild.identifier === 'TEASERGROUP') {
-      //   rootChild.children.forEach(child => {
-      //     agg.push({size: 1 / rootChild.children.length, node: child})
-      //   })
-      // } else {
-      agg.push({ size: 1, node: rootChild })
-      // }
+      agg.push({
+        id: rootChild.data.id,
+        nodes: rootChild.identifier === 'TEASERGROUP'
+          ? rootChild.children
+          : [rootChild]
+      })
       return agg
     }, []).reverse().filter((teaser, i, all) => {
-      let node = teaser.node
-      if (teaser.node.identifier === 'TEASERGROUP') {
-        node = teaser.node.children[0]
-      }
+      const node = teaser.nodes[0]
 
       const link = data.front.links.find(l => (
         l.entity.__typename === 'Document' &&
@@ -132,11 +128,12 @@ class FrontOverview extends Component {
       if (!link) {
         // console.warn('no link found', teaser)
       }
-      teaser.index = i
       teaser.publishDate = link
         ? new Date(link.entity.meta.publishDate)
         : i > 0 ? all[i - 1].publishDate : undefined
-      return teaser.publishDate && teaser.publishDate >= startDate && teaser.publishDate < endDate
+      return teaser.publishDate &&
+        teaser.publishDate >= startDate &&
+        teaser.publishDate < endDate
     })
 
     if (!teasers.length) {
@@ -197,16 +194,36 @@ class FrontOverview extends Component {
                     })
                   }}>
                     {values.map(teaser => {
-                      return <div key={teaser.node.data.id} {...styles.item}>
-                        <a
-                          href={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`}
-                          target='_blank'>
+                      // `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}`
+
+                      const nodeWidth = 100 / teaser.nodes.length
+
+                      return <div key={teaser.id} {...styles.item}>
+                        <div style={{ position: 'relative' }}>
                           <img
-                            src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.node.data.id}`)}&resize=160`}
+                            src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=160`}
                             style={{
                               width: '100%'
                             }} />
-                        </a>
+                          {teaser.nodes.map((node, i) => {
+                            const area = (
+                              <a style={{
+                                display: 'block',
+                                position: 'absolute',
+                                left: `${nodeWidth * i}%`,
+                                width: `${nodeWidth}%`,
+                                top: 0,
+                                bottom: 0
+                              }} />
+                            )
+                            if (node.data.url) {
+                              return <HrefLink href={node.data.url} passHref>
+                                {area}
+                              </HrefLink>
+                            }
+                            return area
+                          })}
+                        </div>
                       </div>
                     })}
                   </LazyLoad>

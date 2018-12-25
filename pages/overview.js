@@ -38,17 +38,6 @@ query getFrontOverview {
   front: document(path: "/") {
     id
     content
-    links {
-      entity {
-        __typename
-        ... on Document {
-          meta {
-            path
-            publishDate
-          }
-        }
-      }
-    }
   }
 }
 `
@@ -119,17 +108,10 @@ class FrontOverview extends Component {
       })
       return agg
     }, []).reverse().filter((teaser, i, all) => {
-      const node = teaser.nodes[0]
+      const node = teaser.nodes.find(node => node.data.urlMeta)
 
-      const link = data.front.links.find(l => (
-        l.entity.__typename === 'Document' &&
-        l.entity.meta.path === node.data.url
-      ))
-      if (!link) {
-        // console.warn('no link found', teaser)
-      }
-      teaser.publishDate = link
-        ? new Date(link.entity.meta.publishDate)
+      teaser.publishDate = node
+        ? new Date(node.data.urlMeta.publishDate)
         : i > 0 ? all[i - 1].publishDate : undefined
       return teaser.publishDate &&
         teaser.publishDate >= startDate &&

@@ -4,10 +4,10 @@ import { A } from './Elements'
 
 export default {
   Januar: <Fragment>
-    Die Republik geht mit irrational langen Beiträgen an den Start. Auftakt für den <A href='https://www.republik.ch/2018/01/17/warum-justiz'>Schwerpunkt Justiz</A>. Premiere der ersten Reportagen-Serie «Race, Class, Guns and God». Globi besucht das WEF, wir analysieren Fox News und verteidigen den Service public. Die Doping-Recherchen sorgen international für Aufsehen.
+    Die Republik geht mit irrational langen Beiträgen an den Start. Auftakt für den <A href='https://www.republik.ch/2018/01/17/warum-justiz'>Schwerpunkt Justiz</A>. Premiere der ersten Reportagen-Serie «Race, Class, Guns and God». Sibylle Berg und Daniel Binswanger starten ihre Kolumnen. Globi besucht das WEF, wir analysieren Fox News und verteidigen den Service public. Doping-Recherchen sorgen international für Aufsehen.
   </Fragment>,
   Februar: <Fragment>
-    Beppe Grillos Fünf-Sterne-Bewegung in Italien, <A href='https://www.republik.ch/2018/01/13/verdeckte-politwerbung-enttarnen'>Politwerbung auf Facebook</A>: Digitale Themen werden zu einem Markenzeichen der Republik. Sibylle Berg startet ihre Kolumne. Das Elend der SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die Audio-Podcasts gehen in Serie. Und <A href='https://www.republik.ch/2018/02/12/sie-wir-und-unser-gemeinsames-unternehmen'>wir haben Ihnen zugehört</A>.
+    Beppe Grillos Fünf-Sterne-Bewegung in Italien, <A href='https://www.republik.ch/2018/01/13/verdeckte-politwerbung-enttarnen'>Politwerbung auf Facebook</A>: Digitale Themen werden zu einem Markenzeichen der Republik. Das Elend der SDA und die Zukunft der AHV beschäftigen Debatten wie Autorinnen. Die Audio-Podcasts gehen in Serie. Und <A href='https://www.republik.ch/2018/02/12/sie-wir-und-unser-gemeinsames-unternehmen'>wir haben Ihnen zugehört</A>.
   </Fragment>,
   März: <Fragment>
     Raiffeisen im Elend, «UBS im Dschungel» – und die Frage: Sind deutsche Whistleblower in der Schweiz tatsächlich Spione? Gespräche mit Politologin Silja Häusermann und Feministin Mona Eltahawy. Auftakt zur Sozialdetektiv-Debatte. Erstmals <A href='https://www.republik.ch/2018/03/01/die-republik-zum-hoeren'>lesen Autoren ihre Beiträge auch vor</A> – zum Anhören als Podcast.
@@ -31,7 +31,7 @@ export default {
     Brasilien vor dem Faschismus, die «vorletzten Tage der Menschheit», Chemnitz und Start der Drogen-Serie. Feministin Rebecca Solnit über die Unterdrückung der Frauen und Politologin Chantal Mouffe über Linkspopulismus. Die Abschaffung der Freiheit und die Lehren aus der Finanzkrise. <A href='https://www.republik.ch/2018/09/03/7-uhr-newsletter'>Feuilleton</A> und <A href='https://www.republik.ch/2018/09/01/app/diskussion'>App</A> – beides ist da!
   </Fragment>,
   Oktober: <Fragment>
-    Unser Recherche-Netzwerk deckt den Cum-Ex-Skandal auf. Der Zuger CVP-Justizdirektor  Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. Google als Medienmäzen. Wir fragen: Wie recht hat das Volk? Podium zu #MeToo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
+    Unser Recherche-Netzwerk deckt die Dimension des Cum-Ex-Skandal auf. Der Zuger CVP-Justizdirektor  Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. Google als Medienmäzen. Wir fragen: Wie recht hat das Volk? Podium zu #MeToo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
   </Fragment>,
   November: <Fragment>
     «Verrat in der Moschee». Das Ende der Sozialdemokratie. Zwei ehemalige Kindersoldaten, die das Schicksal an den Internationalen Strafgerichtshof spült. Wie die Politik beim Klimawandel versagt. Soros in der Schweiz. Der Schweizer Aussenminister Ignazio Cassis sitzt «An der Bar». Und die <A href='https://www.republik.ch/umfrage/2018'>erste Leserinnen-Umfrage</A>.

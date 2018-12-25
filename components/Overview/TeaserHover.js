@@ -9,7 +9,7 @@ const TeaserHover = ({ measurement, teaser, width }) => {
     <div style={{
       position: 'absolute',
       zIndex: 1,
-      top: measurement.y - 20,
+      top: measurement.y - 10,
       left: measurement.x > hoverWidth / 2
         ? measurement.x + hoverWidth / 2 > width
           ? width - hoverWidth

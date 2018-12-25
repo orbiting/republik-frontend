@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
+import { range, sum, max } from 'd3-array'
 
 import {
   LazyLoad
@@ -61,14 +62,16 @@ class TeaserBlock extends Component {
       return
     }
 
-    const { left, top, width } = parent.getBoundingClientRect()
-    if (this.state.width !== width) {
-      this.setState({ width })
+    const teaserElements = Array.from(
+      parent.querySelectorAll('[data-teaser]')
+    )
+    if (!teaserElements.length) {
+      return
     }
 
-    this.measurements = Array.from(
-      parent.querySelectorAll('[data-teaser]')
-    ).map(teaser => {
+    const { left, top, width } = parent.getBoundingClientRect()
+
+    this.measurements = teaserElements.map(teaser => {
       const rect = teaser.getBoundingClientRect()
 
       return {
@@ -81,6 +84,30 @@ class TeaserBlock extends Component {
         // absoluteY: window.pageYOffset + rect.top
       }
     })
+
+    const innerWidth = window.innerWidth
+    const { columns } = SIZES.filter(size => size.minWidth <= innerWidth).pop()
+
+    // const meanHeight = mean(this.measurements, m => m.height + PADDING) * Math.ceil(perColumn)
+
+    const perColumn = Math.round(this.measurements.length / columns)
+    const height = max(range(columns).map(column => {
+      const begin = column * perColumn
+      return sum(
+        this.measurements
+          .slice(
+            begin,
+            column === columns - 1
+              ? undefined
+              : begin + perColumn
+          )
+          .map(measurement => measurement.height + PADDING)
+      )
+    }))
+
+    if (this.state.width !== width || this.state.height !== height) {
+      this.setState({ width, height })
+    }
   }
   componentDidMount () {
     window.addEventListener('resize', this.measure)
@@ -94,7 +121,7 @@ class TeaserBlock extends Component {
     clearTimeout(this.hoverTimeout)
   }
   render () {
-    const { hover, width } = this.state
+    const { hover, width, height } = this.state
     const { teasers, lazy } = this.props
 
     return (
@@ -103,6 +130,7 @@ class TeaserBlock extends Component {
           ...styles.container,
           ...css({
             ...SIZES.reduce((styles, size) => {
+              // SSR approximation
               const height = teasers.length / size.columns * 66
               if (size.minWidth) {
                 styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
@@ -114,10 +142,9 @@ class TeaserBlock extends Component {
               return styles
             }, {})
           })
-        }}>
+        }} style={{ height }}>
           {teasers.map(teaser => {
             const nodeWidth = 100 / teaser.nodes.length
-
             return <div key={teaser.id}
               {...styles.item}
               onMouseOver={event => {
@@ -152,7 +179,8 @@ class TeaserBlock extends Component {
                   }
                 }, 33)
               }}>
-              {hover && hover.teaser === teaser && <TeaserHover {...hover} width={width} />}
+              {hover && hover.teaser === teaser &&
+                <TeaserHover {...hover} width={width} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <img
                   onLoad={this.measure}

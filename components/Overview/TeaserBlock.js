@@ -157,6 +157,7 @@ class TeaserBlock extends Component {
           })
         }} style={{ height }}>
           {teasers.map(teaser => {
+            let touch
             const focus = event => {
               if (!this.measurements) {
                 return
@@ -179,6 +180,7 @@ class TeaserBlock extends Component {
 
               this.setState({
                 hover: {
+                  touch,
                   teaser,
                   measurement
                 }
@@ -198,9 +200,11 @@ class TeaserBlock extends Component {
             }
             return <div key={teaser.id}
               {...styles.item}
-              onMouseOver={focus}
+              onTouchStart={() => { touch = true }}
+              onMouseEnter={focus}
               onMouseMove={focus}
-              onMouseLeave={hoverOff}>
+              onMouseLeave={hoverOff}
+              onClick={() => { touch = undefined }}>
               {hover && hover.teaser.id === teaser.id &&
                 <TeaserHover {...hover} contextWidth={width - PADDING} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
@@ -211,7 +215,10 @@ class TeaserBlock extends Component {
                     display: 'block',
                     width: '100%'
                   }} />
-                <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
+                <TeaserNodes
+                  nodes={teaser.nodes}
+                  highlight={highlight}
+                  noClick={hover && hover.touch} />
               </div>
             </div>
           })}

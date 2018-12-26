@@ -126,7 +126,10 @@ class FrontOverview extends Component {
             .map(({ key: month, values }, i) => {
               const Text = texts[year] && texts[year][month]
               return (
-                <div style={{ marginTop: 50 }} key={month}>
+                <div style={{ marginTop: 50 }} key={month} onClick={() => {
+                  // a no-op for mobile safari
+                  // - causes mouse enter and leave to be triggered
+                }}>
                   <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
                     {month}
                   </Interaction.H2>

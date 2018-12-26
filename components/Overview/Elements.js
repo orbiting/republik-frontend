@@ -47,10 +47,12 @@ export class Highlight extends Component {
           color,
           cursor: 'default'
         }}
-        onMouseOver={() => {
+        onMouseEnter={() => {
           onHighlight(this.highlight)
         }}
-        onMouseOut={() => onHighlight()}>
+        onMouseLeave={() => {
+          onHighlight()
+        }}>
         {children}
       </Editorial.A>
     )

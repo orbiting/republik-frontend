@@ -13,7 +13,7 @@ const styles = {
   })
 }
 
-const TeaserNodes = ({ nodes, highlight }) => {
+const TeaserNodes = ({ nodes, highlight, noClick }) => {
   const nodeWidth = 100 / nodes.length
   const maxIndex = nodes.length - 1
 
@@ -28,7 +28,7 @@ const TeaserNodes = ({ nodes, highlight }) => {
             : 'rgba(0,0,0,0.0)'
         }} />
       )
-      if (node.data.url) {
+      if (node.data.url && !noClick) {
         return <HrefLink key={node.data.id} href={node.data.url} passHref>
           {area}
         </HrefLink>

@@ -14,7 +14,6 @@ import {
 } from '../lib/constants'
 
 import StatusError from '../components/StatusError'
-import Loader from '../components/Loader'
 import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
@@ -25,7 +24,8 @@ import text18 from '../components/Overview/2018'
 
 import {
   Button,
-  Interaction
+  Interaction,
+  Loader
 } from '@project-r/styleguide'
 
 const texts = {
@@ -89,7 +89,7 @@ class FrontOverview extends Component {
         teaser.publishDate < endDate
     })
 
-    if (teasers && !teasers.length) {
+    if (!data.loading && !data.error && !teasers.length) {
       return (
         <Frame raw>
           <StatusError
@@ -119,7 +119,7 @@ class FrontOverview extends Component {
             })}
         </P>
 
-        <Loader loading={data.loading} error={data.error} render={() => {
+        <Loader loading={data.loading} error={data.error} style={{ minHeight: `calc(90vh)` }} render={() => {
           return nest()
             .key(d => formatMonth(d.publishDate))
             .entries(teasers)

@@ -89,7 +89,7 @@ class FrontOverview extends Component {
         teaser.publishDate < endDate
     })
 
-    if (!teasers.length) {
+    if (teasers && !teasers.length) {
       return (
         <Frame raw>
           <StatusError

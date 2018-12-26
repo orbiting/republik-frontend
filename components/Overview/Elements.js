@@ -53,7 +53,6 @@ export class Highlight extends Component {
         onMouseOut={() => onHighlight()}>
         {children}
       </Editorial.A>
-
     )
   }
 }

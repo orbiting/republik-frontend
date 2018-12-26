@@ -139,7 +139,7 @@ class TeaserBlock extends Component {
 
     return (
       <div ref={this.blockRef} style={{ position: 'relative' }}>
-        <LazyLoad visible={!lazy} attributes={{
+        <LazyLoad key={height} visible={!lazy} attributes={{
           ...styles.container,
           ...css({
             ...SIZES.reduce((styles, size) => {

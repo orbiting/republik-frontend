@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { negativeColors } from '../Frame/constants'
 
 import { css } from 'glamor'
@@ -19,3 +19,41 @@ export const P = ({ children, ...props }) =>
 
 export const A = ({ children, ...props }) =>
   <Editorial.A style={{ color: negativeColors.text }} {...props}>{children}</Editorial.A>
+
+export class Highlight extends Component {
+  highlight = (data) => {
+    const { ids, format, series } = this.props
+    if (ids && ids.includes(data.id)) {
+      return true
+    }
+    if (data.urlMeta) {
+      if (format && data.urlMeta.format === format) {
+        return true
+      }
+      if (series && data.urlMeta.series === series) {
+        return true
+      }
+    }
+  }
+  render () {
+    const { children, highlight, onHighlight } = this.props
+    const isHighlighted = highlight === this.highlight
+    const color = isHighlighted ? negativeColors.lightText : '#fff'
+    return (
+      <Editorial.A
+        style={{
+          textDecoration: 'none',
+          borderBottom: `1px dotted ${color}`,
+          color,
+          cursor: 'default'
+        }}
+        onMouseOver={() => {
+          onHighlight(this.highlight)
+        }}
+        onMouseOut={() => onHighlight()}>
+        {children}
+      </Editorial.A>
+
+    )
+  }
+}

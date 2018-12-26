@@ -4,6 +4,8 @@ import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/cons
 
 import TeaserNodes from './TeaserNodes'
 
+import { ZINDEX_POPOVER } from '../constants'
+
 const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
   const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
     ? 400
@@ -12,7 +14,7 @@ const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
   return (
     <div style={{
       position: 'absolute',
-      zIndex: 1,
+      zIndex: ZINDEX_POPOVER,
       top: measurement.y - 10,
       left: measurement.x > hoverWidth / 2
         ? measurement.x + measurement.width / 2 + hoverWidth / 2 > contextWidth

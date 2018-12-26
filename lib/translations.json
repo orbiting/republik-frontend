@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-25T23:25:15.993Z",
+  "updated": "2018-12-26T02:08:55.218Z",
   "title": "live",
   "data": [
     {
@@ -4292,11 +4292,11 @@
     },
     {
       "key": "overview/lead/signIn",
-      "value": "Melden Sie sich an, um alle Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
     },
     {
       "key": "overview/lead/pledge",
-      "value": "Werden Sie Mitglied, um alle Beiträge lesen zu können. {pledgeLink}"
+      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können. {pledgeLink}"
     },
     {
       "key": "overview/lead/pledgeText",

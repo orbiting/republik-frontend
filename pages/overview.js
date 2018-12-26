@@ -124,13 +124,16 @@ class FrontOverview extends Component {
             .key(d => formatMonth(d.publishDate))
             .entries(teasers)
             .map(({ key: month, values }, i) => {
+              const Text = texts[year] && texts[year][month]
               return (
                 <div style={{ marginTop: 50 }} key={month}>
                   <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
                     {month}
                   </Interaction.H2>
                   <P style={{ marginBottom: 20 }}>
-                    {texts[year] && texts[year][month]}
+                    {Text && <Text
+                      highlight={highlight}
+                      onHighlight={this.onHighlight} />}
                   </P>
                   <TeaserBlock
                     teasers={values}

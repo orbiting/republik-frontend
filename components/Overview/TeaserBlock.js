@@ -186,6 +186,7 @@ class TeaserBlock extends Component {
                 const index = Math.floor(x * teaser.nodes.length)
                 const activeNode = teaser.nodes[index]
                 const urlMeta = (activeNode && activeNode.data.urlMeta) || {}
+
                 if (urlMeta.format) {
                   onHighlight(data => data.urlMeta && data.urlMeta.format === urlMeta.format)
                 } else if (urlMeta.series) {

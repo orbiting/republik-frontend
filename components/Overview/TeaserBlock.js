@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 import { range, sum, max } from 'd3-array'
+import debounce from 'lodash/debounce'
 
 import {
   LazyLoad
 } from '@project-r/styleguide'
 
-import HrefLink from '../Link/Href'
-
 import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/constants'
 
 import TeaserHover from './TeaserHover'
+import TeaserNodes from './TeaserNodes'
 
 const SIZES = [
   { minWidth: 0, columns: 3 },
@@ -56,7 +56,7 @@ class TeaserBlock extends Component {
     this.blockRef = React.createRef()
     this.state = {}
   }
-  measure = () => {
+  measure = debounce(() => {
     const parent = this.blockRef.current
     if (!parent) {
       return
@@ -85,10 +85,13 @@ class TeaserBlock extends Component {
       }
     })
 
+    if (this.measurements.filter(m => m.height).length !== this.props.teasers.length) {
+      // waiting for content to load
+      return
+    }
+
     const innerWidth = window.innerWidth
     const { columns } = SIZES.filter(size => size.minWidth <= innerWidth).pop()
-
-    // const meanHeight = mean(this.measurements, m => m.height + PADDING) * Math.ceil(perColumn)
 
     const perColumn = Math.round(this.measurements.length / columns)
     const height = max(range(columns).map(column => {
@@ -108,7 +111,7 @@ class TeaserBlock extends Component {
     if (this.state.width !== width || this.state.height !== height) {
       this.setState({ width, height })
     }
-  }
+  }, 33)
   componentDidMount () {
     window.addEventListener('resize', this.measure)
     this.measure()
@@ -122,7 +125,17 @@ class TeaserBlock extends Component {
   }
   render () {
     const { hover, width, height } = this.state
-    const { teasers, lazy } = this.props
+    const { teasers, highlight, onHighlight, lazy } = this.props
+
+    const hoverOff = () => {
+      // prevent flicker
+      this.hoverTimeout = setTimeout(() => {
+        if (this.state.hover === hover) {
+          this.setState({ hover: false })
+          onHighlight()
+        }
+      }, 66)
+    }
 
     return (
       <div ref={this.blockRef} style={{ position: 'relative' }}>
@@ -144,68 +157,61 @@ class TeaserBlock extends Component {
           })
         }} style={{ height }}>
           {teasers.map(teaser => {
-            const nodeWidth = 100 / teaser.nodes.length
+            const focus = event => {
+              if (!this.measurements) {
+                return
+              }
+              const measurement = this.measurements.find(m => m.id === teaser.id)
+              if (!measurement) {
+                return
+              }
+
+              let currentEvent = event
+              if (currentEvent.changedTouches) {
+                currentEvent = currentEvent.changedTouches[0]
+              }
+
+              const x = (currentEvent.clientX - measurement.left) / measurement.width
+              if (x >= 1) {
+                hoverOff()
+                return
+              }
+
+              this.setState({
+                hover: {
+                  teaser,
+                  measurement
+                }
+              }, () => {
+                const index = Math.floor(x * teaser.nodes.length)
+                const activeNode = teaser.nodes[index]
+                const urlMeta = (activeNode && activeNode.data.urlMeta) || {}
+
+                if (urlMeta.format) {
+                  onHighlight(data => data.urlMeta && data.urlMeta.format === urlMeta.format)
+                } else if (urlMeta.series) {
+                  onHighlight(data => data.urlMeta && data.urlMeta.series === urlMeta.series)
+                } else if (activeNode) {
+                  onHighlight(data => data.id === activeNode.data.id)
+                }
+              })
+            }
             return <div key={teaser.id}
               {...styles.item}
-              onMouseOver={event => {
-                if (!this.measurements) {
-                  return
-                }
-                const measurement = this.measurements.find(m => m.id === teaser.id)
-                if (!measurement) {
-                  return
-                }
-
-                let currentEvent = event
-                if (currentEvent.changedTouches) {
-                  currentEvent = currentEvent.changedTouches[0]
-                }
-
-                const focusX = currentEvent.clientX - measurement.left
-
-                this.setState({
-                  hover: {
-                    x: focusX / measurement.width,
-                    teaser,
-                    measurement
-                  }
-                })
-              }}
-              onMouseLeave={() => {
-                // prevent flicker
-                this.hoverTimeout = setTimeout(() => {
-                  if (this.state.hover === hover) {
-                    this.setState({ hover: false })
-                  }
-                }, 33)
-              }}>
-              {hover && hover.teaser === teaser &&
-                <TeaserHover {...hover} width={width} />}
+              onMouseOver={focus}
+              onMouseMove={focus}
+              onMouseLeave={hoverOff}>
+              {hover && hover.teaser.id === teaser.id &&
+                <TeaserHover {...hover} contextWidth={width - PADDING} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <img
                   onLoad={this.measure}
                   src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=160`}
                   style={{
+                    display: 'block',
                     width: '100%'
                   }} />
-                {teaser.nodes.map((node, i) => {
-                  const area = (
-                    <a key={node.data.id} style={{
-                      display: 'block',
-                      position: 'absolute',
-                      left: `${nodeWidth * i}%`,
-                      width: `${nodeWidth}%`,
-                      top: 0,
-                      bottom: 0
-                    }} />
-                  )
-                  if (node.data.url) {
-                    return <HrefLink key={node.data.id} href={node.data.url} passHref>
-                      {area}
-                    </HrefLink>
-                  }
-                  return area
-                })}
+                <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
               </div>
             </div>
           })}

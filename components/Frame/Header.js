@@ -484,7 +484,7 @@ class Header extends Component {
           routeChangeStarted = true
         }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
-        {inNativeApp && <Pullable onRefresh={() => {
+        {inNativeApp && <Pullable dark={dark} onRefresh={() => {
           if (inNativeIOSApp) {
             postMessage({ type: 'haptic', payload: { type: 'impact' } })
           }

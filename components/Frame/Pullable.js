@@ -9,9 +9,10 @@ import { InlineSpinner, colors } from '@project-r/styleguide'
 
 import DownIcon from 'react-icons/lib/md/arrow-downward'
 
+import { negativeColors } from './constants'
+
 const styles = {
   container: css({
-    backgroundColor: colors.secondaryBg,
     display: 'flex',
     overflow: 'hidden',
     justifyContent: 'center',
@@ -27,7 +28,10 @@ const Container = props => (
       transition: `height ${props.resetDuration}ms ${props.resetEase}`
     }) : undefined)}
     style={{
-      height: props.height
+      height: props.height,
+      backgroundColor: props.dark
+        ? negativeColors.primaryBg
+        : colors.secondaryBg
     }}>
     {props.children}
   </div>
@@ -142,6 +146,7 @@ class Pullable extends React.Component {
           resetDuration={this.props.resetDuration}
           resetEase={this.props.resetEase}
           shouldReset={shouldReset}
+          dark={this.props.dark}
         >
           {shouldSpin
             ? <InlineSpinner size={32} />

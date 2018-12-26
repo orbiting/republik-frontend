@@ -52,10 +52,6 @@ const styles = {
   bodyGrower: css({
     flexGrow: 1
   }),
-  darkBody: css({
-    backgroundColor: negativeColors.containerBg,
-    color: negativeColors.text
-  }),
   content: css({
     paddingTop: 40,
     paddingBottom: 60,
@@ -85,6 +81,7 @@ const Index = ({
   nav,
   cover,
   inNativeApp,
+  inNativeIOSApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -102,11 +99,13 @@ const Index = ({
         ? styles.padHeader
         : undefined
       )}
-      {...(dark ? styles.darkBody : undefined)}
     >
+      {dark && <style dangerouslySetInnerHTML={{
+        __html: `html, body { background-color: ${negativeColors.containerBg}; color: ${negativeColors.text}; }`
+      }} />}
       {!!meta && <Meta data={meta} />}
       <Header
-        dark={dark}
+        dark={dark && !inNativeIOSApp}
         me={me}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}

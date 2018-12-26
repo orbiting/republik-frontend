@@ -201,7 +201,7 @@ class TeaserBlock extends Component {
               onMouseMove={focus}
               onMouseLeave={hoverOff}>
               {hover && hover.teaser.id === teaser.id &&
-                <TeaserHover {...hover} width={width} highlight={highlight} />}
+                <TeaserHover {...hover} contextWidth={width - PADDING} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <img
                   onLoad={this.measure}

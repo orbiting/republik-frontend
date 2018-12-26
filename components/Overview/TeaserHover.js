@@ -4,7 +4,7 @@ import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/cons
 
 import TeaserNodes from './TeaserNodes'
 
-const TeaserHover = ({ measurement, teaser, width, highlight }) => {
+const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
   const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
     ? 400
     : 300
@@ -15,8 +15,8 @@ const TeaserHover = ({ measurement, teaser, width, highlight }) => {
       zIndex: 1,
       top: measurement.y - 10,
       left: measurement.x > hoverWidth / 2
-        ? measurement.x + measurement.width / 2 + hoverWidth / 2 > width
-          ? width - hoverWidth
+        ? measurement.x + measurement.width / 2 + hoverWidth / 2 > contextWidth
+          ? contextWidth - hoverWidth
           : measurement.x + measurement.width / 2 - hoverWidth / 2
         : 0
     }}>

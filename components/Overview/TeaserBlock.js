@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 import { range, sum, max } from 'd3-array'
+import debounce from 'lodash/debounce'
 
 import {
   LazyLoad
@@ -55,7 +56,7 @@ class TeaserBlock extends Component {
     this.blockRef = React.createRef()
     this.state = {}
   }
-  measure = () => {
+  measure = debounce(() => {
     const parent = this.blockRef.current
     if (!parent) {
       return
@@ -84,10 +85,13 @@ class TeaserBlock extends Component {
       }
     })
 
+    if (this.measurements.filter(m => m.height).length !== this.props.teasers.length) {
+      // waiting for content to load
+      return
+    }
+
     const innerWidth = window.innerWidth
     const { columns } = SIZES.filter(size => size.minWidth <= innerWidth).pop()
-
-    // const meanHeight = mean(this.measurements, m => m.height + PADDING) * Math.ceil(perColumn)
 
     const perColumn = Math.round(this.measurements.length / columns)
     const height = max(range(columns).map(column => {
@@ -107,7 +111,7 @@ class TeaserBlock extends Component {
     if (this.state.width !== width || this.state.height !== height) {
       this.setState({ width, height })
     }
-  }
+  }, 33)
   componentDidMount () {
     window.addEventListener('resize', this.measure)
     this.measure()
@@ -203,6 +207,7 @@ class TeaserBlock extends Component {
                   onLoad={this.measure}
                   src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=160`}
                   style={{
+                    display: 'block',
                     width: '100%'
                   }} />
                 <TeaserNodes nodes={teaser.nodes} highlight={highlight} />

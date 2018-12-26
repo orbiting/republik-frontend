@@ -1,9 +1,10 @@
 import React from 'react'
-import HrefLink from '../Link/Href'
 
 import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/constants'
 
-const TeaserHover = ({ measurement, teaser, width }) => {
+import TeaserNodes from './TeaserNodes'
+
+const TeaserHover = ({ measurement, teaser, width, highlight }) => {
   const hoverWidth = 300
   return (
     <div style={{
@@ -32,25 +33,7 @@ const TeaserHover = ({ measurement, teaser, width }) => {
           }}
           key={teaser.id}
           src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=600`} />
-        {teaser.nodes.map((node, i) => {
-          const nodeWidth = 100 / teaser.nodes.length
-          const area = (
-            <a key={node.data.id} style={{
-              display: 'block',
-              position: 'absolute',
-              left: `${nodeWidth * i}%`,
-              width: `${nodeWidth}%`,
-              top: 0,
-              bottom: 0
-            }} />
-          )
-          if (node.data.url) {
-            return <HrefLink key={node.data.id} href={node.data.url} passHref>
-              {area}
-            </HrefLink>
-          }
-          return area
-        })}
+        <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
       </div>
     </div>
   )

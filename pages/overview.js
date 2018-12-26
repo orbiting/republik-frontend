@@ -44,6 +44,11 @@ query getFrontOverview {
 const formatMonth = swissTime.format('%B')
 
 class FrontOverview extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+    this.state = {}
+    this.onHighlight = highlight => this.setState({ highlight })
+  }
   render () {
     const { data, isMember, me, router: { query }, t } = this.props
 
@@ -94,6 +99,8 @@ class FrontOverview extends Component {
       )
     }
 
+    const { highlight } = this.state
+
     return (
       <Frame meta={meta} dark>
         <Interaction.H1 style={{ color: negativeColors.text, marginBottom: 5 }}>
@@ -125,7 +132,11 @@ class FrontOverview extends Component {
                   <P style={{ marginBottom: 20 }}>
                     {texts[year] && texts[year][month]}
                   </P>
-                  <TeaserBlock teasers={values} lazy={i !== 0} />
+                  <TeaserBlock
+                    teasers={values}
+                    highlight={highlight}
+                    onHighlight={this.onHighlight}
+                    lazy={i !== 0} />
                 </div>
               )
             })

@@ -125,7 +125,10 @@ const Index = ({
         </Box>
       </noscript>
       {me && me.prolongBeforeDate !== null &&
-        <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />}
+        <ProlongBox
+          t={t}
+          prolongBeforeDate={me.prolongBeforeDate}
+          dark={dark} />}
       {raw ? (
         children
       ) : (

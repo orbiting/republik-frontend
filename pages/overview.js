@@ -152,7 +152,9 @@ class FrontOverview extends Component {
           <P style={{ marginBottom: 10, marginTop: 100 }}>
             {t('overview/after/pledge')}
           </P>
-          <Button white>{t('overview/after/pledgeButton')}</Button>
+          <Link key='pledge' route='pledge' passHref>
+            <Button white>{t('overview/after/pledgeButton')}</Button>
+          </Link>
         </Fragment>}
       </Frame>
     )

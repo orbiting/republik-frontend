@@ -31,7 +31,7 @@ export default {
     Brasilien vor dem Faschismus, die «vorletzten Tage der Menschheit», Chemnitz und Start der Drogen-Serie. Feministin Rebecca Solnit über die Unterdrückung der Frauen und Politologin Chantal Mouffe über Linkspopulismus. Die Abschaffung der Freiheit und die Lehren aus der Finanzkrise. <A href='https://www.republik.ch/2018/09/03/7-uhr-newsletter'>Feuilleton</A> und <A href='https://www.republik.ch/2018/09/01/app/diskussion'>App</A> – beides ist da!
   </Fragment>,
   Oktober: () => <Fragment>
-    Unser Recherche-Netzwerk deckt die Dimension des Cum-Ex-Skandal auf. Der Zuger CVP-Justizdirektor  Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. Google als Medienmäzen. Wir fragen: Wie recht hat das Volk? Podium zu #MeToo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
+    Unser Recherche-Netzwerk deckt die Dimension des Cum-Ex-Skandals auf. Der Zuger CVP-Justizdirektor  Beat Villiger sorgt für den ersten Rechtsstreit, «Die Macht der Lüge in der Politik» für Reflexion. Google als Medienmäzen. Wir fragen: Wie recht hat das Volk? Podium zu #MeToo. Und die <A href='https://www.republik.ch/2018/10/31/wie-sie-waehlten-stimmten-und-was-sie-wollen'>Republik wird demokratisch</A>.
   </Fragment>,
   November: () => <Fragment>
     «Verrat in der Moschee». Das Ende der Sozialdemokratie. Zwei ehemalige Kindersoldaten, die das Schicksal an den Internationalen Strafgerichtshof spült. Wie die Politik beim Klimawandel versagt. Soros in der Schweiz. Der Schweizer Aussenminister Ignazio Cassis sitzt «An der Bar». Und die <A href='https://www.republik.ch/umfrage/2018'>erste Leserinnen-Umfrage</A>.

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-26T02:08:55.218Z",
+  "updated": "2018-12-28T12:47:14.342Z",
   "title": "live",
   "data": [
     {
@@ -376,7 +376,7 @@
     },
     {
       "key": "marketing/preview/prestitial/hasPreview",
-      "value": "Schön, Sie wiederzusehen. Diese fünf Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+      "value": "Schön, Sie wiederzusehen. Diese Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
     },
     {
       "key": "marketing/preview/prestitial/hasPreview/link",
@@ -392,7 +392,7 @@
     },
     {
       "key": "marketing/preview/page/description",
-      "value": "Melden Sie sich an, um kostenlos fünf Artikel zu lesen."
+      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
     },
     {
       "key": "marketing/offers/claim",

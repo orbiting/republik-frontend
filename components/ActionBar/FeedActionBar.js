@@ -6,6 +6,7 @@ import { compose } from 'react-apollo'
 import Bookmark from './Bookmark'
 import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
+import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
 import withT from '../../lib/withT'
 
@@ -19,18 +20,32 @@ const styles = {
   })
 }
 
+export const ActionLink = ({ children, path, icon, hasAudio }) => {
+  if (icon === 'audio' && hasAudio) {
+    return (
+      <PathLink path={path} query={{ audio: 1 }} passHref>
+        {children}
+      </PathLink>
+    )
+  }
+
+  return children
+}
+
 const ActionBar = ({
   t,
   documentId,
   listId,
+  audioSource,
   bookmarked,
   dossier,
-  hasAudio,
   hasGallery,
   hasVideo,
   readingMinutes,
-  linkedDiscussion
+  linkedDiscussion,
+  path
 }) => {
+  const hasAudio = !!audioSource
   const icons = [
     dossier && {
       icon: 'dossier',
@@ -44,7 +59,8 @@ const ActionBar = ({
     hasAudio && {
       icon: 'audio',
       title: t('feed/actionbar/audio'),
-      size: 22
+      size: 22,
+      color: colors.text
     },
     hasVideo && {
       icon: 'video',
@@ -68,12 +84,14 @@ const ActionBar = ({
         {icons
           .filter(Boolean)
           .map((props, i) => (
-            <IconLink
-              key={props.icon}
-              size={20}
-              fill={colors.lightText}
-              {...props}
-            />
+            <ActionLink path={path} hasAudio={hasAudio} {...props}>
+              <IconLink
+                key={props.icon}
+                size={20}
+                fill={props.color || colors.lightText}
+                {...props}
+              />
+            </ActionLink>
           ))}
         {readingMinutes && (
           <ReadingTime minutes={readingMinutes} small />
@@ -95,6 +113,7 @@ const ActionBar = ({
 ActionBar.propTypes = {
   documentId: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
+  audioSource: PropTypes.object,
   bookmarked: PropTypes.bool,
   dossier: PropTypes.object,
   hasAudio: PropTypes.bool,
@@ -109,7 +128,6 @@ ActionBar.defaultProps = {
   documentId: 'foo',
   listId: 'bar',
   dossier: {},
-  hasAudio: true,
   hasGallery: true,
   hasVideo: true,
   readingMinutes: 7

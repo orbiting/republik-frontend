@@ -359,6 +359,11 @@ class ArticlePage extends Component {
     window.addEventListener('resize', this.measure)
 
     this.measure()
+
+    const { query } = this.props.router
+    if (query.audio === '1') {
+      this.toggleAudio()
+    }
   }
 
   componentDidUpdate () {

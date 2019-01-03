@@ -1,5 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
+
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
@@ -12,10 +14,10 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const IndexPage = ({ t, me, isMember, inNativeIOSApp }) => {
-  if (isMember) {
+const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
+  if (isMember || router.query.extractId) {
     // does it's own meta
-    return <Front />
+    return <Front extractId={router.query.extractId} />
   }
   if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} />
@@ -37,5 +39,6 @@ const IndexPage = ({ t, me, isMember, inNativeIOSApp }) => {
 export default compose(
   withMembership,
   withInNativeApp,
-  withT
+  withT,
+  withRouter
 )(IndexPage)

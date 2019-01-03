@@ -3,32 +3,36 @@ import { compose } from 'react-apollo'
 import isEmail from 'validator/lib/isEmail'
 
 import {
-  Button, Field, Label, InlineSpinner, Interaction, A
+  Button, Label, InlineSpinner, Interaction, A, colors
 } from '@project-r/styleguide'
 
 import ErrorMessage from '../../../ErrorMessage'
+import FieldSet from '../../../FieldSet'
 import withT from '../../../../lib/withT'
+import { Link } from '../../../../lib/routes'
 
-const { H3 } = Interaction
+const { H3, P } = Interaction
 
 class Form extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      email: '',
-      error: false,
       isMutating: false,
       hideForm: true,
       mutationError: null,
       isUsed: props.campaign.slots.used > 0,
-      dirty: false
+      showErrors: false,
+      values: {},
+      errors: {},
+      dirty: {}
     }
 
     this.hasMutated = ({ data }) => {
       this.setState({
         isMutating: false,
-        hideForm: true
+        hideForm: true,
+        values: {}
       })
     }
 
@@ -43,36 +47,14 @@ class Form extends Component {
       event.preventDefault()
 
       this.setState({
-        value: '',
         hideForm: false,
-        dirty: false
+        values: {},
+        errors: {},
+        dirty: {}
       })
     }
 
-    this.onChangeEmail = (event, value, shouldValidate) => {
-      event.preventDefault()
-
-      this.setState(() => ({
-        value,
-        error: (
-          value.trim().length <= 0 &&
-          this.props.t('Account/Access/Campaigns/Form/input/email/missing')
-        ) || (
-          !isEmail(value) &&
-          this.props.t('Account/Access/Campaigns/Form/input/email/invalid')
-        ),
-        dirty: shouldValidate
-      }))
-    }
-
-    this.onSubmit = (event) => {
-      event.preventDefault()
-
-      if (this.state.error) {
-        this.setState({ dirty: true })
-        return
-      }
-
+    this.grant = () => {
       this.setState({
         isMutating: true,
         mutationError: false
@@ -80,7 +62,8 @@ class Form extends Component {
 
       return this.props.grantAccess({
         campaignId: this.props.campaign.id,
-        email: this.state.value
+        email: this.state.values.email,
+        message: this.state.values.message
       })
         .then(this.hasMutated)
         .catch(this.catchMutationError)
@@ -91,15 +74,50 @@ class Form extends Component {
     const { campaign, t } = this.props
 
     const {
-      value,
-      error = false,
       isMutating,
       mutationError,
       hideForm,
+      values,
+      errors,
       dirty
     } = this.state
 
     const isUsed = campaign.slots.used > 0
+    const errorMessages = Object.keys(errors)
+      .map(key => errors[key])
+      .filter(Boolean)
+
+    const fields = [
+      {
+        name: 'email',
+        type: 'email',
+        label: t('Account/Access/Campaigns/Form/input/email/label'),
+        error: dirty.email && errors.email,
+        value: values.email,
+        validator: email => (
+          email.trim().length <= 0 &&
+          this.props.t('Account/Access/Campaigns/Form/input/email/missing')
+        ) || (
+          !isEmail(email) &&
+          this.props.t('Account/Access/Campaigns/Form/input/email/invalid')
+        )
+      },
+      {
+        name: 'message',
+        type: 'text',
+        label: t('Account/Access/Campaigns/Form/input/message/label'),
+        error: dirty.message && errors.message,
+        value: values.message,
+        validator: message => (
+          message.trim().length > 255 &&
+          this.props.t(
+            'Account/Access/Campaigns/Form/input/message/tooLong',
+            { maxLength: 255 }
+          )
+        ),
+        autoSize: true
+      }
+    ]
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -126,16 +144,55 @@ class Form extends Component {
                   { count: campaign.slots.used }
                 )}
               </H3>
-              <Field
-                name='email'
-                type='email'
-                label={t('Account/Access/Campaigns/Form/input/email/label')}
-                error={dirty && error}
-                onChange={this.onChangeEmail}
-                value={value} />
+              <P>
+                {t.elements('Account/Access/Campaigns/Form/explanation', {
+                  linkClaim: <Link
+                    route='claim'
+                    params={{ context: 'access' }}
+                    passHref>
+                    <A>{t('Account/Access/Campaigns/Form/explanation/linkClaim')}</A>
+                  </Link>
+                })}
+              </P>
+              <FieldSet
+                values={values}
+                errors={errors}
+                dirty={dirty}
+                onChange={fields => {
+                  this.setState(FieldSet.utils.mergeFields(fields))
+                }}
+                fields={fields} />
+              {!!this.state.showErrors && errorMessages.length > 0 && (
+                <div style={{ color: colors.error, marginBottom: 40 }}>
+                  {t('memberships/claim/error/title')}<br />
+                  <ul>
+                    {errorMessages.map((error, i) => (
+                      <li key={i}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {isMutating
                 ? <InlineSpinner />
-                : <Button primary disabled={!!error || !value} onClick={this.onSubmit}>
+                : <Button
+                  primary
+                  onClick={(event) => {
+                    event.preventDefault()
+
+                    if (errorMessages.length) {
+                      this.setState((state) => ({
+                        showErrors: true,
+                        dirty: {
+                          ...state.dirty,
+                          email: true,
+                          message: true
+                        }
+                      }))
+                      return
+                    }
+
+                    this.grant()
+                  }}>
                   {t('Account/Access/Campaigns/Form/button/submit')}
                 </Button>
               }
@@ -149,10 +206,11 @@ class Form extends Component {
                 </Label>
               }
               {mutationError &&
-                <Fragment>
+                <div>
                   <ErrorMessage error={mutationError} />
                   <Label>{t('Account/Access/Campaigns/Form/mutationError/hint')}</Label>
-                </Fragment>}
+                </div>
+              }
             </Fragment>
           )
         }

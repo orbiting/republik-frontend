@@ -14,6 +14,7 @@ import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
+import { negativeColors } from './constants'
 
 import 'glamor/reset'
 
@@ -80,6 +81,7 @@ const Index = ({
   nav,
   cover,
   inNativeApp,
+  inNativeIOSApp,
   onPrimaryNavExpandedChange,
   primaryNavExpanded,
   secondaryNav,
@@ -87,7 +89,8 @@ const Index = ({
   formatColor,
   audioSource,
   audioCloseHandler,
-  onSearchClick
+  onSearchClick,
+  dark
 }) => (
   <div {...styles.container}>
     <div
@@ -97,8 +100,12 @@ const Index = ({
         : undefined
       )}
     >
+      {dark && <style dangerouslySetInnerHTML={{
+        __html: `html, body { background-color: ${negativeColors.containerBg}; color: ${negativeColors.text}; }`
+      }} />}
       {!!meta && <Meta data={meta} />}
       <Header
+        dark={dark && !inNativeIOSApp}
         me={me}
         cover={cover}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
@@ -118,7 +125,10 @@ const Index = ({
         </Box>
       </noscript>
       {me && me.prolongBeforeDate !== null &&
-        <ProlongBox t={t} prolongBeforeDate={me.prolongBeforeDate} />}
+        <ProlongBox
+          t={t}
+          prolongBeforeDate={me.prolongBeforeDate}
+          dark={dark} />}
       {raw ? (
         children
       ) : (

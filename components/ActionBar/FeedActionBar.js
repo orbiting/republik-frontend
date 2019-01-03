@@ -20,10 +20,17 @@ const styles = {
   })
 }
 
-export const ActionLink = ({ children, path, icon, hasAudio }) => {
+export const ActionLink = ({ children, path, icon, hasAudio, hasGallery }) => {
   if (icon === 'audio' && hasAudio) {
     return (
       <PathLink path={path} query={{ audio: 1 }} passHref>
+        {children}
+      </PathLink>
+    )
+  }
+  if (icon === 'gallery' && hasGallery) {
+    return (
+      <PathLink path={path} query={{ gallery: 1 }} passHref>
         {children}
       </PathLink>
     )
@@ -54,7 +61,8 @@ const ActionBar = ({
     hasGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
-      size: 22
+      size: 22,
+      color: colors.text
     },
     hasAudio && {
       icon: 'audio',
@@ -84,7 +92,7 @@ const ActionBar = ({
         {icons
           .filter(Boolean)
           .map((props, i) => (
-            <ActionLink path={path} hasAudio={hasAudio} {...props}>
+            <ActionLink path={path} hasAudio={hasAudio} hasGallery={hasGallery} {...props}>
               <IconLink
                 key={props.icon}
                 size={20}

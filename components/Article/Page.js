@@ -460,7 +460,7 @@ class ArticlePage extends Component {
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <ArticleGallery article={article}>
+              <ArticleGallery article={article} show={!!router.query.gallery}>
                 <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                   {() => renderMdast({
                     ...article.content,

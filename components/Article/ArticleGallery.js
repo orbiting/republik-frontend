@@ -92,6 +92,13 @@ class ArticleGallery extends Component {
     }
   }
 
+  componentDidMount () {
+    const { galleryItems } = this.state
+    if (galleryItems && !!galleryItems.length && !!this.props.show) {
+      this.toggleGallery(galleryItems[0].src)
+    }
+  }
+
   render () {
     const { children } = this.props
     const { article } = this.props

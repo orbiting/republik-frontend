@@ -295,8 +295,8 @@ class ArticlePage extends Component {
   deriveStateFromProps ({ t, data: { article }, router, inNativeApp, inNativeIOSApp }) {
     const meta = article && {
       ...article.meta,
-      ...runMetaFromQuery(article.content.meta.fromQuery, router.query),
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`,
+      ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
     const linkedDiscussion = meta &&

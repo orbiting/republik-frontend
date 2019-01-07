@@ -55,6 +55,7 @@ class ActionBar extends Component {
       readingMinutes,
       shareOverlayTitle,
       showBookmark,
+      documentId,
       bookmarked,
       inNativeApp
     } = this.props
@@ -141,8 +142,7 @@ class ActionBar extends Component {
           {showBookmark && (
             <Bookmark
               bookmarked={bookmarked}
-              documentId={'foo'}
-              listId={'bar'}
+              documentId={documentId}
               active={false}
               size={28}
               style={{ marginLeft: '-4px', paddingRight: 0 }}

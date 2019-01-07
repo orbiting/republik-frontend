@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import Bookmark from './Bookmark'
+import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
@@ -42,15 +42,14 @@ export const ActionLink = ({ children, path, icon, hasAudio, hasGallery }) => {
 const ActionBar = ({
   t,
   documentId,
-  listId,
   audioSource,
-  bookmarked,
   dossier,
   hasGallery,
   hasVideo,
   readingMinutes,
   linkedDiscussion,
-  path
+  path,
+  userListItems
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -78,13 +77,19 @@ const ActionBar = ({
     }
   ]
 
+  const bookmarked =
+    userListItems &&
+    !!userListItems.length &&
+    !!userListItems.find(
+      item => item.documentList && item.documentList.name === BOOKMARKS_LIST_NAME
+    )
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
         <Bookmark
           bookmarked={bookmarked}
           documentId={documentId}
-          listId={listId}
           active={false}
           small
           style={{ marginLeft: '-4px' }}
@@ -92,9 +97,8 @@ const ActionBar = ({
         {icons
           .filter(Boolean)
           .map((props, i) => (
-            <ActionLink path={path} hasAudio={hasAudio} hasGallery={hasGallery} {...props}>
+            <ActionLink key={props.icon} path={path} hasAudio={hasAudio} hasGallery={hasGallery} {...props}>
               <IconLink
-                key={props.icon}
                 size={20}
                 fill={props.color || colors.lightText}
                 {...props}
@@ -120,9 +124,7 @@ const ActionBar = ({
 
 ActionBar.propTypes = {
   documentId: PropTypes.string.isRequired,
-  listId: PropTypes.string.isRequired,
   audioSource: PropTypes.object,
-  bookmarked: PropTypes.bool,
   dossier: PropTypes.object,
   hasAudio: PropTypes.bool,
   hasGallery: PropTypes.bool,
@@ -133,8 +135,6 @@ ActionBar.propTypes = {
 
 // TODO: remove and wire up with API.
 ActionBar.defaultProps = {
-  documentId: 'foo',
-  listId: 'bar',
   dossier: {},
   hasGallery: true,
   hasVideo: true,

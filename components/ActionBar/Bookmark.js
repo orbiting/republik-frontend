@@ -106,7 +106,6 @@ const removeMutation = gql`
 `
 
 export default compose(
-  withT,
   graphql(addMutation, {
     props: ({ mutate }) => ({
       addDocumentToList: (documentId, listName) =>
@@ -128,5 +127,6 @@ export default compose(
           }
         })
     })
-  })
+  }),
+  withT
 )(Bookmark)

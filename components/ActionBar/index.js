@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import Bookmark from './Bookmark'
+import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
@@ -56,7 +56,7 @@ class ActionBar extends Component {
       shareOverlayTitle,
       showBookmark,
       documentId,
-      bookmarked,
+      userListItems,
       inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
@@ -126,6 +126,13 @@ class ActionBar extends Component {
       }
     ]
 
+    const bookmarked =
+      userListItems &&
+      !!userListItems.length &&
+      !!userListItems.find(
+        item => item.documentList && item.documentList.name === BOOKMARKS_LIST_NAME
+      )
+
     return (
       <Fragment>
         {showShareOverlay && (
@@ -172,8 +179,7 @@ ActionBar.propTypes = {
   pdfUrl: PropTypes.string,
   readingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
-  showBookmark: PropTypes.bool,
-  bookmarked: PropTypes.bool
+  showBookmark: PropTypes.bool
 }
 
 ActionBar.defaultProps = {

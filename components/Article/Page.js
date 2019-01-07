@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, onAudioClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -86,6 +86,9 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       })}
       onAudioClick={onAudioClick}
       inNativeApp={inNativeApp}
+      showBookmark={showBookmark}
+      documentId={documentId}
+      userListItems={userListItems}
       readingMinutes={14} // TODO: replace with API data.
     />
     {discussionId && process.browser &&
@@ -103,6 +106,13 @@ const getDocument = gql`
     article: document(path: $path) {
       id
       content
+      userListItems {
+        createdAt
+        documentList {
+          id
+          name
+        }
+      }
       meta {
         template
         path
@@ -278,7 +288,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, isMember }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`
@@ -310,7 +320,9 @@ class ArticlePage extends Component {
           ? getPdfUrl(meta)
           : undefined}
         inNativeApp={inNativeApp}
-        showBookmark
+        documentId={article.id}
+        userListItems={article.userListItems}
+        showBookmark={isMember}
         readingMinutes={14} // TODO: replace with API data.
       />
     )

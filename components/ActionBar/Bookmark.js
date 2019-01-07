@@ -33,7 +33,7 @@ class Bookmark extends Component {
         documentId
       } = this.props
       const mutate = bookmarked ? removeDocumentFromList : addDocumentToList
-      mutate(documentId, BOOKMARKS_LIST_NAME)
+      mutate(documentId)
         .then(this.finish)
         .catch(this.catchServerError)
     }
@@ -108,22 +108,22 @@ const removeMutation = gql`
 export default compose(
   graphql(addMutation, {
     props: ({ mutate }) => ({
-      addDocumentToList: (documentId, listName) =>
+      addDocumentToList: (documentId) =>
         mutate({
           variables: {
             documentId,
-            listName
+            listName: BOOKMARKS_LIST_NAME
           }
         })
     })
   }),
   graphql(removeMutation, {
     props: ({ mutate }) => ({
-      removeDocumentFromList: (documentId, listName) =>
+      removeDocumentFromList: (documentId) =>
         mutate({
           variables: {
             documentId,
-            listName
+            listName: BOOKMARKS_LIST_NAME
           }
         })
     })

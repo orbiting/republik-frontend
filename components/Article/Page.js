@@ -177,6 +177,21 @@ const getDocument = gql`
   }
 `
 
+const runMetaFromQuery = (code, query) => {
+  if (!code) {
+    return undefined
+  }
+  let fn
+  try {
+    /* eslint-disable-next-line */
+    fn = new Function('query', code)
+    return fn(query)
+  } catch (e) {
+    typeof console !== 'undefined' && console.warn && console.warn('meta.fromQuery exploded', e)
+  }
+  return undefined
+}
+
 class ArticlePage extends Component {
   constructor (props) {
     super(props)
@@ -288,10 +303,11 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, isMember }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }) {
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`,
+      ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
     const linkedDiscussion = meta &&

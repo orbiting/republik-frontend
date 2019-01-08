@@ -151,6 +151,13 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 closeHandler={closeHandler}
               />
               <br />
+              <NavLink
+                route='bookmarks'
+                translation={t('nav/bookmarks')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
               {me.accessCampaigns.length > 0 &&
                 <Fragment>
                   <a

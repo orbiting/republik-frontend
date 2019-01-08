@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-28T12:47:14.342Z",
+  "updated": "2019-01-08T15:18:21.326Z",
   "title": "live",
   "data": [
     {
@@ -45,6 +45,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/bookmarks",
+      "value": "Lesezeichen"
     },
     {
       "key": "navbar/front",

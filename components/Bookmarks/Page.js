@@ -5,7 +5,7 @@ import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import withT from '../../lib/withT'
 import gql from 'graphql-tag'
-import DocumentListContainer, { documentQueryFragment } from '../Feed/DocumentListContainer'
+import DocumentListContainer, { documentListQueryFragment } from '../Feed/DocumentListContainer'
 
 import {
   mediaQueries,
@@ -30,30 +30,32 @@ const query = gql`
   query getDocuments($cursor: String) {
     me {
       id
-      documents(feed: true, first: 50, after: $cursor) {
-        ...FeedDocumentConnection
+      documentList(name: "bookmarks") {
+        documents: userDocuments( first: 50, after: $cursor) {
+          ...DocumentListConnection
+        }
       }
     }
   }
-  ${documentQueryFragment}
+  ${documentListQueryFragment}
 `
 
-const processData = data => data.me
+const getDocuments = data => data.me.documentList
 
 class Page extends Component {
   render () {
     const { t } = this.props
     const meta = {
-      title: t('readinglist/title')
+      title: t('nav/bookmarks')
     }
 
     return (
       <Frame meta={meta} raw>
         <Center>
-          <div {...styles.title}>Merkliste</div>
+          <div {...styles.title}>{t('nav/bookmarks')}</div>
           <DocumentListContainer
             query={query}
-            processData={processData}
+            getDocuments={getDocuments}
           />
         </Center>
       </Frame>

@@ -12,7 +12,7 @@ import {
   Center,
   Interaction
 } from '@project-r/styleguide'
-import DocumentListContainer, { documentQueryFragment } from './DocumentListContainer'
+import DocumentListContainer, { documentListQueryFragment } from './DocumentListContainer'
 
 const styles = {
   container: css({
@@ -28,16 +28,24 @@ const styles = {
   })
 }
 
-const getDocuments = gql`
+const documentsQuery = gql`
   query getDocuments($cursor: String) {
     documents(feed: true, first: 50, after: $cursor) {
-      ...FeedDocumentConnection
+      ...DocumentListConnection
     }
   }
-  ${documentQueryFragment}
+  ${documentListQueryFragment}
 `
 
-const getGreeting = gql`
+const getDocuments = data => ({
+  documents: {
+    ...data.documents,
+    nodes: data.documents.nodes
+      .filter(node => node.meta.template !== 'format' && node.meta.template !== 'front')
+  }
+})
+
+const greetingQuery = gql`
   {
     greeting {
       text
@@ -110,14 +118,8 @@ class Feed extends Component {
                     </Interaction.H1>
                   )}
                   <DocumentListContainer
-                    query={getDocuments}
-                    processData={data => ({
-                      documents: {
-                        ...data.documents,
-                        nodes: data.documents.nodes
-                          .filter(node => node.meta.template !== 'format' && node.meta.template !== 'front')
-                      }
-                    })}
+                    query={documentsQuery}
+                    getDocuments={getDocuments}
                   />
                 </>
               )
@@ -130,7 +132,7 @@ class Feed extends Component {
 }
 
 export default compose(
-  graphql(getGreeting),
+  graphql(greetingQuery),
   withT,
   withInNativeApp
 )(Feed)

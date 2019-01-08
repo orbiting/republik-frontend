@@ -49,7 +49,11 @@ class Feed extends Component {
                     }
                     Link={Link}
                     key={doc.meta.path}
-                    bar={<ActionBar {...doc.meta} meta={doc.meta} />}
+                    bar={<ActionBar
+                      documentId={doc.id}
+                      userListItems={doc.userListItems}
+                      {...doc.meta}
+                      meta={doc.meta} />}
                   />
                 )
               }

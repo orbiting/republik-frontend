@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import Bookmark from './Bookmark'
+import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
+import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
 import withT from '../../lib/withT'
 
@@ -19,18 +20,38 @@ const styles = {
   })
 }
 
+export const ActionLink = ({ children, path, icon, hasAudio, hasGallery }) => {
+  if (icon === 'audio' && hasAudio) {
+    return (
+      <PathLink path={path} query={{ audio: 1 }} passHref>
+        {children}
+      </PathLink>
+    )
+  }
+  if (icon === 'gallery' && hasGallery) {
+    return (
+      <PathLink path={path} query={{ gallery: 1 }} passHref>
+        {children}
+      </PathLink>
+    )
+  }
+
+  return children
+}
+
 const ActionBar = ({
   t,
   documentId,
-  listId,
-  bookmarked,
+  audioSource,
   dossier,
-  hasAudio,
   hasGallery,
   hasVideo,
   readingMinutes,
-  linkedDiscussion
+  linkedDiscussion,
+  path,
+  userListItems
 }) => {
+  const hasAudio = !!audioSource
   const icons = [
     dossier && {
       icon: 'dossier',
@@ -39,12 +60,14 @@ const ActionBar = ({
     hasGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
-      size: 22
+      size: 22,
+      color: colors.text
     },
     hasAudio && {
       icon: 'audio',
       title: t('feed/actionbar/audio'),
-      size: 22
+      size: 22,
+      color: colors.text
     },
     hasVideo && {
       icon: 'video',
@@ -54,13 +77,19 @@ const ActionBar = ({
     }
   ]
 
+  const bookmarked =
+    userListItems &&
+    !!userListItems.length &&
+    !!userListItems.find(
+      item => item.documentList && item.documentList.name === BOOKMARKS_LIST_NAME
+    )
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
         <Bookmark
           bookmarked={bookmarked}
           documentId={documentId}
-          listId={listId}
           active={false}
           small
           style={{ marginLeft: '-4px' }}
@@ -68,12 +97,13 @@ const ActionBar = ({
         {icons
           .filter(Boolean)
           .map((props, i) => (
-            <IconLink
-              key={props.icon}
-              size={20}
-              fill={colors.lightText}
-              {...props}
-            />
+            <ActionLink key={props.icon} path={path} hasAudio={hasAudio} hasGallery={hasGallery} {...props}>
+              <IconLink
+                size={20}
+                fill={props.color || colors.lightText}
+                {...props}
+              />
+            </ActionLink>
           ))}
         {readingMinutes && (
           <ReadingTime minutes={readingMinutes} small />
@@ -94,8 +124,7 @@ const ActionBar = ({
 
 ActionBar.propTypes = {
   documentId: PropTypes.string.isRequired,
-  listId: PropTypes.string.isRequired,
-  bookmarked: PropTypes.bool,
+  audioSource: PropTypes.object,
   dossier: PropTypes.object,
   hasAudio: PropTypes.bool,
   hasGallery: PropTypes.bool,
@@ -106,10 +135,7 @@ ActionBar.propTypes = {
 
 // TODO: remove and wire up with API.
 ActionBar.defaultProps = {
-  documentId: 'foo',
-  listId: 'bar',
   dossier: {},
-  hasAudio: true,
   hasGallery: true,
   hasVideo: true,
   readingMinutes: 7

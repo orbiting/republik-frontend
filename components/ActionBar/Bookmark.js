@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
 import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
 import IconBookmarked from 'react-icons/lib/md/bookmark'
 import { colors } from '@project-r/styleguide'
+
+export const BOOKMARKS_LIST_NAME = 'bookmarks'
 
 class Bookmark extends Component {
   constructor (props) {
@@ -27,11 +30,10 @@ class Bookmark extends Component {
       const {
         addDocumentToList,
         removeDocumentFromList,
-        documentId,
-        listId
+        documentId
       } = this.props
-      const mutate = bookmarked ? addDocumentToList : removeDocumentFromList
-      mutate(documentId, listId)
+      const mutate = bookmarked ? removeDocumentFromList : addDocumentToList
+      mutate(documentId)
         .then(this.finish)
         .catch(this.catchServerError)
     }
@@ -74,27 +76,57 @@ Bookmark.propTypes = {
   bookmarked: PropTypes.bool,
   small: PropTypes.bool,
   style: PropTypes.object,
-  documentId: PropTypes.string.isRequired, // TODO: finalize API, use repoId?
-  listId: PropTypes.string.isRequired, // TODO: finalize API.
+  documentId: PropTypes.string.isRequired,
   addDocumentToList: PropTypes.func,
   removeDocumentFromList: PropTypes.func
 }
 
-const mockedPromise = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve()
-    }, 300)
-  })
+const addMutation = gql`
+  mutation addDocumentToList(
+    $documentId: ID!
+    $listName: ID!
+  ) {
+    addDocumentToList(documentId: $documentId, listName: $listName) {
+      id
+      name
+    }
+  }
+`
 
-// TODO: remove and wire up with graphql enhancer.
-Bookmark.defaultProps = {
-  documentId: 'foo',
-  listId: 'bar',
-  addDocumentToList: mockedPromise,
-  removeDocumentFromList: mockedPromise
-}
+const removeMutation = gql`
+  mutation removeDocumentFromList(
+    $documentId: ID!
+    $listName: ID!
+  ) {
+    removeDocumentFromList(documentId: $documentId, listName: $listName) {
+      id
+      name
+    }
+  }
+`
 
 export default compose(
+  graphql(addMutation, {
+    props: ({ mutate }) => ({
+      addDocumentToList: (documentId) =>
+        mutate({
+          variables: {
+            documentId,
+            listName: BOOKMARKS_LIST_NAME
+          }
+        })
+    })
+  }),
+  graphql(removeMutation, {
+    props: ({ mutate }) => ({
+      removeDocumentFromList: (documentId) =>
+        mutate({
+          variables: {
+            documentId,
+            listName: BOOKMARKS_LIST_NAME
+          }
+        })
+    })
+  }),
   withT
 )(Bookmark)

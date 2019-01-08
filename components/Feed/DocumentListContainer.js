@@ -13,6 +13,13 @@ export const documentQueryFragment = `
     }
     nodes {
       id
+      userListItems {
+        createdAt
+        documentList {
+          id
+          name
+        }
+      }
       meta {
         credits
         title

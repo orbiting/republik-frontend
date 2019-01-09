@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-09T15:19:32.888Z",
+  "updated": "2019-01-09T16:31:01.306Z",
   "title": "live",
   "data": [
     {
@@ -2641,6 +2641,14 @@
     {
       "key": "feed/actionbar/video",
       "value": "Video"
+    },
+    {
+      "key": "feed/actionbar/readingTime/1",
+      "value": "Lesezeit ungefähr {minutes} Minute"
+    },
+    {
+      "key": "feed/actionbar/readingTime/other",
+      "value": "Lesezeit ungefähr {minutes} Minuten"
     },
     {
       "key": "format/feed/title/1",

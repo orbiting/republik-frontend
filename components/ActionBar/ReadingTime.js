@@ -15,16 +15,24 @@ const styles = {
   })
 }
 
-const ReadingTime = ({ minutes, fill, small, isEditor }) => {
+const ReadingTime = ({ t, minutes, fill, small, isEditor }) => {
   const size = small ? 20 : 22
   const fontSize = small ? '15px' : undefined
   const lineHeight = small ? '20px' : undefined
 
   return (
-    <IconLink icon='time' fill={fill} size={size} style={{
-      color: fill || undefined,
-      marginLeft: 5
-    }}>
+    <IconLink
+      icon='time'
+      fill={fill}
+      size={size}
+      title={t.pluralize(
+        'feed/actionbar/readingTime',
+        { minutes }
+      )}
+      style={{
+        color: fill || undefined,
+        marginLeft: 5
+      }}>
       <span {...styles.text} style={{ fontSize, lineHeight }}>
         {minutes}{'\''}
       </span>

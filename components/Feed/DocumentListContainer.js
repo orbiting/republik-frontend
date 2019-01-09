@@ -29,6 +29,9 @@ export const documentListQueryFragment = `
         kind
         template
         color
+        estimatedReadingMinutes
+        indicateGallery
+        indicateVideo
         audioSource {
           mp3
         }

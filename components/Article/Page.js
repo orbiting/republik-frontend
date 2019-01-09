@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, onAudioClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -86,10 +86,11 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       })}
       onAudioClick={onAudioClick}
       inNativeApp={inNativeApp}
+      onGalleryClick={onGalleryClick}
       showBookmark={showBookmark}
       documentId={documentId}
       userListItems={userListItems}
-      readingMinutes={14} // TODO: replace with API data.
+      estimatedReadingMinutes={estimatedReadingMinutes}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink
@@ -172,6 +173,9 @@ const getDocument = gql`
           aac
           ogg
         }
+        estimatedReadingMinutes
+        indicateGallery
+        indicateVideo
       }
     }
   }
@@ -204,6 +208,8 @@ class ArticlePage extends Component {
       this.bottomBar = ref
     }
 
+    this.galleryRef = React.createRef()
+
     this.toggleAudio = () => {
       if (this.props.inNativeApp) {
         const { audioSource, title, path } = this.props.data.article.meta
@@ -222,6 +228,12 @@ class ArticlePage extends Component {
         this.setState({
           showAudioPlayer: !this.state.showAudioPlayer
         })
+      }
+    }
+
+    this.showGallery = () => {
+      if (this.galleryRef) {
+        this.galleryRef.current.show()
       }
     }
 
@@ -328,6 +340,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
+        onGalleryClick={meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -339,7 +352,7 @@ class ArticlePage extends Component {
         documentId={article.id}
         userListItems={article.userListItems}
         showBookmark={isMember}
-        readingMinutes={14} // TODO: replace with API data.
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
 
@@ -487,7 +500,7 @@ class ArticlePage extends Component {
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <ArticleGallery article={article} show={!!router.query.gallery}>
+              <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                   {() => renderMdast({
                     ...article.content,

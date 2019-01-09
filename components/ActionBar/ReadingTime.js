@@ -15,10 +15,11 @@ const styles = {
   })
 }
 
-const ReadingTime = ({ minutes, fill, small }) => {
+const ReadingTime = ({ minutes, fill, small, isEditor }) => {
   const size = small ? 20 : 22
   const fontSize = small ? '15px' : undefined
   const lineHeight = small ? '20px' : undefined
+
   return (
     <IconLink icon='time' fill={fill} size={size} style={{
       color: fill || undefined,

@@ -7,6 +7,7 @@ import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
@@ -50,14 +51,16 @@ class ActionBar extends Component {
       dossierUrl,
       fill,
       onAudioClick,
+      onGalleryClick,
       onPdfClick,
       pdfUrl,
-      readingMinutes,
+      estimatedReadingMinutes,
       shareOverlayTitle,
       showBookmark,
       documentId,
       userListItems,
-      inNativeApp
+      inNativeApp,
+      isEditor
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -123,6 +126,16 @@ class ActionBar extends Component {
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio')
+      },
+      isEditor && onGalleryClick && {
+        icon: 'gallery',
+        href: '#gallery',
+        onClick: e => {
+          e.preventDefault()
+          onGalleryClick && onGalleryClick()
+        },
+        title: t('feed/actionbar/gallery'),
+        size: 22
       }
     ]
 
@@ -146,7 +159,7 @@ class ActionBar extends Component {
             emailAttachUrl={emailAttachUrl} />
         )}
         <span {...styles.buttonGroup}>
-          {showBookmark && (
+          {isEditor && showBookmark && (
             <Bookmark
               bookmarked={bookmarked}
               documentId={documentId}
@@ -158,8 +171,8 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {readingMinutes && (
-            <ReadingTime minutes={readingMinutes} />
+          {isEditor && estimatedReadingMinutes && (
+            <ReadingTime minutes={estimatedReadingMinutes} />
           )}
         </span>
       </Fragment>
@@ -175,9 +188,10 @@ ActionBar.propTypes = {
   emailAttachUrl: PropTypes.bool.isRequired,
   fill: PropTypes.string,
   onAudioClick: PropTypes.func,
+  onGalleryClick: PropTypes.func,
   onPdfClick: PropTypes.func,
   pdfUrl: PropTypes.string,
-  readingMinutes: PropTypes.number,
+  estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool
 }
@@ -190,5 +204,6 @@ ActionBar.defaultProps = {
 }
 
 export default compose(
+  withEditor,
   withT
 )(ActionBar)

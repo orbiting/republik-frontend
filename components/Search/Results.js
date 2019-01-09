@@ -289,9 +289,7 @@ class Results extends Component {
                 <div {...styles.empty}>
                   <RawHtml
                     dangerouslySetInnerHTML={{
-                      __html: t('search/results/empty',
-                        { term: filterQuery }
-                      )
+                      __html: t('search/results/empty')
                     }}
                   />
                 </div>

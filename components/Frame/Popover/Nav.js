@@ -151,6 +151,13 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 closeHandler={closeHandler}
               />
               <br />
+              <NavLink
+                route='bookmarks'
+                translation={t('nav/bookmarks')}
+                active={active}
+                closeHandler={closeHandler}
+              />
+              <br />
               {me.accessCampaigns.length > 0 &&
                 <Fragment>
                   <a
@@ -200,8 +207,8 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           {isMember && (
             <Fragment>
               <NavLink
-                route='discussion'
-                translation={t('nav/discussion')}
+                route='formats'
+                translation={t('nav/formats')}
                 active={active}
                 closeHandler={closeHandler}
               />

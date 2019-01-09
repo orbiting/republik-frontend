@@ -4,8 +4,8 @@ import { Query } from 'react-apollo'
 import Loader from '../Loader'
 import DocumentList from './DocumentList'
 
-export const documentQueryFragment = `
-  fragment FeedDocumentConnection on DocumentConnection {
+export const documentListQueryFragment = `
+  fragment DocumentListConnection on DocumentConnection {
     totalCount
     pageInfo {
       endCursor
@@ -78,12 +78,12 @@ const makeLoadMore = (fetchMore, data) => () =>
 
 class DocumentListContainer extends Component {
   render () {
-    const { query, processData } = this.props
+    const { query, getDocuments } = this.props
 
     return (
       <Query query={query}>
         {({ loading, error, data, fetchMore }) => {
-          const hasMore = data.documents && data.documents.pageInfo.hasNextPage
+          const hasMore = data && data.documents && data.documents.pageInfo.hasNextPage
 
           return (
             <Loader
@@ -93,7 +93,7 @@ class DocumentListContainer extends Component {
                 return (
                   <>
                     <DocumentList
-                      data={processData(data)}
+                      data={getDocuments(data)}
                       hasMore={hasMore}
                       loadMore={makeLoadMore(fetchMore, data)}
                     />
@@ -109,12 +109,12 @@ class DocumentListContainer extends Component {
 }
 
 DocumentListContainer.defaultProps = {
-  processData: e => e
+  getDocuments: e => e
 }
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
-  processData: PropTypes.func
+  getDocuments: PropTypes.func
 }
 
 export default DocumentListContainer

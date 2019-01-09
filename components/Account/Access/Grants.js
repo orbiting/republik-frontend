@@ -15,18 +15,23 @@ const { P } = Interaction
 const dayFormat = timeFormat('%e. %B %Y')
 
 const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
+  const maxEndAt =
+    accessGrants.length > 0 &&
+    accessGrants.reduce(
+      (acc, grant) => new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
+      new Date()
+    )
+
   return accessGrants.length > 0 && (
     <Box>
       <MainContainer>
-        <P>{t('Account/Access/Grants/explanation')}</P>
-        {accessGrants.map((grant, i) => (
-          <P key={`grant-${grant.id}`}>
-            {t('Account/Access/Grants/grant', {
-              grantee: grant.granteeName,
-              endAt: dayFormat(new Date(grant.endAt))
-            })}
-          </P>
-        ))}
+        <P>{
+          t.elements('Account/Access/Grants/message/claimed', {
+            maxEndAt: <span>
+              {dayFormat(new Date(maxEndAt))}
+            </span>
+          })
+        }</P>
         {!inNativeIOSApp &&
           <P>
             <Link route='pledge' key='pledge' passHref>

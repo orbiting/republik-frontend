@@ -2,8 +2,13 @@ import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
-import { Router } from '../../lib/routes'
-import { WithMembership } from '../Auth/withMembership'
+import { Link, Router } from '../../lib/routes'
+import {
+  UnauthorizedMessage,
+  WithMembership,
+  WithoutMembership
+} from '../Auth/withMembership'
+import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import {
@@ -25,6 +30,7 @@ import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
 
 import {
+  A,
   Button,
   Center,
   Interaction,
@@ -54,7 +60,9 @@ const styles = {
     position: 'relative',
     '& > button': {
       flexGrow: 1,
-      width: '50%'
+      [mediaQueries.mUp]: {
+        width: '50%'
+      }
     }
   }),
   articleHeadline: css({
@@ -181,7 +189,7 @@ class FeedbackPage extends Component {
   }
 
   render () {
-    const { t, router: { asPath, query } } = this.props
+    const { t, me, router: { asPath, query } } = this.props
     const {
       searchValue
     } = this.state
@@ -203,11 +211,24 @@ class FeedbackPage extends Component {
       <Frame raw meta={activeDiscussionId && query.focus ? undefined : pageMeta}>
         <Center {...styles.container}>
           <div {...styles.intro}>
-            <Interaction.P>
-              <WithMembership render={() => (
-                <Fragment>{t('feedback/lead')}</Fragment>
-              )} />
-            </Interaction.P>
+            <WithMembership render={() => (
+              <Interaction.P>
+                {t('feedback/lead')}
+              </Interaction.P>
+            )} />
+            <WithoutMembership render={() => (
+              <UnauthorizedMessage {...{ me,
+                unauthorizedTexts: {
+                  title: t('feedback/unauthorized/title'),
+                  description: t.elements('feedback/unauthorized', {
+                    buyLink: (
+                      <Link key='pledge' route='pledge'>
+                        <A>{t('feedback/unauthorized/buyText')}</A>
+                      </Link>
+                    )
+                  })
+                } }} />
+            )} />
           </div>
           <WithMembership render={() => (
             <Fragment>
@@ -295,6 +316,7 @@ class FeedbackPage extends Component {
 }
 
 export default compose(
+  withMe,
   withT,
   withRouter
 )(FeedbackPage)

@@ -178,6 +178,21 @@ const getDocument = gql`
   }
 `
 
+const runMetaFromQuery = (code, query) => {
+  if (!code) {
+    return undefined
+  }
+  let fn
+  try {
+    /* eslint-disable-next-line */
+    fn = new Function('query', code)
+    return fn(query)
+  } catch (e) {
+    typeof console !== 'undefined' && console.warn && console.warn('meta.fromQuery exploded', e)
+  }
+  return undefined
+}
+
 class ArticlePage extends Component {
   constructor (props) {
     super(props)
@@ -297,10 +312,11 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, isMember }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }) {
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`,
+      ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
     const linkedDiscussion = meta &&
@@ -468,7 +484,7 @@ class ArticlePage extends Component {
             ? 'series'
             : this.props.payNoteVariation
 
-          const ownDiscussionId = meta.ownDiscussion && meta.ownDiscussion.id
+          const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           return (
@@ -495,14 +511,16 @@ class ArticlePage extends Component {
                   variation={payNoteVariation}
                   bottomBarRef={this.bottomBarRef} />
               )}
-              {meta.template === 'article' && ownDiscussionId && !linkedDiscussion && <Center>
-                <AutoDiscussionTeaser
-                  discussionId={ownDiscussionId}
-                />
-              </Center>}
-              {meta.template === 'discussion' && ownDiscussionId && <Center>
+              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
+                <Center>
+                  <AutoDiscussionTeaser
+                    discussionId={ownDiscussion.id}
+                  />
+                </Center>
+              )}
+              {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
-                  discussionId={ownDiscussionId}
+                  discussionId={ownDiscussion.id}
                   focusId={router.query.focus}
                   mute={!!router.query.mute}
                   meta={meta} />

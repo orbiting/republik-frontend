@@ -546,11 +546,9 @@ class CustomizePackage extends Component {
                       const option = field.option
                       const fieldKey = field.key
                       const elementKey = [option.id, fieldKey].join('-')
-                      const value = (
-                        values[fieldKey] === undefined
-                          ? field.default
-                          : values[fieldKey]
-                      ) || ''
+                      const value = values[fieldKey] === undefined
+                        ? field.default
+                        : values[fieldKey]
                       const label = t.first([
                         ...(isAboGive ? [
                           `option/${pkg.name}/${option.reward.name}/label/give`,
@@ -672,7 +670,7 @@ class CustomizePackage extends Component {
                               ref={i === 0 && !group ? this.focusRefSetter : undefined}
                               label={label}
                               error={dirty[fieldKey] && errors[fieldKey]}
-                              value={value}
+                              value={value || ''}
                               onInc={value < field.max && (() => {
                                 onFieldChange(undefined, value + 1, dirty[fieldKey])
                               })}
@@ -786,7 +784,7 @@ class CustomizePackage extends Component {
               ref={(configurableFields.length || userPrice)
                 ? undefined : this.focusRefSetter}
               error={dirty.price && errors.price}
-              value={price / 100}
+              value={price ? price / 100 : ''}
               onDec={price - 1000 >= minPrice && (() => {
                 onPriceChange(undefined, (price - 1000) / 100, dirty.price)
               })}

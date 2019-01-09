@@ -92,8 +92,14 @@ class DiscussionCommentComposer extends PureComponent {
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
-          if (!me || discussionClosed || disableTopLevelComments) {
+          if (!me || disableTopLevelComments) {
             return null
+          } else if (discussionClosed) {
+            return (
+              <Box style={{ padding: '15px 20px' }}>
+                {t('discussion/closed')}
+              </Box>
+            )
           } else {
             if (!discussionUserCanComment) {
               return (

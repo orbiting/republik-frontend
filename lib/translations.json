@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-09T16:59:45.360Z",
+  "updated": "2019-01-09T22:14:55.265Z",
   "title": "live",
   "data": [
     {
@@ -112,7 +112,7 @@
     },
     {
       "key": "pages/bookmarks/placeholder",
-      "value": "Sie habe kein Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf das Lesezeichen {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/search/title",

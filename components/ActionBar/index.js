@@ -171,7 +171,7 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {isEditor && estimatedReadingMinutes && (
+          {isEditor && estimatedReadingMinutes > 1 && (
             <ReadingTime minutes={estimatedReadingMinutes} />
           )}
         </span>

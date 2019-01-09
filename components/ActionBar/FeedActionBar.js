@@ -21,7 +21,7 @@ const styles = {
   })
 }
 
-export const ActionLink = ({ children, path, icon, hasAudio, hasGallery }) => {
+export const ActionLink = ({ children, path, icon, hasAudio, indicateGallery }) => {
   if (icon === 'audio' && hasAudio) {
     return (
       <PathLink path={path} query={{ audio: 1 }} passHref>
@@ -29,7 +29,7 @@ export const ActionLink = ({ children, path, icon, hasAudio, hasGallery }) => {
       </PathLink>
     )
   }
-  if (icon === 'gallery' && hasGallery) {
+  if (icon === 'gallery' && indicateGallery) {
     return (
       <PathLink path={path} query={{ gallery: 1 }} passHref>
         {children}
@@ -45,9 +45,9 @@ const ActionBar = ({
   documentId,
   audioSource,
   dossier,
-  hasGallery,
-  hasVideo,
-  readingMinutes,
+  indicateGallery,
+  indicateVideo,
+  estimatedReadingMinutes,
   linkedDiscussion,
   path,
   userListItems,
@@ -64,7 +64,7 @@ const ActionBar = ({
       icon: 'dossier',
       title: t('feed/actionbar/dossier')
     },
-    hasGallery && {
+    indicateGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
       size: 22,
@@ -76,7 +76,7 @@ const ActionBar = ({
       size: 22,
       color: colors.text
     },
-    hasVideo && {
+    indicateVideo && {
       icon: 'video',
       title: t('feed/actionbar/video'),
       size: 17,
@@ -104,7 +104,7 @@ const ActionBar = ({
         {icons
           .filter(Boolean)
           .map((props, i) => (
-            <ActionLink key={props.icon} path={path} hasAudio={hasAudio} hasGallery={hasGallery} {...props}>
+            <ActionLink key={props.icon} path={path} hasAudio={hasAudio} indicateGallery={indicateGallery} {...props}>
               <IconLink
                 size={20}
                 fill={props.color || colors.lightText}
@@ -112,8 +112,8 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {readingMinutes && (
-          <ReadingTime minutes={readingMinutes} small />
+        {estimatedReadingMinutes > 1 && (
+          <ReadingTime minutes={estimatedReadingMinutes} small />
         )}
         {linkedDiscussion &&
         !linkedDiscussion.closed &&
@@ -134,18 +134,15 @@ ActionBar.propTypes = {
   audioSource: PropTypes.object,
   dossier: PropTypes.object,
   hasAudio: PropTypes.bool,
-  hasGallery: PropTypes.bool,
-  hasVideo: PropTypes.bool,
-  readingMinutes: PropTypes.number,
+  indicateGallery: PropTypes.bool,
+  indicateVideo: PropTypes.bool,
+  estimatedReadingMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object
 }
 
 // TODO: remove and wire up with API.
 ActionBar.defaultProps = {
-  dossier: {},
-  hasGallery: true,
-  hasVideo: true,
-  readingMinutes: 7
+  dossier: {}
 }
 
 export default compose(

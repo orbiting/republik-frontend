@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -90,7 +90,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       showBookmark={showBookmark}
       documentId={documentId}
       userListItems={userListItems}
-      readingMinutes={14} // TODO: replace with API data.
+      estimatedReadingMinutes={estimatedReadingMinutes}
     />
     {discussionId && process.browser &&
       <DiscussionIconLink
@@ -173,6 +173,9 @@ const getDocument = gql`
           aac
           ogg
         }
+        estimatedReadingMinutes
+        indicateGallery
+        indicateVideo
       }
     }
   }
@@ -326,7 +329,6 @@ class ArticlePage extends Component {
     const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
 
     const hasPdf = meta && meta.template === 'article'
-    const hasGallery = true // TODO once backend is ready: meta && meta.hasGallery
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -338,7 +340,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={hasGallery && this.showGallery}
+        onGalleryClick={meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -350,7 +352,7 @@ class ArticlePage extends Component {
         documentId={article.id}
         userListItems={article.userListItems}
         showBookmark={isMember}
-        readingMinutes={14} // TODO: replace with API data.
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
 

@@ -54,7 +54,7 @@ class ActionBar extends Component {
       onGalleryClick,
       onPdfClick,
       pdfUrl,
-      readingMinutes,
+      estimatedReadingMinutes,
       shareOverlayTitle,
       showBookmark,
       documentId,
@@ -171,8 +171,8 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {isEditor && readingMinutes && (
-            <ReadingTime minutes={readingMinutes} />
+          {isEditor && estimatedReadingMinutes && (
+            <ReadingTime minutes={estimatedReadingMinutes} />
           )}
         </span>
       </Fragment>
@@ -191,7 +191,7 @@ ActionBar.propTypes = {
   onGalleryClick: PropTypes.func,
   onPdfClick: PropTypes.func,
   pdfUrl: PropTypes.string,
-  readingMinutes: PropTypes.number,
+  estimatedReadingMinutes: PropTypes.number,
   shareOverlayTitle: PropTypes.string,
   showBookmark: PropTypes.bool
 }

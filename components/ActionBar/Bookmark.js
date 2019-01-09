@@ -90,7 +90,7 @@ const addMutation = gql`
       id
 #      userListItems {
 #        id
-#        documentList {
+#        list {
 #          id
 #          name
 #        }
@@ -108,7 +108,7 @@ const removeMutation = gql`
       id
       userListItems {
         id
-        documentList {
+        list {
           id
           name
         }

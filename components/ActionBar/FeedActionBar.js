@@ -88,7 +88,7 @@ const ActionBar = ({
     userListItems &&
     !!userListItems.length &&
     !!userListItems.find(
-      item => item.documentList && item.documentList.name === BOOKMARKS_LIST_NAME
+      item => item.list && item.list.name === BOOKMARKS_LIST_NAME
     )
 
   return (

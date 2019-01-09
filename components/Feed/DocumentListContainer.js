@@ -15,7 +15,7 @@ export const documentListQueryFragment = `
       id
       userListItems {
         createdAt
-        documentList {
+        list {
           id
           name
         }

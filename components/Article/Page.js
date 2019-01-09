@@ -109,7 +109,7 @@ const getDocument = gql`
       content
       userListItems {
         createdAt
-        documentList {
+        list {
           id
           name
         }

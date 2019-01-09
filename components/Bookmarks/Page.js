@@ -34,9 +34,9 @@ const query = gql`
   query getDocuments($cursor: String) {
     me {
       id
-      documentList(name: "bookmarks") {
+      list(name: "bookmarks") {
         id
-        documents: userDocuments( first: 50, after: $cursor) {
+        documents( first: 50, after: $cursor) {
           ...DocumentListConnection
         }
       }
@@ -45,7 +45,7 @@ const query = gql`
   ${documentListQueryFragment}
 `
 
-const getDocuments = data => data.me.documentList
+const getDocuments = data => data.me.list
 
 const feedLink = <Link route='feed'>
   <a {...linkRule}>

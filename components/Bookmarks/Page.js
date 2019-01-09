@@ -35,6 +35,7 @@ const query = gql`
     me {
       id
       documentList(name: "bookmarks") {
+        id
         documents: userDocuments( first: 50, after: $cursor) {
           ...DocumentListConnection
         }

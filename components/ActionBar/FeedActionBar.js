@@ -140,11 +140,6 @@ ActionBar.propTypes = {
   linkedDiscussion: PropTypes.object
 }
 
-// TODO: remove and wire up with API.
-ActionBar.defaultProps = {
-  dossier: {}
-}
-
 export default compose(
   withEditor,
   withT

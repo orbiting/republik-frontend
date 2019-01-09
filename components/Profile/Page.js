@@ -12,7 +12,8 @@ import { Link, Router } from '../../lib/routes'
 import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
-import ActionBar from '../ActionBar/FeedActionBar'
+import ActionBar from '../ActionBar'
+import FeedActionBar from '../ActionBar/FeedActionBar'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
@@ -516,7 +517,7 @@ class Profile extends Component {
                             {...doc.meta}
                             Link={HrefLink}
                             key={doc.meta.path}
-                            bar={<ActionBar
+                            bar={<FeedActionBar
                               documentId={doc.id}
                               userListItems={doc.userListItems}
                               {...doc.meta}

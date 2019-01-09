@@ -7,6 +7,7 @@ import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
@@ -58,7 +59,8 @@ class ActionBar extends Component {
       showBookmark,
       documentId,
       userListItems,
-      inNativeApp
+      inNativeApp,
+      isEditor
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -125,7 +127,7 @@ class ActionBar extends Component {
         },
         title: t('article/actionbar/audio')
       },
-      onGalleryClick && {
+      isEditor && onGalleryClick && {
         icon: 'gallery',
         href: '#gallery',
         onClick: e => {
@@ -157,7 +159,7 @@ class ActionBar extends Component {
             emailAttachUrl={emailAttachUrl} />
         )}
         <span {...styles.buttonGroup}>
-          {showBookmark && (
+          {isEditor && showBookmark && (
             <Bookmark
               bookmarked={bookmarked}
               documentId={documentId}
@@ -169,7 +171,7 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {readingMinutes && (
+          {isEditor && readingMinutes && (
             <ReadingTime minutes={readingMinutes} />
           )}
         </span>
@@ -202,5 +204,6 @@ ActionBar.defaultProps = {
 }
 
 export default compose(
+  withEditor,
   withT
 )(ActionBar)

@@ -8,6 +8,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -49,8 +50,14 @@ const ActionBar = ({
   readingMinutes,
   linkedDiscussion,
   path,
-  userListItems
+  userListItems,
+  isEditor
 }) => {
+  // TODO: remove guard for public launch.
+  if (!isEditor) {
+    return null
+  }
+
   const hasAudio = !!audioSource
   const icons = [
     dossier && {
@@ -142,5 +149,6 @@ ActionBar.defaultProps = {
 }
 
 export default compose(
+  withEditor,
   withT
 )(ActionBar)

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-09T15:13:17.140Z",
+  "updated": "2019-01-09T15:19:32.888Z",
   "title": "live",
   "data": [
     {
@@ -2616,11 +2616,11 @@
     },
     {
       "key": "bookmark/title/bookmarked",
-      "value": "Auf der Merkliste"
+      "value": "Lesezeichen entfernen"
     },
     {
       "key": "bookmark/title/default",
-      "value": "Zur Merkliste hinzufügen"
+      "value": "Lesezeichen hinzufügen"
     },
     {
       "key": "feed/loadMore",

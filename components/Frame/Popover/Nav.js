@@ -11,7 +11,7 @@ import withInNativeApp from '../../../lib/withInNativeApp'
 import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
-import { withMembership } from '../../Auth/checkRoles'
+import { withEditor, withMembership } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
@@ -123,7 +123,7 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
+const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember, isEditor }) => {
   const active = matchPath(router.asPath)
   return (
     <div {...styles.container} id='nav'>
@@ -151,13 +151,17 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 closeHandler={closeHandler}
               />
               <br />
-              <NavLink
-                route='bookmarks'
-                translation={t('nav/bookmarks')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
+              {isEditor && (
+                <Fragment>
+                  <NavLink
+                    route='bookmarks'
+                    translation={t('nav/bookmarks')}
+                    active={active}
+                    closeHandler={closeHandler}
+                  />
+                  <br />
+                </Fragment>
+              )}
               {me.accessCampaigns.length > 0 &&
                 <Fragment>
                   <a
@@ -252,5 +256,6 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
 export default compose(
   withT,
   withInNativeApp,
-  withMembership
+  withMembership,
+  withEditor
 )(Nav)

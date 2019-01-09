@@ -71,7 +71,7 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, onAudioClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
+const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
   <div>
     <ActionBar
       url={url}
@@ -86,6 +86,7 @@ const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath,
       })}
       onAudioClick={onAudioClick}
       inNativeApp={inNativeApp}
+      onGalleryClick={onGalleryClick}
       showBookmark={showBookmark}
       documentId={documentId}
       userListItems={userListItems}
@@ -189,6 +190,8 @@ class ArticlePage extends Component {
       this.bottomBar = ref
     }
 
+    this.galleryRef = React.createRef()
+
     this.toggleAudio = () => {
       if (this.props.inNativeApp) {
         const { audioSource, title, path } = this.props.data.article.meta
@@ -207,6 +210,12 @@ class ArticlePage extends Component {
         this.setState({
           showAudioPlayer: !this.state.showAudioPlayer
         })
+      }
+    }
+
+    this.showGallery = () => {
+      if (this.galleryRef) {
+        this.galleryRef.current.show()
       }
     }
 
@@ -301,6 +310,7 @@ class ArticlePage extends Component {
     const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
 
     const hasPdf = meta && meta.template === 'article'
+    const hasGallery = true // TODO once backend is ready: meta && meta.hasGallery
 
     const actionBar = meta && (
       <ArticleActionBar
@@ -312,6 +322,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
+        onGalleryClick={hasGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -471,7 +482,7 @@ class ArticlePage extends Component {
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <ArticleGallery article={article} show={!!router.query.gallery}>
+              <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                   {() => renderMdast({
                     ...article.content,

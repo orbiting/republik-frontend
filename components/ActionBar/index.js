@@ -50,6 +50,7 @@ class ActionBar extends Component {
       dossierUrl,
       fill,
       onAudioClick,
+      onGalleryClick,
       onPdfClick,
       pdfUrl,
       readingMinutes,
@@ -123,6 +124,16 @@ class ActionBar extends Component {
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio')
+      },
+      onGalleryClick && {
+        icon: 'gallery',
+        href: '#gallery',
+        onClick: e => {
+          e.preventDefault()
+          onGalleryClick && onGalleryClick()
+        },
+        title: t('feed/actionbar/gallery'),
+        size: 22
       }
     ]
 
@@ -175,6 +186,7 @@ ActionBar.propTypes = {
   emailAttachUrl: PropTypes.bool.isRequired,
   fill: PropTypes.string,
   onAudioClick: PropTypes.func,
+  onGalleryClick: PropTypes.func,
   onPdfClick: PropTypes.func,
   pdfUrl: PropTypes.string,
   readingMinutes: PropTypes.number,

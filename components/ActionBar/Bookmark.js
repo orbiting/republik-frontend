@@ -88,7 +88,13 @@ const addMutation = gql`
   ) {
     addDocumentToList(documentId: $documentId, listName: $listName) {
       id
-      name
+#      userListItems {
+#        id
+#        documentList {
+#          id
+#          name
+#        }
+#      }
     }
   }
 `
@@ -100,7 +106,13 @@ const removeMutation = gql`
   ) {
     removeDocumentFromList(documentId: $documentId, listName: $listName) {
       id
-      name
+      userListItems {
+        id
+        documentList {
+          id
+          name
+        }
+      }
     }
   }
 `

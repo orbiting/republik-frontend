@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-08T15:18:21.326Z",
+  "updated": "2019-01-09T14:19:09.802Z",
   "title": "live",
   "data": [
     {
@@ -105,6 +105,14 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/bookmarks/title",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/placeholder",
+      "value": "Sie habe kein Lesezeichen gesetzt. Stöbern Sie im {feedLink} oder in der {searchLink} und klicken Sie bei einem Artikel auf das Lesezeichen{bookmarkIcon}, dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/search/title",
@@ -2572,7 +2580,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Spätester Bestelltermin, damit die Sendung vor Weihnachten bei Ihnen eintrifft: Donnerstag, 20. Dezember 2018."
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "shareholder/pageTitle",

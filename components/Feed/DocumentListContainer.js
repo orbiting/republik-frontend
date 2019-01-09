@@ -78,18 +78,21 @@ const makeLoadMore = (fetchMore, data) => () =>
 
 class DocumentListContainer extends Component {
   render () {
-    const { query, getDocuments } = this.props
+    const { query, getDocuments, placeholder } = this.props
 
     return (
       <Query query={query}>
-        {({ loading, error, data, fetchMore }) => {
-          const hasMore = data && data.documents && data.documents.pageInfo.hasNextPage
-
-          return (
-            <Loader
-              loading={loading}
-              error={error}
-              render={() => {
+        {({ loading, error, data, fetchMore }) =>
+          <Loader
+            loading={loading}
+            error={error}
+            render={() => {
+              const { documents } = getDocuments(data)
+              const isEmpty = documents && documents.totalCount < 1
+              if (isEmpty) {
+                return placeholder
+              } else {
+                const hasMore = documents && documents.pageInfo.hasNextPage
                 return (
                   <>
                     <DocumentList
@@ -99,10 +102,10 @@ class DocumentListContainer extends Component {
                     />
                   </>
                 )
-              }}
-            />
-          )
-        }}
+              }
+            }}
+          />
+        }
       </Query>
     )
   }
@@ -114,7 +117,8 @@ DocumentListContainer.defaultProps = {
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func
+  getDocuments: PropTypes.func,
+  placeholder: PropTypes.element
 }
 
 export default DocumentListContainer

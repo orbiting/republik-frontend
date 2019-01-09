@@ -52,13 +52,7 @@ const feedLink = <Link route='feed'>
   </a>
 </Link>
 
-const searchLink = <Link route='search'>
-  <a {...linkRule}>
-    {t('pages/search/title')}
-  </a>
-</Link>
-
-const bookmarkIcon = <IconDefault size={27} />
+const bookmarkIcon = <IconDefault size={22} />
 
 class Page extends Component {
   render () {
@@ -77,7 +71,6 @@ class Page extends Component {
             placeholder={
               <Interaction.P>{t.elements('pages/bookmarks/placeholder', {
                 feedLink,
-                searchLink,
                 bookmarkIcon
               })}</Interaction.P>
             }

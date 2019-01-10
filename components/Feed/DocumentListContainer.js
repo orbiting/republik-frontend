@@ -84,7 +84,7 @@ class DocumentListContainer extends Component {
     const { query, getDocuments, placeholder } = this.props
 
     return (
-      <Query query={query} partialRefetch>
+      <Query query={query}>
         {({ loading, error, data, fetchMore }) =>
           <Loader
             loading={loading}

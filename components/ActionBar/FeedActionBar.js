@@ -86,7 +86,7 @@ const ActionBar = ({
     indicateChart && {
       icon: 'chart',
       title: t('feed/actionbar/chart'),
-      size: 23
+      size: 18
     }
   ]
 

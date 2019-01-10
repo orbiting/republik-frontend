@@ -135,7 +135,7 @@ class ActionBar extends Component {
           onGalleryClick && onGalleryClick()
         },
         title: t('feed/actionbar/gallery'),
-        size: 22
+        size: 23
       }
     ]
 

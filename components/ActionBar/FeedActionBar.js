@@ -67,7 +67,7 @@ const ActionBar = ({
     indicateGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
-      size: 22,
+      size: 21,
       color: colors.text
     },
     hasAudio && {

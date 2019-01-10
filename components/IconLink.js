@@ -9,6 +9,7 @@ import {
 } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
+import ChartIcon from 'react-icons/lib/md/insert-chart'
 import TimeIcon from './Icons/Time'
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
@@ -91,6 +92,7 @@ export const styles = {
 
 const ICONS = {
   audio: AudioIcon,
+  chart: ChartIcon,
   discussion: DiscussionIcon,
   download: DownloadIcon,
   facebook: FacebookIcon,

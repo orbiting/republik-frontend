@@ -45,6 +45,7 @@ const ActionBar = ({
   documentId,
   audioSource,
   dossier,
+  indicateChart,
   indicateGallery,
   indicateVideo,
   estimatedReadingMinutes,
@@ -81,6 +82,11 @@ const ActionBar = ({
       title: t('feed/actionbar/video'),
       size: 17,
       style: { paddingBottom: 2 }
+    },
+    indicateChart && {
+      icon: 'chart',
+      title: t('feed/actionbar/chart'),
+      size: 23
     }
   ]
 

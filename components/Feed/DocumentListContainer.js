@@ -30,6 +30,7 @@ export const documentListQueryFragment = `
         template
         color
         estimatedReadingMinutes
+        indicateChart
         indicateGallery
         indicateVideo
         audioSource {

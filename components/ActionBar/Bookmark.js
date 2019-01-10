@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
@@ -54,7 +55,10 @@ class Bookmark extends Component {
   }
 
   render () {
-    const { t, style, small } = this.props
+    const { t, style, small, isMember } = this.props
+    if (!isMember) {
+      return null
+    }
     const { bookmarked, mutating } = this.state
     const Icon = bookmarked ? IconBookmarked : IconDefault
     const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
@@ -140,5 +144,6 @@ export default compose(
         })
     })
   }),
-  withT
+  withT,
+  withMembership
 )(Bookmark)

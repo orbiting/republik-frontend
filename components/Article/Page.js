@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import Frame from '../Frame'
-import ActionBar from '../ActionBar'
+import ArticleActionBar from '../ActionBar/Article'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
@@ -16,10 +16,10 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
-import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
+import { withEditor } from '../Auth/checkRoles'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
@@ -74,37 +74,6 @@ const styles = {
     }
   })
 }
-
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp }) => (
-  <div>
-    <ActionBar
-      url={url}
-      title={title}
-      shareOverlayTitle={t('article/share/title')}
-      fill={colors.text}
-      dossierUrl={dossierUrl}
-      onPdfClick={onPdfClick}
-      pdfUrl={pdfUrl}
-      emailSubject={t('article/share/emailSubject', {
-        title
-      })}
-      onAudioClick={onAudioClick}
-      inNativeApp={inNativeApp}
-      onGalleryClick={onGalleryClick}
-      showBookmark={showBookmark}
-      documentId={documentId}
-      userListItems={userListItems}
-      estimatedReadingMinutes={estimatedReadingMinutes}
-    />
-    {discussionId && process.browser &&
-      <DiscussionIconLink
-        discussionId={discussionId}
-        discussionPage={discussionPage}
-        path={discussionPath}
-        style={{ marginLeft: 7 }} />
-    }
-  </div>
-)
 
 const getDocument = gql`
   query getDocument($path: String!) {
@@ -314,7 +283,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember, isEditor }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -350,7 +319,7 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         documentId={article.id}
         userListItems={article.userListItems}
-        showBookmark={isMember}
+        showBookmark={/* ToDo: remove editor guard for public launch. */isEditor && isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
@@ -556,6 +525,7 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withEditor,
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

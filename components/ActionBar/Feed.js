@@ -54,7 +54,7 @@ const ActionBar = ({
   userListItems,
   isEditor
 }) => {
-  // TODO: remove guard for public launch.
+  // ToDo: remove editor guard for public launch.
   if (!isEditor) {
     return null
   }
@@ -122,8 +122,7 @@ const ActionBar = ({
           <ReadingTime minutes={estimatedReadingMinutes} small />
         )}
         {linkedDiscussion &&
-        !linkedDiscussion.closed &&
-        process.browser && (
+        !linkedDiscussion.closed && (
           <DiscussionIconLink
             discussionId={linkedDiscussion.id}
             path={linkedDiscussion.path}

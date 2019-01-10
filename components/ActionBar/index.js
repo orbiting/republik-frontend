@@ -7,7 +7,6 @@ import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
-import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
@@ -159,7 +158,7 @@ class ActionBar extends Component {
             emailAttachUrl={emailAttachUrl} />
         )}
         <span {...styles.buttonGroup}>
-          {isEditor && showBookmark && (
+          {showBookmark && (
             <Bookmark
               bookmarked={bookmarked}
               documentId={documentId}
@@ -203,7 +202,7 @@ ActionBar.defaultProps = {
   emailAttachUrl: true
 }
 
+// Note: This Component is used within SSRCachingBoundary and can not use context
 export default compose(
-  withEditor,
   withT
 )(ActionBar)

@@ -13,7 +13,7 @@ import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 import ActionBar from '../ActionBar'
-import FeedActionBar from '../ActionBar/FeedActionBar'
+import FeedActionBar from '../ActionBar/Feed'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'

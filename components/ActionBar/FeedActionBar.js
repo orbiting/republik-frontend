@@ -105,7 +105,7 @@ const ActionBar = ({
           documentId={documentId}
           active={false}
           small
-          style={{ marginLeft: '-4px' }}
+          style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
         {icons
           .filter(Boolean)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { css } from 'glamor'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withMembership } from '../Auth/checkRoles'
@@ -10,6 +11,17 @@ import IconBookmarked from 'react-icons/lib/md/bookmark'
 import { colors } from '@project-r/styleguide'
 
 export const BOOKMARKS_LIST_NAME = 'bookmarks'
+
+const styles = {
+  button: css({
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer'
+  })
+}
 
 class Bookmark extends Component {
   constructor (props) {
@@ -65,12 +77,14 @@ class Bookmark extends Component {
     const size = small ? 23 : 27
 
     return (
-      <a {...iconLinkStyles.link}
-        style={{ cursor: 'pointer', paddingTop: 1, ...style }}
+      <button
+        {...iconLinkStyles.link}
+        {...styles.button}
+        style={style}
         title={title}
         onClick={this.toggle}>
         <Icon size={size} fill={mutating ? colors.disabled : colors.text} />
-      </a>
+      </button>
     )
   }
 }

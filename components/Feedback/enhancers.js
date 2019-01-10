@@ -73,7 +73,7 @@ query getArticleSearchResults(
 const getComments = gql`
 query getComments($after: String) {
   comments(
-    first: 10,
+    first: 50,
     after: $after,
     orderBy: DATE,
     orderDirection: DESC) {

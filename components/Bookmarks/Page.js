@@ -47,13 +47,13 @@ const query = gql`
 
 const getDocuments = data => data.me.list
 
-const feedLink = <Link route='feed'>
+const feedLink = <Link route='feed' key='link'>
   <a {...linkRule}>
     {t('pages/feed/title')}
   </a>
 </Link>
 
-const bookmarkIcon = <IconDefault size={22} />
+const bookmarkIcon = <IconDefault size={22} key='icon' />
 
 class Page extends Component {
   render () {

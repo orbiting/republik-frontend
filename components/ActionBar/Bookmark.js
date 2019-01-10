@@ -10,6 +10,10 @@ import IconDefault from 'react-icons/lib/md/bookmark-outline'
 import IconBookmarked from 'react-icons/lib/md/bookmark'
 import { colors } from '@project-r/styleguide'
 
+import {
+  onDocumentFragment
+} from '../Bookmarks/fragments'
+
 export const BOOKMARKS_LIST_NAME = 'bookmarks'
 
 const styles = {
@@ -106,15 +110,11 @@ const addMutation = gql`
   ) {
     addDocumentToList(documentId: $documentId, listName: $listName) {
       id
-      userListItems {
-        id
-        list {
-          id
-          name
-        }
-      }
+      ...BookmarkOnDocument
     }
   }
+
+  ${onDocumentFragment}
 `
 
 const removeMutation = gql`
@@ -124,15 +124,11 @@ const removeMutation = gql`
   ) {
     removeDocumentFromList(documentId: $documentId, listName: $listName) {
       id
-      userListItems {
-        id
-        list {
-          id
-          name
-        }
-      }
+      ...BookmarkOnDocument
     }
   }
+
+  ${onDocumentFragment}
 `
 
 export default compose(

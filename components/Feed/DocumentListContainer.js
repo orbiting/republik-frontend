@@ -4,6 +4,10 @@ import { Query } from 'react-apollo'
 import Loader from '../Loader'
 import DocumentList from './DocumentList'
 
+import {
+  onDocumentFragment
+} from '../Bookmarks/fragments'
+
 export const documentListQueryFragment = `
   fragment DocumentListConnection on DocumentConnection {
     totalCount
@@ -13,13 +17,7 @@ export const documentListQueryFragment = `
     }
     nodes {
       id
-      userListItems {
-        createdAt
-        list {
-          id
-          name
-        }
-      }
+      ...BookmarkOnDocument
       meta {
         credits
         title
@@ -55,6 +53,7 @@ export const documentListQueryFragment = `
       }
     }
   }
+  ${onDocumentFragment}
 `
 
 const makeLoadMore = (fetchMore, data) => () =>

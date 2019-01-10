@@ -41,6 +41,10 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 
+import {
+  onDocumentFragment
+} from '../Bookmarks/fragments'
+
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
@@ -107,13 +111,7 @@ const getDocument = gql`
     article: document(path: $path) {
       id
       content
-      userListItems {
-        createdAt
-        list {
-          id
-          name
-        }
-      }
+      ...BookmarkOnDocument
       meta {
         template
         path
@@ -179,6 +177,7 @@ const getDocument = gql`
       }
     }
   }
+  ${onDocumentFragment}
 `
 
 const runMetaFromQuery = (code, query) => {

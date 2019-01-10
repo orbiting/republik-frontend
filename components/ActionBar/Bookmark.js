@@ -88,13 +88,13 @@ const addMutation = gql`
   ) {
     addDocumentToList(documentId: $documentId, listName: $listName) {
       id
-#      userListItems {
-#        id
-#        list {
-#          id
-#          name
-#        }
-#      }
+      userListItems {
+        id
+        list {
+          id
+          name
+        }
+      }
     }
   }
 `

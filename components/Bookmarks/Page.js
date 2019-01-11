@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
+import { enforceAuthorization } from '../Auth/withAuthorization'
 import gql from 'graphql-tag'
 import DocumentListContainer, { documentFragment } from '../Feed/DocumentListContainer'
 import withT, { t } from '../../lib/withT'
@@ -95,10 +96,12 @@ class Page extends Component {
             mergeConnection={mergeConnection}
             mapNodes={node => node.document}
             placeholder={
-              <Interaction.P>{t.elements('pages/bookmarks/placeholder', {
-                feedLink,
-                bookmarkIcon
-              })}</Interaction.P>
+              <Interaction.P style={{ marginBottom: 60 }}>
+                {t.elements('pages/bookmarks/placeholder', {
+                  feedLink,
+                  bookmarkIcon
+                })}
+              </Interaction.P>
             }
           />
         </Center>
@@ -109,5 +112,7 @@ class Page extends Component {
 
 export default compose(
   withT,
-  enforceMembership()
+  enforceMembership(),
+  // ToDo: remove editor guard for public launch.
+  enforceAuthorization(['editor'])
 )(Page)

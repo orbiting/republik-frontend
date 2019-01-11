@@ -53,7 +53,7 @@ export const enforceAuthorization = roles => WrappedComponent => withAuthorizati
   if (isAuthorized) {
     return <WrappedComponent {...props} />
   }
-  return <UnauthorizedPage me={me} />
+  return <UnauthorizedPage me={me} roles={roles} />
 })
 
 export default withAuthorization

@@ -30,12 +30,12 @@ class Bookmark extends Component {
     super(props)
 
     this.state = {
-      bookmarked: props.bookmarked,
       mutating: false
     }
 
     this.toggle = () => {
-      const { bookmarked, mutating } = this.state
+      const { bookmarked } = this.props
+      const { mutating } = this.state
       if (mutating) {
         return
       }
@@ -56,24 +56,24 @@ class Bookmark extends Component {
     this.finish = () => {
       this.setState({
         mutating: false,
-        bookmarked: !this.state.bookmarked
+        error: undefined
       })
     }
 
-    this.catchServerError = error => {
-      this.setState(() => ({
+    this.catchServerError = () => {
+      this.setState({
         mutating: false,
-        serverError: error
-      }))
+        error: true
+      })
     }
   }
 
   render () {
-    const { t, style, small, isMember } = this.props
+    const { t, style, small, isMember, bookmarked } = this.props
     if (!isMember) {
       return null
     }
-    const { bookmarked, mutating } = this.state
+    const { mutating, error } = this.state
     const Icon = bookmarked ? IconBookmarked : IconDefault
     const title = t(`bookmark/title/${bookmarked ? 'bookmarked' : 'default'}`)
     const size = small ? 23 : 27
@@ -85,7 +85,13 @@ class Bookmark extends Component {
         style={style}
         title={title}
         onClick={this.toggle}>
-        <Icon size={size} fill={mutating ? colors.disabled : colors.text} />
+        <Icon
+          size={size}
+          fill={error
+            ? colors.error
+            : mutating
+              ? colors.disabled
+              : colors.text} />
       </button>
     )
   }

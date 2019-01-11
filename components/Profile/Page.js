@@ -13,6 +13,7 @@ import Loader from '../Loader'
 import Frame, { MainContainer } from '../Frame'
 import Box from '../Frame/Box'
 import ActionBar from '../ActionBar'
+import FeedActionBar from '../ActionBar/Feed'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
@@ -41,6 +42,7 @@ import {
   Editorial
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
+import { documentListQueryFragment } from '../Feed/DocumentListContainer'
 
 const SIDEBAR_TOP = 20
 
@@ -163,17 +165,7 @@ const getPublicUser = gql`
       publicUrl
       badges
       documents {
-        totalCount
-        nodes {
-          meta {
-            kind
-            credits
-            title
-            description
-            publishDate
-            path
-          }
-        }
+        ...DocumentListConnection
       }
       comments(first: 100) {
         totalCount
@@ -232,6 +224,7 @@ const getPublicUser = gql`
       }
     }
   }
+  ${documentListQueryFragment}
 `
 
 class Profile extends Component {
@@ -377,7 +370,7 @@ class Profile extends Component {
                   <Box>
                     <MainContainer>
                       {user.isEligibleForProfile &&
-                        <Interaction.P>{t('profile/preview')}</Interaction.P>}
+                      <Interaction.P>{t('profile/preview')}</Interaction.P>}
                       {!user.isEligibleForProfile && <Interaction.P>
                         {t.elements('profile/preview/notEligible',
                           {
@@ -414,15 +407,15 @@ class Profile extends Component {
                     </div>
                     <div {...styles.headInfo}>
                       {!!user.isListed &&
-                        <span {...styles.headInfoShare}>
-                          <ActionBar
-                            title={t('profile/share/title', { name: user.name })}
-                            emailSubject={t('profile/share/emailSubject', { name: user.name })}
-                            url={`${PUBLIC_BASE_URL}/~${user.username}`}
-                            download={metaData.image}
-                            shareOverlayTitle={t('profile/share/overlayTitle')}
-                          />
-                        </span>
+                      <span {...styles.headInfoShare}>
+                        <ActionBar
+                          title={t('profile/share/title', { name: user.name })}
+                          emailSubject={t('profile/share/emailSubject', { name: user.name })}
+                          url={`${PUBLIC_BASE_URL}/~${user.username}`}
+                          download={metaData.image}
+                          shareOverlayTitle={t('profile/share/overlayTitle')}
+                        />
+                      </span>
                       }
                       {!!user.sequenceNumber && <span {...styles.headInfoNumber}>
                         {t('memberships/sequenceNumber/label', {
@@ -512,20 +505,25 @@ class Profile extends Component {
                       }
                       <div>
                         {user.documents && !!user.documents.totalCount &&
-                          <Interaction.H3 style={{ marginBottom: 20 }}>
-                            {t.pluralize('profile/documents/title', {
-                              count: user.documents.totalCount
-                            })}
-                          </Interaction.H3>
+                        <Interaction.H3 style={{ marginBottom: 20 }}>
+                          {t.pluralize('profile/documents/title', {
+                            count: user.documents.totalCount
+                          })}
+                        </Interaction.H3>
                         }
                         {user.documents &&
-                          user.documents.nodes.map(doc => (
-                            <TeaserFeed
+                        user.documents.nodes.map(doc => (
+                          <TeaserFeed
+                            {...doc.meta}
+                            Link={HrefLink}
+                            key={doc.meta.path}
+                            bar={<FeedActionBar
+                              documentId={doc.id}
+                              userBookmark={doc.userBookmark}
                               {...doc.meta}
-                              Link={HrefLink}
-                              key={doc.meta.path}
-                            />
-                          ))}
+                              meta={doc.meta} />}
+                          />
+                        ))}
                       </div>
                       <Comments comments={user.comments} />
                     </div>

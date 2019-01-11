@@ -75,6 +75,13 @@ class ArticleGallery extends Component {
       }
     }
 
+    this.show = () => {
+      const { galleryItems } = this.state
+      if (galleryItems && !!galleryItems.length && !this.state.show) {
+        this.toggleGallery(galleryItems[0].src)
+      }
+    }
+
     this.getChildContext = () => ({
       toggleGallery: this.toggleGallery
     })
@@ -89,6 +96,12 @@ class ArticleGallery extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.article !== this.props.article) {
       this.setState(this.getDerivedStateFromProps(nextProps))
+    }
+  }
+
+  componentDidMount () {
+    if (this.props.show) {
+      this.show()
     }
   }
 

@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
+import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
+import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
@@ -48,10 +50,16 @@ class ActionBar extends Component {
       dossierUrl,
       fill,
       onAudioClick,
+      onGalleryClick,
       onPdfClick,
       pdfUrl,
+      estimatedReadingMinutes,
       shareOverlayTitle,
-      inNativeApp
+      showBookmark,
+      documentId,
+      userBookmark,
+      inNativeApp,
+      isEditor
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -117,6 +125,16 @@ class ActionBar extends Component {
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio')
+      },
+      isEditor && onGalleryClick && {
+        icon: 'gallery',
+        href: '#gallery',
+        onClick: e => {
+          e.preventDefault()
+          onGalleryClick && onGalleryClick()
+        },
+        title: t('feed/actionbar/gallery'),
+        size: 23
       }
     ]
 
@@ -133,9 +151,21 @@ class ActionBar extends Component {
             emailAttachUrl={emailAttachUrl} />
         )}
         <span {...styles.buttonGroup}>
+          {showBookmark && (
+            <Bookmark
+              bookmarked={!!userBookmark}
+              documentId={documentId}
+              active={false}
+              size={28}
+              style={{ marginLeft: '-4px', paddingRight: 0 }}
+            />
+          )}
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
+          {isEditor && estimatedReadingMinutes > 1 && (
+            <ReadingTime minutes={estimatedReadingMinutes} />
+          )}
         </span>
       </Fragment>
     )
@@ -150,9 +180,12 @@ ActionBar.propTypes = {
   emailAttachUrl: PropTypes.bool.isRequired,
   fill: PropTypes.string,
   onAudioClick: PropTypes.func,
+  onGalleryClick: PropTypes.func,
   onPdfClick: PropTypes.func,
   pdfUrl: PropTypes.string,
-  shareOverlayTitle: PropTypes.string
+  estimatedReadingMinutes: PropTypes.number,
+  shareOverlayTitle: PropTypes.string,
+  showBookmark: PropTypes.bool
 }
 
 ActionBar.defaultProps = {
@@ -162,6 +195,7 @@ ActionBar.defaultProps = {
   emailAttachUrl: true
 }
 
+// Note: This Component is used within SSRCachingBoundary and can not use context
 export default compose(
   withT
 )(ActionBar)

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-08T18:55:36.258Z",
+  "updated": "2019-01-10T15:33:37.289Z",
   "title": "live",
   "data": [
     {
@@ -45,6 +45,10 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
+    },
+    {
+      "key": "nav/bookmarks",
+      "value": "Lesezeichen"
     },
     {
       "key": "navbar/front",
@@ -101,6 +105,14 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
+    },
+    {
+      "key": "pages/bookmarks/title",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/placeholder",
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/search/title",
@@ -2604,11 +2616,11 @@
     },
     {
       "key": "bookmark/title/bookmarked",
-      "value": "Auf der Merkliste"
+      "value": "Lesezeichen entfernen"
     },
     {
       "key": "bookmark/title/default",
-      "value": "Zur Merkliste hinzufügen"
+      "value": "Lesezeichen hinzufügen"
     },
     {
       "key": "feed/loadMore",
@@ -2629,6 +2641,18 @@
     {
       "key": "feed/actionbar/video",
       "value": "Video"
+    },
+    {
+      "key": "feed/actionbar/chart",
+      "value": "Chart"
+    },
+    {
+      "key": "feed/actionbar/readingTime/1",
+      "value": "ungefähr {minutes} Minute Lesezeit"
+    },
+    {
+      "key": "feed/actionbar/readingTime/other",
+      "value": "ungefähr {minutes} Minuten Lesezeit"
     },
     {
       "key": "format/feed/title/1",

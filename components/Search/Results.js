@@ -375,6 +375,7 @@ class Results extends Component {
                                 }
                                 Link={Link}
                                 key={node.entity.meta.path}
+
                               />
                             )}
                             {node.entity.__typename === 'Comment' && (

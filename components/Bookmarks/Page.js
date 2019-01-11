@@ -33,7 +33,7 @@ const styles = {
 }
 
 const query = gql`
-  query getDocuments($cursor: String) {
+  query getBookmarkedDocuments($cursor: String) {
     me {
       id
       collection(name: "${BOOKMARKS_COLLECTION_NAME}") {
@@ -59,6 +59,16 @@ const query = gql`
 `
 
 const getConnection = data => data.me.collection.items
+const mergeConnection = (data, connection) => ({
+  ...data,
+  me: {
+    ...data.me,
+    collection: {
+      ...data.me.collection,
+      items: connection
+    }
+  }
+})
 
 const feedLink = <Link route='feed' key='link'>
   <a {...linkRule}>
@@ -82,6 +92,7 @@ class Page extends Component {
           <DocumentListContainer
             query={query}
             getConnection={getConnection}
+            mergeConnection={mergeConnection}
             mapNodes={node => node.document}
             placeholder={
               <Interaction.P>{t.elements('pages/bookmarks/placeholder', {

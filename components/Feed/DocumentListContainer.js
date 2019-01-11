@@ -63,32 +63,40 @@ export const documentListQueryFragment = `
   ${documentFragment}
 `
 
-const makeLoadMore = (fetchMore, data) => () =>
+const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection }) => () =>
   fetchMore({
     updateQuery: (previousResult, { fetchMoreResult }) => {
+      const prevCon = getConnection(previousResult)
+      const moreCon = getConnection(fetchMoreResult)
       const nodes = [
-        ...previousResult.documents.nodes,
-        ...fetchMoreResult.documents.nodes
+        ...prevCon.nodes,
+        ...moreCon.nodes
       ].filter(
+        // deduplicating due to off by one in pagination API
         (node, index, all) =>
-          all.findIndex(n => n.id === node.id) === index // deduplicating due to off by one in pagination API
+          all.findIndex(n => n.id === node.id) === index
       )
-      return {
-        ...fetchMoreResult,
-        documents: {
-          ...fetchMoreResult.documents,
-          nodes
-        }
-      }
+      return mergeConnection(fetchMoreResult, {
+        ...prevCon,
+        ...moreCon,
+        nodes
+      })
     },
     variables: {
-      cursor: data.documents.pageInfo.endCursor
+      cursor: connection.pageInfo.endCursor
     }
   })
 
 class DocumentListContainer extends Component {
   render () {
-    const { query, getConnection, filterDocuments, mapNodes, placeholder } = this.props
+    const {
+      query,
+      getConnection,
+      mergeConnection,
+      filterDocuments,
+      mapNodes,
+      placeholder
+    } = this.props
 
     return (
       <Query query={query}>
@@ -109,7 +117,7 @@ class DocumentListContainer extends Component {
                     totalCount={connection.totalCount}
                     unfilteredCount={connection.nodes.length}
                     hasMore={hasMore}
-                    loadMore={makeLoadMore(fetchMore, data)}
+                    loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
                   />
                 )
               }
@@ -123,6 +131,10 @@ class DocumentListContainer extends Component {
 
 DocumentListContainer.defaultProps = {
   getConnection: data => data.documents,
+  mergeConnection: (data, connection) => ({
+    ...data,
+    documents: connection
+  }),
   filterDocuments: () => true,
   mapNodes: e => e
 }

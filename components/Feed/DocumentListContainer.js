@@ -5,8 +5,49 @@ import Loader from '../Loader'
 import DocumentList from './DocumentList'
 
 import {
-  onDocumentFragment
+  onDocumentFragment as bookmarkOnDocumentFragment
 } from '../Bookmarks/fragments'
+
+export const documentFragment = `
+  fragment DocumentListDocument on Document {
+    id
+    ...BookmarkOnDocument
+    meta {
+      credits
+      title
+      description
+      publishDate
+      path
+      kind
+      template
+      color
+      estimatedReadingMinutes
+      indicateChart
+      indicateGallery
+      indicateVideo
+      audioSource {
+        mp3
+      }
+      dossier {
+        id
+      }
+      linkedDiscussion {
+        id
+        path
+        closed
+      }
+      format {
+        meta {
+          path
+          title
+          color
+          kind
+        }
+      }
+    }
+  }
+  ${bookmarkOnDocumentFragment}
+`
 
 export const documentListQueryFragment = `
   fragment DocumentListConnection on DocumentConnection {
@@ -16,44 +57,10 @@ export const documentListQueryFragment = `
       hasNextPage
     }
     nodes {
-      id
-      ...BookmarkOnDocument
-      meta {
-        credits
-        title
-        description
-        publishDate
-        path
-        kind
-        template
-        color
-        estimatedReadingMinutes
-        indicateChart
-        indicateGallery
-        indicateVideo
-        audioSource {
-          mp3
-        }
-        dossier {
-          id
-        }
-        linkedDiscussion {
-          id
-          path
-          closed
-        }
-        format {
-          meta {
-            path
-            title
-            color
-            kind
-          }
-        }
-      }
+      ...DocumentListDocument
     }
   }
-  ${onDocumentFragment}
+  ${documentFragment}
 `
 
 const makeLoadMore = (fetchMore, data) => () =>
@@ -81,7 +88,7 @@ const makeLoadMore = (fetchMore, data) => () =>
 
 class DocumentListContainer extends Component {
   render () {
-    const { query, getDocuments, placeholder } = this.props
+    const { query, getConnection, filterDocuments, mapNodes, placeholder } = this.props
 
     return (
       <Query query={query}>
@@ -90,20 +97,20 @@ class DocumentListContainer extends Component {
             loading={loading}
             error={error}
             render={() => {
-              const { documents } = getDocuments(data)
-              const isEmpty = documents && documents.totalCount < 1
+              const connection = getConnection(data)
+              const isEmpty = connection.totalCount < 1
               if (isEmpty) {
                 return placeholder
               } else {
-                const hasMore = documents && documents.pageInfo.hasNextPage
+                const hasMore = connection.pageInfo.hasNextPage
                 return (
-                  <>
-                    <DocumentList
-                      data={getDocuments(data)}
-                      hasMore={hasMore}
-                      loadMore={makeLoadMore(fetchMore, data)}
-                    />
-                  </>
+                  <DocumentList
+                    documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
+                    totalCount={connection.totalCount}
+                    unfilteredCount={connection.nodes.length}
+                    hasMore={hasMore}
+                    loadMore={makeLoadMore(fetchMore, data)}
+                  />
                 )
               }
             }}
@@ -115,12 +122,16 @@ class DocumentListContainer extends Component {
 }
 
 DocumentListContainer.defaultProps = {
-  getDocuments: e => e
+  getConnection: data => data.documents,
+  filterDocuments: () => true,
+  mapNodes: e => e
 }
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
-  getDocuments: PropTypes.func,
+  getConnection: PropTypes.func.isRequired,
+  filterDocuments: PropTypes.func.isRequired,
+  mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element
 }
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
+import Bookmark from './Bookmark'
 import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
@@ -51,7 +51,7 @@ const ActionBar = ({
   estimatedReadingMinutes,
   linkedDiscussion,
   path,
-  userListItems,
+  userBookmark,
   isEditor
 }) => {
   // ToDo: remove editor guard for public launch.
@@ -90,18 +90,11 @@ const ActionBar = ({
     }
   ]
 
-  const bookmarked =
-    userListItems &&
-    !!userListItems.length &&
-    !!userListItems.find(
-      item => item.list && item.list.name === BOOKMARKS_LIST_NAME
-    )
-
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
         <Bookmark
-          bookmarked={bookmarked}
+          bookmarked={!!userBookmark}
           documentId={documentId}
           active={false}
           small

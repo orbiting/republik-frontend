@@ -318,7 +318,7 @@ class ArticlePage extends Component {
           : undefined}
         inNativeApp={inNativeApp}
         documentId={article.id}
-        userListItems={article.userListItems}
+        userBookmark={article.userBookmark}
         showBookmark={/* ToDo: remove editor guard for public launch. */isEditor && isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />

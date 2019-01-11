@@ -31,12 +31,6 @@ class DocumentList extends Component {
       infiniteScroll: false,
       loadingMore: false
     }
-    this.getRemainingDocumentsCount = (nodes) => {
-      const { data: { documents } } = this.props
-      return (documents.totalCount) - // all docs
-        nodes.length - // already displayed
-        (documents.nodes.length - nodes.length) // formats
-    }
     this.onScroll = async () => {
       if (this.container) {
         const bbox = this.container.getBoundingClientRect()
@@ -73,7 +67,7 @@ class DocumentList extends Component {
 
   render () {
     const { infiniteScroll, loadingMore } = this.state
-    const { data: { documents }, hasMore, t } = this.props
+    const { documents, totalCount, unfilteredCount, hasMore, t } = this.props
     return (
       <div {...styles.container}>
         <div ref={this.setContainerRef}>
@@ -89,8 +83,8 @@ class DocumentList extends Component {
             {
               t('feed/loadMore',
                 {
-                  count: documents.nodes.length,
-                  remaining: this.getRemainingDocumentsCount(documents.nodes)
+                  count: documents.length,
+                  remaining: totalCount - unfilteredCount
                 }
               )
             }
@@ -103,11 +97,12 @@ class DocumentList extends Component {
 }
 
 DocumentList.propTypes = {
-  data: PropTypes.object.isRequired,
+  documents: PropTypes.array.isRequired,
+  totalCount: PropTypes.number.isRequired,
+  unfilteredCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
-  t: PropTypes.func.isRequired,
-  inline: PropTypes.bool
+  t: PropTypes.func.isRequired
 }
 
 export default compose(

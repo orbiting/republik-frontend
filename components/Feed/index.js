@@ -37,13 +37,7 @@ const documentsQuery = gql`
   ${documentListQueryFragment}
 `
 
-const getDocuments = data => ({
-  documents: {
-    ...data.documents,
-    nodes: data.documents.nodes
-      .filter(node => node.meta.template !== 'format' && node.meta.template !== 'front')
-  }
-})
+const filterDocuments = node => node.meta.template !== 'format' && node.meta.template !== 'front'
 
 const greetingQuery = gql`
   {
@@ -119,7 +113,7 @@ class Feed extends Component {
                   )}
                   <DocumentListContainer
                     query={documentsQuery}
-                    getDocuments={getDocuments}
+                    filterDocuments={filterDocuments}
                   />
                 </>
               )

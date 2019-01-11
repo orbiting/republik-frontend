@@ -4,7 +4,7 @@ import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import gql from 'graphql-tag'
-import DocumentListContainer, { documentListQueryFragment } from '../Feed/DocumentListContainer'
+import DocumentListContainer, { documentFragment } from '../Feed/DocumentListContainer'
 import withT, { t } from '../../lib/withT'
 
 import {
@@ -16,6 +16,8 @@ import {
 } from '@project-r/styleguide'
 import { Link } from '../../lib/routes'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
+
+import { BOOKMARKS_COLLECTION_NAME } from './fragments'
 
 const styles = {
   title: css({
@@ -34,18 +36,29 @@ const query = gql`
   query getDocuments($cursor: String) {
     me {
       id
-      list(name: "bookmarks") {
+      collection(name: "${BOOKMARKS_COLLECTION_NAME}") {
         id
-        documents( first: 50, after: $cursor) {
-          ...DocumentListConnection
+        items(first: 50, after: $cursor) {
+          totalCount
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+          nodes {
+            id
+            createdAt
+            document {
+              ...DocumentListDocument
+            }
+          }
         }
       }
     }
   }
-  ${documentListQueryFragment}
+  ${documentFragment}
 `
 
-const getDocuments = data => data.me.list
+const getConnection = data => data.me.collection.items
 
 const feedLink = <Link route='feed' key='link'>
   <a {...linkRule}>
@@ -68,7 +81,8 @@ class Page extends Component {
           <div {...styles.title}>{t('pages/bookmarks/title')}</div>
           <DocumentListContainer
             query={query}
-            getDocuments={getDocuments}
+            getConnection={getConnection}
+            mapNodes={node => node.document}
             placeholder={
               <Interaction.P>{t.elements('pages/bookmarks/placeholder', {
                 feedLink,

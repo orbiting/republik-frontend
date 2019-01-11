@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
-import Bookmark, { BOOKMARKS_LIST_NAME } from './Bookmark'
+import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
@@ -57,7 +57,7 @@ class ActionBar extends Component {
       shareOverlayTitle,
       showBookmark,
       documentId,
-      userListItems,
+      userBookmark,
       inNativeApp,
       isEditor
     } = this.props
@@ -138,13 +138,6 @@ class ActionBar extends Component {
       }
     ]
 
-    const bookmarked =
-      userListItems &&
-      !!userListItems.length &&
-      !!userListItems.find(
-        item => item.list && item.list.name === BOOKMARKS_LIST_NAME
-      )
-
     return (
       <Fragment>
         {showShareOverlay && (
@@ -160,7 +153,7 @@ class ActionBar extends Component {
         <span {...styles.buttonGroup}>
           {showBookmark && (
             <Bookmark
-              bookmarked={bookmarked}
+              bookmarked={!!userBookmark}
               documentId={documentId}
               active={false}
               size={28}

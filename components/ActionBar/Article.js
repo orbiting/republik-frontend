@@ -22,7 +22,7 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userListItems, inNativeApp } = this.props
+    const { title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
 
     return (
       <Fragment>
@@ -42,7 +42,7 @@ class ArticleActionBar extends Component {
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
           documentId={documentId}
-          userListItems={userListItems}
+          userBookmark={userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
         />
         {discussionId && alive &&

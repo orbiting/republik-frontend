@@ -20,15 +20,12 @@ const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 class Feed extends Component {
   render () {
     const { documents } = this.props
-    const nodes = documents
-      ? [...documents.nodes]
-      : []
 
     return (
       <>
         {
-          nodes &&
-          groupByDate.entries(nodes).map(({ key, values }, i, all) =>
+          documents &&
+          groupByDate.entries(documents).map(({ key, values }, i, all) =>
             <StickySection
               key={i}
               hasSpaceAfter={i < all.length - 1}
@@ -51,7 +48,7 @@ class Feed extends Component {
                     key={doc.meta.path}
                     bar={<ActionBar
                       documentId={doc.id}
-                      userListItems={doc.userListItems}
+                      userBookmark={doc.userBookmark}
                       {...doc.meta}
                       meta={doc.meta} />}
                   />
@@ -66,7 +63,12 @@ class Feed extends Component {
 }
 
 Feed.propTypes = {
-  documents: PropTypes.object.isRequired
+  documents: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    meta: PropTypes.shape({
+      publishDate: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired).isRequired
 }
 
 export default compose(

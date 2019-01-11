@@ -11,10 +11,8 @@ import IconBookmarked from 'react-icons/lib/md/bookmark'
 import { colors } from '@project-r/styleguide'
 
 import {
-  onDocumentFragment
+  onDocumentFragment, BOOKMARKS_COLLECTION_NAME
 } from '../Bookmarks/fragments'
-
-export const BOOKMARKS_LIST_NAME = 'bookmarks'
 
 const styles = {
   button: css({
@@ -45,11 +43,11 @@ class Bookmark extends Component {
         mutating: true
       })
       const {
-        addDocumentToList,
-        removeDocumentFromList,
+        addDocumentToCollection,
+        removeDocumentFromCollection,
         documentId
       } = this.props
-      const mutate = bookmarked ? removeDocumentFromList : addDocumentToList
+      const mutate = bookmarked ? removeDocumentFromCollection : addDocumentToCollection
       mutate(documentId)
         .then(this.finish)
         .catch(this.catchServerError)
@@ -99,18 +97,21 @@ Bookmark.propTypes = {
   small: PropTypes.bool,
   style: PropTypes.object,
   documentId: PropTypes.string.isRequired,
-  addDocumentToList: PropTypes.func,
-  removeDocumentFromList: PropTypes.func
+  addDocumentToCollection: PropTypes.func.isRequired,
+  removeDocumentFromCollection: PropTypes.func.isRequired
 }
 
 const addMutation = gql`
-  mutation addDocumentToList(
+  mutation addDocumentToCollection(
     $documentId: ID!
-    $listName: ID!
+    $collectionName: String!
   ) {
-    addDocumentToList(documentId: $documentId, listName: $listName) {
+    addDocumentToCollection(documentId: $documentId, collectionName: $collectionName) {
       id
-      ...BookmarkOnDocument
+      document {
+        id
+        ...BookmarkOnDocument
+      }
     }
   }
 
@@ -118,13 +119,16 @@ const addMutation = gql`
 `
 
 const removeMutation = gql`
-  mutation removeDocumentFromList(
+  mutation removeDocumentFromCollection(
     $documentId: ID!
-    $listName: ID!
+    $collectionName: String!
   ) {
-    removeDocumentFromList(documentId: $documentId, listName: $listName) {
+    removeDocumentFromCollection(documentId: $documentId, collectionName: $collectionName) {
       id
-      ...BookmarkOnDocument
+      document {
+        id
+        ...BookmarkOnDocument
+      }
     }
   }
 
@@ -134,22 +138,22 @@ const removeMutation = gql`
 export default compose(
   graphql(addMutation, {
     props: ({ mutate }) => ({
-      addDocumentToList: (documentId) =>
+      addDocumentToCollection: (documentId) =>
         mutate({
           variables: {
             documentId,
-            listName: BOOKMARKS_LIST_NAME
+            collectionName: BOOKMARKS_COLLECTION_NAME
           }
         })
     })
   }),
   graphql(removeMutation, {
     props: ({ mutate }) => ({
-      removeDocumentFromList: (documentId) =>
+      removeDocumentFromCollection: (documentId) =>
         mutate({
           variables: {
             documentId,
-            listName: BOOKMARKS_LIST_NAME
+            collectionName: BOOKMARKS_COLLECTION_NAME
           }
         })
     })

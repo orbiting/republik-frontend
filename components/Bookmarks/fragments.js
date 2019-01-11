@@ -1,13 +1,10 @@
+export const BOOKMARKS_COLLECTION_NAME = 'bookmarks'
 
 export const onDocumentFragment = `
 fragment BookmarkOnDocument on Document {
-  userListItems {
+  userBookmark: userCollectionItem(collectionName: "${BOOKMARKS_COLLECTION_NAME}") {
     id
     createdAt
-    list {
-      id
-      name
-    }
   }
 }
 `

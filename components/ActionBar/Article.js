@@ -39,11 +39,11 @@ class ArticleActionBar extends Component {
           })}
           onAudioClick={onAudioClick}
           inNativeApp={inNativeApp}
-          onGalleryClick={onGalleryClick}
+          onGalleryClick={/* todo: rm alive here for public release */alive && onGalleryClick}
           showBookmark={alive && showBookmark}
           documentId={documentId}
           userBookmark={userBookmark}
-          estimatedReadingMinutes={estimatedReadingMinutes}
+          estimatedReadingMinutes={/* todo: rm alive here for public release */alive && estimatedReadingMinutes}
         />
         {discussionId && alive &&
           <DiscussionIconLink

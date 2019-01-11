@@ -58,8 +58,7 @@ class ActionBar extends Component {
       showBookmark,
       documentId,
       userBookmark,
-      inNativeApp,
-      isEditor
+      inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -126,7 +125,7 @@ class ActionBar extends Component {
         },
         title: t('article/actionbar/audio')
       },
-      isEditor && onGalleryClick && {
+      onGalleryClick && {
         icon: 'gallery',
         href: '#gallery',
         onClick: e => {
@@ -163,7 +162,7 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {isEditor && estimatedReadingMinutes > 1 && (
+          {estimatedReadingMinutes > 1 && (
             <ReadingTime minutes={estimatedReadingMinutes} />
           )}
         </span>

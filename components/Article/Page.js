@@ -298,6 +298,7 @@ class ArticlePage extends Component {
 
     const hasPdf = meta && meta.template === 'article'
 
+    // ToDo: remove all editor guard for public launch.
     const actionBar = meta && (
       <ArticleActionBar
         t={t}
@@ -308,7 +309,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={meta.indicateGallery && this.showGallery}
+        onGalleryClick={isEditor && meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -319,8 +320,8 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         documentId={article.id}
         userBookmark={article.userBookmark}
-        showBookmark={/* ToDo: remove editor guard for public launch. */isEditor && isMember}
-        estimatedReadingMinutes={meta.estimatedReadingMinutes}
+        showBookmark={isEditor && isMember}
+        estimatedReadingMinutes={isEditor ? meta.estimatedReadingMinutes : undefined}
       />
     )
 

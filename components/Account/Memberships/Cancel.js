@@ -10,7 +10,7 @@ import { errorToString } from '../../../lib/utils/errors'
 import ErrorMessage from '../../ErrorMessage'
 import { Item, P } from '../Elements'
 
-import { Link } from '../../../lib/routes'
+import { Router, Link } from '../../../lib/routes'
 
 import {
   Loader, A, Field, Radio, Button, Interaction, InlineSpinner
@@ -58,7 +58,22 @@ class CancelMembership extends Component {
       remoteError: null
     }
   }
-
+  redirectIfNecessary () {
+    const { redirectMemberships } = this.props
+    if (redirectMemberships && redirectMemberships.length) {
+      if (redirectMemberships.length > 1) {
+        Router.pushRoute('account')
+      } else {
+        Router.replaceRoute('cancel', { membershipId: redirectMemberships[0].id })
+      }
+    }
+  }
+  componentDidMount () {
+    this.redirectIfNecessary()
+  }
+  componentDidUpdate () {
+    this.redirectIfNecessary()
+  }
   render () {
     const { loading, error, membership, cancellationCategories, t } = this.props
     const { isCancelled, isCancelling, remoteError, cancellationType, reason } = this.state
@@ -184,20 +199,37 @@ export default compose(
     })
   }),
   graphql(cancellationCategories, {
-    props: ({ data, ownProps: { loading } }) => ({
+    props: ({ data, ownProps: { error, loading } }) => ({
       cancellationCategories: data.cancellationCategories,
       loading: loading || data.loading,
-      error: data.error
+      error: error || data.error
     })
   }),
   graphql(myBelongings, {
-    props: ({ data, ownProps: { membershipId, loading } }) => ({
-      membership: data.me &&
-        data.me.memberships &&
-        data.me.memberships.find(v => v.id === membershipId),
-      loading: loading || data.loading,
-      error: data.error
-    })
+    props: ({ data, ownProps: { membershipId, error, loading: categoryLoading } }) => {
+      const memberships = data.me && data.me.memberships
+      const membership = (
+        memberships &&
+        memberships.find(v => v.id === membershipId)
+      )
+      const redirectMemberships = (
+        !membership &&
+        memberships &&
+        memberships.filter(v => v.active && v.renew)
+      )
+      const loading = (
+        (redirectMemberships && redirectMemberships.length > 0) ||
+        categoryLoading ||
+        data.loading
+      )
+
+      return {
+        membership: membership,
+        loading,
+        redirectMemberships,
+        error: error || data.error
+      }
+    }
   }),
   withT
 )(CancelMembership)

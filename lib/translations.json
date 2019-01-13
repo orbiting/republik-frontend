@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-13T23:07:14.942Z",
+  "updated": "2019-01-13T23:19:30.913Z",
   "title": "live",
   "data": [
     {
@@ -4012,7 +4012,7 @@
     },
     {
       "key": "memberships/cancel/accountLink",
-      "value": "Zurück zum Konto"
+      "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
@@ -4188,7 +4188,7 @@
     },
     {
       "key": "prolongNecessary/overdue/explanation",
-      "value": "Falls Sie nicht bis am {graceEndDate} bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft und {cancelLink}."
+      "value": "Falls Sie bis am {graceEndDate} nicht bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft und {cancelLink}."
     },
     {
       "key": "prolongNecessary/overdue/explanation/cancelText",

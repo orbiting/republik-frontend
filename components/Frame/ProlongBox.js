@@ -61,7 +61,7 @@ const ProlongBox = ({
     const colorStyle = { color: dark ? '#fff' : undefined }
 
     const explanation = t.elements(`${baseKey}/explanation`, {
-      cancelLink: <Link key='cancelLink' route='cancel'>
+      cancelLink: <Link key='cancelLink' route='cancel' passHref>
         <Editorial.A style={colorStyle}>
           {t(`${baseKey}/explanation/cancelText`)}
         </Editorial.A>

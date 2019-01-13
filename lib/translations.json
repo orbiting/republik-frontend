@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-13T13:39:09.965Z",
+  "updated": "2019-01-13T23:07:14.942Z",
   "title": "live",
   "data": [
     {
@@ -4163,12 +4163,36 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
-      "key": "prolongNecessary/jan15",
+      "key": "prolongNecessary/before",
       "value": "Mit der Republik ins zweite Jahr: {link}"
     },
     {
-      "key": "prolongNecessary/jan15/linkText",
+      "key": "prolongNecessary/before/linkText",
       "value": "jetzt verlängern"
+    },
+    {
+      "key": "prolongNecessary/due",
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
+    },
+    {
+      "key": "prolongNecessary/due/linkText",
+      "value": "jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue",
+      "value": "Ihr Mitglied­schafts­beitrag ist überfällig"
+    },
+    {
+      "key": "prolongNecessary/overdue/button",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation",
+      "value": "Falls Sie nicht bis am {graceEndDate} bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft und {cancelLink}."
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation/cancelText",
+      "value": "teilen Sie uns mit warum"
     },
     {
       "key": "pledge/option/PROLONG/ABO/label",

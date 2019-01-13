@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-10T15:33:37.289Z",
+  "updated": "2019-01-13T13:39:09.965Z",
   "title": "live",
   "data": [
     {
@@ -3195,20 +3195,24 @@
       "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
+      "key": "memberships/noActive",
+      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
+    },
+    {
       "key": "memberships/latestPeriod/renew/true",
-      "value": "Gültig bis {formattedEndDate}"
+      "value": "Automatische Erneuerung am {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus"
-    },
-    {
-      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
-      "value": "Ihr Abonnement wird am {formattedEndDate} automatisch erneuert."
+      "value": "Gültig bis am {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/overdue",
       "value": "Überfällig seit dem {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/ended",
+      "value": "Endete am {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",

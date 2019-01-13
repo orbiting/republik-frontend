@@ -67,7 +67,7 @@ class Actions extends Component {
             </A>
           </Link>
         </P>}
-        {!membership.renew && !!membership.periods.length && <P>
+        {!membership.renew && !!membership.periods.length && membership.type.name === 'MONTHLY_ABO' && <P>
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()
             this.setState({

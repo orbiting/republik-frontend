@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-14T09:44:08.071Z",
+  "updated": "2019-01-14T12:54:59.323Z",
   "title": "live",
   "data": [
     {
@@ -45,10 +45,6 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
-    },
-    {
-      "key": "nav/bookmarks",
-      "value": "Lesezeichen"
     },
     {
       "key": "navbar/front",
@@ -105,14 +101,6 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
-    },
-    {
-      "key": "pages/bookmarks/title",
-      "value": "Lesezeichen"
-    },
-    {
-      "key": "pages/bookmarks/placeholder",
-      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/search/title",
@@ -2615,14 +2603,6 @@
       "value": "+41797874765"
     },
     {
-      "key": "bookmark/title/bookmarked",
-      "value": "Lesezeichen entfernen"
-    },
-    {
-      "key": "bookmark/title/default",
-      "value": "Lesezeichen hinzufügen"
-    },
-    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
@@ -3547,6 +3527,10 @@
       "value": "Zur Debattenseite"
     },
     {
+      "key": "feedback/fetchMore",
+      "value": "Mehr Beiträge"
+    },
+    {
       "key": "tokenAuthorization/error",
       "value": "Ungültiger Link"
     },
@@ -4183,30 +4167,6 @@
       "value": "jetzt verlängern"
     },
     {
-      "key": "prolongNecessary/due",
-      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}"
-    },
-    {
-      "key": "prolongNecessary/due/linkText",
-      "value": "jetzt bezahlen"
-    },
-    {
-      "key": "prolongNecessary/overdue",
-      "value": "Ihr Mitglied­schafts­beitrag ist überfällig"
-    },
-    {
-      "key": "prolongNecessary/overdue/button",
-      "value": "Jetzt bezahlen"
-    },
-    {
-      "key": "prolongNecessary/overdue/explanation",
-      "value": "Falls Sie bis am {graceEndDate} nicht bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft und {cancelLink}."
-    },
-    {
-      "key": "prolongNecessary/overdue/explanation/cancelText",
-      "value": "teilen Sie uns mit warum"
-    },
-    {
       "key": "pledge/option/PROLONG/ABO/label",
       "value": "Abo und Mitgliedschaft"
     },
@@ -4307,10 +4267,6 @@
       "value": "Das Crowdfunding ist vorbei."
     },
     {
-      "key": "crowdfunding/status/time/ended/PROLONG",
-      "value": "Die Vorverlängerungsphase ist vorbei."
-    },
-    {
       "key": "meta/prolong/title",
       "value": "Mit der Republik ins zweite Jahr"
     },
@@ -4373,6 +4329,58 @@
     {
       "key": "overview/after/pledgeButton",
       "value": "Jetzt Mitglied werden"
+    },
+    {
+      "key": "prolongNecessary/due",
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+    },
+    {
+      "key": "prolongNecessary/due/linkText",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue",
+      "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
+    },
+    {
+      "key": "prolongNecessary/overdue/button",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation",
+      "value": "Falls Sie bis zum {graceEndDate} nicht bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation/cancelText",
+      "value": "Teilen Sie uns mit, warum."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/PROLONG",
+      "value": "Die erste grosse Verlängerungsphase ist vorbei."
+    },
+    {
+      "key": "nav/bookmarks",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "bookmark/title/bookmarked",
+      "value": "Lesezeichen entfernen"
+    },
+    {
+      "key": "bookmark/title/default",
+      "value": "Lesezeichen hinzufügen"
+    },
+    {
+      "key": "pages/bookmarks/title",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/placeholder",
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+    },
+    {
+      "key": "pages/bookmarks/placeholder/feedText",
+      "value": "Feed"
     }
   ]
 }

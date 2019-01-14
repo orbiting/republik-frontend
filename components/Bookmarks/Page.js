@@ -6,7 +6,7 @@ import { enforceMembership } from '../Auth/withMembership'
 import { enforceAuthorization } from '../Auth/withAuthorization'
 import gql from 'graphql-tag'
 import DocumentListContainer, { documentFragment } from '../Feed/DocumentListContainer'
-import withT, { t } from '../../lib/withT'
+import withT from '../../lib/withT'
 
 import {
   mediaQueries,
@@ -71,12 +71,6 @@ const mergeConnection = (data, connection) => ({
   }
 })
 
-const feedLink = <Link route='feed' key='link'>
-  <a {...linkRule}>
-    {t('pages/feed/title')}
-  </a>
-</Link>
-
 const bookmarkIcon = <IconDefault size={22} key='icon' />
 
 class Page extends Component {
@@ -98,7 +92,11 @@ class Page extends Component {
             placeholder={
               <Interaction.P style={{ marginBottom: 60 }}>
                 {t.elements('pages/bookmarks/placeholder', {
-                  feedLink,
+                  feedLink: <Link route='feed' key='link'>
+                    <a {...linkRule}>
+                      {t('pages/bookmarks/placeholder/feedText')}
+                    </a>
+                  </Link>,
                   bookmarkIcon
                 })}
               </Interaction.P>

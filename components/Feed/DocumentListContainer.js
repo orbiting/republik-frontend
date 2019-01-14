@@ -34,11 +34,17 @@ export const documentFragment = `
       ownDiscussion {
         id
         closed
+        comments(first: 0) {
+          totalCount
+        }
       }
       linkedDiscussion {
         id
         path
         closed
+        comments(first: 0) {
+          totalCount
+        }
       }
       format {
         meta {

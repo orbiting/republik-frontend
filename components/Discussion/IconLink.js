@@ -35,10 +35,10 @@ const styles = {
 
 class IconLink extends Component {
   componentDidMount () {
-    this.unsubscribe = this.props.subscribe()
+    this.unsubscribe = this.props.subscribe && this.props.subscribe()
   }
   componentWillUnmount () {
-    this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
   render () {
     const { path, query, discussionPage, discussionId, count, style, small } = this.props
@@ -79,3 +79,5 @@ class IconLink extends Component {
 }
 
 export default withCount(IconLink)
+
+export const DiscussionIconLinkWithoutEnhancer = IconLink

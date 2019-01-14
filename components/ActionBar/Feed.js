@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import Bookmark from './Bookmark'
-import DiscussionIconLink from '../Discussion/IconLink'
+import { DiscussionIconLinkWithoutEnhancer } from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
@@ -97,6 +97,9 @@ const ActionBar = ({
   const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
   const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
   const isDiscussion = isOwnDiscussion && template === 'discussion'
+  const totalCount =
+    (isLinkedDiscussion && linkedDiscussion.comments.totalCount) ||
+    (isOwnDiscussion && ownDiscussion.comments.totalCount) || undefined
 
   const discussionId =
     (isLinkedDiscussion && linkedDiscussion.id) ||
@@ -134,10 +137,11 @@ const ActionBar = ({
           <ReadingTime minutes={estimatedReadingMinutes} small />
         )}
         {(isLinkedDiscussion || isOwnDiscussion) && (
-          <DiscussionIconLink
+          <DiscussionIconLinkWithoutEnhancer
             discussionId={discussionId}
             path={discussionPath}
             query={query}
+            count={totalCount}
             small
           />
         )}

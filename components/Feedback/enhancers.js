@@ -73,7 +73,7 @@ query getArticleSearchResults(
 const getComments = gql`
 query getComments($after: String) {
   comments(
-    first: 50,
+    first: 10,
     after: $after,
     orderBy: DATE,
     orderDirection: DESC) {
@@ -186,8 +186,8 @@ export const withComments = graphql(getComments, {
               ? fetchMoreResult.comments.totalCount
               : nodes.length,
             comments: {
-              ...previousResult.search,
-              ...fetchMoreResult.search,
+              ...previousResult.comments,
+              ...fetchMoreResult.comments,
               nodes
             }
           }

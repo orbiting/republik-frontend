@@ -170,6 +170,8 @@ class Status extends Component {
       )
     }
 
+    const isRunning = minutes >= 0
+
     return (
       <Fragment>
         {[
@@ -204,8 +206,8 @@ class Status extends Component {
           </Fragment>
         ))}
         <P>
-          <span {...styles.smallNumber}>
-            {minutes >= 0 ? (
+          <span {...styles.smallNumber} style={isRunning ? undefined : { lineHeight: 1.3 }}>
+            {isRunning ? (
               [
                 days > 0 && t.pluralize(
                   'crowdfunding/status/time/days',
@@ -232,14 +234,14 @@ class Status extends Component {
                   }
                 )
               ].filter(Boolean).join(' ')
-            ) : (
-              t.first([
-                `crowdfunding/status/time/ended/${crowdfundingName}`,
-                'crowdfunding/status/time/ended'
-              ])
-            )}
+            ) : t.first([
+              `crowdfunding/status/time/ended/${crowdfundingName}`,
+              'crowdfunding/status/time/ended'
+            ])}
           </span>
-          <Label>{t('crowdfunding/status/time/label')}</Label>
+          {isRunning
+            ? <Label>{t('crowdfunding/status/time/label')}</Label>
+            : <br />}
         </P>
       </Fragment>
     )

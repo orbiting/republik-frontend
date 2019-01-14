@@ -566,6 +566,7 @@ query pledgeForm($crowdfundingName: String!, $accessToken: ID) {
           renew
           active
           overdue
+          autoPay
           type {
             name
           }

@@ -35,8 +35,7 @@ class Feed extends Component {
       bar={<ActionBar
         documentId={doc.id}
         userBookmark={doc.userBookmark}
-        {...doc.meta}
-        meta={doc.meta} />}
+        {...doc.meta} />}
     />
 
   render () {

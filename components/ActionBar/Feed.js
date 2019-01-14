@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import Bookmark from './Bookmark'
-import DiscussionIconLink from '../Discussion/IconLink'
+import { DiscussionIconLinkWithoutEnhancer } from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
@@ -16,14 +16,9 @@ import { colors } from '@project-r/styleguide'
 
 const styles = {
   buttonGroup: css({
-    display: 'flex',
-    alignContent: 'space-between',
     '@media print': {
       display: 'none'
     }
-  }),
-  aside: css({
-    marginLeft: 'auto'
   })
 }
 
@@ -102,6 +97,9 @@ const ActionBar = ({
   const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
   const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
   const isDiscussion = isOwnDiscussion && template === 'discussion'
+  const totalCount =
+    (isLinkedDiscussion && linkedDiscussion.comments.totalCount) ||
+    (isOwnDiscussion && ownDiscussion.comments.totalCount) || undefined
 
   const discussionId =
     (isLinkedDiscussion && linkedDiscussion.id) ||
@@ -115,8 +113,8 @@ const ActionBar = ({
   const query = isArticleAutoDiscussion ? { t: 'article', id: ownDiscussion.id } : undefined
 
   return (
-    <div {...styles.buttonGroup}>
-      <div>
+    <Fragment>
+      <span {...styles.buttonGroup}>
         <Bookmark
           bookmarked={!!userBookmark}
           documentId={documentId}
@@ -135,21 +133,20 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
+        {estimatedReadingMinutes > 1 && (
+          <ReadingTime minutes={estimatedReadingMinutes} small />
+        )}
         {(isLinkedDiscussion || isOwnDiscussion) && (
-          <DiscussionIconLink
+          <DiscussionIconLinkWithoutEnhancer
             discussionId={discussionId}
             path={discussionPath}
             query={query}
+            count={totalCount}
             small
           />
         )}
-      </div>
-      {estimatedReadingMinutes > 1 && (
-        <div {...styles.aside}>
-          <ReadingTime minutes={estimatedReadingMinutes} small />
-        </div>
-      )}
-    </div>
+      </span>
+    </Fragment>
   )
 }
 

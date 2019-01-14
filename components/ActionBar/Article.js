@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import ActionBar from './'
+import DiscussionIconLink from '../Discussion/IconLink'
 
 import {
   colors
@@ -21,7 +22,7 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, template, linkedDiscussion, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
+    const { title, discussionId, discussionPage, discussionPath, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
 
     return (
       <Fragment>
@@ -42,10 +43,15 @@ class ArticleActionBar extends Component {
           showBookmark={alive && showBookmark}
           documentId={documentId}
           userBookmark={userBookmark}
-          linkedDiscussion={alive && linkedDiscussion}
-          template={template}
           estimatedReadingMinutes={/* todo: rm alive here for public release */alive && estimatedReadingMinutes}
         />
+        {discussionId && alive &&
+          <DiscussionIconLink
+            discussionId={discussionId}
+            discussionPage={discussionPage}
+            path={discussionPath}
+            style={{ marginLeft: 7 }} />
+        }
       </Fragment>
     )
   }

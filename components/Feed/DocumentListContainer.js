@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import Loader from '../Loader'
 import DocumentList from './DocumentList'
+import noop from 'lodash/noop'
 
 import {
   onDocumentFragment as bookmarkOnDocumentFragment
@@ -91,6 +92,15 @@ const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection })
     }
   })
 
+class LifecycleWrapper extends Component {
+  componentWillUnmount () {
+    this.props.onComponentWillUnmount && this.props.onComponentWillUnmount()
+  }
+  render () {
+    return this.props.children
+  }
+}
+
 class DocumentListContainer extends Component {
   render () {
     const {
@@ -101,38 +111,41 @@ class DocumentListContainer extends Component {
       mapNodes,
       placeholder,
       help,
-      feedProps
+      feedProps,
+      refetchOnUnmount
     } = this.props
 
     return (
       <Query query={query}>
-        {({ loading, error, data, fetchMore }) =>
-          <Loader
-            loading={loading}
-            error={error}
-            render={() => {
-              const connection = getConnection(data)
-              const isEmpty = connection.totalCount < 1
-              if (isEmpty) {
-                return placeholder
-              } else {
-                const hasMore = connection.pageInfo.hasNextPage
-                return (
-                  <div>
-                    {help}
-                    <DocumentList
-                      documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
-                      totalCount={connection.totalCount}
-                      unfilteredCount={connection.nodes.length}
-                      hasMore={hasMore}
-                      loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
-                      feedProps={feedProps}
-                    />
-                  </div>
-                )
-              }
-            }}
-          />
+        {({ loading, error, data, fetchMore, refetch }) =>
+          <LifecycleWrapper onComponentWillUnmount={refetchOnUnmount ? refetch : noop}>
+            <Loader
+              loading={loading}
+              error={error}
+              render={() => {
+                const connection = getConnection(data)
+                const isEmpty = connection.totalCount < 1
+                if (isEmpty) {
+                  return placeholder
+                } else {
+                  const hasMore = connection.pageInfo.hasNextPage
+                  return (
+                    <div>
+                      {help}
+                      <DocumentList
+                        documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
+                        totalCount={connection.totalCount}
+                        unfilteredCount={connection.nodes.length}
+                        hasMore={hasMore}
+                        loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
+                        feedProps={feedProps}
+                      />
+                    </div>
+                  )
+                }
+              }}
+            />
+          </LifecycleWrapper>
         }
       </Query>
     )
@@ -155,7 +168,8 @@ DocumentListContainer.propTypes = {
   filterDocuments: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element,
-  help: PropTypes.element
+  help: PropTypes.element,
+  refetchOnUnmount: PropTypes.bool
 }
 
 export default DocumentListContainer

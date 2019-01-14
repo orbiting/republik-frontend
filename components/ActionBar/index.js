@@ -4,7 +4,6 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import Bookmark from './Bookmark'
-import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
@@ -18,14 +17,9 @@ import { shouldIgnoreClick } from '../Link/utils'
 
 const styles = {
   buttonGroup: css({
-    display: 'flex',
-    alignContent: 'space-between',
     '@media print': {
       display: 'none'
     }
-  }),
-  aside: css({
-    marginLeft: 'auto'
   })
 }
 
@@ -64,8 +58,6 @@ class ActionBar extends Component {
       showBookmark,
       documentId,
       userBookmark,
-      template,
-      linkedDiscussion,
       inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
@@ -145,10 +137,6 @@ class ActionBar extends Component {
       }
     ]
 
-    const discussionPage = template === 'discussion'
-    const discussionId = linkedDiscussion && linkedDiscussion.id
-    const discussionPath = linkedDiscussion && linkedDiscussion.path
-
     return (
       <Fragment>
         {showShareOverlay && (
@@ -161,34 +149,23 @@ class ActionBar extends Component {
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
         )}
-        <div {...styles.buttonGroup}>
-          <div>
-            {showBookmark && (
-              <Bookmark
-                bookmarked={!!userBookmark}
-                documentId={documentId}
-                active={false}
-                size={28}
-                style={{ marginLeft: '-4px', paddingRight: 0 }}
-              />
-            )}
-            {icons
-              .filter(Boolean)
-              .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-            {discussionId &&
-              <DiscussionIconLink
-                discussionId={discussionId}
-                discussionPage={discussionPage}
-                path={discussionPath}
-                style={{ marginLeft: 7 }} />
-            }
-          </div>
-          {estimatedReadingMinutes > 1 && (
-            <div {...styles.aside}>
-              <ReadingTime minutes={estimatedReadingMinutes} />
-            </div>
+        <span {...styles.buttonGroup}>
+          {showBookmark && (
+            <Bookmark
+              bookmarked={!!userBookmark}
+              documentId={documentId}
+              active={false}
+              size={28}
+              style={{ marginLeft: '-4px', paddingRight: 0 }}
+            />
           )}
-        </div>
+          {icons
+            .filter(Boolean)
+            .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
+          {estimatedReadingMinutes > 1 && (
+            <ReadingTime minutes={estimatedReadingMinutes} />
+          )}
+        </span>
       </Fragment>
     )
   }

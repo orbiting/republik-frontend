@@ -216,7 +216,7 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
-      ...this.deriveStateFromProps(props)
+      ...this.deriveStateFromProps(props, {})
     }
 
     this.onScroll = () => {
@@ -282,7 +282,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }, state) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -346,18 +346,34 @@ class ArticlePage extends Component {
     })
 
     const isSeries = meta && !!meta.series
+    const id = article && article.id
 
     return {
+      id,
       schema,
       meta,
       actionBar,
-      isSeries
+      isSeries,
+      autoPlayAudioSource: id !== state.id
+        ? router.query.audio === '1'
+        : state.autoPlayAudioSource
+    }
+  }
+
+  autoPlayAudioSource () {
+    const { autoPlayAudioSource, meta } = this.state
+    if (autoPlayAudioSource && meta) {
+      this.setState({
+        autoPlayAudioSource: false
+      }, () => {
+        this.toggleAudio()
+      })
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
-      this.setState(this.deriveStateFromProps(nextProps))
+      this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
@@ -366,15 +382,12 @@ class ArticlePage extends Component {
     window.addEventListener('resize', this.measure)
 
     this.measure()
-
-    const { query } = this.props.router
-    if (query.audio === '1') {
-      this.toggleAudio()
-    }
+    this.autoPlayAudioSource()
   }
 
   componentDidUpdate () {
     this.measure()
+    this.autoPlayAudioSource()
   }
 
   componentWillUnmount () {

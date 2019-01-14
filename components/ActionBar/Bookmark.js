@@ -9,10 +9,13 @@ import { styles as iconLinkStyles } from '../IconLink'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
 import IconBookmarked from 'react-icons/lib/md/bookmark'
 import { colors } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
 
 import {
   onDocumentFragment, BOOKMARKS_COLLECTION_NAME
 } from '../Bookmarks/fragments'
+
+import { getBookmarkedDocuments } from '../Bookmarks/queries'
 
 const styles = {
   button: css({
@@ -48,7 +51,7 @@ class Bookmark extends Component {
         documentId
       } = this.props
       const mutate = bookmarked ? removeDocumentFromCollection : addDocumentToCollection
-      mutate(documentId)
+      mutate(documentId, this.props.router.route !== '/bookmarks')
         .then(this.finish)
         .catch(this.catchServerError)
     }
@@ -144,26 +147,29 @@ const removeMutation = gql`
 export default compose(
   graphql(addMutation, {
     props: ({ mutate }) => ({
-      addDocumentToCollection: (documentId) =>
+      addDocumentToCollection: (documentId, update) =>
         mutate({
           variables: {
             documentId,
             collectionName: BOOKMARKS_COLLECTION_NAME
-          }
+          },
+          refetchQueries: update ? [{ query: getBookmarkedDocuments }] : []
         })
     })
   }),
   graphql(removeMutation, {
     props: ({ mutate }) => ({
-      removeDocumentFromCollection: (documentId) =>
+      removeDocumentFromCollection: (documentId, update) =>
         mutate({
           variables: {
             documentId,
             collectionName: BOOKMARKS_COLLECTION_NAME
-          }
+          },
+          refetchQueries: update ? [{ query: getBookmarkedDocuments }] : []
         })
     })
   }),
   withT,
+  withRouter,
   withMembership
 )(Bookmark)

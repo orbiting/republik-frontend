@@ -19,7 +19,6 @@ import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
-import { withEditor } from '../Auth/checkRoles'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
@@ -217,7 +216,7 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
-      ...this.deriveStateFromProps(props)
+      ...this.deriveStateFromProps(props, {})
     }
 
     this.onScroll = () => {
@@ -283,7 +282,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember, isEditor }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }, state) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -298,7 +297,6 @@ class ArticlePage extends Component {
 
     const hasPdf = meta && meta.template === 'article'
 
-    // ToDo: remove all editor guard for public launch.
     const actionBar = meta && (
       <ArticleActionBar
         t={t}
@@ -309,7 +307,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={isEditor && meta.indicateGallery && this.showGallery}
+        onGalleryClick={meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -320,8 +318,8 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         documentId={article.id}
         userBookmark={article.userBookmark}
-        showBookmark={isEditor && isMember}
-        estimatedReadingMinutes={isEditor ? meta.estimatedReadingMinutes : undefined}
+        showBookmark={isMember}
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
 
@@ -348,18 +346,34 @@ class ArticlePage extends Component {
     })
 
     const isSeries = meta && !!meta.series
+    const id = article && article.id
 
     return {
+      id,
       schema,
       meta,
       actionBar,
-      isSeries
+      isSeries,
+      autoPlayAudioSource: id !== state.id
+        ? router.query.audio === '1'
+        : state.autoPlayAudioSource
+    }
+  }
+
+  autoPlayAudioSource () {
+    const { autoPlayAudioSource, meta } = this.state
+    if (autoPlayAudioSource && meta) {
+      this.setState({
+        autoPlayAudioSource: false
+      }, () => {
+        this.toggleAudio()
+      })
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
-      this.setState(this.deriveStateFromProps(nextProps))
+      this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
@@ -368,15 +382,12 @@ class ArticlePage extends Component {
     window.addEventListener('resize', this.measure)
 
     this.measure()
-
-    const { query } = this.props.router
-    if (query.audio === '1') {
-      this.toggleAudio()
-    }
+    this.autoPlayAudioSource()
   }
 
   componentDidUpdate () {
     this.measure()
+    this.autoPlayAudioSource()
   }
 
   componentWillUnmount () {
@@ -389,6 +400,11 @@ class ArticlePage extends Component {
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
+    const actionBarEnd = actionBar
+      ? React.cloneElement(actionBar, {
+        estimatedReadingMinutes: undefined
+      })
+      : undefined
     const series = meta && meta.series
     const episodes = series && series.episodes
 
@@ -436,7 +452,7 @@ class ArticlePage extends Component {
         meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}
@@ -500,7 +516,7 @@ class ArticlePage extends Component {
                 <Fragment>
                   {meta.template === 'article' && <Center>
                     <div ref={this.bottomBarRef} {...styles.bar}>
-                      {actionBar}
+                      {actionBarEnd}
                     </div>
                   </Center>}
                 </Fragment>
@@ -526,7 +542,6 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
-  withEditor,
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

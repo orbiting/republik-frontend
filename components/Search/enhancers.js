@@ -1,5 +1,6 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { documentFragment } from '../Feed/DocumentListContainer'
 
 const getSearchAggregations = gql`  
 query getSearchAggregations( 
@@ -63,24 +64,7 @@ query getSearchResults(
       entity {
         __typename
         ... on Document {
-          meta {
-            title
-            color
-            path
-            kind
-            template
-            description
-            credits
-            publishDate
-            format {
-              meta {
-                path
-                title
-                color
-                kind
-              }
-            }
-          }
+          ...DocumentListDocument
         }
         ... on Comment {
           id
@@ -145,6 +129,7 @@ query getSearchResults(
     }
   }
 }
+${documentFragment}
 `
 
 export const withAggregations = graphql(getSearchAggregations, {

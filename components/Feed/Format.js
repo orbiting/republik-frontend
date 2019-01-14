@@ -7,7 +7,11 @@ import Link from '../Link/Href'
 
 import withT from '../../lib/withT'
 
+import ActionBar from '../ActionBar/Feed'
 import Box from '../Frame/Box'
+import {
+  onDocumentFragment as bookmarkOnDocumentFragment
+} from '../Bookmarks/fragments'
 import { WithoutMembership } from '../Auth/withMembership'
 
 const getFeedDocuments = gql`
@@ -15,6 +19,8 @@ query getFeedDocuments($formatId: String!) {
   documents(format: $formatId, first: 100) {
     totalCount
     nodes {
+      id
+      ...BookmarkOnDocument
       meta {
         credits
         title
@@ -26,10 +32,18 @@ query getFeedDocuments($formatId: String!) {
             kind
           }
         }
+        estimatedReadingMinutes
+        indicateChart
+        indicateGallery
+        indicateVideo
+        audioSource {
+          mp3
+        }
       }
     }
   }
 }
+${bookmarkOnDocumentFragment}
 `
 
 const Feed = ({ t, data: { loading, error, documents } }) => (
@@ -56,6 +70,10 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
                 {...doc.meta}
                 Link={Link}
                 key={doc.meta.path}
+                bar={<ActionBar
+                  documentId={doc.id}
+                  userBookmark={doc.userBookmark}
+                  {...doc.meta} />}
               />
             ))}
         </Center>

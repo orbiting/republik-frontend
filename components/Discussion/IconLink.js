@@ -35,13 +35,13 @@ const styles = {
 
 class IconLink extends Component {
   componentDidMount () {
-    this.unsubscribe = this.props.subscribe()
+    this.unsubscribe = this.props.subscribe && this.props.subscribe()
   }
   componentWillUnmount () {
-    this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
   render () {
-    const { path, discussionPage, discussionId, count, style, small } = this.props
+    const { path, query, discussionPage, discussionId, count, style, small } = this.props
     const size = small ? 22 : 24
     const fontSize = small ? '15px' : undefined
     const lineHeight = small ? '20px' : undefined
@@ -70,7 +70,7 @@ class IconLink extends Component {
       </a>
     }
 
-    return <Link href={path} passHref>
+    return <Link href={path} query={query} passHref>
       <a {...iconLinkStyles.link} {...styles.a} style={patchedStyle}>
         {content}
       </a>
@@ -79,3 +79,5 @@ class IconLink extends Component {
 }
 
 export default withCount(IconLink)
+
+export const DiscussionIconLinkWithoutEnhancer = IconLink

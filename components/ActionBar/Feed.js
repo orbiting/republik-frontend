@@ -4,11 +4,11 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import Bookmark from './Bookmark'
-import DiscussionIconLink from '../Discussion/IconLink'
+import { DiscussionIconLinkWithoutEnhancer } from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
-import { withEditor } from '../Auth/checkRoles'
+import { routes } from '../../lib/routes'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -50,15 +50,11 @@ const ActionBar = ({
   indicateVideo,
   estimatedReadingMinutes,
   linkedDiscussion,
+  ownDiscussion,
+  template,
   path,
-  userBookmark,
-  isEditor
+  userBookmark
 }) => {
-  // ToDo: remove editor guard for public launch.
-  if (!isEditor) {
-    return null
-  }
-
   const hasAudio = !!audioSource
   const icons = [
     dossier && {
@@ -90,6 +86,25 @@ const ActionBar = ({
     }
   ]
 
+  const isLinkedDiscussion = linkedDiscussion && !linkedDiscussion.closed && template === 'article'
+  const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
+  const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
+  const isDiscussion = isOwnDiscussion && template === 'discussion'
+  const totalCount =
+    (isLinkedDiscussion && linkedDiscussion.comments && linkedDiscussion.comments.totalCount) ||
+    (isOwnDiscussion && ownDiscussion.comments && ownDiscussion.comments.totalCount) || undefined
+
+  const discussionId =
+    (isLinkedDiscussion && linkedDiscussion.id) ||
+    (isOwnDiscussion && ownDiscussion.id) ||
+    undefined
+  const discussionPath =
+    (isLinkedDiscussion && linkedDiscussion.path) ||
+    (isArticleAutoDiscussion && routes.find(r => r.name === 'discussion').toPath()) ||
+    (isDiscussion && path) ||
+    undefined
+  const query = isArticleAutoDiscussion ? { t: 'article', id: ownDiscussion.id } : undefined
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
@@ -114,11 +129,12 @@ const ActionBar = ({
         {estimatedReadingMinutes > 1 && (
           <ReadingTime minutes={estimatedReadingMinutes} small />
         )}
-        {linkedDiscussion &&
-        !linkedDiscussion.closed && (
-          <DiscussionIconLink
-            discussionId={linkedDiscussion.id}
-            path={linkedDiscussion.path}
+        {(isLinkedDiscussion || isOwnDiscussion) && (
+          <DiscussionIconLinkWithoutEnhancer
+            discussionId={discussionId}
+            path={discussionPath}
+            query={query}
+            count={totalCount}
             small
           />
         )}
@@ -139,6 +155,5 @@ ActionBar.propTypes = {
 }
 
 export default compose(
-  withEditor,
   withT
 )(ActionBar)

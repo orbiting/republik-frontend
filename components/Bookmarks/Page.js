@@ -3,9 +3,7 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
-import { enforceAuthorization } from '../Auth/withAuthorization'
-import gql from 'graphql-tag'
-import DocumentListContainer, { documentFragment } from '../Feed/DocumentListContainer'
+import DocumentListContainer from '../Feed/DocumentListContainer'
 import withT from '../../lib/withT'
 
 import {
@@ -18,7 +16,7 @@ import {
 import { Link } from '../../lib/routes'
 import IconDefault from 'react-icons/lib/md/bookmark-outline'
 
-import { BOOKMARKS_COLLECTION_NAME } from './fragments'
+import { getBookmarkedDocuments } from './queries'
 
 const styles = {
   title: css({
@@ -32,32 +30,6 @@ const styles = {
     }
   })
 }
-
-const query = gql`
-  query getBookmarkedDocuments($cursor: String) {
-    me {
-      id
-      collection(name: "${BOOKMARKS_COLLECTION_NAME}") {
-        id
-        items(first: 50, after: $cursor) {
-          totalCount
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-          nodes {
-            id
-            createdAt
-            document {
-              ...DocumentListDocument
-            }
-          }
-        }
-      }
-    }
-  }
-  ${documentFragment}
-`
 
 const getConnection = data => data.me.collection.items
 const mergeConnection = (data, connection) => ({
@@ -85,10 +57,12 @@ class Page extends Component {
         <Center>
           <div {...styles.title}>{t('pages/bookmarks/title')}</div>
           <DocumentListContainer
-            query={query}
+            query={getBookmarkedDocuments}
+            refetchOnUnmount
             getConnection={getConnection}
             mergeConnection={mergeConnection}
             mapNodes={node => node.document}
+            feedProps={{ showHeader: false }}
             placeholder={
               <Interaction.P style={{ marginBottom: 60 }}>
                 {t.elements('pages/bookmarks/placeholder', {
@@ -101,6 +75,11 @@ class Page extends Component {
                 })}
               </Interaction.P>
             }
+            help={
+              <Interaction.P style={{ marginBottom: 60 }}>
+                {t('pages/bookmarks/help')}
+              </Interaction.P>
+            }
           />
         </Center>
       </Frame>
@@ -110,7 +89,5 @@ class Page extends Component {
 
 export default compose(
   withT,
-  enforceMembership(),
-  // ToDo: remove editor guard for public launch.
-  enforceAuthorization(['editor'])
+  enforceMembership()
 )(Page)

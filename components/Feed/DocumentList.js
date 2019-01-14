@@ -67,11 +67,11 @@ class DocumentList extends Component {
 
   render () {
     const { infiniteScroll, loadingMore } = this.state
-    const { documents, totalCount, unfilteredCount, hasMore, t } = this.props
+    const { documents, totalCount, unfilteredCount, hasMore, feedProps, t } = this.props
     return (
       <div {...styles.container}>
         <div ref={this.setContainerRef}>
-          <Feed documents={documents} />
+          <Feed documents={documents} {...feedProps} />
         </div>
         <div {...styles.more}>
           {loadingMore &&
@@ -102,7 +102,8 @@ DocumentList.propTypes = {
   unfilteredCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  feedProps: PropTypes.object
 }
 
 export default compose(

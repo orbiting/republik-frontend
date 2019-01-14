@@ -296,7 +296,6 @@ class Results extends Component {
                 </div>
               )
             }
-            const templatesWithBar = ['article', 'discussion', 'editorialNewsletter']
 
             return (
               <Fragment>
@@ -333,9 +332,7 @@ class Results extends Component {
                             highlight => highlight.path === 'meta.description'
                           )
                         const bar =
-                          node.entity.meta &&
-                          node.entity.meta.template &&
-                          templatesWithBar.indexOf(node.entity.meta.template) > -1
+                          node.entity.meta
                             ? <ActionBar
                               documentId={node.entity.id}
                               userBookmark={node.entity.userBookmark}

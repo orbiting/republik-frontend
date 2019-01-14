@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-14T12:54:59.323Z",
+  "updated": "2019-01-14T14:36:30.588Z",
   "title": "live",
   "data": [
     {
@@ -4160,7 +4160,7 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Mit der Republik ins zweite Jahr: {link}"
+      "value": "Mit der Republik ins zweite Jahr: {link}."
     },
     {
       "key": "prolongNecessary/before/linkText",
@@ -4340,7 +4340,7 @@
     },
     {
       "key": "prolongNecessary/overdue",
-      "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
+      "value": "Ihr Mitglied­schafts­beitrag ist fällig."
     },
     {
       "key": "prolongNecessary/overdue/button",
@@ -4348,7 +4348,7 @@
     },
     {
       "key": "prolongNecessary/overdue/explanation",
-      "value": "Falls Sie bis zum {graceEndDate} nicht bezahlen, werden wir Ihre Mitgliedschaft deaktivieren. Wollen Sie die Republik nicht mehr unterstützen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
+      "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
     },
     {
       "key": "prolongNecessary/overdue/explanation/cancelText",
@@ -4377,6 +4377,10 @@
     {
       "key": "pages/bookmarks/placeholder",
       "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+    },
+    {
+      "key": "pages/bookmarks/help",
+      "value": "Die Lesezeichen sind sortiert nach dem Zeitpunkt ihres Hinzufügens (neueste zuerst)."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { compose, withApollo } from 'react-apollo'
+import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import { enforceAuthorization } from '../Auth/withAuthorization'
@@ -95,6 +95,5 @@ export default compose(
   withT,
   enforceMembership(),
   // ToDo: remove editor guard for public launch.
-  enforceAuthorization(['editor']),
-  withApollo
+  enforceAuthorization(['editor'])
 )(Page)

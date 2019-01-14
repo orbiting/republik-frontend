@@ -8,6 +8,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
+import { routes } from '../../lib/routes'
 import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 
@@ -50,6 +51,7 @@ const ActionBar = ({
   indicateVideo,
   estimatedReadingMinutes,
   linkedDiscussion,
+  ownDiscussion,
   path,
   userBookmark,
   isEditor
@@ -119,6 +121,16 @@ const ActionBar = ({
           <DiscussionIconLink
             discussionId={linkedDiscussion.id}
             path={linkedDiscussion.path}
+            small
+          />
+        )}
+        {!linkedDiscussion &&
+          ownDiscussion &&
+          !ownDiscussion.closed && (
+          <DiscussionIconLink
+            discussionId={ownDiscussion.id}
+            path={routes.find(r => r.name === 'discussion').toPath()}
+            query={{ t: 'article', id: ownDiscussion.id }}
             small
           />
         )}

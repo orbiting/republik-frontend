@@ -12,7 +12,7 @@ const PUBLIC_HOSTNAME = parse(PUBLIC_BASE_URL).hostname
 // passHref false and external / unrecognized links
 // for those links currently only the headline is clickable
 
-export default ({ href, passHref, children }) => {
+export default ({ href, passHref, children, query }) => {
   if (!href) {
     return children
   }
@@ -26,5 +26,6 @@ export default ({ href, passHref, children }) => {
   return <PathLink
     path={path}
     passHref={passHref}
-    children={children} />
+    children={children}
+    query={query} />
 }

@@ -67,7 +67,7 @@ const getSchemaCreator = template => {
 
 const styles = {
   bar: css({
-    display: 'inline-block',
+    display: 'block',
     marginTop: '15px',
     [mediaQueries.mUp]: {
       marginTop: '20px'
@@ -294,7 +294,6 @@ class ArticlePage extends Component {
       meta.linkedDiscussion &&
       !meta.linkedDiscussion.closed &&
       meta.linkedDiscussion
-    const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
 
     const hasPdf = meta && meta.template === 'article'
 
@@ -304,9 +303,8 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        discussionPage={meta && meta.template === 'discussion'}
-        discussionId={linkedDiscussionId}
-        discussionPath={linkedDiscussion && linkedDiscussion.path}
+        linkedDiscussion={linkedDiscussion}
+        template={meta.template}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onGalleryClick={isEditor && meta.indicateGallery && this.showGallery}

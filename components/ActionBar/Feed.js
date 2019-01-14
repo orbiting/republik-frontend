@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
@@ -16,9 +16,14 @@ import { colors } from '@project-r/styleguide'
 
 const styles = {
   buttonGroup: css({
+    display: 'flex',
+    alignContent: 'space-between',
     '@media print': {
       display: 'none'
     }
+  }),
+  aside: css({
+    marginLeft: 'auto'
   })
 }
 
@@ -110,8 +115,8 @@ const ActionBar = ({
   const query = isArticleAutoDiscussion ? { t: 'article', id: ownDiscussion.id } : undefined
 
   return (
-    <Fragment>
-      <span {...styles.buttonGroup}>
+    <div {...styles.buttonGroup}>
+      <div>
         <Bookmark
           bookmarked={!!userBookmark}
           documentId={documentId}
@@ -130,9 +135,6 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {estimatedReadingMinutes > 1 && (
-          <ReadingTime minutes={estimatedReadingMinutes} small />
-        )}
         {(isLinkedDiscussion || isOwnDiscussion) && (
           <DiscussionIconLink
             discussionId={discussionId}
@@ -141,8 +143,13 @@ const ActionBar = ({
             small
           />
         )}
-      </span>
-    </Fragment>
+      </div>
+      {estimatedReadingMinutes > 1 && (
+        <div {...styles.aside}>
+          <ReadingTime minutes={estimatedReadingMinutes} small />
+        </div>
+      )}
+    </div>
   )
 }
 

@@ -15,7 +15,7 @@ const styles = {
   })
 }
 
-const ReadingTime = ({ t, minutes, fill, small, isEditor }) => {
+const ReadingTime = ({ t, minutes, fill, small }) => {
   const size = small ? 20 : 22
   const fontSize = small ? '15px' : undefined
   const lineHeight = small ? '20px' : undefined

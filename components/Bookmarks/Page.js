@@ -3,7 +3,6 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
-import { enforceAuthorization } from '../Auth/withAuthorization'
 import DocumentListContainer from '../Feed/DocumentListContainer'
 import withT, { t } from '../../lib/withT'
 
@@ -93,7 +92,5 @@ class Page extends Component {
 
 export default compose(
   withT,
-  enforceMembership(),
-  // ToDo: remove editor guard for public launch.
-  enforceAuthorization(['editor'])
+  enforceMembership()
 )(Page)

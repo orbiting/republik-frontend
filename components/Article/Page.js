@@ -19,7 +19,6 @@ import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
-import { withEditor } from '../Auth/checkRoles'
 import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
@@ -283,7 +282,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember, isEditor }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -298,7 +297,6 @@ class ArticlePage extends Component {
 
     const hasPdf = meta && meta.template === 'article'
 
-    // ToDo: remove all editor guard for public launch.
     const actionBar = meta && (
       <ArticleActionBar
         t={t}
@@ -309,7 +307,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
-        onGalleryClick={isEditor && meta.indicateGallery && this.showGallery}
+        onGalleryClick={meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -320,8 +318,8 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         documentId={article.id}
         userBookmark={article.userBookmark}
-        showBookmark={isEditor && isMember}
-        estimatedReadingMinutes={isEditor ? meta.estimatedReadingMinutes : undefined}
+        showBookmark={isMember}
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
 
@@ -531,7 +529,6 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
-  withEditor,
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

@@ -9,7 +9,6 @@ import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
 import { routes } from '../../lib/routes'
-import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -54,14 +53,8 @@ const ActionBar = ({
   ownDiscussion,
   template,
   path,
-  userBookmark,
-  isEditor
+  userBookmark
 }) => {
-  // ToDo: remove editor guard for public launch.
-  if (!isEditor) {
-    return null
-  }
-
   const hasAudio = !!audioSource
   const icons = [
     dossier && {
@@ -162,6 +155,5 @@ ActionBar.propTypes = {
 }
 
 export default compose(
-  withEditor,
   withT
 )(ActionBar)

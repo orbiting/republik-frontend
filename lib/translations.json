@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-14T13:04:39.300Z",
+  "updated": "2019-01-14T16:02:42.194Z",
   "title": "live",
   "data": [
     {
@@ -4160,7 +4160,7 @@
     },
     {
       "key": "prolongNecessary/before",
-      "value": "Mit der Republik ins zweite Jahr: {link}"
+      "value": "Mit der Republik ins zweite Jahr: {link}."
     },
     {
       "key": "prolongNecessary/before/linkText",
@@ -4348,7 +4348,7 @@
     },
     {
       "key": "prolongNecessary/overdue/explanation",
-      "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn bis dahin keine Zahlung eingegangen ist. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
+      "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
     },
     {
       "key": "prolongNecessary/overdue/explanation/cancelText",
@@ -4380,7 +4380,7 @@
     },
     {
       "key": "pages/bookmarks/help",
-      "value": "Die Lesezeichen sind sortiert nach dem Zeitpunk ihres Hinzufügens (neueste zuerst)."
+      "value": "Neu hinzugefügte Artikel erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",

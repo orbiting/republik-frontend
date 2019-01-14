@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { compose, withApollo } from 'react-apollo'
+import { compose } from 'react-apollo'
 import Frame from '../Frame'
 import { enforceMembership } from '../Auth/withMembership'
 import { enforceAuthorization } from '../Auth/withAuthorization'
@@ -44,20 +44,16 @@ const mergeConnection = (data, connection) => ({
   }
 })
 
-const feedLink = <Link route='feed' key='link'>
-  <a {...linkRule}>
-    {t('pages/feed/title')}
-  </a>
-</Link>
+const feedLink =
+  <Link route='feed' key='link'>
+    <a {...linkRule}>
+      {t('pages/feed/title')}
+    </a>
+  </Link>
 
 const bookmarkIcon = <IconDefault size={22} key='icon' />
 
 class Page extends Component {
-  componentWillUnmount () {
-    const { client } = this.props
-    client.query({ query: getBookmarkedDocuments })
-  }
-
   render () {
     const { t } = this.props
     const meta = {
@@ -70,6 +66,7 @@ class Page extends Component {
           <div {...styles.title}>{t('pages/bookmarks/title')}</div>
           <DocumentListContainer
             query={getBookmarkedDocuments}
+            refetchOnUnmount
             getConnection={getConnection}
             mergeConnection={mergeConnection}
             mapNodes={node => node.document}
@@ -98,6 +95,5 @@ export default compose(
   withT,
   enforceMembership(),
   // ToDo: remove editor guard for public launch.
-  enforceAuthorization(['editor']),
-  withApollo
+  enforceAuthorization(['editor'])
 )(Page)

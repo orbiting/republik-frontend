@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-14T14:36:30.588Z",
+  "updated": "2019-01-14T17:18:04.154Z",
   "title": "live",
   "data": [
     {
@@ -592,7 +592,7 @@
     },
     {
       "key": "account/ios/box",
-      "value": "Besuchen Sie unsere Webseite, um ihre Mitgliedschaft zu verwalten."
+      "value": "Besuchen Sie unsere Webseite, um Ihre Mitgliedschaft zu verwalten."
     },
     {
       "key": "Account/title",
@@ -4356,7 +4356,7 @@
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
-      "value": "Die erste grosse Verlängerungsphase ist vorbei."
+      "value": "Ein detaillierter Überblick folgt Ende Monat."
     },
     {
       "key": "nav/bookmarks",
@@ -4380,7 +4380,7 @@
     },
     {
       "key": "pages/bookmarks/help",
-      "value": "Die Lesezeichen sind sortiert nach dem Zeitpunkt ihres Hinzufügens (neueste zuerst)."
+      "value": "Neu hinzugefügte Artikel erscheinen zuoberst."
     },
     {
       "key": "pages/bookmarks/placeholder/feedText",

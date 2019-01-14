@@ -96,6 +96,7 @@ class DocumentListContainer extends Component {
       filterDocuments,
       mapNodes,
       placeholder,
+      help,
       feedProps
     } = this.props
 
@@ -113,14 +114,17 @@ class DocumentListContainer extends Component {
               } else {
                 const hasMore = connection.pageInfo.hasNextPage
                 return (
-                  <DocumentList
-                    documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
-                    totalCount={connection.totalCount}
-                    unfilteredCount={connection.nodes.length}
-                    hasMore={hasMore}
-                    loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
-                    feedProps={feedProps}
-                  />
+                  <div>
+                    {help}
+                    <DocumentList
+                      documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
+                      totalCount={connection.totalCount}
+                      unfilteredCount={connection.nodes.length}
+                      hasMore={hasMore}
+                      loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
+                      feedProps={feedProps}
+                    />
+                  </div>
                 )
               }
             }}
@@ -146,7 +150,8 @@ DocumentListContainer.propTypes = {
   getConnection: PropTypes.func.isRequired,
   filterDocuments: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
-  placeholder: PropTypes.element
+  placeholder: PropTypes.element,
+  help: PropTypes.element
 }
 
 export default DocumentListContainer

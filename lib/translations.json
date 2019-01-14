@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-10T15:33:37.289Z",
+  "updated": "2019-01-14T13:04:39.300Z",
   "title": "live",
   "data": [
     {
@@ -45,10 +45,6 @@
     {
       "key": "nav/share",
       "value": "Republik teilen"
-    },
-    {
-      "key": "nav/bookmarks",
-      "value": "Lesezeichen"
     },
     {
       "key": "navbar/front",
@@ -105,14 +101,6 @@
     {
       "key": "pages/feed/title",
       "value": "Feed"
-    },
-    {
-      "key": "pages/bookmarks/title",
-      "value": "Lesezeichen"
-    },
-    {
-      "key": "pages/bookmarks/placeholder",
-      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
     },
     {
       "key": "pages/search/title",
@@ -2615,14 +2603,6 @@
       "value": "+41797874765"
     },
     {
-      "key": "bookmark/title/bookmarked",
-      "value": "Lesezeichen entfernen"
-    },
-    {
-      "key": "bookmark/title/default",
-      "value": "Lesezeichen hinzufügen"
-    },
-    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
@@ -3195,20 +3175,36 @@
       "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
-      "key": "memberships/latestPeriod/renew/true",
-      "value": "Gültig bis {formattedEndDate}"
+      "key": "memberships/noActive",
+      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
     },
     {
-      "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus"
+      "key": "memberships/latestPeriod/renew/true/autoPay/true",
+      "value": "Automatische Erneuerung am {formattedEndDate}"
     },
     {
-      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
-      "value": "Ihr Abonnement wird am {formattedEndDate} automatisch erneuert."
+      "key": "memberships/latestPeriod/renew/true/autoPay/false",
+      "value": "Bezahlt bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true/autoPay/false",
+      "value": "Automatische Erneuerung am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/true",
+      "value": "Gültig bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/false",
+      "value": "Gültig bis am {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/overdue",
       "value": "Überfällig seit dem {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/ended",
+      "value": "Endete am {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",
@@ -3529,6 +3525,10 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
+    },
+    {
+      "key": "feedback/fetchMore",
+      "value": "Mehr Beiträge"
     },
     {
       "key": "tokenAuthorization/error",
@@ -3884,7 +3884,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
+      "value": null
     },
     {
       "key": "option/PROLONG/additionalPeriods/give",
@@ -4008,7 +4008,7 @@
     },
     {
       "key": "memberships/cancel/accountLink",
-      "value": "Zurück zum Konto"
+      "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
@@ -4159,11 +4159,11 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
-      "key": "prolongNecessary/jan15",
+      "key": "prolongNecessary/before",
       "value": "Mit der Republik ins zweite Jahr: {link}"
     },
     {
-      "key": "prolongNecessary/jan15/linkText",
+      "key": "prolongNecessary/before/linkText",
       "value": "jetzt verlängern"
     },
     {
@@ -4267,10 +4267,6 @@
       "value": "Das Crowdfunding ist vorbei."
     },
     {
-      "key": "crowdfunding/status/time/ended/PROLONG",
-      "value": "Die Vorverlängerungsphase ist vorbei."
-    },
-    {
       "key": "meta/prolong/title",
       "value": "Mit der Republik ins zweite Jahr"
     },
@@ -4333,6 +4329,62 @@
     {
       "key": "overview/after/pledgeButton",
       "value": "Jetzt Mitglied werden"
+    },
+    {
+      "key": "prolongNecessary/due",
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+    },
+    {
+      "key": "prolongNecessary/due/linkText",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue",
+      "value": "Ihr Mitglied­schafts­beitrag ist fällig."
+    },
+    {
+      "key": "prolongNecessary/overdue/button",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation",
+      "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn bis dahin keine Zahlung eingegangen ist. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation/cancelText",
+      "value": "Teilen Sie uns mit, warum."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/PROLONG",
+      "value": "Die erste grosse Verlängerungsphase ist vorbei."
+    },
+    {
+      "key": "nav/bookmarks",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "bookmark/title/bookmarked",
+      "value": "Lesezeichen entfernen"
+    },
+    {
+      "key": "bookmark/title/default",
+      "value": "Lesezeichen hinzufügen"
+    },
+    {
+      "key": "pages/bookmarks/title",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/placeholder",
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+    },
+    {
+      "key": "pages/bookmarks/help",
+      "value": "Die Lesezeichen sind sortiert nach dem Zeitpunk ihres Hinzufügens (neueste zuerst)."
+    },
+    {
+      "key": "pages/bookmarks/placeholder/feedText",
+      "value": "Feed"
     }
   ]
 }

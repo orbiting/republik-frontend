@@ -104,6 +104,11 @@ class Page extends Component {
                 })}
               </Interaction.P>
             }
+            help={
+              <Interaction.P style={{ marginBottom: 60 }}>
+                {t('pages/bookmarks/help')}
+              </Interaction.P>
+            }
           />
         </Center>
       </Frame>

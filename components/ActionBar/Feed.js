@@ -98,8 +98,8 @@ const ActionBar = ({
   const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
   const isDiscussion = isOwnDiscussion && template === 'discussion'
   const totalCount =
-    (isLinkedDiscussion && linkedDiscussion.comments.totalCount) ||
-    (isOwnDiscussion && ownDiscussion.comments.totalCount) || undefined
+    (isLinkedDiscussion && linkedDiscussion.comments && linkedDiscussion.comments.totalCount) ||
+    (isOwnDiscussion && ownDiscussion.comments && ownDiscussion.comments.totalCount) || undefined
 
   const discussionId =
     (isLinkedDiscussion && linkedDiscussion.id) ||

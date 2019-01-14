@@ -23,21 +23,6 @@ export const documentFragment = `
       dossier {
         id
       }
-      ownDiscussion {
-        id
-        closed
-        comments(first: 0) {
-          totalCount
-        }
-      }
-      linkedDiscussion {
-        id
-        path
-        closed
-        comments(first: 0) {
-          totalCount
-        }
-      }
       format {
         meta {
           path

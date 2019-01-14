@@ -180,8 +180,8 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
         <P>
           {membership.active && !membership.overdue && t.first(
             [
-              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-              `memberships/latestPeriod/renew/${membership.renew}`
+              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`,
+              `memberships/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`
             ],
             { formattedEndDate },
             ''

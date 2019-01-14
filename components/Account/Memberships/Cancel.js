@@ -109,8 +109,8 @@ class CancelMembership extends Component {
                 {!!latestPeriod && <P>
                   {membership.active && !membership.overdue && t.first(
                     [
-                      `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-                      `memberships/latestPeriod/renew/${membership.renew}`
+                      `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`,
+                      `memberships/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`
                     ],
                     { formattedEndDate },
                     ''

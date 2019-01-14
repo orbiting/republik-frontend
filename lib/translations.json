@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-13T23:19:30.913Z",
+  "updated": "2019-01-14T09:44:08.071Z",
   "title": "live",
   "data": [
     {
@@ -3199,11 +3199,23 @@
       "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
     },
     {
-      "key": "memberships/latestPeriod/renew/true",
+      "key": "memberships/latestPeriod/renew/true/autoPay/true",
       "value": "Automatische Erneuerung am {formattedEndDate}"
     },
     {
-      "key": "memberships/latestPeriod/renew/false",
+      "key": "memberships/latestPeriod/renew/true/autoPay/false",
+      "value": "Bezahlt bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true/autoPay/false",
+      "value": "Automatische Erneuerung am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/true",
+      "value": "Gültig bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/false",
       "value": "Gültig bis am {formattedEndDate}"
     },
     {
@@ -3888,7 +3900,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
+      "value": null
     },
     {
       "key": "option/PROLONG/additionalPeriods/give",

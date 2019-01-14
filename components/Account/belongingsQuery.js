@@ -23,6 +23,7 @@ query myBelongings {
       renew
       active
       overdue
+      autoPay
       user {
         id
       }

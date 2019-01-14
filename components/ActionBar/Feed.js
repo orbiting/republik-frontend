@@ -52,6 +52,7 @@ const ActionBar = ({
   estimatedReadingMinutes,
   linkedDiscussion,
   ownDiscussion,
+  template,
   path,
   userBookmark,
   isEditor
@@ -92,6 +93,22 @@ const ActionBar = ({
     }
   ]
 
+  const isLinkedDiscussion = linkedDiscussion && !linkedDiscussion.closed && template === 'article'
+  const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
+  const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
+  const isDiscussion = isOwnDiscussion && template === 'discussion'
+
+  const discussionId =
+    (isLinkedDiscussion && linkedDiscussion.id) ||
+    (isOwnDiscussion && ownDiscussion.id) ||
+    undefined
+  const discussionPath =
+    (isLinkedDiscussion && linkedDiscussion.path) ||
+    (isArticleAutoDiscussion && routes.find(r => r.name === 'discussion').toPath()) ||
+    (isDiscussion && path) ||
+    undefined
+  const query = isArticleAutoDiscussion ? { t: 'article', id: ownDiscussion.id } : undefined
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
@@ -116,21 +133,11 @@ const ActionBar = ({
         {estimatedReadingMinutes > 1 && (
           <ReadingTime minutes={estimatedReadingMinutes} small />
         )}
-        {linkedDiscussion &&
-        !linkedDiscussion.closed && (
+        {(isLinkedDiscussion || isOwnDiscussion) && (
           <DiscussionIconLink
-            discussionId={linkedDiscussion.id}
-            path={linkedDiscussion.path}
-            small
-          />
-        )}
-        {!linkedDiscussion &&
-          ownDiscussion &&
-          !ownDiscussion.closed && (
-          <DiscussionIconLink
-            discussionId={ownDiscussion.id}
-            path={routes.find(r => r.name === 'discussion').toPath()}
-            query={{ t: 'article', id: ownDiscussion.id }}
+            discussionId={discussionId}
+            path={discussionPath}
+            query={query}
             small
           />
         )}

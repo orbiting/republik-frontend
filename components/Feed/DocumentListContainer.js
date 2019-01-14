@@ -95,7 +95,8 @@ class DocumentListContainer extends Component {
       mergeConnection,
       filterDocuments,
       mapNodes,
-      placeholder
+      placeholder,
+      feedProps
     } = this.props
 
     return (
@@ -118,6 +119,7 @@ class DocumentListContainer extends Component {
                     unfilteredCount={connection.nodes.length}
                     hasMore={hasMore}
                     loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
+                    feedProps={feedProps}
                   />
                 )
               }

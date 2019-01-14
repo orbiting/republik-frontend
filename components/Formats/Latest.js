@@ -3,6 +3,8 @@ import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 import gql from 'graphql-tag'
 
+import ActionBar from '../ActionBar/Feed'
+import { documentFragment } from '../Feed/DocumentListContainer'
 import { TeaserFeed, Loader, colors, fontStyles, linkRule, mediaQueries } from '@project-r/styleguide'
 import Link from '../Link/Href'
 
@@ -54,25 +56,11 @@ query getFeedDocuments($cursor: String) {
       hasNextPage
     }
     nodes {
-      meta {
-        credits
-        title
-        description
-        publishDate
-        path
-        template
-        format {
-          meta {
-            path
-            title
-            color
-            kind
-          }
-        }
-      }
+      ...DocumentListDocument
     }
   }
 }
+${documentFragment}
 `
 
 const Latest = ({ t, data: { loading, error, documents }, loadMore, hasMore }) => (
@@ -91,6 +79,13 @@ const Latest = ({ t, data: { loading, error, documents }, loadMore, hasMore }) =
                   {...doc.meta}
                   Link={Link}
                   key={doc.meta.path}
+                  bar={(
+                    <ActionBar
+                      documentId={doc.id}
+                      userBookmark={doc.userBookmark}
+                      {...doc.meta}
+                    />
+                  )}
                 />
               ))}
           {pageInfo.hasNextPage && (

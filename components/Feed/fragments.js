@@ -23,6 +23,10 @@ export const documentFragment = `
       dossier {
         id
       }
+      ownDiscussion {
+        id
+        closed
+      }
       linkedDiscussion {
         id
         path

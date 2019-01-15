@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-14T17:18:04.154Z",
+  "updated": "2019-01-15T10:27:48.820Z",
   "title": "live",
   "data": [
     {
@@ -4261,6 +4261,14 @@
     {
       "key": "crowdfunding/status/time/minutes/other",
       "value": "{count} Minuten"
+    },
+    {
+      "key": "crowdfunding/status/time/seconds/1",
+      "value": "1 Sekunde"
+    },
+    {
+      "key": "crowdfunding/status/time/seconds/other",
+      "value": "{count} Sekunden"
     },
     {
       "key": "crowdfunding/status/time/ended",

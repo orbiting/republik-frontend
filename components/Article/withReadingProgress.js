@@ -97,6 +97,7 @@ const withReadingProgress = WrappedComponent => {
           ? [...this.container.getElementsByClassName('pos')]
           : []
         this.setState({ progressElements })
+        return progressElements
       }
 
       this.getProgress = () => {
@@ -170,7 +171,9 @@ const withReadingProgress = WrappedComponent => {
 
       this.measure()
 
-      const progress = typeof window !== 'undefined' ? JSON.parse(window.localStorage.getItem('progress')) : {}
+      const progress = typeof window !== 'undefined' && window.localStorage.getItem('progress')
+        ? JSON.parse(window.localStorage.getItem('progress'))
+        : {}
       const { id, percent } = progress
       const showProgressPrompt = !!id || !!percent
       this.setState({ showProgressPrompt })

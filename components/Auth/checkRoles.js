@@ -22,3 +22,5 @@ export const withAuthorization = (roles, key = 'isAuthorized') =>
     )
 
 export const withMembership = withAuthorization(['member'], 'isMember')
+
+export const withEditor = withAuthorization(['editor'], 'isEditor')

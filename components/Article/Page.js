@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 import Frame from '../Frame'
-import ActionBar from '../ActionBar'
+import ArticleActionBar from '../ActionBar/Article'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import Loader from '../Loader'
@@ -16,7 +16,6 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
-import DiscussionIconLink from '../Discussion/IconLink'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
@@ -42,6 +41,10 @@ import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
 import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
+
+import {
+  onDocumentFragment
+} from '../Bookmarks/fragments'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -73,37 +76,12 @@ const styles = {
   })
 }
 
-const ArticleActionBar = ({ title, discussionId, discussionPage, discussionPath, dossierUrl, onAudioClick, onPdfClick, pdfUrl, t, url, inNativeApp }) => (
-  <div>
-    <ActionBar
-      url={url}
-      title={title}
-      shareOverlayTitle={t('article/share/title')}
-      fill={colors.text}
-      dossierUrl={dossierUrl}
-      onPdfClick={onPdfClick}
-      pdfUrl={pdfUrl}
-      emailSubject={t('article/share/emailSubject', {
-        title
-      })}
-      onAudioClick={onAudioClick}
-      inNativeApp={inNativeApp}
-    />
-    {discussionId && process.browser &&
-      <DiscussionIconLink
-        discussionId={discussionId}
-        discussionPage={discussionPage}
-        path={discussionPath}
-        style={{ marginLeft: 7 }} />
-    }
-  </div>
-)
-
 const getDocument = gql`
   query getDocument($path: String!) {
     article: document(path: $path) {
       id
       content
+      ...BookmarkOnDocument
       meta {
         template
         path
@@ -163,10 +141,29 @@ const getDocument = gql`
           aac
           ogg
         }
+        estimatedReadingMinutes
+        indicateGallery
+        indicateVideo
       }
     }
   }
+  ${onDocumentFragment}
 `
+
+const runMetaFromQuery = (code, query) => {
+  if (!code) {
+    return undefined
+  }
+  let fn
+  try {
+    /* eslint-disable-next-line */
+    fn = new Function('query', code)
+    return fn(query)
+  } catch (e) {
+    typeof console !== 'undefined' && console.warn && console.warn('meta.fromQuery exploded', e)
+  }
+  return undefined
+}
 
 class ArticlePage extends Component {
   constructor (props) {
@@ -183,6 +180,8 @@ class ArticlePage extends Component {
     this.containerRef = ref => {
       this.container = ref
     }
+
+    this.galleryRef = React.createRef()
 
     this.toggleAudio = () => {
       if (this.props.inNativeApp) {
@@ -205,6 +204,12 @@ class ArticlePage extends Component {
       }
     }
 
+    this.showGallery = () => {
+      if (this.galleryRef) {
+        this.galleryRef.current.show()
+      }
+    }
+
     this.togglePdf = () => {
       this.setState({
         showPdf: !this.state.showPdf
@@ -218,7 +223,7 @@ class ArticlePage extends Component {
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
       mobile: true,
-      ...this.deriveStateFromProps(props)
+      ...this.deriveStateFromProps(props, {})
     }
 
     this.headerHeight = () => window.innerWidth < mediaQueries.mBreakPoint ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
@@ -292,10 +297,11 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp }) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }, state) {
     const meta = article && {
       ...article.meta,
-      url: `${PUBLIC_BASE_URL}${article.meta.path}`
+      url: `${PUBLIC_BASE_URL}${article.meta.path}`,
+      ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
     const linkedDiscussion = meta &&
@@ -316,6 +322,7 @@ class ArticlePage extends Component {
         discussionPath={linkedDiscussion && linkedDiscussion.path}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
+        onGalleryClick={meta.indicateGallery && this.showGallery}
         onPdfClick={hasPdf && countImages(article.content) > 0
           ? this.togglePdf
           : undefined
@@ -324,6 +331,10 @@ class ArticlePage extends Component {
           ? getPdfUrl(meta)
           : undefined}
         inNativeApp={inNativeApp}
+        documentId={article.id}
+        userBookmark={article.userBookmark}
+        showBookmark={isMember}
+        estimatedReadingMinutes={meta.estimatedReadingMinutes}
       />
     )
 
@@ -350,18 +361,34 @@ class ArticlePage extends Component {
     })
 
     const isSeries = meta && !!meta.series
+    const id = article && article.id
 
     return {
+      id,
       schema,
       meta,
       actionBar,
-      isSeries
+      isSeries,
+      autoPlayAudioSource: id !== state.id
+        ? router.query.audio === '1'
+        : state.autoPlayAudioSource
+    }
+  }
+
+  autoPlayAudioSource () {
+    const { autoPlayAudioSource, meta } = this.state
+    if (autoPlayAudioSource && meta) {
+      this.setState({
+        autoPlayAudioSource: false
+      }, () => {
+        this.toggleAudio()
+      })
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
-      this.setState(this.deriveStateFromProps(nextProps))
+      this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
@@ -370,10 +397,12 @@ class ArticlePage extends Component {
     window.addEventListener('resize', this.measure)
 
     this.measure()
+    this.autoPlayAudioSource()
   }
 
   componentDidUpdate () {
     this.measure()
+    this.autoPlayAudioSource()
   }
 
   componentWillUnmount () {
@@ -386,6 +415,11 @@ class ArticlePage extends Component {
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
+    const actionBarEnd = actionBar
+      ? React.cloneElement(actionBar, {
+        estimatedReadingMinutes: undefined
+      })
+      : undefined
     const series = meta && meta.series
     const episodes = series && series.episodes
 
@@ -433,7 +467,7 @@ class ArticlePage extends Component {
         meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBar}
+        secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         audioSource={audioSource}
@@ -467,7 +501,7 @@ class ArticlePage extends Component {
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <ArticleGallery article={article}>
+              <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <div ref={this.props.progressArticleRef}>
                   <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderMdast({
@@ -500,7 +534,7 @@ class ArticlePage extends Component {
                 <Fragment>
                   {meta.template === 'article' && <Center>
                     <div ref={this.bottomBarRef} {...styles.bar}>
-                      {actionBar}
+                      {actionBarEnd}
                     </div>
                   </Center>}
                 </Fragment>

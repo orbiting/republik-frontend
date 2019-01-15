@@ -16,7 +16,6 @@ import {
 
 const styles = {
   a: css({
-    marginLeft: 20,
     '@media print': {
       display: 'none'
     }
@@ -24,24 +23,39 @@ const styles = {
   text: css({
     paddingLeft: 3,
     color: colors.primary,
+    marginTop: -1,
     ...fontStyles.sansSerifMedium16
+  }),
+  icon: css({
+    display: 'inline-block',
+    marginBottom: -2,
+    verticalAlign: 'middle'
   })
 }
 
 class IconLink extends Component {
   componentDidMount () {
-    this.unsubscribe = this.props.subscribe()
+    this.unsubscribe = this.props.subscribe && this.props.subscribe()
   }
   componentWillUnmount () {
-    this.unsubscribe()
+    this.unsubscribe && this.unsubscribe()
   }
   render () {
-    const { path, discussionPage, discussionId, count, style } = this.props
+    const { path, query, discussionPage, discussionId, count, style, small } = this.props
+    const size = small ? 22 : 24
+    const fontSize = small ? '15px' : undefined
+    const lineHeight = small ? '20px' : undefined
+    const patchedStyle = {
+      marginLeft: small ? 0 : 20,
+      ...style
+    }
 
     const content = <Fragment>
-      <Icon size={24} fill={colors.primary} />
+      <span {...styles.icon}>
+        <Icon size={size} fill={colors.primary} />
+      </span>
       {count > 0 && (
-        <span {...iconLinkStyles.text} {...styles.text}>
+        <span {...iconLinkStyles.text} {...styles.text} style={{ fontSize, lineHeight }}>
           &nbsp;{count}
         </span>
       )}
@@ -51,13 +65,13 @@ class IconLink extends Component {
       return <a href='#' onClick={(e) => {
         e.preventDefault()
         focusSelector(`[data-discussion-id='${discussionId}']`)
-      }} {...iconLinkStyles.link} {...styles.a} style={style}>
+      }} {...iconLinkStyles.link} {...styles.a} style={patchedStyle}>
         {content}
       </a>
     }
 
-    return <Link href={path} passHref>
-      <a {...iconLinkStyles.link} {...styles.a} style={style}>
+    return <Link href={path} query={query} passHref>
+      <a {...iconLinkStyles.link} {...styles.a} style={patchedStyle}>
         {content}
       </a>
     </Link>
@@ -65,3 +79,5 @@ class IconLink extends Component {
 }
 
 export default withCount(IconLink)
+
+export const DiscussionIconLinkWithoutEnhancer = IconLink

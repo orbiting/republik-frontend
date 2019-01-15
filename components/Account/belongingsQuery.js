@@ -23,6 +23,7 @@ query myBelongings {
       renew
       active
       overdue
+      autoPay
       user {
         id
       }
@@ -55,7 +56,6 @@ query myBelongings {
         title
         description
       }
-      granteeName
     }
     accessCampaigns {
       id
@@ -64,6 +64,9 @@ query myBelongings {
       grants {
         id
         email
+        voucherCode
+        beginBefore
+        beginAt
         endAt
       }
       slots {

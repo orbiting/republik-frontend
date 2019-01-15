@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import { Interaction } from '@project-r/styleguide'
@@ -16,18 +17,42 @@ const Grants = ({ grant, revokeAccess, t }) => {
     recipient: <Emphasis key={`grant-recipient-${grant.id}`}>
       {grant.email}
     </Emphasis>,
-    endAt: <Emphasis key={`grant-end-${grant.id}`}>
-      {dayFormat(new Date(grant.endAt))}
-    </Emphasis>
+    voucherCode: <Emphasis key={`grant-voucher-${grant.id}`}>
+      {grant.voucherCode}
+    </Emphasis>,
+    beginBefore: <Emphasis key={`grant-before-${grant.id}`}>
+      {dayFormat(new Date(grant.beginBefore))}
+    </Emphasis>,
+    beginAt: grant.beginAt &&
+      <Emphasis key={`grant-begin-${grant.id}`}>
+        {dayFormat(new Date(grant.beginAt))}
+      </Emphasis>,
+    endAt: grant.endAt &&
+      <Emphasis key={`grant-end-${grant.id}`}>
+        {dayFormat(new Date(grant.endAt))}
+      </Emphasis>
   }
 
   return (
     <Item key={`grant-item-${grant.id}`}>
       { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
       <br />
-      { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
-      <br />
-      <Revoke grant={grant} revokeAccess={revokeAccess} />
+      {!grant.beginAt &&
+        <Fragment>
+          { t.elements('Account/Access/Campaigns/Grants/unclaimed', elements)}
+          <br />
+          { t.elements('Account/Access/Campaigns/Grants/beginBefore', elements)}
+          <br />
+          <Revoke grant={grant} revokeAccess={revokeAccess} />
+        </Fragment>
+      }
+      {grant.beginAt &&
+        <Fragment>
+          { t.elements('Account/Access/Campaigns/Grants/beginAt', elements)}
+          <br />
+          { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+        </Fragment>
+      }
     </Item>
   )
 }

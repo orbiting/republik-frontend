@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import { InlineSpinner } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
+import Head from 'next/head'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -25,10 +26,10 @@ const schema = createFrontSchema({
 })
 
 const getDocument = gql`
-  query getFront($path: String!, $first: Int!, $after: ID) {
+  query getFront($path: String!, $first: Int!, $after: ID, $only: ID) {
     front: document(path: $path) {
       id
-      children(first: $first, after: $after) {
+      children(first: $first, after: $after, only: $only) {
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -72,12 +73,36 @@ class Front extends Component {
       t,
       renderBefore,
       renderAfter,
-      containerStyle
+      containerStyle,
+      extractId
     } = this.props
     const meta = front && {
       ...front.meta,
       title: front.meta.title || t('pages/magazine/title'),
       url: `${PUBLIC_BASE_URL}${front.meta.path}`
+    }
+
+    if (extractId) {
+      return (
+        <Loader loading={data.loading} error={data.error} render={() => {
+          if (!front) {
+            return <StatusError
+              statusCode={404}
+              serverContext={this.props.serverContext} />
+          }
+          return (
+            <Fragment>
+              <Head>
+                <meta name='robots' content='noindex' />
+              </Head>
+              {renderMdast({
+                type: 'root',
+                children: front.children.nodes.map(v => v.body)
+              }, schema)}
+            </Fragment>
+          )
+        }} />
+      )
     }
 
     return (
@@ -127,11 +152,12 @@ export default compose(
     options: props => ({
       variables: {
         path: props.path || cleanAsPath(props.router.asPath),
-        first: 15
+        first: 15,
+        only: props.extractId
       }
     }),
     props: ({ data, ownProps: { serverContext } }) => {
-      if (serverContext && !data.error && !data.loading && !data.front) {
+      if (serverContext && !data.loading && !data.front) {
         serverContext.res.statusCode = 503
       }
 

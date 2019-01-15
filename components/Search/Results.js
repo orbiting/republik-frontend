@@ -5,6 +5,7 @@ import { css } from 'glamor'
 import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 
+import ActionBar from '../ActionBar/Feed'
 import { CommentLink } from '../Feedback/LatestComments'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
@@ -330,6 +331,14 @@ class Results extends Component {
                           node.highlights.find(
                             highlight => highlight.path === 'meta.description'
                           )
+                        const bar =
+                          node.entity.meta
+                            ? <ActionBar
+                              documentId={node.entity.id}
+                              userBookmark={node.entity.userBookmark}
+                              {...node.entity.meta}
+                            />
+                            : null
                         return (
                           <Fragment key={index}>
                             {node.entity.__typename === 'Document' && (
@@ -375,6 +384,7 @@ class Results extends Component {
                                 }
                                 Link={Link}
                                 key={node.entity.meta.path}
+                                bar={bar}
                               />
                             )}
                             {node.entity.__typename === 'Comment' && (

@@ -1,5 +1,5 @@
 {
-  "updated": "2018-12-19T21:43:05.517Z",
+  "updated": "2019-01-15T14:03:58.092Z",
   "title": "live",
   "data": [
     {
@@ -61,6 +61,10 @@
     {
       "key": "navbar/formats",
       "value": "Rubriken"
+    },
+    {
+      "key": "navbar/discussion",
+      "value": "Dialog"
     },
     {
       "key": "pages/magazine/title",
@@ -129,6 +133,22 @@
     {
       "key": "pages/profile/empty/content/linktext",
       "value": "Profilseite aktivieren oder bearbeiten"
+    },
+    {
+      "key": "pages/claim/meta/title",
+      "value": "Gutscheincode einlösen"
+    },
+    {
+      "key": "pages/claim/meta/description",
+      "value": "Lösen Sie hier Ihren Gutscheincode ein."
+    },
+    {
+      "key": "pages/claim/access/meta/title",
+      "value": "Gutscheincode einlösen (Zugriff teilen)"
+    },
+    {
+      "key": "pages/claim/access/meta/description",
+      "value": "Mit Ihrem Gutscheincode den geteilten Zugriff aktivieren."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -267,10 +287,6 @@
       "value": "E-Mail-Adresse ungültig"
     },
     {
-      "key": "signIn/context/grant/lead",
-      "value": "Geben Sie hier die E-Mail-Adresse an, auf die die Einladung ausgestellt wurde. Sie erhalten anschliessend eine E-Mail mit einem Bestätigungs-Link."
-    },
-    {
       "key": "cookies/disabled/error",
       "value": "Cookies nicht erlaubt"
     },
@@ -360,7 +376,7 @@
     },
     {
       "key": "marketing/preview/prestitial/hasPreview",
-      "value": "Schön, Sie wiederzusehen. Diese fünf Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
+      "value": "Schön, Sie wiederzusehen. Diese Artikel kennen Sie wahrscheinlich schon. {link}? Dann steht Ihnen die weite Welt der Republik offen, mit hunderten von Artikeln, Tendenz steigend. Willkommen!"
     },
     {
       "key": "marketing/preview/prestitial/hasPreview/link",
@@ -376,7 +392,7 @@
     },
     {
       "key": "marketing/preview/page/description",
-      "value": "Melden Sie sich an, um kostenlos fünf Artikel zu lesen."
+      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
     },
     {
       "key": "marketing/offers/claim",
@@ -576,7 +592,7 @@
     },
     {
       "key": "account/ios/box",
-      "value": "Besuchen Sie unsere Webseite, um ihre Mitgliedschaft zu verwalten."
+      "value": "Besuchen Sie unsere Webseite, um Ihre Mitgliedschaft zu verwalten."
     },
     {
       "key": "Account/title",
@@ -820,7 +836,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs und freitags"
+      "value": "montags, dienstags, mittwochs, donnerstags und freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -829,14 +845,6 @@
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/label",
-      "value": "Republik – Das Feuilleton"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
-      "value": "donnerstags"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
@@ -979,20 +987,32 @@
       "value": "Schenken Sie Ihren Freunden oder Feinden die Republik!"
     },
     {
+      "key": "Account/Access/Grants/message/claimed",
+      "value": "Sie können die Republik lesen, weil Verlegerinnen und Verleger Ihnen bis zum {maxEndAt} ihren Zugriff teilen."
+    },
+    {
       "key": "Account/Access/Grants/explanation",
       "value": "Sie können die Republik lesen, weil Verlegerinnen Ihnen den Zugriff ermöglichen:"
     },
     {
       "key": "Account/Access/Grants/grant",
-      "value": "... durch {grantee} bis zum {endAt}"
+      "value": "... durch {granter} bis zum {endAt}"
     },
     {
       "key": "Account/Access/Grants/link/pledges",
-      "value": "Klicken Sie hier, um Ihr eigenes Abonnement zu kaufen"
+      "value": "Ein eigenes Abonnement kaufen"
     },
     {
       "key": "Account/Access/Campaigns/title",
       "value": "Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice",
+      "value": "(Gutscheincodes können auf {linkClaim} eingelöst werden.)"
+    },
+    {
+      "key": "Account/Access/Campaigns/Campaign/claimNotice/linkClaim",
+      "value": "republik.ch/abholen"
     },
     {
       "key": "Account/Access/Campaigns/Form/title/0",
@@ -1001,6 +1021,14 @@
     {
       "key": "Account/Access/Campaigns/Form/title/other",
       "value": "Einen weiteren Zugriff teilen"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation",
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/explanation/linkClaim",
+      "value": "Link zur /abholen-Seite"
     },
     {
       "key": "Account/Access/Campaigns/Form/reset",
@@ -1035,6 +1063,14 @@
       "value": "E-Mail-Adresse unvollständig"
     },
     {
+      "key": "Account/Access/Campaigns/Form/input/message/label",
+      "value": "Persönliche Nachricht"
+    },
+    {
+      "key": "Account/Access/Campaigns/Form/input/message/tooLong",
+      "value": "Persönliche Nachricht, höchstens {maxLength} Zeichen"
+    },
+    {
       "key": "Account/Access/Campaigns/Form/mutationError/hint",
       "value": "Falls das Problem weiterhin besteht, schreiben Sie uns: kontakt@republik.ch"
     },
@@ -1059,8 +1095,20 @@
       "value": "an {recipient}"
     },
     {
+      "key": "Account/Access/Campaigns/Grants/unclaimed",
+      "value": "noch nicht eingelöst, Gutscheincode: {voucherCode}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginAt",
+      "value": "eingelöst am {beginAt}"
+    },
+    {
       "key": "Account/Access/Campaigns/Grants/endAt",
       "value": "gültig bis zum {endAt}"
+    },
+    {
+      "key": "Account/Access/Campaigns/Grants/beginBefore",
+      "value": "einlösbar bis zum {beginBefore}"
     },
     {
       "key": "profile/documents/title/other",
@@ -2512,7 +2560,7 @@
     },
     {
       "key": "pledge/notice/goodies/delivery",
-      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen. Spätester Bestelltermin, damit die Sendung vor Weihnachten bei Ihnen eintrifft: Donnerstag, 20. Dezember 2018."
+      "value": "Hinweis: Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "shareholder/pageTitle",
@@ -2549,6 +2597,34 @@
     {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
+    },
+    {
+      "key": "feed/actionbar/dossier",
+      "value": "In einem Dossier"
+    },
+    {
+      "key": "feed/actionbar/gallery",
+      "value": "Bildstrecke"
+    },
+    {
+      "key": "feed/actionbar/audio",
+      "value": "Zum Hören"
+    },
+    {
+      "key": "feed/actionbar/video",
+      "value": "Video"
+    },
+    {
+      "key": "feed/actionbar/chart",
+      "value": "Chart"
+    },
+    {
+      "key": "feed/actionbar/readingTime/1",
+      "value": "ungefähr {minutes} Minute Lesezeit"
+    },
+    {
+      "key": "feed/actionbar/readingTime/other",
+      "value": "ungefähr {minutes} Minuten Lesezeit"
     },
     {
       "key": "format/feed/title/1",
@@ -3091,20 +3167,36 @@
       "value": "Die Gutscheincodes können dann von der beschenkten Person auf <a href=\"/abholen\">republik.ch/abholen</a> eingelöst werden."
     },
     {
-      "key": "memberships/latestPeriod/renew/true",
-      "value": "Gültig bis {formattedEndDate}"
+      "key": "memberships/noActive",
+      "value": "Sie haben keine aktiven Mitgliedschaften oder Abonnements"
     },
     {
-      "key": "memberships/latestPeriod/renew/false",
-      "value": "Läuft am {formattedEndDate} aus"
+      "key": "memberships/latestPeriod/renew/true/autoPay/true",
+      "value": "Automatische Erneuerung am {formattedEndDate}"
     },
     {
-      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true",
-      "value": "Ihr Abonnement wird am {formattedEndDate} automatisch erneuert."
+      "key": "memberships/latestPeriod/renew/true/autoPay/false",
+      "value": "Bezahlt bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/MONTHLY_ABO/latestPeriod/renew/true/autoPay/false",
+      "value": "Automatische Erneuerung am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/true",
+      "value": "Gültig bis am {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/renew/false/autoPay/false",
+      "value": "Gültig bis am {formattedEndDate}"
     },
     {
       "key": "memberships/latestPeriod/overdue",
       "value": "Überfällig seit dem {formattedEndDate}"
+    },
+    {
+      "key": "memberships/latestPeriod/ended",
+      "value": "Endete am {formattedEndDate}"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/prolong/link",
@@ -3151,12 +3243,24 @@
       "value": "Gutscheincode fehlt"
     },
     {
+      "key": "memberships/claim/voucherCode/label/error/unrecognized",
+      "value": "Gutscheincode nicht erkannt"
+    },
+    {
       "key": "memberships/claim/button",
       "value": "Einlösen"
     },
     {
       "key": "memberships/claim/loading",
       "value": "überprüfen"
+    },
+    {
+      "key": "memberships/claim/access/lead",
+      "value": "Geteilten Zugriff aktivieren"
+    },
+    {
+      "key": "memberships/claim/access/body",
+      "value": "Sie wurden eingeladen, mit der Republik eine Testfahrt zu machen. Füllen Sie das folgende Formular vollständig aus und kommen Sie an Bord."
     },
     {
       "key": "memberships/claim/error/title",
@@ -3413,6 +3517,10 @@
     {
       "key": "feedback/articleItem/newPage/title",
       "value": "Zur Debattenseite"
+    },
+    {
+      "key": "feedback/fetchMore",
+      "value": "Mehr Beiträge"
     },
     {
       "key": "tokenAuthorization/error",
@@ -3768,7 +3876,7 @@
     },
     {
       "key": "option/PROLONG/additionalPeriods/BONUS/explanation",
-      "value": "Damit werden im nächsten Jahr nicht mehr so viele Verlängerungen im Januar fällig. Wir verringern unser Klumpenrisiko."
+      "value": null
     },
     {
       "key": "option/PROLONG/additionalPeriods/give",
@@ -3892,7 +4000,7 @@
     },
     {
       "key": "memberships/cancel/accountLink",
-      "value": "Zurück zum Konto"
+      "value": "Zum Konto"
     },
     {
       "key": "memberships/cancel/button",
@@ -4043,11 +4151,11 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
-      "key": "prolongNecessary/jan15",
-      "value": "Mit der Republik ins zweite Jahr: {link}"
+      "key": "prolongNecessary/before",
+      "value": "Mit der Republik ins zweite Jahr: {link}."
     },
     {
-      "key": "prolongNecessary/jan15/linkText",
+      "key": "prolongNecessary/before/linkText",
       "value": "jetzt verlängern"
     },
     {
@@ -4147,12 +4255,16 @@
       "value": "{count} Minuten"
     },
     {
-      "key": "crowdfunding/status/time/ended",
-      "value": "Das Crowdfunding ist vorbei."
+      "key": "crowdfunding/status/time/seconds/1",
+      "value": "1 Sekunde"
     },
     {
-      "key": "crowdfunding/status/time/ended/PROLONG",
-      "value": "Die Vorverlängerungsphase ist vorbei."
+      "key": "crowdfunding/status/time/seconds/other",
+      "value": "{count} Sekunden"
+    },
+    {
+      "key": "crowdfunding/status/time/ended",
+      "value": "Das Crowdfunding ist vorbei."
     },
     {
       "key": "meta/prolong/title",
@@ -4173,6 +4285,106 @@
     {
       "key": "meta/prolong/available",
       "value": "Jetzt verlängern"
+    },
+    {
+      "key": "overview/meta/title",
+      "value": "Jahresüberblick {year}"
+    },
+    {
+      "key": "overview/meta/description",
+      "value": "Lassen Sie Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren – Monat für Monat, Tag für Tag."
+    },
+    {
+      "key": "overview/2018/meta/title",
+      "value": "Schauen Sie auf dieses Jahr!"
+    },
+    {
+      "key": "overview/2018/meta/description",
+      "value": "2018, das waren auch die ersten 300 Tage Republik. Lassen Sie alle Reportagen, Analysen, Recherchen, Essays, Kolumnen, Debatten, Veranstaltungen, Experimente und Irrtümer nochmals Revue passieren."
+    },
+    {
+      "key": "overview/title",
+      "value": "{year}, Monat für Monat"
+    },
+    {
+      "key": "overview/2018/lead",
+      "value": "Lassen Sie das erste Jahr der Republik Revue passieren."
+    },
+    {
+      "key": "overview/lead/signIn",
+      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledge",
+      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können. {pledgeLink}"
+    },
+    {
+      "key": "overview/lead/pledgeText",
+      "value": "Kommen Sie an Bord!"
+    },
+    {
+      "key": "overview/after/pledge",
+      "value": "Geniessen Sie die stillen Stunden zum Lesen:"
+    },
+    {
+      "key": "overview/after/pledgeButton",
+      "value": "Jetzt Mitglied werden"
+    },
+    {
+      "key": "prolongNecessary/due",
+      "value": "Ihr Mitgliedschaftsbeitrag ist fällig: {link}."
+    },
+    {
+      "key": "prolongNecessary/due/linkText",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue",
+      "value": "Ihr Mitglied­schafts­beitrag ist fällig."
+    },
+    {
+      "key": "prolongNecessary/overdue/button",
+      "value": "Jetzt bezahlen"
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation",
+      "value": "Ihre Mitgliedschaft wird am {graceEndDate} deaktiviert, wenn Sie bis dahin nicht bezahlen. Wollen Sie die Republik nicht mehr lesen? Bitte kündigen Sie Ihre Mitgliedschaft: {cancelLink}."
+    },
+    {
+      "key": "prolongNecessary/overdue/explanation/cancelText",
+      "value": "Teilen Sie uns mit, warum."
+    },
+    {
+      "key": "crowdfunding/status/time/ended/PROLONG",
+      "value": "Ein detaillierter Überblick folgt Ende Monat."
+    },
+    {
+      "key": "nav/bookmarks",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "bookmark/title/bookmarked",
+      "value": "Lesezeichen entfernen"
+    },
+    {
+      "key": "bookmark/title/default",
+      "value": "Lesezeichen hinzufügen"
+    },
+    {
+      "key": "pages/bookmarks/title",
+      "value": "Lesezeichen"
+    },
+    {
+      "key": "pages/bookmarks/placeholder",
+      "value": "Sie haben keine Lesezeichen gesetzt. Stöbern Sie im {feedLink} und klicken Sie bei einem Artikel auf {bookmarkIcon} – dann erscheint er hier auf Ihrer persönlichen Liste. "
+    },
+    {
+      "key": "pages/bookmarks/help",
+      "value": "Neu hinzugefügte Artikel erscheinen zuoberst."
+    },
+    {
+      "key": "pages/bookmarks/placeholder/feedText",
+      "value": "Feed"
     }
   ]
 }

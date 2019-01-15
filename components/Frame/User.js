@@ -4,6 +4,7 @@ import { colors, mediaQueries, DEFAULT_PROFILE_PICTURE } from '@project-r/styleg
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
+import { negativeColors } from './constants'
 
 const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30
@@ -27,7 +28,6 @@ const styles = {
     }
   }),
   button: css({
-    color: colors.text,
     display: 'inline-block',
     textDecoration: 'none',
     padding: `${BUTTON_PADDING_MOBILE}px`,
@@ -58,27 +58,31 @@ const styles = {
   })
 }
 
-const User = ({ t, me, onClick, title }) => (
-  <div {...styles.user}>
-    <a
-      {...styles.button}
-      role='button'
-      title={title}
-      href='/'
-      onClick={e => {
-        e.preventDefault()
-        onClick()
-      }}
-    >
-      {me && <img src={me.portrait || DEFAULT_PROFILE_PICTURE} {...styles.portrait} />}
-      {!me && <Fragment>
-        <span {...styles.anonymous}>
-          <PersonIcon size={ICON_SIZE} fill={'#282828'} />
-        </span>
-        <span {...styles.label}>{t('header/signin')}</span>
-      </Fragment>}
-    </a>
-  </div>
-)
+const User = ({ t, me, onClick, title, dark }) => {
+  const color = dark ? negativeColors.text : colors.text
+  return (
+    <div {...styles.user}>
+      <a
+        {...styles.button}
+        style={{ color }}
+        role='button'
+        title={title}
+        href='/'
+        onClick={e => {
+          e.preventDefault()
+          onClick()
+        }}
+      >
+        {me && <img src={me.portrait || DEFAULT_PROFILE_PICTURE} {...styles.portrait} />}
+        {!me && <Fragment>
+          <span {...styles.anonymous}>
+            <PersonIcon size={ICON_SIZE} fill={color} />
+          </span>
+          <span {...styles.label}>{t('header/signin')}</span>
+        </Fragment>}
+      </a>
+    </div>
+  )
+}
 
 export default withT(User)

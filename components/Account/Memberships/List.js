@@ -12,7 +12,9 @@ import query from '../belongingsQuery'
 
 import Manage from './Manage'
 
-const { H2 } = Interaction
+import Box from '../../Frame/Box'
+
+const { H2, P } = Interaction
 
 class MembershipsList extends Component {
   render () {
@@ -23,6 +25,7 @@ class MembershipsList extends Component {
       prolongIds,
       waitingMemberships
     } = this.props
+
     return (
       <Loader loading={loading} error={error} render={() => {
         if (!memberships.length) {
@@ -34,6 +37,13 @@ class MembershipsList extends Component {
             <H2>{t.pluralize('memberships/title', {
               count: memberships.length
             })}</H2>
+            {!memberships.find(membership => membership.active) &&
+              <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
+                <P>
+                  {t('memberships/noActive')}
+                </P>
+              </Box>
+            }
             {memberships.map(membership => (
               <Manage key={membership.id}
                 membership={membership}

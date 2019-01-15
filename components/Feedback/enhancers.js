@@ -186,8 +186,8 @@ export const withComments = graphql(getComments, {
               ? fetchMoreResult.comments.totalCount
               : nodes.length,
             comments: {
-              ...previousResult.search,
-              ...fetchMoreResult.search,
+              ...previousResult.comments,
+              ...fetchMoreResult.comments,
               nodes
             }
           }

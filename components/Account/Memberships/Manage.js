@@ -57,17 +57,7 @@ class Actions extends Component {
         {!prolong && membership.active && membership.renew && waitingMemberships && <P>
           {t('memberships/manage/prolong/awaiting')}
         </P>}
-        {membership.active && membership.renew && <P>
-          <Link route='cancel' params={{ membershipId: membership.id }} passHref>
-            <A>
-              {t.first([
-                `memberships/${membership.type.name}/manage/cancel/link`,
-                'memberships/manage/cancel/link'
-              ])}
-            </A>
-          </Link>
-        </P>}
-        {!membership.renew && !!membership.periods.length && <P>
+        {!membership.renew && !!membership.periods.length && !prolong && <P>
           <A href='#reactivate' onClick={(e) => {
             e.preventDefault()
             this.setState({
@@ -109,6 +99,16 @@ class Actions extends Component {
             </TokenPackageLink>
           </P>
         }
+        {membership.active && membership.renew && <P>
+          <Link route='cancel' params={{ membershipId: membership.id }} passHref>
+            <A>
+              {t.first([
+                `memberships/${membership.type.name}/manage/cancel/link`,
+                'memberships/manage/cancel/link'
+              ])}
+            </A>
+          </Link>
+        </P>}
         {!!remoteError &&
           <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
       </Fragment>
@@ -154,8 +154,16 @@ const ManageActions = compose(
 
 const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
-  const latestPeriod = membership.periods[0]
-  const formattedEndDate = latestPeriod && dayFormat(new Date(latestPeriod.endDate))
+  const latestPeriod = membership.periods
+    .reduce((acc, period) => {
+      return acc && new Date(period.endDate) < new Date(acc.endDate)
+        ? acc
+        : period
+    })
+
+  const latestPeriodEndDate = latestPeriod && new Date(latestPeriod.endDate)
+  const formattedEndDate = latestPeriod && dayFormat(latestPeriodEndDate)
+  const overdue = latestPeriod && latestPeriodEndDate < new Date()
 
   return (
     <AccountItem
@@ -168,20 +176,40 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
           { sequenceNumber: membership.sequenceNumber }
         )
       }>
-      {!!latestPeriod && <P>
-        {membership.active && !membership.overdue && t.first(
-          [
-            `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}`,
-            `memberships/latestPeriod/renew/${membership.renew}`
-          ],
-          { formattedEndDate },
-          ''
-        )}
-        {membership.overdue && t(
-          'memberships/latestPeriod/overdue',
-          { formattedEndDate }
-        )}
-      </P>}
+      {membership.active && !!latestPeriod && !overdue &&
+        <P>
+          {membership.active && !membership.overdue && t.first(
+            [
+              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`,
+              `memberships/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`
+            ],
+            { formattedEndDate },
+            ''
+          )}
+        </P>
+      }
+      {membership.active && !!latestPeriod && overdue &&
+        <P>
+          {t.first(
+            [
+              `memberships/${membership.type.name}/latestPeriod/overdue`,
+              'memberships/latestPeriod/overdue'
+            ],
+            { formattedEndDate }
+          )}
+        </P>
+      }
+      {!membership.active && !membership.renew && !!latestPeriod && overdue &&
+        <P>
+          {t.first(
+            [
+              `memberships/${membership.type.name}/ended`,
+              'memberships/latestPeriod/ended'
+            ],
+            { formattedEndDate }
+          )}
+        </P>
+      }
       {actions && <ManageActions membership={membership} prolong={prolong} waitingMemberships={waitingMemberships} />}
     </AccountItem>
   )

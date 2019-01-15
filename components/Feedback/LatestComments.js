@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { compose } from 'react-apollo'
+import { css } from 'glamor'
 import { withComments } from './enhancers'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
@@ -9,7 +10,21 @@ import PathLink from '../Link/Path'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
-import { CommentTeaser, Loader } from '@project-r/styleguide'
+import { CommentTeaser, Loader, fontStyles, linkRule } from '@project-r/styleguide'
+
+const styles = {
+  button: css({
+    ...fontStyles.sansSerifRegular21,
+    outline: 'none',
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 0,
+    margin: '0 auto 0',
+    display: 'block'
+  })
+}
 
 export const CommentLink = ({
   displayAuthor,
@@ -80,7 +95,7 @@ export const CommentLink = ({
 
 class LatestComments extends Component {
   render () {
-    const { t, data } = this.props
+    const { t, data, fetchMore } = this.props
 
     const timeagoFromNow = createdAtString => {
       return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
@@ -92,6 +107,7 @@ class LatestComments extends Component {
         error={data.error}
         render={() => {
           const { comments } = data
+          const { pageInfo } = comments
           return (
             <div>
               {comments && comments.nodes
@@ -132,6 +148,17 @@ class LatestComments extends Component {
                     )
                   }
                 )}
+              {pageInfo.hasNextPage && (
+                <button
+                  {...styles.button}
+                  {...linkRule}
+                  onClick={() => {
+                    fetchMore({ after: pageInfo.endCursor })
+                  }}
+                >
+                  {t('feedback/fetchMore')}
+                </button>
+              )}
             </div>
           )
         }} />

@@ -19,15 +19,27 @@ import { withSignOut } from '../../Auth/SignOut'
 import { withSignIn } from '../../Auth/SignIn'
 
 import {
-  Field, Button, Interaction,
+  Field, Button, Interaction, RawHtml,
   colors
 } from '@project-r/styleguide'
 
-const requiredConsents = [
-  'PRIVACY', 'TOS', 'STATUTE'
-]
+const { H2, P } = Interaction
 
-const { H2 } = Interaction
+export const isMembershipVoucherCode = (voucherCode) => {
+  return voucherCode.length === 6
+}
+
+export const isAccessGrantVoucherCode = (voucherCode) => {
+  return voucherCode.length === 5
+}
+
+export const sanitizeVoucherCode = (value) => {
+  return value
+    .replace(/[^a-zA-Z0-9]/g, '')
+    .trim()
+    .substr(0, 6)
+    .toUpperCase()
+}
 
 class ClaimMembership extends Component {
   constructor (props) {
@@ -69,12 +81,21 @@ class ClaimMembership extends Component {
     }))
   }
   handleVoucherCode (value, shouldValidate, t) {
+    const sanitizedValue = sanitizeVoucherCode(value)
+
     this.setState(FieldSet.utils.mergeField({
       field: 'voucherCode',
       value,
-      error: (
-        value.trim().length <= 0 && t('memberships/claim/voucherCode/label/error/empty')
-      ),
+      error:
+        (
+          sanitizedValue.length === 0 &&
+          t('memberships/claim/voucherCode/label/error/empty')
+        ) ||
+        (
+          !isMembershipVoucherCode(sanitizedValue) &&
+          !isAccessGrantVoucherCode(sanitizedValue) &&
+          t('memberships/claim/voucherCode/label/error/unrecognized')
+        ),
       dirty: shouldValidate
     }))
   }
@@ -82,7 +103,8 @@ class ClaimMembership extends Component {
     const defaultValues = {
       firstName: (me && me.firstName) || '',
       lastName: (me && me.lastName) || '',
-      email: (me && me.email) || ''
+      email: (me && me.email) || (this.props.email) || '',
+      voucherCode: (this.props.voucherCode) || ''
     }
     const values = {
       ...defaultValues,
@@ -91,6 +113,7 @@ class ClaimMembership extends Component {
     this.handleFirstName(values.firstName, false, t)
     this.handleLastName(values.lastName, false, t)
     this.handleEmail(values.email, false, t)
+    this.handleVoucherCode(values.voucherCode, false, t)
   }
   componentWillReceiveProps (nextProps) {
     if (nextProps.me !== this.props.me) {
@@ -99,14 +122,9 @@ class ClaimMembership extends Component {
   }
   componentDidMount () {
     this.checkUserFields(this.props)
-    this.handleVoucherCode(
-      this.state.values.voucherCode || '',
-      false,
-      this.props.t
-    )
   }
   claim (newTokenType) {
-    const { me } = this.props
+    const { me, context } = this.props
     const { values } = this.state
 
     this.setState(() => ({
@@ -128,7 +146,12 @@ class ClaimMembership extends Component {
     }
 
     if (!me) {
-      this.props.signIn(values.email, 'claim', this.state.consents, newTokenType)
+      this.props.signIn(
+        values.email,
+        context || 'claim',
+        this.state.consents,
+        newTokenType
+      )
         .then(({ data }) => {
           this.setState(() => ({
             polling: true,
@@ -140,11 +163,21 @@ class ClaimMembership extends Component {
     }
 
     const claim = () => {
-      this.props.claim(values.voucherCode)
-        .then(() => {
-          gotoMerci({})
-        })
-        .catch(catchError)
+      const code = sanitizeVoucherCode(values.voucherCode)
+
+      if (isAccessGrantVoucherCode(code)) {
+        this.props.claimAccess(code)
+          .then(() => {
+            gotoMerci({})
+          })
+          .catch(catchError)
+      } else {
+        this.props.claimMembership(code)
+          .then(() => {
+            gotoMerci({})
+          })
+          .catch(catchError)
+      }
     }
     if (
       me.firstName !== values.firstName ||
@@ -163,7 +196,7 @@ class ClaimMembership extends Component {
     claim()
   }
   render () {
-    const { t } = this.props
+    const { context, t } = this.props
 
     const {
       serverError,
@@ -172,6 +205,25 @@ class ClaimMembership extends Component {
       polling, signInResponse,
       consents
     } = this.state
+
+    const requiredConsents = ['PRIVACY', 'TOS']
+
+    if (
+      values.voucherCode &&
+      isMembershipVoucherCode(values.voucherCode)
+    ) {
+      requiredConsents.push('STATUTE')
+    }
+
+    const contextLead = t.first([
+      `memberships/claim/${context}/lead`,
+      'memberships/claim/lead'
+    ], {}, false)
+
+    const contextBody = t.first([
+      `memberships/claim/${context}/body`,
+      'memberships/claim/body'
+    ], {}, false)
 
     if (polling) {
       return (
@@ -213,9 +265,16 @@ class ClaimMembership extends Component {
 
     return (
       <div>
-        <H2 style={{ marginBottom: 20 }}>
-          {t('memberships/claim/lead')}
-        </H2>
+        {contextLead &&
+          <H2 style={{ marginBottom: 20 }}>
+            {contextLead}
+          </H2>
+        }
+        {contextBody &&
+          <RawHtml type={P} dangerouslySetInnerHTML={{
+            __html: contextBody
+          }} />
+        }
         <Field label={t('pledge/contact/firstName/label')}
           name='firstName'
           error={dirty.firstName && errors.firstName}
@@ -307,6 +366,13 @@ mutation claimMembership($voucherCode: String!) {
   claimMembership(voucherCode: $voucherCode)
 }`
 
+const claimAccess = gql`
+mutation claimAccess($voucherCode: String!) {
+  claimAccess(voucherCode: $voucherCode) {
+    endAt
+  }
+}`
+
 const updateName = gql`mutation updateName($firstName: String!, $lastName: String!) {
   updateMe(firstName: $firstName, lastName: $lastName) {
     id
@@ -316,7 +382,16 @@ const updateName = gql`mutation updateName($firstName: String!, $lastName: Strin
 export default compose(
   graphql(claimMembership, {
     props: ({ mutate }) => ({
-      claim: voucherCode => mutate({
+      claimMembership: voucherCode => mutate({
+        variables: {
+          voucherCode
+        }
+      })
+    })
+  }),
+  graphql(claimAccess, {
+    props: ({ mutate }) => ({
+      claimAccess: voucherCode => mutate({
         variables: {
           voucherCode
         }

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-15T10:27:48.820Z",
+  "updated": "2019-01-15T17:38:18.135Z",
   "title": "live",
   "data": [
     {
@@ -836,7 +836,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs und freitags"
+      "value": "montags, dienstags, mittwochs, donnerstags und freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -845,14 +845,6 @@
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/label",
-      "value": "Republik – Das Feuilleton"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
-      "value": "donnerstags"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
@@ -4277,6 +4269,22 @@
     {
       "key": "meta/prolong/title",
       "value": "Mit der Republik ins zweite Jahr"
+    },
+    {
+      "key": "stats/membershipPeriods/labels/prolong",
+      "value": "Verlängerungen"
+    },
+    {
+      "key": "stats/membershipPeriods/labels/cancel",
+      "value": "Kündigungen"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/past",
+      "value": "Erneuerungsrate"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/current",
+      "value": "Aktuelle Erneuerungsrate"
     },
     {
       "key": "meta/prolong/signIn",

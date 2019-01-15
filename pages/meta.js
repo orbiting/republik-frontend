@@ -8,9 +8,10 @@ import { Link } from '../lib/routes'
 import { countFormat } from '../lib/utils/format'
 
 import Front from '../components/Front'
-import Status from '../components/CrowdfundingStatus'
 import List, { Highlight } from '../components/List'
 import VideoCover from '../components/VideoCover'
+
+import { ChartTitle, ChartLead } from '@project-r/styleguide/chart'
 
 import {
   Interaction,
@@ -28,9 +29,10 @@ import { data as gallery } from '../lib/meta/gallery.json'
 import withT from '../lib/withT'
 import withMe from '../lib/apollo/withMe'
 import TokenPackageLink from '../components/Link/TokenPackage'
+import MembershipPeriodStats from '../components/Stats/MembershipPeriods'
 
 import {
-  CROWDFUNDING_META, CDN_FRONTEND_BASE_URL
+  CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 const GallerHeading = withT(({ t }) => (
@@ -60,11 +62,14 @@ const CrowdfundingRevival = compose(
   <Fragment>
     <VideoCover src={VIDEO} endScroll={0.96} />
     <Center style={{ marginTop: 20, marginBottom: 60 }}>
-      <Interaction.H3>{t('meta/prolong/title')}</Interaction.H3>
-      <Status
-        crowdfundingName={CROWDFUNDING_META}
-        endDate='2019-01-15T11:00:00Z'
-        memberships />
+      <ChartTitle>{t('meta/prolong/title')}</ChartTitle>
+      <ChartLead>
+        Erneuerungsrate Crowdfunder und Unterstützerinnen der ersten Stunde
+      </ChartLead>
+      <MembershipPeriodStats />
+      <Interaction.P style={{ marginTop: 20, marginBottom: 20 }}>
+        Die ersten Jahresmitgliedschaften laufen am 15. Januar aus. Wegen laufender Zahlungsfristen kann erst gegen Ende des Monats eine genaue Aussage zur Erneuerungsquote gemacht werden. Die Differenz zwischen Erneuerungen und Kündigungen zeigt, wie viele Personen noch unentschlossen sind oder noch nicht reagiert haben. Sie sehen: jede Erneuerung zählt!
+      </Interaction.P>
       {(
         me &&
         me.prolongBeforeDate !== null &&

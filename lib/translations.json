@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-15T14:03:58.092Z",
+  "updated": "2019-01-15T18:08:52.537Z",
   "title": "live",
   "data": [
     {
@@ -4269,6 +4269,22 @@
     {
       "key": "meta/prolong/title",
       "value": "Mit der Republik ins zweite Jahr"
+    },
+    {
+      "key": "stats/membershipPeriods/labels/prolong",
+      "value": "Erneuerungen"
+    },
+    {
+      "key": "stats/membershipPeriods/labels/cancel",
+      "value": "Kündigungen"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/past",
+      "value": "Erneuerungsrate"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/current",
+      "value": "Aktuelle Erneuerungsrate"
     },
     {
       "key": "meta/prolong/signIn",

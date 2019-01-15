@@ -64,7 +64,7 @@ const ActionBar = ({
     indicateGallery && {
       icon: 'gallery',
       title: t('feed/actionbar/gallery'),
-      size: 21,
+      size: 20,
       color: colors.text
     },
     hasAudio && {
@@ -77,12 +77,13 @@ const ActionBar = ({
       icon: 'video',
       title: t('feed/actionbar/video'),
       size: 17,
-      style: { paddingBottom: 2 }
+      style: { marginTop: '-3px' }
     },
     indicateChart && {
       icon: 'chart',
       title: t('feed/actionbar/chart'),
-      size: 18
+      size: 18,
+      style: { marginTop: '-2px' }
     }
   ]
 
@@ -127,7 +128,7 @@ const ActionBar = ({
             </ActionLink>
           ))}
         {estimatedReadingMinutes > 1 && (
-          <ReadingTime minutes={estimatedReadingMinutes} small />
+          <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
         )}
         {(isLinkedDiscussion || isOwnDiscussion) && (
           <DiscussionIconLinkWithoutEnhancer

@@ -15,7 +15,7 @@ const styles = {
   })
 }
 
-const ReadingTime = ({ t, minutes, fill, small }) => {
+const ReadingTime = ({ t, minutes, fill, small, style }) => {
   const size = small ? 20 : 22
   const fontSize = small ? '15px' : undefined
   const lineHeight = small ? '20px' : undefined
@@ -31,7 +31,8 @@ const ReadingTime = ({ t, minutes, fill, small }) => {
       )}
       style={{
         color: fill || undefined,
-        marginLeft: 5
+        marginLeft: 5,
+        ...style
       }}>
       <span {...styles.text} style={{ fontSize, lineHeight }}>
         {minutes}{'\''}
@@ -47,7 +48,8 @@ ReadingTime.defaultProps = {
 ReadingTime.propTypes = {
   minutes: PropTypes.number.isRequired,
   fill: PropTypes.string,
-  small: PropTypes.bool
+  small: PropTypes.bool,
+  style: PropTypes.object
 }
 
 export default compose(

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-15T12:42:50.196Z",
+  "updated": "2019-01-15T14:03:58.092Z",
   "title": "live",
   "data": [
     {
@@ -845,14 +845,6 @@
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/label",
-      "value": "Republik – Das Feuilleton"
-    },
-    {
-      "key": "account/newsletterSubscriptions/FEUILLETON/frequency",
-      "value": "donnerstags"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",

@@ -6,8 +6,7 @@ import { timeDay } from 'd3-time'
 import { timeFormat } from '../../lib/utils/format'
 import { t } from '../../lib/withT'
 
-import Loader from '../Loader'
-
+import { Loader } from '@project-r/styleguide'
 import { Chart } from '@project-r/styleguide/chart'
 
 const getStats = gql`  
@@ -15,14 +14,14 @@ query getMembershipPeriodStats {
   membershipStats {
     periods(
       minEndDate: "01.01.2019",
-      maxEndDate: "16.01.2019",
+      maxEndDate: "15.01.2019",
       membershipTypes: ["ABO", "BENEFACTOR_ABO"]
     ) {
       id
       totalMemberships
       days {
         id
-        day
+        date
         prolongCount
         cancelCount
       }
@@ -56,7 +55,7 @@ const CHART_CONFIG = {
 const formatDate = timeFormat(CHART_CONFIG.timeParse)
 
 const MembershipPeriodStats = ({ data: { loading, error, membershipStats } }) => (
-  <Loader loading={loading} error={error} render={() => {
+  <Loader style={{ minHeight: 320 }} loading={loading} error={error} render={() => {
     const startDayDate = new Date('2018-11-23T23:00:00.000Z')
     const startDay = formatDate(startDayDate)
     const endDayDate = new Date('2019-01-31T23:00:00.000Z')
@@ -88,16 +87,16 @@ const MembershipPeriodStats = ({ data: { loading, error, membershipStats } }) =>
         agg.cancel += day.cancelCount
         agg.prolongRate = agg.prolong / total
         agg.cancelRate = agg.cancel / total
-        agg.day = day.day
-        const prolongValue = prolongValues.find(v => v.date === day.day)
+        agg.day = day.date
+        const prolongValue = prolongValues.find(v => v.date === day.date)
         if (prolongValue) {
           prolongValue.value = String(agg.prolongRate)
         }
-        const cancelValue = cancelValues.find(v => v.date === day.day)
+        const cancelValue = cancelValues.find(v => v.date === day.date)
         if (cancelValue) {
           cancelValue.value = String(agg.cancelRate)
         }
-        const remainingValue = remainingValues.find(v => v.date === day.day)
+        const remainingValue = remainingValues.find(v => v.date === day.date)
         if (remainingValue) {
           remainingValue.value = String(1 - (agg.prolongRate) - (agg.cancelRate))
         }

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-15T18:08:52.537Z",
+  "updated": "2019-01-16T17:41:50.199Z",
   "title": "live",
   "data": [
     {
@@ -4368,7 +4368,7 @@
     },
     {
       "key": "prolongNecessary/overdue/explanation/cancelText",
-      "value": "Teilen Sie uns mit, warum."
+      "value": "Teilen Sie uns mit, warum"
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",

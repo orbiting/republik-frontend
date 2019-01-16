@@ -68,7 +68,7 @@ const CrowdfundingRevival = compose(
       </ChartLead>
       <MembershipPeriodStats />
       <Interaction.P style={{ marginTop: 20, marginBottom: 20 }}>
-        Diese Jahresmitgliedschaften liefen am 15. Januar aus. Wegen laufenden Fristen kann erst gegen Ende des Monats eine genauere Aussage zur Erneuerungsquote gemacht werden. Die Differenz zwischen Erneuerungen und Kündigungen zeigt, wie viele Personen noch unentschlossen sind oder noch nicht reagiert haben. Sie sehen: jede Erneuerung zählt!
+        Die Jahresmitgliedschaften der Erstunterstützer liefen am 15. Januar aus. Wegen laufenden Fristen kann erst gegen Ende des Monats eine genauere Aussage zur Erneuerungsquote gemacht werden. Die Differenz zwischen Erneuerungen und Kündigungen zeigt, wie viele Personen noch unentschlossen sind oder noch nicht reagiert haben. Sie sehen: jede Erneuerung zählt!
       </Interaction.P>
       {(
         me &&

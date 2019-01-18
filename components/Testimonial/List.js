@@ -179,8 +179,11 @@ class List extends Component {
       }
     }
     this.measure = () => {
+      const maxColumns = this.getMaxColumns()
       const sizeIndex = max(SIZES, (d, i) => (
-        d.minWidth <= window.innerWidth ? i : -1
+        d.minWidth <= window.innerWidth && maxColumns >= d.columns
+          ? i
+          : -1
       ))
       const size = SIZES[sizeIndex]
       const columns = size.columns
@@ -246,12 +249,15 @@ class List extends Component {
     this.props.isPage && window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
+  getMaxColumns () {
+    return this.props.singleRow ? this.props.first : 5
+  }
   render () {
     const {
       loading, error, statements, t,
       onSelect, focus, isPage,
       search, hasMore, totalCount,
-      singleRow, minColumns, first
+      singleRow, minColumns
     } = this.props
     const { columns, open } = this.state
 
@@ -296,7 +302,7 @@ class List extends Component {
               isActive={isActive}
               singleRow={singleRow}
               minColumns={minColumns}
-              maxColumns={singleRow ? first : undefined}
+              maxColumns={this.getMaxColumns()}
               href={`/community?id=${id}`}
               onClick={(e) => {
                 if (shouldIgnoreClick(e)) {

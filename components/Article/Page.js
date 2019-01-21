@@ -23,7 +23,7 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import withReadingProgress from './withReadingProgress'
+import withReadingProgress, { userProgressFragment } from './withReadingProgress'
 
 import {
   colors,
@@ -82,6 +82,7 @@ const getDocument = gql`
       id
       content
       ...BookmarkOnDocument
+      ...UserProgressOnDocument
       meta {
         template
         path
@@ -148,6 +149,7 @@ const getDocument = gql`
     }
   }
   ${onDocumentFragment}
+  ${userProgressFragment}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -223,6 +225,7 @@ class ArticlePage extends Component {
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
       mobile: true,
+      progressInitialized: false,
       ...this.deriveStateFromProps(props, {})
     }
 
@@ -258,8 +261,10 @@ class ArticlePage extends Component {
           this.setState({ secondaryNavExpanded: false })
         }
       }
-      if (y !== this.state.pageYOffset) {
-        this.props.saveProgress()
+      const { isMember, data, saveProgress } = this.props
+      const { progressInitialized, pageYOffset } = this.state
+      if (isMember && progressInitialized && y !== pageYOffset && data && data.article) {
+        saveProgress(data.article.id)
       }
     }
 
@@ -389,6 +394,16 @@ class ArticlePage extends Component {
   componentWillReceiveProps (nextProps) {
     if (nextProps.data.article !== this.props.data.article) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
+    }
+    const { progressInitialized, progressPolling } = this.state
+    if (this.props.isMember && nextProps.data.article && !progressInitialized && !progressPolling) {
+      this.setState({ progressPolling: true })
+      const { userProgress } = nextProps.data.article
+      this.props.initializeProgress(userProgress).then(
+        () => {
+          this.setState({ progressInitialized: true })
+        }
+      )
     }
   }
 

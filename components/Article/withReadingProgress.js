@@ -110,7 +110,6 @@ const withReadingProgress = WrappedComponent => {
         super(props)
 
         this.state = {
-          progressElements: null,
           progressElementIndex: 0,
           pollRetries: 0
         }
@@ -219,13 +218,9 @@ const withReadingProgress = WrappedComponent => {
         }
 
         this.getProgressElements = () => {
-          if (this.state.progressElements && this.state.progressElements.length > 0) {
-            return this.state.progressElements
-          }
           const progressElements = this.container
             ? [...this.container.getElementsByClassName('pos')]
             : []
-          this.setState({ progressElements })
           return progressElements
         }
 

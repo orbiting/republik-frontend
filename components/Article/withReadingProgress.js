@@ -41,21 +41,6 @@ const upsertMutation = gql`
   ${userProgressFragment}
 `
 
-const removeMutation = gql`
-  mutation removeDocumentProgress(
-    $documentId: ID!
-  ) {
-    removeDocumentProgress(documentId: $documentId) {
-      id
-      document {
-        id
-        ...UserProgressOnDocument
-      }
-    }
-  }
-  ${userProgressFragment}
-`
-
 const consentQuery = gql`
   query myProgressConsent {
     myProgressConsent: me {
@@ -115,16 +100,6 @@ const withReadingProgress = WrappedComponent => {
               documentId,
               percentage,
               nodeId
-            }
-          })
-      })
-    }),
-    graphql(removeMutation, {
-      props: ({ mutate }) => ({
-        removeDocumentProgress: (documentId) =>
-          mutate({
-            variables: {
-              documentId
             }
           })
       })
@@ -216,7 +191,7 @@ const withReadingProgress = WrappedComponent => {
               }
             }
           } else {
-          // search upwards.
+            // search upwards.
             for (let i = progressElementIndex; i > -1; i--) {
               progressElement = progressElements[i]
               if (i === 0) {
@@ -275,13 +250,11 @@ const withReadingProgress = WrappedComponent => {
 
           if (y !== this.state.pageYOffset) {
             this.setState({ pageYOffset: y }, () => {
+              // We only persist progress for a downward scroll, but we still measure
+              // an upward scroll to keep track of the current reading position.
               const progress = this.measureProgress(downwards)
-              if (progress) {
-                if (progress.percentage === 0) {
-                  this.props.removeDocumentProgress(documentId)
-                } else if (progress.nodeId) {
-                  this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
-                }
+              if (downwards && progress && progress.nodeId && progress.percentage > 0) {
+                this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
               }
             })
           }

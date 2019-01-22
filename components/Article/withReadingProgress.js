@@ -40,6 +40,21 @@ const upsertMutation = gql`
   ${userProgressFragment}
 `
 
+const removeMutation = gql`
+  mutation removeDocumentProgress(
+    $documentId: ID!
+  ) {
+    removeDocumentProgress(documentId: $documentId) {
+      id
+      document {
+        id
+        ...UserProgressOnDocument
+      }
+    }
+  }
+  ${userProgressFragment}
+`
+
 const withReadingProgress = WrappedComponent => {
   return compose(
     graphql(upsertMutation, {
@@ -50,6 +65,16 @@ const withReadingProgress = WrappedComponent => {
               documentId,
               percentage,
               nodeId
+            }
+          })
+      })
+    }),
+    graphql(removeMutation, {
+      props: ({ mutate }) => ({
+        removeDocumentProgress: (documentId) =>
+          mutate({
+            variables: {
+              documentId
             }
           })
       })
@@ -119,7 +144,8 @@ const withReadingProgress = WrappedComponent => {
           if (!progressElements) {
             return
           }
-          const progressElementIndex = this.state.progressElementIndex
+          const fallbackIndex = downwards ? 0 : progressElements.length - 1
+          const progressElementIndex = this.state.progressElementIndex || fallbackIndex
 
           const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
@@ -159,7 +185,7 @@ const withReadingProgress = WrappedComponent => {
             }
           }
           this.setState({
-            progressElementIndex: nextIndex !== undefined ? nextIndex : 0
+            progressElementIndex: nextIndex
           })
           return {
             nodeId: progressElement && progressElement.id,
@@ -200,7 +226,13 @@ const withReadingProgress = WrappedComponent => {
           if (y !== this.state.pageYOffset) {
             this.setState({ pageYOffset: y }, () => {
               const progress = this.measureProgress(downwards)
-              progress && progress.nodeId && this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
+              if (progress) {
+                if (progress.percentage === 0) {
+                  this.props.removeDocumentProgress(documentId)
+                } else if (progress.nodeId) {
+                  this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
+                }
+              }
             })
           }
         }, 300)

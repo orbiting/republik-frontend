@@ -9,6 +9,8 @@ import {
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
+const MAX_POLL_RETRIES = 3
+
 export const userProgressFragment = `
   fragment UserProgressOnDocument on Document {
     userProgress {
@@ -60,7 +62,7 @@ const withReadingProgress = WrappedComponent => {
         this.state = {
           progressElements: null,
           progressElementIndex: 0,
-          pollIndex: 0
+          pollRetries: 0
         }
 
         this.containerRef = ref => {
@@ -74,17 +76,17 @@ const withReadingProgress = WrappedComponent => {
 
         this.initializeProgress = (userProgress) =>
           new Promise((resolve, reject) => {
-            this.wait(resolve, userProgress)
+            this.poll(resolve, userProgress)
           })
 
-        this.wait = (resolve, userProgress) => {
+        this.poll = (resolve, userProgress) => {
           if (!userProgress) {
             resolve()
             return
           }
           const progressElements = this.getProgressElements()
-          const { pollIndex } = this.state
-          if (pollIndex > 2) {
+          const { pollRetries } = this.state
+          if (pollRetries > MAX_POLL_RETRIES) {
             resolve()
             return
           }
@@ -93,10 +95,11 @@ const withReadingProgress = WrappedComponent => {
             this.restoreProgress(resolve, percentage, nodeId)
             resolve()
           } else {
-            this.setState({ pollIndex: pollIndex + 1 }, () => {
+            const newPollRetries = pollRetries + 1
+            this.setState({ pollRetries: newPollRetries }, () => {
               setTimeout(() => {
-                this.wait(resolve, userProgress)
-              }, 500)
+                this.poll(resolve, userProgress)
+              }, 300 * newPollRetries)
             })
           }
         }

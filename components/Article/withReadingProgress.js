@@ -116,7 +116,7 @@ const withReadingProgress = WrappedComponent => {
           if (!progressElements) {
             return
           }
-          const progressElementIndex = this.state.progressElementIndex || (downwards ? 0 : progressElements.length - 1)
+          const progressElementIndex = this.state.progressElementIndex
 
           const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
@@ -156,7 +156,6 @@ const withReadingProgress = WrappedComponent => {
             }
           }
           this.setState({
-            progressElement: progressElement !== undefined ? progressElement : null,
             progressElementIndex: nextIndex !== undefined ? nextIndex : 0
           })
           return {
@@ -204,7 +203,7 @@ const withReadingProgress = WrappedComponent => {
         }, 300)
 
         this.restoreProgress = (resolve, percentage, nodeId) => {
-          const { mobile } = this.state
+          const mobile = window.innerWidth < mediaQueries.mBreakPoint
 
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
@@ -213,7 +212,7 @@ const withReadingProgress = WrappedComponent => {
           if (progressElement) {
             setTimeout(() => {
               const { top } = progressElement.getBoundingClientRect()
-              window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 20 : 50))
+              window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 50 : 80))
               this.measureProgress()
               resolve()
             }, 0)

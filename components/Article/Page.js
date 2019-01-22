@@ -264,7 +264,7 @@ class ArticlePage extends Component {
       const { isMember, data, saveProgress } = this.props
       const { progressInitialized, pageYOffset } = this.state
       if (isMember && progressInitialized && y !== pageYOffset && data && data.article) {
-        saveProgress(data.article.id)
+        saveProgress && saveProgress(data.article.id)
       }
     }
 
@@ -395,9 +395,9 @@ class ArticlePage extends Component {
     if (nextProps.data.article !== this.props.data.article) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
-    const { progressInitialized, progressPolling } = this.state
-    if (this.props.isMember && nextProps.data.article && !progressInitialized && !progressPolling) {
-      this.setState({ progressPolling: true })
+    const { progressInitialized, progressInitializing } = this.state
+    if (this.props.isMember && nextProps.data.article && !progressInitialized && !progressInitializing) {
+      this.setState({ progressInitializing: true })
       const { userProgress } = nextProps.data.article
       this.props.initializeProgress(userProgress).then(
         () => {
@@ -506,7 +506,7 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              {article && progressPrompt}
+              {progressPrompt}
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   variation={payNoteVariation}

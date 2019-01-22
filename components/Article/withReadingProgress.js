@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import debounce from 'lodash.debounce'
 
+import ProgressPrompt from './ProgressPrompt'
 import {
   mediaQueries
 } from '@project-r/styleguide'
@@ -55,8 +56,57 @@ const removeMutation = gql`
   ${userProgressFragment}
 `
 
+const consentQuery = gql`
+  query myProgressConsent {
+    myProgressConsent: me {
+      id
+      trackProgress
+    }
+  }
+`
+
+const enableMutation = gql`
+  mutation enableProgressTracking {
+    enableProgressTracking {
+      id
+      trackProgress
+    }
+  }
+`
+
+const disableMutation = gql`
+  mutation disableProgressTracking {
+    disableProgressTracking {
+      id
+      trackProgress
+    }
+  }
+`
+
 const withReadingProgress = WrappedComponent => {
   return compose(
+    graphql(consentQuery, {
+      props: ({ data, errors }) => ({
+        data,
+        loading: data.loading || !data.myProgressConsent,
+        error: data.error,
+        myProgressConsent: data.loading
+          ? undefined
+          : data.myProgressConsent
+      })
+    }),
+    graphql(enableMutation, {
+      props: ({ mutate }) => ({
+        enableProgressTracking: () =>
+          mutate()
+      })
+    }),
+    graphql(disableMutation, {
+      props: ({ mutate }) => ({
+        disableProgressTracking: () =>
+          mutate()
+      })
+    }),
     graphql(upsertMutation, {
       props: ({ mutate }) => ({
         upsertDocumentProgress: (documentId, percentage, nodeId) =>
@@ -276,11 +326,22 @@ const withReadingProgress = WrappedComponent => {
 
       render () {
         const { width, percentage, pageYOffset } = this.state
+        const { myProgressConsent, enableProgressTracking, disableProgressTracking } = this.props
+        const isTrackingAllowed = myProgressConsent && myProgressConsent.trackProgress === true
+        const showConsentPrompt = myProgressConsent && myProgressConsent.trackProgress === null
+        const progressPrompt = showConsentPrompt
+          ? <ProgressPrompt
+            onConfirm={enableProgressTracking}
+            onReject={disableProgressTracking}
+          />
+          : null
+
         return <Fragment>
           <WrappedComponent
             progressArticleRef={this.containerRef}
-            saveProgress={this.saveProgress}
+            saveProgress={isTrackingAllowed ? this.saveProgress : undefined}
             initializeProgress={this.initializeProgress}
+            progressPrompt={progressPrompt}
             {...this.props} />
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: 10 }}>
             <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>

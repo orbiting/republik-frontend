@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-15T14:03:58.092Z",
+  "updated": "2019-01-22T11:35:11.014Z",
   "title": "live",
   "data": [
     {
@@ -2983,6 +2983,18 @@
       "value": "Reden Sie mit auf unserer neuen Dialogseite"
     },
     {
+      "key": "article/progressprompt/question",
+      "value": "Wollen Sie das Tracken des Lesefortschritts erlauben?"
+    },
+    {
+      "key": "article/progressprompt/button/confirm",
+      "value": "Ja"
+    },
+    {
+      "key": "article/progressprompt/button/reject",
+      "value": "Nein"
+    },
+    {
       "key": "merci/postpay/lead",
       "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     },
@@ -4271,6 +4283,22 @@
       "value": "Mit der Republik ins zweite Jahr"
     },
     {
+      "key": "stats/membershipPeriods/labels/prolong",
+      "value": "Erneuerungen"
+    },
+    {
+      "key": "stats/membershipPeriods/labels/cancel",
+      "value": "Kündigungen"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/past",
+      "value": "Erneuerungsrate"
+    },
+    {
+      "key": "stats/membershipPeriods/prolongRate/current",
+      "value": "Aktuelle Erneuerungsrate"
+    },
+    {
       "key": "meta/prolong/signIn",
       "value": "Melden Sie sich an, um Ihr {prolongLink}. Oder, falls Sie noch nicht Mitglied sind: Jetzt ist ein guter Zeitpunkt dafür, die {pledgeLink}."
     },
@@ -4352,7 +4380,7 @@
     },
     {
       "key": "prolongNecessary/overdue/explanation/cancelText",
-      "value": "Teilen Sie uns mit, warum."
+      "value": "Teilen Sie uns mit, warum"
     },
     {
       "key": "crowdfunding/status/time/ended/PROLONG",

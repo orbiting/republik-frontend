@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-16T17:41:50.199Z",
+  "updated": "2019-01-22T21:58:05.387Z",
   "title": "live",
   "data": [
     {
@@ -2983,6 +2983,18 @@
       "value": "Reden Sie mit auf unserer neuen Dialogseite"
     },
     {
+      "key": "article/progressprompt/question",
+      "value": "Wollen Sie das Tracken des Lesefortschritts erlauben?"
+    },
+    {
+      "key": "article/progressprompt/button/confirm",
+      "value": "Ja"
+    },
+    {
+      "key": "article/progressprompt/button/reject",
+      "value": "Nein"
+    },
+    {
       "key": "merci/postpay/lead",
       "value": "Danke, Sie sind mit dem Wichtigsten durch. Jetzt müssen Sie noch Ihre E-Mail-Adresse bestätigen."
     },
@@ -4356,7 +4368,7 @@
     },
     {
       "key": "prolongNecessary/overdue",
-      "value": "Ihr Mitglied­schafts­beitrag ist fällig."
+      "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
     },
     {
       "key": "prolongNecessary/overdue/button",

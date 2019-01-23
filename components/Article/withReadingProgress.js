@@ -317,7 +317,7 @@ const withReadingProgress = WrappedComponent => {
 
       render () {
         const { width, percentage, pageYOffset } = this.state
-        const { myProgressConsent, submitConsent, revokeConsent } = this.props
+        const { myProgressConsent, revokeConsent, submitConsent } = this.props
         const isTrackingAllowed = myProgressConsent && myProgressConsent.hasConsentedTo === true
         const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
         const progressPrompt = showConsentPrompt

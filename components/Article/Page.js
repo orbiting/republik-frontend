@@ -262,8 +262,8 @@ class ArticlePage extends Component {
         }
       }
       const { isMember, data, saveProgress } = this.props
-      const { progressInitialized, pageYOffset } = this.state
-      if (isMember && progressInitialized && y !== pageYOffset && data && data.article) {
+      const { pageYOffset } = this.state
+      if (isMember && y !== pageYOffset && data && data.article) {
         saveProgress && saveProgress(data.article.id)
       }
     }

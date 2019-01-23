@@ -37,7 +37,7 @@ const styles = {
 const ProgressPrompt = compose(
   withT,
   withMe
-)(({ t, me, onConfirm, onReject }) => (
+)(({ t, me, onSubmitConsent, onRevokeConsent }) => (
   <WithMembership render={() => {
     return (
       <Box>
@@ -48,12 +48,12 @@ const ProgressPrompt = compose(
           <br />
           <div {...styles.actions}>
             <div {...styles.button}>
-              <Button onClick={onConfirm}>
+              <Button onClick={onSubmitConsent}>
                 {t('article/progressprompt/button/confirm')}
               </Button>
             </div>
             <div {...styles.button}>
-              <Button onClick={onReject}>
+              <Button onClick={onRevokeConsent}>
                 {t('article/progressprompt/button/reject')}
               </Button>
             </div>

@@ -27,7 +27,7 @@ export const userProgressFragment = `
 const upsertMutation = gql`
   mutation upsertDocumentProgress(
     $documentId: ID!
-    $percentage: Int!
+    $percentage: Float!
     $nodeId: String!
   ) {
     upsertDocumentProgress(documentId: $documentId, percentage: $percentage, nodeId: $nodeId) {
@@ -41,31 +41,40 @@ const upsertMutation = gql`
   ${userProgressFragment}
 `
 
+export const userConsentFragment = `
+  fragment Consent on User {
+    hasConsentedTo(name: "PROGRESS")
+  }
+`
+
 const consentQuery = gql`
   query myProgressConsent {
     myProgressConsent: me {
       id
-      trackProgress
+      ...Consent
     }
   }
+  ${userConsentFragment}
 `
 
-const enableMutation = gql`
-  mutation enableProgressTracking {
-    enableProgressTracking {
+const submitConsentMutation = gql`
+  mutation submitConsent {
+    submitConsent(name: "PROGRESS") {
       id
-      trackProgress
+      ...Consent
     }
   }
+  ${userConsentFragment}
 `
 
-const disableMutation = gql`
-  mutation disableProgressTracking {
-    disableProgressTracking {
+const revokeConsentMutation = gql`
+  mutation revokeConsent {
+    revokeConsent(name: "PROGRESS") {
       id
-      trackProgress
+      ...Consent
     }
   }
+  ${userConsentFragment}
 `
 
 const withReadingProgress = WrappedComponent => {
@@ -80,15 +89,15 @@ const withReadingProgress = WrappedComponent => {
           : data.myProgressConsent
       })
     }),
-    graphql(enableMutation, {
+    graphql(submitConsentMutation, {
       props: ({ mutate }) => ({
-        enableProgressTracking: () =>
+        submitConsent: () =>
           mutate()
       })
     }),
-    graphql(disableMutation, {
+    graphql(revokeConsentMutation, {
       props: ({ mutate }) => ({
-        disableProgressTracking: () =>
+        revokeConsent: () =>
           mutate()
       })
     }),
@@ -234,7 +243,7 @@ const withReadingProgress = WrappedComponent => {
           const ratio = yFromArticleTop / height
           const percentage = ratio === 0
             ? 0
-            : Math.min(100, Math.ceil((yFromArticleTop + window.innerHeight) / height * 100))
+            : Math.min(1, (yFromArticleTop + window.innerHeight) / height)
           this.setState({ percentage })
           return percentage
         }
@@ -256,8 +265,12 @@ const withReadingProgress = WrappedComponent => {
         }, 300)
 
         this.restoreProgress = (resolve, percentage, nodeId) => {
-          const mobile = window.innerWidth < mediaQueries.mBreakPoint
+          const { myProgressConsent } = this.props
+          if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
+            return
+          }
 
+          const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
             return element.id === nodeId
@@ -272,7 +285,7 @@ const withReadingProgress = WrappedComponent => {
             return
           }
           if (percentage) {
-            const offset = (percentage / 100 * this.state.height) + HEADER_HEIGHT
+            const offset = (percentage * this.state.height) + HEADER_HEIGHT
             window.scrollTo(0, offset)
             resolve()
           }
@@ -294,14 +307,16 @@ const withReadingProgress = WrappedComponent => {
 
       render () {
         const { width, percentage, pageYOffset } = this.state
-        const { myProgressConsent, enableProgressTracking, disableProgressTracking } = this.props
-        const isTrackingAllowed = myProgressConsent && myProgressConsent.trackProgress === true
-        const showConsentPrompt = myProgressConsent && myProgressConsent.trackProgress === null
+        const { myProgressConsent, submitConsent, revokeConsent } = this.props
+        const isTrackingAllowed = myProgressConsent && myProgressConsent.hasConsentedTo === true
+        const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
         const progressPrompt = showConsentPrompt
-          ? <ProgressPrompt
-            onConfirm={enableProgressTracking}
-            onReject={disableProgressTracking}
-          />
+          ? (
+            <ProgressPrompt
+              onSubmitConsent={submitConsent}
+              onRevokeConsent={revokeConsent}
+            />
+          )
           : null
 
         return <Fragment>

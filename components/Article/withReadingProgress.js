@@ -151,7 +151,6 @@ const withReadingProgress = WrappedComponent => {
           if (progressElements && progressElements.length) {
             const { percentage, nodeId } = userProgress
             this.restoreProgress(resolve, percentage, nodeId)
-            resolve()
           } else {
             const newPollRetries = pollRetries + 1
             this.setState({ pollRetries: newPollRetries }, () => {
@@ -269,22 +268,33 @@ const withReadingProgress = WrappedComponent => {
           if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
             return
           }
+          if (window && 'scrollRestoration' in window.history) {
+            // turn off browser's interfering scroll restoration.
+            window.history.scrollRestoration = 'manual'
+          }
 
           const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
-            return element.id === nodeId
+            if (element.id === nodeId) {
+              this.setState({
+                progressElementIndex: index
+              })
+              return true
+            }
+            return false
           })
           if (progressElement) {
             setTimeout(() => {
               const { top } = progressElement.getBoundingClientRect()
               window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 50 : 80))
-              this.measureProgress()
               resolve()
-            }, 0)
+            }, 100)
             return
           }
           if (percentage) {
+            // TODO: this still produces unexpected results.
+            console.log('restored by percentage')
             const offset = (percentage * this.state.height) + HEADER_HEIGHT
             window.scrollTo(0, offset)
             resolve()

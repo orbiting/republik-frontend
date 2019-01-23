@@ -202,14 +202,14 @@ const withReadingProgress = WrappedComponent => {
             for (let i = progressElementIndex; i > -1; i--) {
               progressElement = progressElements[i]
               if (i === 0) {
-                console.log('found upwards', progressElement, nextIndex)
+                console.log('found upwards', progressElement)
                 break
               }
               const { top } = progressElement.getBoundingClientRect()
               if (top < headerHeight) {
                 progressElement = progressElements[i + 1]
                 nextIndex = i + 1
-                console.log('found upwards', progressElement, nextIndex)
+                console.log('found upwards', progressElement)
                 break
               } else {
                 progressElement = undefined
@@ -220,14 +220,14 @@ const withReadingProgress = WrappedComponent => {
             progressElementIndex: nextIndex
           })
           return {
-            nodeId: progressElement && progressElement.id,
+            nodeId: progressElement && progressElement.dataset && progressElement.dataset.pos,
             percentage: this.getPercentage()
           }
         }
 
         this.getProgressElements = () => {
           const progressElements = this.container
-            ? [...this.container.getElementsByClassName('pos')]
+            ? [...this.container.querySelectorAll('[data-pos]')]
             : []
           return progressElements
         }
@@ -276,7 +276,7 @@ const withReadingProgress = WrappedComponent => {
           const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
-            if (element.id === nodeId) {
+            if (element.dataset && element.dataset.pos === nodeId) {
               this.setState({
                 progressElementIndex: index
               })

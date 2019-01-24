@@ -217,7 +217,7 @@ const withReadingProgress = WrappedComponent => {
             progressElementIndex: nextIndex
           })
           return {
-            nodeId: progressElement && progressElement.dataset && progressElement.dataset.pos,
+            nodeId: progressElement && progressElement.getAttribute('data-pos'),
             percentage: this.getPercentage()
           }
         }
@@ -273,7 +273,7 @@ const withReadingProgress = WrappedComponent => {
           const mobile = window.innerWidth < mediaQueries.mBreakPoint
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
-            if (element.dataset && element.dataset.pos === nodeId) {
+            if (element.getAttribute('data-pos') === nodeId) {
               this.setState({
                 progressElementIndex: index
               })

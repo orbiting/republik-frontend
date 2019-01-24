@@ -395,15 +395,18 @@ class ArticlePage extends Component {
     if (nextProps.data.article !== this.props.data.article) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
-    const { progressInitialized, progressInitializing } = this.state
-    if (this.props.isMember && nextProps.data.article && !progressInitialized && !progressInitializing) {
-      this.setState({ progressInitializing: true })
-      const { userProgress } = nextProps.data.article
-      this.props.initializeProgress(userProgress).then(
-        () => {
-          this.setState({ progressInitialized: true })
-        }
-      )
+  }
+
+  initializeProgress () {
+    const { progressInitialized } = this.state
+    if (progressInitialized) {
+      return
+    }
+    const { data, isMember } = this.props
+    if (isMember && data && data.article) {
+      this.setState({ progressInitialized: true })
+      const { userProgress } = data.article
+      this.props.initializeProgress(userProgress)
     }
   }
 
@@ -413,11 +416,13 @@ class ArticlePage extends Component {
 
     this.measure()
     this.autoPlayAudioSource()
+    this.initializeProgress()
   }
 
   componentDidUpdate () {
     this.measure()
     this.autoPlayAudioSource()
+    this.initializeProgress()
   }
 
   componentWillUnmount () {

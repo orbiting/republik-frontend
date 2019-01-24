@@ -132,30 +132,27 @@ const withReadingProgress = WrappedComponent => {
             ? HEADER_HEIGHT_MOBILE
             : HEADER_HEIGHT
 
-        this.initializeProgress = (userProgress) =>
-          new Promise((resolve, reject) => {
-            this.poll(resolve, userProgress)
-          })
+        this.initialize = (userProgress) => {
+          this.poll(userProgress)
+        }
 
-        this.poll = (resolve, userProgress) => {
+        this.poll = (userProgress) => {
           if (!userProgress) {
-            resolve()
             return
           }
           const progressElements = this.getProgressElements()
           const { pollRetries } = this.state
           if (pollRetries > MAX_POLL_RETRIES) {
-            resolve()
             return
           }
           if (progressElements && progressElements.length) {
             const { percentage, nodeId } = userProgress
-            this.restoreProgress(resolve, percentage, nodeId)
+            this.restoreProgress(percentage, nodeId)
           } else {
             const newPollRetries = pollRetries + 1
             this.setState({ pollRetries: newPollRetries }, () => {
               setTimeout(() => {
-                this.poll(resolve, userProgress)
+                this.poll(userProgress)
               }, 300 * newPollRetries)
             })
           }
@@ -263,7 +260,7 @@ const withReadingProgress = WrappedComponent => {
           }
         }, 300)
 
-        this.restoreProgress = (resolve, percentage, nodeId) => {
+        this.restoreProgress = (percentage, nodeId) => {
           const { myProgressConsent } = this.props
           if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
             return
@@ -288,7 +285,6 @@ const withReadingProgress = WrappedComponent => {
             setTimeout(() => {
               const { top } = progressElement.getBoundingClientRect()
               window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 50 : 80))
-              resolve()
             }, 100)
             return
           }
@@ -297,7 +293,6 @@ const withReadingProgress = WrappedComponent => {
             console.log('restored by percentage')
             const offset = (percentage * this.state.height) + HEADER_HEIGHT
             window.scrollTo(0, offset)
-            resolve()
           }
         }
       }
@@ -333,7 +328,7 @@ const withReadingProgress = WrappedComponent => {
           <WrappedComponent
             progressArticleRef={this.containerRef}
             saveProgress={isTrackingAllowed ? this.saveProgress : undefined}
-            initializeProgress={this.initializeProgress}
+            initializeProgress={this.initialize}
             progressPrompt={progressPrompt}
             {...this.props} />
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: 10 }}>

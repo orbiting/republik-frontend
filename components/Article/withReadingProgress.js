@@ -4,9 +4,7 @@ import gql from 'graphql-tag'
 import debounce from 'lodash.debounce'
 
 import ProgressPrompt from './ProgressPrompt'
-import {
-  mediaQueries
-} from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 

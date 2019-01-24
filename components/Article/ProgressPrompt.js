@@ -3,7 +3,6 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
 import { WithMembership } from '../Auth/withMembership'
-import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import Box from '../Frame/Box'
 
@@ -35,9 +34,8 @@ const styles = {
 }
 
 const ProgressPrompt = compose(
-  withT,
-  withMe
-)(({ t, me, onSubmitConsent, onRevokeConsent }) => (
+  withT
+)(({ t, onSubmitConsent, onRevokeConsent }) => (
   <WithMembership render={() => {
     return (
       <Box>

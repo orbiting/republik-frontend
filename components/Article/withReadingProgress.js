@@ -126,8 +126,10 @@ const withReadingProgress = WrappedComponent => {
           this.container = ref
         }
 
+        this.mobile = () => window.innerWidth < mediaQueries.mBreakPoint
+
         this.headerHeight = () =>
-          window.innerWidth < mediaQueries.mBreakPoint
+          this.mobile()
             ? HEADER_HEIGHT_MOBILE
             : HEADER_HEIGHT
 
@@ -175,9 +177,7 @@ const withReadingProgress = WrappedComponent => {
           }
           const fallbackIndex = downwards ? 0 : progressElements.length - 1
           const progressElementIndex = this.state.progressElementIndex || fallbackIndex
-
-          const mobile = window.innerWidth < mediaQueries.mBreakPoint
-          const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+          const headerHeight = this.headerHeight()
 
           let progressElement, nextIndex
           if (downwards) {
@@ -271,7 +271,7 @@ const withReadingProgress = WrappedComponent => {
             window.history.scrollRestoration = 'manual'
           }
 
-          const mobile = window.innerWidth < mediaQueries.mBreakPoint
+          const headerHeight = this.headerHeight()
           const progressElements = this.getProgressElements()
           const progressElement = progressElements.find((element, index) => {
             if (element.getAttribute('data-pos') === nodeId) {
@@ -286,7 +286,7 @@ const withReadingProgress = WrappedComponent => {
           if (progressElement) {
             setTimeout(() => {
               const { top } = progressElement.getBoundingClientRect()
-              window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 50 : 80))
+              window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
               setTimeout(() => {
                 this.setState({ initialized: true })
               }, 0)
@@ -295,7 +295,7 @@ const withReadingProgress = WrappedComponent => {
           }
           if (percentage) {
             const { height } = this.container.getBoundingClientRect()
-            const offset = (percentage * height) - this.headerHeight()
+            const offset = (percentage * height) - headerHeight
             setTimeout(() => {
               window.scrollTo(0, offset)
               setTimeout(() => {

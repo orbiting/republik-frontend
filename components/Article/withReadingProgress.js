@@ -91,14 +91,12 @@ const withReadingProgress = WrappedComponent => {
     }),
     graphql(submitConsentMutation, {
       props: ({ mutate }) => ({
-        submitConsent: () =>
-          mutate()
+        submitConsent: mutate
       })
     }),
     graphql(revokeConsentMutation, {
       props: ({ mutate }) => ({
-        revokeConsent: () =>
-          mutate()
+        revokeConsent: mutate
       })
     }),
     graphql(upsertMutation, {
@@ -296,7 +294,6 @@ const withReadingProgress = WrappedComponent => {
             return
           }
           if (percentage) {
-            console.log('restored by percentage', percentage)
             const { height } = this.container.getBoundingClientRect()
             const offset = (percentage * height) - this.headerHeight()
             setTimeout(() => {
@@ -330,7 +327,10 @@ const withReadingProgress = WrappedComponent => {
         const progressPrompt = showConsentPrompt
           ? (
             <ProgressPrompt
-              onSubmitConsent={submitConsent}
+              onSubmitConsent={() => {
+                submitConsent()
+                this.setState({ initialized: true })
+              }}
               onRevokeConsent={revokeConsent}
             />
           )

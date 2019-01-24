@@ -225,7 +225,7 @@ class ArticlePage extends Component {
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
       mobile: true,
-      progressInitialized: false,
+      progressInitStarted: false,
       ...this.deriveStateFromProps(props, {})
     }
 
@@ -398,13 +398,13 @@ class ArticlePage extends Component {
   }
 
   initializeProgress () {
-    const { progressInitialized } = this.state
-    if (progressInitialized) {
+    const { progressInitStarted } = this.state
+    if (progressInitStarted) {
       return
     }
     const { data, isMember } = this.props
     if (isMember && data && data.article) {
-      this.setState({ progressInitialized: true })
+      this.setState({ progressInitStarted: true })
       const { userProgress } = data.article
       this.props.initializeProgress(userProgress)
     }

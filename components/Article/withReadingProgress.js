@@ -119,6 +119,7 @@ const withReadingProgress = WrappedComponent => {
         super(props)
 
         this.state = {
+          initialized: false,
           progressElementIndex: 0,
           pollRetries: 0
         }
@@ -138,6 +139,7 @@ const withReadingProgress = WrappedComponent => {
 
         this.poll = (userProgress) => {
           if (!userProgress) {
+            this.setState({ initialized: true })
             return
           }
           const progressElements = this.getProgressElements()
@@ -233,13 +235,14 @@ const withReadingProgress = WrappedComponent => {
           const { height, top } = this.container.getBoundingClientRect()
           const yFromArticleTop = Math.max(
             0,
-            window.pageYOffset -
-            (top + window.pageYOffset - this.headerHeight())
+            -top + this.headerHeight()
           )
           const ratio = yFromArticleTop / height
           const percentage = ratio === 0
             ? 0
-            : Math.min(1, (yFromArticleTop + window.innerHeight) / height)
+            : (-top + window.innerHeight) > height
+              ? 1
+              : ratio
           this.setState({ percentage })
           return percentage
         }
@@ -281,18 +284,27 @@ const withReadingProgress = WrappedComponent => {
             }
             return false
           })
+
           if (progressElement) {
             setTimeout(() => {
               const { top } = progressElement.getBoundingClientRect()
               window.scrollTo(0, top - HEADER_HEIGHT - (mobile ? 50 : 80))
+              setTimeout(() => {
+                this.setState({ initialized: true })
+              }, 0)
             }, 100)
             return
           }
           if (percentage) {
-            // TODO: this still produces unexpected results.
-            console.log('restored by percentage')
-            const offset = (percentage * this.state.height) + HEADER_HEIGHT
-            window.scrollTo(0, offset)
+            console.log('restored by percentage', percentage)
+            const { height } = this.container.getBoundingClientRect()
+            const offset = (percentage * height) - this.headerHeight()
+            setTimeout(() => {
+              window.scrollTo(0, offset)
+              setTimeout(() => {
+                this.setState({ initialized: true })
+              }, 0)
+            }, 100)
           }
         }
       }
@@ -311,7 +323,7 @@ const withReadingProgress = WrappedComponent => {
       }
 
       render () {
-        const { width, percentage, pageYOffset } = this.state
+        const { initialized, width, percentage, pageYOffset } = this.state
         const { myProgressConsent, revokeConsent, submitConsent } = this.props
         const isTrackingAllowed = myProgressConsent && myProgressConsent.hasConsentedTo === true
         const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
@@ -327,7 +339,7 @@ const withReadingProgress = WrappedComponent => {
         return <Fragment>
           <WrappedComponent
             progressArticleRef={this.containerRef}
-            saveProgress={isTrackingAllowed ? this.saveProgress : undefined}
+            saveProgress={isTrackingAllowed && initialized ? this.saveProgress : undefined}
             initializeProgress={this.initialize}
             progressPrompt={progressPrompt}
             {...this.props} />

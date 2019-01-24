@@ -179,10 +179,6 @@ class ArticlePage extends Component {
       this.bottomBar = ref
     }
 
-    this.containerRef = ref => {
-      this.container = ref
-    }
-
     this.galleryRef = React.createRef()
 
     this.toggleAudio = () => {

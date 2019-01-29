@@ -192,6 +192,10 @@ class Footer extends Component {
               <Link route='researchBudget'>
                 <a>{t('footer/researchBudget')}</a>
               </Link>
+              <br />
+              <a href='/whistleblower'>
+                {t('footer/whistleblower')}
+              </a>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>

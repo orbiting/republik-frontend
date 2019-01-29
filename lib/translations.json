@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-22T21:58:05.387Z",
+  "updated": "2019-01-29T18:10:43.033Z",
   "title": "live",
   "data": [
     {
@@ -1565,6 +1565,10 @@
     {
       "key": "footer/researchBudget",
       "value": "Rechercheetat"
+    },
+    {
+      "key": "footer/whistleblower",
+      "value": "Whistleblower"
     },
     {
       "key": "components/Discussion/OrderBy/DATE",

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-29T18:10:43.033Z",
+  "updated": "2019-01-31T14:58:26.301Z",
   "title": "live",
   "data": [
     {
@@ -1592,7 +1592,7 @@
     },
     {
       "key": "components/Discussion/Notification/noChannels",
-      "value": "E-Mail- oder Browser-Benachrichtigungen aktivieren"
+      "value": "E-Mail-, Browser- oder App-Benachrichtigungen aktivieren"
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
@@ -1615,8 +1615,24 @@
       "value": "Browser-Benachrichtigungen"
     },
     {
+      "key": "components/Discussion/NotificationChannel/APP/label",
+      "value": "App-Benachrichtigungen"
+    },
+    {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
       "value": "E-Mail- und Browser-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
+      "value": "E-Mail- und App-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/WEB_APP/label",
+      "value": "Browser- und App-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
+      "value": "E-Mail-, Browser- und App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",

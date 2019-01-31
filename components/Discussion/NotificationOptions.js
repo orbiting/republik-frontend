@@ -224,8 +224,12 @@ class NotificationOptions extends PureComponent {
           const appEnabled = discussionNotificationChannels.indexOf('APP') > -1
           const notificationsChannelEnabled = emailEnabled || browserEnabled || appEnabled
           const types = selectedValue !== 'NONE' && (
+            (emailEnabled && browserEnabled && appEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB_APP/label`)) ||
             (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
+            (emailEnabled && appEnabled && t(`components/Discussion/NotificationChannel/EMAIL_APP/label`)) ||
+            (browserEnabled && appEnabled && t(`components/Discussion/NotificationChannel/WEB_APP/label`)) ||
             (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||
+            (appEnabled && t(`components/Discussion/NotificationChannel/APP/label`)) ||
             (browserEnabled && t(`components/Discussion/NotificationChannel/WEB/label`))
           )
 

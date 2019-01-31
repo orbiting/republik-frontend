@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-31T14:58:26.301Z",
+  "updated": "2019-01-31T15:47:15.154Z",
   "title": "live",
   "data": [
     {
@@ -1592,7 +1592,7 @@
     },
     {
       "key": "components/Discussion/Notification/noChannels",
-      "value": "E-Mail-, Browser- oder App-Benachrichtigungen aktivieren"
+      "value": "Benachrichtigungen aktivieren"
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",

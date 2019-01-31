@@ -221,7 +221,8 @@ class NotificationOptions extends PureComponent {
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
             webNotificationsPermission === 'granted'
-          const notificationsChannelEnabled = emailEnabled || browserEnabled
+          const appEnabled = discussionNotificationChannels.indexOf('APP') > -1
+          const notificationsChannelEnabled = emailEnabled || browserEnabled || appEnabled
           const types = selectedValue !== 'NONE' && (
             (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
             (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||

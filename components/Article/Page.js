@@ -96,11 +96,17 @@ const getDocument = gql`
         ownDiscussion {
           id
           closed
+          comments {
+            totalCount
+          }
         }
         linkedDiscussion {
           id
           path
           closed
+          comments {
+            totalCount
+          }
         }
         color
         format {
@@ -289,12 +295,6 @@ class ArticlePage extends Component {
       ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
-    const linkedDiscussion = meta &&
-      meta.linkedDiscussion &&
-      !meta.linkedDiscussion.closed &&
-      meta.linkedDiscussion
-    const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
-
     const hasPdf = meta && meta.template === 'article'
 
     const actionBar = meta && (
@@ -302,9 +302,10 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        discussionPage={meta && meta.template === 'discussion'}
-        discussionId={linkedDiscussionId}
-        discussionPath={linkedDiscussion && linkedDiscussion.path}
+        template={meta.template}
+        path={meta.path}
+        linkedDiscussion={meta.linkedDiscussion}
+        ownDiscussion={meta.ownDiscussion}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onGalleryClick={meta.indicateGallery && this.showGallery}

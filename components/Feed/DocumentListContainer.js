@@ -40,6 +40,21 @@ export const documentFragment = `
           kind
         }
       }
+      ownDiscussion {
+        id
+        closed
+        comments {
+          totalCount
+        }
+      }
+      linkedDiscussion {
+        id
+        path
+        closed
+        comments {
+          totalCount
+        }
+      }
     }
   }
   ${bookmarkOnDocumentFragment}

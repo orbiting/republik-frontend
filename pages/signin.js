@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'next/router'
 import { compose } from 'react-apollo'
 import SignIn from '../components/Auth/SignIn'
 import Frame from '../components/Frame'
@@ -31,7 +32,7 @@ class SigninPage extends Component {
   }
 
   render () {
-    const { t, me, inNativeIOSApp } = this.props
+    const { t, me, inNativeIOSApp, router } = this.props
     const meta = {
       title: t('pages/signin/title')
     }
@@ -41,7 +42,7 @@ class SigninPage extends Component {
         <PageCenter>
           {me
             ? <Loader loading />
-            : <SignIn beforeForm={inNativeIOSApp
+            : <SignIn email={router.query.email} beforeForm={inNativeIOSApp
               ? <Interaction.P style={{ marginBottom: 20 }}>
                 {t('withMembership/ios/unauthorized/signIn')}
               </Interaction.P>
@@ -57,5 +58,6 @@ export default compose(
   withMe,
   withMembership,
   withInNativeApp,
-  withT
+  withT,
+  withRouter
 )(SigninPage)

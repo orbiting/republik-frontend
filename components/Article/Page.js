@@ -23,7 +23,10 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import withReadingProgress, { userProgressFragment } from './withReadingProgress'
+import withReadingProgress, {
+  embedsOnDocumentFragment,
+  userProgressFragment
+} from './withReadingProgress'
 
 import {
   colors,
@@ -83,6 +86,7 @@ const getDocument = gql`
       content
       ...BookmarkOnDocument
       ...UserProgressOnDocument
+      ...EmbedsOnDocument
       meta {
         template
         path
@@ -150,6 +154,7 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
+  ${embedsOnDocumentFragment}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -401,8 +406,8 @@ class ArticlePage extends Component {
     const { data, isMember } = this.props
     if (isMember && data && data.article) {
       this.setState({ progressInitStarted: true })
-      const { userProgress } = data.article
-      this.props.initializeProgress(userProgress)
+      const { userProgress, embeds } = data.article
+      this.props.initializeProgress(userProgress, embeds)
     }
   }
 

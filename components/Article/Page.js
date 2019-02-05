@@ -23,10 +23,11 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import withReadingProgress, {
+import {
+  withProgress,
   embedsOnDocumentFragment,
   userProgressFragment
-} from './withReadingProgress'
+} from './enhancers'
 
 import {
   colors,
@@ -583,7 +584,7 @@ const ComposedPage = compose(
   withMembership,
   withInNativeApp,
   withRouter,
-  withReadingProgress,
+  withProgress,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

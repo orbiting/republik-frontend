@@ -2,9 +2,9 @@ import React from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
-import { WithMembership } from '../Auth/withMembership'
-import withT from '../../lib/withT'
-import Box from '../Frame/Box'
+import { WithMembership } from '../../Auth/withMembership'
+import withT from '../../../lib/withT'
+import Box from '../../Frame/Box'
 
 import {
   Button,

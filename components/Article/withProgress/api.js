@@ -1,6 +1,5 @@
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import Progress from './Progress'
 
 export const userProgressFragment = `
   fragment UserProgressOnDocument on Document {
@@ -99,51 +98,45 @@ const upsertMediaProgressMutation = gql`
   }
 `
 
-export const withProgress = WrappedComponent => {
-  return compose(
-    graphql(consentQuery, {
-      props: ({ data, errors }) => ({
-        WrappedComponent,
-        data,
-        loading: data.loading || !data.myProgressConsent,
-        error: data.error,
-        myProgressConsent: data.loading
-          ? undefined
-          : data.myProgressConsent
-      })
-    }),
-    graphql(submitConsentMutation, {
-      props: ({ mutate }) => ({
-        submitConsent: mutate
-      })
-    }),
-    graphql(revokeConsentMutation, {
-      props: ({ mutate }) => ({
-        revokeConsent: mutate
-      })
-    }),
-    graphql(upsertDocumentProgressMutation, {
-      props: ({ mutate }) => ({
-        upsertDocumentProgress: (documentId, percentage, nodeId) =>
-          mutate({
-            variables: {
-              documentId,
-              percentage,
-              nodeId
-            }
-          })
-      })
-    }),
-    graphql(upsertMediaProgressMutation, {
-      props: ({ mutate }) => ({
-        upsertMediaProgress: (mediaId, ms) =>
-          mutate({
-            variables: {
-              mediaId,
-              ms
-            }
-          })
-      })
+export const withProgressApi = compose(
+  graphql(consentQuery, {
+    props: ({ data, errors }) => ({
+      myProgressConsent: data.loading
+        ? undefined
+        : data.myProgressConsent
     })
-  )(Progress)
-}
+  }),
+  graphql(submitConsentMutation, {
+    props: ({ mutate }) => ({
+      submitConsent: mutate
+    })
+  }),
+  graphql(revokeConsentMutation, {
+    props: ({ mutate }) => ({
+      revokeConsent: mutate
+    })
+  }),
+  graphql(upsertDocumentProgressMutation, {
+    props: ({ mutate }) => ({
+      upsertDocumentProgress: (documentId, percentage, nodeId) =>
+        mutate({
+          variables: {
+            documentId,
+            percentage,
+            nodeId
+          }
+        })
+    })
+  }),
+  graphql(upsertMediaProgressMutation, {
+    props: ({ mutate }) => ({
+      upsertMediaProgress: (mediaId, ms) =>
+        mutate({
+          variables: {
+            mediaId,
+            ms
+          }
+        })
+    })
+  })
+)

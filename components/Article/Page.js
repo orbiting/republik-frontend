@@ -263,11 +263,6 @@ class ArticlePage extends Component {
           this.setState({ secondaryNavExpanded: false })
         }
       }
-      /* const { isMember, data, saveProgress } = this.props
-      const { pageYOffset } = this.state
-      if (isMember && y !== pageYOffset && data && data.article) {
-        saveProgress && saveProgress(data.article.id)
-      } */
     }
 
     this.measure = () => {

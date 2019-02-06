@@ -23,11 +23,11 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import Progress from './withProgress'
+import Progress from './Progress'
 import {
   embedsOnDocumentFragment,
   userProgressFragment
-} from './withProgress/api'
+} from './Progress/api'
 
 import {
   colors,

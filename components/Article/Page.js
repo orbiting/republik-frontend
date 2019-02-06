@@ -23,7 +23,7 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import withProgress from './withProgress'
+import Progress from './withProgress'
 import {
   embedsOnDocumentFragment,
   userProgressFragment
@@ -263,11 +263,11 @@ class ArticlePage extends Component {
           this.setState({ secondaryNavExpanded: false })
         }
       }
-      const { isMember, data, saveProgress } = this.props
+      /* const { isMember, data, saveProgress } = this.props
       const { pageYOffset } = this.state
       if (isMember && y !== pageYOffset && data && data.article) {
         saveProgress && saveProgress(data.article.id)
-      }
+      } */
     }
 
     this.measure = () => {
@@ -394,21 +394,14 @@ class ArticlePage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data.article !== this.props.data.article) {
-      this.setState(this.deriveStateFromProps(nextProps, this.state))
-    }
-  }
+    const currentArticle = this.props.data.article || {}
+    const nextArticle = nextProps.data.article || {}
 
-  initializeProgress () {
-    const { progressInitStarted } = this.state
-    if (progressInitStarted) {
-      return
-    }
-    const { data, isMember } = this.props
-    if (isMember && data && data.article) {
-      this.setState({ progressInitStarted: true })
-      const { userProgress, embeds } = data.article
-      this.props.initializeProgress(userProgress, embeds)
+    if (
+      currentArticle.id !== nextArticle.id ||
+      currentArticle.userBookmark !== nextArticle.userBookmark
+    ) {
+      this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
@@ -418,13 +411,11 @@ class ArticlePage extends Component {
 
     this.measure()
     this.autoPlayAudioSource()
-    this.initializeProgress()
   }
 
   componentDidUpdate () {
     this.measure()
     this.autoPlayAudioSource()
-    this.initializeProgress()
   }
 
   componentWillUnmount () {
@@ -433,7 +424,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, progressPrompt } = this.props
+    const { router, t, data, data: { article }, isMember } = this.props
 
     const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -513,7 +504,6 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              {progressPrompt}
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   variation={payNoteVariation}
@@ -524,14 +514,14 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                <div ref={this.props.progressArticleRef}>
+                <Progress isMember={isMember} article={article}>
                   <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format
                     }, schema)}
                   </SSRCachingBoundary>
-                </div>
+                </Progress>
               </ArticleGallery>
               {!isFormat && (
                 <PayNote.After
@@ -584,7 +574,6 @@ const ComposedPage = compose(
   withMembership,
   withInNativeApp,
   withRouter,
-  withProgress,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

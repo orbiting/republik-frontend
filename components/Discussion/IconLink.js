@@ -21,7 +21,6 @@ const styles = {
     }
   }),
   text: css({
-    paddingLeft: 3,
     color: colors.primary,
     marginTop: -1,
     ...fontStyles.sansSerifMedium16

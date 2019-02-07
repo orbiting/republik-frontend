@@ -34,9 +34,7 @@ const ReadingTime = ({ t, minutes, fill, small, style }) => {
         marginLeft: 5,
         ...style
       }}>
-      <span {...styles.text} style={{ fontSize, lineHeight }}>
-        {minutes}{'\''}
-      </span>
+      <span {...styles.text} style={{ fontSize, lineHeight }}>{minutes}{'\''}</span>
     </IconLink>
   )
 }

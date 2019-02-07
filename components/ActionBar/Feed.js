@@ -9,6 +9,7 @@ import { getDiscussionIconLinkProps } from './utils'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
+import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -53,7 +54,8 @@ const ActionBar = ({
   ownDiscussion,
   template,
   path,
-  userBookmark
+  userBookmark,
+  userProgress
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -117,6 +119,9 @@ const ActionBar = ({
           ))}
         {estimatedReadingMinutes > 1 && (
           <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
+        )}
+        {userProgress && (
+          <UserProgress userProgress={userProgress} />
         )}
         {discussionId && (
           <DiscussionIconLinkWithoutEnhancer

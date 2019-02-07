@@ -1,16 +1,32 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
 import ProgressPrompt from './ProgressPrompt'
-import { mediaQueries } from '@project-r/styleguide'
+import { Spinner, mediaQueries } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
 
 import { withProgressApi } from './api'
 
 const MAX_POLL_RETRIES = 3
+
+const styles = {
+  spinner: css({
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: HEADER_HEIGHT_MOBILE,
+    zIndex: ZINDEX_POPOVER,
+    background: '#fff',
+    [mediaQueries.mUp]: {
+      top: HEADER_HEIGHT
+    }
+  })
+}
 
 class Progress extends Component {
   constructor (props) {
@@ -288,7 +304,7 @@ class Progress extends Component {
   }
 
   render () {
-    const { width, percentage, pageYOffset } = this.state
+    const { initialized, width, percentage, pageYOffset } = this.state
     const { children, myProgressConsent, revokeConsent, submitConsent } = this.props
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const progressPrompt = showConsentPrompt
@@ -305,6 +321,11 @@ class Progress extends Component {
 
     return (
       <div ref={this.containerRef}>
+        {!initialized && !showConsentPrompt && (
+          <div {...styles.spinner}>
+            <Spinner />
+          </div>
+        )}
         {progressPrompt}
         {children}
         <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: 10 }}>

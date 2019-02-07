@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-22T11:35:11.014Z",
+  "updated": "2019-02-07T11:13:07.342Z",
   "title": "live",
   "data": [
     {
@@ -1567,6 +1567,10 @@
       "value": "Rechercheetat"
     },
     {
+      "key": "footer/whistleblower",
+      "value": "Whistleblower"
+    },
+    {
       "key": "components/Discussion/OrderBy/DATE",
       "value": "Neueste"
     },
@@ -1588,7 +1592,7 @@
     },
     {
       "key": "components/Discussion/Notification/noChannels",
-      "value": "E-Mail- oder Browser-Benachrichtigungen aktivieren"
+      "value": "Benachrichtigungen aktivieren"
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
@@ -1611,8 +1615,24 @@
       "value": "Browser-Benachrichtigungen"
     },
     {
+      "key": "components/Discussion/NotificationChannel/APP/label",
+      "value": "App-Benachrichtigungen"
+    },
+    {
       "key": "components/Discussion/NotificationChannel/EMAIL_WEB/label",
       "value": "E-Mail- und Browser-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL_APP/label",
+      "value": "E-Mail- und App-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/WEB_APP/label",
+      "value": "Browser- und App-Benachrichtigungen"
+    },
+    {
+      "key": "components/Discussion/NotificationChannel/EMAIL_WEB_APP/label",
+      "value": "E-Mail-, Browser- und App-Benachrichtigungen"
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",
@@ -3919,6 +3939,10 @@
       "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
     },
     {
+      "key": "memberships/title/ABO_GIVE_MONTHS/give",
+      "value": "{name} (#{sequenceNumber})"
+    },
+    {
       "key": "pledge/submit/autoPay",
       "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen."
     },
@@ -4008,7 +4032,7 @@
     },
     {
       "key": "memberships/cancel/description",
-      "value": "Grund"
+      "value": "Erläuterungen"
     },
     {
       "key": "memberships/cancel/accountLink",
@@ -4368,7 +4392,7 @@
     },
     {
       "key": "prolongNecessary/overdue",
-      "value": "Ihr Mitglied­schafts­beitrag ist fällig."
+      "value": "Ihr Mitglied­schafts­beitrag ist überfällig."
     },
     {
       "key": "prolongNecessary/overdue/button",

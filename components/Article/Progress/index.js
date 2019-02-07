@@ -60,7 +60,11 @@ class Progress extends Component {
       this.poll(userProgress)
       if (embeds) {
         let mediaProgress = {}
-        embeds.map(embed => { mediaProgress[embed.mediaId] = embed.userProgress.ms })
+        embeds.map(embed => {
+          if (embed.userProgress) {
+            mediaProgress[embed.mediaId] = embed.userProgress.secs
+          }
+        })
         this.setState({ mediaProgress })
       }
     }
@@ -251,15 +255,14 @@ class Progress extends Component {
       this.saveMediaProgressWhilePlaying(mediaId, currentTime)
     }
 
-    // TODO: remove conversion once backend supports seconds/float.
     this.saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
       // Fires on pause, on scrub, on end of video.
-      this.props.upsertMediaProgress(mediaId, Math.floor(currentTime * 1000))
+      this.props.upsertMediaProgress(mediaId, currentTime)
     }, 300)
 
     this.saveMediaProgressWhilePlaying = throttle((mediaId, currentTime) => {
       // Fires every 5 seconds while playing.
-      this.props.upsertMediaProgress(mediaId, Math.floor(currentTime * 1000))
+      this.props.upsertMediaProgress(mediaId, currentTime)
     }, 5000, { 'trailing': false })
 
     this.getMediaProgress = (mediaId) => {

@@ -75,7 +75,7 @@ export const embedsOnDocumentFragment = `
         durationMs
         userProgress {
           id
-          ms
+          secs
           createdAt
           updatedAt
         }
@@ -87,11 +87,11 @@ export const embedsOnDocumentFragment = `
 const upsertMediaProgressMutation = gql`
   mutation upsertMediaProgress(
     $mediaId: ID!
-    $ms: Int!
+    $secs: Float!
   ) {
-    upsertMediaProgress(mediaId: $mediaId, ms: $ms) {
+    upsertMediaProgress(mediaId: $mediaId, secs: $secs) {
       mediaId
-      ms
+      secs
       createdAt
       updatedAt
     }
@@ -130,11 +130,11 @@ export const withProgressApi = compose(
   }),
   graphql(upsertMediaProgressMutation, {
     props: ({ mutate }) => ({
-      upsertMediaProgress: (mediaId, ms) =>
+      upsertMediaProgress: (mediaId, secs) =>
         mutate({
           variables: {
             mediaId,
-            ms
+            secs
           }
         })
     })

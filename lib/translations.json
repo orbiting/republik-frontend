@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-31T15:47:15.154Z",
+  "updated": "2019-02-07T10:05:01.270Z",
   "title": "live",
   "data": [
     {
@@ -3937,6 +3937,10 @@
     {
       "key": "memberships/title/BENEFACTOR_ABO/give",
       "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+    },
+    {
+      "key": "memberships/title/ABO_GIVE_MONTHS/give",
+      "value": "{name} (#{sequenceNumber})"
     },
     {
       "key": "pledge/submit/autoPay",

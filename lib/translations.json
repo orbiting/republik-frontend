@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-07T10:05:01.270Z",
+  "updated": "2019-02-07T11:13:07.342Z",
   "title": "live",
   "data": [
     {
@@ -4032,7 +4032,7 @@
     },
     {
       "key": "memberships/cancel/description",
-      "value": "Grund"
+      "value": "Erläuterungen"
     },
     {
       "key": "memberships/cancel/accountLink",

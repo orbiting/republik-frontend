@@ -26,10 +26,12 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 import Progress from './Progress'
 import {
   embedsOnDocumentFragment,
-  userProgressFragment
+  userProgressFragment,
+  userProgressOnAudioSourceFragment
 } from './Progress/api'
 
 import {
+  AudioPlayer,
   colors,
   mediaQueries,
   Center
@@ -152,6 +154,7 @@ const getDocument = gql`
           mp3
           aac
           ogg
+          ...UserProgressOnAudioSource
         }
         estimatedReadingMinutes
         indicateGallery
@@ -161,6 +164,7 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
+  ${userProgressOnAudioSourceFragment}
   ${embedsOnDocumentFragment}
 `
 
@@ -208,8 +212,10 @@ class ArticlePage extends Component {
           }
         })
       } else {
+        const showAudioPlayer = !this.state.showAudioPlayer
         this.setState({
-          showAudioPlayer: !this.state.showAudioPlayer
+          showAudioPlayer,
+          headerAudioPlayer: showAudioPlayer ? this.getAudioPlayer() : null
         })
       }
     }
@@ -302,6 +308,31 @@ class ArticlePage extends Component {
         primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
+    }
+
+    this.getAudioPlayer = () => {
+      const { t, data, isMember } = this.props
+      const article = data && data.article
+      const audioSource = article && article.meta && article.meta.audioSource
+      const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
+        <Progress isMember={isMember} article={article} pollDom={false}>
+          <AudioPlayer
+            mediaId={audioSource.mediaId}
+            src={audioSource}
+            userProgress={audioSource.userProgress}
+            closeHandler={this.toggleAudio}
+            autoPlay
+            download
+            scrubberPosition='bottom'
+            timePosition='left'
+            t={t}
+            style={style}
+            controlsPadding={controlsPadding}
+            height={height}
+          />
+        </Progress>
+      ) : null
+      return headerAudioPlayer
     }
   }
 
@@ -422,7 +453,7 @@ class ArticlePage extends Component {
   render () {
     const { router, t, data, data: { article }, isMember } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -447,8 +478,6 @@ class ArticlePage extends Component {
         : meta.format && meta.format.meta
     )
     const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
-
-    const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
     if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
@@ -479,8 +508,7 @@ class ArticlePage extends Component {
         secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
-        audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio}
+        HeaderAudioPlayer={headerAudioPlayer}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

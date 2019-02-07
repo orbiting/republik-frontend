@@ -56,21 +56,31 @@ class Progress extends Component {
         ? HEADER_HEIGHT_MOBILE
         : HEADER_HEIGHT
 
-    this.initialize = (userProgress, embeds) => {
+    this.initialize = (article) => {
+      const { userProgress, embeds, meta } = article
       this.poll(userProgress)
-      if (embeds) {
+
+      const audioSource = meta ? meta.audioSource : undefined
+      if (embeds || audioSource) {
         let mediaProgress = {}
         embeds.map(embed => {
           if (embed.userProgress) {
             mediaProgress[embed.mediaId] = embed.userProgress.secs
           }
         })
+        if (audioSource &&
+          audioSource.mediaId &&
+          audioSource.userProgress &&
+          audioSource.userProgress.secs
+        ) {
+          mediaProgress[audioSource.mediaId] = audioSource.userProgress.secs
+        }
         this.setState({ mediaProgress })
       }
     }
 
-    this.poll = (userProgress) => {
-      if (!userProgress) {
+    this.poll = (userProgress, pollDom) => {
+      if (!userProgress || !this.props.pollDom) {
         this.setState({ initialized: true })
         return
       }
@@ -284,8 +294,7 @@ class Progress extends Component {
     const { article, isMember } = this.props
     if (isMember && article) {
       this.setState({ progressInitStarted: true })
-      const { userProgress, embeds } = article
-      this.initialize(userProgress, embeds)
+      this.initialize(article)
     }
   }
 
@@ -308,7 +317,7 @@ class Progress extends Component {
 
   render () {
     const { initialized, width, percentage, pageYOffset } = this.state
-    const { children, myProgressConsent, revokeConsent, submitConsent } = this.props
+    const { children, myProgressConsent, revokeConsent, submitConsent, pollDom } = this.props
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const progressPrompt = showConsentPrompt
       ? (
@@ -324,7 +333,7 @@ class Progress extends Component {
 
     return (
       <div ref={this.containerRef}>
-        {!initialized && !showConsentPrompt && (
+        {!initialized && !showConsentPrompt && pollDom && (
           <div {...styles.spinner}>
             <Spinner />
           </div>
@@ -337,6 +346,20 @@ class Progress extends Component {
       </div>
     )
   }
+}
+
+Progress.propTypes = {
+  children: PropTypes.object,
+  myProgressConsent: PropTypes.shape({
+    hasConsentedTo: PropTypes.bool
+  }),
+  revokeConsent: PropTypes.func,
+  submitConsent: PropTypes.func,
+  pollDom: PropTypes.bool
+}
+
+Progress.defaultProps = {
+  pollDom: true
 }
 
 Progress.childContextTypes = {

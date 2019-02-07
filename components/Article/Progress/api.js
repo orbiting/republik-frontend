@@ -90,7 +90,21 @@ const upsertMediaProgressMutation = gql`
     $secs: Float!
   ) {
     upsertMediaProgress(mediaId: $mediaId, secs: $secs) {
+      id
       mediaId
+      secs
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export const userProgressOnAudioSourceFragment = `
+  fragment UserProgressOnAudioSource on AudioSource {
+    mediaId
+    durationMs
+    userProgress {
+      id
       secs
       createdAt
       updatedAt

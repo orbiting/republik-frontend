@@ -132,7 +132,7 @@ class CancelMembership extends Component {
                   </Radio>
                 </div>)
               )}
-              {cancellationType === 'OTHER' &&
+              {['OTHER', 'EDITORIAL'].includes(cancellationType) &&
                 <Field
                   label={t('memberships/cancel/description')}
                   value={reason}

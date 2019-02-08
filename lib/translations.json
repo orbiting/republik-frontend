@@ -1,5 +1,5 @@
 {
-  "updated": "2019-01-31T15:47:15.154Z",
+  "updated": "2019-02-07T11:13:07.342Z",
   "title": "live",
   "data": [
     {
@@ -3939,6 +3939,10 @@
       "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
     },
     {
+      "key": "memberships/title/ABO_GIVE_MONTHS/give",
+      "value": "{name} (#{sequenceNumber})"
+    },
+    {
       "key": "pledge/submit/autoPay",
       "value": "Ohne Bürokratie: Verlängerungen automatisch von meiner Kreditkarte abbuchen."
     },
@@ -4028,7 +4032,7 @@
     },
     {
       "key": "memberships/cancel/description",
-      "value": "Grund"
+      "value": "Erläuterungen"
     },
     {
       "key": "memberships/cancel/accountLink",

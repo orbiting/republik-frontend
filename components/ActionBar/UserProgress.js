@@ -41,6 +41,7 @@ const UserProgress = ({ t, userProgress }) => {
         <ProgressCircle
           progress={percent}
           stroke={colors.lightText}
+          strokePlaceholder='#e9e9e9'
           radius={9}
           strokeWidth={2} />
       </div>

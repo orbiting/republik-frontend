@@ -11,7 +11,7 @@ const RADIUS = 16
 const styles = {
   container: css({
     backgroundColor: negativeColors.primaryBg,
-    boxShadow: '0 0 3px 1px rgba(255, 255, 255, .9)',
+    boxShadow: '0 0 0px 2px rgba(255, 255, 255, .25)',
     cursor: 'pointer',
     display: 'flex',
     flexDirection: 'column',
@@ -23,6 +23,7 @@ const styles = {
     width: `${RADIUS * 2}px`,
     height: `${RADIUS * 2}px`,
     borderRadius: `${RADIUS}px`,
+    border: 'none',
     outline: 'none',
     transition: `opacity ${ANIMATE_OUT_DURATION_SECS}s ease-in-out`
   })

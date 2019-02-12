@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
@@ -163,7 +164,7 @@ class Progress extends Component {
           }
           const fillsHeight = top < headerHeight && headerHeight + top + height > window.innerHeight
           if (top > headerHeight || fillsHeight) {
-            console.log('found downwards', progressElement)
+            this.props.debug && console.log('found downwards', progressElement)
             nextIndex = i
             break
           }
@@ -173,14 +174,14 @@ class Progress extends Component {
         for (let i = progressElementIndex; i > -1; i--) {
           progressElement = progressElements[i]
           if (i === 0) {
-            console.log('found upwards', progressElement)
+            this.props.debug && console.log('found upwards', progressElement)
             break
           }
           const { top } = progressElement.getBoundingClientRect()
           if (top < headerHeight) {
             progressElement = progressElements[i + 1]
             nextIndex = i + 1
-            console.log('found upwards', progressElement)
+            this.props.debug && console.log('found upwards', progressElement)
             break
           } else {
             progressElement = undefined
@@ -350,7 +351,15 @@ class Progress extends Component {
 
   render () {
     const { initialized, width, percentage, pageYOffset, showTopButton, topButtonAnimateOut } = this.state
-    const { children, myProgressConsent, revokeConsent, submitConsent, pollDom } = this.props
+    const {
+      children,
+      myProgressConsent,
+      revokeConsent,
+      submitConsent,
+      pollDom,
+      debug // TODO: remove before public progress launch.
+    } = this.props
+
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
 
@@ -378,9 +387,11 @@ class Progress extends Component {
         {showTopButton && (
           <TopButton onClick={this.scrollToTop} animateOut={topButtonAnimateOut} />
         )}
-        <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
-          <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
-        </div>
+        {debug && (
+          <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
+            <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
+          </div>
+        )}
       </div>
     )
   }
@@ -405,4 +416,6 @@ Progress.childContextTypes = {
   saveMediaProgress: PropTypes.func
 }
 
-export default withProgressApi(Progress)
+export default compose(
+  withProgressApi
+)(Progress)

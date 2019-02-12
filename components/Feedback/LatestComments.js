@@ -168,5 +168,5 @@ class LatestComments extends Component {
 
 export default compose(
   withT,
-  withComments
+  withComments()
 )(LatestComments)

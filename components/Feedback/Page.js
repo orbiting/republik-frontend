@@ -27,7 +27,6 @@ import ActiveDiscussions from './ActiveDiscussions'
 import ArticleDiscussionHeadline from './ArticleDiscussionHeadline'
 import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
-import QuestionSource from '../Discussion/QuestionSource'
 import Discussion from '../Discussion/Discussion'
 
 import {
@@ -207,8 +206,6 @@ class FeedbackPage extends Component {
         ? GENERAL_FEEDBACK_DISCUSSION_ID
         : tab === 'article' && query.id
 
-    const renderQuestionSource = !!query.questionSource
-
     return (
       // Meta tags for a focus comment are rendered in Discussion/Commments.js
       <Frame raw meta={activeDiscussionId && query.focus ? undefined : pageMeta}>
@@ -288,20 +285,8 @@ class FeedbackPage extends Component {
               </div>
             </Fragment>
           )}
-          {activeDiscussionId && !renderQuestionSource && (
+          {activeDiscussionId && (
             <Discussion
-              discussionId={activeDiscussionId}
-              focusId={query.focus}
-              mute={query && !!query.mute}
-              sharePath={asPath}
-              meta={{
-                ...pageMeta,
-                url: asPath
-              }}
-            />
-          )}
-          {activeDiscussionId && renderQuestionSource && (
-            <QuestionSource
               discussionId={activeDiscussionId}
               focusId={query.focus}
               mute={query && !!query.mute}

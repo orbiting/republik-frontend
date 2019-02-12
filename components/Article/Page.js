@@ -16,6 +16,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
+import QuestionSource from '../Discussion/QuestionSource'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
@@ -343,7 +344,10 @@ class ArticlePage extends Component {
             })
           }
         })
-        : undefined
+        : undefined,
+      externalComponents: {
+        QuestionSource
+      }
     })
 
     const isSeries = meta && !!meta.series

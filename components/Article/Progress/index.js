@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
 import ProgressPrompt from './ProgressPrompt'
+import TopButton from './TopButton'
 import { Spinner, mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
@@ -12,6 +13,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../const
 import { withProgressApi } from './api'
 
 const MAX_POLL_RETRIES = 3
+const SCROLLED_AWAY_PX = 200
 
 const styles = {
   spinner: css({
@@ -107,7 +109,30 @@ class Progress extends Component {
       if (isMember && article) {
         this.saveProgress(article.id)
       }
+      this.maybeHideTopButton()
     }
+
+    this.scrollToTop = () => {
+      window.scrollTo(0, 0)
+      this.setState({ topButtonAnimateOut: true })
+    }
+
+    this.maybeHideTopButton = throttle(() => {
+      const {
+        initialized,
+        initialPageYOffset,
+        showTopButton,
+        topButtonAnimateOut
+      } = this.state
+      if (topButtonAnimateOut || !showTopButton || !initialized || !initialPageYOffset) {
+        return
+      }
+      const y = window.pageYOffset
+      const hasScrolledAway = Math.abs(y - initialPageYOffset) > SCROLLED_AWAY_PX
+      if (hasScrolledAway) {
+        this.setState({ topButtonAnimateOut: true })
+      }
+    }, 500)
 
     this.measure = () => {
       if (this.container) {
@@ -240,7 +265,11 @@ class Progress extends Component {
           const { top } = progressElement.getBoundingClientRect()
           window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
           setTimeout(() => {
-            this.setState({ initialized: true })
+            this.setState({
+              initialized: true,
+              showTopButton: true,
+              initialPageYOffset: window.pageYOffset
+            })
           }, 0)
         }, 100)
         return
@@ -251,7 +280,11 @@ class Progress extends Component {
         setTimeout(() => {
           window.scrollTo(0, offset)
           setTimeout(() => {
-            this.setState({ initialized: true })
+            this.setState({
+              initialized: true,
+              showTopButton: true,
+              initialPageYOffset: window.pageYOffset
+            })
           }, 0)
         }, 100)
       }
@@ -316,7 +349,7 @@ class Progress extends Component {
   }
 
   render () {
-    const { initialized, width, percentage, pageYOffset } = this.state
+    const { initialized, width, percentage, pageYOffset, showTopButton, topButtonAnimateOut } = this.state
     const { children, myProgressConsent, revokeConsent, submitConsent, pollDom } = this.props
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const progressPrompt = showConsentPrompt
@@ -340,7 +373,10 @@ class Progress extends Component {
         )}
         {progressPrompt}
         {children}
-        <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: 10 }}>
+        {showTopButton && (
+          <TopButton onClick={this.scrollToTop} animateOut={topButtonAnimateOut} />
+        )}
+        <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
           <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
         </div>
       </div>

@@ -138,6 +138,7 @@
     "react-apollo": "^2.2.4",
     "react-dom": "^16.5.0",
     "react-dropzone": "^4.3.0",
+    "react-flip-move": "^3.0.3",
     "react-icons": "^2.2.7",
     "react-infinite-scroller": "^1.2.1",
     "react-maskedinput": "^4.0.1",

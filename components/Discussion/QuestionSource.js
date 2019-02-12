@@ -12,6 +12,8 @@ import NotificationOptions from './NotificationOptions'
 import { withComments } from '../Feedback/enhancers'
 import { upvoteCommentQuery, downvoteCommentQuery, unpublishComment, isAdmin, commentsSubscription } from './enhancers'
 
+import FlipMove from 'react-flip-move'
+
 const config = {
   right: 26,
   left: 20
@@ -28,6 +30,11 @@ const buttonStyle = {
 }
 
 const styles = {
+  question: css({
+    ...fontStyles.serifRegular21,
+    marginTop: 10,
+    marginBottom: 10
+  }),
   button: css({
     ...fontStyles.sansSerifRegular21,
     outline: 'none',
@@ -155,9 +162,10 @@ class QuestionSource extends Component {
               const { pageInfo } = comments
               return (
                 <div>
+                <FlipMove>
                   {comments && comments.nodes
                     .map(
-                      node => {
+                      (node, index) => {
                         const {
                           id,
                           preview,
@@ -167,8 +175,8 @@ class QuestionSource extends Component {
                         const canUpvote = !userVote || userVote === 'DOWN'
 
                         return (
-                          <div style={{ marginTop: 10, display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline' }} key={`comment-${id}`}>
-                            <div style={{ marginRight: 10, alignSelf: canUpvote ? 'flex-start' : 'flex-end' }}>
+                          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline' }} key={`comment-${id}`}>
+                            <div style={{ marginRight: 5 }}>
                               <Mutation
                                 mutation={canUpvote ? upvoteCommentQuery : downvoteCommentQuery}
 
@@ -187,10 +195,10 @@ class QuestionSource extends Component {
                                 )}
                               </Mutation>
                             </div>
-                            <P style={{ marginRight: 10 }} title={t.pluralize('styleguide/CommentActions/upvote/count', { count: score })}>{score}</P>
-                            <div>
-                              <P>{preview.string}</P>
+                            <div style={{ marginRight: 10 }} title={t.pluralize('styleguide/CommentActions/upvote/count', { count: score })}>
+                              {index+1}
                             </div>
+                            <P {...styles.question}>{preview.string}</P>
                           </div>
                         )
                       }
@@ -206,6 +214,7 @@ class QuestionSource extends Component {
                       {t('feedback/fetchMore')}
                     </button>
                   )}
+                </FlipMove>
                 </div>
               )
             }}

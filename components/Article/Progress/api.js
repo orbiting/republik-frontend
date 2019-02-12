@@ -115,6 +115,7 @@ export const userProgressOnAudioSourceFragment = `
 export const withProgressApi = compose(
   graphql(consentQuery, {
     props: ({ data, errors }) => ({
+      data,
       myProgressConsent: data.loading
         ? undefined
         : data.myProgressConsent

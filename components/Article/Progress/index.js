@@ -352,6 +352,8 @@ class Progress extends Component {
     const { initialized, width, percentage, pageYOffset, showTopButton, topButtonAnimateOut } = this.state
     const { children, myProgressConsent, revokeConsent, submitConsent, pollDom } = this.props
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
+    const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
+
     const progressPrompt = showConsentPrompt
       ? (
         <ProgressPrompt
@@ -366,7 +368,7 @@ class Progress extends Component {
 
     return (
       <div ref={this.containerRef}>
-        {!initialized && !showConsentPrompt && pollDom && (
+        {!initialized && !consentRejected && !showConsentPrompt && pollDom && (
           <div {...styles.spinner}>
             <Spinner />
           </div>

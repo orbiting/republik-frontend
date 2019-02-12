@@ -19,6 +19,7 @@ import AccessCampaigns from './Access/Campaigns'
 import AuthSettings from './AuthSettings'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
+import Progress from './Progress'
 import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
 import GiveStatement from '../Testimonial/GiveStatement'
@@ -152,6 +153,11 @@ class Account extends Component {
                 <AccountAnchor id='benachrichtigungen'>
                   <H2>{t('account/notificationOptions/title')}</H2>
                   <NotificationOptions />
+                </AccountAnchor>
+
+                <AccountAnchor id='position'>
+                  <H2>{t('account/progress/title')}</H2>
+                  <Progress />
                 </AccountAnchor>
 
                 {APP_OPTIONS && <AccountAnchor id='anmeldung'>

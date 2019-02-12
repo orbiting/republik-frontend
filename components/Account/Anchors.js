@@ -27,10 +27,10 @@ const styles = {
   })
 }
 
-const AnchorLink = ({ children, id }) => (
+export const AnchorLink = ({ children, id }) => (
   <a
     {...linkRule}
-    href={'#' + id}
+    href={'/konto#' + id}
     onClick={(e) => {
       if (shouldIgnoreClick(e)) {
         return
@@ -84,6 +84,11 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
     <li {...styles.anchorListItem}>
       <AnchorLink id='benachrichtigungen'>
         {t('account/notificationOptions/title')}
+      </AnchorLink>
+    </li>
+    <li {...styles.anchorListItem}>
+      <AnchorLink id='position'>
+        {t('account/progress/title')}
       </AnchorLink>
     </li>
     {APP_OPTIONS &&

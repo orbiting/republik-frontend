@@ -225,7 +225,10 @@ class QuestionSource extends Component {
                 depth={1}
                 parentId={null}
                 now={now}
-                afterSubmit={data.refetch}
+                afterSubmit={() => {
+                  this.setState({ isComposing: false })
+                  data.refetch()
+                }}
                 state='focused'
               />
             </Fragment>

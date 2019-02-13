@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-12T15:53:22.847Z",
+  "updated": "2019-02-13T15:52:32.556Z",
   "title": "live",
   "data": [
     {
@@ -2652,11 +2652,11 @@
     },
     {
       "key": "feed/actionbar/readingTime/1",
-      "value": "ungefähr {minutes} Minute Lesezeit"
+      "value": "ungefähr {minutes} Minute"
     },
     {
       "key": "feed/actionbar/readingTime/other",
-      "value": "ungefähr {minutes} Minuten Lesezeit"
+      "value": "ungefähr {minutes} Minuten"
     },
     {
       "key": "format/feed/title/1",

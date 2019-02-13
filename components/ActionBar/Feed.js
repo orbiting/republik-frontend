@@ -50,6 +50,7 @@ const ActionBar = ({
   indicateGallery,
   indicateVideo,
   estimatedReadingMinutes,
+  estimatedConsumptionMinutes,
   linkedDiscussion,
   ownDiscussion,
   template,
@@ -96,7 +97,9 @@ const ActionBar = ({
     discussionCount
   } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
 
-  const showReadingTime = estimatedReadingMinutes > 1
+  const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
+    ? estimatedConsumptionMinutes
+    : estimatedReadingMinutes
 
   return (
     <Fragment>
@@ -119,10 +122,10 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {showReadingTime && (
-          <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
+        {displayConsumptionMinutes > 1 && (
+          <ReadingTime minutes={displayConsumptionMinutes} small style={{ marginBottom: '-1px' }} />
         )}
-        {userProgress && showReadingTime && (
+        {userProgress && estimatedReadingMinutes > 1 && (
           <UserProgress userProgress={userProgress} />
         )}
         {discussionId && (
@@ -147,6 +150,7 @@ ActionBar.propTypes = {
   indicateGallery: PropTypes.bool,
   indicateVideo: PropTypes.bool,
   estimatedReadingMinutes: PropTypes.number,
+  estimatedConsumptionMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object
 }
 

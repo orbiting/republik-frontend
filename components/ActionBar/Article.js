@@ -23,7 +23,7 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
+    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
     const {
       discussionId,
       discussionPath,
@@ -52,6 +52,7 @@ class ArticleActionBar extends Component {
           documentId={documentId}
           userBookmark={userBookmark}
           estimatedReadingMinutes={estimatedReadingMinutes}
+          estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         />
         {discussionId && alive &&
           <DiscussionIconLink

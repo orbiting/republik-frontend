@@ -158,6 +158,7 @@ const getDocument = gql`
           ...UserProgressOnAudioSource
         }
         estimatedReadingMinutes
+        estimatedConsumptionMinutes
         indicateGallery
         indicateVideo
       }
@@ -374,6 +375,7 @@ class ArticlePage extends Component {
         userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
+        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
       />
     )
 
@@ -462,7 +464,8 @@ class ArticlePage extends Component {
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-        estimatedReadingMinutes: undefined
+        estimatedReadingMinutes: undefined,
+        estimatedConsumptionMinutes: undefined
       })
       : undefined
     const series = meta && meta.series

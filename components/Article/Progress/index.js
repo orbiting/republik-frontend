@@ -83,7 +83,7 @@ class Progress extends Component {
     }
 
     this.poll = (userProgress, pollDom) => {
-      if (!userProgress || !this.props.pollDom) {
+      if (!userProgress || !this.props.pollDom || (!userProgress.nodeId && !userProgress.percentage)) {
         this.setState({ initialized: true })
         return
       }
@@ -116,6 +116,7 @@ class Progress extends Component {
     this.scrollToTop = () => {
       window.scrollTo(0, 0)
       this.setState({ topButtonAnimateOut: true })
+      this.resetDocumentProgress()
     }
 
     this.maybeHideTopButton = throttle(() => {
@@ -239,6 +240,11 @@ class Progress extends Component {
       }
     }, 300)
 
+    this.resetDocumentProgress = () => {
+      const { article } = this.props
+      article && this.props.upsertDocumentProgress(article.id, 0, '')
+    }
+
     this.restoreProgress = (percentage, nodeId) => {
       const { myProgressConsent } = this.props
       if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
@@ -251,7 +257,7 @@ class Progress extends Component {
 
       const headerHeight = this.headerHeight()
       const progressElements = this.getProgressElements()
-      const progressElement = progressElements.find((element, index) => {
+      const progressElement = !!nodeId && progressElements.find((element, index) => {
         if (element.getAttribute('data-pos') === nodeId) {
           this.setState({
             progressElementIndex: index

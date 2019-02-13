@@ -96,6 +96,8 @@ const ActionBar = ({
     discussionCount
   } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
 
+  const showReadingTime = estimatedReadingMinutes > 1
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
@@ -117,10 +119,10 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {estimatedReadingMinutes > 1 && (
+        {showReadingTime && (
           <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
         )}
-        {userProgress && (
+        {userProgress && showReadingTime && (
           <UserProgress userProgress={userProgress} />
         )}
         {discussionId && (

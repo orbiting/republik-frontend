@@ -20,6 +20,7 @@ const styles = {
   box: css({
     paddingTop: 10,
     paddingBottom: 10,
+    position: 'relative',
     backgroundColor: colors.primaryBg,
     [mediaQueries.mUp]: {
       paddingTop: 30,
@@ -63,6 +64,10 @@ const ProgressPrompt = compose(
   <WithMembership render={() => {
     return (
       <div {...styles.box}>
+        {/* TODO: Remove warning after internal testing. */}
+        <div style={{ fontSize: 12, lineHeight: '14px', background: '#c00', color: '#fff', position: 'absolute', top: 0, right: 0, padding: '3px 10px 5px 10px', borderRadius: '0 0 0 5px' }}>
+          <Interaction.Emphasis>+++ INTERNE TESTRUNDE – TRY IT OUT! +++</Interaction.Emphasis>
+        </div>
         <Center>
           <H2>
             {t('article/progressprompt/headline')}

@@ -20,6 +20,9 @@ const ReadingTime = ({ t, minutes, fill, small, style }) => {
   const fontSize = small ? '15px' : undefined
   const lineHeight = small ? '20px' : undefined
 
+  const displayHours = Math.floor(minutes / 60)
+  const displayMinutes = minutes % 60
+
   return (
     <IconLink
       icon='time'
@@ -34,7 +37,10 @@ const ReadingTime = ({ t, minutes, fill, small, style }) => {
         marginLeft: 5,
         ...style
       }}>
-      <span {...styles.text} style={{ fontSize, lineHeight }}>{minutes}{'\''}</span>
+      <span {...styles.text} style={{ fontSize, lineHeight }}>
+        {!!displayHours && `${displayHours}h\u202F`}
+        {displayMinutes}{'\''}
+      </span>
     </IconLink>
   )
 }

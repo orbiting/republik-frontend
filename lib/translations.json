@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-12T12:19:44.941Z",
+  "updated": "2019-02-12T15:53:22.847Z",
   "title": "live",
   "data": [
     {
@@ -1741,6 +1741,10 @@
     {
       "key": "styleguide/AudioPlayer/download",
       "value": "Herunterladen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/rewind",
+      "value": "Von Anfang an"
     },
     {
       "key": "styleguide/AudioPlayer/close",

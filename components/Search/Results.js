@@ -336,6 +336,7 @@ class Results extends Component {
                             ? <ActionBar
                               documentId={node.entity.id}
                               userBookmark={node.entity.userBookmark}
+                              userProgress={node.entity.userProgress}
                               {...node.entity.meta}
                             />
                             : null

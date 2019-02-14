@@ -87,7 +87,7 @@ const Index = ({
   secondaryNav,
   showSecondary,
   formatColor,
-  HeaderAudioPlayer,
+  headerAudioPlayer,
   onSearchClick,
   dark
 }) => (
@@ -112,7 +112,7 @@ const Index = ({
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
         formatColor={formatColor}
-        HeaderAudioPlayer={HeaderAudioPlayer}
+        headerAudioPlayer={headerAudioPlayer}
       />
       <noscript>
         <Box style={{ padding: 30 }}>

@@ -301,7 +301,7 @@ class Header extends Component {
       inNativeApp,
       inNativeIOSApp,
       isMember,
-      HeaderAudioPlayer
+      headerAudioPlayer: HeaderAudioPlayer
     } = this.props
     const { withoutSticky, backButton } = this.state
 

@@ -514,7 +514,7 @@ class ArticlePage extends Component {
         secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
-        HeaderAudioPlayer={headerAudioPlayer}
+        headerAudioPlayer={headerAudioPlayer}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {

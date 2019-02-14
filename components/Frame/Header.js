@@ -7,7 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { Router } from '../../lib/routes'
 
-import { AudioPlayer, Logo, colors, mediaQueries } from '@project-r/styleguide'
+import { Logo, colors, mediaQueries } from '@project-r/styleguide'
 
 import { withMembership } from '../Auth/checkRoles'
 
@@ -298,11 +298,10 @@ class Header extends Component {
       onPrimaryNavExpandedChange,
       primaryNavExpanded,
       formatColor,
-      audioSource,
-      audioCloseHandler,
       inNativeApp,
       inNativeIOSApp,
-      isMember
+      isMember,
+      headerAudioPlayer: HeaderAudioPlayer
     } = this.props
     const { withoutSticky, backButton } = this.state
 
@@ -403,7 +402,7 @@ class Header extends Component {
               {...styles.leftItem} {...styles.back}>
               <BackIcon size={25} fill={textFill} />
             </a>}
-            {secondaryNav && !audioSource && (
+            {secondaryNav && !HeaderAudioPlayer && (
               <div {...styles.secondary} style={{
                 left: backButton ? 40 : undefined,
                 opacity: secondaryVisible ? 1 : 0,
@@ -439,15 +438,8 @@ class Header extends Component {
               />
             </div>
           </Fragment>}
-          {audioSource && (
-            <AudioPlayer
-              src={audioSource}
-              closeHandler={() => { audioCloseHandler && audioCloseHandler() }}
-              autoPlay
-              download
-              scrubberPosition='bottom'
-              timePosition='left'
-              t={t}
+          {HeaderAudioPlayer && (
+            <HeaderAudioPlayer
               style={{ ...bgStyle, position: 'absolute', width: '100%', bottom: 0 }}
               controlsPadding={this.state.mobile ? 10 : 20}
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}

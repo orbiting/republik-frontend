@@ -520,6 +520,7 @@ class Profile extends Component {
                             bar={<FeedActionBar
                               documentId={doc.id}
                               userBookmark={doc.userBookmark}
+                              userProgress={doc.userProgress}
                               {...doc.meta}
                               meta={doc.meta} />}
                           />

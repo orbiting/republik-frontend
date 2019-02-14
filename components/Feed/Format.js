@@ -33,6 +33,7 @@ query getFeedDocuments($formatId: String!) {
           }
         }
         estimatedReadingMinutes
+        estimatedConsumptionMinutes
         indicateChart
         indicateGallery
         indicateVideo

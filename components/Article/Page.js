@@ -80,7 +80,8 @@ const schemaCreators = {
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
-  'graphql-tag': graphqlTag
+  'graphql-tag': graphqlTag,
+  'QuestionSource': QuestionSource
 })
 
 const getSchemaCreator = template => {
@@ -417,10 +418,7 @@ class ArticlePage extends Component {
             })
           }
         })
-        : undefined,
-      externalComponents: {
-        QuestionSource
-      }
+        : undefined
     })
 
     const isSeries = meta && !!meta.series

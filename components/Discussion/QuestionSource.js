@@ -2,9 +2,10 @@ import React, { Fragment, Component } from 'react'
 import { compose, Mutation } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { colors, fontStyles, Loader, linkRule, P } from '@project-r/styleguide'
+import { colors, fontStyles, Loader, linkRule, P, Label, mediaQueries } from '@project-r/styleguide'
 import MdKeyboardArrowUp from 'react-icons/lib/md/keyboard-arrow-up'
 import MdKeyboardArrowDown from 'react-icons/lib/md/keyboard-arrow-down'
+import withMembership from '../Auth/withMembership'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
@@ -30,10 +31,21 @@ const buttonStyle = {
 }
 
 const styles = {
+  wrapper: css({
+    width: '100%',
+    display: 'flex',
+    alignItems: 'baseline',
+    [mediaQueries.onlyS]: {
+      flexDirection: 'column'
+    }
+  }),
   question: css({
-    ...fontStyles.serifRegular21,
-    marginTop: 10,
-    marginBottom: 10
+    ...fontStyles.serifRegular16
+  }),
+  questionRank: css({
+    ...fontStyles.sansSerifMedium14,
+    textAlign: 'right',
+    paddingRight: 10
   }),
   button: css({
     ...fontStyles.sansSerifRegular21,
@@ -89,6 +101,27 @@ const styles = {
     width: `${config.left}px`,
     fontSize: `${config.left}px`,
     lineHeight: `${config.left}px`
+  }),
+  rightActions: css({
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '18px',
+    lineHeight: '1',
+    marginLeft: 'auto'
+  }),
+  votes: css({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }),
+  vote: css({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }),
+  voteDivider: css({
+    color: colors.disabled,
+    padding: '0 2px'
   })
 }
 
@@ -129,7 +162,7 @@ class QuestionSource extends Component {
   }
 
   render () {
-    const { t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore } = this.props
+    const { t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember } = this.props
     const { orderBy, now, isComposing } = this.state
 
     this.submitHandler = (mutation, variables, refetch) => () => {
@@ -162,94 +195,115 @@ class QuestionSource extends Component {
               const { pageInfo } = comments
               return (
                 <div>
-                <FlipMove>
-                  {comments && comments.nodes
-                    .map(
-                      (node, index) => {
-                        const {
-                          id,
-                          preview,
-                          score,
-                          userVote
-                        } = node
-                        const canUpvote = !userVote || userVote === 'DOWN'
+                  <FlipMove>
+                    {comments && comments.nodes
+                      .map(
+                        (node, index) => {
+                          const {
+                            id,
+                            preview,
+                            userVote,
+                            upVotes,
+                            downVotes
+                          } = node
+                          const canUpvote = !userVote || userVote === 'DOWN'
 
-                        return (
-                          <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'baseline' }} key={`comment-${id}`}>
-                            <div style={{ marginRight: 5 }}>
-                              <Mutation
-                                mutation={canUpvote ? upvoteCommentQuery : downvoteCommentQuery}
+                          return (
+                            <div {...styles.wrapper} key={`comment-${id}`}>
+                              <div {...styles.questionRank}>{index + 1}.</div>
+                              <div {...styles.question}>{preview.string}</div>
 
-                              >
-                                {(mutateComment, { loading }) => (
-                                  <IconButton
-                                    type='right'
-                                    onClick={this.submitHandler(mutateComment, { commentId: id }, data.refetch)}
-                                    title={t('styleguide/CommentActions/upvote')}
+                              <div {...styles.rightActions}>
+                                <div {...styles.votes}>
+
+                                  <Mutation
+                                    mutation={upvoteCommentQuery}
+
                                   >
-                                    {canUpvote
-                                      ? <MdKeyboardArrowUp />
-                                      : <MdKeyboardArrowDown />
-                                    }
-                                  </IconButton>
-                                )}
-                              </Mutation>
+                                    {(mutateComment, { loading }) => (
+                                      <div {...styles.vote}>
+                                        <IconButton
+                                          onClick={canUpvote && this.submitHandler(mutateComment, { commentId: id }, data.refetch)}
+                                          title={t('styleguide/CommentActions/upvote')}>
+                                          <MdKeyboardArrowUp />
+                                        </IconButton>
+                                        <Label
+                                          title={t.pluralize('styleguide/CommentActions/upvote/count', { count: upVotes })}>{upVotes}</Label>
+                                      </div>
+                                    )}
+                                  </Mutation>
+
+                                  <div {...styles.voteDivider}>/</div>
+                                  <Mutation
+                                    mutation={downvoteCommentQuery}
+
+                                  >
+                                    {(mutateComment, { loading }) => (
+                                      <div {...styles.vote}>
+                                        <Label
+                                          title={t.pluralize('styleguide/CommentActions/downvote/count', { count: downVotes })}>{downVotes}</Label>
+                                        <IconButton
+                                          onClick={!canUpvote && this.submitHandler(mutateComment, { commentId: id }, data.refetch)}
+                                          title={t('styleguide/CommentActions/downvote')}>
+                                          <MdKeyboardArrowDown />
+                                        </IconButton>
+                                      </div>
+                                    )}
+                                  </Mutation>
+                                </div>
+                              </div>
+
                             </div>
-                            <div style={{ marginRight: 10 }} title={t.pluralize('styleguide/CommentActions/upvote/count', { count: score })}>
-                              {index+1}
-                            </div>
-                            <P {...styles.question}>{preview.string}</P>
-                          </div>
-                        )
-                      }
+                          )
+                        }
+                      )}
+                    {pageInfo.hasNextPage && (
+                      <button
+                        {...styles.button}
+                        {...linkRule}
+                        onClick={() => {
+                          fetchMore({ after: pageInfo.endCursor })
+                        }}
+                      >
+                        {t('feedback/fetchMore')}
+                      </button>
                     )}
-                  {pageInfo.hasNextPage && (
-                    <button
-                      {...styles.button}
-                      {...linkRule}
-                      onClick={() => {
-                        fetchMore({ after: pageInfo.endCursor })
-                      }}
-                    >
-                      {t('feedback/fetchMore')}
-                    </button>
-                  )}
-                </FlipMove>
+                  </FlipMove>
                 </div>
               )
             }}
           />
 
           {isComposing &&
-            <Fragment>
-              <button {...styles.newQuestion} onClick={() => {
+          <Fragment>
+            <button {...styles.newQuestion} onClick={() => {
+              this.setState({ isComposing: false })
+            }}>
+              schliessen
+            </button>
+            <DiscussionCommentComposer
+              discussionId={discussionId}
+              orderBy={orderBy}
+              focusId={focusId}
+              depth={1}
+              parentId={null}
+              now={now}
+              afterSubmit={() => {
                 this.setState({ isComposing: false })
-              }}>
-                schliessen
-              </button>
-              <DiscussionCommentComposer
-                discussionId={discussionId}
-                orderBy={orderBy}
-                focusId={focusId}
-                depth={1}
-                parentId={null}
-                now={now}
-                afterSubmit={() => {
-                  this.setState({ isComposing: false })
-                  data.refetch()
-                }}
-                state='focused'
-              />
-            </Fragment>
+                data.refetch()
+              }}
+              state='focused'
+            />
+          </Fragment>
           }
-          {!isComposing &&
-            <div>
-              <button {...styles.newQuestion} onClick={() => {
-                this.setState({ isComposing: true })
-              }}>
-                neue Frage stellen
-              </button>
-            </div>
+          {!isComposing && isMember &&
+          <div style={{ marginTop: 15 }}>
+            <button {...styles.newQuestion} onClick={() => {
+              this.setState({ isComposing: true })
+            }}>
+              neue Frage stellen
+            </button>
+          </div>
           }
         </div>
       </Fragment>
@@ -259,6 +313,7 @@ class QuestionSource extends Component {
 
 export default compose(
   withT,
+  withMembership,
   withComments({
     orderBy: 'VOTES',
     first: 5

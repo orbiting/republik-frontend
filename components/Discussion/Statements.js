@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react'
 import { compose, Mutation } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { colors, fontStyles, Loader, linkRule, P, Label, mediaQueries, Comment } from '@project-r/styleguide'
+import { colors, fontStyles, Loader, Label, mediaQueries, Comment } from '@project-r/styleguide'
 import MdKeyboardArrowUp from 'react-icons/lib/md/keyboard-arrow-up'
 import MdKeyboardArrowDown from 'react-icons/lib/md/keyboard-arrow-down'
 import withMembership from '../Auth/withMembership'
@@ -11,11 +11,6 @@ import DiscussionCommentComposer from './DiscussionCommentComposer'
 
 import { withComments } from '../Feedback/enhancers'
 import { upvoteCommentQuery, downvoteCommentQuery } from './enhancers'
-
-const config = {
-  right: 26,
-  left: 20
-}
 
 const buttonStyle = {
   outline: 'none',
@@ -81,9 +76,6 @@ const styles = {
     display: 'block',
     marginBottom: 5
   }),
-  selectedOrderBy: css({
-    textDecoration: 'underline'
-  }),
   iconButton: css({
     ...buttonStyle,
     margin: '0 4px',
@@ -99,20 +91,14 @@ const styles = {
   rightButton: css({
     display: 'flex',
     justifyContent: 'center',
-    height: `${config.right}px`,
+    height: `26px`,
     width: '24px',
-    fontSize: `${config.right}px`,
-    lineHeight: `${config.right}px`,
+    fontSize: `26px`,
+    lineHeight: `26px`,
     margin: 0,
     '& > svg': {
       flexShrink: 0
     }
-  }),
-  leftButton: css({
-    height: `${config.left}px`,
-    width: `${config.left}px`,
-    fontSize: `${config.left}px`,
-    lineHeight: `${config.left}px`
   }),
   rightActions: css({
     display: 'flex',
@@ -174,7 +160,7 @@ class Statements extends Component {
   }
 
   render () {
-    const { t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember } = this.props
+    const { t, discussionId, focusId = null, data, isMember } = this.props
     const { orderBy, now, isComposing } = this.state
 
     this.submitHandler = (mutation, variables) => () => {
@@ -222,14 +208,13 @@ class Statements extends Component {
                             <div {...styles.questionRank}>{index + 1}.</div>
                             <div {...styles.question} >{Comment.renderComment(content)}</div>
 
+                            {isMember &&
                             <div {...styles.rightActions}>
                               <div {...styles.votes}>
-
                                 <Mutation
                                   mutation={upvoteCommentQuery}
-
                                 >
-                                  {(mutateComment, { loading }) => (
+                                  {(mutateComment) => (
                                     <div {...styles.vote}>
                                       <IconButton
                                         onClick={canUpvote ? this.submitHandler(mutateComment, { commentId: id }) : null}
@@ -241,13 +226,12 @@ class Statements extends Component {
                                     </div>
                                   )}
                                 </Mutation>
-
                                 <div {...styles.voteDivider}>/</div>
                                 <Mutation
                                   mutation={downvoteCommentQuery}
 
                                 >
-                                  {(mutateComment, { loading }) => (
+                                  {(mutateComment) => (
                                     <div {...styles.vote}>
                                       <Label
                                         title={t.pluralize('styleguide/CommentActions/downvote/count', { count: downVotes })}>{downVotes}</Label>
@@ -261,6 +245,7 @@ class Statements extends Component {
                                 </Mutation>
                               </div>
                             </div>
+                            }
                           </div>
                         )
                       }
@@ -270,6 +255,7 @@ class Statements extends Component {
             }}
           />
 
+          {isMember &&
           <div style={{ marginTop: 10 }}>
             {isComposing &&
             <Fragment>
@@ -295,7 +281,7 @@ class Statements extends Component {
               />
             </Fragment>
             }
-            {!isComposing && isMember &&
+            {!isComposing &&
             <div>
               <button {...styles.newQuestion} onClick={() => {
                 this.setState({ isComposing: true })
@@ -305,6 +291,7 @@ class Statements extends Component {
             </div>
             }
           </div>
+          }
         </div>
       </Fragment>
     )

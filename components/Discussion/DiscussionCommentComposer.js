@@ -18,7 +18,7 @@ class DiscussionCommentComposer extends PureComponent {
     super(props)
 
     this.state = {
-      state: props.state || 'idle', // idle | focused | submitting | error
+      state: props.state || 'idle', // idle | focused | submitting | error
       error: undefined, // If state == error then this is the error string.
       showPreferences: false
     }

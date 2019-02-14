@@ -16,7 +16,7 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
-import QuestionSource from '../Discussion/QuestionSource'
+import Statements from '../Discussion/Statements'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
@@ -81,7 +81,7 @@ const schemaCreators = {
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
   'graphql-tag': graphqlTag,
-  'QuestionSource': QuestionSource
+  'Statements': Statements
 })
 
 const getSchemaCreator = template => {

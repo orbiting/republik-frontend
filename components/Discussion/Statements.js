@@ -34,7 +34,7 @@ const styles = {
     alignItems: 'baseline',
     [mediaQueries.onlyS]: {
       flexDirection: 'column',
-      marginTop: 15,
+      marginTop: 15
     }
   }),
   question: css({
@@ -53,7 +53,7 @@ const styles = {
   highlight: css({
     background: colors.primaryBg,
     marginTop: 5,
-    padding: 10,
+    padding: 10
   }),
   button: css({
     ...fontStyles.sansSerifMedium16,
@@ -79,7 +79,7 @@ const styles = {
     padding: '0',
     cursor: 'pointer',
     display: 'block',
-    marginBottom: 5,
+    marginBottom: 5
   }),
   selectedOrderBy: css({
     textDecoration: 'underline'
@@ -143,16 +143,16 @@ const styles = {
 //
 // The outer dimensions of the action button element is always the same:
 // square and as tall as the 'CommentAction' component.
-const IconButton = ({iconSize, type = 'right', onClick, title, children, style = {}}) => (
+const IconButton = ({ iconSize, type = 'right', onClick, title, children, style = {} }) => (
   <button {...styles.iconButton} {...styles[`${type}Button`]} {...style}
-          title={title}
-          disabled={!onClick}
-          onClick={onClick}>
+    title={title}
+    disabled={!onClick}
+    onClick={onClick}>
     {children}
   </button>
 )
 
-class QuestionSource extends Component {
+class Statements extends Component {
   constructor (props) {
     super(props)
 
@@ -165,7 +165,7 @@ class QuestionSource extends Component {
 
   componentDidMount () {
     this.intervalId = setInterval(() => {
-      this.setState({now: Date.now()})
+      this.setState({ now: Date.now() })
     }, 10 * 1000)
   }
 
@@ -174,17 +174,17 @@ class QuestionSource extends Component {
   }
 
   render () {
-    const {t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember} = this.props
-    const {orderBy, now, isComposing} = this.state
+    const { t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember } = this.props
+    const { orderBy, now, isComposing } = this.state
 
     this.submitHandler = (mutation, variables) => () => {
-      this.setState({loading: true})
+      this.setState({ loading: true })
 
       return mutation({
         variables
       })
         .then(() => {
-          this.setState(() => ({loading: false}))
+          this.setState(() => ({ loading: false }))
         })
         .catch((err) => {
           console.error(err)
@@ -202,7 +202,7 @@ class QuestionSource extends Component {
             loading={data.loading}
             error={data.error}
             render={() => {
-              const {comments} = data
+              const { comments } = data
               return (
                 <div>
                   {comments && comments.nodes
@@ -229,15 +229,15 @@ class QuestionSource extends Component {
                                   mutation={upvoteCommentQuery}
 
                                 >
-                                  {(mutateComment, {loading}) => (
+                                  {(mutateComment, { loading }) => (
                                     <div {...styles.vote}>
                                       <IconButton
-                                        onClick={canUpvote ? this.submitHandler(mutateComment, {commentId: id}) : null}
+                                        onClick={canUpvote ? this.submitHandler(mutateComment, { commentId: id }) : null}
                                         title={t('styleguide/CommentActions/upvote')}>
-                                        <MdKeyboardArrowUp/>
+                                        <MdKeyboardArrowUp />
                                       </IconButton>
                                       <Label
-                                        title={t.pluralize('styleguide/CommentActions/upvote/count', {count: upVotes})}>{upVotes}</Label>
+                                        title={t.pluralize('styleguide/CommentActions/upvote/count', { count: upVotes })}>{upVotes}</Label>
                                     </div>
                                   )}
                                 </Mutation>
@@ -247,14 +247,14 @@ class QuestionSource extends Component {
                                   mutation={downvoteCommentQuery}
 
                                 >
-                                  {(mutateComment, {loading}) => (
+                                  {(mutateComment, { loading }) => (
                                     <div {...styles.vote}>
                                       <Label
-                                        title={t.pluralize('styleguide/CommentActions/downvote/count', {count: downVotes})}>{downVotes}</Label>
+                                        title={t.pluralize('styleguide/CommentActions/downvote/count', { count: downVotes })}>{downVotes}</Label>
                                       <IconButton
-                                        onClick={!canUpvote ? this.submitHandler(mutateComment, {commentId: id}) : null}
+                                        onClick={!canUpvote ? this.submitHandler(mutateComment, { commentId: id }) : null}
                                         title={t('styleguide/CommentActions/downvote')}>
-                                        <MdKeyboardArrowDown/>
+                                        <MdKeyboardArrowDown />
                                       </IconButton>
                                     </div>
                                   )}
@@ -270,11 +270,11 @@ class QuestionSource extends Component {
             }}
           />
 
-          <div style={{marginTop: 10}}>
+          <div style={{ marginTop: 10 }}>
             {isComposing &&
             <Fragment>
               <button {...styles.newQuestion} onClick={() => {
-                this.setState({isComposing: false})
+                this.setState({ isComposing: false })
               }}>
                 schliessen
               </button>
@@ -285,11 +285,11 @@ class QuestionSource extends Component {
                 depth={1}
                 parentId={null}
                 now={now}
-                afterCancel={() => this.setState({isComposing: false})}
+                afterCancel={() => this.setState({ isComposing: false })}
                 afterSubmit={(res) => {
                   const lastId = (res && res.data && res.data.submitComment.id) || null
-                  this.setState({isComposing: false, lastId})
-                  data.refetch({lastId})
+                  this.setState({ isComposing: false, lastId })
+                  data.refetch({ lastId })
                 }}
                 state='focused'
               />
@@ -298,7 +298,7 @@ class QuestionSource extends Component {
             {!isComposing && isMember &&
             <div>
               <button {...styles.newQuestion} onClick={() => {
-                this.setState({isComposing: true})
+                this.setState({ isComposing: true })
               }}>
                 neue Frage stellen
               </button>
@@ -318,4 +318,4 @@ export default compose(
     orderBy: 'VOTES',
     first: 100
   })
-)(QuestionSource)
+)(Statements)

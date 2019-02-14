@@ -54,6 +54,7 @@ class ActionBar extends Component {
       onPdfClick,
       pdfUrl,
       estimatedReadingMinutes,
+      estimatedConsumptionMinutes,
       shareOverlayTitle,
       showBookmark,
       documentId,
@@ -137,6 +138,10 @@ class ActionBar extends Component {
       }
     ]
 
+    const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
+      ? estimatedConsumptionMinutes
+      : estimatedReadingMinutes
+
     return (
       <Fragment>
         {showShareOverlay && (
@@ -162,8 +167,8 @@ class ActionBar extends Component {
           {icons
             .filter(Boolean)
             .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
-          {estimatedReadingMinutes > 1 && (
-            <ReadingTime minutes={estimatedReadingMinutes} />
+          {displayConsumptionMinutes > 1 && (
+            <ReadingTime minutes={displayConsumptionMinutes} />
           )}
         </span>
       </Fragment>

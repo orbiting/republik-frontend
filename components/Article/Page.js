@@ -11,6 +11,7 @@ import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
@@ -23,7 +24,15 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
+import Progress from './Progress'
 import {
+  embedsOnDocumentFragment,
+  userProgressFragment,
+  userProgressOnAudioSourceFragment
+} from './Progress/api'
+
+import {
+  AudioPlayer,
   colors,
   mediaQueries,
   Center
@@ -80,6 +89,8 @@ const getDocument = gql`
       id
       content
       ...BookmarkOnDocument
+      ...UserProgressOnDocument
+      ...EmbedsOnDocument
       meta {
         template
         path
@@ -144,14 +155,19 @@ const getDocument = gql`
           mp3
           aac
           ogg
+          ...UserProgressOnAudioSource
         }
         estimatedReadingMinutes
+        estimatedConsumptionMinutes
         indicateGallery
         indicateVideo
       }
     }
   }
   ${onDocumentFragment}
+  ${userProgressFragment}
+  ${userProgressOnAudioSourceFragment}
+  ${embedsOnDocumentFragment}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -168,6 +184,8 @@ const runMetaFromQuery = (code, query) => {
   }
   return undefined
 }
+
+const EmptyComponent = ({ children }) => children
 
 class ArticlePage extends Component {
   constructor (props) {
@@ -198,8 +216,10 @@ class ArticlePage extends Component {
           }
         })
       } else {
+        const showAudioPlayer = !this.state.showAudioPlayer
         this.setState({
-          showAudioPlayer: !this.state.showAudioPlayer
+          showAudioPlayer,
+          headerAudioPlayer: showAudioPlayer ? this.getAudioPlayer() : null
         })
       }
     }
@@ -222,19 +242,21 @@ class ArticlePage extends Component {
       showSecondary: false,
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
+      mobile: true,
+      progressInitStarted: false,
       ...this.deriveStateFromProps(props, {})
     }
 
     this.onScroll = () => {
       const y = window.pageYOffset
-      const mobile = window.innerWidth < mediaQueries.mBreakPoint
+
       const isAwayFromBottomBar =
         !this.bottomBarY || y + window.innerHeight < this.bottomBarY
       if (this.state.isAwayFromBottomBar !== isAwayFromBottomBar) {
         this.setState({ isAwayFromBottomBar })
       }
 
-      const headerHeight = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+      const headerHeight = this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
       if (
         isAwayFromBottomBar &&
@@ -258,6 +280,10 @@ class ArticlePage extends Component {
     }
 
     this.measure = () => {
+      const mobile = window.innerWidth < mediaQueries.mBreakPoint
+      if (mobile !== this.state.mobile) {
+        this.setState({ mobile })
+      }
       if (!this.state.isSeries) {
         if (this.bar) {
           const rect = this.bar.getBoundingClientRect()
@@ -270,7 +296,6 @@ class ArticlePage extends Component {
         const bottomRect = this.bottomBar.getBoundingClientRect()
         this.bottomBarY = window.pageYOffset + bottomRect.top
       }
-      this.onScroll()
     }
 
     this.onPrimaryNavExpandedChange = expanded => {
@@ -285,6 +310,33 @@ class ArticlePage extends Component {
         primaryNavExpanded: expanded ? false : this.state.primaryNavExpanded,
         secondaryNavExpanded: expanded
       })
+    }
+
+    this.getAudioPlayer = () => {
+      const { t, data, isMember, isEditor } = this.props
+      // TODO: remove isEditor guard for public progress launch.
+      const ProgressComponent = isEditor ? Progress : EmptyComponent
+      const article = data && data.article
+      const audioSource = article && article.meta && article.meta.audioSource
+      const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
+        <ProgressComponent isMember={isMember} article={article} isArticle={false}>
+          <AudioPlayer
+            mediaId={audioSource.mediaId}
+            src={audioSource}
+            userProgress={audioSource.userProgress}
+            closeHandler={this.toggleAudio}
+            autoPlay
+            download
+            scrubberPosition='bottom'
+            timePosition='left'
+            t={t}
+            style={style}
+            controlsPadding={controlsPadding}
+            height={height}
+          />
+        </ProgressComponent>
+      ) : null
+      return headerAudioPlayer
     }
   }
 
@@ -321,6 +373,7 @@ class ArticlePage extends Component {
         userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
+        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
       />
     )
 
@@ -373,7 +426,13 @@ class ArticlePage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data.article !== this.props.data.article) {
+    const currentArticle = this.props.data.article || {}
+    const nextArticle = nextProps.data.article || {}
+
+    if (
+      currentArticle.id !== nextArticle.id ||
+      currentArticle.userBookmark !== nextArticle.userBookmark
+    ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
@@ -397,13 +456,14 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-        estimatedReadingMinutes: undefined
+        estimatedReadingMinutes: undefined,
+        estimatedConsumptionMinutes: undefined
       })
       : undefined
     const series = meta && meta.series
@@ -424,8 +484,6 @@ class ArticlePage extends Component {
         : meta.format && meta.format.meta
     )
     const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
-
-    const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
     if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
@@ -456,8 +514,7 @@ class ArticlePage extends Component {
         secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
-        audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio}
+        headerAudioPlayer={headerAudioPlayer}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
@@ -475,6 +532,9 @@ class ArticlePage extends Component {
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
+          // TODO: remove isEditor guard for public progress launch.
+          const ProgressComponent = isEditor ? Progress : EmptyComponent
+
           return (
             <Fragment>
               {!isFormat && !isNewsletterSource && (
@@ -487,12 +547,14 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
-                  {() => renderMdast({
-                    ...article.content,
-                    format: meta.format
-                  }, schema)}
-                </SSRCachingBoundary>
+                <ProgressComponent isMember={isMember} article={article} debug={router.query.debug}>
+                  <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
+                    {() => renderMdast({
+                      ...article.content,
+                      format: meta.format
+                    }, schema)}
+                  </SSRCachingBoundary>
+                </ProgressComponent>
               </ArticleGallery>
               {!isFormat && (
                 <PayNote.After
@@ -543,6 +605,7 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withEditor, // TODO: remove withEditor for public progress launch.
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

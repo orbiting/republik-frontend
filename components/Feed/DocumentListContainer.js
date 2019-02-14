@@ -9,10 +9,13 @@ import {
   onDocumentFragment as bookmarkOnDocumentFragment
 } from '../Bookmarks/fragments'
 
+import { userProgressFragment } from '../Article/Progress/api'
+
 export const documentFragment = `
   fragment DocumentListDocument on Document {
     id
     ...BookmarkOnDocument
+    ...UserProgressOnDocument
     meta {
       credits
       title
@@ -23,6 +26,7 @@ export const documentFragment = `
       template
       color
       estimatedReadingMinutes
+      estimatedConsumptionMinutes
       indicateChart
       indicateGallery
       indicateVideo
@@ -58,6 +62,7 @@ export const documentFragment = `
     }
   }
   ${bookmarkOnDocumentFragment}
+  ${userProgressFragment}
 `
 
 export const documentListQueryFragment = `

@@ -9,6 +9,7 @@ import { getDiscussionIconLinkProps } from './utils'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
+import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -49,11 +50,13 @@ const ActionBar = ({
   indicateGallery,
   indicateVideo,
   estimatedReadingMinutes,
+  estimatedConsumptionMinutes,
   linkedDiscussion,
   ownDiscussion,
   template,
   path,
-  userBookmark
+  userBookmark,
+  userProgress
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -94,6 +97,10 @@ const ActionBar = ({
     discussionCount
   } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
 
+  const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
+    ? estimatedConsumptionMinutes
+    : estimatedReadingMinutes
+
   return (
     <Fragment>
       <span {...styles.buttonGroup}>
@@ -115,8 +122,11 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {estimatedReadingMinutes > 1 && (
-          <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
+        {displayConsumptionMinutes > 1 && (
+          <ReadingTime minutes={displayConsumptionMinutes} small style={{ marginBottom: '-1px' }} />
+        )}
+        {userProgress && estimatedReadingMinutes > 1 && (
+          <UserProgress userProgress={userProgress} />
         )}
         {discussionId && (
           <DiscussionIconLinkWithoutEnhancer
@@ -140,6 +150,7 @@ ActionBar.propTypes = {
   indicateGallery: PropTypes.bool,
   indicateVideo: PropTypes.bool,
   estimatedReadingMinutes: PropTypes.number,
+  estimatedConsumptionMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object
 }
 

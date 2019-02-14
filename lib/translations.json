@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-07T11:13:07.342Z",
+  "updated": "2019-02-14T10:10:21.554Z",
   "title": "live",
   "data": [
     {
@@ -919,6 +919,14 @@
       "value": "Standardeinstellung für Benachrichtigungen"
     },
     {
+      "key": "account/progress/title",
+      "value": "Leseposition"
+    },
+    {
+      "key": "account/progress/consent/label",
+      "value": "Ich möchte diese Funktion nutzen"
+    },
+    {
       "key": "account/pledges/title",
       "value": "Einkäufe"
     },
@@ -1733,6 +1741,10 @@
     {
       "key": "styleguide/AudioPlayer/download",
       "value": "Herunterladen"
+    },
+    {
+      "key": "styleguide/AudioPlayer/rewind",
+      "value": "Von Anfang an"
     },
     {
       "key": "styleguide/AudioPlayer/close",
@@ -2640,11 +2652,11 @@
     },
     {
       "key": "feed/actionbar/readingTime/1",
-      "value": "ungefähr {minutes} Minute Lesezeit"
+      "value": "ungefähr {minutes} Minute"
     },
     {
       "key": "feed/actionbar/readingTime/other",
-      "value": "ungefähr {minutes} Minuten Lesezeit"
+      "value": "ungefähr {minutes} Minuten"
     },
     {
       "key": "format/feed/title/1",
@@ -3003,8 +3015,20 @@
       "value": "Reden Sie mit auf unserer neuen Dialogseite"
     },
     {
+      "key": "article/progressprompt/headline",
+      "value": "Neu: Position merken"
+    },
+    {
+      "key": "article/progressprompt/description/feature",
+      "value": "Springen Sie direkt an die Stelle zurück, an der Sie einen Text, ein Video oder ein Hörstück unterbrochen haben. Mehr Lesekomfort, für den wir allerdings Ihr persönliches Leseverhalten in der Republik aufzeichnen müssen. {link}"
+    },
+    {
+      "key": "article/progressprompt/description/feature/link",
+      "value": "Mehr Informationen"
+    },
+    {
       "key": "article/progressprompt/question",
-      "value": "Wollen Sie das Tracken des Lesefortschritts erlauben?"
+      "value": "Möchten Sie diese Funktion nutzen?"
     },
     {
       "key": "article/progressprompt/button/confirm",
@@ -3013,6 +3037,18 @@
     {
       "key": "article/progressprompt/button/reject",
       "value": "Nein"
+    },
+    {
+      "key": "article/progressprompt/description/settings",
+      "value": "Sie können dies natürlich jederzeit in Ihren {link} ändern."
+    },
+    {
+      "key": "article/progressprompt/description/settings/link",
+      "value": "Einstellungen"
+    },
+    {
+      "key": "article/progress/backtotopbutton/title",
+      "value": "Nach oben"
     },
     {
       "key": "merci/postpay/lead",

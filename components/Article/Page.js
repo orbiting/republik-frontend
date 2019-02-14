@@ -533,7 +533,9 @@ class ArticlePage extends Component {
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
           // TODO: remove isEditor guard for public progress launch.
-          const ProgressComponent = isEditor ? Progress : EmptyComponent
+          const ProgressComponent = isEditor && !isFormat && meta.template !== 'discussion'
+            ? Progress
+            : EmptyComponent
 
           return (
             <Fragment>

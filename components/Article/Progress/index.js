@@ -182,7 +182,7 @@ class Progress extends Component {
             this.props.debug && console.log('found upwards', progressElement)
             break
           }
-          const { top } = progressElement.getBoundingClientRect()
+          const top = progressElement && progressElement.getBoundingClientRect().top
           if (top < headerHeight) {
             progressElement = progressElements[i + 1]
             nextIndex = i + 1

@@ -37,6 +37,7 @@ const styles = {
       minWidth: '120px',
       [mediaQueries.mUp]: {
         flexGrow: 0,
+        margin: '0 15px 20px 0',
         minWidth: '160px'
       }
     }
@@ -44,7 +45,9 @@ const styles = {
 }
 
 const { H2, P, Emphasis } = Interaction
-const META_ARTICLE_PATH = '/leseposition'
+
+// TODO: replace with stable redirect.
+const META_ARTICLE_PATH = '/2019/02/14/duerfen-wir-mehr-ueber-ihr-verhalten-wissen'
 
 export const getFeatureDescription = (t) => t.elements(
   'article/progressprompt/description/feature', {
@@ -86,7 +89,7 @@ const ProgressPrompt = compose(
               {t('article/progressprompt/button/reject')}
             </Button>
           </div>
-          <P margin>
+          <P>
             {t.elements('article/progressprompt/description/settings', {
               link: (
                 <AnchorLink id='position' key='link'>

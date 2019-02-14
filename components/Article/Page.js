@@ -321,7 +321,7 @@ class ArticlePage extends Component {
       const article = data && data.article
       const audioSource = article && article.meta && article.meta.audioSource
       const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
-        <ProgressComponent isMember={isMember} article={article} pollDom={false}>
+        <ProgressComponent isMember={isMember} article={article} isArticle={false}>
           <AudioPlayer
             mediaId={audioSource.mediaId}
             src={audioSource}

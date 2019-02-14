@@ -82,8 +82,8 @@ class Progress extends Component {
       }
     }
 
-    this.poll = (userProgress, pollDom) => {
-      if (!userProgress || !this.props.pollDom || (!userProgress.nodeId && !userProgress.percentage)) {
+    this.poll = (userProgress) => {
+      if (!userProgress || !this.props.isArticle || (!userProgress.nodeId && !userProgress.percentage)) {
         this.setState({ initialized: true })
         return
       }
@@ -362,14 +362,14 @@ class Progress extends Component {
       myProgressConsent,
       revokeConsent,
       submitConsent,
-      pollDom,
+      isArticle,
       debug // TODO: remove before public progress launch.
     } = this.props
 
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
 
-    const progressPrompt = showConsentPrompt
+    const progressPrompt = showConsentPrompt && isArticle
       ? (
         <ProgressPrompt
           onSubmitConsent={() => {
@@ -383,7 +383,7 @@ class Progress extends Component {
 
     return (
       <div ref={this.containerRef}>
-        {!initialized && !consentRejected && !showConsentPrompt && pollDom && (
+        {!initialized && !consentRejected && !showConsentPrompt && isArticle && (
           <div {...styles.spinner}>
             <Spinner />
           </div>
@@ -410,11 +410,11 @@ Progress.propTypes = {
   }),
   revokeConsent: PropTypes.func,
   submitConsent: PropTypes.func,
-  pollDom: PropTypes.bool
+  isArticle: PropTypes.bool
 }
 
 Progress.defaultProps = {
-  pollDom: true
+  isArticle: true
 }
 
 Progress.childContextTypes = {

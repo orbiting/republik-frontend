@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
+
 import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
@@ -53,6 +52,21 @@ import {
   onDocumentFragment
 } from '../Bookmarks/fragments'
 
+/*
+ * import all react-apollo and graphql-tag functions
+ * for dynamic components and specific ones for this page
+ */
+
+/* eslint-disable */
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
+import * as reactApollo from 'react-apollo'
+import * as graphqlTag from 'graphql-tag'
+/* eslint-enable */
+
+import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
@@ -62,6 +76,11 @@ const schemaCreators = {
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema
 }
+
+const dynamicComponentRequire = createRequire().alias({
+  'react-apollo': reactApollo,
+  'graphql-tag': graphqlTag
+})
 
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]
@@ -379,6 +398,7 @@ class ArticlePage extends Component {
 
     const schema = meta && getSchemaCreator(meta.template)({
       t,
+      dynamicComponentRequire,
       titleBlockAppend: (
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}

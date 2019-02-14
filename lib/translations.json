@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-14T14:37:45.985Z",
+  "updated": "2019-02-14T17:51:42.716Z",
   "title": "live",
   "data": [
     {
@@ -4476,7 +4476,7 @@
     },
     {
       "key": "styleguide/TeaserFeed/InternalOnlyTag",
-      "value": "INTERN"
+      "value": "Nur intern publiziert"
     }
   ]
 }

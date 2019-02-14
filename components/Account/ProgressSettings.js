@@ -4,6 +4,7 @@ import { css } from 'glamor'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 
+import ErrorMessage from '../ErrorMessage'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox } from '@project-r/styleguide'
 
@@ -39,6 +40,13 @@ class ProgressSettings extends Component {
     this.state = {
       mutating: {}
     }
+
+    this.catchServerError = error => {
+      this.setState(() => ({
+        mutating: false,
+        serverError: error
+      }))
+    }
   }
 
   render () {
@@ -58,7 +66,7 @@ class ProgressSettings extends Component {
         ErrorContainer={ErrorContainer}
         render={() => {
           const hasAccepted = myProgressConsent && myProgressConsent.hasConsentedTo === true
-          const { mutating } = this.state
+          const { mutating, serverError } = this.state
 
           return (
             <Fragment>
@@ -85,7 +93,9 @@ class ProgressSettings extends Component {
                     }))
                   }
                   const consentMutation = hasAccepted ? revokeConsent : submitConsent
-                  consentMutation().then(finish)
+                  consentMutation()
+                    .then(finish)
+                    .catch(this.catchServerError)
                 }}
               >
                 <span {...styles.label}>
@@ -97,6 +107,7 @@ class ProgressSettings extends Component {
                   )}
                 </span>
               </Checkbox>
+              {serverError && <ErrorMessage error={serverError} />}
             </Fragment>
           )
         }}

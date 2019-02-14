@@ -21,6 +21,7 @@ export const documentFragment = `
       title
       description
       publishDate
+      prepublication
       path
       kind
       template

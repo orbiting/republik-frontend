@@ -177,7 +177,7 @@ class QuestionSource extends Component {
     const {t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember} = this.props
     const {orderBy, now, isComposing} = this.state
 
-    this.submitHandler = (mutation, variables, refetch) => () => {
+    this.submitHandler = (mutation, variables) => () => {
       this.setState({loading: true})
 
       return mutation({
@@ -185,7 +185,6 @@ class QuestionSource extends Component {
       })
         .then(() => {
           this.setState(() => ({loading: false}))
-          return refetch()
         })
         .catch((err) => {
           console.error(err)
@@ -233,7 +232,7 @@ class QuestionSource extends Component {
                                   {(mutateComment, {loading}) => (
                                     <div {...styles.vote}>
                                       <IconButton
-                                        onClick={canUpvote && this.submitHandler(mutateComment, {commentId: id})}
+                                        onClick={canUpvote ? this.submitHandler(mutateComment, {commentId: id}) : null}
                                         title={t('styleguide/CommentActions/upvote')}>
                                         <MdKeyboardArrowUp/>
                                       </IconButton>
@@ -253,7 +252,7 @@ class QuestionSource extends Component {
                                       <Label
                                         title={t.pluralize('styleguide/CommentActions/downvote/count', {count: downVotes})}>{downVotes}</Label>
                                       <IconButton
-                                        onClick={!canUpvote && this.submitHandler(mutateComment, {commentId: id})}
+                                        onClick={!canUpvote ? this.submitHandler(mutateComment, {commentId: id}) : null}
                                         title={t('styleguide/CommentActions/downvote')}>
                                         <MdKeyboardArrowDown/>
                                       </IconButton>

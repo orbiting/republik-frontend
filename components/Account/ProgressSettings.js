@@ -33,7 +33,7 @@ const ErrorContainer = ({ children }) => (
   <div style={{ marginTop: 20 }}>{children}</div>
 )
 
-class NewsletterSubscriptions extends Component {
+class ProgressSettings extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -109,4 +109,4 @@ export default compose(
   withProgressApi,
   withMembership,
   withT
-)(NewsletterSubscriptions)
+)(ProgressSettings)

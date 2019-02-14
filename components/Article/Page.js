@@ -247,8 +247,6 @@ class ArticlePage extends Component {
       ...this.deriveStateFromProps(props, {})
     }
 
-    this.headerHeight = () => window.innerWidth < mediaQueries.mBreakPoint ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-
     this.onScroll = () => {
       const y = window.pageYOffset
 

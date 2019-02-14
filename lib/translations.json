@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-13T15:52:32.556Z",
+  "updated": "2019-02-14T10:10:21.554Z",
   "title": "live",
   "data": [
     {
@@ -3047,7 +3047,7 @@
       "value": "Einstellungen"
     },
     {
-      "key": "article/progress/topbutton/title",
+      "key": "article/progress/backtotopbutton/title",
       "value": "Nach oben"
     },
     {

@@ -20,7 +20,7 @@ import AccessCampaigns from './Access/Campaigns'
 import AuthSettings from './AuthSettings'
 import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
-import Progress from './Progress'
+import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
 import SignIn from '../Auth/SignIn'
 import GiveStatement from '../Testimonial/GiveStatement'
@@ -159,7 +159,7 @@ class Account extends Component {
                 {isEditor && (
                   <AccountAnchor id='position'>
                     <H2>{t('account/progress/title')}</H2>
-                    <Progress />
+                    <ProgressSettings />
                   </AccountAnchor>
                 )}
 

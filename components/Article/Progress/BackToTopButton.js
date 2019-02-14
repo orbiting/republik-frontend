@@ -18,7 +18,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'fixed',
-    bottom: 60,
+    bottom: 70,
     left: `calc(50% - ${RADIUS}px)`,
     width: `${RADIUS * 2}px`,
     height: `${RADIUS * 2}px`,
@@ -29,7 +29,7 @@ const styles = {
   })
 }
 
-class TopButton extends React.Component {
+class BackToTopButton extends React.Component {
   constructor (props) {
     super(props)
 
@@ -60,7 +60,7 @@ class TopButton extends React.Component {
         {...styles.container}
         style={{ ...style, opacity }}
         onClick={onClick}
-        title={t('article/progress/topbutton/title')}
+        title={t('article/progress/backtotopbutton/title')}
       >
         <UpIcon size={RADIUS * 1.5} fill={negativeColors.text} />
       </button>
@@ -68,11 +68,11 @@ class TopButton extends React.Component {
   }
 }
 
-TopButton.propTypes = {
+BackToTopButton.propTypes = {
   t: PropTypes.func,
   onClick: PropTypes.func,
   animateOut: PropTypes.bool,
   style: PropTypes.object
 }
 
-export default withT(TopButton)
+export default withT(BackToTopButton)

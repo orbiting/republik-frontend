@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
 import ProgressPrompt from './ProgressPrompt'
-import TopButton from './TopButton'
+import BackToTopButton from './BackToTopButton'
 import { Spinner, mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
@@ -14,7 +14,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../const
 import { withProgressApi } from './api'
 
 const MAX_POLL_RETRIES = 3
-const SCROLLED_AWAY_PX = 200
+const SCROLLED_AWAY_PX = 100
 
 const styles = {
   spinner: css({
@@ -110,29 +110,33 @@ class Progress extends Component {
       if (isMember && article) {
         this.saveProgress(article.id)
       }
-      this.maybeHideTopButton()
+      this.maybeHideBackToTopButton()
     }
 
     this.scrollToTop = () => {
-      window.scrollTo(0, 0)
-      this.setState({ topButtonAnimateOut: true })
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+      this.setState({ BackToTopButtonAnimateOut: true })
       this.resetDocumentProgress()
     }
 
-    this.maybeHideTopButton = throttle(() => {
+    this.maybeHideBackToTopButton = throttle(() => {
       const {
         initialized,
         initialPageYOffset,
-        showTopButton,
-        topButtonAnimateOut
+        showBackToTopButton,
+        BackToTopButtonAnimateOut
       } = this.state
-      if (topButtonAnimateOut || !showTopButton || !initialized || !initialPageYOffset) {
+      if (BackToTopButtonAnimateOut || !showBackToTopButton || !initialized || !initialPageYOffset) {
         return
       }
       const y = window.pageYOffset
       const hasScrolledAway = Math.abs(y - initialPageYOffset) > SCROLLED_AWAY_PX
       if (hasScrolledAway) {
-        this.setState({ topButtonAnimateOut: true })
+        this.setState({ BackToTopButtonAnimateOut: true })
       }
     }, 500)
 
@@ -274,7 +278,7 @@ class Progress extends Component {
           setTimeout(() => {
             this.setState({
               initialized: true,
-              showTopButton: true,
+              showBackToTopButton: true,
               initialPageYOffset: window.pageYOffset
             })
           }, 0)
@@ -289,7 +293,7 @@ class Progress extends Component {
           setTimeout(() => {
             this.setState({
               initialized: true,
-              showTopButton: true,
+              showBackToTopButton: true,
               initialPageYOffset: window.pageYOffset
             })
           }, 0)
@@ -356,7 +360,7 @@ class Progress extends Component {
   }
 
   render () {
-    const { initialized, width, percentage, pageYOffset, showTopButton, topButtonAnimateOut } = this.state
+    const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
     const {
       children,
       myProgressConsent,
@@ -390,8 +394,8 @@ class Progress extends Component {
         )}
         {progressPrompt}
         {children}
-        {showTopButton && (
-          <TopButton onClick={this.scrollToTop} animateOut={topButtonAnimateOut} />
+        {showBackToTopButton && (
+          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} />
         )}
         {debug && (
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>

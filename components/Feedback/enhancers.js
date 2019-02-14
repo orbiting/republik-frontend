@@ -75,14 +75,17 @@ query getComments(
   $first: Int!,
   $after: String,
   $orderBy: DiscussionOrder,
-  $discussionId: ID
+  $discussionId: ID,
+  $focusId: ID
 ) {
   comments(
     first: $first,
     after: $after,
     orderBy: $orderBy,
     discussionId: $discussionId,
-    orderDirection: DESC) {
+    focusId: $focusId,
+    orderDirection: DESC
+  ) {
       id
       totalCount
       pageInfo {

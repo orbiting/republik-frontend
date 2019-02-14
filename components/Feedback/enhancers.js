@@ -76,14 +76,14 @@ query getComments(
   $after: String,
   $orderBy: DiscussionOrder,
   $discussionId: ID,
-  $focusId: ID
+  $lastId: ID
 ) {
   comments(
     first: $first,
     after: $after,
     orderBy: $orderBy,
     discussionId: $discussionId,
-    focusId: $focusId,
+    lastId: $lastId,
     orderDirection: DESC
   ) {
       id

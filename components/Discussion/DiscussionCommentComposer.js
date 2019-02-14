@@ -31,10 +31,11 @@ class DiscussionCommentComposer extends PureComponent {
     }
 
     this.onCancel = () => {
+      const { afterCancel } = this.props
       this.setState({
         state: 'idle',
         error: undefined
-      })
+      }, afterCancel)
     }
 
     this.showPreferences = () => {

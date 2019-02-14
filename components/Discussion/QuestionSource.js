@@ -10,9 +10,7 @@ import withMembership from '../Auth/withMembership'
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 
 import { withComments } from '../Feedback/enhancers'
-import { upvoteCommentQuery, downvoteCommentQuery, unpublishComment, isAdmin, commentsSubscription } from './enhancers'
-
-import FlipMove from 'react-flip-move'
+import { upvoteCommentQuery, downvoteCommentQuery } from './enhancers'
 
 const config = {
   right: 26,
@@ -35,7 +33,8 @@ const styles = {
     display: 'flex',
     alignItems: 'baseline',
     [mediaQueries.onlyS]: {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      marginTop: 15,
     }
   }),
   question: css({
@@ -52,11 +51,9 @@ const styles = {
     paddingRight: 10
   }),
   highlight: css({
-    background: colors.secondaryBg,
-    marginLeft: -10,
-    marginRight: -10,
-    paddingRight: 10,
-    paddingLeft: 10,
+    background: colors.primaryBg,
+    marginTop: 5,
+    padding: 10,
   }),
   button: css({
     ...fontStyles.sansSerifMedium16,
@@ -75,7 +72,7 @@ const styles = {
   newQuestion: css({
     ...fontStyles.sansSerifRegular16,
     outline: 'none',
-    color: colors.text,
+    color: colors.primary,
     WebkitAppearance: 'none',
     background: 'transparent',
     border: 'none',
@@ -146,11 +143,11 @@ const styles = {
 //
 // The outer dimensions of the action button element is always the same:
 // square and as tall as the 'CommentAction' component.
-const IconButton = ({ iconSize, type = 'right', onClick, title, children, style = {} }) => (
+const IconButton = ({iconSize, type = 'right', onClick, title, children, style = {}}) => (
   <button {...styles.iconButton} {...styles[`${type}Button`]} {...style}
-    title={title}
-    disabled={!onClick}
-    onClick={onClick}>
+          title={title}
+          disabled={!onClick}
+          onClick={onClick}>
     {children}
   </button>
 )
@@ -168,7 +165,7 @@ class QuestionSource extends Component {
 
   componentDidMount () {
     this.intervalId = setInterval(() => {
-      this.setState({ now: Date.now() })
+      this.setState({now: Date.now()})
     }, 10 * 1000)
   }
 
@@ -177,17 +174,17 @@ class QuestionSource extends Component {
   }
 
   render () {
-    const { t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember } = this.props
-    const { orderBy, now, isComposing } = this.state
+    const {t, discussionId, focusId = null, mute, meta, sharePath, data, fetchMore, isMember} = this.props
+    const {orderBy, now, isComposing} = this.state
 
     this.submitHandler = (mutation, variables, refetch) => () => {
-      this.setState({ loading: true })
+      this.setState({loading: true})
 
       return mutation({
         variables
       })
         .then(() => {
-          this.setState(() => ({ loading: false }))
+          this.setState(() => ({loading: false}))
           return refetch()
         })
         .catch((err) => {
@@ -206,93 +203,79 @@ class QuestionSource extends Component {
             loading={data.loading}
             error={data.error}
             render={() => {
-              const { comments } = data
-              const { pageInfo } = comments
+              const {comments} = data
               return (
                 <div>
-                  <FlipMove enterAnimation='none' leaveAnimation='none'>
-                    {comments && comments.nodes
-                      .map(
-                        (node, index) => {
-                          const {
-                            id,
-                            userVote,
-                            upVotes,
-                            downVotes,
-                            content
-                          } = node
-                          const canUpvote = !userVote || userVote === 'DOWN'
+                  {comments && comments.nodes
+                    .map(
+                      (node, index) => {
+                        const {
+                          id,
+                          userVote,
+                          upVotes,
+                          downVotes,
+                          content
+                        } = node
+                        const canUpvote = !userVote || userVote === 'DOWN'
 
-                          return (
-                            <div {...styles.wrapper} {...(this.state.focusId === id) && styles.highlight} key={`comment-${id}`}>
-                              <div {...styles.questionRank}>{index + 1}.</div>
-                              <div {...styles.question}>{Comment.renderComment(content)}</div>
+                        return (
+                          <div {...styles.wrapper} key={`comment-${id}`}>
+                            <div {...styles.questionRank}>{index + 1}.</div>
+                            <div {...styles.question} >{Comment.renderComment(content)}</div>
 
-                              <div {...styles.rightActions}>
-                                <div {...styles.votes}>
+                            <div {...styles.rightActions}>
+                              <div {...styles.votes}>
 
-                                  <Mutation
-                                    mutation={upvoteCommentQuery}
+                                <Mutation
+                                  mutation={upvoteCommentQuery}
 
-                                  >
-                                    {(mutateComment, { loading }) => (
-                                      <div {...styles.vote}>
-                                        <IconButton
-                                          onClick={canUpvote && this.submitHandler(mutateComment, { commentId: id }, data.refetch)}
-                                          title={t('styleguide/CommentActions/upvote')}>
-                                          <MdKeyboardArrowUp />
-                                        </IconButton>
-                                        <Label
-                                          title={t.pluralize('styleguide/CommentActions/upvote/count', { count: upVotes })}>{upVotes}</Label>
-                                      </div>
-                                    )}
-                                  </Mutation>
+                                >
+                                  {(mutateComment, {loading}) => (
+                                    <div {...styles.vote}>
+                                      <IconButton
+                                        onClick={canUpvote && this.submitHandler(mutateComment, {commentId: id})}
+                                        title={t('styleguide/CommentActions/upvote')}>
+                                        <MdKeyboardArrowUp/>
+                                      </IconButton>
+                                      <Label
+                                        title={t.pluralize('styleguide/CommentActions/upvote/count', {count: upVotes})}>{upVotes}</Label>
+                                    </div>
+                                  )}
+                                </Mutation>
 
-                                  <div {...styles.voteDivider}>/</div>
-                                  <Mutation
-                                    mutation={downvoteCommentQuery}
+                                <div {...styles.voteDivider}>/</div>
+                                <Mutation
+                                  mutation={downvoteCommentQuery}
 
-                                  >
-                                    {(mutateComment, { loading }) => (
-                                      <div {...styles.vote}>
-                                        <Label
-                                          title={t.pluralize('styleguide/CommentActions/downvote/count', { count: downVotes })}>{downVotes}</Label>
-                                        <IconButton
-                                          onClick={!canUpvote && this.submitHandler(mutateComment, { commentId: id }, data.refetch)}
-                                          title={t('styleguide/CommentActions/downvote')}>
-                                          <MdKeyboardArrowDown />
-                                        </IconButton>
-                                      </div>
-                                    )}
-                                  </Mutation>
-                                </div>
+                                >
+                                  {(mutateComment, {loading}) => (
+                                    <div {...styles.vote}>
+                                      <Label
+                                        title={t.pluralize('styleguide/CommentActions/downvote/count', {count: downVotes})}>{downVotes}</Label>
+                                      <IconButton
+                                        onClick={!canUpvote && this.submitHandler(mutateComment, {commentId: id})}
+                                        title={t('styleguide/CommentActions/downvote')}>
+                                        <MdKeyboardArrowDown/>
+                                      </IconButton>
+                                    </div>
+                                  )}
+                                </Mutation>
                               </div>
                             </div>
-                          )
-                        }
-                      )}
-                    {pageInfo.hasNextPage && (
-                      <button
-                        {...styles.button}
-                        {...linkRule}
-                        onClick={() => {
-                          fetchMore({ after: pageInfo.endCursor })
-                        }}
-                      >
-                        {t('feedback/fetchMore')}
-                      </button>
+                          </div>
+                        )
+                      }
                     )}
-                  </FlipMove>
                 </div>
               )
             }}
           />
 
-          <div style={{ marginTop: 10 }}>
-          {isComposing &&
+          <div style={{marginTop: 10}}>
+            {isComposing &&
             <Fragment>
               <button {...styles.newQuestion} onClick={() => {
-                this.setState({ isComposing: false })
+                this.setState({isComposing: false})
               }}>
                 schliessen
               </button>
@@ -303,24 +286,25 @@ class QuestionSource extends Component {
                 depth={1}
                 parentId={null}
                 now={now}
+                afterCancel={() => this.setState({isComposing: false})}
                 afterSubmit={(res) => {
-                  const focusId = (res && res.data && res.data.submitComment.id) || null
-                  this.setState({ isComposing: false, focusId })
-                  data.refetch({focusId})
+                  const lastId = (res && res.data && res.data.submitComment.id) || null
+                  this.setState({isComposing: false, lastId})
+                  data.refetch({lastId})
                 }}
                 state='focused'
               />
             </Fragment>
-          }
-          {!isComposing && isMember &&
+            }
+            {!isComposing && isMember &&
             <div>
               <button {...styles.newQuestion} onClick={() => {
-                this.setState({ isComposing: true })
+                this.setState({isComposing: true})
               }}>
                 neue Frage stellen
               </button>
             </div>
-          }
+            }
           </div>
         </div>
       </Fragment>
@@ -333,6 +317,6 @@ export default compose(
   withMembership,
   withComments({
     orderBy: 'VOTES',
-    first: 5
+    first: 100
   })
 )(QuestionSource)

@@ -2,13 +2,12 @@ import React, { Fragment, Component } from 'react'
 import { compose, Mutation } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { colors, fontStyles, Loader, linkRule, P, Label, mediaQueries } from '@project-r/styleguide'
+import { colors, fontStyles, Loader, linkRule, P, Label, mediaQueries, Comment } from '@project-r/styleguide'
 import MdKeyboardArrowUp from 'react-icons/lib/md/keyboard-arrow-up'
 import MdKeyboardArrowDown from 'react-icons/lib/md/keyboard-arrow-down'
 import withMembership from '../Auth/withMembership'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
-import NotificationOptions from './NotificationOptions'
 
 import { withComments } from '../Feedback/enhancers'
 import { upvoteCommentQuery, downvoteCommentQuery, unpublishComment, isAdmin, commentsSubscription } from './enhancers'
@@ -40,15 +39,30 @@ const styles = {
     }
   }),
   question: css({
-    ...fontStyles.serifRegular16
+    '& p': {
+      ...fontStyles.serifRegular19,
+      [mediaQueries.onlyS]: {
+        ...fontStyles.serifRegular17
+      }
+    }
   }),
   questionRank: css({
     ...fontStyles.sansSerifMedium14,
     textAlign: 'right',
     paddingRight: 10
   }),
+  highlight: css({
+    background: colors.secondaryBg,
+    marginLeft: -10,
+    marginRight: -10,
+    paddingRight: 10,
+    paddingLeft: 10,
+  }),
   button: css({
-    ...fontStyles.sansSerifRegular21,
+    ...fontStyles.sansSerifMedium16,
+    [mediaQueries.onlyS]: {
+      ...fontStyles.sansSerifMedium18
+    },
     outline: 'none',
     WebkitAppearance: 'none',
     background: 'transparent',
@@ -67,7 +81,8 @@ const styles = {
     border: 'none',
     padding: '0',
     cursor: 'pointer',
-    display: 'block'
+    display: 'block',
+    marginBottom: 5,
   }),
   selectedOrderBy: css({
     textDecoration: 'underline'
@@ -195,23 +210,23 @@ class QuestionSource extends Component {
               const { pageInfo } = comments
               return (
                 <div>
-                  <FlipMove>
+                  <FlipMove enterAnimation='none' leaveAnimation='none'>
                     {comments && comments.nodes
                       .map(
                         (node, index) => {
                           const {
                             id,
-                            preview,
                             userVote,
                             upVotes,
-                            downVotes
+                            downVotes,
+                            content
                           } = node
                           const canUpvote = !userVote || userVote === 'DOWN'
 
                           return (
-                            <div {...styles.wrapper} key={`comment-${id}`}>
+                            <div {...styles.wrapper} {...(this.state.focusId === id) && styles.highlight} key={`comment-${id}`}>
                               <div {...styles.questionRank}>{index + 1}.</div>
-                              <div {...styles.question}>{preview.string}</div>
+                              <div {...styles.question}>{Comment.renderComment(content)}</div>
 
                               <div {...styles.rightActions}>
                                 <div {...styles.votes}>
@@ -252,7 +267,6 @@ class QuestionSource extends Component {
                                   </Mutation>
                                 </div>
                               </div>
-
                             </div>
                           )
                         }
@@ -274,37 +288,40 @@ class QuestionSource extends Component {
             }}
           />
 
+          <div style={{ marginTop: 10 }}>
           {isComposing &&
-          <Fragment>
-            <button {...styles.newQuestion} onClick={() => {
-              this.setState({ isComposing: false })
-            }}>
-              schliessen
-            </button>
-            <DiscussionCommentComposer
-              discussionId={discussionId}
-              orderBy={orderBy}
-              focusId={focusId}
-              depth={1}
-              parentId={null}
-              now={now}
-              afterSubmit={() => {
+            <Fragment>
+              <button {...styles.newQuestion} onClick={() => {
                 this.setState({ isComposing: false })
-                data.refetch()
-              }}
-              state='focused'
-            />
-          </Fragment>
+              }}>
+                schliessen
+              </button>
+              <DiscussionCommentComposer
+                discussionId={discussionId}
+                orderBy={orderBy}
+                focusId={focusId}
+                depth={1}
+                parentId={null}
+                now={now}
+                afterSubmit={(res) => {
+                  const focusId = (res && res.data && res.data.submitComment.id) || null
+                  this.setState({ isComposing: false, focusId })
+                  data.refetch({focusId})
+                }}
+                state='focused'
+              />
+            </Fragment>
           }
           {!isComposing && isMember &&
-          <div style={{ marginTop: 15 }}>
-            <button {...styles.newQuestion} onClick={() => {
-              this.setState({ isComposing: true })
-            }}>
-              neue Frage stellen
-            </button>
-          </div>
+            <div>
+              <button {...styles.newQuestion} onClick={() => {
+                this.setState({ isComposing: true })
+              }}>
+                neue Frage stellen
+              </button>
+            </div>
           }
+          </div>
         </div>
       </Fragment>
     )

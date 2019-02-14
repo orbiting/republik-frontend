@@ -55,13 +55,13 @@ class DiscussionCommentComposer extends PureComponent {
       })
 
       this.props.submitComment(null, content, tags).then(
-        () => {
+        (res) => {
           this.setState({
             state: 'idle',
             error: undefined
           })
           if (this.props.afterSubmit) {
-            return this.props.afterSubmit()
+            return this.props.afterSubmit(res)
           }
         },
         (e) => {

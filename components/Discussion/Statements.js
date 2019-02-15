@@ -201,8 +201,6 @@ class Statements extends Component {
                           downVotes,
                           content
                         } = node
-                        const canUpvote = !userVote || userVote === 'DOWN'
-
                         return (
                           <div {...styles.wrapper} key={`comment-${id}`}>
                             <div {...styles.questionRank}>{index + 1}.</div>
@@ -217,7 +215,11 @@ class Statements extends Component {
                                   {(mutateComment) => (
                                     <div {...styles.vote}>
                                       <IconButton
-                                        onClick={canUpvote ? this.submitHandler(mutateComment, { commentId: id }) : null}
+                                        onClick={
+                                          (!userVote || userVote === 'DOWN')
+                                            ? this.submitHandler(mutateComment, { commentId: id })
+                                            : null
+                                        }
                                         title={t('styleguide/CommentActions/upvote')}>
                                         <MdKeyboardArrowUp />
                                       </IconButton>
@@ -236,7 +238,11 @@ class Statements extends Component {
                                       <Label
                                         title={t.pluralize('styleguide/CommentActions/downvote/count', { count: downVotes })}>{downVotes}</Label>
                                       <IconButton
-                                        onClick={!canUpvote ? this.submitHandler(mutateComment, { commentId: id }) : null}
+                                        onClick={
+                                          (!userVote || userVote === 'UP')
+                                            ? this.submitHandler(mutateComment, { commentId: id })
+                                            : null
+                                        }
                                         title={t('styleguide/CommentActions/downvote')}>
                                         <MdKeyboardArrowDown />
                                       </IconButton>

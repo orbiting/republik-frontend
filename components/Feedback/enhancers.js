@@ -71,12 +71,21 @@ query getArticleSearchResults(
 `
 
 const getComments = gql`
-query getComments($after: String) {
+query getComments(
+  $first: Int!,
+  $after: String,
+  $orderBy: DiscussionOrder,
+  $discussionId: ID,
+  $lastId: ID
+) {
   comments(
-    first: 10,
+    first: $first,
     after: $after,
-    orderBy: DATE,
-    orderDirection: DESC) {
+    orderBy: $orderBy,
+    discussionId: $discussionId,
+    lastId: $lastId,
+    orderDirection: DESC
+  ) {
       id
       totalCount
       pageInfo {
@@ -92,6 +101,7 @@ query getComments($after: String) {
         downVotes
         upVotes
         userVote
+        score
         userCanEdit
         preview(length:240) {
           string
@@ -163,11 +173,16 @@ export const withActiveDiscussions = graphql(getActiveDiscussions, {
   })
 })
 
-export const withComments = graphql(getComments, {
-  options: props => ({
-    variables: {
+export const withComments = (defaultProps = {}) => graphql(getComments, {
+  options: ({ discussionId, orderBy, first }) => {
+    return {
+      variables: {
+        discussionId,
+        orderBy: defaultProps.orderBy || 'DATE',
+        first: defaultProps.first || 10
+      }
     }
-  }),
+  },
   props: ({ data, ownProps }) => ({
     data,
     fetchMore: ({ after }) =>

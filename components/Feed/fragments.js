@@ -14,6 +14,7 @@ export const documentFragment = `
       template
       color
       estimatedReadingMinutes
+      estimatedConsumptionMinutes
       indicateChart
       indicateGallery
       indicateVideo

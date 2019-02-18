@@ -21,9 +21,9 @@ const styles = {
     }
   }),
   text: css({
-    paddingLeft: 3,
     color: colors.primary,
     marginTop: -1,
+    paddingLeft: 4,
     ...fontStyles.sansSerifMedium16
   }),
   icon: css({
@@ -56,7 +56,7 @@ class IconLink extends Component {
       </span>
       {count > 0 && (
         <span {...iconLinkStyles.text} {...styles.text} style={{ fontSize, lineHeight }}>
-          &nbsp;{count}
+          {count}
         </span>
       )}
     </Fragment>

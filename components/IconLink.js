@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
@@ -75,6 +75,7 @@ export const styles = {
     display: 'inline-block',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
+    paddingLeft: 3,
     verticalAlign: 'middle'
   }),
   stackedText: css({
@@ -143,9 +144,7 @@ const IconLink = ({
         <span
           {...(stacked ? styles.stackedText : styles.text)}
         >
-          {!stacked && (
-            <Fragment>&nbsp;</Fragment>
-          )}{children}
+          {children}
         </span>
       )}
     </a>

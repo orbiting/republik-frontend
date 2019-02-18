@@ -83,6 +83,7 @@ const Latest = ({ t, data: { loading, error, documents }, loadMore, hasMore }) =
                     <ActionBar
                       documentId={doc.id}
                       userBookmark={doc.userBookmark}
+                      userProgress={doc.userProgress}
                       {...doc.meta}
                     />
                   )}

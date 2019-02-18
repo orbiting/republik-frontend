@@ -35,6 +35,7 @@ class Feed extends Component {
       bar={<ActionBar
         documentId={doc.id}
         userBookmark={doc.userBookmark}
+        userProgress={doc.userProgress}
         {...doc.meta} />}
     />
 

@@ -221,12 +221,19 @@ class NotificationOptions extends PureComponent {
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
             webNotificationsPermission === 'granted'
-          const notificationsChannelEnabled = emailEnabled || browserEnabled
-          const types = selectedValue !== 'NONE' && (
-            (emailEnabled && browserEnabled && t(`components/Discussion/NotificationChannel/EMAIL_WEB/label`)) ||
-            (emailEnabled && t(`components/Discussion/NotificationChannel/EMAIL/label`)) ||
-            (browserEnabled && t(`components/Discussion/NotificationChannel/WEB/label`))
+          const appEnabled = discussionNotificationChannels.indexOf('APP') > -1
+          const notificationsChannelEnabled = emailEnabled || browserEnabled || appEnabled
+
+          const translationKey = selectedValue !== 'NONE' && (
+            (emailEnabled && browserEnabled && appEnabled && 'EMAIL_WEB_APP') ||
+            (emailEnabled && browserEnabled && 'EMAIL_WEB') ||
+            (emailEnabled && appEnabled && 'EMAIL_APP') ||
+            (browserEnabled && appEnabled && 'WEB_APP') ||
+            (emailEnabled && 'EMAIL') ||
+            (appEnabled && 'APP') ||
+            (browserEnabled && 'WEB')
           )
+          const types = translationKey && t(`components/Discussion/NotificationChannel/${translationKey}/label`)
 
           const color = selectedValue === 'NONE' ? colors.disabled : colors.primary
 

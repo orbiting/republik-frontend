@@ -1,21 +1,22 @@
 import React, { Component, Fragment } from 'react'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
+
 import Frame from '../Frame'
 import ArticleActionBar from '../ActionBar/Article'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
+import Statements from '../Discussion/Statements'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
@@ -23,9 +24,15 @@ import withMembership from '../Auth/withMembership'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
-import withReadingProgress, { userProgressFragment } from './withReadingProgress'
+import Progress from './Progress'
+import {
+  embedsOnDocumentFragment,
+  userProgressFragment,
+  userProgressOnAudioSourceFragment
+} from './Progress/api'
 
 import {
+  AudioPlayer,
   colors,
   mediaQueries,
   Center
@@ -46,6 +53,21 @@ import {
   onDocumentFragment
 } from '../Bookmarks/fragments'
 
+/*
+ * import all react-apollo and graphql-tag functions
+ * for dynamic components and specific ones for this page
+ */
+
+/* eslint-disable */
+import { graphql, compose } from 'react-apollo'
+import gql from 'graphql-tag'
+
+import * as reactApollo from 'react-apollo'
+import * as graphqlTag from 'graphql-tag'
+/* eslint-enable */
+
+import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+
 const schemaCreators = {
   editorial: createArticleSchema,
   meta: createArticleSchema,
@@ -55,6 +77,12 @@ const schemaCreators = {
   discussion: createDiscussionSchema,
   editorialNewsletter: createNewsletterSchema
 }
+
+const dynamicComponentRequire = createRequire().alias({
+  'react-apollo': reactApollo,
+  'graphql-tag': graphqlTag,
+  'Statements': Statements
+})
 
 const getSchemaCreator = template => {
   const key = template || Object.keys(schemaCreators)[0]
@@ -83,6 +111,7 @@ const getDocument = gql`
       content
       ...BookmarkOnDocument
       ...UserProgressOnDocument
+      ...EmbedsOnDocument
       meta {
         template
         path
@@ -99,11 +128,17 @@ const getDocument = gql`
         ownDiscussion {
           id
           closed
+          comments {
+            totalCount
+          }
         }
         linkedDiscussion {
           id
           path
           closed
+          comments {
+            totalCount
+          }
         }
         color
         format {
@@ -141,8 +176,10 @@ const getDocument = gql`
           mp3
           aac
           ogg
+          ...UserProgressOnAudioSource
         }
         estimatedReadingMinutes
+        estimatedConsumptionMinutes
         indicateGallery
         indicateVideo
       }
@@ -150,6 +187,8 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
+  ${userProgressOnAudioSourceFragment}
+  ${embedsOnDocumentFragment}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -166,6 +205,8 @@ const runMetaFromQuery = (code, query) => {
   }
   return undefined
 }
+
+const EmptyComponent = ({ children }) => children
 
 class ArticlePage extends Component {
   constructor (props) {
@@ -196,8 +237,10 @@ class ArticlePage extends Component {
           }
         })
       } else {
+        const showAudioPlayer = !this.state.showAudioPlayer
         this.setState({
-          showAudioPlayer: !this.state.showAudioPlayer
+          showAudioPlayer,
+          headerAudioPlayer: showAudioPlayer ? this.getAudioPlayer() : null
         })
       }
     }
@@ -224,8 +267,6 @@ class ArticlePage extends Component {
       progressInitStarted: false,
       ...this.deriveStateFromProps(props, {})
     }
-
-    this.headerHeight = () => window.innerWidth < mediaQueries.mBreakPoint ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
     this.onScroll = () => {
       const y = window.pageYOffset
@@ -256,11 +297,6 @@ class ArticlePage extends Component {
         if (this.state.secondaryNavExpanded) {
           this.setState({ secondaryNavExpanded: false })
         }
-      }
-      const { isMember, data, saveProgress } = this.props
-      const { pageYOffset } = this.state
-      if (isMember && y !== pageYOffset && data && data.article) {
-        saveProgress && saveProgress(data.article.id)
       }
     }
 
@@ -296,6 +332,33 @@ class ArticlePage extends Component {
         secondaryNavExpanded: expanded
       })
     }
+
+    this.getAudioPlayer = () => {
+      const { t, data, isMember, isEditor } = this.props
+      // TODO: remove isEditor guard for public progress launch.
+      const ProgressComponent = isEditor ? Progress : EmptyComponent
+      const article = data && data.article
+      const audioSource = article && article.meta && article.meta.audioSource
+      const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
+        <ProgressComponent isMember={isMember} article={article} isArticle={false}>
+          <AudioPlayer
+            mediaId={audioSource.mediaId}
+            src={audioSource}
+            userProgress={audioSource.userProgress}
+            closeHandler={this.toggleAudio}
+            autoPlay
+            download
+            scrubberPosition='bottom'
+            timePosition='left'
+            t={t}
+            style={style}
+            controlsPadding={controlsPadding}
+            height={height}
+          />
+        </ProgressComponent>
+      ) : null
+      return headerAudioPlayer
+    }
   }
 
   deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }, state) {
@@ -305,12 +368,6 @@ class ArticlePage extends Component {
       ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
-    const linkedDiscussion = meta &&
-      meta.linkedDiscussion &&
-      !meta.linkedDiscussion.closed &&
-      meta.linkedDiscussion
-    const linkedDiscussionId = linkedDiscussion && linkedDiscussion.id
-
     const hasPdf = meta && meta.template === 'article'
 
     const actionBar = meta && (
@@ -318,9 +375,10 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
-        discussionPage={meta && meta.template === 'discussion'}
-        discussionId={linkedDiscussionId}
-        discussionPath={linkedDiscussion && linkedDiscussion.path}
+        template={meta.template}
+        path={meta.path}
+        linkedDiscussion={meta.linkedDiscussion}
+        ownDiscussion={meta.ownDiscussion}
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onGalleryClick={meta.indicateGallery && this.showGallery}
@@ -336,11 +394,13 @@ class ArticlePage extends Component {
         userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
+        estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
       />
     )
 
     const schema = meta && getSchemaCreator(meta.template)({
       t,
+      dynamicComponentRequire,
       titleBlockAppend: (
         <div ref={this.barRef} {...styles.bar}>
           {actionBar}
@@ -388,21 +448,14 @@ class ArticlePage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data.article !== this.props.data.article) {
-      this.setState(this.deriveStateFromProps(nextProps, this.state))
-    }
-  }
+    const currentArticle = this.props.data.article || {}
+    const nextArticle = nextProps.data.article || {}
 
-  initializeProgress () {
-    const { progressInitStarted } = this.state
-    if (progressInitStarted) {
-      return
-    }
-    const { data, isMember } = this.props
-    if (isMember && data && data.article) {
-      this.setState({ progressInitStarted: true })
-      const { userProgress } = data.article
-      this.props.initializeProgress(userProgress)
+    if (
+      currentArticle.id !== nextArticle.id ||
+      currentArticle.userBookmark !== nextArticle.userBookmark
+    ) {
+      this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
@@ -412,13 +465,11 @@ class ArticlePage extends Component {
 
     this.measure()
     this.autoPlayAudioSource()
-    this.initializeProgress()
   }
 
   componentDidUpdate () {
     this.measure()
     this.autoPlayAudioSource()
-    this.initializeProgress()
   }
 
   componentWillUnmount () {
@@ -427,13 +478,14 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, progressPrompt } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor } = this.props
 
-    const { meta, actionBar, schema, showAudioPlayer, isAwayFromBottomBar } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-        estimatedReadingMinutes: undefined
+        estimatedReadingMinutes: undefined,
+        estimatedConsumptionMinutes: undefined
       })
       : undefined
     const series = meta && meta.series
@@ -454,8 +506,6 @@ class ArticlePage extends Component {
         : meta.format && meta.format.meta
     )
     const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
-
-    const audioSource = showAudioPlayer ? meta && meta.audioSource : null
 
     if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
@@ -486,8 +536,7 @@ class ArticlePage extends Component {
         secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
-        audioSource={audioSource}
-        audioCloseHandler={this.toggleAudio}
+        headerAudioPlayer={headerAudioPlayer}
       >
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!article) {
@@ -505,9 +554,13 @@ class ArticlePage extends Component {
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
+          // TODO: remove isEditor guard for public progress launch.
+          const ProgressComponent = isEditor && !isFormat && meta.template !== 'discussion'
+            ? Progress
+            : EmptyComponent
+
           return (
             <Fragment>
-              {progressPrompt}
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   variation={payNoteVariation}
@@ -518,14 +571,14 @@ class ArticlePage extends Component {
                   article={article}
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                <div ref={this.props.progressArticleRef}>
+                <ProgressComponent isMember={isMember} article={article} debug={router.query.debug}>
                   <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format
                     }, schema)}
                   </SSRCachingBoundary>
-                </div>
+                </ProgressComponent>
               </ArticleGallery>
               {!isFormat && (
                 <PayNote.After
@@ -576,9 +629,9 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withEditor, // TODO: remove withEditor for public progress launch.
   withInNativeApp,
   withRouter,
-  withReadingProgress,
   graphql(getDocument, {
     options: ({ router: { asPath } }) => ({
       variables: {

@@ -66,10 +66,11 @@ export const CommentLink = ({
   }
   if (discussion) {
     const focus = commentId
-    const path = discussion &&
-      discussion.document &&
+    const path = discussion.document &&
       discussion.document.meta &&
       discussion.document.meta.path
+      ? discussion.document.meta.path
+      : discussion.path
     if (path) {
       return (
         <PathLink
@@ -168,5 +169,5 @@ class LatestComments extends Component {
 
 export default compose(
   withT,
-  withComments
+  withComments()
 )(LatestComments)

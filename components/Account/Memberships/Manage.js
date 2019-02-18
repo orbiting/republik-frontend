@@ -154,12 +154,15 @@ const ManageActions = compose(
 
 const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title, compact, actions }) => {
   const createdAt = new Date(membership.createdAt)
-  const latestPeriod = membership.periods
-    .reduce((acc, period) => {
-      return acc && new Date(period.endDate) < new Date(acc.endDate)
-        ? acc
-        : period
-    })
+  const latestPeriod =
+    membership.periods &&
+    membership.periods.length > 0 &&
+    membership.periods
+      .reduce((acc, period) => {
+        return acc && new Date(period.endDate) < new Date(acc.endDate)
+          ? acc
+          : period
+      })
 
   const latestPeriodEndDate = latestPeriod && new Date(latestPeriod.endDate)
   const formattedEndDate = latestPeriod && dayFormat(latestPeriodEndDate)

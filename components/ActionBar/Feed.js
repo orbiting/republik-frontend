@@ -5,10 +5,11 @@ import { compose } from 'react-apollo'
 
 import Bookmark from './Bookmark'
 import { DiscussionIconLinkWithoutEnhancer } from '../Discussion/IconLink'
+import { getDiscussionIconLinkProps } from './utils'
 import IconLink from '../IconLink'
 import PathLink from '../Link/Path'
 import ReadingTime from './ReadingTime'
-import { routes } from '../../lib/routes'
+import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
 
 import { colors } from '@project-r/styleguide'
@@ -49,11 +50,13 @@ const ActionBar = ({
   indicateGallery,
   indicateVideo,
   estimatedReadingMinutes,
+  estimatedConsumptionMinutes,
   linkedDiscussion,
   ownDiscussion,
   template,
   path,
-  userBookmark
+  userBookmark,
+  userProgress
 }) => {
   const hasAudio = !!audioSource
   const icons = [
@@ -87,24 +90,16 @@ const ActionBar = ({
     }
   ]
 
-  const isLinkedDiscussion = linkedDiscussion && !linkedDiscussion.closed && template === 'article'
-  const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
-  const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
-  const isDiscussion = isOwnDiscussion && template === 'discussion'
-  const totalCount =
-    (isLinkedDiscussion && linkedDiscussion.comments && linkedDiscussion.comments.totalCount) ||
-    (isOwnDiscussion && ownDiscussion.comments && ownDiscussion.comments.totalCount) || undefined
+  const {
+    discussionId,
+    discussionPath,
+    discussionQuery,
+    discussionCount
+  } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
 
-  const discussionId =
-    (isLinkedDiscussion && linkedDiscussion.id) ||
-    (isOwnDiscussion && ownDiscussion.id) ||
-    undefined
-  const discussionPath =
-    (isLinkedDiscussion && linkedDiscussion.path) ||
-    (isArticleAutoDiscussion && routes.find(r => r.name === 'discussion').toPath()) ||
-    (isDiscussion && path) ||
-    undefined
-  const query = isArticleAutoDiscussion ? { t: 'article', id: ownDiscussion.id } : undefined
+  const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
+    ? estimatedConsumptionMinutes
+    : estimatedReadingMinutes
 
   return (
     <Fragment>
@@ -127,15 +122,18 @@ const ActionBar = ({
               />
             </ActionLink>
           ))}
-        {estimatedReadingMinutes > 1 && (
-          <ReadingTime minutes={estimatedReadingMinutes} small style={{ marginBottom: '-1px' }} />
+        {displayConsumptionMinutes > 1 && (
+          <ReadingTime minutes={displayConsumptionMinutes} small style={{ marginBottom: '-1px' }} />
         )}
-        {(isLinkedDiscussion || isOwnDiscussion) && (
+        {userProgress && estimatedReadingMinutes > 1 && (
+          <UserProgress userProgress={userProgress} />
+        )}
+        {discussionId && (
           <DiscussionIconLinkWithoutEnhancer
             discussionId={discussionId}
             path={discussionPath}
-            query={query}
-            count={totalCount}
+            query={discussionQuery}
+            count={discussionCount}
             small
           />
         )}
@@ -152,6 +150,7 @@ ActionBar.propTypes = {
   indicateGallery: PropTypes.bool,
   indicateVideo: PropTypes.bool,
   estimatedReadingMinutes: PropTypes.number,
+  estimatedConsumptionMinutes: PropTypes.number,
   linkedDiscussion: PropTypes.object
 }
 

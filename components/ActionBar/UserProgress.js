@@ -17,6 +17,7 @@ const styles = {
     display: 'inline-block',
     verticalAlign: 'middle',
     marginBottom: -3,
+    marginRight: 1,
     height: 18
   }),
   text: css({
@@ -24,7 +25,7 @@ const styles = {
     fontSize: 15,
     lineHeight: '20px',
     color: colors.lightText,
-    paddingLeft: 4
+    paddingTop: 1
   })
 }
 

@@ -157,14 +157,16 @@ const modifyComment = (comment, id, onComment) => {
   }
 }
 
-export const upvoteComment = graphql(gql`
+export const upvoteCommentQuery = gql`
 mutation discussionUpvoteComment($commentId: ID!) {
   upvoteComment(id: $commentId) {
     ...Comment
   }
 }
 ${fragments.comment}
-`, {
+`
+
+export const upvoteComment = graphql(upvoteCommentQuery, {
   props: ({ mutate }) => ({
     upvoteComment: (commentId) => {
       return mutate({ variables: { commentId } }).catch(toRejectedString)
@@ -172,14 +174,16 @@ ${fragments.comment}
   })
 })
 
-export const downvoteComment = graphql(gql`
+export const downvoteCommentQuery = gql`
 mutation discussionDownvoteComment($commentId: ID!) {
   downvoteComment(id: $commentId) {
     ...Comment
   }
 }
 ${fragments.comment}
-`, {
+`
+
+export const downvoteComment = graphql(downvoteCommentQuery, {
   props: ({ mutate }) => ({
     downvoteComment: (commentId) => {
       return mutate({ variables: { commentId } }).catch(toRejectedString)

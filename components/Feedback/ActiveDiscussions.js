@@ -77,10 +77,11 @@ export const DiscussionLink = ({
     )
   }
   if (discussion) {
-    const path = discussion &&
-      discussion.document &&
+    const path = discussion.document &&
       discussion.document.meta &&
       discussion.document.meta.path
+      ? discussion.document.meta.path
+      : discussion.path
     if (path) {
       return (
         <PathLink

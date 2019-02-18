@@ -18,7 +18,7 @@ class DiscussionCommentComposer extends PureComponent {
     super(props)
 
     this.state = {
-      state: 'idle', // idle | focused | submitting | error
+      state: props.state || 'idle', // idle | focused | submitting | error
       error: undefined, // If state == error then this is the error string.
       showPreferences: false
     }
@@ -31,10 +31,11 @@ class DiscussionCommentComposer extends PureComponent {
     }
 
     this.onCancel = () => {
+      const { afterCancel } = this.props
       this.setState({
         state: 'idle',
         error: undefined
-      })
+      }, afterCancel)
     }
 
     this.showPreferences = () => {
@@ -55,11 +56,14 @@ class DiscussionCommentComposer extends PureComponent {
       })
 
       this.props.submitComment(null, content, tags).then(
-        () => {
+        (res) => {
           this.setState({
             state: 'idle',
             error: undefined
           })
+          if (this.props.afterSubmit) {
+            return this.props.afterSubmit(res)
+          }
         },
         (e) => {
           this.setState({

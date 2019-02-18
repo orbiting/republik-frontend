@@ -8,7 +8,6 @@ import {
   Container,
   Editorial,
   Interaction,
-  P,
   RawHtml,
   colors,
   mediaQueries
@@ -18,13 +17,8 @@ import { ascending } from 'd3-array'
 
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
-import { Link, Router } from '../../lib/routes'
 
 import Employee from '../Imprint/Employee'
-
-import { ListWithQuery } from '../Testimonial/List'
-
-import { sharedStyles } from '../Marketing/styles'
 
 const query = gql`
 query feuilletonMarketingPage {
@@ -49,7 +43,7 @@ query feuilletonMarketingPage {
     title
     url
   }
-  documents(template: "article", first: 1) {
+  documents(feed: true, first: 1) {
     totalCount
   }
 }
@@ -57,9 +51,17 @@ query feuilletonMarketingPage {
 
 const styles = {
   titleBlock: css({
-    margin: '23px auto 23px auto',
+    margin: '20px auto 20px auto',
     [mediaQueries.mUp]: {
-      marginBottom: 80
+      margin: '60px 0 80px 0'
+    }
+  }),
+  lead: css({
+    textAlign: 'center',
+    maxWidth: '820px',
+    margin: '12px auto 0 auto',
+    [mediaQueries.mUp]: {
+      marginTop: '32px'
     }
   }),
   subheader: css({
@@ -67,6 +69,12 @@ const styles = {
     textAlign: 'center',
     [mediaQueries.lUp]: {
       marginBottom: 30
+    }
+  }),
+  section: css({
+    marginBottom: 40,
+    [mediaQueries.mUp]: {
+      marginBottom: 80
     }
   }),
   format: css({
@@ -111,12 +119,22 @@ const styles = {
     marginLeft: '-5px',
     flexWrap: 'wrap',
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginBottom: 50,
+    [mediaQueries.mUp]: {
+      marginTop: 80
+    }
   })
 }
 
+const { Emphasis, P } = Editorial
+
 const Subheader = ({ children }) => (
   <Interaction.H2 {...styles.subheader}>{children}</Interaction.H2>
+)
+
+const Subheader2 = ({ children }) => (
+  <Interaction.H3 {...styles.subheader}>{children}</Interaction.H3>
 )
 
 const FeuilletonMarketingPage = ({
@@ -124,64 +142,81 @@ const FeuilletonMarketingPage = ({
   data,
   data: { membershipStats, documents, employees, mediaResponses, loading, error }
 }) => {
+  const publishersCount = membershipStats
+    ? countFormat(membershipStats.count)
+    : `~${countFormat(22500)}`
+
+  const employeesCount = employees && employees.length
+    ? employees.length
+    : 60
+
   return (
     <Fragment>
       <Container>
         <div {...styles.titleBlock}>
-          <Interaction.H1 {...sharedStyles.headline} style={{ maxWidth: '1080px' }}>
-            {documents && documents.totalCount}
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('about/title')
-              }}
-            />
-          </Interaction.H1>
-          <P {...sharedStyles.lead} style={{ maxWidth: '800px' }}>
-            {t('about/lead')}
-          </P>
+          <Interaction.Headline style={{ maxWidth: '1080px', textAlign: 'center', margin: '0 auto' }}>
+            {t('pages/about/title')}
+          </Interaction.Headline>
+          <div {...styles.lead}>
+            <Editorial.Lead>
+              {t('pages/about/lead')}
+            </Editorial.Lead>
+          </div>
         </div>
       </Container>
       <Center>
-        <Subheader>{t('about/audience/title')}</Subheader>
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('about/audience/text')
-            }}
+        <section {...styles.section}>
+          <Subheader>{t('pages/about/audience/title', { count: countFormat(200000) })}</Subheader>
+          <P>
+            {t.elements('pages/about/audience/text', {
+              emphasis1: <Emphasis>{t('pages/about/audience/text/emphasis1')}</Emphasis>
+            })}
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader>{t('pages/about/publishers/title', { count: publishersCount })}</Subheader>
+          <P>
+            {t.elements('pages/about/publishers/text', {
+              count: publishersCount,
+              emphasis1: <Emphasis>{t('pages/about/publishers/text/emphasis1')}</Emphasis>
+            })}
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader>{t('pages/about/output/title', { count: documents && documents.totalCount })}</Subheader>
+          <P>
+            {t.elements('pages/about/output/text', {
+              emphasis1: <Emphasis>{t('pages/about/output/text/emphasis1')}</Emphasis>,
+              emphasis2: <Emphasis>{t('pages/about/output/text/emphasis2')}</Emphasis>
+            })}
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader>{t('pages/about/employees/title', { count: employeesCount })}</Subheader>
+          <P>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('pages/about/employees/text')
+              }}
+            />
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader2>{t('pages/about/mediaResponses/title')}</Subheader2>
+          <Loader
+            loading={loading}
+            error={error}
+            render={() => <>
+              {data.mediaResponses.map((mediaResponse, index) => (
+                <P {...styles.faqCta} key={index}>
+                  {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
+                  <a {...styles.link} href={mediaResponse.url} target='_blank'>{mediaResponse.title}</a>
+                </P>
+              )
+              )}
+          </>}
           />
-        </Editorial.P>
-        <Subheader>{t('about/publishers/title')}</Subheader>
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('about/publishers/text')
-            }}
-          />
-        </Editorial.P>
-        <Subheader>{t('about/output/title')}</Subheader>
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('about/output/text')
-            }}
-          />
-        </Editorial.P>
-        <Subheader>{t('about/values/title')}</Subheader>
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('about/values/text')
-            }}
-          />
-        </Editorial.P>
-        <Subheader>{t('about/employees/title')}</Subheader>
-        <Editorial.P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('about/employees/text')
-            }}
-          />
-        </Editorial.P>
+        </section>
         {employees && employees.length && <Fragment>
           <Breakout size='breakout'>
             <div {...styles.tiles}>
@@ -198,47 +233,7 @@ const FeuilletonMarketingPage = ({
           </Breakout>
         </Fragment>}
       </Center>
-      <Container>
-        <div {...styles.communityWidget}>
-          <Interaction.H2 {...sharedStyles.communityHeadline}>
-            {t(
-              'marketing/community/title',
-              {
-                count: membershipStats
-                  ? countFormat(membershipStats.count)
-                  : `~${countFormat(22500)}`
-              }
-            )}
-          </Interaction.H2>
-          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
-            Router.push(`/community?id=${id}`).then(() => {
-              window.scrollTo(0, 0)
-              return false
-            })
-          }} />
-          <Interaction.P {...sharedStyles.communityLink}>
-            <Link route='community'>
-              <a>{t('marketing/community/link')}</a>
-            </Link>
-          </Interaction.P>
-        </div>
-      </Container>
-      <Center style={{ marginBottom: 80 }}>
-        <Interaction.H3 {...styles.faqHeader}>{t('about/mediaResponses/title')}</Interaction.H3>
-        <Loader
-          loading={loading}
-          error={error}
-          render={() => <>
-            {data.mediaResponses.map((mediaResponse, index) => (
-              <Editorial.P {...styles.faqCta} key={index}>
-                {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
-                <a {...styles.link} href={mediaResponse.url} target='_blank'>{mediaResponse.title}</a>
-              </Editorial.P>
-            )
-            )}
-          </>}
-        />
-      </Center>
+
     </Fragment>
   )
 }

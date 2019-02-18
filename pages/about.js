@@ -9,9 +9,8 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const AboutPage = ({ t, me, isMember, inNativeIOSApp }) => {
+const AboutPage = ({ t }) => {
   const meta = {
-    pageTitle: t('pages/about/pageTitle'),
     title: t('pages/about/title'),
     description: t('pages/about/description'),
     image: `${CDN_FRONTEND_BASE_URL}/static/team/bern.jpg`,

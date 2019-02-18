@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-14T10:10:21.554Z",
+  "updated": "2019-02-18T15:24:05.357Z",
   "title": "live",
   "data": [
     {
@@ -4473,6 +4473,70 @@
     {
       "key": "pages/bookmarks/placeholder/feedText",
       "value": "Feed"
+    },
+    {
+      "key": "styleguide/TeaserFeed/InternalOnlyTag",
+      "value": "Nur intern publiziert"
+    },
+    {
+      "key": "pages/about/title",
+      "value": "Das sind wir"
+    },
+    {
+      "key": "pages/about/lead",
+      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern. Gemeinsam sind wir eine Rebellion gegen die Medienkonzerne, für die Medienvielfalt. Unabhängig, werbefrei – und mit nur einem Ziel: begeisternden Journalismus zu liefern."
+    },
+    {
+      "key": "pages/about/audience/title",
+      "value": "Über {count} Leserinnen pro Monat"
+    },
+    {
+      "key": "pages/about/audience/text",
+      "value": "Klein genug, um zu überleben. Gross genug, um Wirkung zu haben. Das war 2018 der Plan beim Start der Republik. Heute machen wir tatsächlich immer wieder einen Unterschied. {emphasis1} Für unsere wachsende Leserschaft. Und die Öffentlichkeit. Manchmal gelingt es. Manchmal scheitern wir. Immer arbeiten wir hart daran. Versprochen!"
+    },
+    {
+      "key": "pages/about/audience/text/emphasis1",
+      "value": "Die Mächtigen beobachten, kritisieren, die Gesellschaft bewegen, Fragen klären, Debatten anstossen: Das ist unser Service."
+    },
+    {
+      "key": "pages/about/publishers/title",
+      "value": "{count} Verleger"
+    },
+    {
+      "key": "pages/about/publishers/text",
+      "value": "Ein neues Geschäftsmodell für unabhängigen Journalismus schaffen wir nur gemeinsam – oder gar nicht. Deshalb gehört die Republik nicht nur uns Macherinnen, sondern auch ihren Lesern. {emphasis1} Ohne ihre aktuell {count} Verlegerinnen wäre die Republik – nichts! Täglich kommen neue Unterstützer an Bord. Bald auch Sie?"
+    },
+    {
+      "key": "pages/about/publishers/text/emphasis1",
+      "value": "Journalismus braucht ein aufmerksames, neugieriges und furchtloses Publikum, das bereit ist, in unabhängigen Journalismus zu investieren."
+    },
+    {
+      "key": "pages/about/output/title",
+      "value": "{count}  Produktionen"
+    },
+    {
+      "key": "pages/about/output/text",
+      "value": "Die Republik erscheint von Montag bis Samstag – {emphasis1} Und liefert Ihnen {emphasis2} zu den wichtigsten Fragen der Gegenwart. Weniger, dafür besser: Das ist unser Anspruch. Und Sie besuchen uns, wann Sie wollen: täglich, wöchentlich, monatlich. Brisante Recherchen, erhellende Analysen und Debatten, unterhaltsame Essays. In Texten, Bildern, Podcasts, Videos, Grafiken – und live an Veranstaltungen."
+    },
+    {
+      "key": "pages/about/output/text/emphasis1",
+      "value": "auf der Website, als Newsletter, in der App."
+    },
+    {
+      "key": "pages/about/output/text/emphasis2",
+      "value": "täglich ein bis drei Beiträge"
+    },
+    {
+      "key": "pages/about/employees/title",
+      "value": "{count} Macherinnen"
+    },
+    {
+      "key": "pages/about/employees/text",
+      "value": "Unsere Crew ist Ihr persönliches Expeditionsteam in die Wirklichkeit. Wir arbeiten uns durch den Staub der Welt, trennen Wichtiges von Unwichtigem – und liefern Ihnen in der verworrenen Gegenwart die bestmögliche Übersicht. Doch die Republik ist mehr als Ihre Redaktion. Vom Community-Team über die Marketing-Expertinnen bis zum Erste-Hilfe-Team."
+    },
+    {
+      "key": "pages/about/mediaResponses/title",
+      "value": "Das sagen andere über uns"
     }
   ]
 }

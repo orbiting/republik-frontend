@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-14T10:10:21.554Z",
+  "updated": "2019-02-14T17:51:42.716Z",
   "title": "live",
   "data": [
     {
@@ -4473,6 +4473,10 @@
     {
       "key": "pages/bookmarks/placeholder/feedText",
       "value": "Feed"
+    },
+    {
+      "key": "styleguide/TeaserFeed/InternalOnlyTag",
+      "value": "Nur intern publiziert"
     }
   ]
 }

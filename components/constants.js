@@ -24,6 +24,7 @@ export const ZINDEX_BOTTOM_PANEL = 16
 export const ZINDEX_CONTENT = 15
 export const ZINDEX_FOOTER = 11
 export const ZINDEX_SIDEBAR = 10
+export const ZINDEX_FEED_STICKY_SECTION_LABEL = 2
 export const ZINDEX_FRAME_TOGGLE = 1
 
 export const DEFAULT_TOKEN_TYPE = 'EMAIL_TOKEN'

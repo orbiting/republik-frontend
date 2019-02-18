@@ -1,5 +1,9 @@
 import { Component } from 'react'
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE,
+  ZINDEX_FEED_STICKY_SECTION_LABEL
+} from '../constants'
 import { css } from 'glamor'
 import { mediaQueries, colors } from '@project-r/styleguide'
 import PropTypes from 'prop-types'
@@ -27,7 +31,8 @@ const style = {
   label: css({
     padding: '8px 0',
     borderTop: '1px solid #000',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    zIndex: ZINDEX_FEED_STICKY_SECTION_LABEL
   }),
   sticky: css({
     top: HEADER_HEIGHT_MOBILE - 1,

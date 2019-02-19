@@ -75,10 +75,10 @@ const ProgressPrompt = compose(
           <H2>
             {t('article/progressprompt/headline')}
           </H2>
-          <P margin>
+          <P withMargin>
             {getFeatureDescription(t)}
           </P>
-          <P margin>
+          <P withMargin>
             <Emphasis>{t('article/progressprompt/question')}</Emphasis>
           </P>
           <div {...styles.actions}>

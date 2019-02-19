@@ -226,7 +226,6 @@ const FeuilletonMarketingPage = ({
                   minColumns={3}
                   maxColumns={6}
                   key={index}
-                // style={{ width: `${100 / employees.length}%` }}
                 />
               ))}
             </div>

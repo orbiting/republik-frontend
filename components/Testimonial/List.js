@@ -31,7 +31,7 @@ const SIZES = [
   { minWidth: 400, columns: 3 },
   { minWidth: 600, columns: 4 },
   { minWidth: 880, columns: 5 },
-  { minWidth: 1200, columns: 6 }
+  { minWidth: 1050, columns: 6 }
 ]
 
 const PADDING = 5

@@ -274,7 +274,12 @@ class Progress extends Component {
       if (progressElement) {
         setTimeout(() => {
           const { top } = progressElement.getBoundingClientRect()
-          window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
+          const isInViewport = top - headerHeight > 0 && top < window.innerHeight
+          // We don't scroll on mobile if the element of interest is already in viewport
+          // This may happen on swipe navigation in iPhone X.
+          if (!this.mobile() || !isInViewport) {
+            window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
+          }
           setTimeout(() => {
             this.setState({
               initialized: true,

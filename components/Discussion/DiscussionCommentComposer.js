@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { compose } from 'react-apollo'
+import uuid from 'uuid/v4'
 import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
@@ -55,7 +56,10 @@ class DiscussionCommentComposer extends PureComponent {
         state: 'submitting'
       })
 
-      this.props.submitComment(null, content, tags).then(
+      const newId = uuid()
+      this.props.addCreatedId && this.props.addCreatedId(newId)
+
+      this.props.submitComment(newId, null, content, tags).then(
         (res) => {
           this.setState({
             state: 'idle',

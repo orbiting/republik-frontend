@@ -22,16 +22,17 @@ const ProfileLink = ({ children, userId, username }) => {
 
 const Employee = ({ name, title, user, style, minColumns, maxColumns }) => {
   const displayName = name + (title ? `, ${title}` : '')
+  const columnProps = { minColumns, maxColumns }
   if (!user) {
-    return <Item name={displayName} style={{ cursor: 'default', ...style }} minColumns={minColumns} maxColumns={maxColumns} />
+    return <Item name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
   const { id, hasPublicProfile, portrait, username } = user
   if (!hasPublicProfile) {
-    return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} minColumns={minColumns} maxColumns={maxColumns} />
+    return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
   return (
     <ProfileLink userId={id} username={username}>
-      <Item image={portrait} name={displayName} style={style} minColumns={minColumns} maxColumns={maxColumns} />
+      <Item image={portrait} name={displayName} style={style} {...columnProps} />
     </ProfileLink>
   )
 }

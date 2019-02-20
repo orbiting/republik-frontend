@@ -21,7 +21,7 @@ import withT from '../../lib/withT'
 import Employee from '../Imprint/Employee'
 
 const query = gql`
-query feuilletonMarketingPage {
+query AboutPage {
   membershipStats {
     count
   }
@@ -77,33 +77,10 @@ const styles = {
       marginBottom: 80
     }
   }),
-  format: css({
-    color: colors.feuilleton
-  }),
-  quote: css({
-    textAlign: 'center',
-    margin: '50px 0',
-    [mediaQueries.lUp]: {
-      margin: '80px 0'
-    }
-  }),
   employees: css({
     display: 'flex',
     margin: '0 auto',
     maxWidth: '473px'
-  }),
-  communityWidget: css({
-    margin: '50px auto',
-    maxWidth: '974px',
-    [mediaQueries.mUp]: {
-      margin: '0 auto 80px auto'
-    }
-  }),
-  faqHeader: css({
-    marginBottom: 10,
-    [mediaQueries.lUp]: {
-      marginBottom: 20
-    }
   }),
   faqCta: css({
     margin: '10px 0',
@@ -137,7 +114,7 @@ const Subheader2 = ({ children }) => (
   <Interaction.H3 {...styles.subheader}>{children}</Interaction.H3>
 )
 
-const FeuilletonMarketingPage = ({
+const AboutPage = ({
   t,
   data,
   data: { membershipStats, documents, employees, mediaResponses, loading, error }
@@ -145,10 +122,10 @@ const FeuilletonMarketingPage = ({
   const publishersCount = membershipStats
     ? countFormat(membershipStats.count)
     : `~${countFormat(22500)}`
-
   const employeesCount = employees && employees.length
     ? employees.length
     : 60
+  const documentsCount = documents && documents.totalCount
 
   return (
     <Fragment>
@@ -183,7 +160,7 @@ const FeuilletonMarketingPage = ({
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader>{t('pages/about/output/title', { count: documents && documents.totalCount })}</Subheader>
+          <Subheader>{t('pages/about/output/title', { count: documentsCount })}</Subheader>
           <P>
             {t.elements('pages/about/output/text', {
               emphasis1: <Emphasis>{t('pages/about/output/text/emphasis1')}</Emphasis>,
@@ -206,15 +183,16 @@ const FeuilletonMarketingPage = ({
           <Loader
             loading={loading}
             error={error}
-            render={() => <>
-              {data.mediaResponses.map((mediaResponse, index) => (
-                <P {...styles.faqCta} key={index}>
-                  {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
-                  <a {...styles.link} href={mediaResponse.url} target='_blank'>{mediaResponse.title}</a>
-                </P>
-              )
-              )}
-          </>}
+            render={() => (
+              <Fragment>
+                {data.mediaResponses.map((mediaResponse, index) => (
+                  <P {...styles.faqCta} key={index}>
+                    {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
+                    <a {...styles.link} href={mediaResponse.url} target='_blank'>{mediaResponse.title}</a>
+                  </P>
+                ))}
+              </Fragment>
+            )}
           />
         </section>
         {employees && employees.length && <Fragment>
@@ -255,4 +233,4 @@ export default compose(
       }
     }
   })
-)(FeuilletonMarketingPage)
+)(AboutPage)

@@ -123,7 +123,11 @@ class Comments extends PureComponent {
       onCreate: (comment, parentId = 'root') => {
         this.setState(({ subIdMap }) => {
           const subIds = subIdMap[parentId] || []
-          subIds.push(comment.id)
+
+          const { getSelfCreatedIds } = this.props
+          if (!getSelfCreatedIds || getSelfCreatedIds().indexOf(comment.id) === -1) {
+            subIds.push(comment.id)
+          }
 
           debug('onCreate', parentId, subIds)
           return {
@@ -224,8 +228,7 @@ class Comments extends PureComponent {
       discussionClosed,
       data: { discussion },
       now,
-      sharePath,
-      getSelfCreatedIds
+      sharePath
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -317,9 +320,7 @@ class Comments extends PureComponent {
           SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
         }
         const directCount = directCounts[comment.id] || 0
-        const subCount = (subIdMap[comment.id] || [])
-          .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
-          .length
+        const subCount = (subIdMap[comment.id] || []).length
 
         if (comment.comments.directTotalCount + subCount > directCount) {
           const count = counts[comment.id] || 0
@@ -445,9 +446,7 @@ class Comments extends PureComponent {
       const nextIsChild = !!next && next.parentIds.indexOf(comment.id) !== -1
       const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
 
-      const subCount = (subIdMap[comment.id] || [])
-        .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
-        .length
+      const subCount = (subIdMap[comment.id] || []).length
       const hasChildren = comment.comments.totalCount + subCount > 0
 
       const head = (nextIsChild || hasChildren) && !prevIsThread
@@ -605,8 +604,7 @@ class Comments extends PureComponent {
       t,
       data: { loading, error, discussion },
       fetchMore,
-      meta,
-      getSelfCreatedIds
+      meta
     } = this.props
 
     const {
@@ -627,9 +625,7 @@ class Comments extends PureComponent {
           const accumulator = this.renderComments(nodes)
 
           // discussion root load more
-          const subCount = subIdMap.root
-            .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
-            .length
+          const subCount = subIdMap.root.length
 
           const tailCount = totalCount - accumulator.count + subCount
           const tail = tailCount > 0 && (
@@ -702,7 +698,7 @@ export default compose(
   isAdmin,
   submitComment,
   graphql(query, {
-    props: ({ ownProps: { discussionId, orderBy, getSelfCreatedIds }, data: { fetchMore, subscribeToMore, ...data } }) => ({
+    props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
       data,
       fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
         return fetchMore({

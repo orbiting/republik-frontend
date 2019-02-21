@@ -1,5 +1,6 @@
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+import uuid from 'uuid/v4'
 import mkDebug from 'debug'
 import { errorToString } from '../../lib/utils/errors'
 import withT from '../../lib/withT'
@@ -345,12 +346,13 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 ${fragments.comment}
 `, {
     props: ({ ownProps: { t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor }, mutate }) => ({
-      submitComment: (id, parent, content, tags = []) => {
+      submitComment: (parent, content, tags = []) => {
         if (!discussionDisplayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
         }
-        // Comment IDs are created client-side so that we can properly handle
-        // subscription notifications.
+        // Generate a new UUID for the comment. We do this client-side so that we can
+        // properly handle subscription notifications.
+        const id = uuid()
 
         const parentId = parent ? parent.id : null
         const parentIds = parent

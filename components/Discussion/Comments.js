@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import { format, parse } from 'url'
-import uuid from 'uuid/v4'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
@@ -88,9 +87,7 @@ class Comments extends PureComponent {
     }
 
     this.submitComment = (parent, ...args) => {
-      const newId = uuid()
-      this.props.addSelfCreatedId && this.props.addSelfCreatedId(newId)
-      return this.props.submitComment(newId, parent, ...args)
+      return this.props.submitComment(parent, ...args)
         .then(() => {
           if (parent) {
             this.setState(({ closedPortals }) => ({
@@ -131,12 +128,7 @@ class Comments extends PureComponent {
       onCreate: (comment, parentId = 'root') => {
         this.setState(({ subIdMap }) => {
           const subIds = subIdMap[parentId] || []
-
-          // ToDo: rm
-          // const { getSelfCreatedIds } = this.props
-          // if (!getSelfCreatedIds || getSelfCreatedIds().indexOf(comment.id) === -1) {
           subIds.push(comment.id)
-          // }
 
           debug('onCreate', parentId, subIds)
           return {

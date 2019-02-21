@@ -791,7 +791,7 @@ export default compose(
               return previousResult
             }
 
-            let firstLocalParent = []
+            const firstLocalParent = []
               .concat(comment.parentIds)
               .reverse()
               .find(parentId => {

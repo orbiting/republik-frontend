@@ -57,7 +57,7 @@ class DiscussionCommentComposer extends PureComponent {
       })
 
       const newId = uuid()
-      this.props.addCreatedId && this.props.addCreatedId(newId)
+      this.props.addSelfCreatedId && this.props.addSelfCreatedId(newId)
 
       this.props.submitComment(newId, null, content, tags).then(
         (res) => {

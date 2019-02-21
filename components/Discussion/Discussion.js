@@ -38,18 +38,18 @@ class Discussion extends PureComponent {
       orderBy: 'DATE', // DiscussionOrder
       reload: 0,
       now: Date.now(),
-      createdIds: []
+      selfCreatedIds: []
     }
 
-    this.addCreatedId = (id) => {
-      const { createdIds } = this.state
+    this.addSelfCreatedId = (id) => {
+      const { selfCreatedIds } = this.state
       this.setState({
-        createdIds: [...createdIds, id]
+        selfCreatedIds: [...selfCreatedIds, id]
       })
     }
 
-    this.getCreatedIds = () => {
-      return this.state.createdIds
+    this.getSelfCreatedIds = () => {
+      return this.state.selfCreatedIds
     }
   }
 
@@ -85,7 +85,7 @@ class Discussion extends PureComponent {
             depth={1}
             parentId={null}
             now={now}
-            addCreatedId={this.addCreatedId}
+            addSelfCreatedId={this.addSelfCreatedId}
           />
 
           <NotificationOptions discussionId={discussionId} mute={mute} />
@@ -114,8 +114,8 @@ class Discussion extends PureComponent {
             now={now}
             meta={meta}
             sharePath={sharePath}
-            addCreatedId={this.addCreatedId}
-            getCreatedIds={this.getCreatedIds}
+            addSelfCreatedId={this.addSelfCreatedId}
+            getSelfCreatedIds={this.getSelfCreatedIds}
           />
         </div>
       </Fragment>

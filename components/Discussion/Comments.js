@@ -89,7 +89,7 @@ class Comments extends PureComponent {
 
     this.submitComment = (parent, ...args) => {
       const newId = uuid()
-      this.props.addCreatedId && this.props.addCreatedId(newId)
+      this.props.addSelfCreatedId && this.props.addSelfCreatedId(newId)
       return this.props.submitComment(newId, parent, ...args)
         .then(() => {
           if (parent) {
@@ -225,7 +225,7 @@ class Comments extends PureComponent {
       data: { discussion },
       now,
       sharePath,
-      getCreatedIds
+      getSelfCreatedIds
     } = this.props
 
     const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
@@ -317,9 +317,9 @@ class Comments extends PureComponent {
           SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
         }
         const directCount = directCounts[comment.id] || 0
-        const subCount = (subIdMap[comment.id] || []).filter((subId) => {
-          return !getCreatedIds || getCreatedIds().indexOf(subId) === -1
-        }).length
+        const subCount = (subIdMap[comment.id] || [])
+          .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
+          .length
 
         if (comment.comments.directTotalCount + subCount > directCount) {
           const count = counts[comment.id] || 0
@@ -445,9 +445,9 @@ class Comments extends PureComponent {
       const nextIsChild = !!next && next.parentIds.indexOf(comment.id) !== -1
       const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
 
-      const subCount = (subIdMap[comment.id] || []).filter((subId) => {
-        return !getCreatedIds || getCreatedIds().indexOf(subId) === -1
-      }).length
+      const subCount = (subIdMap[comment.id] || [])
+        .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
+        .length
       const hasChildren = comment.comments.totalCount + subCount > 0
 
       const head = (nextIsChild || hasChildren) && !prevIsThread
@@ -606,7 +606,7 @@ class Comments extends PureComponent {
       data: { loading, error, discussion },
       fetchMore,
       meta,
-      getCreatedIds
+      getSelfCreatedIds
     } = this.props
 
     const {
@@ -627,9 +627,9 @@ class Comments extends PureComponent {
           const accumulator = this.renderComments(nodes)
 
           // discussion root load more
-          const subCount = subIdMap.root.filter((subId) => {
-            return !getCreatedIds || getCreatedIds().indexOf(subId) === -1
-          }).length
+          const subCount = subIdMap.root
+            .filter((subId) => !getSelfCreatedIds || getSelfCreatedIds().indexOf(subId) === -1)
+            .length
 
           const tailCount = totalCount - accumulator.count + subCount
           const tail = tailCount > 0 && (
@@ -702,7 +702,7 @@ export default compose(
   isAdmin,
   submitComment,
   graphql(query, {
-    props: ({ ownProps: { discussionId, orderBy, getCreatedIds }, data: { fetchMore, subscribeToMore, ...data } }) => ({
+    props: ({ ownProps: { discussionId, orderBy, getSelfCreatedIds }, data: { fetchMore, subscribeToMore, ...data } }) => ({
       data,
       fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
         return fetchMore({
@@ -798,11 +798,6 @@ export default compose(
                 return nodes.find(c => c.id === parentId)
               })
             debug('subscribe:onCreate', 'firstLocalParent', firstLocalParent)
-
-            if (!firstLocalParent && comment.parentIds.length > 0) {
-              firstLocalParent = [...comment.parentIds].pop()
-            }
-            console.log(firstLocalParent)
             onCreate(comment, firstLocalParent)
 
             return previousResult

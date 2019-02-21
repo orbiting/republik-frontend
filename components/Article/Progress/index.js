@@ -196,9 +196,11 @@ class Progress extends Component {
       this.setState({
         progressElementIndex: nextIndex
       })
+
       return {
         nodeId: progressElement && progressElement.getAttribute('data-pos'),
-        percentage: this.getPercentage()
+        percentage: this.getPercentage(),
+        elementIndex: nextIndex
       }
     }
 
@@ -237,7 +239,13 @@ class Progress extends Component {
           // We only persist progress for a downward scroll, but we still measure
           // an upward scroll to keep track of the current reading position.
           const progress = this.measureProgress(downwards)
-          if (downwards && progress && progress.nodeId && progress.percentage > 0) {
+          if (
+            downwards &&
+            progress &&
+            progress.nodeId &&
+            progress.percentage > 0 &&
+            progress.elementIndex > 1 // ignore first two elements.
+          ) {
             this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
           }
         })

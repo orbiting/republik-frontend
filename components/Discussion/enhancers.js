@@ -331,7 +331,7 @@ export const submitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
   graphql(gql`
-mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]!) {
+mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content, tags: $tags) {
     ...Comment
     discussion {
@@ -346,7 +346,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 ${fragments.comment}
 `, {
     props: ({ ownProps: { t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor }, mutate }) => ({
-      submitComment: (parent, content, tags = []) => {
+      submitComment: (parent, content, tags) => {
         if (!discussionDisplayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
         }

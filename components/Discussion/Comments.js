@@ -109,7 +109,10 @@ class Comments extends PureComponent {
     if (!discussion) {
       return
     }
-    const { nodes } = discussion.comments
+    const nodes = discussion.comments && discussion.comments.nodes
+    if (!nodes) {
+      return
+    }
 
     const cleanSubIds = subIds.filter(id => !nodes.find(c => c.id === id))
 
@@ -148,6 +151,9 @@ class Comments extends PureComponent {
   componentWillReceiveProps (nextProps) {
     if (this.props.reload !== nextProps.reload) {
       this.props.data.refetch()
+    }
+    if (!this.props.data || !nextProps.data) {
+      return
     }
     if (this.props.data.discussion !== nextProps.data.discussion) {
       this.clearSubIds('root')

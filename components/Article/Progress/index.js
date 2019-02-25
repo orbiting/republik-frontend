@@ -244,12 +244,14 @@ class Progress extends Component {
           // We only persist progress for a downward scroll, but we still measure
           // an upward scroll to keep track of the current reading position.
           const progress = this.measureProgress(downwards)
+          const storedUserProgress = this.props.article && this.props.article.userProgress
           if (
             downwards &&
             progress &&
             progress.nodeId &&
             progress.percentage > 0 &&
-            progress.elementIndex > 1 // ignore first two elements.
+            progress.elementIndex > 1 && // ignore first two elements.
+            (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
           ) {
             this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
           }
@@ -381,6 +383,7 @@ class Progress extends Component {
     const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
     const {
       children,
+      article,
       myProgressConsent,
       revokeConsent,
       submitConsent,
@@ -390,6 +393,7 @@ class Progress extends Component {
 
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
+    const updatedAt = article && article.userProgress && article.userProgress.updatedAt
 
     const progressPrompt = showConsentPrompt && isArticle
       ? (
@@ -413,7 +417,7 @@ class Progress extends Component {
         {progressPrompt}
         {children}
         {showBackToTopButton && (
-          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} />
+          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} updatedAt={updatedAt} />
         )}
         {debug && (
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>

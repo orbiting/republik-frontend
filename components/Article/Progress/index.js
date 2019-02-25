@@ -83,7 +83,12 @@ class Progress extends Component {
     }
 
     this.poll = (userProgress) => {
-      if (!userProgress || !this.props.isArticle || (!userProgress.nodeId && !userProgress.percentage)) {
+      if (
+        !userProgress ||
+        !this.props.isArticle ||
+        (!userProgress.nodeId && !userProgress.percentage) ||
+        userProgress.percentage === 1
+      ) {
         this.setState({ initialized: true })
         return
       }

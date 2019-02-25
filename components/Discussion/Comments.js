@@ -97,23 +97,34 @@ class Comments extends PureComponent {
               }
             }))
           }
+          this.clearSubIds(parent ? parent.id : 'root')
         })
     }
   }
   clearSubIds (parentId) {
-    this.setState(({ subIdMap }) => {
-      const { nodes } = this.props.data.discussion.comments
+    const { subIdMap } = this.state
+    const subIds = subIdMap[parentId] || []
 
-      const subIds = (subIdMap[parentId] || [])
-        .filter(id => !nodes.find(c => c.id === id))
+    const { discussion } = this.props.data
+    if (!discussion) {
+      return
+    }
+    const nodes = discussion.comments && discussion.comments.nodes
+    if (!nodes) {
+      return
+    }
+
+    const cleanSubIds = subIds.filter(id => !nodes.find(c => c.id === id))
+
+    if (subIds.length !== cleanSubIds.length) {
       debug('clearSubIds', parentId, subIds)
-      return {
+      this.setState({
         subIdMap: {
           ...subIdMap,
-          [parentId]: subIds
+          [parentId]: cleanSubIds
         }
-      }
-    })
+      })
+    }
   }
   componentDidMount () {
     this.unsubscribe = this.props.subscribe({
@@ -140,6 +151,12 @@ class Comments extends PureComponent {
   componentWillReceiveProps (nextProps) {
     if (this.props.reload !== nextProps.reload) {
       this.props.data.refetch()
+    }
+    if (!this.props.data || !nextProps.data) {
+      return
+    }
+    if (this.props.data.discussion !== nextProps.data.discussion) {
+      this.clearSubIds('root')
     }
   }
   componentWillUnmount () {

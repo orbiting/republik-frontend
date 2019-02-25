@@ -233,7 +233,8 @@ class ArticlePage extends Component {
           payload: {
             url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
             title,
-            sourcePath: path
+            sourcePath: path,
+            mediaId: audioSource.mediaId
           }
         })
       } else {

@@ -332,8 +332,7 @@ class Progress extends Component {
           }
         }).catch(() => {
           resolve()
-        }
-        )
+        })
       })
     }
 

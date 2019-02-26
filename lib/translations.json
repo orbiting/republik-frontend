@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-25T16:17:53.822Z",
+  "updated": "2019-02-26T09:18:34.521Z",
   "title": "live",
   "data": [
     {
@@ -3064,7 +3064,7 @@
     },
     {
       "key": "article/progress/time/other",
-      "value": "vom {date}"
+      "value": "am {date}"
     },
     {
       "key": "merci/postpay/lead",

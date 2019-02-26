@@ -345,7 +345,6 @@ class ArticlePage extends Component {
           <AudioPlayer
             mediaId={audioSource.mediaId}
             src={audioSource}
-            userProgress={audioSource.userProgress}
             closeHandler={this.toggleAudio}
             autoPlay
             download

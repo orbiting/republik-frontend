@@ -1,4 +1,4 @@
-import { graphql, compose } from 'react-apollo'
+import { graphql, compose, withApollo } from 'react-apollo'
 import gql from 'graphql-tag'
 
 export const userProgressFragment = `
@@ -103,20 +103,25 @@ const upsertMediaProgressMutation = gql`
   }
 `
 
-export const userProgressOnAudioSourceFragment = `
-  fragment UserProgressOnAudioSource on AudioSource {
-    mediaId
-    durationMs
-    userProgress {
+export const mediaProgressQuery = gql`
+  query mediaProgress($mediaId: ID!) {
+    mediaProgress(mediaId: $mediaId) {
       id
+      mediaId
       secs
-      createdAt
-      updatedAt
     }
   }
 `
 
+export const userProgressOnAudioSourceFragment = `
+  fragment UserProgressOnAudioSource on AudioSource {
+    mediaId
+    durationMs
+  }
+`
+
 export const withProgressApi = compose(
+  withApollo,
   graphql(consentQuery, {
     props: ({ data, errors }) => ({
       data,

@@ -11,7 +11,7 @@ import { Spinner, mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
 
-import { withProgressApi } from './api'
+import { withProgressApi, mediaProgressQuery } from './api'
 
 const MAX_POLL_RETRIES = 3
 const SCROLLED_AWAY_PX = 100
@@ -39,8 +39,7 @@ class Progress extends Component {
       progressInitStarted: false,
       initialized: false,
       progressElementIndex: 0,
-      pollRetries: 0,
-      mediaProgress: undefined
+      pollRetries: 0
     }
 
     this.isTrackingAllowed = () => {
@@ -60,26 +59,8 @@ class Progress extends Component {
         : HEADER_HEIGHT
 
     this.initialize = (article) => {
-      const { userProgress, embeds, meta } = article
+      const { userProgress } = article
       this.poll(userProgress)
-
-      const audioSource = meta ? meta.audioSource : undefined
-      if (embeds || audioSource) {
-        let mediaProgress = {}
-        embeds.map(embed => {
-          if (embed.userProgress) {
-            mediaProgress[embed.mediaId] = embed.userProgress.secs
-          }
-        })
-        if (audioSource &&
-          audioSource.mediaId &&
-          audioSource.userProgress &&
-          audioSource.userProgress.secs
-        ) {
-          mediaProgress[audioSource.mediaId] = audioSource.userProgress.secs
-        }
-        this.setState({ mediaProgress })
-      }
     }
 
     this.poll = (userProgress) => {
@@ -340,8 +321,20 @@ class Progress extends Component {
     }, 5000, { 'trailing': false })
 
     this.getMediaProgress = (mediaId) => {
-      const { mediaProgress } = this.state
-      return mediaProgress ? mediaProgress[mediaId] : undefined
+      return new Promise((resolve, reject) => {
+        this.props.client.query({
+          query: mediaProgressQuery,
+          variables: { mediaId },
+          fetchPolicy: 'network-only'
+        }).then(({ data, errors }) => {
+          if (data.mediaProgress || data.mediaProgress === null) {
+            resolve(data.mediaProgress && data.mediaProgress.secs)
+          }
+        }).catch(() => {
+          resolve()
+        }
+        )
+      })
     }
 
     this.getChildContext = () => ({

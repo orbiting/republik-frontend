@@ -7,13 +7,13 @@ import { t } from '../../../lib/withT'
     'today',
     new Date(2019, 1, 15, 7, 14, 0),
     new Date(2019, 1, 15, 0, 0, 0),
-    'Ihre Leseposition von heute um 07:14 Uhr.'
+    'Ihre Leseposition heute um 07:14 Uhr.'
   ],
   [
     'yesterday',
     new Date(2019, 1, 14, 7, 14, 0),
     new Date(2019, 1, 15, 0, 0, 0),
-    'Ihre Leseposition von gestern um 07:14 Uhr.'
+    'Ihre Leseposition gestern um 07:14 Uhr.'
   ],
   [
     'two days ago',

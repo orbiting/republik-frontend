@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-26T09:18:34.521Z",
+  "updated": "2019-02-26T09:26:20.154Z",
   "title": "live",
   "data": [
     {
@@ -3056,11 +3056,11 @@
     },
     {
       "key": "article/progress/time/today",
-      "value": "von heute"
+      "value": "heute"
     },
     {
       "key": "article/progress/time/yesterday",
-      "value": "von gestern"
+      "value": "gestern"
     },
     {
       "key": "article/progress/time/other",

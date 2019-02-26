@@ -9,6 +9,10 @@ export const userProgressFragment = `
       nodeId
       createdAt
       updatedAt
+      max {
+        id
+        percentage
+      }
     }
   }
 `

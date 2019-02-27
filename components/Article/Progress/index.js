@@ -11,7 +11,7 @@ import { Spinner, mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
 
-import { withProgressApi } from './api'
+import { withProgressApi, mediaProgressQuery } from './api'
 
 const MAX_POLL_RETRIES = 3
 const SCROLLED_AWAY_PX = 100
@@ -39,8 +39,7 @@ class Progress extends Component {
       progressInitStarted: false,
       initialized: false,
       progressElementIndex: 0,
-      pollRetries: 0,
-      mediaProgress: undefined
+      pollRetries: 0
     }
 
     this.isTrackingAllowed = () => {
@@ -60,30 +59,17 @@ class Progress extends Component {
         : HEADER_HEIGHT
 
     this.initialize = (article) => {
-      const { userProgress, embeds, meta } = article
+      const { userProgress } = article
       this.poll(userProgress)
-
-      const audioSource = meta ? meta.audioSource : undefined
-      if (embeds || audioSource) {
-        let mediaProgress = {}
-        embeds.map(embed => {
-          if (embed.userProgress) {
-            mediaProgress[embed.mediaId] = embed.userProgress.secs
-          }
-        })
-        if (audioSource &&
-          audioSource.mediaId &&
-          audioSource.userProgress &&
-          audioSource.userProgress.secs
-        ) {
-          mediaProgress[audioSource.mediaId] = audioSource.userProgress.secs
-        }
-        this.setState({ mediaProgress })
-      }
     }
 
     this.poll = (userProgress) => {
-      if (!userProgress || !this.props.isArticle || (!userProgress.nodeId && !userProgress.percentage)) {
+      if (
+        !userProgress ||
+        !this.props.isArticle ||
+        (!userProgress.nodeId && !userProgress.percentage) ||
+        userProgress.percentage === 1
+      ) {
         this.setState({ initialized: true })
         return
       }
@@ -239,12 +225,14 @@ class Progress extends Component {
           // We only persist progress for a downward scroll, but we still measure
           // an upward scroll to keep track of the current reading position.
           const progress = this.measureProgress(downwards)
+          const storedUserProgress = this.props.article && this.props.article.userProgress
           if (
             downwards &&
             progress &&
             progress.nodeId &&
             progress.percentage > 0 &&
-            progress.elementIndex > 1 // ignore first two elements.
+            progress.elementIndex > 1 && // ignore first two elements.
+            (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
           ) {
             this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
           }
@@ -333,8 +321,13 @@ class Progress extends Component {
     }, 5000, { 'trailing': false })
 
     this.getMediaProgress = (mediaId) => {
-      const { mediaProgress } = this.state
-      return mediaProgress ? mediaProgress[mediaId] : undefined
+      return this.props.client.query({
+        query: mediaProgressQuery,
+        variables: { mediaId },
+        fetchPolicy: 'network-only'
+      }).then(({ data }) => {
+        return data.mediaProgress && data.mediaProgress.secs
+      })
     }
 
     this.getChildContext = () => ({
@@ -376,6 +369,7 @@ class Progress extends Component {
     const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
     const {
       children,
+      article,
       myProgressConsent,
       revokeConsent,
       submitConsent,
@@ -385,6 +379,7 @@ class Progress extends Component {
 
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
     const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
+    const updatedAt = article && article.userProgress && article.userProgress.updatedAt
 
     const progressPrompt = showConsentPrompt && isArticle
       ? (
@@ -408,7 +403,7 @@ class Progress extends Component {
         {progressPrompt}
         {children}
         {showBackToTopButton && (
-          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} />
+          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} updatedAt={updatedAt} />
         )}
         {debug && (
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>

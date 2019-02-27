@@ -3,7 +3,6 @@ import { compose, graphql } from 'react-apollo'
 import { max } from 'd3-array'
 import { css } from 'glamor'
 
-import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -74,7 +73,7 @@ class Account extends Component {
   }
 
   render () {
-    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, hasProlongPledge, merci, inNativeIOSApp, isEditor } = this.props
+    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, hasProlongPledge, merci, inNativeIOSApp } = this.props
 
     return <Loader
       loading={loading}
@@ -105,7 +104,7 @@ class Account extends Component {
                     nameOrEmail: me.name || me.email
                   })}
                 </H1>}
-                <Anchors isEditor={isEditor} />
+                <Anchors />
                 {hasMemberships && inNativeIOSApp &&
                 <Box style={{ padding: 14, marginBottom: 20 }}>
                   <P>
@@ -156,12 +155,10 @@ class Account extends Component {
                   <NotificationOptions />
                 </AccountAnchor>
 
-                {isEditor && (
-                  <AccountAnchor id='position'>
-                    <H2>{t('account/progress/title')}</H2>
-                    <ProgressSettings />
-                  </AccountAnchor>
-                )}
+                <AccountAnchor id='position'>
+                  <H2>{t('account/progress/title')}</H2>
+                  <ProgressSettings />
+                </AccountAnchor>
 
                 {APP_OPTIONS && <AccountAnchor id='anmeldung'>
                   <H2>{t('account/authSettings/title')}</H2>
@@ -178,7 +175,6 @@ class Account extends Component {
 export default compose(
   withMe,
   withT,
-  withEditor, // TODO: remove withEditor for public progress launch.
   withInNativeApp,
   graphql(query, {
     props: ({ data }) => {

@@ -155,7 +155,6 @@ class Progress extends Component {
           }
           const fillsHeight = top < headerHeight && headerHeight + top + height > window.innerHeight
           if (top > headerHeight || fillsHeight) {
-            this.props.debug && console.log('found downwards', progressElement)
             nextIndex = i
             break
           }
@@ -165,14 +164,12 @@ class Progress extends Component {
         for (let i = progressElementIndex; i > -1; i--) {
           progressElement = progressElements[i]
           if (i === 0) {
-            this.props.debug && console.log('found upwards', progressElement)
             break
           }
           const top = progressElement && progressElement.getBoundingClientRect().top
           if (top < headerHeight) {
             progressElement = progressElements[i + 1]
             nextIndex = i + 1
-            this.props.debug && console.log('found upwards', progressElement)
             break
           } else {
             progressElement = undefined
@@ -366,15 +363,14 @@ class Progress extends Component {
   }
 
   render () {
-    const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
+    const { initialized, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
     const {
       children,
       article,
       myProgressConsent,
       revokeConsent,
       submitConsent,
-      isArticle,
-      debug // TODO: remove before public progress launch.
+      isArticle
     } = this.props
 
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
@@ -404,11 +400,6 @@ class Progress extends Component {
         {children}
         {showBackToTopButton && (
           <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} updatedAt={updatedAt} />
-        )}
-        {debug && (
-          <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
-            <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
-          </div>
         )}
       </div>
     )

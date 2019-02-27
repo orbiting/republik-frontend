@@ -321,18 +321,12 @@ class Progress extends Component {
     }, 5000, { 'trailing': false })
 
     this.getMediaProgress = (mediaId) => {
-      return new Promise((resolve, reject) => {
-        this.props.client.query({
-          query: mediaProgressQuery,
-          variables: { mediaId },
-          fetchPolicy: 'network-only'
-        }).then(({ data, errors }) => {
-          if (data.mediaProgress || data.mediaProgress === null) {
-            resolve(data.mediaProgress && data.mediaProgress.secs)
-          }
-        }).catch(() => {
-          resolve()
-        })
+      return this.props.client.query({
+        query: mediaProgressQuery,
+        variables: { mediaId },
+        fetchPolicy: 'network-only'
+      }).then(({ data }) => {
+        return Promise.resolve(data.mediaProgress && data.mediaProgress.secs)
       })
     }
 

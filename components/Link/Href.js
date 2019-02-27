@@ -16,16 +16,18 @@ export default ({ href, passHref, children, query }) => {
   if (!href) {
     return children
   }
-  const urlObject = parse(href)
+
+  const urlObject = parse(href, true)
   if (urlObject.hostname && urlObject.hostname !== PUBLIC_HOSTNAME) {
     // do nothing if url has a hostname and it's not ours
     return children
   }
+
   const path = urlObject.pathname
 
   return <PathLink
     path={path}
     passHref={passHref}
     children={children}
-    query={query} />
+    query={{ ...urlObject.query, ...query }} />
 }

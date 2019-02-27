@@ -326,7 +326,7 @@ class Progress extends Component {
         variables: { mediaId },
         fetchPolicy: 'network-only'
       }).then(({ data }) => {
-        return Promise.resolve(data.mediaProgress && data.mediaProgress.secs)
+        return data.mediaProgress && data.mediaProgress.secs
       })
     }
 

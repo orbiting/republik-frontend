@@ -33,11 +33,11 @@ const styles = {
     position: 'relative',
     '& > button': {
       flexGrow: 1,
-      margin: '0 15px 10px 0',
+      margin: '5px 15px 0 0',
       minWidth: '120px',
       [mediaQueries.mUp]: {
         flexGrow: 0,
-        margin: '0 15px 20px 0',
+        margin: '5px 15px 0 0',
         minWidth: '160px'
       }
     }
@@ -76,15 +76,15 @@ const ProgressPrompt = compose(
           </P>
           <P withMargin>
             <Emphasis>{t('article/progressprompt/question')}</Emphasis>
+            <span {...styles.actions}>
+              <Button onClick={onSubmitConsent}>
+                {t('article/progressprompt/button/confirm')}
+              </Button>
+              <Button onClick={onRevokeConsent}>
+                {t('article/progressprompt/button/reject')}
+              </Button>
+            </span>
           </P>
-          <div {...styles.actions}>
-            <Button onClick={onSubmitConsent}>
-              {t('article/progressprompt/button/confirm')}
-            </Button>
-            <Button onClick={onRevokeConsent}>
-              {t('article/progressprompt/button/reject')}
-            </Button>
-          </div>
           <P>
             {t.elements('article/progressprompt/description/settings', {
               link: (

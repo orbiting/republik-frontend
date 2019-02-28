@@ -70,24 +70,6 @@ const revokeConsentMutation = gql`
   ${userConsentFragment}
 `
 
-export const embedsOnDocumentFragment = `
-  fragment EmbedsOnDocument on Document {
-    embeds {
-      __typename
-      ... on PlayableMedia {
-        mediaId
-        durationMs
-        userProgress {
-          id
-          secs
-          createdAt
-          updatedAt
-        }
-      }
-    }
-  }
-`
-
 const upsertMediaProgressMutation = gql`
   mutation upsertMediaProgress(
     $mediaId: ID!

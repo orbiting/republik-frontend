@@ -25,7 +25,6 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import Progress from './Progress'
 import {
-  embedsOnDocumentFragment,
   userProgressFragment,
   userProgressOnAudioSourceFragment
 } from './Progress/api'
@@ -110,7 +109,6 @@ const getDocument = gql`
       content
       ...BookmarkOnDocument
       ...UserProgressOnDocument
-      ...EmbedsOnDocument
       meta {
         template
         path
@@ -187,7 +185,6 @@ const getDocument = gql`
   ${onDocumentFragment}
   ${userProgressFragment}
   ${userProgressOnAudioSourceFragment}
-  ${embedsOnDocumentFragment}
 `
 
 const runMetaFromQuery = (code, query) => {

@@ -206,7 +206,7 @@ class Statements extends Component {
                             <div {...styles.questionRank}>{index + 1}.</div>
                             <div {...styles.question} >{Comment.renderComment(content)}</div>
 
-                            {isMember &&
+                            {false && isMember &&
                             <div {...styles.rightActions}>
                               <div {...styles.votes}>
                                 <Mutation
@@ -261,7 +261,7 @@ class Statements extends Component {
             }}
           />
 
-          {isMember &&
+          {false && isMember &&
           <div style={{ marginTop: 10 }}>
             {isComposing &&
             <Fragment>

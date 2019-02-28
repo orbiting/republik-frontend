@@ -189,7 +189,7 @@ class Progress extends Component {
 
     this.getProgressElements = () => {
       const progressElements = this.container
-        ? [...this.container.querySelectorAll('[data-pos]')]
+        ? Array.from(this.container.querySelectorAll('[data-pos]'))
         : []
       return progressElements
     }

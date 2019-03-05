@@ -580,17 +580,17 @@ class ArticlePage extends Component {
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>
-              {!isFormat && (
-                <PayNote.After
-                  variation={payNoteVariation}
-                  bottomBarRef={this.bottomBarRef} />
-              )}
               {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
                 <Center>
                   <AutoDiscussionTeaser
                     discussionId={ownDiscussion.id}
                   />
                 </Center>
+              )}
+              {!isFormat && (
+                <PayNote.After
+                  variation={payNoteVariation}
+                  bottomBarRef={this.bottomBarRef} />
               )}
               {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
@@ -610,7 +610,7 @@ class ArticlePage extends Component {
               )}
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              {isMember && (
+              {(isMember || isFormat) && (
                 <Fragment>
                   <br />
                   <br />

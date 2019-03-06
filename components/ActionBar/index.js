@@ -70,6 +70,12 @@ class ActionBar extends Component {
         onClick: e => {
           e.preventDefault()
 
+          track([
+            'trackEvent',
+            'ActionBar',
+            'share',
+            url
+          ])
           if (inNativeApp) {
             postMessage({
               type: 'share',
@@ -83,12 +89,6 @@ class ActionBar extends Component {
             e.target.blur()
           } else {
             this.toggleShare()
-            track([
-              'trackEvent',
-              'ActionBar',
-              'share',
-              url
-            ])
           }
         },
         title: t('article/actionbar/share')
@@ -122,6 +122,12 @@ class ActionBar extends Component {
         href: '#audio',
         onClick: e => {
           e.preventDefault()
+          track([
+            'trackEvent',
+            'ActionBar',
+            'audio',
+            url
+          ])
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio')
@@ -131,6 +137,12 @@ class ActionBar extends Component {
         href: '#gallery',
         onClick: e => {
           e.preventDefault()
+          track([
+            'trackEvent',
+            'ActionBar',
+            'gallery',
+            url
+          ])
           onGalleryClick && onGalleryClick()
         },
         title: t('feed/actionbar/gallery'),

@@ -525,7 +525,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
           discussionId,
           discussionPreferences: {
             anonymity,
-            credential,
+            credential: credential && credential.trim() ? credential : null,
             notifications
           }
         },

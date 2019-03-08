@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-08T14:06:31.984Z",
+  "updated": "2019-03-08T15:24:44.409Z",
   "title": "live",
   "data": [
     {
@@ -2003,8 +2003,8 @@
       "value": "Rolle"
     },
     {
-      "key": "components/DiscussionPreferences/newCredentialLabel",
-      "value": "Neue Rolle erstellen"
+      "key": "components/DiscussionPreferences/existingCredentialLabel",
+      "value": "Ihre bisherigen Rollen:"
     },
     {
       "key": "components/DiscussionPreferences/loading",

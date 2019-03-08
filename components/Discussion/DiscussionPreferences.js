@@ -5,7 +5,6 @@ import withT from '../../lib/withT'
 import {
   Loader,
   Field,
-  Dropdown,
   Checkbox,
   Overlay,
   OverlayToolbar,
@@ -13,9 +12,15 @@ import {
   OverlayToolbarConfirm,
   OverlayBody,
   Interaction,
-  Label
+  Label,
+  A
 } from '@project-r/styleguide'
-import { withDiscussionPreferences, withSetDiscussionPreferences } from './enhancers'
+
+import {
+  withDiscussionPreferences,
+  withSetDiscussionPreferences
+} from './enhancers'
+import Credential from '../Credential'
 
 export const DiscussionPreferences = ({ t, data: { loading, error, me, discussion }, onClose, setDiscussionPreferences }) => (
   <Overlay onClose={onClose}>
@@ -118,22 +123,10 @@ class DiscussionPreferencesEditor extends PureComponent {
       }
     })()
 
-    const descriptionOptions = credentials.map(cred => ({
-      value: cred.description,
-      text: cred.description
-    }))
-
-    // Append the credential string to the options if it doesn't appear in them
-    // (ie. user has entered a new one into the input field).
-    if (descriptionOptions.indexOf(item => item.text === this.state.credential) === -1) {
-      descriptionOptions.push({
-        value: this.state.credential,
-        text: this.state.credential
-      })
-    }
-
     const existingCredential = credentials.find(c => c.description === this.state.credential)
     const isListedCredential = existingCredential && existingCredential.isListed
+
+    const credentialSuggestions = credentials.filter(c => c.description !== this.state.credential)
 
     return (
       <div>
@@ -158,23 +151,33 @@ class DiscussionPreferencesEditor extends PureComponent {
             <Label>{t('components/DiscussionPreferences/commentAnonymously/disclaimer')}</Label>
           </div>}
 
-          <Dropdown
-            label={t('components/DiscussionPreferences/credentialLabel')}
-            items={descriptionOptions}
-            value={this.state.credential}
-            onChange={(item) => {
-              this.setState({ credential: item.value })
-            }}
-          />
-
           <Field
-            label={t('components/DiscussionPreferences/newCredentialLabel')}
+            label={t('components/DiscussionPreferences/credentialLabel')}
             value={this.state.credential}
             onChange={(_, value) => { this.setState({ credential: value }) }}
           />
           {isListedCredential && this.state.anonymity && (
-            <Label>{t('components/DiscussionPreferences/credentialAnonymityWarning')}</Label>
+            <div style={{ marginBottom: 10 }}>
+              <Label>{t('components/DiscussionPreferences/credentialAnonymityWarning')}</Label>
+            </div>
           )}
+
+          <Interaction.P>
+            {!!credentialSuggestions.length && (
+              <Label style={{ display: 'block', marginBottom: 5 }}>
+                {t('components/DiscussionPreferences/existingCredentialLabel')}
+              </Label>
+            )}
+            {credentialSuggestions.map(c => (
+              <A key={c.description} href='#use' style={{ display: 'block' }} onClick={(e) => {
+                e.preventDefault()
+                this.setState({ credential: c.description })
+              }}>
+                <Credential {...c} />
+              </A>
+            ))}
+          </Interaction.P>
+
         </OverlayBody>
       </div>
     )

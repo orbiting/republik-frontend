@@ -1,16 +1,15 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import MdCheck from 'react-icons/lib/md/check'
 
 import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
+import Credential from '../Credential'
 
 import {
   Label,
   A,
-  fontStyles,
-  colors
+  fontStyles
 } from '@project-r/styleguide'
 
 const styles = {
@@ -22,11 +21,6 @@ const styles = {
     ...fontStyles.sansSerifRegular16,
     overflow: 'hidden',
     textOverflow: 'ellipsis'
-  }),
-  verifiedCheck: css({
-    color: colors.text,
-    display: 'inline-block',
-    marginTop: -2
   })
 }
 
@@ -66,7 +60,7 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
               credential: c.description
             }
           })
-        }}>{c.description}</A>
+        }}><Credential {...c} /></A>
       ))}
     </Fragment>
   }
@@ -74,8 +68,8 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
   return (
     <Fragment>
       {publicOnes.map((credential, i) => (
-        <div key={i} {...styles.credential} title={(credential.verified && t('styleguide/comment/header/verifiedCredential', undefined, '')) || undefined}>
-          {credential.description} {credential.verified && <MdCheck {...styles.verifiedCheck} />}
+        <div key={i} {...styles.credential}>
+          <Credential textColor {...credential} />
         </div>
       ))}
     </Fragment>

@@ -18,7 +18,7 @@ export const getBookmarkedDocuments = gql`
             id
             createdAt
             document {
-              ...DocumentListDocument
+              ...FeedDocument
             }
           }
         }

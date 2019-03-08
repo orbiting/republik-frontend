@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-05T14:36:27.949Z",
+  "updated": "2019-03-08T14:06:31.984Z",
   "title": "live",
   "data": [
     {
@@ -1152,15 +1152,15 @@
     },
     {
       "key": "profile/credentials/label",
-      "value": "Funktion"
+      "value": "Rolle"
     },
     {
       "key": "profile/credentials/errors/tooLong",
-      "value": "Funktion, maximal 40 Zeichen"
+      "value": "Rolle, maximal 40 Zeichen"
     },
     {
       "key": "profile/credentials/private",
-      "value": "Funktionen aus den Diskussionen:"
+      "value": "Rollen aus den Diskussionen:"
     },
     {
       "key": "profile/contact/facebook/label",
@@ -1855,6 +1855,10 @@
       "value": "editiert"
     },
     {
+      "key": "styleguide/comment/header/verifiedCredential",
+      "value": "Verifizierte Rolle"
+    },
+    {
       "key": "styleguide/comment/edit/submit",
       "value": "bearbeiten"
     },
@@ -1996,11 +2000,11 @@
     },
     {
       "key": "components/DiscussionPreferences/credentialLabel",
-      "value": "Bezeichnung"
+      "value": "Rolle"
     },
     {
       "key": "components/DiscussionPreferences/newCredentialLabel",
-      "value": "Neue Bezeichnung erstellen"
+      "value": "Neue Rolle erstellen"
     },
     {
       "key": "components/DiscussionPreferences/loading",
@@ -2012,7 +2016,7 @@
     },
     {
       "key": "components/DiscussionPreferences/credentialAnonymityWarning",
-      "value": "Achtung: Die Bezeichnung ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen."
+      "value": "Achtung: Die Rolle ist öffentlich einsehbar und könnte Rückschlüsse auf Ihre Identität zulassen."
     },
     {
       "key": "discussion/displayUser/anonymous",

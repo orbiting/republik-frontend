@@ -30,8 +30,10 @@ const styles = {
 }
 
 const UserProgress = ({ t, userProgress }) => {
-  const { percentage } = userProgress
-  const percent = Math.round(percentage * 100)
+  const { percentage, max } = userProgress
+  const percent = !percentage && max && max.percentage === 1
+    ? 100
+    : Math.round(percentage * 100)
   if (!percent) {
     return null
   }

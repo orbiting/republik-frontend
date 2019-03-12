@@ -16,7 +16,6 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
 import Discussion from '../Discussion/Discussion'
-import Statements from '../Discussion/Statements'
 import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
@@ -80,8 +79,7 @@ const schemaCreators = {
 
 const dynamicComponentRequire = createRequire().alias({
   'react-apollo': reactApollo,
-  'graphql-tag': graphqlTag,
-  'Statements': Statements
+  'graphql-tag': graphqlTag
 })
 
 const getSchemaCreator = template => {
@@ -233,7 +231,8 @@ class ArticlePage extends Component {
           payload: {
             url: audioSource.aac || audioSource.mp3 || audioSource.ogg,
             title,
-            sourcePath: path
+            sourcePath: path,
+            mediaId: audioSource.mediaId
           }
         })
       } else {
@@ -344,7 +343,6 @@ class ArticlePage extends Component {
           <AudioPlayer
             mediaId={audioSource.mediaId}
             src={audioSource}
-            userProgress={audioSource.userProgress}
             closeHandler={this.toggleAudio}
             autoPlay
             download
@@ -580,17 +578,17 @@ class ArticlePage extends Component {
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>
-              {!isFormat && (
-                <PayNote.After
-                  variation={payNoteVariation}
-                  bottomBarRef={this.bottomBarRef} />
-              )}
               {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
                 <Center>
                   <AutoDiscussionTeaser
                     discussionId={ownDiscussion.id}
                   />
                 </Center>
+              )}
+              {!isFormat && (
+                <PayNote.After
+                  variation={payNoteVariation}
+                  bottomBarRef={this.bottomBarRef} />
               )}
               {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
@@ -610,7 +608,7 @@ class ArticlePage extends Component {
               )}
               {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              {isMember && (
+              {(isMember || isFormat) && (
                 <Fragment>
                   <br />
                   <br />

@@ -189,9 +189,7 @@ class Footer extends Component {
                 {t('footer/about/projecR')}
               </a>
               <br />
-              <Link route='researchBudget'>
-                <a>{t('footer/researchBudget')}</a>
-              </Link>
+              <a href='/etat'>{t('footer/researchBudget')}</a>
               <br />
               <a href='/whistleblower'>
                 {t('footer/whistleblower')}

@@ -4,6 +4,7 @@ import { css } from 'glamor'
 import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
+import Credential from '../Credential'
 
 import {
   Label,
@@ -59,7 +60,7 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
               credential: c.description
             }
           })
-        }}>{c.description}</A>
+        }}><Credential {...c} /></A>
       ))}
     </Fragment>
   }
@@ -68,7 +69,7 @@ const Credentials = ({ user, isEditing, onChange, values, errors, dirty, t }) =>
     <Fragment>
       {publicOnes.map((credential, i) => (
         <div key={i} {...styles.credential}>
-          {credential.description}
+          <Credential textColor {...credential} />
         </div>
       ))}
     </Fragment>

@@ -157,16 +157,14 @@ const modifyComment = (comment, id, onComment) => {
   }
 }
 
-export const upvoteCommentQuery = gql`
+export const upvoteComment = graphql(gql`
 mutation discussionUpvoteComment($commentId: ID!) {
   upvoteComment(id: $commentId) {
     ...Comment
   }
 }
 ${fragments.comment}
-`
-
-export const upvoteComment = graphql(upvoteCommentQuery, {
+`, {
   props: ({ mutate }) => ({
     upvoteComment: (commentId) => {
       return mutate({ variables: { commentId } }).catch(toRejectedString)
@@ -174,16 +172,14 @@ export const upvoteComment = graphql(upvoteCommentQuery, {
   })
 })
 
-export const downvoteCommentQuery = gql`
+export const downvoteComment = graphql(gql`
 mutation discussionDownvoteComment($commentId: ID!) {
   downvoteComment(id: $commentId) {
     ...Comment
   }
 }
 ${fragments.comment}
-`
-
-export const downvoteComment = graphql(downvoteCommentQuery, {
+`, {
   props: ({ mutate }) => ({
     downvoteComment: (commentId) => {
       return mutate({ variables: { commentId } }).catch(toRejectedString)
@@ -331,7 +327,7 @@ export const submitComment = compose(
   withT,
   withDiscussionDisplayAuthor,
   graphql(gql`
-mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]) {
+mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]!) {
   submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content, tags: $tags) {
     ...Comment
     discussion {
@@ -346,7 +342,7 @@ mutation discussionSubmitComment($discussionId: ID!, $parentId: ID, $id: ID!, $c
 ${fragments.comment}
 `, {
     props: ({ ownProps: { t, discussionId, parentId: ownParentId, orderBy, depth, focusId, discussionDisplayAuthor }, mutate }) => ({
-      submitComment: (parent, content, tags) => {
+      submitComment: (parent, content, tags = []) => {
         if (!discussionDisplayAuthor) {
           return Promise.reject(t('submitComment/noDisplayAuthor'))
         }
@@ -529,7 +525,7 @@ mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: Di
           discussionId,
           discussionPreferences: {
             anonymity,
-            credential,
+            credential: credential && credential.trim() ? credential : null,
             notifications
           }
         },

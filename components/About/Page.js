@@ -142,14 +142,15 @@ const AboutPage = ({
         </div>
       </Container>
       <Center>
-        <section {...styles.section}>
+        {/* TK: Revive Audience once we settled on an KPI */}
+        {/* <section {...styles.section}>
           <Subheader>{t('pages/about/audience/title', { count: countFormat(200000) })}</Subheader>
           <P>
             {t.elements('pages/about/audience/text', {
               emphasis1: <Emphasis>{t('pages/about/audience/text/emphasis1')}</Emphasis>
             })}
           </P>
-        </section>
+        </section> */}
         <section {...styles.section}>
           <Subheader>{t('pages/about/publishers/title', { count: publishersCount })}</Subheader>
           <P>

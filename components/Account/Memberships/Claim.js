@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { format } from 'url'
 
 import Loader from '../../Loader'
 import ErrorMessage from '../../ErrorMessage'
-import { gotoMerci } from '../../Pledge/Merci'
 import Consents, { getConsentsError } from '../../Pledge/Consents'
 
 import withT from '../../../lib/withT'
 import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import isEmail from 'validator/lib/isEmail'
+import track from '../../../lib/piwik'
 
 import Poller from '../../Auth/Poller'
 import FieldSet from '../../FieldSet'
@@ -39,6 +40,10 @@ export const sanitizeVoucherCode = (value) => {
     .trim()
     .substr(0, 6)
     .toUpperCase()
+}
+
+const relocateToFront = () => {
+  window.location = format({ pathname: '/' })
 }
 
 class ClaimMembership extends Component {
@@ -136,6 +141,8 @@ class ClaimMembership extends Component {
         loading: false,
         serverError: error
       }))
+
+      return error
     }
 
     if (me && me.email !== values.email) {
@@ -165,20 +172,26 @@ class ClaimMembership extends Component {
     const claim = () => {
       const code = sanitizeVoucherCode(values.voucherCode)
 
+      const claimWith = (fn, { code, context = 'unknown' }) =>
+        fn(code)
+          .then(() => {
+            track([
+              'trackEvent',
+              'MembershipsClaim',
+              `claim success`,
+              context
+            ])
+          })
+          .then(relocateToFront)
+          .catch(catchError)
+
       if (isAccessGrantVoucherCode(code)) {
-        this.props.claimAccess(code)
-          .then(() => {
-            gotoMerci({})
-          })
-          .catch(catchError)
+        claimWith(this.props.claimAccess, { code, context: 'access' })
       } else {
-        this.props.claimMembership(code)
-          .then(() => {
-            gotoMerci({})
-          })
-          .catch(catchError)
+        claimWith(this.props.claimMembership, { code, context: 'membership' })
       }
     }
+
     if (
       me.firstName !== values.firstName ||
       me.lastName !== values.lastName
@@ -193,6 +206,7 @@ class ClaimMembership extends Component {
         .catch(catchError)
       return
     }
+
     claim()
   }
   render () {

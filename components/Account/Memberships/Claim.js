@@ -172,23 +172,22 @@ class ClaimMembership extends Component {
     const claim = () => {
       const code = sanitizeVoucherCode(values.voucherCode)
 
-      const claimWith = (fn, { code, context = 'unknown' }) =>
-        fn(code)
-          .then(() => {
-            track([
-              'trackEvent',
-              'MembershipsClaim',
-              `claim success`,
-              context
-            ])
-          })
-          .then(relocateToFront)
-          .catch(catchError)
+      const claimWith = (mutation, { code, context = 'unknown' }) => mutation(code)
+        .then(() => {
+          track([
+            'trackEvent',
+            'MembershipsClaim',
+            `claim success`,
+            context
+          ])
+        })
+        .then(relocateToFront)
+        .catch(catchError)
 
       if (isAccessGrantVoucherCode(code)) {
         claimWith(this.props.claimAccess, { code, context: 'access' })
       } else {
-        claimWith(this.props.claimMembership, { code, context: 'membership' })
+        claimWith(this.props.claimMembership, { code, context: 'claim' })
       }
     }
 

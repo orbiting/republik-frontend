@@ -5,7 +5,6 @@ import datetime from './datetime'
 import withT from '../../../lib/withT'
 import UpIcon from 'react-icons/lib/md/arrow-upward'
 import { negativeColors } from '../../Frame/constants'
-import { ZINDEX_BOTTOM_PANEL } from '../../constants'
 
 import {
   colors,
@@ -26,7 +25,6 @@ const styles = {
     textAlign: 'center',
     padding: `${RADIUS + 5}px 15px 30px 15px`,
     width: '100%',
-    zIndex: ZINDEX_BOTTOM_PANEL,
     [mediaQueries.mUp]: {
       paddingBottom: '50px'
     }

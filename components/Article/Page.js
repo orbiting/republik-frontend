@@ -10,6 +10,7 @@ import SeriesNavButton from './SeriesNavButton'
 import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
@@ -331,8 +332,9 @@ class ArticlePage extends Component {
     }
 
     this.getAudioPlayer = () => {
-      const { t, data, isMember } = this.props
-      const ProgressComponent = isMember ? Progress : EmptyComponent
+      const { t, data, isMember, isEditor } = this.props
+      // TODO: remove isEditor guard for public progress launch.
+      const ProgressComponent = isEditor ? Progress : EmptyComponent
       const article = data && data.article
       const audioSource = article && article.meta && article.meta.audioSource
       const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
@@ -473,7 +475,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor } = this.props
 
     const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -549,7 +551,8 @@ class ArticlePage extends Component {
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
-          const ProgressComponent = isMember && !isFormat && meta.template !== 'discussion'
+          // TODO: remove isEditor guard for public progress launch.
+          const ProgressComponent = isEditor && !isFormat && meta.template !== 'discussion'
             ? Progress
             : EmptyComponent
 
@@ -623,6 +626,7 @@ class ArticlePage extends Component {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withEditor, // TODO: remove withEditor for public progress launch.
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

@@ -38,6 +38,8 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 
+const tabMq = '@media only screen and (min-width: 468px)'
+
 const styles = {
   container: css({
     padding: '20px 15px 120px 15px',
@@ -59,10 +61,20 @@ const styles = {
     marginBottom: 20,
     position: 'relative',
     '& > button': {
-      flexGrow: 1,
-      [mediaQueries.mUp]: {
-        width: '50%'
-      }
+    }
+  }),
+  tabButton: css({
+    flexGrow: 1,
+    width: '100%',
+    [tabMq]: {
+      width: '50%'
+    }
+  }),
+  tabButton2: css({
+    marginTop: -1,
+    [tabMq]: {
+      marginTop: 0,
+      marginLeft: -1
     }
   }),
   articleHeadline: css({
@@ -233,18 +245,25 @@ class FeedbackPage extends Component {
           <WithMembership render={() => (
             <Fragment>
               <div {...styles.tab}>
-                <Button
-                  style={{ zIndex: 1 }}
-                  dimmed={tab && tab !== 'article'}
-                  onClick={this.selectArticleTab}>
-                  {t('feedback/article/button')}
-                </Button>
-                <Button
-                  style={{ marginLeft: '-1px', zIndex: tab === 'general' ? 1 : undefined }}
-                  dimmed={tab && tab !== 'general'}
-                  onClick={this.selectGeneralTab}>
-                  {t('feedback/general/button')}
-                </Button>
+                <div {...styles.tabButton} {...styles.tabButton2} style={{ zIndex: 1 }}>
+                  <Button
+                    block
+                    dimmed={tab && tab !== 'article'}
+                    onClick={this.selectArticleTab}>
+                    {t('feedback/article/button')}
+                  </Button>
+                </div>
+                <div {...styles.tabButton} {...styles.tabButton2}
+                  style={{
+                    zIndex: tab === 'general' ? 1 : undefined
+                  }}>
+                  <Button
+                    block
+                    dimmed={tab && tab !== 'general'}
+                    onClick={this.selectGeneralTab}>
+                    {t('feedback/general/button')}
+                  </Button>
+                </div>
               </div>
               {!GENERAL_FEEDBACK_DISCUSSION_ID && (
                 <div style={{ color: 'red', marginTop: 20 }}>

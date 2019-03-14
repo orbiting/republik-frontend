@@ -149,7 +149,7 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
       type === 'email-confirmed' || type === 'session-denied'
 
     const displayCloseNote =
-      !me || ['claim', 'preview'].indexOf(context) !== -1
+      !me || ['claim', 'preview', 'access'].includes(context)
 
     content = <Fragment>
       <P>
@@ -159,14 +159,17 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
         ]} replacements={query} missingValue='' />
       </P>
       {afterTokenAuth && displayCloseNote
-        ? <P> {t('notifications/closeNote')} </P>
-        : (!hasCurtain || inNativeApp) && <div {...styles.button}>
-          <Link route='index'>
-            <Button block primary>
-              {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
-            </Button>
-          </Link>
-        </div>
+        ? <P>{t('notifications/closeNote')}</P>
+        : (!hasCurtain || inNativeApp) && (
+          <div {...styles.button}>
+            <Link route='index'>
+              <Button block primary>
+                {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
+              </Button>
+            </Link>
+          </div>
+        )
+
       }
     </Fragment>
   }

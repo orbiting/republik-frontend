@@ -2,7 +2,7 @@ import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/f
 import { userProgressFragment } from '../Article/Progress/api'
 
 export const documentFragment = `
-  fragment DocumentListDocument on Document {
+  fragment FeedDocument on Document {
     id
     ...BookmarkOnDocument
     ...UserProgressOnDocument

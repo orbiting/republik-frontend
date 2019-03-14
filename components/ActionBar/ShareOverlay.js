@@ -105,7 +105,7 @@ const ShareOverlay = ({
                 onClick={() => {
                   track([
                     'trackEvent',
-                    'share',
+                    'ShareOverlay',
                     props.icon,
                     url
                   ])

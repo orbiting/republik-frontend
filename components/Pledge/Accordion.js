@@ -140,6 +140,40 @@ query pledgeAccordion($crowdfundingName: String!) {
 }
 `
 
+const PackageItem = ({ t, hover, setHover, crowdfundingName, name, title, price, onClick, href }) => (
+  <a
+    {...merge(
+      styles.package,
+      hover === name && styles.packageHighlighted
+    )}
+    onMouseOver={() => setHover(name)}
+    onMouseOut={() => setHover(undefined)}
+    onClick={onClick}
+    href={href}>
+    <div {...styles.packageHeader}>
+      <div {...styles.packageTitle}>
+        {title || t.first(
+          [
+            `package/${crowdfundingName}/${name}/title`,
+            `package/${name}/title`
+          ]
+        )}
+      </div>
+      {!!price && (<div {...styles.packagePrice}>
+        {t.first([
+          `package/${name}/price`,
+          'package/price'
+        ], {
+          formattedCHF: `CHF ${price / 100}`
+        })}
+      </div>)}
+      <span {...styles.packageIcon}>
+        <ChevronRightIcon size={24} />
+      </span>
+    </div>
+  </a>
+)
+
 class Accordion extends Component {
   constructor (props) {
     super(props)
@@ -190,78 +224,37 @@ class Accordion extends Component {
               }
             ].filter(Boolean)
 
+            const setHover = hover => this.setState({ hover })
+
             return <Fragment>
               <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
               {pkgs.map((pkg, i) => {
-                const isActive = hover === pkg.name
-
                 const price = pkg.options.reduce(
                   (amount, option) => amount + option.price * option.minAmount,
                   0
                 )
 
-                const packageStyle = merge(
-                  styles.package,
-                  isActive && styles.packageHighlighted
-                )
-
                 return (
-                  <Link key={pkg.name} route='pledge' params={{ package: pkg.name }}>
-                    <a {...packageStyle}
-                      onMouseOver={() => this.setState({
-                        hover: pkg.name
-                      })}
-                      onMouseOut={() => this.setState({
-                        hover: undefined
-                      })}>
-                      <div {...styles.packageHeader}>
-                        <div {...styles.packageTitle}>
-                          {t.first(
-                            [
-                              `package/${crowdfundingName}/${pkg.name}/title`,
-                              `package/${pkg.name}/title`
-                            ]
-                          )}
-                        </div>
-                        {!!price && (<div {...styles.packagePrice}>
-                          {t.first([
-                            `package/${pkg.name}/price`,
-                            'package/price'
-                          ], {
-                            formattedCHF: `CHF ${price / 100}`
-                          })}
-                        </div>)}
-                        <span {...styles.packageIcon}>
-                          <ChevronRightIcon size={24} />
-                        </span>
-                      </div>
-                    </a>
+                  <Link key={pkg.name} route='pledge' params={{ package: pkg.name }} passHref>
+                    <PackageItem
+                      t={t}
+                      hover={hover}
+                      setHover={setHover}
+                      name={pkg.name}
+                      crowdfundingName={crowdfundingName}
+                      price={price} />
                   </Link>
                 )
               })}
               { group === 'ME' &&
-                <Link route='claim'>
-                  <a
-                    {...merge(
-                      styles.package,
-                      hover === 'claim' && styles.packageHighlighted
-                    )}
-                    onMouseOver={() => this.setState({
-                      hover: 'claim'
-                    })}
-                    onMouseOut={() => this.setState({
-                      hover: undefined
-                    })}
-                  >
-                    <div {...styles.packageHeader}>
-                      <div {...styles.packageTitle}>
-                        {t('marketing/offers/claim')}
-                      </div>
-                      <span {...styles.packageIcon}>
-                        <ChevronRightIcon size={24} />
-                      </span>
-                    </div>
-                  </a>
+                <Link route='claim' passHref>
+                  <PackageItem
+                    t={t}
+                    hover={hover}
+                    setHover={setHover}
+                    title={t('marketing/offers/claim')}
+                    name='claim'
+                    crowdfundingName={crowdfundingName} />
                 </Link>
               }
               <div {...styles.buffer} />

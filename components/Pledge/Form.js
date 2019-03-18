@@ -88,13 +88,18 @@ class Pledge extends Component {
         },
         pledge
       }
+    } else {
+      values.price = +query.price || undefined
+      values.reason = query.reason
     }
 
     this.state = {
       basePledge,
       values,
       errors: {},
-      dirty: {}
+      dirty: {
+        price: values.price ? true : undefined
+      }
     }
   }
   getPkg (base) {
@@ -197,6 +202,21 @@ class Pledge extends Component {
       }
     })
   }
+  prefillValues ({ query }) {
+    const { values } = this.state
+    if (!values.price && query.price) {
+      this.setState(FieldSet.utils.mergeField({
+        field: 'price',
+        value: +query.price || undefined
+      }))
+    }
+    if (!values.reason && query.reason) {
+      this.setState(FieldSet.utils.mergeField({
+        field: 'reason',
+        value: query.reason
+      }))
+    }
+  }
   componentWillReceiveProps (nextProps) {
     if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
@@ -204,9 +224,13 @@ class Pledge extends Component {
     if (nextProps.me !== this.props.me) {
       this.refetchPackages()
     }
+    if (nextProps.query !== this.props.query) {
+      this.prefillValues(nextProps)
+    }
   }
   componentDidMount () {
     this.checkUserFields(this.props)
+    this.prefillValues(this.props)
   }
   render () {
     const {

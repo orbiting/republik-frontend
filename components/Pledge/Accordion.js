@@ -226,37 +226,52 @@ class Accordion extends Component {
 
             const setHover = hover => this.setState({ hover })
 
+            let pkgItems = pkgs.map((pkg, i) => {
+              const price = pkg.options.reduce(
+                (amount, option) => amount + option.price * option.minAmount,
+                0
+              )
+              return {
+                route: 'pledge',
+                params: { package: pkg.name },
+                name: pkg.name,
+                price
+              }
+            })
+
+            if (group === 'ME') {
+              const benefactorIndex = pkgItems.findIndex(item => item.name === 'BENEFACTOR')
+              // TMP Marketing Trial for Students
+              if (benefactorIndex !== -1) {
+                pkgItems.splice(benefactorIndex + 1, 0, {
+                  route: 'pledge',
+                  params: { package: 'ABO', userPrice: 1, price: 14000, reason: t('marketing/offers/students/reasonTemplate') },
+                  name: 'students',
+                  title: t('marketing/offers/students'),
+                  price: 14000
+                })
+              }
+              pkgItems.push({
+                route: 'claim',
+                name: 'claim',
+                title: t('marketing/offers/claim')
+              })
+            }
+
             return <Fragment>
               <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
-              {pkgs.map((pkg, i) => {
-                const price = pkg.options.reduce(
-                  (amount, option) => amount + option.price * option.minAmount,
-                  0
-                )
-
-                return (
-                  <Link key={pkg.name} route='pledge' params={{ package: pkg.name }} passHref>
-                    <PackageItem
-                      t={t}
-                      hover={hover}
-                      setHover={setHover}
-                      name={pkg.name}
-                      crowdfundingName={crowdfundingName}
-                      price={price} />
-                  </Link>
-                )
-              })}
-              { group === 'ME' &&
-                <Link route='claim' passHref>
+              {pkgItems.map(({ name, title, price, route, params }) => (
+                <Link key={name} route={route} params={params} passHref>
                   <PackageItem
                     t={t}
                     hover={hover}
                     setHover={setHover}
-                    title={t('marketing/offers/claim')}
-                    name='claim'
-                    crowdfundingName={crowdfundingName} />
+                    name={name}
+                    title={title}
+                    crowdfundingName={crowdfundingName}
+                    price={price} />
                 </Link>
-              }
+              ))}
               <div {...styles.buffer} />
               { !!links.length && <div {...styles.links}>
                 {

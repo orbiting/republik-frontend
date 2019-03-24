@@ -339,6 +339,7 @@ class ArticlePage extends Component {
         <ProgressComponent isMember={isMember} article={article} isArticle={false}>
           <AudioPlayer
             mediaId={audioSource.mediaId}
+            durationMs={audioSource.durationMs}
             src={audioSource}
             closeHandler={this.toggleAudio}
             autoPlay

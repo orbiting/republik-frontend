@@ -302,12 +302,12 @@ class Progress extends Component {
       }
     }
 
-    this.saveMediaProgress = (mediaId, currentTime) => {
-      if (!this.isTrackingAllowed() || !this.state.initialized) {
+    this.saveMediaProgress = ({ mediaId }, mediaElement) => {
+      if (!mediaId || !this.isTrackingAllowed() || !this.state.initialized) {
         return
       }
-      this.saveMediaProgressNotPlaying(mediaId, currentTime)
-      this.saveMediaProgressWhilePlaying(mediaId, currentTime)
+      this.saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
+      this.saveMediaProgressWhilePlaying(mediaId, mediaElement.currentTime)
     }
 
     this.saveMediaProgressNotPlaying = debounce((mediaId, currentTime) => {
@@ -318,15 +318,23 @@ class Progress extends Component {
     this.saveMediaProgressWhilePlaying = throttle((mediaId, currentTime) => {
       // Fires every 5 seconds while playing.
       this.props.upsertMediaProgress(mediaId, currentTime)
-    }, 5000, { 'trailing': false })
+    }, 5000, { trailing: true })
 
-    this.getMediaProgress = (mediaId) => {
+    this.getMediaProgress = ({ mediaId, durationMs } = {}) => {
+      if (!mediaId) {
+        return Promise.resolve()
+      }
       return this.props.client.query({
         query: mediaProgressQuery,
         variables: { mediaId },
         fetchPolicy: 'network-only'
-      }).then(({ data }) => {
-        return data.mediaProgress && data.mediaProgress.secs
+      }).then(({ data: { mediaProgress: { secs } } = {} }) => {
+        if (secs) {
+          if (durationMs && Math.round(secs) === Math.round(durationMs / 1000)) {
+            return
+          }
+          return secs - 2
+        }
       })
     }
 

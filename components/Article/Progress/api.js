@@ -34,7 +34,7 @@ const upsertDocumentProgressMutation = gql`
   ${userProgressFragment}
 `
 
-export const userConsentFragment = `
+const userConsentFragment = `
   fragment Consent on User {
     hasConsentedTo(name: "PROGRESS")
   }

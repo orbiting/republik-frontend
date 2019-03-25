@@ -121,11 +121,9 @@ const AboutPage = ({
 }) => {
   const publishersCount = membershipStats
     ? countFormat(membershipStats.count)
-    : `~${countFormat(22500)}`
-  const employeesCount = employees && employees.length
-    ? employees.length
-    : 60
-  const documentsCount = documents && documents.totalCount
+    : `~${countFormat(18000)}`
+  const employeesCount = (employees && employees.length) || '~60'
+  const documentsCount = (documents && documents.totalCount) || 'Über 1000'
 
   return (
     <Fragment>

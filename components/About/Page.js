@@ -43,7 +43,7 @@ query AboutPage {
     title
     url
   }
-  documents(feed: true, first: 1) {
+  documents(feed: true, first: 1, template: "article") {
     totalCount
   }
 }

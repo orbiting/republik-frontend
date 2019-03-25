@@ -1,39 +1,24 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { shuffle } from 'd3-array'
-import { compose } from 'react-apollo'
-import { timeDay } from 'd3-time'
 
 import { postMessage } from '../lib/withInNativeApp'
-import { Link } from '../lib/routes'
-import { countFormat } from '../lib/utils/format'
 
 import Front from '../components/Front'
-import List, { Highlight } from '../components/List'
-import VideoCover from '../components/VideoCover'
-
-import { ChartTitle, ChartLead } from '@project-r/styleguide/chart'
 
 import {
+  TitleBlock,
+  Editorial,
   Interaction,
   Center,
   Gallery,
   Figure,
   FigureImage,
   FigureCaption,
-  FigureByline,
-  Button,
-  A
+  FigureByline
 } from '@project-r/styleguide'
 import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
 import { data as gallery } from '../lib/meta/gallery.json'
 import withT from '../lib/withT'
-import withMe from '../lib/apollo/withMe'
-import TokenPackageLink from '../components/Link/TokenPackage'
-import MembershipPeriodStats from '../components/Stats/MembershipPeriods'
-
-import {
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
 
 const GallerHeading = withT(({ t }) => (
   <Interaction.H3 style={{
@@ -43,58 +28,6 @@ const GallerHeading = withT(({ t }) => (
   }}>
     {t('pages/meta/behind/gallery')}
   </Interaction.H3>
-))
-
-const VIDEO = {
-  hls: 'https://player.vimeo.com/external/302582824.m3u8?s=ff89737dc63069796cb3cd632002370aba760cd7',
-  mp4: 'https://player.vimeo.com/external/302582824.hd.mp4?s=155e598b32730ef7b493d5b145576985ce65a5a1&profile_id=175',
-  thumbnail: `${CDN_FRONTEND_BASE_URL}/static/video/prolong.jpg`
-}
-
-const Number = ({ value }) => <span style={{ whiteSpace: 'nowrap' }}>
-  {countFormat(value)}
-</span>
-
-const CrowdfundingRevival = compose(
-  withT,
-  withMe
-)(({ me, t }) => (
-  <Fragment>
-    <VideoCover src={VIDEO} endScroll={0.96} />
-    <Center style={{ marginTop: 20, marginBottom: 60 }}>
-      <ChartTitle>{t('meta/prolong/title')}</ChartTitle>
-      <ChartLead>
-        Erneuerungsrate Crowdfunder und Unterstützerinnen der ersten Stunde
-      </ChartLead>
-      <MembershipPeriodStats />
-      <Interaction.P style={{ marginTop: 20, marginBottom: 20 }}>
-        Die Jahresmitgliedschaften der Erstunterstützer liefen am 15. Januar aus. Wegen laufender Fristen kann erst gegen Ende des Monats eine genauere Aussage zur Erneuerungsquote gemacht werden. Die Differenz zwischen Erneuerungen und Kündigungen zeigt, wie viele Personen noch unentschlossen sind oder noch nicht reagiert haben. Sie sehen: jede Erneuerung zählt!
-      </Interaction.P>
-      {(
-        me &&
-        me.prolongBeforeDate !== null &&
-        timeDay.count(new Date(), new Date(me.prolongBeforeDate)) < 365
-      ) &&
-        <TokenPackageLink params={{ package: 'PROLONG' }}>
-          <Button style={{ marginBottom: 30 }} primary>{t('meta/prolong/available')}</Button>
-        </TokenPackageLink>}
-      {!me && <Interaction.P style={{ marginBottom: 30 }}>
-        {t.elements('meta/prolong/signIn', {
-          prolongLink: <Link route='pledge' params={{ package: 'PROLONG' }} passHref>
-            <A>{t('meta/prolong/signIn/prolongText')}</A>
-          </Link>,
-          pledgeLink: <Link route='pledge' passHref>
-            <A>{t('meta/prolong/signIn/pledgeText')}</A>
-          </Link>
-        })}
-      </Interaction.P>}
-      <List>
-        <List.Item>Erneuern weniger als 50 Prozent von Ihnen, müssen wir radikal über die Bücher gehen – beim Produkt, bei der Strategie, beim Organigramm.</List.Item>
-        <List.Item><Highlight>Erneuern etwas mehr als 50 Prozent</Highlight>, liegt ein langer, steiniger, aber machbarer Weg vor uns bis zum Punkt von <Number value={28000} /> Verlegerinnen, die wir für eine ausgeglichene Rechnung brauchen.</List.Item>
-        <List.Item><Highlight>Schaffen wir, dass zwei von drei Verlegerinnen an Bord bleiben</Highlight>, liegt ebenfalls eine Menge an Risiko und Ärger vor uns. Nur wird sich dieser weit konzentrierter um das zukünftige Produkt als um die zukünftige Bilanz drehen.</List.Item>
-      </List>
-    </Center>
-  </Fragment>
 ))
 
 class MetaPage extends Component {
@@ -130,11 +63,10 @@ class MetaPage extends Component {
       <Front
         containerStyle={containerStyle}
         renderBefore={meta => (
-          meta && <CrowdfundingRevival />
-          /* <TitleBlock center>
+          meta && <TitleBlock center>
             <Interaction.Headline>{meta.title}</Interaction.Headline>
             <Editorial.Lead>{meta.description}</Editorial.Lead>
-          </TitleBlock> */
+          </TitleBlock>
         )}
         renderAfter={galleryImage ? meta => (
           meta && <div style={{ ...containerStyle, marginBottom: 100 }}>

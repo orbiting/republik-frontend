@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-08T15:24:44.409Z",
+  "updated": "2019-03-25T15:15:20.274Z",
   "title": "live",
   "data": [
     {
@@ -393,6 +393,14 @@
     {
       "key": "marketing/preview/page/description",
       "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
+    },
+    {
+      "key": "marketing/offers/students",
+      "value": "Ausbildungs-Abo und Mitgliedschaft"
+    },
+    {
+      "key": "marketing/offers/students/reasonTemplate",
+      "value": "Ausbildung: "
     },
     {
       "key": "marketing/offers/claim",
@@ -1457,6 +1465,10 @@
     {
       "key": "footer/crew",
       "value": "Crew"
+    },
+    {
+      "key": "footer/about",
+      "value": "Das sind wir"
     },
     {
       "key": "footer/events",
@@ -4496,15 +4508,15 @@
     },
     {
       "key": "pages/about/audience/title",
-      "value": "Über {count} Leserinnen pro Monat"
+      "value": null
     },
     {
       "key": "pages/about/audience/text",
-      "value": "Klein genug, um zu überleben. Gross genug, um Wirkung zu haben. Das war 2018 der Plan beim Start der Republik. Heute machen wir tatsächlich immer wieder einen Unterschied. {emphasis1} Für unsere wachsende Leserschaft. Und die Öffentlichkeit. Manchmal gelingt es. Manchmal scheitern wir. Immer arbeiten wir hart daran. Versprochen!"
+      "value": null
     },
     {
       "key": "pages/about/audience/text/emphasis1",
-      "value": "Die Mächtigen beobachten, kritisieren, die Gesellschaft bewegen, Fragen klären, Debatten anstossen: Das ist unser Service."
+      "value": null
     },
     {
       "key": "pages/about/publishers/title",

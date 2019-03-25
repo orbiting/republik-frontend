@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-18T18:05:28.305Z",
+  "updated": "2019-03-25T15:15:20.274Z",
   "title": "live",
   "data": [
     {
@@ -1465,6 +1465,10 @@
     {
       "key": "footer/crew",
       "value": "Crew"
+    },
+    {
+      "key": "footer/about",
+      "value": "Das sind wir"
     },
     {
       "key": "footer/events",

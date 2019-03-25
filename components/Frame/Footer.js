@@ -162,27 +162,23 @@ class Footer extends Component {
               <a href={`mailto:${t('footer/contact/mail')}`}>
                 {t('footer/contact/mail')}
               </a>
-            </div>
-            <div {...styles.column}>
-              <div {...styles.title}>{t('footer/about/title')}</div>
-              <Link route='events'>
-                <a>{t('footer/events')}</a>
-              </Link>
-              <br />
-              <Link route='jobs'>
-                <a>{t('footer/jobs')}</a>
-              </Link>
               <br />
               <Link route='media'>
                 <a>{t('footer/media')}</a>
               </Link>
+            </div>
+            <div {...styles.column}>
+              <div {...styles.title}>{t('footer/about/title')}</div>
+              <Link route='about'>
+                <a>{t('footer/about')}</a>
+              </Link>
+              <br />
+              <Link route='events'>
+                <a>{t('footer/events')}</a>
+              </Link>
               <br />
               <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
-              </a>
-              <br />
-              <a href='/en' target={!inNativeApp ? '_blank' : undefined}>
-                {t('footer/about/en')}
               </a>
               <br />
               <a href='https://project-r.construction/' rel='noopener' target='_blank'>

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-12T16:04:28.964Z",
+  "updated": "2019-03-18T18:05:28.305Z",
   "title": "live",
   "data": [
     {
@@ -393,6 +393,14 @@
     {
       "key": "marketing/preview/page/description",
       "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
+    },
+    {
+      "key": "marketing/offers/students",
+      "value": "Ausbildungs-Abo und Mitgliedschaft"
+    },
+    {
+      "key": "marketing/offers/students/reasonTemplate",
+      "value": "Ausbildung: "
     },
     {
       "key": "marketing/offers/claim",

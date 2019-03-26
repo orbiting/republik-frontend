@@ -34,7 +34,7 @@ const upsertDocumentProgressMutation = gql`
   ${userProgressFragment}
 `
 
-export const userConsentFragment = `
+const userConsentFragment = `
   fragment Consent on User {
     hasConsentedTo(name: "PROGRESS")
   }
@@ -68,24 +68,6 @@ const revokeConsentMutation = gql`
     }
   }
   ${userConsentFragment}
-`
-
-export const embedsOnDocumentFragment = `
-  fragment EmbedsOnDocument on Document {
-    embeds {
-      __typename
-      ... on PlayableMedia {
-        mediaId
-        durationMs
-        userProgress {
-          id
-          secs
-          createdAt
-          updatedAt
-        }
-      }
-    }
-  }
 `
 
 const upsertMediaProgressMutation = gql`

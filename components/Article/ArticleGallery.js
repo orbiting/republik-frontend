@@ -110,20 +110,16 @@ class ArticleGallery extends Component {
     const { article } = this.props
     const { show, startItemSrc, galleryItems } = this.state
     const enabled = get(article, 'content.meta.gallery', true)
-    if (article.content && enabled && show) {
-      return (
-        <Fragment>
-          <Gallery
-            onClose={this.toggleGallery}
-            items={galleryItems}
-            startItemSrc={startItemSrc}
-          />
-          { children }
-        </Fragment>
-      )
-    } else {
-      return children
-    }
+    return (
+      <Fragment>
+        {article.content && enabled && show && <Gallery
+          onClose={this.toggleGallery}
+          items={galleryItems}
+          startItemSrc={startItemSrc}
+        />}
+        {children}
+      </Fragment>
+    )
   }
 }
 

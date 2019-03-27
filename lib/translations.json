@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-26T15:50:46.187Z",
+  "updated": "2019-03-27T09:06:29.789Z",
   "title": "live",
   "data": [
     {
@@ -3584,7 +3584,7 @@
     },
     {
       "key": "feedback/activeDiscussions/label",
-      "value": "Aktive Diskussionen"
+      "value": "Aktive Debatten"
     },
     {
       "key": "feedback/autoArticle/selected/headline",

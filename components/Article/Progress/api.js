@@ -95,13 +95,6 @@ export const mediaProgressQuery = gql`
   }
 `
 
-export const userProgressOnAudioSourceFragment = `
-  fragment UserProgressOnAudioSource on AudioSource {
-    mediaId
-    durationMs
-  }
-`
-
 export const withProgressApi = compose(
   withApollo,
   graphql(consentQuery, {

@@ -25,8 +25,7 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import Progress from './Progress'
 import {
-  userProgressFragment,
-  userProgressOnAudioSourceFragment
+  userProgressFragment
 } from './Progress/api'
 
 import {
@@ -172,7 +171,8 @@ const getDocument = gql`
           mp3
           aac
           ogg
-          ...UserProgressOnAudioSource
+          mediaId
+          durationMs
         }
         estimatedReadingMinutes
         estimatedConsumptionMinutes
@@ -183,7 +183,6 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
-  ${userProgressOnAudioSourceFragment}
 `
 
 const runMetaFromQuery = (code, query) => {

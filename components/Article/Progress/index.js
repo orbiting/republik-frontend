@@ -1,45 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
-import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
 import ProgressPrompt from './ProgressPrompt'
-import BackToTopButton from './BackToTopButton'
-import { Spinner, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
+import { scrollIt } from '../../../lib/utils/scroll'
 
 import { withProgressApi, mediaProgressQuery } from './api'
-
-const MAX_POLL_RETRIES = 3
-const SCROLLED_AWAY_PX = 100
-
-const styles = {
-  spinner: css({
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: HEADER_HEIGHT_MOBILE,
-    zIndex: ZINDEX_POPOVER,
-    background: '#fff',
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT
-    }
-  })
-}
 
 class Progress extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      progressInitStarted: false,
-      initialized: false,
-      progressElementIndex: 0,
-      pollRetries: 0
+      progressElementIndex: 0
     }
 
     this.isTrackingAllowed = () => {
@@ -58,73 +36,12 @@ class Progress extends Component {
         ? HEADER_HEIGHT_MOBILE
         : HEADER_HEIGHT
 
-    this.initialize = (article) => {
-      const { userProgress } = article
-      this.poll(userProgress)
-    }
-
-    this.poll = (userProgress) => {
-      if (
-        !userProgress ||
-        !this.props.isArticle ||
-        (!userProgress.nodeId && !userProgress.percentage) ||
-        userProgress.percentage === 1
-      ) {
-        this.setState({ initialized: true })
-        return
-      }
-      const progressElements = this.getProgressElements()
-      const { pollRetries } = this.state
-      if (pollRetries > MAX_POLL_RETRIES) {
-        return
-      }
-      if (progressElements && progressElements.length) {
-        const { percentage, nodeId } = userProgress
-        this.restoreProgress(percentage, nodeId)
-      } else {
-        const newPollRetries = pollRetries + 1
-        this.setState({ pollRetries: newPollRetries }, () => {
-          setTimeout(() => {
-            this.poll(userProgress)
-          }, 300 * newPollRetries)
-        })
-      }
-    }
-
     this.onScroll = () => {
       const { isMember, article } = this.props
       if (isMember && article) {
         this.saveProgress(article.id)
       }
-      this.maybeHideBackToTopButton()
     }
-
-    this.scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      })
-      this.setState({ BackToTopButtonAnimateOut: true })
-      this.resetDocumentProgress()
-    }
-
-    this.maybeHideBackToTopButton = throttle(() => {
-      const {
-        initialized,
-        initialPageYOffset,
-        showBackToTopButton,
-        BackToTopButtonAnimateOut
-      } = this.state
-      if (BackToTopButtonAnimateOut || !showBackToTopButton || !initialized || !initialPageYOffset) {
-        return
-      }
-      const y = window.pageYOffset
-      const hasScrolledAway = Math.abs(y - initialPageYOffset) > SCROLLED_AWAY_PX
-      if (hasScrolledAway) {
-        this.setState({ BackToTopButtonAnimateOut: true })
-      }
-    }, 500)
 
     this.measure = () => {
       if (this.container) {
@@ -138,7 +55,7 @@ class Progress extends Component {
 
     this.measureProgress = (downwards = true) => {
       const progressElements = this.getProgressElements()
-      if (!progressElements) {
+      if (!progressElements.length) {
         return
       }
       const fallbackIndex = downwards ? 0 : progressElements.length - 1
@@ -214,7 +131,7 @@ class Progress extends Component {
     }
 
     this.saveProgress = debounce((documentId) => {
-      if (!this.isTrackingAllowed() || !this.state.initialized) {
+      if (!this.isTrackingAllowed()) {
         return
       }
       const y = window.pageYOffset
@@ -245,15 +162,10 @@ class Progress extends Component {
       article && this.props.upsertDocumentProgress(article.id, 0, '')
     }
 
-    this.restoreProgress = (percentage, nodeId) => {
-      const { myProgressConsent } = this.props
-      if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
-        return
-      }
-      if (window && 'scrollRestoration' in window.history) {
-        // turn off browser's interfering scroll restoration.
-        window.history.scrollRestoration = 'manual'
-      }
+    this.restoreArticleProgress = () => {
+      const { article } = this.props
+      const { userProgress } = article
+      const { percentage, nodeId } = userProgress
 
       const headerHeight = this.headerHeight()
       const progressElements = this.getProgressElements()
@@ -268,37 +180,20 @@ class Progress extends Component {
       })
 
       if (progressElement) {
-        setTimeout(() => {
-          const { top } = progressElement.getBoundingClientRect()
-          const isInViewport = top - headerHeight > 0 && top < window.innerHeight
-          // We don't scroll on mobile if the element of interest is already in viewport
-          // This may happen on swipe navigation in iPhone X.
-          if (!this.mobile() || !isInViewport) {
-            window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
-          }
-          setTimeout(() => {
-            this.setState({
-              initialized: true,
-              showBackToTopButton: true,
-              initialPageYOffset: window.pageYOffset
-            })
-          }, 0)
-        }, 100)
+        const { top } = progressElement.getBoundingClientRect()
+        const isInViewport = top - headerHeight > 0 && top < window.innerHeight
+        // We don't scroll on mobile if the element of interest is already in viewport
+        // This may happen on swipe navigation in iPhone X.
+        if (!this.mobile() || !isInViewport) {
+          scrollIt(top - headerHeight - (this.mobile() ? 50 : 80), 400)
+        }
         return
       }
       if (percentage) {
         const { height } = this.container.getBoundingClientRect()
         const offset = (percentage * height) - headerHeight
-        setTimeout(() => {
-          window.scrollTo(0, offset)
-          setTimeout(() => {
-            this.setState({
-              initialized: true,
-              showBackToTopButton: true,
-              initialPageYOffset: window.pageYOffset
-            })
-          }, 0)
-        }, 100)
+
+        scrollIt(offset, 400)
       }
     }
 
@@ -340,27 +235,15 @@ class Progress extends Component {
 
     this.getChildContext = () => ({
       getMediaProgress: this.getMediaProgress,
-      saveMediaProgress: this.saveMediaProgress
+      saveMediaProgress: this.saveMediaProgress,
+      restoreArticleProgress: this.restoreArticleProgress
     })
-  }
-
-  initializeProgress () {
-    const { progressInitStarted } = this.state
-    if (progressInitStarted || !this.isTrackingAllowed()) {
-      return
-    }
-    const { article, isMember } = this.props
-    if (isMember && article) {
-      this.setState({ progressInitStarted: true })
-      this.initialize(article)
-    }
   }
 
   componentDidMount () {
     window.addEventListener('resize', this.measure)
     window.addEventListener('scroll', this.onScroll)
     this.measure()
-    this.initializeProgress()
   }
 
   componentWillUnmount () {
@@ -370,14 +253,12 @@ class Progress extends Component {
 
   componentDidUpdate () {
     this.measure()
-    this.initializeProgress()
   }
 
   render () {
-    const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
+    const { width, percentage, pageYOffset } = this.state
     const {
       children,
-      article,
       myProgressConsent,
       revokeConsent,
       submitConsent,
@@ -386,15 +267,12 @@ class Progress extends Component {
     } = this.props
 
     const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
-    const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
-    const updatedAt = article && article.userProgress && article.userProgress.updatedAt
 
     const progressPrompt = showConsentPrompt && isArticle
       ? (
         <ProgressPrompt
           onSubmitConsent={() => {
             submitConsent()
-            this.setState({ initialized: true })
           }}
           onRevokeConsent={revokeConsent}
         />
@@ -403,16 +281,8 @@ class Progress extends Component {
 
     return (
       <div ref={this.containerRef}>
-        {!initialized && !consentRejected && !showConsentPrompt && isArticle && (
-          <div {...styles.spinner}>
-            <Spinner />
-          </div>
-        )}
         {progressPrompt}
         {children}
-        {showBackToTopButton && (
-          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} updatedAt={updatedAt} />
-        )}
         {debug && (
           <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
             <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
@@ -439,7 +309,8 @@ Progress.defaultProps = {
 
 Progress.childContextTypes = {
   getMediaProgress: PropTypes.func,
-  saveMediaProgress: PropTypes.func
+  saveMediaProgress: PropTypes.func,
+  restoreArticleProgress: PropTypes.func
 }
 
 export default compose(

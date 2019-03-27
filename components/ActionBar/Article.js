@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
+import UserProgress from './UserProgress'
 
 import {
   colors
@@ -23,7 +25,8 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
+    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, inNativeApp } = this.props
+    const { userBookmark, userProgress, restoreArticleProgress } = this.context
     const {
       discussionId,
       discussionPath,
@@ -50,7 +53,7 @@ class ArticleActionBar extends Component {
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
           documentId={documentId}
-          userBookmark={userBookmark}
+          bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         />
@@ -63,9 +66,26 @@ class ArticleActionBar extends Component {
             count={discussionCount}
             style={{ marginLeft: 7 }} />
         }
+        {userProgress && estimatedReadingMinutes > 1 && (
+          <div style={{
+            marginTop: 10,
+            cursor: restoreArticleProgress ? 'pointer' : undefined
+          }} onClick={restoreArticleProgress}>
+            <UserProgress
+              fill={restoreArticleProgress && colors.text}
+              userProgress={userProgress}
+              text={t('article/progress/restore')} />
+          </div>
+        )}
       </Fragment>
     )
   }
+}
+
+ArticleActionBar.contextTypes = {
+  userBookmark: PropTypes.object,
+  userProgress: PropTypes.object,
+  restoreArticleProgress: PropTypes.func
 }
 
 export default ArticleActionBar

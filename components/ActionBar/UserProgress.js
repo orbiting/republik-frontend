@@ -4,6 +4,7 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
+import datetime from '../Article/Progress/datetime'
 
 import {
   ProgressCircle, colors, fontStyles
@@ -24,32 +25,26 @@ const styles = {
     ...fontStyles.sansSerifMedium16,
     fontSize: 15,
     lineHeight: '20px',
-    color: colors.lightText,
     paddingTop: 1
   })
 }
 
-const UserProgress = ({ t, userProgress }) => {
-  const { percentage, max } = userProgress
-  const percent = !percentage && max && max.percentage === 1
-    ? 100
-    : Math.round(percentage * 100)
-  if (!percent) {
-    return null
-  }
+const UserProgress = ({ t, fill, userProgress, text }) => {
+  const { percentage, updatedAt } = userProgress
+  const percent = Math.round(percentage * 100)
 
   return (
-    <div {...iconLinkStyles.link} {...styles.container} >
+    <div {...iconLinkStyles.link} {...styles.container} title={datetime(t, new Date(updatedAt))}>
       <div {...styles.icon}>
         <ProgressCircle
           progress={percent}
-          stroke={colors.lightText}
+          stroke={fill}
           strokePlaceholder='#e9e9e9'
           radius={9}
           strokeWidth={2} />
       </div>
-      <span {...iconLinkStyles.text} {...styles.text}>
-        {percent}%
+      <span {...iconLinkStyles.text} {...styles.text} style={{ color: fill }}>
+        {text || `${percent}%`}
       </span>
     </div>
   )

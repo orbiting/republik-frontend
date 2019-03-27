@@ -58,7 +58,7 @@ class ActionBar extends Component {
       shareOverlayTitle,
       showBookmark,
       documentId,
-      userBookmark,
+      bookmarked,
       inNativeApp
     } = this.props
     const { showShareOverlay } = this.state
@@ -169,7 +169,7 @@ class ActionBar extends Component {
         <span {...styles.buttonGroup}>
           {showBookmark && (
             <Bookmark
-              bookmarked={!!userBookmark}
+              bookmarked={bookmarked}
               documentId={documentId}
               active={false}
               size={28}

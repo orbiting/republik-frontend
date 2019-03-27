@@ -7,11 +7,11 @@ export const userProgressFragment = `
       id
       percentage
       nodeId
-      createdAt
       updatedAt
       max {
         id
         percentage
+        updatedAt
       }
     }
   }
@@ -79,8 +79,6 @@ const upsertMediaProgressMutation = gql`
       id
       mediaId
       secs
-      createdAt
-      updatedAt
     }
   }
 `

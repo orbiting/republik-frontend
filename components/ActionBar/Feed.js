@@ -126,7 +126,10 @@ const ActionBar = ({
           <ReadingTime minutes={displayConsumptionMinutes} small style={{ marginBottom: '-1px' }} />
         )}
         {userProgress && estimatedReadingMinutes > 1 && (
-          <UserProgress userProgress={userProgress} />
+          <UserProgress
+            userProgress={!userProgress.percentage && userProgress.max && userProgress.max.percentage === 1
+              ? userProgress.max
+              : userProgress} />
         )}
         {discussionId && (
           <DiscussionIconLinkWithoutEnhancer

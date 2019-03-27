@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-27T09:06:29.789Z",
+  "updated": "2019-03-27T17:45:30.622Z",
   "title": "live",
   "data": [
     {
@@ -3044,15 +3044,11 @@
     },
     {
       "key": "article/progressprompt/description/settings",
-      "value": "Sie können dies natürlich jederzeit in Ihren {link} ändern."
+      "value": "Sie können dies natürlich jederzeit in Ihrem {link} ändern."
     },
     {
       "key": "article/progressprompt/description/settings/link",
-      "value": "Einstellungen"
-    },
-    {
-      "key": "article/progress/backtotopbutton/title",
-      "value": "Zum Anfang"
+      "value": "Konto"
     },
     {
       "key": "article/progress/time",
@@ -3069,6 +3065,10 @@
     {
       "key": "article/progress/time/other",
       "value": "am {date}"
+    },
+    {
+      "key": "article/progress/restore",
+      "value": "Ihre Leseposition wiederherstellen"
     },
     {
       "key": "merci/postpay/lead",

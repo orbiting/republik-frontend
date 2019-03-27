@@ -7,7 +7,7 @@ import Bookmark from './Bookmark'
 import { DiscussionIconLinkWithoutEnhancer } from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 import IconLink from '../IconLink'
-import PathLink from '../Link/Path'
+import ShadowQueryLink from '../Link/ShadowQuery'
 import ReadingTime from './ReadingTime'
 import UserProgress from './UserProgress'
 import withT from '../../lib/withT'
@@ -22,19 +22,19 @@ const styles = {
   })
 }
 
-export const ActionLink = ({ children, path, icon, hasAudio, indicateGallery }) => {
+const ActionLink = ({ children, path, icon, hasAudio, indicateGallery }) => {
   if (icon === 'audio' && hasAudio) {
     return (
-      <PathLink path={path} query={{ audio: 1 }} passHref>
+      <ShadowQueryLink path={path} query={{ audio: 1 }} passHref>
         {children}
-      </PathLink>
+      </ShadowQueryLink>
     )
   }
   if (icon === 'gallery' && indicateGallery) {
     return (
-      <PathLink path={path} query={{ gallery: 1 }} passHref>
+      <ShadowQueryLink path={path} query={{ gallery: 1 }} passHref>
         {children}
-      </PathLink>
+      </ShadowQueryLink>
     )
   }
 

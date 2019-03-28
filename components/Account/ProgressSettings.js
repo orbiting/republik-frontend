@@ -3,6 +3,7 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 
 import ErrorMessage from '../ErrorMessage'
 import { P } from './Elements'
@@ -30,15 +31,11 @@ const styles = {
   })
 }
 
-const ErrorContainer = ({ children }) => (
-  <div style={{ marginTop: 20 }}>{children}</div>
-)
-
 class ProgressSettings extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      mutating: {}
+      mutating: false
     }
 
     this.catchServerError = error => {
@@ -53,19 +50,16 @@ class ProgressSettings extends Component {
     const {
       t,
       isMember,
-      data: { loading, error },
-      myProgressConsent,
-      revokeConsent,
-      submitConsent
+      me,
+      revokeProgressConsent,
+      submitProgressConsent
     } = this.props
 
     return (
       <Loader
-        loading={loading}
-        error={error}
-        ErrorContainer={ErrorContainer}
+        loading={!me}
         render={() => {
-          const hasAccepted = myProgressConsent && myProgressConsent.hasConsentedTo === true
+          const hasAccepted = me && me.progressConsent === true
           const { mutating, serverError } = this.state
 
           return (
@@ -75,24 +69,18 @@ class ProgressSettings extends Component {
                 checked={hasAccepted}
                 disabled={
                   (!isMember) ||
-                  mutating['consent']
+                  mutating
                 }
                 onChange={(_, checked) => {
-                  this.setState(state => ({
-                    mutating: {
-                      ...state.mutating,
-                      'consent': true
-                    }
-                  }))
+                  this.setState({
+                    mutating: true
+                  })
                   const finish = () => {
-                    this.setState(state => ({
-                      mutating: {
-                        ...state.mutating,
-                        'consent': false
-                      }
-                    }))
+                    this.setState({
+                      mutating: false
+                    })
                   }
-                  const consentMutation = hasAccepted ? revokeConsent : submitConsent
+                  const consentMutation = hasAccepted ? revokeProgressConsent : submitProgressConsent
                   consentMutation()
                     .then(finish)
                     .catch(this.catchServerError)
@@ -119,5 +107,6 @@ class ProgressSettings extends Component {
 export default compose(
   withProgressApi,
   withMembership,
-  withT
+  withT,
+  withMe
 )(ProgressSettings)

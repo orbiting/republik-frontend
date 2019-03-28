@@ -1,5 +1,7 @@
-import { graphql, compose, withApollo } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
+
+import { userProgressConsentFragment } from '../../../lib/apollo/withMe'
 
 export const userProgressFragment = `
   fragment UserProgressOnDocument on Document {
@@ -34,40 +36,24 @@ const upsertDocumentProgressMutation = gql`
   ${userProgressFragment}
 `
 
-const userConsentFragment = `
-  fragment Consent on User {
-    hasConsentedTo(name: "PROGRESS")
-  }
-`
-
-const consentQuery = gql`
-  query myProgressConsent {
-    myProgressConsent: me {
-      id
-      ...Consent
-    }
-  }
-  ${userConsentFragment}
-`
-
 const submitConsentMutation = gql`
   mutation submitConsent {
     submitConsent(name: "PROGRESS") {
       id
-      ...Consent
+      ...ProgressConsent
     }
   }
-  ${userConsentFragment}
+  ${userProgressConsentFragment}
 `
 
 const revokeConsentMutation = gql`
   mutation revokeConsent {
     revokeConsent(name: "PROGRESS") {
       id
-      ...Consent
+      ...ProgressConsent
     }
   }
-  ${userConsentFragment}
+  ${userProgressConsentFragment}
 `
 
 const upsertMediaProgressMutation = gql`
@@ -94,23 +80,14 @@ export const mediaProgressQuery = gql`
 `
 
 export const withProgressApi = compose(
-  withApollo,
-  graphql(consentQuery, {
-    props: ({ data, errors }) => ({
-      data,
-      myProgressConsent: data.loading
-        ? undefined
-        : data.myProgressConsent
-    })
-  }),
   graphql(submitConsentMutation, {
     props: ({ mutate }) => ({
-      submitConsent: mutate
+      submitProgressConsent: mutate
     })
   }),
   graphql(revokeConsentMutation, {
     props: ({ mutate }) => ({
-      revokeConsent: mutate
+      revokeProgressConsent: mutate
     })
   }),
   graphql(upsertDocumentProgressMutation, {

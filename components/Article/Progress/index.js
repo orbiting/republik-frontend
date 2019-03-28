@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { compose } from 'react-apollo'
+import { compose, withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
@@ -9,6 +9,7 @@ import { mediaQueries } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
+import withMe from '../../../lib/apollo/withMe'
 
 import { withProgressApi, mediaProgressQuery } from './api'
 import RestoreButton from './RestoreButton'
@@ -28,8 +29,8 @@ class Progress extends Component {
     }
 
     this.isTrackingAllowed = () => {
-      const { myProgressConsent } = this.props
-      return myProgressConsent && myProgressConsent.hasConsentedTo === true
+      const { me } = this.props
+      return me && me.progressConsent === true
     }
 
     this.containerRef = ref => {
@@ -251,21 +252,19 @@ class Progress extends Component {
     const { restore, restoreOpacity } = this.state
     const {
       children,
-      myProgressConsent,
-      revokeConsent,
-      submitConsent,
+      me,
+      revokeProgressConsent,
+      submitProgressConsent,
       article,
       isArticle
     } = this.props
 
-    const showConsentPrompt = isArticle && myProgressConsent && myProgressConsent.hasConsentedTo === null
+    const showConsentPrompt = isArticle && me && me.progressConsent === null
 
     const progressPrompt = showConsentPrompt && (
       <ProgressPrompt
-        onSubmitConsent={() => {
-          submitConsent()
-        }}
-        onRevokeConsent={revokeConsent}
+        onSubmitConsent={submitProgressConsent}
+        onRevokeConsent={revokeProgressConsent}
       />
     )
 
@@ -300,8 +299,8 @@ class Progress extends Component {
 
 Progress.propTypes = {
   children: PropTypes.object,
-  myProgressConsent: PropTypes.shape({
-    hasConsentedTo: PropTypes.bool
+  me: PropTypes.shape({
+    progressConsent: PropTypes.bool
   }),
   revokeConsent: PropTypes.func,
   submitConsent: PropTypes.func,
@@ -318,5 +317,7 @@ Progress.childContextTypes = {
 }
 
 export default compose(
-  withProgressApi
+  withApollo,
+  withProgressApi,
+  withMe
 )(Progress)

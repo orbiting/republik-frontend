@@ -16,6 +16,7 @@ import RestoreButton from './RestoreButton'
 const MIN_INDEX = 2
 const RESTORE_AREA = 0
 const RESTORE_FADE_AREA = 200
+const RESTORE_MIN = 0.4
 
 class Progress extends Component {
   constructor (props) {
@@ -52,7 +53,7 @@ class Progress extends Component {
         if (this.state.restore) {
           const restoreOpacity = 1 - Math.min(
             1,
-            Math.max(0, y - RESTORE_AREA) / RESTORE_FADE_AREA
+            Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
           )
           if (restoreOpacity !== this.state.restoreOpacity) {
             this.setState({ restoreOpacity })
@@ -274,7 +275,7 @@ class Progress extends Component {
     const showRestore = (
       isArticle &&
       restore &&
-      restoreOpacity !== 0 &&
+      restoreOpacity > RESTORE_MIN &&
       article.userProgress &&
       article.userProgress.percentage &&
       article.userProgress.percentage !== 1

@@ -10,10 +10,10 @@ import datetime from './datetime'
 import withT from '../../../lib/withT'
 import { swissNumbers } from '../../../lib/utils/format'
 
-import { negativeColors } from '../../Frame/constants'
 import sharedStyles from '../../sharedStyles'
 
 import {
+  ProgressCircle,
   colors,
   mediaQueries
 } from '@project-r/styleguide'
@@ -21,6 +21,7 @@ import {
 const RADIUS = 16
 const formatPercent = swissNumbers.format('.0%')
 const paddingRight = 15
+const BUTTON_ICON_SIZE = 20
 
 const styles = {
   container: css({
@@ -40,7 +41,7 @@ const styles = {
     }
   }),
   button: css({
-    backgroundColor: negativeColors.primaryBg,
+    backgroundColor: '#fff',
     boxShadow: '0 0 0px 1px rgba(255, 255, 255, .25)',
     display: 'flex',
     flexDirection: 'column',
@@ -51,7 +52,15 @@ const styles = {
     left: `calc(50% - ${RADIUS}px)`,
     width: `${RADIUS * 2}px`,
     height: `${RADIUS * 2}px`,
-    borderRadius: `${RADIUS}px`
+    borderRadius: `${RADIUS}px`,
+    padding: 0
+  }),
+  buttonIcon: css({
+    position: 'absolute',
+    width: BUTTON_ICON_SIZE,
+    height: BUTTON_ICON_SIZE,
+    top: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`,
+    left: `calc(50% - ${BUTTON_ICON_SIZE / 2}px)`
   }),
   close: css({
     position: 'absolute',
@@ -98,7 +107,13 @@ class RestoreButton extends React.Component {
     return (
       <div {...styles.container} style={{ opacity }} onClick={onClick}>
         <button {...sharedStyles.plainButton} {...styles.button}>
-          <DownIcon size={RADIUS * 1.5} fill='#ccc' />
+          <ProgressCircle
+            progress={userProgress.percentage * 100}
+            stroke='#000'
+            strokePlaceholder='#e9e9e9'
+            radius={RADIUS}
+            strokeWidth={3} />
+          <DownIcon {...styles.buttonIcon} fill='#000' />
         </button>
         <div {...styles.label}>
           {title}

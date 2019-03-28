@@ -5,6 +5,7 @@ import { withMembership } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 
+import Box from '../Frame/Box'
 import ErrorMessage from '../ErrorMessage'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox } from '@project-r/styleguide'
@@ -49,8 +50,8 @@ class ProgressSettings extends Component {
   render () {
     const {
       t,
-      isMember,
       me,
+      isMember,
       revokeProgressConsent,
       submitProgressConsent
     } = this.props
@@ -67,11 +68,11 @@ class ProgressSettings extends Component {
               <P style={{ margin: '20px 0' }}>{getFeatureDescription(t)}</P>
               <Checkbox
                 checked={hasAccepted}
-                disabled={
-                  (!isMember) ||
-                  mutating
-                }
+                disabled={mutating}
                 onChange={(_, checked) => {
+                  if (hasAccepted && !window.confirm(t('account/progress/consent/confirmRevoke'))) {
+                    return
+                  }
                   this.setState({
                     mutating: true
                   })
@@ -95,6 +96,11 @@ class ProgressSettings extends Component {
                   )}
                 </span>
               </Checkbox>
+              {!isMember && (
+                <Box style={{ margin: '10px 0', padding: 15 }}>
+                  <P>{t('account/progress/consent/noMembership')}</P>
+                </Box>
+              )}
               {serverError && <ErrorMessage error={serverError} />}
             </Fragment>
           )

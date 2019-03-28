@@ -48,8 +48,7 @@ export const AnchorLink = ({ children, id }) => (
   </a>
 )
 
-// TODO: remove isEditor for public progress launch.
-const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp, isEditor }) => (
+const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
   <ul {...styles.anchorList}>
     {!inNativeIOSApp && memberships && memberships.length > 0 &&
       <li {...styles.anchorListItem}>
@@ -87,13 +86,11 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp, isEditor }) 
         {t('account/notificationOptions/title')}
       </AnchorLink>
     </li>
-    {isEditor && (
-      <li {...styles.anchorListItem}>
-        <AnchorLink id='position'>
-          {t('account/progress/title')}
-        </AnchorLink>
-      </li>
-    )}
+    <li {...styles.anchorListItem}>
+      <AnchorLink id='position'>
+        {t('account/progress/title')}
+      </AnchorLink>
+    </li>
     {APP_OPTIONS &&
       <li {...styles.anchorListItem}>
         <AnchorLink id='anmeldung'>

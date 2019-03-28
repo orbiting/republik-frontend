@@ -46,11 +46,11 @@ class Progress extends Component {
         : HEADER_HEIGHT
 
     this.onScroll = () => {
-      const { isMember, article } = this.props
+      const { article } = this.props
 
       const y = window.pageYOffset
       const downwards = this.lastY === undefined || y > this.lastY
-      if (isMember && article) {
+      if (article) {
         this.saveProgress(article.id, downwards)
         if (this.state.restore) {
           const restoreOpacity = 1 - Math.min(

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-28T09:25:38.975Z",
+  "updated": "2019-03-28T16:52:10.899Z",
   "title": "live",
   "data": [
     {
@@ -921,6 +921,14 @@
     {
       "key": "account/progress/consent/label",
       "value": "Ich möchte diese Funktion nutzen"
+    },
+    {
+      "key": "account/progress/consent/confirmRevoke",
+      "value": "Ihre Einwilligung wirklich rückgängig machen? Sobald Sie das tun, werden auch alle gespeicherten Positionen gelöscht."
+    },
+    {
+      "key": "account/progress/consent/noMembership",
+      "value": "Die Funktion ist nur für Mitglieder und Abonnentinnen die Republik zugänglich."
     },
     {
       "key": "account/pledges/title",

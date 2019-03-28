@@ -44,7 +44,7 @@ class NewsletterSubscriptions extends Component {
 
     return (
       <Loader
-        loading={loading}
+        loading={loading || !me}
         error={error}
         ErrorContainer={ErrorContainer}
         render={() => {

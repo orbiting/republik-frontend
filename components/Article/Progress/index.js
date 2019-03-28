@@ -70,7 +70,7 @@ class Progress extends Component {
 
       // We only persist progress for a downward scroll, but we still measure
       // an upward scroll to keep track of the current reading position.
-      const progress = this.measureProgress(downwards)
+      const progress = this.measureProgress()
       const storedUserProgress = this.props.article && this.props.article.userProgress
       if (
         downwards &&
@@ -88,17 +88,19 @@ class Progress extends Component {
       }
     }, 300)
 
-    this.measureProgress = (downwards = true) => {
+    this.measureProgress = () => {
       const progressElements = this.getProgressElements()
       if (!progressElements.length) {
         return
       }
-      const fallbackIndex = downwards ? 0 : progressElements.length - 1
-      const progressElementIndex = this.lastElementIndex || fallbackIndex
+      const measuredY = window.pageYOffset
+      const measuredDownwards = this.lastMeasuredY === undefined || measuredY > this.lastMeasuredY
+      const fallbackIndex = measuredDownwards ? 0 : progressElements.length - 1
+      const progressElementIndex = this.lastMeasuredIndex || fallbackIndex
       const headerHeight = this.headerHeight()
 
       let progressElement, nextIndex
-      if (downwards) {
+      if (measuredDownwards) {
         for (let i = progressElementIndex; i < progressElements.length; i++) {
           progressElement = progressElements[i]
           const { top, height } = progressElement.getBoundingClientRect()
@@ -128,7 +130,8 @@ class Progress extends Component {
           }
         }
       }
-      this.lastElementIndex = nextIndex
+      this.lastMeasuredIndex = nextIndex
+      this.lastMeasuredY = measuredY
 
       return {
         nodeId: progressElement && progressElement.getAttribute('data-pos'),

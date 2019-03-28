@@ -473,7 +473,7 @@ class ArticlePage extends Component {
   getChildContext () {
     const { data: { article } } = this.props
     return {
-      userProgress: article && article.userProgress,
+      // userProgress: article && article.userProgress,
       userBookmark: article && article.userBookmark
     }
   }
@@ -628,13 +628,13 @@ class ArticlePage extends Component {
 }
 
 ArticlePage.childContextTypes = {
-  userProgress: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    percentage: PropTypes.number.isRequired,
-    nodeId: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired
-  }),
+  // userProgress: PropTypes.shape({
+  //   id: PropTypes.string.isRequired,
+  //   percentage: PropTypes.number.isRequired,
+  //   nodeId: PropTypes.string.isRequired,
+  //   updatedAt: PropTypes.string.isRequired,
+  //   createdAt: PropTypes.string.isRequired
+  // }),
   userBookmark: PropTypes.shape({
     id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired

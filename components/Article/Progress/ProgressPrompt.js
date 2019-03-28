@@ -6,6 +6,7 @@ import { WithMembership } from '../../Auth/withMembership'
 import withT from '../../../lib/withT'
 import { AnchorLink } from '../../Account/Anchors'
 import PathLink from '../../Link/Path'
+import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 
 import {
   Button,
@@ -46,18 +47,15 @@ const styles = {
 
 const { H2, P, Emphasis } = Interaction
 
-// TODO: replace with stable redirect.
-const META_ARTICLE_PATH = '/2019/03/28/duerfen-wir-mehr-ueber-ihr-verhalten-wissen'
-
 export const getFeatureDescription = (t) => t.elements(
   'article/progressprompt/description/feature', {
-    link: (
-      <PathLink path={META_ARTICLE_PATH} passHref key='link'>
+    link: PROGRESS_EXPLAINER_PATH ? (
+      <PathLink path={PROGRESS_EXPLAINER_PATH} passHref key='link'>
         <a {...linkRule}>
           {t('article/progressprompt/description/feature/link')}
         </a>
       </PathLink>
-    )
+    ) : null
   }
 )
 

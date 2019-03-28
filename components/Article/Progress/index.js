@@ -10,6 +10,7 @@ import { mediaQueries } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
 import withMe from '../../../lib/apollo/withMe'
+import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
 
 import { withProgressApi, mediaProgressQuery } from './api'
 import RestoreButton from './RestoreButton'
@@ -259,7 +260,14 @@ class Progress extends Component {
       isArticle
     } = this.props
 
-    const showConsentPrompt = isArticle && me && me.progressConsent === null
+    const showConsentPrompt = (
+      isArticle &&
+      me &&
+      me.progressConsent === null &&
+      article &&
+      article.meta &&
+      article.meta.path !== PROGRESS_EXPLAINER_PATH
+    )
 
     const progressPrompt = showConsentPrompt && (
       <ProgressPrompt

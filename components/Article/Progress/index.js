@@ -162,11 +162,6 @@ class Progress extends Component {
       return percentage
     }
 
-    this.resetDocumentProgress = () => {
-      const { article } = this.props
-      article && this.props.upsertDocumentProgress(article.id, 0, '')
-    }
-
     this.restoreArticleProgress = () => {
       const { article } = this.props
       const { userProgress } = article
@@ -234,11 +229,13 @@ class Progress extends Component {
         }
       })
     }
+  }
 
-    this.getChildContext = () => ({
+  getChildContext () {
+    return {
       getMediaProgress: this.getMediaProgress,
       saveMediaProgress: this.saveMediaProgress
-    })
+    }
   }
 
   componentDidMount () {
@@ -248,9 +245,6 @@ class Progress extends Component {
 
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
-  }
-
-  componentDidUpdate () {
   }
 
   render () {

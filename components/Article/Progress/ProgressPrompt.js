@@ -47,7 +47,7 @@ const styles = {
 const { H2, P, Emphasis } = Interaction
 
 // TODO: replace with stable redirect.
-const META_ARTICLE_PATH = '/2019/02/28/duerfen-wir-mehr-ueber-ihr-verhalten-wissen'
+const META_ARTICLE_PATH = '/2019/03/28/duerfen-wir-mehr-ueber-ihr-verhalten-wissen'
 
 export const getFeatureDescription = (t) => t.elements(
   'article/progressprompt/description/feature', {

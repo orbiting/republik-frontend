@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-27T09:06:29.789Z",
+  "updated": "2019-03-28T09:25:38.975Z",
   "title": "live",
   "data": [
     {
@@ -3044,30 +3044,50 @@
     },
     {
       "key": "article/progressprompt/description/settings",
-      "value": "Sie können dies natürlich jederzeit in Ihren {link} ändern."
+      "value": "Sie können dies natürlich jederzeit in Ihrem {link} ändern."
     },
     {
       "key": "article/progressprompt/description/settings/link",
-      "value": "Einstellungen"
+      "value": "Konto"
     },
     {
-      "key": "article/progress/backtotopbutton/title",
-      "value": "Zum Anfang"
+      "key": "progress/restore/time",
+      "value": "{day} um {time} Uhr"
     },
     {
-      "key": "article/progress/time",
-      "value": "Ihre Leseposition {day} um {time} Uhr."
+      "key": "progress/restore/time/today",
+      "value": "Von heute"
     },
     {
-      "key": "article/progress/time/today",
+      "key": "progress/restore/time/yesterday",
+      "value": "Von gestern"
+    },
+    {
+      "key": "progress/restore/time/other",
+      "value": "Vom {date}"
+    },
+    {
+      "key": "progress/restore/title",
+      "value": "Zu Ihrer Leseposition: {percent}"
+    },
+    {
+      "key": "progress/restore/close",
+      "value": "Schliessen"
+    },
+    {
+      "key": "progress/time",
+      "value": "Ihre Leseposition {day} um {time} Uhr"
+    },
+    {
+      "key": "progress/time/today",
       "value": "heute"
     },
     {
-      "key": "article/progress/time/yesterday",
+      "key": "progress/time/yesterday",
       "value": "gestern"
     },
     {
-      "key": "article/progress/time/other",
+      "key": "progress/time/other",
       "value": "am {date}"
     },
     {

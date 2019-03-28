@@ -1,45 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
-import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 
 import ProgressPrompt from './ProgressPrompt'
-import BackToTopButton from './BackToTopButton'
-import { Spinner, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_POPOVER } from '../../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
+import { scrollIt } from '../../../lib/utils/scroll'
 
 import { withProgressApi, mediaProgressQuery } from './api'
+import RestoreButton from './RestoreButton'
 
-const MAX_POLL_RETRIES = 3
-const SCROLLED_AWAY_PX = 100
-
-const styles = {
-  spinner: css({
-    position: 'fixed',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: HEADER_HEIGHT_MOBILE,
-    zIndex: ZINDEX_POPOVER,
-    background: '#fff',
-    [mediaQueries.mUp]: {
-      top: HEADER_HEIGHT
-    }
-  })
-}
+const MIN_INDEX = 2
+const RESTORE_AREA = 0
+const RESTORE_FADE_AREA = 200
+const RESTORE_MIN = 0.4
 
 class Progress extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      progressInitStarted: false,
-      initialized: false,
-      progressElementIndex: 0,
-      pollRetries: 0
+      restore: true,
+      restoreOpacity: 1
     }
 
     this.isTrackingAllowed = () => {
@@ -58,95 +43,64 @@ class Progress extends Component {
         ? HEADER_HEIGHT_MOBILE
         : HEADER_HEIGHT
 
-    this.initialize = (article) => {
-      const { userProgress } = article
-      this.poll(userProgress)
-    }
-
-    this.poll = (userProgress) => {
-      if (
-        !userProgress ||
-        !this.props.isArticle ||
-        (!userProgress.nodeId && !userProgress.percentage) ||
-        userProgress.percentage === 1
-      ) {
-        this.setState({ initialized: true })
-        return
-      }
-      const progressElements = this.getProgressElements()
-      const { pollRetries } = this.state
-      if (pollRetries > MAX_POLL_RETRIES) {
-        return
-      }
-      if (progressElements && progressElements.length) {
-        const { percentage, nodeId } = userProgress
-        this.restoreProgress(percentage, nodeId)
-      } else {
-        const newPollRetries = pollRetries + 1
-        this.setState({ pollRetries: newPollRetries }, () => {
-          setTimeout(() => {
-            this.poll(userProgress)
-          }, 300 * newPollRetries)
-        })
-      }
-    }
-
     this.onScroll = () => {
       const { isMember, article } = this.props
-      if (isMember && article) {
-        this.saveProgress(article.id)
-      }
-      this.maybeHideBackToTopButton()
-    }
 
-    this.scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      })
-      this.setState({ BackToTopButtonAnimateOut: true })
-      this.resetDocumentProgress()
-    }
-
-    this.maybeHideBackToTopButton = throttle(() => {
-      const {
-        initialized,
-        initialPageYOffset,
-        showBackToTopButton,
-        BackToTopButtonAnimateOut
-      } = this.state
-      if (BackToTopButtonAnimateOut || !showBackToTopButton || !initialized || !initialPageYOffset) {
-        return
-      }
       const y = window.pageYOffset
-      const hasScrolledAway = Math.abs(y - initialPageYOffset) > SCROLLED_AWAY_PX
-      if (hasScrolledAway) {
-        this.setState({ BackToTopButtonAnimateOut: true })
-      }
-    }, 500)
-
-    this.measure = () => {
-      if (this.container) {
-        const { width, height, top } = this.container.getBoundingClientRect()
-        const cleanWidth = Math.min(width, 695)
-        if (cleanWidth !== this.state.width || height !== this.state.height || top !== this.state.top) {
-          this.setState({ width: cleanWidth, height, top })
+      const downwards = this.lastY === undefined || y > this.lastY
+      if (isMember && article) {
+        this.saveProgress(article.id, downwards)
+        if (this.state.restore) {
+          const restoreOpacity = 1 - Math.min(
+            1,
+            Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
+          )
+          if (restoreOpacity !== this.state.restoreOpacity) {
+            this.setState({ restoreOpacity })
+          }
         }
       }
+      this.lastY = y
     }
 
-    this.measureProgress = (downwards = true) => {
-      const progressElements = this.getProgressElements()
-      if (!progressElements) {
+    this.saveProgress = debounce((documentId, downwards) => {
+      if (!this.isTrackingAllowed()) {
         return
       }
-      const fallbackIndex = downwards ? 0 : progressElements.length - 1
-      const progressElementIndex = this.state.progressElementIndex || fallbackIndex
+
+      // We only persist progress for a downward scroll, but we still measure
+      // an upward scroll to keep track of the current reading position.
+      const progress = this.measureProgress()
+      const storedUserProgress = this.props.article && this.props.article.userProgress
+      if (
+        downwards &&
+        progress &&
+        progress.nodeId &&
+        progress.percentage > 0 &&
+        progress.elementIndex >= MIN_INDEX && // ignore first two elements.
+        (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
+      ) {
+        this.props.upsertDocumentProgress(
+          documentId,
+          progress.percentage,
+          progress.nodeId
+        )
+      }
+    }, 300)
+
+    this.measureProgress = () => {
+      const progressElements = this.getProgressElements()
+      if (!progressElements.length) {
+        return
+      }
+      const measuredY = window.pageYOffset
+      const measuredDownwards = this.lastMeasuredY === undefined || measuredY > this.lastMeasuredY
+      const fallbackIndex = measuredDownwards ? 0 : progressElements.length - 1
+      const progressElementIndex = this.lastMeasuredIndex || fallbackIndex
       const headerHeight = this.headerHeight()
 
       let progressElement, nextIndex
-      if (downwards) {
+      if (measuredDownwards) {
         for (let i = progressElementIndex; i < progressElements.length; i++) {
           progressElement = progressElements[i]
           const { top, height } = progressElement.getBoundingClientRect()
@@ -155,7 +109,6 @@ class Progress extends Component {
           }
           const fillsHeight = top < headerHeight && headerHeight + top + height > window.innerHeight
           if (top > headerHeight || fillsHeight) {
-            this.props.debug && console.log('found downwards', progressElement)
             nextIndex = i
             break
           }
@@ -165,23 +118,20 @@ class Progress extends Component {
         for (let i = progressElementIndex; i > -1; i--) {
           progressElement = progressElements[i]
           if (i === 0) {
-            this.props.debug && console.log('found upwards', progressElement)
             break
           }
           const top = progressElement && progressElement.getBoundingClientRect().top
           if (top < headerHeight) {
             progressElement = progressElements[i + 1]
             nextIndex = i + 1
-            this.props.debug && console.log('found upwards', progressElement)
             break
           } else {
             progressElement = undefined
           }
         }
       }
-      this.setState({
-        progressElementIndex: nextIndex
-      })
+      this.lastMeasuredIndex = nextIndex
+      this.lastMeasuredY = measuredY
 
       return {
         nodeId: progressElement && progressElement.getAttribute('data-pos'),
@@ -209,101 +159,43 @@ class Progress extends Component {
         : (-top + window.innerHeight) > height
           ? 1
           : ratio
-      this.setState({ percentage })
       return percentage
     }
 
-    this.saveProgress = debounce((documentId) => {
-      if (!this.isTrackingAllowed() || !this.state.initialized) {
-        return
-      }
-      const y = window.pageYOffset
-      const downwards = this.state.pageYOffset === undefined || y > this.state.pageYOffset
-
-      if (y !== this.state.pageYOffset) {
-        this.setState({ pageYOffset: y }, () => {
-          // We only persist progress for a downward scroll, but we still measure
-          // an upward scroll to keep track of the current reading position.
-          const progress = this.measureProgress(downwards)
-          const storedUserProgress = this.props.article && this.props.article.userProgress
-          if (
-            downwards &&
-            progress &&
-            progress.nodeId &&
-            progress.percentage > 0 &&
-            progress.elementIndex > 1 && // ignore first two elements.
-            (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
-          ) {
-            this.props.upsertDocumentProgress(documentId, progress.percentage, progress.nodeId)
-          }
-        })
-      }
-    }, 300)
-
-    this.resetDocumentProgress = () => {
+    this.restoreArticleProgress = () => {
       const { article } = this.props
-      article && this.props.upsertDocumentProgress(article.id, 0, '')
-    }
-
-    this.restoreProgress = (percentage, nodeId) => {
-      const { myProgressConsent } = this.props
-      if (!myProgressConsent || !myProgressConsent.hasConsentedTo) {
-        return
-      }
-      if (window && 'scrollRestoration' in window.history) {
-        // turn off browser's interfering scroll restoration.
-        window.history.scrollRestoration = 'manual'
-      }
+      const { userProgress } = article
+      const { percentage, nodeId } = userProgress
 
       const headerHeight = this.headerHeight()
       const progressElements = this.getProgressElements()
       const progressElement = !!nodeId && progressElements.find((element, index) => {
         if (element.getAttribute('data-pos') === nodeId) {
-          this.setState({
-            progressElementIndex: index
-          })
           return true
         }
         return false
       })
 
       if (progressElement) {
-        setTimeout(() => {
-          const { top } = progressElement.getBoundingClientRect()
-          const isInViewport = top - headerHeight > 0 && top < window.innerHeight
-          // We don't scroll on mobile if the element of interest is already in viewport
-          // This may happen on swipe navigation in iPhone X.
-          if (!this.mobile() || !isInViewport) {
-            window.scrollTo(0, top - headerHeight - (this.mobile() ? 50 : 80))
-          }
-          setTimeout(() => {
-            this.setState({
-              initialized: true,
-              showBackToTopButton: true,
-              initialPageYOffset: window.pageYOffset
-            })
-          }, 0)
-        }, 100)
+        const { top } = progressElement.getBoundingClientRect()
+        const isInViewport = top - headerHeight > 0 && top < window.innerHeight
+        // We don't scroll on mobile if the element of interest is already in viewport
+        // This may happen on swipe navigation in iPhone X.
+        if (!this.mobile() || !isInViewport) {
+          scrollIt(top - headerHeight - (this.mobile() ? 50 : 80), 400)
+        }
         return
       }
       if (percentage) {
         const { height } = this.container.getBoundingClientRect()
         const offset = (percentage * height) - headerHeight
-        setTimeout(() => {
-          window.scrollTo(0, offset)
-          setTimeout(() => {
-            this.setState({
-              initialized: true,
-              showBackToTopButton: true,
-              initialPageYOffset: window.pageYOffset
-            })
-          }, 0)
-        }, 100)
+
+        scrollIt(offset, 400)
       }
     }
 
     this.saveMediaProgress = ({ mediaId }, mediaElement) => {
-      if (!mediaId || !this.isTrackingAllowed() || !this.state.initialized) {
+      if (!mediaId || !this.isTrackingAllowed()) {
         return
       }
       this.saveMediaProgressNotPlaying(mediaId, mediaElement.currentTime)
@@ -337,87 +229,70 @@ class Progress extends Component {
         }
       })
     }
-
-    this.getChildContext = () => ({
-      getMediaProgress: this.getMediaProgress,
-      saveMediaProgress: this.saveMediaProgress
-    })
   }
 
-  initializeProgress () {
-    const { progressInitStarted } = this.state
-    if (progressInitStarted || !this.isTrackingAllowed()) {
-      return
-    }
-    const { article, isMember } = this.props
-    if (isMember && article) {
-      this.setState({ progressInitStarted: true })
-      this.initialize(article)
+  getChildContext () {
+    return {
+      getMediaProgress: this.getMediaProgress,
+      saveMediaProgress: this.saveMediaProgress
     }
   }
 
   componentDidMount () {
-    window.addEventListener('resize', this.measure)
     window.addEventListener('scroll', this.onScroll)
-    this.measure()
-    this.initializeProgress()
+    this.onScroll()
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.measure)
     window.removeEventListener('scroll', this.onScroll)
   }
 
-  componentDidUpdate () {
-    this.measure()
-    this.initializeProgress()
-  }
-
   render () {
-    const { initialized, width, percentage, pageYOffset, showBackToTopButton, BackToTopButtonAnimateOut } = this.state
+    const { restore, restoreOpacity } = this.state
     const {
       children,
-      article,
       myProgressConsent,
       revokeConsent,
       submitConsent,
-      isArticle,
-      debug // TODO: remove before public progress launch.
+      article,
+      isArticle
     } = this.props
 
-    const showConsentPrompt = myProgressConsent && myProgressConsent.hasConsentedTo === null
-    const consentRejected = myProgressConsent && myProgressConsent.hasConsentedTo === false
-    const updatedAt = article && article.userProgress && article.userProgress.updatedAt
+    const showConsentPrompt = isArticle && myProgressConsent && myProgressConsent.hasConsentedTo === null
 
-    const progressPrompt = showConsentPrompt && isArticle
-      ? (
-        <ProgressPrompt
-          onSubmitConsent={() => {
-            submitConsent()
-            this.setState({ initialized: true })
-          }}
-          onRevokeConsent={revokeConsent}
-        />
-      )
-      : null
+    const progressPrompt = showConsentPrompt && (
+      <ProgressPrompt
+        onSubmitConsent={() => {
+          submitConsent()
+        }}
+        onRevokeConsent={revokeConsent}
+      />
+    )
+
+    const showRestore = (
+      isArticle &&
+      restore &&
+      restoreOpacity > RESTORE_MIN &&
+      article.userProgress &&
+      article.userProgress.percentage &&
+      article.userProgress.percentage !== 1
+    )
 
     return (
       <div ref={this.containerRef}>
-        {!initialized && !consentRejected && !showConsentPrompt && isArticle && (
-          <div {...styles.spinner}>
-            <Spinner />
-          </div>
-        )}
-        {progressPrompt}
+        {progressPrompt || null}
         {children}
-        {showBackToTopButton && (
-          <BackToTopButton onClick={this.scrollToTop} animateOut={BackToTopButtonAnimateOut} updatedAt={updatedAt} />
-        )}
-        {debug && (
-          <div style={{ position: 'fixed', bottom: 0, color: '#fff', left: 0, right: 0, background: 'rgba(0, 0, 0, .7)', padding: '3px 10px' }}>
-            <p>width: {width} – pageYOffset: {pageYOffset} - Percent {percentage}</p>
-          </div>
-        )}
+        {showRestore &&
+          <RestoreButton
+            onClick={this.restoreArticleProgress}
+            onClose={e => {
+              e.preventDefault()
+              e.stopPropagation()
+
+              this.setState({ restore: false })
+            }}
+            opacity={restoreOpacity}
+            userProgress={article.userProgress} />}
       </div>
     )
   }

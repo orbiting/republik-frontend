@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
@@ -23,7 +24,8 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, userBookmark, inNativeApp } = this.props
+    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, inNativeApp } = this.props
+    const { userBookmark } = this.context
     const {
       discussionId,
       discussionPath,
@@ -50,7 +52,7 @@ class ArticleActionBar extends Component {
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
           documentId={documentId}
-          userBookmark={userBookmark}
+          bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         />
@@ -66,6 +68,10 @@ class ArticleActionBar extends Component {
       </Fragment>
     )
   }
+}
+
+ArticleActionBar.contextTypes = {
+  userBookmark: PropTypes.object
 }
 
 export default ArticleActionBar

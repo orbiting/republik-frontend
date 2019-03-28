@@ -30,7 +30,7 @@ import { t } from '../../../lib/withT'
 ].map(([title, date, lastMidnight, expected]) => {
   test(`datetime.${title}`, assert => {
     assert.equal(
-      datetime(t, date, lastMidnight),
+      datetime(t, date, undefined, lastMidnight),
       expected
     )
     assert.end()

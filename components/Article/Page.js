@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { withRouter } from 'next/router'
 
@@ -25,8 +26,7 @@ import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import Progress from './Progress'
 import {
-  userProgressFragment,
-  userProgressOnAudioSourceFragment
+  userProgressFragment
 } from './Progress/api'
 
 import {
@@ -172,7 +172,8 @@ const getDocument = gql`
           mp3
           aac
           ogg
-          ...UserProgressOnAudioSource
+          mediaId
+          durationMs
         }
         estimatedReadingMinutes
         estimatedConsumptionMinutes
@@ -183,7 +184,6 @@ const getDocument = gql`
   }
   ${onDocumentFragment}
   ${userProgressFragment}
-  ${userProgressOnAudioSourceFragment}
 `
 
 const runMetaFromQuery = (code, query) => {
@@ -260,7 +260,6 @@ class ArticlePage extends Component {
       showAudioPlayer: false,
       isAwayFromBottomBar: true,
       mobile: true,
-      progressInitStarted: false,
       ...this.deriveStateFromProps(props, {})
     }
 
@@ -387,7 +386,6 @@ class ArticlePage extends Component {
           : undefined}
         inNativeApp={inNativeApp}
         documentId={article.id}
-        userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
@@ -448,8 +446,7 @@ class ArticlePage extends Component {
     const nextArticle = nextProps.data.article || {}
 
     if (
-      currentArticle.id !== nextArticle.id ||
-      currentArticle.userBookmark !== nextArticle.userBookmark
+      currentArticle.id !== nextArticle.id
     ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
@@ -471,6 +468,14 @@ class ArticlePage extends Component {
   componentWillUnmount () {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
+  }
+
+  getChildContext () {
+    const { data: { article } } = this.props
+    return {
+      // userProgress: article && article.userProgress,
+      userBookmark: article && article.userBookmark
+    }
   }
 
   render () {
@@ -620,6 +625,20 @@ class ArticlePage extends Component {
       </Frame>
     )
   }
+}
+
+ArticlePage.childContextTypes = {
+  // userProgress: PropTypes.shape({
+  //   id: PropTypes.string.isRequired,
+  //   percentage: PropTypes.number.isRequired,
+  //   nodeId: PropTypes.string.isRequired,
+  //   updatedAt: PropTypes.string.isRequired,
+  //   createdAt: PropTypes.string.isRequired
+  // }),
+  userBookmark: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired
+  })
 }
 
 const ComposedPage = compose(

@@ -14,6 +14,7 @@ import { negativeColors } from '../Frame/Footer'
 import {
   ZINDEX_BOTTOM_PANEL
 } from '../constants'
+import sharedStyles from '../sharedStyles'
 
 const PADDING = 15
 const IOS_BOTTOM_HOT_AREA = 44
@@ -46,16 +47,17 @@ const styles = {
     top: 0,
     right: 0
   }),
-  plainButton: css({
-    border: 'none',
-    background: 'transparent',
-    cursor: 'pointer',
-    outline: 'none',
-    WebkitAppearance: 'none'
-  }),
   close: css({
     padding: '10px',
+    '& svg': {
+      width: 26,
+      height: 26
+    },
     [mediaQueries.mUp]: {
+      '& svg': {
+        width: 32,
+        height: 32
+      },
       padding: `${PADDING}px`
     }
   }),
@@ -109,12 +111,12 @@ class BottomPanel extends Component {
       <div aria-expanded={expanded && this.state.expanded} {...styles.container}>
         <div {...styles.closeContainer}>
           <button
-            {...styles.plainButton}
+            {...sharedStyles.plainButton}
             {...styles.close}
             onClick={trackEventOnClick(['PayNote', 'close panel', variation], this.close)}
             title={t('article/payNote/bottomPanel/close')}
           >
-            <Close size={32} fill={negativeColors.lightText} />
+            <Close fill={negativeColors.lightText} />
           </button>
         </div>
         <Center style={{ padding: 0 }}>
@@ -125,7 +127,7 @@ class BottomPanel extends Component {
             {button}
             <button
               {...styles.later}
-              {...styles.plainButton}
+              {...sharedStyles.plainButton}
               onClick={trackEventOnClick(['PayNote', 'later panel', variation], this.close)}
             >
               {t('article/payNote/bottomPanel/actions/later')}

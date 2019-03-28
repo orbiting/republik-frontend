@@ -10,20 +10,20 @@ const getLastMidnight = () => {
   return today
 }
 
-export default (t, date, lastMidnight = getLastMidnight()) => {
+export default (t, date, baseKey = 'progress', lastMidnight = getLastMidnight()) => {
   const diff = date - lastMidnight
 
   const formatDate = swissTime.format('%d.%m.%Y')
   const formatTime = timeFormat('%H:%M')
 
   const displayDay = diff > 0
-    ? t('article/progress/time/today')
+    ? t(`${baseKey}/time/today`)
     : diff > -MS_PER_DAY
-      ? t('article/progress/time/yesterday')
-      : t('article/progress/time/other', { date: formatDate(date) })
+      ? t(`${baseKey}/time/yesterday`)
+      : t(`${baseKey}/time/other`, { date: formatDate(date) })
   const displayTime = formatTime(date)
 
-  return t('article/progress/time', {
+  return t(`${baseKey}/time`, {
     day: displayDay,
     time: displayTime
   })

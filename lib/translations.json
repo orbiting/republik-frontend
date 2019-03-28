@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-27T17:45:30.622Z",
+  "updated": "2019-03-28T01:02:47.383Z",
   "title": "live",
   "data": [
     {
@@ -3051,24 +3051,40 @@
       "value": "Konto"
     },
     {
-      "key": "article/progress/time",
-      "value": "Ihre Leseposition {day} um {time} Uhr."
+      "key": "progress/restore/time",
+      "value": "{day} um {time} Uhr"
     },
     {
-      "key": "article/progress/time/today",
+      "key": "progress/restore/time/today",
+      "value": "Von heute"
+    },
+    {
+      "key": "progress/restore/time/yesterday",
+      "value": "Von gestern"
+    },
+    {
+      "key": "progress/restore/time/other",
+      "value": "Vom {date}"
+    },
+    {
+      "key": "progress/restore/title",
+      "value": "Zu Ihrer Leseposition: {percent}"
+    },
+    {
+      "key": "progress/time",
+      "value": "Ihre Leseposition {day} um {time} Uhr"
+    },
+    {
+      "key": "progress/time/today",
       "value": "heute"
     },
     {
-      "key": "article/progress/time/yesterday",
+      "key": "progress/time/yesterday",
       "value": "gestern"
     },
     {
-      "key": "article/progress/time/other",
+      "key": "progress/time/other",
       "value": "am {date}"
-    },
-    {
-      "key": "article/progress/restore",
-      "value": "Ihre Leseposition wiederherstellen"
     },
     {
       "key": "merci/postpay/lead",

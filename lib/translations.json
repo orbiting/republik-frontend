@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-28T01:02:47.383Z",
+  "updated": "2019-03-28T09:25:38.975Z",
   "title": "live",
   "data": [
     {
@@ -3069,6 +3069,10 @@
     {
       "key": "progress/restore/title",
       "value": "Zu Ihrer Leseposition: {percent}"
+    },
+    {
+      "key": "progress/restore/close",
+      "value": "Schliessen"
     },
     {
       "key": "progress/time",

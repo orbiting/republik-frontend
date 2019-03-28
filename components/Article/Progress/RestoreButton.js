@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import datetime from './datetime'
-import withT from '../../../lib/withT'
-import Icon from 'react-icons/lib/md/arrow-downward'
-import { negativeColors } from '../../Frame/constants'
 
+import DownIcon from 'react-icons/lib/md/arrow-downward'
+import Close from 'react-icons/lib/md/close'
+
+import datetime from './datetime'
+
+import withT from '../../../lib/withT'
 import { swissNumbers } from '../../../lib/utils/format'
+
+import { negativeColors } from '../../Frame/constants'
+import sharedStyles from '../../sharedStyles'
 
 import {
   colors,
@@ -15,6 +20,7 @@ import {
 
 const RADIUS = 16
 const formatPercent = swissNumbers.format('.0%')
+const paddingRight = 15
 
 const styles = {
   container: css({
@@ -27,14 +33,13 @@ const styles = {
     bottom: 0,
     // transition: `opacity 300ms ease-in-out`,
     textAlign: 'center',
-    padding: `${RADIUS + 5}px 15px 20px 15px`,
+    padding: `${RADIUS + 5}px ${paddingRight}px 20px 15px`,
     width: '100%',
     [mediaQueries.mUp]: {
       paddingBottom: 20
     }
   }),
   button: css({
-    cursor: 'pointer',
     backgroundColor: negativeColors.primaryBg,
     boxShadow: '0 0 0px 1px rgba(255, 255, 255, .25)',
     display: 'flex',
@@ -46,9 +51,24 @@ const styles = {
     left: `calc(50% - ${RADIUS}px)`,
     width: `${RADIUS * 2}px`,
     height: `${RADIUS * 2}px`,
-    borderRadius: `${RADIUS}px`,
-    border: 'none',
-    outline: 'none'
+    borderRadius: `${RADIUS}px`
+  }),
+  close: css({
+    position: 'absolute',
+    padding: 10,
+    right: 0,
+    top: 0,
+    '& svg': {
+      width: 26,
+      height: 26
+    },
+    [mediaQueries.mUp]: {
+      '& svg': {
+        width: 32,
+        height: 32
+      },
+      padding: 15
+    }
   }),
   label: css({
     marginBottom: 5,
@@ -69,7 +89,7 @@ const styles = {
 
 class RestoreButton extends React.Component {
   render () {
-    const { t, onClick, opacity, userProgress } = this.props
+    const { t, onClick, onClose, opacity, userProgress } = this.props
 
     const title = t('progress/restore/title', {
       percent: formatPercent(userProgress.percentage)
@@ -77,8 +97,8 @@ class RestoreButton extends React.Component {
 
     return (
       <div {...styles.container} style={{ opacity }} onClick={onClick}>
-        <button {...styles.button}>
-          <Icon size={RADIUS * 1.5} fill={negativeColors.text} />
+        <button {...sharedStyles.plainButton} {...styles.button}>
+          <DownIcon size={RADIUS * 1.5} fill='#ccc' />
         </button>
         <div {...styles.label}>
           {title}
@@ -86,6 +106,14 @@ class RestoreButton extends React.Component {
         <div {...styles.note}>
           {datetime(t, new Date(userProgress.updatedAt), 'progress/restore')}
         </div>
+        <button
+          {...styles.close}
+          {...sharedStyles.plainButton}
+          onClick={onClose}
+          title={t('progress/restore/close')}
+        >
+          <Close fill='#ccc' />
+        </button>
       </div>
     )
   }

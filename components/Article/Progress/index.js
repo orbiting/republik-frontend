@@ -287,6 +287,12 @@ class Progress extends Component {
         {showRestore &&
           <RestoreButton
             onClick={this.restoreArticleProgress}
+            onClose={e => {
+              e.preventDefault()
+              e.stopPropagation()
+
+              this.setState({ restore: false })
+            }}
             opacity={restoreOpacity}
             userProgress={article.userProgress} />}
       </div>

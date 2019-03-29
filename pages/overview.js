@@ -21,6 +21,7 @@ import { negativeColors } from '../components/Frame/constants'
 import TeaserBlock from '../components/Overview/TeaserBlock'
 import { A, P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
+import text19 from '../components/Overview/2019'
 
 import {
   Button,
@@ -29,7 +30,8 @@ import {
 } from '@project-r/styleguide'
 
 const texts = {
-  2018: text18
+  2018: text18,
+  2019: text19
 }
 
 const getDocument = gql`

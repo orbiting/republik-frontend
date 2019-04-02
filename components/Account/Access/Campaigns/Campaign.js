@@ -17,6 +17,7 @@ const Campaign = ({ campaign, grantAccess, revokeAccess, t }) => {
       <P>{t.elements(
         'Account/Access/Campaigns/Campaign/claimNotice', {
           linkClaim: <Link
+            key={`campaign-claim-notice-${campaign.id}`}
             route='claim'
             params={{ context: 'access' }}
             passHref>

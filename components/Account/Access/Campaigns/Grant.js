@@ -14,9 +14,10 @@ const dayFormat = timeFormat('%e. %B %Y')
 
 const Grants = ({ grant, revokeAccess, t }) => {
   const elements = {
-    recipient: <Emphasis key={`grant-recipient-${grant.id}`}>
-      {grant.email}
-    </Emphasis>,
+    recipient: grant.email &&
+      <Emphasis key={`grant-recipient-${grant.id}`}>
+        {grant.email}
+      </Emphasis>,
     voucherCode: <Emphasis key={`grant-voucher-${grant.id}`}>
       {grant.voucherCode}
     </Emphasis>,
@@ -35,9 +36,13 @@ const Grants = ({ grant, revokeAccess, t }) => {
 
   return (
     <Item key={`grant-item-${grant.id}`}>
-      { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
-      <br />
-      {!grant.beginAt &&
+      {elements.recipient &&
+        <Fragment>
+          { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
+          <br />
+        </Fragment>
+      }
+      {!elements.beginAt &&
         <Fragment>
           { t.elements('Account/Access/Campaigns/Grants/unclaimed', elements)}
           <br />
@@ -46,7 +51,7 @@ const Grants = ({ grant, revokeAccess, t }) => {
           <Revoke grant={grant} revokeAccess={revokeAccess} />
         </Fragment>
       }
-      {grant.beginAt &&
+      {elements.beginAt &&
         <Fragment>
           { t.elements('Account/Access/Campaigns/Grants/beginAt', elements)}
           <br />

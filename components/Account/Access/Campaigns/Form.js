@@ -147,6 +147,7 @@ class Form extends Component {
               <P>
                 {t.elements('Account/Access/Campaigns/Form/explanation', {
                   linkClaim: <Link
+                    key={`campaign-form-explanation-${campaign.id}`}
                     route='claim'
                     params={{ context: 'access' }}
                     passHref>

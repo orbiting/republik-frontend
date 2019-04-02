@@ -368,12 +368,12 @@ class Profile extends Component {
             } = this.state
             return (
               <Fragment>
-                {!user.hasPublicProfile && (
+                {!user.hasPublicProfile && !inNativeIOSApp && (
                   <Box>
                     <MainContainer>
                       {user.isEligibleForProfile &&
                       <Interaction.P>{t('profile/preview')}</Interaction.P>}
-                      {!user.isEligibleForProfile && !inNativeIOSApp && <Interaction.P>
+                      {!user.isEligibleForProfile && <Interaction.P>
                         {t.elements('profile/preview/notEligible',
                           {
                             link: (

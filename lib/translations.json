@@ -1,5 +1,5 @@
 {
-  "updated": "2019-04-02T09:08:21.318Z",
+  "updated": "2019-04-02T11:57:46.866Z",
   "title": "live",
   "data": [
     {
@@ -1036,7 +1036,7 @@
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation",
-      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
+      "value": "Beschenkte erhalten eine Einladungs-E-Mail mit Ihrem Namen und Ihrer E-Mail-Adresse, einem Gutscheincode und {linkClaim}, auf dem der Gutscheincode eingelöst werden kann."
     },
     {
       "key": "Account/Access/Campaigns/Form/explanation/linkClaim",

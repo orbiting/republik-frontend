@@ -6,6 +6,7 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import { Link, Router } from '../../lib/routes'
 
@@ -323,7 +324,8 @@ class Profile extends Component {
     const {
       t,
       me,
-      data: { loading, error, user }
+      data: { loading, error, user },
+      inNativeIOSApp
     } = this.props
 
     const metaData = {
@@ -371,7 +373,7 @@ class Profile extends Component {
                     <MainContainer>
                       {user.isEligibleForProfile &&
                       <Interaction.P>{t('profile/preview')}</Interaction.P>}
-                      {!user.isEligibleForProfile && <Interaction.P>
+                      {!user.isEligibleForProfile && !inNativeIOSApp && <Interaction.P>
                         {t.elements('profile/preview/notEligible',
                           {
                             link: (
@@ -544,6 +546,7 @@ export default compose(
   withT,
   withMe,
   withRouter,
+  withInNativeApp,
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {

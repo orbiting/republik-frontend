@@ -143,14 +143,18 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 closeHandler={closeHandler}
               />
               <br />
-              <NavLink
-                route='profile'
-                params={{ slug: me.username || me.id }}
-                translation={t('Frame/Popover/myprofile')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
+              {!(inNativeIOSApp && !isMember) && (
+                <Fragment>
+                  <NavLink
+                    route='profile'
+                    params={{ slug: me.username || me.id }}
+                    translation={t('Frame/Popover/myprofile')}
+                    active={active}
+                    closeHandler={closeHandler}
+                  />
+                  <br />
+                </Fragment>
+              )}
               {isMember && (
                 <Fragment>
                   <NavLink

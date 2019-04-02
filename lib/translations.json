@@ -1,5 +1,5 @@
 {
-  "updated": "2019-03-29T17:21:52.240Z",
+  "updated": "2019-04-02T09:08:21.318Z",
   "title": "live",
   "data": [
     {
@@ -200,7 +200,7 @@
     },
     {
       "key": "withMembership/ios/unauthorized/noMembership",
-      "value": "Sie haben keine aktive Mitgliedschaft. Besuchen Sie unsere Webseite, um mehr zu erfahren."
+      "value": "Sie haben keine aktive Mitgliedschaft."
     },
     {
       "key": "withMembership/ios/unauthorized/signIn",
@@ -588,7 +588,7 @@
     },
     {
       "key": "account/ios/box",
-      "value": "Besuchen Sie unsere Webseite, um Ihre Mitgliedschaft zu verwalten."
+      "value": "In der App können Sie Ihre Mitgliedschaft nicht verwalten."
     },
     {
       "key": "Account/title",

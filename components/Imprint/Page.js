@@ -3,9 +3,11 @@ import React, { Fragment } from 'react'
 import Employees from './Employees'
 import { A, Interaction } from '@project-r/styleguide'
 
+import withInNativeApp from '../../lib/withInNativeApp'
+
 const { H1, H2, P } = Interaction
 
-export default () => {
+export default withInNativeApp(({ inNativeIOSApp }) => {
   const meta = {
     title: 'Impressum',
     description: ''
@@ -78,15 +80,17 @@ export default () => {
       <br />
       <br />
 
-      <H2>Mitgliedschaft und Abonnement</H2>
-      <P>
-        <A href='/angebote?package=ABO'>Jahresmitgliedschaft: CHF 240</A><br />
-        <A href='/angebote?package=MONTHLY_ABO'>Monatsabonnement: CHF 22</A><br />
-        <A href='/angebote?package=BENEFACTOR'>Gönnermitgliedschaft: CHF 1000</A><br />
-        <A href='/angebote?package=ABO_GIVE'>Jahresmitgliedschaft verschenken: CHF 240</A><br />
-        <A href='/angebote?package=ABO_GIVE_MONTHS'>Monatsabonnement verschenken: CHF 22</A>
-      </P>
-      <br />
+      {!inNativeIOSApp && <Fragment>
+        <H2>Mitgliedschaft und Abonnement</H2>
+        <P>
+          <A href='/angebote?package=ABO'>Jahresmitgliedschaft: CHF 240</A><br />
+          <A href='/angebote?package=MONTHLY_ABO'>Monatsabonnement: CHF 22</A><br />
+          <A href='/angebote?package=BENEFACTOR'>Gönnermitgliedschaft: CHF 1000</A><br />
+          <A href='/angebote?package=ABO_GIVE'>Jahresmitgliedschaft verschenken: CHF 240</A><br />
+          <A href='/angebote?package=ABO_GIVE_MONTHS'>Monatsabonnement verschenken: CHF 22</A>
+        </P>
+        <br />
+      </Fragment>}
       <H2>Dank</H2>
       <P>Die Republik entstand aus einem Projekt, das 2010 begann. Bis zur ersten Publikation haben hunderte Menschen in ihrer Freizeit das Projekt unterstützt und vorangetrieben. Ohne sie gäbe es die Republik nicht. Wir sind jeder einzelnen Komplizin, jedem einzelnen Komplizen von ganzem Herzen dankbar für die Unterstützung. Wir möchten an dieser Stelle die einzelnen Namen auflisten, müssen aber die betreffenden Personen noch um Erlaubnis fragen.</P>
       <br />
@@ -100,4 +104,4 @@ export default () => {
       <P>Für illegale, fehlerhafte oder unvollständige Inhalte und insbesondere für Schäden, die durch die ungeprüfte Nutzung von Inhalten verknüpfter Seiten entstehen, haftet allein der Anbieter der Seite, auf welche verwiesen wurde. Dabei ist es gleichgültig, ob der Schaden direkter, indirekter oder finanzieller Natur ist oder ein sonstiger Schaden vorliegt, der sich aus Datenverlust, Nutzungsausfall oder anderen Gründen aller Art ergeben könnte.</P>
     </Fragment>
   )
-}
+})

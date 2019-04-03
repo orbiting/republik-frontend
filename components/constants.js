@@ -5,6 +5,12 @@ export const HEADER_HEIGHT_MOBILE = 45
 export const NAVBAR_HEIGHT = 41
 export const NAVBAR_HEIGHT_MOBILE = 36
 
+export const isPositionStickySupported = () => {
+  const style = document.createElement('a').style
+  style.cssText = 'position:sticky;position:-webkit-sticky;'
+  return style.position.indexOf('sticky') !== -1
+}
+
 export const LOGO_HEIGHT = 28.02
 export const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
 export const LOGO_PADDING = Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)

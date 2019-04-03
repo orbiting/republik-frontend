@@ -33,7 +33,8 @@ import {
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE
+  LOGO_PADDING_MOBILE,
+  isPositionStickySupported
 } from '../constants'
 import { negativeColors } from './constants'
 
@@ -187,12 +188,6 @@ const styles = {
       marginTop: NAVBAR_HEIGHT
     }
   })
-}
-
-const isPositionStickySupported = () => {
-  const style = document.createElement('a').style
-  style.cssText = 'position:sticky;position:-webkit-sticky;'
-  return style.position.indexOf('sticky') !== -1
 }
 
 // Workaround for WKWebView fixed 0 rendering hickup

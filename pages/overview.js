@@ -67,9 +67,9 @@ class FrontOverview extends Component {
         `overview/${year}/meta/description`,
         'overview/meta/description'
       ], { year }, ''),
-      image: year === 2018
-        ? `${CDN_FRONTEND_BASE_URL}/static/social-media/overview2018.png`
-        : undefined
+      image: [2018, 2019].includes(year)
+        ? `${CDN_FRONTEND_BASE_URL}/static/social-media/overview${year}.png`
+        : `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
     const teasers = data.front && data.front.content.children.reduce((agg, rootChild) => {

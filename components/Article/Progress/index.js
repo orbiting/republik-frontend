@@ -178,7 +178,7 @@ class Progress extends Component {
         // We don't scroll on mobile if the element of interest is already in viewport
         // This may happen on swipe navigation in iPhone X.
         if (!this.mobile() || !isInViewport) {
-          scrollIt(top - headerHeight - (this.mobile() ? 50 : 80), 400)
+          scrollIt(top - headerHeight - (this.mobile() ? 10 : 20), 400)
         }
         return
       }

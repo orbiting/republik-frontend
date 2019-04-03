@@ -56,50 +56,53 @@ class Progress extends Component {
     }
 
     this.onScroll = () => {
-      const { article } = this.props
+      this.saveProgress()
+      if (this.state.restore) {
+        const y = window.pageYOffset
 
-      const y = window.pageYOffset
-      const downwards = this.lastY === undefined || y > this.lastY
-
-      if (article) {
-        this.saveProgress(article.id, downwards)
-        if (this.state.restore) {
-          const restoreOpacity = 1 - Math.min(
-            1,
-            Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
-          )
-          if (restoreOpacity !== this.state.restoreOpacity) {
-            this.setState({ restoreOpacity })
-          }
+        const restoreOpacity = 1 - Math.min(
+          1,
+          Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
+        )
+        if (restoreOpacity !== this.state.restoreOpacity) {
+          this.setState({ restoreOpacity })
         }
       }
-      this.lastY = y
     }
 
-    this.saveProgress = debounce((documentId, downwards) => {
-      if (!this.isTrackingAllowed()) {
+    this.saveProgress = debounce(() => {
+      const { article } = this.props
+      if (!article || !this.isTrackingAllowed()) {
         return
       }
 
-      // We only persist progress for a downward scroll, but we still measure
-      // an upward scroll to keep track of the current reading position.
+      // measure between debounced calls
+      // - to handle bouncy upwards scroll on iOS
+      //   e.g. y200 -> y250 in onScroll -> bounce back to y210
+      const y = window.pageYOffset
+      const downwards = this.lastY === undefined || y > this.lastY
+      this.lastY = y
+
+      if (!downwards) {
+        return
+      }
       const element = this.getClosestElement()
       const percentage = this.getPercentage()
-      const storedUserProgress = this.props.article && this.props.article.userProgress
+
       if (
-        downwards &&
         element &&
         element.nodeId &&
         percentage > 0 &&
-        element.index >= MIN_INDEX && // ignore first two elements.
+        // ignore elements until min index
+        element.index >= MIN_INDEX &&
         (
-          !storedUserProgress ||
-          storedUserProgress.nodeId !== element.nodeId ||
-          Math.floor(storedUserProgress.percentage * 100) !== Math.floor(percentage * 100)
+          !article.userProgress ||
+          article.userProgress.nodeId !== element.nodeId ||
+          Math.floor(article.userProgress.percentage * 100) !== Math.floor(percentage * 100)
         )
       ) {
         this.props.upsertDocumentProgress(
-          documentId,
+          article.id,
           percentage,
           element.nodeId
         )

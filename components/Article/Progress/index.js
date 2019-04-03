@@ -50,6 +50,7 @@ class Progress extends Component {
 
       const y = window.pageYOffset
       const downwards = this.lastY === undefined || y > this.lastY
+
       if (article) {
         this.saveProgress(article.id, downwards)
         if (this.state.restore) {
@@ -72,73 +73,66 @@ class Progress extends Component {
 
       // We only persist progress for a downward scroll, but we still measure
       // an upward scroll to keep track of the current reading position.
-      const progress = this.measureProgress()
+      const element = this.getClosestElement()
+      const percentage = this.getPercentage()
       const storedUserProgress = this.props.article && this.props.article.userProgress
       if (
         downwards &&
-        progress &&
-        progress.nodeId &&
-        progress.percentage > 0 &&
-        progress.elementIndex >= MIN_INDEX && // ignore first two elements.
-        (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
+        element &&
+        element.nodeId &&
+        percentage > 0 &&
+        element.index >= MIN_INDEX && // ignore first two elements.
+        (
+          !storedUserProgress ||
+          storedUserProgress.nodeId !== element.nodeId ||
+          Math.floor(storedUserProgress.percentage * 100) !== Math.floor(percentage * 100)
+        )
       ) {
         this.props.upsertDocumentProgress(
           documentId,
-          progress.percentage,
-          progress.nodeId
+          percentage,
+          element.nodeId
         )
       }
     }, 300)
 
-    this.measureProgress = () => {
+    this.getClosestElement = () => {
       const progressElements = this.getProgressElements()
       if (!progressElements.length) {
         return
       }
-      const measuredY = window.pageYOffset
-      const measuredDownwards = this.lastMeasuredY === undefined || measuredY > this.lastMeasuredY
-      const fallbackIndex = measuredDownwards ? 0 : progressElements.length - 1
-      const progressElementIndex = this.lastMeasuredIndex || fallbackIndex
-      const headerHeight = this.headerHeight()
 
-      let progressElement, nextIndex
-      if (measuredDownwards) {
-        for (let i = progressElementIndex; i < progressElements.length; i++) {
-          progressElement = progressElements[i]
-          const { top, height } = progressElement.getBoundingClientRect()
-          if (i === 0 && top > window.innerHeight) {
-            break
-          }
-          const fillsHeight = top < headerHeight && headerHeight + top + height > window.innerHeight
-          if (top > headerHeight || fillsHeight) {
-            nextIndex = i
-            break
-          }
-        }
-      } else {
-        // search upwards.
-        for (let i = progressElementIndex; i > -1; i--) {
-          progressElement = progressElements[i]
-          if (i === 0) {
-            break
-          }
-          const top = progressElement && progressElement.getBoundingClientRect().top
-          if (top < headerHeight) {
-            progressElement = progressElements[i + 1]
-            nextIndex = i + 1
-            break
-          } else {
-            progressElement = undefined
-          }
-        }
+      const headerHeight = this.headerHeight()
+      const getDistanceForIndex = index => {
+        return Math.abs(progressElements[index].getBoundingClientRect().top - headerHeight)
       }
-      this.lastMeasuredIndex = nextIndex
-      this.lastMeasuredY = measuredY
+
+      let closestIndex = this.lastClosestIndex || 0
+      let closestDistance = getDistanceForIndex(closestIndex)
+
+      const length = progressElements.length
+      for (let i = closestIndex + 1; i < length; i += 1) {
+        const distance = getDistanceForIndex(i)
+        if (distance > closestDistance) {
+          break
+        }
+        closestDistance = distance
+        closestIndex = i
+      }
+      for (let i = closestIndex - 1; i >= 0; i -= 1) {
+        const distance = getDistanceForIndex(i)
+        if (distance > closestDistance) {
+          break
+        }
+        closestDistance = distance
+        closestIndex = i
+      }
+
+      this.lastClosestIndex = closestIndex
 
       return {
-        nodeId: progressElement && progressElement.getAttribute('data-pos'),
-        percentage: this.getPercentage(),
-        elementIndex: nextIndex
+        nodeId: progressElements[closestIndex].getAttribute('data-pos'),
+        index: closestIndex
       }
     }
 
@@ -184,7 +178,7 @@ class Progress extends Component {
         // We don't scroll on mobile if the element of interest is already in viewport
         // This may happen on swipe navigation in iPhone X.
         if (!this.mobile() || !isInViewport) {
-          scrollIt(top - headerHeight - (this.mobile() ? 50 : 80), 400)
+          scrollIt(top - headerHeight - (this.mobile() ? 10 : 20), 400)
         }
         return
       }

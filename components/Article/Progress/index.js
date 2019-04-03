@@ -50,6 +50,7 @@ class Progress extends Component {
 
       const y = window.pageYOffset
       const downwards = this.lastY === undefined || y > this.lastY
+
       if (article) {
         this.saveProgress(article.id, downwards)
         if (this.state.restore) {
@@ -73,18 +74,23 @@ class Progress extends Component {
       // We only persist progress for a downward scroll, but we still measure
       // an upward scroll to keep track of the current reading position.
       const progress = this.measureProgress()
+      const percentage = this.getPercentage()
       const storedUserProgress = this.props.article && this.props.article.userProgress
       if (
         downwards &&
         progress &&
         progress.nodeId &&
-        progress.percentage > 0 &&
+        percentage > 0 &&
         progress.elementIndex >= MIN_INDEX && // ignore first two elements.
-        (!storedUserProgress || storedUserProgress.nodeId !== progress.nodeId)
+        (
+          !storedUserProgress ||
+          storedUserProgress.nodeId !== progress.nodeId ||
+          Math.floor(storedUserProgress.percentage * 100) !== Math.floor(percentage * 100)
+        )
       ) {
         this.props.upsertDocumentProgress(
           documentId,
-          progress.percentage,
+          percentage,
           progress.nodeId
         )
       }
@@ -137,7 +143,6 @@ class Progress extends Component {
 
       return {
         nodeId: progressElement && progressElement.getAttribute('data-pos'),
-        percentage: this.getPercentage(),
         elementIndex: nextIndex
       }
     }

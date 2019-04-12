@@ -195,10 +195,10 @@ class PaymentForm extends Component {
           amount: total,
           usage: 'reusable',
           card: {
-            number: values.cardNumber.trim(),
-            cvc: values.cardCVC.trim(),
-            exp_month: parseInt(values.cardMonth),
-            exp_year: parseInt(values.cardYear)
+            number: values.cardNumber && values.cardNumber.trim(),
+            cvc: values.cardCVC && values.cardCVC.trim(),
+            exp_month: +values.cardMonth,
+            exp_year: +values.cardYear
           },
           metadata
         }, (status, source) => {

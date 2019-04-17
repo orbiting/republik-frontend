@@ -39,6 +39,7 @@ import {
 import { negativeColors } from './constants'
 
 const SEARCH_BUTTON_WIDTH = 28
+const TRANSITION_MS = 200
 
 const styles = {
   bar: css({
@@ -64,7 +65,7 @@ const styles = {
     margin: '0 auto 0',
     padding: '0 60px',
     textAlign: 'center',
-    transition: 'opacity .2s ease-in-out'
+    transition: `opacity ${TRANSITION_MS}ms ease-in-out`
   }),
   logo: css({
     position: 'relative',
@@ -81,7 +82,7 @@ const styles = {
     '@media print': {
       display: 'none'
     },
-    transition: 'opacity .2s ease-in-out'
+    transition: `opacity ${TRANSITION_MS}ms ease-in-out`
   }),
   back: css({
     display: 'block',
@@ -147,7 +148,7 @@ const styles = {
       right: `${HEADER_HEIGHT + HEADER_HEIGHT}px`,
       paddingTop: '18px'
     },
-    transition: 'opacity .2s ease-in-out'
+    transition: `opacity ${TRANSITION_MS}ms ease-in-out`
   }),
   sticky: css({
     position: 'sticky'
@@ -224,10 +225,11 @@ class Header extends Component {
     super(props)
 
     this.state = {
-      opaque: !this.props.cover,
+      opaque: !props.cover,
       mobile: false,
       expanded: false,
-      backButton: hasBackButton(props)
+      backButton: hasBackButton(props),
+      renderSecondaryNav: props.showSecondary
     }
 
     this.onScroll = () => {
@@ -280,6 +282,16 @@ class Header extends Component {
         backButton
       })
     }
+    clearTimeout(this.secondaryNavTimeout)
+    if (this.state.renderSecondaryNav !== nextProps.showSecondary) {
+      if (nextProps.showSecondary) {
+        this.setState({ renderSecondaryNav: true })
+      } else {
+        this.secondaryNavTimeout = setTimeout(() => {
+          this.setState({ renderSecondaryNav: false })
+        }, TRANSITION_MS)
+      }
+    }
   }
 
   render () {
@@ -298,7 +310,7 @@ class Header extends Component {
       isMember,
       headerAudioPlayer: HeaderAudioPlayer
     } = this.props
-    const { withoutSticky, backButton } = this.state
+    const { withoutSticky, backButton, renderSecondaryNav } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -403,7 +415,7 @@ class Header extends Component {
                 opacity: secondaryVisible ? 1 : 0,
                 pointerEvents: secondaryVisible ? undefined : 'none'
               }}>
-                {secondaryNav}
+                {renderSecondaryNav && secondaryNav}
               </div>
             )}
             {isMember && <button

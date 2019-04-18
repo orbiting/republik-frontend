@@ -17,8 +17,7 @@ import {
 } from '../../lib/constants'
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  ZINDEX_CONTENT
+  HEADER_HEIGHT_MOBILE
 } from '../constants'
 
 import Frame from '../Frame'
@@ -43,8 +42,6 @@ const tabMq = '@media only screen and (min-width: 468px)'
 const styles = {
   container: css({
     padding: '20px 15px 120px 15px',
-    position: 'relative',
-    zIndex: ZINDEX_CONTENT,
     [mediaQueries.mUp]: {
       padding: '55px 0 120px 0'
     }
@@ -59,9 +56,7 @@ const styles = {
     display: 'flex',
     flexWrap: 'wrap',
     marginBottom: 20,
-    position: 'relative',
-    '& > button': {
-    }
+    position: 'relative'
   }),
   tabButton: css({
     flexGrow: 1,

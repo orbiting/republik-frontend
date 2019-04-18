@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import ArticleItem from './ArticleItem'
@@ -20,8 +20,7 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
-  item: css({
-    ...linkRule,
+  item: merge(linkRule, css({
     color: colors.text,
     textDecoration: 'none',
     display: 'flex',
@@ -49,7 +48,7 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     }
-  })
+  }))
 }
 
 export const DiscussionLink = ({

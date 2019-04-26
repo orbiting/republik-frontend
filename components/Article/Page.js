@@ -399,6 +399,7 @@ class ArticlePage extends Component {
           {actionBar}
         </div>
       ),
+      onAudioCoverClick: this.toggleAudio,
       getVideoPlayerProps: inNativeApp && !inNativeIOSApp
         ? props => ({
           ...props,

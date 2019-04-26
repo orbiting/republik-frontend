@@ -120,7 +120,7 @@
     "dotenv": "^4.0.0",
     "downshift": "^2.2.3",
     "express": "^4.16.3",
-    "express-basic-auth": "^1.1.5",
+    "express-basic-auth": "^1.2.0",
     "glamor": "^2.20.40",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",

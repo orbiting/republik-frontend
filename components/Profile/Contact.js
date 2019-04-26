@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 import { isWebUri } from 'valid-url'
 
 import IconLink from '../IconLink'
@@ -56,7 +58,7 @@ const AccessRoleDropdown = ({ t, ...props }) => (
   />
 )
 
-const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
+const Contact = ({ user, isEditing, onChange, values, errors, dirty, t, inNativeIOSApp }) => {
   if (isEditing) {
     return <Fragment>
       <br />
@@ -202,7 +204,7 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
           />
         )}
       </div>
-      {user.pgpPublicKeyId &&
+      {!inNativeIOSApp && user.pgpPublicKeyId &&
         <IconLink
           href={`/pgp/${user.username || user.id}.asc`}
           icon='key'
@@ -238,4 +240,4 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   )
 }
 
-export default withT(Contact)
+export default compose(withT, withInNativeApp)(Contact)

@@ -608,7 +608,10 @@ class ArticlePage extends Component {
                   </Center>}
                 </Fragment>
               )}
-              {isMember && episodes && <RelatedEpisodes episodes={episodes} path={meta.path} />}
+              {isMember && episodes && <RelatedEpisodes
+                title={series.title}
+                episodes={episodes}
+                path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
               {(isMember || isFormat) && (
                 <Fragment>

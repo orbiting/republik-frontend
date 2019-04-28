@@ -120,7 +120,7 @@ class Progress extends Component {
         return Math.abs(progressElements[index].getBoundingClientRect().top - headerHeight)
       }
 
-      let closestIndex = this.lastClosestIndex || 0
+      let closestIndex = (progressElements[this.lastClosestIndex] && this.lastClosestIndex) || 0
       let closestDistance = getDistanceForIndex(closestIndex)
 
       const length = progressElements.length

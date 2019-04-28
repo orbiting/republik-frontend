@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
-import { Link, Router } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
@@ -43,13 +43,9 @@ const styles = {
     },
     cursor: 'pointer'
   }),
-  linkSelected: css({
+  current: css({
     backgroundColor: '#fff',
-    textDecoration: 'none',
     color: colors.text
-  }),
-  selected: css({
-    backgroundColor: '#fff'
   }),
   unpublished: css({
     color: negativeColors.lightText
@@ -100,19 +96,12 @@ const EpisodeLink = withRouter(({ episode, translation, params = {}, router, ind
   }
   if (router.asPath && router.asPath === route) {
     return (
-      <a
+      <div
         {...styles.base}
-        {...styles.linkSelected}
-        style={{ cursor: 'pointer' }}
-        onClick={e => {
-          e.preventDefault()
-          Router.replaceRoute(route, params).then(() => {
-            window.scroll(0, 0)
-          })
-        }}
+        {...styles.current}
       >
         <LinkContent episode={episode} index={index} t={t} />
-      </a>
+      </div>
     )
   }
   return (

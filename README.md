@@ -29,7 +29,7 @@ See «[How To Run: Setup the Backends](https://github.com/orbiting/docs/blob/mas
 
 #### Proxy Production Backend
 
-Don't care about the developing the backend? Just want to test something against our production backend? We have [yet another proxy](https://github.com/orbiting/proxy) for that:
+Don't care about developing the backend? Just want to test something against our production backend? We have [yet another proxy](https://github.com/orbiting/proxy) for that:
 
 ```
 PORT=5000 TARGET=https://api.republik.ch CORS_ORIGIN=http://localhost:3010 npx yaproxy

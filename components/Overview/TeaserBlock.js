@@ -200,6 +200,10 @@ class TeaserBlock extends Component {
               })
             }
 
+            const Image = lazy
+              ? QueuedImg
+              : 'img'
+
             return <div key={teaser.id}
               {...styles.item}
               onTouchStart={() => { touch = true }}
@@ -210,7 +214,7 @@ class TeaserBlock extends Component {
               {hover && hover.teaser.id === teaser.id &&
                 <TeaserHover {...hover} contextWidth={width - PADDING} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
-                <QueuedImg
+                <Image
                   onLoad={this.measure}
                   src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=160`}
                   style={{

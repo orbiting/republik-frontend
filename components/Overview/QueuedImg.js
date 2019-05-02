@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const queue = []
-const loadedSrcs = []
 
 let running = 0
 const concurrency = 10
@@ -17,42 +16,54 @@ const loadEnded = () => {
   checkPending()
 }
 
-class QueuedImg extends Component {
-  constructor (props, ...args) {
-    super(props, ...args)
-    const alreadyLoaded = loadedSrcs.indexOf(props.src) !== -1
-    this.state = {
-      alreadyLoaded,
-      shouldLoad: alreadyLoaded
+const loadedSrcs = new Set()
+const loadImage = src => {
+  return new Promise(resolve => {
+    const job = () => {
+      const img = new window.Image()
+      img.onerror = () => {
+        resolve()
+      }
+      img.onload = () => {
+        loadedSrcs.add(src)
+        resolve()
+      }
+      img.src = src
     }
-    if (!alreadyLoaded) {
-      new Promise((resolve) => {
-        queue.push(resolve)
-      }).then(() => {
-        this.setState({ shouldLoad: true })
-      })
-      checkPending()
-    }
-  }
-  render () {
-    const { shouldLoad, alreadyLoaded } = this.state
-    const { onLoad, onError, ...props } = this.props
+    queue.push(job)
+    checkPending()
+  }).then(() => {
+    loadEnded()
+  })
+}
 
-    return shouldLoad
-      ? <img {...props} onLoad={event => {
-        if (!alreadyLoaded) {
-          loadedSrcs.push(props.src)
-          loadEnded()
+const useIsSrcReady = src => {
+  const isLoaded = loadedSrcs.has(src)
+
+  const [loadedSrc, setLoadedSrc] = useState(null)
+  useEffect(() => {
+    let ignore = false
+    if (!isLoaded) {
+      loadImage(src).then(() => {
+        if (!ignore) {
+          setLoadedSrc(src)
         }
-        onLoad(event)
-      }} onError={event => {
-        if (!alreadyLoaded) {
-          loadEnded()
-        }
-        onError(event)
-      }} />
-      : null
-  }
+      })
+    }
+    return () => {
+      ignore = true
+    }
+  }, [src])
+
+  return isLoaded || src === loadedSrc
+}
+
+const QueuedImg = ({ src, ...props }) => {
+  const isSrcReady = useIsSrcReady(src)
+
+  return isSrcReady
+    ? <img {...props} src={src} />
+    : null
 }
 
 export default QueuedImg

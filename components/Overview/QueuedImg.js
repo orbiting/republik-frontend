@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 
 const queue = []
 
@@ -37,33 +37,39 @@ const loadImage = src => {
   })
 }
 
-const useIsSrcReady = src => {
-  const isLoaded = loadedSrcs.has(src)
-
-  const [loadedSrc, setLoadedSrc] = useState(null)
-  useEffect(() => {
-    let ignore = false
-    if (!isLoaded) {
-      loadImage(src).then(() => {
-        if (!ignore) {
-          setLoadedSrc(src)
-        }
-      })
+class QueuedImg extends Component {
+  constructor (props, ...args) {
+    super(props, ...args)
+    this.state = {}
+    this.loadSrc = src => {
+      if (!loadedSrcs.has(src)) {
+        loadImage(src).then(() => {
+          if (!this.ignore) {
+            this.setState({ loadedSrc: src })
+          }
+        })
+      }
     }
-    return () => {
-      ignore = true
+  }
+  componentDidMount () {
+    this.loadSrc(this.props.src)
+  }
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.src !== this.props.src) {
+      this.loadSrc(nextProps.src)
     }
-  }, [src])
+  }
+  componentWillUnmount () {
+    this.ignore = true
+  }
+  render () {
+    const { src } = this.props
+    const { loadedSrc } = this.state
 
-  return isLoaded || src === loadedSrc
-}
-
-const QueuedImg = ({ src, ...props }) => {
-  const isSrcReady = useIsSrcReady(src)
-
-  return isSrcReady
-    ? <img {...props} src={src} />
-    : null
+    return loadedSrc === src || loadedSrcs.has(src)
+      ? <img {...this.props} />
+      : null
+  }
 }
 
 export default QueuedImg

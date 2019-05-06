@@ -1,11 +1,42 @@
 import Document, {
-  Head,
+  Head as DefaultHead,
   Main,
   NextScript
 } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
+
+// filter our preload links (js files)
+// see https://github.com/zeit/next.js/issues/5054
+class NoJsHead extends DefaultHead {
+  render () {
+    const res = super.render()
+
+    function transform (node) {
+      // remove all link preloads
+      if (node && node.type === 'link' && node.props && node.props.rel === 'preload') {
+        return null
+      }
+      if (node && node.props && node.props.children) {
+        return {
+          ...node,
+          props: {
+            ...node.props,
+            children: node.props.children.map(transform)
+          }
+        }
+      }
+      if (Array.isArray(node)) {
+        return node.map(transform)
+      }
+
+      return node
+    }
+
+    return transform(res)
+  }
+}
 
 export default class MyDocument extends Document {
   static async getInitialProps ({ renderPage, pathname, query, req }) {
@@ -34,6 +65,7 @@ export default class MyDocument extends Document {
       !!PIWIK_URL_BASE &&
       !!PIWIK_SITE_ID
     )
+    const Head = nojs ? NoJsHead : DefaultHead
     return (
       <html lang='de'>
         <Head>

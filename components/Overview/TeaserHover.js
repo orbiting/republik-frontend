@@ -44,7 +44,7 @@ class TeaserHover extends Component {
       <div style={{
         position: 'absolute',
         zIndex: ZINDEX_POPOVER,
-        top: measurement.y - 10,
+        top: measurement.y - 5,
         left: measurement.x > hoverWidth / 2
           ? measurement.x + measurement.width / 2 + hoverWidth / 2 > contextWidth
             ? contextWidth - hoverWidth

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 
 import TeaserNodes from './TeaserNodes'
-import { getSmallImgSrc } from './utils'
+import { renderWidth, getSmallImgSrc } from './utils'
 
 import { ZINDEX_POPOVER } from '../constants'
 
@@ -38,6 +38,8 @@ class TeaserHover extends Component {
       ? 400
       : 300
     const onLoadEnd = () => this.setState({ loading: false })
+    const ratio = measurement.height / measurement.width
+    const scale = hoverWidth / renderWidth
     return (
       <div style={{
         position: 'absolute',
@@ -53,22 +55,25 @@ class TeaserHover extends Component {
           width: hoverWidth,
           position: 'absolute',
           bottom: 0,
-          height: Math.ceil(hoverWidth * measurement.height / measurement.width) - 2,
+          height: Math.ceil(hoverWidth * ratio) - 5,
           lineHeight: 0,
           boxShadow: '0 2px 8px rgba(0,0,0,.4)'
         }}>
           <div {...css({
             position: 'absolute',
             top: 0,
-            width: 1200,
-            height: Math.floor(1200 * measurement.height / measurement.width),
+            width: renderWidth,
+            height: Math.ceil(renderWidth * ratio) - 5 / scale,
             overflow: 'hidden',
-            transform: `scale(${hoverWidth / 1200})`,
+            transform: `scale(${hoverWidth / renderWidth})`,
             transformOrigin: '0% 0%'
           })}>
-            <img {...styles.preview} src={getSmallImgSrc(teaser)} />
+            <img
+              {...styles.preview}
+              src={getSmallImgSrc(teaser)} />
             <iframe
               frameBorder='0'
+              scrolling='no'
               sandbox=''
               onLoad={onLoadEnd}
               onError={onLoadEnd}

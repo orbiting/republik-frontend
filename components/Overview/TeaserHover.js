@@ -2,6 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 
 import TeaserNodes from './TeaserNodes'
+import { getSmallImgSrc } from './utils'
 
 import { ZINDEX_POPOVER } from '../constants'
 
@@ -26,6 +27,8 @@ const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
         position: 'absolute',
         bottom: 0,
         backgroundColor: (oneData && oneData.bgColor) || '#E5E5E5',
+        backgroundImage: `url(${getSmallImgSrc(teaser)})`,
+        backgroundSize: 'cover',
         height: Math.floor(hoverWidth * measurement.height / measurement.width) - 2,
         overflow: 'hidden',
         lineHeight: 0,
@@ -41,7 +44,7 @@ const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
         })}>
           <iframe
             frameBorder='0'
-            sandbox
+            sandbox=''
             src={`/?extractId=${teaser.id}`}
             style={{
               position: 'relative',

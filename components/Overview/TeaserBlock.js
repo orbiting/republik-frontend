@@ -7,11 +7,10 @@ import {
   LazyLoad
 } from '@project-r/styleguide'
 
-import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/constants'
-
 import TeaserHover from './TeaserHover'
 import TeaserNodes from './TeaserNodes'
 import QueuedImg from './QueuedImg'
+import { getSmallImgSrc } from './utils'
 
 const SIZES = [
   { minWidth: 0, columns: 3 },
@@ -216,7 +215,7 @@ class TeaserBlock extends Component {
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <Image
                   onLoad={this.measure}
-                  src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=160`}
+                  src={getSmallImgSrc(teaser)}
                   style={{
                     display: 'block',
                     width: '100%'

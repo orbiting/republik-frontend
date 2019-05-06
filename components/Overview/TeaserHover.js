@@ -1,6 +1,5 @@
 import React from 'react'
-
-import { ASSETS_SERVER_BASE_URL, RENDER_FRONTEND_BASE_URL } from '../../lib/constants'
+import { css } from 'glamor'
 
 import TeaserNodes from './TeaserNodes'
 
@@ -27,17 +26,29 @@ const TeaserHover = ({ measurement, teaser, contextWidth, highlight }) => {
         position: 'absolute',
         bottom: 0,
         backgroundColor: (oneData && oneData.bgColor) || '#E5E5E5',
-        minHeight: Math.floor(hoverWidth * measurement.height / measurement.width) - 2,
+        height: Math.floor(hoverWidth * measurement.height / measurement.width) - 2,
+        overflow: 'hidden',
         lineHeight: 0,
         boxShadow: '0 2px 8px rgba(0,0,0,.4)'
       }}>
-        <img
-          style={{
-            position: 'relative',
-            width: '100%'
-          }}
-          key={teaser.id}
-          src={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=1&url=${encodeURIComponent(`${RENDER_FRONTEND_BASE_URL}/?extractId=${teaser.id}`)}&resize=800&format=jpeg`} />
+        <div {...css({
+          position: 'absolute',
+          top: 0,
+          width: 1200,
+          height: Math.floor(1200 * measurement.height / measurement.width),
+          transform: `scale(${hoverWidth / 1200})`,
+          transformOrigin: '0% 0%'
+        })}>
+          <iframe
+            frameBorder='0'
+            sandbox
+            src={`/?extractId=${teaser.id}`}
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%'
+            }} />
+        </div>
         <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
       </div>
     </div>

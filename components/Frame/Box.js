@@ -9,7 +9,8 @@ const styles = {
   box: css({
     paddingTop: 30,
     paddingBottom: 30,
-    backgroundColor: colors.primaryBg
+    backgroundColor: colors.primaryBg,
+    color: colors.text
   })
 }
 

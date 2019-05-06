@@ -11,5 +11,8 @@ export default {
   </Fragment>,
   März: (p) => <Fragment>
     Auf <Highlight {...p} ids={['ohlgcekzS']}>Beizentour mit SVP-Nationalrat Fredi Heer</Highlight>. Warum Frauen die Schweiz voranbringen. Eine Reportage aus dem Flüchtlingslager in Lesbos. Die Analyse zum Erfolg der Klimaproteste – und wie sie überleben können. <Highlight {...p} ids={['C8iXl8wpU', '8Va6rD417']}>Die CVP im Wahljahr</Highlight>. Und die grosse Recherche zu den <Highlight {...p} series='republik/article-eth-auftakt' ids={['WTbOUrJ9p']}>Missständen bei der ETH</Highlight>.
+  </Fragment>,
+  April: (p) => <Fragment>
+    Sie fragen ja nur – unser Schwerpunkt zu Verschwörungstheorien. Eine <Highlight {...p} series='republik/article-auftakt-brexit-serie'>Tour durch Brexit-Britannien</Highlight>. Wie (Klima-)Grafiken täuschen können. Und warum Wetterextreme das neue Normal sind. Eine <Highlight {...p} series='republik/article-knonau-master'>Podcast-Serie zum Brand von Knonau</Highlight>. Und <Highlight {...p} series='republik/article-eth-auftakt' ids={['8_xfgyamGq', 'IeTMTN2sP', 'ablDhocUlB']}>Neues von der ETH</Highlight>.
   </Fragment>
 }

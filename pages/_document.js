@@ -8,14 +8,15 @@ import { fontFaces } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage, pathname, req }) {
+  static async getInitialProps ({ renderPage, pathname, query, req }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
     return {
       ...page,
       ...styles,
       env: require('../lib/constants'),
-      inNativeApp: matchUserAgent(req.headers['user-agent'])
+      inNativeApp: matchUserAgent(req.headers['user-agent']),
+      nojs: pathname === '/' && !!query.extractId
     }
   }
   constructor (props) {
@@ -28,7 +29,7 @@ export default class MyDocument extends Document {
   render () {
     const { css, inNativeApp, env: {
       PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
-    } } = this.props
+    }, nojs } = this.props
     const piwik = (
       !!PIWIK_URL_BASE &&
       !!PIWIK_SITE_ID
@@ -66,10 +67,10 @@ export default class MyDocument extends Document {
           <meta name='referrer' content='no-referrer' />
         </Head>
         <body className={inNativeApp ? 'no-hover' : 'hover'}>
-          <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />
+          {!nojs && <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />}
           <Main />
-          <NextScript />
-          {piwik && <script dangerouslySetInnerHTML={{ __html: `
+          {!nojs && <NextScript />}
+          {!nojs && piwik && <script dangerouslySetInnerHTML={{ __html: `
             _paq.push(['enableLinkTracking']);
             (function() {
               _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);
@@ -77,7 +78,7 @@ export default class MyDocument extends Document {
               var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
               g.type='text/javascript'; g.async=true; g.defer=true; g.src='${PIWIK_URL_BASE}/piwik.js'; s.parentNode.insertBefore(g,s);
             })();` }} />}
-          {piwik && <noscript>
+          {!nojs && piwik && <noscript>
             <img
               src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`}
               style={{ border: 0, position: 'fixed', left: -1 }}

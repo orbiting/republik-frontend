@@ -37,7 +37,9 @@ class TeaserHover extends Component {
     const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
       ? 400
       : 300
-    const onLoadEnd = () => this.setState({ loading: false })
+    const onLoadEnd = () => window.requestAnimationFrame(() => {
+      this.setState({ loading: false })
+    })
     const ratio = measurement.height / measurement.width
     const scale = hoverWidth / renderWidth
     return (
@@ -55,7 +57,7 @@ class TeaserHover extends Component {
           width: hoverWidth,
           position: 'absolute',
           bottom: 0,
-          height: Math.ceil(hoverWidth * ratio) - 5,
+          height: Math.ceil(hoverWidth * ratio - 5),
           lineHeight: 0,
           boxShadow: '0 2px 8px rgba(0,0,0,.4)'
         }}>
@@ -63,7 +65,7 @@ class TeaserHover extends Component {
             position: 'absolute',
             top: 0,
             width: renderWidth,
-            height: Math.ceil(renderWidth * ratio) - 5 / scale,
+            height: Math.ceil(renderWidth * ratio - 5 / scale),
             overflow: 'hidden',
             transform: `scale(${hoverWidth / renderWidth})`,
             transformOrigin: '0% 0%'

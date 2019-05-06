@@ -3,25 +3,13 @@ import { css } from 'glamor'
 
 import HrefLink from '../Link/Href'
 
-const loadingKeyframes = css.keyframes({
-  'from, to': {
-    opacity: 0.5
-  },
-  '50%': {
-    opacity: 1
-  }
-})
-
 const styles = {
   area: css({
     display: 'block',
     position: 'absolute',
     top: 0,
     bottom: 0,
-    transition: 'background-color 200ms, opacity 200ms'
-  }),
-  areaLoading: css({
-    animation: `2s ${loadingKeyframes} infinite ease-in-out`
+    transition: 'background-color 200ms'
   })
 }
 
@@ -35,13 +23,14 @@ const TeaserNodes = ({ nodes, loading, highlight, noClick }) => {
         <a
           key={node.data.id}
           {...styles.area}
-          {...loading && styles.areaLoading}
           style={{
             left: `${nodeWidth * i}%`,
             right: `${nodeWidth * (maxIndex - i)}%`,
-            backgroundColor: loading || (highlight && !highlight(node.data))
-              ? 'rgba(0,0,0,0.6)'
-              : 'rgba(0,0,0,0.0)'
+            backgroundColor: loading
+              ? 'rgba(0,0,0,0.0)'
+              : (highlight && !highlight(node.data))
+                ? 'rgba(0,0,0,0.6)'
+                : 'rgba(0,0,0,0.0)'
           }} />
       )
       if (node.data.url && !noClick) {

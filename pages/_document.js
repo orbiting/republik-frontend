@@ -39,15 +39,21 @@ class NoJsHead extends DefaultHead {
 }
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage, pathname, query, req }) {
+  static async getInitialProps ({ renderPage, pathname, query, req, res }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
+    const nojs = pathname === '/' && !!query.extractId
+
+    if (nojs) {
+      res.setHeader('Cache-Control', 'max-age=3600, immutable')
+    }
+
     return {
       ...page,
       ...styles,
       env: require('../lib/constants'),
       inNativeApp: matchUserAgent(req.headers['user-agent']),
-      nojs: pathname === '/' && !!query.extractId
+      nojs
     }
   }
   constructor (props) {

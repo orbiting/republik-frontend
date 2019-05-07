@@ -178,6 +178,31 @@ const AboutPage = ({
           </P>
         </section>
         <section {...styles.section}>
+          <Subheader2>Geschäftsbericht 2017–2018</Subheader2>
+          <P {...styles.faqCta}>
+            <a {...styles.link} href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf'>
+              Der erste Geschäftsbericht
+            </a>
+            {' '}
+            beleuchtet die Periode zwischen Januar 2017 und Juni 2018. Also nur ein halbes Jahr der bisherigen Publikationstätigkeit der Republik. Anfang Januar 2017 hatten wir nicht mehr als 8 Leute, 3 Hotelzimmer und einen Plan. Ende Juni 2018 ein Unternehmen mit über 20’000 Verlegerinnen und Verlegern und rund 50 Mitarbeitenden.
+          </P>
+        </section>
+        <section {...styles.section}>
+          <Subheader2>Auszeichnungen & Nominierungen</Subheader2>
+          <P {...styles.faqCta}>
+            <a {...styles.link} href='https://www.grimme-online-award.de/2019/nominierte/'>
+              Nominierung für «Grimme online»
+            </a><br />
+            Kategorie Information
+          </P>
+          <P {...styles.faqCta}>
+            <a {...styles.link} href='https://newspaper-congress.eu/european-digital-publishing-award/'>
+              European Publishing Award
+            </a><br />
+            European Start-Up of the Year
+          </P>
+        </section>
+        <section {...styles.section}>
           <Subheader2>{t('pages/about/mediaResponses/title')}</Subheader2>
           <Loader
             loading={loading}
@@ -187,7 +212,9 @@ const AboutPage = ({
                 {data.mediaResponses.map((mediaResponse, index) => (
                   <P {...styles.faqCta} key={index}>
                     {mediaResponse.medium}, {mediaResponse.publishDate}:<br />
-                    <a {...styles.link} href={mediaResponse.url} target='_blank'>{mediaResponse.title}</a>
+                    <a {...styles.link} href={mediaResponse.url}>
+                      {mediaResponse.title}
+                    </a>
                   </P>
                 ))}
               </Fragment>

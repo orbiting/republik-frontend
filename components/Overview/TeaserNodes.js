@@ -9,7 +9,7 @@ const styles = {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    transition: 'background-color 300ms'
+    transition: 'background-color 400ms'
   })
 }
 
@@ -20,13 +20,16 @@ const TeaserNodes = ({ nodes, highlight, noClick }) => {
   return <Fragment>
     {nodes.map((node, i) => {
       const area = (
-        <a key={node.data.id} {...styles.area} style={{
-          left: `${nodeWidth * i}%`,
-          right: `${nodeWidth * (maxIndex - i)}%`,
-          backgroundColor: highlight && !highlight(node.data)
-            ? 'rgba(0,0,0,0.6)'
-            : 'rgba(0,0,0,0.0)'
-        }} />
+        <a
+          key={node.data.id}
+          {...styles.area}
+          style={{
+            left: `${nodeWidth * i}%`,
+            right: `${nodeWidth * (maxIndex - i)}%`,
+            backgroundColor: (highlight && !highlight(node.data))
+              ? 'rgba(0,0,0,0.6)'
+              : 'rgba(0,0,0,0.0)'
+          }} />
       )
       if (node.data.url && !noClick) {
         return <HrefLink key={node.data.id} href={node.data.url} passHref>

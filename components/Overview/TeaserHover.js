@@ -13,8 +13,7 @@ const styles = {
     top: 0,
     left: 0,
     width: '100%',
-    filter: 'blur(5px)',
-    transform: 'scale(1)'
+    imageRendering: 'smooth'
   }),
   iframe: css({
     position: 'relative',
@@ -30,6 +29,9 @@ class TeaserHover extends Component {
 
     this.state = { loading: true }
   }
+  componentWillUnmount () {
+    window.cancelAnimationFrame(this.loadEndRaf)
+  }
   render () {
     const { measurement, teaser, contextWidth, highlight } = this.props
     const { loading } = this.state
@@ -37,9 +39,11 @@ class TeaserHover extends Component {
     const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
       ? 400
       : 300
-    const onLoadEnd = () => window.requestAnimationFrame(() => {
-      this.setState({ loading: false })
-    })
+    const onLoadEnd = () => {
+      this.loadEndRaf = window.requestAnimationFrame(() => {
+        this.setState({ loading: false })
+      })
+    }
     const ratio = measurement.height / measurement.width
     const scale = hoverWidth / renderWidth
     return (
@@ -85,7 +89,6 @@ class TeaserHover extends Component {
                 opacity: loading ? 0 : 1
               }} />
             <TeaserNodes
-              loading={loading}
               nodes={teaser.nodes}
               highlight={highlight} />
           </div>

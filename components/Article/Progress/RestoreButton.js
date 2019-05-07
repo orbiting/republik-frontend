@@ -25,6 +25,9 @@ const BUTTON_ICON_SIZE = 20
 
 const styles = {
   container: css({
+    '@media print': {
+      display: 'none'
+    },
     background: '#fff',
     borderTop: `1px solid ${colors.divider}`,
     cursor: 'pointer',

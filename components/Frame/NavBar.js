@@ -66,6 +66,9 @@ export const getNavBarStateFromRouter = router => {
 
 const styles = {
   container: css({
+    '@media print': {
+      display: 'none'
+    },
     alignItems: 'center',
     left: 0,
     right: 0,

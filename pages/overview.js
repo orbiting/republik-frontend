@@ -2,8 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
-
-import { nest } from 'd3-collection'
+import { max } from 'd3-array'
+import { timeMonth } from 'd3-time'
 
 import { swissTime } from '../lib/utils/format'
 
@@ -81,10 +81,12 @@ class FrontOverview extends Component {
       })
       return agg
     }, []).reverse().filter((teaser, i, all) => {
-      const node = teaser.nodes.find(node => node.data.urlMeta)
+      const publishDates = teaser.nodes
+        .map(node => node.data.urlMeta && new Date(node.data.urlMeta.publishDate))
+        .filter(Boolean)
 
-      teaser.publishDate = node
-        ? new Date(node.data.urlMeta.publishDate)
+      teaser.publishDate = publishDates.length
+        ? max(publishDates)
         : i > 0 ? all[i - 1].publishDate : undefined
       return teaser.publishDate &&
         teaser.publishDate >= startDate &&
@@ -102,6 +104,27 @@ class FrontOverview extends Component {
     }
 
     const { highlight } = this.state
+
+    const teasersByMonth = teasers.reduce(
+      ([all, last], teaser) => {
+        const key = formatMonth(teaser.publishDate)
+        if (!last || key !== last.key) {
+          // ignore unexpected jumps
+          // - this happens when a previously published article was placed
+          // - or an articles publish date was later updated
+          // mostly happens for debates or meta articles
+          const prevKey = formatMonth(timeMonth.offset(teaser.publishDate, -1))
+          if (!last || prevKey === last.key) {
+            const newMonth = { key, values: [teaser] }
+            all.push(newMonth)
+            return [all, newMonth]
+          }
+        }
+        last.values.push(teaser)
+        return [all, last]
+      },
+      [[]]
+    )[0]
 
     return (
       <Frame meta={meta} dark>
@@ -122,32 +145,29 @@ class FrontOverview extends Component {
         </P>
 
         <Loader loading={data.loading} error={data.error} style={{ minHeight: `calc(90vh)` }} render={() => {
-          return nest()
-            .key(d => formatMonth(d.publishDate))
-            .entries(teasers)
-            .map(({ key: month, values }, i) => {
-              const Text = texts[year] && texts[year][month]
-              return (
-                <div style={{ marginTop: 50 }} key={month} onClick={() => {
-                  // a no-op for mobile safari
-                  // - causes mouse enter and leave to be triggered
-                }}>
-                  <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
-                    {month}
-                  </Interaction.H2>
-                  <P style={{ marginBottom: 20 }}>
-                    {Text && <Text
-                      highlight={highlight}
-                      onHighlight={this.onHighlight} />}
-                  </P>
-                  <TeaserBlock
-                    teasers={values}
+          return teasersByMonth.map(({ key: month, values }, i) => {
+            const Text = texts[year] && texts[year][month]
+            return (
+              <div style={{ marginTop: 50 }} key={month} onClick={() => {
+                // a no-op for mobile safari
+                // - causes mouse enter and leave to be triggered
+              }}>
+                <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
+                  {month}
+                </Interaction.H2>
+                <P style={{ marginBottom: 20 }}>
+                  {Text && <Text
                     highlight={highlight}
-                    onHighlight={this.onHighlight}
-                    lazy={i !== 0} />
-                </div>
-              )
-            })
+                    onHighlight={this.onHighlight} />}
+                </P>
+                <TeaserBlock
+                  teasers={values}
+                  highlight={highlight}
+                  onHighlight={this.onHighlight}
+                  lazy={i !== 0} />
+              </div>
+            )
+          })
         }} />
 
         {!isMember && <Fragment>

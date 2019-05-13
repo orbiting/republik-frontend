@@ -1,8 +1,14 @@
 import { routes } from '../../lib/routes'
 
 export const getDiscussionIconLinkProps = (linkedDiscussion, ownDiscussion, template, path) => {
-  const isLinkedDiscussion = linkedDiscussion && !linkedDiscussion.closed && template === 'article'
-  const isOwnDiscussion = !isLinkedDiscussion && ownDiscussion && !ownDiscussion.closed
+  const isLinkedDiscussion =
+    linkedDiscussion &&
+    template === 'article' &&
+    (!linkedDiscussion.closed || (linkedDiscussion.comments && linkedDiscussion.comments.totalCount > 0))
+  const isOwnDiscussion =
+    !isLinkedDiscussion &&
+    ownDiscussion &&
+    (!ownDiscussion.closed || (ownDiscussion.comments && ownDiscussion.comments.totalCount > 0))
   const isArticleAutoDiscussion = isOwnDiscussion && template === 'article'
   const isDiscussionPage = isOwnDiscussion && template === 'discussion'
   const discussionCount =

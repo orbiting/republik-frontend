@@ -36,7 +36,7 @@ export const CommentLink = ({
   if (discussion) {
     if (discussion.document) {
       const meta = discussion.document.meta || {}
-      const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
+      const ownDiscussion = meta.ownDiscussion && (!meta.ownDiscussion.closed || (meta.ownDiscussion.comments && meta.ownDiscussion.comment.totalCount > 0))
       const template = meta.template
       tab = ownDiscussion && template === 'article' && 'article'
     } else {

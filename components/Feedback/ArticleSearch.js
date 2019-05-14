@@ -119,11 +119,12 @@ class ArticleSearch extends Component {
               meta &&
               meta.linkedDiscussion &&
               !meta.linkedDiscussion.closed &&
+              (!meta.linkedDiscussion.closed || (meta.linkedDiscussion.comments && meta.linkedDiscussion.comments.totalCount > 0)) &&
               meta.linkedDiscussion
           const discussionId =
               meta &&
               ((meta.ownDiscussion &&
-                !meta.ownDiscussion.closed &&
+                (!meta.ownDiscussion.closed || (meta.ownDiscussion.comments && meta.ownDiscussion.comments.totalCount > 0)) &&
                 meta.ownDiscussion.id) ||
                 (linkedDiscussion && linkedDiscussion.id))
 

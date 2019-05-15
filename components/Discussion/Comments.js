@@ -192,7 +192,9 @@ class Comments extends PureComponent {
         focusError: undefined
       }, () => {
         if (focusInfo) {
-          focusSelector(`[data-comment-id='${focusInfo.id}']`)
+          setTimeout(() => {
+            focusSelector(`[data-comment-id='${focusInfo.id}']`)
+          }, 50)
         }
       })
     }
@@ -218,7 +220,9 @@ class Comments extends PureComponent {
             focusLoading: false,
             focusError: undefined
           }, () => {
-            focusSelector(`[data-comment-id='${focusInfo.id}']`)
+            setTimeout(() => {
+              focusSelector(`[data-comment-id='${focusInfo.id}']`)
+            }, 50)
           })
         })
         .catch(() => {

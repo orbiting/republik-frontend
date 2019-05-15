@@ -1,5 +1,5 @@
 {
-  "updated": "2019-04-24T10:00:17.810Z",
+  "updated": "2019-05-15T13:42:53.050Z",
   "title": "live",
   "data": [
     {
@@ -3020,7 +3020,7 @@
     },
     {
       "key": "article/autodiscussionteaser/text",
-      "value": "Was gefällt Ihnen an diesem Artikel? Was gibt es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
+      "value": "Was gefällt Ihnen an diesem Beitrag? Was gibt es zu ergänzen? Was ist kritikwürdig? Ihre Mitverlegerinnen und die Redaktion freuen sich auf Ihr Wissen und Ihre Perspektive. {link}."
     },
     {
       "key": "article/autodiscussionteaser/linktext",
@@ -4529,6 +4529,10 @@
     {
       "key": "pages/about/title",
       "value": "Das sind wir"
+    },
+    {
+      "key": "pages/about/description",
+      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern."
     },
     {
       "key": "pages/about/lead",

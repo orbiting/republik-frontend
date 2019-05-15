@@ -4531,6 +4531,10 @@
       "value": "Das sind wir"
     },
     {
+      "key": "pages/about/description",
+      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern."
+    },
+    {
       "key": "pages/about/lead",
       "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen und Lesern. Gemeinsam sind wir eine Rebellion gegen die Medienkonzerne, für die Medienvielfalt. Unabhängig, werbefrei – und mit nur einem Ziel: begeisternden Journalismus zu liefern."
     },

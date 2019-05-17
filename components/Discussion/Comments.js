@@ -251,11 +251,13 @@ class Comments extends PureComponent {
         const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
         if (
           isGeneral ||
-          (discussion.document &&
+          (
+            discussion.document &&
             discussion.document.meta &&
             discussion.document.meta.template === 'article' &&
             discussion.document.meta.ownDiscussion &&
-            !discussion.document.meta.ownDiscussion.closed)
+            discussion.document.meta.ownDiscussion.id === discussion.id
+          )
         ) {
           return (
             <Link

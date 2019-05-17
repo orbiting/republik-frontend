@@ -34,11 +34,28 @@ const texts = {
   2019: text19
 }
 
-const getDocument = gql`
-query getFrontOverview {
+const knownYears = {
+  2018: { after: '2l7waBIDo' },
+  2019: { before: 'B3fTOtcv9' }
+}
+
+const getAll = gql`
+query getCompleteFrontOverview {
   front: document(path: "/") {
     id
     content
+  }
+}
+`
+const getKnownYear = gql`
+query getFrontOverviewYear($after: ID, $before: ID) {
+  front: document(path: "/") {
+    id
+    children(after: $after, before: $before) {
+      nodes {
+        body
+      }
+    }
   }
 }
 `
@@ -72,7 +89,13 @@ class FrontOverview extends Component {
         : `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    const teasers = data.front && data.front.content.children.reduce((agg, rootChild) => {
+    const children = data.front ? (
+      data.front.children
+        ? data.front.children.nodes.map(c => c.body)
+        : data.front.content.children
+    ) : []
+
+    const teasers = children.reduce((agg, rootChild) => {
       agg.push({
         id: rootChild.data.id,
         nodes: rootChild.identifier === 'TEASERGROUP'
@@ -82,7 +105,12 @@ class FrontOverview extends Component {
       return agg
     }, []).reverse().filter((teaser, i, all) => {
       const publishDates = teaser.nodes
-        .map(node => node.data.urlMeta && new Date(node.data.urlMeta.publishDate))
+        .map(node => (
+          node.data.urlMeta &&
+          // workaround for «aufdatierte» tutorials and meta texts
+          node.data.urlMeta.format !== 'republik/format-aus-der-redaktion' &&
+          new Date(node.data.urlMeta.publishDate)
+        ))
         .filter(Boolean)
 
       teaser.publishDate = publishDates.length
@@ -184,8 +212,16 @@ class FrontOverview extends Component {
 }
 
 export default compose(
-  graphql(getDocument),
-  withMembership,
   withRouter,
+  graphql(getAll, {
+    skip: props => knownYears[+props.router.query.year]
+  }),
+  graphql(getKnownYear, {
+    skip: props => !knownYears[+props.router.query.year],
+    options: props => ({
+      variables: knownYears[+props.router.query.year]
+    })
+  }),
+  withMembership,
   withT
 )(FrontOverview)

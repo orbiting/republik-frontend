@@ -3,33 +3,80 @@ import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import {
-  Label,
   Container,
-  P,
   RawHtml,
   mediaQueries,
-  Interaction
+  Interaction,
+  Editorial
 } from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
-import { Link, Router } from '../../lib/routes'
+import { Link } from '../../lib/routes'
 
-import { ListWithQuery } from '../Testimonial/List'
+import { List as TestimonialList } from '../Testimonial/List'
+
+import TeaserBlock from '../Overview/TeaserBlock'
+import { getTeasersFromDocument } from '../Overview/utils'
+import { A, P } from '../Overview/Elements'
 
 import { buttonStyles, sharedStyles } from './styles'
+
+import { negativeColors } from '../Frame/constants'
 
 const query = gql`
 query marketingMembershipStats {
   membershipStats {
     count
   }
+  front: document(path: "/") {
+    children(first: 60) {
+      nodes {
+        body
+      }
+    }
+  }
+  employees {
+    title
+    name
+    group
+    subgroup
+    user {
+      id
+      hasPublicProfile
+      portrait
+      username
+    }
+  }
+  articles: documents(feed: true, first: 0, template: "article") {
+    totalCount
+  }
+  statements(first: 6) {
+    totalCount
+    nodes {
+      id
+      username
+      name
+      statement
+      credentials {
+        description
+      }
+      portrait
+      updatedAt
+      sequenceNumber
+      hasPublicProfile
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
 }
 `
 
 const styles = {
   communityWidget: css({
-    margin: '9px auto 0 auto',
+    margin: '18px auto 0 auto',
     maxWidth: '974px',
     [mediaQueries.mUp]: {
       margin: '78px auto 0 auto'
@@ -37,7 +84,7 @@ const styles = {
   })
 }
 
-const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipStats }, ...props }) => {
+const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipStats, front, articles, statements }, ...props }) => {
   return (
     <Fragment>
       <Container>
@@ -48,7 +95,7 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
             }}
           />
         </h1>
-        <P {...sharedStyles.lead}>{t('marketing/lead')}</P>
+        <p {...sharedStyles.lead}>{t('marketing/lead')}</p>
         <div {...sharedStyles.actions}>
           <div>
             <Link route='pledge'>
@@ -56,15 +103,6 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
                 {t('marketing/join/button/label')}
               </button>
             </Link>
-            <Label {...sharedStyles.signInLabel}>{
-              t.elements(
-                'marketing/signin',
-                { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing/signin/link') }</a>
-                </Link>
-                }
-              )
-            }</Label>
           </div>
           <Link route='preview'>
             <button {...buttonStyles.standard}>
@@ -72,22 +110,63 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
             </button>
           </Link>
         </div>
-        {!loading && membershipStats && <div {...styles.communityWidget}>
-          <Interaction.H2 {...sharedStyles.communityHeadline}>
-            {t(
-              'marketing/community/title',
-              { count: countFormat(membershipStats.count) }
-            )}
+        <div {...sharedStyles.signIn}>{
+          t.elements(
+            'marketing/signin',
+            { link: <Link key='link' route={'signin'}>
+              <a>{t('marketing/signin/link') }</a>
+            </Link>
+            }
+          )
+        }</div>
+      </Container>
+      {!loading && front && <div style={{
+        backgroundColor: negativeColors.containerBg,
+        color: negativeColors.text,
+        padding: 30
+      }}>
+        <Container style={{
+          maxWidth: 1200, padding: 0
+        }}>
+          <Interaction.H2 style={{
+            color: negativeColors.text,
+            marginTop: 0,
+            marginBottom: 10,
+            textAlign: 'center'
+          }}>
+            {articles.totalCount} Produktionen
           </Interaction.H2>
-          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
-            Router.push(`/community?id=${id}`).then(() => {
-              window.scrollTo(0, 0)
-              return false
-            })
-          }} />
-          <Interaction.P {...sharedStyles.communityLink}>
-            <Link route='community'>
-              <a>{t('marketing/community/link')}</a>
+          <P style={{
+            maxWidth: 974,
+            margin: '0 auto 30px auto',
+            textAlign: 'center'
+          }}>Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge zu den wichtigsten Fragen der Gegenwart.</P>
+          <TeaserBlock
+            teasers={getTeasersFromDocument(front)}
+            highlight={undefined}
+            onHighlight={() => {}}
+            lazy />
+          <P style={{ textAlign: 'center', marginTop: 20 }}>
+            Chronologie <Link route='overview' params={{ year: 2019 }} passHref><A>2019</A></Link>, <Link route='overview' params={{ year: 2018 }} passHref><A>2018</A></Link>
+          </P>
+        </Container>
+      </div>}
+      <Container>
+        {!loading && membershipStats && <div {...styles.communityWidget}>
+          <Interaction.H2 style={{ marginBottom: 10 }}>
+            {countFormat(membershipStats.count)} Verlegerinnen und Verleger
+          </Interaction.H2>
+          <TestimonialList
+            singleRow
+            minColumns={3}
+            first={6}
+            statements={statements.nodes}
+            loading={loading}
+            t={t}
+            focus />
+          <Interaction.P style={{ marginTop: 20 }}>
+            <Link route='community' passHref>
+              <Editorial.A>Weitere {statements.totalCount} Statements</Editorial.A>
             </Link>
           </Interaction.P>
         </div>}
@@ -99,5 +178,5 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
 
 export default compose(
   withT,
-  graphql(query)
+  graphql(query, { options: { ssr: false } })
 )(MarketingPage)

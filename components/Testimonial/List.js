@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
@@ -138,6 +138,10 @@ const styles = {
     right: PADDING + 5,
     top: PADDING + 5
   }),
+  more: css({
+    marginTop: 15,
+    padding: PADDING
+  }),
   options: css({
     marginBottom: 15
   })
@@ -168,7 +172,7 @@ export const Item = ({ previewImage, image, name, isActive, href, onClick, singl
 
 const AUTO_INFINITE = 300
 
-class List extends Component {
+export class List extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -261,7 +265,7 @@ class List extends Component {
     } = this.props
     const { columns, open } = this.state
 
-    const hasEndText = !search
+    const hasEndText = !search && isPage
 
     const gridStyles = !singleRow
       ? styles.grid
@@ -281,7 +285,7 @@ class List extends Component {
           const offset = i % columns
           const openId = open[row - 1]
           if (
-            openId && offset === 0
+            !singleRow && openId && offset === 0
           ) {
             const openItem = statements
               .find(statement => statement.id === openId)
@@ -309,7 +313,7 @@ class List extends Component {
                   return
                 }
                 e.preventDefault()
-                if (onSelect(id) === false) {
+                if (onSelect && onSelect(id) === false) {
                   return
                 }
                 this.setState((state) => ({
@@ -323,7 +327,7 @@ class List extends Component {
 
           const lastOpenId = open[row]
           if (
-            i === lastIndex && lastOpenId
+            !singleRow && i === lastIndex && lastOpenId
           ) {
             const openItem = statements
               .find(statement => statement.id === lastOpenId)
@@ -351,42 +355,52 @@ class List extends Component {
             image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
           })
 
+        const singleRowOpenItem = (
+          singleRow &&
+          open[0] &&
+          statements.find(statement => statement.id === open[0])
+        )
+
         return (
-          <div {...gridStyles} ref={this.ref}>
-            {!!isPage && <Meta data={metaData} />}
-            {items}
-            <div style={{ clear: 'left', marginBottom: 20 }} />
-            {
-              statements.length >= AUTO_INFINITE &&
-              !this.state.endless &&
-              hasMore && (
-                <A
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault()
-                    this.setState(
-                      () => ({
-                        endless: true
-                      }),
-                      () => {
-                        this.onScroll()
-                      }
-                    )
-                  }}
-                >
-                  {t('testimonial/infinite/endless', {
-                    count: AUTO_INFINITE,
-                    remaining: totalCount - AUTO_INFINITE
-                  })}
-                </A>
-              )
-            }
-            {!hasMore && hasEndText && (
-              <P>{t('testimonial/infinite/end', {
-                count: statements.length
-              })}</P>
-            )}
-          </div>
+          <Fragment>
+            <div {...gridStyles} ref={this.ref}>
+              {!!isPage && <Meta data={metaData} />}
+              {items}
+              <div style={{ marginBottom: 20 }} />
+              {
+                statements.length >= AUTO_INFINITE &&
+                !this.state.endless &&
+                hasMore && (
+                  <P {...styles.more}><A
+                    href='#'
+                    onClick={e => {
+                      e.preventDefault()
+                      this.setState(
+                        () => ({
+                          endless: true
+                        }),
+                        () => {
+                          this.onScroll()
+                        }
+                      )
+                    }}
+                  >
+                    {t('testimonial/infinite/endless', {
+                      count: AUTO_INFINITE,
+                      remaining: totalCount - AUTO_INFINITE
+                    })}
+                  </A></P>
+                )
+              }
+              {!hasMore && hasEndText && (
+                <P {...styles.more}>{t('testimonial/infinite/end', {
+                  count: statements.length
+                })}</P>
+              )}
+            </div>
+            {singleRowOpenItem && <Detail
+              t={t} data={singleRowOpenItem} />}
+          </Fragment>
         )
       }} />
     )

@@ -22,6 +22,7 @@ import TeaserBlock from '../components/Overview/TeaserBlock'
 import { A, P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
+import { getTeasersFromDocument } from '../components/Overview/utils'
 
 import {
   Button,
@@ -35,7 +36,9 @@ const texts = {
 }
 
 const knownYears = {
+  // 2l7waBIDo 2019-01-01T03:50:00.000Z: Die Ehre Albaniens, Teil 1
   2018: { after: '2l7waBIDo' },
+  // B3fTOtcv9 2018-12-31T03:50:00.000Z: Statuspanik – die Krankheit des Mannes
   2019: { before: 'B3fTOtcv9' }
 }
 
@@ -89,37 +92,25 @@ class FrontOverview extends Component {
         : `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
     }
 
-    const children = data.front ? (
-      data.front.children
-        ? data.front.children.nodes.map(c => c.body)
-        : data.front.content.children
-    ) : []
+    const teasers = getTeasersFromDocument(data.front)
+      .reverse()
+      .filter((teaser, i, all) => {
+        const publishDates = teaser.nodes
+          .map(node => (
+            node.data.urlMeta &&
+            // workaround for «aufdatierte» tutorials and meta texts
+            node.data.urlMeta.format !== 'republik/format-aus-der-redaktion' &&
+            new Date(node.data.urlMeta.publishDate)
+          ))
+          .filter(Boolean)
 
-    const teasers = children.reduce((agg, rootChild) => {
-      agg.push({
-        id: rootChild.data.id,
-        nodes: rootChild.identifier === 'TEASERGROUP'
-          ? rootChild.children
-          : [rootChild]
+        teaser.publishDate = publishDates.length
+          ? max(publishDates)
+          : i > 0 ? all[i - 1].publishDate : undefined
+        return teaser.publishDate &&
+          teaser.publishDate >= startDate &&
+          teaser.publishDate < endDate
       })
-      return agg
-    }, []).reverse().filter((teaser, i, all) => {
-      const publishDates = teaser.nodes
-        .map(node => (
-          node.data.urlMeta &&
-          // workaround for «aufdatierte» tutorials and meta texts
-          node.data.urlMeta.format !== 'republik/format-aus-der-redaktion' &&
-          new Date(node.data.urlMeta.publishDate)
-        ))
-        .filter(Boolean)
-
-      teaser.publishDate = publishDates.length
-        ? max(publishDates)
-        : i > 0 ? all[i - 1].publishDate : undefined
-      return teaser.publishDate &&
-        teaser.publishDate >= startDate &&
-        teaser.publishDate < endDate
-    })
 
     if (!data.loading && !data.error && !teasers.length) {
       return (

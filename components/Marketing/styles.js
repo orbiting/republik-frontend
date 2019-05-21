@@ -75,14 +75,15 @@ export const sharedStyles = {
     margin: '0 auto',
     fontWeight: 'normal',
     fontFamily: fontFamilies.serifTitle,
-    marginTop: '12px',
+    marginTop: 20,
     [mediaQueries.mUp]: {
       fontSize: '64px',
       lineHeight: '72px',
-      marginTop: '50px'
+      marginTop: 50
     }
   }),
   lead: css({
+    fontFamily: fontFamilies.serifRegular,
     fontSize: '16px',
     lineHeight: '26px',
     textAlign: 'center',
@@ -96,13 +97,13 @@ export const sharedStyles = {
   }),
   actions: css({
     maxWidth: '974px',
-    margin: '14px auto 23px auto',
+    margin: '14px auto 5px auto',
     '& > *': {
       marginBottom: '9px',
       width: '100%'
     },
     [mediaQueries.mUp]: {
-      margin: '80px auto',
+      margin: '80px auto 15px',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'stretch',
@@ -118,9 +119,9 @@ export const sharedStyles = {
       }
     }
   }),
-  signInLabel: css({
-    display: 'block',
+  signIn: css({
     color: colors.text,
+    textAlign: 'center',
     '& a': {
       cursor: 'pointer',
       color: colors.text,
@@ -137,8 +138,10 @@ export const sharedStyles = {
     },
     fontSize: '12px',
     lineHeight: '18px',
+    marginBottom: 23,
     [mediaQueries.mUp]: {
-      marginTop: '4px',
+      marginTop: 4,
+      marginBottom: 80,
       fontSize: '16px',
       lineHeight: '24px'
     }

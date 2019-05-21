@@ -7,7 +7,6 @@ import {
   Container,
   Editorial,
   Interaction,
-  Label,
   P,
   PullQuote,
   PullQuoteText,
@@ -143,15 +142,6 @@ const FeuilletonMarketingPage = ({
                 {t('marketing/join/button/label')}
               </button>
             </Link>
-            <Label {...sharedStyles.signInLabel}>{
-              t.elements(
-                'marketing/signin',
-                { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing/signin/link') }</a>
-                </Link>
-                }
-              )
-            }</Label>
           </div>
           <Link route='preview'>
             <button {...buttonStyles.standard}>
@@ -159,6 +149,15 @@ const FeuilletonMarketingPage = ({
             </button>
           </Link>
         </div>
+        <div {...sharedStyles.signIn}>{
+          t.elements(
+            'marketing/signin',
+            { link: <Link key='link' route={'signin'}>
+              <a>{t('marketing/signin/link') }</a>
+            </Link>
+            }
+          )
+        }</div>
       </Container>
       <Center>
         <Subheader>{t('marketing/feuilleton/what/title')}</Subheader>
@@ -260,8 +259,8 @@ const FeuilletonMarketingPage = ({
           <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
             Router.push(`/community?id=${id}`).then(() => {
               window.scrollTo(0, 0)
-              return false
             })
+            return false
           }} />
           <Interaction.P {...sharedStyles.communityLink}>
             <Link route='community'>

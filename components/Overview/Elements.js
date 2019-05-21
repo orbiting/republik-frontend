@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { negativeColors } from '../Frame/constants'
 
 import { css } from 'glamor'
-import { fontFamilies, Editorial } from '@project-r/styleguide'
+import { fontStyles, mediaQueries, Editorial } from '@project-r/styleguide'
 
 const styles = {
   p: css({
-    fontFamily: fontFamilies.sansSerifRegular,
-    fontSize: 17,
-    lineHeight: '26px',
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    },
     color: negativeColors.text,
     margin: 0
   })

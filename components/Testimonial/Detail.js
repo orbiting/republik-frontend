@@ -12,7 +12,8 @@ import {
   P as SerifP,
   colors,
   linkRule,
-  VideoPlayer
+  VideoPlayer,
+  mediaQueries
 } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
@@ -20,7 +21,10 @@ const { H3, P } = Interaction
 const styles = {
   detail: css({
     width: '100%',
-    padding: '30px 45px'
+    padding: '30px 0',
+    [mediaQueries.mUp]: {
+      padding: '30px 45px'
+    }
   }),
   detailTitle: css({
     lineHeight: '20px'

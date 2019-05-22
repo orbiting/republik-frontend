@@ -266,7 +266,7 @@ const FeuilletonMarketingPage = ({
               {
                 count: membershipStats
                   ? countFormat(membershipStats.count)
-                  : `~${countFormat(22500)}`
+                  : t('marketing/community/defaultCount')
               }
             )}
           </Interaction.H2>

@@ -6,7 +6,7 @@ const PageLoader = props => (
   <Loader
     ErrorContainer={NarrowContainer}
     {...props}
-    style={{ minHeight: `calc(100vh - ${HEADER_HEIGHT}px)` }}
+    style={{ minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`, ...props.style }}
   />
 )
 

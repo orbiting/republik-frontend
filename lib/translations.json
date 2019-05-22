@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-15T13:42:53.050Z",
+  "updated": "2019-05-22T16:24:26.402Z",
   "title": "live",
   "data": [
     {
@@ -343,12 +343,44 @@
       "value": "Jetzt anmelden"
     },
     {
+      "key": "marketing/overview/title",
+      "value": "{count} Produktionen"
+    },
+    {
+      "key": "marketing/overview/defaultCount",
+      "value": "Über 1000"
+    },
+    {
+      "key": "marketing/overview/lead",
+      "value": "Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge zu den wichtigsten Fragen der Gegenwart."
+    },
+    {
+      "key": "marketing/overview/more",
+      "value": "Chronologie {years}"
+    },
+    {
       "key": "marketing/community/title",
-      "value": "{count} Personen sind schon dabei"
+      "value": "{count} Verlegerinnen und Verleger"
+    },
+    {
+      "key": "marketing/community/defaultCount",
+      "value": "Über 17’000"
     },
     {
       "key": "marketing/community/link",
       "value": "Zur Community"
+    },
+    {
+      "key": "marketing/community/moreStatements",
+      "value": "Weitere {count} Statements"
+    },
+    {
+      "key": "marketing/employees/title",
+      "value": "Über 60 Mitwirkende"
+    },
+    {
+      "key": "marketing/employees/more",
+      "value": "Zum Impressum"
     },
     {
       "key": "marketing/signup/title",

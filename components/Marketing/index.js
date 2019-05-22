@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
 import {
   Container,
   RawHtml,
-  mediaQueries,
   Interaction,
   Editorial
 } from '@project-r/styleguide'
@@ -39,16 +37,12 @@ query marketingMembershipStats {
       }
     }
   }
-  employees {
+  employees(shuffle: 6) {
     title
-    name
     group
-    subgroup
+    name
     user {
-      id
-      hasPublicProfile
-      portrait
-      username
+      ...TestimonialOnUser
     }
   }
   articles: documents(feed: true, first: 0, template: "article") {
@@ -68,17 +62,9 @@ query marketingMembershipStats {
 ${testimonialFragments.TestimonialOnUser}
 `
 
-const styles = {
-  communityWidget: css({
-    margin: '18px auto 0 auto',
-    maxWidth: '974px',
-    [mediaQueries.mUp]: {
-      margin: '78px auto 0 auto'
-    }
-  })
-}
+const SMALL_MAX_WIDTH = 974
 
-const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipStats, front, articles, statements }, ...props }) => {
+const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipStats, front, articles, statements, employees }, ...props }) => {
   return (
     <Fragment>
       <div style={{ overflow: 'hidden' }}>
@@ -135,7 +121,7 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
               {articles.totalCount} Produktionen
             </Interaction.H2>
             <P style={{
-              maxWidth: 974,
+              maxWidth: SMALL_MAX_WIDTH,
               margin: '0 auto 30px auto',
               textAlign: 'center'
             }}>Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge zu den wichtigsten Fragen der Gegenwart.</P>
@@ -167,9 +153,9 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
           </Container>
         </div>}
       </div>
-      <Container>
-        {!loading && membershipStats && <div {...styles.communityWidget}>
-          <Interaction.H2 style={{ marginBottom: 10 }}>
+      <Container style={{ maxWidth: SMALL_MAX_WIDTH, paddingTop: 40 }}>
+        {!loading && membershipStats && <Fragment>
+          <Interaction.H2 style={{ marginBottom: 10, marginTop: 40 }}>
             {countFormat(membershipStats.count)} Verlegerinnen und Verleger
           </Interaction.H2>
           <TestimonialList
@@ -180,12 +166,37 @@ const MarketingPage = ({ me, t, crowdfundingName, loading, data: { membershipSta
             loading={loading}
             t={t}
             focus />
-          <Interaction.P style={{ marginTop: 20 }}>
+          <Interaction.P style={{ marginTop: 10 }}>
             <Link route='community' passHref>
               <Editorial.A>Weitere {statements.totalCount} Statements</Editorial.A>
             </Link>
           </Interaction.P>
-        </div>}
+          <Interaction.H2 style={{ marginBottom: 10, marginTop: 40 }}>
+            Über 60 Mitwirkende
+          </Interaction.H2>
+          <TestimonialList
+            minColumns={3}
+            first={6}
+            showCredentials
+            singleRow
+            statements={employees && employees.map(employee => ({
+              ...employee.user,
+              name: employee.name,
+              credentials: [
+                {
+                  description: employee.title || employee.group
+                }
+              ].filter(d => d.description)
+            }))}
+            loading={loading}
+            t={t}
+            focus />
+          <Interaction.P style={{ marginTop: 10 }}>
+            <Link route='legal/imprint' passHref>
+              <Editorial.A>Zum Impressum</Editorial.A>
+            </Link>
+          </Interaction.P>
+        </Fragment>}
         <div {...sharedStyles.spacer} />
       </Container>
     </Fragment>

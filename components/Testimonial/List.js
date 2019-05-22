@@ -261,7 +261,8 @@ export class List extends Component {
       loading, error, statements, t,
       onSelect, focus, isPage,
       search, hasMore, totalCount,
-      singleRow, minColumns
+      singleRow, minColumns,
+      showCredentials
     } = this.props
     const { columns, open } = this.state
 
@@ -280,8 +281,8 @@ export class List extends Component {
           statements[0]
         )
 
-        statements.forEach(({ id, portrait, name }, i) => {
-          const row = Math.floor(i / columns)
+        statements.forEach(({ id, portrait, name, credentials }, i) => {
+          const row = singleRow ? 0 : Math.floor(i / columns)
           const offset = i % columns
           const openId = open[row - 1]
           if (
@@ -299,10 +300,13 @@ export class List extends Component {
           }
 
           const isActive = open[row] === id
+          const credential = showCredentials && credentials && credentials[0] && credentials[0].description
+          const label = [name, credential].filter(Boolean).join(', ')
+
           items.push((
             <Item key={id}
               image={portrait}
-              name={name}
+              name={label}
               isActive={isActive}
               singleRow={singleRow}
               minColumns={minColumns}

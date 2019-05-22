@@ -20,8 +20,7 @@ const { H3, P } = Interaction
 const styles = {
   detail: css({
     width: '100%',
-    padding: '30px 45px',
-    float: 'left'
+    padding: '30px 45px'
   }),
   detailTitle: css({
     lineHeight: '20px'
@@ -80,7 +79,7 @@ const Detail = ({
           <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
       ) : (
-        <SerifP>«{statement}»</SerifP>
+        statement ? <SerifP>«{statement}»</SerifP> : <br />
       )}
       {!!sequenceNumber && (
         <P {...styles.number}>

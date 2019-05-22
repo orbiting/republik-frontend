@@ -125,16 +125,10 @@ export const sharedStyles = {
     '& a': {
       cursor: 'pointer',
       color: colors.text,
-      textDecoration: 'underline'
-    },
-    [`'& ${prefixHover()}`]: {
-      color: colors.secondary
-    },
-    '& a:focus': {
-      color: colors.secondary
-    },
-    '& a:active': {
-      color: colors.primary
+      textDecoration: 'underline',
+      [`:focus, :active, ${prefixHover()}`]: {
+        color: colors.secondary
+      }
     },
     fontSize: '12px',
     lineHeight: '18px',

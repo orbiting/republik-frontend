@@ -277,7 +277,7 @@ export class List extends Component {
 
     return (
       <Loader
-        loading={!statements || loading}
+        loading={loading}
         style={singleRow ? { minHeight: focus ? 380 : 150 } : undefined}
         error={error}
         render={() => {

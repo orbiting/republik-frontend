@@ -28,6 +28,7 @@ import { A, P } from '../Overview/Elements'
 import { buttonStyles, sharedStyles } from './styles'
 
 import { negativeColors } from '../Frame/constants'
+import ErrorMessage from '../ErrorMessage'
 
 const query = gql`
 query marketingMembershipStats {
@@ -100,7 +101,7 @@ class MarketingPage extends Component {
     this.onHighlight = highlight => this.setState({ highlight })
   }
   render () {
-    const { t, data: { loading, membershipStats, front, articles, statements, employees } } = this.props
+    const { t, data: { loading, error, membershipStats, front, articles, statements, employees } } = this.props
 
     return (
       <Fragment>
@@ -137,8 +138,9 @@ class MarketingPage extends Component {
                 }
               )}
             </div>
+            {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
           </Container>
-          <div {...styles.overviewContainer}>
+          {!error && <div {...styles.overviewContainer}>
             <Container style={{
               maxWidth: 1200,
               padding: 0,
@@ -178,9 +180,9 @@ class MarketingPage extends Component {
                 })}
               </P>
             </Container>
-          </div>
+          </div>}
         </div>
-        <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+        {!error && <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
           <div {...sharedStyles.spacer} />
           <Interaction.H2 style={{ marginBottom: 10 }}>
             {t(
@@ -236,7 +238,7 @@ class MarketingPage extends Component {
             </Link>
           </Interaction.P>
           <div {...sharedStyles.spacer} />
-        </Container>
+        </Container>}
       </Fragment>
     )
   }

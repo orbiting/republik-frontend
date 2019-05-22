@@ -14,7 +14,10 @@ import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
-import { List as TestimonialList } from '../Testimonial/List'
+import {
+  List as TestimonialList,
+  fragments as testimonialFragments
+} from '../Testimonial/List'
 
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
@@ -54,17 +57,7 @@ query marketingMembershipStats {
   statements(first: 6) {
     totalCount
     nodes {
-      id
-      username
-      name
-      statement
-      credentials {
-        description
-      }
-      portrait
-      updatedAt
-      sequenceNumber
-      hasPublicProfile
+      ...TestimonialOnUser
     }
     pageInfo {
       hasNextPage
@@ -72,6 +65,7 @@ query marketingMembershipStats {
     }
   }
 }
+${testimonialFragments.TestimonialOnUser}
 `
 
 const styles = {

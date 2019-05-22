@@ -407,11 +407,9 @@ export class List extends Component {
   }
 }
 
-const query = gql`
-query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
-  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
-    totalCount
-    nodes {
+export const fragments = {
+  TestimonialOnUser: gql`
+    fragment TestimonialOnUser on User {
       id
       username
       name
@@ -424,14 +422,25 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
       sequenceNumber
       hasPublicProfile
     }
+  `
+}
+
+const query = gql`
+query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
+  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
+    totalCount
+    nodes {
+      ...TestimonialOnUser
+    }
     pageInfo {
       hasNextPage
       endCursor
     }
   }
-}`
+}
+${fragments.TestimonialOnUser}`
 
-export const ListWithQuery = compose(
+const ListWithQuery = compose(
   withT,
   graphql(query, {
     props: ({ data }) => {

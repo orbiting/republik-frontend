@@ -24,7 +24,10 @@ import { Link, Router } from '../../lib/routes'
 import Employee from '../Imprint/Employee'
 import { RawList as FaqList } from '../Faq/List'
 
-import { ListWithQuery } from '../Testimonial/List'
+import {
+  List as TestimonialList,
+  fragments as testimonialFragments
+} from '../Testimonial/List'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -50,7 +53,18 @@ query feuilletonMarketingPage {
     question
     answer
   }
+  statements(first: 6) {
+    totalCount
+    nodes {
+      ...TestimonialOnUser
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
 }
+${testimonialFragments.TestimonialOnUser}
 `
 
 const styles = {
@@ -256,12 +270,19 @@ const FeuilletonMarketingPage = ({
               }
             )}
           </Interaction.H2>
-          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
-            Router.push(`/community?id=${id}`).then(() => {
-              window.scrollTo(0, 0)
-            })
-            return false
-          }} />
+          <TestimonialList
+            singleRow
+            minColumns={3}
+            first={6}
+            statements={data.statements ? data.statements.nodes : []}
+            loading={data.loading}
+            t={t}
+            onSelect={(id) => {
+              Router.push(`/community?id=${id}`).then(() => {
+                window.scrollTo(0, 0)
+              })
+              return false
+            }} />
           <Interaction.P {...sharedStyles.communityLink}>
             <Link route='community'>
               <a>{t('marketing/community/link')}</a>

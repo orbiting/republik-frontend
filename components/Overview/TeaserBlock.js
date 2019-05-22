@@ -106,7 +106,7 @@ class TeaserBlock extends Component {
           )
           .map(measurement => measurement.height + PADDING)
       )
-    }))
+    })) * (this.props.overflow ? 0.9 : 1)
 
     if (this.state.width !== width || this.state.height !== height) {
       this.setState({ width, height })
@@ -125,7 +125,7 @@ class TeaserBlock extends Component {
   }
   render () {
     const { hover, width, height } = this.state
-    const { teasers, highlight, onHighlight, lazy } = this.props
+    const { teasers, highlight, onHighlight, lazy, overflow } = this.props
 
     const hoverOff = () => {
       // prevent flicker
@@ -138,7 +138,11 @@ class TeaserBlock extends Component {
     }
 
     return (
-      <div ref={this.blockRef} style={{ position: 'relative' }}>
+      <div ref={this.blockRef} style={{
+        position: 'relative',
+        marginTop: overflow ? -50 : 0,
+        bottom: overflow ? -50 : 0
+      }}>
         <LazyLoad key={height} visible={!lazy} attributes={{
           ...styles.container,
           ...css({
@@ -155,7 +159,10 @@ class TeaserBlock extends Component {
               return styles
             }, {})
           })
-        }} style={{ height }}>
+        }} style={{
+          height,
+          overflowX: overflow ? 'hidden' : undefined
+        }}>
           {teasers.map(teaser => {
             let touch
             const focus = event => {

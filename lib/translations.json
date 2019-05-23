@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-23T15:01:35.708Z",
+  "updated": "2019-05-23T15:41:44.104Z",
   "title": "live",
   "data": [
     {
@@ -4489,10 +4489,6 @@
     {
       "key": "overview/lead/pledgeButton",
       "value": "Kommen Sie an Bord!"
-    },
-    {
-      "key": "overview/after/pledge",
-      "value": null
     },
     {
       "key": "overview/after/pledgeButton",

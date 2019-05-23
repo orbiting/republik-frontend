@@ -18,7 +18,7 @@ import { intersperse } from '../../lib/utils/helpers'
 
 import {
   List as TestimonialList,
-  fragments as testimonialFragments
+  testimonialFields
 } from '../Testimonial/List'
 
 import TeaserBlock from '../Overview/TeaserBlock'
@@ -47,7 +47,7 @@ query marketingMembershipStats {
     group
     name
     user {
-      ...TestimonialOnUser
+      ${testimonialFields}
     }
   }
   articles: documents(feed: true, first: 0, template: "article") {
@@ -56,7 +56,7 @@ query marketingMembershipStats {
   statements(first: 6) {
     totalCount
     nodes {
-      ...TestimonialOnUser
+      ${testimonialFields}
     }
     pageInfo {
       hasNextPage
@@ -64,7 +64,6 @@ query marketingMembershipStats {
     }
   }
 }
-${testimonialFragments.TestimonialOnUser}
 `
 
 const SMALL_MAX_WIDTH = 974

@@ -26,7 +26,7 @@ import { RawList as FaqList } from '../Faq/List'
 
 import {
   List as TestimonialList,
-  fragments as testimonialFragments
+  testimonialFields
 } from '../Testimonial/List'
 
 import { buttonStyles, sharedStyles } from './styles'
@@ -56,7 +56,7 @@ query feuilletonMarketingPage {
   statements(first: 6) {
     totalCount
     nodes {
-      ...TestimonialOnUser
+      ${testimonialFields}
     }
     pageInfo {
       hasNextPage
@@ -64,7 +64,6 @@ query feuilletonMarketingPage {
     }
   }
 }
-${testimonialFragments.TestimonialOnUser}
 `
 
 const styles = {

@@ -416,30 +416,26 @@ export class List extends Component {
   }
 }
 
-export const fragments = {
-  TestimonialOnUser: gql`
-    fragment TestimonialOnUser on User {
-      id
-      username
-      name
-      statement
-      credentials {
-        description
-      }
-      portrait
-      updatedAt
-      sequenceNumber
-      hasPublicProfile
-    }
-  `
-}
+export const testimonialFields = `
+  id
+  username
+  name
+  statement
+  credentials {
+    description
+  }
+  portrait
+  updatedAt
+  sequenceNumber
+  hasPublicProfile
+`
 
 const query = gql`
 query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
   statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
     totalCount
     nodes {
-      ...TestimonialOnUser
+      ${testimonialFields}
     }
     pageInfo {
       hasNextPage
@@ -447,7 +443,7 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
     }
   }
 }
-${fragments.TestimonialOnUser}`
+`
 
 const ListWithQuery = compose(
   withT,

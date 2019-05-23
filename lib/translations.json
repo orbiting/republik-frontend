@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-22T16:24:26.402Z",
+  "updated": "2019-05-23T15:01:35.708Z",
   "title": "live",
   "data": [
     {
@@ -352,7 +352,7 @@
     },
     {
       "key": "marketing/overview/lead",
-      "value": "Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge zu den wichtigsten Fragen der Gegenwart."
+      "value": "Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge."
     },
     {
       "key": "marketing/overview/more",
@@ -376,7 +376,7 @@
     },
     {
       "key": "marketing/employees/title",
-      "value": "Über 60 Mitwirkende"
+      "value": "Über 60 Macherinnen"
     },
     {
       "key": "marketing/employees/more",
@@ -4480,19 +4480,19 @@
     },
     {
       "key": "overview/lead/signIn",
-      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied?"
     },
     {
       "key": "overview/lead/pledge",
-      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können. {pledgeLink}"
+      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können."
     },
     {
-      "key": "overview/lead/pledgeText",
+      "key": "overview/lead/pledgeButton",
       "value": "Kommen Sie an Bord!"
     },
     {
       "key": "overview/after/pledge",
-      "value": "Geniessen Sie die ruhigen Stunden zum Lesen:"
+      "value": null
     },
     {
       "key": "overview/after/pledgeButton",

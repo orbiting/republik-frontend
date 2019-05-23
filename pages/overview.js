@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
@@ -19,7 +19,7 @@ import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
 
 import TeaserBlock from '../components/Overview/TeaserBlock'
-import { A, P } from '../components/Overview/Elements'
+import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
 import text19 from '../components/Overview/2019'
 import { getTeasersFromDocument } from '../components/Overview/utils'
@@ -151,17 +151,14 @@ class FrontOverview extends Component {
           {t.first([`overview/${year}/title`, 'overview/title'], { year })}
         </Interaction.H1>
 
-        <P>
+        <P style={{ marginBottom: 10 }}>
           {isMember
-            ? <Fragment>
-              {t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')}
-            </Fragment>
-            : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`, {
-              pledgeLink: <Link key='pledge' route='pledge' passHref>
-                <A>{t('overview/lead/pledgeText')}</A>
-              </Link>
-            })}
+            ? t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')
+            : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`)}
         </P>
+        {!isMember && <Link key='pledge' route='pledge' passHref>
+          <Button white>{t('overview/lead/pledgeButton')}</Button>
+        </Link>}
 
         <Loader loading={data.loading} error={data.error} style={{ minHeight: `calc(90vh)` }} render={() => {
           return teasersByMonth.map(({ key: month, values }, i) => {
@@ -189,14 +186,9 @@ class FrontOverview extends Component {
           })
         }} />
 
-        {!isMember && <Fragment>
-          <P style={{ marginBottom: 10, marginTop: 100 }}>
-            {t('overview/after/pledge')}
-          </P>
-          <Link key='pledge' route='pledge' passHref>
-            <Button white>{t('overview/after/pledgeButton')}</Button>
-          </Link>
-        </Fragment>}
+        {!isMember && <Link key='pledge' route='pledge' passHref>
+          <Button white style={{ marginTop: 100 }}>{t('overview/after/pledgeButton')}</Button>
+        </Link>}
       </Frame>
     )
   }

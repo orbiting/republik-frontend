@@ -237,6 +237,21 @@ class MarketingPage extends Component {
             </Link>
           </Interaction.P>
           <div {...sharedStyles.spacer} />
+          <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
+            <div>
+              <Link route='pledge'>
+                <button {...buttonStyles.primary}>
+                  {t('marketing/join/button/label')}
+                </button>
+              </Link>
+            </div>
+            <Link route='preview'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/preview/button/label')}
+              </button>
+            </Link>
+          </div>
+          <div {...sharedStyles.spacer} />
         </Container>}
       </Fragment>
     )

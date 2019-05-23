@@ -36,7 +36,7 @@ query marketingMembershipStats {
     count
   }
   front: document(path: "/") {
-    children(first: 60) {
+    children(first: 50) {
       nodes {
         body
       }
@@ -167,6 +167,7 @@ class MarketingPage extends Component {
                   teasers={getTeasersFromDocument(front)}
                   highlight={this.state.highlight}
                   onHighlight={this.onHighlight}
+                  maxHeight={520}
                   overflow
                   lazy />
               )} />

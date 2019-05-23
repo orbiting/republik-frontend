@@ -94,7 +94,7 @@ class TeaserBlock extends Component {
     const { columns } = SIZES.filter(size => size.minWidth <= innerWidth).pop()
 
     const perColumn = Math.round(this.measurements.length / columns)
-    const height = max(range(columns).map(column => {
+    let height = max(range(columns).map(column => {
       const begin = column * perColumn
       return sum(
         this.measurements
@@ -106,7 +106,14 @@ class TeaserBlock extends Component {
           )
           .map(measurement => measurement.height + PADDING)
       )
-    })) * (this.props.overflow ? 0.9 : 1)
+    }))
+
+    if (this.props.overflow) {
+      height *= 0.9
+      if (this.props.maxHeight) {
+        height = Math.min(height, this.props.maxHeight)
+      }
+    }
 
     if (this.state.width !== width || this.state.height !== height) {
       this.setState({ width, height })

@@ -7,7 +7,6 @@ import {
   Container,
   Editorial,
   Interaction,
-  Label,
   P,
   PullQuote,
   PullQuoteText,
@@ -25,7 +24,10 @@ import { Link, Router } from '../../lib/routes'
 import Employee from '../Imprint/Employee'
 import { RawList as FaqList } from '../Faq/List'
 
-import { ListWithQuery } from '../Testimonial/List'
+import {
+  List as TestimonialList,
+  testimonialFields
+} from '../Testimonial/List'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -50,6 +52,16 @@ query feuilletonMarketingPage {
     category
     question
     answer
+  }
+  statements(first: 6) {
+    totalCount
+    nodes {
+      ${testimonialFields}
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
   }
 }
 `
@@ -143,15 +155,6 @@ const FeuilletonMarketingPage = ({
                 {t('marketing/join/button/label')}
               </button>
             </Link>
-            <Label {...sharedStyles.signInLabel}>{
-              t.elements(
-                'marketing/signin',
-                { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing/signin/link') }</a>
-                </Link>
-                }
-              )
-            }</Label>
           </div>
           <Link route='preview'>
             <button {...buttonStyles.standard}>
@@ -159,6 +162,15 @@ const FeuilletonMarketingPage = ({
             </button>
           </Link>
         </div>
+        <div {...sharedStyles.signIn}>{
+          t.elements(
+            'marketing/signin',
+            { link: <Link key='link' route={'signin'}>
+              <a>{t('marketing/signin/link') }</a>
+            </Link>
+            }
+          )
+        }</div>
       </Container>
       <Center>
         <Subheader>{t('marketing/feuilleton/what/title')}</Subheader>
@@ -253,16 +265,23 @@ const FeuilletonMarketingPage = ({
               {
                 count: membershipStats
                   ? countFormat(membershipStats.count)
-                  : `~${countFormat(22500)}`
+                  : t('marketing/community/defaultCount')
               }
             )}
           </Interaction.H2>
-          <ListWithQuery singleRow minColumns={3} first={6} onSelect={(id) => {
-            Router.push(`/community?id=${id}`).then(() => {
-              window.scrollTo(0, 0)
+          <TestimonialList
+            singleRow
+            minColumns={3}
+            first={6}
+            statements={data.statements ? data.statements.nodes : []}
+            loading={data.loading}
+            t={t}
+            onSelect={(id) => {
+              Router.push(`/community?id=${id}`).then(() => {
+                window.scrollTo(0, 0)
+              })
               return false
-            })
-          }} />
+            }} />
           <Interaction.P {...sharedStyles.communityLink}>
             <Link route='community'>
               <a>{t('marketing/community/link')}</a>

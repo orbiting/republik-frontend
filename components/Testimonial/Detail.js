@@ -12,7 +12,9 @@ import {
   P as SerifP,
   colors,
   linkRule,
-  VideoPlayer
+  VideoPlayer,
+  mediaQueries,
+  inQuotes
 } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
@@ -20,8 +22,10 @@ const { H3, P } = Interaction
 const styles = {
   detail: css({
     width: '100%',
-    padding: '30px 45px',
-    float: 'left'
+    padding: '30px 0',
+    [mediaQueries.mUp]: {
+      padding: '30px 45px'
+    }
   }),
   detailTitle: css({
     lineHeight: '20px'
@@ -80,7 +84,7 @@ const Detail = ({
           <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
       ) : (
-        <SerifP>«{statement}»</SerifP>
+        statement ? <SerifP>{inQuotes(statement)}</SerifP> : <br />
       )}
       {!!sequenceNumber && (
         <P {...styles.number}>

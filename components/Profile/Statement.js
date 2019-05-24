@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 
 import FieldSet from '../FieldSet'
 
-import { fontFamilies, mediaQueries } from '@project-r/styleguide'
+import { fontFamilies, mediaQueries, inQuotes } from '@project-r/styleguide'
 
 const styles = {
   quote: {
@@ -83,7 +83,7 @@ class Statement extends Component {
           ? <FieldSet
             {...props}
             fields={fields(t)} />
-          : `«${user.statement}»`}
+          : inQuotes(user.statement)}
       </span>
     )
   }

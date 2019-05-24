@@ -12,7 +12,7 @@ import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
-import Link from '../Link/Href'
+import HrefLink from '../Link/Href'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import ErrorMessage from '../ErrorMessage'
 
@@ -21,13 +21,13 @@ import { negativeColors } from '../Frame/Footer'
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
-import { cleanAsPath } from '../../lib/routes'
+import { Link, cleanAsPath } from '../../lib/routes'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import { intersperse } from '../../lib/utils/helpers'
 
 const schema = createFrontSchema({
-  Link
+  Link: HrefLink
 })
 
 const getDocument = gql`

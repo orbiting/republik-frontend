@@ -200,8 +200,7 @@ class MarketingPage extends Component {
             first={6}
             statements={statements && statements.nodes}
             loading={loading}
-            t={t}
-            focus />
+            t={t} />
           <Interaction.P style={{ marginTop: 10 }}>
             <Link route='community' passHref>
               <Editorial.A>

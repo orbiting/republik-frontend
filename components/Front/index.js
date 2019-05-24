@@ -1,25 +1,29 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import { InlineSpinner } from '@project-r/styleguide'
+import { Editorial, InlineSpinner } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
 import Head from 'next/head'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
-import InfiniteScroll from 'react-infinite-scroller'
 
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import Link from '../Link/Href'
 import SSRCachingBoundary from '../SSRCachingBoundary'
+import ErrorMessage from '../ErrorMessage'
+
+import { negativeColors } from '../Frame/Footer'
 
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { cleanAsPath } from '../../lib/routes'
+
+import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 
 const schema = createFrontSchema({
   Link
@@ -30,6 +34,7 @@ const getDocument = gql`
     front: document(path: $path) {
       id
       children(first: $first, after: $after, only: $only) {
+        totalCount
         pageInfo {
           hasNextPage
           hasPreviousPage
@@ -58,91 +63,107 @@ const getDocument = gql`
 `
 
 const styles = {
-  spinner: css({
+  more: css({
+    backgroundColor: negativeColors.containerBg,
+    color: negativeColors.text,
     textAlign: 'center',
-    margin: '10px 0'
+    padding: '20px 0'
   })
 }
 
-class Front extends Component {
-  render () {
-    const {
-      data,
-      fetchMore,
-      data: { front },
-      t,
-      renderBefore,
-      renderAfter,
-      containerStyle,
-      extractId
-    } = this.props
-    const meta = front && {
-      ...front.meta,
-      title: front.meta.title || t('pages/magazine/title'),
-      url: `${PUBLIC_BASE_URL}${front.meta.path}`
-    }
+const Front = ({
+  data,
+  fetchMore,
+  data: { front },
+  t,
+  renderBefore,
+  renderAfter,
+  containerStyle,
+  extractId,
+  serverContext
+}) => {
+  const meta = front && {
+    ...front.meta,
+    title: front.meta.title || t('pages/magazine/title'),
+    url: `${PUBLIC_BASE_URL}${front.meta.path}`
+  }
 
-    if (extractId) {
-      return (
-        <Loader loading={data.loading} error={data.error} render={() => {
-          if (!front) {
-            return <StatusError
-              statusCode={404}
-              serverContext={this.props.serverContext} />
-          }
-          return (
-            <Fragment>
-              <Head>
-                <meta name='robots' content='noindex' />
-              </Head>
-              {renderMdast({
-                type: 'root',
-                children: front.children.nodes.map(v => v.body)
-              }, schema)}
-            </Fragment>
-          )
-        }} />
-      )
-    }
-
+  if (extractId) {
     return (
-      <Frame
-        raw
-        meta={meta}
-      >
-        {renderBefore && renderBefore(meta)}
-        <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-          if (!front) {
-            return <StatusError
-              statusCode={404}
-              serverContext={this.props.serverContext} />
-          }
-
-          const hasNextPage = front.children.pageInfo.hasNextPage
-          return <InfiniteScroll
-            loadMore={fetchMore}
-            hasMore={hasNextPage}
-            threshold={800}
-            loader={
-              <div {...styles.spinner}
-                key='pagination-loader'>
-                <InlineSpinner size={28} />
-              </div>
-            }>
-            <div style={containerStyle}>
-              <SSRCachingBoundary key='content' cacheKey={front.id}>
-                {() => renderMdast({
-                  type: 'root',
-                  children: front.children.nodes.map(v => v.body)
-                }, schema)}
-              </SSRCachingBoundary>
-            </div>
-          </InfiniteScroll>
-        }} />
-        {renderAfter && renderAfter(meta)}
-      </Frame>
+      <Loader loading={data.loading} error={data.error} render={() => {
+        if (!front) {
+          return <StatusError
+            statusCode={404}
+            serverContext={serverContext} />
+        }
+        return (
+          <Fragment>
+            <Head>
+              <meta name='robots' content='noindex' />
+            </Head>
+            {renderMdast({
+              type: 'root',
+              children: front.children.nodes.map(v => v.body)
+            }, schema)}
+          </Fragment>
+        )
+      }} />
     )
   }
+
+  const hasMore = front && front.children.pageInfo.hasNextPage
+  const [
+    { containerRef, infiniteScroll, loadingMore, loadingMoreError },
+    setInfiniteScroll
+  ] = useInfiniteScroll({
+    hasMore,
+    loadMore: fetchMore
+  })
+
+  return (
+    <Frame
+      raw
+      meta={meta}
+    >
+      {renderBefore && renderBefore(meta)}
+      <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
+        if (!front) {
+          return <StatusError
+            statusCode={404}
+            serverContext={serverContext} />
+        }
+
+        return <div ref={containerRef} style={containerStyle}>
+          <SSRCachingBoundary key='content' cacheKey={front.id}>
+            {() => renderMdast({
+              type: 'root',
+              children: front.children.nodes.map(v => v.body)
+            }, schema)}
+          </SSRCachingBoundary>
+          {hasMore && <div {...styles.more}>
+            {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
+            {loadingMore && <InlineSpinner />}
+            {!infiniteScroll && hasMore &&
+            <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+              event && event.preventDefault()
+              setInfiniteScroll(true)
+            }}>
+              {
+                t('front/loadMore',
+                  {
+                    count: front.children.nodes.length,
+                    remaining: front.children.totalCount - front.children.nodes.length
+                  }
+                )
+              }
+            </Editorial.A>
+            }
+          </div>}
+        </div>
+      }} />
+      {renderAfter && renderAfter(meta)}
+    </Frame>
+  )
 }
 
 export default compose(
@@ -166,7 +187,7 @@ export default compose(
         fetchMore: () => {
           return data.fetchMore({
             variables: {
-              first: 5,
+              first: 15,
               after: data.front && data.front.children.pageInfo.endCursor
             },
             updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {

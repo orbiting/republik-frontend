@@ -9,7 +9,7 @@ import withT from '../../lib/withT'
 import Loader from '../Loader'
 
 import {
-  Logo, fontFamilies
+  Logo, fontFamilies, inQuotes
 } from '@project-r/styleguide'
 
 const styles = {
@@ -98,7 +98,7 @@ const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, 
           {headline && <div {...styles.headline}>{headline}</div>}
           {statement && <p {...styles.quote}
             style={{ fontSize: 24 + fontSizeBoost(statement.length + headline.length) }}>
-            «{statement}»
+            {inQuotes(statement)}
           </p>}
           {!!sequenceNumber && (
             <div {...styles.number}>{t('memberships/sequenceNumber/label', {

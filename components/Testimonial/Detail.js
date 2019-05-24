@@ -12,7 +12,8 @@ import {
   P as SerifP,
   colors,
   linkRule,
-  VideoPlayer
+  VideoPlayer,
+  inQuotes
 } from '@project-r/styleguide'
 
 const { H3, P } = Interaction
@@ -80,7 +81,7 @@ const Detail = ({
           <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
       ) : (
-        <SerifP>«{statement}»</SerifP>
+        <SerifP>{inQuotes(statement)}</SerifP>
       )}
       {!!sequenceNumber && (
         <P {...styles.number}>

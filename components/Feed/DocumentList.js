@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
@@ -7,6 +7,10 @@ import withInNativeApp from '../../lib/withInNativeApp'
 
 import { A, mediaQueries, Spinner } from '@project-r/styleguide'
 import Feed from './Feed'
+
+import ErrorMessage from '../ErrorMessage'
+
+import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 
 const styles = {
   container: css({
@@ -18,82 +22,42 @@ const styles = {
   more: css({
     position: 'relative',
     height: 50,
-    padding: '10px 0 0 0'
+    padding: '20px 0 0 0'
   })
 }
 
-class DocumentList extends Component {
-  constructor (props) {
-    super(props)
-    this.container = null
-    this.setContainerRef = (el) => { this.container = el }
-    this.state = {
-      infiniteScroll: false,
-      loadingMore: false
-    }
-    this.onScroll = async () => {
-      if (this.container) {
-        const bbox = this.container.getBoundingClientRect()
-        if (bbox.bottom < window.innerHeight * 10) {
-          const { loadMore, hasMore } = this.props
-          const { infiniteScroll } = this.state
-          if (infiniteScroll && hasMore) {
-            this.setState({ loadingMore: true })
-            await loadMore()
-            this.setState({ loadingMore: false })
-          }
-        }
-      }
-    }
-    this.activateInfiniteScroll = async (e) => {
-      e.preventDefault()
-      this.setState(
-        {
-          infiniteScroll: true,
-          loadingMore: true
-        },
-        this.onScroll
-      )
-    }
-  }
+const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMore, feedProps, t }) => {
+  const [
+    { containerRef, infiniteScroll, loadingMore, loadingMoreError },
+    setInfiniteScroll
+  ] = useInfiniteScroll({ hasMore, loadMore })
 
-  componentDidMount () {
-    window.addEventListener('scroll', this.onScroll)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('scroll', this.onScroll)
-  }
-
-  render () {
-    const { infiniteScroll, loadingMore } = this.state
-    const { documents, totalCount, unfilteredCount, hasMore, feedProps, t } = this.props
-    return (
-      <div {...styles.container}>
-        <div ref={this.setContainerRef}>
-          <Feed documents={documents} {...feedProps} />
-        </div>
-        <div {...styles.more}>
-          {loadingMore &&
-          <Spinner />
-          }
-          {!infiniteScroll && hasMore &&
-          <A href='#'
-            onClick={this.activateInfiniteScroll}>
-            {
-              t('feed/loadMore',
-                {
-                  count: documents.length,
-                  remaining: totalCount - unfilteredCount
-                }
-              )
-            }
-          </A>
-          }
-        </div>
+  return (
+    <div {...styles.container}>
+      <div ref={containerRef}>
+        <Feed documents={documents} {...feedProps} />
       </div>
-    )
-  }
+      <div {...styles.more}>
+        {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
+        {loadingMore && <Spinner />}
+        {!infiniteScroll && hasMore &&
+        <A href='#' onClick={event => {
+          event && event.preventDefault()
+          setInfiniteScroll(true)
+        }}>
+          {
+            t('feed/loadMore',
+              {
+                count: documents.length,
+                remaining: totalCount - unfilteredCount
+              }
+            )
+          }
+        </A>
+        }
+      </div>
+    </div>
+  )
 }
 
 DocumentList.propTypes = {

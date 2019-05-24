@@ -30,7 +30,7 @@ const styles = {
 
 const documentsQuery = gql`
   query getDocuments($cursor: String) {
-    documents(feed: true, first: 50, after: $cursor) {
+    documents(feed: true, first: 30, after: $cursor) {
       ...DocumentListConnection
     }
   }

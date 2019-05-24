@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-15T13:42:53.050Z",
+  "updated": "2019-05-24T12:39:29.854Z",
   "title": "live",
   "data": [
     {
@@ -343,12 +343,44 @@
       "value": "Jetzt anmelden"
     },
     {
+      "key": "marketing/overview/title",
+      "value": "{count} Produktionen"
+    },
+    {
+      "key": "marketing/overview/defaultCount",
+      "value": "Über 1000"
+    },
+    {
+      "key": "marketing/overview/lead",
+      "value": "Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge."
+    },
+    {
+      "key": "marketing/overview/more",
+      "value": "Chronologie {years}"
+    },
+    {
       "key": "marketing/community/title",
-      "value": "{count} Personen sind schon dabei"
+      "value": "{count} Verlegerinnen und Verleger"
+    },
+    {
+      "key": "marketing/community/defaultCount",
+      "value": "Über 17’000"
     },
     {
       "key": "marketing/community/link",
       "value": "Zur Community"
+    },
+    {
+      "key": "marketing/community/moreStatements",
+      "value": "Weitere {count} Statements"
+    },
+    {
+      "key": "marketing/employees/title",
+      "value": "Über 60 Macherinnen"
+    },
+    {
+      "key": "marketing/employees/more",
+      "value": "Zum Impressum"
     },
     {
       "key": "marketing/signup/title",
@@ -2639,6 +2671,14 @@
       "value": "+41797874765"
     },
     {
+      "key": "front/chronology",
+      "value": "Chronologie {years}"
+    },
+    {
+      "key": "front/loadMore",
+      "value": "Das waren die neuesten {count} Zeilen. Weitere {remaining} anschauen?"
+    },
+    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
@@ -4448,19 +4488,15 @@
     },
     {
       "key": "overview/lead/signIn",
-      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied? {pledgeLink}"
+      "value": "Melden Sie sich an, um die Beiträge lesen zu können. Noch nicht Mitglied?"
     },
     {
       "key": "overview/lead/pledge",
-      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können. {pledgeLink}"
+      "value": "Werden Sie Mitglied, um die Beiträge lesen zu können."
     },
     {
-      "key": "overview/lead/pledgeText",
+      "key": "overview/lead/pledgeButton",
       "value": "Kommen Sie an Bord!"
-    },
-    {
-      "key": "overview/after/pledge",
-      "value": "Geniessen Sie die ruhigen Stunden zum Lesen:"
     },
     {
       "key": "overview/after/pledgeButton",

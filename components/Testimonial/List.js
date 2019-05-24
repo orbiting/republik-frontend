@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Fragment, Component } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
@@ -42,7 +42,6 @@ const getItemStyles = (singleRow, minColumns = 1, maxColumns = 5) => {
     ...SIZES.filter(({ minWidth, columns }) => columns > minColumns && columns <= maxColumns)
   ]
   return css({
-    cursor: 'pointer',
     display: 'block',
     lineHeight: 0,
     padding: PADDING,
@@ -138,6 +137,10 @@ const styles = {
     right: PADDING + 5,
     top: PADDING + 5
   }),
+  more: css({
+    marginTop: 15,
+    padding: PADDING
+  }),
   options: css({
     marginBottom: 15
   })
@@ -149,8 +152,12 @@ export const Item = ({ previewImage, image, name, isActive, href, onClick, singl
     : singleRow
       ? styles.singleRowItem
       : styles.item
+  const Element = href ? 'a' : 'span'
   return (
-    <a href={href} {...itemStyles} style={style} onClick={onClick}>
+    <Element href={href} {...itemStyles} style={{
+      ...style,
+      cursor: href ? 'pointer' : undefined
+    }} onClick={href && onClick}>
       <span {...styles.aspect}>
         {previewImage
           ? <span {...styles.previewImage} style={{
@@ -162,13 +169,13 @@ export const Item = ({ previewImage, image, name, isActive, href, onClick, singl
       </span>
       {!isActive && <span {...styles.name}>{name}</span>}
       {isActive && <span {...styles.itemArrow} />}
-    </a>
+    </Element>
   )
 }
 
 const AUTO_INFINITE = 300
 
-class List extends Component {
+export class List extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -257,167 +264,188 @@ class List extends Component {
       loading, error, statements, t,
       onSelect, focus, isPage,
       search, hasMore, totalCount,
-      singleRow, minColumns
+      singleRow, minColumns,
+      showCredentials
     } = this.props
     const { columns, open } = this.state
 
-    const hasEndText = !search
+    const hasEndText = !search && isPage
 
     const gridStyles = !singleRow
       ? styles.grid
       : merge(styles.grid, styles.singleRowGrid)
 
     return (
-      <Loader loading={!statements || loading} error={error} render={() => {
-        const items = []
-        const lastIndex = statements.length - 1
-        const focusItem = (
-          focus &&
+      <Loader
+        loading={loading}
+        style={singleRow ? { minHeight: focus ? 380 : 150 } : undefined}
+        error={error}
+        render={() => {
+          const items = []
+          const lastIndex = statements.length - 1
+          const focusItem = (
+            focus &&
           statements[0]
-        )
+          )
 
-        statements.forEach(({ id, portrait, name }, i) => {
-          const row = Math.floor(i / columns)
-          const offset = i % columns
-          const openId = open[row - 1]
-          if (
-            openId && offset === 0
-          ) {
-            const openItem = statements
-              .find(statement => statement.id === openId)
-            if (openItem) {
-              items.push(
-                <Detail
-                  key={`detail${row - 1}`}
-                  t={t} data={openItem} />
-              )
+          const singleRowOpenItem = (
+            singleRow &&
+          open[0] &&
+          statements.find(statement => statement.id === open[0])
+          )
+
+          statements.forEach(({ id, portrait, name, credentials }, i) => {
+            const row = singleRow ? 0 : Math.floor(i / columns)
+            const offset = i % columns
+            const openId = open[row - 1]
+            if (
+              !singleRow && openId && offset === 0
+            ) {
+              const openItem = statements
+                .find(statement => statement.id === openId)
+              if (openItem) {
+                items.push(
+                  <Detail
+                    key={`detail${row - 1}`}
+                    t={t} data={openItem} />
+                )
+              }
             }
-          }
 
-          const isActive = open[row] === id
-          items.push((
-            <Item key={id}
-              image={portrait}
-              name={name}
-              isActive={isActive}
-              singleRow={singleRow}
-              minColumns={minColumns}
-              maxColumns={this.getMaxColumns()}
-              href={`/community?id=${id}`}
-              onClick={(e) => {
-                if (shouldIgnoreClick(e)) {
-                  return
-                }
-                e.preventDefault()
-                if (onSelect(id) === false) {
-                  return
-                }
-                this.setState((state) => ({
-                  open: {
-                    ...state.open,
-                    [row]: state.open[row] === id ? undefined : id
+            const isActive = open[row] === id
+            const credential = showCredentials && credentials && credentials[0] && credentials[0].description
+            const label = [name, credential].filter(Boolean).join(', ')
+
+            items.push((
+              <Item key={id}
+                image={portrait}
+                name={label}
+                isActive={isActive}
+                singleRow={singleRow}
+                minColumns={minColumns}
+                maxColumns={this.getMaxColumns()}
+                href={id && `/community?id=${id}`}
+                onClick={(e) => {
+                  if (shouldIgnoreClick(e)) {
+                    return
                   }
-                }))
-              }} />
-          ))
+                  e.preventDefault()
+                  if (onSelect && onSelect(id) === false) {
+                    return
+                  }
+                  this.setState((state) => ({
+                    open: {
+                      ...state.open,
+                      [row]: state.open[row] === id ? undefined : id
+                    }
+                  }))
+                }} />
+            ))
 
-          const lastOpenId = open[row]
-          if (
-            i === lastIndex && lastOpenId
-          ) {
-            const openItem = statements
-              .find(statement => statement.id === lastOpenId)
-            if (openItem) {
-              items.push(
-                <Detail key={`detail${row}`} t={t} data={openItem} />
-              )
+            const lastOpenId = open[row]
+            if (
+              !singleRow && i === lastIndex && lastOpenId
+            ) {
+              const openItem = statements
+                .find(statement => statement.id === lastOpenId)
+              if (openItem) {
+                items.push(
+                  <Detail key={`detail${row}`} t={t} data={openItem} />
+                )
+              }
             }
-          }
-        })
-
-        const metaData = focusItem
-          ? ({
-            pageTitle: t('testimonial/meta/single/pageTitle', focusItem),
-            title: t('testimonial/meta/single/title', focusItem),
-            description: t('testimonial/meta/single/description', focusItem),
-            url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
-            image: `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(focusItem.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${focusItem.id}`)}`
-          })
-          : ({
-            pageTitle: t('testimonial/meta/pageTitle'),
-            title: t('testimonial/meta/title'),
-            description: t('testimonial/meta/description'),
-            url: `${PUBLIC_BASE_URL}/community`,
-            image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
           })
 
-        return (
-          <div {...gridStyles} ref={this.ref}>
-            {!!isPage && <Meta data={metaData} />}
-            {items}
-            <div style={{ clear: 'left', marginBottom: 20 }} />
-            {
-              statements.length >= AUTO_INFINITE &&
-              !this.state.endless &&
-              hasMore && (
-                <A
-                  href='#'
-                  onClick={e => {
-                    e.preventDefault()
-                    this.setState(
-                      () => ({
-                        endless: true
-                      }),
-                      () => {
-                        this.onScroll()
-                      }
-                    )
-                  }}
-                >
-                  {t('testimonial/infinite/endless', {
-                    count: AUTO_INFINITE,
-                    remaining: totalCount - AUTO_INFINITE
-                  })}
-                </A>
-              )
-            }
-            {!hasMore && hasEndText && (
-              <P>{t('testimonial/infinite/end', {
-                count: statements.length
-              })}</P>
-            )}
-          </div>
-        )
-      }} />
+          const metaData = focusItem
+            ? ({
+              pageTitle: t('testimonial/meta/single/pageTitle', focusItem),
+              title: t('testimonial/meta/single/title', focusItem),
+              description: t('testimonial/meta/single/description', focusItem),
+              url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
+              image: `${ASSETS_SERVER_BASE_URL}/render?viewport=1200x628&updatedAt=${encodeURIComponent(focusItem.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${focusItem.id}`)}`
+            })
+            : ({
+              pageTitle: t('testimonial/meta/pageTitle'),
+              title: t('testimonial/meta/title'),
+              description: t('testimonial/meta/description'),
+              url: `${PUBLIC_BASE_URL}/community`,
+              image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
+            })
+
+          return (
+            <Fragment>
+              <div {...gridStyles} ref={this.ref}>
+                {!!isPage && <Meta data={metaData} />}
+                {items}
+                <div style={{ marginBottom: 20 }} />
+                {
+                  statements.length >= AUTO_INFINITE &&
+                  !this.state.endless &&
+                  hasMore && (
+                    <P {...styles.more}>
+                      <A href='#' onClick={e => {
+                        e.preventDefault()
+                        this.setState(
+                          () => ({
+                            endless: true
+                          }),
+                          () => {
+                            this.onScroll()
+                          }
+                        )
+                      }}>
+                        {t('testimonial/infinite/endless', {
+                          count: AUTO_INFINITE,
+                          remaining: totalCount - AUTO_INFINITE
+                        })}
+                      </A>
+                    </P>
+                  )}
+                {!hasMore && hasEndText && (
+                  <P {...styles.more}>{t('testimonial/infinite/end', {
+                    count: statements.length
+                  })}</P>
+                )}
+              </div>
+              {singleRowOpenItem && <Detail
+                t={t} data={singleRowOpenItem} />}
+            </Fragment>
+          )
+        }} />
     )
   }
 }
+
+export const testimonialFields = `
+  id
+  username
+  name
+  statement
+  credentials {
+    description
+  }
+  portrait
+  updatedAt
+  sequenceNumber
+  hasPublicProfile
+`
 
 const query = gql`
 query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
   statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
     totalCount
     nodes {
-      id
-      username
-      name
-      statement
-      credentials {
-        description
-      }
-      portrait
-      updatedAt
-      sequenceNumber
-      hasPublicProfile
+      ${testimonialFields}
     }
     pageInfo {
       hasNextPage
       endCursor
     }
   }
-}`
+}
+`
 
-export const ListWithQuery = compose(
+const ListWithQuery = compose(
   withT,
   graphql(query, {
     props: ({ data }) => {

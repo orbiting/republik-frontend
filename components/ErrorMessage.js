@@ -7,8 +7,8 @@ import {
 
 const { P } = Interaction
 
-export default ({ error }) => (
-  <P style={{ color: colors.error, margin: '20px 0' }}>
+export default ({ error, style }) => (
+  <P style={{ color: colors.error, margin: '20px 0', ...style }}>
     {errorToString(error)}
   </P>
 )

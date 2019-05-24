@@ -15,11 +15,8 @@ import Box from '../Frame/Box'
 import { P } from './Elements'
 import { A, Loader, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
 
-import {
-  DISCUSSION_NOTIFICATION_CHANNELS,
-  DISCUSSION_NOTIFICATION_OPTIONS,
-  withUpdateNotificationSettings
-} from '../Discussion/enhancers'
+import { DISCUSSION_NOTIFICATION_CHANNELS, DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
+import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
 
 const styles = {
   headline: css({

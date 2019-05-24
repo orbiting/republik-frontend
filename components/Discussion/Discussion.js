@@ -1,7 +1,10 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
+import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
 import { A, colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+
+import { withDiscussionCommentsCount } from './graphql/enhancers/withDiscussionCommentsCount'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
@@ -31,14 +34,20 @@ const styles = {
 }
 
 class Discussion extends PureComponent {
-  constructor (props) {
-    super(props)
+  state = {
+    /**
+     * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
+     */
+    orderBy: 'DATE',
 
-    this.state = {
-      orderBy: 'DATE', // DiscussionOrder
-      reload: 0,
-      now: Date.now()
-    }
+    /**
+     * This is a counter which we increment whenever we want to reset the Apollo
+     * cache and reload the comments from the server. The <Comments> component
+     * detects if this counter increments and invokes the Apollo refetch() function.
+     */
+    reload: 0,
+
+    now: Date.now()
   }
 
   componentDidMount () {
@@ -51,8 +60,13 @@ class Discussion extends PureComponent {
     clearInterval(this.intervalId)
   }
 
+  onReload = e => {
+    e.preventDefault()
+    this.setState(({ reload }) => ({ reload: reload + 1 }))
+  }
+
   render () {
-    const { t, discussionId, focusId = null, mute, meta, sharePath } = this.props
+    const { t, discussionCommentsCount, discussionId, focusId = null, mute, meta, sharePath } = this.props
     const { orderBy, reload, now } = this.state
 
     const OrderBy = ({ children, value }) => (
@@ -64,48 +78,60 @@ class Discussion extends PureComponent {
     )
 
     return (
-      <Fragment>
-        <div data-discussion-id={discussionId}>
-          <DiscussionCommentComposer
-            discussionId={discussionId}
-            orderBy={orderBy}
-            focusId={focusId}
-            depth={1}
-            parentId={null}
-            now={now}
-          />
+      <div data-discussion-id={discussionId}>
+        <DiscussionCommentComposer
+          discussionId={discussionId}
+          orderBy={orderBy}
+          focusId={focusId}
+          depth={1}
+          parentId={null}
+          now={now}
+        />
 
-          <NotificationOptions discussionId={discussionId} mute={mute} />
+        <NotificationOptions discussionId={discussionId} mute={mute} />
 
-          <div {...styles.orderByContainer}>
-            <OrderBy value='DATE' />
-            <OrderBy value='VOTES' />
-            <OrderBy value='REPLIES' />
-            <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={(e) => {
-              e.preventDefault()
-              this.setState(({ reload }) => ({ reload: reload + 1 }))
-            }}>
-              {t('components/Discussion/reload')}
-            </A>
-            <br style={{ clear: 'both' }} />
-          </div>
+        {(() => {
+          if (discussionCommentsCount > 0) {
+            return (
+              <>
+                <div {...styles.orderByContainer}>
+                  <OrderBy value='DATE' />
+                  <OrderBy value='VOTES' />
+                  <OrderBy value='REPLIES' />
+                  <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={this.onReload}>
+                    {t('components/Discussion/reload')}
+                  </A>
+                  <br style={{ clear: 'both' }} />
+                </div>
 
-          <Comments
-            depth={1}
-            key={orderBy}
-            discussionId={discussionId}
-            focusId={focusId}
-            parentId={null}
-            reload={reload}
-            orderBy={orderBy}
-            now={now}
-            meta={meta}
-            sharePath={sharePath}
-          />
-        </div>
-      </Fragment>
+                <Comments
+                  depth={1}
+                  key={orderBy}
+                  discussionId={discussionId}
+                  focusId={focusId}
+                  parentId={null}
+                  reload={reload}
+                  orderBy={orderBy}
+                  now={now}
+                  meta={meta}
+                  sharePath={sharePath}
+                />
+              </>
+            )
+          } else {
+            return <EmptyDiscussion t={t} />
+          }
+        })()}
+      </div>
     )
   }
 }
 
-export default withT(Discussion)
+export default compose(
+  withT,
+  withDiscussionCommentsCount
+)(Discussion)
+
+const EmptyDiscussion = ({ t }) => (
+  <div>No comments in this discussion. Be the first to write something</div>
+)

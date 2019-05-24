@@ -125,6 +125,7 @@
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.1",
     "helmet": "^3.18.0",
+    "immer": "^3.1.2",
     "isomorphic-unfetch": "^3.0.0",
     "load-script": "^1.0.0",
     "lodash": "^4.17.11",

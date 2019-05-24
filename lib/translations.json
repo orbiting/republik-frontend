@@ -1911,6 +1911,18 @@
       "value": "Verifizierte Rolle"
     },
     {
+      "key": "styleguide/comment/header/replies/1",
+      "value": "1 Kommentar"
+    },
+    {
+      "key": "styleguide/comment/header/replies/other",
+      "value": "{count} Kommentare"
+    },
+    {
+      "key": "styleguide/comment/header/credentialMissing",
+      "value": "Rolle definieren"
+    },
+    {
       "key": "styleguide/comment/edit/submit",
       "value": "bearbeiten"
     },

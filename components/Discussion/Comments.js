@@ -1,51 +1,29 @@
-import React, { PureComponent, Fragment } from 'react'
-import { compose, graphql } from 'react-apollo'
+import React, { PureComponent } from 'react'
+import { compose } from 'react-apollo'
 import { format, parse } from 'url'
+import produce from 'immer'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
 import timeago from '../../lib/timeago'
 
-import { withDiscussionDisplayAuthor, downvoteComment, upvoteComment, editComment, unpublishComment, isAdmin, query, submitComment, commentsSubscription } from './enhancers'
+import { isAdmin } from './graphql/enhancers/isAdmin'
+import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
+import { withCommentActions } from './graphql/enhancers/withCommentActions'
+import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
+import { withDiscussionComments } from './graphql/enhancers/withDiscussionComments'
+
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 
-import {
-  Loader,
-  CommentTreeLoadMore,
-  CommentTreeCollapse,
-  CommentTreeRow,
-  Label,
-  colors
-} from '@project-r/styleguide'
+import { Loader, DiscussionContext, CommentList, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
-
-import mkDebug from 'debug'
-
-const debug = mkDebug('comments')
-
-const SHOW_DEBUG = false
-
-const BlockLabel = ({ children }) => <Label style={{ display: 'block' }}>{children}</Label>
-
-const mergeCounts = (a, b) => {
-  return {
-    ...a,
-    ...Object.keys(b).reduce(
-      (merge, key) => {
-        merge[key] = (a[key] || 0) + b[key]
-        return merge
-      },
-      {}
-    )
-  }
-}
 
 const getFocusUrl = (path, commentId) => {
   const documentPathObject = parse(path, true)
@@ -64,13 +42,7 @@ class Comments extends PureComponent {
     super(props, ...args)
 
     this.state = {
-      subIdMap: {
-        root: []
-      },
       showPreferences: false,
-      maxVisualDepth: 3,
-      closedPortals: {},
-      hasFocus: !!props.focusId,
       shareUrl: undefined
     }
 
@@ -86,143 +58,137 @@ class Comments extends PureComponent {
       })
     }
 
-    this.submitComment = (parent, ...args) => {
-      return this.props.submitComment(parent, ...args)
-        .then(() => {
-          if (parent) {
-            this.setState(({ closedPortals }) => ({
-              closedPortals: {
-                ...closedPortals,
-                [parent.id]: false
-              }
-            }))
-          }
-          this.clearSubIds(parent ? parent.id : 'root')
-        })
-    }
-  }
-  clearSubIds (parentId) {
-    const { subIdMap } = this.state
-    const subIds = subIdMap[parentId] || []
-
-    const { discussion } = this.props.data
-    if (!discussion) {
-      return
-    }
-    const nodes = discussion.comments && discussion.comments.nodes
-    if (!nodes) {
-      return
-    }
-
-    const cleanSubIds = subIds.filter(id => !nodes.find(c => c.id === id))
-
-    if (subIds.length !== cleanSubIds.length) {
-      debug('clearSubIds', parentId, subIds)
+    this.closeShareOverlay = () => {
       this.setState({
-        subIdMap: {
-          ...subIdMap,
-          [parentId]: cleanSubIds
-        }
+        shareUrl: undefined
       })
     }
   }
-  componentDidMount () {
-    this.unsubscribe = this.props.subscribe({
-      onCreate: (comment, parentId = 'root') => {
-        this.setState(({ subIdMap }) => {
-          const subIds = subIdMap[parentId] || []
-          subIds.push(comment.id)
 
-          debug('onCreate', parentId, subIds)
-          return {
-            subIdMap: {
-              ...subIdMap,
-              [parentId]: subIds
-            }
-          }
-        })
-      }
-    })
+  componentDidMount () {
+    this.unsubscribe = this.props.discussionComments.subscribe()
     this.fetchFocus()
   }
-  componentDidUpdate (prevProps, prevState) {
+
+  componentDidUpdate () {
     this.fetchFocus()
   }
+
   componentWillReceiveProps (nextProps) {
     if (this.props.reload !== nextProps.reload) {
-      this.props.data.refetch()
-    }
-    if (!this.props.data || !nextProps.data) {
-      return
-    }
-    if (this.props.data.discussion !== nextProps.data.discussion) {
-      this.clearSubIds('root')
+      this.props.discussionComments.refetch()
     }
   }
+
   componentWillUnmount () {
     this.unsubscribe()
   }
+
+  /**
+   * This function ensures that if we have a comment in focus, that it's actually
+   * available (ie. that we have the comment loaded). It will also scroll the viewport
+   * such that the comment is in the center of the screen.
+   */
   fetchFocus () {
     const {
       t,
-      data: { discussion, loading },
-      fetchMore, focusId
+      discussionComments: { discussion, loading, fetchMore },
+      focusId
     } = this.props
-    if (loading) {
+
+    /*
+     * If we're still loading, or not trying to focus a comment, there is nothing
+     * to do for us.
+     *
+     * If the discussion doesn't exist, someone else will hopefully render a nice
+     * 404 / not found message.
+     */
+    if (loading || !focusId || !discussion) {
       return
     }
-    const focusInfo = discussion && discussion.comments.focus
-    const hasFocus = !!focusInfo
-    if (focusId && !focusInfo) {
+
+    /*
+     * If we're loading the focused comment or encountered an error during the loading
+     * process, return.
+     */
+    if (this.state.focusLoading || this.state.focusError) {
+      return
+    }
+
+    /*
+     * 'focusInfo' is of type Comment, but we only use it to for its parentIds.
+     * To get to the content we look up the comment in the nodes list.
+     */
+    const focusInfo = discussion.comments.focus
+    if (!focusInfo) {
       this.setState({
         focusError: t('discussion/focus/notFound'),
         focusLoading: false
       })
       return
     }
-    const nodes = discussion && discussion.comments.nodes
-    const focus = (
-      focusInfo &&
-      nodes.find(comment => comment.id === focusInfo.id)
-    )
-    if (this.state.focus !== focus || this.state.hasFocus !== hasFocus) {
-      this.setState({
-        focus,
-        hasFocus,
-        focusError: undefined
-      }, () => {
-        if (focusInfo) {
+
+    /*
+     * Try to locate the comment in the discussion. If we find it, we can scroll
+     * it into the viewport.
+     *
+     * If we don't find the comment, we attempt to load it. We do it by finding
+     * the closests ancestor that we have, and then use the 'fetchMore()' function
+     * to load more comments beneath that ancestor. We may have to repeat that
+     * process multiple times until we make the comment we want available.
+     */
+    const focus = discussion.comments.nodes.find(comment => comment.id === focusId)
+    if (focus) {
+      /*
+       * To make sure we don't run 'focusSelector()' multiple times, we store
+       * the focused comment in the component state.
+       */
+      if (this.state.focus !== focus) {
+        this.setState({ focus }, () => {
+          /*
+           * Wrap 'focusSelector()' in a timeout to work around a bug. See
+           * https://github.com/orbiting/republik-frontend/issues/243 for more
+           * details
+           */
           setTimeout(() => {
             focusSelector(`[data-comment-id='${focusInfo.id}']`)
           }, 50)
-        }
-      })
-    }
-    if (!focusInfo) {
-      return
-    }
-    if (!focus && !this.state.focusLoading && !this.state.focusError) {
+        })
+      }
+    } else {
       const parentIds = focusInfo.parentIds
-      const closestParent = [].concat(parentIds).reverse().reduce((parent, id) => {
-        if (parent) return parent
-        return nodes.find(node => node.id === id)
-      }, null)
-      if (!closestParent) {
+
+      /*
+       * Look up the closest parent that is available.
+       */
+      const closestParentId = []
+        .concat(parentIds)
+        .reverse()
+        .find(id => discussion.comments.nodes.find(node => node.id === id))
+
+      /*
+       * We could try to 'fetchMore()' comments at the root level before giving up
+       * completely.
+       *
+       * But hopefully the server will return at least the top-level comment when
+       * we include the focusId during the GraphQL request.
+       */
+      if (!closestParentId) {
         this.setState({ focusError: t('discussion/focus/missing') })
         return
       }
-      const parentIndex = parentIds.indexOf(closestParent.id)
-      const depth = parentIds.length - parentIndex
+
+      /*
+       * Fetch missing comments. Calculate the depth to cover just what we need
+       * to reach the focused comment.
+       */
+      const depth = parentIds.length - parentIds.indexOf(closestParentId)
       this.setState({ focusLoading: true })
-      fetchMore(closestParent.id, undefined, { depth })
+      fetchMore(closestParentId, undefined, { depth })
         .then(() => {
           this.setState({
             focusLoading: false,
             focusError: undefined
-          }, () => {
-            setTimeout(() => {
-              focusSelector(`[data-comment-id='${focusInfo.id}']`)
-            }, 50)
           })
         })
         .catch(() => {
@@ -233,470 +199,171 @@ class Comments extends PureComponent {
         })
     }
   }
-  renderComments (nodes, options = {}) {
+
+  render () {
     const {
-      discussionDisplayAuthor,
       t,
-      fetchMore,
-      discussionUserCanComment,
-      discussionClosed,
-      data: { discussion },
       now,
+      focusId,
+      discussionComments: { loading, error, discussion, fetchMore },
+      meta,
       sharePath
     } = this.props
 
-    const CommentLink = ({ displayAuthor, commentId, children, ...props }) => {
-      if (displayAuthor && displayAuthor.username) {
-        return <Link route='profile' params={{ slug: displayAuthor.username }} {...props}>
-          {children}
-        </Link>
-      }
-      if (commentId) {
-        const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
-        if (
-          isGeneral ||
-          (
-            discussion.document &&
-            discussion.document.meta &&
-            discussion.document.meta.template === 'article' &&
-            discussion.document.meta.ownDiscussion &&
-            discussion.document.meta.ownDiscussion.id === discussion.id
-          )
-        ) {
-          return (
-            <Link
-              route='discussion'
-              params={{
-                t: isGeneral ? 'general' : 'article',
-                id: discussion.id,
-                focus: commentId
-              }}
-            >
-              {children}
-            </Link>
-          )
-        }
-        if (discussion.path) {
-          const documentPathObject = parse(discussion.path, true)
-
-          return <PathLink path={documentPathObject.pathname} query={{ ...documentPathObject.query, focus: commentId }} replace scroll={false} {...props}>
-            {children}
-          </PathLink>
-        }
-      }
-      return children
-    }
-
-    const displayAuthor = (
-      discussionUserCanComment && !discussionClosed && discussionDisplayAuthor
-    ) || undefined
-
-    const {
-      subIdMap,
-      maxVisualDepth,
-      closedPortals,
-      focus
-    } = this.state
-
-    const focusId = focus && focus.id
-
-    const {
-      pendingClosure = [],
-      count = 0,
-      counts = {},
-      moreCounts = {},
-      directCounts = {}
-    } = options
-    const initialState = {
-      list: [],
-      visualDepth: 1,
-      pendingClosure,
-      count,
-      counts,
-      moreCounts,
-      directCounts
-    }
-
-    const timeagoFromNow = (createdAtString) => {
-      return timeago(t, (now - Date.parse(createdAtString)) / 1000)
-    }
-
-    const closePending = (accumulator, { next, appendAfter }) => {
-      const { counts, moreCounts, directCounts } = accumulator
-      const needsClosure = accumulator.pendingClosure
-        .filter(([pending]) =>
-          !next ||
-          next.parentIds.indexOf(pending.id) === -1
-        )
-        .reverse()
-
-      needsClosure.forEach(([comment, increasedDepth, isRoot]) => {
-        if (increasedDepth) {
-          accumulator.visualDepth -= 1
-          SHOW_DEBUG && accumulator.list.push(<BlockLabel>dec {comment.id.slice(0, 3)}</BlockLabel>)
-        }
-        const directCount = directCounts[comment.id] || 0
-        const subCount = (subIdMap[comment.id] || []).length
-
-        if (comment.comments.directTotalCount + subCount > directCount) {
-          const count = counts[comment.id] || 0
-          const moreCount = moreCounts[comment.id] || 0
-          const leftCount = comment.comments.totalCount - count - moreCount
-          comment.parentIds.forEach(id => {
-            moreCounts[id] = (moreCounts[id] || 0) + leftCount
-          })
-          accumulator.count += comment.comments.totalCount - count
-          accumulator.list.push(
-            <CommentTreeLoadMore
-              key={`loadMore${comment.id}`}
-              t={t}
-              connected={!isRoot}
-              visualDepth={isRoot ? 0 : accumulator.visualDepth}
-              count={leftCount + subCount}
-              onClick={() => {
-                fetchMore(comment.id, comment.comments.pageInfo.endCursor, { appendAfter })
-                  .then(() => {
-                    this.clearSubIds(comment.id)
-                  })
-              }}
-            />
-          )
-        } else if (accumulator.visualDepth === 1) {
-          accumulator.list.push(<div key={`br${comment.id}`} style={{ height: 10 }} />)
-        }
-      })
-      accumulator.pendingClosure = accumulator.pendingClosure
-        .filter((pending) => needsClosure.indexOf(pending) === -1)
-    }
-
-    return nodes.reduce((accumulator, comment, index, all) => {
-      let prev = all[index - 1]
-      const next = all[index + 1]
-
-      const { portal } = accumulator
-      if (portal) {
-        portal.nodes.push(comment)
-
-        const nextBelongsToPortal = next && portal.parentIds.every(parentId => next.parentIds.indexOf(parentId) !== -1)
-        if (nextBelongsToPortal) {
-          return accumulator
-        }
-        // close portal
-        const portalId = portal.parent.id
-        const portalAccumulator = this.renderComments(
-          portal.nodes,
-          {
-            pendingClosure: [
-              [portal.parent, false, true]
-            ]
-          }
-        )
-        if (closedPortals[portalId]) {
-          accumulator.list.push(
-            <CommentTreeLoadMore
-              key={`openPortal${portalId}`}
-              t={t}
-              connected
-              visualDepth={portal.visualDepth}
-              count={portalAccumulator.count}
-              onClick={() => {
-                this.setState(({ closedPortals }) => ({
-                  closedPortals: {
-                    ...closedPortals,
-                    [portalId]: false
-                  }
-                }))
-              }}
-            />
-          )
-        } else {
-          accumulator.list.push(
-            <Fragment key={`portal${portalId}`}>
-              <CommentTreeCollapse
-                t={t}
-                visualDepth={accumulator.visualDepth}
-                onClick={() => {
-                  this.setState(({ closedPortals }) => ({
-                    closedPortals: {
-                      ...closedPortals,
-                      [portalId]: true
-                    }
-                  }))
-                }}
-              />
-              {portalAccumulator.list}
-              <div style={{
-                marginTop: '-2px',
-                borderTop: `2px solid ${colors.primary}`
-              }} />
-            </Fragment>
-
-          )
-        }
-        accumulator.count += portalAccumulator.count
-
-        accumulator.counts = mergeCounts(
-          accumulator.counts,
-          portalAccumulator.counts
-        )
-        accumulator.moreCounts = mergeCounts(
-          accumulator.moreCounts,
-          portalAccumulator.moreCounts
-        )
-        accumulator.directCounts = mergeCounts(
-          accumulator.directCounts,
-          portalAccumulator.directCounts
-        )
-        accumulator.portal = undefined
-
-        closePending(accumulator, {
-          next,
-          appendAfter: comment
-        })
-        return accumulator
-      }
-
-      const prevIsParent = !!prev && comment.parentIds.indexOf(prev.id) !== -1
-      const prevIsThread = prevIsParent && prev.comments.directTotalCount === 1
-
-      const nextIsChild = !!next && next.parentIds.indexOf(comment.id) !== -1
-      const nextIsThread = nextIsChild && comment.comments.directTotalCount === 1
-
-      const subCount = (subIdMap[comment.id] || []).length
-      const hasChildren = comment.comments.totalCount + subCount > 0
-
-      const head = (nextIsChild || hasChildren) && !prevIsThread
-      const tail = prevIsThread && !(nextIsChild || hasChildren)
-      // const end = (
-      //   !(nextIsChild || hasChildren) && (
-      //     !next || next.parentIds.length < comment.parentIds.length
-      //   )
-      // )
-      const otherChild = (
-        !nextIsChild && !hasChildren && (
-          (comment.parentIds.length === 0) ||
-          (!prevIsThread && !nextIsThread)
-        )
-      )
-
-      const timeAheadFromNow = (dateString) => {
-        return timeahead(t, (now - Date.parse(dateString)) / 1000)
-      }
-      const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
-      const replyBlockedMsg = (
-        waitUntilDate &&
-        waitUntilDate > now &&
-        t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })
-      ) || ''
-
-      SHOW_DEBUG && accumulator.list.push(<BlockLabel>{comment.parentIds.concat(comment.id).map(id => id.slice(0, 3)).join('-')}<br />{JSON.stringify({
-        head,
-        tail,
-        otherChild
-      }, null, 2)}</BlockLabel>)
-
-      const isRoot = comment.parentIds.length === 0
-      const tags = isRoot && discussion && discussion.tags && discussion.tags.length
-        ? discussion.tags
-        : undefined
-      // assuming frontend currently only supports one tag per comment.
-      const selectedTag = tags &&
-        comment.tags &&
-        comment.tags.length &&
-        comment.tags[0]
-      const context = selectedTag ? {
-        title: selectedTag
-      } : undefined
-
-      accumulator.list.push(
-        <CommentTreeRow
-          key={comment.id}
-          t={t}
-          visualDepth={accumulator.visualDepth}
-          head={head}
-          tail={tail}
-          otherChild={otherChild}
-          comment={comment}
-          highlighted={focusId === comment.id}
-          displayAuthor={displayAuthor}
-          onEditPreferences={this.showPreferences}
-          isAdmin={this.props.isAdmin}
-          submitComment={this.submitComment}
-          editComment={this.props.editComment}
-          upvoteComment={this.props.upvoteComment}
-          downvoteComment={this.props.downvoteComment}
-          unpublishComment={(...args) => {
-            const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
-              name: comment.displayAuthor.name
-            })
-            if (!window.confirm(message)) {
-              return Promise.reject(new Error())
-            }
-            return this.props.unpublishComment(...args)
-          }}
-          timeago={timeagoFromNow}
-          maxLength={discussion && discussion.rules && discussion.rules.maxLength}
-          replyBlockedMsg={replyBlockedMsg}
-          Link={CommentLink}
-          secondaryActions={<SecondaryActions />}
-          collapsable={discussion && discussion.collapsable}
-          onShare={() => this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })}
-          tags={tags}
-          selectedTag={selectedTag}
-          context={context}
-        />
-      )
-
-      const { directCounts, moreCounts, counts } = accumulator
-      accumulator.count += 1
-      comment.parentIds.forEach(id => {
-        counts[id] = (counts[id] || 0) + 1
-      })
-      const parentId = comment.parentIds[comment.parentIds.length - 1]
-      if (parentId) {
-        directCounts[parentId] = (directCounts[parentId] || 0) + 1
-      }
-
-      if (nextIsChild) {
-        const increaseDepth = !nextIsThread
-        if (increaseDepth) {
-          if (accumulator.visualDepth + 1 > maxVisualDepth) {
-            // open a portal
-            accumulator.portal = {
-              visualDepth: accumulator.visualDepth,
-              parent: comment,
-              parentIds: next.parentIds,
-              nodes: []
-            }
-            // return early
-            return accumulator
-          }
-          accumulator.visualDepth += 1
-          SHOW_DEBUG && accumulator.list.push(<BlockLabel>inc</BlockLabel>)
-        }
-        accumulator.pendingClosure.push([
-          comment,
-          increaseDepth
-        ])
-
-        // return early
-        return accumulator
-      }
-
-      // next not a child
-      if (hasChildren) {
-        comment.parentIds.forEach(id => {
-          moreCounts[id] = (moreCounts[id] || 0) + comment.comments.totalCount
-        })
-        accumulator.count += comment.comments.totalCount
-        accumulator.list.push(
-          <CommentTreeLoadMore
-            key={`loadMore${comment.id}`}
-            t={t}
-            connected
-            visualDepth={accumulator.visualDepth}
-            count={comment.comments.totalCount + subCount}
-            onClick={() => {
-              fetchMore(comment.id, comment.comments.pageInfo.endCursor)
-                .then(() => {
-                  this.clearSubIds(comment.id)
-                })
-            }}
-          />
-        )
-      }
-
-      closePending(accumulator, {
-        next,
-        appendAfter: comment
-      })
-
-      return accumulator
-    }, initialState)
-  }
-  render () {
-    const {
-      discussionId,
-      t,
-      data: { loading, error, discussion },
-      fetchMore,
-      meta
-    } = this.props
-
-    const {
-      showPreferences,
-      subIdMap,
-      hasFocus,
-      focusLoading,
-      shareUrl
-    } = this.state
+    const { showPreferences, focusLoading, shareUrl } = this.state
 
     return (
       <Loader
-        loading={loading || (hasFocus && focusLoading) || discussion === undefined}
+        loading={loading || (focusId && focusLoading) || discussion === undefined}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
-          const { totalCount, pageInfo, nodes, focus } = discussion.comments
+          const { focus } = discussion
 
-          const accumulator = this.renderComments(nodes)
+          /*
+           * Convert the flat comments list into a tree.
+           */
+          const comments = asTree(discussion.comments)
 
-          // discussion root load more
-          const subCount = subIdMap.root.length
+          /*
+           * Construct the value for the DiscussionContext.
+           */
+          const discussionContextValue = {
+            isAdmin: false,
+            highlightedCommentId: focusId,
 
-          const tailCount = totalCount - accumulator.count + subCount
-          const tail = tailCount > 0 && (
-            <CommentTreeLoadMore
-              key='loadMore'
-              t={t}
-              visualDepth={0}
-              count={tailCount}
-              onClick={() => {
-                fetchMore(null, pageInfo.endCursor)
-                  .then(() => {
-                    this.clearSubIds('root')
-                  })
-              }}
-            />
-          )
+            discussion: produce(discussion, draft => {
+              if (!draft.displayAuthor.profilePicture) {
+                draft.displayAuthor.profilePicture = DEFAULT_PROFILE_PICTURE
+              }
+            }),
 
-          const discussionPreferences = showPreferences && (
-            <DiscussionPreferences
-              key='discussionPreferenes'
-              discussionId={discussionId}
-              onClose={this.closePreferences}
-            />
-          )
+            actions: {
+              submitComment: (parentComment, content, tags) =>
+                this.props.submitComment(parentComment, content, tags).then(() => ({ ok: true }), error => ({ error })),
+              editComment: (comment, text, tags) =>
+                this.props.editComment(comment, text, tags).then(() => ({ ok: true }), error => ({ error })),
+              upvoteComment: this.props.upvoteComment,
+              downvoteComment: this.props.downvoteComment,
+              unpublishComment: comment => {
+                const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
+                  name: comment.displayAuthor.name
+                })
+                if (!window.confirm(message)) {
+                  return Promise.reject(new Error())
+                } else {
+                  return this.props.unpublishComment(comment)
+                }
+              },
+              fetchMoreComments: (parentId, after) => {
+                return fetchMore(parentId, after)
+              },
+              shareComment: comment => {
+                this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })
+                return Promise.resolve({ ok: true })
+              },
+              openDiscussionPreferences: () => {
+                this.showPreferences()
+                return Promise.resolve({ ok: true })
+              }
+            },
 
-          const shareOverlay = !!shareUrl && (
-            <ShareOverlay
-              discussionId={discussionId}
-              onClose={() => this.setState({ shareUrl: undefined })}
-              url={shareUrl}
-              title={discussion ? discussion.title : ''}
-            />
-          )
+            clock: {
+              now,
+              formatTimeRelative: date => {
+                const td = (+date - now) / 1000
+                return td > 0 ? timeahead(t, td) : timeago(t, -td)
+              }
+            },
 
-          const metaTags = focus && meta && (
-            <Meta data={{
-              ...meta,
-              title: t('discussion/meta/focus/title', {
-                authorName: focus.displayAuthor.name,
-                discussionTitle: meta.title
-              }),
-              description: focus.preview ? focus.preview.string : undefined,
-              url: getFocusUrl(meta.url, focus.id)
-            }} />
-          )
+            links: {
+              Profile: ({ displayAuthor, ...props }) => {
+                /*
+                 * If the username is not available, it means the profile is not public.
+                 */
+                if (displayAuthor.username) {
+                  return <Link route='profile' params={{ slug: displayAuthor.username }} {...props} />
+                } else {
+                  return <React.Fragment children={props.children} />
+                }
+              },
+              Comment: ({ comment, ...props }) => {
+                if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
+                  return (
+                    <Link
+                      route='discussion'
+                      params={{ t: 'general', id: discussion.id, focus: comment.id }}
+                      {...props}
+                    />
+                  )
+                } else if (
+                  discussion.document &&
+                  discussion.document.meta &&
+                  discussion.document.meta.template === 'article' &&
+                  discussion.document.meta.ownDiscussion &&
+                  discussion.document.meta.ownDiscussion.id === discussion.id
+                ) {
+                  return (
+                    <Link
+                      route='discussion'
+                      params={{ t: 'article', id: discussion.id, focus: comment.id }}
+                      {...props}
+                    />
+                  )
+                } else if (discussion.path) {
+                  const documentPathObject = parse(discussion.path, true)
+                  return (
+                    <PathLink
+                      path={documentPathObject.pathname}
+                      query={{ ...documentPathObject.query, focus: comment.id }}
+                      replace
+                      scroll={false}
+                      {...props}
+                    />
+                  )
+                } else {
+                  /* XXX: When does this happen? */
+                  return <React.Fragment children={props.children} />
+                }
+              }
+            },
+            composerSecondaryActions: <SecondaryActions />
+          }
 
           return (
-            <Fragment>
-              {metaTags}
-              {accumulator.list}
-              <br />
-              {tail}
-              {discussionPreferences}
-              {shareOverlay}
-            </Fragment>
+            <DiscussionContext.Provider value={discussionContextValue}>
+              {focus && meta && (
+                <Meta
+                  data={{
+                    ...meta,
+                    title: t('discussion/meta/focus/title', {
+                      authorName: focus.displayAuthor.name,
+                      discussionTitle: meta.title
+                    }),
+                    description: focus.preview ? focus.preview.string : undefined,
+                    url: getFocusUrl(meta.url, focus.id)
+                  }}
+                />
+              )}
+
+              <CommentList t={t} comments={comments} />
+
+              {showPreferences && (
+                <DiscussionPreferences
+                  key='discussionPreferenes'
+                  discussionId={discussion.id}
+                  onClose={this.closePreferences}
+                />
+              )}
+
+              {!!shareUrl && (
+                <ShareOverlay
+                  discussionId={discussion.id}
+                  onClose={this.closeShareOverlay}
+                  url={shareUrl}
+                  title={discussion.title}
+                />
+              )}
+            </DiscussionContext.Provider>
           )
         }}
       />
@@ -707,115 +374,27 @@ class Comments extends PureComponent {
 export default compose(
   withT,
   withDiscussionDisplayAuthor,
-  upvoteComment,
-  downvoteComment,
-  editComment,
-  unpublishComment,
+  withCommentActions,
   isAdmin,
-  submitComment,
-  graphql(query, {
-    props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
-      data,
-      fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
-        return fetchMore({
-          variables: { discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1 },
-          updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
-            let nodes = previousResult.discussion.comments.nodes
-            const nodeIndex = nodes.reduce(
-              (index, node) => {
-                index[node.id] = node
-                return index
-              },
-              {}
-            )
-
-            const newNodes = discussion.comments.nodes
-              .filter(node => !nodeIndex[node.id])
-            if (!parentId) {
-              nodes = nodes.concat(newNodes)
-            } else {
-              const parentIndex = nodes.indexOf(nodeIndex[parentId])
-              const parent = nodes[parentIndex]
-              nodes = [
-                ...nodes.slice(0, parentIndex),
-                {
-                  ...parent,
-                  comments: {
-                    ...discussion.comments,
-                    nodes: undefined
-                  }
-                },
-                ...nodes.slice(parentIndex + 1)
-              ]
-              let appendIndex = parentIndex
-              if (appendAfter && appendAfter.id !== parent.id) {
-                appendIndex = nodes.indexOf(nodeIndex[appendAfter.id])
-                if (appendIndex === -1) {
-                  appendIndex = 0
-                  debug('fetchMore:append', 'node not found', appendIndex, { appendAfter, nodes })
-                }
-              }
-              nodes.splice(appendIndex + 1, 0, ...newNodes)
-            }
-
-            return {
-              ...previousResult,
-              discussion: {
-                ...previousResult.discussion,
-                ...discussion,
-                comments: {
-                  ...previousResult.discussion.comments,
-                  // only update total and page info if root
-                  ...(parentId ? {} : discussion.comments),
-                  nodes
-                }
-              }
-            }
-          }
-        })
-      },
-      subscribe: ({ onCreate }) => {
-        return subscribeToMore({
-          document: commentsSubscription,
-          variables: {
-            discussionId
-          },
-          onError (...args) {
-            debug('subscribe:onError', args)
-          },
-          updateQuery: (previousResult, { subscriptionData }) => {
-            if (!subscriptionData.data) {
-              return previousResult
-            }
-
-            const { node: comment, mutation } = subscriptionData.data.comment
-            debug('subscribe:updateQuery', mutation, comment)
-
-            if (mutation !== 'CREATED') {
-              return previousResult
-            }
-
-            const nodes = previousResult.discussion.comments.nodes
-
-            const existingNode = nodes.find(c => c.id === comment.id)
-            if (existingNode) {
-              debug('subscribe:updateQuery', 'existing')
-              return previousResult
-            }
-
-            const firstLocalParent = []
-              .concat(comment.parentIds)
-              .reverse()
-              .find(parentId => {
-                return nodes.find(c => c.id === parentId)
-              })
-            debug('subscribe:onCreate', 'firstLocalParent', firstLocalParent)
-            onCreate(comment, firstLocalParent)
-
-            return previousResult
-          }
-        })
-      }
-    })
-  })
+  withSubmitComment,
+  withDiscussionComments
 )(Comments)
+
+const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
+  const convertComment = node => ({
+    ...node,
+    comments: {
+      ...node.comments,
+      nodes: childrenOfComment(node.id)
+    }
+  })
+
+  const childrenOfComment = id => nodes.filter(n => n.parentIds[n.parentIds.length - 1] === id).map(convertComment)
+
+  return {
+    totalCount,
+    directTotalCount,
+    pageInfo,
+    nodes: nodes.filter(n => n.parentIds.length === 0).map(convertComment)
+  }
+}

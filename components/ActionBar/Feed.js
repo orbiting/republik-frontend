@@ -136,7 +136,7 @@ const ActionBar = ({
             discussionId={discussionId}
             path={discussionPath}
             query={discussionQuery}
-            count={discussionCount}
+            discussionCommentsCount={discussionCount}
             small
           />
         )}

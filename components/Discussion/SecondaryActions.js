@@ -1,39 +1,38 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
-import { colors, fontStyles } from '@project-r/styleguide'
+import { CommentComposerSecondaryAction } from '@project-r/styleguide'
 
 import IconLink from '../IconLink'
 
 const styles = {
-  markdown: css({
-    display: 'inline-block',
-    margin: '-5px 12px 0 0',
-    verticalAlign: 'middle'
-  }),
-  link: css({
-    ...fontStyles.sansSerifRegular16,
-    color: colors.primary,
-    cursor: 'pointer',
-    textDecoration: 'none'
+  action: css({
+    '& svg': {
+      display: 'block'
+    }
   })
 }
 
 const SecondaryActions = ({ t }) => (
   <Fragment>
-    <span {...styles.markdown}>
+    <CommentComposerSecondaryAction as='span' {...styles.action}>
       <IconLink
-        fill={colors.primary}
+        size={28}
+        icon='etiquette'
+        href='/etikette'
+        target='_blank'
+        title={t('components/Discussion/etiquette')}
+      />
+    </CommentComposerSecondaryAction>
+    <CommentComposerSecondaryAction as='span' {...styles.action}>
+      <IconLink
         size={28}
         icon='markdown'
         href='/markdown'
         target='_blank'
         title={t('components/Discussion/markdown/title')}
       />
-    </span>
-    <a {...styles.link} href='/etikette' target='_blank'>
-      {t('components/Discussion/etiquette')}
-    </a>
+    </CommentComposerSecondaryAction>
   </Fragment>
 )
 

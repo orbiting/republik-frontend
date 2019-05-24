@@ -4,12 +4,24 @@ import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
+import produce from 'immer'
 
-import { withDiscussionDisplayAuthor, withDiscussionPreferences, submitComment } from './enhancers'
+import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
+import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
+import { withSubmitComment } from './graphql/enhancers/withSubmitComment'
+
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 
-import { Loader, CommentComposer, CommentComposerPlaceholder, Interaction, Editorial } from '@project-r/styleguide'
+import {
+  Loader,
+  DiscussionContext,
+  CommentComposer,
+  CommentComposerPlaceholder,
+  Interaction,
+  Editorial,
+  DEFAULT_PROFILE_PICTURE
+} from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
 
@@ -19,22 +31,15 @@ class DiscussionCommentComposer extends PureComponent {
 
     this.state = {
       state: props.state || 'idle', // idle | focused | submitting | error
-      error: undefined, // If state == error then this is the error string.
       showPreferences: false
     }
 
     this.onFocus = () => {
-      this.setState({
-        state: 'focused',
-        error: undefined
-      })
+      this.setState({ state: 'focused' })
     }
 
     this.onCancel = () => {
-      this.setState({
-        state: 'idle',
-        error: undefined
-      })
+      this.setState({ state: 'idle' })
     }
 
     this.showPreferences = () => {
@@ -49,40 +54,38 @@ class DiscussionCommentComposer extends PureComponent {
       })
     }
 
-    this.submitComment = (content, tags) => {
-      this.setState({
-        state: 'submitting'
-      })
+    this.submitComment = async ({ text, tags }) => {
+      this.setState({ state: 'submitting' })
 
-      this.props.submitComment(null, content, tags).then(
-        () => {
-          this.setState({
-            state: 'idle',
-            error: undefined
-          })
-        },
-        (e) => {
-          this.setState({
-            state: 'error',
-            error: e
-          })
-        }
-      )
+      return new Promise(resolve => {
+        this.props.submitComment(null, text, tags).then(
+          () => {
+            resolve({ ok: true })
+            this.setState({ state: 'idle' })
+          },
+          error => {
+            resolve({ error: '' + error })
+          }
+        )
+      })
     }
   }
 
   render () {
     const {
-      t, discussionId, discussionDisplayAuthor: displayAuthor, me,
+      t,
+      discussionId,
+      discussionDisplayAuthor,
+      me,
       discussionClosed,
       discussionUserCanComment,
-      data: { loading, error, discussion },
+      discussionPreferences: { loading, error, discussion },
       now,
       parentId
     } = this.props
     const { state, showPreferences } = this.state
 
-    const timeAheadFromNow = (dateString) => {
+    const timeAheadFromNow = dateString => {
       return timeahead(t, (now - Date.parse(dateString)) / 1000)
     }
 
@@ -91,15 +94,17 @@ class DiscussionCommentComposer extends PureComponent {
         loading={loading}
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
+          const displayAuthor = produce(discussionDisplayAuthor || {}, draft => {
+            if (!draft.profilePicture) {
+              draft.profilePicture = DEFAULT_PROFILE_PICTURE
+            }
+          })
+
           const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
           if (!me || disableTopLevelComments) {
             return null
           } else if (discussionClosed) {
-            return (
-              <Box style={{ padding: '15px 20px' }}>
-                {t('discussion/closed')}
-              </Box>
-            )
+            return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
           } else {
             if (!discussionUserCanComment) {
               return (
@@ -108,9 +113,7 @@ class DiscussionCommentComposer extends PureComponent {
                     {t.elements('submitComment/notEligible', {
                       pledgeLink: (
                         <Link route='pledge' key='pledge' passHref>
-                          <Editorial.A>
-                            {t('submitComment/notEligible/pledgeText')}
-                          </Editorial.A>
+                          <Editorial.A>{t('submitComment/notEligible/pledgeText')}</Editorial.A>
                         </Link>
                       )
                     })}
@@ -131,37 +134,37 @@ class DiscussionCommentComposer extends PureComponent {
             }
 
             if (state === 'idle') {
-              return (
-                <CommentComposerPlaceholder
-                  t={t}
-                  profilePicture={displayAuthor ? displayAuthor.profilePicture : null}
-                  onClick={this.onFocus}
-                />
-              )
+              return <CommentComposerPlaceholder t={t} displayAuthor={displayAuthor} onClick={this.onFocus} />
+            }
+
+            const discussionContextValue = {
+              discussion: produce(discussion, draft => {
+                draft.displayAuthor = displayAuthor
+              }),
+
+              actions: {
+                openDiscussionPreferences: () => {
+                  this.showPreferences()
+                  return Promise.resolve({ ok: true })
+                }
+              },
+
+              composerSecondaryActions: <SecondaryActions />
             }
 
             return (
-              <div>
+              <DiscussionContext.Provider value={discussionContextValue}>
                 <CommentComposer
                   t={t}
-                  displayAuthor={displayAuthor}
-                  error={this.state.error}
-                  onEditPreferences={this.showPreferences}
-                  onCancel={this.onCancel}
-                  submitComment={this.submitComment}
-                  submitLabel={t('submitComment/rootSubmitLabel')}
-                  secondaryActions={<SecondaryActions />}
-                  maxLength={discussion && discussion.rules && discussion.rules.maxLength}
-                  tags={discussion.tags}
-                  tagRequired={discussion.tagRequired}
+                  isRoot
+                  onClose={this.onCancel}
+                  onSubmit={this.submitComment}
+                  onSubmitLabel={t('submitComment/rootSubmitLabel')}
                 />
                 {showPreferences && (
-                  <DiscussionPreferences
-                    discussionId={discussionId}
-                    onClose={this.closePreferences}
-                  />
+                  <DiscussionPreferences discussionId={discussionId} onClose={this.closePreferences} />
                 )}
-              </div>
+              </DiscussionContext.Provider>
             )
           }
         }}
@@ -175,5 +178,5 @@ export default compose(
   withMe,
   withDiscussionDisplayAuthor,
   withDiscussionPreferences,
-  submitComment
+  withSubmitComment
 )(DiscussionCommentComposer)

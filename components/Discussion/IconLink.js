@@ -8,7 +8,7 @@ import Icon from '../Icons/Discussion'
 
 import { focusSelector } from '../../lib/utils/scroll'
 
-import { withCount } from './enhancers'
+import { withDiscussionCommentsCount } from './graphql/enhancers/withDiscussionCommentsCount'
 
 import {
   colors, fontStyles
@@ -34,14 +34,8 @@ const styles = {
 }
 
 class IconLink extends Component {
-  componentDidMount () {
-    this.unsubscribe = this.props.subscribe && this.props.subscribe()
-  }
-  componentWillUnmount () {
-    this.unsubscribe && this.unsubscribe()
-  }
   render () {
-    const { path, query, discussionPage, discussionId, count, style, small } = this.props
+    const { path, query, discussionPage, discussionId, discussionCommentsCount, style, small } = this.props
     const size = small ? 22 : 24
     const fontSize = small ? '15px' : undefined
     const lineHeight = small ? '20px' : undefined
@@ -54,9 +48,9 @@ class IconLink extends Component {
       <span {...styles.icon}>
         <Icon size={size} fill={colors.primary} />
       </span>
-      {count > 0 && (
+      {discussionCommentsCount > 0 && (
         <span {...iconLinkStyles.text} {...styles.text} style={{ fontSize, lineHeight }}>
-          {count}
+          {discussionCommentsCount}
         </span>
       )}
     </Fragment>
@@ -78,6 +72,6 @@ class IconLink extends Component {
   }
 }
 
-export default withCount(IconLink)
+export default withDiscussionCommentsCount(IconLink)
 
 export const DiscussionIconLinkWithoutEnhancer = IconLink

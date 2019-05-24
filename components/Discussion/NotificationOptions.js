@@ -21,13 +21,11 @@ import {
   colors
 } from '@project-r/styleguide'
 import NotificationIcon from './NotificationIcon'
-import {
-  DISCUSSION_NOTIFICATION_OPTIONS,
-  withDiscussionPreferences,
-  withSetDiscussionPreferences,
-  webNotificationSubscription,
-  withUpdateNotificationSettings
-} from './enhancers'
+import { DISCUSSION_NOTIFICATION_OPTIONS } from './constants'
+
+import { webNotificationSubscription } from './graphql/documents'
+import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
+import { withUpdateNotificationSettings } from './graphql/enhancers/withUpdateNotificationSettings'
 
 import { shouldIgnoreClick } from '../Link/utils'
 
@@ -89,8 +87,8 @@ class NotificationOptions extends PureComponent {
     if (!isNotificationSupported()) {
       return
     }
-    const { t, data, updateNotificationSettings } = this.props
-    const { discussionNotificationChannels } = data && data.me
+    const { t, discussionPreferences, updateNotificationSettings } = this.props
+    const { discussionNotificationChannels } = discussionPreferences && discussionPreferences.me
 
     window.Notification.requestPermission((status) => {
       if (status !== 'granted') {
@@ -114,10 +112,10 @@ class NotificationOptions extends PureComponent {
 
   subscribe () {
     this.initNotificationsState()
-    if (this.unsubscribe || !isNotificationSupported() || !this.props.data) {
+    if (this.unsubscribe || !isNotificationSupported() || !this.props.discussionPreferences) {
       return
     }
-    this.unsubscribe = this.props.data.subscribeToMore({
+    this.unsubscribe = this.props.discussionPreferences.subscribeToMore({
       document: webNotificationSubscription,
       updateQuery: (prev, { subscriptionData }) => {
         const webNotification = subscriptionData.data && subscriptionData.data.webNotification
@@ -142,7 +140,7 @@ class NotificationOptions extends PureComponent {
 
   maybeMute () {
     const {
-      data: { discussion },
+      discussionPreferences: { discussion },
       setDiscussionPreferences,
       mute
     } = this.props
@@ -195,7 +193,7 @@ class NotificationOptions extends PureComponent {
   render () {
     const {
       t,
-      data: { loading, error, me, discussion },
+      discussionPreferences: { loading, error, me, discussion },
       setDiscussionPreferences
     } = this.props
 
@@ -328,7 +326,7 @@ class NotificationOptions extends PureComponent {
 NotificationOptions.propTypes = {
   discussionId: PropTypes.string.isRequired,
   t: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+  discussionPreferences: PropTypes.object.isRequired,
   setDiscussionPreferences: PropTypes.func.isRequired,
   updateNotificationSettings: PropTypes.func.isRequired,
   mute: PropTypes.bool
@@ -338,6 +336,5 @@ export default compose(
   withT,
   withRouter,
   withDiscussionPreferences,
-  withSetDiscussionPreferences,
   withUpdateNotificationSettings
 )(NotificationOptions)

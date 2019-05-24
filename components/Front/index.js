@@ -24,6 +24,7 @@ import { PUBLIC_BASE_URL } from '../../lib/constants'
 import { cleanAsPath } from '../../lib/routes'
 
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
+import { intersperse } from '../../lib/utils/helpers'
 
 const schema = createFrontSchema({
   Link
@@ -143,21 +144,28 @@ const Front = ({
           {hasMore && <div {...styles.more}>
             {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
             {loadingMore && <InlineSpinner />}
-            {!infiniteScroll && hasMore &&
-            <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
-              event && event.preventDefault()
-              setInfiniteScroll(true)
-            }}>
-              {
-                t('front/loadMore',
-                  {
-                    count: front.children.nodes.length,
-                    remaining: front.children.totalCount - front.children.nodes.length
-                  }
-                )
-              }
-            </Editorial.A>
-            }
+            {!infiniteScroll && hasMore && <Fragment>
+              <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+                event && event.preventDefault()
+                setInfiniteScroll(true)
+              }}>
+                {
+                  t('front/loadMore',
+                    {
+                      count: front.children.nodes.length,
+                      remaining: front.children.totalCount - front.children.nodes.length
+                    }
+                  )
+                }
+              </Editorial.A>
+              {front.meta.path === '/' && <div style={{ marginTop: 10 }}>{t.elements('front/chronology', {
+                years: intersperse([2019, 2018].map(year =>
+                  <Link key={year} route='overview' params={{ year }} passHref>
+                    <Editorial.A style={{ color: negativeColors.text }}>{year}</Editorial.A>
+                  </Link>
+                ), () => ', ')
+              })}</div>}
+            </Fragment>}
           </div>}
         </div>
       }} />

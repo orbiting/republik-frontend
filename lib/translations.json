@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-24T11:49:44.378Z",
+  "updated": "2019-05-24T12:39:29.854Z",
   "title": "live",
   "data": [
     {
@@ -2669,6 +2669,10 @@
     {
       "key": "shareholder/contact/phone/link",
       "value": "+41797874765"
+    },
+    {
+      "key": "front/chronology",
+      "value": "Chronologie {years}"
     },
     {
       "key": "front/loadMore",

@@ -1639,6 +1639,10 @@
       "value": "neu laden"
     },
     {
+      "key": "components/Discussion/empty",
+      "value": "Noch keine Beiträge in dieser Diskussion."
+    },
+    {
       "key": "components/Discussion/Notification/noChannels",
       "value": "Benachrichtigungen aktivieren"
     },

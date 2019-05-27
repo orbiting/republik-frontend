@@ -30,6 +30,9 @@ const styles = {
   }),
   selectedOrderBy: css({
     textDecoration: 'underline'
+  }),
+  emptyDiscussion: css({
+    margin: '20px 0'
   })
 }
 
@@ -133,5 +136,5 @@ export default compose(
 )(Discussion)
 
 const EmptyDiscussion = ({ t }) => (
-  <div>No comments in this discussion. Be the first to write something</div>
+  <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
 )

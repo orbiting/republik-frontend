@@ -11,7 +11,7 @@ import { discussionQuery, commentsSubscription } from '../documents'
  *   {
  *     discussionComments: {
  *       …data // discussionQuery Result
- *       fetchMore(parentId, after, { appendAfter, depth })
+ *       fetchMore({ parentId, after, appendAfter, depth })
  *       subscribe()
  *     }
  *   }
@@ -21,7 +21,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
   props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
     discussionComments: {
       ...data,
-      fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
+      fetchMore: ({ parentId, after, appendAfter, depth } = {}) => {
         return fetchMore({
           variables: { discussionId, parentId, after, orderBy, depth: depth || parentId ? 3 : 1 },
           updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
@@ -33,7 +33,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
         return subscribeToMore({
           document: commentsSubscription,
           variables: { discussionId },
-          onError(...args) {
+          onError (...args) {
             debug('subscribe:onError', args)
           },
           updateQuery: (previousResult, { subscriptionData }) => {

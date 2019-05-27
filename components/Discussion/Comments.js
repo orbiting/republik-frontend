@@ -244,6 +244,7 @@ class Comments extends PureComponent {
                 this.props.editComment(comment, text, tags).then(() => ({ ok: true }), error => ({ error })),
               upvoteComment: this.props.upvoteComment,
               downvoteComment: this.props.downvoteComment,
+              unvoteComment: this.props.unvoteComment,
               unpublishComment: comment => {
                 const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
                   name: comment.displayAuthor.name
@@ -254,8 +255,8 @@ class Comments extends PureComponent {
                   return this.props.unpublishComment(comment)
                 }
               },
-              fetchMoreComments: (parentId, after) => {
-                return fetchMore(parentId, after)
+              fetchMoreComments: ({ parentId, after, appendAfter }) => {
+                return fetchMore({ parentId, after, appendAfter })
               },
               shareComment: comment => {
                 this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })

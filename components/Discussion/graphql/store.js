@@ -102,10 +102,20 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
      * its parent, or after the 'appendAfter' comment if that is specified.
      */
     const insertIndex = (() => {
-      if (appendAfter && nodeIndex.has(appendAfter.id)) {
-        return nodeIndex.get(appendAfter.id) + 1
+      if (appendAfter) {
+        if (nodeIndex.has(appendAfter)) {
+          return nodeIndex.get(appendAfter) + 1
+        } else {
+          /*
+           * If we hit this, we have a bug somewhere.
+           */
+          debug('mergeComments: node not found', { appendAfter })
+          return parentIndex + 1
+        }
       } else {
-        debug('mergeComments: node not found', { insertIndex, appendAfter, nodes })
+        /*
+         * No appendAfter specified, append to the end of the list.
+         */
         return parentIndex + 1
       }
     })()

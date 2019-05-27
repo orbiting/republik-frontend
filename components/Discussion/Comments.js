@@ -273,7 +273,7 @@ class Comments extends PureComponent {
             highlightedCommentId: focusId,
 
             discussion: produce(discussion, draft => {
-              if (!draft.displayAuthor.profilePicture) {
+              if (draft.displayAuthor && !draft.displayAuthor.profilePicture) {
                 draft.displayAuthor.profilePicture = DEFAULT_PROFILE_PICTURE
               }
             }),

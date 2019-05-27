@@ -9,7 +9,7 @@ import withT from '../../lib/withT'
 
 import Loader from '../Loader'
 
-import { fontFamilies, Interaction, Logo, P } from '@project-r/styleguide'
+import { fontFamilies, Interaction, Logo, P, inQuotes } from '@project-r/styleguide'
 
 const toViewport = px => `${px / 18}vw`
 
@@ -108,7 +108,7 @@ const Item = ({ loading, error, t, statement }) => (
             </Interaction.P>
             {statementString && <P {...styles.quote}
               style={{ fontSize: toViewport(24 + fontSizeBoost(statementString.length)) }}>
-            «{statementString}»
+              {inQuotes(statementString)}
             </P>}
             {!!sequenceNumber && (
               <div {...styles.number}>{t('memberships/sequenceNumber/label', {

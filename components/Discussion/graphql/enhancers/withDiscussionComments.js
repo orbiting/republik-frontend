@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import produce from 'immer'
 
 import { debug } from '../../debug'
-import { mergeComment, mergeComments, submittedComments } from '../store'
+import { bumpAncestorCounts, mergeComments, submittedComments } from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'
 
 /**
@@ -18,10 +18,7 @@ import { discussionQuery, commentsSubscription } from '../documents'
  */
 
 export const withDiscussionComments = graphql(discussionQuery, {
-  props: ({
-    ownProps: { discussionId, orderBy, discussionDisplayAuthor },
-    data: { fetchMore, subscribeToMore, ...data }
-  }) => ({
+  props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
     discussionComments: {
       ...data,
       fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
@@ -36,7 +33,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
         return subscribeToMore({
           document: commentsSubscription,
           variables: { discussionId },
-          onError (...args) {
+          onError(...args) {
             debug('subscribe:onError', args)
           },
           updateQuery: (previousResult, { subscriptionData }) => {
@@ -57,13 +54,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
               if (submittedComments.has(comment.id)) {
                 return previousResult
               } else {
-                return produce(
-                  previousResult,
-                  mergeComment({
-                    displayAuthor: discussionDisplayAuthor,
-                    comment
-                  })
-                )
+                return produce(previousResult, bumpAncestorCounts({ comment }))
               }
             } else {
               return previousResult

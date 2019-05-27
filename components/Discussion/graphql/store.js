@@ -10,15 +10,31 @@
 import { debug } from '../debug'
 
 /**
- * Merge a single Comment into the Discussion (provided as a draft). This function
- * imperatively modifies the Discussion draft, it is meant to be used in conjunction
- * with immerjs produce().
- *
- * This merge algorithm is used from the submitComment() mutation (when the local
- * user submits a new comment) and also from the comments subscription when we receive
- * a new comment from the backend.
+ * Merge a single Comment into the Discussion (provided as a draft). This function is
+ * from the submitComment mutation update function to merge the just created comment
+ * into the discussion.
  */
-export const mergeComment = ({ displayAuthor, comment }) => draft => {
+export const mergeComment = ({ comment }) => draft => {
+  const parentId = comment.parentIds[comment.parentIds.length - 1]
+  const nodes = draft.discussion.comments.nodes
+
+  /*
+   * Insert the new comment just after its parent in the nodes list. This ensures
+   * that the comment shows up as the first reply to the parent.
+   */
+  const insertIndex = 1 + nodes.findIndex(n => n.id === parentId)
+  draft.discussion.comments.nodes.splice(insertIndex, 0, {
+    ...comment,
+    comments: emptyCommentsConnection
+  })
+
+  bumpAncestorCounts({ comment })(draft)
+}
+
+/**
+ * Give a new comment, bump the counts (totalCount, directTotalCount)
+ */
+export const bumpAncestorCounts = ({ comment }) => draft => {
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 
@@ -29,30 +45,6 @@ export const mergeComment = ({ displayAuthor, comment }) => draft => {
   draft.discussion.comments.totalCount += 1
   if (!parentId) {
     draft.discussion.comments.directTotalCount += 1
-  }
-
-  /*
-   * Insert the new comment into the list. Where we insert it depends on who created
-   * the comment. If it was created by the current user, we insert it at the front.
-   * If it was another user, we insert it at the end.
-   *
-   * But do that only if the comment doesn't already exist, it may have arrived
-   * in the client through a subscription.
-   */
-  if (!nodes.find(n => n.id === comment.id)) {
-    const insertIndex = (() => {
-      const parentIndex = nodes.findIndex(n => n.id === parentId)
-      if (displayAuthor.id === comment.displayAuthor.id) {
-        return parentIndex + 1
-      } else {
-        return parentIndex === -1 ? nodes.length : parentIndex
-      }
-    })()
-
-    draft.discussion.comments.nodes.splice(insertIndex, 0, {
-      ...comment,
-      comments: emptyCommentsConnection
-    })
   }
 
   /*

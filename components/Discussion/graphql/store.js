@@ -28,13 +28,13 @@ export const mergeComment = ({ comment }) => draft => {
     comments: emptyCommentsConnection
   })
 
-  bumpAncestorCounts({ comment })(draft)
+  bumpCounts({ comment })(draft)
 }
 
 /**
  * Give a new comment, bump the counts (totalCount, directTotalCount)
  */
-export const bumpAncestorCounts = ({ comment }) => draft => {
+export const bumpCounts = ({ comment }) => draft => {
   const parentId = comment.parentIds[comment.parentIds.length - 1]
   const nodes = draft.discussion.comments.nodes
 

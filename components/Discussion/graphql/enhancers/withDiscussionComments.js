@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import produce from 'immer'
 
 import { debug } from '../../debug'
-import { bumpAncestorCounts, mergeComments, submittedComments } from '../store'
+import { bumpCounts, mergeComments, submittedComments, mergeComment } from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'
 
 /**
@@ -50,11 +50,15 @@ export const withDiscussionComments = graphql(discussionQuery, {
 
               /*
                * Ignore updates related to comments we created in the current client session.
+               * If this is the first comment in the discussion, show it immediately. Otherwise
+               * just bump the counts and let the user click the "Load More" buttons.
                */
               if (submittedComments.has(comment.id)) {
                 return previousResult
+              } else if (previousResult.comments.totalCount === 0) {
+                return produce(previousResult, mergeComment({ comment }))
               } else {
-                return produce(previousResult, bumpAncestorCounts({ comment }))
+                return produce(previousResult, bumpCounts({ comment }))
               }
             } else {
               return previousResult

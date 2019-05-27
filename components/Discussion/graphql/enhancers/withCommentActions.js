@@ -26,6 +26,11 @@ export const withCommentActions = compose(
       downvoteComment: comment => mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
     })
   }),
+  graphql(docs.unvoteCommentMutation, {
+    props: ({ mutate }) => ({
+      unvoteComment: comment => mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)
+    })
+  }),
   graphql(docs.unpublishCommentMutation, {
     props: ({ mutate }) => ({
       unpublishComment: comment => mutate({ variables: { commentId: comment.id } }).catch(toRejectedString)

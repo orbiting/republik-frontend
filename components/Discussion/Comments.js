@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { format, parse } from 'url'
 import produce from 'immer'
@@ -17,13 +18,48 @@ import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
 
-import { Loader, DiscussionContext, CommentList, DEFAULT_PROFILE_PICTURE } from '@project-r/styleguide'
+import {
+  Loader,
+  DiscussionContext,
+  CommentList,
+  DEFAULT_PROFILE_PICTURE,
+  A,
+  colors,
+  fontStyles,
+  mediaQueries
+} from '@project-r/styleguide'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
 import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 import PathLink from '../Link/Path'
+
+const styles = {
+  orderByContainer: css({
+    margin: '20px 0'
+  }),
+  orderBy: css({
+    ...fontStyles.sansSerifRegular16,
+    outline: 'none',
+    color: colors.text,
+    WebkitAppearance: 'none',
+    background: 'transparent',
+    border: 'none',
+    padding: '0',
+    cursor: 'pointer',
+    marginRight: '20px',
+    [mediaQueries.mUp]: {
+      marginRight: '40px'
+    }
+  }),
+  selectedOrderBy: css({
+    textDecoration: 'underline'
+  }),
+  emptyDiscussion: css({
+    margin: '20px 0'
+  })
+}
 
 const getFocusUrl = (path, commentId) => {
   const documentPathObject = parse(path, true)
@@ -63,6 +99,11 @@ class Comments extends PureComponent {
         shareUrl: undefined
       })
     }
+  }
+
+  onReload = e => {
+    e.preventDefault()
+    this.props.discussionComments.refetch()
   }
 
   componentDidMount () {
@@ -205,9 +246,11 @@ class Comments extends PureComponent {
       t,
       now,
       focusId,
+      orderBy,
       discussionComments: { loading, error, discussion, fetchMore },
       meta,
-      sharePath
+      sharePath,
+      onOrderBy
     } = this.props
 
     const { showPreferences, focusLoading, shareUrl } = this.state
@@ -218,6 +261,10 @@ class Comments extends PureComponent {
         error={error || (discussion === null && t('discussion/missing'))}
         render={() => {
           const { focus } = discussion
+
+          if (discussion.comments.totalCount === 0) {
+            return <EmptyDiscussion t={t} />
+          }
 
           /*
            * Convert the flat comments list into a tree.
@@ -330,41 +377,59 @@ class Comments extends PureComponent {
             composerSecondaryActions: <SecondaryActions />
           }
 
+          const OrderBy = ({ children, value }) => (
+            <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={onOrderBy}>
+              {t(`components/Discussion/OrderBy/${value}`)}
+            </button>
+          )
+
           return (
-            <DiscussionContext.Provider value={discussionContextValue}>
-              {focus && meta && (
-                <Meta
-                  data={{
-                    ...meta,
-                    title: t('discussion/meta/focus/title', {
-                      authorName: focus.displayAuthor.name,
-                      discussionTitle: meta.title
-                    }),
-                    description: focus.preview ? focus.preview.string : undefined,
-                    url: getFocusUrl(meta.url, focus.id)
-                  }}
-                />
-              )}
+            <>
+              <div {...styles.orderByContainer}>
+                <OrderBy value='DATE' />
+                <OrderBy value='VOTES' />
+                <OrderBy value='REPLIES' />
+                <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={this.onReload}>
+                  {t('components/Discussion/reload')}
+                </A>
+                <br style={{ clear: 'both' }} />
+              </div>
 
-              <CommentList t={t} comments={comments} />
+              <DiscussionContext.Provider value={discussionContextValue}>
+                {focus && meta && (
+                  <Meta
+                    data={{
+                      ...meta,
+                      title: t('discussion/meta/focus/title', {
+                        authorName: focus.displayAuthor.name,
+                        discussionTitle: meta.title
+                      }),
+                      description: focus.preview ? focus.preview.string : undefined,
+                      url: getFocusUrl(meta.url, focus.id)
+                    }}
+                  />
+                )}
 
-              {showPreferences && (
-                <DiscussionPreferences
-                  key='discussionPreferenes'
-                  discussionId={discussion.id}
-                  onClose={this.closePreferences}
-                />
-              )}
+                <CommentList t={t} comments={comments} />
 
-              {!!shareUrl && (
-                <ShareOverlay
-                  discussionId={discussion.id}
-                  onClose={this.closeShareOverlay}
-                  url={shareUrl}
-                  title={discussion.title}
-                />
-              )}
-            </DiscussionContext.Provider>
+                {showPreferences && (
+                  <DiscussionPreferences
+                    key='discussionPreferenes'
+                    discussionId={discussion.id}
+                    onClose={this.closePreferences}
+                  />
+                )}
+
+                {!!shareUrl && (
+                  <ShareOverlay
+                    discussionId={discussion.id}
+                    onClose={this.closeShareOverlay}
+                    url={shareUrl}
+                    title={discussion.title}
+                  />
+                )}
+              </DiscussionContext.Provider>
+            </>
           )
         }}
       />
@@ -399,3 +464,5 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
     nodes: nodes.filter(n => n.parentIds.length === 0).map(convertComment)
   }
 }
+
+const EmptyDiscussion = ({ t }) => <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>

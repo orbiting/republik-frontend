@@ -18,32 +18,21 @@ import * as fragments from './fragments'
 export const discussionCommentsCountQuery = gql`
   query discussionCommentsCount($discussionId: ID!) {
     discussion(id: $discussionId) {
-      id
+      ...Discussion
       comments(first: 0) {
         totalCount
       }
     }
   }
+  ${fragments.discussion}
 `
 export const discussionDisplayAuthorQuery = gql`
   query discussionDisplayAuthor($discussionId: ID!) {
     discussion(id: $discussionId) {
-      id
-      closed
-      userCanComment
-      userWaitUntil
-      displayAuthor {
-        id
-        name
-        username
-        credential {
-          description
-          verified
-        }
-        profilePicture
-      }
+      ...Discussion
     }
   }
+  ${fragments.discussion}
 `
 
 export const discussionPreferencesQuery = gql`
@@ -59,26 +48,10 @@ export const discussionPreferencesQuery = gql`
       discussionNotificationChannels
     }
     discussion(id: $discussionId) {
-      id
-      rules {
-        maxLength
-        minInterval
-        anonymity
-        disableTopLevelComments
-      }
-      userWaitUntil
-      userPreference {
-        anonymity
-        credential {
-          description
-          verified
-        }
-        notifications
-      }
-      tagRequired
-      tags
+      ...Discussion
     }
   }
+  ${fragments.discussion}
 `
 
 export const discussionQuery = gql`
@@ -96,54 +69,7 @@ export const discussionQuery = gql`
       portrait
     }
     discussion(id: $discussionId) {
-      id
-      closed
-      title
-      path
-      userPreference {
-        anonymity
-        credential {
-          description
-          verified
-        }
-      }
-      rules {
-        maxLength
-        minInterval
-        anonymity
-        disableTopLevelComments
-      }
-      userWaitUntil
-      userCanComment
-      displayAuthor {
-        id
-        name
-        username
-        credential {
-          description
-          verified
-        }
-        profilePicture
-      }
-      document {
-        id
-        meta {
-          path
-          template
-          ownDiscussion {
-            id
-            closed
-          }
-          linkedDiscussion {
-            id
-            path
-            closed
-          }
-        }
-      }
-      collapsable
-      tagRequired
-      tags
+      ...Discussion
       comments(
         parentId: $parentId
         after: $after
@@ -183,6 +109,7 @@ export const discussionQuery = gql`
       }
     }
   }
+  ${fragments.discussion}
   ${fragments.comment}
 `
 
@@ -270,27 +197,10 @@ export const updateNotificationSettingsMutation = gql`
 export const setDiscussionPreferencesMutation = gql`
   mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: DiscussionPreferencesInput!) {
     setDiscussionPreferences(id: $discussionId, discussionPreferences: $discussionPreferences) {
-      id
-      userPreference {
-        anonymity
-        credential {
-          description
-          verified
-        }
-        notifications
-      }
-      displayAuthor {
-        id
-        name
-        username
-        credential {
-          description
-          verified
-        }
-        profilePicture
-      }
+      ...Discussion
     }
   }
+  ${fragments.discussion}
 `
 
 /*

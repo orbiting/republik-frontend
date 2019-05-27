@@ -55,7 +55,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
                */
               if (submittedComments.has(comment.id)) {
                 return previousResult
-              } else if (previousResult.comments.totalCount === 0) {
+              } else if (previousResult.discussion.comments.totalCount === 0) {
                 return produce(previousResult, mergeComment({ comment }))
               } else {
                 return produce(previousResult, bumpCounts({ comment }))

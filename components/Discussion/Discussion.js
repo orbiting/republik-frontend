@@ -36,7 +36,7 @@ const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => 
       <NotificationOptions discussionId={discussionId} mute={mute} />
 
       <Comments
-        depth={1}
+        depth={3}
         key={orderBy}
         discussionId={discussionId}
         focusId={focusId}

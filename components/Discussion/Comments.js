@@ -115,12 +115,6 @@ class Comments extends PureComponent {
     this.fetchFocus()
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.reload !== nextProps.reload) {
-      this.props.discussionComments.refetch()
-    }
-  }
-
   componentWillUnmount () {
     this.unsubscribe()
   }
@@ -250,7 +244,7 @@ class Comments extends PureComponent {
       discussionComments: { loading, error, discussion, fetchMore },
       meta,
       sharePath,
-      onOrderBy
+      setOrderBy
     } = this.props
 
     const { showPreferences, focusLoading, shareUrl } = this.state
@@ -378,7 +372,13 @@ class Comments extends PureComponent {
           }
 
           const OrderBy = ({ children, value }) => (
-            <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={onOrderBy}>
+            <button
+              {...styles.orderBy}
+              {...(orderBy === value ? styles.selectedOrderBy : {})}
+              onClick={() => {
+                setOrderBy(value)
+              }}
+            >
               {t(`components/Discussion/OrderBy/${value}`)}
             </button>
           )

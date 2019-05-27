@@ -1,66 +1,54 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
-class Discussion extends PureComponent {
-  state = {
-    /**
-     * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
-     */
-    orderBy: 'DATE',
+const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => {
+  /*
+   * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
+   */
+  const [orderBy, setOrderBy] = React.useState('DATE')
 
-    now: Date.now()
-  }
-
-  componentDidMount () {
-    this.intervalId = setInterval(() => {
-      this.setState({ now: Date.now() })
+  /*
+   * This component manages the 'current time'. It is incremented in descrete intervals
+   * and the time is passed down to all child components.
+   */
+  const [now, setNow] = React.useState(Date.now())
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setNow(Date.now())
     }, 30 * 1000)
-  }
+    return () => clearInterval(intervalId)
+  }, [setNow])
 
-  componentWillUnmount () {
-    clearInterval(this.intervalId)
-  }
+  return (
+    <div data-discussion-id={discussionId}>
+      <DiscussionCommentComposer
+        discussionId={discussionId}
+        orderBy={orderBy}
+        focusId={focusId}
+        depth={1}
+        parentId={null}
+        now={now}
+      />
 
-  onOrderBy = orderBy => {
-    this.setState({ orderBy })
-  }
+      <NotificationOptions discussionId={discussionId} mute={mute} />
 
-  render () {
-    const { discussionId, focusId = null, mute, meta, sharePath } = this.props
-    const { orderBy, reload, now } = this.state
-
-    return (
-      <div data-discussion-id={discussionId}>
-        <DiscussionCommentComposer
-          discussionId={discussionId}
-          orderBy={orderBy}
-          focusId={focusId}
-          depth={1}
-          parentId={null}
-          now={now}
-        />
-
-        <NotificationOptions discussionId={discussionId} mute={mute} />
-
-        <Comments
-          depth={1}
-          key={orderBy}
-          discussionId={discussionId}
-          focusId={focusId}
-          parentId={null}
-          reload={reload}
-          orderBy={orderBy}
-          now={now}
-          meta={meta}
-          sharePath={sharePath}
-          onOrderBy={this.onOrderBy}
-        />
-      </div>
-    )
-  }
+      <Comments
+        depth={1}
+        key={orderBy}
+        discussionId={discussionId}
+        focusId={focusId}
+        parentId={null}
+        orderBy={orderBy}
+        now={now}
+        meta={meta}
+        sharePath={sharePath}
+        setOrderBy={setOrderBy}
+      />
+    </div>
+  )
 }
 
 export default Discussion

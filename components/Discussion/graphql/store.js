@@ -1,5 +1,6 @@
 /**
- * This module exports functions which are used to manipulate the apollo store.
+ * This module exports functions which are used to manipulate the apollo store, and
+ * a other functions which are used from multiple enhancers.
  *
  *  - mergeComment(): Merge a single comment into a discussion.
  *  - mergeComments(): Merge a list of comments into a discussion.
@@ -50,12 +51,7 @@ export const mergeComment = ({ displayAuthor, comment }) => draft => {
 
     draft.discussion.comments.nodes.splice(insertIndex, 0, {
       ...comment,
-      comments: {
-        __typename: 'CommentConnection',
-        totalCount: 0,
-        directTotalCount: 0,
-        pageInfo: emptyPageInfo()
-      }
+      comments: emptyCommentsConnection
     })
   }
 
@@ -77,7 +73,7 @@ export const mergeComment = ({ displayAuthor, comment }) => draft => {
  * Merge multiple comments (a whole CommentConnection) into the Discussion draft. This
  * function is used in the discussionQuery fetchMore code path.
  */
-export const mergeComments = ({ parentId, appendAfter, comments }) => (draft) => {
+export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
   const nodes = draft.discussion.comments.nodes
 
   /*
@@ -87,7 +83,7 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => (draft) =>
    * Map<CommentID, number>, the value in this map is the index of the comment in
    * the nodes list.
    */
-  const nodeIndex = new Map(nodes.map(({ id }, i) => ([id, i])))
+  const nodeIndex = new Map(nodes.map(({ id }, i) => [id, i]))
 
   /*
    * Filter out any comments which we already have, for example because we received
@@ -117,7 +113,7 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => (draft) =>
       if (appendAfter && nodeIndex.has(appendAfter.id)) {
         return nodeIndex.get(appendAfter.id) + 1
       } else {
-        debug('fetchMore:append', 'node not found', insertIndex, { appendAfter, nodes })
+        debug('mergeComments: node not found', { insertIndex, appendAfter, nodes })
         return parentIndex + 1
       }
     })()
@@ -141,17 +137,35 @@ export const optimisticContent = text => ({
     children: [
       {
         type: 'paragraph',
-        children: [
-          { type: 'text', value: text }
-        ]
+        children: [{ type: 'text', value: text }]
       }
     ]
   },
   text
 })
 
-const emptyPageInfo = () => ({
+const emptyPageInfo = {
   __typename: 'PageInfo',
   hasNextPage: false,
   endCursor: null
-})
+}
+
+const emptyCommentsConnection = {
+  __typename: 'CommentConnection',
+  totalCount: 0,
+  directTotalCount: 0,
+  pageInfo: emptyPageInfo,
+  nodes: []
+}
+
+/**
+ * UUIDs of comment which we submitted from the current client session. We store
+ * this so we can ignore updates which come through the discussion subscription.
+ *
+ * We only add to this set, we never remove elements from it. This is fine, each
+ * element is really small (a UUID string) and users will not submit that many
+ * comments in a single session.
+ *
+ * @see withDiscussionComments and withSubmitComment
+ */
+export const submittedComments = new Set()

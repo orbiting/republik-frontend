@@ -2,7 +2,7 @@ import { graphql } from 'react-apollo'
 import produce from 'immer'
 
 import { debug } from '../../debug'
-import { mergeComment, mergeComments } from '../store'
+import { mergeComment, mergeComments, submittedComments } from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'
 
 /**
@@ -18,7 +18,10 @@ import { discussionQuery, commentsSubscription } from '../documents'
  */
 
 export const withDiscussionComments = graphql(discussionQuery, {
-  props: ({ ownProps: { discussionId, orderBy, discussionDisplayAuthor }, data: { fetchMore, subscribeToMore, ...data } }) => ({
+  props: ({
+    ownProps: { discussionId, orderBy, discussionDisplayAuthor },
+    data: { fetchMore, subscribeToMore, ...data }
+  }) => ({
     discussionComments: {
       ...data,
       fetchMore: (parentId, after, { appendAfter, depth } = {}) => {
@@ -47,10 +50,21 @@ export const withDiscussionComments = graphql(discussionQuery, {
              */
             if (subscriptionData.data && subscriptionData.data.comment.mutation === 'CREATED') {
               const comment = subscriptionData.data.comment.node
-              return produce(previousResult, mergeComment({
-                displayAuthor: discussionDisplayAuthor,
-                comment
-              }))
+
+              /*
+               * Ignore updates related to comments we created in the current client session.
+               */
+              if (submittedComments.has(comment.id)) {
+                return previousResult
+              } else {
+                return produce(
+                  previousResult,
+                  mergeComment({
+                    displayAuthor: discussionDisplayAuthor,
+                    comment
+                  })
+                )
+              }
             } else {
               return previousResult
             }

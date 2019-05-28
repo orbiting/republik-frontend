@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
@@ -26,118 +26,86 @@ import {
 
 import Box from '../Frame/Box'
 
-class DiscussionCommentComposer extends PureComponent {
-  constructor (props) {
-    super(props)
+const DiscussionCommentComposer = props => {
+  const {
+    t,
+    discussionId,
+    discussionDisplayAuthor,
+    me,
+    discussionClosed,
+    discussionUserCanComment,
+    discussionPreferences: { loading, error, discussion },
+    now,
+    parentId
+  } = props
 
-    this.state = {
-      state: props.state || 'idle', // idle | focused | submitting | error
-      showPreferences: false
-    }
+  /*
+   * isActive: true if we show the CommentComposer, false if we show the CommentComposerPlaceholder.
+   * showPreferences: …
+   */
+  const [isActive, setActive] = React.useState(false)
+  const [showPreferences, setShowPreferences] = React.useState(false)
 
-    this.onFocus = () => {
-      this.setState({ state: 'focused' })
-    }
+  const submitComment = ({ text, tags }) =>
+    props.submitComment(null, text, tags).then(
+      () => {
+        setActive(false)
+        return { ok: true }
+      },
+      error => ({ error: `${error}` })
+    )
 
-    this.onCancel = () => {
-      this.setState({ state: 'idle' })
-    }
+  const timeAheadFromNow = dateString => timeahead(t, (now - Date.parse(dateString)) / 1000)
 
-    this.showPreferences = () => {
-      this.setState({
-        showPreferences: true
-      })
-    }
-
-    this.closePreferences = () => {
-      this.setState({
-        showPreferences: false
-      })
-    }
-
-    this.submitComment = async ({ text, tags }) => {
-      this.setState({ state: 'submitting' })
-
-      return new Promise(resolve => {
-        this.props.submitComment(null, text, tags).then(
-          () => {
-            resolve({ ok: true })
-            this.setState({ state: 'idle' })
-          },
-          error => {
-            resolve({ error: '' + error })
+  return (
+    <Loader
+      loading={loading}
+      error={error || (discussion === null && t('discussion/missing'))}
+      render={() => {
+        const displayAuthor = produce(discussionDisplayAuthor || {}, draft => {
+          if (!draft.profilePicture) {
+            draft.profilePicture = DEFAULT_PROFILE_PICTURE
           }
-        )
-      })
-    }
-  }
+        })
 
-  render () {
-    const {
-      t,
-      discussionId,
-      discussionDisplayAuthor,
-      me,
-      discussionClosed,
-      discussionUserCanComment,
-      discussionPreferences: { loading, error, discussion },
-      now,
-      parentId
-    } = this.props
-    const { state, showPreferences } = this.state
+        const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
+        if (!me || disableTopLevelComments) {
+          return null
+        } else if (discussionClosed) {
+          return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
+        } else {
+          if (!discussionUserCanComment) {
+            return (
+              <Box style={{ padding: '15px 20px' }}>
+                <Interaction.P>
+                  {t.elements('submitComment/notEligible', {
+                    pledgeLink: (
+                      <Link route='pledge' key='pledge' passHref>
+                        <Editorial.A>{t('submitComment/notEligible/pledgeText')}</Editorial.A>
+                      </Link>
+                    )
+                  })}
+                </Interaction.P>
+              </Box>
+            )
+          }
 
-    const timeAheadFromNow = dateString => {
-      return timeahead(t, (now - Date.parse(dateString)) / 1000)
-    }
+          const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+          if (waitUntilDate && waitUntilDate > new Date()) {
+            return (
+              <Box style={{ padding: '15px 20px' }}>
+                <Interaction.P>
+                  {t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })}
+                </Interaction.P>
+              </Box>
+            )
+          }
 
-    return (
-      <Loader
-        loading={loading}
-        error={error || (discussion === null && t('discussion/missing'))}
-        render={() => {
-          const displayAuthor = produce(discussionDisplayAuthor || {}, draft => {
-            if (!draft.profilePicture) {
-              draft.profilePicture = DEFAULT_PROFILE_PICTURE
-            }
-          })
-
-          const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
-          if (!me || disableTopLevelComments) {
-            return null
-          } else if (discussionClosed) {
-            return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
-          } else {
-            if (!discussionUserCanComment) {
-              return (
-                <Box style={{ padding: '15px 20px' }}>
-                  <Interaction.P>
-                    {t.elements('submitComment/notEligible', {
-                      pledgeLink: (
-                        <Link route='pledge' key='pledge' passHref>
-                          <Editorial.A>{t('submitComment/notEligible/pledgeText')}</Editorial.A>
-                        </Link>
-                      )
-                    })}
-                  </Interaction.P>
-                </Box>
-              )
-            }
-
-            const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
-            if (waitUntilDate && waitUntilDate > new Date()) {
-              return (
-                <Box style={{ padding: '15px 20px' }}>
-                  <Interaction.P>
-                    {t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })}
-                  </Interaction.P>
-                </Box>
-              )
-            }
-
-            if (state === 'idle') {
-              return <CommentComposerPlaceholder t={t} displayAuthor={displayAuthor} onClick={this.onFocus} />
-            }
-
+          if (isActive) {
+            /*
+             * We don't fully initialize the DiscussionContext value. We only set fields which are
+             * required by the CommentComposer.
+             */
             const discussionContextValue = {
               discussion: produce(discussion, draft => {
                 draft.displayAuthor = displayAuthor
@@ -145,8 +113,7 @@ class DiscussionCommentComposer extends PureComponent {
 
               actions: {
                 openDiscussionPreferences: () => {
-                  this.showPreferences()
-                  return Promise.resolve({ ok: true })
+                  setShowPreferences(true)
                 }
               },
 
@@ -158,20 +125,38 @@ class DiscussionCommentComposer extends PureComponent {
                 <CommentComposer
                   t={t}
                   isRoot
-                  onClose={this.onCancel}
-                  onSubmit={this.submitComment}
+                  onClose={() => {
+                    setActive(false)
+                  }}
+                  onSubmit={submitComment}
                   onSubmitLabel={t('submitComment/rootSubmitLabel')}
                 />
+
                 {showPreferences && (
-                  <DiscussionPreferences discussionId={discussionId} onClose={this.closePreferences} />
+                  <DiscussionPreferences
+                    discussionId={discussionId}
+                    onClose={() => {
+                      setShowPreferences(false)
+                    }}
+                  />
                 )}
               </DiscussionContext.Provider>
             )
+          } else {
+            return (
+              <CommentComposerPlaceholder
+                t={t}
+                displayAuthor={displayAuthor}
+                onClick={() => {
+                  setActive(true)
+                }}
+              />
+            )
           }
-        }}
-      />
-    )
-  }
+        }
+      }}
+    />
+  )
 }
 
 export default compose(

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { format, parse } from 'url'
@@ -73,64 +73,35 @@ const getFocusUrl = (path, commentId) => {
   return PUBLIC_BASE_URL + sharePath
 }
 
-class Comments extends PureComponent {
-  constructor (props, ...args) {
-    super(props, ...args)
+const Comments = props => {
+  const {
+    t,
+    now,
+    isAdmin,
+    focusId,
+    orderBy,
+    discussionComments: { loading, error, discussion, fetchMore },
+    meta,
+    sharePath,
+    setOrderBy
+  } = props
 
-    this.state = {
-      showPreferences: false,
-      shareUrl: undefined
-    }
-
-    this.showPreferences = () => {
-      this.setState({
-        showPreferences: true
-      })
-    }
-
-    this.closePreferences = () => {
-      this.setState({
-        showPreferences: false
-      })
-    }
-
-    this.closeShareOverlay = () => {
-      this.setState({
-        shareUrl: undefined
-      })
-    }
-  }
-
-  onReload = e => {
-    e.preventDefault()
-    this.props.discussionComments.refetch()
-  }
-
-  componentDidMount () {
-    this.unsubscribe = this.props.discussionComments.subscribe()
-    this.fetchFocus()
-  }
-
-  componentDidUpdate () {
-    this.fetchFocus()
-  }
-
-  componentWillUnmount () {
-    this.unsubscribe()
-  }
-
-  /**
-   * This function ensures that if we have a comment in focus, that it's actually
-   * available (ie. that we have the comment loaded). It will also scroll the viewport
-   * such that the comment is in the center of the screen.
+  /*
+   * Subscribe to GraphQL updates of the dicsussion query.
    */
-  fetchFocus () {
-    const {
-      t,
-      discussionComments: { discussion, loading, fetchMore },
-      focusId
-    } = this.props
+  React.useEffect(() => props.discussionComments.subscribe(), [props.discussionComments.subscribe])
 
+  /*
+   * Local state: share overlay and discussion preferences.
+   */
+  const [shareUrl, setShareUrl] = React.useState()
+  const [showPreferences, setShowPreferences] = React.useState(false)
+
+  /*
+   * Fetching comment that is in focus.
+   */
+  const [{ currentFocus, focusLoading, focusError }, setFocusState] = React.useState({})
+  const fetchFocus = () => {
     /*
      * If we're still loading, or not trying to focus a comment, there is nothing
      * to do for us.
@@ -146,7 +117,7 @@ class Comments extends PureComponent {
      * If we're loading the focused comment or encountered an error during the loading
      * process, return.
      */
-    if (this.state.focusLoading || this.state.focusError) {
+    if (focusLoading || focusError) {
       return
     }
 
@@ -156,7 +127,7 @@ class Comments extends PureComponent {
      */
     const focusInfo = discussion.comments.focus
     if (!focusInfo) {
-      this.setState({
+      setFocusState({
         focusError: t('discussion/focus/notFound'),
         focusLoading: false
       })
@@ -178,17 +149,17 @@ class Comments extends PureComponent {
        * To make sure we don't run 'focusSelector()' multiple times, we store
        * the focused comment in the component state.
        */
-      if (this.state.focus !== focus) {
-        this.setState({ focus }, () => {
-          /*
-           * Wrap 'focusSelector()' in a timeout to work around a bug. See
-           * https://github.com/orbiting/republik-frontend/issues/243 for more
-           * details
-           */
-          setTimeout(() => {
-            focusSelector(`[data-comment-id='${focusInfo.id}']`)
-          }, 50)
-        })
+      if (currentFocus !== focus) {
+        setFocusState(p => ({ ...p, currentFocus: focus }))
+
+        /*
+         * Wrap 'focusSelector()' in a timeout to work around a bug. See
+         * https://github.com/orbiting/republik-frontend/issues/243 for more
+         * details
+         */
+        setTimeout(() => {
+          focusSelector(`[data-comment-id='${focusInfo.id}']`)
+        }, 50)
       }
     } else {
       const parentIds = focusInfo.parentIds
@@ -209,7 +180,7 @@ class Comments extends PureComponent {
        * we include the focusId during the GraphQL request.
        */
       if (!closestParentId) {
-        this.setState({ focusError: t('discussion/focus/missing') })
+        setFocusState({ focusError: t('discussion/focus/missing') })
         return
       }
 
@@ -218,206 +189,193 @@ class Comments extends PureComponent {
        * to reach the focused comment.
        */
       const depth = parentIds.length - parentIds.indexOf(closestParentId)
-      this.setState({ focusLoading: true })
+      setFocusState({ focusLoading: true })
       fetchMore(closestParentId, undefined, { depth })
         .then(() => {
-          this.setState({
-            focusLoading: false,
-            focusError: undefined
-          })
+          setFocusState({ focusLoading: false })
         })
         .catch(() => {
-          this.setState({
-            focusError: t('discussion/focus/loadError'),
-            focusLoading: false
-          })
+          setFocusState({ focusError: t('discussion/focus/loadError') })
         })
     }
   }
 
-  render () {
-    const {
-      t,
-      now,
-      isAdmin,
-      focusId,
-      orderBy,
-      discussionComments: { loading, error, discussion, fetchMore },
-      meta,
-      sharePath,
-      setOrderBy
-    } = this.props
+  React.useEffect(() => {
+    fetchFocus()
+  })
 
-    const { showPreferences, focusLoading, focusError, shareUrl } = this.state
-
-    return (
-      <Loader
-        loading={loading || (focusId && focusLoading)}
-        error={error || (focusId && focusError) || (discussion === null && t('discussion/missing'))}
-        render={() => {
-          const { focus } = discussion
-
-          if (discussion.comments.totalCount === 0) {
-            return <EmptyDiscussion t={t} />
-          }
-
-          /*
-           * Convert the flat comments list into a tree.
-           */
-          const comments = asTree(discussion.comments)
-
-          /*
-           * Construct the value for the DiscussionContext.
-           */
-          const discussionContextValue = {
-            isAdmin,
-            highlightedCommentId: focusId,
-
-            discussion: produce(discussion, draft => {
-              if (draft.displayAuthor && !draft.displayAuthor.profilePicture) {
-                draft.displayAuthor.profilePicture = DEFAULT_PROFILE_PICTURE
-              }
-            }),
-
-            actions: {
-              submitComment: (parentComment, content, tags) =>
-                this.props.submitComment(parentComment, content, tags).then(() => ({ ok: true }), error => ({ error })),
-              editComment: (comment, text, tags) =>
-                this.props.editComment(comment, text, tags).then(() => ({ ok: true }), error => ({ error })),
-              upvoteComment: this.props.upvoteComment,
-              downvoteComment: this.props.downvoteComment,
-              unvoteComment: this.props.unvoteComment,
-              unpublishComment: comment => {
-                const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
-                  name: comment.displayAuthor.name
-                })
-                if (!window.confirm(message)) {
-                  return Promise.reject(new Error())
-                } else {
-                  return this.props.unpublishComment(comment)
-                }
-              },
-              fetchMoreComments: ({ parentId, after, appendAfter }) => {
-                return fetchMore({ parentId, after, appendAfter })
-              },
-              shareComment: comment => {
-                this.setState({ shareUrl: getFocusUrl(sharePath || discussion.path, comment.id) })
-                return Promise.resolve({ ok: true })
-              },
-              openDiscussionPreferences: () => {
-                this.showPreferences()
-                return Promise.resolve({ ok: true })
-              }
-            },
-
-            clock: {
-              now,
-              formatTimeRelative: date => {
-                const td = (+date - now) / 1000
-                return td > 0 ? timeahead(t, td) : timeago(t, -td)
-              }
-            },
-
-            links: {
-              Profile: ({ displayAuthor, ...props }) => {
-                /*
-                 * If the username is not available, it means the profile is not public.
-                 */
-                if (displayAuthor.username) {
-                  return <Link route='profile' params={{ slug: displayAuthor.username }} {...props} />
-                } else {
-                  return <React.Fragment children={props.children} />
-                }
-              },
-              Comment: ({ comment, ...props }) => {
-                if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
-                  return <Link route='discussion' params={{ t: 'general', focus: comment.id }} {...props} />
-                } else if (
-                  discussion.document &&
-                  discussion.document.meta &&
-                  discussion.document.meta.template === 'article' &&
-                  discussion.document.meta.ownDiscussion &&
-                  discussion.document.meta.ownDiscussion.id === discussion.id
-                ) {
-                  return (
-                    <Link
-                      route='discussion'
-                      params={{ t: 'article', id: discussion.id, focus: comment.id }}
-                      {...props}
-                    />
-                  )
-                } else if (discussion.path) {
-                  const documentPathObject = parse(discussion.path, true)
-                  return (
-                    <PathLink
-                      path={documentPathObject.pathname}
-                      query={{ ...documentPathObject.query, focus: comment.id }}
-                      replace
-                      scroll={false}
-                      {...props}
-                    />
-                  )
-                } else {
-                  /* XXX: When does this happen? */
-                  return <React.Fragment children={props.children} />
-                }
-              }
-            },
-            composerSecondaryActions: <SecondaryActions />
-          }
-
-          return (
-            <>
-              <div {...styles.orderByContainer}>
-                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='DATE' />
-                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='VOTES' />
-                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='REPLIES' />
-                <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={this.onReload}>
-                  {t('components/Discussion/reload')}
-                </A>
-                <br style={{ clear: 'both' }} />
-              </div>
-
-              <DiscussionContext.Provider value={discussionContextValue}>
-                {focus && meta && (
-                  <Meta
-                    data={{
-                      ...meta,
-                      title: t('discussion/meta/focus/title', {
-                        authorName: focus.displayAuthor.name,
-                        discussionTitle: meta.title
-                      }),
-                      description: focus.preview ? focus.preview.string : undefined,
-                      url: getFocusUrl(meta.url, focus.id)
-                    }}
-                  />
-                )}
-
-                <CommentList t={t} comments={comments} />
-
-                {showPreferences && (
-                  <DiscussionPreferences
-                    key='discussionPreferenes'
-                    discussionId={discussion.id}
-                    onClose={this.closePreferences}
-                  />
-                )}
-
-                {!!shareUrl && (
-                  <ShareOverlay
-                    discussionId={discussion.id}
-                    onClose={this.closeShareOverlay}
-                    url={shareUrl}
-                    title={discussion.title}
-                  />
-                )}
-              </DiscussionContext.Provider>
-            </>
-          )
-        }}
-      />
-    )
+  const onReload = e => {
+    e.preventDefault()
+    props.discussionComments.refetch()
   }
+
+  return (
+    <Loader
+      loading={loading || (focusId && focusLoading)}
+      error={error || (focusId && focusError) || (discussion === null && t('discussion/missing'))}
+      render={() => {
+        const { focus } = discussion
+
+        if (discussion.comments.totalCount === 0) {
+          return <EmptyDiscussion t={t} />
+        }
+
+        /*
+         * Convert the flat comments list into a tree.
+         */
+        const comments = asTree(discussion.comments)
+
+        /*
+         * Construct the value for the DiscussionContext.
+         */
+        const discussionContextValue = {
+          isAdmin,
+          highlightedCommentId: focusId,
+
+          discussion: produce(discussion, draft => {
+            if (draft.displayAuthor && !draft.displayAuthor.profilePicture) {
+              draft.displayAuthor.profilePicture = DEFAULT_PROFILE_PICTURE
+            }
+          }),
+
+          actions: {
+            submitComment: (parentComment, content, tags) =>
+              props.submitComment(parentComment, content, tags).then(() => ({ ok: true }), error => ({ error })),
+            editComment: (comment, text, tags) =>
+              props.editComment(comment, text, tags).then(() => ({ ok: true }), error => ({ error })),
+            upvoteComment: props.upvoteComment,
+            downvoteComment: props.downvoteComment,
+            unvoteComment: props.unvoteComment,
+            unpublishComment: comment => {
+              const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
+                name: comment.displayAuthor.name
+              })
+              if (!window.confirm(message)) {
+                return Promise.reject(new Error())
+              } else {
+                return props.unpublishComment(comment)
+              }
+            },
+            fetchMoreComments: ({ parentId, after, appendAfter }) => {
+              return fetchMore({ parentId, after, appendAfter })
+            },
+            shareComment: comment => {
+              setShareUrl(getFocusUrl(sharePath || discussion.path, comment.id))
+              return Promise.resolve({ ok: true })
+            },
+            openDiscussionPreferences: () => {
+              setShowPreferences(true)
+              return Promise.resolve({ ok: true })
+            }
+          },
+
+          clock: {
+            now,
+            formatTimeRelative: date => {
+              const td = (+date - now) / 1000
+              return td > 0 ? timeahead(t, td) : timeago(t, -td)
+            }
+          },
+
+          links: {
+            Profile: ({ displayAuthor, ...props }) => {
+              /*
+               * If the username is not available, it means the profile is not public.
+               */
+              if (displayAuthor.username) {
+                return <Link route='profile' params={{ slug: displayAuthor.username }} {...props} />
+              } else {
+                return <React.Fragment children={props.children} />
+              }
+            },
+            Comment: ({ comment, ...props }) => {
+              if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
+                return <Link route='discussion' params={{ t: 'general', focus: comment.id }} {...props} />
+              } else if (
+                discussion.document &&
+                discussion.document.meta &&
+                discussion.document.meta.template === 'article' &&
+                discussion.document.meta.ownDiscussion &&
+                discussion.document.meta.ownDiscussion.id === discussion.id
+              ) {
+                return (
+                  <Link route='discussion' params={{ t: 'article', id: discussion.id, focus: comment.id }} {...props} />
+                )
+              } else if (discussion.path) {
+                const documentPathObject = parse(discussion.path, true)
+                return (
+                  <PathLink
+                    path={documentPathObject.pathname}
+                    query={{ ...documentPathObject.query, focus: comment.id }}
+                    replace
+                    scroll={false}
+                    {...props}
+                  />
+                )
+              } else {
+                /* XXX: When does this happen? */
+                return <React.Fragment children={props.children} />
+              }
+            }
+          },
+          composerSecondaryActions: <SecondaryActions />
+        }
+
+        return (
+          <>
+            <div {...styles.orderByContainer}>
+              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='DATE' />
+              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='VOTES' />
+              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='REPLIES' />
+              <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={onReload}>
+                {t('components/Discussion/reload')}
+              </A>
+              <br style={{ clear: 'both' }} />
+            </div>
+
+            <DiscussionContext.Provider value={discussionContextValue}>
+              {focus && meta && (
+                <Meta
+                  data={{
+                    ...meta,
+                    title: t('discussion/meta/focus/title', {
+                      authorName: focus.displayAuthor.name,
+                      discussionTitle: meta.title
+                    }),
+                    description: focus.preview ? focus.preview.string : undefined,
+                    url: getFocusUrl(meta.url, focus.id)
+                  }}
+                />
+              )}
+
+              <CommentList t={t} comments={comments} />
+
+              {showPreferences && (
+                <DiscussionPreferences
+                  key='discussionPreferenes'
+                  discussionId={discussion.id}
+                  onClose={() => {
+                    setShowPreferences(false)
+                  }}
+                />
+              )}
+
+              {!!shareUrl && (
+                <ShareOverlay
+                  discussionId={discussion.id}
+                  onClose={() => {
+                    setShareUrl()
+                  }}
+                  url={shareUrl}
+                  title={discussion.title}
+                />
+              )}
+            </DiscussionContext.Provider>
+          </>
+        )
+      }}
+    />
+  )
 }
 
 export default compose(

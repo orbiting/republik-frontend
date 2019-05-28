@@ -239,6 +239,7 @@ class Comments extends PureComponent {
     const {
       t,
       now,
+      isAdmin,
       focusId,
       orderBy,
       discussionComments: { loading, error, discussion, fetchMore },
@@ -269,7 +270,7 @@ class Comments extends PureComponent {
            * Construct the value for the DiscussionContext.
            */
           const discussionContextValue = {
-            isAdmin: false,
+            isAdmin,
             highlightedCommentId: focusId,
 
             discussion: produce(discussion, draft => {

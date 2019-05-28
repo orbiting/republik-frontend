@@ -88,13 +88,11 @@ export const mergeComments = ({ parentId, appendAfter, comments }) => draft => {
 
     /*
      * Update the 'CommentConnection' of the parent comment.
-     *
-     * We clear 'nodes' because we don't need it. Though we shouldn't request it
-     * in the query at all, it's likely a mistake if we requested it.
      */
     draft.discussion.comments.nodes[parentIndex].comments = {
-      ...comments,
-      nodes: undefined
+      totalCount: comments.totalCount,
+      directTotalCount: comments.directTotalCount,
+      pageInfo: comments.pageInfo
     }
 
     /*

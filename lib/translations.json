@@ -1920,7 +1920,7 @@
     },
     {
       "key": "styleguide/comment/header/replies/other",
-      "value": "{count} Kommentare"
+      "value": "{count} Antworten"
     },
     {
       "key": "styleguide/comment/header/credentialMissing",

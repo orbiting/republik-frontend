@@ -192,7 +192,7 @@ const Comments = props => {
        */
       const depth = parentIds.length - parentIds.indexOf(closestParentId)
       setFocusState({ focusLoading: true })
-      fetchMore(closestParentId, undefined, { depth })
+      fetchMore({ parentId: closestParentId, depth })
         .then(() => {
           setFocusState({ focusLoading: false })
         })

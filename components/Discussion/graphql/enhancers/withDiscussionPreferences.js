@@ -1,4 +1,5 @@
 import { graphql, compose } from 'react-apollo'
+import produce from 'immer'
 import { discussionPreferencesQuery, setDiscussionPreferencesMutation } from '../documents'
 import { toRejectedString } from '../utils'
 
@@ -26,20 +27,15 @@ export const withDiscussionPreferences = compose(
             }
           },
           update: (proxy, { data: { setDiscussionPreferences } }) => {
-            const immutableData = proxy.readQuery({
-              query: discussionPreferencesQuery,
-              variables: { discussionId }
-            })
-
-            // clone() the data object so that we can mutate it in-place.
-            const data = JSON.parse(JSON.stringify(immutableData))
-            data.discussion.userPreference = setDiscussionPreferences.userPreference
-            data.discussion.displayAuthor = setDiscussionPreferences.displayAuthor
-
+            const variables = { discussionId }
+            const data = proxy.readQuery({ query: discussionPreferencesQuery, variables })
             proxy.writeQuery({
               query: discussionPreferencesQuery,
-              variables: { discussionId },
-              data
+              variables,
+              data: produce(data, draft => {
+                draft.discussion.userPreference = setDiscussionPreferences.userPreference
+                draft.discussion.displayAuthor = setDiscussionPreferences.displayAuthor
+              })
             })
           }
         }).catch(toRejectedString)

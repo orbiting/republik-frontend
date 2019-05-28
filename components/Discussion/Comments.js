@@ -366,24 +366,12 @@ class Comments extends PureComponent {
             composerSecondaryActions: <SecondaryActions />
           }
 
-          const OrderBy = ({ children, value }) => (
-            <button
-              {...styles.orderBy}
-              {...(orderBy === value ? styles.selectedOrderBy : {})}
-              onClick={() => {
-                setOrderBy(value)
-              }}
-            >
-              {t(`components/Discussion/OrderBy/${value}`)}
-            </button>
-          )
-
           return (
             <>
               <div {...styles.orderByContainer}>
-                <OrderBy value='DATE' />
-                <OrderBy value='VOTES' />
-                <OrderBy value='REPLIES' />
+                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='DATE' />
+                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='VOTES' />
+                <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='REPLIES' />
                 <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={this.onReload}>
                   {t('components/Discussion/reload')}
                 </A>
@@ -461,3 +449,15 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
 }
 
 const EmptyDiscussion = ({ t }) => <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
+
+const OrderBy = ({ t, orderBy, setOrderBy, value }) => (
+  <button
+    {...styles.orderBy}
+    {...(orderBy === value ? styles.selectedOrderBy : {})}
+    onClick={() => {
+      setOrderBy(value)
+    }}
+  >
+    {t(`components/Discussion/OrderBy/${value}`)}
+  </button>
+)

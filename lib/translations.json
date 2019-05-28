@@ -2055,6 +2055,34 @@
       "value": "in {count} Jahren"
     },
     {
+      "key": "timeduration/seconds",
+      "value": "{count}s"
+    },
+    {
+      "key": "timeduration/minutes",
+      "value": "{count}m"
+    },
+    {
+      "key": "timeduration/hours",
+      "value": "{count}h"
+    },
+    {
+      "key": "timeduration/days",
+      "value": "{count}d"
+    },
+    {
+      "key": "timeduration/weeks",
+      "value": "{count}w"
+    },
+    {
+      "key": "timeduration/months",
+      "value": "{count}m"
+    },
+    {
+      "key": "timeduration/years",
+      "value": "{count}y"
+    },
+    {
       "key": "components/DiscussionPreferences/save",
       "value": "Speichern"
     },

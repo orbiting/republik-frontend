@@ -4,6 +4,9 @@ import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
+const depth = 3
+const parentId = null
+
 const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => {
   /*
    * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
@@ -28,25 +31,27 @@ const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => 
         discussionId={discussionId}
         orderBy={orderBy}
         focusId={focusId}
-        depth={1}
-        parentId={null}
+        depth={depth}
+        parentId={parentId}
         now={now}
       />
 
       <NotificationOptions discussionId={discussionId} mute={mute} />
 
-      <Comments
-        depth={3}
-        key={orderBy}
-        discussionId={discussionId}
-        focusId={focusId}
-        parentId={null}
-        orderBy={orderBy}
-        now={now}
-        meta={meta}
-        sharePath={sharePath}
-        setOrderBy={setOrderBy}
-      />
+      <div style={{ margin: '20px 0' }}>
+        <Comments
+          key={orderBy /* To remount of the whole component on change */}
+          discussionId={discussionId}
+          focusId={focusId}
+          depth={depth}
+          parentId={parentId}
+          orderBy={orderBy}
+          now={now}
+          meta={meta}
+          sharePath={sharePath}
+          setOrderBy={setOrderBy}
+        />
+      </div>
     </div>
   )
 }

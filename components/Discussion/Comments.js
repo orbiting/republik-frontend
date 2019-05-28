@@ -248,12 +248,12 @@ class Comments extends PureComponent {
       setOrderBy
     } = this.props
 
-    const { showPreferences, focusLoading, shareUrl } = this.state
+    const { showPreferences, focusLoading, focusError, shareUrl } = this.state
 
     return (
       <Loader
-        loading={loading || (focusId && focusLoading) || discussion === undefined}
-        error={error || (discussion === null && t('discussion/missing'))}
+        loading={loading || (focusId && focusLoading)}
+        error={error || (focusId && focusError) || (discussion === null && t('discussion/missing'))}
         render={() => {
           const { focus } = discussion
 

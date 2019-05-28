@@ -331,13 +331,7 @@ class Comments extends PureComponent {
               },
               Comment: ({ comment, ...props }) => {
                 if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
-                  return (
-                    <Link
-                      route='discussion'
-                      params={{ t: 'general', id: discussion.id, focus: comment.id }}
-                      {...props}
-                    />
-                  )
+                  return <Link route='discussion' params={{ t: 'general', focus: comment.id }} {...props} />
                 } else if (
                   discussion.document &&
                   discussion.document.meta &&

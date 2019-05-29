@@ -1,3 +1,5 @@
+/* global localStorage */
+
 import React from 'react'
 import { compose } from 'react-apollo'
 import timeahead from '../../lib/timeahead'
@@ -17,6 +19,7 @@ import SecondaryActions from './SecondaryActions'
 import {
   Loader,
   DiscussionContext,
+  commentComposerStorageKey,
   CommentComposer,
   CommentComposerPlaceholder,
   Interaction,
@@ -45,6 +48,24 @@ const DiscussionCommentComposer = props => {
    */
   const [isActive, setActive] = React.useState(false)
   const [showPreferences, setShowPreferences] = React.useState(false)
+
+  React.useEffect(() => {
+    /*
+     * Activate the CommentComposer if we detect that the user has an unfinished
+     * draft text in localStorage.
+     *
+     * Note: We don't initialize 'isActive' with this value because then
+     * React won't correctly hydrate the UI. The HTML rendered by the server
+     * and the first version rendered by the client code SHOULD be equal,
+     * otherwise the UI may glitch. For that reason we call setActive() from
+     * a React effect.
+     */
+    try {
+      if (localStorage.getItem(commentComposerStorageKey(discussionId))) {
+        setActive(true)
+      }
+    } catch (e) {}
+  }, [])
 
   const submitComment = ({ text, tags }) =>
     props.submitComment(null, text, tags).then(

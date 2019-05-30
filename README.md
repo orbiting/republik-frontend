@@ -108,7 +108,7 @@ Your logo, fonts and colors? See [orbiting/styleguide](https://github.com/orbiti
 
 Want to change code in the styleguide and preview how it looks here?
 
-Here is a simple 8 step guide:
+Here are the steps:
 
 ```
 cd ../styleguide
@@ -117,12 +117,19 @@ npm link
 
 cd ../republik-frontend
 npm i
-npm run sg:link # adds a tmp preinstall to unlink
-// do stuff
-npm i # unlinks, rms tmp preinstall and installs npm versions
+# deeply link styleguide and some peers
+# and add a tmp preinstall script to unlink
+npm run sg:link
+
+# do your work
+
+# simply run npm install to unlink
+# rm the links and the tmp preinstall script
+# reinstall stuff via npm
+npm i
 ```
 
-_Why? `glamor`, `react` and `react-dom` use singletons. And `peerDependencies` are not «flattened» when `npm link`ed. While linked you are using those packages from the styleguide._
+_Why? `glamor`, `react` and `react-dom` use singletons. And `peerDependencies` are not flattened when `npm link`ed—two versions with their own singletons end up running. While linked this way those packages are linked to the styleguide node_modules folder._
 
 ### Curtain
 

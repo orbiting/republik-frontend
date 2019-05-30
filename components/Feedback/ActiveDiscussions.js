@@ -51,7 +51,7 @@ const styles = {
   }))
 }
 
-export const DiscussionLink = ({
+const DiscussionLink = ({
   children,
   discussion
 }) => {

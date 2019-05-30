@@ -93,7 +93,7 @@
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-dialog-4-9a4acb8.tgz",
+    "@project-r/styleguide": "https://s3.eu-central-1.amazonaws.com/republik-assets-dev/npm/project-r-styleguide-dialog-4-80251e5.tgz",
     "@zeit/next-bundle-analyzer": "^0.1.2",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",

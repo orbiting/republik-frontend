@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-24T12:39:29.854Z",
+  "updated": "2019-05-30T19:10:33.338Z",
   "title": "live",
   "data": [
     {
@@ -1639,10 +1639,6 @@
       "value": "neu laden"
     },
     {
-      "key": "components/Discussion/empty",
-      "value": "Noch keine Beiträge in dieser Diskussion."
-    },
-    {
       "key": "components/Discussion/Notification/noChannels",
       "value": "Benachrichtigungen aktivieren"
     },
@@ -1737,6 +1733,10 @@
     {
       "key": "components/Discussion/markdown/title",
       "value": "Sie können Ihren Beitrag mit Markdown formatieren"
+    },
+    {
+      "key": "components/Discussion/empty",
+      "value": "Noch keine Beiträge in dieser Diskussion."
     },
     {
       "key": "discussion/meta/focus/title",
@@ -1907,24 +1907,24 @@
       "value": "einklappen"
     },
     {
+      "key": "styleguide/comment/header/expandCount/1",
+      "value": "1 Beitrag"
+    },
+    {
+      "key": "styleguide/comment/header/expandCount/other",
+      "value": "{count} Beiträge"
+    },
+    {
+      "key": "styleguide/comment/header/credentialMissing",
+      "value": "Rolle definieren"
+    },
+    {
       "key": "styleguide/comment/header/updated",
       "value": "editiert"
     },
     {
       "key": "styleguide/comment/header/verifiedCredential",
       "value": "Verifizierte Rolle"
-    },
-    {
-      "key": "styleguide/comment/header/replies/1",
-      "value": "1 Antwort"
-    },
-    {
-      "key": "styleguide/comment/header/replies/other",
-      "value": "{count} Antworten"
-    },
-    {
-      "key": "styleguide/comment/header/credentialMissing",
-      "value": "Rolle definieren"
     },
     {
       "key": "styleguide/comment/edit/submit",
@@ -2068,19 +2068,15 @@
     },
     {
       "key": "timeduration/days",
-      "value": "{count}d"
+      "value": "{count}t"
     },
     {
       "key": "timeduration/weeks",
       "value": "{count}w"
     },
     {
-      "key": "timeduration/months",
-      "value": "{count}m"
-    },
-    {
       "key": "timeduration/years",
-      "value": "{count}y"
+      "value": "{count}j"
     },
     {
       "key": "components/DiscussionPreferences/save",

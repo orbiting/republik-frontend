@@ -104,6 +104,26 @@ PIWIK_SITE_ID=1
 
 Your logo, fonts and colors? See [orbiting/styleguide](https://github.com/orbiting/styleguide#theming)
 
+#### Linking the Styleguide
+
+Want to change code in the styleguide and preview how it looks here?
+
+Here is a simple 8 step guide:
+
+```
+cd ../styleguide
+npm i
+npm link
+
+cd ../republik-frontend
+npm i
+npm run sg:link # adds a tmp preinstall to unlink
+// do stuff
+npm i # unlinks, rms tmp preinstall and installs npm versions
+```
+
+_Why? `glamor`, `react` and `react-dom` use singletons. And `peerDependencies` are not «flattened» when `npm link`ed. While linked you are using those packages from the styleguide._
+
 ### Curtain
 
 You can configure a curtain message, to show a teaser website.

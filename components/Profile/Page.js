@@ -243,29 +243,42 @@ class Profile extends Component {
     this.onScroll = () => {
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (!mobile && y + HEADER_HEIGHT > this.y + this.innerHeight) {
-        if (!this.state.sticky) {
-          this.setState({ sticky: true })
-        }
-      } else {
-        if (this.state.sticky) {
-          this.setState({ sticky: false })
-        }
+      let sticky = (
+        !mobile &&
+        y + HEADER_HEIGHT > this.y + this.innerHeight &&
+        this.mainHeight > this.sidebarHeight &&
+        this.sidebarHeight < (window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP)
+      )
+
+      if (sticky !== this.state.sticky) {
+        this.setState({ sticky })
       }
     }
-    this.innerRef = ref => {
-      this.inner = ref
+    this.setInnerRef = ref => {
+      this.innerRef = ref
+    }
+    this.setSidebarInnerRef = ref => {
+      this.sidebarInnerRef = ref
+    }
+    this.setMainRef = ref => {
+      this.mainRef = ref
     }
     this.measure = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
         this.setState({ isMobile })
       }
-      if (this.inner) {
-        const rect = this.inner.getBoundingClientRect()
+      if (this.innerRef) {
+        const rect = this.innerRef.getBoundingClientRect()
         this.y = window.pageYOffset + rect.top
         this.innerHeight = rect.height
         this.x = window.pageXOffset + rect.left
+      }
+      if (this.sidebarInnerRef) {
+        this.sidebarHeight = this.sidebarInnerRef.getBoundingClientRect().height
+      }
+      if (this.mainRef) {
+        this.mainHeight = this.mainRef.getBoundingClientRect().height
       }
       this.onScroll()
     }
@@ -374,7 +387,7 @@ class Profile extends Component {
                   </Box>
                 )}
                 <MainContainer>
-                  <div ref={this.innerRef} {...styles.head}>
+                  <div ref={this.setInnerRef} {...styles.head}>
                     <p {...styles.statement}>
                       <Statement
                         user={user}
@@ -424,44 +437,46 @@ class Profile extends Component {
                           width: PORTRAIT_SIZE_M
                         }
                         : {}}>
-                        <Interaction.H3>{user.name}</Interaction.H3>
-                        <Credentials
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                        {user.badges && (
-                          <div {...styles.badges}>
-                            {user.badges.map(badge => (
-                              <Badge badge={badge} size={27} />
-                            ))}
-                          </div>
-                        )}
-                        <Settings
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                        <Edit
-                          user={user}
-                          state={this.state}
-                          setState={this.setState.bind(this)}
-                          startEditing={this.startEditing}
-                          onChange={this.onChange} />
-                        <Contact
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
+                        <div ref={this.setSidebarInnerRef}>
+                          <Interaction.H3>{user.name}</Interaction.H3>
+                          <Credentials
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                          {user.badges && (
+                            <div {...styles.badges}>
+                              {user.badges.map(badge => (
+                                <Badge badge={badge} size={27} />
+                              ))}
+                            </div>
+                          )}
+                          <Settings
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                          <Edit
+                            user={user}
+                            state={this.state}
+                            setState={this.setState.bind(this)}
+                            startEditing={this.startEditing}
+                            onChange={this.onChange} />
+                          <Contact
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                        </div>
                       </div>
                     </div>
-                    <div {...styles.mainColumn}>
+                    <div {...styles.mainColumn} ref={this.setMainRef}>
                       <Biography
                         user={user}
                         isEditing={isEditing}

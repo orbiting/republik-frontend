@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-30T19:10:33.338Z",
+  "updated": "2019-06-02T16:17:29.674Z",
   "title": "live",
   "data": [
     {
@@ -1172,7 +1172,7 @@
     },
     {
       "key": "profile/edit/start",
-      "value": "bearbeiten"
+      "value": "Profil bearbeiten"
     },
     {
       "key": "profile/edit/cancel",
@@ -1180,15 +1180,11 @@
     },
     {
       "key": "profile/edit/save",
-      "value": "ändern"
+      "value": "speichern"
     },
     {
       "key": "profile/edit/publish",
       "value": "veröffentlichen"
-    },
-    {
-      "key": "profile/edit/unpublish",
-      "value": "Profil zurücknehmen"
     },
     {
       "key": "profile/edit/updating",
@@ -1287,12 +1283,28 @@
       "value": "Telefonnummer freigeben für"
     },
     {
-      "key": "profile/contact/isListed/label",
-      "value": "Portrait und Statement auf der Community-Seite anzeigen"
+      "key": "profile/settings/isListed/label",
+      "value": "Auf Community-Seite anzeigen"
     },
     {
-      "key": "profile/contact/isAdminUnlisted/note",
+      "key": "profile/settings/isListed/note",
+      "value": "Ihr Statement darf zusammen mit Ihrem Namen und Porträit öffentlich angezeigt werden."
+    },
+    {
+      "key": "profile/settings/isAdminUnlisted/note",
       "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/label",
+      "value": "Öffentliches Profil"
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/note",
+      "value": "Das Profil und alle Ihre Beiträge dürfen öffentlich mit Ihre Namen und Porträit angezeigt werden."
+    },
+    {
+      "key": "profile/settings/isEligibleForProfile/notEligible",
+      "value": "Sie benötigen ein laufendes Abonnement um eine öffentliches Profil oder Statement anzulegen."
     },
     {
       "key": "profile/biography/label",
@@ -1335,16 +1347,8 @@
       "value": "Profil von {name}"
     },
     {
-      "key": "profile/preview",
-      "value": "Dies ist Ihre Profilseite. Sie ist noch weiss und unberührt wie frisch gefallener Schnee. Sie haben hier die Möglichkeit, ein Foto, ein Statement und einen kurzen Steckbrief zu sich selbst zu veröffentlichen. Was ideal ist für die Debatten mit Ihren Mitverlegerinnen."
-    },
-    {
-      "key": "profile/preview/notEligible",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in {link}."
-    },
-    {
-      "key": "profile/preview/notEligible/link",
-      "value": "Ihrem Konto"
+      "key": "profile/private",
+      "value": "Diese Profilseite ist nur für Mitglieder der Republik sichtbar."
     },
     {
       "key": "profile/username/label",

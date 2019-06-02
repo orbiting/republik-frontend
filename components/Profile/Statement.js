@@ -82,6 +82,7 @@ class Statement extends Component {
         {isEditing
           ? <FieldSet
             {...props}
+            dirty={{ ...props.dirty, statement: true }}
             fields={fields(t)} />
           : inQuotes(user.statement)}
       </span>

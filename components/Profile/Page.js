@@ -6,7 +6,6 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import withInNativeApp from '../../lib/withInNativeApp'
 
 import { Link, Router } from '../../lib/routes'
 
@@ -30,6 +29,7 @@ import Statement from './Statement'
 import Biography from './Biography'
 import Edit from './Edit'
 import Credentials from './Credentials'
+import Settings from './Settings'
 
 import {
   A,
@@ -39,8 +39,7 @@ import {
   Interaction,
   linkRule,
   mediaQueries,
-  TeaserFeed,
-  Editorial
+  TeaserFeed
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -324,8 +323,7 @@ class Profile extends Component {
     const {
       t,
       me,
-      data: { loading, error, user },
-      inNativeIOSApp
+      data: { loading, error, user }
     } = this.props
 
     const metaData = {
@@ -368,21 +366,10 @@ class Profile extends Component {
             } = this.state
             return (
               <Fragment>
-                {!user.hasPublicProfile && !inNativeIOSApp && (
+                {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      {user.isEligibleForProfile &&
-                      <Interaction.P>{t('profile/preview')}</Interaction.P>}
-                      {!user.isEligibleForProfile && <Interaction.P>
-                        {t.elements('profile/preview/notEligible',
-                          {
-                            link: (
-                              <Link route='account' key='account' passHref>
-                                <Editorial.A>{t('profile/preview/notEligible/link')}</Editorial.A>
-                              </Link>
-                            )
-                          }
-                        )}</Interaction.P>}
+                      <Interaction.P>{t('profile/private')}</Interaction.P>
                     </MainContainer>
                   </Box>
                 )}
@@ -452,6 +439,19 @@ class Profile extends Component {
                             ))}
                           </div>
                         )}
+                        <Settings
+                          user={user}
+                          isEditing={isEditing}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty} />
+                        <Edit
+                          user={user}
+                          state={this.state}
+                          setState={this.setState.bind(this)}
+                          startEditing={this.startEditing}
+                          onChange={this.onChange} />
                         <Contact
                           user={user}
                           isEditing={isEditing}
@@ -459,11 +459,6 @@ class Profile extends Component {
                           values={values}
                           errors={errors}
                           dirty={dirty} />
-                        {!isMobile && <Edit
-                          user={user}
-                          state={this.state}
-                          setState={this.setState.bind(this)}
-                          startEditing={this.startEditing} />}
                       </div>
                     </div>
                     <div {...styles.mainColumn}>
@@ -474,7 +469,7 @@ class Profile extends Component {
                         values={values}
                         errors={errors}
                         dirty={dirty} />
-                      {isMobile && <div style={{ marginBottom: 40 }}>
+                      {isMobile && isEditing && <div style={{ marginBottom: 40 }}>
                         <Edit
                           user={user}
                           state={this.state}
@@ -546,7 +541,6 @@ export default compose(
   withT,
   withMe,
   withRouter,
-  withInNativeApp,
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {

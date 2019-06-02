@@ -77,10 +77,10 @@ export default compose(
               redirection.status || 302,
               target
             )
+            serverContext.res.end()
           } else {
             loading = true
           }
-          serverContext.res.end()
         } else {
           loading = true
           let clientTarget = target

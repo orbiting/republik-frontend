@@ -427,7 +427,6 @@ export const testimonialFields = `
   portrait
   updatedAt
   sequenceNumber
-  hasPublicProfile
 `
 
 const query = gql`

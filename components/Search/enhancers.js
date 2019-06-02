@@ -118,7 +118,6 @@ query getSearchResults(
             isListed
           }
           portrait
-          hasPublicProfile
         }
       }
       highlights {

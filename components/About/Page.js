@@ -32,7 +32,6 @@ query AboutPage {
     subgroup
     user {
       id
-      hasPublicProfile
       portrait
       username
     }

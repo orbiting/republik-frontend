@@ -44,7 +44,7 @@ const styles = {
 const Detail = ({
   t,
   share,
-  data: { id, username, hasPublicProfile, name, credentials, statement, portrait, sequenceNumber, video, updatedAt }
+  data: { id, username, name, credentials, statement, portrait, sequenceNumber, video, updatedAt }
 }) => (
   <div {...styles.detail}>
     <div
@@ -61,8 +61,8 @@ const Detail = ({
       }
     >
       <H3 {...styles.detailTitle}>
-        {hasPublicProfile ? (
-          <Link route='profile' params={{ slug: username || id }}>
+        {username ? (
+          <Link route='profile' params={{ slug: username }}>
             <a {...linkRule} style={{ color: 'inherit' }}>
               {name}
             </a>

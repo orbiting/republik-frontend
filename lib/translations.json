@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-02T16:17:29.674Z",
+  "updated": "2019-06-02T18:50:58.083Z",
   "title": "live",
   "data": [
     {
@@ -124,7 +124,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert."
+      "value": "Dieses Profil wurde nicht gefunden weil es nicht existiert oder Sie es nicht sehen dürfen."
     },
     {
       "key": "pages/profile/empty/content",

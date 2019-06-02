@@ -570,7 +570,7 @@ export default compose(
         if (serverContext) {
           serverContext.res.redirect(301, `/~${targetSlug}`)
           serverContext.res.end()
-        } else {
+        } else if (process.browser) { // SSR does two two-passes: data (with serverContext) & render (without)
           Router.replaceRoute(
             'profile',
             { slug: targetSlug }

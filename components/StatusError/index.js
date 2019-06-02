@@ -57,7 +57,7 @@ export default compose(
         path: cleanAsPath(asPath)
       }
     }),
-    props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, me } }) => {
+    props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, inNativeIOSApp, me } }) => {
       const redirection =
         !data.error &&
         !data.loading &&
@@ -70,22 +70,22 @@ export default compose(
         const withQuery = query && redirectionPathWithQuery.indexOf(pathname) !== -1
         const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
         const targetIsExternal = target.startsWith('http') && !target.startsWith(PUBLIC_BASE_URL)
+        const restrictedIOSPath = inNativeIOSApp && target.match(/^\/angebote(\?|$)/)
+
+        loading = true
 
         if (serverContext) {
-          if (!inNativeApp || !targetIsExternal) {
+          if (!inNativeApp || (!targetIsExternal && !restrictedIOSPath)) {
             serverContext.res.redirect(
               redirection.status || 302,
               target
             )
             serverContext.res.end()
-          } else {
-            loading = true
           }
-        } else {
-          loading = true
+        } else if (process.browser) { // SSR does two two-passes: data (with serverContext) & render (without)
           let clientTarget = target
           let afterRouting
-          if (inNativeApp && targetIsExternal) {
+          if (inNativeApp && (targetIsExternal || restrictedIOSPath)) {
             clientTarget = '/feed'
             afterRouting = () => {
               window.location = target

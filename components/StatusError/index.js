@@ -48,7 +48,7 @@ export default compose(
     skip: props => props.statusCode !== 404 || !props.router.asPath,
     options: ({ router: { asPath } }) => ({
       variables: {
-        path: asPath
+        path: asPath.split('#')[0]
       }
     }),
     props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, me } }) => {

@@ -65,7 +65,7 @@ app.prepare().then(() => {
       '/.well-known/apple-app-site-association',
       '/.well-known/assetlinks.json'
     ]
-    const ALLOWED_UAS = (process.env.CURTAIN_UA_ALLOW_LIST || '').split(',')
+    const ALLOWED_UAS = (process.env.CURTAIN_UA_ALLOW_LIST || '').split(',').filter(Boolean)
 
     server.use((req, res, next) => {
       const BACKDOOR_URL = process.env.CURTAIN_BACKDOOR_URL || ''

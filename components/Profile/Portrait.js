@@ -4,6 +4,8 @@ import Dropzone from 'react-dropzone'
 
 import withT from '../../lib/withT'
 
+import MdClose from 'react-icons/lib/md/close'
+
 const styles = {
   img: css({
     display: 'block',
@@ -28,6 +30,14 @@ const styles = {
     right: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: '5px 10px',
+    color: '#fff'
+  }),
+  remove: css({
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 5,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     color: '#fff'
   })
 }
@@ -59,7 +69,9 @@ const readFile = (file) => {
 
 export default withT(({ t, user, isEditing, isMe, values, errors, onChange }) => {
   const preview = isEditing && values.portraitPreview
-  const imgUrl = preview || user.portrait
+  const imgUrl = values.portrait !== undefined
+    ? values.portraitPreview
+    : user.portrait
   const img = (
     <span {...styles.img} {...(preview && styles.preview)}
       style={{
@@ -69,27 +81,27 @@ export default withT(({ t, user, isEditing, isMe, values, errors, onChange }) =>
       }} />
   )
 
-  const getNote = () => {
-    if (!((isMe && !user.portrait) || isEditing)) {
+  const disabled = !isMe || !isEditing
+  const note = (() => {
+    if (disabled) {
       return
     }
     if (errors && errors.portrait) {
       return errors.portrait
     }
-    if (!user.portrait && !values.portraitPreview) {
+    if (values.portrait === undefined ? !user.portrait : !values.portraitPreview) {
       return t('profile/portrait/choose')
     }
     if (user.portrait || values.portraitPreview) {
       return t('profile/portrait/update')
     }
     return false
-  }
-  const note = getNote()
+  })()
 
   return (
     <Dropzone
       disablePreview
-      disabled={!isMe || !isEditing}
+      disabled={disabled}
       className={styles.dropzone.toString()}
       style={{
         cursor: isEditing
@@ -135,6 +147,21 @@ export default withT(({ t, user, isEditing, isMe, values, errors, onChange }) =>
         }
       }}
     >
+      {isEditing && imgUrl && <div {...styles.remove} onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        onChange({
+          values: {
+            portrait: null,
+            portraitPreview: undefined
+          },
+          errors: {
+            portrait: undefined
+          }
+        })
+      }}>
+        <MdClose size={16} style={{ display: 'block' }} />
+      </div>}
       {img}
       {note && <div {...styles.note}>
         {note}

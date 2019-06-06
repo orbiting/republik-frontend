@@ -418,7 +418,7 @@ export class List extends Component {
 
 export const testimonialFields = `
   id
-  username
+  slug
   name
   statement
   credentials {
@@ -427,7 +427,6 @@ export const testimonialFields = `
   portrait
   updatedAt
   sequenceNumber
-  hasPublicProfile
 `
 
 const query = gql`

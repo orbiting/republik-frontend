@@ -1,5 +1,5 @@
 {
-  "updated": "2019-05-24T12:39:29.854Z",
+  "updated": "2019-06-06T17:39:15.979Z",
   "title": "live",
   "data": [
     {
@@ -124,7 +124,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieser Verleger (diese Verlegerin) hat seine (ihre) Profilseite noch nicht aktiviert."
+      "value": "Dieses Profil wurde nicht gefunden, weil es nicht existiert oder Sie es nicht sehen dürfen."
     },
     {
       "key": "pages/profile/empty/content",
@@ -1172,7 +1172,7 @@
     },
     {
       "key": "profile/edit/start",
-      "value": "bearbeiten"
+      "value": "Profil bearbeiten"
     },
     {
       "key": "profile/edit/cancel",
@@ -1180,15 +1180,11 @@
     },
     {
       "key": "profile/edit/save",
-      "value": "ändern"
+      "value": "speichern"
     },
     {
       "key": "profile/edit/publish",
       "value": "veröffentlichen"
-    },
-    {
-      "key": "profile/edit/unpublish",
-      "value": "Profil zurücknehmen"
     },
     {
       "key": "profile/edit/updating",
@@ -1287,12 +1283,40 @@
       "value": "Telefonnummer freigeben für"
     },
     {
-      "key": "profile/contact/isListed/label",
-      "value": "Portrait und Statement auf der Community-Seite anzeigen"
+      "key": "profile/settings/isListed/label",
+      "value": "Auf Community-Seite anzeigen"
     },
     {
-      "key": "profile/contact/isAdminUnlisted/note",
+      "key": "profile/settings/isListed/true/note",
+      "value": "Ihr Name, Profilbild und Statement erscheinen auf {communityLink} und ist für alle sichtbar."
+    },
+    {
+      "key": "profile/settings/isListed/false/note",
+      "value": "Ihr Name, Profilbild und Statement erscheinen nicht auf {communityLink}."
+    },
+    {
+      "key": "profile/settings/isAdminUnlisted/note",
       "value": "Leider können wir Sie auf der Community-Seite nicht anzeigen. Schreiben Sie an kontakt@republik.ch für weitere Informationen."
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/label",
+      "value": "Öffentliches Profil"
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/true/note",
+      "value": "Alle (auch Suchmaschinen) können Ihr Profil sehen. Ihre Dialogbeiträge erscheinen für alle unter Ihrem vollen Namen."
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/false/note",
+      "value": "Nur andere Verlegerinnen können Ihr Profil sehen. Ihre Dialogbeiträge erscheinen nur für Verleger unter Ihrem vollen Namen."
+    },
+    {
+      "key": "profile/settings/isEligibleForProfile/notEligible",
+      "value": "Sie benötigen ein laufendes Abonnement um eine öffentliches Profil oder Statement anzulegen."
+    },
+    {
+      "key": "profile/settings/privacy/communityLink",
+      "value": "der Community-Seite"
     },
     {
       "key": "profile/biography/label",
@@ -1335,16 +1359,8 @@
       "value": "Profil von {name}"
     },
     {
-      "key": "profile/preview",
-      "value": "Dies ist Ihre Profilseite. Sie ist noch weiss und unberührt wie frisch gefallener Schnee. Sie haben hier die Möglichkeit, ein Foto, ein Statement und einen kurzen Steckbrief zu sich selbst zu veröffentlichen. Was ideal ist für die Debatten mit Ihren Mitverlegerinnen."
-    },
-    {
-      "key": "profile/preview/notEligible",
-      "value": "Leider existiert unter Ihrer E-Mail-Adresse kein laufendes Abonnement. Dieses Problem kann mehrere Ursachen haben. Die Lösungen dazu finden Sie in {link}."
-    },
-    {
-      "key": "profile/preview/notEligible/link",
-      "value": "Ihrem Konto"
+      "key": "profile/private",
+      "value": "Diese Profilseite ist nur für Mitglieder der Republik sichtbar."
     },
     {
       "key": "profile/username/label",
@@ -1735,6 +1751,10 @@
       "value": "Sie können Ihren Beitrag mit Markdown formatieren"
     },
     {
+      "key": "components/Discussion/empty",
+      "value": "Noch keine Beiträge in dieser Diskussion."
+    },
+    {
       "key": "discussion/meta/focus/title",
       "value": "{authorName} in «{discussionTitle}»"
     },
@@ -1903,6 +1923,18 @@
       "value": "einklappen"
     },
     {
+      "key": "styleguide/comment/header/expandCount/1",
+      "value": "1 Beitrag"
+    },
+    {
+      "key": "styleguide/comment/header/expandCount/other",
+      "value": "{count} Beiträge"
+    },
+    {
+      "key": "styleguide/comment/header/credentialMissing",
+      "value": "Rolle definieren"
+    },
+    {
       "key": "styleguide/comment/header/updated",
       "value": "editiert"
     },
@@ -2037,6 +2069,30 @@
     {
       "key": "timeAhead/years/other",
       "value": "in {count} Jahren"
+    },
+    {
+      "key": "timeduration/seconds",
+      "value": "vor {count} s"
+    },
+    {
+      "key": "timeduration/minutes",
+      "value": "vor {count} m"
+    },
+    {
+      "key": "timeduration/hours",
+      "value": "vor {count} h"
+    },
+    {
+      "key": "timeduration/days",
+      "value": "vor {count} d"
+    },
+    {
+      "key": "timeduration/weeks",
+      "value": "vor {count} w"
+    },
+    {
+      "key": "timeduration/years",
+      "value": "vor {count} y"
     },
     {
       "key": "components/DiscussionPreferences/save",
@@ -2672,11 +2728,11 @@
     },
     {
       "key": "front/chronology",
-      "value": "Chronologie {years}"
+      "value": "Übersicht {years}"
     },
     {
       "key": "front/loadMore",
-      "value": "Das waren die neuesten {count} Zeilen. Weitere {remaining} anschauen?"
+      "value": "Ältere Beiträge laden\n"
     },
     {
       "key": "feed/loadMore",

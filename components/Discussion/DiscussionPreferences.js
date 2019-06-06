@@ -16,13 +16,10 @@ import {
   A
 } from '@project-r/styleguide'
 
-import {
-  withDiscussionPreferences,
-  withSetDiscussionPreferences
-} from './enhancers'
+import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import Credential from '../Credential'
 
-export const DiscussionPreferences = ({ t, data: { loading, error, me, discussion }, onClose, setDiscussionPreferences }) => (
+export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loading, error, me, discussion }, setDiscussionPreferences }) => (
   <Overlay onClose={onClose}>
     <Loader
       loading={loading}
@@ -56,8 +53,7 @@ DiscussionPreferences.propTypes = {
 
 export default compose(
   withT,
-  withDiscussionPreferences,
-  withSetDiscussionPreferences
+  withDiscussionPreferences
 )(DiscussionPreferences)
 
 class DiscussionPreferencesEditor extends PureComponent {

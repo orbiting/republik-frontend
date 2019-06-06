@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -19,6 +19,10 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
+  container: css({
+    marginTop: 15,
+    marginBottom: 15
+  }),
   editLink: css({
     display: 'block',
     marginTop: 5
@@ -38,7 +42,7 @@ const EditLink = ({ children, onClick, ...props }) =>
     {children}
   </a>
 
-const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublicProfile }) => {
+const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
   const {
     isEditing
   } = state
@@ -47,27 +51,22 @@ const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublic
   }
   if (!isEditing) {
     return (
-      <Fragment>
-        {!user.hasPublicProfile && user.isEligibleForProfile && user.username && <Button block primary onClick={() => {
-          setHasPublicProfile(true)
-        }}>
-          {t('profile/edit/publish')}
-        </Button>}
+      <div {...styles.container}>
         <EditLink onClick={() => {
           startEditing()
         }}>
           {t('profile/edit/start')}
         </EditLink>
-      </Fragment>
+      </div>
     )
   }
   if (state.updating) {
     return (
-      <Fragment>
+      <div {...styles.container}>
         <InlineSpinner />
         <br />
         {t('profile/edit/updating')}
-      </Fragment>
+      </div>
     )
   }
 
@@ -76,9 +75,9 @@ const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublic
     .filter(Boolean)
 
   return (
-    <Fragment>
+    <div {...styles.container}>
       {!!state.showErrors && errorMessages.length > 0 && (
-        <div style={{ color: colors.error, marginBottom: 40 }}>
+        <div style={{ color: colors.error, marginBottom: 15 }}>
           {t('profile/edit/errors')}
           <br />
           <ul>
@@ -89,16 +88,16 @@ const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublic
         </div>
       )}
       {!!state.error && (
-        <div style={{ color: colors.error, marginBottom: 40 }}>
+        <div style={{ color: colors.error, marginBottom: 15 }}>
           {state.error}
         </div>
       )}
       <div style={{
-        opacity: errorMessages.length || (!user.hasPublicProfile && !user.isEligibleForProfile)
+        opacity: errorMessages.length
           ? 0.5
           : 1
       }}>
-        <Button block primary={!user.hasPublicProfile} onClick={() => {
+        <Button block primary onClick={() => {
           if (errorMessages.length) {
             setState(state =>
               Object.keys(state.errors).reduce(
@@ -116,34 +115,22 @@ const Edit = ({ me, user, t, state, setState, startEditing, update, setHasPublic
           }
           update({
             ...state.values,
-            publicUrl: state.values.publicUrl === DEFAULT_VALUES.publicUrl ? '' : state.values.publicUrl,
-            hasPublicProfile: true
+            publicUrl: state.values.publicUrl === DEFAULT_VALUES.publicUrl ? '' : state.values.publicUrl
           })
         }}>
-          {user.hasPublicProfile
-            ? t('profile/edit/save')
-            : t('profile/edit/publish')}
+          {t(state.values.hasPublicProfile && !user.hasPublicProfile ? 'profile/edit/publish' : 'profile/edit/save')}
         </Button>
       </div>
-      {!user.hasPublicProfile && <EditLink onClick={() => {
-        update(state.values)
-      }}>
-        {t('profile/edit/save')}
-      </EditLink>}
-      {user.hasPublicProfile && <EditLink onClick={() => {
-        setHasPublicProfile(false)
-      }}>
-        {t('profile/edit/unpublish')}
-      </EditLink>}
       <EditLink onClick={() => {
         setState({
           isEditing: false,
-          values: {}
+          values: {},
+          errors: {}
         })
       }}>
         {t('profile/edit/cancel')}
       </EditLink>
-    </Fragment>
+    </div>
   )
 }
 
@@ -224,44 +211,7 @@ const publishCredential = gql`
   }
 `
 
-const setHasPublicProfile = gql`
-  mutation setHasPublicProfile($hasPublicProfile: Boolean) {
-    updateMe(hasPublicProfile: $hasPublicProfile) {
-      id
-      hasPublicProfile
-      isListed
-    }
-  }
-`
-
 export default compose(
-  graphql(setHasPublicProfile, {
-    props: ({ mutate, ownProps: { setState } }) => ({
-      setHasPublicProfile: hasPublicProfile => {
-        setState({ updating: true })
-
-        return mutate({
-          variables: {
-            hasPublicProfile
-          }
-        })
-          .then(() => {
-            setState(() => ({
-              updating: false,
-              isEditing: false,
-              error: undefined,
-              values: {}
-            }))
-          })
-          .catch(error => {
-            setState(() => ({
-              updating: false,
-              error: errorToString(error)
-            }))
-          })
-      }
-    })
-  }),
   graphql(publishCredential, {
     props: ({ mutate, ownProps: { setState } }) => ({
       publishCredential: description => {

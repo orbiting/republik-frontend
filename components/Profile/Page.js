@@ -6,7 +6,6 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import withInNativeApp from '../../lib/withInNativeApp'
 
 import { Link, Router } from '../../lib/routes'
 
@@ -30,6 +29,7 @@ import Statement from './Statement'
 import Biography from './Biography'
 import Edit from './Edit'
 import Credentials from './Credentials'
+import Settings from './Settings'
 
 import {
   A,
@@ -39,8 +39,7 @@ import {
   Interaction,
   linkRule,
   mediaQueries,
-  TeaserFeed,
-  Editorial
+  TeaserFeed
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -244,29 +243,42 @@ class Profile extends Component {
     this.onScroll = () => {
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      if (!mobile && y + HEADER_HEIGHT > this.y + this.innerHeight) {
-        if (!this.state.sticky) {
-          this.setState({ sticky: true })
-        }
-      } else {
-        if (this.state.sticky) {
-          this.setState({ sticky: false })
-        }
+      let sticky = (
+        !mobile &&
+        y + HEADER_HEIGHT > this.y + this.innerHeight &&
+        this.mainHeight > this.sidebarHeight &&
+        this.sidebarHeight < (window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP)
+      )
+
+      if (sticky !== this.state.sticky) {
+        this.setState({ sticky })
       }
     }
-    this.innerRef = ref => {
-      this.inner = ref
+    this.setInnerRef = ref => {
+      this.innerRef = ref
+    }
+    this.setSidebarInnerRef = ref => {
+      this.sidebarInnerRef = ref
+    }
+    this.setMainRef = ref => {
+      this.mainRef = ref
     }
     this.measure = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {
         this.setState({ isMobile })
       }
-      if (this.inner) {
-        const rect = this.inner.getBoundingClientRect()
+      if (this.innerRef) {
+        const rect = this.innerRef.getBoundingClientRect()
         this.y = window.pageYOffset + rect.top
         this.innerHeight = rect.height
         this.x = window.pageXOffset + rect.left
+      }
+      if (this.sidebarInnerRef) {
+        this.sidebarHeight = this.sidebarInnerRef.getBoundingClientRect().height
+      }
+      if (this.mainRef) {
+        this.mainHeight = this.mainRef.getBoundingClientRect().height
       }
       this.onScroll()
     }
@@ -324,8 +336,7 @@ class Profile extends Component {
     const {
       t,
       me,
-      data: { loading, error, user },
-      inNativeIOSApp
+      data: { loading, error, user }
     } = this.props
 
     const metaData = {
@@ -368,26 +379,15 @@ class Profile extends Component {
             } = this.state
             return (
               <Fragment>
-                {!user.hasPublicProfile && !inNativeIOSApp && (
+                {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      {user.isEligibleForProfile &&
-                      <Interaction.P>{t('profile/preview')}</Interaction.P>}
-                      {!user.isEligibleForProfile && <Interaction.P>
-                        {t.elements('profile/preview/notEligible',
-                          {
-                            link: (
-                              <Link route='account' key='account' passHref>
-                                <Editorial.A>{t('profile/preview/notEligible/link')}</Editorial.A>
-                              </Link>
-                            )
-                          }
-                        )}</Interaction.P>}
+                      <Interaction.P>{t('profile/private')}</Interaction.P>
                     </MainContainer>
                   </Box>
                 )}
                 <MainContainer>
-                  <div ref={this.innerRef} {...styles.head}>
+                  <div ref={this.setInnerRef} {...styles.head}>
                     <p {...styles.statement}>
                       <Statement
                         user={user}
@@ -437,36 +437,46 @@ class Profile extends Component {
                           width: PORTRAIT_SIZE_M
                         }
                         : {}}>
-                        <Interaction.H3>{user.name}</Interaction.H3>
-                        <Credentials
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                        {user.badges && (
-                          <div {...styles.badges}>
-                            {user.badges.map(badge => (
-                              <Badge badge={badge} size={27} />
-                            ))}
-                          </div>
-                        )}
-                        <Contact
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                        {!isMobile && <Edit
-                          user={user}
-                          state={this.state}
-                          setState={this.setState.bind(this)}
-                          startEditing={this.startEditing} />}
+                        <div ref={this.setSidebarInnerRef}>
+                          <Interaction.H3>{user.name}</Interaction.H3>
+                          <Credentials
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                          {user.badges && (
+                            <div {...styles.badges}>
+                              {user.badges.map(badge => (
+                                <Badge badge={badge} size={27} />
+                              ))}
+                            </div>
+                          )}
+                          <Settings
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                          <Edit
+                            user={user}
+                            state={this.state}
+                            setState={this.setState.bind(this)}
+                            startEditing={this.startEditing}
+                            onChange={this.onChange} />
+                          <Contact
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty} />
+                        </div>
                       </div>
                     </div>
-                    <div {...styles.mainColumn}>
+                    <div {...styles.mainColumn} ref={this.setMainRef}>
                       <Biography
                         user={user}
                         isEditing={isEditing}
@@ -474,7 +484,7 @@ class Profile extends Component {
                         values={values}
                         errors={errors}
                         dirty={dirty} />
-                      {isMobile && <div style={{ marginBottom: 40 }}>
+                      {isMobile && isEditing && <div style={{ marginBottom: 40 }}>
                         <Edit
                           user={user}
                           state={this.state}
@@ -546,7 +556,6 @@ export default compose(
   withT,
   withMe,
   withRouter,
-  withInNativeApp,
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {

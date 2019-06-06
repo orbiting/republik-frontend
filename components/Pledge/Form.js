@@ -248,7 +248,7 @@ class Pledge extends Component {
     const queryPackage = query.package && query.package.toUpperCase()
     const pkg = this.getPkg()
 
-    const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement)
+    const statementTitle = statement && t(`pledge/form/statement/${queryPackage}/title`, statement, '')
     const packageInstruction = t.elements(
       `pledge/form/instruction/${queryPackage}/${customMe
         ? pkg

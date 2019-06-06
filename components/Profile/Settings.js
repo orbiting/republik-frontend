@@ -6,8 +6,11 @@ import UsernameField from './UsernameField'
 
 import {
   Label,
-  Checkbox
+  Checkbox,
+  A
 } from '@project-r/styleguide'
+
+import { Link } from '../../lib/routes'
 
 const Settings = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
   if (!isEditing) {
@@ -47,7 +50,13 @@ const Settings = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
       >
         {t('profile/settings/isListed/label')}
       </Checkbox>{' '}
-      <Label>{t('profile/settings/isListed/note')}</Label>
+      <Label>{t.elements(`profile/settings/isListed/${values.isListed}/note`, {
+        communityLink: <Link
+          route='community'
+          passHref>
+          <A target='_blank'>{t('profile/settings/privacy/communityLink')}</A>
+        </Link>
+      })}</Label>
     </div>
     <br />
     <Checkbox
@@ -63,7 +72,10 @@ const Settings = ({ user, isEditing, onChange, values, errors, dirty, t }) => {
     >
       {t('profile/settings/hasPublicProfile/label')}
     </Checkbox>{' '}
-    <Label>{t('profile/settings/hasPublicProfile/note')}</Label>
+    <Label>
+      {t(`profile/settings/hasPublicProfile/${values.hasPublicProfile}/note`)}
+    </Label>
+
     <div style={{ marginTop: 5 }}>
       <UsernameField
         user={user}

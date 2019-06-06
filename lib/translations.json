@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-02T18:50:58.083Z",
+  "updated": "2019-06-06T15:20:23.944Z",
   "title": "live",
   "data": [
     {
@@ -1287,8 +1287,12 @@
       "value": "Auf Community-Seite anzeigen"
     },
     {
-      "key": "profile/settings/isListed/note",
-      "value": "Ihr Statement darf zusammen mit Ihrem Namen und Porträit öffentlich angezeigt werden."
+      "key": "profile/settings/isListed/true/note",
+      "value": "Ihr Name, Profilbild und Statement erscheinen auf {communityLink} und ist für alle sichtbar."
+    },
+    {
+      "key": "profile/settings/isListed/false/note",
+      "value": "Ihr Name, Profilbild und Statement erscheinen nicht auf {communityLink}."
     },
     {
       "key": "profile/settings/isAdminUnlisted/note",
@@ -1299,12 +1303,20 @@
       "value": "Öffentliches Profil"
     },
     {
-      "key": "profile/settings/hasPublicProfile/note",
-      "value": "Das Profil und alle Ihre Beiträge dürfen öffentlich mit Ihre Namen und Porträit angezeigt werden."
+      "key": "profile/settings/hasPublicProfile/true/note",
+      "value": "Alle (auch Suchmaschinen) können Ihr Profil sehen. Ihre Diskussions-Beiträge erscheinen für alle unter Ihrem vollen Namen."
+    },
+    {
+      "key": "profile/settings/hasPublicProfile/false/note",
+      "value": "Nur andere Verlegerinnen können Ihr Profil sehen. Ihre Beiträge erscheinen nur für Verleger unter Ihrem vollen Namen."
     },
     {
       "key": "profile/settings/isEligibleForProfile/notEligible",
       "value": "Sie benötigen ein laufendes Abonnement um eine öffentliches Profil oder Statement anzulegen."
+    },
+    {
+      "key": "profile/settings/privacy/communityLink",
+      "value": "der Community-Seite"
     },
     {
       "key": "profile/biography/label",

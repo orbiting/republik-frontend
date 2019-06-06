@@ -23,8 +23,7 @@ import {
   CommentComposer,
   CommentComposerPlaceholder,
   Interaction,
-  Editorial,
-  DEFAULT_PROFILE_PICTURE
+  Editorial
 } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'
@@ -83,11 +82,7 @@ const DiscussionCommentComposer = props => {
       loading={loading}
       error={error || (discussion === null && t('discussion/missing'))}
       render={() => {
-        const displayAuthor = produce(discussionDisplayAuthor || {}, draft => {
-          if (!draft.profilePicture) {
-            draft.profilePicture = DEFAULT_PROFILE_PICTURE
-          }
-        })
+        const displayAuthor = discussionDisplayAuthor || {}
 
         const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
         if (!me || disableTopLevelComments) {

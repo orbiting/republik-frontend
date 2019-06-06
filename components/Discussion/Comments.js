@@ -2,7 +2,6 @@ import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
 import { format, parse } from 'url'
-import produce from 'immer'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
@@ -23,7 +22,6 @@ import {
   Loader,
   DiscussionContext,
   CommentList,
-  DEFAULT_PROFILE_PICTURE,
   A,
   colors,
   fontStyles,
@@ -236,11 +234,7 @@ const Comments = props => {
           isAdmin,
           highlightedCommentId: focusId,
 
-          discussion: produce(discussion, draft => {
-            if (draft.displayAuthor && !draft.displayAuthor.profilePicture) {
-              draft.displayAuthor.profilePicture = DEFAULT_PROFILE_PICTURE
-            }
-          }),
+          discussion,
 
           actions: {
             submitComment: (parentComment, content, tags) =>

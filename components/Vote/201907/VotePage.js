@@ -22,7 +22,7 @@ import {
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import Loader from '../../Loader'
-import VoteInfo from '../VoteInfo'
+import VoteInfo from './VoteInfo'
 import AddressEditor from '../AddressEditor'
 import VoteResult from '../VoteResult'
 

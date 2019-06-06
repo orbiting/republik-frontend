@@ -418,7 +418,7 @@ export class List extends Component {
 
 export const testimonialFields = `
   id
-  username
+  slug
   name
   statement
   credentials {

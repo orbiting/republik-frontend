@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import MdCheck from 'react-icons/lib/md/check'
 import { Link } from '../../lib/routes'
 
 import {
-  DEFAULT_PROFILE_PICTURE,
   colors,
   fontStyles,
   mediaQueries
@@ -75,29 +74,27 @@ export const UserTeaser = ({ id, username, firstName, lastName, credentials, por
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
-      <Link route='profile' params={{ slug: username || id }}>
+      {portrait && <Link route='profile' params={{ slug: username || id }}>
         <a {...styles.link}>
           <img
             {...styles.profilePicture}
-            src={portrait || DEFAULT_PROFILE_PICTURE}
+            src={portrait}
             alt={`${firstName} ${lastName}`}
           />
         </a>
-      </Link>
+      </Link>}
       <div {...styles.meta}>
         <div {...styles.name}>
           <Link route='profile' params={{ slug: username || id }}>
             <a {...styles.link}>{firstName} {lastName}</a>
           </Link>
         </div>
-        {(credential) && <div {...styles.description}>
-          {credential && <Fragment>
-            <div {...styles.descriptionText} style={{ color: credential.verified ? colors.text : colors.lightText }}>
-              {credential.description}
-            </div>
-            {credential.verified &&
-              <MdCheck {...styles.verifiedCheck} />}
-          </Fragment>}
+        {credential && <div {...styles.description}>
+          <div {...styles.descriptionText} style={{ color: credential.verified ? colors.text : colors.lightText }}>
+            {credential.description}
+          </div>
+          {credential.verified &&
+            <MdCheck {...styles.verifiedCheck} />}
         </div>}
       </div>
     </div>

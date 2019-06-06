@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-06T15:20:23.944Z",
+  "updated": "2019-06-06T17:39:15.979Z",
   "title": "live",
   "data": [
     {
@@ -124,7 +124,7 @@
     },
     {
       "key": "pages/profile/empty/title",
-      "value": "Dieses Profil wurde nicht gefunden weil es nicht existiert oder Sie es nicht sehen dürfen."
+      "value": "Dieses Profil wurde nicht gefunden, weil es nicht existiert oder Sie es nicht sehen dürfen."
     },
     {
       "key": "pages/profile/empty/content",
@@ -1304,11 +1304,11 @@
     },
     {
       "key": "profile/settings/hasPublicProfile/true/note",
-      "value": "Alle (auch Suchmaschinen) können Ihr Profil sehen. Ihre Diskussions-Beiträge erscheinen für alle unter Ihrem vollen Namen."
+      "value": "Alle (auch Suchmaschinen) können Ihr Profil sehen. Ihre Dialogbeiträge erscheinen für alle unter Ihrem vollen Namen."
     },
     {
       "key": "profile/settings/hasPublicProfile/false/note",
-      "value": "Nur andere Verlegerinnen können Ihr Profil sehen. Ihre Beiträge erscheinen nur für Verleger unter Ihrem vollen Namen."
+      "value": "Nur andere Verlegerinnen können Ihr Profil sehen. Ihre Dialogbeiträge erscheinen nur für Verleger unter Ihrem vollen Namen."
     },
     {
       "key": "profile/settings/isEligibleForProfile/notEligible",
@@ -2072,27 +2072,27 @@
     },
     {
       "key": "timeduration/seconds",
-      "value": "{count}s"
+      "value": "vor {count} s"
     },
     {
       "key": "timeduration/minutes",
-      "value": "{count}m"
+      "value": "vor {count} m"
     },
     {
       "key": "timeduration/hours",
-      "value": "{count}h"
+      "value": "vor {count} h"
     },
     {
       "key": "timeduration/days",
-      "value": "{count}t"
+      "value": "vor {count} d"
     },
     {
       "key": "timeduration/weeks",
-      "value": "{count}w"
+      "value": "vor {count} w"
     },
     {
       "key": "timeduration/years",
-      "value": "{count}j"
+      "value": "vor {count} y"
     },
     {
       "key": "components/DiscussionPreferences/save",
@@ -2728,11 +2728,11 @@
     },
     {
       "key": "front/chronology",
-      "value": "Chronologie {years}"
+      "value": "Übersicht {years}"
     },
     {
       "key": "front/loadMore",
-      "value": "Das waren die neuesten {count} Zeilen. Weitere {remaining} anschauen?"
+      "value": "Ältere Beiträge laden\n"
     },
     {
       "key": "feed/loadMore",

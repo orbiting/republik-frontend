@@ -333,7 +333,7 @@ class Header extends Component {
       backgroundColor: hrColor
     }
     const textFill = dark ? negativeColors.text : colors.text
-    const logoFill = dark ? '#fff' : '#000'
+    const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
     const showNavBar = isMember
 

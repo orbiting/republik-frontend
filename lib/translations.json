@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-12T12:25:31.464Z",
+  "updated": "2019-06-12T15:45:21.500Z",
   "title": "live",
   "data": [
     {
@@ -1360,7 +1360,7 @@
     },
     {
       "key": "profile/private",
-      "value": "Diese Profilseite ist nur für Mitglieder der Republik sichtbar."
+      "value": "Privates Profil: Nur für Sie und andere Mitglieder und Abonnentinnen sichtbar."
     },
     {
       "key": "profile/username/label",

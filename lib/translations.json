@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-06T17:39:15.979Z",
+  "updated": "2019-06-12T12:25:31.464Z",
   "title": "live",
   "data": [
     {
@@ -1288,7 +1288,7 @@
     },
     {
       "key": "profile/settings/isListed/true/note",
-      "value": "Ihr Name, Profilbild und Statement erscheinen auf {communityLink} und ist für alle sichtbar."
+      "value": "Ihr Name, Profilbild und Statement erscheinen auf {communityLink} und sind für alle sichtbar."
     },
     {
       "key": "profile/settings/isListed/false/note",
@@ -1755,8 +1755,12 @@
       "value": "Noch keine Beiträge in dieser Diskussion."
     },
     {
+      "key": "discussion/meta/title",
+      "value": "Dialog {quotedDiscussionTitle}"
+    },
+    {
       "key": "discussion/meta/focus/title",
-      "value": "{authorName} in «{discussionTitle}»"
+      "value": "{authorName} in {quotedDiscussionTitle}"
     },
     {
       "key": "discussion/missing",

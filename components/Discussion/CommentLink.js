@@ -49,18 +49,18 @@ const CommentLink = ({
   discussion,
   ...props
 }) => {
-  if (displayAuthor && displayAuthor.slug) {
+  if (displayAuthor) {
     /*
      * If the slug is not available, it means the profile is not accessible.
      */
-    return (
-      <Link {...props}
-        route='profile'
-        params={{ slug: displayAuthor.slug }} />
-    )
-  }
-
-  if (discussion) {
+    if (displayAuthor.slug) {
+      return (
+        <Link {...props}
+          route='profile'
+          params={{ slug: displayAuthor.slug }} />
+      )
+    }
+  } else if (discussion) {
     const focusRoute = getFocusRoute(discussion, commentId)
     if (focusRoute) {
       return <Link {...props} route={focusRoute.route} params={focusRoute.params} />

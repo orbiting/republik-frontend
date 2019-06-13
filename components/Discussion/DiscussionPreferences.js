@@ -46,8 +46,8 @@ export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loa
 
 DiscussionPreferences.propTypes = {
   discussionId: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
+  discussionPreferences: PropTypes.object.isRequired,
   setDiscussionPreferences: PropTypes.func.isRequired
 }
 

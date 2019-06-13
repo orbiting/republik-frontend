@@ -16,6 +16,7 @@ import { withDiscussionComments } from './graphql/enhancers/withDiscussionCommen
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
+import CommentLink, { getFocusUrl } from './CommentLink'
 
 import {
   Loader,
@@ -29,8 +30,6 @@ import {
   inQuotes
 } from '@project-r/styleguide'
 
-import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
-import { routes, Link, matchPath } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
 
@@ -58,45 +57,6 @@ const styles = {
   emptyDiscussion: css({
     margin: '20px 0'
   })
-}
-
-const getFocusRoute = (discussion, commentId) => {
-  if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
-    return {
-      route: 'discussion',
-      params: { t: 'general', focus: commentId }
-    }
-  } else if (
-    discussion.document &&
-    discussion.document.meta &&
-    discussion.document.meta.template === 'article' &&
-    discussion.document.meta.ownDiscussion &&
-    discussion.document.meta.ownDiscussion.id === discussion.id
-  ) {
-    return {
-      route: 'discussion',
-      params: { t: 'article', id: discussion.id, focus: commentId }
-    }
-  } else if (discussion.path) {
-    const result = matchPath(discussion.path)
-    if (result) {
-      return {
-        route: result.route,
-        params: { ...result.params, focus: commentId }
-      }
-    }
-  }
-}
-
-const getFocusUrl = (discussion, commentId) => {
-  const focusRoute = getFocusRoute(discussion, commentId)
-  if (focusRoute) {
-    return `${PUBLIC_BASE_URL}${
-      routes
-        .find(r => r.name === focusRoute.route)
-        .getAs(focusRoute.params)
-    }`
-  }
 }
 
 const Comments = props => {
@@ -319,23 +279,10 @@ const Comments = props => {
 
           links: {
             Profile: ({ displayAuthor, ...props }) => {
-              /*
-               * If the username is not available, it means the profile is not public.
-               */
-              if (displayAuthor.username) {
-                return <Link route='profile' params={{ slug: displayAuthor.username }} {...props} />
-              } else {
-                return <React.Fragment children={props.children} />
-              }
+              return <CommentLink {...props} displayAuthor={displayAuthor} />
             },
             Comment: ({ comment, ...props }) => {
-              const focusRoute = getFocusRoute(discussion, comment.id)
-              if (focusRoute) {
-                return <Link route={focusRoute.route} params={focusRoute.params} {...props} />
-              } else {
-                /* XXX: When does this happen? */
-                return <React.Fragment children={props.children} />
-              }
+              return <CommentLink {...props} discussion={discussion} commentId={comment.id} />
             }
           },
           composerSecondaryActions: <SecondaryActions />

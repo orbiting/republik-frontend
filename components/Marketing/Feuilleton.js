@@ -44,7 +44,7 @@ query feuilletonMarketingPage {
     user {
       id
       portrait
-      username
+      slug
     }
   }
   faqs {

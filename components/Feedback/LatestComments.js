@@ -5,12 +5,11 @@ import { withComments } from './enhancers'
 import withT from '../../lib/withT'
 import timeago from '../../lib/timeago'
 
-import { Link } from '../../lib/routes'
-import PathLink from '../Link/Path'
-
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
 import { CommentTeaser, Loader, fontStyles, linkRule } from '@project-r/styleguide'
+
+import CommentLink from '../Discussion/CommentLink'
 
 const styles = {
   button: css({
@@ -24,74 +23,6 @@ const styles = {
     margin: '0 auto 0',
     display: 'block'
   })
-}
-
-export const CommentLink = ({
-  displayAuthor,
-  commentId,
-  children,
-  discussion
-}) => {
-  let tab
-  if (discussion) {
-    if (discussion.document) {
-      const meta = discussion.document.meta || {}
-      const ownDiscussion = meta.ownDiscussion && (!meta.ownDiscussion.closed || (meta.ownDiscussion.comments && meta.ownDiscussion.comment.totalCount > 0))
-      const template = meta.template
-      tab = ownDiscussion && template === 'article' && 'article'
-    } else {
-      tab = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID && 'general'
-    }
-  }
-  if (displayAuthor && displayAuthor.username) {
-    return (
-      <Link
-        route='profile'
-        params={{ slug: displayAuthor.username }}
-      >
-        {children}
-      </Link>
-    )
-  }
-  if (tab) {
-    return (
-      <Link
-        route='discussion'
-        params={{ t: tab, id: discussion ? discussion.id : undefined, focus: commentId }}
-        passHref
-      >
-        {children}
-      </Link>
-    )
-  }
-  if (discussion) {
-    const focus = commentId
-    const path = discussion.document &&
-      discussion.document.meta &&
-      discussion.document.meta.path
-      ? discussion.document.meta.path
-      : discussion.path
-    if (path) {
-      return (
-        <PathLink
-          path={path}
-          query={{ focus }}
-          passHref
-        >
-          {children}
-        </PathLink>
-      )
-    }
-    return (
-      <Link
-        route='discussion'
-        params={{ id: discussion.id, focus }}
-      >
-        {children}
-      </Link>
-    )
-  }
-  return children
 }
 
 class LatestComments extends Component {

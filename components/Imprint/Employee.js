@@ -3,13 +3,11 @@ import { Link } from '../../lib/routes'
 
 import { Item } from '../../components/Testimonial/List'
 
-const ProfileLink = ({ children, username }) => {
+const ProfileLink = ({ children, slug }) => {
   return (
     <Link
       route='profile'
-      params={{
-        slug: username
-      }}
+      params={{ slug }}
       passHref
     >
       {children}
@@ -23,12 +21,12 @@ const Employee = ({ name, title, user, style, minColumns, maxColumns }) => {
   if (!user) {
     return <Item name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
-  const { portrait, username } = user
-  if (!username) {
+  const { portrait, slug } = user
+  if (!slug) {
     return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
   return (
-    <ProfileLink username={username}>
+    <ProfileLink slug={slug}>
       <Item image={portrait} name={displayName} style={style} {...columnProps} />
     </ProfileLink>
   )

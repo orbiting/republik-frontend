@@ -110,7 +110,7 @@ query getComments(
         displayAuthor {
           id
           name
-          username
+          slug
           credential {
             description
             verified

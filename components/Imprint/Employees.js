@@ -62,7 +62,7 @@ const getEmployees = gql`
       user {
         id
         portrait
-        username
+        slug
       }
     }
   }

@@ -33,7 +33,7 @@ query AboutPage {
     user {
       id
       portrait
-      username
+      slug
     }
   }
   mediaResponses {

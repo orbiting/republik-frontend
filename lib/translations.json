@@ -2076,7 +2076,7 @@
     },
     {
       "key": "timeduration/seconds",
-      "value": "vor {count} s"
+      "value": "vor {count} s"
     },
     {
       "key": "timeduration/minutes",

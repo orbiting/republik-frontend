@@ -52,14 +52,17 @@ const Overview = compose(
   withT,
   withRouter,
   graphql(query, {
-    props: ({ data, ownProps: { router: { query: { slug } }, t } }) => {
+    props: ({ data, ownProps: { router: { query: { slug } } } }) => {
       const error = data.error
-      const events = data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
+      const events =
+        data.events &&
+        data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
       let event
 
       if (slug && events && !error) {
         event = events.find(event => event.slug === slug) || 404
       }
+
       return {
         loading: data.loading,
         events,

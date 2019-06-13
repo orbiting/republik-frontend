@@ -1,26 +1,25 @@
 import React from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { withRouter } from 'next/router'
-import { timeDay } from 'd3-time'
-import { Link } from '../../lib/routes'
+
+import { ascending, descending } from 'd3-array'
 import { css } from 'glamor'
-
-import Loader from '../Loader'
-import Meta from '../Frame/Meta'
-import { Content } from '../Frame'
-
-import withT from '../../lib/withT'
-import StatusError from '../StatusError'
-import { parseDate } from '../../lib/utils/format'
+import { timeDay } from 'd3-time'
+import { withRouter } from 'next/router'
 
 import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
 
-import { CONTENT_PADDING } from '../constants'
-
-import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
-
+import { Content } from '../Frame'
+import { Link } from '../../lib/routes'
+import { parseDate } from '../../lib/utils/format'
 import Event from './Detail'
+import Loader from '../Loader'
+import Meta from '../Frame/Meta'
+import StatusError from '../StatusError'
+import withT from '../../lib/withT'
+
+import { CONTENT_PADDING } from '../constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 const { H3 } = Interaction
 
@@ -55,15 +54,19 @@ const Overview = compose(
   graphql(query, {
     props: ({ data, ownProps: { router: { query: { slug } }, t } }) => {
       const error = data.error
+      const events =
+        data.events &&
+        data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
       let event
-      if (slug && data.events && !error) {
-        event = data.events.find(event => event.slug === slug) || 404
+
+      if (slug && events && !error) {
+        event = events.find(event => event.slug === slug) || 404
       }
       return {
         loading: data.loading,
-        events: data.events,
-        error,
-        event
+        events,
+        event,
+        error
       }
     }
   })
@@ -101,12 +104,13 @@ const Overview = compose(
       }
 
       const today = timeDay.floor(new Date())
-      const upcoming = events.filter(event => {
-        return today <= parseDate(event.date)
-      })
-      const past = events.filter(event => {
-        return today > parseDate(event.date)
-      })
+      const upcoming = events
+        .filter(event => today <= event.__parsedDate)
+        .sort((a, b) => ascending(a.__parsedDate, b.__parsedDate))
+      const past = events
+        .filter(event => today > event.__parsedDate)
+        .sort((a, b) => descending(a.__parsedDate, b.__parsedDate))
+
       return (
         <NarrowContainer>
           <Content>

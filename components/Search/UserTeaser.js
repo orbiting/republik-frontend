@@ -58,7 +58,7 @@ const styles = {
     }
   }),
   verifiedCheck: css({
-    color: colors.text,
+    color: colors.primary,
     flexShrink: 0,
     display: 'inline-block',
     marginLeft: 4,
@@ -70,11 +70,11 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({ id, username, firstName, lastName, credentials, portrait }) => {
+export const UserTeaser = ({ id, slug, firstName, lastName, credentials, portrait }) => {
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
-      {portrait && <Link route='profile' params={{ slug: username || id }}>
+      {portrait && <Link route='profile' params={{ slug: slug || id }}>
         <a {...styles.link}>
           <img
             {...styles.profilePicture}
@@ -85,7 +85,7 @@ export const UserTeaser = ({ id, username, firstName, lastName, credentials, por
       </Link>}
       <div {...styles.meta}>
         <div {...styles.name}>
-          <Link route='profile' params={{ slug: username || id }}>
+          <Link route='profile' params={{ slug: slug || id }}>
             <a {...styles.link}>{firstName} {lastName}</a>
           </Link>
         </div>

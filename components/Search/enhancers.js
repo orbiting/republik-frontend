@@ -78,7 +78,7 @@ query getSearchResults(
           displayAuthor {
             id
             name
-            username
+            slug
             profilePicture
             credential {
               description
@@ -109,7 +109,7 @@ query getSearchResults(
         }
         ... on User {
           id
-          username
+          slug
           firstName
           lastName
           credentials {

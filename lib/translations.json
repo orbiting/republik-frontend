@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-12T08:21:20.490Z",
+  "updated": "2019-06-12T15:45:21.500Z",
   "title": "live",
   "data": [
     {
@@ -1360,7 +1360,7 @@
     },
     {
       "key": "profile/private",
-      "value": "Diese Profilseite ist nur für Mitglieder der Republik sichtbar."
+      "value": "Privates Profil: Nur für Sie und andere Mitglieder und Abonnentinnen sichtbar."
     },
     {
       "key": "profile/username/label",
@@ -1755,8 +1755,12 @@
       "value": "Noch keine Beiträge in dieser Diskussion."
     },
     {
+      "key": "discussion/meta/title",
+      "value": "Dialog {quotedDiscussionTitle}"
+    },
+    {
       "key": "discussion/meta/focus/title",
-      "value": "{authorName} in «{discussionTitle}»"
+      "value": "{authorName} in {quotedDiscussionTitle}"
     },
     {
       "key": "discussion/missing",
@@ -2072,7 +2076,7 @@
     },
     {
       "key": "timeduration/seconds",
-      "value": "vor {count} s"
+      "value": "vor {count} s"
     },
     {
       "key": "timeduration/minutes",

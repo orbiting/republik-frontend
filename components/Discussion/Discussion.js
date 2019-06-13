@@ -48,7 +48,6 @@ const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => 
           orderBy={orderBy}
           now={now}
           meta={meta}
-          sharePath={sharePath}
           setOrderBy={setOrderBy}
         />
       </div>

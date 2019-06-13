@@ -596,8 +596,7 @@ class ArticlePage extends Component {
                 <Discussion
                   discussionId={ownDiscussion.id}
                   focusId={router.query.focus}
-                  mute={!!router.query.mute}
-                  meta={meta} />
+                  mute={!!router.query.mute} />
               </Center>}
               {isMember && (
                 <Fragment>

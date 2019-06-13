@@ -5,7 +5,7 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { Router, cleanAsPath } from '../../lib/routes'
+import { Router } from '../../lib/routes'
 import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import Loader from '../Loader'
@@ -40,12 +40,6 @@ const StatusError = ({ statusCode, t, loading, children }) => (
   )} />
 )
 
-const redirectionPathWithQuery = [
-  '/pledge',
-  '/notifications',
-  '/merci'
-]
-
 export default compose(
   withT,
   withInNativeApp,
@@ -54,7 +48,7 @@ export default compose(
     skip: props => props.statusCode !== 404 || !props.router.asPath,
     options: ({ router: { asPath } }) => ({
       variables: {
-        path: cleanAsPath(asPath)
+        path: asPath.split('#')[0]
       }
     }),
     props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, inNativeIOSApp, me } }) => {
@@ -66,9 +60,7 @@ export default compose(
       let loading = data.loading
 
       if (redirection) {
-        const [pathname, query] = router.asPath.split('?')
-        const withQuery = query && redirectionPathWithQuery.indexOf(pathname) !== -1
-        const target = `${redirection.target}${withQuery ? `?${query}` : ''}`
+        const { target, status } = redirection
         const targetIsExternal = target.startsWith('http') && !target.startsWith(PUBLIC_BASE_URL)
         const restrictedIOSPath = inNativeIOSApp && target.match(/^\/angebote(\?|$)/)
 
@@ -77,7 +69,7 @@ export default compose(
         if (serverContext) {
           if (!inNativeApp || (!targetIsExternal && !restrictedIOSPath)) {
             serverContext.res.redirect(
-              redirection.status || 302,
+              status || 302,
               target
             )
             serverContext.res.end()
@@ -91,7 +83,7 @@ export default compose(
               window.location = target
             }
           }
-          if (redirection.status === 301) {
+          if (status === 301) {
             Router.replaceRoute(clientTarget).then(afterRouting)
           } else {
             Router.pushRoute(clientTarget).then(afterRouting)

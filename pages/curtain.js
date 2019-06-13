@@ -9,15 +9,31 @@ import {
 
 import { SPACE } from '../components/Frame/PureFooter'
 
+import { parseJSONObject } from '../lib/safeJSON'
 import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL, CURTAIN_MESSAGE
+  PUBLIC_BASE_URL,
+  CDN_FRONTEND_BASE_URL,
+  CURTAIN_MESSAGE,
+  CURTAIN_META,
+  CURTAIN_COLORS
 } from '../lib/constants'
+
+const colors = {
+  color: '#fff',
+  backgroundColor: '#000',
+  ...parseJSONObject(CURTAIN_COLORS)
+}
 
 const styles = {
   container: css({
-    backgroundColor: '#000',
-    color: '#fff',
-    minHeight: '100vh'
+    ...colors,
+    minHeight: '100vh',
+    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased',
+    '& ::selection': {
+      color: colors.backgroundColor,
+      backgroundColor: colors.color
+    }
   }),
   logoContainer: css({
     textAlign: 'center',
@@ -30,20 +46,16 @@ const styles = {
       paddingTop: SPACE * 2
     }
   }),
-  whiteOnBlack: css({
-    textRendering: 'optimizeLegibility',
-    WebkitFontSmoothing: 'antialiased',
-    '& ::selection': {
-      color: '#000',
-      backgroundColor: '#fff'
-    }
-  }),
   message: css({
-    color: '#fff',
     textAlign: 'center',
     ...fontStyles.sansSerifRegular21,
     padding: 10,
-    marginTop: 40
+    marginTop: 40,
+    '& a': {
+      color: colors.color,
+      textDecoration: 'underline',
+      textDecorationSkip: 'ink'
+    }
   })
 }
 
@@ -52,6 +64,7 @@ export default withRouter(({ router }) => {
     title: 'Republik',
     description: CURTAIN_MESSAGE,
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
+    ...parseJSONObject(CURTAIN_META),
     url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
 
@@ -70,15 +83,15 @@ export default withRouter(({ router }) => {
         <meta name='twitter:creator' content='@RepublikMagazin' />
       </Head>
       <NarrowContainer>
-        <div {...styles.whiteOnBlack}>
-          <div {...styles.logoContainer}>
-            <Logo fill='#fff' />
-          </div>
-
-          <div {...styles.message}>
-            {CURTAIN_MESSAGE}
-          </div>
+        <div {...styles.logoContainer}>
+          <Logo fill={colors.color} />
         </div>
+
+        <div {...styles.message}
+          dangerouslySetInnerHTML={{
+            __html: CURTAIN_MESSAGE
+          }} />
+
       </NarrowContainer>
     </div>
   )

@@ -17,7 +17,6 @@ import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
 import GalleryIcon from 'react-icons/lib/md/filter'
 import LinkIcon from './Icons/Web'
-import MarkdownIcon from 'react-icons/lib/go/markdown'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
@@ -25,6 +24,8 @@ import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
 import KeyIcon from 'react-icons/lib/fa/key'
 import VideoIcon from './Icons/Video'
+import MarkdownIcon from './Icons/Markdown'
+import EtiquetteIcon from './Icons/Etiquette'
 
 const DEFAULT_SIZE = 24
 const DEFAULT_PADDING = 5
@@ -108,7 +109,8 @@ const ICONS = {
   pdf: PdfIcon,
   gallery: GalleryIcon,
   time: TimeIcon,
-  video: VideoIcon
+  video: VideoIcon,
+  etiquette: EtiquetteIcon
 }
 
 const IconLink = ({

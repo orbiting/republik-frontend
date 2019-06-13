@@ -1,111 +1,59 @@
-import React, { Fragment, PureComponent } from 'react'
-import { css } from 'glamor'
-import withT from '../../lib/withT'
-import { A, colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import React from 'react'
 
 import DiscussionCommentComposer from './DiscussionCommentComposer'
 import NotificationOptions from './NotificationOptions'
 import Comments from './Comments'
 
-const styles = {
-  orderByContainer: css({
-    margin: '20px 0'
-  }),
-  orderBy: css({
-    ...fontStyles.sansSerifRegular16,
-    outline: 'none',
-    color: colors.text,
-    WebkitAppearance: 'none',
-    background: 'transparent',
-    border: 'none',
-    padding: '0',
-    cursor: 'pointer',
-    marginRight: '20px',
-    [mediaQueries.mUp]: {
-      marginRight: '40px'
-    }
-  }),
-  selectedOrderBy: css({
-    textDecoration: 'underline'
-  })
-}
+const depth = 3
+const parentId = null
 
-class Discussion extends PureComponent {
-  constructor (props) {
-    super(props)
+const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => {
+  /*
+   * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
+   */
+  const [orderBy, setOrderBy] = React.useState('DATE')
 
-    this.state = {
-      orderBy: 'DATE', // DiscussionOrder
-      reload: 0,
-      now: Date.now()
-    }
-  }
-
-  componentDidMount () {
-    this.intervalId = setInterval(() => {
-      this.setState({ now: Date.now() })
+  /*
+   * This component manages the 'current time'. It is incremented in descrete intervals
+   * and the time is passed down to all child components.
+   */
+  const [now, setNow] = React.useState(Date.now())
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setNow(Date.now())
     }, 30 * 1000)
-  }
+    return () => clearInterval(intervalId)
+  }, [setNow])
 
-  componentWillUnmount () {
-    clearInterval(this.intervalId)
-  }
+  return (
+    <div data-discussion-id={discussionId}>
+      <DiscussionCommentComposer
+        discussionId={discussionId}
+        orderBy={orderBy}
+        focusId={focusId}
+        depth={depth}
+        parentId={parentId}
+        now={now}
+      />
 
-  render () {
-    const { t, discussionId, focusId = null, mute, meta, sharePath } = this.props
-    const { orderBy, reload, now } = this.state
+      <NotificationOptions discussionId={discussionId} mute={mute} />
 
-    const OrderBy = ({ children, value }) => (
-      <button {...styles.orderBy} {...(orderBy === value ? styles.selectedOrderBy : {})} onClick={() => {
-        this.setState({ orderBy: value })
-      }}>
-        {t(`components/Discussion/OrderBy/${value}`)}
-      </button>
-    )
-
-    return (
-      <Fragment>
-        <div data-discussion-id={discussionId}>
-          <DiscussionCommentComposer
-            discussionId={discussionId}
-            orderBy={orderBy}
-            focusId={focusId}
-            depth={1}
-            parentId={null}
-            now={now}
-          />
-
-          <NotificationOptions discussionId={discussionId} mute={mute} />
-
-          <div {...styles.orderByContainer}>
-            <OrderBy value='DATE' />
-            <OrderBy value='VOTES' />
-            <OrderBy value='REPLIES' />
-            <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={(e) => {
-              e.preventDefault()
-              this.setState(({ reload }) => ({ reload: reload + 1 }))
-            }}>
-              {t('components/Discussion/reload')}
-            </A>
-            <br style={{ clear: 'both' }} />
-          </div>
-
-          <Comments
-            depth={1}
-            key={orderBy}
-            discussionId={discussionId}
-            focusId={focusId}
-            parentId={null}
-            reload={reload}
-            orderBy={orderBy}
-            now={now}
-            meta={meta}
-            sharePath={sharePath}
-          />
-        </div>
-      </Fragment>
-    )
-  }
+      <div style={{ margin: '20px 0' }}>
+        <Comments
+          key={orderBy /* To remount of the whole component on change */}
+          discussionId={discussionId}
+          focusId={focusId}
+          depth={depth}
+          parentId={parentId}
+          orderBy={orderBy}
+          now={now}
+          meta={meta}
+          sharePath={sharePath}
+          setOrderBy={setOrderBy}
+        />
+      </div>
+    </div>
+  )
 }
 
-export default withT(Discussion)
+export default Discussion

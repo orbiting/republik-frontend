@@ -43,7 +43,6 @@ query feuilletonMarketingPage {
     subgroup
     user {
       id
-      hasPublicProfile
       portrait
       username
     }

@@ -9,19 +9,17 @@ import { isWebUri } from 'valid-url'
 import IconLink from '../IconLink'
 import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
-import UsernameField from './UsernameField'
 import { DEFAULT_VALUES } from './Page'
 
 import {
   Dropdown,
   Label,
-  Interaction,
-  Checkbox
+  Interaction
 } from '@project-r/styleguide'
 
 const styles = {
   icons: css({
-    padding: '15px 0'
+    margin: '15px 0'
   })
 }
 
@@ -61,39 +59,6 @@ const AccessRoleDropdown = ({ t, ...props }) => (
 const Contact = ({ user, isEditing, onChange, values, errors, dirty, t, inNativeIOSApp }) => {
   if (isEditing) {
     return <Fragment>
-      <br />
-      {user.isAdminUnlisted &&
-        <Label>
-          {t('profile/contact/isAdminUnlisted/note')}
-          <br /><br />
-        </Label>
-      }
-      <div style={{ opacity: user.isAdminUnlisted ? 0.5 : 1 }}>
-        <Checkbox
-          checked={values.isListed}
-          disabled={(
-            !(
-              (user.statement || values.statement) &&
-              (user.portrait || values.portrait)
-            )
-          )}
-          onChange={(_, checked) => {
-            onChange({
-              values: {
-                isListed: checked
-              }
-            })
-          }}
-        >
-          {t('profile/contact/isListed/label')}
-        </Checkbox>
-      </div>
-      <br /><br />
-      <UsernameField
-        user={user}
-        values={values}
-        errors={errors}
-        onChange={onChange} />
       <FieldSet
         values={values}
         errors={errors}

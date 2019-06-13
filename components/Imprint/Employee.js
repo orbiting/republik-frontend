@@ -3,15 +3,12 @@ import { Link } from '../../lib/routes'
 
 import { Item } from '../../components/Testimonial/List'
 
-const ProfileLink = ({ children, userId, username }) => {
-  if (!userId && !username) {
-    return children
-  }
+const ProfileLink = ({ children, username }) => {
   return (
     <Link
       route='profile'
       params={{
-        slug: `${username || userId}`
+        slug: username
       }}
       passHref
     >
@@ -26,12 +23,12 @@ const Employee = ({ name, title, user, style, minColumns, maxColumns }) => {
   if (!user) {
     return <Item name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
-  const { id, hasPublicProfile, portrait, username } = user
-  if (!hasPublicProfile) {
+  const { portrait, username } = user
+  if (!username) {
     return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
   }
   return (
-    <ProfileLink userId={id} username={username}>
+    <ProfileLink username={username}>
       <Item image={portrait} name={displayName} style={style} {...columnProps} />
     </ProfileLink>
   )

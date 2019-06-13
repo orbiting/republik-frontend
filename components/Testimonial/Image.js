@@ -79,7 +79,7 @@ const query = gql`query aSequence($sequenceNumber: Int!, $orderDirection: OrderD
     id
     sequenceNumber
     name
-    portrait(size: SHARE)
+    portrait(properties: {width: 1920, height: 1920})
   }
 }`
 

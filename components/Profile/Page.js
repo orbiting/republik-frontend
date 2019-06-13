@@ -340,7 +340,7 @@ class Profile extends Component {
     } = this.props
 
     const metaData = {
-      image: user && user.isListed
+      image: user && user.portrait
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
       title: user
@@ -408,7 +408,7 @@ class Profile extends Component {
                         dirty={dirty} />
                     </div>
                     <div {...styles.headInfo}>
-                      {!!user.isListed &&
+                      {!!user.hasPublicProfile &&
                       <span {...styles.headInfoShare}>
                         <ActionBar
                           title={t('profile/share/title', { name: user.name })}

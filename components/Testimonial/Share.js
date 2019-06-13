@@ -116,6 +116,13 @@ const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, 
 
 const query = gql`
 query statements($focus: String!) {
+  user(slug: $focus) {
+    id
+    name
+    statement
+    portrait
+    sequenceNumber
+  }
   statements(focus: $focus, first: 1) {
     totalCount
     nodes {
@@ -135,9 +142,11 @@ export default compose(
       return ({
         loading: data.loading,
         error: data.error,
-        statement: data.statements &&
-          data.statements.nodes &&
-          data.statements.nodes[0]
+        statement: data.user
+          ? data.user
+          : data.statements &&
+            data.statements.nodes &&
+            data.statements.nodes[0]
       })
     }
   })

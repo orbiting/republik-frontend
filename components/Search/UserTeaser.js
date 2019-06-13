@@ -58,7 +58,7 @@ const styles = {
     }
   }),
   verifiedCheck: css({
-    color: colors.text,
+    color: colors.primary,
     flexShrink: 0,
     display: 'inline-block',
     marginLeft: 4,

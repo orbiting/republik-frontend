@@ -65,7 +65,7 @@ export default withRouter(({ router }) => {
     description: CURTAIN_MESSAGE,
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
     ...parseJSONObject(CURTAIN_META),
-    url: `${PUBLIC_BASE_URL}${router.pathname}`
+    url: `${PUBLIC_BASE_URL}${router.asPath.split('#')[0]}`
   }
 
   return (

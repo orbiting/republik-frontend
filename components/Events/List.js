@@ -54,9 +54,7 @@ const Overview = compose(
   graphql(query, {
     props: ({ data, ownProps: { router: { query: { slug } }, t } }) => {
       const error = data.error
-      const events =
-        data.events &&
-        data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
+      const events = data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
       let event
 
       if (slug && events && !error) {

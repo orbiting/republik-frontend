@@ -71,7 +71,7 @@ export default withRouter(({ router }) => {
   return (
     <div {...styles.container}>
       <Head>
-        <title>Republik</title>
+        <title>{meta.title}</title>
         <meta name='description' content={meta.description} />
         <meta property='og:type' content='website' />
         <meta property='og:url' content={meta.url} />

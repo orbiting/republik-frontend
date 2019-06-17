@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-17T13:28:29.323Z",
+  "updated": "2019-06-17T14:50:51.230Z",
   "title": "live",
   "data": [
     {
@@ -3484,7 +3484,7 @@
     },
     {
       "key": "memberships/claim/addendum",
-      "value": "Wir schützen Ihre Privatsphäre. Wenn wir Informationen weitergeben, zeigen wir das an. In diesem Fall: Die Herausgeberin des Gutscheins wird einsehen können, dass Sie den Gutschein eingelöst haben."
+      "value": "Wir schützen Ihre Privatsphäre. Wenn wir Informationen weitergeben, zeigen wir das an. In diesem Fall: Die Herausgeberin des Gutscheins wird sehen können, dass Sie den Gutschein eingelöst haben."
     },
     {
       "key": "memberships/claim/button",

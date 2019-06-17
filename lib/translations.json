@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-12T15:45:21.500Z",
+  "updated": "2019-06-17T09:04:52.168Z",
   "title": "live",
   "data": [
     {
@@ -136,19 +136,11 @@
     },
     {
       "key": "pages/claim/meta/title",
-      "value": "Gutscheincode einlösen"
+      "value": "Gutschein einlösen"
     },
     {
       "key": "pages/claim/meta/description",
-      "value": "Lösen Sie hier Ihren Gutscheincode ein."
-    },
-    {
-      "key": "pages/claim/access/meta/title",
-      "value": "Gutscheincode einlösen (Zugriff teilen)"
-    },
-    {
-      "key": "pages/claim/access/meta/description",
-      "value": "Mit Ihrem Gutscheincode den geteilten Zugriff aktivieren."
+      "value": "Lösen Sie hier Ihren Gutschein ein."
     },
     {
       "key": "Frame/Popover/myaccount",
@@ -207,6 +199,14 @@
       "value": "Die Nutzung der App erfordert eine Mitgliedschaft oder ein Abo bei der Republik. "
     },
     {
+      "key": "withMembership/ios/unauthorized/claimText",
+      "value": "Sie haben einen Gutschein? {claimLink}."
+    },
+    {
+      "key": "withMembership/ios/unauthorized/claimLink",
+      "value": "Gutschein einlösen"
+    },
+    {
       "key": "signIn/button",
       "value": "Anmelden"
     },
@@ -236,7 +236,7 @@
     },
     {
       "key": "signIn/polling/APP/text",
-      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Benachrichtigung</b> geschickt. Bitte prüfen Sie Ihr Smartphone oder Tablet."
+      "value": "Wir haben Ihnen auf Ihre Republik-App <b>eine Benachrichtigung</b> geschickt. Bitte prüfen Sie Ihr Smartphone oder Tablet. Schliessen Sie diese Seite nicht."
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/title",
@@ -244,7 +244,7 @@
     },
     {
       "key": "signIn/polling/EMAIL_TOKEN/text",
-      "value": "Wir haben Ihnen <b>eine E-Mail</b> geschickt, mit der Sie diesen Zugriff freischalten können."
+      "value": "Wir haben Ihnen <b>eine E-Mail</b> geschickt, mit der Sie diesen Zugriff freischalten können. Schliessen Sie diese Seite nicht."
     },
     {
       "key": "signIn/polling/switch/APP",
@@ -343,6 +343,14 @@
       "value": "Jetzt anmelden"
     },
     {
+      "key": "marketing/claim",
+      "value": "Sie haben einen Gutschein? {claimLink}"
+    },
+    {
+      "key": "marketing/claim/link",
+      "value": "Gutschein einlösen"
+    },
+    {
       "key": "marketing/overview/title",
       "value": "{count} Produktionen"
     },
@@ -436,7 +444,7 @@
     },
     {
       "key": "marketing/offers/claim",
-      "value": "Gutscheincode einlösen"
+      "value": "Gutschein einlösen"
     },
     {
       "key": "marketing/feuilleton/title",
@@ -769,6 +777,18 @@
     {
       "key": "Account/noActiveMembership/solution4",
       "value": "{solution} {pledgeLink}"
+    },
+    {
+      "key": "Account/noActiveMembership/issue5",
+      "value": "Sie haben einen uneingelösten Gutschein zur Hand."
+    },
+    {
+      "key": "Account/noActiveMembership/solution5",
+      "value": "{solution} Sie können {claimLink}."
+    },
+    {
+      "key": "Account/noActiveMembership/claimLink",
+      "value": "den Gutschein jetzt einlösen"
     },
     {
       "key": "Account/noActiveMembership/after",
@@ -1604,7 +1624,7 @@
     },
     {
       "key": "footer/me/claim",
-      "value": "Gutscheincode einlösen"
+      "value": "Gutschein einlösen"
     },
     {
       "key": "footer/me/share",
@@ -3448,7 +3468,7 @@
     },
     {
       "key": "memberships/claim/lead",
-      "value": "Willkommen an Bord! Hier können Sie Ihren Gutscheincode einlösen."
+      "value": "Gutschein einlösen"
     },
     {
       "key": "memberships/claim/voucherCode/label",
@@ -3461,6 +3481,10 @@
     {
       "key": "memberships/claim/voucherCode/label/error/unrecognized",
       "value": "Gutscheincode nicht erkannt"
+    },
+    {
+      "key": "memberships/claim/addendum",
+      "value": "Wir schützen Ihre Privatsphäre. Wenn wir Informationen weitergeben, zeigen wir das an. In diesem Fall: Die Herausgeberin des Gutscheins wird einsehen können, dass Sie den Gutschein eingelöst haben."
     },
     {
       "key": "memberships/claim/button",

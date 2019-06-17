@@ -238,6 +238,11 @@ class ClaimMembership extends Component {
       'memberships/claim/body'
     ], {}, false)
 
+    const contextAddendum = t.first([
+      `memberships/claim/${context}/addendum`,
+      'memberships/claim/addendum'
+    ], {}, false)
+
     if (polling) {
       return (
         <Poller
@@ -320,6 +325,13 @@ class ClaimMembership extends Component {
           onChange={(_, value, shouldValidate) => {
             this.handleVoucherCode(value, shouldValidate, t)
           }} />
+        <br />
+        <br />
+        {contextAddendum &&
+          <RawHtml type={P} dangerouslySetInnerHTML={{
+            __html: contextAddendum
+          }} />
+        }
         <br />
         <br />
         {!!this.state.showErrors && errorMessages.length > 0 && (

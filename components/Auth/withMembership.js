@@ -9,7 +9,7 @@ import Frame from '../Frame'
 import SignIn from './SignIn'
 import Me from './Me'
 
-import { Interaction, linkRule } from '@project-r/styleguide'
+import { Interaction, Editorial, linkRule } from '@project-r/styleguide'
 
 import withAuthorization, { PageCenter } from './withAuthorization'
 import { withMembership } from './checkRoles'
@@ -27,14 +27,40 @@ export const UnauthorizedMessage = compose(
         <br />
         <Me
           beforeSignedInAs={(
-            <Interaction.P style={{ marginBottom: 20 }}>
-              {t('withMembership/ios/unauthorized/noMembership')}
-            </Interaction.P>
+            <Fragment>
+              <Interaction.P style={{ marginBottom: 20 }}>
+                {t('withMembership/ios/unauthorized/noMembership')}
+              </Interaction.P>
+              <Interaction.P style={{ marginBottom: 20 }}>
+                {t.elements('withMembership/ios/unauthorized/claimText', {
+                  claimLink: (
+                    <Link route='claim' key='claim' passHref>
+                      <Editorial.A>
+                        {t('withMembership/ios/unauthorized/claimLink')}
+                      </Editorial.A>
+                    </Link>
+                  )
+                })}
+              </Interaction.P>
+            </Fragment>
           )}
           beforeSignInForm={(
-            <Interaction.P style={{ marginBottom: 20 }}>
-              {t('withMembership/ios/unauthorized/signIn')}
-            </Interaction.P>
+            <Fragment>
+              <Interaction.P style={{ marginBottom: 20 }}>
+                {t('withMembership/ios/unauthorized/signIn')}
+              </Interaction.P>
+              <Interaction.P>
+                {t.elements('withMembership/ios/unauthorized/claimText', {
+                  claimLink: (
+                    <Link route='claim' key='claim' passHref>
+                      <Editorial.A>
+                        {t('withMembership/ios/unauthorized/claimLink')}
+                      </Editorial.A>
+                    </Link>
+                  )
+                })}
+              </Interaction.P>
+            </Fragment>
           )} />
       </Fragment>
     )

@@ -24,6 +24,7 @@ import {
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 import { A, P } from '../Overview/Elements'
+import UserGuidance from '../Account/UserGuidance'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -32,6 +33,15 @@ import ErrorMessage from '../ErrorMessage'
 
 const query = gql`
 query marketingMembershipStats {
+  me {
+    id
+    memberships {
+      id
+    }
+    accessGrants {
+      id
+    }
+  }
   membershipStats {
     count
   }
@@ -100,10 +110,16 @@ class MarketingPage extends Component {
     this.onHighlight = highlight => this.setState({ highlight })
   }
   render () {
-    const { t, data: { loading, error, membershipStats, front, articles, statements, employees } } = this.props
+    const { t, data: { loading, error, me, membershipStats, front, articles, statements, employees } } = this.props
+
+    const hasMembershipOrAccessGrant = me && (
+      (me.memberships && me.memberships.length > 0) ||
+      (me.accessGrants && me.accessGrants.length > 0)
+    )
 
     return (
       <Fragment>
+        {!loading && me && !hasMembershipOrAccessGrant && <UserGuidance />}
         <div style={{ overflow: 'hidden' }}>
           <Container>
             <h1 {...sharedStyles.headline}>
@@ -135,7 +151,16 @@ class MarketingPage extends Component {
                   <a>{t('marketing/signin/link') }</a>
                 </Link>
                 }
-              )}
+              )}{' – '}
+              {t.elements('marketing/claim', {
+                claimLink: (
+                  <Link route='claim' key='claim' passHref>
+                    <Editorial.A>
+                      {t('marketing/claim/link')}
+                    </Editorial.A>
+                  </Link>
+                )
+              })}
             </div>
             {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
           </Container>

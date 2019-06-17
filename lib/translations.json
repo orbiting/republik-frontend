@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-17T09:04:52.168Z",
+  "updated": "2019-06-17T13:28:29.323Z",
   "title": "live",
   "data": [
     {
@@ -204,7 +204,7 @@
     },
     {
       "key": "withMembership/ios/unauthorized/claimLink",
-      "value": "Gutschein einlösen"
+      "value": "Jetzt einlösen"
     },
     {
       "key": "signIn/button",
@@ -348,7 +348,7 @@
     },
     {
       "key": "marketing/claim/link",
-      "value": "Gutschein einlösen"
+      "value": "Jetzt einlösen"
     },
     {
       "key": "marketing/overview/title",
@@ -780,7 +780,7 @@
     },
     {
       "key": "Account/noActiveMembership/issue5",
-      "value": "Sie haben einen uneingelösten Gutschein zur Hand."
+      "value": "Sie haben einen Gutschein, diesen aber noch nicht eingelöst."
     },
     {
       "key": "Account/noActiveMembership/solution5",

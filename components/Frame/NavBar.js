@@ -5,8 +5,6 @@ import { compose } from 'react-apollo'
 import withT from '../../lib/withT'
 import { Link, Router, matchPath } from '../../lib/routes'
 
-import { prefixHover } from '../../lib/utils/hover'
-
 import { colors, mediaQueries } from '@project-r/styleguide'
 
 import {
@@ -126,8 +124,10 @@ const styles = {
     ':visited': {
       color: colors.text
     },
-    [prefixHover()]: {
-      color: colors.primary
+    '@media (hover)': {
+      ':hover': {
+        color: colors.primary
+      }
     }
   }),
   linkDark: css({
@@ -135,8 +135,10 @@ const styles = {
     ':visited': {
       color: negativeColors.text
     },
-    [prefixHover()]: {
-      color: negativeColors.lightText
+    '@media (hover)': {
+      ':hover': {
+        color: negativeColors.lightText
+      }
     }
   }),
   linkFadedLight: css({
@@ -144,8 +146,10 @@ const styles = {
     ':visited': {
       color: colors.disabled
     },
-    [prefixHover()]: {
-      color: colors.primary
+    '@media (hover)': {
+      ':hover': {
+        color: colors.primary
+      }
     }
   }),
   linkFadedDark: css({
@@ -153,8 +157,10 @@ const styles = {
     ':visited': {
       color: colors.disabled
     },
-    [prefixHover()]: {
-      color: colors.lightText
+    '@media (hover)': {
+      ':hover': {
+        color: colors.lightText
+      }
     }
   })
 }

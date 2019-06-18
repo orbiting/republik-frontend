@@ -8,7 +8,6 @@ import SignOut from '../../Auth/SignOut'
 import { Link, matchPath, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
-import { prefixHover } from '../../../lib/utils/hover'
 
 import NavBar from '../NavBar'
 import { withMembership } from '../../Auth/checkRoles'
@@ -79,8 +78,10 @@ const styles = {
     ':visited': {
       color: colors.text
     },
-    [prefixHover()]: {
-      color: colors.primary
+    '@media (hover)': {
+      ':hover': {
+        color: colors.primary
+      }
     },
     cursor: 'pointer',
     [mediaQueries.mUp]: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter } from 'next/router'
 import { compose } from 'react-apollo'
 import SignIn from '../components/Auth/SignIn'
@@ -9,7 +9,8 @@ import withMe from '../lib/apollo/withMe'
 import withT from '../lib/withT'
 import withMembership from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
-import { Interaction } from '@project-r/styleguide'
+import { Link } from '../lib/routes'
+import { Interaction, Editorial } from '@project-r/styleguide'
 
 class SigninPage extends Component {
   componentDidMount () {
@@ -43,9 +44,24 @@ class SigninPage extends Component {
           {me
             ? <Loader loading />
             : <SignIn email={router.query.email} beforeForm={inNativeIOSApp
-              ? <Interaction.P style={{ marginBottom: 20 }}>
-                {t('withMembership/ios/unauthorized/signIn')}
-              </Interaction.P>
+              ? (
+                <Fragment>
+                  <Interaction.P style={{ marginBottom: 20 }}>
+                    {t('withMembership/ios/unauthorized/signIn')}
+                  </Interaction.P>
+                  <Interaction.P>
+                    {t.elements('withMembership/ios/unauthorized/claimText', {
+                      claimLink: (
+                        <Link route='claim' key='claim' passHref>
+                          <Editorial.A>
+                            {t('withMembership/ios/unauthorized/claimLink')}
+                          </Editorial.A>
+                        </Link>
+                      )
+                    })}
+                  </Interaction.P>
+                </Fragment>
+              )
               : undefined
             } noReload />}
         </PageCenter>

@@ -251,6 +251,12 @@ class Footer extends Component {
                   <br />
                 </Fragment>
               )}
+              <Fragment>
+                <Link route='claim'>
+                  <a>{t('footer/me/claim')}</a>
+                </Link>
+                <br />
+              </Fragment>
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
               </Link>

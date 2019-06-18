@@ -1,6 +1,7 @@
 import React from 'react'
 import { Body, Heading, Section, Small, Title } from '../text'
 import Collapsible from '../Collapsible'
+import BudgetChart from './BudgetChart'
 import { FigureCaption, FigureImage, NarrowContainer, P } from '@project-r/styleguide'
 import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
 import voteT from '../voteT'
@@ -9,6 +10,7 @@ const VoteInfo = ({ vt }) =>
   <NarrowContainer>
     <Title>{vt('info/title')}</Title>
     <Body dangerousHTML={vt('info/intro/body1')} />
+    <BudgetChart />
     <Body dangerousHTML={vt('info/intro/body2')} />
     <Collapsible>
       <Small dangerousHTML={vt('info/intro/more')} />

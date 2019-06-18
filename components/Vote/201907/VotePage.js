@@ -3,6 +3,8 @@ import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { data as budgetData, total, displayAmount } from './data'
+import BudgetChart from './BudgetChart'
 import Frame from '../../Frame'
 import SignIn from '../../Auth/SignIn'
 import Collapsible from '../Collapsible'
@@ -135,6 +137,7 @@ class VotePage extends Component {
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
                 <Body dangerousHTML={vt('vote/201907/intro/body1')} />
+                <BudgetChart data={budgetData} total={total} displayAmount={displayAmount} />
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />
                   <Heading>{vt('common/missingAddressTitle')}</Heading>

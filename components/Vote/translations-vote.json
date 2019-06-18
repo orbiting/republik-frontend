@@ -1,5 +1,5 @@
 {
-  "updated": "2019-02-27T13:12:51.983Z",
+  "updated": "2019-06-17T10:34:46.977Z",
   "title": "live",
   "data": [
     {
@@ -477,6 +477,90 @@
     {
       "key": "vote/election/members/footnote",
       "value": "4657 Personen haben gewählt, davon haben 2466, oder 53,0%, die Wahlempfehlung für den Genossenschaftsrat unverändert übernommen."
+    },
+    {
+      "key": "vote/201907/title",
+      "value": "Titel"
+    },
+    {
+      "key": "vote/201907/intro/body1",
+      "value": "Die «Republik» ist nicht nur ein journalistisches Experiment, sondern auch ein demokratisches. Denn das grösste Teilstück der «Republik» gehört der Project R Genossenschaft. Die Mitglieder? Alle, die ein Jahresabo der «Republik» haben. Und damit wären wir wieder bei Ihnen: Engagieren Sie sich – und kandidieren Sie für das Amt einer Genossenschaftsrätin oder eines Genossenschaftsrats! Hier auf unserer Wahlplattform, bis zum 16. Oktober."
+    },
+    {
+      "key": "vote/201907/intro/body2",
+      "value": "Über folgende Themen können Sie abstimmen. Oder im Fachjargon: Das sind die Traktanden dieser Urabstimmung. \n\n<ol>\n<li><a href=\"#revision19\">Revision</a></li>\n<li><a href=\"#budget19\">Budget 2019/2020</a></li>\n</ol>\n\nSie wählen also, wer im Genossenschaftsrat von Project R sitzt – und wer diesen Rat präsidiert. Zudem können Sie über einen Wahlvorschlag für den Vorstand abstimmen. Und es findet zeitgleich eine Reihe von Abstimmungen über die Finanzen der Genossenschaft statt. Sie haben also zu tun."
+    },
+    {
+      "key": "vote/201907/intro/more",
+      "value": "<strong>Wer kann abstimmen?</strong>\n\nWählen und abstimmen können alle Personen, die am 4. Juli 2019 Mitglied der Project R Genossenschaft waren (und bis zur Stimmabgabe sind). Wenn Sie ein Jahresabo der «Republik» erworben haben, sind Sie das.\n\n<strong>Wie gebe ich meine Stimme ab?</strong>\n\nWenn Sie Ihre Stimme einmal abgegeben und bestätigt haben, können Sie sie nicht mehr ändern oder zurücknehmen. Darum: Nehmen Sie sich Zeit. Sie können eine Pause einlegen und einzelne Fragen zu einem späteren Zeitpunkt beantworten.\n\nFür die Abstimmungen wählen Sie eine der Alternativen «Ja» oder «Nein» oder legen Sie leer ein, indem Sie keine Antwort auswählen. Dann klicken Sie auf «Abstimmen» und «Stimme bestätigen». \n\n\n<strong>Wie werden die Abstimmungen ausgezählt?</strong>\n\nSie haben, wie jedes Mitglied, eine Stimme für jeden Abstimmungsgegenstand. Sie können Ihre Stimme leer einlegen und damit zum Ausdruck bringen, dass Sie die Frage nicht beantworten können oder wollen. Wir weisen die leeren Stimmen aus, sie zählen für die Stimmbeteiligung, für die Beschlussfassung zählen sie jedoch nicht. Mit anderen Worten: Ein Abstimmungsgegenstand gilt als angenommen, wenn mit über der Hälfte der abgegebenen Stimmen ein «Ja» erreicht wird, ohne Berücksichtigung der Enthaltungen.\n\n<strong>Der Zeitplan?</strong>\n\n4.7.–14.7.2019: Die Mitglieder von Project R stimmen ab.<br />\nxx.7.2019: Wir geben die Abstimmungsresultate bekannt.\n\n<strong>Statuten und Finanzierung</strong>\n\nDie detaillierten Wahl- und Abstimmungsbedingungen finden Sie in den <a target=\"_blank\" target=\"_blank\" href='https://www.republik.ch/statuten'>Statuten der Project R Genossenschaft</A>.<br />\nMehr zum Bauplan und zur Finanzierung finden Sie <a target=\"_blank\" target=\"_blank\" href='https://project-r.construction/newsletter/2017-11-22-finanzierung'>in diesem Newsletter</A>."
+    },
+    {
+      "key": "vote/revision19/title",
+      "value": "Revision 2019 Titel"
+    },
+    {
+      "key": "vote/revision19/body",
+      "value": "Revision 2019 Body"
+    },
+    {
+      "key": "vote/revision19/more",
+      "value": "Revision 2019 more <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19revision'>Revisionsdebatte</a>"
+    },
+    {
+      "key": "vote/revision19/discussion/title",
+      "value": "Revision BDO"
+    },
+    {
+      "key": "vote/revision19/discussion/intro",
+      "value": "Intro zur Revisionsdiskussion"
+    },
+    {
+      "key": "vote/budget19/title",
+      "value": "Budget 2019 Titel"
+    },
+    {
+      "key": "vote/budget19/body",
+      "value": "Budget 2019 Body"
+    },
+    {
+      "key": "vote/budget19/more",
+      "value": "Budget 2019 more <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>"
+    },
+    {
+      "key": "vote/budget19/discussion/title",
+      "value": "Budget 2019/20"
+    },
+    {
+      "key": "vote/budget19/discussion/intro",
+      "value": "Intro zur Budgetdiskussion"
+    },
+    {
+      "key": "vote/201907/discussion/title",
+      "value": "Fragen Sie!"
+    },
+    {
+      "key": "vote/201907/discussion/intro",
+      "value": "Im Zeitraum der <a target=\"_blank\" href='/vote/juli19'>Urabstimmung</A> vom 4. bis zum 14. Juli finden zwei Debatten statt.\n\nWas möchten Sie von Ihren Kandidatinnen und Kandidaten für den Genossenschaftsrat wissen? Stellen Sie Ihre Fragen unter <strong>Genossenschaftsrat</strong>.\n\nMöchten Sie mit den Kandidatinnen und dem Kandidaten für das Präsidium des Genossenschaftsrats ins Gespräch kommen? Dafür finden sie unten die Debatte <strong>Präsidium</strong>.\n\nAlle anderen Fragen zu den Abstimmungen und Wahlen beantwortet Ihnen gerne die <strong>Project-R-Crew</strong>."
+    },
+    {
+      "key": "vote/201907/budget/redaktion/more",
+      "value": "Lorem ipsum Redaktion zum Aufklappen mit <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est."
+    },
+    {
+      "key": "vote/201907/budget/it/more",
+      "value": "Lorem ipsum Redaktion zum Aufklappen mit <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est."
+    },
+    {
+      "key": "vote/201907/budget/community/more",
+      "value": "Lorem ipsum Redaktion zum Aufklappen mit <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est."
+    },
+    {
+      "key": "vote/201907/budget/finance/more",
+      "value": "Lorem ipsum Redaktion zum Aufklappen mit <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est."
+    },
+    {
+      "key": "vote/201907/budget/management/more",
+      "value": "Lorem ipsum Redaktion zum Aufklappen mit <a target=\"_blank\" href='/vote/juli19/diskutieren?discussion=gen19budget'>Budgetdebatte</a>. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est."
     }
   ]
 }

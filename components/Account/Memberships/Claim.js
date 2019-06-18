@@ -231,17 +231,17 @@ class ClaimMembership extends Component {
     const contextLead = t.first([
       `memberships/claim/${context}/lead`,
       'memberships/claim/lead'
-    ], {}, false)
+    ], undefined, '')
 
     const contextBody = t.first([
       `memberships/claim/${context}/body`,
       'memberships/claim/body'
-    ], {}, false)
+    ], undefined, '')
 
     const contextAddendum = t.first([
       `memberships/claim/${context}/addendum`,
       'memberships/claim/addendum'
-    ], {}, false)
+    ], undefined, '')
 
     if (polling) {
       return (

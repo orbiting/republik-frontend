@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { renderMdast } from 'mdast-react-render'
+import { withEditor } from '../Auth/checkRoles'
 
 // convert string into array of slice arguments, see tests
 export const parseSliceRanges = ranges => (
@@ -21,7 +22,7 @@ export const parseSliceRanges = ranges => (
   })
 )
 
-const Extract = ({ schema, mdast, ranges, unpack }) => {
+const Extract = ({ schema, mdast, ranges, unpack, isEditor }) => {
   const sliceNode = (tree, [[start, end], ...childRanges]) => {
     const children = tree.children.slice(start, end)
 
@@ -50,8 +51,11 @@ const Extract = ({ schema, mdast, ranges, unpack }) => {
     }
     return children
   }
+  const MissingNode = isEditor
+    ? undefined
+    : ({ children }) => children
   const children = unpackChildren(
-    renderMdast(part, schema), +unpack
+    renderMdast(part, schema, { MissingNode }), +unpack
   )
 
   return (
@@ -68,7 +72,8 @@ Extract.propTypes = {
   schema: PropTypes.object.isRequired,
   mdast: PropTypes.object.isRequired,
   ranges: PropTypes.string.isRequired,
-  unpack: PropTypes.string
+  unpack: PropTypes.string,
+  isEditor: PropTypes.bool
 }
 
-export default Extract
+export default withEditor(Extract)

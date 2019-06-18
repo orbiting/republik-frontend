@@ -581,10 +581,7 @@ class ArticlePage extends Component {
                       ...article.content,
                       format: meta.format
                     },
-                    schema,
-                    {
-                      MissingNode
-                    })}
+                    schema, { MissingNode })}
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>

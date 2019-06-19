@@ -46,7 +46,8 @@ const styles = {
     visibility: 'hidden',
     whiteSpace: 'normal',
     opacity: 0,
-    overflow: 'scroll',
+    overflow: 'auto',
+    WebkitOverflowScrolling: 'touch',
     transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s',
     '&[aria-expanded=true]': {
       opacity: 1,

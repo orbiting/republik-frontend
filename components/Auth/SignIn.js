@@ -8,7 +8,6 @@ import isEmail from 'validator/lib/isEmail'
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
 import { meQuery } from '../../lib/apollo/withMe'
-import { prefixHover } from '../../lib/utils/hover'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -51,8 +50,10 @@ const styles = {
     textDecoration: 'underline',
     textDecorationSkip: 'ink',
     color: colors.lightText,
-    [prefixHover()]: {
-      color: colors.text
+    '@media (hover)': {
+      ':hover': {
+        color: colors.text
+      }
     }
   })
 }

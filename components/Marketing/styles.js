@@ -4,7 +4,6 @@ import {
   mediaQueries,
   fontFamilies
 } from '@project-r/styleguide'
-import { prefixHover } from '../../lib/utils/hover'
 
 const buttonStyle = css({
   [mediaQueries.onlyS]: {
@@ -28,10 +27,12 @@ const buttonStyle = css({
   borderRadius: 0,
   color: colors.secondary,
   cursor: 'pointer',
-  [prefixHover()]: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-    color: '#fff'
+  '@media (hover)': {
+    ':hover': {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+      color: '#fff'
+    }
   },
   ':active': {
     backgroundColor: colors.secondary,
@@ -50,9 +51,11 @@ const primaryStyle = css({
   backgroundColor: colors.primary,
   borderColor: colors.primary,
   color: '#fff',
-  ':hover': {
-    backgroundColor: colors.secondary,
-    borderColor: colors.secondary
+  '@media(hover)': {
+    ':hover': {
+      backgroundColor: colors.secondary,
+      borderColor: colors.secondary
+    }
   },
   ':active': {
     backgroundColor: '#000',
@@ -126,8 +129,13 @@ export const sharedStyles = {
       cursor: 'pointer',
       color: colors.text,
       textDecoration: 'underline',
-      [`:focus, :active, ${prefixHover()}`]: {
+      ':focus, :active': {
         color: colors.secondary
+      },
+      '@media (hover)': {
+        ':hover': {
+          color: colors.secondary
+        }
       }
     },
     fontSize: '12px',
@@ -179,8 +187,10 @@ export const sharedStyles = {
       color: colors.text,
       textDecoration: 'underline'
     },
-    [`'& ${prefixHover()}`]: {
-      color: colors.secondary
+    '@media (hover)': {
+      '& a:hover': {
+        color: colors.secondary
+      }
     },
     '& a:focus': {
       color: colors.secondary

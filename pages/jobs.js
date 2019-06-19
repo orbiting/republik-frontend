@@ -174,22 +174,23 @@ export default compose(
           <P>Wir suchen dich. Wir arbeiten für relevanten, unabhängigen und innovativen Journalismus. Und wir sind eine interdisziplinäre und leidenschaftliche <A href='/impressum'>Crew</A>. Unser <A href='https://github.com/orbiting'>Code ist Open-Source</A>, wir haben einen <A href='https://styleguide.republik.ch/'>Styleguide</A> und unsere <A href='https://api.republik.ch/graphiql'>API ist öffentlich</A> zugänglich.</P>
           <P>Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln und verbessern. Du geniesst viel Freiheit zu haben, bringst dich gerne auch konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: einzelne Geschichten, Mitglieschaften gewinnen, Mitgliederinnen bei Laune halten, Leuchtturm Projekte, neue Erzählformen, Datenvisualisierung, Statistik und vieles mehr.</P>
 
-          <H3>Designerin (60 - 100%)</H3>
+          <H3>Designerin</H3>
           <P>
-            Du bist ein Designer mit Erfahrung im Journalismus. Geschichten illustriert, mit Daten und oder Interaktion zu erklären liegt dir. Darüber hinaus hast du auch ein Interesse an Produktdesign und kannst dir vorstellen das Team bei kleinen Änderung am Produkt aus Designsicht zu unterstützen.
+            Du bist ein Designer mit Erfahrung im Journalismus. Geschichten illustriert, mit Daten und oder Interaktion zu erklären liegt dir. Darüber hinaus hast du auch ein Interesse an Produktdesign und kannst dir vorstellen das Team bei Änderung am Produkt aus Designsicht zu unterstützen.
           </P>
-          <H3>React-Entwickler (60 - 100%)</H3>
+          <H3>React-Entwickler</H3>
           <P>
-            Du bist eine React-Entwicklerin. Wenn du schon mit GraphQL, next.js gearbeitet hast: umso besser. Du hast ein überzeugendes UX-Portfolio und kannst in agilen Prozessen dafür sorgen, dass Design, Funktionalität und Inhalt zu einem überzeugenden Ganzen verschmelzen.
+            Du bist eine React-Entwicklerin. Wenn du schon mit GraphQL oder next.js gearbeitet hast: umso besser. Du hast ein überzeugendes UX-Portfolio und kannst in agilen Prozessen dafür sorgen, dass Design, Funktionalität und Inhalt zu einem überzeugenden Ganzen verschmelzen.
           </P>
-          <H3>Backend-Entwicklerin (60 - 100%)</H3>
+          <H3>Backend-Entwicklerin</H3>
           <P>
-            Du bist eine erfahrene node.js-Entwicklerin. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du sorgst dafür dass unsere API zuverlässig und stabil läuft und bist auch nicht abgeneigt eine Datenauswertung für unser Produkt oder auch eine Geschichte zu machen.
+            Du bist ein node.js-Entwickler. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du sorgst dafür dass unsere API zuverlässig und stabil läuft und bist auch nicht abgeneigt eine Datenauswertung für unser Produkt oder auch eine Geschichte zu machen.
           </P>
 
           <H3>Was wir bieten</H3>
           <br />
           <Editorial.UL>
+            <LI>Pensum wählbar: Teilzeit möglich</LI>
             <LI>Sinnstiftende Arbeit: <A href='/manifest'>Aufklärung, Kritik der Macht und Verantwortung für die&nbsp;Öffentlichkeit</A></LI>
             <LI>Nettoeinheitslohn auf hohem Niveau</LI>
             <LI>Zentraler Arbeitsort an der Langstrasse in Zürich</LI>
@@ -221,15 +222,7 @@ export default compose(
           <P>
             Du bist interessiert? Dann bewirb dich mit einer E-Mail bei <A href='mailto:thomas.preusse@republik.ch'>Thomas Preusse</A> oder <A href='mailto:amanda.strub@republik.ch'>Amanda Strub</A>.
           </P>
-          <P>Bitte beantworte in der Bewerbung – neben dem, was du uns sonst noch sagen möchtest – folgende Fragen: </P>
-
-          <Editorial.UL>
-            <LI>Was denkst du über unser Produkt und Journalismus? Was gefällt dir daran? Was würdest du ändern?</LI>
-            <LI>Was interessiert dich am Journalismus?</LI>
-            <LI>Was macht dich zu einer guten Coderin, einem guten Designer oder Coder?</LI>
-            <LI>Hast du Projekte, auf die du besonders stolz bist? Dann freuen wir uns über Links zu deinem Portfolio, Open Source Repos, Websiten oder auch Anhänge.</LI>
-          </Editorial.UL>
-
+          <P>Deine Bewerbung sollte ein Lebenslauf und Portfolio beinhalten. Es ist keine formale Ausbildung zwingend: wir interessieren uns für dich ganz egal ob du einen Master hast oder du dir alles selbst beigebracht hast. Das Wichtigste ist dass du das bestmöglichst Onlinemagazin der Schweiz mit uns entwickeln willst.</P>
           <P>
             Zum Bewerbungsprozess: Entweder wir laden dich für ein erstes Gespräch ein oder du bekommst leider eine Absage. Falls wir uns nach dem ersten Gespräch eine Zusammenarbeit vorstellen können, laden wir dich für einen Kennenlerntag ein. Wir arbeiten zusammen an einem Feature oder einer Geschichte und du lernst den Rest des Teams kennen. Du und wir haben so eine möglichst gute Grundlage für den finalen Entscheid.
           </P>

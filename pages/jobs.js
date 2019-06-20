@@ -118,13 +118,13 @@ export default compose(
       <ImageCover
         image={{
           src: meta.image,
-          alt: 'Taufe des Namen und Logo in Bern'
+          alt: 'Weitwinkelfoto von vielen Republik-Mitarbeitern und Freunden mit brennender Geburtstagstorte in Mitte.'
         }}
       />
       <MainContainer>
         <Content>
           <P>
-            Die Republik ist ein täglich erscheinendes, digitales, werbefreies Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Wir sind getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Werde Teil einer <A href='/impressum'>interdisziplinäre und leidenschaftlichen Crew</A>.
+            Die Republik ist ein täglich erscheinendes digitales, werbefreies Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Wir sind getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Werde Teil einer <A href='/impressum'>interdisziplinären und leidenschaftlichen Crew</A>.
           </P>
           <H1>Offene Stellen</H1>
           <Editorial.UL>
@@ -139,7 +139,7 @@ export default compose(
             <H2>Community Builder & Partnership Management</H2>
           </Anchor>
           <P>
-            In dieser Rolle trägst du unsere Marke in die Welt hinaus! Du hast einen Rucksack voller Erfahrung mit online Community Building und digitalen Kampagnen: von Konzeption und Durchführung bis zur Erfolgsmessung. Wir suchen jemanden mit Know How in den Bereichen:
+            In dieser Rolle trägst du unsere Marke in die Welt hinaus! Du hast einen Rucksack voller Erfahrung mit Online Community Building und digitalen Kampagnen: von der Konzeption und der Durchführung bis zur Erfolgsmessung. Wir suchen jemanden mit Know-how in den Bereichen:
           </P>
           <Editorial.UL>
             <LI>Analytic Skills und Tools für die tägliche Datenanalyse</LI>
@@ -148,15 +148,15 @@ export default compose(
             <LI>Influencer Marketing und Social Communities</LI>
           </Editorial.UL>
           <P>
-            Übernimmst du gerne den Lead, magst die Zusammenarbeit mit kreativen Köpfen aus verschiedenen Bereichen, verstehst wie online Communities ticken und kannst unsere Leserinnen begeistern und potentielle Abonnentinnen von der Republik überzeugen? Dann melde dich!
+            Übernimmst du gerne den Lead, magst du die Zusammenarbeit mit kreativen Köpfen aus verschiedenen Bereichen, verstehst du, wie Online-Communitys ticken und kannst du unsere Leserinnen begeistern und potenzielle Abonnentinnen von der Republik überzeugen? Dann melde dich!
           </P>
-          <P>Ab sofort oder nach vereinbarung, 80 bis 100 Prozent.</P>
+          <P>Ab sofort oder nach Vereinbarung, 80 bis 100 Prozent.</P>
 
           <H3>Was wir bieten</H3>
           <br />
           <Editorial.UL>
             <LI>Konkurrenzfähiger Einheitslohn</LI>
-            <LI>Kreatives unkonventionelles Arbeitsumfeld</LI>
+            <LI>Kreatives, unkonventionelles Arbeitsumfeld</LI>
             <LI>Viel Gestaltungsspielraum</LI>
             <LI>Zentraler Arbeitsort an der Langstrasse in Zürich</LI>
           </Editorial.UL>
@@ -188,15 +188,15 @@ export default compose(
           <Anchor id='it'>
             <H2>Entwicklerinnen und Designer gesucht</H2>
           </Anchor>
-          <P>Unser <A href='https://github.com/orbiting'>Code ist Open-Source</A>, wir haben einen <A href='https://styleguide.republik.ch/'>Styleguide</A> und unsere <A href='https://api.republik.ch/graphiql'>API ist öffentlich</A> zugänglich.</P>
+          <P>Unser <A href='https://github.com/orbiting'>Code ist Open Source</A>, wir haben einen <A href='https://styleguide.republik.ch/'>Styleguide</A> und unsere <A href='https://api.republik.ch/graphiql'>API ist öffentlich</A> zugänglich.</P>
 
           <P>
-            Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln. Du geniesstes viel Freiheit zu haben, bringst dich gerne konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: einzelne Geschichten, Mitgliedschaften gewinnen, Mitgliederinnen bei Laune halten, Benutzerfreundlichkeit verbessern, neue Erzählformen, Datenvisualisierung, Datenanalyse und vieles mehr.
+            Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln. Du geniesst es, viel Freiheit zu haben, bringst dich gerne konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: einzelne Geschichten, Mitgliedschaften gewinnen, Mitglieder bei Laune halten, Benutzerfreundlichkeit verbessern, neue Erzählformen, Datenvisualisierung, Datenanalyse und vieles mehr.
           </P>
 
           <H3>Designerin</H3>
           <P>
-            Du bist ein Designer mit Erfahrung im Online-Journalismus. Geschichten illustrieren, mit Daten und oder Interaktion zu erklären liegt dir. Darüber hinaus hast du ein Interesse an Produktdesign und unterstützt das Team bei der Weiterentwicklung der Republik.
+            Du bist ein Designer mit Erfahrung im Online-Journalismus. Geschichten illustrieren, mit Daten und oder Interaktion zu erklären, liegt dir. Darüber hinaus hast du ein Interesse an Produktdesign und unterstützt das Team bei der Weiterentwicklung der Republik.
           </P>
           <H3>React-Entwickler</H3>
           <P>
@@ -204,7 +204,7 @@ export default compose(
           </P>
           <H3>Backend-Entwicklerin</H3>
           <P>
-            Du bist ein node.js-Entwickler. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du hilfst mit, dass unsere API zuverlässig und schnell läuft und bist auch nicht abgeneigt eine Datenauswertung zu erstellen oder eine Geschichte zu programmieren.
+            Du bist ein Node.js-Entwickler. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du hilfst mit, dass unsere API zuverlässig und schnell läuft und bist auch nicht abgeneigt, eine Datenauswertung zu erstellen oder eine Geschichte zu programmieren.
           </P>
 
           <H3>Was wir bieten</H3>
@@ -238,9 +238,9 @@ export default compose(
               ].filter(d => d.description)
             }))}
             t={t} />
-          <P>Deine Bewerbung sollte ein Lebenslauf und Portfolio beinhalten. Es ist keine formale Ausbildung zwingend: wir interessieren uns für dich ganz egal ob du einen Master hast oder du dir alles selbst beigebracht hast. Das Wichtigste ist, dass du das beste digitale Magazin der Schweiz mit uns entwickeln willst.</P>
+          <P>Deine Bewerbung sollte einen Lebenslauf und ein Portfolio beinhalten. Es ist keine formale Ausbildung zwingend: Wir interessieren uns für dich, ganz egal, ob du einen Master hast oder du dir alles selbst beigebracht hast. Das Wichtigste ist, dass du das beste digitale Magazin der Schweiz mit uns entwickeln willst.</P>
           <P>
-            Zum Bewerbungsprozess: Entweder wir laden dich zu einem erstes Gespräch ein oder du bekommst eine Absage. Falls wir uns nach diesem Gespräch eine Zusammenarbeit vorstellen können, laden wir dich für einen Kennenlerntag ein. Wir arbeiten zusammen an einem Feature oder einer Geschichte und du lernst den Rest, des Teams kennen. So haben du und wir eine möglichst gute Grundlage für den finalen Entscheid.
+            Zum Bewerbungsprozess: Entweder wir laden dich zu einem ersten Gespräch ein, oder du bekommst eine Absage. Falls wir uns nach diesem Gespräch eine Zusammenarbeit vorstellen können, laden wir dich für einen Kennenlerntag ein. Wir arbeiten zusammen an einem Feature oder einer Geschichte und du lernst den Rest des Teams kennen. So haben wir alle, du und wir, eine möglichst gute Grundlage für den finalen Entscheid.
           </P>
           <P>Wir freuen uns auf deine Bewerbung.</P>
         </Content>

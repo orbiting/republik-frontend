@@ -99,12 +99,12 @@ export default compose(
           <P>Wir arbeiten für relevanten, unabhängigen und innovativen Journalismus. Und wir sind eine interdisziplinäre und leidenschaftliche <A href='/impressum'>Crew</A>. Unser <A href='https://github.com/orbiting'>Code ist Open-Source</A>, wir haben einen <A href='https://styleguide.republik.ch/'>Styleguide</A> und unsere <A href='https://api.republik.ch/graphiql'>API ist öffentlich</A> zugänglich.</P>
 
           <P>
-            Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln. Du geniesstes viel Freiheit zu haben, bringst dich gerne konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: einzelne Geschichten, Mitgliedschaften gewinnen, Mitgliederinnen bei Laune halten, neue Erzählformen, Datenvisualisierung, Datenanalyse und vieles mehr.
+            Zusammen mit dem Team willst du die Republik langfristig weiterentwickeln. Du geniesstes viel Freiheit zu haben, bringst dich gerne konzeptionell ein und interessierst dich für verschiedene Aspekte unseres Produktes: einzelne Geschichten, Mitgliedschaften gewinnen, Mitgliederinnen bei Laune halten, Benutzerfreundlichkeit verbessern, neue Erzählformen, Datenvisualisierung, Datenanalyse und vieles mehr.
           </P>
 
           <H3>Designerin</H3>
           <P>
-            Du bist ein Designer mit Erfahrung im Journalismus. Geschichten illustrieren, mit Daten und oder Interaktion zu erklären liegt dir. Darüber hinaus hast du ein Interesse an Produktdesign und kannst dir vorstellen das Team bei Änderung am Produkt zu unterstützen.
+            Du bist ein Designer mit Erfahrung im Online-Journalismus. Geschichten illustrieren, mit Daten und oder Interaktion zu erklären liegt dir. Darüber hinaus hast du ein Interesse an Produktdesign und unterstützt das Team bei der Weiterentwicklung der Republik.
           </P>
           <H3>React-Entwickler</H3>
           <P>
@@ -126,7 +126,7 @@ export default compose(
           </Editorial.UL>
 
           <P>
-            Du wirst Teil des IT-Teams und eng mit Kolleginnen aus der Redaktion, dem Community- und Marketing-Team zusammenarbeiten.
+            Du wirst Teil des IT-Teams und eng mit Kolleginnen aus der Redaktion und dem Community-Team zusammenarbeiten.
           </P>
 
           <H3>Wie bewerben?</H3>

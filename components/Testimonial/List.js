@@ -265,7 +265,8 @@ export class List extends Component {
       onSelect, focus, isPage,
       search, hasMore, totalCount,
       singleRow, minColumns,
-      showCredentials
+      showCredentials,
+      share
     } = this.props
     const { columns, open } = this.state
 
@@ -307,6 +308,7 @@ export class List extends Component {
                 items.push(
                   <Detail
                     key={`detail${row - 1}`}
+                    share={share}
                     t={t} data={openItem} />
                 )
               }
@@ -350,7 +352,7 @@ export class List extends Component {
                 .find(statement => statement.id === lastOpenId)
               if (openItem) {
                 items.push(
-                  <Detail key={`detail${row}`} t={t} data={openItem} />
+                  <Detail key={`detail${row}`} share={share} t={t} data={openItem} />
                 )
               }
             }
@@ -408,7 +410,7 @@ export class List extends Component {
                 )}
               </div>
               {singleRowOpenItem && <Detail
-                t={t} data={singleRowOpenItem} />}
+                t={t} share={share} data={singleRowOpenItem} />}
             </Fragment>
           )
         }} />

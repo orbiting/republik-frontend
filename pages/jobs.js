@@ -166,10 +166,11 @@ export default compose(
           </P>
 
           <H3>Wie bewerben?</H3>
-          <P>
+          <P style={{ marginBottom: 10 }}>
             Fragen & Bewerbungen an: <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A>.
           </P>
           <TestimonialList
+            share={false}
             minColumns={3}
             showCredentials
             statements={communityContacts.map(employee => ({
@@ -226,6 +227,7 @@ export default compose(
             Du bist interessiert? Dann bewirb dich: <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A>.
           </P>
           <TestimonialList
+            share={false}
             minColumns={3}
             showCredentials
             statements={itContacts.map(employee => ({

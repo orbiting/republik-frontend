@@ -24,8 +24,8 @@ export const VOTINGS = [
 ]
 
 export const VOTINGS_COOP_201907 = [
-  { slug: VOTING_COOP_201907_REVISION_SLUG, id: 'revision19' },
-  { slug: VOTING_COOP_201907_BUDGET_SLUG, id: 'budget19' }
+  { slug: VOTING_COOP_201907_BUDGET_SLUG, id: 'budget19' },
+  { slug: VOTING_COOP_201907_REVISION_SLUG, id: 'revision19' }
 ]
 
 export const ELECTIONS = [

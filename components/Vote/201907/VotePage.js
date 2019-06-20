@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { data as budgetData, total, displayAmount } from './data'
+import { grouped, total } from './data'
 import BudgetChart from './BudgetChart'
 import Frame from '../../Frame'
 import SignIn from '../../Auth/SignIn'
@@ -11,8 +11,6 @@ import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
   colors,
-  FigureCaption,
-  FigureImage,
   Interaction,
   mediaQueries,
   RawHtml
@@ -49,9 +47,18 @@ const styles = {
     margin: '25px 0'
   }),
   thankyou: css({
-    marginTop: 25,
+    margin: '25px auto',
+    maxWidth: 550,
     padding: 25,
-    background: colors.primaryBg
+    background: colors.primaryBg,
+    textAlign: 'center'
+  }),
+  chart: css({
+    margin: '30px auto',
+    [mediaQueries.mUp]: {
+      margin: '50px auto'
+    },
+    maxWidth: '400px'
   })
 }
 
@@ -87,18 +94,22 @@ class VotePage extends Component {
             )
           }
 
+          const votings = [
+            ...VOTINGS.map(({ slug }) => data[slug])
+          ]
+
           const { me } = data
 
-          const userIsDone = VOTINGS
+          const userIsDone = votings
             .map(d => d.userHasSubmitted)
             .every(Boolean)
 
           const now = new Date()
-          const hasEnded = VOTINGS
+          const hasEnded = votings
             .map(d => now > new Date(d.endDate))
             .every(Boolean)
 
-          const hasResults = VOTINGS
+          const hasResults = votings
             .map(d => d.result)
             .every(Boolean)
 
@@ -114,7 +125,7 @@ class VotePage extends Component {
                 <Title>{ vt('vote/result/title') }</Title>
                 <Body dangerousHTML={vt('vote/result/lead')} />
                 <VoteResult
-                  votings={VOTINGS.map(({ id, slug }) => ({
+                  votings={votings.map(({ id, slug }) => ({
                     id,
                     data: data[slug]
                   }))}
@@ -127,17 +138,34 @@ class VotePage extends Component {
                 <RawHtml
                   type={P}
                   dangerouslySetInnerHTML={{
-                    __html: vt('vote/ended')
+                    __html: vt('vote/201907/ended')
                   }} />
               </div>}
               <Section>
-                <Title>{ vt('vote/201907/title') }</Title>
+                <Title>
+                  <RawHtml
+                    dangerouslySetInnerHTML={{
+                      __html: vt('vote/201907/title')
+                    }} />
+                </Title>
+                {/*
                 <div {...styles.image}>
                   <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
                   <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
                 </div>
+              */}
                 <Body dangerousHTML={vt('vote/201907/intro/body1')} />
-                <BudgetChart data={budgetData} total={total} displayAmount={displayAmount} />
+                <Collapsible>
+                  <Small dangerousHTML={vt('vote/201907/intro/more1')} />
+                </Collapsible>
+                <div {...styles.chart}>
+                  <BudgetChart data={grouped} total={total} />
+                  <Small dangerousHTML={vt('vote/201907/budget/chart/caption')} indent={false} />
+                </div>
+                <Body dangerousHTML={vt('vote/201907/intro/body2')} />
+                <Collapsible>
+                  <Small dangerousHTML={vt('vote/201907/intro/more2')} />
+                </Collapsible>
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />
                   <Heading>{vt('common/missingAddressTitle')}</Heading>
@@ -159,10 +187,6 @@ class VotePage extends Component {
                     </Fragment>
                   )} />
                 </div>}
-                <Body dangerousHTML={vt('vote/201907/intro/body2')} />
-                <Collapsible>
-                  <Small dangerousHTML={vt('vote/201907/intro/more')} />
-                </Collapsible>
               </Section>
 
               {VOTINGS.map(({ id, slug }) => (
@@ -180,12 +204,16 @@ class VotePage extends Component {
                 </Section>
               ))}
 
-              { userIsDone &&
+              {!hasEnded && (
+                <Body dangerousHTML={vt('vote/201907/nextsteps')} />
+              )}
+
+              {userIsDone &&
               <div {...styles.thankyou}>
                 <RawHtml
                   type={P}
                   dangerouslySetInnerHTML={{
-                    __html: vt('vote/common/thankyou')
+                    __html: vt('vote/201907/thankyou')
                   }} />
               </div>
               }

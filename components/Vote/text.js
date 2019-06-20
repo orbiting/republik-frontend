@@ -107,7 +107,7 @@ export const Small = withInNativeApp(({ dangerousHTML, inNativeApp, indent = tru
   )
 })
 
-const PTiny = ({ children }) =>
+const PTiny = ({ children, note }) =>
   <div {...css({
     marginTop: 10,
     ...fontStyles.sansSerifRegular14,
@@ -118,12 +118,13 @@ const PTiny = ({ children }) =>
     '& strong': {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'normal'
-    }
+    },
+    color: note ? colors.lightText : undefined
   })}>
     {children}
   </div>
 
-export const Tiny = withInNativeApp(({ dangerousHTML, inNativeApp }) => {
+export const Tiny = withInNativeApp(({ dangerousHTML, inNativeApp, note = false }) => {
   const html = inNativeApp
     ? dangerousHTML.replace(/'/g, '"').replace(/target="_blank"/g, '')
     : dangerousHTML
@@ -132,7 +133,7 @@ export const Tiny = withInNativeApp(({ dangerousHTML, inNativeApp }) => {
       {
         html.split('\n\n')
           .map((c, i) =>
-            <PTiny key={i}>
+            <PTiny key={i} note={note}>
               <RawHtml dangerouslySetInnerHTML={{ __html: c }} />
             </PTiny>
           )

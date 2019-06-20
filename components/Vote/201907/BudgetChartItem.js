@@ -17,13 +17,13 @@ const styles = {
   label: css({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
-  }),
-  amount: css({
+    whiteSpace: 'nowrap',
+    padding: '0 15px'
   }),
   toggle: css({
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center',
     cursor: 'pointer',
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
@@ -85,7 +85,7 @@ class BudgetChartItem extends React.Component {
   }
 
   render () {
-    const { children, label, height, background, color, amount } = this.props
+    const { children, category, height, background, color, amount } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
@@ -93,15 +93,12 @@ class BudgetChartItem extends React.Component {
     const iconTitle = collapsed ? 'Mehr' : 'Schliessen'
 
     const compact = !!height && height < 35
-    const minHeight = compact ? 30 : 35
-    const labelStyle = {
-      padding: compact ? '1px 10px 0 3px' : '3px 10px 0 3px'
-    }
+    const minHeight = compact ? 25 : 35
 
     return (
       <Fragment>
         <div {...styles.wrapper} style={{
-          height: collapsed ? Math.max(height || 0, minHeight) : minHeight,
+          // height: collapsed ? Math.max(height || 0, minHeight) : minHeight,
           background,
           borderBottom: collapsed ? '1px solid #fff' : undefined
         }}>
@@ -109,34 +106,34 @@ class BudgetChartItem extends React.Component {
             onClick={hasMore ? this.toggleCollapsed : undefined}
             style={{
               color,
-              height: collapsed ? minHeight : Math.max(height || 0, minHeight),
+              height: Math.max(height || 0, minHeight),
               cursor: hasMore ? 'pointer' : undefined
             }}>
             {hasMore && (
-              <span {...styles.label} style={labelStyle}>
+              <span {...styles.label}>
+                {category}
                 <button
                   {...sharedStyles.plainButton}
                   {...styles.toggleIcon}
                   title={iconTitle}>
                   <ExpandIcon size={24} fill={'#fff'} />
                 </button>
-                {label}
               </span>
             )}
             {!hasMore && (
-              <span {...styles.label} style={labelStyle}>
-                {label}
+              <span {...styles.label}>
+                {category}
               </span>
             )}
             {amount && (
-              <span {...styles.amount} style={labelStyle}>{amount}</span>
+              <span {...styles.label}>{amount}</span>
             )}
           </div>
         </div>
         {collapsed ||
           <div {...styles.content} style={{
-            borderColor: background,
-            minHeight: `calc(${height}px - ${minHeight}px)`
+            borderColor: background
+            // minHeight: `calc(${height}px - ${minHeight}px)`
           }}>
             {children}
             <div {...styles.toggleContent} onClick={this.toggleCollapsed}>

@@ -112,7 +112,7 @@ export default compose(
           </P>
           <H3>Backend-Entwicklerin</H3>
           <P>
-            Du bist ein node.js-Entwickler. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du sorgst dafür dass unsere API zuverlässig und stabil läuft und bist auch nicht abgeneigt eine Datenauswertung für unser Produkt oder auch eine Geschichte zu machen.
+            Du bist ein node.js-Entwickler. GraphQL und PostgreSQL sind dir ein Begriff und du möchtest damit arbeiten. Du hilfst mit, dass unsere API zuverlässig und schnell läuft und bist auch nicht abgeneigt eine Datenauswertung zu erstellen oder eine Geschichte zu programmieren.
           </P>
 
           <H3>Was wir bieten</H3>
@@ -147,9 +147,9 @@ export default compose(
             }))}
             t={t} />
 
-          <P>Deine Bewerbung sollte ein Lebenslauf und Portfolio beinhalten. Es ist keine formale Ausbildung zwingend: wir interessieren uns für dich ganz egal ob du einen Master hast oder du dir alles selbst beigebracht hast. Das Wichtigste ist, dass du das bestmögliche Onlinemagazin der Schweiz mit uns entwickeln willst.</P>
+          <P>Deine Bewerbung sollte ein Lebenslauf und Portfolio beinhalten. Es ist keine formale Ausbildung zwingend: wir interessieren uns für dich ganz egal ob du einen Master hast oder du dir alles selbst beigebracht hast. Das Wichtigste ist, dass du das beste digitale Magazin der Schweiz mit uns entwickeln willst.</P>
           <P>
-            Zum Bewerbungsprozess: Entweder wir laden dich zu einem erstes Gespräch ein oder du bekommst eine Absage. Falls wir uns nach dem ersten Gespräch eine Zusammenarbeit vorstellen können, laden wir dich für einen Kennenlerntag ein. Wir arbeiten zusammen an einem Feature oder einer Geschichte und du lernst den Rest, des Teams kennen. So haben du und wir eine möglichst gute Grundlage für den finalen Entscheid.
+            Zum Bewerbungsprozess: Entweder wir laden dich zu einem erstes Gespräch ein oder du bekommst eine Absage. Falls wir uns nach diesem Gespräch eine Zusammenarbeit vorstellen können, laden wir dich für einen Kennenlerntag ein. Wir arbeiten zusammen an einem Feature oder einer Geschichte und du lernst den Rest, des Teams kennen. So haben du und wir eine möglichst gute Grundlage für den finalen Entscheid.
           </P>
         </Content>
       </MainContainer>

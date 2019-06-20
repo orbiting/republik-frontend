@@ -20,6 +20,7 @@ import Feed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
+import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from './ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
@@ -479,7 +480,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor } = this.props
 
     const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
 
@@ -507,6 +508,9 @@ class ArticlePage extends Component {
         : meta.format && meta.format.meta
     )
     const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
+    const MissingNode = isEditor
+      ? undefined
+      : ({ children }) => children
 
     if (router.query.extract) {
       return <Loader loading={data.loading} error={data.error} render={() => {
@@ -576,7 +580,8 @@ class ArticlePage extends Component {
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format
-                    }, schema)}
+                    },
+                    schema, { MissingNode })}
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>
@@ -645,6 +650,7 @@ ArticlePage.childContextTypes = {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withEditor,
   withInNativeApp,
   withRouter,
   graphql(getDocument, {

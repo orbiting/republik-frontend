@@ -5,7 +5,7 @@ import sharedStyles from '../../sharedStyles'
 import ExpandMoreIcon from 'react-icons/lib/md/expand-more'
 import ExpandLessIcon from 'react-icons/lib/md/expand-less'
 
-import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import { fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
 import voteT from '../voteT'
 
 const styles = {
@@ -18,13 +18,17 @@ const styles = {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
-    padding: '0 15px'
+    padding: '0 15px',
+    marginTop: '-2px'
+  }),
+  category: css({
+    paddingRight: '20px',
+    position: 'relative'
   }),
   toggle: css({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    cursor: 'pointer',
     ...fontStyles.sansSerifRegular16,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular16
@@ -34,10 +38,13 @@ const styles = {
   }),
   toggleIcon: css({
     padding: 0,
-    width: 24,
+    width: 20,
     marginLeft: 0,
     display: 'inline-block',
-    opacity: 0.5
+    opacity: 0.5,
+    position: 'absolute',
+    right: 0,
+    top: 4
   }),
   toggleContent: css({
     position: 'absolute',
@@ -54,19 +61,21 @@ const styles = {
   toggleIconContent: css({
     padding: 0,
     color: '#000',
-    width: 24,
+    width: 20,
     marginLeft: 0,
     display: 'inline-block',
     position: 'absolute',
     bottom: 5,
-    left: `calc(50% - ${24 / 2}px)`,
+    left: `calc(50% - ${20 / 2}px)`,
     opacity: 0.5
   }),
   content: css({
-    borderWidth: '0 3px 3px 3px',
-    borderStyle: 'solid',
     position: 'relative',
-    padding: '10px 15px 30px 15px'
+    padding: '10px 0 30px 0'
+  }),
+  highlight: css({
+    fontFamily: fontFamilies.sansSerifMedium,
+    fontWeight: 'normal'
   })
 }
 
@@ -85,7 +94,7 @@ class BudgetChartItem extends React.Component {
   }
 
   render () {
-    const { vt, children, category, height, background, color, amount } = this.props
+    const { vt, children, category, height, background, color, amount, highlight } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
@@ -98,7 +107,6 @@ class BudgetChartItem extends React.Component {
     return (
       <Fragment>
         <div {...styles.wrapper} style={{
-          // height: collapsed ? Math.max(height || 0, minHeight) : minHeight,
           background,
           borderBottom: collapsed ? '1px solid #fff' : undefined
         }}>
@@ -107,16 +115,17 @@ class BudgetChartItem extends React.Component {
             style={{
               color,
               height: Math.max(height || 0, minHeight),
-              cursor: hasMore ? 'pointer' : undefined
+              cursor: hasMore ? 'pointer' : undefined,
+              fontFamily: highlight ? fontFamilies.sansSerifMedium : undefined
             }}>
             {hasMore && (
-              <span {...styles.label}>
+              <span {...styles.label} {...styles.category}>
                 {category}
                 <button
                   {...sharedStyles.plainButton}
                   {...styles.toggleIcon}
                   title={iconTitle}>
-                  <ExpandIcon size={24} fill={'#fff'} />
+                  <ExpandIcon size={20} fill={'#fff'} />
                 </button>
               </span>
             )}
@@ -131,17 +140,14 @@ class BudgetChartItem extends React.Component {
           </div>
         </div>
         {collapsed ||
-          <div {...styles.content} style={{
-            borderColor: background
-            // minHeight: `calc(${height}px - ${minHeight}px)`
-          }}>
+          <div {...styles.content}>
             {children}
             <div {...styles.toggleContent} onClick={this.toggleCollapsed}>
               <button
                 {...sharedStyles.plainButton}
                 {...styles.toggleIconContent}
                 title={iconTitle}>
-                <ExpandIcon size={24} />
+                <ExpandIcon size={20} />
               </button>
             </div>
           </div>

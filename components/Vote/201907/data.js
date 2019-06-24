@@ -6,84 +6,84 @@ import { vt } from '../voteT'
 
 export const data = [
   {
-    category: 'Redaktion',
-    label: 'Schreibend',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/0'),
     pk: 1785971,
     sk: 365000,
     color: colors.discrete[0],
     more: vt('vote/201907/budget/redaktion/more')
   },
   {
-    category: 'Redaktion',
-    label: 'Ausbildung',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/1'),
     pk: 108885,
     sk: 4800
   },
   {
-    category: 'Redaktion',
-    label: 'Rechercheetat',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/2'),
     pk: 0,
     sk: 120000
   },
   {
-    category: 'Redaktion',
-    label: 'Bild',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/3'),
     pk: 174857,
     sk: 246800
   },
   {
-    category: 'Redaktion',
-    label: 'Multimedia',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/4'),
     pk: 107793,
     sk: 64800
   },
   {
-    category: 'Redaktion',
-    label: 'Produktion',
+    category: vt('vote/201907/budget/redaktion'),
+    label: vt('vote/201907/budget/redaktion/5'),
     pk: 370682,
     sk: 87200
   },
   {
-    category: 'IT',
-    label: 'IT',
+    category: vt('vote/201907/budget/it'),
+    label: vt('vote/201907/budget/it/0'),
     pk: 568238,
     sk: 203000,
     color: colors.discrete[1],
     more: vt('vote/201907/budget/it/more')
   },
   {
-    category: 'IT',
-    label: 'Design',
+    category: vt('vote/201907/budget/it'),
+    label: vt('vote/201907/budget/it/1'),
     pk: 0,
     sk: 50000
   },
   {
-    category: 'Community',
-    label: 'Community+',
+    category: vt('vote/201907/budget/community'),
+    label: vt('vote/201907/budget/community'),
     pk: 407622,
     sk: 394000,
     color: colors.discrete[2],
     more: vt('vote/201907/budget/community/more')
   },
   {
-    category: 'Betrieb & Finanzen',
-    label: 'Betrieb',
+    category: vt('vote/201907/budget/services'),
+    label: vt('vote/201907/budget/services'),
     pk: 165692,
     sk: 248600,
     color: colors.discrete[3],
-    more: vt('vote/201907/budget/finance/more')
+    more: vt('vote/201907/budget/services/more')
   },
   {
-    category: 'Leitung',
-    label: 'Geschäftsleitung',
+    category: vt('vote/201907/budget/management'),
+    label: vt('vote/201907/budget/management/0'),
     pk: 158800,
     sk: 195300,
     color: colors.discrete[4],
     more: vt('vote/201907/budget/management/more')
   },
   {
-    category: 'Leitung',
-    label: 'VR/VS',
+    category: vt('vote/201907/budget/management'),
+    label: vt('vote/201907/budget/management/1'),
     pk: 34300,
     sk: 64000
   }

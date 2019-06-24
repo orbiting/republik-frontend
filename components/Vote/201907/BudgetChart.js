@@ -3,7 +3,7 @@ import { colors, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { Tiny } from '../text'
+import { Tiny, Small } from '../text'
 import BudgetChartItem from './BudgetChartItem'
 import BudgetTable from './BudgetTable'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
@@ -26,7 +26,7 @@ export const displayAmount = amount => vt('vote/201907/budget/amount', {
 const styles = {
   wrapper: css({
     width: '100%',
-    margin: '0 auto',
+    margin: '10px auto',
     position: 'relative',
     minHeight: 200
   }),
@@ -76,21 +76,16 @@ class BudgetChart extends Component {
 
     return (
       <div {...styles.wrapper}>
-        <BudgetChartItem
-          color={colors.text}
-          category={'Gesamt'}
-          amount={displayAmount(total)}
-        />
-        {data.children && data.children.map(({ data }) => (
+        {data.children && data.children.map(({ data }, i) => (
           <BudgetChartItem
-            key={data.key}
+            key={`item-${i}`}
             category={data.category}
             amount={displayAmount(data.amount)}
             background={data.color}
             height={data.amount / total * (height || maxHeight)}
             table={data.children}
           >
-            <Tiny dangerousHTML={data.more} indent={false} />
+            <Small dangerousHTML={data.more} indent={false} />
             {data.children && (
               <Fragment>
                 <BudgetTable
@@ -105,13 +100,19 @@ class BudgetChart extends Component {
             )}
           </BudgetChartItem>
         ))}
+        <BudgetChartItem
+          color={colors.text}
+          category={'Gesamt'}
+          amount={displayAmount(total)}
+          highlight
+        />
       </div>
     )
   }
 }
 
 BudgetChart.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
   total: PropTypes.number,
   displayAmount: PropTypes.func,
   maxHeight: PropTypes.number

@@ -12,6 +12,7 @@ import Voting from '../Voting'
 import {
   colors,
   Interaction,
+  linkRule,
   mediaQueries,
   RawHtml
 } from '@project-r/styleguide'
@@ -21,6 +22,7 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
+import { Link } from '../../../lib/routes'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
 import AddressEditor from '../AddressEditor'
@@ -148,19 +150,14 @@ class VotePage extends Component {
                       __html: vt('vote/201907/title')
                     }} />
                 </Title>
-                {/*
-                <div {...styles.image}>
-                  <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=780x`} />
-                  <FigureCaption>{ vt('vote/intro/caption') }</FigureCaption>
-                </div>
-              */}
                 <Body dangerousHTML={vt('vote/201907/intro/body1')} />
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more1')} />
                 </Collapsible>
                 <div {...styles.chart}>
-                  <BudgetChart data={grouped} total={total} />
                   <Small dangerousHTML={vt('vote/201907/budget/chart/caption')} indent={false} />
+                  <BudgetChart data={grouped} total={total} />
+
                 </div>
                 <Body dangerousHTML={vt('vote/201907/intro/body2')} />
                 <Collapsible>
@@ -205,7 +202,14 @@ class VotePage extends Component {
               ))}
 
               {!hasEnded && (
-                <Body dangerousHTML={vt('vote/201907/nextsteps')} />
+                <Fragment>
+                  <Body dangerousHTML={vt('vote/201907/nextsteps')} />
+                  <P>
+                    <Link route='index' passHref>
+                      <a {...linkRule}>{vt('vote/201907/back')}</a>
+                    </Link>
+                  </P>
+                </Fragment>
               )}
 
               {userIsDone &&

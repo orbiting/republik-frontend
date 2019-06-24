@@ -1,6 +1,7 @@
 import React from 'react'
 import { css, merge } from 'glamor'
 import { formatLocale } from 'd3-format'
+import voteT from '../voteT'
 
 import {
   fontFamilies
@@ -43,8 +44,6 @@ const styles = {
   table: css({
     fontFamily: fontFamilies.sansSerifRegular,
     borderSpacing: '0 2px',
-    // paddingLeft: 5,
-    // paddingRight: 5,
     minWidth: '100%',
     marginTop: 15,
     fontSize: 14,
@@ -74,16 +73,17 @@ const Table = ({ children }) => (
   </div>
 )
 
-export default ({ data, total, pk, sk, fraction }) => {
+const BudgetTable = ({ vt, data, total, pk, sk, fraction }) => {
+  const singleRow = data && data.length === 1
   return (
     <Table>
       <thead>
         <tr>
-          <th {...styles.td}>Bereich</th>
-          <th {...styles.num}>PK</th>
-          <th {...styles.num}>SK</th>
-          <th {...styles.num}>Total</th>
-          <th {...styles.num}>GB</th>
+          <th {...styles.td}>{vt('vote/201907/budget/table/label')}</th>
+          <th {...styles.num}>{vt('vote/201907/budget/table/staff')}</th>
+          <th {...styles.num}>{vt('vote/201907/budget/table/material')}</th>
+          <th {...styles.num}>{vt('vote/201907/budget/table/sum')}</th>
+          <th {...styles.num}>{vt('vote/201907/budget/table/fraction')}</th>
         </tr>
       </thead>
       <tbody>
@@ -98,14 +98,18 @@ export default ({ data, total, pk, sk, fraction }) => {
         )
 
         )}
-        <tr>
-          <th {...styles.groupTd}>Total</th>
-          <th {...styles.groupTdNum}>{countFormat(pk / 1000)}</th>
-          <th {...styles.groupTdNum}>{countFormat(sk / 1000)}</th>
-          <th {...styles.groupTdNum}>{countFormat(total / 1000)}</th>
-          <th {...styles.groupTdNum}>{percentFormat(fraction)}</th>
-        </tr>
+        {!singleRow && (
+          <tr>
+            <th {...styles.groupTd}>Total</th>
+            <th {...styles.groupTdNum}>{countFormat(pk / 1000)}</th>
+            <th {...styles.groupTdNum}>{countFormat(sk / 1000)}</th>
+            <th {...styles.groupTdNum}>{countFormat(total / 1000)}</th>
+            <th {...styles.groupTdNum}>{percentFormat(fraction)}</th>
+          </tr>
+        )}
       </tbody>
     </Table>
   )
 }
+
+export default voteT(BudgetTable)

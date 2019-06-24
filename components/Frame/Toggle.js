@@ -6,20 +6,24 @@ import {
   HEADER_HEIGHT_MOBILE,
   ZINDEX_FRAME_TOGGLE
 } from '../constants'
-import { prefixHover } from '../../lib/utils/hover'
 import { negativeColors } from './constants'
 
 const INNER_SIZE = 24
+
+const plainStyles = {
+  backgroundColor: 'transparent',
+  border: 'none',
+  boxShadow: 'none',
+  outline: 'none'
+}
 
 const styles = {
   button: css({
     cursor: 'pointer',
     zIndex: ZINDEX_FRAME_TOGGLE,
-    [`&, ${prefixHover()}, :focus`]: {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-      outline: 'none'
+    '&, :focus': plainStyles,
+    '@media (hover)': {
+      ':hover': plainStyles
     },
     padding: `${Math.floor((HEADER_HEIGHT_MOBILE - INNER_SIZE) / 2)}px`,
     [mediaQueries.mUp]: {
@@ -71,16 +75,20 @@ const styles = {
   light: css({
     '& span': {
       backgroundColor: colors.text,
-      [prefixHover()]: {
-        backgroundColor: colors.text
+      '@media (hover)': {
+        ':hover': {
+          backgroundColor: colors.text
+        }
       }
     }
   }),
   dark: css({
     '& span': {
       backgroundColor: negativeColors.text,
-      [prefixHover()]: {
-        backgroundColor: negativeColors.text
+      '@media (hover)': {
+        ':hover': {
+          backgroundColor: negativeColors.text
+        }
       }
     }
   })

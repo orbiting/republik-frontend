@@ -6,8 +6,6 @@ import SeriesNavPanel from './SeriesNavPanel'
 import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
-import { prefixHover } from '../../lib/utils/hover'
-
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
 import {
   mediaQueries,
@@ -15,14 +13,19 @@ import {
   colors
 } from '@project-r/styleguide'
 
+const plainStyle = {
+  backgroundColor: 'transparent',
+  border: 'none',
+  boxShadow: 'none',
+  outline: 'none'
+}
+
 const styles = {
   button: css({
     cursor: 'pointer',
-    [`&, ${prefixHover()}, &:focus`]: {
-      backgroundColor: 'transparent',
-      border: 'none',
-      boxShadow: 'none',
-      outline: 'none'
+    '&, &:focus': plainStyle,
+    '@media (hover)': {
+      ':hover': plainStyle
     },
     fontFamily: fontFamilies.sansSerifRegular,
     padding: 0,
@@ -43,7 +46,8 @@ const styles = {
     visibility: 'hidden',
     whiteSpace: 'normal',
     opacity: 0,
-    overflow: 'scroll',
+    overflow: 'auto',
+    WebkitOverflowScrolling: 'touch',
     transition: 'opacity 0.2s ease-in-out, visibility 0s linear 0.2s',
     '&[aria-expanded=true]': {
       opacity: 1,

@@ -29,20 +29,22 @@ const styles = {
     textAlign: 'left',
     padding: '10px 0',
     cursor: 'pointer',
-    '&:hover': {
-      background: colors.secondaryBg,
-      margin: '0 -15px',
-      padding: '10px 15px',
-      width: 'calc(100% + 30px)'
-    },
     '& ~ &': {
       borderTop: `1px solid ${colors.divider}`
     },
-    '&:hover + &': {
-      borderColor: 'transparent'
-    },
-    '& + &:hover': {
-      borderColor: 'transparent'
+    '@media(hover)': {
+      '&:hover': {
+        background: colors.secondaryBg,
+        margin: '0 -15px',
+        padding: '10px 15px',
+        width: 'calc(100% + 30px)'
+      },
+      '&:hover + &': {
+        borderColor: 'transparent'
+      },
+      '& + &:hover': {
+        borderColor: 'transparent'
+      }
     },
     ...fontStyles.sansSerifRegular18,
     [mediaQueries.mUp]: {

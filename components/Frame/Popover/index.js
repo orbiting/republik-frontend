@@ -28,6 +28,7 @@ const menuStyle = css({
     transition: 'opacity 0.2s ease-in-out'
   },
   overflow: 'auto',
+  WebkitOverflowScrolling: 'touch',
   paddingTop: paddingTop,
   top: HEADER_HEIGHT_MOBILE - paddingTop,
   height: `calc(100vh - ${HEADER_HEIGHT_MOBILE - paddingTop}px)`,

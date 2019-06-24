@@ -13,7 +13,7 @@ const coverStyle = css({
   position: 'relative',
   [mqLarge]: {
     minHeight: 500,
-    height: ['700px', '70vh'],
+    height: ['500px', '50vh'],
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   }

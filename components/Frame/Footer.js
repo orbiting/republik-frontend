@@ -8,7 +8,6 @@ import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { prefixHover } from '../../lib/utils/hover'
 
 import {
   BrandMark,
@@ -81,8 +80,10 @@ const styles = {
       ':visited': {
         color: negativeColors.text
       },
-      [prefixHover()]: {
-        color: negativeColors.lightText
+      '@media (hover)': {
+        ':hover': {
+          color: negativeColors.lightText
+        }
       }
     }
   }),

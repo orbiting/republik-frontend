@@ -15,6 +15,18 @@ export const data = [
   },
   {
     category: 'Redaktion',
+    label: 'Ausbildung',
+    pk: 108885,
+    sk: 4800
+  },
+  {
+    category: 'Redaktion',
+    label: 'Rechercheetat',
+    pk: 0,
+    sk: 120000
+  },
+  {
+    category: 'Redaktion',
     label: 'Bild',
     pk: 174857,
     sk: 246800
@@ -32,51 +44,48 @@ export const data = [
     sk: 87200
   },
   {
-    category: 'Redaktion',
-    label: 'Ausbildung',
-    pk: 108885,
-    sk: 4800
-  },
-  {
-    category: 'Redaktion',
-    label: 'Rechercheetat',
-    pk: 0,
-    sk: 120000
-  },
-  {
     category: 'IT',
-    label: 'Backend',
-    pk: 1000000,
-    sk: 0,
+    label: 'IT',
+    pk: 568238,
+    sk: 203000,
     color: colors.discrete[1],
     more: vt('vote/201907/budget/it/more')
   },
   {
     category: 'IT',
-    label: 'Frontend',
-    pk: 400000,
-    sk: 0
+    label: 'Design',
+    pk: 0,
+    sk: 50000
   },
   {
     category: 'Community',
-    pk: 1400000,
-    sk: 0,
+    label: 'Community+',
+    pk: 407622,
+    sk: 394000,
     color: colors.discrete[2],
     more: vt('vote/201907/budget/community/more')
   },
   {
     category: 'Betrieb & Finanzen',
-    pk: 700000,
-    sk: 0,
+    label: 'Betrieb',
+    pk: 165692,
+    sk: 248600,
     color: colors.discrete[3],
     more: vt('vote/201907/budget/finance/more')
   },
   {
     category: 'Leitung',
-    pk: 800000,
-    sk: 0,
+    label: 'Geschäftsleitung',
+    pk: 158800,
+    sk: 195300,
     color: colors.discrete[4],
     more: vt('vote/201907/budget/management/more')
+  },
+  {
+    category: 'Leitung',
+    label: 'VR/VS',
+    pk: 34300,
+    sk: 64000
   }
 ]
 
@@ -87,10 +96,9 @@ export const grouped = hierarchy({
     .key(d => d.category)
     .entries(data)
     .map(d => {
-      if (d.values.length > 1) {
+      if (d.values.length > 0) {
         return {
           ...d.values[0],
-          // category: undefined,
           amount: sum(d.values, v => +(v.pk + v.sk)),
           fraction: sum(d.values, v => +(v.pk + v.sk)) / total,
           pk: sum(d.values, v => +v.pk),

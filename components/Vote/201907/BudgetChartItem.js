@@ -85,12 +85,12 @@ class BudgetChartItem extends React.Component {
   }
 
   render () {
-    const { children, category, height, background, color, amount } = this.props
+    const { vt, children, category, height, background, color, amount } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
     const ExpandIcon = collapsed ? ExpandMoreIcon : ExpandLessIcon
-    const iconTitle = collapsed ? 'Mehr' : 'Schliessen'
+    const iconTitle = vt(`vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`)
 
     const compact = !!height && height < 35
     const minHeight = compact ? 25 : 35

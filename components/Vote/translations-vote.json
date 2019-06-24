@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-20T13:34:50.011Z",
+  "updated": "2019-06-20T14:14:13.772Z",
   "title": "live",
   "data": [
     {
@@ -564,7 +564,15 @@
     },
     {
       "key": "vote/201907/budget/table/caption",
-      "value": "Zahlen ohne Einheit in Tausend CHF"
+      "value": "Alle Zahlen ohne Einheit in Tausend CHF"
+    },
+    {
+      "key": "vote/201907/budget/icon/more/title",
+      "value": "Mehr …"
+    },
+    {
+      "key": "vote/201907/budget/icon/less/title",
+      "value": "Schliessen"
     },
     {
       "key": "vote/revision19/title",

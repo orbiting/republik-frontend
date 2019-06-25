@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { colors, mediaQueries } from '@project-r/styleguide'
-import { compose } from 'react-apollo'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { Tiny, Small } from '../text'
@@ -27,16 +26,7 @@ const styles = {
   wrapper: css({
     width: '100%',
     margin: '10px auto',
-    position: 'relative',
-    minHeight: 200
-  }),
-  actions: css({
-    padding: '10px 0',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primaryBg
+    position: 'relative'
   })
 }
 
@@ -44,7 +34,7 @@ class BudgetChart extends Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      height: 0
+      height: props.maxHeight
     }
 
     this.measure = () => {
@@ -52,9 +42,12 @@ class BudgetChart extends Component {
         ? HEADER_HEIGHT_MOBILE
         : HEADER_HEIGHT
 
-      const height = Math.min(
-        window.innerHeight - headerHeight - 120,
-        this.props.maxHeight - headerHeight)
+      const height = Math.max(
+        this.props.minHeight,
+        Math.min(
+          window.innerHeight - headerHeight - 4 * headerHeight,
+          this.props.maxHeight - headerHeight)
+      )
       if (height) {
         this.setState({ height })
       }
@@ -80,20 +73,16 @@ class BudgetChart extends Component {
           <BudgetChartItem
             key={`item-${i}`}
             category={data.category}
-            amount={displayAmount(data.amount)}
-            background={data.color}
-            height={data.amount / total * (height || maxHeight)}
-            table={data.children}
+            total={displayAmount(data.total)}
+            background={data.background}
+            height={data.total / total * (height || maxHeight)}
           >
             <Small dangerousHTML={data.more} indent={false} />
             {data.children && (
               <Fragment>
                 <BudgetTable
+                  {...data}
                   data={data.children}
-                  total={data.amount}
-                  pk={data.pk}
-                  sk={data.sk}
-                  fraction={data.fraction}
                 />
                 <Tiny dangerousHTML={vt('vote/201907/budget/table/caption')} indent={false} note />
               </Fragment>
@@ -102,8 +91,8 @@ class BudgetChart extends Component {
         ))}
         <BudgetChartItem
           color={colors.text}
-          category={'Gesamt'}
-          amount={displayAmount(total)}
+          category={vt('vote/201907/budget/total')}
+          total={displayAmount(total)}
           highlight
         />
       </div>
@@ -119,9 +108,8 @@ BudgetChart.propTypes = {
 }
 
 BudgetChart.defaultProps = {
+  minHeight: 400,
   maxHeight: 700
 }
 
-export default compose(
-  voteT
-)(BudgetChart)
+export default voteT(BudgetChart)

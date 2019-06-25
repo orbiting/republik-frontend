@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { grouped, total } from './data'
+import { budgetData, total } from './data'
 import BudgetChart from './BudgetChart'
 import Frame from '../../Frame'
 import SignIn from '../../Auth/SignIn'
@@ -88,7 +88,11 @@ class VotePage extends Component {
     return (
       <Frame meta={meta}>
         <Loader loading={data.loading} error={data.error} render={() => {
-          const { beginDate, endDate, userIsEligible } = this.props.data[VOTING_COOP_201907_BUDGET_SLUG] || {}
+          const {
+            beginDate,
+            endDate,
+            userIsEligible
+          } = this.props.data[VOTING_COOP_201907_BUDGET_SLUG] || {}
           const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
             return (
@@ -135,14 +139,15 @@ class VotePage extends Component {
                 <Body dangerousHTML={vt('vote/result/after')} />
                 <div style={{ height: 80 }} />
               </Section>}
-              {hasEnded && !hasResults &&
-              <div {...styles.thankyou}>
-                <RawHtml
-                  type={P}
-                  dangerouslySetInnerHTML={{
-                    __html: vt('vote/201907/ended')
-                  }} />
-              </div>}
+              {hasEnded && !hasResults && (
+                <div {...styles.thankyou}>
+                  <RawHtml
+                    type={P}
+                    dangerouslySetInnerHTML={{
+                      __html: vt('vote/201907/ended')
+                    }} />
+                </div>
+              )}
               <Section>
                 <Title>
                   <RawHtml
@@ -156,8 +161,7 @@ class VotePage extends Component {
                 </Collapsible>
                 <div {...styles.chart}>
                   <Small dangerousHTML={vt('vote/201907/budget/chart/caption')} indent={false} />
-                  <BudgetChart data={grouped} total={total} />
-
+                  <BudgetChart data={budgetData} total={total} />
                 </div>
                 <Body dangerousHTML={vt('vote/201907/intro/body2')} />
                 <Collapsible>
@@ -213,13 +217,13 @@ class VotePage extends Component {
               )}
 
               {userIsDone &&
-              <div {...styles.thankyou}>
-                <RawHtml
-                  type={P}
-                  dangerouslySetInnerHTML={{
-                    __html: vt('vote/201907/thankyou')
-                  }} />
-              </div>
+                <div {...styles.thankyou}>
+                  <RawHtml
+                    type={P}
+                    dangerouslySetInnerHTML={{
+                      __html: vt('vote/201907/thankyou')
+                    }} />
+                </div>
               }
             </Fragment>
           )

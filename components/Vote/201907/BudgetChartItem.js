@@ -71,7 +71,7 @@ const styles = {
   }),
   content: css({
     position: 'relative',
-    padding: '10px 0 30px 0'
+    paddingBottom: '30px'
   }),
   highlight: css({
     fontFamily: fontFamilies.sansSerifMedium,
@@ -94,7 +94,7 @@ class BudgetChartItem extends React.Component {
   }
 
   render () {
-    const { vt, children, category, height, background, color, amount, highlight } = this.props
+    const { vt, children, category, height, background, color, total, highlight } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
@@ -134,8 +134,8 @@ class BudgetChartItem extends React.Component {
                 {category}
               </span>
             )}
-            {amount && (
-              <span {...styles.label}>{amount}</span>
+            {total && (
+              <span {...styles.label}>{total}</span>
             )}
           </div>
         </div>

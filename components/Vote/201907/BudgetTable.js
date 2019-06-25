@@ -87,12 +87,12 @@ const BudgetTable = ({ vt, data, total, pk, sk, fraction }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ label, amount, pk, sk, fraction }, i) => (
+        {data.map(({ label, total, pk, sk, fraction }, i) => (
           <tr key={`row${i}`}>
             <td {...styles.td}>{label}</td>
             <td {...styles.num}>{countFormat(pk / 1000)}</td>
             <td {...styles.num}>{countFormat(sk / 1000)}</td>
-            <td {...styles.num}>{countFormat(amount / 1000)}</td>
+            <td {...styles.num}>{countFormat(total / 1000)}</td>
             <td {...styles.num}>{percentFormat(fraction)}</td>
           </tr>
         )

@@ -4,13 +4,16 @@ import { sum } from 'd3-array'
 import { colors } from '@project-r/styleguide'
 import { vt } from '../voteT'
 
-export const data = [
+// pk: Personalkosten
+// sk: Sachkosten
+
+const data = [
   {
     category: vt('vote/201907/budget/redaktion'),
     label: vt('vote/201907/budget/redaktion/0'),
     pk: 1785971,
     sk: 365000,
-    color: colors.discrete[0],
+    background: colors.discrete[0],
     more: vt('vote/201907/budget/redaktion/more')
   },
   {
@@ -48,7 +51,7 @@ export const data = [
     label: vt('vote/201907/budget/it/0'),
     pk: 568238,
     sk: 203000,
-    color: colors.discrete[1],
+    background: colors.discrete[1],
     more: vt('vote/201907/budget/it/more')
   },
   {
@@ -62,7 +65,7 @@ export const data = [
     label: vt('vote/201907/budget/community'),
     pk: 407622,
     sk: 394000,
-    color: colors.discrete[2],
+    background: colors.discrete[2],
     more: vt('vote/201907/budget/community/more')
   },
   {
@@ -70,7 +73,7 @@ export const data = [
     label: vt('vote/201907/budget/services'),
     pk: 165692,
     sk: 248600,
-    color: colors.discrete[3],
+    background: colors.discrete[3],
     more: vt('vote/201907/budget/services/more')
   },
   {
@@ -78,7 +81,7 @@ export const data = [
     label: vt('vote/201907/budget/management/0'),
     pk: 158800,
     sk: 195300,
-    color: colors.discrete[4],
+    background: colors.discrete[4],
     more: vt('vote/201907/budget/management/more')
   },
   {
@@ -91,30 +94,24 @@ export const data = [
 
 export const total = sum(data, d => +(d.pk + d.sk))
 
-export const grouped = hierarchy({
+export const budgetData = hierarchy({
   children: nest()
     .key(d => d.category)
     .entries(data)
     .map(d => {
-      if (d.values.length > 0) {
-        return {
-          ...d.values[0],
-          amount: sum(d.values, v => +(v.pk + v.sk)),
-          fraction: sum(d.values, v => +(v.pk + v.sk)) / total,
-          pk: sum(d.values, v => +v.pk),
-          sk: sum(d.values, v => +v.sk),
-          children: d.values.map(c => {
-            return {
-              ...c,
-              amount: c.pk + c.sk,
-              fraction: (c.pk + c.sk) / total
-            }
-          })
-        }
-      }
       return {
         ...d.values[0],
-        amount: d.values[0].pk + d.values[0].sk
+        total: sum(d.values, v => +(v.pk + v.sk)),
+        fraction: sum(d.values, v => +(v.pk + v.sk)) / total,
+        pk: sum(d.values, v => +v.pk),
+        sk: sum(d.values, v => +v.sk),
+        children: d.values.map(c => {
+          return {
+            ...c,
+            total: c.pk + c.sk,
+            fraction: (c.pk + c.sk) / total
+          }
+        })
       }
     })
 }).sum(d => d.Anzahl)

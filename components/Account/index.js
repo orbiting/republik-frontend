@@ -96,7 +96,7 @@ class Account extends Component {
         return (
           <Fragment>
             {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
-            {!hasAccessGrants && !hasMemberships && !inNativeIOSApp && <UserGuidance />}
+            {!hasAccessGrants && !hasMemberships && <UserGuidance />}
             <MainContainer>
               <Content>
                 {!merci && <H1>
@@ -105,13 +105,12 @@ class Account extends Component {
                   })}
                 </H1>}
                 <Anchors />
-                {hasMemberships && inNativeIOSApp &&
+                {inNativeIOSApp &&
                 <Box style={{ padding: 14, marginBottom: 20 }}>
                   <P>
                     {t('account/ios/box')}
                   </P>
-                </Box>
-                }
+                </Box>}
                 {hasPledges && <AccountAnchor id='statement'>
                   <GiveStatement pkg={hasProlongPledge ? 'PROLONG' : undefined} />
                 </AccountAnchor>}

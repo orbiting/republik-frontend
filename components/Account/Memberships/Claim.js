@@ -231,12 +231,17 @@ class ClaimMembership extends Component {
     const contextLead = t.first([
       `memberships/claim/${context}/lead`,
       'memberships/claim/lead'
-    ], {}, false)
+    ], undefined, '')
 
     const contextBody = t.first([
       `memberships/claim/${context}/body`,
       'memberships/claim/body'
-    ], {}, false)
+    ], undefined, '')
+
+    const contextAddendum = t.first([
+      `memberships/claim/${context}/addendum`,
+      'memberships/claim/addendum'
+    ], undefined, '')
 
     if (polling) {
       return (
@@ -320,6 +325,13 @@ class ClaimMembership extends Component {
           onChange={(_, value, shouldValidate) => {
             this.handleVoucherCode(value, shouldValidate, t)
           }} />
+        <br />
+        <br />
+        {contextAddendum &&
+          <RawHtml type={P} dangerouslySetInnerHTML={{
+            __html: contextAddendum
+          }} />
+        }
         <br />
         <br />
         {!!this.state.showErrors && errorMessages.length > 0 && (

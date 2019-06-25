@@ -196,15 +196,10 @@ class FeedbackPage extends Component {
   }
 
   render () {
-    const { t, me, router: { asPath, query } } = this.props
+    const { t, me, router: { query } } = this.props
     const {
       searchValue
     } = this.state
-
-    const pageMeta = {
-      title: t('pages/feedback/title'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
-    }
 
     const tab = query.t
 
@@ -213,9 +208,14 @@ class FeedbackPage extends Component {
         ? GENERAL_FEEDBACK_DISCUSSION_ID
         : tab === 'article' && query.id
 
+    // meta tags for discussions are rendered in Discussion/Commments.js
+    const pageMeta = activeDiscussionId ? undefined : {
+      title: t('pages/feedback/title'),
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
+    }
+
     return (
-      // Meta tags for a focus comment are rendered in Discussion/Commments.js
-      <Frame raw meta={activeDiscussionId && query.focus ? undefined : pageMeta}>
+      <Frame raw meta={pageMeta}>
         <Center {...styles.container}>
           <div {...styles.intro}>
             <WithMembership render={() => (
@@ -304,11 +304,7 @@ class FeedbackPage extends Component {
               discussionId={activeDiscussionId}
               focusId={query.focus}
               mute={query && !!query.mute}
-              sharePath={asPath}
-              meta={{
-                ...pageMeta,
-                url: asPath
-              }}
+              meta
             />
           )}
           {!tab && (

@@ -4,7 +4,6 @@ import 'glamor/reset'
 import IconLink from '../IconLink'
 import { mediaQueries, fontFamilies, Label } from '@project-r/styleguide'
 import { EMAIL_CONTACT } from '../../lib/constants'
-import { prefixHover } from '../../lib/utils/hover'
 
 css.global('html', { boxSizing: 'border-box' })
 css.global('*, *:before, *:after', { boxSizing: 'inherit' })
@@ -14,8 +13,10 @@ export const SPACE = 60
 const linkRule = css({
   textDecoration: 'none',
   color: 'inherit',
-  [prefixHover()]: {
-    opacity: 0.6
+  '@media (hover)': {
+    ':hover': {
+      opacity: 0.6
+    }
   }
 })
 

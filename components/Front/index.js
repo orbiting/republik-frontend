@@ -9,6 +9,7 @@ import Head from 'next/head'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
+import { withEditor } from '../Auth/checkRoles'
 import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
@@ -81,13 +82,18 @@ const Front = ({
   renderAfter,
   containerStyle,
   extractId,
-  serverContext
+  serverContext,
+  isEditor
 }) => {
   const meta = front && {
     ...front.meta,
     title: front.meta.title || t('pages/magazine/title'),
     url: `${PUBLIC_BASE_URL}${front.meta.path}`
   }
+
+  const MissingNode = isEditor
+    ? undefined
+    : ({ children }) => children
 
   if (extractId) {
     return (
@@ -105,7 +111,7 @@ const Front = ({
             {renderMdast({
               type: 'root',
               children: front.children.nodes.map(v => v.body)
-            }, schema)}
+            }, schema, { MissingNode })}
           </Fragment>
         )
       }} />
@@ -139,7 +145,7 @@ const Front = ({
             {() => renderMdast({
               type: 'root',
               children: front.children.nodes.map(v => v.body)
-            }, schema)}
+            }, schema, { MissingNode })}
           </SSRCachingBoundary>
           {hasMore && <div {...styles.more}>
             {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
@@ -175,6 +181,7 @@ const Front = ({
 }
 
 export default compose(
+  withEditor,
   withT,
   withRouter,
   graphql(getDocument, {

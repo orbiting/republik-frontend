@@ -65,13 +65,13 @@ export default withRouter(({ router }) => {
     description: CURTAIN_MESSAGE,
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
     ...parseJSONObject(CURTAIN_META),
-    url: `${PUBLIC_BASE_URL}${router.pathname}`
+    url: `${PUBLIC_BASE_URL}${router.asPath.split('#')[0]}`
   }
 
   return (
     <div {...styles.container}>
       <Head>
-        <title>Republik</title>
+        <title>{meta.title}</title>
         <meta name='description' content={meta.description} />
         <meta property='og:type' content='website' />
         <meta property='og:url' content={meta.url} />

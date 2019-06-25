@@ -8,7 +8,6 @@ import { withSignOut } from '../Auth/SignOut'
 import { intersperse } from '../../lib/utils/helpers'
 import { Link, Router } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { prefixHover } from '../../lib/utils/hover'
 
 import {
   BrandMark,
@@ -81,8 +80,10 @@ const styles = {
       ':visited': {
         color: negativeColors.text
       },
-      [prefixHover()]: {
-        color: negativeColors.lightText
+      '@media (hover)': {
+        ':hover': {
+          color: negativeColors.lightText
+        }
       }
     }
   }),
@@ -251,6 +252,12 @@ class Footer extends Component {
                   <br />
                 </Fragment>
               )}
+              <Fragment>
+                <Link route='claim'>
+                  <a>{t('footer/me/claim')}</a>
+                </Link>
+                <br />
+              </Fragment>
               <Link route='faq'>
                 <a>{t('footer/me/faq')}</a>
               </Link>

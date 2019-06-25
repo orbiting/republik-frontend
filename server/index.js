@@ -86,10 +86,11 @@ app.prepare().then(() => {
         res.set('X-Robots-Tag', 'noindex')
         res.cookie('OpenSesame', BACKDOOR_URL, cookieOptions)
       }
+      const reqUa = String(req.get('User-Agent'))
       if (
         hasCookie ||
         ALLOWED_PATHS.some(path => req.url.startsWith(path)) ||
-        ALLOWED_UAS.some(ua => req.get('User-Agent').includes(ua))
+        ALLOWED_UAS.some(ua => reqUa.includes(ua))
       ) {
         return next()
       }

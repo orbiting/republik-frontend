@@ -156,7 +156,7 @@ class FrontOverview extends Component {
             ? t.first([`overview/${year}/lead`, 'overview/lead'], { year }, '')
             : t.elements(`overview/lead/${me ? 'pledge' : 'signIn'}`)}
         </P>
-        {!isMember && <Link key='pledge' route='pledge' passHref>
+        {!isMember && <Link key='pledgeBefore' route='pledge' passHref>
           <Button white>{t('overview/lead/pledgeButton')}</Button>
         </Link>}
 
@@ -186,7 +186,7 @@ class FrontOverview extends Component {
           })
         }} />
 
-        {!isMember && <Link key='pledge' route='pledge' passHref>
+        {!isMember && <Link key='pledgeAfter' route='pledge' passHref>
           <Button white style={{ marginTop: 100 }}>{t('overview/after/pledgeButton')}</Button>
         </Link>}
       </Frame>

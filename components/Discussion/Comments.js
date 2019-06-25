@@ -1,7 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
 import { compose } from 'react-apollo'
-import { format, parse } from 'url'
 
 import withT from '../../lib/withT'
 import timeahead from '../../lib/timeahead'
@@ -17,6 +16,7 @@ import { withDiscussionComments } from './graphql/enhancers/withDiscussionCommen
 import DiscussionPreferences from './DiscussionPreferences'
 import SecondaryActions from './SecondaryActions'
 import ShareOverlay from './ShareOverlay'
+import CommentLink, { getFocusUrl } from './CommentLink'
 
 import {
   Loader,
@@ -26,14 +26,12 @@ import {
   colors,
   fontStyles,
   mediaQueries,
-  useMediaQuery
+  useMediaQuery,
+  inQuotes
 } from '@project-r/styleguide'
 
-import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
-import { Link } from '../../lib/routes'
 import Meta from '../Frame/Meta'
 import { focusSelector } from '../../lib/utils/scroll'
-import PathLink from '../Link/Path'
 
 const styles = {
   orderByContainer: css({
@@ -61,18 +59,6 @@ const styles = {
   })
 }
 
-const getFocusUrl = (path, commentId) => {
-  const documentPathObject = parse(path, true)
-  const sharePath = format({
-    pathname: documentPathObject.pathname,
-    query: {
-      ...documentPathObject.query,
-      focus: commentId
-    }
-  })
-  return PUBLIC_BASE_URL + sharePath
-}
-
 const Comments = props => {
   const {
     t,
@@ -82,7 +68,6 @@ const Comments = props => {
     orderBy,
     discussionComments: { loading, error, discussion, fetchMore },
     meta,
-    sharePath,
     setOrderBy
   } = props
 
@@ -216,7 +201,7 @@ const Comments = props => {
       loading={loading || (focusId && focusLoading)}
       error={error || (focusId && focusError) || (discussion === null && t('discussion/missing'))}
       render={() => {
-        const { focus } = discussion
+        const { focus } = discussion.comments
 
         if (discussion.comments.totalCount === 0) {
           return <EmptyDiscussion t={t} />
@@ -258,7 +243,7 @@ const Comments = props => {
               return fetchMore({ parentId, after, appendAfter })
             },
             shareComment: comment => {
-              setShareUrl(getFocusUrl(sharePath || discussion.path, comment.id))
+              setShareUrl(getFocusUrl(discussion, comment.id))
               return Promise.resolve({ ok: true })
             },
             openDiscussionPreferences: () => {
@@ -294,43 +279,10 @@ const Comments = props => {
 
           links: {
             Profile: ({ displayAuthor, ...props }) => {
-              /*
-               * If the username is not available, it means the profile is not public.
-               */
-              if (displayAuthor.username) {
-                return <Link route='profile' params={{ slug: displayAuthor.username }} {...props} />
-              } else {
-                return <React.Fragment children={props.children} />
-              }
+              return <CommentLink {...props} displayAuthor={displayAuthor} />
             },
             Comment: ({ comment, ...props }) => {
-              if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
-                return <Link route='discussion' params={{ t: 'general', focus: comment.id }} {...props} />
-              } else if (
-                discussion.document &&
-                discussion.document.meta &&
-                discussion.document.meta.template === 'article' &&
-                discussion.document.meta.ownDiscussion &&
-                discussion.document.meta.ownDiscussion.id === discussion.id
-              ) {
-                return (
-                  <Link route='discussion' params={{ t: 'article', id: discussion.id, focus: comment.id }} {...props} />
-                )
-              } else if (discussion.path) {
-                const documentPathObject = parse(discussion.path, true)
-                return (
-                  <PathLink
-                    path={documentPathObject.pathname}
-                    query={{ ...documentPathObject.query, focus: comment.id }}
-                    replace
-                    scroll={false}
-                    {...props}
-                  />
-                )
-              } else {
-                /* XXX: When does this happen? */
-                return <React.Fragment children={props.children} />
-              }
+              return <CommentLink {...props} discussion={discussion} commentId={comment.id} />
             }
           },
           composerSecondaryActions: <SecondaryActions />
@@ -349,16 +301,25 @@ const Comments = props => {
             </div>
 
             <DiscussionContext.Provider value={discussionContextValue}>
-              {focus && meta && (
+              {focus && (
                 <Meta
                   data={{
-                    ...meta,
                     title: t('discussion/meta/focus/title', {
                       authorName: focus.displayAuthor.name,
-                      discussionTitle: meta.title
+                      quotedDiscussionTitle: inQuotes(discussion.title)
                     }),
                     description: focus.preview ? focus.preview.string : undefined,
-                    url: getFocusUrl(meta.url, focus.id)
+                    url: getFocusUrl(discussion, focus.id)
+                  }}
+                />
+              )}
+              {!focus && meta && (
+                <Meta
+                  data={{
+                    title: t('discussion/meta/title', {
+                      quotedDiscussionTitle: inQuotes(discussion.title)
+                    }),
+                    url: getFocusUrl(discussion)
                   }}
                 />
               )}

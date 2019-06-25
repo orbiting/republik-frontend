@@ -25,7 +25,7 @@ export const discussion = gql`
     displayAuthor {
       id
       name
-      username
+      slug
       credential {
         description
         verified
@@ -68,7 +68,7 @@ export const comment = gql`
     displayAuthor {
       id
       name
-      username
+      slug
       credential {
         description
         verified

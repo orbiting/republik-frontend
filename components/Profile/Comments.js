@@ -2,7 +2,7 @@ import React from 'react'
 import { CommentTeaser, Interaction } from '@project-r/styleguide'
 import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
-import { CommentLink } from '../Feedback/LatestComments'
+import CommentLink from '../Discussion/CommentLink'
 
 const Comments = ({ t, comments }) => {
   if (!comments || !comments.totalCount) {

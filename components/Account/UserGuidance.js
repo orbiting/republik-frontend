@@ -4,6 +4,7 @@ import { css } from 'glamor'
 
 import { Link } from '../../lib/routes'
 import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
 
 import { withSignOut } from '../Auth/SignOut'
 import Box from '../Frame/Box'
@@ -20,51 +21,70 @@ const styles = {
   })
 }
 
-const ISSUES = [1, 2, 3, 4]
+const ISSUES = [
+  { issue: 1 },
+  { issue: 2, hideInNativeIOSApp: true },
+  { issue: 3, hideInNativeIOSApp: true },
+  { issue: 4, hideInNativeIOSApp: true },
+  { issue: 5 }
+]
 
-const UserGuidance = ({ t, signOut }) => (
+const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
   <Box>
     <MainContainer>
       <Interaction.P>{t('Account/noActiveMembership/before')}</Interaction.P>
       <ul {...styles.list}>
-        {ISSUES.map(index => (
-          <li key={index}>
-            <P>
-              {t(`Account/noActiveMembership/issue${index}`)}
-              <br />
-              {t.elements(`Account/noActiveMembership/solution${index}`, {
-                solution: (
-                  <b key='solution'>
-                    {t('Account/noActiveMembership/solution')}
-                  </b>
-                ),
-                signOutLink: (
-                  <Editorial.A
-                    key='signOut'
-                    href='#abmelden'
-                    onClick={e => {
-                      e.preventDefault()
-                      signOut()
-                    }}
-                  >
-                    {t('Account/noActiveMembership/signOutLink')}
-                  </Editorial.A>
-                ),
-                pledgeLink: (
-                  <Link route='pledge' key='pledge' passHref>
-                    <Editorial.A>
-                      {t('Account/noActiveMembership/pledgeLink')}
+        {ISSUES.map(({ issue, hideInNativeIOSApp = false }) => {
+          if (inNativeIOSApp && hideInNativeIOSApp) {
+            return null
+          }
+
+          return (
+            <li key={issue}>
+              <P>
+                {t(`Account/noActiveMembership/issue${issue}`)}
+                <br />
+                {t.elements(`Account/noActiveMembership/solution${issue}`, {
+                  solution: (
+                    <b key='solution'>
+                      {t('Account/noActiveMembership/solution')}
+                    </b>
+                  ),
+                  signOutLink: (
+                    <Editorial.A
+                      key='signOut'
+                      href='#abmelden'
+                      onClick={e => {
+                        e.preventDefault()
+                        signOut()
+                      }}
+                    >
+                      {t('Account/noActiveMembership/signOutLink')}
                     </Editorial.A>
-                  </Link>
-                )
-              })}
-            </P>
-          </li>
-        ))}
+                  ),
+                  pledgeLink: (
+                    <Link route='pledge' key='pledge' passHref>
+                      <Editorial.A>
+                        {t('Account/noActiveMembership/pledgeLink')}
+                      </Editorial.A>
+                    </Link>
+                  ),
+                  claimLink: (
+                    <Link route='claim' key='claim' passHref>
+                      <Editorial.A>
+                        {t('Account/noActiveMembership/claimLink')}
+                      </Editorial.A>
+                    </Link>
+                  )
+                })}
+              </P>
+            </li>
+          )
+        })}
       </ul>
       <Interaction.P>{t('Account/noActiveMembership/after')}</Interaction.P>
     </MainContainer>
   </Box>
 )
 
-export default compose(withT, withSignOut)(UserGuidance)
+export default compose(withT, withInNativeApp, withSignOut)(UserGuidance)

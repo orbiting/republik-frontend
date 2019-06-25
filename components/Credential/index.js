@@ -23,7 +23,7 @@ const Credential = ({ description, verified, t, textColor }) => (
     {description}
     {verified && <MdCheck
       {...styles.check}
-      {...(textColor ? { fill: colors.text } : undefined)} />}
+      {...(textColor ? { fill: colors.primary } : undefined)} />}
   </span>
 )
 

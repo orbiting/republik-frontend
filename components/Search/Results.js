@@ -6,7 +6,7 @@ import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 
 import ActionBar from '../ActionBar/Feed'
-import { CommentLink } from '../Feedback/LatestComments'
+import CommentLink from '../Discussion/CommentLink'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 

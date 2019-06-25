@@ -105,6 +105,11 @@ class VotePage extends Component {
           ]
 
           const { me } = data
+          const numVotes = votings.reduce(
+            (prev, current) => (prev.turnout.submitted > current.turnout.submitted)
+              ? prev
+              : current
+          ).turnout.submitted
 
           const userIsDone = votings
             .map(d => d.userHasSubmitted)
@@ -155,13 +160,13 @@ class VotePage extends Component {
                       __html: vt('vote/201907/title')
                     }} />
                 </Title>
-                <Body dangerousHTML={vt('vote/201907/intro/body1')} />
+                <Body dangerousHTML={vt('vote/201907/intro/body1', { count: numVotes })} />
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more1')} />
                 </Collapsible>
                 <div {...styles.chart}>
-                  <Small dangerousHTML={vt('vote/201907/budget/chart/caption')} indent={false} />
                   <BudgetChart data={budgetData} total={total} />
+                  <Small dangerousHTML={vt('vote/201907/budget/chart/caption')} indent={false} />
                 </div>
                 <Body dangerousHTML={vt('vote/201907/intro/body2')} />
                 <Collapsible>

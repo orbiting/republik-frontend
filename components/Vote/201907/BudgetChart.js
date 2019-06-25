@@ -69,6 +69,12 @@ class BudgetChart extends Component {
 
     return (
       <div {...styles.wrapper}>
+        <BudgetChartItem
+          color={colors.text}
+          category={vt('vote/201907/budget/total')}
+          total={displayAmount(total)}
+          highlight
+        />
         {data.children && data.children.map(({ data }, i) => (
           <BudgetChartItem
             key={`item-${i}`}
@@ -89,12 +95,6 @@ class BudgetChart extends Component {
             )}
           </BudgetChartItem>
         ))}
-        <BudgetChartItem
-          color={colors.text}
-          category={vt('vote/201907/budget/total')}
-          total={displayAmount(total)}
-          highlight
-        />
       </div>
     )
   }

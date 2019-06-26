@@ -82,8 +82,8 @@ class VotePage extends Component {
     const { vt, data } = this.props
 
     const meta = {
-      title: vt('vote/sm/title'),
-      description: vt('vote/sm/description'),
+      title: vt('vote/201907/sm/title'),
+      description: vt('vote/201907/sm/description'),
       image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote.jpg`
     }
 
@@ -209,7 +209,7 @@ class VotePage extends Component {
                       <RawHtml
                         type={P}
                         dangerouslySetInnerHTML={{
-                          __html: vt('common/signInBody')
+                          __html: vt('vote/201907/signInBody')
                         }}
                       />
                     </Fragment>

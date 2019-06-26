@@ -8,6 +8,8 @@ import ExpandLessIcon from 'react-icons/lib/md/expand-less'
 import { fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
 import voteT from '../voteT'
 
+const ICON_SIZE = 20
+
 const styles = {
   wrapper: css({
     marginTop: 0,
@@ -22,7 +24,7 @@ const styles = {
     marginTop: '-2px'
   }),
   category: css({
-    paddingRight: '20px',
+    paddingRight: `${ICON_SIZE}px`,
     position: 'relative'
   }),
   toggle: css({
@@ -38,7 +40,7 @@ const styles = {
   }),
   toggleIcon: css({
     padding: 0,
-    width: 20,
+    width: ICON_SIZE,
     marginLeft: 0,
     display: 'inline-block',
     opacity: 0.5,
@@ -61,12 +63,12 @@ const styles = {
   toggleIconContent: css({
     padding: 0,
     color: '#000',
-    width: 20,
+    width: ICON_SIZE,
     marginLeft: 0,
     display: 'inline-block',
     position: 'absolute',
     bottom: 5,
-    left: `calc(50% - ${20 / 2}px)`,
+    left: `calc(50% - ${ICON_SIZE / 2}px)`,
     opacity: 0.5
   }),
   content: css({
@@ -125,7 +127,7 @@ class BudgetChartItem extends React.Component {
                   {...sharedStyles.plainButton}
                   {...styles.toggleIcon}
                   title={iconTitle}>
-                  <ExpandIcon size={20} fill={'#fff'} />
+                  <ExpandIcon size={ICON_SIZE} fill={'#fff'} />
                 </button>
               </span>
             )}
@@ -147,7 +149,7 @@ class BudgetChartItem extends React.Component {
                 {...sharedStyles.plainButton}
                 {...styles.toggleIconContent}
                 title={iconTitle}>
-                <ExpandIcon size={20} />
+                <ExpandIcon size={ICON_SIZE} />
               </button>
             </div>
           </div>

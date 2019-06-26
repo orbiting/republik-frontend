@@ -21,7 +21,7 @@ const styles = {
   })
 }
 
-const DISCUSSION_SLUG = VOTING_COOP_201907_BUDGET_SLUG
+export const DISCUSSION_SLUG = VOTING_COOP_201907_BUDGET_SLUG
 
 const DiscussionPage = ({ router, data, vt }) => {
   const meta = {

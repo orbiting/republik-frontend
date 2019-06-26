@@ -23,6 +23,7 @@ import {
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import { Link } from '../../../lib/routes'
+import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
 import AddressEditor from '../AddressEditor'
@@ -61,6 +62,10 @@ const styles = {
       margin: '50px auto'
     },
     maxWidth: '400px'
+  }),
+  discussionIcon: css({
+    display: 'inline-block',
+    lineHeight: 0
   })
 }
 
@@ -91,7 +96,8 @@ class VotePage extends Component {
           const {
             beginDate,
             endDate,
-            userIsEligible
+            userIsEligible,
+            discussion
           } = this.props.data[VOTING_COOP_201907_BUDGET_SLUG] || {}
           const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
@@ -136,7 +142,7 @@ class VotePage extends Component {
                 <Title>{ vt('vote/result/title') }</Title>
                 <Body dangerousHTML={vt('vote/result/lead')} />
                 <VoteResult
-                  votings={votings.map(({ id, slug }) => ({
+                  votings={VOTINGS.map(({ id, slug }) => ({
                     id,
                     data: data[slug]
                   }))}
@@ -198,7 +204,23 @@ class VotePage extends Component {
               {VOTINGS.map(({ id, slug }) => (
                 <Section key={id}>
                   <a {...styles.anchor} id={id} />
-                  <Heading>{ vt(`vote/${id}/title`) }</Heading>
+                  <Heading>
+                    { vt(`vote/${id}/title`) }
+                    {slug === VOTING_COOP_201907_BUDGET_SLUG && discussion && (
+                      <div {...styles.discussionIcon}>
+                        <DiscussionIconLinkWithoutEnhancer
+                          discussionId={discussion.id}
+                          path={discussion.path}
+                          discussionCommentsCount={
+                            discussion.comments
+                              ? discussion.comments.totalCount
+                              : undefined
+                          }
+                          style={{ marginLeft: 10 }}
+                        />
+                      </div>
+                    )}
+                  </Heading>
                   <Body dangerousHTML={vt(`vote/${id}/body`)} />
                   <Collapsible>
                     <Small dangerousHTML={vt(`vote/${id}/more`)} />
@@ -259,6 +281,13 @@ const votingsQuery = VOTINGS.map(({ slug }) => `
           id
           label
         }
+      }
+    }
+    discussion {
+      id
+      path
+      comments {
+        totalCount
       }
     }
    }

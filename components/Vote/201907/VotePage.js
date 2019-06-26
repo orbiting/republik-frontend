@@ -23,6 +23,7 @@ import {
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import { Link } from '../../../lib/routes'
+import PathLink from '../../Link/Path'
 import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
@@ -62,10 +63,6 @@ const styles = {
       margin: '50px auto'
     },
     maxWidth: '400px'
-  }),
-  discussionIcon: css({
-    display: 'inline-block',
-    lineHeight: 0
   })
 }
 
@@ -178,6 +175,25 @@ class VotePage extends Component {
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more2')} />
                 </Collapsible>
+                {discussion && (
+                  <P>
+                    <PathLink path={discussion.path} passHref key='link'>
+                      <a {...linkRule}>
+                        {vt('vote/201907/discussion')}
+                      </a>
+                    </PathLink>
+                    <DiscussionIconLinkWithoutEnhancer
+                      discussionId={discussion.id}
+                      path={discussion.path}
+                      discussionCommentsCount={
+                        discussion.comments
+                          ? discussion.comments.totalCount
+                          : undefined
+                      }
+                      style={{ marginLeft: 5, lineHeight: 0 }}
+                    />
+                  </P>
+                )}
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />
                   <Heading>{vt('common/missingAddressTitle')}</Heading>
@@ -204,23 +220,7 @@ class VotePage extends Component {
               {VOTINGS.map(({ id, slug }) => (
                 <Section key={id}>
                   <a {...styles.anchor} id={id} />
-                  <Heading>
-                    { vt(`vote/${id}/title`) }
-                    {slug === VOTING_COOP_201907_BUDGET_SLUG && discussion && (
-                      <div {...styles.discussionIcon}>
-                        <DiscussionIconLinkWithoutEnhancer
-                          discussionId={discussion.id}
-                          path={discussion.path}
-                          discussionCommentsCount={
-                            discussion.comments
-                              ? discussion.comments.totalCount
-                              : undefined
-                          }
-                          style={{ marginLeft: 10 }}
-                        />
-                      </div>
-                    )}
-                  </Heading>
+                  <Heading>{ vt(`vote/${id}/title`) }</Heading>
                   <Body dangerousHTML={vt(`vote/${id}/body`)} />
                   <Collapsible>
                     <Small dangerousHTML={vt(`vote/${id}/more`)} />

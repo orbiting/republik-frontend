@@ -42,6 +42,12 @@ const styles = {
         minWidth: '160px'
       }
     }
+  }),
+  pMargin: css({
+    margin: '10px 0',
+    [mediaQueries.mUp]: {
+      margin: '20px 0'
+    }
   })
 }
 
@@ -69,10 +75,10 @@ const ProgressPrompt = compose(
           <H2>
             {t('article/progressprompt/headline')}
           </H2>
-          <P withMargin>
+          <P {...styles.pMargin}>
             {getFeatureDescription(t)}
           </P>
-          <P withMargin>
+          <P {...styles.pMargin}>
             <Emphasis>{t('article/progressprompt/question')}</Emphasis>
             <span {...styles.actions}>
               <Button onClick={onSubmitConsent}>

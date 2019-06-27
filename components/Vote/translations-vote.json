@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-27T08:15:35.814Z",
+  "updated": "2019-06-27T11:40:30.237Z",
   "title": "live",
   "data": [
     {
@@ -15,11 +15,23 @@
       "value": "Es können nur Personen teilnehmen, die angemeldet sind und vor dem 4.&nbsp;Juli 2019 ein Jahresabonnement erworben haben."
     },
     {
-      "key": "vote/201907/sm/title",
-      "value": "Project R Urabstimmung Juli 2019"
+      "key": "vote/201907/page/title",
+      "value": "Was wir mit Ihrem Geld anstellen"
     },
     {
-      "key": "vote/201907/sm/description",
+      "key": "vote/201907/page/description",
+      "value": "Auf der Traktandenliste stehen das Budget der Genossenschaft Project R für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
+    },
+    {
+      "key": "vote/201907/sm/tweet",
+      "value": "Noch bis 14. Juli: Project R Urabstimmung Juli 2019."
+    },
+    {
+      "key": "vote/201907/sm/emailSubject",
+      "value": "Project R Abstimmung Juli 2019"
+    },
+    {
+      "key": "vote/201907/sm/emailBody",
       "value": "Auf der Traktandenliste stehen das Budget der Genossenschaft Project R für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
     },
     {
@@ -36,7 +48,7 @@
     },
     {
       "key": "vote/201907/intro/body2",
-      "value": "Damit kommen wir zur Abstimmung. Auf der Traktandenliste stehen das Budget der Genossenschaft Project R für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle"
+      "value": "Damit kommen wir zur Abstimmung. Auf der Traktandenliste stehen das Budget der Genossenschaft Project R für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
     },
     {
       "key": "vote/201907/intro/more2",
@@ -52,7 +64,7 @@
     },
     {
       "key": "vote/budget19/body",
-      "value": "Sie haben gesehen, wohin ihr Geld fliesst. Sind Sie mit dem Gesamtbudget einverstanden? Dann können Sie mit Überzeugung Ja zum Budget von Project R sagen. Denn der grösste Ausgabenposten ist das Geld, das sie in die Republik investiert. \n\nDer Vorstand und der Genossenschaftsrat von Project R legen Ihnen dieses <a href=\"https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf\">Budget inklusive Erläuterungen</a> vor und bitten um Ihre Zustimmung."
+      "value": "Sie haben gesehen, wohin ihr Geld fliesst. Sind Sie mit dem Gesamtbudget einverstanden? Dann können Sie mit Überzeugung Ja zum Budget von Project R sagen. Denn der grösste Ausgabenposten ist das Geld, das sie in die Republik investiert. \n\nDer Vorstand und der Genossenschaftsrat von Project R legen Ihnen dieses <a target=\"_blank\" href=\"https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf\">Budget inklusive Erläuterungen</a> vor und bitten um Ihre Zustimmung."
     },
     {
       "key": "vote/budget19/more",
@@ -164,7 +176,7 @@
     },
     {
       "key": "vote/201907/budget/chart/caption",
-      "value": "Konsolidiertes Ausgabenbudget der Republik AG und der Project R Genossenschaft für das 3. Geschäftsjahr vom 1.&nbsp;Juli 2019 bis 30.&nbsp;Juni 2020. \n\nDaten-Download: <a href=\"#\">Excel</a>"
+      "value": "Konsolidiertes Ausgabenbudget der Republik AG und der Project R Genossenschaft für das 3. Geschäftsjahr vom 1.&nbsp;Juli 2019 bis 30.&nbsp;Juni 2020. \n\nDaten-Download: <a href=\"#\" download>CSV</a> &middot; <a href=\"https://cdn.republik.space/s3/republik-assets/assets/Aus-der-Redaktion/USA_Dokumentation.xlsx\" download>Excel</a>"
     },
     {
       "key": "vote/201907/budget/table/label",
@@ -204,7 +216,7 @@
     },
     {
       "key": "vote/revision19/body",
-      "value": "Kommen wir zur zweiten Frage. Unsere Statuten sehen vor, das die Revisionsstelle einmal pro Jahr zur Wahl gestellt wird. Wir möchten Sie daher bitten, unsere Revisionsstelle BDO AG zu bestätigen. Die BDO AG hat bereits im vergangenen Jahr unsere Zahlen geprüft und den <a href=\"https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Project+R+-+Jahresrechnung+2017-18.pdf\">Revisionsbericht</a> verfasst. Wir haben gute Erfahrungen mit diesem Unternehmen gemacht und möchten die Zusammenarbeit fortsetzen. \nGenossenschaftsrat und Vorstand legen Ihnen die\n <a href=\"https://zh.chregister.ch/cr-portal/auszug/auszug.xhtml?uid=CHE-105.952.747\">BDO AG (Zürich)</a> als Revisionsstelle zur Bestätigung vor und bitten Sie um Zustimmung."
+      "value": "Kommen wir zur zweiten Frage. Unsere Statuten sehen vor, das die Revisionsstelle einmal pro Jahr zur Wahl gestellt wird. Wir möchten Sie daher bitten, unsere Revisionsstelle BDO AG zu bestätigen. Die BDO AG hat bereits im vergangenen Jahr unsere Zahlen geprüft und den <a target=\"_blank\" href=\"https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Project+R+-+Jahresrechnung+2017-18.pdf\">Revisionsbericht</a> verfasst. Wir haben gute Erfahrungen mit diesem Unternehmen gemacht und möchten die Zusammenarbeit fortsetzen. \nGenossenschaftsrat und Vorstand legen Ihnen die\n <a target=\"_blank\" href=\"https://zh.chregister.ch/cr-portal/auszug/auszug.xhtml?uid=CHE-105.952.747\">BDO AG (Zürich)</a> als Revisionsstelle zur Bestätigung vor und bitten Sie um Zustimmung."
     },
     {
       "key": "vote/revision19/more",

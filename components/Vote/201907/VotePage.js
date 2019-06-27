@@ -12,7 +12,6 @@ import Voting from '../Voting'
 import {
   colors,
   Interaction,
-  linkRule,
   mediaQueries,
   RawHtml
 } from '@project-r/styleguide'
@@ -23,7 +22,6 @@ import {
   PUBLIC_BASE_URL
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
-import { Link } from '../../../lib/routes'
 import ActionBar from '../../ActionBar'
 import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import Loader from '../../Loader'
@@ -40,7 +38,7 @@ const { P } = Interaction
 
 const styles = {
   actions: css({
-    margin: '-10px 0 20px 0',
+    margin: '0 0 20px 0',
     [mediaQueries.lUp]: {
       margin: '30px 0'
     }
@@ -89,9 +87,9 @@ class VotePage extends Component {
     const { vt, data } = this.props
 
     const meta = {
-      title: vt('vote/201907/sm/title'),
-      description: vt('vote/201907/sm/description'),
-      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote.jpg`
+      title: vt('vote/201907/page/title'),
+      description: vt('vote/201907/page/description'),
+      image: `${CDN_FRONTEND_BASE_URL}/static/social-media/vote-juli19.png`
     }
 
     return (
@@ -140,6 +138,30 @@ class VotePage extends Component {
             ? vt('common/missingAddressDisabledMessage')
             : undefined
 
+          const actionBar = (
+            <div {...styles.actions}>
+              <ActionBar
+                url={`${PUBLIC_BASE_URL}/vote/juli19`}
+                title={vt('vote/201907/page/title')}
+                tweet={vt('vote/201907/sm/tweet')}
+                emailSubject={vt('vote/201907/sm/emailSubject')}
+                emailBody={vt('vote/201907/sm/emailBody')}
+              />
+              {discussion && (
+                <DiscussionIconLinkWithoutEnhancer
+                  discussionId={discussion.id}
+                  path={discussion.path}
+                  discussionCommentsCount={
+                    discussion.comments
+                      ? discussion.comments.totalCount
+                      : undefined
+                  }
+                  style={{ marginLeft: 5, lineHeight: 0 }}
+                />
+              )}
+            </div>
+          )
+
           return (
             <Fragment>
               {hasResults && <Section>
@@ -170,27 +192,7 @@ class VotePage extends Component {
                       __html: vt('vote/201907/title')
                     }} />
                 </Title>
-                <div {...styles.actions}>
-                  <ActionBar
-                    url={`${PUBLIC_BASE_URL}/vote/juli19`}
-                    title={vt('vote/201907/sm/title')}
-                    tweet={vt('vote/201907/sm/title')}
-                    emailSubject={vt('vote/201907/sm/title')}
-                    emailBody={vt('vote/201907/sm/description')}
-                  />
-                  {discussion && (
-                    <DiscussionIconLinkWithoutEnhancer
-                      discussionId={discussion.id}
-                      path={discussion.path}
-                      discussionCommentsCount={
-                        discussion.comments
-                          ? discussion.comments.totalCount
-                          : undefined
-                      }
-                      style={{ marginLeft: 5, lineHeight: 0 }}
-                    />
-                  )}
-                </div>
+                {actionBar}
                 <Body dangerousHTML={vt('vote/201907/intro/body1', { count: numVotes })} />
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more1')} />
@@ -242,14 +244,7 @@ class VotePage extends Component {
               ))}
 
               {!hasEnded && (
-                <Fragment>
-                  <Body dangerousHTML={vt('vote/201907/nextsteps')} />
-                  <P>
-                    <Link route='index' passHref>
-                      <a {...linkRule}>{vt('vote/201907/back')}</a>
-                    </Link>
-                  </P>
-                </Fragment>
+                <Body dangerousHTML={vt('vote/201907/nextsteps')} />
               )}
 
               {userIsDone &&
@@ -261,6 +256,7 @@ class VotePage extends Component {
                     }} />
                 </div>
               }
+              {actionBar}
             </Fragment>
           )
         }} />

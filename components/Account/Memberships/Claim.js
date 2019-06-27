@@ -64,7 +64,8 @@ class ClaimMembership extends Component {
       consents: [],
       values: {},
       errors: {},
-      dirty: {}
+      dirty: {},
+      signInResponse: {}
     }
   }
   handleFirstName (value, shouldValidate, t) {
@@ -222,11 +223,15 @@ class ClaimMembership extends Component {
     const { context, t } = this.props
 
     const {
-      serverError,
-      values, dirty, errors,
+      consents,
+      dirty,
+      errors,
       loading,
-      polling, signInResponse = {},
-      consents
+      polling,
+      serverError,
+      showErrors,
+      signInResponse,
+      values
     } = this.state
 
     const requiredConsents = ['PRIVACY', 'TOS']
@@ -332,7 +337,7 @@ class ClaimMembership extends Component {
           }
           <br />
           <br />
-          {!!this.state.showErrors && errorMessages.length > 0 && (
+          {!!showErrors && errorMessages.length > 0 && (
             <div style={{ color: colors.error, marginBottom: 40 }}>
               {t('memberships/claim/error/title')}<br />
               <ul>

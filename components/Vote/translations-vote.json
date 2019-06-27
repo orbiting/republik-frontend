@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-26T13:23:11.899Z",
+  "updated": "2019-06-27T08:15:35.814Z",
   "title": "live",
   "data": [
     {
@@ -224,7 +224,7 @@
     },
     {
       "key": "vote/201907/nextsteps",
-      "value": "Die Resultate der Abstimmung werden am 17. Juli hier publiziert. Für Fragen und Rückmeldungen schreiben Sie uns in der <a target=\"_blank\" href='/vote/juli19/diskutieren'>Abstimmungsdebatte</a>."
+      "value": "Die Resultate der Abstimmung werden am 17. Juli hier publiziert. Für Fragen und Rückmeldungen schreiben Sie uns in der <a href='/vote/juli19/diskutieren'>Abstimmungsdebatte</a>."
     },
     {
       "key": "vote/201907/back",
@@ -624,11 +624,11 @@
     },
     {
       "key": "vote/voting/notSignedIn",
-      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben.)"
+      "value": "Sie müssen sich anmelden, um an dieser Abstimmung teilnehmen zu können. (Und vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben.)"
     },
     {
       "key": "vote/voting/notEligible",
-      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 17.&nbsp;Oktober ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 31.&nbsp;Oktober."
+      "value": "Bitte entschuldigen Sie. An dieser Abstimmung können leider nur Personen teilnehmen, die vor dem 4.&nbsp;Juli ein Jahresabonnement erworben haben. Die Resultate sehen Sie hier ab dem 17.&nbsp;Juli."
     },
     {
       "key": "vote/voting/ended",

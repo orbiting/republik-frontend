@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-24T11:39:47.843Z",
+  "updated": "2019-06-27T15:02:57.905Z",
   "title": "live",
   "data": [
     {
@@ -4720,23 +4720,23 @@
     },
     {
       "key": "Auth/CodeAuthorization/description/emphasis",
-      "value": "4-stellige Bestätigungszahl per E-Mail"
+      "value": "Bestätigungsziffern per E-Mail"
     },
     {
       "key": "Auth/CodeAuthorization/code/label",
-      "value": "Bestätigungszahl"
+      "value": "Bestätigungsziffern"
     },
     {
       "key": "Auth/CodeAuthorization/code/invalid",
-      "value": "Bestätigungszahl ungültig"
+      "value": "Bestätigungsziffern ungültig"
     },
     {
       "key": "Auth/CodeAuthorization/code/missing",
-      "value": "Bestätigungszahl fehlt"
+      "value": "Bestätigungsziffern fehlt"
     },
     {
       "key": "Auth/CodeAuthorization/code/tooShort",
-      "value": "Bestätigungszahl muss 4-stellig sein"
+      "value": "Bestätigungsziffern müssen 6-stellig sein"
     },
     {
       "key": "Auth/CodeAuthorization/button/label",
@@ -4748,7 +4748,7 @@
     },
     {
       "key": "Auth/CodeAuthorization/help/lastResort",
-      "value": "Reissen alle Strike, verzagen Sie nicht: Schreiben Sie unserem Erste-Hilfe-Team unter kontakt@republik.ch."
+      "value": "Reissen alle Stricke, verzagen Sie nicht: Schreiben Sie unserem Erste-Hilfe-Team unter kontakt@republik.ch."
     }
   ]
 }

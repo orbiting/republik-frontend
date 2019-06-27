@@ -19,11 +19,12 @@ import {
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT from '../voteT'
 import {
-  CDN_FRONTEND_BASE_URL
+  CDN_FRONTEND_BASE_URL,
+  PUBLIC_BASE_URL
 } from '../../../lib/constants'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import { Link } from '../../../lib/routes'
-import PathLink from '../../Link/Path'
+import ActionBar from '../../ActionBar'
 import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
@@ -38,6 +39,12 @@ import {
 const { P } = Interaction
 
 const styles = {
+  actions: css({
+    margin: '-10px 0 20px 0',
+    [mediaQueries.lUp]: {
+      margin: '30px 0'
+    }
+  }),
   anchor: css({
     display: 'block',
     position: 'relative',
@@ -163,6 +170,27 @@ class VotePage extends Component {
                       __html: vt('vote/201907/title')
                     }} />
                 </Title>
+                <div {...styles.actions}>
+                  <ActionBar
+                    url={`${PUBLIC_BASE_URL}/vote/juli19`}
+                    title={vt('vote/201907/sm/title')}
+                    tweet={vt('vote/201907/sm/title')}
+                    emailSubject={vt('vote/201907/sm/title')}
+                    emailBody={vt('vote/201907/sm/description')}
+                  />
+                  {discussion && (
+                    <DiscussionIconLinkWithoutEnhancer
+                      discussionId={discussion.id}
+                      path={discussion.path}
+                      discussionCommentsCount={
+                        discussion.comments
+                          ? discussion.comments.totalCount
+                          : undefined
+                      }
+                      style={{ marginLeft: 5, lineHeight: 0 }}
+                    />
+                  )}
+                </div>
                 <Body dangerousHTML={vt('vote/201907/intro/body1', { count: numVotes })} />
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more1')} />
@@ -175,25 +203,6 @@ class VotePage extends Component {
                 <Collapsible>
                   <Small dangerousHTML={vt('vote/201907/intro/more2')} />
                 </Collapsible>
-                {discussion && (
-                  <P>
-                    <PathLink path={discussion.path} passHref key='link'>
-                      <a {...linkRule}>
-                        {vt('vote/201907/discussion')}
-                      </a>
-                    </PathLink>
-                    <DiscussionIconLinkWithoutEnhancer
-                      discussionId={discussion.id}
-                      path={discussion.path}
-                      discussionCommentsCount={
-                        discussion.comments
-                          ? discussion.comments.totalCount
-                          : undefined
-                      }
-                      style={{ marginLeft: 5, lineHeight: 0 }}
-                    />
-                  </P>
-                )}
                 {missingAdress && <Fragment>
                   <a {...styles.anchor} id='adresse' />
                   <Heading>{vt('common/missingAddressTitle')}</Heading>

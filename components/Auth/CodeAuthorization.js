@@ -11,7 +11,7 @@ import { scrollIt } from '../../lib/utils/scroll'
 
 const { H3, P, Emphasis } = Interaction
 
-const CODE_LENGTH = 4
+const CODE_LENGTH = 6
 
 const AUTHORIZE_SESSION = gql`
   mutation authorizeSession(

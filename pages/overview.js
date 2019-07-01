@@ -145,6 +145,10 @@ class FrontOverview extends Component {
       [[]]
     )[0]
 
+    if (!knownYears[year] || !knownYears[year].after) {
+      teasersByMonth.reverse()
+    }
+
     return (
       <Frame meta={meta} dark>
         <Interaction.H1 style={{ color: negativeColors.text, marginBottom: 5 }}>

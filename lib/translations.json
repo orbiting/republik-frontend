@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-28T04:39:26.237Z",
+  "updated": "2019-07-01T10:25:21.643Z",
   "title": "live",
   "data": [
     {
@@ -4732,7 +4732,7 @@
     },
     {
       "key": "Auth/CodeAuthorization/code/missing",
-      "value": "Bestätigungsziffern fehlt"
+      "value": "Bestätigungsziffern fehlen"
     },
     {
       "key": "Auth/CodeAuthorization/code/tooShort",

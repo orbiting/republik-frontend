@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-27T11:40:30.237Z",
+  "updated": "2019-07-01T12:35:39.233Z",
   "title": "live",
   "data": [
     {
@@ -8,7 +8,7 @@
     },
     {
       "key": "info/201907/intro/body1",
-      "value": "Zugegeben, noch ist diese Bezeichnung nicht mehr als eine Behauptung.\n\nDoch ab dem 4. Juli 2019 werden Sie hier unser Gesamtbudget für das nächste Geschäftsjahr sehen.\nBis zum 14. Juli 2019 können Sie dann über das Project-R-Budget abstimmen und über den Wahlvorschlag für die Revisionsstelle befinden. Abstimmungsberechtigt sind alle, die vor Abstimmungsbeginn ein <a href=\"/angebote?package=ABO\">Jahresabo</a> der Republik haben."
+      "value": "Zugegeben, noch ist diese Bezeichnung nicht mehr als eine Behauptung.\n\nDoch ab dem 4. Juli 2019 werden Sie hier unser Gesamtbudget für das nächste Geschäftsjahr sehen. \nBis zum 14. Juli 2019 können Sie über das Project-R-Budget und über den Wahlvorschlag für die Revisionsstelle abstimmen. Abstimmungsberechtigt sind alle, die vor dem Abstimmungsbeginn ein <a href=\"/angebote?package=ABO\">Jahresabo</a> der Republik haben."
     },
     {
       "key": "vote/201907/signInBody",
@@ -20,7 +20,7 @@
     },
     {
       "key": "vote/201907/page/description",
-      "value": "Auf der Traktandenliste stehen das Budget der Genossenschaft Project R für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
+      "value": "Wieviel kostet unsere Redaktion, wie viel geben wir für den Community-Bereich aus und für die IT? Hier finden Sie die Übersicht und können abstimmen."
     },
     {
       "key": "vote/201907/sm/tweet",
@@ -84,7 +84,7 @@
     },
     {
       "key": "vote/201907/discussion/intro",
-      "value": "Während der <a href='/vote/juli19'>Abstimmung</a> vom 4. bis zum 14. Juli 2019 möchten wir mit Ihnen diskutieren. Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Wir freuen uns auf Ihren Beitrag.\n\n<ul>\n<li>Haben Sie Verständnisfragen?</li>\n<li>Was können wir bei der nächsten Abstimmung besser machen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen?</li>\n</ul>"
+      "value": "Während der <a href='/vote/juli19'>Abstimmung</a> vvom 4. bis zum 14. Juli 2019 möchten wir mit Ihnen diskutieren. Wenn Sie etwas genauer wissen möchten, Lob oder Kritik für uns haben: Wir freuen uns auf Ihren Beitrag.\n\n<ul>\n<li>Haben Sie Verständnisfragen?</li>\n<li>Was können wir bei der nächsten Abstimmung besser machen?</li>\n<li>Oder brauchen Sie technische Unterstützung beim Abstimmen?</li>\n</ul>"
     },
     {
       "key": "vote/201907/budget/redaktion",
@@ -92,7 +92,7 @@
     },
     {
       "key": "vote/201907/budget/redaktion/0",
-      "value": "Schreibend"
+      "value": "Journalistinnen"
     },
     {
       "key": "vote/201907/budget/redaktion/1",
@@ -116,7 +116,7 @@
     },
     {
       "key": "vote/201907/budget/redaktion/more",
-      "value": "Die Löhne unserer Redaktorinnen und Reporter sowie Trainees sind der grösste Teil der Personalkosten (PK). Ausgaben für freie Autorinnen laufen unter Sachkosten (SK), sowohl bei den Schreibenden wie auch im Rechercheetat. Zusammen ergeben diese Bereiche rund 40% des Gesamtbudgets (GB). Mit den Ausgaben für Bild und Multimedia werden unsere festen Mitarbeiterinnen wie auch Fotografen, Gestalterinnen und Bildagenturen bezahlt. Die Produktion sorgt für den reibungslosen Produktionsablauf. Sie redigiert, korrigiert, schreibt Titel und Leads und checkt die Fakten."
+      "value": "Die Löhne unserer Redaktorinnen, Reporter und Auszubildenden machen den grössten Teil der Personalkosten (PK) aus. Die Sachkosten (SK) bei den Journalistinnen sind Ausgaben für freie Autoren. Mit den Ausgaben für Bild und Multimedia werden unsere festen Mitarbeiterinnen wie auch Fotografen, Illustratorinnen und Bildagenturen bezahlt. Die Produktion sorgt für den reibungslosen Produktionsablauf. Sie redigiert, korrigiert, schreibt Titel und Leads und checkt die Fakten. Zusammen sind dies rund 57% des Gesamtbudgets."
     },
     {
       "key": "vote/201907/budget/it",
@@ -132,7 +132,7 @@
     },
     {
       "key": "vote/201907/budget/it/more",
-      "value": "Unsere IT-Mitarbeiter entwickeln mit der Redaktion interaktive Geschichten und Datenvisualisierungen. Sie verbessern Webseite, App, CMS und interne Tools z.B. für die Aboverwaltung, Marketing und Finanzen. Zudem stellen Sie sicher, dass die Republik rund um die Uhr online ist und Bugs so schnell wie möglich behoben werden. Ihre Löhne sind in den Personalkosten (PK) aufgeführt. In den Sachkosten (SK) sind Ausgaben für freie Mitarbeiter, Partnerfirmen (auch im Design), Software und Hosting enthalten. Dies ergibt rund 14% des Gesamtbudgets (GB)."
+      "value": "Unsere IT-Mitarbeiter entwickeln mit der Redaktion interaktive Geschichten und Datenvisualisierungen. Sie verbessern Website, App, CMS und interne Tools zum Beispiel für die Aboverwaltung, das Marketing und die Finanzen. Zudem stellen sie sicher, dass die Republik rund um die Uhr online ist und Bugs behoben werden. Ihre Löhne sind in den Personalkosten (PK) aufgeführt. In den Sachkosten (SK) sind Ausgaben für freie Mitarbeiter, Designagenturen, Software und Hosting enthalten. Dies ergibt rund 14% des Gesamtbudgets."
     },
     {
       "key": "vote/201907/budget/community",
@@ -140,7 +140,7 @@
     },
     {
       "key": "vote/201907/budget/community/more",
-      "value": "Dieses Team pflegt und erweitert unsere Community, Sie als Verleger und Ihre zukünftigen Kolleginnen: Im Dialog, mit Veranstaltungen, Werbung, Kampagnen, Erste-Hilfe bei technischen Problemen und anderen Anliegen, Merchandise, Unternehmenskommunikation. Die Löhne dieser Mitarbeiter sind in den Personalkosten (PK) zusammengefasst. Ausgaben für Saalmieten, Honorare, Werbung, Versand etc. sind in den Sachkosten (SK) enthalten. Insgesamt fliesst rund 14% des Gesamtbudgets (BG) in diesen Bereich."
+      "value": "Dieses Team pflegt und erweitert unsere Community, Sie als Verleger und Ihre zukünftigen Kolleginnen: im Dialog, mit Veranstaltungen, Werbung, Kampagnen, Erster Hilfe bei technischen Problemen und anderen Anliegen, Merchandise, Unternehmenskommunikation. Die Löhne dieser Mitarbeiter sind in den Personalkosten (PK) zusammengefasst. Ausgaben für Saalmieten, Honorare, Werbung, Versand etc. sind in den Sachkosten (SK) enthalten. Insgesamt fliessen rund 14% des Gesamtbudgets in diesen Bereich."
     },
     {
       "key": "vote/201907/budget/services",
@@ -148,11 +148,11 @@
     },
     {
       "key": "vote/201907/budget/services/more",
-      "value": "Die Personalkosten (PK) der zentralen Dienste sind Löhne für Human Resources, Finanzen, Infrastruktur und Projekte wie z.B. diese Abstimmung und Darstellung des Gesamtbudgets. Die Miete des Rothauses, Ausgaben für Reinigung, Büromaterial, Versicherungen und die Finanzbuchhaltung sind in den Sachkosten (SK) enthalten. Unter den zentralen Diensten werden damit 7% des Gesamtbudgets (GB) zusammengefasst."
+      "value": "Die Personalkosten (PK) der zentralen Dienste sind Löhne für Human Resources, Finanzen, Infrastruktur und Projekte wie zum Beispiel diese Abstimmung und Darstellung des Gesamtbudgets. Die Miete des Rothauses und die Ausgaben für Reinigung, Büromaterial, Versicherungen und die Finanzbuchhaltung sind in den Sachkosten (SK) enthalten. Unter den zentralen Diensten werden damit 7% des Gesamtbudgets zusammengefasst."
     },
     {
       "key": "vote/201907/budget/management",
-      "value": "Unternehmensleitung"
+      "value": "Unternehmensführung"
     },
     {
       "key": "vote/201907/budget/management/0",
@@ -164,7 +164,7 @@
     },
     {
       "key": "vote/201907/budget/management/more",
-      "value": "Die Ausgaben für die Unternehmensleitung machen rund 8% des Gesamtbudgets (BG) aus. Die Personalkosten (PK) der Geschäftsleitung sind die Löhne unserer Geschäftsführerinnen. In den Sachkosten (SK) der Geschäftsleitung sind Ausgaben für die Revisionstelle, Rechtsberatungen, Personalanlässe, Weiterbildungen und eine Reserve für Notfälle enthalten. Die Ausgaben für Vorstand (VS) und Verwaltungsrat (VR) sind Löhne sowie Mandatsleistungen für Personen, die in diesen Gremien arbeiten. Auch die Kosten für den Genossenschaftsrat sind hier hinzugerechnet. "
+      "value": "Die Ausgaben für die Unternehmensführung machen rund 8% des Gesamtbudgets aus. Die Personalkosten (PK) der Geschäftsleitung sind die Löhne unserer Geschäftsführerinnen. In den Sachkosten (SK) der Geschäftsleitung sind Ausgaben für die Revisionsstelle, Rechtsberatungen, Personalanlässe, Weiterbildungen und eine Reserve für Notfälle enthalten. Die Ausgaben für Vorstand (VS) und Verwaltungsrat (VR) sind Löhne sowie Mandatsleistungen für Personen, die in diesen Gremien arbeiten. Auch die Kosten für den Genossenschaftsrat sind hier hinzugerechnet. "
     },
     {
       "key": "vote/201907/budget/total",
@@ -196,7 +196,7 @@
     },
     {
       "key": "vote/201907/budget/table/fraction",
-      "value": "GB"
+      "value": "Anteil"
     },
     {
       "key": "vote/201907/budget/table/caption",
@@ -221,14 +221,6 @@
     {
       "key": "vote/revision19/more",
       "value": "<strong>Was, wenn der Vorschlag abgelehnt wird?</strong>\n\nDann würde der Vorstand zusammen mit dem Genossenschaftsrat eine weitere Abstimmung mit einem neuen Wahlvorschlag durchführen.\n\n<strong>Warum kommt es zu dieser Wahl?</strong>\n\nIn Artikel 35 unserer <a href=\"/statuten\" target=\"_blank\">Statuen</a> ist festgelegt, dass die Revisionsstelle jedes Jahr gewählt werden muss. Bei unserer letzten Abstimmung haben wir dies vergessen, worauf uns ein aufmerksamer <a href=\"https://www.republik.ch/vote/genossenschaft/diskutieren?discussion=gen18board&focus=928077a8-3628-4c4c-9ed8-1a499a0cb94b\" target=\"_blank\">Verleger</a> hingewiesen hat  Vielen Dank an dieser Stelle."
-    },
-    {
-      "key": "vote/revision19/discussion/title",
-      "value": "Revision BDO"
-    },
-    {
-      "key": "vote/revision19/discussion/intro",
-      "value": "Intro zur Revisionsdiskussion"
     },
     {
       "key": "vote/201907/thankyou",

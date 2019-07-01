@@ -66,6 +66,7 @@ class BudgetChart extends Component {
     if (!data || !data.children) {
       return null
     }
+    const numBlocks = data.children.length
 
     return (
       <div {...styles.wrapper}>
@@ -82,6 +83,7 @@ class BudgetChart extends Component {
             total={displayAmount(data.total)}
             background={data.background}
             height={data.total / total * (height || maxHeight)}
+            last={i === numBlocks - 1}
           >
             <Small dangerousHTML={data.more} indent={false} />
             {data.children && (

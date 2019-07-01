@@ -11,7 +11,7 @@ const data = [
   {
     category: vt('vote/201907/budget/redaktion'),
     label: vt('vote/201907/budget/redaktion/0'),
-    pk: 1785971,
+    pk: 1788662,
     sk: 365000,
     background: colors.discrete[0],
     more: vt('vote/201907/budget/redaktion/more')
@@ -37,20 +37,20 @@ const data = [
   {
     category: vt('vote/201907/budget/redaktion'),
     label: vt('vote/201907/budget/redaktion/4'),
-    pk: 107793,
-    sk: 64800
+    pk: 74291,
+    sk: 82400
   },
   {
     category: vt('vote/201907/budget/redaktion'),
     label: vt('vote/201907/budget/redaktion/5'),
-    pk: 370682,
-    sk: 87200
+    pk: 382682,
+    sk: 77600
   },
   {
     category: vt('vote/201907/budget/it'),
     label: vt('vote/201907/budget/it/0'),
-    pk: 568238,
-    sk: 203000,
+    pk: 629903,
+    sk: 185400,
     background: colors.discrete[1],
     more: vt('vote/201907/budget/it/more')
   },
@@ -58,12 +58,12 @@ const data = [
     category: vt('vote/201907/budget/it'),
     label: vt('vote/201907/budget/it/1'),
     pk: 0,
-    sk: 50000
+    sk: 40000
   },
   {
     category: vt('vote/201907/budget/community'),
     label: vt('vote/201907/budget/community'),
-    pk: 407622,
+    pk: 422699,
     sk: 394000,
     background: colors.discrete[2],
     more: vt('vote/201907/budget/community/more')
@@ -71,7 +71,7 @@ const data = [
   {
     category: vt('vote/201907/budget/services'),
     label: vt('vote/201907/budget/services'),
-    pk: 165692,
+    pk: 177692,
     sk: 248600,
     background: colors.discrete[3],
     more: vt('vote/201907/budget/services/more')
@@ -79,8 +79,8 @@ const data = [
   {
     category: vt('vote/201907/budget/management'),
     label: vt('vote/201907/budget/management/0'),
-    pk: 158800,
-    sk: 195300,
+    pk: 146800,
+    sk: 190300,
     background: colors.discrete[4],
     more: vt('vote/201907/budget/management/more')
   },
@@ -88,7 +88,7 @@ const data = [
     category: vt('vote/201907/budget/management'),
     label: vt('vote/201907/budget/management/1'),
     pk: 34300,
-    sk: 64000
+    sk: 88000
   }
 ]
 

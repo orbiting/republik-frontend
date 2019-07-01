@@ -5,7 +5,7 @@ import sharedStyles from '../../sharedStyles'
 import ExpandMoreIcon from 'react-icons/lib/md/expand-more'
 import ExpandLessIcon from 'react-icons/lib/md/expand-less'
 
-import { fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
+import { colors, fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
 import voteT from '../voteT'
 
 const ICON_SIZE = 20
@@ -96,7 +96,7 @@ class BudgetChartItem extends React.Component {
   }
 
   render () {
-    const { vt, children, category, height, background, color, total, highlight } = this.props
+    const { vt, children, category, height, background, color, total, highlight, last } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
@@ -144,7 +144,9 @@ class BudgetChartItem extends React.Component {
         {collapsed ||
           <div {...styles.content}>
             {children}
-            <div {...styles.toggleContent} onClick={this.toggleCollapsed}>
+            <div {...styles.toggleContent} onClick={this.toggleCollapsed} style={{
+              borderBottom: last ? `1px solid ${colors.divider}` : undefined
+            }}>
               <button
                 {...sharedStyles.plainButton}
                 {...styles.toggleIconContent}

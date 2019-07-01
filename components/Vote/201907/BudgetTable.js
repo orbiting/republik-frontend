@@ -15,6 +15,7 @@ const nbspNumbers = formatLocale({
 })
 const countFormat = nbspNumbers.format(',.0f')
 const percentFormat = nbspNumbers.format(' 05.1%')
+const percentFormatTotal = nbspNumbers.format('.0%')
 
 const td = css({
   textAlign: 'left',
@@ -93,7 +94,9 @@ const BudgetTable = ({ vt, data, total, pk, sk, fraction }) => {
             <td {...styles.num}>{countFormat(pk / 1000)}</td>
             <td {...styles.num}>{countFormat(sk / 1000)}</td>
             <td {...styles.num}>{countFormat(total / 1000)}</td>
-            <td {...styles.num}>{percentFormat(fraction)}</td>
+            <td {...styles.num}>
+              {singleRow ? `~${percentFormatTotal(fraction)}` : percentFormat(fraction)}
+            </td>
           </tr>
         )
 
@@ -104,7 +107,7 @@ const BudgetTable = ({ vt, data, total, pk, sk, fraction }) => {
             <th {...styles.groupTdNum}>{countFormat(pk / 1000)}</th>
             <th {...styles.groupTdNum}>{countFormat(sk / 1000)}</th>
             <th {...styles.groupTdNum}>{countFormat(total / 1000)}</th>
-            <th {...styles.groupTdNum}>{percentFormat(fraction)}</th>
+            <th {...styles.groupTdNum}>~{percentFormatTotal(fraction)}</th>
           </tr>
         )}
       </tbody>

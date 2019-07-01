@@ -3,14 +3,15 @@ import { css } from 'glamor'
 import { Body, Heading, Section, Small, Title } from '../text'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { budgetData, total } from './data'
-import BudgetChart from './BudgetChart'
 import Frame from '../../Frame'
+import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
+import { Link } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
 import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
   colors,
+  linkRule,
   Interaction,
   mediaQueries,
   RawHtml
@@ -21,9 +22,10 @@ import {
   CDN_FRONTEND_BASE_URL,
   PUBLIC_BASE_URL
 } from '../../../lib/constants'
+import { budgetData, total } from './data'
 import { getVotingStage, VOTING_STAGES } from '../votingStage'
 import ActionBar from '../../ActionBar'
-import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
+import BudgetChart from './BudgetChart'
 import Loader from '../../Loader'
 import VoteInfo from './VoteInfo'
 import AddressEditor from '../AddressEditor'
@@ -257,6 +259,11 @@ class VotePage extends Component {
                 </div>
               }
               {actionBar}
+              <P>
+                <Link route='index' passHref>
+                  <a {...linkRule}>{vt('vote/201907/back')}</a>
+                </Link>
+              </P>
             </Fragment>
           )
         }} />

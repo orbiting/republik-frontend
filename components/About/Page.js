@@ -226,6 +226,7 @@ const AboutPage = ({
               {employees.map((employee, index) => (
                 <Employee
                   {...employee}
+                  title={employee.title || employee.group}
                   minColumns={3}
                   maxColumns={6}
                   key={index}
@@ -249,8 +250,7 @@ export default compose(
         data: {
           ...data,
           employees: employees && employees
-            .filter(employee => !!employee.title /* && employee.title.match(/feuilleton/i) */)
-            // .reduce((acc, curr) => !!acc.find(employee => employee.userId === curr.userId) ? acc : [...acc, curr], [])
+            .filter((employee, index, all) => all.findIndex(e => e.name === employee.name) === index)
             .sort(
               (a, b) => ascending(a.name, b.name)
             )

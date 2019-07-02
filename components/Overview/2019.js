@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { Highlight } from './Elements'
+import { A, Highlight } from './Elements'
 
 export default {
   Januar: (p) => <Fragment>
@@ -16,6 +16,9 @@ export default {
     Sie fragen ja nur – unser Schwerpunkt zu Verschwörungstheorien. Eine <Highlight {...p} series='republik/article-auftakt-brexit-serie'>Tour durch Brexit-Britannien</Highlight>. Wie (Klima-)Grafiken täuschen können. Und warum Wetterextreme das neue Normal sind. Eine <Highlight {...p} series='republik/article-knonau-master'>Podcast-Serie zum Brand von Knonau</Highlight>. Und <Highlight {...p} series='republik/article-eth-auftakt' ids={['8_xfgyamGq', 'IeTMTN2sP', 'ablDhocUlB']}>Neues von der ETH</Highlight>.
   </Fragment>,
   Mai: (p) => <Fragment>
-    Ein Monat mit neuen Erzählformen bei der Republik. <Highlight {...p} ids={['Qh8NGgtsL']}>Leben von der Sozialhilfe – das interaktive Spiel</Highlight>. Neue Folgen der Podcast-Serie «<Highlight {...p} series='republik/article-knonau-master'>Zündstoff</Highlight>». Und die Europawahl-Tour «<Highlight {...p} series='republik/article-auftakt-cafe-europa'>Cafe Europa</Highlight>». Dazu Analysen wie «<Highlight {...p} ids={['cEhaVQGe4']}>Europa vs. Big Tech</Highlight>» und <Highlight {...p} ids={['hCOJW93hP']}>Frankreich am Ende der Rebellion</Highlight>. Sind wir unseren <Highlight {...p} ids={['Ja36o8ATl']}>Emotionen hilflos ausgeliefert</Highlight>? – ein Essay. Interviews mit <Highlight {...p} ids={['JW0LfnoEf']}>Flavia Kleiner</Highlight>, <Highlight {...p} ids={['F6jCCSISw']}>Carolin Emcke</Highlight> und <Highlight {...p} ids={['zF-0AgP-Z']}>Christoph Eymann</Highlight>. Eine internationale Recherche zur organisierten <Highlight {...p} ids={['4KghliqyY', 'XyPBPe3iai']}>Kriminalität mit Mehrwertsteuer-Rückzahlungen</Highlight>. Und: Wie <Highlight {...p} series='republik/article-murdoch-1'>Rupert Murdoch sein Imperium aufbaute</Highlight> und mit seinen Medien weltweit den Rechtspopulismus verbreitete.
+    Neue Erzählformen bei der Republik! <Highlight {...p} ids={['Qh8NGgtsL']}>Leben von der Sozialhilfe – das interaktive Spiel</Highlight>. Neue Folgen der Podcast-Serie «<Highlight {...p} series='republik/article-knonau-master'>Zündstoff</Highlight>». Und die Europawahl-Tour «<Highlight {...p} series='republik/article-auftakt-cafe-europa'>Café Europa</Highlight>». Dazu Hintergründiges zu <Highlight {...p} ids={['cEhaVQGe4']}>Big Tech</Highlight>, <Highlight {...p} ids={['Ja36o8ATl']}>Emotionen</Highlight> und Emmanuel Macron, Interviews mit <Highlight {...p} ids={['JW0LfnoEf']}>Flavia Kleiner</Highlight>, <Highlight {...p} ids={['F6jCCSISw']}>Carolin Emcke</Highlight> und <Highlight {...p} ids={['zF-0AgP-Z']}>Christoph Eymann</Highlight> – und eine internationale Recherche zur <Highlight {...p} ids={['4KghliqyY', 'XyPBPe3iai']}>organisierten Kriminalität</Highlight>.
+  </Fragment>,
+  Juni: (p) => <Fragment>
+    Wir starten unsere <Highlight {...p} series='republik/article-wahnsinn-wahlkampf'>Wahlkampf-Serie</Highlight>, wir porträtieren <Highlight {...p} ids={['4C69J-4mS']}>Margrethe Vestager</Highlight> und machen uns mit den Recherchen zum <Highlight {...p} ids={['Dyn8P8dr0']}>Fall Spiess-Hegglin</Highlight> und <A href='https://www.republik.ch/2019/06/29/der-putsch'>Zürcher Kosmos</A> nicht nur Freunde. Ausserdem zeigen wir auf, wie der Staat die <Highlight {...p} series='republik/article-teil-1-mike'>Grundrechte eines Intensivtäters verletzt</Highlight>, warum Depression eine Volkskrankheit ist – und wie es um die <Highlight {...p} ids={['T6JZ9No_o']}>Geschlechterbalance in der Republik</Highlight> steht.
   </Fragment>
 }

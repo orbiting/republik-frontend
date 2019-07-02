@@ -7,16 +7,9 @@ import BudgetChartItem from './BudgetChartItem'
 import BudgetTable from './BudgetTable'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT, { vt } from '../voteT'
+import { swissNumbers } from '../../../lib/utils/format'
 
-import { formatLocale } from 'd3-format'
-
-const nbspNumbers = formatLocale({
-  decimal: ',',
-  thousands: '\u202F',
-  grouping: [3],
-  currency: ['CHF\u00a0', '']
-})
-const countFormat = nbspNumbers.format(',.1f')
+const countFormat = swissNumbers.format(',.1f')
 
 export const displayAmount = amount => vt('vote/201907/budget/amount', {
   amount: countFormat(amount / 1000000)

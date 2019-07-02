@@ -1,21 +1,11 @@
 import React from 'react'
 import { css, merge } from 'glamor'
-import { formatLocale } from 'd3-format'
 import voteT from '../voteT'
+import { fontFamilies } from '@project-r/styleguide'
+import { countFormat, swissNumbers } from '../../../lib/utils/format'
 
-import {
-  fontFamilies
-} from '@project-r/styleguide'
-
-const nbspNumbers = formatLocale({
-  decimal: ',',
-  thousands: '\u202F',
-  grouping: [3],
-  currency: ['CHF\u00a0', '']
-})
-const countFormat = nbspNumbers.format(',.0f')
-const percentFormat = nbspNumbers.format(' 05.1%')
-const percentFormatTotal = nbspNumbers.format('.0%')
+const percentFormat = swissNumbers.format('.1%')
+const percentFormatTotal = swissNumbers.format('.0%')
 
 const td = css({
   textAlign: 'left',

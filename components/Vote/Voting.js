@@ -31,7 +31,6 @@ const POLL_STATES = {
 const styles = {
   card: css({
     margin: '40px auto',
-    // border: `1px solid ${colors.neutral}`,
     background: colors.primaryBg,
     padding: 25,
     maxWidth: 550,

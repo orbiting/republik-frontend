@@ -101,7 +101,8 @@ class VotePage extends Component {
             beginDate,
             endDate,
             userIsEligible,
-            discussion
+            discussion,
+            groupTurnout
           } = this.props.data[VOTING_COOP_201907_BUDGET_SLUG] || {}
           const votingStage = getVotingStage(beginDate, endDate)
           if (votingStage === VOTING_STAGES.INFO) {
@@ -115,11 +116,7 @@ class VotePage extends Component {
           ]
 
           const { me } = data
-          const numVotes = votings.reduce(
-            (prev, current) => (prev.turnout.submitted > current.turnout.submitted)
-              ? prev
-              : current
-          ).turnout.submitted
+          const numVotes = groupTurnout && groupTurnout.submitted
 
           const userIsDone = votings
             .map(d => d.userHasSubmitted)
@@ -282,6 +279,10 @@ const votingsQuery = VOTINGS.map(({ slug }) => `
     endDate
     description
     turnout {
+      eligible
+      submitted
+    }
+    groupTurnout {
       eligible
       submitted
     }

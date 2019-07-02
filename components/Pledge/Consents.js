@@ -20,8 +20,9 @@ export const getConsentsError = (t, required, accepted) => (
   !check(required, accepted) && t(`pledge/consents/error/${stringifyCombo(required)}`)
 )
 
-const Consents = withT(({ t, accepted, onChange, required }) => (
+const Consents = withT(({ t, accepted, onChange, required, disabled }) => (
   <Checkbox
+    disabled={disabled}
     checked={check(required, accepted)}
     onChange={(_, checked) => {
       onChange(checked
@@ -50,7 +51,8 @@ Consents.propTypes = {
         ' `' + componentName + '`. Validation failed.'
       )
     }
-  }
+  },
+  disabled: PropTypes.bool
 }
 
 export default Consents

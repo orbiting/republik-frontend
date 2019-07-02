@@ -1,5 +1,5 @@
 {
-  "updated": "2019-06-23T12:35:08.789Z",
+  "updated": "2019-07-01T10:25:21.643Z",
   "title": "live",
   "data": [
     {
@@ -4709,6 +4709,46 @@
     {
       "key": "pages/about/mediaResponses/title",
       "value": "Das sagen andere über uns"
+    },
+    {
+      "key": "Auth/CodeAuthorization/title",
+      "value": "E-Mail-Adresse bestätigen"
+    },
+    {
+      "key": "Auth/CodeAuthorization/description",
+      "value": "Wir haben Ihnen {emphasis} geschickt. Tragen Sie diese im folgenden Feld ein."
+    },
+    {
+      "key": "Auth/CodeAuthorization/description/emphasis",
+      "value": "Bestätigungsziffern per E-Mail"
+    },
+    {
+      "key": "Auth/CodeAuthorization/code/label",
+      "value": "Bestätigungsziffern"
+    },
+    {
+      "key": "Auth/CodeAuthorization/code/invalid",
+      "value": "Bestätigungsziffern ungültig"
+    },
+    {
+      "key": "Auth/CodeAuthorization/code/missing",
+      "value": "Bestätigungsziffern fehlen"
+    },
+    {
+      "key": "Auth/CodeAuthorization/code/tooShort",
+      "value": "Bestätigungsziffern müssen 6-stellig sein"
+    },
+    {
+      "key": "Auth/CodeAuthorization/button/label",
+      "value": "Überprüfen"
+    },
+    {
+      "key": "Auth/CodeAuthorization/help/cancelLink",
+      "value": "Vertippt? E-Mail-Adresse erneut eingeben."
+    },
+    {
+      "key": "Auth/CodeAuthorization/help/lastResort",
+      "value": "Reissen alle Stricke, verzagen Sie nicht: Schreiben Sie unserem Erste-Hilfe-Team unter kontakt@republik.ch."
     }
   ]
 }

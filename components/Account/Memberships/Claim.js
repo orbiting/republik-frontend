@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { format } from 'url'
 
-import Loader from '../../Loader'
 import ErrorMessage from '../../ErrorMessage'
 import Consents, { getConsentsError } from '../../Pledge/Consents'
 
@@ -13,18 +12,27 @@ import withMe, { meQuery } from '../../../lib/apollo/withMe'
 import isEmail from 'validator/lib/isEmail'
 import track from '../../../lib/piwik'
 
-import Poller from '../../Auth/Poller'
+import SwitchBoard from '../../Auth/SwitchBoard'
 import FieldSet from '../../FieldSet'
 
 import { withSignOut } from '../../Auth/SignOut'
 import { withSignIn } from '../../Auth/SignIn'
 
+import { css } from 'glamor'
+
 import {
-  Field, Button, Interaction, RawHtml,
+  Field, Button, Interaction, RawHtml, InlineSpinner,
   colors
 } from '@project-r/styleguide'
 
 const { H2, P } = Interaction
+
+const styles = {
+  button: css({
+    width: 160,
+    textAlign: 'center'
+  })
+}
 
 export const isMembershipVoucherCode = (voucherCode) => {
   return voucherCode.length === 6
@@ -49,13 +57,15 @@ const relocateToFront = () => {
 class ClaimMembership extends Component {
   constructor (props) {
     super(props)
+
     this.state = {
       loading: false,
       serverError: undefined,
       consents: [],
       values: {},
       errors: {},
-      dirty: {}
+      dirty: {},
+      signInResponse: {}
     }
   }
   handleFirstName (value, shouldValidate, t) {
@@ -157,15 +167,16 @@ class ClaimMembership extends Component {
         values.email,
         context || 'claim',
         this.state.consents,
-        newTokenType
+        newTokenType || 'EMAIL_CODE'
       )
         .then(({ data }) => {
-          this.setState(() => ({
+          this.setState({
             polling: true,
             signInResponse: data.signIn
-          }))
+          })
         })
         .catch(catchError)
+
       return
     }
 
@@ -212,11 +223,15 @@ class ClaimMembership extends Component {
     const { context, t } = this.props
 
     const {
-      serverError,
-      values, dirty, errors,
+      consents,
+      dirty,
+      errors,
       loading,
-      polling, signInResponse,
-      consents
+      polling,
+      serverError,
+      showErrors,
+      signInResponse,
+      values
     } = this.state
 
     const requiredConsents = ['PRIVACY', 'TOS']
@@ -243,36 +258,18 @@ class ClaimMembership extends Component {
       'memberships/claim/addendum'
     ], undefined, '')
 
-    if (polling) {
-      return (
-        <Poller
-          tokenType={signInResponse.tokenType}
-          phrase={signInResponse.phrase}
-          email={values.email}
-          alternativeFirstFactors={signInResponse.alternativeFirstFactors}
-          onCancel={() => {
-            this.setState(() => ({
-              polling: false,
-              loading: false
-            }))
-          }}
-          onTokenTypeChange={(altTokenType) => {
-            this.setState(() => ({
-              polling: false
-            }))
-            this.claim(altTokenType)
-          }}
-          onSuccess={(me) => {
-            this.setState(() => ({
-              polling: false
-            }))
-            this.claim()
-          }} />
-      )
-    }
-    if (loading) {
-      return <Loader loading message={t('memberships/claim/loading')} />
-    }
+    const {
+      tokenType = false,
+      phrase = false,
+      alternativeFirstFactors = []
+    } = signInResponse
+
+    const alternativeFirstFactorsIncludingEmailCode =
+      Array.from(new Set(
+        alternativeFirstFactors
+          .concat(['EMAIL_CODE'])
+          .filter(tt => tt !== signInResponse.tokenType)
+      ))
 
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
@@ -282,101 +279,144 @@ class ClaimMembership extends Component {
       .filter(Boolean)
 
     return (
-      <div>
-        {contextLead &&
-          <H2 style={{ marginBottom: 20 }}>
-            {contextLead}
-          </H2>
-        }
-        {contextBody &&
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: contextBody
-          }} />
-        }
-        <Field label={t('pledge/contact/firstName/label')}
-          name='firstName'
-          error={dirty.firstName && errors.firstName}
-          value={values.firstName}
-          onChange={(_, value, shouldValidate) => {
-            this.handleFirstName(value, shouldValidate, t)
-          }} />
-        <br />
-        <Field label={t('pledge/contact/lastName/label')}
-          name='lastName'
-          error={dirty.lastName && errors.lastName}
-          value={values.lastName}
-          onChange={(_, value, shouldValidate) => {
-            this.handleLastName(value, shouldValidate, t)
-          }} />
-        <br />
-        <Field label={t('pledge/contact/email/label')}
-          name='email'
-          type='email'
-          error={dirty.email && errors.email}
-          value={values.email}
-          onChange={(_, value, shouldValidate) => {
-            this.handleEmail(value, shouldValidate, t)
-          }} />
-        <br />
-        <Field label={t('memberships/claim/voucherCode/label')}
-          name='voucherCode'
-          error={dirty.voucherCode && errors.voucherCode}
-          value={values.voucherCode}
-          onChange={(_, value, shouldValidate) => {
-            this.handleVoucherCode(value, shouldValidate, t)
-          }} />
-        <br />
-        <br />
-        {contextAddendum &&
-          <RawHtml type={P} dangerouslySetInnerHTML={{
-            __html: contextAddendum
-          }} />
-        }
-        <br />
-        <br />
-        {!!this.state.showErrors && errorMessages.length > 0 && (
-          <div style={{ color: colors.error, marginBottom: 40 }}>
-            {t('memberships/claim/error/title')}<br />
-            <ul>
-              {errorMessages.map((error, i) => (
-                <li key={i}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <Consents
-          required={requiredConsents}
-          accepted={consents}
-          onChange={keys => {
-            this.setState(() => ({
-              consents: keys
-            }))
-          }} />
-        <br /><br />
-        <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
-          <Button
-            onClick={() => {
-              if (errorMessages.length) {
-                this.setState((state) => ({
-                  showErrors: true,
-                  dirty: {
-                    ...state.dirty,
-                    firstName: true,
-                    lastName: true,
-                    email: true,
-                    voucherCode: true
-                  }
-                }))
-                return
-              }
-              this.claim()
-            }}>
-            {t('memberships/claim/button')}
-          </Button>
+      <Fragment>
+        <div style={{ opacity: (polling || loading) ? 0.6 : 1, marginBottom: 40 }}>
+          {contextLead &&
+            <H2 style={{ marginBottom: 20 }}>
+              {contextLead}
+            </H2>
+          }
+          {contextBody &&
+            <RawHtml type={P} dangerouslySetInnerHTML={{
+              __html: contextBody
+            }} />
+          }
+          <Field label={t('memberships/claim/voucherCode/label')}
+            name='voucherCode'
+            error={dirty.voucherCode && errors.voucherCode}
+            value={values.voucherCode}
+            disabled={polling || loading}
+            autoComplete={'false'}
+            onChange={(_, value, shouldValidate) => {
+              this.handleVoucherCode(value, shouldValidate, t)
+            }} />
+          <br />
+          <Field label={t('pledge/contact/email/label')}
+            name='email'
+            type='email'
+            error={dirty.email && errors.email}
+            value={values.email}
+            disabled={polling || loading}
+            onChange={(_, value, shouldValidate) => {
+              this.handleEmail(value, shouldValidate, t)
+            }} />
+          <br />
+          <Field label={t('pledge/contact/firstName/label')}
+            name='firstName'
+            error={dirty.firstName && errors.firstName}
+            value={values.firstName}
+            disabled={polling || loading}
+            onChange={(_, value, shouldValidate) => {
+              this.handleFirstName(value, shouldValidate, t)
+            }} />
+          <br />
+          <Field label={t('pledge/contact/lastName/label')}
+            name='lastName'
+            error={dirty.lastName && errors.lastName}
+            value={values.lastName}
+            disabled={polling || loading}
+            onChange={(_, value, shouldValidate) => {
+              this.handleLastName(value, shouldValidate, t)
+            }} />
+          <br />
+          <br />
+          {contextAddendum &&
+            <RawHtml type={P} dangerouslySetInnerHTML={{
+              __html: contextAddendum
+            }} />
+          }
+          <br />
+          <br />
+          {!!showErrors && errorMessages.length > 0 && (
+            <div style={{ color: colors.error, marginBottom: 40 }}>
+              {t('memberships/claim/error/title')}<br />
+              <ul>
+                {errorMessages.map((error, i) => (
+                  <li key={i}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <Consents
+            required={requiredConsents}
+            accepted={consents}
+            onChange={keys => {
+              this.setState(() => ({
+                consents: keys
+              }))
+            }}
+            disabled={polling || loading} />
+          {!!serverError && <ErrorMessage error={serverError} />}
         </div>
-        <br />
-        {!!serverError && <ErrorMessage error={serverError} />}
-      </div>
+        <div>
+          {!polling &&
+            <div {...styles.button}>
+              {loading
+                ? <InlineSpinner />
+                : <Button
+                  primary
+                  disabled={this.state.showErrors && errorMessages.length > 0}
+                  onClick={() => {
+                    if (errorMessages.length) {
+                      this.setState((state) => ({
+                        showErrors: true,
+                        dirty: {
+                          ...state.dirty,
+                          firstName: true,
+                          lastName: true,
+                          email: true,
+                          voucherCode: true
+                        }
+                      }))
+                      return
+                    }
+                    this.claim()
+                  }}>
+                  {t('memberships/claim/button')}
+                </Button>
+              }
+            </div>
+          }
+          {polling &&
+            <SwitchBoard
+              tokenType={tokenType}
+              phrase={phrase}
+              email={values.email}
+              alternativeFirstFactors={alternativeFirstFactorsIncludingEmailCode}
+              onCancel={() => {
+                this.setState(() => ({
+                  polling: false,
+                  loading: false
+                }))
+              }}
+              onTokenTypeChange={(altTokenType) => {
+                this.setState(
+                  () => ({ polling: false }),
+                  () => this.claim(altTokenType)
+                )
+              }}
+              onSuccess={(me) => {
+                this.setState(
+                  () => ({
+                    values: { ...this.state.values, email: me.email },
+                    polling: false
+                  }),
+                  () => this.claim()
+                )
+              }} />
+          }
+        </div>
+      </Fragment>
     )
   }
 }

@@ -42,7 +42,7 @@ const styles = {
 
 const getFormats = gql`
   query getFormats {
-    documents(template: "format", feed: true) {
+    documents(first: 100, template: "format", feed: true) {
       nodes {
         meta {
           template

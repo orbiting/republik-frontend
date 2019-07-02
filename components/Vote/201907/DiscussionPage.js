@@ -7,7 +7,7 @@ import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { VOTING_COOP_201907_BUDGET_SLUG } from '../../../lib/constants'
+import { VOTING_COOP_201907_BUDGET_SLUG } from '../constants'
 import voteT from '../voteT'
 import { Body, Section, Title } from '../text'
 import Loader from '../../Loader'
@@ -21,7 +21,7 @@ const styles = {
   })
 }
 
-export const DISCUSSION_SLUG = VOTING_COOP_201907_BUDGET_SLUG
+const DISCUSSION_SLUG = VOTING_COOP_201907_BUDGET_SLUG
 
 const DiscussionPage = ({ router, data, vt }) => {
   const meta = {

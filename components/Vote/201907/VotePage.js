@@ -257,7 +257,7 @@ class VotePage extends Component {
               }
               {actionBar}
               <P>
-                <Link route='index' passHref>
+                <Link route='meta' passHref>
                   <a {...linkRule}>{vt('vote/201907/back')}</a>
                 </Link>
               </P>

@@ -9,7 +9,7 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import voteT, { vt } from '../voteT'
 import { swissNumbers } from '../../../lib/utils/format'
 
-const countFormat = swissNumbers.format(',.1f')
+const countFormat = swissNumbers.format(',.2f')
 
 export const displayAmount = amount => vt('vote/201907/budget/amount', {
   amount: countFormat(amount / 1000000)

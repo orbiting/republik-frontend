@@ -51,7 +51,7 @@ const data = [
   {
     category: t('it'),
     label: t('it/0'),
-    pk: 629903,
+    pk: 533903,
     sk: 185400,
     background: colors.discrete[1],
     more: t('it/more')
@@ -59,7 +59,7 @@ const data = [
   {
     category: t('it'),
     label: t('it/1'),
-    pk: 0,
+    pk: 96000,
     sk: 40000
   },
   {
@@ -71,19 +71,11 @@ const data = [
     more: t('community/more')
   },
   {
-    category: t('services'),
-    label: t('services'),
-    pk: 177692,
-    sk: 248600,
-    background: colors.discrete[3],
-    more: t('services/more')
-  },
-  {
     category: t('management'),
     label: t('management/0'),
     pk: 146800,
     sk: 190300,
-    background: colors.discrete[4],
+    background: colors.discrete[3],
     more: t('management/more')
   },
   {
@@ -91,6 +83,14 @@ const data = [
     label: t('management/1'),
     pk: 34300,
     sk: 88000
+  },
+  {
+    category: t('services'),
+    label: t('services'),
+    pk: 177692,
+    sk: 248600,
+    background: colors.discrete[4],
+    more: t('services/more')
   }
 ]
 

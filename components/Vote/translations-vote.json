@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-02T12:56:08.187Z",
+  "updated": "2019-07-03T11:04:14.857Z",
   "title": "live",
   "data": [
     {
@@ -40,7 +40,7 @@
     },
     {
       "key": "vote/201907/intro/body1",
-      "value": "Liebe Chefin, lieber&nbsp;Chef\n\nHerzlich willkommen zur zweiten Urabstimmung von Project R. Nach den grossen <a href=\"/vote/genossenschaft\">Wahlen und Abstimmungen</a> im letzten Herbst haben wir vom 4. bis zum 14. Juli 2019 ein kleineres Programm: Sie können die Revisionsstelle bestätigen und über das Project-R-Budget abstimmen. <strong>{count} Ihrer Kolleginnen und Kollegen haben bereits teilgenommen.</strong>\n\nVor den Abstimmungen eine kleine Premiere. Wir wollen Ihnen einen Überblick über alle Ausgaben geben, die bei der Republik und bei der Project R Genossenschaft geplant sind. Und zeigen Ihnen in unserem Gesamtbudget, wie wir Ihr Geld einsetzen."
+      "value": "Liebe Chefin, lieber&nbsp;Chef\n\nHerzlich willkommen zur zweiten Urabstimmung von Project R. Nach den grossen Wahlen und Abstimmungen im letzten Herbst haben wir vom 4. bis zum 14. Juli 2019 ein kleineres Programm: Sie können die Revisionsstelle bestätigen und über das Project-R-Budget abstimmen. <strong>{count} Ihrer Kolleginnen und Kollegen haben bereits teilgenommen.</strong>\n\nVor den Abstimmungen eine kleine Premiere. Wir wollen Ihnen einen Überblick über alle Ausgaben geben, die bei der Republik und bei der Project R Genossenschaft geplant sind. Und zeigen Ihnen in unserem Gesamtbudget, wie wir Ihr Geld einsetzen."
     },
     {
       "key": "vote/201907/intro/more1",
@@ -48,7 +48,7 @@
     },
     {
       "key": "vote/201907/intro/body2",
-      "value": "Damit kommen wir zur Abstimmung. Auf der Traktandenliste dieser Urabstimmung stehen die Abstimmung über das Budget der Project R Genossenschaft für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
+      "value": "Auf einen Jahresbeitrag umgerechnet fliessen also rund 137 Franken in die Redaktion, 34 in IT und Design sowie 33 in die Community-Arbeit. Für die Zentralen Dienste planen wir rund 17 Franken ein und 18 für die Unternehmensführung.\n\nDamit kommen wir zur Abstimmung: Auf der Traktandenliste stehen die Genehmigung des Budgets der Project R Genossenschaft für das Geschäftsjahr 2019/2020 und die Bestätigung der Revisionsstelle."
     },
     {
       "key": "vote/201907/intro/more2",
@@ -64,7 +64,7 @@
     },
     {
       "key": "vote/budget19/body",
-      "value": "Sie haben gesehen, wie wir (also Project R und Republik) planen, Ihr Geld auszugeben. Nun zur eigentlichen Frage dieser Abstimmung: Sind Sie mit unserem Vorschlag für das Project-R-Budget einverstanden?\n\nDie Aussage, die in diesem zugegebenermassen für Laien kryptischen Dokument steckt: Project R plant, auch im nächsten Jahr praktisch alle ihre Mittel – das heisst in erster Linie Ihre Mitgliederbeiträge – für die Republik auszugeben. Und zwar:\n\n<ul>\n<li>in Form von Republik-Abos, die Project R für ihre Mitglieder (also Sie) bei der Republik kauft; </li>\n<li>indem die Genossenschaft Ausbildungsplätze bei der Republik und den Rechercheetat für grosse Geschichten finanziert; </li>\n<li>mit Mitarbeiterinnen in den Bereichen Geschäftsleitung und Community, deren Arbeit beiden Unternehmen zugutekommt; </li>\n<li>und last, but not least mit einer Defizitgarantie für die Republik.</li>\n</ul>\n\nDer Vorstand und der Genossenschaftsrat von Project R legen Ihnen dieses <a target=\"_blank\" href=\"https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf\">Budget inklusive Erläuterungen</a> vor und bitten um Ihre Zustimmung."
+      "value": "Sie haben gesehen, wie wir (also Project R und Republik) planen, Ihr Geld auszugeben. Nun zur eigentlichen Frage dieser Abstimmung: Sind Sie mit unserem Vorschlag für das Project-R-Budget einverstanden?\n\nDie Aussage, die in diesem zugegebenermassen für Laien kryptischen Dokument steckt: Project R plant, auch im nächsten Jahr praktisch alle ihre Mittel – das heisst in erster Linie Ihre Mitgliederbeiträge – für die Republik auszugeben. Und zwar:\n\n<ul>\n<li>in Form von Republik-Abos, die Project R für ihre Mitglieder (also Sie) bei der Republik kauft; </li>\n<li>indem die Genossenschaft Ausbildungsplätze bei der Republik und den Rechercheetat für grosse Geschichten finanziert; </li>\n<li>mit Mitarbeiterinnen in den Bereichen Geschäftsleitung und Community, deren Arbeit beiden Unternehmen zugutekommt; </li>\n<li>und last, but not least mit einer Defizitgarantie für die Republik.</li>\n</ul>\n\nDer Vorstand und der Genossenschaftsrat von Project R legen Ihnen dieses <a target=\"_blank\" href=\"https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Budget_Project_R_2019_2020.pdf\">Budget inklusive Erläuterungen</a> vor und bitten um Ihre Zustimmung."
     },
     {
       "key": "vote/budget19/more",
@@ -164,11 +164,11 @@
     },
     {
       "key": "vote/201907/budget/amount",
-      "value": "{amount} Mio. CHF"
+      "value": "CHF {amount} Mio."
     },
     {
       "key": "vote/201907/budget/chart/caption",
-      "value": "Konsolidiertes Ausgabenbudget der Republik AG und der Project R Genossenschaft für das 3. Geschäftsjahr vom 1.&nbsp;Juli 2019 bis zum 30.&nbsp;Juni 2020. \n\nDaten-Download: <a href=\"#\" download>CSV</a> &middot; <a href=\"https://cdn.republik.space/s3/republik-assets/assets/Aus-der-Redaktion/USA_Dokumentation.xlsx\" download>Excel</a>"
+      "value": "Konsolidiertes Ausgabenbudget der Republik AG und der Project R Genossenschaft für das 3. Geschäftsjahr vom 1.&nbsp;Juli 2019 bis zum 30.&nbsp;Juni 2020. \n\nDaten-Download: <a href=\"https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Gesamtbudget_Republik_2019_2020.csv\" download>CSV</a> &middot; <a href=\"https://cdn.republik.space/s3/republik-assets/assets/genossenschaft/Gesamtbudget_Republik_2019_2020.xlsx\" download>Excel</a>"
     },
     {
       "key": "vote/201907/budget/table/label",

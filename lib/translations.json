@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-01T10:25:21.643Z",
+  "updated": "2019-07-04T17:54:37.296Z",
   "title": "live",
   "data": [
     {
@@ -21,6 +21,10 @@
     {
       "key": "nav/discussion",
       "value": "Dialog"
+    },
+    {
+      "key": "nav/vote201907",
+      "value": "Urabstimmung"
     },
     {
       "key": "nav/community",

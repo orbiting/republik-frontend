@@ -59,6 +59,7 @@ const styles = {
   }),
   link: css({
     marginTop: 10,
+    textAlign: 'center',
     ...fontStyles.sansSerifRegular14
   }),
   error: css({

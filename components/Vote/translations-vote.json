@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-04T08:10:25.698Z",
+  "updated": "2019-07-04T08:21:01.264Z",
   "title": "live",
   "data": [
     {
@@ -540,7 +540,7 @@
     },
     {
       "key": "vote/voting/help",
-      "value": "Sie können auch leer einlegen"
+      "value": "Sie können auch leer einlegen. Eingelegte Stimmen können nicht mehr zurückgenommen werden."
     },
     {
       "key": "vote/common/thankyou",

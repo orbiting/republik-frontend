@@ -300,6 +300,7 @@ const votingsQuery = VOTINGS.map(({ slug }) => `
       id
       path
       comments {
+        id
         totalCount
       }
     }

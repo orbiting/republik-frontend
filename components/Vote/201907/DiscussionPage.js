@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Frame from '../../../components/Frame'
 import Discussion from '../../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { Center, mediaQueries } from '@project-r/styleguide'
+import { mediaQueries } from '@project-r/styleguide'
 import { css } from 'glamor'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -14,9 +14,9 @@ import Loader from '../../Loader'
 
 const styles = {
   discussion: css({
-    marginTop: 20,
-    [mediaQueries.mUp]: {
-      marginTop: 40
+    margin: '0 0 20px 0',
+    [mediaQueries.lUp]: {
+      margin: '30px 0'
     }
   })
 }
@@ -34,7 +34,7 @@ const DiscussionPage = ({ router, data, vt }) => {
       <Loader loading={data.loading} error={data.error} render={() => {
         const discussionId = (data[DISCUSSION_SLUG] && data[DISCUSSION_SLUG].discussion.id)
         return (
-          <Center>
+          <Fragment>
             <Title>{ vt('vote/201907/discussion/title') }</Title>
             <Section>
               <Body dangerousHTML={vt('vote/201907/discussion/intro')} />
@@ -46,7 +46,7 @@ const DiscussionPage = ({ router, data, vt }) => {
                 mute={!!router.query.mute}
               />
             </div>
-          </Center>
+          </Fragment>
         )
       }} />
     </Frame>

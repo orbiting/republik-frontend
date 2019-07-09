@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-05T09:57:25.766Z",
+  "updated": "2019-07-09T18:29:12.987Z",
   "title": "live",
   "data": [
     {
@@ -1919,11 +1919,11 @@
       "value": "{count} Gegenstimmen"
     },
     {
-      "key": "styleguide/CommentActions/expand",
+      "key": "styleguide/Collapsable/expand",
       "value": "Alles lesen"
     },
     {
-      "key": "styleguide/CommentActions/collapse",
+      "key": "styleguide/Collapsable/collapse",
       "value": "Weniger"
     },
     {

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-09T18:29:12.987Z",
+  "updated": "2019-07-10T10:09:05.945Z",
   "title": "live",
   "data": [
     {
@@ -449,6 +449,102 @@
     {
       "key": "marketing/offers/claim",
       "value": "Gutschein einlösen"
+    },
+    {
+      "key": "marketing/v2/overview/title",
+      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es&nbsp;wird von seinen Leserinnen finanziert."
+    },
+    {
+      "key": "marketing/v2/overview/more",
+      "value": "Chronologie {years}"
+    },
+    {
+      "key": "marketing/v2/join/button/label",
+      "value": "Jahresmitgliedschaft CHF 240"
+    },
+    {
+      "key": "marketing/v2/preview/button/label",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/v2/signin",
+      "value": "Sie haben schon ein Abo? {link}"
+    },
+    {
+      "key": "marketing/v2/signin/link",
+      "value": "Jetzt anmelden"
+    },
+    {
+      "key": "marketing/v2/claim",
+      "value": "Sie haben einen Gutschein? {claimLink}"
+    },
+    {
+      "key": "marketing/v2/claim/link",
+      "value": "Jetzt einlösen"
+    },
+    {
+      "key": "marketing/v2/usp/title",
+      "value": "Wir bieten Einordnung und Vertiefung anstelle einer Flut von Nachrichten"
+    },
+    {
+      "key": "marketing/v2/usp/body",
+      "value": "Wir recherchieren, um Missstände aufzudecken, oft monatelang. Wir wollen Sie inspirieren, bereichern und überraschen. Und wir diskutieren über drängende Fragen der Gegenwart.<br /><br />\nDie Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, sie ist aber keineswegs neutral.<br /><br />\nDie Republik ist ein Projekt gegen den Zynismus. Sie steht für die Verteidigung der Institutionen der Demokratie gegen den Vormarsch der Autoritären. Sie steht gegen die Diktatur der Angst. Und für die Werte der Aufklärung: für Treue zu Fakten, für Lösungen von Fall zu Fall, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.\n"
+    },
+    {
+      "key": "marketing/v2/preview/title",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/v2/preview/text",
+      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
+    },
+    {
+      "key": "marketing/v2/preview/email/label",
+      "value": "Ihre E-Mail"
+    },
+    {
+      "key": "marketing/v2/offers/title",
+      "value": "Angebote"
+    },
+    {
+      "key": "marketing/v2/manifesto/title",
+      "value": "Ohne Journalismus keine Demokratie"
+    },
+    {
+      "key": "marketing/v2/manifesto/body",
+      "value": "Eine zentrale Institution der Demokratie ist die unabhängige vierte Gewalt. Und diese ist heute, in der Schweiz, existenziell bedroht: Die traditionellen Verlage und ihre Geschäftsmodelle funktionieren je länger, desto schlechter. Das Resultat dieser Entwicklung ist Abbau, Konzentration und Verlust von Vielfalt und Unabhängigkeit.<br /><br />\nNur gemeinsam können wir etwas dagegen tun. Denn wenn die Werbetreibenden den Journalismus nicht mehr finanzieren und wir nicht wollen, dass politisch motivierte Geldgeber die Kontrolle über den öffentlichen Diskurs haben, müssen wir ein neues Geschäftsmodell finden.<br /><br />\nUnd dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen, der bereit ist, etwas Geld in unabhängigen Journalismus zu investieren.<br /><br />\nSobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig Besitzer oder Besitzerin des Unternehmens. Sie sind Mitglied der Project R Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich Zugriff aufs Magazin haben? Dann schlagen wir Ihnen den Kauf eines Monatsabos vor.\n"
+    },
+    {
+      "key": "marketing/v2/monthly/button/label",
+      "value": "Monats-Abo CHF 22"
+    },
+    {
+      "key": "marketing/v2/magazine/title",
+      "value": "Unser Magazin"
+    },
+    {
+      "key": "marketing/v2/magazine/body",
+      "value": "Unser einziges Produkt ist vernünftiger Journalismus. Wir haben keine Ablenkung durch ein Tagesgeschäft mit News. Und unser einziger Kunde sind Sie. Wir verzichten auf jedes Nebengeschäft mit Werbung.<br /><br />\nWir sind kompromisslos in der Qualität bei Fakten, Sprache und Bild. Wir streben stets nach Ehrlichkeit bezüglich des eigenen Unwissens und Standpunkts. Und wir halten eine kritische und freundliche Distanz.<br /><br />\nAuch gegenüber unseren Leserinnen: Wir respektieren Ihre digitale Privatsphäre und pflegen einen sorgfältigen und zurückhaltenden Umgang mit persönlichen Daten. <br /><br />\nUnsere Community weiss, was Respekt vor guten Argumenten und anderen Meinungen ist. In der Republik sind inhaltliche Debatten mit Expertinnen, Lesern und Journalistinnen mehr als nur ein demokratischer Traum. Und wir sind im Dialog mit unseren Leserinnen: Wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht. \n"
+    },
+    {
+      "key": "marketing/v2/community/title",
+      "value": "{count} Personen sind schon dabei"
+    },
+    {
+      "key": "marketing/v2/community/moreStatements",
+      "value": "Community anschauen"
+    },
+    {
+      "key": "marketing/v2/bottom/title",
+      "value": "Werden Sie das {count}ste Mitglied"
+    },
+    {
+      "key": "marketing/v2/bottom/join/button/label",
+      "value": "Mitglied werden"
+    },
+    {
+      "key": "marketing/v2/bottom/preview/button/label",
+      "value": "5 Artikel Probe lesen"
     },
     {
       "key": "marketing/feuilleton/title",

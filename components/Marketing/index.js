@@ -7,7 +7,10 @@ import {
   RawHtml,
   Interaction,
   Editorial,
-  Loader
+  Loader,
+  colors,
+  fontStyles,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
@@ -24,6 +27,8 @@ import {
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 import { A, P } from '../Overview/Elements'
+import Accordion from '../Pledge/Accordion'
+import SignIn from '../Auth/SignIn'
 import UserGuidance from '../Account/UserGuidance'
 
 import { buttonStyles, sharedStyles } from './styles'
@@ -52,14 +57,6 @@ query marketingMembershipStats {
       }
     }
   }
-  employees(shuffle: 6) {
-    title
-    group
-    name
-    user {
-      ${testimonialFields}
-    }
-  }
   articles: documents(feed: true, first: 0, template: "article") {
     totalCount
   }
@@ -76,7 +73,9 @@ query marketingMembershipStats {
 }
 `
 
-const SMALL_MAX_WIDTH = 974
+const MEDIUM_MAX_WIDTH = 974
+const SMALL_MAX_WIDTH = 680
+
 const styles = {
   overviewContainer: css({
     backgroundColor: negativeColors.containerBg,
@@ -100,8 +99,49 @@ const styles = {
     left: '50%',
     width: 280,
     marginLeft: -140
+  }),
+  title: css({
+    ...fontStyles.serifTitle58,
+    fontSize: 26,
+    lineHeight: '32px',
+    color: negativeColors.text,
+    marginTop: 0,
+    marginBottom: 30,
+    textAlign: 'center',
+    [mediaQueries.mUp]: {
+      fontSize: 48,
+      lineHeight: '54px',
+      marginBottom: 50,
+      marginTop: 30
+    }
+  }),
+  h2: css({
+    marginBottom: 10,
+    textAlign: 'center',
+    [mediaQueries.mUp]: {
+      marginBottom: 30
+    }
+  }),
+  split: css({
+    [mediaQueries.mUp]: {
+      display: 'flex'
+    }
+  }),
+  preview: css({
+    marginBottom: '50px',
+    [mediaQueries.mUp]: {
+      marginRight: '50px',
+      flex: 1
+    }
+  }),
+  offers: css({
+    [mediaQueries.mUp]: {
+      flex: 1
+    }
   })
 }
+
+const Title = ({ children }) => <h1 {...styles.title}>{children}</h1>
 
 class MarketingPage extends Component {
   constructor (props) {
@@ -110,7 +150,7 @@ class MarketingPage extends Component {
     this.onHighlight = highlight => this.setState({ highlight })
   }
   render () {
-    const { t, data: { loading, error, me, membershipStats, front, articles, statements, employees } } = this.props
+    const { t, data: { loading, error, me, membershipStats, front, articles, statements } } = this.props
 
     const hasMembershipOrAccessGrant = me && (
       (me.memberships && me.memberships.length > 0) ||
@@ -121,72 +161,24 @@ class MarketingPage extends Component {
       <Fragment>
         {!loading && me && !hasMembershipOrAccessGrant && <UserGuidance />}
         <div style={{ overflow: 'hidden' }}>
-          <Container>
-            <h1 {...sharedStyles.headline}>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/title')
-                }}
-              />
-            </h1>
-            <p {...sharedStyles.lead}>{t('marketing/lead')}</p>
-            <div {...sharedStyles.actions}>
-              <div>
-                <Link route='pledge'>
-                  <button {...buttonStyles.primary}>
-                    {t('marketing/join/button/label')}
-                  </button>
-                </Link>
-              </div>
-              <Link route='preview'>
-                <button {...buttonStyles.standard}>
-                  {t('marketing/preview/button/label')}
-                </button>
-              </Link>
-            </div>
-            <div {...sharedStyles.signIn}>
-              {t.elements(
-                'marketing/signin',
-                { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing/signin/link') }</a>
-                </Link>
-                }
-              )}{' – '}
-              {t.elements('marketing/claim', {
-                claimLink: (
-                  <Link route='claim' key='claim' passHref>
-                    <Editorial.A>
-                      {t('marketing/claim/link')}
-                    </Editorial.A>
-                  </Link>
-                )
-              })}
-            </div>
-            {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
-          </Container>
           {!error && <div {...styles.overviewContainer}>
             <Container style={{
               maxWidth: 1200,
               padding: 0,
-              position: 'relative'
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <Interaction.H2 style={{
-                color: negativeColors.text,
-                marginTop: 0,
-                marginBottom: 10,
-                textAlign: 'center'
-              }}>
-                {t('marketing/overview/title', {
-                  count: articles
-                    ? countFormat(articles.totalCount)
-                    : t('marketing/overview/defaultCount')
-                })}
-              </Interaction.H2>
-              <P style={{
-                maxWidth: SMALL_MAX_WIDTH,
-                margin: '0 auto 30px auto',
-                textAlign: 'center'
-              }}>{t('marketing/overview/lead')}</P>
+              <Title>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('marketing/v2/overview/title', {
+                      count: articles
+                        ? countFormat(articles.totalCount)
+                        : t('marketing/v2/overview/defaultCount')
+                    })
+                  }}
+                />
+              </Title>
               <Loader loading={loading} style={{ minHeight: 600 }} render={() => (
                 <TeaserBlock
                   teasers={getTeasersFromDocument(front)}
@@ -206,78 +198,187 @@ class MarketingPage extends Component {
               </P>
             </Container>
           </div>}
-        </div>
-        {!error && <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
-          <div {...sharedStyles.spacer} />
-          <Interaction.H2 style={{ marginBottom: 10 }}>
-            {t(
-              'marketing/community/title',
-              {
-                count: membershipStats
-                  ? countFormat(membershipStats.count)
-                  : t('marketing/community/defaultCount')
-              }
-            )}
-          </Interaction.H2>
-          <TestimonialList
-            singleRow
-            minColumns={3}
-            first={6}
-            statements={statements && statements.nodes}
-            loading={loading}
-            t={t} />
-          <Interaction.P style={{ marginTop: 10 }}>
-            <Link route='community' passHref>
-              <Editorial.A>
-                {t('marketing/community/moreStatements', {
-                  count: statements ? countFormat(statements.totalCount) : ''
-                })}
-              </Editorial.A>
-            </Link>
-          </Interaction.P>
-          <div {...sharedStyles.spacer} />
-          <Interaction.H2 style={{ marginBottom: 10 }}>
-            {t('marketing/employees/title')}
-          </Interaction.H2>
-          <TestimonialList
-            minColumns={3}
-            first={6}
-            showCredentials
-            singleRow
-            statements={employees && employees.map(employee => ({
-              ...employee.user,
-              name: employee.name,
-              credentials: [
-                {
-                  description: employee.title || employee.group
-                }
-              ].filter(d => d.description)
-            }))}
-            loading={loading}
-            t={t}
-            focus />
-          <Interaction.P style={{ marginTop: 10 }}>
-            <Link route='legal/imprint' passHref>
-              <Editorial.A>{t('marketing/employees/more')}</Editorial.A>
-            </Link>
-          </Interaction.P>
-          <div {...sharedStyles.spacer} />
-          <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
-            <div>
-              <Link route='pledge'>
-                <button {...buttonStyles.primary}>
-                  {t('marketing/join/button/label')}
+          <Container>
+            <div {...sharedStyles.actions}>
+              <div>
+                <Link route='pledge' params={{ package: 'ABO' }}>
+                  <button {...buttonStyles.primary}>
+                    {t('marketing/v2/join/button/label')}
+                  </button>
+                </Link>
+              </div>
+              <Link route='preview'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/v2/preview/button/label')}
                 </button>
               </Link>
             </div>
-            <Link route='preview'>
-              <button {...buttonStyles.standard}>
-                {t('marketing/preview/button/label')}
-              </button>
-            </Link>
+            <div {...sharedStyles.signIn}>
+              {t.elements(
+                'marketing/signin',
+                { link: <Link key='link' route={'signin'}>
+                  <a>{t('marketing/v2/signin/link') }</a>
+                </Link>
+                }
+              )}{' – '}
+              {t.elements('marketing/claim', {
+                claimLink: (
+                  <Link route='claim' key='claim' passHref>
+                    <Editorial.A>
+                      {t('marketing/v2/claim/link')}
+                    </Editorial.A>
+                  </Link>
+                )
+              })}
+            </div>
+            {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
+          </Container>
+        </div>
+
+        {!error && <Fragment>
+          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+            <Interaction.H2 {...styles.h2}>
+              {t('marketing/v2/usp/title')}
+            </Interaction.H2>
+            <Editorial.P>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('marketing/v2/usp/body')
+                }}
+              />
+            </Editorial.P>
+          </Container>
+
+          <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+            <div {...sharedStyles.spacer} />
+            <div {...styles.split}>
+              <div {...styles.preview}>
+                <Interaction.H3 style={{ marginBottom: '17px' }}>
+                  {t('marketing/v2/preview/title')}
+                </Interaction.H3>
+                <Interaction.P>
+                  {t('marketing/signup/lead')}
+                </Interaction.P>
+                <div {...styles.signUp}>
+                  <SignIn label={t('marketing/signup/button/label')} context='preview' />
+                </div>
+              </div>
+              <div {...styles.offers}>
+                <Interaction.H3 style={{ marginBottom: '17px' }}>
+                  {t('marketing/v2/offers/title')}
+                </Interaction.H3>
+                <Accordion crowdfundingName={'LAUNCH'} singleGroup={'ME'} />
+              </div>
+            </div>
+          </Container>
+
+          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+            <div {...sharedStyles.spacer} />
+            <Interaction.H2 {...styles.h2}>
+              {t('marketing/v2/manifesto/title')}
+            </Interaction.H2>
+            <Editorial.P>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('marketing/v2/manifesto/body')
+                }}
+              />
+            </Editorial.P>
+          </Container>
+
+          <Container>
+            <div {...sharedStyles.actions}>
+              <div>
+                <Link route='pledge' params={{ package: 'ABO' }}>
+                  <button {...buttonStyles.primary}>
+                    {t('marketing/v2/join/button/label')}
+                  </button>
+                </Link>
+              </div>
+              <Link route='pledge' params={{ package: 'MONTHLY_ABO' }}>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/v2/monthly/button/label')}
+                </button>
+              </Link>
+            </div>
+          </Container>
+
+          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+            <div {...sharedStyles.spacer} />
+            <Interaction.H2 {...styles.h2}>
+              {t('marketing/v2/magazine/title')}
+            </Interaction.H2>
+            <Editorial.P>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('marketing/v2/magazine/body')
+                }}
+              />
+            </Editorial.P>
+          </Container>
+
+          <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+            <div {...sharedStyles.spacer} />
+            <Interaction.H2 {...styles.h2}>
+              {t(
+                'marketing/v2/community/title',
+                {
+                  count: membershipStats
+                    ? countFormat(membershipStats.count)
+                    : t('marketing/v2/community/defaultCount')
+                }
+              )}
+            </Interaction.H2>
+            <TestimonialList
+              singleRow
+              minColumns={3}
+              first={6}
+              statements={statements && statements.nodes}
+              loading={loading}
+              t={t} />
+            <Interaction.P style={{ marginTop: 10, textAlign: 'center' }}>
+              <Link route='community' passHref>
+                <Editorial.A>
+                  {t('marketing/v2/community/moreStatements', {
+                    count: statements ? countFormat(statements.totalCount) : ''
+                  })}
+                </Editorial.A>
+              </Link>
+            </Interaction.P>
+            <div {...sharedStyles.spacer} />
+          </Container>
+
+          <div style={{ background: colors.secondaryBg }}>
+            <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+              <div {...sharedStyles.spacer} />
+              <Interaction.H2 {...styles.h2}>
+                {t(
+                  'marketing/v2/bottom/title',
+                  {
+                    count: membershipStats
+                      ? countFormat(membershipStats.count + 1)
+                      : t('marketing/v2/community/defaultCount')
+                  }
+                )}
+              </Interaction.H2>
+              <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
+                <div>
+                  <Link route='pledge' params={{ package: 'ABO' }}>
+                    <button {...buttonStyles.primary}>
+                      {t('marketing/v2/bottom/join/button/label')}
+                    </button>
+                  </Link>
+                </div>
+                <Link route='preview'>
+                  <button {...buttonStyles.standard}>
+                    {t('marketing/v2/bottom/preview/button/label')}
+                  </button>
+                </Link>
+              </div>
+              <div {...sharedStyles.spacer} />
+            </Container>
           </div>
-          <div {...sharedStyles.spacer} />
-        </Container>}
+        </Fragment>}
       </Fragment>
     )
   }

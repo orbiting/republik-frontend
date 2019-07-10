@@ -195,12 +195,14 @@ class Accordion extends Component {
       t,
       packages,
       group,
+      singleGroup,
       crowdfundingName
     } = this.props
 
     const groups = nest()
       .key(d => d.group)
       .entries(packages)
+      .filter(group => singleGroup ? group.key === singleGroup : true)
 
     if (group) {
       groups.sort(({ key: a }, { key: b }) => (
@@ -259,7 +261,7 @@ class Accordion extends Component {
             }
 
             return <Fragment>
-              <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
+              {!singleGroup && <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>}
               {pkgItems.map(({ name, title, price, route, params }) => (
                 <Link key={name} route={route} params={params} passHref>
                   <PackageItem

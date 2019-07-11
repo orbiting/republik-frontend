@@ -260,7 +260,7 @@ class Accordion extends Component {
               })
             }
 
-            return <Fragment>
+            return <Fragment key={group}>
               {!singleGroup && <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>}
               {pkgItems.map(({ name, title, price, route, params }) => (
                 <Link key={name} route={route} params={params} passHref>

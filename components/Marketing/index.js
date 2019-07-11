@@ -103,6 +103,7 @@ const styles = {
   }),
   title: css({
     ...fontStyles.serifTitle58,
+    fontWeight: 'normal',
     fontSize: 26,
     lineHeight: '32px',
     color: negativeColors.text,

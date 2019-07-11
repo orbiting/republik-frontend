@@ -17,7 +17,7 @@ import { t } from '../../lib/withT'
 
 const styles = {
   container: css({
-    zIndex: 999,
+    zIndex: 1,
     background: negativeColors.primaryBg,
     position: 'relative',
     textAlign: 'center',

@@ -191,7 +191,7 @@ const Cards = () => {
           <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }}>
             <Editorial.Format color={colors.lightText}>{cards[i].title}</Editorial.Format>
             <Subtitle>{cards[i].subtitle}</Subtitle>
-            <FigureImage src={cards[i].image} draggable={false} />
+            <FigureImage src={cards[i].image} attributes={{ draggable: false }} />
           </animated.div>
         </animated.div>
       ))}

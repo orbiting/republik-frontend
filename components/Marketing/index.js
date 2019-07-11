@@ -28,6 +28,7 @@ import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 import { A, P } from '../Overview/Elements'
 import Accordion from '../Pledge/Accordion'
+import Cards from './Cards'
 import SignIn from '../Auth/SignIn'
 import UserGuidance from '../Account/UserGuidance'
 
@@ -137,6 +138,12 @@ const styles = {
   offers: css({
     [mediaQueries.mUp]: {
       flex: 1
+    }
+  }),
+  cards: css({
+    margin: '30px 0',
+    [mediaQueries.mUp]: {
+      margin: '50px 0'
     }
   })
 }
@@ -311,7 +318,21 @@ class MarketingPage extends Component {
             <Editorial.P>
               <RawHtml
                 dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/magazine/body')
+                  __html: t('marketing/v2/magazine/body1')
+                }}
+              />
+            </Editorial.P>
+          </Container>
+
+          <div {...styles.cards}>
+            <Cards />
+          </div>
+
+          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+            <Editorial.P>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('marketing/v2/magazine/body2')
                 }}
               />
             </Editorial.P>

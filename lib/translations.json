@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-10T10:09:05.945Z",
+  "updated": "2019-07-10T14:23:15.302Z",
   "title": "live",
   "data": [
     {
@@ -523,8 +523,24 @@
       "value": "Unser Magazin"
     },
     {
-      "key": "marketing/v2/magazine/body",
-      "value": "Unser einziges Produkt ist vernünftiger Journalismus. Wir haben keine Ablenkung durch ein Tagesgeschäft mit News. Und unser einziger Kunde sind Sie. Wir verzichten auf jedes Nebengeschäft mit Werbung.<br /><br />\nWir sind kompromisslos in der Qualität bei Fakten, Sprache und Bild. Wir streben stets nach Ehrlichkeit bezüglich des eigenen Unwissens und Standpunkts. Und wir halten eine kritische und freundliche Distanz.<br /><br />\nAuch gegenüber unseren Leserinnen: Wir respektieren Ihre digitale Privatsphäre und pflegen einen sorgfältigen und zurückhaltenden Umgang mit persönlichen Daten. <br /><br />\nUnsere Community weiss, was Respekt vor guten Argumenten und anderen Meinungen ist. In der Republik sind inhaltliche Debatten mit Expertinnen, Lesern und Journalistinnen mehr als nur ein demokratischer Traum. Und wir sind im Dialog mit unseren Leserinnen: Wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht. \n"
+      "key": "marketing/v2/magazine/body1",
+      "value": "Unser einziges Produkt ist vernünftiger Journalismus. Wir haben keine Ablenkung durch ein Tagesgeschäft mit News. Und unser einziger Kunde sind Sie. Wir verzichten auf jedes Nebengeschäft mit Werbung.\n"
+    },
+    {
+      "key": "marketing/v2/magazine/body2",
+      "value": "Wir sind kompromisslos in der Qualität bei Fakten, Sprache und Bild. Wir streben stets nach Ehrlichkeit bezüglich des eigenen Unwissens und Standpunkts. Und wir halten eine kritische und freundliche Distanz.<br /><br />\nAuch gegenüber unseren Leserinnen: Wir respektieren Ihre digitale Privatsphäre und pflegen einen sorgfältigen und zurückhaltenden Umgang mit persönlichen Daten. <br /><br />\nUnsere Community weiss, was Respekt vor guten Argumenten und anderen Meinungen ist. In der Republik sind inhaltliche Debatten mit Expertinnen, Lesern und Journalistinnen mehr als nur ein demokratischer Traum. Und wir sind im Dialog mit unseren Leserinnen: Wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht. "
+    },
+    {
+      "key": "marketing/v2/magazine/image/title",
+      "value": "Damit wir als Gesellschaft entscheiden können, wohin wir uns entwickeln."
+    },
+    {
+      "key": "marketing/v2/magazine/image/caption",
+      "value": "Im Mai 2018: Unsere Fragestunde zu DSGVO"
+    },
+    {
+      "key": "marketing/v2/magazine/image/byline",
+      "value": "Till Lauer"
     },
     {
       "key": "marketing/v2/community/title",
@@ -545,6 +561,102 @@
     {
       "key": "marketing/v2/bottom/preview/button/label",
       "value": "5 Artikel Probe lesen"
+    },
+    {
+      "key": "marketing/v2/cards/0/title",
+      "value": "Datenjournalismus"
+    },
+    {
+      "key": "marketing/v2/cards/0/subtitle",
+      "value": "Eine Grafik sagt mehr als 1000 Worte. In der Republik wöchentlich."
+    },
+    {
+      "key": "marketing/v2/cards/1/title",
+      "value": "Briefings"
+    },
+    {
+      "key": "marketing/v2/cards/1/subtitle",
+      "value": "Die wichtigsten Aktualitäten der Woche. Knapp, präzis und verständlich."
+    },
+    {
+      "key": "marketing/v2/cards/2/title",
+      "value": "Justiz"
+    },
+    {
+      "key": "marketing/v2/cards/2/subtitle",
+      "value": "Die Justiz muss kritisiert werden. Der Rechtsstaat muss verteidigt werden. Wir tun beides, jede Woche."
+    },
+    {
+      "key": "marketing/v2/cards/3/title",
+      "value": "Digitalisierung"
+    },
+    {
+      "key": "marketing/v2/cards/3/subtitle",
+      "value": "Damit wir als Gesellschaft entscheiden können, wohin wir uns entwickeln."
+    },
+    {
+      "key": "marketing/v2/cards/4/title",
+      "value": "Klimawandel"
+    },
+    {
+      "key": "marketing/v2/cards/4/subtitle",
+      "value": "Wir wollen einen Beitrag leisten, damit die richtigen Lösungen gefunden werden."
+    },
+    {
+      "key": "marketing/v2/cards/5/title",
+      "value": "Gespräche"
+    },
+    {
+      "key": "marketing/v2/cards/5/subtitle",
+      "value": "Wir hören zu. Und fragen nach."
+    },
+    {
+      "key": "marketing/v2/cards/6/title",
+      "value": "Investigativ"
+    },
+    {
+      "key": "marketing/v2/cards/6/subtitle",
+      "value": "Was wir nicht wissen, können wir nicht ändern."
+    },
+    {
+      "key": "marketing/v2/cards/7/title",
+      "value": "Bundeshaus"
+    },
+    {
+      "key": "marketing/v2/cards/7/subtitle",
+      "value": "Hier laufen die Fäden der Schweiz zusammen. Wir schauen, wer sie zieht."
+    },
+    {
+      "key": "marketing/v2/cards/8/title",
+      "value": "Demokratie"
+    },
+    {
+      "key": "marketing/v2/cards/8/subtitle",
+      "value": "Ist das beste aller schlechten Systeme. Damit es das bleibt."
+    },
+    {
+      "key": "marketing/v2/cards/9/title",
+      "value": "Reportagen"
+    },
+    {
+      "key": "marketing/v2/cards/9/subtitle",
+      "value": "Weil das Grosse im Kleinen stattfindet."
+    },
+    {
+      "key": "marketing/v2/cards/10/title",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "marketing/v2/cards/10/subtitle",
+      "value": "Ohne Kultur keine Demokratie. Und ohne Kritik kein Diskurs."
+    },
+    {
+      "key": "marketing/v2/cards/11/title",
+      "value": "International"
+    },
+    {
+      "key": "marketing/v2/cards/11/subtitle",
+      "value": "Die grössten Herausforderungen kennen keine Grenzen."
     },
     {
       "key": "marketing/feuilleton/title",

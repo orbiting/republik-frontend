@@ -128,11 +128,60 @@ export default compose(
           </P>
           <H1>Offene Stellen</H1>
           <Editorial.UL>
+            <LI><A href='#editorial'>Redaktor...</A></LI>
             <LI><A href='#community'>Community Builder & Partnership Management</A></LI>
             <LI><A href='#it'>Designerin</A></LI>
             <LI><A href='#it'>React-Entwickler</A></LI>
             <LI><A href='#it'>Backend-Entwicklerin</A></LI>
           </Editorial.UL>
+          <br />
+          <br />
+          <Anchor id='community'>
+            <H2>Redaktor...</H2>
+          </Anchor>
+          <P>
+            Rolle...
+          </P>
+          <Editorial.UL>
+            <LI>Skill #1</LI>
+          </Editorial.UL>
+          <P>
+            Pitch...
+          </P>
+          <P>Stellenprozent</P>
+
+          <H3>Was wir bieten</H3>
+          <br />
+          <Editorial.UL>
+            <LI>Konkurrenzfähiger Einheitslohn</LI>
+            <LI>Kreatives, unkonventionelles Arbeitsumfeld</LI>
+            <LI>Viel Gestaltungsspielraum</LI>
+            <LI>Zentraler Arbeitsort an der Langstrasse in Zürich</LI>
+          </Editorial.UL>
+
+          <P>
+            Detaillierte Rolle bei Republik...
+          </P>
+
+          <H3>Wie bewerben?</H3>
+          <P style={{ marginBottom: 10 }}>
+            Fragen & Bewerbungen an: <A href='mailto:bewerbung@republik.ch'>bewerbung@republik.ch</A>.
+          </P>
+          <TestimonialList
+            share={false}
+            minColumns={3}
+            showCredentials
+            statements={communityContacts.map(employee => ({
+              ...employee.user,
+              name: employee.name,
+              credentials: [
+                {
+                  description: employee.title || employee.group
+                }
+              ].filter(d => d.description)
+            }))}
+            t={t} />
+          <P>Wir freuen uns auf deine Bewerbung.</P>
           <br />
           <br />
           <Anchor id='community'>

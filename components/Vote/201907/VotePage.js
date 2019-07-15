@@ -7,6 +7,7 @@ import Frame from '../../Frame'
 import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import { Link } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
+import { withEditor } from '../../Auth/checkRoles'
 import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
@@ -86,7 +87,7 @@ class VotePage extends Component {
   }
 
   render () {
-    const { vt, data } = this.props
+    const { vt, data, isEditor } = this.props
 
     const meta = {
       title: vt('vote/201907/page/title'),
@@ -127,7 +128,7 @@ class VotePage extends Component {
             .map(d => now > new Date(d.endDate))
             .every(Boolean)
 
-          const hasResults = votings
+          const hasResults = isEditor && votings
             .map(d => d.result)
             .every(Boolean)
 
@@ -164,15 +165,15 @@ class VotePage extends Component {
           return (
             <Fragment>
               {hasResults && <Fragment>
-                <Title>{ vt('vote/result/title') }</Title>
-                <Body dangerousHTML={vt('vote/result/lead')} />
+                <Title>{ vt('vote/201907/result/title') }</Title>
+                <Body dangerousHTML={vt('vote/201907/result/lead')} />
                 <VoteResult
                   votings={VOTINGS.map(({ id, slug }) => ({
                     id,
                     data: data[slug]
                   }))}
                 />
-                <Body dangerousHTML={vt('vote/result/after')} />
+                <Body dangerousHTML={vt('vote/201907/result/after')} />
                 <div style={{ height: 80 }} />
               </Fragment>}
               {hasEnded && !hasResults && (
@@ -185,6 +186,7 @@ class VotePage extends Component {
                 </div>
               )}
               <Fragment>
+                <a {...styles.anchor} id='budget' />
                 <Title>
                   <RawHtml
                     dangerouslySetInnerHTML={{
@@ -325,5 +327,6 @@ const query = gql`
 
 export default compose(
   voteT,
+  withEditor,
   graphql(query)
 )(VotePage)

@@ -128,7 +128,7 @@ export default compose(
           </P>
           <H1>Offene Stellen</H1>
           <Editorial.UL>
-            <LI><A href='#editorial'>Redaktor...</A></LI>
+            <LI><A href='#editorial'>Redaktorin mit Fokus Inland und Politik</A></LI>
             <LI><A href='#community'>Community Builder & Partnership Management</A></LI>
             <LI><A href='#it'>Designerin</A></LI>
             <LI><A href='#it'>React-Entwickler</A></LI>
@@ -137,31 +137,29 @@ export default compose(
           <br />
           <br />
           <Anchor id='community'>
-            <H2>Redaktor...</H2>
+            <H2>Redaktorin mit Fokus Inland und Politik</H2>
           </Anchor>
           <P>
-            Rolle...
+            Damit du für diese Rolle in Frage kommst, bist du bereits einige Jahre als Journalistin tätig und hast ein besonderes Interesse an den Bereichen Inland, Politik und Bundeshaus. Du bist gut vernetzt in Bern wie auch dem Rest der Schweiz.
           </P>
-          <Editorial.UL>
-            <LI>Skill #1</LI>
-          </Editorial.UL>
           <P>
-            Pitch...
+            Du verstehst die Wichtigkeit von unabhängigem Journalismus und bringst Energie und Lust mit, um Beiträge zu realisieren, die aufdecken, hinterfragen und analysieren. Du denkst über den Tellerrand hinaus, bist neugierig, kritisch und eigenständig. Du magst interdisziplinäres Arbeiten, bringst deine Ideen ein und treibst die Umsetzung journalistischer Projekte aktiv voran. Zudem hast du eine Vorstellung davon, wie der Politikjournalismus bei der Republik, einem modernen, digitalen Magazin, in Zukunft aussehen sollte.
           </P>
-          <P>Stellenprozent</P>
+          <P>
+            Du übernimmst gerne Verantwortung und fühlst dich wohl in einem dynamischen, sich stetig verändernden Umfeld. Du arbeitest gerne im Team, legst Wert auf offene Kommunikation und nutzt Kritik, um dich weiterzuentwickeln. Auch schätzt du den Austausch und Dialog mit der Community und beteiligst dich gerne aktiv daran.
+          </P>
+          <P>
+            Hast du Lust, zusammen mit anderen kreativen Köpfen Journalismus zu machen, der bewegt und überrascht? Dann bewirb dich, wir freuen uns!
+          </P>
+          <P>Ab September oder nach Vereinbarung, 60 bis 80 Prozent.</P>
 
           <H3>Was wir bieten</H3>
           <br />
           <Editorial.UL>
             <LI>Konkurrenzfähiger Einheitslohn</LI>
             <LI>Kreatives, unkonventionelles Arbeitsumfeld</LI>
-            <LI>Viel Gestaltungsspielraum</LI>
-            <LI>Zentraler Arbeitsort an der Langstrasse in Zürich</LI>
+            <LI>Arbeitsorte Zürich und Bern</LI>
           </Editorial.UL>
-
-          <P>
-            Detaillierte Rolle bei Republik...
-          </P>
 
           <H3>Wie bewerben?</H3>
           <P style={{ marginBottom: 10 }}>
@@ -181,7 +179,6 @@ export default compose(
               ].filter(d => d.description)
             }))}
             t={t} />
-          <P>Wir freuen uns auf deine Bewerbung.</P>
           <br />
           <br />
           <Anchor id='community'>

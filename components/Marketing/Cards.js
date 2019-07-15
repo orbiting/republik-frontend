@@ -83,7 +83,7 @@ const cards = [
   {
     title: tt('11/title'),
     subtitle: tt('11/subtitle'),
-    image: `${ASSETS_URL}international.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}international.jpg?size=3500x2333&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('10/title'),

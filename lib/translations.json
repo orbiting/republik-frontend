@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-11T13:55:17.871Z",
+  "updated": "2019-07-15T14:11:10.969Z",
   "title": "live",
   "data": [
     {
@@ -551,16 +551,12 @@
       "value": "Community anschauen"
     },
     {
-      "key": "marketing/v2/bottom/title",
-      "value": "Werden Sie das {count}ste Mitglied"
-    },
-    {
       "key": "marketing/v2/bottom/join/button/label",
       "value": "Mitglied werden"
     },
     {
       "key": "marketing/v2/bottom/preview/button/label",
-      "value": "5 Artikel Probe lesen"
+      "value": "Probe lesen"
     },
     {
       "key": "marketing/v2/cards/0/title",
@@ -1096,7 +1092,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs, donnerstags und freitags"
+      "value": "montags bis freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -1105,6 +1101,14 @@
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PRODUCT/label",
+      "value": "Republik – Umfragen und Produktinformationen"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PRODUCT/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",

@@ -8,7 +8,6 @@ import {
   Interaction,
   Editorial,
   Loader,
-  colors,
   fontStyles,
   mediaQueries
 } from '@project-r/styleguide'
@@ -101,8 +100,8 @@ const styles = {
     width: 280,
     marginLeft: -140
   }),
-  title: css({
-    ...fontStyles.serifTitle58,
+  lead: css({
+    ...fontStyles.serifBold52,
     fontWeight: 'normal',
     fontSize: 26,
     lineHeight: '32px',
@@ -111,10 +110,10 @@ const styles = {
     marginBottom: 30,
     textAlign: 'center',
     [mediaQueries.mUp]: {
-      fontSize: 48,
-      lineHeight: '54px',
-      marginBottom: 50,
-      marginTop: 30
+      fontSize: 30,
+      lineHeight: '36px',
+      marginBottom: 30,
+      marginTop: 10
     }
   }),
   h2: css({
@@ -149,7 +148,7 @@ const styles = {
   })
 }
 
-const Title = ({ children }) => <h1 {...styles.title}>{children}</h1>
+const Title = ({ children }) => <h1 {...styles.lead}>{children}</h1>
 
 class MarketingPage extends Component {
   constructor (props) {
@@ -158,7 +157,7 @@ class MarketingPage extends Component {
     this.onHighlight = highlight => this.setState({ highlight })
   }
   render () {
-    const { t, data: { loading, error, me, membershipStats, front, articles, statements } } = this.props
+    const { t, data: { loading, error, me, membershipStats, front, statements } } = this.props
 
     const hasMembershipOrAccessGrant = me && (
       (me.memberships && me.memberships.length > 0) ||
@@ -179,11 +178,7 @@ class MarketingPage extends Component {
               <Title>
                 <RawHtml
                   dangerouslySetInnerHTML={{
-                    __html: t('marketing/v2/overview/title', {
-                      count: articles
-                        ? countFormat(articles.totalCount)
-                        : t('marketing/v2/overview/defaultCount')
-                    })
+                    __html: t('marketing/v2/overview/title')
                   }}
                 />
               </Title>
@@ -368,38 +363,23 @@ class MarketingPage extends Component {
               </Link>
             </Interaction.P>
             <div {...sharedStyles.spacer} />
-          </Container>
-
-          <div style={{ background: colors.secondaryBg }}>
-            <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-              <div {...sharedStyles.spacer} />
-              <Interaction.H2 {...styles.h2}>
-                {t(
-                  'marketing/v2/bottom/title',
-                  {
-                    count: membershipStats
-                      ? countFormat(membershipStats.count + 1)
-                      : t('marketing/v2/community/defaultCount')
-                  }
-                )}
-              </Interaction.H2>
-              <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
-                <div>
-                  <Link route='pledge' params={{ package: 'ABO' }}>
-                    <button {...buttonStyles.primary}>
-                      {t('marketing/v2/bottom/join/button/label')}
-                    </button>
-                  </Link>
-                </div>
-                <Link route='preview'>
-                  <button {...buttonStyles.standard}>
-                    {t('marketing/v2/bottom/preview/button/label')}
+            <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
+              <div>
+                <Link route='pledge' params={{ package: 'ABO' }}>
+                  <button {...buttonStyles.primary}>
+                    {t('marketing/v2/bottom/join/button/label')}
                   </button>
                 </Link>
               </div>
-              <div {...sharedStyles.spacer} />
-            </Container>
-          </div>
+              <Link route='preview'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/v2/bottom/preview/button/label')}
+                </button>
+              </Link>
+            </div>
+            <div {...sharedStyles.spacer} />
+          </Container>
+
         </Fragment>}
       </Fragment>
     )

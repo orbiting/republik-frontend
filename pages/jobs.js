@@ -136,7 +136,7 @@ export default compose(
           </Editorial.UL>
           <br />
           <br />
-          <Anchor id='community'>
+          <Anchor id='editorial'>
             <H2>Redaktorin mit Fokus Inland und Politik</H2>
           </Anchor>
           <P>

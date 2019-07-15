@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-15T11:23:17.091Z",
+  "updated": "2019-07-15T11:33:16.106Z",
   "title": "live",
   "data": [
     {
@@ -667,7 +667,7 @@
       "value": "Danke an alle, die sich am demokratischen Experiment beteiligt haben."
     },
     {
-      "key": "Willkommen zu den Resultaten der Urabstimmung von Project R. Die Abstimmungen fanden vom 4. bis zum 14.&nbsp;Juli 2019 statt. Die Gesamtstimmbeteiligung betrug 14,2&nbsp;%. Eingeladen waren alle Verlegerinnen und Verleger der «Republik», die 16’236 Mitglieder der Project R Genossenschaft. 2305 von Ihnen haben teilgenommen, herzlichen Dank!",
+      "key": "vote/result/title",
       "value": "So haben Sie entschieden"
     },
     {

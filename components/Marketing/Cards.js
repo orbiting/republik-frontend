@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring'
 import { useGesture } from 'react-use-gesture'
 import { css } from 'glamor'
 import {
   Editorial,
   FigureImage,
-  mediaQueries,
-  useMediaQuery
+  mediaQueries
 } from '@project-r/styleguide'
 import { negativeColors } from '../Frame/constants'
 import { t } from '../../lib/withT'
@@ -149,11 +148,13 @@ const cardWidthDesktop = (innerWidth) => (Math.min(MAX_WIDTH, innerWidth)) / 2
 const xDesktop = (i, innerWidth, cardWidth) => (
   Math.floor(innerWidth / 2) + (i % 2 ? PADDING * 2 : -cardWidth + PADDING))
 
+const randomRotation = () => -6 + Math.random() * 12
+
 const toMobile = i => ({
   x: 0,
   y: 30 + 50 * i,
   scale: 1,
-  rot: -6 + Math.random() * 12,
+  rot: randomRotation(),
   delay: i * 100
 })
 
@@ -162,9 +163,24 @@ const toDesktop = (i, innerWidth, cardWidth) => {
     x: xDesktop(i, innerWidth, cardWidth),
     y: 30 + (i - i % 2) * 25,
     scale: 1,
-    rot: -6 + Math.random() * 12,
+    rot: randomRotation(),
     delay: i * 100
   }
+}
+
+const useWindowWidth = () => {
+  const [width, setWidth] = useState()
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [setWidth])
+
+  return width
 }
 
 const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
@@ -172,12 +188,21 @@ const trans = (r, s) => ` rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Cards = () => {
   if (!process.browser) return null
-  const isDesktop = useMediaQuery(mediaQueries.mUp)
-  const cardWidth = isDesktop && cardWidthDesktop(window.innerWidth)
+  const width = useWindowWidth()
+  const isDesktop = width >= mediaQueries.mBreakPoint
+  const cardWidth = isDesktop && cardWidthDesktop(width)
   const to = isDesktop ? toDesktop : toMobile
   const [gone] = useState(() => new Set())
   const [downIndex, setDownIndex] = useState(undefined)
-  const [props, set] = useSprings(cards.length, i => ({ ...to(i, window.innerWidth, cardWidth), from: from(i) }))
+  const [props, set] = useSprings(cards.length, i => ({ ...to(i, width, cardWidth), from: from(i) }))
+  useEffect(
+    () => {
+      gone.clear()
+      set(i => ({ ...to(i, window.innerWidth, cardWidth), delay: undefined }))
+    },
+    [width]
+  )
+
   const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     const trigger = velocity > 0.01
     const dir = xDir < 0 ? -1 : 1
@@ -191,7 +216,7 @@ const Cards = () => {
       const isGone = gone.has(index)
       const xPos = isDesktop ? xDesktop(i, window.innerWidth, cardWidth) : 0
       const x = isGone ? (200 + window.innerWidth) * dir : down ? xPos + xDelta : xPos
-      const rot = -6 + Math.random() * 12
+      const rot = down ? 0 : randomRotation()
       const scale = down ? 1.1 : 1 // Active cards lift up a bit
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
     })

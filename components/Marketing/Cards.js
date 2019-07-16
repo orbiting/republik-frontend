@@ -146,6 +146,9 @@ const cards = [
 
 const cardWidthDesktop = (innerWidth) => (Math.min(MAX_WIDTH, innerWidth)) / 2
 
+const xDesktop = (i, innerWidth, cardWidth) => (
+  Math.floor(innerWidth / 2) + (i % 2 ? PADDING * 2 : -cardWidth + PADDING))
+
 const toMobile = i => ({
   x: 0,
   y: 30 + 50 * i,
@@ -156,7 +159,7 @@ const toMobile = i => ({
 
 const toDesktop = (i, innerWidth, cardWidth) => {
   return {
-    x: Math.floor(innerWidth / 2) + (i % 2 ? PADDING * 2 : -cardWidth + PADDING),
+    x: xDesktop(i, innerWidth, cardWidth),
     y: 30 + (i - i % 2) * 25,
     scale: 1,
     rot: -6 + Math.random() * 12,
@@ -186,7 +189,8 @@ const Cards = () => {
     set(i => {
       if (index !== i) return
       const isGone = gone.has(index)
-      const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0
+      const xPos = isDesktop ? xDesktop(i, window.innerWidth, cardWidth) : 0
+      const x = isGone ? (200 + window.innerWidth) * dir : down ? xPos + xDelta : xPos
       const rot = -6 + Math.random() * 12
       const scale = down ? 1.1 : 1 // Active cards lift up a bit
       return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }

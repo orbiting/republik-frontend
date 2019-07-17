@@ -29,16 +29,11 @@ const styles = {
     textAlign: 'center',
     '& > div': {
       position: 'absolute',
-      // width: '100%',
-      // maxWidth: `${MAX_WIDTH / 2}px`,
       height: '100%',
       willChange: 'transform',
       display: 'flex',
       alignItems: 'flex-start',
-      justifyContent: 'center',
-      [mediaQueries.mUp]: {
-        // maxWidth: '440px'
-      }
+      justifyContent: 'center'
     },
     '& > div > div': {
       cursor: 'grab',
@@ -50,11 +45,6 @@ const styles = {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center center',
       width: '85vw',
-      // height: '60vh',
-      maxHeight: '600px',
-      [mediaQueries.mUp]: {
-        maxHeight: '1000px'
-      },
       willChange: 'transform',
       borderRadius: '5px',
       boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)',

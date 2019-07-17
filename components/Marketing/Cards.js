@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSprings, animated, interpolate } from 'react-spring'
+import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture'
 import { css } from 'glamor'
 import {

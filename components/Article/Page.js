@@ -138,6 +138,7 @@ const getDocument = gql`
         }
         color
         format {
+          id
           meta {
             path
             title
@@ -146,6 +147,7 @@ const getDocument = gql`
           }
         }
         dossier {
+          id
           meta {
             title
             path

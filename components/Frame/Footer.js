@@ -174,6 +174,10 @@ class Footer extends Component {
                 <a>{t('footer/about')}</a>
               </Link>
               <br />
+              <Link route='jobs'>
+                <a>{t('footer/jobs')}</a>
+              </Link>
+              <br />
               <Link route='events'>
                 <a>{t('footer/events')}</a>
               </Link>

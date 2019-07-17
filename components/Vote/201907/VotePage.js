@@ -164,15 +164,15 @@ class VotePage extends Component {
           return (
             <Fragment>
               {hasResults && <Fragment>
-                <Title>{ vt('vote/result/title') }</Title>
-                <Body dangerousHTML={vt('vote/result/lead')} />
+                <Title>{ vt('vote/201907/result/title') }</Title>
+                <Body dangerousHTML={vt('vote/201907/result/lead')} />
                 <VoteResult
                   votings={VOTINGS.map(({ id, slug }) => ({
                     id,
                     data: data[slug]
                   }))}
                 />
-                <Body dangerousHTML={vt('vote/result/after')} />
+                <Body dangerousHTML={vt('vote/201907/result/after')} />
                 <div style={{ height: 80 }} />
               </Fragment>}
               {hasEnded && !hasResults && (
@@ -185,6 +185,7 @@ class VotePage extends Component {
                 </div>
               )}
               <Fragment>
+                <a {...styles.anchor} id='budget' />
                 <Title>
                   <RawHtml
                     dangerouslySetInnerHTML={{

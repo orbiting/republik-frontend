@@ -27,6 +27,7 @@ export const documentFragment = `
         id
       }
       format {
+        id
         meta {
           path
           title

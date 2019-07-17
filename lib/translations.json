@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-15T14:11:10.969Z",
+  "updated": "2019-07-17T16:51:00.514Z",
   "title": "live",
   "data": [
     {
@@ -532,7 +532,7 @@
     },
     {
       "key": "marketing/v2/magazine/image/title",
-      "value": "Damit wir als Gesellschaft entscheiden können, wohin wir uns entwickeln."
+      "value": "Damit wir als Gesellschaft entscheiden\nkönnen, wohin wir uns entwickeln."
     },
     {
       "key": "marketing/v2/magazine/image/caption",
@@ -800,7 +800,7 @@
     },
     {
       "key": "jobs/description",
-      "value": "Lösen Sie mit einem motivierten, multidisziplinären Team die interessantesten Probleme der Branche."
+      "value": "Löse mit einem motivierten, multidisziplinären Team die interessantesten Probleme der Branche."
     },
     {
       "key": "etiquette/pageTitle",

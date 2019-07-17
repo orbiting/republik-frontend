@@ -7,7 +7,6 @@ import Frame from '../../Frame'
 import { DiscussionIconLinkWithoutEnhancer } from '../../Discussion/IconLink'
 import { Link } from '../../../lib/routes'
 import SignIn from '../../Auth/SignIn'
-import { withEditor } from '../../Auth/checkRoles'
 import Collapsible from '../Collapsible'
 import Voting from '../Voting'
 import {
@@ -87,7 +86,7 @@ class VotePage extends Component {
   }
 
   render () {
-    const { vt, data, isEditor } = this.props
+    const { vt, data } = this.props
 
     const meta = {
       title: vt('vote/201907/page/title'),
@@ -128,7 +127,7 @@ class VotePage extends Component {
             .map(d => now > new Date(d.endDate))
             .every(Boolean)
 
-          const hasResults = isEditor && votings
+          const hasResults = votings
             .map(d => d.result)
             .every(Boolean)
 
@@ -327,6 +326,5 @@ const query = gql`
 
 export default compose(
   voteT,
-  withEditor,
   graphql(query)
 )(VotePage)

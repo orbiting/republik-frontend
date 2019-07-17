@@ -22,22 +22,23 @@ const styles = {
     position: 'relative',
     overflow: 'hidden',
     width: '100%',
-    // height: '100%',
-    height: '100vh',
-    maxHeight: '1000px',
+    height: '960px',
     [mediaQueries.mUp]: {
-      maxHeight: '740px'
+      height: '760px'
     },
     textAlign: 'center',
     '& > div': {
       position: 'absolute',
       // width: '100%',
-      width: '440px',
+      // maxWidth: `${MAX_WIDTH / 2}px`,
       height: '100%',
       willChange: 'transform',
       display: 'flex',
       alignItems: 'flex-start',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      [mediaQueries.mUp]: {
+        // maxWidth: '440px'
+      }
     },
     '& > div > div': {
       cursor: 'grab',
@@ -143,14 +144,14 @@ const cards = [
   }
 ]
 
-const cardWidthDesktop = (innerWidth) => (Math.min(MAX_WIDTH, innerWidth)) / 2
+const cardWidthDesktop = (innerWidth) => Math.min((Math.max(MAX_WIDTH, innerWidth)) / 2, 500)
 
 const xDesktop = (i, innerWidth, cardWidth) => (
   Math.floor(innerWidth / 2) + (i % 2 ? PADDING * 2 : -cardWidth + PADDING))
 
-const randomRotation = () => -6 + Math.random() * 12
+const randomRotation = () => -4 + Math.random() * 8
 
-const toMobile = i => ({
+const toMobile = (i, innerWidth, cardWidth) => ({
   x: 0,
   y: 30 + 50 * i,
   scale: 1,
@@ -190,7 +191,7 @@ const Cards = () => {
   if (!process.browser) return null
   const width = useWindowWidth()
   const isDesktop = width >= mediaQueries.mBreakPoint
-  const cardWidth = isDesktop && cardWidthDesktop(width)
+  const cardWidth = cardWidthDesktop(width)
   const to = isDesktop ? toDesktop : toMobile
   const [gone] = useState(() => new Set())
   const [downIndex, setDownIndex] = useState(undefined)
@@ -229,9 +230,12 @@ const Cards = () => {
         <animated.div key={i} style={{
           transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
           zIndex: i === downIndex ? 1 : undefined,
-          width: isDesktop ? `${cardWidth - PADDING * 2}px` : '100%'
+          width: isDesktop ? `${cardWidth - PADDING * 4}px` : '100%'
         }}>
-          <animated.div {...bind(i)} style={{ transform: interpolate([rot, scale], trans) }}>
+          <animated.div {...bind(i)} style={{
+            transform: interpolate([rot, scale], trans),
+            maxWidth: isDesktop ? undefined : '380px'
+          }}>
             <Editorial.Subhead style={{ marginTop: 0 }}>{cards[i].title}</Editorial.Subhead>
             <Editorial.P>{cards[i].subtitle}</Editorial.P>
             <FigureImage src={cards[i].image} attributes={{ draggable: false }} />

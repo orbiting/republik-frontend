@@ -51,14 +51,11 @@ query marketingMembershipStats {
     count
   }
   front: document(path: "/") {
-    children(first: 50) {
+    children(first: 65) {
       nodes {
         body
       }
     }
-  }
-  articles: documents(feed: true, first: 0, template: "article") {
-    totalCount
   }
   statements(first: 6) {
     totalCount
@@ -101,17 +98,16 @@ const styles = {
     marginLeft: -140
   }),
   lead: css({
-    ...fontStyles.serifBold52,
-    fontWeight: 'normal',
+    maxWidth: 700,
+    margin: '0 auto 30px',
+    ...fontStyles.serifRegular,
     fontSize: 26,
     lineHeight: '32px',
     color: negativeColors.text,
-    marginTop: 0,
-    marginBottom: 30,
     textAlign: 'center',
     [mediaQueries.mUp]: {
       fontSize: 30,
-      lineHeight: '36px',
+      lineHeight: '40px',
       marginBottom: 30,
       marginTop: 10
     }
@@ -148,8 +144,6 @@ const styles = {
   })
 }
 
-const Title = ({ children }) => <h1 {...styles.lead}>{children}</h1>
-
 class MarketingPage extends Component {
   constructor (props) {
     super(props)
@@ -175,13 +169,11 @@ class MarketingPage extends Component {
               position: 'relative',
               overflow: 'hidden'
             }}>
-              <Title>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('marketing/v2/overview/title')
-                  }}
-                />
-              </Title>
+              <h1 {...styles.lead}>
+                <RawHtml dangerouslySetInnerHTML={{
+                  __html: t('marketing/v2/overview/title')
+                }} />
+              </h1>
               <Loader loading={loading} style={{ minHeight: 600 }} render={() => (
                 <TeaserBlock
                   teasers={getTeasersFromDocument(front)}
@@ -388,5 +380,5 @@ class MarketingPage extends Component {
 
 export default compose(
   withT,
-  graphql(query, { options: { ssr: false } })
+  graphql(query)
 )(MarketingPage)

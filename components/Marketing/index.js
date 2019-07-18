@@ -16,8 +16,6 @@ import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
-import { intersperse } from '../../lib/utils/helpers'
-
 import {
   List as TestimonialList,
   testimonialFields
@@ -25,7 +23,6 @@ import {
 
 import TeaserBlock from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
-import { A, P } from '../Overview/Elements'
 import Accordion from '../Pledge/Accordion'
 import Cards from './Cards'
 import SignIn from '../Auth/SignIn'
@@ -88,14 +85,6 @@ const styles = {
     right: 0,
     background: 'linear-gradient(0deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0) 100%)',
     pointerEvents: 'none'
-  }),
-  overviewBottomLinks: css({
-    textAlign: 'center',
-    position: 'absolute',
-    bottom: 10,
-    left: '50%',
-    width: 280,
-    marginLeft: -140
   }),
   lead: css({
     maxWidth: 700,
@@ -184,13 +173,6 @@ class MarketingPage extends Component {
                   lazy />
               )} />
               <div {...styles.overviewBottomShadow} />
-              <P {...styles.overviewBottomLinks}>
-                {t.elements('marketing/overview/more', {
-                  years: intersperse([2019, 2018].map(year =>
-                    <Link key={year} route='overview' params={{ year }} passHref><A>{year}</A></Link>
-                  ), () => ', ')
-                })}
-              </P>
             </Container>
           </div>}
           <Container>

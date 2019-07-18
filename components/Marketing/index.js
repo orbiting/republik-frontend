@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
+import throttle from 'lodash/throttle'
 import {
   Container,
   RawHtml,
@@ -126,9 +127,12 @@ const styles = {
     }
   }),
   cards: css({
+    background: negativeColors.primaryBg,
     margin: '30px 0',
+    height: '960px',
     [mediaQueries.mUp]: {
-      margin: '50px 0'
+      margin: '50px 0',
+      height: '760px'
     }
   })
 }
@@ -136,11 +140,52 @@ const styles = {
 class MarketingPage extends Component {
   constructor (props) {
     super(props)
-    this.state = {}
+    this.state = {
+      cardsReached: false
+    }
     this.onHighlight = highlight => this.setState({ highlight })
+    this.cardsRef = React.createRef()
+
+    this.measure = () => {
+      if (this.cardsRef) {
+        const rect = this.cardsRef.current.getBoundingClientRect()
+        this.cardsY = window.pageYOffset + rect.top + rect.height * 0.5
+      }
+    }
+
+    this.onScroll = throttle(() => {
+      const y = window.pageYOffset
+
+      const cardsReached =
+        this.cardsY && y + window.innerHeight > this.cardsY
+
+      if (cardsReached && !this.state.cardsReached) {
+        console.log('REACHED')
+        this.setState({ cardsReached: true })
+        window.removeEventListener('scroll', this.onScroll)
+      }
+    }, 300)
   }
+
+  componentDidMount () {
+    window.addEventListener('scroll', this.onScroll)
+    window.addEventListener('resize', this.measure)
+    this.measure()
+  }
+
+  componentDidUpdate () {
+    this.measure()
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.onScroll)
+    window.removeEventListener('resize', this.measure)
+  }
+
   render () {
     const { t, data: { loading, error, me, membershipStats, front, statements } } = this.props
+
+    const { cardsReached } = this.state
 
     const hasMembershipOrAccessGrant = me && (
       (me.memberships && me.memberships.length > 0) ||
@@ -294,8 +339,8 @@ class MarketingPage extends Component {
             </Editorial.P>
           </Container>
 
-          <div {...styles.cards}>
-            <Cards />
+          <div {...styles.cards} ref={this.cardsRef}>
+            {cardsReached && <Cards />}
           </div>
 
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>

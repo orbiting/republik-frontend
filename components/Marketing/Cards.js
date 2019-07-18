@@ -7,7 +7,6 @@ import {
   FigureImage,
   mediaQueries
 } from '@project-r/styleguide'
-import { negativeColors } from '../Frame/constants'
 import { t } from '../../lib/withT'
 
 const ASSETS_URL = 'https://cdn.republik.space/s3/republik-assets/assets/marketing/'
@@ -18,7 +17,6 @@ const PADDING = 15
 
 const styles = {
   root: css({
-    background: negativeColors.primaryBg,
     position: 'relative',
     overflow: 'hidden',
     width: '100%',
@@ -53,17 +51,6 @@ const styles = {
     },
     '& *': {
       userSelect: 'none'
-    }
-  }),
-  title: css({
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: '20px',
-    textAlign: 'center',
-    color: negativeColors.text,
-    [mediaQueries.mUp]: {
-      top: '30px'
     }
   })
 }

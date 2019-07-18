@@ -149,7 +149,7 @@ class MarketingPage extends Component {
     this.measure = () => {
       if (this.cardsRef) {
         const rect = this.cardsRef.current.getBoundingClientRect()
-        this.cardsY = window.pageYOffset + rect.top + rect.height * 0.5
+        this.cardsY = window.pageYOffset + rect.top
       }
     }
 
@@ -160,17 +160,16 @@ class MarketingPage extends Component {
         this.cardsY && y + window.innerHeight > this.cardsY
 
       if (cardsReached && !this.state.cardsReached) {
-        console.log('REACHED')
         this.setState({ cardsReached: true })
         window.removeEventListener('scroll', this.onScroll)
       }
-    }, 300)
+    }, 200)
   }
 
   componentDidMount () {
+    this.measure()
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
-    this.measure()
   }
 
   componentDidUpdate () {

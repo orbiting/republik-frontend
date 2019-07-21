@@ -259,14 +259,16 @@ class MarketingPage extends Component {
         {!error && <Fragment>
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
             <Interaction.H2 {...styles.h2}>
-              {t('marketing/v2/usp/title')}
+              Ein Projekt gegen den Zynismus
             </Interaction.H2>
             <Editorial.P>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/usp/body')
-                }}
-              />
+              Unser Journalismus verteidigt die Institutionen der Demokratie gegen den Vormarsch der Autoritären. Wir lassen uns nicht von Angst leiten, sondern von den Werten der Aufklärung.
+            </Editorial.P>
+            <Editorial.P>
+              Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, aber keineswegs neutral.
+            </Editorial.P>
+            <Editorial.P>
+              Wir stehen für die Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.
             </Editorial.P>
           </Container>
 
@@ -296,14 +298,26 @@ class MarketingPage extends Component {
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
             <div {...sharedStyles.spacer} />
             <Interaction.H2 {...styles.h2}>
-              {t('marketing/v2/manifesto/title')}
+              Unser Magazin ist unabhängig und werbefrei
             </Interaction.H2>
             <Editorial.P>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/manifesto/body')
-                }}
-              />
+              Unser einziges Produkt ist vernünftiger Journalismus. Und unser einziger Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
+            </Editorial.P>
+          </Container>
+
+          <div {...styles.cards} ref={this.cardsRef}>
+            {cardsReached && <Cards />}
+          </div>
+
+          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+            <Editorial.P>
+              Wir sind kompromisslos in der Qualität bei Sprache und Bild. Wir respektieren Ihre digitale Privatsphäre und schützen Ihre persönlichen Daten.
+            </Editorial.P>
+            <Editorial.P>
+              Unsere Community respektiert abweichende Meinungen und debattiert konstruktiv. Bei uns reden Expertinnen, Leser und Journalistinnen miteinander. Es zählt das beste Argument.
+            </Editorial.P>
+            <Editorial.P>
+              Wir pflegen eine offene Fehlerkultur und begegnen Ihnen auf Augenhöhe. Und wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht.
             </Editorial.P>
           </Container>
 
@@ -327,28 +341,16 @@ class MarketingPage extends Component {
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
             <div {...sharedStyles.spacer} />
             <Interaction.H2 {...styles.h2}>
-              {t('marketing/v2/magazine/title')}
+              Ohne Journalismus keine Demokratie
             </Interaction.H2>
             <Editorial.P>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/magazine/body1')
-                }}
-              />
+              Den traditionellen Verlagen geht es je länger, desto schlechter. Ihre werbegetriebenen Geschäftsmodelle funktionieren nicht mehr. Das Resultat dieser Entwicklung ist Abbau und Konzentration. Vielfalt und Unabhängigkeit gehen verloren. Die vierte Gewalt ist heute existenziell bedroht.
             </Editorial.P>
-          </Container>
-
-          <div {...styles.cards} ref={this.cardsRef}>
-            {cardsReached && <Cards />}
-          </div>
-
-          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
             <Editorial.P>
-              <RawHtml
-                dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/magazine/body2')
-                }}
-              />
+              Nur gemeinsam können wir etwas dagegen tun. Dafür braucht es nicht nur Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen, der bereit ist, etwas Geld in unabhängigen, werbefreien Journalismus zu investieren. Bauen wir zusammen ein neues Geschäftsmodell!
+            </Editorial.P>
+            <Editorial.P>
+              Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig Besitzerin des Unternehmens. Sie sind Mitglied der Project R Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines Monatsabos vor.
             </Editorial.P>
           </Container>
 
@@ -397,7 +399,6 @@ class MarketingPage extends Component {
             </div>
             <div {...sharedStyles.spacer} />
           </Container>
-
         </Fragment>}
       </Fragment>
     )

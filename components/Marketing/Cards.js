@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
-import { useGesture } from 'react-use-gesture/web.cjs'
+import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
 import {
   Editorial,

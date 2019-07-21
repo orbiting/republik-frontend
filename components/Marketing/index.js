@@ -75,19 +75,20 @@ const MEDIUM_MAX_WIDTH = 974
 const SMALL_MAX_WIDTH = 680
 
 const styles = {
-  overviewContainer: css({
-    backgroundColor: negativeColors.containerBg,
-    color: negativeColors.text,
-    paddingLeft: 20,
-    paddingRight: 20,
+  overviewOverflow: css({
     position: 'relative',
     overflow: 'hidden',
-    paddingTop: 30 + HEADER_HEIGHT_MOBILE,
+    paddingTop: HEADER_HEIGHT_MOBILE,
     marginTop: -HEADER_HEIGHT_MOBILE,
     [mediaQueries.mUp]: {
-      paddingTop: 30 + HEADER_HEIGHT,
+      paddingTop: HEADER_HEIGHT,
       marginTop: -HEADER_HEIGHT
     }
+  }),
+  overviewContainer: css({
+    padding: '30px 20px 0',
+    backgroundColor: negativeColors.containerBg,
+    color: negativeColors.text
   }),
   overviewBottomShadow: css({
     position: 'absolute',
@@ -165,11 +166,10 @@ class MarketingPage extends Component {
     return (
       <Fragment>
         {!loading && me && !hasMembershipOrAccessGrant && <UserGuidance />}
-        <div style={{ }}>
-          {!error && <div {...styles.overviewContainer}>
+        {!error && <div {...styles.overviewOverflow}>
+          <div {...styles.overviewContainer}>
             <Container style={{
-              maxWidth: 1200,
-              padding: 0
+              maxWidth: 1200
             }}>
               <h1 {...styles.lead}>
                 <RawHtml dangerouslySetInnerHTML={{
@@ -186,43 +186,43 @@ class MarketingPage extends Component {
               )} />
               <div {...styles.overviewBottomShadow} />
             </Container>
-          </div>}
-          <Container>
-            <div {...sharedStyles.actions}>
-              <div>
-                <Link route='pledge' params={{ package: 'ABO' }}>
-                  <button {...buttonStyles.primary}>
-                    {t('marketing/v2/join/button/label')}
-                  </button>
-                </Link>
-              </div>
-              <Link route='preview'>
-                <button {...buttonStyles.standard}>
-                  {t('marketing/v2/preview/button/label')}
+          </div>
+        </div>}
+        <Container>
+          <div {...sharedStyles.actions}>
+            <div>
+              <Link route='pledge' params={{ package: 'ABO' }}>
+                <button {...buttonStyles.primary}>
+                  {t('marketing/v2/join/button/label')}
                 </button>
               </Link>
             </div>
-            <div {...sharedStyles.signIn}>
-              {t.elements(
-                'marketing/signin',
-                { link: <Link key='link' route={'signin'}>
-                  <a>{t('marketing/v2/signin/link') }</a>
+            <Link route='preview'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/v2/preview/button/label')}
+              </button>
+            </Link>
+          </div>
+          <div {...sharedStyles.signIn}>
+            {t.elements(
+              'marketing/signin',
+              { link: <Link key='link' route={'signin'}>
+                <a>{t('marketing/v2/signin/link') }</a>
+              </Link>
+              }
+            )}{' – '}
+            {t.elements('marketing/claim', {
+              claimLink: (
+                <Link route='claim' key='claim' passHref>
+                  <Editorial.A>
+                    {t('marketing/v2/claim/link')}
+                  </Editorial.A>
                 </Link>
-                }
-              )}{' – '}
-              {t.elements('marketing/claim', {
-                claimLink: (
-                  <Link route='claim' key='claim' passHref>
-                    <Editorial.A>
-                      {t('marketing/v2/claim/link')}
-                    </Editorial.A>
-                  </Link>
-                )
-              })}
-            </div>
-            {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
-          </Container>
-        </div>
+              )
+            })}
+          </div>
+          {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
+        </Container>
 
         {!error && <Fragment>
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>

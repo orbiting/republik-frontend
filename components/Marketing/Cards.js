@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/web.cjs'
 import { css } from 'glamor'
 import {
   Editorial,
   FigureImage,
-  mediaQueries
+  mediaQueries,
+  usePrevious
 } from '@project-r/styleguide'
+import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
 
-const ASSETS_URL = 'https://cdn.republik.space/s3/republik-assets/assets/marketing/'
+const ASSETS_URL = `${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/marketing/`
 const MAX_WIDTH = 800
 const PADDING = 15
 
@@ -20,9 +22,9 @@ const styles = {
     position: 'relative',
     overflow: 'hidden',
     width: '100%',
-    height: '960px',
+    height: 960,
     [mediaQueries.mUp]: {
-      height: '760px'
+      height: 760
     },
     textAlign: 'center',
     '& > div': {
@@ -49,8 +51,9 @@ const styles = {
       overflow: 'hidden',
       padding: '20px 15px 15px 15px'
     },
-    '& *': {
-      userSelect: 'none'
+    '& > div > div > *': {
+      userSelect: 'none',
+      pointerEvents: 'none'
     }
   })
 }
@@ -67,66 +70,70 @@ const cards = [
   {
     title: tt('10/title'),
     subtitle: tt('10/subtitle'),
-    image: `${ASSETS_URL}feuilleton.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}feuilleton.jpg?size=5760x3840&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('9/title'),
     subtitle: tt('9/subtitle'),
-    image: `${ASSETS_URL}reportagen.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}reportagen.jpg?size=3000x2003&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('8/title'),
     subtitle: tt('8/subtitle'),
-    image: `${ASSETS_URL}demokratie.gif`
+    image: `${ASSETS_URL}demokratie.gif?size=1200x933`
   },
   {
     title: tt('7/title'),
     subtitle: tt('7/subtitle'),
-    image: `${ASSETS_URL}bundeshaus.gif`
+    image: `${ASSETS_URL}bundeshaus.gif?size=2666x1500`
   },
   {
     title: tt('6/title'),
     subtitle: tt('6/subtitle'),
-    image: `${ASSETS_URL}investigativ.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}investigativ.jpg?size=3200x2133&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('5/title'),
     subtitle: tt('5/subtitle'),
-    image: `${ASSETS_URL}gespraeche.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}gespraeche.jpg?size=2901x1935&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('4/title'),
     subtitle: tt('4/subtitle'),
-    image: `${ASSETS_URL}klimawandel.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}klimawandel.jpg?size=3800x2850&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('3/title'),
     subtitle: tt('3/subtitle'),
-    image: `${ASSETS_URL}digitalisierung.gif`
+    image: `${ASSETS_URL}digitalisierung.gif?size=1900x1140`
   },
   {
     title: tt('2/title'),
     subtitle: tt('2/subtitle'),
-    image: `${ASSETS_URL}justiz.gif`
+    image: `${ASSETS_URL}justiz.gif?size=980x653`
   },
   {
     title: tt('1/title'),
     subtitle: tt('1/subtitle'),
-    image: `${ASSETS_URL}briefings.jpg?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}briefings.jpg?size=3543x2531&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('0/title'),
     subtitle: tt('0/subtitle'),
-    image: `${ASSETS_URL}datenjournalismus.png?resize=${MAX_WIDTH}x`
+    image: `${ASSETS_URL}datenjournalismus.png?size=1559x878&resize=${MAX_WIDTH}x`
   }
 ]
 
-const cardWidthDesktop = (innerWidth) => Math.min((Math.max(MAX_WIDTH, innerWidth)) / 2, 500)
+const cardWidthDesktop = (innerWidth) => Math.min(
+  Math.max(MAX_WIDTH, innerWidth) / 2,
+  500
+)
 
 const xDesktop = (i, innerWidth, cardWidth) => (
-  Math.floor(innerWidth / 2) + (i % 2 ? PADDING * 2 : -cardWidth + PADDING))
+  Math.floor(innerWidth / 2) + (i % 2 ? PADDING : -cardWidth + PADDING * 2)
+)
 
-const randomRotation = () => -4 + Math.random() * 8
+const randomRotation = () => -3 + Math.random() * 6
 
 const toMobile = (i, innerWidth, cardWidth) => ({
   x: 0,
@@ -147,12 +154,11 @@ const toDesktop = (i, innerWidth, cardWidth) => {
 }
 
 const useWindowWidth = () => {
-  const [width, setWidth] = useState()
+  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : undefined)
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
-    handleResize()
     return () => {
       window.removeEventListener('resize', handleResize)
     }
@@ -161,30 +167,70 @@ const useWindowWidth = () => {
   return width
 }
 
-const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
-const trans = (r, s) => ` rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Cards = () => {
-  if (!process.browser) return null
   const width = useWindowWidth()
+  const prevWidth = usePrevious(width)
   const isDesktop = width >= mediaQueries.mBreakPoint
   const cardWidth = cardWidthDesktop(width)
   const to = isDesktop ? toDesktop : toMobile
-  const [gone] = useState(() => new Set())
+  const [gone, setGone] = useState(() => new Set())
   const [downIndex, setDownIndex] = useState(undefined)
-  const [props, set] = useSprings(cards.length, i => ({ ...to(i, width, cardWidth), from: from(i) }))
+  const [props, set] = useSprings(
+    cards.length,
+    i => ({
+      from: { ...to(i, width, cardWidth), x: i % 2 ? width + 1000 : -1000 }
+    })
+  )
+  const [inView, setInView] = useState(undefined)
   useEffect(
     () => {
-      gone.clear()
-      set(i => ({ ...to(i, window.innerWidth, cardWidth), delay: undefined }))
-    },
-    [width]
-  )
+      if (!inView) {
+        return
+      }
 
+      gone.clear()
+      setGone(gone)
+      set(i => ({
+        ...to(i, window.innerWidth, cardWidth),
+        ...(prevWidth !== width && {
+          delay: undefined,
+          config: { friction: 50, tension: 1000 }
+        })
+      }))
+    },
+    [width, prevWidth, inView]
+  )
+  const rootRef = useRef()
+  useEffect(() => {
+    if (inView) {
+      return
+    }
+    const check = () => {
+      if (!rootRef.current) {
+        return
+      }
+      const { top } = rootRef.current.getBoundingClientRect()
+      if (top - window.innerHeight < -250) {
+        setInView(true)
+      }
+    }
+    window.addEventListener('scroll', check)
+    check()
+    return () => {
+      window.removeEventListener('scroll', check)
+    }
+  }, [inView])
   const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-    const trigger = velocity > 0.01
-    const dir = xDir < 0 ? -1 : 1
-    if (!down && trigger) gone.add(index)
+    const trigger = velocity > 0.2 || Math.abs(xDelta) > cardWidth / 3
+    const dir = velocity > 0.2
+      ? xDir < 0 ? -1 : 1
+      : xDelta < 0 ? -1 : 1
+    if (!down && trigger && !gone.has(index)) {
+      gone.add(index)
+      setGone(gone)
+    }
     const newDownIndex = down ? index : undefined
     if (newDownIndex !== downIndex) {
       setDownIndex(newDownIndex)
@@ -193,20 +239,39 @@ const Cards = () => {
       if (index !== i) return
       const isGone = gone.has(index)
       const xPos = isDesktop ? xDesktop(i, window.innerWidth, cardWidth) : 0
-      const x = isGone ? (200 + window.innerWidth) * dir : down ? xPos + xDelta : xPos
-      const rot = down ? 0 : randomRotation()
+      const x = isGone
+        ? (200 + window.innerWidth) * dir
+        : down ? xPos + xDelta : xPos
+      const rot = down || isGone ? 0 : randomRotation()
       const scale = down ? 1.1 : 1 // Active cards lift up a bit
-      return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
+      return {
+        x,
+        rot,
+        scale,
+        delay: undefined,
+        config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 }
+      }
     })
-    if (!down && gone.size === cards.length) setTimeout(() => gone.clear() || set(i => to(i, window.innerWidth, cardWidth)), 600)
+    if (!down && gone.size === cards.length) {
+      setTimeout(() => {
+        gone.clear()
+        setGone(gone)
+        set(i => to(i, window.innerWidth, cardWidth))
+      }, 600)
+    }
   })
+  if (!width) {
+    return null
+  }
 
   return (
-    <div {...styles.root}>
+    <div {...styles.root} ref={rootRef}>
       {props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{
           transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-          zIndex: i === downIndex ? 1 : undefined,
+          zIndex: i === downIndex
+            ? 2
+            : gone.has(i) ? 1 : undefined,
           width: isDesktop ? `${cardWidth - PADDING * 4}px` : '100%'
         }}>
           <animated.div {...bind(i)} style={{

@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import throttle from 'lodash/throttle'
 import {
   Container,
   RawHtml,
@@ -33,6 +32,10 @@ import { buttonStyles, sharedStyles } from './styles'
 
 import { negativeColors } from '../Frame/constants'
 import ErrorMessage from '../ErrorMessage'
+import {
+  HEADER_HEIGHT,
+  HEADER_HEIGHT_MOBILE
+} from '../constants'
 
 const query = gql`
 query marketingMembershipStats {
@@ -75,8 +78,16 @@ const styles = {
   overviewContainer: css({
     backgroundColor: negativeColors.containerBg,
     color: negativeColors.text,
-    padding: '30px 20px',
-    paddingBottom: 0
+    paddingLeft: 20,
+    paddingRight: 20,
+    position: 'relative',
+    overflow: 'hidden',
+    paddingTop: 30 + HEADER_HEIGHT_MOBILE,
+    marginTop: -HEADER_HEIGHT_MOBILE,
+    [mediaQueries.mUp]: {
+      paddingTop: 30 + HEADER_HEIGHT,
+      marginTop: -HEADER_HEIGHT
+    }
   }),
   overviewBottomShadow: css({
     position: 'absolute',
@@ -140,51 +151,11 @@ const styles = {
 class MarketingPage extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      cardsReached: false
-    }
+    this.state = {}
     this.onHighlight = highlight => this.setState({ highlight })
-    this.cardsRef = React.createRef()
-
-    this.measure = () => {
-      if (this.cardsRef) {
-        const rect = this.cardsRef.current.getBoundingClientRect()
-        this.cardsY = window.pageYOffset + rect.top
-      }
-    }
-
-    this.onScroll = throttle(() => {
-      const y = window.pageYOffset
-
-      const cardsReached =
-        this.cardsY && y + window.innerHeight > this.cardsY
-
-      if (cardsReached && !this.state.cardsReached) {
-        this.setState({ cardsReached: true })
-        window.removeEventListener('scroll', this.onScroll)
-      }
-    }, 200)
   }
-
-  componentDidMount () {
-    this.measure()
-    window.addEventListener('scroll', this.onScroll)
-    window.addEventListener('resize', this.measure)
-  }
-
-  componentDidUpdate () {
-    this.measure()
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('scroll', this.onScroll)
-    window.removeEventListener('resize', this.measure)
-  }
-
   render () {
     const { t, data: { loading, error, me, membershipStats, front, statements } } = this.props
-
-    const { cardsReached } = this.state
 
     const hasMembershipOrAccessGrant = me && (
       (me.memberships && me.memberships.length > 0) ||
@@ -194,13 +165,11 @@ class MarketingPage extends Component {
     return (
       <Fragment>
         {!loading && me && !hasMembershipOrAccessGrant && <UserGuidance />}
-        <div style={{ overflow: 'hidden' }}>
+        <div style={{ }}>
           {!error && <div {...styles.overviewContainer}>
             <Container style={{
               maxWidth: 1200,
-              padding: 0,
-              position: 'relative',
-              overflow: 'hidden'
+              padding: 0
             }}>
               <h1 {...styles.lead}>
                 <RawHtml dangerouslySetInnerHTML={{
@@ -305,8 +274,8 @@ class MarketingPage extends Component {
             </Editorial.P>
           </Container>
 
-          <div {...styles.cards} ref={this.cardsRef}>
-            {cardsReached && <Cards />}
+          <div {...styles.cards}>
+            <Cards />
           </div>
 
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>

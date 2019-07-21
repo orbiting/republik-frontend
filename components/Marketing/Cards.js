@@ -223,7 +223,10 @@ const Cards = () => {
     }
   }, [inView])
   const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-    const trigger = velocity > 0.2 || Math.abs(xDelta) > cardWidth / 3
+    const trigger = (
+      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 10) ||
+      Math.abs(xDelta) > cardWidth / 3
+    )
     const dir = velocity > 0.2
       ? xDir < 0 ? -1 : 1
       : xDelta < 0 ? -1 : 1

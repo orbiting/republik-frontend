@@ -182,8 +182,7 @@ class MarketingPage extends Component {
                   highlight={this.state.highlight}
                   onHighlight={this.onHighlight}
                   maxHeight={520}
-                  overflow
-                  lazy />
+                  overflow />
               )} />
               <div {...styles.overviewBottomShadow} />
             </Container>

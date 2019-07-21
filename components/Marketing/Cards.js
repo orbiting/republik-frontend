@@ -196,10 +196,10 @@ const Cards = () => {
       setGone(gone)
       set(i => ({
         ...to(i, window.innerWidth, cardWidth),
-        ...(prevWidth !== width && {
+        ...(prevWidth !== width ? {
           delay: undefined,
           config: { friction: 50, tension: 1000 }
-        })
+        } : undefined)
       }))
     },
     [width, prevWidth, inView]

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
-import { useGesture } from 'react-use-gesture/web.cjs'
+import { useGesture } from 'react-use-gesture/dist/index.js'
 import { css } from 'glamor'
 import {
   Editorial,
@@ -11,11 +11,11 @@ import {
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
 
-const ASSETS_URL = `${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/marketing/`
+const CARDS_ASSETS_BASE_URL = `${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/marketing`
 const MAX_WIDTH = 800
 const PADDING = 15
 
-// Inspired by https://codesandbox.io/s/j0y0vpz59
+// Based on https://codesandbox.io/s/j0y0vpz59
 
 const styles = {
   root: css({
@@ -51,8 +51,10 @@ const styles = {
       overflow: 'hidden',
       padding: '20px 15px 15px 15px'
     },
+    '& *': {
+      userSelect: 'none'
+    },
     '& > div > div > *': {
-      userSelect: 'none',
       pointerEvents: 'none'
     }
   })
@@ -65,62 +67,62 @@ const cards = [
   {
     title: tt('11/title'),
     subtitle: tt('11/subtitle'),
-    image: `${ASSETS_URL}international.jpg?size=3500x2333&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/international.jpg?size=3500x2333&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('10/title'),
     subtitle: tt('10/subtitle'),
-    image: `${ASSETS_URL}feuilleton.jpg?size=5760x3840&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/feuilleton.jpg?size=5760x3840&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('9/title'),
     subtitle: tt('9/subtitle'),
-    image: `${ASSETS_URL}reportagen.jpg?size=3000x2003&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/reportagen.jpg?size=3000x2003&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('8/title'),
     subtitle: tt('8/subtitle'),
-    image: `${ASSETS_URL}demokratie.gif?size=1200x933`
+    image: `${CARDS_ASSETS_BASE_URL}/demokratie.gif?size=1200x933`
   },
   {
     title: tt('7/title'),
     subtitle: tt('7/subtitle'),
-    image: `${ASSETS_URL}bundeshaus.gif?size=2666x1500`
+    image: `${CARDS_ASSETS_BASE_URL}/bundeshaus.gif?size=2666x1500`
   },
   {
     title: tt('6/title'),
     subtitle: tt('6/subtitle'),
-    image: `${ASSETS_URL}investigativ.jpg?size=3200x2133&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/investigativ.jpg?size=3200x2133&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('5/title'),
     subtitle: tt('5/subtitle'),
-    image: `${ASSETS_URL}gespraeche.jpg?size=2901x1935&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/gespraeche.jpg?size=2901x1935&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('4/title'),
     subtitle: tt('4/subtitle'),
-    image: `${ASSETS_URL}klimawandel.jpg?size=3800x2850&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/klimawandel.jpg?size=3800x2850&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('3/title'),
     subtitle: tt('3/subtitle'),
-    image: `${ASSETS_URL}digitalisierung.gif?size=1900x1140`
+    image: `${CARDS_ASSETS_BASE_URL}/digitalisierung.gif?size=1900x1140`
   },
   {
     title: tt('2/title'),
     subtitle: tt('2/subtitle'),
-    image: `${ASSETS_URL}justiz.gif?size=980x653`
+    image: `${CARDS_ASSETS_BASE_URL}/justiz.gif?size=980x653`
   },
   {
     title: tt('1/title'),
     subtitle: tt('1/subtitle'),
-    image: `${ASSETS_URL}briefings.jpg?size=3543x2531&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/briefings.jpg?size=3543x2531&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('0/title'),
     subtitle: tt('0/subtitle'),
-    image: `${ASSETS_URL}datenjournalismus.png?size=1559x878&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/datenjournalismus.png?size=1559x878&resize=${MAX_WIDTH}x`
   }
 ]
 
@@ -224,8 +226,8 @@ const Cards = () => {
   }, [inView])
   const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     const trigger = (
-      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 10) ||
-      Math.abs(xDelta) > cardWidth / 3
+      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
+      Math.abs(xDelta) > cardWidth / 4
     )
     const dir = velocity > 0.2
       ? xDir < 0 ? -1 : 1
@@ -275,11 +277,11 @@ const Cards = () => {
           zIndex: i === downIndex
             ? 2
             : gone.has(i) ? 1 : undefined,
-          width: isDesktop ? `${cardWidth - PADDING * 4}px` : '100%'
+          width: isDesktop ? cardWidth - PADDING * 4 : '100%'
         }}>
           <animated.div {...bind(i)} style={{
             transform: interpolate([rot, scale], trans),
-            maxWidth: isDesktop ? undefined : '380px'
+            maxWidth: isDesktop ? undefined : 380
           }}>
             <Editorial.Subhead style={{ marginTop: 0 }}>{cards[i].title}</Editorial.Subhead>
             <Editorial.P>{cards[i].subtitle}</Editorial.P>

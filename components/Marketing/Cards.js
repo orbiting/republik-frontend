@@ -60,7 +60,7 @@ const styles = {
   })
 }
 
-const tt = key => t(`marketing/v2/cards/${key}`)
+const tt = key => t(`marketing/cards/${key}`)
 
 const cards = [
   // In reverse order (last is stacked on top).

@@ -86,7 +86,7 @@ const styles = {
     }
   }),
   overviewContainer: css({
-    padding: '30px 20px 0',
+    padding: '30px 0 0',
     backgroundColor: negativeColors.containerBg,
     color: negativeColors.text
   }),
@@ -101,6 +101,7 @@ const styles = {
   }),
   lead: css({
     maxWidth: 700,
+    padding: '0 15px',
     margin: '0 auto 30px',
     ...fontStyles.serifRegular,
     fontSize: 26,
@@ -169,21 +170,24 @@ class MarketingPage extends Component {
         {!error && <div {...styles.overviewOverflow}>
           <div {...styles.overviewContainer}>
             <Container style={{
-              maxWidth: 1200
+              maxWidth: 1200,
+              padding: 0
             }}>
               <h1 {...styles.lead}>
                 <RawHtml dangerouslySetInnerHTML={{
-                  __html: t('marketing/v2/overview/title')
+                  __html: t('marketing/overview/title')
                 }} />
               </h1>
-              <Loader loading={loading} style={{ minHeight: 600 }} render={() => (
-                <TeaserBlock
-                  teasers={getTeasersFromDocument(front)}
-                  highlight={this.state.highlight}
-                  onHighlight={this.onHighlight}
-                  maxHeight={520}
-                  overflow />
-              )} />
+              <div style={{ padding: '0 0 0 10px' }}>
+                <Loader loading={loading} style={{ minHeight: 600 }} render={() => (
+                  <TeaserBlock
+                    teasers={getTeasersFromDocument(front)}
+                    highlight={this.state.highlight}
+                    onHighlight={this.onHighlight}
+                    maxHeight={520}
+                    overflow />
+                )} />
+              </div>
               <div {...styles.overviewBottomShadow} />
             </Container>
           </div>
@@ -193,13 +197,13 @@ class MarketingPage extends Component {
             <div>
               <Link route='pledge' params={{ package: 'ABO' }}>
                 <button {...buttonStyles.primary}>
-                  {t('marketing/v2/join/button/label')}
+                  {t('marketing/join/ABO/button/label')}
                 </button>
               </Link>
             </div>
             <Link route='preview'>
               <button {...buttonStyles.standard}>
-                {t('marketing/v2/preview/button/label')}
+                {t('marketing/preview/button/label')}
               </button>
             </Link>
           </div>
@@ -207,7 +211,7 @@ class MarketingPage extends Component {
             {t.elements(
               'marketing/signin',
               { link: <Link key='link' route={'signin'}>
-                <a>{t('marketing/v2/signin/link') }</a>
+                <a>{t('marketing/signin/link') }</a>
               </Link>
               }
             )}{' – '}
@@ -215,7 +219,7 @@ class MarketingPage extends Component {
               claimLink: (
                 <Link route='claim' key='claim' passHref>
                   <Editorial.A>
-                    {t('marketing/v2/claim/link')}
+                    {t('marketing/claim/link')}
                   </Editorial.A>
                 </Link>
               )
@@ -245,7 +249,7 @@ class MarketingPage extends Component {
             <div {...styles.split}>
               <div {...styles.preview}>
                 <Interaction.H3 style={{ marginBottom: '17px' }}>
-                  {t('marketing/v2/preview/title')}
+                  {t('marketing/preview/title')}
                 </Interaction.H3>
                 <Interaction.P>
                   {t('marketing/signup/lead')}
@@ -256,7 +260,7 @@ class MarketingPage extends Component {
               </div>
               <div {...styles.offers}>
                 <Interaction.H3 style={{ marginBottom: '17px' }}>
-                  {t('marketing/v2/offers/title')}
+                  {t('marketing/offers/title')}
                 </Interaction.H3>
                 <Accordion crowdfundingName={'LAUNCH'} singleGroup={'ME'} />
               </div>
@@ -294,13 +298,13 @@ class MarketingPage extends Component {
               <div>
                 <Link route='pledge' params={{ package: 'ABO' }}>
                   <button {...buttonStyles.primary}>
-                    {t('marketing/v2/join/button/label')}
+                    {t('marketing/join/ABO/button/label')}
                   </button>
                 </Link>
               </div>
               <Link route='pledge' params={{ package: 'MONTHLY_ABO' }}>
                 <button {...buttonStyles.standard}>
-                  {t('marketing/v2/monthly/button/label')}
+                  {t('marketing/monthly/button/label')}
                 </button>
               </Link>
             </div>
@@ -326,11 +330,11 @@ class MarketingPage extends Component {
             <div {...sharedStyles.spacer} />
             <Interaction.H2 {...styles.h2}>
               {t(
-                'marketing/v2/community/title',
+                'marketing/community/title',
                 {
                   count: membershipStats
                     ? countFormat(membershipStats.count)
-                    : t('marketing/v2/community/defaultCount')
+                    : t('marketing/community/defaultCount')
                 }
               )}
             </Interaction.H2>
@@ -344,7 +348,7 @@ class MarketingPage extends Component {
             <Interaction.P style={{ marginTop: 10, textAlign: 'center' }}>
               <Link route='community' passHref>
                 <Editorial.A>
-                  {t('marketing/v2/community/moreStatements', {
+                  {t('marketing/community/moreStatements', {
                     count: statements ? countFormat(statements.totalCount) : ''
                   })}
                 </Editorial.A>
@@ -355,13 +359,13 @@ class MarketingPage extends Component {
               <div>
                 <Link route='pledge' params={{ package: 'ABO' }}>
                   <button {...buttonStyles.primary}>
-                    {t('marketing/v2/bottom/join/button/label')}
+                    {t('marketing/join/button/label')}
                   </button>
                 </Link>
               </div>
               <Link route='preview'>
                 <button {...buttonStyles.standard}>
-                  {t('marketing/v2/bottom/preview/button/label')}
+                  {t('marketing/preview/button/label')}
                 </button>
               </Link>
             </div>

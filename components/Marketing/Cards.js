@@ -29,7 +29,6 @@ const styles = {
     textAlign: 'center',
     '& > div': {
       position: 'absolute',
-      height: '100%',
       willChange: 'transform',
       display: 'flex',
       alignItems: 'flex-start',
@@ -67,7 +66,7 @@ const cards = [
   {
     title: tt('11/title'),
     subtitle: tt('11/subtitle'),
-    image: `${CARDS_ASSETS_BASE_URL}/international.jpg?size=3500x2333&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/international.jpg?size=1200x900&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('10/title'),
@@ -107,7 +106,7 @@ const cards = [
   {
     title: tt('3/title'),
     subtitle: tt('3/subtitle'),
-    image: `${CARDS_ASSETS_BASE_URL}/digitalisierung.gif?size=1900x1140`
+    image: `${CARDS_ASSETS_BASE_URL}/digitalisierung.jpg?size=3800x2850`
   },
   {
     title: tt('2/title'),
@@ -122,7 +121,7 @@ const cards = [
   {
     title: tt('0/title'),
     subtitle: tt('0/subtitle'),
-    image: `${CARDS_ASSETS_BASE_URL}/datenjournalismus.png?size=1559x878&resize=${MAX_WIDTH}x`
+    image: `${CARDS_ASSETS_BASE_URL}/datenjournalismus.png?size=1400x1000&resize=${MAX_WIDTH}x`
   }
 ]
 
@@ -194,6 +193,7 @@ const Cards = () => {
 
       gone.clear()
       setGone(gone)
+      setDownIndex(undefined)
       set(i => ({
         ...to(i, window.innerWidth, cardWidth),
         ...(prevWidth !== width ? {
@@ -237,7 +237,7 @@ const Cards = () => {
       setGone(gone)
     }
     const newDownIndex = down ? index : undefined
-    if (newDownIndex !== downIndex) {
+    if (newDownIndex !== downIndex && newDownIndex !== undefined) {
       setDownIndex(newDownIndex)
     }
     set(i => {
@@ -261,6 +261,7 @@ const Cards = () => {
       setTimeout(() => {
         gone.clear()
         setGone(gone)
+        setDownIndex(undefined)
         set(i => to(i, window.innerWidth, cardWidth))
       }, 600)
     }

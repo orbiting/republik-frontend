@@ -89,35 +89,18 @@ const styles = {
     maxWidth: '473px'
   }),
   communityWidget: css({
-    margin: '50px auto',
-    maxWidth: '974px',
+    margin: '50px auto 25px',
+    maxWidth: 974,
     [mediaQueries.mUp]: {
-      margin: '0 auto 80px auto'
+      margin: '0 auto 40px auto'
     }
-  }),
-  faqHeader: css({
-    marginBottom: 10,
-    [mediaQueries.lUp]: {
-      marginBottom: 20
-    }
-  }),
-  faqCta: css({
-    margin: '10px 0',
-    [mediaQueries.mUp]: {
-      margin: '15px 0'
-    }
-  }),
-  link: css({
-    color: colors.text,
-    textDecoration: 'underline'
   })
 }
 
 const faqQs = [
   'Ich bin interessiert an der Republik. Gibt es ein Probe-Abonnement?',
-  'Gibt es Studentinnen- oder Rentnerabonnemente?',
+  'Gibt es Studentinnen- oder Rentnerabos?',
   'Kann ich die Republik auf mehreren Geräten lesen?',
-  'Wie logge ich mich ein? Brauche ich ein Passwort?',
   'Ich habe einen Input für ein Thema, über welches ich gern in der Republik lesen würde.'
 ]
 
@@ -161,11 +144,11 @@ const FeuilletonMarketingPage = ({
             </button>
           </Link>
         </div>
-        <div {...sharedStyles.signIn}>{
+        <div {...sharedStyles.signIn} {...sharedStyles.links}>{
           t.elements(
             'marketing/signin',
             { link: <Link key='link' route={'signin'}>
-              <a>{t('marketing/signin/link') }</a>
+              <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
             </Link>
             }
           )
@@ -255,10 +238,9 @@ const FeuilletonMarketingPage = ({
             </PullQuoteSource>
           </PullQuote>
         </QuoteContainer>
-      </Center>
-      <Container>
+
         <div {...styles.communityWidget}>
-          <Interaction.H2 {...sharedStyles.communityHeadline}>
+          <Interaction.H3 style={{ marginBottom: 10 }}>
             {t(
               'marketing/community/title',
               {
@@ -267,11 +249,11 @@ const FeuilletonMarketingPage = ({
                   : t('marketing/community/defaultCount')
               }
             )}
-          </Interaction.H2>
+          </Interaction.H3>
           <TestimonialList
             singleRow
             minColumns={3}
-            first={6}
+            first={5}
             statements={data.statements ? data.statements.nodes : []}
             loading={data.loading}
             t={t}
@@ -281,21 +263,23 @@ const FeuilletonMarketingPage = ({
               })
               return false
             }} />
-          <Interaction.P {...sharedStyles.communityLink}>
-            <Link route='community'>
-              <a>{t('marketing/community/link')}</a>
+          <div style={{ marginTop: 10 }} {...sharedStyles.links}>
+            <Link route='community' passHref>
+              <Editorial.A>{t('marketing/community/link')}</Editorial.A>
             </Link>
-          </Interaction.P>
+          </div>
         </div>
-      </Container>
+      </Center>
       {data.faqs && data.faqs.length && <Center style={{ marginBottom: 80 }}>
-        <Interaction.H3 {...styles.faqHeader}>{t('marketing/feuilleton/faq/title')}</Interaction.H3>
+        <Interaction.H3 style={{ marginBottom: 10 }}>{t('marketing/feuilleton/faq/title')}</Interaction.H3>
         <FaqList data={data} flat />
-        <Interaction.P {...styles.faqCta}>
-          <Link route='faq'>
-            <a {...styles.link}>{t('marketing/feuilleton/faq/link')}</a>
+        <div {...sharedStyles.links} style={{ marginTop: 10 }}>
+          <Link route='faq' passHref>
+            <Editorial.A>
+              {t('marketing/feuilleton/faq/link')}
+            </Editorial.A>
           </Link>
-        </Interaction.P>
+        </div>
       </Center>}
     </Fragment>
   )

@@ -265,13 +265,10 @@ const Cards = () => {
       }, 600)
     }
   })
-  if (!width) {
-    return null
-  }
 
   return (
     <div {...styles.root} ref={rootRef}>
-      {props.map(({ x, y, rot, scale }, i) => (
+      {!!width && props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{
           transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
           zIndex: i === downIndex

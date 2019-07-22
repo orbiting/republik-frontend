@@ -7,8 +7,8 @@ import {
 
 const buttonStyle = css({
   [mediaQueries.onlyS]: {
-    padding: '8px 15px 8px 15px',
-    fontSize: '16px',
+    padding: '7px 15px 7px 15px',
+    fontSize: '18px',
     lineHeight: '25px',
     height: 50
   },
@@ -106,7 +106,7 @@ export const sharedStyles = {
       width: '100%'
     },
     [mediaQueries.mUp]: {
-      margin: '80px auto 15px',
+      margin: '60px auto 15px',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'stretch',
@@ -123,29 +123,11 @@ export const sharedStyles = {
     }
   }),
   signIn: css({
-    color: colors.text,
     textAlign: 'center',
-    '& a': {
-      cursor: 'pointer',
-      color: colors.text,
-      textDecoration: 'underline',
-      ':focus, :active': {
-        color: colors.secondary
-      },
-      '@media (hover)': {
-        ':hover': {
-          color: colors.secondary
-        }
-      }
-    },
-    fontSize: '12px',
-    lineHeight: '18px',
     marginBottom: 23,
     [mediaQueries.mUp]: {
       marginTop: 4,
-      marginBottom: 80,
-      fontSize: '16px',
-      lineHeight: '24px'
+      marginBottom: 80
     }
   }),
   spacer: css({
@@ -154,49 +136,9 @@ export const sharedStyles = {
       minHeight: '84px'
     }
   }),
-  communityHeadline: css({
-    textAlign: 'center',
-    fontSize: '16px',
-    lineHeight: '25px',
-    [mediaQueries.mUp]: {
-      fontSize: '26px',
-      lineHeight: '36px',
-      marginBottom: 20
-    },
-    [mediaQueries.lUp]: {
-      fontSize: '30px',
-      lineHeight: '36px'
-    }
-  }),
-  communityLink: css({
-    cursor: 'pointer',
-    textAlign: 'center',
-    fontSize: '16px',
-    lineHeight: '25px',
-    [mediaQueries.mUp]: {
-      marginTop: '16px',
-      fontSize: '20px',
-      lineHeight: '28px'
-    },
-    [mediaQueries.lUp]: {
-      marginTop: '20px',
-      fontSize: '23px',
-      lineHeight: '28px'
-    },
-    '& a': {
-      color: colors.text,
-      textDecoration: 'underline'
-    },
-    '@media (hover)': {
-      '& a:hover': {
-        color: colors.secondary
-      }
-    },
-    '& a:focus': {
-      color: colors.secondary
-    },
-    '& a:active': {
-      color: colors.primary
-    }
+  links: css({
+    color: colors.text,
+    fontSize: 16,
+    lineHeight: '24px'
   })
 }

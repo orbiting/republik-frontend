@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-21T22:52:42.833Z",
+  "updated": "2019-07-22T00:07:08.273Z",
   "title": "live",
   "data": [
     {
@@ -449,10 +449,6 @@
     {
       "key": "marketing/monthly/button/label",
       "value": "Monats-Abo CHF 22"
-    },
-    {
-      "key": "marketing/community/moreStatements",
-      "value": "Community anschauen"
     },
     {
       "key": "marketing/cards/0/title",

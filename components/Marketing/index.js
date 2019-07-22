@@ -15,6 +15,9 @@ import {
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
+import {
+  CROWDFUNDING
+} from '../../lib/constants'
 
 import {
   List as TestimonialList,
@@ -115,13 +118,6 @@ const styles = {
       marginTop: 10
     }
   }),
-  h2: css({
-    marginBottom: 10,
-    textAlign: 'center',
-    [mediaQueries.mUp]: {
-      marginBottom: 30
-    }
-  }),
   split: css({
     [mediaQueries.mUp]: {
       display: 'flex'
@@ -142,10 +138,8 @@ const styles = {
   cards: css({
     background: negativeColors.primaryBg,
     margin: '30px 0',
-    height: '960px',
     [mediaQueries.mUp]: {
-      margin: '50px 0',
-      height: '760px'
+      margin: '50px 0'
     }
   })
 }
@@ -192,7 +186,7 @@ class MarketingPage extends Component {
             </Container>
           </div>
         </div>}
-        <Container>
+        <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
           <div {...sharedStyles.actions}>
             <div>
               <Link route='pledge' params={{ package: 'ABO' }}>
@@ -207,11 +201,11 @@ class MarketingPage extends Component {
               </button>
             </Link>
           </div>
-          <div {...sharedStyles.signIn}>
+          <div {...sharedStyles.signIn} {...sharedStyles.links}>
             {t.elements(
               'marketing/signin',
-              { link: <Link key='link' route={'signin'}>
-                <a>{t('marketing/signin/link') }</a>
+              { link: <Link key='link' route={'signin'} passHref>
+                <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
               </Link>
               }
             )}{' – '}
@@ -230,9 +224,9 @@ class MarketingPage extends Component {
 
         {!error && <Fragment>
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
-            <Interaction.H2 {...styles.h2}>
+            <Editorial.Subhead {...styles.h2}>
               Ein Projekt gegen den Zynismus
-            </Interaction.H2>
+            </Editorial.Subhead>
             <Editorial.P>
               Unser Journalismus verteidigt die Institutionen der Demokratie gegen den Vormarsch der Autoritären. Wir lassen uns nicht von Angst leiten, sondern von den Werten der Aufklärung.
             </Editorial.P>
@@ -251,7 +245,7 @@ class MarketingPage extends Component {
                 <Interaction.H3 style={{ marginBottom: '17px' }}>
                   {t('marketing/preview/title')}
                 </Interaction.H3>
-                <Interaction.P>
+                <Interaction.P style={{ marginBottom: '10px' }}>
                   {t('marketing/signup/lead')}
                 </Interaction.P>
                 <div {...styles.signUp}>
@@ -262,16 +256,18 @@ class MarketingPage extends Component {
                 <Interaction.H3 style={{ marginBottom: '17px' }}>
                   {t('marketing/offers/title')}
                 </Interaction.H3>
-                <Accordion crowdfundingName={'LAUNCH'} singleGroup={'ME'} />
+                <Accordion
+                  crowdfundingName={CROWDFUNDING}
+                  filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']} />
               </div>
             </div>
           </Container>
 
           <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
             <div {...sharedStyles.spacer} />
-            <Interaction.H2 {...styles.h2}>
+            <Editorial.Subhead {...styles.h2}>
               Unser Magazin ist unabhängig und werbefrei
-            </Interaction.H2>
+            </Editorial.Subhead>
             <Editorial.P>
               Unser einziges Produkt ist vernünftiger Journalismus. Und unser einziger Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
             </Editorial.P>
@@ -291,10 +287,50 @@ class MarketingPage extends Component {
             <Editorial.P>
               Wir pflegen eine offene Fehlerkultur und begegnen Ihnen auf Augenhöhe. Und wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht.
             </Editorial.P>
-          </Container>
 
-          <Container>
-            <div {...sharedStyles.actions}>
+            <Editorial.Subhead {...styles.h2}>
+              Ohne Journalismus keine Demokratie
+            </Editorial.Subhead>
+            <Editorial.P>
+              Den traditionellen Verlagen geht es je länger, desto schlechter. Ihre werbegetriebenen Geschäftsmodelle funktionieren nicht mehr. Das Resultat dieser Entwicklung ist Abbau und Konzentration. Vielfalt und Unabhängigkeit gehen verloren. Die vierte Gewalt ist heute existenziell bedroht.
+            </Editorial.P>
+            <Editorial.P>
+              Nur gemeinsam können wir etwas dagegen tun. Dafür braucht es nicht nur Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen, der bereit ist, etwas Geld in unabhängigen, werbefreien Journalismus zu investieren. Bauen wir zusammen ein neues Geschäftsmodell!
+            </Editorial.P>
+
+            <Interaction.H3 style={{ marginBottom: 10 }}>
+              {t(
+                'marketing/community/title',
+                {
+                  count: membershipStats
+                    ? countFormat(membershipStats.count)
+                    : t('marketing/community/defaultCount')
+                }
+              )}
+            </Interaction.H3>
+            <TestimonialList
+              singleRow
+              minColumns={3}
+              first={5}
+              statements={statements && statements.nodes}
+              loading={loading}
+              t={t} />
+            <div style={{ marginTop: 10 }} {...sharedStyles.links}>
+              <Link route='community' passHref>
+                <Editorial.A>
+                  {t('marketing/community/link')}
+                </Editorial.A>
+              </Link>
+            </div>
+
+            <Editorial.P>
+              Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig Besitzerin des Unternehmens. Sie sind Mitglied der Project R Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines Monatsabos vor.
+            </Editorial.P>
+          </Container>
+          <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+            <div {...sharedStyles.spacer} />
+
+            <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
               <div>
                 <Link route='pledge' params={{ package: 'ABO' }}>
                   <button {...buttonStyles.primary}>
@@ -308,67 +344,7 @@ class MarketingPage extends Component {
                 </button>
               </Link>
             </div>
-          </Container>
 
-          <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
-            <div {...sharedStyles.spacer} />
-            <Interaction.H2 {...styles.h2}>
-              Ohne Journalismus keine Demokratie
-            </Interaction.H2>
-            <Editorial.P>
-              Den traditionellen Verlagen geht es je länger, desto schlechter. Ihre werbegetriebenen Geschäftsmodelle funktionieren nicht mehr. Das Resultat dieser Entwicklung ist Abbau und Konzentration. Vielfalt und Unabhängigkeit gehen verloren. Die vierte Gewalt ist heute existenziell bedroht.
-            </Editorial.P>
-            <Editorial.P>
-              Nur gemeinsam können wir etwas dagegen tun. Dafür braucht es nicht nur Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen, der bereit ist, etwas Geld in unabhängigen, werbefreien Journalismus zu investieren. Bauen wir zusammen ein neues Geschäftsmodell!
-            </Editorial.P>
-            <Editorial.P>
-              Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig Besitzerin des Unternehmens. Sie sind Mitglied der Project R Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines Monatsabos vor.
-            </Editorial.P>
-          </Container>
-
-          <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-            <div {...sharedStyles.spacer} />
-            <Interaction.H2 {...styles.h2}>
-              {t(
-                'marketing/community/title',
-                {
-                  count: membershipStats
-                    ? countFormat(membershipStats.count)
-                    : t('marketing/community/defaultCount')
-                }
-              )}
-            </Interaction.H2>
-            <TestimonialList
-              singleRow
-              minColumns={3}
-              first={6}
-              statements={statements && statements.nodes}
-              loading={loading}
-              t={t} />
-            <Interaction.P style={{ marginTop: 10, textAlign: 'center' }}>
-              <Link route='community' passHref>
-                <Editorial.A>
-                  {t('marketing/community/moreStatements', {
-                    count: statements ? countFormat(statements.totalCount) : ''
-                  })}
-                </Editorial.A>
-              </Link>
-            </Interaction.P>
-            <div {...sharedStyles.spacer} />
-            <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
-              <div>
-                <Link route='pledge' params={{ package: 'ABO' }}>
-                  <button {...buttonStyles.primary}>
-                    {t('marketing/join/button/label')}
-                  </button>
-                </Link>
-              </div>
-              <Link route='preview'>
-                <button {...buttonStyles.standard}>
-                  {t('marketing/preview/button/label')}
-                </button>
-              </Link>
-            </div>
             <div {...sharedStyles.spacer} />
           </Container>
         </Fragment>}

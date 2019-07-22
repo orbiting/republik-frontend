@@ -55,7 +55,7 @@ query marketingMembershipStats {
     count
   }
   front: document(path: "/") {
-    children(first: 65) {
+    children(first: 60) {
       nodes {
         body
       }
@@ -173,12 +173,12 @@ class MarketingPage extends Component {
                 }} />
               </h1>
               <div style={{ padding: '0 0 0 10px' }}>
-                <Loader loading={loading} style={{ minHeight: 600 }} render={() => (
+                <Loader loading={loading} style={{ minHeight: 450 }} render={() => (
                   <TeaserBlock
                     teasers={getTeasersFromDocument(front)}
                     highlight={this.state.highlight}
                     onHighlight={this.onHighlight}
-                    maxHeight={520}
+                    maxHeight={450}
                     overflow />
                 )} />
               </div>
@@ -187,7 +187,7 @@ class MarketingPage extends Component {
           </div>
         </div>}
         <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-          <div {...sharedStyles.actions}>
+          <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
             <div>
               <Link route='pledge' params={{ package: 'ABO' }}>
                 <button {...buttonStyles.primary}>

@@ -109,7 +109,7 @@ class TeaserBlock extends Component {
     }))
 
     if (this.props.overflow) {
-      height *= 0.9
+      height *= 0.85
       if (this.props.maxHeight) {
         height = Math.min(height, this.props.maxHeight)
       }

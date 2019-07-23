@@ -16,9 +16,9 @@ import {
   InlineSpinner,
   Interaction,
   Field,
-  Label,
   RawHtml,
-  colors
+  colors,
+  Editorial
 } from '@project-r/styleguide'
 
 import Poller from './Poller'
@@ -41,20 +41,10 @@ const styles = {
     marginBottom: 15
   }),
   hint: css({
+    color: colors.text,
     marginTop: -5,
-    color: colors.lightText,
-    display: 'block',
-    lineHeight: '20px'
-  }),
-  hintA: css({
-    textDecoration: 'underline',
-    textDecorationSkip: 'ink',
-    color: colors.lightText,
-    '@media (hover)': {
-      ':hover': {
-        color: colors.text
-      }
-    }
+    fontSize: 16,
+    lineHeight: '24px'
   })
 }
 
@@ -227,17 +217,17 @@ class SignIn extends Component {
             </div>
           </div>
         </form>
-        <Label {...styles.hint}>
-          <Link route='legal/privacy'>
-            <a {...styles.hintA}>{t('signIn/privacy')}</a>
+        <div {...styles.hint}>
+          <Link route='legal/privacy' passHref>
+            <Editorial.A>{t('signIn/privacy')}</Editorial.A>
           </Link>
           {' – '}
-          <Link route='faq'>
-            <a {...styles.hintA}>{t('signIn/faq')}</a>
+          <Link route='faq' passHref>
+            <Editorial.A>{t('signIn/faq')}</Editorial.A>
           </Link>
           {' – '}
           {t('signIn/hint')}
-        </Label>
+        </div>
         {!!serverError && <ErrorMessage error={serverError} />}
       </div>
     )

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import { range, sum, max } from 'd3-array'
 import debounce from 'lodash/debounce'
 
 import {
@@ -21,32 +20,24 @@ const SIZES = [
   { minWidth: 810, columns: 8 }
 ]
 
-const PADDING = 10
+export const GAP = 10
 
 const styles = {
   container: css({
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    width: '100%'
-  }),
-  item: css({
-    paddingBottom: PADDING,
-    paddingRight: PADDING,
-    lineHeight: 0,
+    display: 'block',
+    columnGap: GAP,
     ...SIZES.reduce((styles, size) => {
-      const width = `${100 / size.columns}%`
       if (size.minWidth) {
         styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-          width
+          columns: `${size.columns} auto`
         }
       } else {
-        styles.width = width
+        styles.columns = `${size.columns} auto`
       }
       return styles
-    }, {})
+    }, {}),
+    width: '100%',
+    lineHeight: 0
   })
 }
 
@@ -78,45 +69,13 @@ class TeaserBlock extends Component {
         id: teaser.getAttribute('data-teaser'),
         x: rect.left - left,
         y: rect.top - top,
-        height: rect.height,
+        height: rect.height - GAP, // substract unbreakable margin, see below
         width: rect.width,
         left: rect.left
-        // absoluteY: window.pageYOffset + rect.top
       }
     })
-
-    if (this.measurements.filter(m => m.height).length !== this.props.teasers.length) {
-      // waiting for content to load
-      return
-    }
-
-    const innerWidth = window.innerWidth
-    const { columns } = SIZES.filter(size => size.minWidth <= innerWidth).pop()
-
-    const perColumn = Math.round(this.measurements.length / columns)
-    let height = max(range(columns).map(column => {
-      const begin = column * perColumn
-      return sum(
-        this.measurements
-          .slice(
-            begin,
-            column === columns - 1
-              ? undefined
-              : begin + perColumn
-          )
-          .map(measurement => measurement.height + PADDING)
-      )
-    }))
-
-    if (this.props.overflow) {
-      height *= 0.9
-      if (this.props.maxHeight) {
-        height = Math.min(height, this.props.maxHeight)
-      }
-    }
-
-    if (this.state.width !== width || this.state.height !== height) {
-      this.setState({ width, height })
+    if (this.state.width !== width) {
+      this.setState({ width })
     }
   }, 33)
   componentDidMount () {
@@ -131,8 +90,8 @@ class TeaserBlock extends Component {
     clearTimeout(this.hoverTimeout)
   }
   render () {
-    const { hover, width, height } = this.state
-    const { teasers, highlight, onHighlight, lazy, overflow } = this.props
+    const { hover, width } = this.state
+    const { teasers, highlight, onHighlight, lazy, maxHeight } = this.props
 
     const hoverOff = () => {
       // prevent flicker
@@ -147,28 +106,28 @@ class TeaserBlock extends Component {
     return (
       <div ref={this.blockRef} style={{
         position: 'relative',
-        marginTop: overflow ? -50 : 0,
-        bottom: overflow ? -50 : 0
+        marginTop: maxHeight ? -50 : 0,
+        bottom: maxHeight ? -50 : 0
       }}>
-        <LazyLoad key={height} visible={!lazy} attributes={{
+        <LazyLoad visible={!lazy} attributes={{
           ...styles.container,
           ...css({
             ...SIZES.reduce((styles, size) => {
               // SSR approximation
-              const height = teasers.length / size.columns * 66
+              const minHeight = teasers.length / size.columns * 50
               if (size.minWidth) {
                 styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-                  height
+                  minHeight
                 }
               } else {
-                styles.height = height
+                styles.minHeight = minHeight
               }
               return styles
             }, {})
           })
         }} style={{
-          height,
-          overflowX: overflow ? 'hidden' : undefined
+          height: maxHeight,
+          overflowX: maxHeight ? 'hidden' : undefined
         }}>
           {teasers.map(teaser => {
             let touch
@@ -218,20 +177,23 @@ class TeaserBlock extends Component {
               : 'img'
 
             return <div key={teaser.id}
-              {...styles.item}
               onTouchStart={() => { touch = true }}
               onMouseEnter={focus}
               onMouseMove={focus}
               onMouseLeave={hoverOff}
               onClick={() => { touch = undefined }}>
               {hover && hover.teaser.id === teaser.id &&
-                <TeaserHover {...hover} contextWidth={width - PADDING} highlight={highlight} />}
+                <TeaserHover {...hover} contextWidth={width} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <Image
                   onLoad={this.measure}
                   src={getSmallImgSrc(teaser)}
                   style={{
-                    display: 'block',
+                    display: 'inline-block',
+                    // unbreakable margin
+                    // GAP needs to be with an inline-block to prevent
+                    // the browser from breaking the margin between columns
+                    marginBottom: GAP,
                     width: '100%'
                   }} />
                 <TeaserNodes

@@ -284,15 +284,12 @@ export class List extends Component {
         render={() => {
           const items = []
           const lastIndex = statements.length - 1
-          const focusItem = (
-            focus &&
-          statements[0]
-          )
+          const focusItem = focus && statements[0]
 
           const singleRowOpenItem = (
             singleRow &&
-          open[0] &&
-          statements.find(statement => statement.id === open[0])
+            open[0] &&
+            statements.find(statement => statement.id === open[0])
           )
 
           statements.forEach(({ id, portrait, name, credentials }, i) => {

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-17T16:51:00.514Z",
+  "updated": "2019-07-22T00:07:08.273Z",
   "title": "live",
   "data": [
     {
@@ -323,14 +323,6 @@
       "value": "System nicht verfügbar"
     },
     {
-      "key": "marketing/title",
-      "value": "Unabhängiger Journalismus. Werbefrei."
-    },
-    {
-      "key": "marketing/lead",
-      "value": "Herzlich willkommen! Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es wird von seinen Leserinnen und Lesern finanziert. Kommen Sie an Bord!"
-    },
-    {
       "key": "marketing/join/button/label",
       "value": "Mitglied werden"
     },
@@ -351,26 +343,6 @@
       "value": "Sie haben einen Gutschein? {claimLink}"
     },
     {
-      "key": "marketing/claim/link",
-      "value": "Jetzt einlösen"
-    },
-    {
-      "key": "marketing/overview/title",
-      "value": "{count} Produktionen"
-    },
-    {
-      "key": "marketing/overview/defaultCount",
-      "value": "Über 1000"
-    },
-    {
-      "key": "marketing/overview/lead",
-      "value": "Die Republik erscheint von Montag bis Samstag – auf der Website, als Newsletter, in der App. Und liefert Ihnen täglich ein bis drei Beiträge."
-    },
-    {
-      "key": "marketing/overview/more",
-      "value": "Chronologie {years}"
-    },
-    {
       "key": "marketing/community/title",
       "value": "{count} Verlegerinnen und Verleger"
     },
@@ -381,14 +353,6 @@
     {
       "key": "marketing/community/link",
       "value": "Zur Community"
-    },
-    {
-      "key": "marketing/community/moreStatements",
-      "value": "Weitere {count} Statements"
-    },
-    {
-      "key": "marketing/employees/title",
-      "value": "Über 60 Macherinnen"
     },
     {
       "key": "marketing/employees/more",
@@ -449,6 +413,138 @@
     {
       "key": "marketing/offers/claim",
       "value": "Gutschein einlösen"
+    },
+    {
+      "key": "marketing/overview/title",
+      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Es&nbsp;wird von seinen Leserinnen finanziert."
+    },
+    {
+      "key": "marketing/overview/more",
+      "value": "Chronologie {years}"
+    },
+    {
+      "key": "marketing/join/ABO/button/label",
+      "value": "Jahresmitgliedschaft CHF 240"
+    },
+    {
+      "key": "marketing/claim/link",
+      "value": "Jetzt einlösen"
+    },
+    {
+      "key": "marketing/preview/title",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/preview/text",
+      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
+    },
+    {
+      "key": "marketing/preview/email/label",
+      "value": "Ihre E-Mail"
+    },
+    {
+      "key": "marketing/offers/title",
+      "value": "Angebote"
+    },
+    {
+      "key": "marketing/monthly/button/label",
+      "value": "Monats-Abo CHF 22"
+    },
+    {
+      "key": "marketing/cards/0/title",
+      "value": "Datenjournalismus"
+    },
+    {
+      "key": "marketing/cards/0/subtitle",
+      "value": "Eine Grafik sagt mehr als 1000 Worte. In der Republik wöchentlich."
+    },
+    {
+      "key": "marketing/cards/1/title",
+      "value": "Briefings"
+    },
+    {
+      "key": "marketing/cards/1/subtitle",
+      "value": "Die wichtigsten Aktualitäten der Woche. Knapp, präzis und verständlich."
+    },
+    {
+      "key": "marketing/cards/2/title",
+      "value": "Justiz"
+    },
+    {
+      "key": "marketing/cards/2/subtitle",
+      "value": "Die Justiz muss kritisiert werden. Der Rechtsstaat muss verteidigt werden. Wir tun beides, jede Woche."
+    },
+    {
+      "key": "marketing/cards/3/title",
+      "value": "Digitalisierung"
+    },
+    {
+      "key": "marketing/cards/3/subtitle",
+      "value": "Damit wir als Gesellschaft entscheiden können, wohin wir uns entwickeln."
+    },
+    {
+      "key": "marketing/cards/4/title",
+      "value": "Klimawandel"
+    },
+    {
+      "key": "marketing/cards/4/subtitle",
+      "value": "Wir wollen einen Beitrag leisten, damit die richtigen Lösungen gefunden werden."
+    },
+    {
+      "key": "marketing/cards/5/title",
+      "value": "Gespräche"
+    },
+    {
+      "key": "marketing/cards/5/subtitle",
+      "value": "Wir hören zu. Und fragen nach."
+    },
+    {
+      "key": "marketing/cards/6/title",
+      "value": "Investigativ"
+    },
+    {
+      "key": "marketing/cards/6/subtitle",
+      "value": "Was wir nicht wissen, können wir nicht ändern."
+    },
+    {
+      "key": "marketing/cards/7/title",
+      "value": "Bundeshaus"
+    },
+    {
+      "key": "marketing/cards/7/subtitle",
+      "value": "Hier laufen die Fäden der Schweiz zusammen. Wir schauen, wer sie zieht."
+    },
+    {
+      "key": "marketing/cards/8/title",
+      "value": "Demokratie"
+    },
+    {
+      "key": "marketing/cards/8/subtitle",
+      "value": "Ist das beste aller schlechten Systeme. Damit es das bleibt."
+    },
+    {
+      "key": "marketing/cards/9/title",
+      "value": "Reportagen"
+    },
+    {
+      "key": "marketing/cards/9/subtitle",
+      "value": "Weil das Grosse im Kleinen stattfindet."
+    },
+    {
+      "key": "marketing/cards/10/title",
+      "value": "Feuilleton"
+    },
+    {
+      "key": "marketing/cards/10/subtitle",
+      "value": "Ohne Kultur keine Demokratie. Und ohne Kritik kein Diskurs."
+    },
+    {
+      "key": "marketing/cards/11/title",
+      "value": "International"
+    },
+    {
+      "key": "marketing/cards/11/subtitle",
+      "value": "Die grössten Herausforderungen kennen keine Grenzen."
     },
     {
       "key": "marketing/feuilleton/title",
@@ -888,7 +984,7 @@
     },
     {
       "key": "account/newsletterSubscriptions/DAILY/frequency",
-      "value": "montags, dienstags, mittwochs, donnerstags und freitags"
+      "value": "montags bis freitags"
     },
     {
       "key": "account/newsletterSubscriptions/WEEKLY/label",
@@ -897,6 +993,14 @@
     {
       "key": "account/newsletterSubscriptions/WEEKLY/frequency",
       "value": "samstags"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PRODUCT/label",
+      "value": "Republik – Umfragen und Produktinformationen"
+    },
+    {
+      "key": "account/newsletterSubscriptions/PRODUCT/frequency",
+      "value": "unregelmässig"
     },
     {
       "key": "account/newsletterSubscriptions/PROJECTR/label",
@@ -2225,6 +2329,10 @@
     {
       "key": "package/DONATE/description",
       "value": "Sie wollen hervorragenden Journalismus unterstützen, ohne ihn zu lesen. Aber mit Geld. Denn Sie wissen: Guter Journalismus kostet."
+    },
+    {
+      "key": "package/students/price",
+      "value": "{formattedCHF} pro Jahr"
     },
     {
       "key": "package/ABO/price",

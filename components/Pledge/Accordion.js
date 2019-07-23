@@ -12,7 +12,7 @@ import { Link } from '../../lib/routes'
 
 import {
   colors,
-  fontFamilies,
+  fontStyles,
   Loader,
   mediaQueries,
   Editorial
@@ -20,19 +20,20 @@ import {
 
 const styles = {
   packageHeader: css({
-    position: 'relative'
+    position: 'relative',
+    paddingRight: 25
   }),
   package: css({
     display: 'block',
     textDecoration: 'none',
     color: '#000',
     marginTop: -1,
-    fontFamily: fontFamilies.sansSerifRegular,
+    ...fontStyles.sansSerifRegular,
     paddingTop: 7,
     paddingBottom: 9,
     [mediaQueries.mUp]: {
-      paddingTop: 15,
-      paddingBottom: 21
+      paddingTop: 10,
+      paddingBottom: 16
     },
     borderBottom: `1px solid ${colors.divider}`,
     borderTop: `1px solid ${colors.divider}`
@@ -49,8 +50,8 @@ const styles = {
     paddingTop: 8,
     paddingBottom: 10,
     [mediaQueries.mUp]: {
-      paddingTop: 16,
-      paddingBottom: 22
+      paddingTop: 11,
+      paddingBottom: 17
     },
     width: 'calc(100% + 20px)',
     backgroundColor: colors.primaryBg,
@@ -60,7 +61,7 @@ const styles = {
   groupTitle: css({
     marginTop: 40,
     marginBottom: 10,
-    fontFamily: fontFamilies.sansSerifMedium,
+    ...fontStyles.sansSerifMedium,
     fontSize: 19,
     lineHeight: '28px',
     [mediaQueries.mUp]: {
@@ -69,7 +70,7 @@ const styles = {
     }
   }),
   packageTitle: css({
-    fontFamily: fontFamilies.sansSerifMedium,
+    ...fontStyles.sansSerifMedium,
     fontSize: 16,
     lineHeight: '24px',
     [mediaQueries.mUp]: {
@@ -194,13 +195,17 @@ class Accordion extends Component {
     const {
       t,
       packages,
+      filter,
       group,
       crowdfundingName
     } = this.props
 
     const groups = nest()
       .key(d => d.group)
-      .entries(packages)
+      .entries(packages.filter(filter
+        ? p => filter.includes(p.name)
+        : Boolean
+      ))
 
     if (group) {
       groups.sort(({ key: a }, { key: b }) => (
@@ -258,8 +263,8 @@ class Accordion extends Component {
               })
             }
 
-            return <Fragment>
-              <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
+            return <Fragment key={group}>
+              {groups.length > 1 && <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>}
               {pkgItems.map(({ name, title, price, route, params }) => (
                 <Link key={name} route={route} params={params} passHref>
                   <PackageItem

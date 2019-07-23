@@ -24,7 +24,7 @@ import {
   testimonialFields
 } from '../Testimonial/List'
 
-import TeaserBlock from '../Overview/TeaserBlock'
+import TeaserBlock, { GAP as TEASER_BLOCK_GAP } from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
 import Accordion from '../Pledge/Accordion'
 import Cards from './Cards'
@@ -153,14 +153,13 @@ const MarketingPage = props => {
                 __html: t('marketing/overview/title')
               }} />
             </h1>
-            <div style={{ padding: '0 0 0 10px' }}>
-              <Loader loading={loading} style={{ minHeight: 450 }} render={() => (
+            <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+              <Loader loading={loading} style={{ minHeight: 500 }} render={() => (
                 <TeaserBlock
                   teasers={getTeasersFromDocument(front)}
                   highlight={highlight}
                   onHighlight={onHighlight}
-                  maxHeight={450}
-                  overflow />
+                  maxHeight={500} />
               )} />
             </div>
             <div {...styles.overviewBottomShadow} />
@@ -252,7 +251,7 @@ const MarketingPage = props => {
 
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
           <div>
-            <Link route='pledge' params={{ package: 'ABO' }}>
+            <Link route='pledge'>
               <button {...buttonStyles.primary}>
                 {t('marketing/join/button/label')}
               </button>

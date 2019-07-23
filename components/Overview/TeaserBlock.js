@@ -38,10 +38,6 @@ const styles = {
     }, {}),
     width: '100%',
     lineHeight: 0
-  }),
-  item: css({
-    display: 'inline-block',
-    marginBottom: GAP
   })
 }
 
@@ -73,10 +69,9 @@ class TeaserBlock extends Component {
         id: teaser.getAttribute('data-teaser'),
         x: rect.left - left,
         y: rect.top - top,
-        height: rect.height,
+        height: rect.height - GAP, // substract unbreakable margin, see below
         width: rect.width,
         left: rect.left
-        // absoluteY: window.pageYOffset + rect.top
       }
     })
     if (this.state.width !== width) {
@@ -182,7 +177,6 @@ class TeaserBlock extends Component {
               : 'img'
 
             return <div key={teaser.id}
-              {...styles.item}
               onTouchStart={() => { touch = true }}
               onMouseEnter={focus}
               onMouseMove={focus}
@@ -195,7 +189,11 @@ class TeaserBlock extends Component {
                   onLoad={this.measure}
                   src={getSmallImgSrc(teaser)}
                   style={{
-                    display: 'block',
+                    display: 'inline-block',
+                    // unbreakable margin
+                    // GAP needs to be with an inline-block to prevent
+                    // the browser from breaking the margin between columns
+                    marginBottom: GAP,
                     width: '100%'
                   }} />
                 <TeaserNodes

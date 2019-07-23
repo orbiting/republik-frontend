@@ -176,7 +176,7 @@ const Cards = () => {
   const isDesktop = width >= mediaQueries.mBreakPoint
   const cardWidth = cardWidthDesktop(width)
   const to = isDesktop ? toDesktop : toMobile
-  const [gone, setGone] = useState(() => new Set())
+  const [gone] = useState(() => new Set())
   const [zIndexes, setZIndexes] = useState([])
   const setTopIndex = topIndex => {
     setZIndexes(indexes => [
@@ -197,7 +197,6 @@ const Cards = () => {
       }
 
       gone.clear()
-      setGone(gone)
       setZIndexes([])
       set(i => ({
         ...to(i, window.innerWidth, cardWidth),
@@ -229,21 +228,7 @@ const Cards = () => {
       window.removeEventListener('scroll', check)
     }
   }, [inView])
-  const bind = useGesture(({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
-    const trigger = (
-      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
-      Math.abs(xDelta) > cardWidth / 4
-    )
-    const dir = velocity > 0.2
-      ? xDir < 0 ? -1 : 1
-      : xDelta < 0 ? -1 : 1
-    if (!down && trigger && !gone.has(index)) {
-      gone.add(index)
-      setGone(gone)
-    }
-    if (down && zIndexes[zIndexes.length - 1] !== index) {
-      setTopIndex(index)
-    }
+  const animateCard = (index, { down, xDelta, dir } = {}) => {
     set(i => {
       if (index !== i) return
       const isGone = gone.has(index)
@@ -261,13 +246,33 @@ const Cards = () => {
         config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 }
       }
     })
-    if (!down && gone.size === cards.length) {
+  }
+  const maybeRestoreCards = () => {
+    if (gone.size === cards.length) {
       setTimeout(() => {
         gone.clear()
-        setGone(gone)
         setZIndexes([])
         set(i => to(i, window.innerWidth, cardWidth))
       }, 600)
+    }
+  }
+  const bind = useGesture(({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
+    const trigger = (
+      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
+      Math.abs(xDelta) > cardWidth / 4
+    )
+    const dir = velocity > 0.2
+      ? xDir < 0 ? -1 : 1
+      : xDelta < 0 ? -1 : 1
+    if (!down && trigger && !gone.has(index)) {
+      gone.add(index)
+    }
+    if (down && zIndexes[zIndexes.length - 1] !== index) {
+      setTopIndex(index)
+    }
+    animateCard(index, { down, xDelta, dir })
+    if (!down) {
+      maybeRestoreCards()
     }
   })
 
@@ -282,6 +287,10 @@ const Cards = () => {
           <animated.div {...bind(i)} style={{
             transform: interpolate([rot, scale], trans),
             maxWidth: isDesktop ? undefined : 350
+          }} onDoubleClick={() => {
+            gone.add(i)
+            animateCard(i, { dir: i % 2 ? 1 : -1 })
+            maybeRestoreCards()
           }}>
             <Editorial.Subhead style={{ marginTop: 0 }}>{cards[i].title}</Editorial.Subhead>
             <Editorial.P>{cards[i].subtitle}</Editorial.P>

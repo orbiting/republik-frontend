@@ -24,7 +24,7 @@ const styles = {
     width: '100%',
     height: 960,
     [mediaQueries.mUp]: {
-      height: 760
+      height: 765
     },
     textAlign: 'center',
     '& > div': {
@@ -106,7 +106,7 @@ const cards = [
   {
     title: tt('3/title'),
     subtitle: tt('3/subtitle'),
-    image: `${CARDS_ASSETS_BASE_URL}/digitalisierung.jpg?size=3800x2850`
+    image: `${CARDS_ASSETS_BASE_URL}/digitalisierung.jpg?size=3800x2850&resize=${MAX_WIDTH}x`
   },
   {
     title: tt('2/title'),
@@ -127,7 +127,7 @@ const cards = [
 
 const cardWidthDesktop = (innerWidth) => Math.min(
   Math.max(MAX_WIDTH, innerWidth) / 2,
-  500
+  480
 )
 
 const xDesktop = (i, innerWidth, cardWidth) => (
@@ -147,7 +147,7 @@ const toMobile = (i, innerWidth, cardWidth) => ({
 const toDesktop = (i, innerWidth, cardWidth) => {
   return {
     x: xDesktop(i, innerWidth, cardWidth),
-    y: 30 + (i - i % 2) * 25,
+    y: 35 + (i - i % 2) * 25,
     scale: 1,
     rot: randomRotation(),
     delay: i * 100
@@ -281,7 +281,7 @@ const Cards = () => {
         }}>
           <animated.div {...bind(i)} style={{
             transform: interpolate([rot, scale], trans),
-            maxWidth: isDesktop ? undefined : 380
+            maxWidth: isDesktop ? undefined : 350
           }}>
             <Editorial.Subhead style={{ marginTop: 0 }}>{cards[i].title}</Editorial.Subhead>
             <Editorial.P>{cards[i].subtitle}</Editorial.P>

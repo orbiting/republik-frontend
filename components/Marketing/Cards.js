@@ -177,7 +177,12 @@ const Cards = () => {
   const cardWidth = cardWidthDesktop(width)
   const to = isDesktop ? toDesktop : toMobile
   const [gone, setGone] = useState(() => new Set())
-  const [downIndex, setDownIndex] = useState(undefined)
+  const [zIndexes, setZIndexes] = useState([])
+  const setTopIndex = topIndex => {
+    setZIndexes(indexes => [
+      ...indexes.filter(i => i !== topIndex), topIndex
+    ])
+  }
   const [props, set] = useSprings(
     cards.length,
     i => ({
@@ -193,7 +198,7 @@ const Cards = () => {
 
       gone.clear()
       setGone(gone)
-      setDownIndex(undefined)
+      setZIndexes([])
       set(i => ({
         ...to(i, window.innerWidth, cardWidth),
         ...(prevWidth !== width ? {
@@ -224,7 +229,7 @@ const Cards = () => {
       window.removeEventListener('scroll', check)
     }
   }, [inView])
-  const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+  const bind = useGesture(({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
     const trigger = (
       (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
       Math.abs(xDelta) > cardWidth / 4
@@ -236,9 +241,8 @@ const Cards = () => {
       gone.add(index)
       setGone(gone)
     }
-    const newDownIndex = down ? index : undefined
-    if (newDownIndex !== downIndex && newDownIndex !== undefined) {
-      setDownIndex(newDownIndex)
+    if (down && zIndexes[zIndexes.length - 1] !== index) {
+      setTopIndex(index)
     }
     set(i => {
       if (index !== i) return
@@ -261,7 +265,7 @@ const Cards = () => {
       setTimeout(() => {
         gone.clear()
         setGone(gone)
-        setDownIndex(undefined)
+        setZIndexes([])
         set(i => to(i, window.innerWidth, cardWidth))
       }, 600)
     }
@@ -272,9 +276,7 @@ const Cards = () => {
       {!!width && props.map(({ x, y, rot, scale }, i) => (
         <animated.div key={i} style={{
           transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-          zIndex: i === downIndex
-            ? 2
-            : gone.has(i) ? 1 : undefined,
+          zIndex: zIndexes.indexOf(i) + 1,
           width: isDesktop ? cardWidth - PADDING * 4 : '100%'
         }}>
           <animated.div {...bind(i)} style={{

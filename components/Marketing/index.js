@@ -56,6 +56,7 @@ query marketingMembershipStats {
     count
   }
   front: document(path: "/") {
+    id
     children(first: 60) {
       nodes {
         body

@@ -230,7 +230,7 @@ const MarketingPage = props => {
           Unser Magazin ist unabhängig und werbefrei
         </Editorial.Subhead>
         <Editorial.P>
-          Unser einziges Produkt ist vernünftiger Journalismus. Und unser einziger Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
+          Das einzige Produkt ist vernünftiger Journalismus. Und unser einziger Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
         </Editorial.P>
       </Container>
 

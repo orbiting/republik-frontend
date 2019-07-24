@@ -245,17 +245,6 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             closeHandler={closeHandler}
           />
           <br />
-          {isMember && (
-            <Fragment>
-              <NavLink
-                route='vote201907'
-                translation={t('nav/vote201907')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
-          )}
           <NavLink
             route='meta'
             translation={t('nav/meta')}

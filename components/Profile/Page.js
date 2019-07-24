@@ -164,10 +164,10 @@ const getPublicUser = gql`
       twitterHandle
       publicUrl
       badges
-      documents {
+      documents(first: 150) {
         ...DocumentListConnection
       }
-      comments(first: 100) {
+      comments(first: 150) {
         totalCount
         nodes {
           id

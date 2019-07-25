@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-22T00:07:08.273Z",
+  "updated": "2019-07-25T09:03:58.223Z",
   "title": "live",
   "data": [
     {
@@ -429,18 +429,6 @@
     {
       "key": "marketing/claim/link",
       "value": "Jetzt einlösen"
-    },
-    {
-      "key": "marketing/preview/title",
-      "value": "Probe lesen"
-    },
-    {
-      "key": "marketing/preview/text",
-      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen Sie einen Tag lang, worüber wir berichten. "
-    },
-    {
-      "key": "marketing/preview/email/label",
-      "value": "Ihre E-Mail"
     },
     {
       "key": "marketing/offers/title",

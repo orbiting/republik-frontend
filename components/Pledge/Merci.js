@@ -16,7 +16,6 @@ import Account from '../Account'
 import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
-import Share from './Share'
 
 import { EMAIL_CONTACT } from '../../lib/constants'
 
@@ -226,12 +225,6 @@ class Merci extends Component {
               )}
             </div>
           )} />
-          <div style={{ marginBottom: 40, marginTop: 20 }}>
-            <Share pkg={query.package} statementId={
-              query.statement ||
-              (me && me.isListed ? me.id : undefined)
-            } />
-          </div>
         </Content></MainContainer>
         <Account query={query} merci />
       </Fragment>

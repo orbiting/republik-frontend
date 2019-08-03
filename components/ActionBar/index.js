@@ -130,7 +130,8 @@ class ActionBar extends Component {
           ])
           onAudioClick && onAudioClick()
         },
-        title: t('article/actionbar/audio')
+        title: t('article/actionbar/audio'),
+        animate: true
       },
       onGalleryClick && {
         icon: 'gallery',

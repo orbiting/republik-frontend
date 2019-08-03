@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
 import {
-  mediaQueries
+  mediaQueries,
+  colors
 } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
@@ -47,6 +48,12 @@ const getExtraStyles = (mobileOnly, stacked) => {
   })
 }
 
+const animateKeyframes = css.keyframes({
+  '0%': { transform: 'scale(0.8)', opacity: 0 },
+  '25%': { opacity: 1 },
+  '100%': { transform: 'scale(2)', opacity: 0 }
+})
+
 export const styles = {
   link: css({
     color: 'inherit',
@@ -89,6 +96,14 @@ export const styles = {
     [mediaQueries.mUp]: {
       display: 'none'
     }
+  }),
+  animate: css({
+    position: 'absolute',
+    opacity: 0,
+    marginTop: 1,
+    marginLeft: 1,
+    border: `1px solid ${colors.primary}`,
+    animation: `${animateKeyframes} 1s ease-out 1s 3 forwards`
   })
 }
 
@@ -117,6 +132,7 @@ const IconLink = ({
   href,
   target,
   fill,
+  animate,
   icon,
   children,
   size = DEFAULT_SIZE,
@@ -140,6 +156,9 @@ const IconLink = ({
       title={title}
     >
       <span {...styles.icon}>
+        {animate && (
+          <span style={{ width: size, height: size, borderRadius: size / 2 }} {...styles.animate} />
+        )}
         <Icon fill={fill} size={size} />
       </span>
       {children && (

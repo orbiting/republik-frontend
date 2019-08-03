@@ -15,6 +15,7 @@ import {
   Loader
 } from '@project-r/styleguide'
 
+import PathLink from '../Link/Path'
 import Greeting, { fragments as fragmentsGreeting } from './Greeting'
 import Newsletter, { fragments as fragmentsNewsletter } from './Sections/Newsletter'
 import AppLogin, { fragments as fragmentsAppLogin } from './Sections/AppLogin'
@@ -178,11 +179,11 @@ class Page extends Component {
                     <div {...styles.title}>Ihre «Tour de la Republik» 🚴‍</div>
                     <P {...styles.p}>
                       Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Und
-                      versuchen - natürlich - Sie von uns zu überzeugen.
+                      wir versuchen Sie ganz unumwunden von uns zu überzeugen.
                     </P>
                     <Greeting />
                     <P {...styles.p}>
-                      Damit Ihre wenigen Probetage zu vielen Bleibentage werden, hilft Ihnen dieser
+                      Damit Ihre wenigen Probetage zu vielen Bleibetage werden, hilft Ihnen dieser
                       Einrichtungs-Assistent mit dem Wichtigsten.
                     </P>
                   </Fragment>
@@ -227,10 +228,14 @@ class Page extends Component {
                   </Link>.
                 </P>
                 <P {...styles.p}>
-                  Falls Sie weitere Fragen zur Nutzung der Republik haben, lesen Sie unsere <a href='' {...linkRule}>Gebrauchsanweisungen</a> oder <a href='' {...linkRule}>FAQs</a>.
+                  Falls Sie weitere Fragen zur Nutzung der Republik haben, lesen Sie unsere <PathLink path='/anleitung' passHref>
+                    <a {...linkRule}>Gebrauchsanleitung</a>
+                  </PathLink> oder <Link route='faq'>
+                    <a {...linkRule}>FAQs</a>
+                  </Link>.
                 </P>
                 <P {...styles.p}>
-                  Nötigenfalls steht Ihnen auch unser Erste-Hilfe-Team Rede und Antwort unter <a href='' {...linkRule}>kontakt@republik.ch</a>.
+                  Nötigenfalls steht Ihnen auch unser Erste-Hilfe-Team Rede und Antwort unter <a href='mailto:kontakt@republik.ch' {...linkRule}>kontakt@republik.ch</a>.
                 </P>
               </Center>
             )

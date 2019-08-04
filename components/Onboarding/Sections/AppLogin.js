@@ -1,11 +1,15 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 
 import Section from '../Section'
-import { CDN_FRONTEND_BASE_URL } from '../../../lib/constants'
+import {
+  CDN_FRONTEND_BASE_URL,
+  ASSETS_SERVER_BASE_URL
+} from '../../../lib/constants'
+import withT from '../../../lib/withT'
 
 const { P } = Interaction
 
@@ -26,49 +30,59 @@ export const fragments = {
   `
 }
 
-export default (props) => {
-  const { user } = props
+const AppLogin = (props) => {
+  const { user, t } = props
   const hasDevices = user && user.devices && !!user.devices.length
 
   return (
     <Section
-      heading='App und Login'
+      heading={t('Onboarding/Sections/AppLogin/heading')}
       isTicked={hasDevices}
       {...props}>
-      {hasDevices ? (
-        <Fragment>
-          <P {...styles.p}>Sie nutzen bereits die Republik-App.</P>
-          <P {...styles.p}>Die App können Sie auf einer beliebigen Anzahl von Geräten installieren.</P>
-        </Fragment>
-      ) : (
-        <Fragment>
-          <P {...styles.p}>Wir empfehlen Ihnen unsere App.</P>
-          <P {...styles.p}>Bei der Republik melden Sie sich ohne Passwort an, sondern über einen Bestätigungs-Link an Ihre E-Mail-Adresse.</P>
-          <P {...styles.p}>Ganz einfach geht das mit der App: Anstatt eines Bestätigungs-Links schicken wir Ihnen eine Push-Notification aufs Handy.</P>
-        </Fragment>
-      )}
       <P {...styles.p}>
-        iPhone oder iPad:<br />
+        {t.first([
+          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph1`,
+          'Onboarding/Sections/AppLogin/paragraph1'
+        ], null, '')}
+      </P>
+      <P {...styles.p}>
+        {t.first([
+          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph2`,
+          'Onboarding/Sections/AppLogin/paragraph2'
+        ], null, '')}
+      </P>
+      <P {...styles.p}>
+        {t.first([
+          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph3`,
+          'Onboarding/Sections/AppLogin/paragraph3'
+        ], null, '')}
+      </P>
+      <P {...styles.p}>
+        {t('Onboarding/Sections/AppLogin/ios')}<br />
         <a href='https://itunes.apple.com/ch/app/republik/id1392772910' {...linkRule}>
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/apple-store-badge.png`}
             height='54'
-            alt='Im Apple App Store erhältlich' />
+            alt={t('Onboarding/Sections/AppLogin/ios/alt')} />
         </a>
       </P>
       <P {...styles.p}>
-        Android-Geräte:<br />
+        {t('Onboarding/Sections/AppLogin/android')}<br />
         <a href='https://play.google.com/store/apps/details?id=app.republik' {...linkRule}>
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/google-play-badge.png`}
             height='54'
-            alt='Bei Google Play erhältlich' />
+            alt={t('Onboarding/Sections/AppLogin/android/alt')} />
         </a>
       </P>
       <P {...styles.p}>
-        APK für Android:<br />
-        <a href='https://cdn.republik.space/s3/republik-assets/assets/app/republik-1.0.3.apk' {...linkRule}>APK herunterladen</a>
+        {t('Onboarding/Sections/AppLogin/apk')}<br />
+        <a href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-1.0.3.apk`} {...linkRule}>
+          {t('Onboarding/Sections/AppLogin/apk/link')}
+        </a>
       </P>
     </Section>
   )
 }
+
+export default withT(AppLogin)

@@ -13,6 +13,7 @@ import {
   revokeConsentMutation
 } from '../../Article/Progress/api'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
+import withT from '../../../lib/withT'
 
 const { P } = Interaction
 
@@ -48,14 +49,14 @@ export const fragments = {
 }
 
 const Usability = (props) => {
-  const { user, onContinue } = props
+  const { user, onContinue, t } = props
 
   // Is ticked when either REVOKE or GRANT consent was submitted.
   const hasConsented = user && user.PROGRESS !== null
 
   return (
     <Section
-      heading='Lesen, Hören und Sehen'
+      heading={t('Onboarding/Sections/Usability/heading')}
       isTicked={hasConsented}
       showContinue={hasConsented}
       {...props}>
@@ -66,22 +67,38 @@ const Usability = (props) => {
         </Fragment>
       ) : (
         <Fragment>
-          <P {...styles.p}>Auf Wunsch merken wir uns Ihre Leseeposition in Beiträgen.</P>
-          <P {...styles.p}>So können Sie auf unterschiedlichen Geräten an der letzten Stelle weiterlesen.</P>
           <P {...styles.p}>
-            Mehr Lesekomfort, für den wir allerdings Ihr persönliches Leseverhalten in der Republik aufzeichnen müssen. <PathLink path={PROGRESS_EXPLAINER_PATH} passHref>
-              <a {...linkRule}>Mehr Informationen</a>
-            </PathLink>
+            {t('Onboarding/Sections/Usability/paragraph1', null, '')}
+          </P>
+          <P {...styles.p}>
+            {t('Onboarding/Sections/Usability/paragraph2', null, '')}
+          </P>
+          <P {...styles.p}>
+            {t.elements('Onboarding/Sections/Usability/paragraph3', {
+              linkMore: (
+                <PathLink key='linkMore' path={PROGRESS_EXPLAINER_PATH} passHref>
+                  <a {...linkRule}>{t('Onboarding/Sections/Usability/linkMore')}</a>
+                </PathLink>
+              )
+            }, '')}
           </P>
           <div {...styles.actions}>
             <Mutation mutation={submitConsentMutation} onCompleted={() => onContinue(props)}>
-              {(mutate, { loading }) => {
-                return <Button onClick={mutate} disabled={loading}>Ja</Button>
+              {(submit, { loading }) => {
+                return (
+                  <Button onClick={submit} disabled={loading}>
+                    {t('Onboarding/Sections/Usability/button/submitConsent')}
+                  </Button>
+                )
               }}
             </Mutation>
             <Mutation mutation={revokeConsentMutation} onCompleted={() => onContinue(props)}>
-              {(mutate, { loading }) => {
-                return <Button onClick={mutate} disabled={loading}>Nein</Button>
+              {(revoke, { loading }) => {
+                return (
+                  <Button onClick={revoke} disabled={loading}>
+                    {t('Onboarding/Sections/Usability/button/revokeConsent')}
+                  </Button>
+                )
               }}
             </Mutation>
           </div>
@@ -91,4 +108,4 @@ const Usability = (props) => {
   )
 }
 
-export default Usability
+export default withT(Usability)

@@ -56,18 +56,19 @@ export const NEWSLETTER_SETTINGS = gql`
   }
 `
 
-const NewsletterSubscriptions = ({ ...props }) => (
+const NewsletterSubscriptions = (props) => (
   <Query query={NEWSLETTER_SETTINGS}>
     {({ loading, error, data }) => {
+      const { t } = props
+
       if (loading || error) {
         return <Loader loading={loading} error={error} />
       }
 
       if (!data.me || !data.me.newsletterSettings) {
-        return <Loader error='Sie müssen angemeldet sein, um Ihre Newsletter-Einstellungen zu ändern.' />
+        return <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
       }
 
-      const { t } = props
       const { subscriptions, status } = data.me.newsletterSettings
 
       const hasNonEligibleSubscription = subscriptions.some(({ isEligible }) => !isEligible)

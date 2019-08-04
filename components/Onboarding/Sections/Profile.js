@@ -4,7 +4,6 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 
 import { TESTIMONIAL_IMAGE_SIZE } from '../../constants'
-
 import ErrorMessage from '../../ErrorMessage'
 import Portrait from '../../Profile/Portrait'
 import Statement from '../../Profile/Statement'
@@ -12,6 +11,7 @@ import { ListedCheckbox, PublicCheckbox } from '../../Profile/Settings'
 import { mutation } from '../../Profile/Edit'
 import UsernameField from '../../Profile/UsernameField'
 import Section from '../Section'
+import withT from '../../../lib/withT'
 
 import {
   Interaction,
@@ -105,19 +105,23 @@ class Profile extends Component {
   }
 
   render () {
-    const { user, onContinue } = this.props
+    const { user, onContinue, t } = this.props
     const { values, errors, dirty } = this.state
 
     const mergedValues = Object.assign({}, user, { portrait: undefined }, values)
 
     return (
       <Section
-        heading='Profil'
+        heading={t('Onboarding/Sections/Profile/heading')}
         showContinue={false}
         isTicked={user && user.hasPublicProfile}
         {...this.props}>
-        <P {...styles.p}>Das Profil ist Ihre Visitenkarte bei der Republik.</P>
-        <P {...styles.p}>Wir verlinken Ihr Profil zum Beispiel bei Ihren Dialogbeiträgen.</P>
+        <P {...styles.p}>
+          {t('Onboarding/Sections/Profile/paragraph1', null, '')}
+        </P>
+        <P {...styles.p}>
+          {t('Onboarding/Sections/Profile/paragraph2', null, '')}
+        </P>
         <div {...merge(styles.portrait)}>
           <Portrait
             user={user}
@@ -178,11 +182,17 @@ class Profile extends Component {
                 <div {...styles.save}>
                   {loading
                     ? <InlineSpinner />
-                    : <Button primary block disabled={loading} onClick={mutate}>speichern</Button>
+                    : (
+                      <Button primary block disabled={loading} onClick={mutate}>
+                        {t('Onboarding/Sections/Profile/button/save', null, '')}
+                      </Button>
+                    )
                   }
                 </div>
                 <div>
-                  <Button block disabled={loading} onClick={onContinue}>später</Button>
+                  <Button block disabled={loading} onClick={onContinue}>
+                    {t('Onboarding/Sections/Profile/button/continue', null, '')}
+                  </Button>
                 </div>
               </div>
               {!!error && <ErrorMessage error={error} />}
@@ -194,4 +204,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile
+export default withT(Profile)

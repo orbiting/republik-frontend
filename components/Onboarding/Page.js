@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Query } from 'react-apollo'
+import { Query, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { withRouter } from 'next/router'
 import { css } from 'glamor'
@@ -11,7 +11,6 @@ import {
   Interaction,
   linkRule,
   Button,
-  colors,
   Loader
 } from '@project-r/styleguide'
 
@@ -26,6 +25,7 @@ import { scrollIt } from '../../lib/utils/scroll'
 import { HEADER_HEIGHT } from '../constants'
 import { Link } from '../../lib/routes'
 import { SECTION_SPACE } from './Section'
+import withT from '../../lib/withT'
 
 const { P } = Interaction
 
@@ -132,12 +132,15 @@ class Page extends Component {
   }
 
   render () {
-    const meta = {
-      title: 'Konto einrichten'
-    }
-
-    const { router: { query: { context } } } = this.props
+    const { router: { query: { context } }, t } = this.props
     const { expandedSection } = this.state
+
+    const meta = {
+      title: t.first([
+        `Onboarding/Page/${context}/meta/title`,
+        'Onboarding/Page/meta/title'
+      ])
+    }
 
     return (
       <Frame meta={meta} raw>
@@ -151,43 +154,25 @@ class Page extends Component {
 
             return (
               <Center>
-                {!context && (
-                  <Fragment>
-                    <div {...styles.title}>Konto einrichten 🔧</div>
-                    <P {...styles.p}>
-                      Das Wichtigste zum Republik-Nutzen finden Sie hier.
-                    </P>
-                  </Fragment>
-                )}
-
-                {['pledge', 'claim'].includes(context) && (
-                  <Fragment>
-                    <div {...styles.title}>Danke 🌟</div>
-                    <P {...styles.p}>
-                      Mit Ihrer Mitgliedschaft können Sie absofort nicht nur die Republik konsumieren,
-                      sondern können und sollen sie auch beeinflussen.
-                    </P>
-                    <Greeting employee={employees[0]} />
-                    <P {...styles.p}>
-                      Mit dem Wichtigsten vorab hilft Ihnen dieser kurze Einrichtungs-Assistent.
-                    </P>
-                  </Fragment>
-                )}
-
-                {context === 'access' && (
-                  <Fragment>
-                    <div {...styles.title}>Ihre «Tour de la Republik» 🚴‍</div>
-                    <P {...styles.p}>
-                      Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Und
-                      wir versuchen Sie ganz unumwunden von uns zu überzeugen.
-                    </P>
-                    <Greeting />
-                    <P {...styles.p}>
-                      Damit Ihre wenigen Probetage zu vielen Bleibetage werden, hilft Ihnen dieser
-                      Einrichtungs-Assistent mit dem Wichtigsten.
-                    </P>
-                  </Fragment>
-                )}
+                <div {...styles.title}>
+                  {t.first([
+                    `Onboarding/Page/${context}/title`,
+                    'Onboarding/Page/title'
+                  ])}
+                </div>
+                <P {...styles.p}>
+                  {t.first([
+                    `Onboarding/Page/${context}/preface`,
+                    'Onboarding/Page/preface'
+                  ])}
+                </P>
+                {context && <Greeting employee={employees[0]} />}
+                <P {...styles.p}>
+                  {t.first([
+                    `Onboarding/Page/${context}/introduction`,
+                    'Onboarding/Page/introduction'
+                  ], null, '')}
+                </P>
 
                 <div {...styles.sections}>
                   {this.sections.map(({ component: Component, name, ref, visited }) => {
@@ -207,35 +192,82 @@ class Page extends Component {
 
                 {!!context && (
                   <Fragment>
-                    {this.state.hasOnceVisitedAll && (
+                    {/* this.state.hasOnceVisitedAll && (
                       <div style={{ background: colors.primary, height: 140, marginBottom: 20 }}>
                         <P>Grafisches Element, dass alle Section durchgearbeitet wurden und es jetzt losgehen kann.</P>
                       </div>
-                    )}
+                    ) */}
                     <div {...styles.buttonContainer}>
                       <Link route='index'>
-                        <Button primary={!expandedSection}>Magazin lesen</Button>
+                        <Button primary={!expandedSection}>
+                          {t.first([
+                            `Onboarding/Page/${context}/button`,
+                            'Onboarding/Page/button'
+                          ])}
+                        </Button>
                       </Link>
                     </div>
                   </Fragment>
                 )}
 
                 <P {...styles.p}>
-                  Weitere Einstellungen finden Sie im <Link route='account'>
-                    <a {...linkRule}>
-                      Konto
-                    </a>
-                  </Link>.
+                  {t.first.elements([
+                    `Onboarding/Page/${context}/more/account`,
+                    'Onboarding/Page/more/account'
+                  ], {
+                    link: (
+                      <Link key='account' route='account' passHref>
+                        <a {...linkRule}>
+                          {t.first([
+                            `Onboarding/Page/${context}/more/account/link`,
+                            'Onboarding/Page/more/account/link'
+                          ])}
+                        </a>
+                      </Link>
+                    )
+                  })}
                 </P>
                 <P {...styles.p}>
-                  Falls Sie weitere Fragen zur Nutzung der Republik haben, lesen Sie unsere <PathLink path='/anleitung' passHref>
-                    <a {...linkRule}>Gebrauchsanleitung</a>
-                  </PathLink> oder <Link route='faq'>
-                    <a {...linkRule}>FAQs</a>
-                  </Link>.
+                  {t.first.elements([
+                    `Onboarding/Page/${context}/more/questions`,
+                    'Onboarding/Page/more/questions'
+                  ], {
+                    linkManual: (
+                      <PathLink key='anleitung' path='/anleitung' passHref>
+                        <a {...linkRule}>
+                          {t.first([
+                            `Onboarding/Page/${context}/more/questions/linkManual`,
+                            'Onboarding/Page/more/questions/linkManual'
+                          ])}
+                        </a>
+                      </PathLink>
+                    ),
+                    linkFaq: (
+                      <Link key='route' route='faq' passHref>
+                        <a {...linkRule}>
+                          {t.first([
+                            `Onboarding/Page/${context}/more/questions/linkFaq`,
+                            'Onboarding/Page/more/questions/linkFaq'
+                          ])}
+                        </a>
+                      </Link>
+                    )
+                  })}
                 </P>
                 <P {...styles.p}>
-                  Nötigenfalls steht Ihnen auch unser Erste-Hilfe-Team Rede und Antwort unter <a href='mailto:kontakt@republik.ch' {...linkRule}>kontakt@republik.ch</a>.
+                  {t.first.elements([
+                    `Onboarding/Page/${context}/more/help`,
+                    'Onboarding/Page/more/help'
+                  ], {
+                    email: (
+                      <a
+                        key='email'
+                        href={`mailto:${t('Onboarding/Page/more/help/email')}`}
+                        {...linkRule}>
+                        {t('Onboarding/Page/more/help/email')}
+                      </a>
+                    )
+                  })}
                 </P>
               </Center>
             )
@@ -246,4 +278,4 @@ class Page extends Component {
   }
 }
 
-export default withRouter(Page)
+export default compose(withT, withRouter)(Page)

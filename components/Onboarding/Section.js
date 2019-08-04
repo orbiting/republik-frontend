@@ -10,6 +10,8 @@ import {
   colors
 } from '@project-r/styleguide'
 
+import withT from '../../lib/withT'
+
 export const SECTION_SPACE = 30
 export const SECTION_SPACE_MOBILE = 20
 
@@ -68,7 +70,7 @@ const styles = {
   })
 }
 
-export default (props) => {
+const Section = (props) => {
   const onExpand = e => {
     e.preventDefault()
     props.onExpand(props)
@@ -88,7 +90,8 @@ export default (props) => {
     error,
     children,
     forwardedRef,
-    showContinue = true
+    showContinue = true,
+    t
   } = props
 
   return (
@@ -104,10 +107,14 @@ export default (props) => {
           )}
           {!isLoading && !error && children}
           <div {...styles.contentFooter}>
-            {showContinue && <Button primary onClick={onContinue}>weiter</Button>}
+            {showContinue && <Button primary onClick={onContinue}>
+              {t('Onboarding/Section/button/continue')}
+            </Button>}
           </div>
         </div>
       )}
     </Fragment>
   )
 }
+
+export default withT(Section)

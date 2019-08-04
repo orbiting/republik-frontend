@@ -2,18 +2,24 @@ import React, { Fragment } from 'react'
 
 import { Interaction, linkRule } from '@project-r/styleguide'
 
+import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 
 const { H2, P } = Interaction
 
-export default () =>
+export default withT(({ t }) =>
   <Fragment>
-    <H2>Konto einrichten</H2>
+    <H2>{t('Account/Onboarding/title')}</H2>
     <P>
-      Mit dem Wichtigsten vorab hilft Ihnen dieser kurze <Link route='onboarding'>
-        <a {...linkRule}>
-          Einrichtungs-Assistent
-        </a>
-      </Link>.
+      {t.elements('Account/Onboarding/text', {
+        link: (
+          <Link route='onboarding'>
+            <a {...linkRule}>
+              {t('Account/Onboarding/link')}
+            </a>
+          </Link>
+        )
+      })}
     </P>
   </Fragment>
+)

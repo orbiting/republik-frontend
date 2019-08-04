@@ -4,8 +4,10 @@ import { css } from 'glamor'
 
 import Section from '../Section'
 import NewsletterSubscriptions from '../../Account/NewsletterSubscriptions'
+import { Link } from '../../../lib/routes'
+import withT from '../../../lib/withT'
 
-import { Interaction } from '@project-r/styleguide'
+import { Interaction, linkRule } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -30,20 +32,34 @@ export const fragments = {
   `
 }
 
-export default (props) => {
-  const { user } = props
+const Newsletter = (props) => {
+  const { user, t } = props
 
   // Is ticked when at least one newsletter consent it to be found
   const hasConsented = NEWSLETTERS.some(n => user && !!user[n])
 
   return (
     <Section
-      heading='Newsletter'
+      heading={t('Onboarding/Sections/Newsletter/heading')}
       isTicked={hasConsented}
       {...props}>
-      <P {...styles.p}>Mit den verschiedenen E-Mail-Newslettern halten wir Sie mit einem täglichen Update und einem Wochenrückblick auf dem Laufenden.</P>
+      <P {...styles.p}>
+        {t('Onboarding/Sections/Newsletter/preamble')}
+      </P>
       <NewsletterSubscriptions />
-      <P>Diese Einstellungen lassen sich im Konto anpassen.</P>
+      <P {...styles.p}>
+        {t.elements('Onboarding/Sections/Newsletter/hint', {
+          link: (
+            <Link key='account' route='account' passHref>
+              <a {...linkRule}>
+                {t('Onboarding/Sections/Newsletter/hint/link')}
+              </a>
+            </Link>
+          )
+        })}
+      </P>
     </Section>
   )
 }
+
+export default withT(Newsletter)

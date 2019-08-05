@@ -48,13 +48,14 @@ const styles = {
 }
 
 const checkCode = ({ value = '', shouldValidate, t }) => {
-  const code = value.replace(/[^0-9]/g, '').slice(0, CODE_LENGTH)
+  const payload = value.replace(/[^0-9]/g, '').slice(0, CODE_LENGTH)
 
   return {
-    code,
+    code: value.replace(/[^0-9\s]/g, ''), // Allow digits and spaces
+    payload,
     error: (
-      (code.length === 0 && t('Auth/CodeAuthorization/code/missing')) ||
-      (code.length < CODE_LENGTH && t('Auth/CodeAuthorization/code/tooShort'))
+      (payload.length === 0 && t('Auth/CodeAuthorization/code/missing')) ||
+      (payload.length < CODE_LENGTH && t('Auth/CodeAuthorization/code/tooShort'))
     ),
     dirty: shouldValidate
   }
@@ -66,6 +67,7 @@ class CodeAuthorization extends Component {
 
     this.state = {
       code: '',
+      payload: '',
       dirty: false,
       error: null
     }
@@ -110,7 +112,7 @@ class CodeAuthorization extends Component {
             mutate({
               variables: {
                 email,
-                tokens: [{ type: tokenType, payload: this.state.code }]
+                tokens: [{ type: tokenType, payload: this.state.payload }]
               },
               refetchQueries: [{ query: meQuery }]
             })
@@ -118,7 +120,7 @@ class CodeAuthorization extends Component {
           }
 
           const autoSubmit = () => {
-            if (this.state.code && this.state.code.length === CODE_LENGTH) {
+            if (this.state.payload && this.state.payload.length === CODE_LENGTH) {
               onSubmit()
             }
           }

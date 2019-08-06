@@ -36,12 +36,12 @@ const Newsletter = (props) => {
   const { user, t } = props
 
   // Is ticked when at least one newsletter consent it to be found
-  const hasConsented = NEWSLETTERS.some(n => user && !!user[n])
+  const isTicked = NEWSLETTERS.some(n => user && user[n] !== null && user[n] !== undefined)
 
   return (
     <Section
       heading={t('Onboarding/Sections/Newsletter/heading')}
-      isTicked={hasConsented}
+      isTicked={isTicked}
       {...props}>
       <P {...styles.p}>
         {t('Onboarding/Sections/Newsletter/preamble')}

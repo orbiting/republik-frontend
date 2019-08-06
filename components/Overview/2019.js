@@ -20,5 +20,8 @@ export default {
   </Fragment>,
   Juni: (p) => <Fragment>
     Wir starten unsere <Highlight {...p} series='republik/article-wahnsinn-wahlkampf'>Wahlkampf-Serie</Highlight>, wir porträtieren <Highlight {...p} ids={['4C69J-4mS']}>Margrethe Vestager</Highlight> und machen uns mit den Recherchen zum <Highlight {...p} ids={['Dyn8P8dr0']}>Fall Spiess-Hegglin</Highlight> und <A href='https://www.republik.ch/2019/06/29/der-putsch'>Zürcher Kosmos</A> nicht nur Freunde. Ausserdem zeigen wir auf, wie der Staat die <Highlight {...p} series='republik/article-teil-1-mike'>Grundrechte eines Intensivtäters verletzt</Highlight>, warum Depression eine Volkskrankheit ist – und wie es um die <Highlight {...p} ids={['T6JZ9No_o']}>Geschlechterbalance in der Republik</Highlight> steht.
+  </Fragment>,
+  Juli: (p) => <Fragment>
+    Recherchen zur <Highlight {...p} ids={['v5m1zIJ1a']}>Wahlkampffinanzierung der SVP</Highlight> und zu <Highlight {...p} ids={['XMPAu_lKG']}>Google in den Schulzimmern</Highlight>. Wie sich das <Highlight {...p} ids={['xKKd-W7p8']}>EDA von Philip Morris</Highlight> nicht nur sponsern, sondern auch einspannen lässt. Klimaerwärmung in den Städten – der <Highlight {...p} ids={['q-iptHtTc', 'OitZtrctGl']}>interaktive Städtetrip</Highlight>. Soll das <Highlight {...p} ids={['Y1QZ-hmw9']}>Sexualstrafrecht verschärft werden</Highlight>? Die Serie «<Highlight {...p} series='republik/article-auftakt-strandgeschichten'>Am Strand</Highlight>» startet – jede Folge inklusive Spotify-Playlist. Ausserdem: Porträt von <Highlight {...p} ids={['FK8d4xV9P']}>FDP-Ständeratskandidat Thierry Burkart</Highlight> und Interview mit <Highlight {...p} ids={['harv8WmC2']}>Medienforscher Jay Rosen</Highlight>.
   </Fragment>
 }

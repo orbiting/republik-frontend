@@ -1,17 +1,15 @@
-import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
+import React, { Fragment } from 'react'
+import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import ErrorMessage from '../ErrorMessage'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
 import { Loader, InlineSpinner, Checkbox, Label } from '@project-r/styleguide'
 
 const styles = {
-  headline: css({
-    margin: '80px 0 30px 0'
-  }),
   spinnerWrapper: css({
     display: 'inline-block',
     height: 0,
@@ -27,98 +25,7 @@ const styles = {
   })
 }
 
-const ErrorContainer = ({ children }) => (
-  <div style={{ marginTop: 20 }}>{children}</div>
-)
-
-class NewsletterSubscriptions extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      mutating: {}
-    }
-  }
-
-  render () {
-    const { t, me, loading, error, updateNewsletterSubscription } = this.props
-
-    return (
-      <Loader
-        loading={loading || !me}
-        error={error}
-        ErrorContainer={ErrorContainer}
-        render={() => {
-          const { subscriptions, status } = me.newsletterSettings
-          const { mutating } = this.state
-          const hasNonEligibleSubscription = subscriptions.some(
-            newsletter => !newsletter.isEligible
-          )
-
-          return (
-            <Fragment>
-              {status !== 'subscribed' && (
-                <Box style={{ margin: '10px 0', padding: 15 }}>
-                  <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
-                </Box>
-              )}
-              {hasNonEligibleSubscription && (
-                <Box style={{ margin: '10px 0', padding: 15 }}>
-                  <P>{t('account/newsletterSubscriptions/noMembership')}</P>
-                </Box>
-              )}
-              {subscriptions.map(({ name, subscribed, isEligible }) => (
-                <p key={name}>
-                  <Checkbox
-                    checked={subscribed}
-                    disabled={
-                      (!isEligible && !subscribed) ||
-                      mutating[name]
-                    }
-                    onChange={(_, checked) => {
-                      this.setState(state => ({
-                        mutating: {
-                          ...state.mutating,
-                          [name]: true
-                        }
-                      }))
-                      const finish = () => {
-                        this.setState(state => ({
-                          mutating: {
-                            ...state.mutating,
-                            [name]: false
-                          }
-                        }))
-                      }
-                      updateNewsletterSubscription({
-                        name,
-                        subscribed: checked
-                      }).then(finish)
-                    }}
-                  >
-                    <span {...styles.label}>
-                      {t(`account/newsletterSubscriptions/${name}/label`)}
-                      {mutating[name] && (
-                        <span {...styles.spinnerWrapper}>
-                          <InlineSpinner size={24} />
-                        </span>
-                      )}
-                      <br />
-                      <Label>
-                        {t(`account/newsletterSubscriptions/${name}/frequency`)}
-                      </Label>
-                    </span>
-                  </Checkbox>
-                </p>
-              ))}
-            </Fragment>
-          )
-        }}
-      />
-    )
-  }
-}
-
-const mutation = gql`
+export const UPDATE_NEWSLETTER_SUBSCRIPTION = gql`
   mutation updateNewsletterSubscription(
     $name: NewsletterName!
     $subscribed: Boolean!
@@ -132,7 +39,7 @@ const mutation = gql`
   }
 `
 
-const query = gql`
+export const NEWSLETTER_SETTINGS = gql`
   query myNewsletterSettings {
     me {
       id
@@ -149,24 +56,72 @@ const query = gql`
   }
 `
 
-export default compose(
-  graphql(mutation, {
-    props: ({ mutate }) => ({
-      updateNewsletterSubscription: ({ name, subscribed }) =>
-        mutate({
-          variables: {
-            name,
-            subscribed
-          }
-        })
-    })
-  }),
-  graphql(query, {
-    props: ({ data }) => ({
-      loading: data.loading,
-      error: data.error,
-      me: data.me
-    })
-  }),
-  withT
-)(NewsletterSubscriptions)
+const NewsletterSubscriptions = (props) => (
+  <Query query={NEWSLETTER_SETTINGS}>
+    {({ loading, error, data }) => {
+      const { t } = props
+
+      if (loading || error) {
+        return <Loader loading={loading} error={error} />
+      }
+
+      if (!data.me || !data.me.newsletterSettings) {
+        return <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
+      }
+
+      const { subscriptions, status } = data.me.newsletterSettings
+
+      const hasNonEligibleSubscription = subscriptions.some(({ isEligible }) => !isEligible)
+
+      return (
+        <Fragment>
+          {status !== 'subscribed' && (
+            <Box style={{ margin: '10px 0', padding: 15 }}>
+              <P>{t('account/newsletterSubscriptions/unsubscribed')}</P>
+            </Box>
+          )}
+          {hasNonEligibleSubscription && (
+            <Box style={{ margin: '10px 0', padding: 15 }}>
+              <P>{t('account/newsletterSubscriptions/noMembership')}</P>
+            </Box>
+          )}
+          {subscriptions.map(({ name, subscribed, isEligible }) => (
+            <Mutation key={name} mutation={UPDATE_NEWSLETTER_SUBSCRIPTION}>
+              {(mutate, { loading: mutating, error }) => {
+                return (
+                  <p>
+                    <Checkbox
+                      checked={subscribed}
+                      disabled={!isEligible || mutating}
+                      onChange={(_, checked) => {
+                        mutate({ variables: {
+                          name,
+                          subscribed: checked
+                        } })
+                      }}>
+                      <span {...styles.label}>
+                        {t(`account/newsletterSubscriptions/${name}/label`)}
+                        {mutating && (
+                          <span {...styles.spinnerWrapper}>
+                            <InlineSpinner size={24} />
+                          </span>
+                        )}
+                        <br />
+                        <Label>
+                          {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                        </Label>
+                        {error && <ErrorMessage error={error} />}
+                      </span>
+                    </Checkbox>
+                  </p>
+                )
+              }}
+            </Mutation>
+          ))}
+        </Fragment>
+      )
+    }}
+  </Query>
+)
+
+export default withT(NewsletterSubscriptions)

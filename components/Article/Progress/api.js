@@ -36,7 +36,15 @@ const upsertDocumentProgressMutation = gql`
   ${userProgressFragment}
 `
 
-const submitConsentMutation = gql`
+export const progressConsentQuery = gql`
+  query progressConset {
+    me {
+      hasConsentedTo(name: "PROGRESS")
+    }
+  }
+`
+
+export const submitConsentMutation = gql`
   mutation submitConsent {
     submitConsent(name: "PROGRESS") {
       id
@@ -46,7 +54,7 @@ const submitConsentMutation = gql`
   ${userProgressConsentFragment}
 `
 
-const revokeConsentMutation = gql`
+export const revokeConsentMutation = gql`
   mutation revokeConsent {
     revokeConsent(name: "PROGRESS") {
       id

@@ -144,7 +144,7 @@ Edit.propTypes = {
   t: PropTypes.func.isRequired
 }
 
-const mutation = gql`
+export const mutation = gql`
   mutation updateMe(
     $username: String
     $hasPublicProfile: Boolean

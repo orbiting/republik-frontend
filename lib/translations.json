@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-04T11:10:49.436Z",
+  "updated": "2019-08-05T13:18:50.724Z",
   "title": "live",
   "data": [
     {
@@ -3264,7 +3264,7 @@
     },
     {
       "key": "article/progressprompt/headline",
-      "value": "Neu: Position merken"
+      "value": "Position merken"
     },
     {
       "key": "article/progressprompt/description/feature",
@@ -4888,11 +4888,11 @@
     },
     {
       "key": "Onboarding/Page/pledge/preface",
-      "value": "Mit Ihrer Mitgliedschaft können Sie absofort nicht nur die Republik konsumieren, sondern können und sollen sie auch beeinflussen."
+      "value": "Mit Ihrer Mitgliedschaft können Sie ab sofort nicht nur die Republik konsumieren, sondern Sie können und sollen sie auch beeinflussen."
     },
     {
       "key": "Onboarding/Page/pledge/introduction",
-      "value": "Dieser kurze Einrichtungs-Assistent hilft Ihnen mit dem Wichtigsten vorab."
+      "value": "Dieser kurze Einrichtungsassistent hilft Ihnen mit dem Wichtigsten vorab."
     },
     {
       "key": "Onboarding/Page/claim/title",
@@ -4900,11 +4900,11 @@
     },
     {
       "key": "Onboarding/Page/claim/preface",
-      "value": "Mit Ihrer Mitgliedschaft können Sie absofort nicht nur die Republik konsumieren, sondern können und sollen sie auch beeinflussen."
+      "value": "Mit Ihrer Mitgliedschaft können Sie ab sofort nicht nur die Republik konsumieren, sondern Sie können und sollen sie auch beeinflussen."
     },
     {
       "key": "Onboarding/Page/claim/introduction",
-      "value": "Dieser kurze Einrichtungs-Assistent hilft Ihnen mit dem Wichtigsten vorab."
+      "value": "Dieser kurze Einrichtungsassistent hilft Ihnen mit dem Wichtigsten vorab."
     },
     {
       "key": "Onboarding/Page/access/title",
@@ -4916,7 +4916,7 @@
     },
     {
       "key": "Onboarding/Page/access/introduction",
-      "value": "Damit Ihre wenigen Probetage zu vielen Bleibetage werden, hilft Ihnen dieser Einrichtungs-Assistent mit dem Wichtigsten."
+      "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
     },
     {
       "key": "Onboarding/Page/button",
@@ -4932,7 +4932,7 @@
     },
     {
       "key": "Onboarding/Page/more/questions",
-      "value": "Falls Sie weitere Fragen zur Nutzung der Republik haben, lesen Sie unsere {linkManual} oder {linkFaq}."
+      "value": "Falls Sie weitere Fragen zur Nutzung der Republik haben, lesen Sie unsere {linkManual} oder die {linkFaq}."
     },
     {
       "key": "Onboarding/Page/more/questions/linkManual",
@@ -4951,6 +4951,10 @@
       "value": "kontakt@republik.ch"
     },
     {
+      "key": "Onboarding/Section/button/continue",
+      "value": "Weiter"
+    },
+    {
       "key": "Onboarding/Sections/AppLogin/heading",
       "value": "App und Login"
     },
@@ -4960,7 +4964,7 @@
     },
     {
       "key": "Onboarding/Sections/AppLogin/paragraph2",
-      "value": "Bei der Republik melden Sie sich ohne Passwort an, sondern über einen Bestätigungs-Link an Ihre E-Mail-Adresse."
+      "value": "Bei der Republik melden Sie sich nicht mit einem Passwort an, sondern über einen Bestätigungs-Link an Ihre E-Mail-Adresse."
     },
     {
       "key": "Onboarding/Sections/AppLogin/paragraph3",
@@ -4984,7 +4988,7 @@
     },
     {
       "key": "Onboarding/Sections/AppLogin/ios/alt",
-      "value": "Im Apple App Store erhältlich"
+      "value": "im Apple App Store erhältlich"
     },
     {
       "key": "Onboarding/Sections/AppLogin/android",
@@ -4992,7 +4996,7 @@
     },
     {
       "key": "Onboarding/Sections/AppLogin/android/alt",
-      "value": "Bei Google Play erhältlich"
+      "value": "bei Google Play erhältlich"
     },
     {
       "key": "Onboarding/Sections/AppLogin/apk",
@@ -5024,7 +5028,7 @@
     },
     {
       "key": "Onboarding/Sections/Usability/paragraph1",
-      "value": "Auf Wunsch merken wir uns Ihre Leseeposition in Beiträgen."
+      "value": "Auf Wunsch merken wir uns Ihre Leseposition in Beiträgen."
     },
     {
       "key": "Onboarding/Sections/Usability/paragraph2",
@@ -5060,11 +5064,11 @@
     },
     {
       "key": "Onboarding/Sections/Profile/button/save",
-      "value": "speichern"
+      "value": "Speichern"
     },
     {
       "key": "Onboarding/Sections/Profile/button/continue",
-      "value": "später"
+      "value": "Später"
     }
   ]
 }

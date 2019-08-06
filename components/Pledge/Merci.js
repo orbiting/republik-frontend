@@ -96,7 +96,7 @@ class Merci extends Component {
   maybeRelocateToOnboarding () {
     const { me, query } = this.props
 
-    if (me && ONBOARDING_PACKAGES.includes(query.package)) {
+    if (me && ONBOARDING_PACKAGES.includes(query.package) && !query.claim) {
       Router.replaceRoute(
         'onboarding',
         { context: 'pledge', package: query.package },

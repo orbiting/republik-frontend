@@ -27,6 +27,7 @@ import ArticleDiscussionHeadline from './ArticleDiscussionHeadline'
 import ArticleSearch from './ArticleSearch'
 import LatestComments from './LatestComments'
 import Discussion from '../Discussion/Discussion'
+import DiscussionFront from '../Discussion/Front'
 
 import {
   A,
@@ -217,6 +218,13 @@ class FeedbackPage extends Component {
     return (
       <Frame raw meta={pageMeta}>
         <Center {...styles.container}>
+          {/* tmp example, will be part of front document */}
+          <DiscussionFront
+            lastDays={3}
+            highlight={{
+              id: '50a17ba6-6864-4139-8c04-f53c02e19fe0',
+              quote: 'Gut möglich, dass es bis zu einer klimaneutralen Grossbank einen Generationenwechsel braucht.'
+            }} />
           <div {...styles.intro}>
             <WithMembership render={() => (
               <Interaction.P>

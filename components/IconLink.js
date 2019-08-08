@@ -49,9 +49,8 @@ const getExtraStyles = (mobileOnly, stacked) => {
 }
 
 const animateKeyframes = css.keyframes({
-  '0%': { transform: 'scale(0.8)', opacity: 0 },
-  '25%': { opacity: 1 },
-  '100%': { transform: 'scale(2)', opacity: 0 }
+  '0%': { fill: 'red' },
+  '100%': { fill: 'black' }
 })
 
 export const styles = {
@@ -102,7 +101,9 @@ export const styles = {
     opacity: 0,
     marginTop: 1,
     marginLeft: 1,
-    border: `1px solid ${colors.primary}`,
+    border: `1px solid ${colors.primary}`
+  }),
+  svg: css({
     animation: `${animateKeyframes} 1s ease-out 1s 3 forwards`
   })
 }
@@ -159,7 +160,11 @@ const IconLink = ({
         {animate && (
           <span style={{ width: size, height: size, borderRadius: size / 2 }} {...styles.animate} />
         )}
-        <Icon fill={fill} size={size} />
+
+        { // TODO: can style object be added condionally inline?
+          animate
+            ? <Icon fill={fill} size={size} {...styles.svg} />
+            : <Icon fill={fill} size={size} />}
       </span>
       {children && (
         <span

@@ -60,7 +60,7 @@ const solidOpacityKeyframes = css.keyframes({
 })
 
 const svgKeyframes = css.keyframes({
-  '0%': { fill: 'rgba(255, 255, 255, 0)' },
+  '0%': { fill: 'transparent' },
   '50%': { fill: colors.primary },
   '100%': { fill: 'currentColor' }
 })
@@ -119,7 +119,7 @@ export const styles = {
       `${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
     ].join(',')
   }),
-  svgAnimation: css({
+  fillAnimation: css({
     animation: `${svgKeyframes} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
   })
 }
@@ -199,7 +199,7 @@ const IconLink = ({
         {shouldAnimate && <span
           {...styles.solid}
           style={{ width: size, height: size }} />}
-        <Icon fill={fill} size={size} {...shouldAnimate && styles.svgAnimation} />
+        <Icon fill={fill} size={size} {...shouldAnimate && styles.fillAnimation} />
       </span>
       {children && (
         <span

@@ -4,8 +4,6 @@ import gql from 'graphql-tag'
 const getActiveDiscussions = gql`
 query getActiveDiscussions($lastDays: Int!) {
   activeDiscussions(lastDays: $lastDays) {
-    beginDate
-    endDate
     count
     discussion {
       id
@@ -94,15 +92,6 @@ query getComments(
       }
       nodes {
         id
-        text
-        content
-        published
-        adminUnpublished
-        downVotes
-        upVotes
-        userVote
-        score
-        userCanEdit
         preview(length:240) {
           string
           more

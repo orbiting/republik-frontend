@@ -4,7 +4,7 @@ import { format } from 'url'
 
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
-import { Link } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 
 import Poller from '../Auth/Poller'
 import { withSignIn } from '../Auth/SignIn'
@@ -17,7 +17,7 @@ import { Content, MainContainer } from '../Frame'
 
 import ClaimPledge from './Claim'
 
-import { EMAIL_CONTACT } from '../../lib/constants'
+import { EMAIL_CONTACT, ONBOARDING_PACKAGES } from '../../lib/constants'
 
 import {
   linkRule,
@@ -25,7 +25,8 @@ import {
   RawHtml,
   InlineSpinner,
   Button,
-  Lead
+  Lead,
+  Loader
 } from '@project-r/styleguide'
 
 import RawHtmlTranslation from '../RawHtmlTranslation'
@@ -83,6 +84,27 @@ class Merci extends Component {
       ...parseSignInResponseQuery(query)
     }
   }
+
+  componentDidMount () {
+    this.maybeRelocateToOnboarding()
+  }
+
+  componentDidUpdate () {
+    this.maybeRelocateToOnboarding()
+  }
+
+  maybeRelocateToOnboarding () {
+    const { me, query } = this.props
+
+    if (me && ONBOARDING_PACKAGES.includes(query.package) && !query.claim) {
+      Router.replaceRoute(
+        'onboarding',
+        { context: 'pledge', package: query.package },
+        { shallow: true }
+      )
+    }
+  }
+
   render () {
     const { me, t, query } = this.props
     const {
@@ -122,6 +144,7 @@ class Merci extends Component {
         </Content></MainContainer>
       )
     }
+
     if (signInError && email && query.id) {
       return (
         <MainContainer><Content>
@@ -183,6 +206,17 @@ class Merci extends Component {
         </Content></MainContainer>
       )
     }
+
+    if (me && ONBOARDING_PACKAGES.includes(query.package)) {
+      return (
+        <MainContainer>
+          <Content>
+            <Loader loading />
+          </Content>
+        </MainContainer>
+      )
+    }
+
     const buttonStyle = { marginBottom: 10, marginRight: 10 }
     const noNameSuffix = me ? '' : '/noName'
 

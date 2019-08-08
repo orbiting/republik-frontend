@@ -49,8 +49,9 @@ const getExtraStyles = (mobileOnly, stacked) => {
 }
 
 const animateKeyframes = css.keyframes({
-  '0%': { fill: 'red' },
-  '100%': { fill: 'black' }
+  '0%': { fill: colors.text },
+  '50%': { fill: colors.primary },
+  '100%': { fill: colors.text }
 })
 
 export const styles = {
@@ -104,7 +105,7 @@ export const styles = {
     border: `1px solid ${colors.primary}`
   }),
   svg: css({
-    animation: `${animateKeyframes} 1s ease-out 1s 3 forwards`
+    animation: `${animateKeyframes} 4s cubic-bezier(0.5, 0, 0.5, 1) alternate`
   })
 }
 

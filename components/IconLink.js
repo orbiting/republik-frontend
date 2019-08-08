@@ -50,18 +50,18 @@ const getExtraStyles = (mobileOnly, stacked) => {
 
 const solidScaleframes = css.keyframes({
   '0%': { transform: 'scale(0)' },
-  '50%': { transform: 'scale(1.3)' },
+  '50%': { transform: 'scale(1.5)' },
   '100%': { transform: 'scale(0)' }
 })
 
 const solidOpacityKeyframes = css.keyframes({
-  from: { opacity: 0.5 },
+  from: { opacity: 0.2 },
   to: { opacity: 0 }
 })
 
 const svgKeyframes = css.keyframes({
-  '0%': { fill: 'transparent' },
-  '50%': { fill: colors.primary },
+  '0%': { fill: 'currentColor' },
+  '33%': { fill: colors.primary },
   '100%': { fill: 'currentColor' }
 })
 
@@ -88,6 +88,7 @@ export const styles = {
     }
   }),
   icon: css({
+    position: 'relative',
     verticalAlign: 'middle'
   }),
   text: css({
@@ -110,10 +111,10 @@ export const styles = {
   }),
   solid: css({
     position: 'absolute',
-    marginTop: 1,
-    marginLeft: 1,
+    top: 0,
+    left: 0,
     borderRadius: '50%',
-    border: `${colors.primary} 3px solid`,
+    backgroundColor: colors.primary,
     animation: [
       `${solidScaleframes} 1.8s cubic-bezier(0.8, 0, 0.8, 1) alternate both`,
       `${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`

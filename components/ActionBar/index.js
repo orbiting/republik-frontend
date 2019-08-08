@@ -26,7 +26,6 @@ const styles = {
 class ActionBar extends Component {
   constructor (props) {
     super(props)
-    this.rootRef = React.createRef()
 
     this.state = {
       showShareOverlay: false
@@ -169,7 +168,7 @@ class ActionBar extends Component {
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
         )}
-        <span {...styles.buttonGroup} ref={this.rootRef}>
+        <span {...styles.buttonGroup}>
           {showBookmark && (
             <Bookmark
               bookmarked={bookmarked}

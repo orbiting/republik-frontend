@@ -62,7 +62,7 @@ const solidOpacityKeyframes = css.keyframes({
 const svgKeyframes = css.keyframes({
   '0%': { fill: 'rgba(255, 255, 255, 0)' },
   '50%': { fill: colors.primary },
-  '100%': { fill: colors.text }
+  '100%': { fill: 'currentColor' }
 })
 
 export const styles = {
@@ -112,15 +112,14 @@ export const styles = {
     position: 'absolute',
     marginTop: 1,
     marginLeft: 1,
-    width: DEFAULT_SIZE,
-    height: DEFAULT_SIZE,
     borderRadius: '50%',
     border: `${colors.primary} 3px solid`,
-    animation: `
-      ${solidScaleframes} 1.8s cubic-bezier(0.8, 0, 0.8, 1) alternate both,
-      ${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
+    animation: [
+      `${solidScaleframes} 1.8s cubic-bezier(0.8, 0, 0.8, 1) alternate both`,
+      `${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
+    ].join(',')
   }),
-  svg: css({
+  svgAnimation: css({
     animation: `${svgKeyframes} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
   })
 }
@@ -161,29 +160,29 @@ const IconLink = ({
   stacked
 }) => {
   const Icon = ICONS[icon]
-  const [onScreen, setOnScreen] = useState(false)
+  const [shouldAnimate, setShouldAnimate] = useState(false)
   const ref = useRef()
 
   useEffect(() => {
+    if (!animate || !(
+      'IntersectionObserver' in window &&
+      'IntersectionObserverEntry' in window &&
+      'isIntersecting' in window.IntersectionObserverEntry.prototype
+    )) {
+      return
+    }
     const observer = new window.IntersectionObserver(
       ([entry]) => {
-        // Update our state when observer callback fires
-        setOnScreen(entry.isIntersecting)
-        console.log('I IZ ON SCREEN, OHAI', entry.isIntersecting)
-      },
-      {
-        rootMargin: '0px'
+        if (!shouldAnimate && entry.isIntersecting) {
+          setShouldAnimate(true)
+        }
       }
     )
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
+    observer.observe(ref.current)
     return () => {
       observer.unobserve(ref.current)
     }
-  }, [])
-
-  const shouldAnimate = animate && onScreen
+  }, [animate])
 
   return (
     <a
@@ -197,12 +196,10 @@ const IconLink = ({
       title={title}
     >
       <span {...styles.icon} ref={ref}>
-        { shouldAnimate && <span {...styles.solid} />}
-
-        { // TODO: can style object be added condionally inline?
-          shouldAnimate
-            ? <Icon fill={fill} size={size} {...styles.svg} />
-            : <Icon fill={fill} size={size} />}
+        {shouldAnimate && <span
+          {...styles.solid}
+          style={{ width: size, height: size }} />}
+        <Icon fill={fill} size={size} {...shouldAnimate && styles.svgAnimation} />
       </span>
       {children && (
         <span

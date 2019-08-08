@@ -26,6 +26,7 @@ const styles = {
 class ActionBar extends Component {
   constructor (props) {
     super(props)
+    this.rootRef = React.createRef()
 
     this.state = {
       showShareOverlay: false
@@ -59,7 +60,8 @@ class ActionBar extends Component {
       showBookmark,
       documentId,
       bookmarked,
-      inNativeApp
+      inNativeApp,
+      animate
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -131,7 +133,7 @@ class ActionBar extends Component {
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio'),
-        animate: true
+        animate
       },
       onGalleryClick && {
         icon: 'gallery',
@@ -167,7 +169,7 @@ class ActionBar extends Component {
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
         )}
-        <span {...styles.buttonGroup}>
+        <span {...styles.buttonGroup} ref={this.rootRef}>
           {showBookmark && (
             <Bookmark
               bookmarked={bookmarked}

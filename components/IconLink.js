@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
@@ -161,6 +161,29 @@ const IconLink = ({
   stacked
 }) => {
   const Icon = ICONS[icon]
+  const [onScreen, setOnScreen] = useState(false)
+  const ref = useRef()
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        // Update our state when observer callback fires
+        setOnScreen(entry.isIntersecting)
+        console.log('I IZ ON SCREEN, OHAI', entry.isIntersecting)
+      },
+      {
+        rootMargin: '0px'
+      }
+    )
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+    return () => {
+      observer.unobserve(ref.current)
+    }
+  }, [])
+
+  const shouldAnimate = animate && onScreen
 
   return (
     <a
@@ -173,13 +196,11 @@ const IconLink = ({
       rel={target === '_blank' ? 'noopener' : ''}
       title={title}
     >
-      <span {...styles.icon}>
-        {animate && (
-          <span {...styles.solid} />
-        )}
+      <span {...styles.icon} ref={ref}>
+        { shouldAnimate && <span {...styles.solid} />}
 
         { // TODO: can style object be added condionally inline?
-          animate
+          shouldAnimate
             ? <Icon fill={fill} size={size} {...styles.svg} />
             : <Icon fill={fill} size={size} />}
       </span>

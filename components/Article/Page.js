@@ -372,6 +372,7 @@ class ArticlePage extends Component {
         t={t}
         url={meta.url}
         title={meta.title}
+        animate
         template={meta.template}
         path={meta.path}
         linkedDiscussion={meta.linkedDiscussion}
@@ -488,6 +489,7 @@ class ArticlePage extends Component {
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
+        animate: false,
         estimatedReadingMinutes: undefined,
         estimatedConsumptionMinutes: undefined
       })

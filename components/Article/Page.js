@@ -279,7 +279,7 @@ class ArticlePage extends Component {
       if (
         isAwayFromBottomBar &&
         (
-          this.state.isSeries
+          this.state.showSeriesNav
             ? y > headerHeight
             : y + headerHeight > this.y + this.barHeight
         )
@@ -302,13 +302,10 @@ class ArticlePage extends Component {
       if (mobile !== this.state.mobile) {
         this.setState({ mobile })
       }
-      if (!this.state.isSeries) {
-        if (this.bar) {
-          const rect = this.bar.getBoundingClientRect()
-          this.y = window.pageYOffset + rect.top
-          this.barHeight = rect.height
-          this.x = window.pageXOffset + rect.left
-        }
+      if (this.bar) {
+        const rect = this.bar.getBoundingClientRect()
+        this.y = window.pageYOffset + rect.top
+        this.barHeight = rect.height
       }
       if (this.bottomBar) {
         const bottomRect = this.bottomBar.getBoundingClientRect()
@@ -419,7 +416,7 @@ class ArticlePage extends Component {
         : undefined
     })
 
-    const isSeries = meta && !!meta.series
+    const showSeriesNav = isMember && meta && !!meta.series
     const id = article && article.id
 
     return {
@@ -427,7 +424,7 @@ class ArticlePage extends Component {
       schema,
       meta,
       actionBar,
-      isSeries,
+      showSeriesNav,
       autoPlayAudioSource: id !== state.id
         ? router.query.audio === '1'
         : state.autoPlayAudioSource
@@ -485,7 +482,7 @@ class ArticlePage extends Component {
   render () {
     const { router, t, data, data: { article }, isMember, isEditor } = this.props
 
-    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
 
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
@@ -497,14 +494,14 @@ class ArticlePage extends Component {
     const series = meta && meta.series
     const episodes = series && series.episodes
 
-    const seriesNavButton = series ? (
+    const seriesNavButton = showSeriesNav && (
       <SeriesNavButton
         t={t}
         series={series}
         onSecondaryNavExpandedChange={this.onSecondaryNavExpandedChange}
         expanded={this.state.secondaryNavExpanded}
       />
-    ) : null
+    )
 
     const formatMeta = meta && (
       meta.template === 'format'
@@ -542,7 +539,7 @@ class ArticlePage extends Component {
         meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={(isMember && seriesNavButton) || actionBarEnd}
+        secondaryNav={seriesNavButton || actionBarEnd}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}

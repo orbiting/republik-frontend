@@ -48,8 +48,19 @@ const getExtraStyles = (mobileOnly, stacked) => {
   })
 }
 
-const animateKeyframes = css.keyframes({
-  '0%': { fill: colors.text },
+const solidScaleframes = css.keyframes({
+  '0%': { transform: 'scale(0)' },
+  '50%': { transform: 'scale(1.3)' },
+  '100%': { transform: 'scale(0)' }
+})
+
+const solidOpacityKeyframes = css.keyframes({
+  from: { opacity: 0.5 },
+  to: { opacity: 0 }
+})
+
+const svgKeyframes = css.keyframes({
+  '0%': { fill: 'rgba(255, 255, 255, 0)' },
   '50%': { fill: colors.primary },
   '100%': { fill: colors.text }
 })
@@ -97,15 +108,20 @@ export const styles = {
       display: 'none'
     }
   }),
-  animate: css({
+  solid: css({
     position: 'absolute',
-    opacity: 0,
     marginTop: 1,
     marginLeft: 1,
-    border: `1px solid ${colors.primary}`
+    width: DEFAULT_SIZE,
+    height: DEFAULT_SIZE,
+    borderRadius: '50%',
+    border: `${colors.primary} 3px solid`,
+    animation: `
+      ${solidScaleframes} 1.8s cubic-bezier(0.8, 0, 0.8, 1) alternate both,
+      ${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
   }),
   svg: css({
-    animation: `${animateKeyframes} 4s cubic-bezier(0.5, 0, 0.5, 1) alternate`
+    animation: `${svgKeyframes} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
   })
 }
 
@@ -159,7 +175,7 @@ const IconLink = ({
     >
       <span {...styles.icon}>
         {animate && (
-          <span style={{ width: size, height: size, borderRadius: size / 2 }} {...styles.animate} />
+          <span {...styles.solid} />
         )}
 
         { // TODO: can style object be added condionally inline?

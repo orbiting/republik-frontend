@@ -51,7 +51,7 @@ const getExtraStyles = (mobileOnly, stacked) => {
 const solidScaleframes = css.keyframes({
   '0%': { transform: 'scale(0)' },
   '50%': { transform: 'scale(1.5)' },
-  '100%': { transform: 'scale(0)' }
+  '100%': { transform: 'scale(1.5)' }
 })
 
 const solidOpacityKeyframes = css.keyframes({
@@ -105,7 +105,7 @@ export const styles = {
   }),
   solid: css({
     position: 'absolute',
-    top: 0,
+    top: 0.5,
     left: 0,
     borderRadius: '50%',
     backgroundColor: colors.primary,
@@ -168,7 +168,8 @@ const IconLink = ({
         if (!shouldAnimate && entry.isIntersecting) {
           setShouldAnimate(true)
         }
-      }
+      },
+      { thresholds: 1 }
     )
     observer.observe(ref.current)
     return () => {
@@ -192,6 +193,7 @@ const IconLink = ({
           {...styles.solid}
           style={{ width: size, height: size }} />}
         <Icon fill={fill} size={size} {...shouldAnimate && css({
+          position: 'relative',
           animation: `${css.keyframes({
             '0%': { fill: fill || colors.text },
             '33%': { fill: colors.primary },

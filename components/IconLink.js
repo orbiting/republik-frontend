@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
 import {
-  mediaQueries
+  mediaQueries,
+  colors
 } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
@@ -47,6 +48,17 @@ const getExtraStyles = (mobileOnly, stacked) => {
   })
 }
 
+const solidScaleframes = css.keyframes({
+  '0%': { transform: 'scale(0)' },
+  '50%': { transform: 'scale(1.5)' },
+  '100%': { transform: 'scale(1.5)' }
+})
+
+const solidOpacityKeyframes = css.keyframes({
+  from: { opacity: 0.2 },
+  to: { opacity: 0 }
+})
+
 export const styles = {
   link: css({
     color: 'inherit',
@@ -70,6 +82,7 @@ export const styles = {
     }
   }),
   icon: css({
+    position: 'relative',
     verticalAlign: 'middle'
   }),
   text: css({
@@ -89,6 +102,17 @@ export const styles = {
     [mediaQueries.mUp]: {
       display: 'none'
     }
+  }),
+  solid: css({
+    position: 'absolute',
+    top: 0.5,
+    left: 0,
+    borderRadius: '50%',
+    backgroundColor: colors.primary,
+    animation: [
+      `${solidScaleframes} 1.8s cubic-bezier(0.8, 0, 0.8, 1) alternate both`,
+      `${solidOpacityKeyframes} 1.3s cubic-bezier(0.8, 0, 0.8, 1) both`
+    ].join(',')
   })
 }
 
@@ -117,6 +141,7 @@ const IconLink = ({
   href,
   target,
   fill,
+  animate,
   icon,
   children,
   size = DEFAULT_SIZE,
@@ -127,6 +152,30 @@ const IconLink = ({
   stacked
 }) => {
   const Icon = ICONS[icon]
+  const [shouldAnimate, setShouldAnimate] = useState(false)
+  const ref = useRef()
+
+  useEffect(() => {
+    if (!animate || !(
+      'IntersectionObserver' in window &&
+      'IntersectionObserverEntry' in window &&
+      'isIntersecting' in window.IntersectionObserverEntry.prototype
+    )) {
+      return
+    }
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        if (!shouldAnimate && entry.isIntersecting) {
+          setShouldAnimate(true)
+        }
+      },
+      { thresholds: 1 }
+    )
+    observer.observe(ref.current)
+    return () => {
+      observer.unobserve(ref.current)
+    }
+  }, [animate])
 
   return (
     <a
@@ -139,8 +188,18 @@ const IconLink = ({
       rel={target === '_blank' ? 'noopener' : ''}
       title={title}
     >
-      <span {...styles.icon}>
-        <Icon fill={fill} size={size} />
+      <span {...styles.icon} ref={ref}>
+        {shouldAnimate && <span
+          {...styles.solid}
+          style={{ width: size, height: size }} />}
+        <Icon fill={fill} size={size} {...shouldAnimate && css({
+          position: 'relative',
+          animation: `${css.keyframes({
+            '0%': { fill: fill || colors.text },
+            '33%': { fill: colors.primary },
+            '100%': { fill: fill || colors.text }
+          })} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
+        })} />
       </span>
       {children && (
         <span

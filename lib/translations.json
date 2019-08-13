@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-05T13:18:50.724Z",
+  "updated": "2019-08-13T13:31:47.000Z",
   "title": "live",
   "data": [
     {
@@ -4816,7 +4816,7 @@
     },
     {
       "key": "pages/about/employees/title",
-      "value": "{count} Macherinnen"
+      "value": "45 Macherinnen"
     },
     {
       "key": "pages/about/employees/text",

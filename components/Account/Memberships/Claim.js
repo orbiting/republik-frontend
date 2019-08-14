@@ -50,8 +50,8 @@ export const sanitizeVoucherCode = (value) => {
     .toUpperCase()
 }
 
-const relocateToFront = () => {
-  window.location = format({ pathname: '/' })
+const relocateToOnboarding = context => {
+  window.location = format({ pathname: `/einrichten`, query: { context } })
 }
 
 class ClaimMembership extends Component {
@@ -192,7 +192,7 @@ class ClaimMembership extends Component {
             context
           ])
         })
-        .then(relocateToFront)
+        .then(() => relocateToOnboarding(context))
         .catch(catchError)
 
       if (isAccessGrantVoucherCode(code)) {

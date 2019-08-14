@@ -61,7 +61,6 @@ const LatestComments = ({ t, data, fetchMore }) => {
                     discussion,
                     preview,
                     displayAuthor,
-                    published,
                     createdAt,
                     updatedAt,
                     tags,
@@ -78,7 +77,6 @@ const LatestComments = ({ t, data, fetchMore }) => {
                       t={t}
                       displayAuthor={displayAuthor}
                       preview={preview}
-                      published={published}
                       createdAt={createdAt}
                       updatedAt={updatedAt}
                       timeago={timeagoFromNow}

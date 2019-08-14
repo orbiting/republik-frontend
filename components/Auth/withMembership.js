@@ -103,7 +103,7 @@ export const UnauthorizedMessage = compose(
                 </Link>
               ),
               moreLink: (
-                <Link route='index'>
+                <Link key='index' route='index'>
                   <a {...linkRule}>
                     {t('withMembership/signIn/note/moreText')}
                   </a>

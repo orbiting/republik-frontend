@@ -24,7 +24,7 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, inNativeApp } = this.props
+    const { animate, title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, inNativeApp } = this.props
     const { userBookmark } = this.context
     const {
       discussionId,
@@ -40,6 +40,7 @@ class ArticleActionBar extends Component {
           url={url}
           title={title}
           shareOverlayTitle={t('article/share/title')}
+          animate={animate}
           fill={colors.text}
           dossierUrl={dossierUrl}
           onPdfClick={onPdfClick}

@@ -21,6 +21,7 @@ import NewsletterSubscriptions from './NewsletterSubscriptions'
 import NotificationOptions from './NotificationOptions'
 import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
+import Onboarding from './Onboarding'
 import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
@@ -98,18 +99,30 @@ class Account extends Component {
             {!hasAccessGrants && !hasMemberships && <UserGuidance />}
             <MainContainer>
               <Content>
-                {!merci && <H1>
-                  {t('Account/title', {
-                    nameOrEmail: me.name || me.email
-                  })}
-                </H1>}
+                {!merci && (
+                  <H1>
+                    {t('Account/title', {
+                      nameOrEmail: me.name || me.email
+                    })}
+                  </H1>
+                )}
+
                 <Anchors />
-                {inNativeIOSApp &&
-                <Box style={{ padding: 14, marginBottom: 20 }}>
-                  <P>
-                    {t('account/ios/box')}
-                  </P>
-                </Box>}
+
+                {inNativeIOSApp && (
+                  <Box style={{ padding: 14, marginBottom: 20 }}>
+                    <P>
+                      {t('account/ios/box')}
+                    </P>
+                  </Box>
+                )}
+
+                {hasActiveMemberships && (
+                  <AccountAnchor id='onboarding'>
+                    <Onboarding />
+                  </AccountAnchor>
+                )}
+
                 {!inNativeIOSApp &&
                   <AccountAnchor id='abos'>
                     <MembershipList highlightId={query.id} />

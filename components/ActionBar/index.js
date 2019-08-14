@@ -59,7 +59,8 @@ class ActionBar extends Component {
       showBookmark,
       documentId,
       bookmarked,
-      inNativeApp
+      inNativeApp,
+      animate
     } = this.props
     const { showShareOverlay } = this.state
 
@@ -130,7 +131,8 @@ class ActionBar extends Component {
           ])
           onAudioClick && onAudioClick()
         },
-        title: t('article/actionbar/audio')
+        title: t('article/actionbar/audio'),
+        animate
       },
       onGalleryClick && {
         icon: 'gallery',

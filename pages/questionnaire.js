@@ -1,5 +1,5 @@
 import React from 'react'
-import Page from '../components/Questionnaire/Page'
+import Page from '../components/Questionnaire/MSSPage'
 import { compose } from 'react-apollo'
 import { enforceMembership } from '../components/Auth/withMembership'
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'

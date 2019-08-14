@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-05T13:18:50.724Z",
+  "updated": "2019-08-14T11:08:24.009Z",
   "title": "live",
   "data": [
     {
@@ -328,6 +328,10 @@
     },
     {
       "key": "marketing/preview/button/label",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/trial/button/label",
       "value": "Probe lesen"
     },
     {
@@ -4919,6 +4923,18 @@
       "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
     },
     {
+      "key": "Onboarding/Page/trial/title",
+      "value": "Ihre «Tour de la Republik» 🚴‍"
+    },
+    {
+      "key": "Onboarding/Page/trial/preface",
+      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Und wir versuchen Sie ganz unumwunden von uns zu überzeugen."
+    },
+    {
+      "key": "Onboarding/Page/trial/introduction",
+      "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
+    },
+    {
       "key": "Onboarding/Page/button",
       "value": "Magazin lesen"
     },
@@ -5069,6 +5085,38 @@
     {
       "key": "Onboarding/Sections/Profile/button/continue",
       "value": "Später"
+    },
+    {
+      "key": "Marketing/Trial/email/error/empty",
+      "value": "E-Mail-Adresse fehlt"
+    },
+    {
+      "key": "Marketing/Trial/email/error/invalid",
+      "value": "E-Mail-Adresse ungültig"
+    },
+    {
+      "key": "Marketing/Trial/email/label",
+      "value": "Ihre E-Mail-Adresse"
+    },
+    {
+      "key": "Marketing/Trial/error/title",
+      "value": "Fehler"
+    },
+    {
+      "key": "Marketing/Trial/button/label",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "trial/meta/pageTitle",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "trial/meta/title",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "trial/meta/description",
+      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
     }
   ]
 }

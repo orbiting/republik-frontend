@@ -1,9 +1,7 @@
 import React from 'react'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import { Router } from '../lib/routes'
 import Frame from '../components/Frame'
 import Trial from '../components/Marketing/Trial'
 import withT from '../lib/withT'
@@ -28,34 +26,4 @@ const Page = ({ router, t }) => {
   )
 }
 
-export const TRIAL_QUERY = gql`
-  query trailPrequisit {
-    me {
-      id
-      activeMembership {
-        id
-      }
-      accessGrants {
-        id
-      }
-    }
-  }
-`
-
-const maybeRedirect = graphql(TRIAL_QUERY, {
-  props: ({ data, ownProps: { serverContext } }) => {
-    const hasActiveMembership = !!data.me && !!data.me.activeMembership
-    const hasAccessGrant = !!data.me && !!data.me.accessGrants && data.me.accessGrants.length > 0
-
-    if (hasActiveMembership || hasAccessGrant) {
-      if (serverContext) {
-        serverContext.res.redirect(302, '/')
-        serverContext.res.end()
-      } else if (process.browser) {
-        Router.replaceRoute('index', {})
-      }
-    }
-  }
-})
-
-export default compose(maybeRedirect, withRouter, withT)(Page)
+export default compose(withRouter, withT)(Page)

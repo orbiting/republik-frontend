@@ -5,17 +5,21 @@ import { css } from 'glamor'
 import { format } from 'url'
 import isEmail from 'validator/lib/isEmail'
 
-import { withSignIn } from '../Auth/SignIn'
-import Consents, { getConsentsError } from '../Pledge/Consents'
 import ErrorMessage from '../ErrorMessage'
+import { withSignIn } from '../Auth/SignIn'
 import SwitchBoard from '../Auth/SwitchBoard'
+import Consents, { getConsentsError } from '../Pledge/Consents'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
+import { Router } from '../../lib/routes'
+import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 import { Button, Field, InlineSpinner, Interaction, colors } from '@project-r/styleguide'
 
 const { H1, P } = Interaction
+
+const dayFormat = timeFormat('%e. %B %Y')
 
 const styles = {
   errorMessages: css({
@@ -34,26 +38,36 @@ const styles = {
 
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
-const REQUEST_ACCESS = gql`
-  mutation requestAccess($campaignId: ID!) {
-    requestAccess(campaignId: $campaignId) {
-      id
-      endAt
-    }
-  }
-`
-
 const toOnboarding = () => {
   window.location = format({ pathname: '/einrichten', query: { context: 'trial' } })
 }
 
-const Trial = (props) => {
-  const { me, t } = props
+const toFront = () => {
+  Router.replaceRoute('index', {})
+}
 
-  const [consents, setConsents] = useState()
+const Trial = (props) => {
+  const { isTrialEligible, me, t } = props
+
+  if (!isTrialEligible) {
+    const { viaActiveMembership, viaAccessGrant } = props.trialEligibility
+    const until = viaActiveMembership.until || viaAccessGrant.until
+
+    return (
+      <Fragment>
+        <H1>Sie haben bereits Zugriff</H1>
+        <P style={{ marginTop: 40, marginBottom: 40 }}>
+          Ihr Konto unter {me.email} hat bereits bis zum {dayFormat(new Date(until))} Zugriff auf alle unsere Inhalte.
+        </P>
+        <Button primary onClick={toFront}>Magazin lesen</Button>
+      </Fragment>
+    )
+  }
+
+  const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
-  const [serverError, setServerError] = useState()
-  const [phrase, setPhrase] = useState()
+  const [serverError, setServerError] = useState('')
+  const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
@@ -72,7 +86,7 @@ const Trial = (props) => {
   }
 
   const requestAccess = e => {
-    e.preventDefault && e.preventDefault()
+    e && e.preventDefault && e.preventDefault()
 
     setLoading(true)
     setServerError()
@@ -114,6 +128,12 @@ const Trial = (props) => {
       })
   }
 
+  const handleSignInSuccess = () => {
+    props.trialRefetch()
+      .then(handleTrialEligibility)
+      .then(({ isTrialEligible }) => isTrialEligible && requestAccess())
+  }
+
   const reset = () => {
     setLoading(false)
     setSigningIn(false)
@@ -128,8 +148,7 @@ const Trial = (props) => {
       <H1>Danke für Ihre Neugier!</H1>
       <P style={{ marginTop: 40 }}>
         Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug
-        durch die Republik ein. Gerne schicken wir Ihnen zudem einen aktuellen Newsletter, dann sehen
-        Sie einen Tag lang, worüber wir berichten.
+        durch die Republik ein.
       </P>
 
       <form onSubmit={requestAccess}>
@@ -187,7 +206,7 @@ const Trial = (props) => {
             alternativeFirstFactors={[]}
             onCancel={reset}
             onTokenTypeChange={reset}
-            onSuccess={requestAccess} />
+            onSuccess={handleSignInSuccess} />
         </div>
       )}
 
@@ -197,7 +216,58 @@ const Trial = (props) => {
   )
 }
 
-const requestAccess = graphql(
+const TRIAL_QUERY = gql`
+  query getTrialEligibility {
+    me {
+      id
+      activeMembership {
+        id
+        endDate
+      }
+      accessGrants {
+        id
+        endAt
+      }
+    }
+  }
+`
+
+const handleTrialEligibility = ({ data }) => {
+  const hasActiveMembership = !!data.me && !!data.me.activeMembership
+  const hasAccessGrant = !!data.me && !!data.me.accessGrants && data.me.accessGrants.length > 0
+
+  const isTrialEligible = !hasActiveMembership && !hasAccessGrant
+
+  const trialEligibility = {
+    viaActiveMembership: {
+      until: hasActiveMembership && data.me.activeMembership.endDate
+    },
+    viaAccessGrant: {
+      until: hasAccessGrant && data.me.accessGrants.reduce(
+        (acc, grant) => new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
+        new Date()
+      )
+    }
+  }
+
+  return { isTrialEligible, trialEligibility, trialRefetch: data.refetch }
+}
+
+const withTrialEligibility = graphql(
+  TRIAL_QUERY,
+  { props: handleTrialEligibility }
+)
+
+const REQUEST_ACCESS = gql`
+  mutation requestAccess($campaignId: ID!) {
+    requestAccess(campaignId: $campaignId) {
+      id
+      endAt
+    }
+  }
+`
+
+const withRequestAccess = graphql(
   REQUEST_ACCESS,
   {
     props: ({ mutate }) => ({
@@ -208,4 +278,4 @@ const requestAccess = graphql(
   }
 )
 
-export default compose(requestAccess, withSignIn, withMe, withT)(Trial)
+export default compose(withTrialEligibility, withRequestAccess, withSignIn, withMe, withT)(Trial)

@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { graphql, compose } from 'react-apollo'
 import { css } from 'glamor'
 
-import { WithoutMembership } from '../Auth/withMembership'
+import { WithoutMembership, WithoutActiveMembership } from '../Auth/withMembership'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import { trackEventOnClick } from '../../lib/piwik'
@@ -117,8 +117,12 @@ export const Before = compose(
   withT,
   graphql(query),
   withInNativeApp
-)(({ t, data: { membershipStats }, inNativeIOSApp, variation, expanded }) => (
+)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, expanded }) => (
   <WithoutMembership render={() => {
+    if (me && me.activeMembership) {
+      return null
+    }
+
     if (inNativeIOSApp) {
       return (
         <div {...styles.blackContainer}>
@@ -162,7 +166,7 @@ export const After = compose(
   graphql(query),
   withInNativeApp
 )(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, bottomBarRef }) => (
-  <WithoutMembership render={() => {
+  <WithoutActiveMembership render={() => {
     const translationPrefix = `article/payNote/${variation}`
     return (
       <div {...styles.secondaryContainer}>
@@ -199,12 +203,12 @@ export const After = compose(
                   <div {...styles.aside}>
                     {t.elements('article/payNote/secondaryAction/text', {
                       link: (
-                        <a key='preview' {...linkRule} style={{ whiteSpace: 'nowrap' }}
-                          href={routes.find(r => r.name === 'preview').toPath()}
+                        <a key='trial' {...linkRule} style={{ whiteSpace: 'nowrap' }}
+                          href={routes.find(r => r.name === 'trial').toPath()}
                           onClick={trackEventOnClick(
                             ['PayNote', 'preview after', variation],
                             () => {
-                              Router.pushRoute('preview').then(() => window.scrollTo(0, 0))
+                              Router.pushRoute('trial').then(() => window.scrollTo(0, 0))
                             }
                           )}>
                           {t('article/payNote/secondaryAction/linkText')}

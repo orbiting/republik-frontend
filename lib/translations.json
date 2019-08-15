@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-14T11:08:24.009Z",
+  "updated": "2019-08-15T15:47:00.950Z",
   "title": "live",
   "data": [
     {
@@ -4820,7 +4820,7 @@
     },
     {
       "key": "pages/about/employees/title",
-      "value": "{count} Macherinnen"
+      "value": "45 Macherinnen"
     },
     {
       "key": "pages/about/employees/text",
@@ -5085,6 +5085,26 @@
     {
       "key": "Onboarding/Sections/Profile/button/continue",
       "value": "Später"
+    },
+    {
+      "key": "Marketing/Trial/isNotTrialEligible/heading",
+      "value": "Sie haben bereits Zugriff"
+    },
+    {
+      "key": "Marketing/Trial/isNotTrialEligible/paragraph",
+      "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
+    },
+    {
+      "key": "Marketing/Trial/isNotTrialEligible/button/label",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "Marketing/Trial/isTrialEligible/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Marketing/Trial/isTrialEligible/paragraph",
+      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
     },
     {
       "key": "Marketing/Trial/email/error/empty",

@@ -46,14 +46,17 @@ const Trial = (props) => {
 
     return (
       <Fragment>
-        <H1>Sie haben bereits Zugriff</H1>
+        <H1>{t('Marketing/Trial/isNotTrialEligible/heading')}</H1>
         <P style={{ marginTop: 40, marginBottom: 40 }}>
-          Ihr Konto unter {me.email} hat bereits bis zum {dayFormat(new Date(until))} Zugriff auf alle unsere Inhalte.
+          {t('Marketing/Trial/isNotTrialEligible/paragraph', {
+            email: me.email,
+            until: dayFormat(new Date(until))
+          })}
         </P>
         <Button
           primary
           onClick={() => Router.pushRoute('index', {})}>
-            Magazin lesen
+          {t('Marketing/Trial/isNotTrialEligible/button/label')}
         </Button>
       </Fragment>
     )
@@ -144,10 +147,9 @@ const Trial = (props) => {
 
   return (
     <Fragment>
-      <H1>Danke für Ihre Neugier!</H1>
+      <H1>{t('Marketing/Trial/isTrialEligible/heading')}</H1>
       <P style={{ marginTop: 40 }}>
-        Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug
-        durch die Republik ein.
+        {t('Marketing/Trial/isTrialEligible/paragraph')}
       </P>
 
       <form onSubmit={requestAccess}>

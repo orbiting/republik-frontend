@@ -2,7 +2,6 @@ import React, { useState, Fragment } from 'react'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import { format } from 'url'
 import isEmail from 'validator/lib/isEmail'
 
 import ErrorMessage from '../ErrorMessage'
@@ -38,14 +37,6 @@ const styles = {
 
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
-const toOnboarding = () => {
-  window.location = format({ pathname: '/einrichten', query: { context: 'trial' } })
-}
-
-const toFront = () => {
-  Router.replaceRoute('index', {})
-}
-
 const Trial = (props) => {
   const { isTrialEligible, me, t } = props
 
@@ -59,7 +50,11 @@ const Trial = (props) => {
         <P style={{ marginTop: 40, marginBottom: 40 }}>
           Ihr Konto unter {me.email} hat bereits bis zum {dayFormat(new Date(until))} Zugriff auf alle unsere Inhalte.
         </P>
-        <Button primary onClick={toFront}>Magazin lesen</Button>
+        <Button
+          primary
+          onClick={() => Router.pushRoute('index', {})}>
+            Magazin lesen
+        </Button>
       </Fragment>
     )
   }
@@ -112,31 +107,35 @@ const Trial = (props) => {
           setLoading(false)
           setSigningIn(true)
         })
-        .catch(error => {
-          setServerError(error)
-          setLoading(false)
-        })
+        .catch(catchError)
     }
 
     setSigningIn(false)
 
     props.requestAccess()
-      .then(() => toOnboarding())
-      .catch(error => {
-        setServerError(error)
-        setLoading(false)
-      })
+      .then(() =>
+        props.meRefetch()
+          .then(() => Router.replaceRoute('onboarding', { context: 'trial' }))
+      )
+      .catch(catchError)
   }
 
-  const handleSignInSuccess = () => {
-    props.trialRefetch()
-      .then(handleTrialEligibility)
-      .then(({ isTrialEligible }) => isTrialEligible && requestAccess())
+  const catchError = error => {
+    setServerError(error)
+    reset()
   }
 
   const reset = () => {
     setLoading(false)
     setSigningIn(false)
+  }
+
+  const onSuccessSwitchBoard = () => {
+    setSigningIn(false)
+
+    props.trialRefetch()
+      .then(handleTrialEligibility)
+      .then(({ isTrialEligible }) => isTrialEligible && requestAccess())
   }
 
   const errorMessages = [email.error]
@@ -206,7 +205,7 @@ const Trial = (props) => {
             alternativeFirstFactors={[]}
             onCancel={reset}
             onTokenTypeChange={reset}
-            onSuccess={handleSignInSuccess} />
+            onSuccess={onSuccessSwitchBoard} />
         </div>
       )}
 

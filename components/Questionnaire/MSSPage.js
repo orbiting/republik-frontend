@@ -15,6 +15,7 @@ import {
   InlineSpinner,
   fontFamilies
 } from '@project-r/styleguide'
+import { Chart, ChartTitle } from '@project-r/styleguide/chart'
 
 import MSSQuestion from './MSSQuestion'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -115,7 +116,7 @@ class Page extends Component {
           }
 
           // handle questions
-          const { questionnaire: { questions, userMainstreamScore } } = data
+          const { questionnaire: { questions, userMainstreamScore, mainstreamScoreHistogram } } = data
           const { error, submitting, updating } = this.state
           const questionCount = questions.filter(Boolean).length
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
@@ -136,7 +137,6 @@ class Page extends Component {
                             : null
                       }
                     </div>
-                    <P {...styles.strong}>Ihr Mainstream-Score: {userMainstreamScore}</P>
                   </>
                 }
               </div>
@@ -152,6 +152,36 @@ class Page extends Component {
                   )
                 )
               }
+              <div>
+                <br />
+                { questionCount === userAnswerCount &&
+                  <div>
+                    <P {...styles.strong}>Sie haben {userMainstreamScore}/100 Mainstream Punkte.</P>
+                    <br />
+                    <P>Von den XXX Teilnehmerinnen haben XX genau so geantwortet wie Sie.</P>
+                    <P>XX haben genau die gegenteiligen Antworten.</P>
+                    <br />
+                    <div style={{ minHeight: 320 }}>
+                      <ChartTitle>Verteilung der Einigkeit</ChartTitle>
+                      <Chart
+                        config={{
+                          type: 'Bar',
+                          numberFormat: 's',
+                          color: 'score',
+                          inlineValue: true,
+                          inlineValueUnit: 'P.',
+                          // inlineLabel: 'score',
+                          inlineSecondaryLabel: 'score',
+                          sort: 'none',
+                          colorSort: 'none',
+                          domain: [0, mainstreamScoreHistogram.reduce((agg, v) => agg + v.count, 0)]
+                        }}
+                        values={mainstreamScoreHistogram.map(b => ({ ...b, value: String(b.count) }))}
+                      />
+                    </div>
+                  </div>
+                }
+              </div>
             </div>
           )
         }} />
@@ -189,6 +219,7 @@ query getQuestionnaire($slug: String!) {
     userIsEligible
     turnout { eligible submitted }
     userMainstreamScore
+    mainstreamScoreHistogram
     questions {
       ... on QuestionInterface {
         id
@@ -215,7 +246,6 @@ query getQuestionnaire($slug: String!) {
           }
         }
         turnout {skipped submitted}
-        userMainstreamScore
       }
     }
   }

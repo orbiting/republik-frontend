@@ -71,7 +71,7 @@ class ChoiceQuestion extends Component {
   }
 
   render () {
-    const { question: { id, text, userAnswer, options, results, userMainstreamScore } } = this.props
+    const { question: { id, text, userAnswer, options, results } } = this.props
     const optionsWithResult = options.map(o => ({
       ...o,
       result: results.find(r => r.option.value === o.value)
@@ -125,7 +125,6 @@ class ChoiceQuestion extends Component {
               }
             </div>
           )}
-          <div>{userMainstreamScore}</div>
         </div>
       </div>
     )

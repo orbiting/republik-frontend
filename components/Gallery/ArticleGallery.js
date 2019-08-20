@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Gallery } from '@project-r/styleguide/lib/components/Gallery'
+import Gallery from './Gallery'
 import get from 'lodash/get'
 import {
   imageSizeInfo
@@ -27,14 +27,12 @@ const findFigures = (node, acc = []) => {
 
 const getImageProps = (node) => {
   const src = get(node, 'children[0].children[0].url', '')
-  const alt = get(node, 'children[0].children[0].alt', '')
-  const caption = get(node, 'children[1].children[0].value', '')
-  const credit = get(node, 'children[1].children[1].children[0].value', '')
+  const title = get(node, 'children[1].children[0].value', '')
+  const author = get(node, 'children[1].children[1].children[0].value', '')
   return {
     src,
-    alt,
-    caption,
-    credit
+    title,
+    author
   }
 }
 
@@ -50,7 +48,7 @@ class ArticleGallery extends Component {
     this.state = {
       show: false,
       startItemSrc: null,
-      ...this.getDerivedStateFromProps(props)
+      ...ArticleGallery.getDerivedStateFromProps(props)
     }
 
     this.toggleGallery = (nextSrc = '') => {
@@ -87,7 +85,7 @@ class ArticleGallery extends Component {
     })
   }
 
-  getDerivedStateFromProps (nextProps) {
+  static getDerivedStateFromProps (nextProps) {
     return {
       galleryItems: getGalleryItems(nextProps)
     }

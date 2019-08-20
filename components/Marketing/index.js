@@ -16,7 +16,8 @@ import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 import {
-  CROWDFUNDING
+  CROWDFUNDING,
+  TRIAL_CAMPAIGN
 } from '../../lib/constants'
 
 import {
@@ -29,6 +30,7 @@ import { getTeasersFromDocument } from '../Overview/utils'
 import Accordion from '../Pledge/Accordion'
 import Cards from './Cards'
 import UserGuidance from '../Account/UserGuidance'
+import TrialForm from '../Trial/Form'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -225,6 +227,12 @@ const MarketingPage = props => {
         <Accordion
           crowdfundingName={CROWDFUNDING}
           filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']} />
+
+        <div {...sharedStyles.spacer} />
+        <Interaction.H3>
+          {t('marketing/trial/title')}
+        </Interaction.H3>
+        <TrialForm accessCampaignId={TRIAL_CAMPAIGN} narrow />
 
         <div {...sharedStyles.spacer} />
         <Editorial.Subhead {...styles.h2}>

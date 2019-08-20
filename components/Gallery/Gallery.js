@@ -1,5 +1,7 @@
 import React from 'react'
 
+import withT from '../../lib/withT'
+
 import {
   fontFamilies,
   mediaQueries,
@@ -538,7 +540,7 @@ const removeQuery = (url = '') => url.split('?')[0]
 
 const MAX_SPREAD_ZOOM = 2
 
-const Gallery = ({ items, onClose, startItemSrc, children }) => {
+const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
   const galleryRef = React.useRef(null)
 
   React.useEffect(() => {
@@ -557,7 +559,7 @@ const Gallery = ({ items, onClose, startItemSrc, children }) => {
         preload: [1, 2],
         barsSize: { top: 65, bottom: 'auto' },
         history: false,
-        errorMsg: <div class='pswp__error-msg'><a href='%url%'>Das Bild</a> konnte nicht geladen werden.</div>, // TODO: move to translations
+        errorMsg: `<div class="pswp__error-msg"><a href="%url%" target="_blank">${t('article/gallery/error')}</a></div>`,
         addCaptionHTMLFn: (item, captionEl) => {
           if (!item.title) {
             captionEl.children[0].innerHTML = ''
@@ -577,7 +579,7 @@ const Gallery = ({ items, onClose, startItemSrc, children }) => {
 
       gallery.listen('gettingData', function (index, item) {
         const sizeInfo = imageSizeInfo(item.src)
-        const maxWidth = Math.min(sizeInfo.width, Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500)
+        const maxWidth = Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500
         const resizeUrl = imageResizeUrl(item.src, maxWidth)
         const aspectRatio = sizeInfo.height / sizeInfo.width
         item.src = resizeUrl
@@ -637,4 +639,4 @@ const Gallery = ({ items, onClose, startItemSrc, children }) => {
   )
 }
 
-export default Gallery
+export default withT(Gallery)

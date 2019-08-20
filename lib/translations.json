@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-13T13:31:47.000Z",
+  "updated": "2019-08-20T19:48:00.236Z",
   "title": "live",
   "data": [
     {
@@ -3293,6 +3293,10 @@
     {
       "key": "article/progressprompt/description/settings/link",
       "value": "Konto"
+    },
+    {
+      "key": "article/gallery/error",
+      "value": "Das Bild konnte nicht geladen werden."
     },
     {
       "key": "progress/restore/time",

@@ -3,7 +3,7 @@ import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 
 import Frame from '../components/Frame'
-import Trial from '../components/Marketing/Trial'
+import Trial from '../components/Trial/Page'
 import withT from '../lib/withT'
 import {
   CDN_FRONTEND_BASE_URL,

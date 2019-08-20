@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-15T15:47:00.950Z",
+  "updated": "2019-08-20T13:42:37.844Z",
   "title": "live",
   "data": [
     {
@@ -437,6 +437,10 @@
     {
       "key": "marketing/offers/title",
       "value": "Angebote"
+    },
+    {
+      "key": "marketing/trial/title",
+      "value": "Probe lesen"
     },
     {
       "key": "marketing/monthly/button/label",
@@ -5087,43 +5091,43 @@
       "value": "Später"
     },
     {
-      "key": "Marketing/Trial/isNotTrialEligible/heading",
+      "key": "Trial/Page/isNotTrialEligible/heading",
       "value": "Sie haben bereits Zugriff"
     },
     {
-      "key": "Marketing/Trial/isNotTrialEligible/paragraph",
+      "key": "Trial/Page/isNotTrialEligible/paragraph",
       "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
     },
     {
-      "key": "Marketing/Trial/isNotTrialEligible/button/label",
+      "key": "Trial/Page/isNotTrialEligible/button/label",
       "value": "Magazin lesen"
     },
     {
-      "key": "Marketing/Trial/isTrialEligible/heading",
+      "key": "Trial/Page/isTrialEligible/heading",
       "value": "Danke für Ihre Neugier!"
     },
     {
-      "key": "Marketing/Trial/isTrialEligible/paragraph",
+      "key": "Trial/Page/isTrialEligible/paragraph",
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
     },
     {
-      "key": "Marketing/Trial/email/error/empty",
+      "key": "Trial/Form/email/error/empty",
       "value": "E-Mail-Adresse fehlt"
     },
     {
-      "key": "Marketing/Trial/email/error/invalid",
+      "key": "Trial/Form/email/error/invalid",
       "value": "E-Mail-Adresse ungültig"
     },
     {
-      "key": "Marketing/Trial/email/label",
+      "key": "Trial/Form/email/label",
       "value": "Ihre E-Mail-Adresse"
     },
     {
-      "key": "Marketing/Trial/error/title",
+      "key": "Trial/Form/error/title",
       "value": "Fehler"
     },
     {
-      "key": "Marketing/Trial/button/label",
+      "key": "Trial/Form/button/label",
       "value": "Probe lesen"
     },
     {

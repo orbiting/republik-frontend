@@ -1,24 +1,20 @@
 import React, { useState, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
+import { handleTrialEligibility } from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
-import { TRIAL_CAMPAIGN } from '../../lib/constants'
 import { Router } from '../../lib/routes'
-import { timeFormat } from '../../lib/utils/format'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import { Button, Field, InlineSpinner, Interaction, colors } from '@project-r/styleguide'
-
-const { H1, P } = Interaction
-
-const dayFormat = timeFormat('%e. %B %Y')
+import { Button, Field, InlineSpinner, colors } from '@project-r/styleguide'
 
 const styles = {
   errorMessages: css({
@@ -37,30 +33,8 @@ const styles = {
 
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
-const Trial = (props) => {
-  const { isTrialEligible, me, t } = props
-
-  if (!isTrialEligible) {
-    const { viaActiveMembership, viaAccessGrant } = props.trialEligibility
-    const until = viaActiveMembership.until || viaAccessGrant.until
-
-    return (
-      <Fragment>
-        <H1>{t('Marketing/Trial/isNotTrialEligible/heading')}</H1>
-        <P style={{ marginTop: 40, marginBottom: 40 }}>
-          {t('Marketing/Trial/isNotTrialEligible/paragraph', {
-            email: me.email,
-            until: dayFormat(new Date(until))
-          })}
-        </P>
-        <Button
-          primary
-          onClick={() => Router.pushRoute('index', {})}>
-          {t('Marketing/Trial/isNotTrialEligible/button/label')}
-        </Button>
-      </Fragment>
-    )
-  }
+const Form = (props) => {
+  const { narrow, me, t } = props
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
@@ -76,8 +50,8 @@ const Trial = (props) => {
       ...email,
       value,
       error: (
-        (value.trim().length <= 0 && t('Marketing/Trial/email/error/empty')) ||
-        (!isEmail(value) && t('Marketing/Trial/email/error/invalid'))
+        (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
+        (!isEmail(value) && t('Trial/Form/email/error/invalid'))
       ),
       dirty: shouldValidate
     })
@@ -128,7 +102,9 @@ const Trial = (props) => {
     reset()
   }
 
-  const reset = () => {
+  const reset = e => {
+    e && e.preventDefault && e.preventDefault()
+
     setLoading(false)
     setSigningIn(false)
   }
@@ -147,22 +123,17 @@ const Trial = (props) => {
 
   return (
     <Fragment>
-      <H1>{t('Marketing/Trial/isTrialEligible/heading')}</H1>
-      <P style={{ marginTop: 40 }}>
-        {t('Marketing/Trial/isTrialEligible/paragraph')}
-      </P>
-
       <form onSubmit={requestAccess}>
         {!me && (
-          <div style={{ opacity: (signingIn) ? 0.6 : 1, marginTop: 20 }}>
+          <div style={{ opacity: (signingIn) ? 0.6 : 1, marginTop: narrow ? 0 : 20 }}>
             <Field
-              label={t('Marketing/Trial/email/label')}
+              label={t('Trial/Form/email/label')}
               value={email.value}
               error={email.dirty && email.error}
               dirty={email.dirty}
               disabled={signingIn}
               onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
-            <div style={{ marginTop: 40 }}>
+            <div style={{ marginTop: narrow ? 10 : 40 }}>
               <Consents
                 required={REQUIRED_CONSENTS}
                 accepted={consents}
@@ -174,7 +145,7 @@ const Trial = (props) => {
 
         {showErrors && errorMessages.length > 0 && (
           <div {...styles.errorMessages}>
-            {t('Marketing/Trial/error/title')}<br />
+            {t('Trial/Form/error/title')}<br />
             <ul>
               {errorMessages.map((error, i) => (
                 <li key={i}>{error}</li>
@@ -184,7 +155,7 @@ const Trial = (props) => {
         )}
 
         {!signingIn && (
-          <div {...styles.button}>
+          <div {...merge(styles.button, narrow && { marginTop: 20 })}>
             {loading
               ? <InlineSpinner />
               : <Button
@@ -192,7 +163,7 @@ const Trial = (props) => {
                 type='submit'
                 block
                 onClick={requestAccess}
-                disabled={showErrors && errorMessages.length > 0}>{t('Marketing/Trial/button/label')}</Button>
+                disabled={showErrors && errorMessages.length > 0}>{t('Trial/Form/button/label')}</Button>
             }
           </div>
         )}
@@ -217,47 +188,10 @@ const Trial = (props) => {
   )
 }
 
-const TRIAL_QUERY = gql`
-  query getTrialEligibility {
-    me {
-      id
-      activeMembership {
-        id
-        endDate
-      }
-      accessGrants {
-        id
-        endAt
-      }
-    }
-  }
-`
-
-const handleTrialEligibility = ({ data }) => {
-  const hasActiveMembership = !!data.me && !!data.me.activeMembership
-  const hasAccessGrant = !!data.me && !!data.me.accessGrants && data.me.accessGrants.length > 0
-
-  const isTrialEligible = !hasActiveMembership && !hasAccessGrant
-
-  const trialEligibility = {
-    viaActiveMembership: {
-      until: hasActiveMembership && data.me.activeMembership.endDate
-    },
-    viaAccessGrant: {
-      until: hasAccessGrant && data.me.accessGrants.reduce(
-        (acc, grant) => new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
-        new Date()
-      )
-    }
-  }
-
-  return { isTrialEligible, trialEligibility, trialRefetch: data.refetch }
+Form.propTypes = {
+  accessCampaignId: PropTypes.string.isRequired,
+  narrow: PropTypes.bool
 }
-
-const withTrialEligibility = graphql(
-  TRIAL_QUERY,
-  { props: handleTrialEligibility }
-)
 
 const REQUEST_ACCESS = gql`
   mutation requestAccess($campaignId: ID!) {
@@ -271,12 +205,12 @@ const REQUEST_ACCESS = gql`
 const withRequestAccess = graphql(
   REQUEST_ACCESS,
   {
-    props: ({ mutate }) => ({
+    props: ({ mutate, ownProps: { accessCampaignId } }) => ({
       requestAccess: () => mutate({
-        variables: { campaignId: TRIAL_CAMPAIGN }
+        variables: { campaignId: accessCampaignId }
       })
     })
   }
 )
 
-export default compose(withTrialEligibility, withRequestAccess, withSignIn, withMe, withT)(Trial)
+export default compose(withRequestAccess, withSignIn, withMe, withT)(Form)

@@ -163,7 +163,9 @@ const Form = (props) => {
                 type='submit'
                 block
                 onClick={requestAccess}
-                disabled={showErrors && errorMessages.length > 0}>{t('Trial/Form/button/label')}</Button>
+                disabled={showErrors && errorMessages.length > 0}>
+                {t(`Trial/Form/button/${me ? 'withMe' : 'withoutMe'}/label`)}
+              </Button>
             }
           </div>
         )}

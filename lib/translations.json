@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-20T13:42:37.844Z",
+  "updated": "2019-08-20T14:41:19.989Z",
   "title": "live",
   "data": [
     {
@@ -5107,7 +5107,11 @@
       "value": "Danke für Ihre Neugier!"
     },
     {
-      "key": "Trial/Page/isTrialEligible/paragraph",
+      "key": "Trial/Page/isTrialEligible/withMe/introduction",
+      "value": "Sie haben kein Abonnement oder Mitgliedschaft. Gerne laden wir Sie auf einen Streifzug durch die Republik ein."
+    },
+    {
+      "key": "Trial/Page/isTrialEligible/withoutMe/introduction",
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
     },
     {
@@ -5127,8 +5131,12 @@
       "value": "Fehler"
     },
     {
-      "key": "Trial/Form/button/label",
-      "value": "Probe lesen"
+      "key": "Trial/Form/button/withMe/label",
+      "value": "Aktivieren"
+    },
+    {
+      "key": "Trial/Form/button/withoutMe/label",
+      "value": "Anmelden"
     },
     {
       "key": "trial/meta/pageTitle",

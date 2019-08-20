@@ -45,7 +45,7 @@ const Page = (props) => {
     <Fragment>
       <H1>{t('Trial/Page/isTrialEligible/heading')}</H1>
       <P style={{ marginTop: 40 }}>
-        {t('Trial/Page/isTrialEligible/paragraph')}
+        {t(`Trial/Page/isTrialEligible/${me ? 'withMe' : 'withoutMe'}/introduction`)}
       </P>
       <Form accessCampaignId={TRIAL_CAMPAIGN} />
     </Fragment>

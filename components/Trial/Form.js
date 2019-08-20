@@ -5,7 +5,7 @@ import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
 
-import { handleTrialEligibility } from './withTrialEligibility'
+import withTrialEligibility, { handleTrialEligibility } from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
 import SwitchBoard from '../Auth/SwitchBoard'
@@ -215,4 +215,4 @@ const withRequestAccess = graphql(
   }
 )
 
-export default compose(withRequestAccess, withSignIn, withMe, withT)(Form)
+export default compose(withTrialEligibility, withRequestAccess, withSignIn, withMe, withT)(Form)

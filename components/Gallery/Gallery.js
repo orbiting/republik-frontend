@@ -298,6 +298,12 @@ ${mediaQueries.mUp} {
   background-position: 0 -40px;
 }
 
+${mediaQueries.mUp} {
+  .pswp__button--close {
+    background-position: 15px -40px;
+  }
+}
+
 /* no arrows on touch screens */
 .pswp--touch .pswp__button--arrow--left,
 .pswp--touch .pswp__button--arrow--right {
@@ -366,6 +372,7 @@ ${mediaQueries.mUp} {
   .pswp__counter {
     top: 5px;
     left: 70px;
+    padding: 0;
   }
 }
 
@@ -382,12 +389,6 @@ ${mediaQueries.mUp} {
   min-height: 50px;
 }
 
-${mediaQueries.mUp} {
-  .pswp__caption {
-    padding: 15px 70px;
-  }
-}
-
 .pswp__caption small {
   font-size: 11px;
   color: #bbb;
@@ -398,7 +399,7 @@ ${mediaQueries.mUp} {
   text-align: left;
   margin: 0 auto;
   font-size: 12px;
-  padding: 10px;
+  padding: 15px;
   line-height: 15px;
   color: #ccc;
 }
@@ -406,7 +407,7 @@ ${mediaQueries.mUp} {
 ${mediaQueries.mUp} {
   .pswp__caption__center {
     font-size: 15px;
-    padding: 0 70px;
+    padding: 15px 70px;
     line-height: 18px;
   }
 }
@@ -577,6 +578,7 @@ const Gallery = ({ items, onClose, startItemSrc, children }) => {
       gallery.listen('gettingData', function (index, item) {
         const sizeInfo = imageSizeInfo(item.src)
         const maxWidth = Math.min(sizeInfo.width, Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500)
+        console.log('maxWidth', maxWidth)
         const resizeUrl = imageResizeUrl(item.src, maxWidth)
         const aspectRatio = sizeInfo.height / sizeInfo.width
         item.src = resizeUrl

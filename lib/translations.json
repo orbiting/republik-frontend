@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-22T10:20:38.059Z",
+  "updated": "2019-08-22T12:29:00.225Z",
   "title": "live",
   "data": [
     {
@@ -335,7 +335,7 @@
       "value": "Probe lesen"
     },
     {
-      "key": "marketing/trial/magazine/label",
+      "key": "marketing/magazine/button/label",
       "value": "Magazin lesen"
     },
     {

@@ -14,7 +14,7 @@ import {
 
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import {
   CROWDFUNDING,
   TRIAL_CAMPAIGN
@@ -47,7 +47,7 @@ const query = gql`
 query marketingMembershipStats {
   meGuidance: me {
     id
-    memberships {
+    activeMembership {
       id
     }
     accessGrants {
@@ -137,14 +137,13 @@ const MarketingPage = props => {
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   const { t, data: { loading, error, meGuidance, membershipStats, front, statements } } = props
 
-  const hasMembershipOrAccessGrant = meGuidance && (
-    (meGuidance.memberships && meGuidance.memberships.length > 0) ||
-    (meGuidance.accessGrants && meGuidance.accessGrants.length > 0)
-  )
+  const hasActiveMembership = meGuidance && meGuidance.activeMembership
+  const hasAccessGrant = meGuidance && meGuidance.accessGrants && meGuidance.accessGrants.length > 0
+  const hasActiveMembershipOrAccessGrant = hasActiveMembership || hasAccessGrant
 
   return (
     <Fragment>
-      {!loading && meGuidance && !hasMembershipOrAccessGrant && <UserGuidance />}
+      {!loading && meGuidance && !hasActiveMembership && <UserGuidance />}
       {!error && <div {...styles.overviewOverflow}>
         <div {...styles.overviewContainer}>
           <Container style={{
@@ -178,22 +177,35 @@ const MarketingPage = props => {
               </button>
             </Link>
           </div>
-          <Link route='trial'>
-            <button {...buttonStyles.standard}>
-              {t('marketing/trial/button/label')}
-            </button>
-          </Link>
-        </div>
-        <div {...sharedStyles.signIn} {...sharedStyles.links}>
-          {t.elements(
-            'marketing/signin',
-            {
-              link: <Link key='link' route={'signin'} passHref>
-                <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
-              </Link>
-            }
+          {hasActiveMembershipOrAccessGrant ? (
+            <Link route='index'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/magazine/button/label')}
+              </button>
+            </Link>
+          ) : (
+            <Link route='trial'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/trial/button/label')}
+              </button>
+            </Link>
           )}
-          {' – '}
+        </div>
+        {hasActiveMembershipOrAccessGrant}
+        <div {...sharedStyles.signIn} {...sharedStyles.links}>
+          {!meGuidance && (
+            <Fragment>
+              {t.elements(
+                'marketing/signin',
+                {
+                  link: <Link key='link' route={'signin'} passHref>
+                    <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
+                  </Link>
+                }
+              )}
+              {' – '}
+            </Fragment>
+          )}
           {t.elements('marketing/claim', {
             claimLink: (
               <Link route='claim' key='claim' passHref>
@@ -232,7 +244,10 @@ const MarketingPage = props => {
         <Interaction.H3>
           {t('marketing/trial/title')}
         </Interaction.H3>
-        <TrialForm accessCampaignId={TRIAL_CAMPAIGN} narrow />
+        <TrialForm
+          accessCampaignId={TRIAL_CAMPAIGN}
+          beforeRequestAccess={() => Router.replaceRoute('index', { stale: 'marketing' })}
+          narrow />
 
         <div {...sharedStyles.spacer} />
         <Editorial.Subhead {...styles.h2}>
@@ -266,11 +281,19 @@ const MarketingPage = props => {
               </button>
             </Link>
           </div>
-          <Link route='trial'>
-            <button {...buttonStyles.standard}>
-              {t('marketing/trial/button/label')}
-            </button>
-          </Link>
+          {hasActiveMembershipOrAccessGrant ? (
+            <Link route='index'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/magazine/button/label')}
+              </button>
+            </Link>
+          ) : (
+            <Link route='trial'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/trial/button/label')}
+              </button>
+            </Link>
+          )}
         </div>
 
         <Editorial.Subhead {...styles.h2}>
@@ -299,7 +322,7 @@ const MarketingPage = props => {
             minColumns={3}
             first={MAX_STATEMENTS}
             statements={statements && statements.nodes}
-            loading={loading}
+            loading={loading || !statements}
             t={t} />
           <div style={{ marginTop: 10 }} {...sharedStyles.links}>
             <Link route='community' passHref>

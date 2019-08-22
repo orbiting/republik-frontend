@@ -9,6 +9,7 @@ import {
   fontStyles,
   colors
 } from '@project-r/styleguide'
+import { Chart } from '@project-r/styleguide/chart'
 import withT from '../../lib/withT'
 const { H2 } = Interaction
 
@@ -71,7 +72,7 @@ class ChoiceQuestion extends Component {
   }
 
   render () {
-    const { question: { id, text, userAnswer, options, results } } = this.props
+    const { question: { id, text, userAnswer, options, results, resultHistory } } = this.props
     const optionsWithResult = options.map(o => ({
       ...o,
       result: results.find(r => r.option.value === o.value)
@@ -126,6 +127,21 @@ class ChoiceQuestion extends Component {
             </div>
           )}
         </div>
+        { userAnswer &&
+          <div>
+            <Chart
+              config={{
+                type: 'Line',
+                numberFormat: '.1f',
+                domain: [0, 1],
+                x: 'date',
+                timeParse: '%Y-%m-%dT%H:%M:%S.%LZ',
+                timeFormat: '%d.%m.%Y %H:%M'
+              }}
+              values={resultHistory.map(d => ({ date: d.date, value: String(d.trueRatio) }))}
+            />
+          </div>
+        }
       </div>
     )
   }

@@ -116,7 +116,8 @@ class Page extends Component {
           }
 
           // handle questions
-          const { questionnaire: { questions, userMainstreamScore, mainstreamScoreHistogram } } = data
+          const { questionnaire: { questions, userMainstreamScore, mainstreamScoreStats, answerSets } } = data
+          const { userAnswerSet, userInvertedAnswerSet } = answerSets || {}
           const { error, submitting, updating } = this.state
           const questionCount = questions.filter(Boolean).length
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
@@ -158,25 +159,25 @@ class Page extends Component {
                   <div>
                     <P {...styles.strong}>Sie haben {userMainstreamScore}/100 Mainstream Punkte.</P>
                     <br />
-                    <P>Von den XXX Teilnehmerinnen haben XX genau so geantwortet wie Sie.</P>
-                    <P>XX haben genau die gegenteiligen Antworten.</P>
+                    <P>Von den XXX Teilnehmerinnen haben {userAnswerSet && userAnswerSet.userCount} genau so geantwortet wie Sie.</P>
+                    <P>{userInvertedAnswerSet && userInvertedAnswerSet.userCount} haben genau die gegenteiligen Antworten.</P>
                     <br />
                     <div style={{ minHeight: 320 }}>
                       <ChartTitle>Verteilung der Einigkeit</ChartTitle>
                       <Chart
                         config={{
                           type: 'Bar',
-                          numberFormat: 's',
+                          numberFormat: '.0f',
                           color: 'score',
                           inlineValue: true,
-                          inlineValueUnit: 'P.',
+                          inlineValueUnit: 'Personen',
                           // inlineLabel: 'score',
                           inlineSecondaryLabel: 'score',
                           sort: 'none',
                           colorSort: 'none',
-                          domain: [0, mainstreamScoreHistogram.reduce((agg, v) => agg + v.count, 0)]
+                          domain: [0, mainstreamScoreStats.reduce((agg, v) => agg + v.count, 0)]
                         }}
-                        values={mainstreamScoreHistogram.map(b => ({ ...b, value: String(b.count) }))}
+                        values={mainstreamScoreStats.map(b => ({ score: `${b.score}%`, value: String(b.count) }))}
                       />
                     </div>
                   </div>
@@ -219,7 +220,18 @@ query getQuestionnaire($slug: String!) {
     userIsEligible
     turnout { eligible submitted }
     userMainstreamScore
-    mainstreamScoreHistogram
+    mainstreamScoreStats {
+      score
+      count
+    }
+    answerSets {
+      userAnswerSet {
+        userCount
+      }
+      userInvertedAnswerSet {
+        userCount
+      }
+    }
     questions {
       ... on QuestionInterface {
         id
@@ -246,6 +258,10 @@ query getQuestionnaire($slug: String!) {
           }
         }
         turnout {skipped submitted}
+        resultHistory {
+          date
+          trueRatio
+        }
       }
     }
   }

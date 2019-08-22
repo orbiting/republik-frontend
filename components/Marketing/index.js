@@ -137,7 +137,7 @@ const MarketingPage = props => {
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   const { t, data: { loading, error, meGuidance, membershipStats, front, statements } } = props
 
-  const hasActiveMembership = meGuidance && meGuidance.activeMembership
+  const hasActiveMembership = meGuidance && !!meGuidance.activeMembership
   const hasAccessGrant = meGuidance && meGuidance.accessGrants && meGuidance.accessGrants.length > 0
   const hasActiveMembershipOrAccessGrant = hasActiveMembership || hasAccessGrant
 

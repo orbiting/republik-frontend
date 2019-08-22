@@ -10,7 +10,6 @@ import {
   Editorial,
   Interaction,
   Center,
-  Gallery,
   Figure,
   FigureImage,
   FigureCaption,
@@ -19,6 +18,7 @@ import {
 import QuestionnaireMetaWidget from '../components/Questionnaire/QuestionnaireMetaWidget'
 import { data as gallery } from '../lib/meta/gallery.json'
 import withT from '../lib/withT'
+import Gallery from '../components/Gallery/Gallery'
 
 const GallerHeading = withT(({ t }) => (
   <Interaction.H3 style={{

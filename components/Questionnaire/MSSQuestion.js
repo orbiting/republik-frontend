@@ -7,11 +7,12 @@ import {
   Interaction,
   Button,
   fontStyles,
+  fontFamilies,
   colors
 } from '@project-r/styleguide'
 import { Chart } from '@project-r/styleguide/chart'
 import withT from '../../lib/withT'
-const { H2 } = Interaction
+const { H2, H3, P } = Interaction
 
 const styles = {
   body: css({
@@ -23,24 +24,18 @@ const styles = {
   option: css({
     width: '50%',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center'
   }),
-  result: css({
+  resultBars: css({
     position: 'relative',
-    width: '100%'
-  }),
-  resultCount: css({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    ...fontStyles.serifTitle58
+    width: '100%',
+    height: '50px'
   }),
   resultBar: css({
     position: 'absolute',
     bottom: 0,
-    width: '100%'
+    height: '100%'
   })
 }
 
@@ -48,7 +43,8 @@ class ChoiceQuestion extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid()
+      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
+      showChart: false
     }
   }
   handleChange = (value) => {
@@ -71,38 +67,45 @@ class ChoiceQuestion extends Component {
     onChange(answerId, Array.from(nextValue))
   }
 
+  toggleChart = () => {
+    this.setState({
+      showChart: !this.state.showChart
+    })
+  }
+
   render () {
     const { question: { id, text, userAnswer, options, results, resultHistory } } = this.props
+    const { showChart } = this.state
+
     const optionsWithResult = options.map(o => ({
       ...o,
       result: results.find(r => r.option.value === o.value)
     }))
 
-    const resultHeight = 100
     const numSubmitted = optionsWithResult.reduce(
       (agg, o) => o.result ? o.result.count + agg : agg,
       0
     )
 
-    const getBarHeight = (option) =>
+    const getBarWidth = (option) =>
       numSubmitted > 0
-        ? Math.max(resultHeight / numSubmitted * option.result.count, 1)
+        ? `${Math.max(100 / numSubmitted * option.result.count, 1)}%`
         : 1
 
-    const getBarColor = ({ value }) =>
-      value === 'true' ? colors.discrete[2] : colors.discrete[3]
+    const getBarColor = ({ value }) => 'black'
+    // value === 'true' ? colors.discrete[2] : colors.discrete[3]
 
     const getOpacity = ({ value }) =>
-      value == userAnswer.payload.value ? 1.0 : 0.6
+      value == userAnswer.payload.value ? 1.0 : 0.4
 
     return (
       <div>
         <div {...questionStyles.label}>
           { text &&
-          <H2>{text}</H2>
+          <H3>{text}</H3>
           }
         </div>
-        <div {...styles.body} style={{ minHeight: resultHeight }}>
+        <div {...styles.body} style={{ minHeight: '80px' }}>
           { optionsWithResult.map(option =>
             <div {...styles.option} key={`${id}-${option.value}`}>
               { !userAnswer &&
@@ -114,14 +117,22 @@ class ChoiceQuestion extends Component {
               }
               { userAnswer &&
                 <div style={{ width: '100%', opacity: getOpacity(option) }}>
-                  <div {...styles.result} style={{ height: resultHeight }}>
+                  <div {...styles.resultBars}>
                     <div {...styles.resultBar} style={{
                       backgroundColor: getBarColor(option),
-                      height: getBarHeight(option)
+                      width: getBarWidth(option),
+                      ...(option.value === 'true') ? { right: 0 } : { left: 0 }
                     }} />
-                    <div {...styles.resultCount}>{option.result.count}</div>
                   </div>
-                  <div {...styles.resultLabel}>{option.label}</div>
+                  <div style={{
+                    textAlign: option.value === 'true' ? 'right' : 'left',
+                    margin: '5px'
+                  }}>
+                    {option.label}<br />
+                    {option.result.count}<br />
+                    {`${Math.round(100 / numSubmitted * option.result.count)}%`}<br />
+                    {option.value == userAnswer.payload.value ? 'Ihre Antwort!' : ''}
+                  </div>
                 </div>
               }
             </div>
@@ -129,17 +140,23 @@ class ChoiceQuestion extends Component {
         </div>
         { userAnswer &&
           <div>
-            <Chart
-              config={{
-                type: 'Line',
-                numberFormat: '.1f',
-                domain: [0, 1],
-                x: 'date',
-                timeParse: '%Y-%m-%dT%H:%M:%S.%LZ',
-                timeFormat: '%d.%m.%Y %H:%M'
-              }}
-              values={resultHistory.map(d => ({ date: d.date, value: String(d.trueRatio) }))}
-            />
+            <P onClick={() => this.toggleChart()} style={{ fontSize: 14 }}>
+              Verlauf {showChart ? 'verbergen' : 'anzeigen' }
+            </P>
+            { showChart &&
+              <Chart
+                config={{
+                  type: 'Line',
+                  numberFormat: '.1f',
+                  domain: [0, 1],
+                  x: 'date',
+                  timeParse: '%Y-%m-%dT%H:%M:%S.%LZ',
+                  timeFormat: '%d.%m.%Y %H:%M',
+                  height: 100
+                }}
+                values={resultHistory.map(d => ({ date: d.date, value: String(d.trueRatio) }))}
+              />
+            }
           </div>
         }
       </div>

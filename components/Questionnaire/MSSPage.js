@@ -24,7 +24,7 @@ import withAuthorization from '../Auth/withAuthorization'
 import { errorToString } from '../../lib/utils/errors'
 import StatusError from '../StatusError'
 
-const { Headline, P } = Interaction
+const { Headline, P, H2 } = Interaction
 
 const styles = {
   count: css({
@@ -121,6 +121,7 @@ class Page extends Component {
           const { error, submitting, updating } = this.state
           const questionCount = questions.filter(Boolean).length
           const userAnswerCount = questions.map(q => q.userAnswer).filter(Boolean).length
+
           return (
             <div>
               <Headline>Mainstream-Score</Headline>
@@ -142,25 +143,28 @@ class Page extends Component {
                 }
               </div>
               {
-                questions.map(q =>
-                  React.createElement(
-                    MSSQuestion,
-                    {
-                      onChange: this.createHandleChange(q.id),
-                      question: q,
-                      key: q.id
-                    }
+                questions
+                  .slice(0, userAnswerCount + 1)
+                  .map(q =>
+                    React.createElement(
+                      MSSQuestion,
+                      {
+                        onChange: this.createHandleChange(q.id),
+                        question: q,
+                        key: q.id
+                      }
+                    )
                   )
-                )
               }
               <div>
                 <br />
                 { questionCount === userAnswerCount &&
                   <div>
+                    <H2>Resultat</H2>
                     <P {...styles.strong}>Sie haben {userMainstreamScore}/100 Mainstream Punkte.</P>
                     <br />
-                    <P>Von den XXX Teilnehmerinnen haben {userAnswerSet && userAnswerSet.userCount} genau so geantwortet wie Sie.</P>
-                    <P>{userInvertedAnswerSet && userInvertedAnswerSet.userCount} haben genau die gegenteiligen Antworten.</P>
+                    <P>Von den XXX Teilnehmerinnen haben {(userAnswerSet && userAnswerSet.userCount) || 0} genau so geantwortet wie Sie.</P>
+                    <P>{(userInvertedAnswerSet && userInvertedAnswerSet.userCount) || 0} haben genau die gegenteiligen Antworten.</P>
                     <br />
                     <div style={{ minHeight: 320 }}>
                       <ChartTitle>Verteilung der Einigkeit</ChartTitle>
@@ -251,6 +255,7 @@ query getQuestionnaire($slug: String!) {
         }
         results: result {
           count
+          hasRelativeMajority
           option {
             label
             value

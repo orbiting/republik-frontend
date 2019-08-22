@@ -15,7 +15,7 @@ import {
 } from '../lib/constants'
 
 const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
-  if (isMember || router.query.extractId) {
+  if (router.query.stale !== 'marketing' && (isMember || router.query.extractId)) {
     // does it's own meta
     return <Front extractId={router.query.extractId} />
   }

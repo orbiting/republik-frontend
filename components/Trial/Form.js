@@ -1,11 +1,12 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css, merge } from 'glamor'
 import isEmail from 'validator/lib/isEmail'
+import { format } from 'url'
 
-import withTrialEligibility, { handleTrialEligibility } from './withTrialEligibility'
+import withTrialEligibility from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
 import SwitchBoard from '../Auth/SwitchBoard'
@@ -26,15 +27,32 @@ const styles = {
   }),
   button: css({
     marginTop: 40,
-    width: 180,
+    width: 170,
     textAlign: 'center'
+  }),
+  buttonIndex: css({
+    width: 210
   })
 }
 
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = (props) => {
-  const { narrow, me, t } = props
+  const { beforeRequestAccess, narrow, trialEligibility, me, t } = props
+  const { viaActiveMembership, viaAccessGrant } = trialEligibility
+
+  if (viaActiveMembership.until || viaAccessGrant.until) {
+    return (
+      <div {...merge(styles.button, styles.buttonIndex, narrow && { marginTop: 20 })}>
+        <Button
+          primary
+          block
+          onClick={() => Router.pushRoute('index')}>
+          {t('Trial/Form/authorized/withAccess/button/label')}
+        </Button>
+      </div>
+    )
+  }
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
@@ -44,6 +62,25 @@ const Form = (props) => {
   const [loading, setLoading] = useState(false)
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
+  const [autoRequestAccess, setAutoRequestAccess] = useState(false)
+  const [autoRedirectOnboarding, setAutoRedirectOnboarding] = useState(false)
+
+  useEffect(
+    () => { autoRequestAccess && !signingIn && me && requestAccess() },
+    [autoRequestAccess, signingIn]
+  )
+
+  useEffect(
+    () => {
+      if (autoRedirectOnboarding) {
+        window.location = format({
+          pathname: `/einrichten`,
+          query: { context: 'trial' }
+        })
+      }
+    },
+    [autoRedirectOnboarding]
+  )
 
   const handleEmail = (value, shouldValidate) => {
     setEmail({
@@ -61,6 +98,7 @@ const Form = (props) => {
     e && e.preventDefault && e.preventDefault()
 
     setLoading(true)
+    setAutoRequestAccess(false)
     setServerError()
 
     if (!me) {
@@ -83,17 +121,17 @@ const Form = (props) => {
 
           setLoading(false)
           setSigningIn(true)
+          setAutoRequestAccess(true)
         })
         .catch(catchError)
     }
 
     setSigningIn(false)
 
+    beforeRequestAccess && beforeRequestAccess()
+
     props.requestAccess()
-      .then(() =>
-        props.meRefetch()
-          .then(() => Router.replaceRoute('onboarding', { context: 'trial' }))
-      )
+      .then(() => setAutoRedirectOnboarding(true))
       .catch(catchError)
   }
 
@@ -111,10 +149,6 @@ const Form = (props) => {
 
   const onSuccessSwitchBoard = () => {
     setSigningIn(false)
-
-    props.trialRefetch()
-      .then(handleTrialEligibility)
-      .then(({ isTrialEligible }) => isTrialEligible && requestAccess())
   }
 
   const errorMessages = [email.error]
@@ -164,7 +198,7 @@ const Form = (props) => {
                 block
                 onClick={requestAccess}
                 disabled={showErrors && errorMessages.length > 0}>
-                {t(`Trial/Form/button/${me ? 'withMe' : 'withoutMe'}/label`)}
+                {t(`Trial/Form/${me ? 'authorized' : 'unauthorized'}/withoutAccess/button/label`)}
               </Button>
             }
           </div>
@@ -192,6 +226,7 @@ const Form = (props) => {
 
 Form.propTypes = {
   accessCampaignId: PropTypes.string.isRequired,
+  beforeRequestAccess: PropTypes.func,
   narrow: PropTypes.bool
 }
 

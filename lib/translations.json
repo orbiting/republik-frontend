@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-20T14:41:19.989Z",
+  "updated": "2019-08-22T10:20:38.059Z",
   "title": "live",
   "data": [
     {
@@ -333,6 +333,10 @@
     {
       "key": "marketing/trial/button/label",
       "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/trial/magazine/label",
+      "value": "Magazin lesen"
     },
     {
       "key": "marketing/signin",
@@ -3303,6 +3307,10 @@
       "value": "Konto"
     },
     {
+      "key": "article/gallery/error",
+      "value": "Das Bild konnte nicht geladen werden."
+    },
+    {
       "key": "progress/restore/time",
       "value": "{day} um {time} Uhr"
     },
@@ -5091,27 +5099,27 @@
       "value": "Später"
     },
     {
-      "key": "Trial/Page/isNotTrialEligible/heading",
+      "key": "Trial/Page/authorized/withAccess/heading",
       "value": "Sie haben bereits Zugriff"
     },
     {
-      "key": "Trial/Page/isNotTrialEligible/paragraph",
+      "key": "Trial/Page/authorized/withAccess/intro",
       "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
     },
     {
-      "key": "Trial/Page/isNotTrialEligible/button/label",
-      "value": "Magazin lesen"
-    },
-    {
-      "key": "Trial/Page/isTrialEligible/heading",
+      "key": "Trial/Page/authorized/withoutAccess/heading",
       "value": "Danke für Ihre Neugier!"
     },
     {
-      "key": "Trial/Page/isTrialEligible/withMe/introduction",
+      "key": "Trial/Page/authorized/withoutAccess/intro",
       "value": "Sie haben kein Abonnement oder Mitgliedschaft. Gerne laden wir Sie auf einen Streifzug durch die Republik ein."
     },
     {
-      "key": "Trial/Page/isTrialEligible/withoutMe/introduction",
+      "key": "Trial/Page/unauthorized/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/unauthorized/intro",
       "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
     },
     {
@@ -5131,11 +5139,15 @@
       "value": "Fehler"
     },
     {
-      "key": "Trial/Form/button/withMe/label",
+      "key": "Trial/Form/authorized/withAccess/button/label",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "Trial/Form/authorized/withoutAccess/button/label",
       "value": "Aktivieren"
     },
     {
-      "key": "Trial/Form/button/withoutMe/label",
+      "key": "Trial/Form/unauthorized/withoutAccess/button/label",
       "value": "Anmelden"
     },
     {

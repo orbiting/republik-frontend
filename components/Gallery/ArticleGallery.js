@@ -47,8 +47,7 @@ class ArticleGallery extends Component {
     super(props)
     this.state = {
       show: false,
-      startItemSrc: null,
-      ...ArticleGallery.getDerivedStateFromProps(props)
+      startItemSrc: null
     }
 
     this.toggleGallery = (nextSrc = '') => {
@@ -81,20 +80,13 @@ class ArticleGallery extends Component {
     }
 
     this.getChildContext = () => ({
-      toggleGallery: this.toggleGallery,
-      gallerySize: this.state.galleryItems.length
+      toggleGallery: this.toggleGallery
     })
   }
 
   static getDerivedStateFromProps (nextProps) {
     return {
       galleryItems: getGalleryItems(nextProps)
-    }
-  }
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.article !== this.props.article) {
-      this.setState(this.getDerivedStateFromProps(nextProps))
     }
   }
 
@@ -127,8 +119,7 @@ ArticleGallery.propTypes = {
 }
 
 ArticleGallery.childContextTypes = {
-  toggleGallery: PropTypes.func,
-  gallerySize: PropTypes.number
+  toggleGallery: PropTypes.func
 }
 
 export default ArticleGallery

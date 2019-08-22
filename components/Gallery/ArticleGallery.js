@@ -81,7 +81,8 @@ class ArticleGallery extends Component {
     }
 
     this.getChildContext = () => ({
-      toggleGallery: this.toggleGallery
+      toggleGallery: this.toggleGallery,
+      gallerySize: this.state.galleryItems.length
     })
   }
 
@@ -126,7 +127,8 @@ ArticleGallery.propTypes = {
 }
 
 ArticleGallery.childContextTypes = {
-  toggleGallery: PropTypes.func
+  toggleGallery: PropTypes.func,
+  gallerySize: PropTypes.number
 }
 
 export default ArticleGallery

@@ -17,7 +17,7 @@ import {
 } from '@project-r/styleguide'
 import { Chart, ChartTitle } from '@project-r/styleguide/chart'
 
-import MSSQuestion from './MSSQuestion'
+import Question from './Question'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import withT from '../../lib/withT'
 import withAuthorization from '../Auth/withAuthorization'
@@ -147,7 +147,7 @@ class Page extends Component {
                   .slice(0, userAnswerCount + 1)
                   .map(q =>
                     React.createElement(
-                      MSSQuestion,
+                      Question,
                       {
                         onChange: this.createHandleChange(q.id),
                         question: q,
@@ -161,7 +161,7 @@ class Page extends Component {
                 { questionCount === userAnswerCount &&
                   <div>
                     <H2>Resultat</H2>
-                    <P {...styles.strong}>Sie haben {userMainstreamScore}/100 Mainstream Punkte.</P>
+                    <P {...styles.strong}>Sie sind zu {userMainstreamScore}% mainstream.</P>
                     <br />
                     <P>Von den XXX Teilnehmerinnen haben {(userAnswerSet && userAnswerSet.userCount) || 0} genau so geantwortet wie Sie.</P>
                     <P>{(userInvertedAnswerSet && userInvertedAnswerSet.userCount) || 0} haben genau die gegenteiligen Antworten.</P>

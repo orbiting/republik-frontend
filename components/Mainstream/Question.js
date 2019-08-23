@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import questionStyles from './questionStyles'
 import uuid from 'uuid/v4'
 
 import {
@@ -20,6 +19,9 @@ const styles = {
     display: 'flex',
     width: '100%',
     textAlign: 'center'
+  }),
+  label: css({
+    margin: '50px 0 10px 0'
   }),
   option: css({
     width: '50%',
@@ -100,7 +102,7 @@ class ChoiceQuestion extends Component {
 
     return (
       <div>
-        <div {...questionStyles.label}>
+        <div {...styles.label}>
           { text &&
           <H3>{text}</H3>
           }

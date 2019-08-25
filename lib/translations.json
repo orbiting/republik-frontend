@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-13T13:31:47.000Z",
+  "updated": "2019-08-22T13:46:13.883Z",
   "title": "live",
   "data": [
     {
@@ -331,6 +331,14 @@
       "value": "Probe lesen"
     },
     {
+      "key": "marketing/trial/button/label",
+      "value": "Probe lesen"
+    },
+    {
+      "key": "marketing/magazine/button/label",
+      "value": "Magazin lesen"
+    },
+    {
       "key": "marketing/signin",
       "value": "Sie haben schon ein Abo? {link}"
     },
@@ -433,6 +441,10 @@
     {
       "key": "marketing/offers/title",
       "value": "Angebote"
+    },
+    {
+      "key": "marketing/trial/title",
+      "value": "Probe lesen"
     },
     {
       "key": "marketing/monthly/button/label",
@@ -3295,6 +3307,22 @@
       "value": "Konto"
     },
     {
+      "key": "article/gallery/error",
+      "value": "Das Bild konnte nicht geladen werden."
+    },
+    {
+      "key": "article/gallery/close",
+      "value": "Schliessen (Esc)"
+    },
+    {
+      "key": "article/gallery/forward",
+      "value": "Vorwärts"
+    },
+    {
+      "key": "article/gallery/back",
+      "value": "Zurück"
+    },
+    {
       "key": "progress/restore/time",
       "value": "{day} um {time} Uhr"
     },
@@ -4919,6 +4947,18 @@
       "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
     },
     {
+      "key": "Onboarding/Page/trial/title",
+      "value": "Ihre «Tour de la Republik» 🚴‍"
+    },
+    {
+      "key": "Onboarding/Page/trial/preface",
+      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Und wir versuchen Sie ganz unumwunden von uns zu überzeugen."
+    },
+    {
+      "key": "Onboarding/Page/trial/introduction",
+      "value": "Damit Ihre wenigen Probetage zu vielen Bleibetagen werden, hilft Ihnen dieser Einrichtungsassistent mit dem Wichtigsten."
+    },
+    {
       "key": "Onboarding/Page/button",
       "value": "Magazin lesen"
     },
@@ -5069,6 +5109,70 @@
     {
       "key": "Onboarding/Sections/Profile/button/continue",
       "value": "Später"
+    },
+    {
+      "key": "Trial/Page/authorized/withAccess/heading",
+      "value": "Sie haben bereits Zugriff"
+    },
+    {
+      "key": "Trial/Page/authorized/withAccess/intro",
+      "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/intro",
+      "value": "Sie haben kein Abonnement oder Mitgliedschaft. Gerne laden wir Sie auf einen Streifzug durch die Republik ein."
+    },
+    {
+      "key": "Trial/Page/unauthorized/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/unauthorized/intro",
+      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
+    },
+    {
+      "key": "Trial/Form/email/error/empty",
+      "value": "E-Mail-Adresse fehlt"
+    },
+    {
+      "key": "Trial/Form/email/error/invalid",
+      "value": "E-Mail-Adresse ungültig"
+    },
+    {
+      "key": "Trial/Form/email/label",
+      "value": "Ihre E-Mail-Adresse"
+    },
+    {
+      "key": "Trial/Form/error/title",
+      "value": "Fehler"
+    },
+    {
+      "key": "Trial/Form/authorized/withAccess/button/label",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "Trial/Form/authorized/withoutAccess/button/label",
+      "value": "Aktivieren"
+    },
+    {
+      "key": "Trial/Form/unauthorized/withoutAccess/button/label",
+      "value": "Anmelden"
+    },
+    {
+      "key": "trial/meta/pageTitle",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "trial/meta/title",
+      "value": "Die Republik probelesen"
+    },
+    {
+      "key": "trial/meta/description",
+      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
     }
   ]
 }

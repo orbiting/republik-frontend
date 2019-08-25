@@ -138,9 +138,9 @@ const FeuilletonMarketingPage = ({
               </button>
             </Link>
           </div>
-          <Link route='preview'>
+          <Link route='trial'>
             <button {...buttonStyles.standard}>
-              {t('marketing/preview/button/label')}
+              {t('marketing/trial/button/label')}
             </button>
           </Link>
         </div>

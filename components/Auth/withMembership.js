@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
+import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
 import withInNativeApp from '../../lib/withInNativeApp'
 
@@ -133,12 +134,29 @@ export const WithoutMembership = withAuthorization(['member'])(({
   }
   return null
 })
+
+export const WithoutActiveMembership = compose(withMe, withAuthorization(['member']))(({ me, render }) => {
+  if (me && me.activeMembership) {
+    return null
+  }
+
+  return render()
+})
+
 export const WithMembership = withAuthorization(['member'])(({
   isAuthorized, render
 }) => {
   if (isAuthorized) {
     return render()
   }
+  return null
+})
+
+export const WithActiveMembership = compose(withMe, withAuthorization(['member']))(({ me, render }) => {
+  if (me && me.activeMembership) {
+    return render()
+  }
+
   return null
 })
 

@@ -42,6 +42,8 @@ const getGalleryItems = ({ article }) => {
     .filter(i => imageSizeInfo(i.src) && imageSizeInfo(i.src).width > 600)
 }
 
+const removeQuery = (url = '') => url.split('?')[0]
+
 class ArticleGallery extends Component {
   constructor (props) {
     super(props)
@@ -53,7 +55,7 @@ class ArticleGallery extends Component {
     this.toggleGallery = (nextSrc = '') => {
       const nextShow = !this.state.show
       const { galleryItems } = this.state
-      if (nextShow && galleryItems.some(i => i.src === nextSrc.split('&')[0])) {
+      if (nextShow && galleryItems.some(i => removeQuery(i.src) === removeQuery(nextSrc))) {
         this.setState(
           {
             show: true,

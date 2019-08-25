@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-22T12:29:00.225Z",
+  "updated": "2019-08-25T19:26:54.945Z",
   "title": "live",
   "data": [
     {
@@ -3309,6 +3309,18 @@
     {
       "key": "article/gallery/error",
       "value": "Das Bild konnte nicht geladen werden."
+    },
+    {
+      "key": "article/gallery/close",
+      "value": "Schliessen (Esc)"
+    },
+    {
+      "key": "article/gallery/forward",
+      "value": "Vorwärts"
+    },
+    {
+      "key": "article/gallery/back",
+      "value": "Zurück"
     },
     {
       "key": "progress/restore/time",

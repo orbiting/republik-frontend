@@ -21,7 +21,7 @@ import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import { withEditor } from '../Auth/checkRoles'
-import ArticleGallery from './ArticleGallery'
+import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import Progress from './Progress'

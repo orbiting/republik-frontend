@@ -121,7 +121,6 @@ const AboutPage = ({
   const publishersCount = membershipStats
     ? countFormat(membershipStats.count)
     : `~${countFormat(18000)}`
-  const employeesCount = (employees && employees.length) || '~60'
   const documentsCount = (documents && documents.totalCount) || 'Über 1000'
 
   return (
@@ -167,7 +166,7 @@ const AboutPage = ({
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader>{t('pages/about/employees/title', { count: employeesCount })}</Subheader>
+          <Subheader>{t('pages/about/employees/title')}</Subheader>
           <P>
             <RawHtml
               dangerouslySetInnerHTML={{

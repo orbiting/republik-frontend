@@ -87,7 +87,7 @@ const ShareButtons = ({
 
   const copyLink = {
     href: url,
-    icon: 'altLink',
+    icon: 'copyLink',
     title: t('article/actionbar/link/title'),
     label: {
       init: t('article/actionbar/link/label'),
@@ -102,7 +102,7 @@ const ShareButtons = ({
     error: 'error'
   }
 
-  const [linkCopyStatus, setShouldLinkCopyStatus] = useState(copyLinkStatuses.init)
+  const [linkCopyStatus, setLinkCopyStatus] = useState(copyLinkStatuses.init)
 
   return (
     <div {...styles.buttonGroup}>
@@ -131,29 +131,37 @@ const ShareButtons = ({
         </IconLink>
       ))}
       <IconLink
-        key={copyLink.icon}
+        key={`${copyLink.icon}${linkCopyStatus}`}
         fill={fill}
         size={32}
         animate={linkCopyStatus === copyLinkStatuses.success}
         onClick={(e) => {
           e.preventDefault()
+          e.stopPropagation()
           track([
             'trackEvent',
             'ShareOverlay',
             copyLink.icon,
             url
           ])
-          copyToClipboard(url)
-            ? setShouldLinkCopyStatus(copyLinkStatuses.success)
-            : setShouldLinkCopyStatus(copyLinkStatuses.error)
+          if (copyToClipboard(url)) {
+            setLinkCopyStatus(copyLinkStatuses.success)
+            setTimeout(
+              () => {
+                setLinkCopyStatus(copyLinkStatuses.init)
+              },
+              5 * 1000
+            )
+          } else {
+            setLinkCopyStatus(copyLinkStatuses.error)
+          }
         }}
         stacked
         {...copyLink}
       >
-        {isWide
-          ? <span>{copyLink.label[linkCopyStatus]}</span>
-          : <span {...styles.shareLabel}>{copyLink.label[linkCopyStatus]}</span>
-        }
+        <span {...!isWide && styles.shareLabel}>
+          {copyLink.label[linkCopyStatus]}
+        </span>
       </IconLink>
     </div>
   )

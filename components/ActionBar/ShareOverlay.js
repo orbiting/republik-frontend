@@ -97,7 +97,7 @@ const ShareOverlay = ({
       <OverlayBody>
         <div style={{ textAlign: 'center', marginTop: 10, marginBottom: 20 }}>
           <div {...styles.buttonGroup}>
-            {shareOptions.filter(Boolean).map((props, i) => (
+            {shareOptions.map((props, i) => (
               <IconLink
                 key={props.icon}
                 fill={fill}

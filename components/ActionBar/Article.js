@@ -71,7 +71,6 @@ class ArticleActionBar extends Component {
           onAudioClick={onAudioClick}
           inNativeApp={inNativeApp}
           inIOS={inIOS}
-          in
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
           documentId={documentId}

@@ -57,6 +57,7 @@ class ActionBar extends Component {
       estimatedConsumptionMinutes,
       shareOverlayTitle,
       showBookmark,
+      showShare,
       documentId,
       bookmarked,
       inNativeApp,
@@ -66,7 +67,7 @@ class ActionBar extends Component {
     const { showShareOverlay } = this.state
 
     const icons = [
-      {
+      showShare && {
         icon: inIOS ? 'shareIOS' : 'share',
         href: url,
         onClick: e => {

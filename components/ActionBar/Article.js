@@ -93,7 +93,7 @@ class ArticleActionBar extends Component {
             style={{ marginLeft: 7 }} />
         }
         {!!renderSocialButtons &&
-          <div style={{ marginTop: 40, marginBottom: 20 }}>
+          <div style={{ marginTop: 60, marginBottom: 20 }}>
             <h3>Share this article</h3>
             <ShareButtons
               isWide

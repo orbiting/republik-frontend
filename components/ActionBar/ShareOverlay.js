@@ -35,11 +35,12 @@ const ShareOverlay = ({
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div style={{ textAlign: 'center', marginTop: 10, marginBottom: 20 }}>
+        <div style={{ textAlign: 'center' }}>
           <ShareButtons
             onClose={onClose}
             url={url}
             tweet={tweet}
+            grid
             emailSubject={emailSubject}
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />

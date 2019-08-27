@@ -13,25 +13,23 @@ const styles = {
   buttonGroup: css({
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     '& > a': {
       flex: 'auto',
-      justifyContent: 'flex-start',
-      [`@media only screen and (max-width: ${350}px)`]: {
-        flex: 'auto',
-        marginBottom: 20,
-        width: 'calc(50% - 24px)'
-      }
+      marginTop: 15,
+      marginBottom: 15,
+      flexGrow: 0
     },
     '@media print': {
       display: 'none'
     }
   }),
-  shareLabel: css({
-    maxWidth: '80px',
+  copyText: css({
     textOverflow: 'initial',
-    display: 'block',
+    display: 'inline-block',
     whiteSpace: 'initial',
-    textAlign: 'center'
+    textAlign: 'center',
+    minWidth: 100
   })
 }
 
@@ -44,7 +42,7 @@ const ShareButtons = ({
   emailAttachUrl,
   fill,
   onClose,
-  isWide
+  grid
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
 
@@ -68,7 +66,6 @@ const ShareButtons = ({
       label: t('article/actionbar/twitter/label')
     },
     {
-      mobileOnly: true,
       target: '_blank',
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(url)}`,
       icon: 'whatsapp',
@@ -111,7 +108,12 @@ const ShareButtons = ({
           key={props.icon}
           fill={fill}
           size={32}
-          style={isWide ? { paddingRight: '40px' } : undefined}
+          style={grid ? {
+            padding: 0,
+            width: '33%'
+          } : {
+            marginRight: 20
+          }}
           onClick={() => {
             track([
               'trackEvent',
@@ -124,17 +126,13 @@ const ShareButtons = ({
           stacked
           {...props}
         >
-          {isWide
-            ? <span>{props.label}</span>
-            : <span {...styles.shareLabel}>{props.label}</span>
-          }
+          {props.label}
         </IconLink>
       ))}
       <IconLink
-        key={`${copyLink.icon}${linkCopyStatus}`}
+        key={copyLink.icon}
         fill={fill}
         size={32}
-        animate={linkCopyStatus === copyLinkStatuses.success}
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -159,7 +157,7 @@ const ShareButtons = ({
         stacked
         {...copyLink}
       >
-        <span {...!isWide && styles.shareLabel}>
+        <span {...styles.copyText}>
           {copyLink.label[linkCopyStatus]}
         </span>
       </IconLink>

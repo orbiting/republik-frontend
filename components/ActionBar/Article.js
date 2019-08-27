@@ -5,7 +5,7 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
 import {
-  colors
+  colors, fontStyles
 } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 
@@ -93,10 +93,11 @@ class ArticleActionBar extends Component {
             style={{ marginLeft: 7 }} />
         }
         {!!renderSocialButtons &&
-          <div style={{ marginTop: 60, marginBottom: 20 }}>
-            <h3>{ t('article/share/title') }</h3>
+          <div style={{ marginBottom: 20, marginTop: 20 }}>
+            <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
+              { t('article/share/title') }
+            </h3>
             <ShareButtons
-              isWide
               url={url}
               tweet={tweet}
               emailSubject={emailSubject}
@@ -104,7 +105,6 @@ class ArticleActionBar extends Component {
               emailAttachUrl={emailAttachUrl} />
           </div>
         }
-
       </Fragment>
     )
   }

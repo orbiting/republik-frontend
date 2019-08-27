@@ -212,7 +212,8 @@ ActionBar.defaultProps = {
   fill: colors.secondary,
   tweet: '',
   emailBody: '',
-  emailAttachUrl: true
+  emailAttachUrl: true,
+  showShare: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

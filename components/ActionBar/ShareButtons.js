@@ -7,7 +7,7 @@ import IconLink from '../IconLink'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
 
-import { copyToClipboard } from './utils'
+import copyToClipboard from 'clipboard-copy'
 
 const styles = {
   buttonGroup: css({
@@ -97,11 +97,9 @@ const ShareButtons = ({
       label: t(`article/actionbar/link/label${copyLinkSuffix ? `/${copyLinkSuffix}` : ''}`),
       onClick: (e) => {
         e.preventDefault()
-        if (copyToClipboard(url)) {
-          setLinkCopySuffix('success')
-        } else {
-          setLinkCopySuffix('error')
-        }
+        copyToClipboard(url)
+          .then(() => setLinkCopySuffix('success'))
+          .catch(() => setLinkCopySuffix('error'))
       },
       style: {
         minWidth: 105

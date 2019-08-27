@@ -34,32 +34,3 @@ export const getDiscussionIconLinkProps = (linkedDiscussion, ownDiscussion, temp
     isDiscussionPage
   }
 }
-
-export const copyToClipboard = (url) => {
-  if (window.clipboardData && window.clipboardData.setData) {
-    // IE specific code path to prevent textarea being shown while dialog is visible.
-    return window.clipboardData.setData('Text', url)
-  } else if (document.queryCommandSupported && document.queryCommandSupported('copy')) {
-    const textarea = document.createElement('textarea')
-    textarea.textContent = url
-    textarea.style.position = 'fixed'
-    document.body.appendChild(textarea)
-    if (navigator.userAgent.match(/ipad|iphone/i)) {
-      const range = document.createRange()
-      range.selectNodeContents(textarea)
-      const selection = window.getSelection()
-      selection.removeAllRanges()
-      selection.addRange(range)
-      textarea.setSelectionRange(0, 999999)
-    } else {
-      textarea.select()
-    }
-    try {
-      return document.execCommand('copy')
-    } catch (ex) {
-      return false
-    } finally {
-      document.body.removeChild(textarea)
-    }
-  }
-}

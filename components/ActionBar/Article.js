@@ -48,7 +48,7 @@ class ArticleActionBar extends Component {
       url,
       inNativeApp,
       inIOS,
-      renderSocialButtons
+      grandSharing
     } = this.props
     const { userBookmark } = this.context
     const {
@@ -77,7 +77,7 @@ class ArticleActionBar extends Component {
           inIOS={inIOS}
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
-          showShare={!renderSocialButtons}
+          showShare={!grandSharing}
           documentId={documentId}
           bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
@@ -92,7 +92,7 @@ class ArticleActionBar extends Component {
             count={discussionCount}
             style={{ marginLeft: 7 }} />
         }
-        {!!renderSocialButtons &&
+        {!!grandSharing &&
           <div style={{ marginBottom: 20, marginTop: 20 }}>
             <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
               { t('article/share/title') }

@@ -481,7 +481,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, isEditor, inIOS } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor, inNativeApp, inIOS } = this.props
 
     const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
 
@@ -494,7 +494,7 @@ class ArticlePage extends Component {
       : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBarNav, {
-        renderSocialButtons: true
+        grandSharing: !inNativeApp
       })
       : undefined
     const series = meta && meta.series

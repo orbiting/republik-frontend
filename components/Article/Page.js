@@ -592,7 +592,7 @@ class ArticlePage extends Component {
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>
-              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && (
+              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && isMember && (
                 <Center>
                   <AutoDiscussionTeaser
                     discussionId={ownDiscussion.id}

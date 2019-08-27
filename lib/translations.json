@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-27T11:52:57.941Z",
+  "updated": "2019-08-27T13:24:50.877Z",
   "title": "live",
   "data": [
     {
@@ -3245,6 +3245,14 @@
     {
       "key": "article/actionbar/link/label",
       "value": "Link kopieren"
+    },
+    {
+      "key": "article/actionbar/link/label/success",
+      "value": "Link kopiert!"
+    },
+    {
+      "key": "article/actionbar/link/label/error",
+      "value": "Nicht unterstützt :("
     },
     {
       "key": "article/series/episode",

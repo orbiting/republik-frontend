@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { css } from 'glamor'
 
@@ -95,8 +95,20 @@ const ShareOverlay = ({
     href: url,
     icon: 'altLink',
     title: t('article/actionbar/link/title'),
-    label: t('article/actionbar/link/label')
+    label: {
+      init: t('article/actionbar/link/label'),
+      success: t('article/actionbar/link/label/success'),
+      error: t('article/actionbar/link/label/error')
+    }
   }
+
+  const copyLinkStatuses = {
+    init: 'init',
+    success: 'success',
+    error: 'error'
+  }
+
+  const [linkCopyStatus, setShouldLinkCopyStatus] = useState(copyLinkStatuses.init)
 
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
@@ -136,6 +148,7 @@ const ShareOverlay = ({
               key={copyLink.icon}
               fill={fill}
               size={32}
+              animate={linkCopyStatus === copyLinkStatuses.success}
               onClick={(e) => {
                 e.preventDefault()
                 track([
@@ -145,11 +158,13 @@ const ShareOverlay = ({
                   url
                 ])
                 copyToClipboard(url)
+                  ? setShouldLinkCopyStatus(copyLinkStatuses.success)
+                  : setShouldLinkCopyStatus(copyLinkStatuses.error)
               }}
               stacked
               {...copyLink}
             >
-              <span {...styles.shareLabel}>{copyLink.label}</span>
+              <span {...styles.shareLabel}>{copyLink.label[linkCopyStatus]}</span>
             </IconLink>
           </div>
         </div>

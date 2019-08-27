@@ -94,7 +94,7 @@ class ArticleActionBar extends Component {
         }
         {!!renderSocialButtons &&
           <div style={{ marginTop: 60, marginBottom: 20 }}>
-            <h3>Share this article</h3>
+            <h3>{ t('article/share/title') }</h3>
             <ShareButtons
               isWide
               url={url}

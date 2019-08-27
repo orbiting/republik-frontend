@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { css } from 'glamor'
 
@@ -23,13 +23,6 @@ const styles = {
     '@media print': {
       display: 'none'
     }
-  }),
-  copyText: css({
-    textOverflow: 'initial',
-    display: 'inline-block',
-    whiteSpace: 'initial',
-    textAlign: 'center',
-    minWidth: 100
   })
 }
 
@@ -44,6 +37,22 @@ const ShareButtons = ({
   onClose,
   grid
 }) => {
+  const [copyLinkSuffix, setLinkCopySuffix] = useState()
+  useEffect(
+    () => {
+      if (copyLinkSuffix === 'success') {
+        const timeout = setTimeout(
+          () => {
+            setLinkCopySuffix()
+          },
+          5 * 1000
+        )
+        return () => clearTimeout(timeout)
+      }
+    },
+    [copyLinkSuffix]
+  )
+
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
 
   const shareOptions = [
@@ -79,27 +88,25 @@ const ShareButtons = ({
       icon: 'mail',
       title: t('article/actionbar/email/title'),
       label: t('article/actionbar/email/label')
+    },
+    {
+      href: url,
+      icon: 'copyLink',
+      title: t('article/actionbar/link/title'),
+      label: t(`article/actionbar/link/label${copyLinkSuffix ? `/${copyLinkSuffix}` : ''}`),
+      onClick: (e) => {
+        e.preventDefault()
+        if (copyToClipboard(url)) {
+          setLinkCopySuffix('success')
+        } else {
+          setLinkCopySuffix('error')
+        }
+      },
+      style: {
+        minWidth: 105
+      }
     }
   ]
-
-  const copyLink = {
-    href: url,
-    icon: 'copyLink',
-    title: t('article/actionbar/link/title'),
-    label: {
-      init: t('article/actionbar/link/label'),
-      success: t('article/actionbar/link/label/success'),
-      error: t('article/actionbar/link/label/error')
-    }
-  }
-
-  const copyLinkStatuses = {
-    init: 'init',
-    success: 'success',
-    error: 'error'
-  }
-
-  const [linkCopyStatus, setLinkCopyStatus] = useState(copyLinkStatuses.init)
 
   return (
     <div {...styles.buttonGroup}>
@@ -108,59 +115,32 @@ const ShareButtons = ({
           key={props.icon}
           fill={fill}
           size={32}
-          style={grid ? {
-            padding: 0,
-            width: '33%'
-          } : {
-            marginRight: 20
-          }}
-          onClick={() => {
+          stacked
+          {...props}
+          onClick={(e) => {
             track([
               'trackEvent',
               'ShareOverlay',
               props.icon,
               url
             ])
+            if (props.onClick) {
+              return props.onClick(e)
+            }
             onClose && onClose()
           }}
-          stacked
-          {...props}
+          style={grid ? {
+            padding: 0,
+            width: '33%',
+            ...props.style
+          } : {
+            marginRight: 20,
+            ...props.style
+          }}
         >
           {props.label}
         </IconLink>
       ))}
-      <IconLink
-        key={copyLink.icon}
-        fill={fill}
-        size={32}
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          track([
-            'trackEvent',
-            'ShareOverlay',
-            copyLink.icon,
-            url
-          ])
-          if (copyToClipboard(url)) {
-            setLinkCopyStatus(copyLinkStatuses.success)
-            setTimeout(
-              () => {
-                setLinkCopyStatus(copyLinkStatuses.init)
-              },
-              5 * 1000
-            )
-          } else {
-            setLinkCopyStatus(copyLinkStatuses.error)
-          }
-        }}
-        stacked
-        {...copyLink}
-      >
-        <span {...styles.copyText}>
-          {copyLink.label[linkCopyStatus]}
-        </span>
-      </IconLink>
     </div>
   )
 }

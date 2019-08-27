@@ -102,7 +102,8 @@ class ArticleActionBar extends Component {
               tweet={tweet}
               emailSubject={emailSubject}
               emailBody={emailBody}
-              emailAttachUrl={emailAttachUrl} />
+              emailAttachUrl={emailAttachUrl}
+              eventCategory='ArticleShareButtons' />
           </div>
         }
       </Fragment>

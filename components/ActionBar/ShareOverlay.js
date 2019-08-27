@@ -43,7 +43,8 @@ const ShareOverlay = ({
             grid
             emailSubject={emailSubject}
             emailBody={emailBody}
-            emailAttachUrl={emailAttachUrl} />
+            emailAttachUrl={emailAttachUrl}
+            eventCategory='ShareOverlay' />
         </div>
       </OverlayBody>
     </Overlay>

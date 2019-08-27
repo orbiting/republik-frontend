@@ -33,6 +33,7 @@ const ShareButtons = ({
   emailSubject,
   emailBody,
   emailAttachUrl,
+  eventCategory = 'ShareButtons',
   fill,
   onClose,
   grid
@@ -120,7 +121,7 @@ const ShareButtons = ({
           onClick={(e) => {
             track([
               'trackEvent',
-              'ShareOverlay',
+              eventCategory,
               props.icon,
               url
             ])

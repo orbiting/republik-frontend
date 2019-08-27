@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-25T19:26:54.945Z",
+  "updated": "2019-08-27T11:52:57.941Z",
   "title": "live",
   "data": [
     {
@@ -3237,6 +3237,14 @@
     {
       "key": "article/actionbar/pdf/options",
       "value": "PDF-Optionen"
+    },
+    {
+      "key": "article/actionbar/link/title",
+      "value": "Link kopieren"
+    },
+    {
+      "key": "article/actionbar/link/label",
+      "value": "Link kopieren"
     },
     {
       "key": "article/series/episode",

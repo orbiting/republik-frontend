@@ -20,7 +20,7 @@ const styles = {
     flexWrap: 'wrap',
     '& > a': {
       flex: 'auto',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       [`@media only screen and (max-width: ${350}px)`]: {
         flex: 'auto',
         marginBottom: 20,
@@ -30,6 +30,12 @@ const styles = {
     '@media print': {
       display: 'none'
     }
+  }),
+  shareLabel: css({
+    maxWidth: '80px',
+    textOverflow: 'initial',
+    display: 'block',
+    whiteSpace: 'initial'
   })
 }
 
@@ -83,6 +89,12 @@ const ShareOverlay = ({
     }
   ]
 
+  const copyLink = {
+    icon: 'altLink',
+    title: t('article/actionbar/link/title'),
+    label: t('article/actionbar/link/label')
+  }
+
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -114,9 +126,27 @@ const ShareOverlay = ({
                 stacked
                 {...props}
               >
-                {props.label}
+                <span {...styles.shareLabel}>{props.label}</span>
               </IconLink>
             ))}
+            <IconLink
+              key={copyLink.icon}
+              fill={fill}
+              size={32}
+              onClick={() => {
+                track([
+                  'trackEvent',
+                  'ShareOverlay',
+                  copyLink.icon,
+                  url
+                ])
+                onClose && onClose()
+              }}
+              stacked
+              {...copyLink}
+            >
+              <span {...styles.shareLabel}>{copyLink.label}</span>
+            </IconLink>
           </div>
         </div>
       </OverlayBody>

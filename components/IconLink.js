@@ -17,6 +17,7 @@ import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
 import GalleryIcon from 'react-icons/lib/md/filter'
 import LinkIcon from './Icons/Web'
+import AltLinkIcon from 'react-icons/lib/md/link'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
@@ -118,6 +119,7 @@ export const styles = {
 }
 
 const ICONS = {
+  altLink: AltLinkIcon,
   audio: AudioIcon,
   chart: ChartIcon,
   discussion: DiscussionIcon,

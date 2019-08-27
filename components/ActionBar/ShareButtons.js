@@ -30,7 +30,8 @@ const styles = {
     maxWidth: '80px',
     textOverflow: 'initial',
     display: 'block',
-    whiteSpace: 'initial'
+    whiteSpace: 'initial',
+    textAlign: 'center'
   })
 }
 
@@ -42,7 +43,8 @@ const ShareButtons = ({
   emailBody,
   emailAttachUrl,
   fill,
-  onClose
+  onClose,
+  isWide
 }) => {
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
 
@@ -109,6 +111,7 @@ const ShareButtons = ({
           key={props.icon}
           fill={fill}
           size={32}
+          style={isWide ? { paddingRight: '40px' } : undefined}
           onClick={() => {
             track([
               'trackEvent',
@@ -121,7 +124,10 @@ const ShareButtons = ({
           stacked
           {...props}
         >
-          <span {...styles.shareLabel}>{props.label}</span>
+          {isWide
+            ? <span>{props.label}</span>
+            : <span {...styles.shareLabel}>{props.label}</span>
+          }
         </IconLink>
       ))}
       <IconLink
@@ -144,7 +150,10 @@ const ShareButtons = ({
         stacked
         {...copyLink}
       >
-        <span {...styles.shareLabel}>{copyLink.label[linkCopyStatus]}</span>
+        {isWide
+          ? <span>{copyLink.label[linkCopyStatus]}</span>
+          : <span {...styles.shareLabel}>{copyLink.label[linkCopyStatus]}</span>
+        }
       </IconLink>
     </div>
   )

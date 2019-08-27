@@ -485,11 +485,16 @@ class ArticlePage extends Component {
 
     const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
 
-    const actionBarEnd = actionBar
+    const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
         animate: false,
         estimatedReadingMinutes: undefined,
         estimatedConsumptionMinutes: undefined
+      })
+      : undefined
+    const actionBarEnd = actionBar
+      ? React.cloneElement(actionBarNav, {
+        renderSocialButtons: true
       })
       : undefined
     const series = meta && meta.series
@@ -540,7 +545,7 @@ class ArticlePage extends Component {
         meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
-        secondaryNav={seriesNavButton || actionBarEnd}
+        secondaryNav={seriesNavButton || actionBarNav}
         showSecondary={this.state.showSecondary}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}

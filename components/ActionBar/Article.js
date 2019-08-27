@@ -7,6 +7,7 @@ import { getDiscussionIconLinkProps } from './utils'
 import {
   colors
 } from '@project-r/styleguide'
+import ShareButtons from './ShareButtons'
 
 class ArticleActionBar extends Component {
   constructor (props) {
@@ -27,6 +28,9 @@ class ArticleActionBar extends Component {
     const {
       animate,
       title,
+      tweet,
+      emailBody,
+      emailAttachUrl,
       template,
       path,
       linkedDiscussion,
@@ -43,7 +47,8 @@ class ArticleActionBar extends Component {
       t,
       url,
       inNativeApp,
-      inIOS
+      inIOS,
+      renderSocialButtons
     } = this.props
     const { userBookmark } = this.context
     const {
@@ -53,6 +58,7 @@ class ArticleActionBar extends Component {
       discussionCount,
       isDiscussionPage
     } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
+    const emailSubject = t('article/share/emailSubject', { title })
 
     return (
       <Fragment>
@@ -65,14 +71,13 @@ class ArticleActionBar extends Component {
           dossierUrl={dossierUrl}
           onPdfClick={onPdfClick}
           pdfUrl={pdfUrl}
-          emailSubject={t('article/share/emailSubject', {
-            title
-          })}
+          emailSubject={emailSubject}
           onAudioClick={onAudioClick}
           inNativeApp={inNativeApp}
           inIOS={inIOS}
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
+          showShare={!renderSocialButtons}
           documentId={documentId}
           bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
@@ -87,6 +92,19 @@ class ArticleActionBar extends Component {
             count={discussionCount}
             style={{ marginLeft: 7 }} />
         }
+        {!!renderSocialButtons &&
+          <div style={{ marginTop: 40, marginBottom: 20 }}>
+            <h3>Share this article</h3>
+            <ShareButtons
+              isWide
+              url={url}
+              tweet={tweet}
+              emailSubject={emailSubject}
+              emailBody={emailBody}
+              emailAttachUrl={emailAttachUrl} />
+          </div>
+        }
+
       </Fragment>
     )
   }
@@ -94,6 +112,13 @@ class ArticleActionBar extends Component {
 
 ArticleActionBar.contextTypes = {
   userBookmark: PropTypes.object
+}
+
+ArticleActionBar.defaultProps = {
+  tweet: '',
+  emailSubject: '',
+  emailBody: '',
+  emailAttachUrl: true
 }
 
 export default ArticleActionBar

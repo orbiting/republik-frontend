@@ -14,6 +14,8 @@ import MdClose from 'react-icons/lib/md/close'
 import withT from '../../lib/withT'
 import track from '../../lib/piwik'
 
+import { copyToClipboard } from './utils'
+
 const styles = {
   buttonGroup: css({
     display: 'flex',
@@ -90,6 +92,7 @@ const ShareOverlay = ({
   ]
 
   const copyLink = {
+    href: url,
     icon: 'altLink',
     title: t('article/actionbar/link/title'),
     label: t('article/actionbar/link/label')
@@ -133,14 +136,15 @@ const ShareOverlay = ({
               key={copyLink.icon}
               fill={fill}
               size={32}
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault()
                 track([
                   'trackEvent',
                   'ShareOverlay',
                   copyLink.icon,
                   url
                 ])
-                onClose && onClose()
+                copyToClipboard(url)
               }}
               stacked
               {...copyLink}

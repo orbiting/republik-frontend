@@ -44,11 +44,19 @@ export const copyToClipboard = (url) => {
     textarea.textContent = url
     textarea.style.position = 'fixed'
     document.body.appendChild(textarea)
-    textarea.select()
+    if (navigator.userAgent.match(/ipad|iphone/i)) {
+      const range = document.createRange()
+      range.selectNodeContents(textarea)
+      const selection = window.getSelection()
+      selection.removeAllRanges()
+      selection.addRange(range)
+      textarea.setSelectionRange(0, 999999)
+    } else {
+      textarea.select()
+    }
     try {
       return document.execCommand('copy')
     } catch (ex) {
-      console.warn('Copy to clipboard failed.', ex)
       return false
     } finally {
       document.body.removeChild(textarea)

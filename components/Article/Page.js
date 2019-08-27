@@ -355,7 +355,7 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, router, isMember }, state) {
+  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, inIOS, router, isMember }, state) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -385,6 +385,7 @@ class ArticlePage extends Component {
           ? getPdfUrl(meta)
           : undefined}
         inNativeApp={inNativeApp}
+        inIOS={inIOS}
         documentId={article.id}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
@@ -480,7 +481,7 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, isEditor } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor, inIOS } = this.props
 
     const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
 
@@ -577,7 +578,7 @@ class ArticlePage extends Component {
                   onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
-                  <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
+                  <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format

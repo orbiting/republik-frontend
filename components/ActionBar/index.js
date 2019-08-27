@@ -60,13 +60,14 @@ class ActionBar extends Component {
       documentId,
       bookmarked,
       inNativeApp,
-      animate
+      animate,
+      inIOS
     } = this.props
     const { showShareOverlay } = this.state
 
     const icons = [
       {
-        icon: 'share',
+        icon: inIOS ? 'shareIOS' : 'share',
         href: url,
         onClick: e => {
           e.preventDefault()

@@ -19,6 +19,7 @@ import LinkIcon from './Icons/Web'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
+import ShareIOSIcon from 'react-icons/lib/md/mood'
 import TwitterIcon from 'react-icons/lib/fa/twitter'
 import WhatsappIcon from 'react-icons/lib/fa/whatsapp'
 import KeyIcon from 'react-icons/lib/fa/key'
@@ -127,6 +128,7 @@ const ICONS = {
   mail: MailIcon,
   markdown: MarkdownIcon,
   share: ShareIcon,
+  shareIOS: ShareIOSIcon,
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,
   key: KeyIcon,

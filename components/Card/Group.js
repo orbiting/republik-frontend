@@ -9,6 +9,7 @@ import MdNotificationsActive from 'react-icons/lib/md/notifications-active'
 import MdStar from 'react-icons/lib/md/star'
 
 import withT from '../../lib/withT'
+import { HEADER_HEIGHT, NAVBAR_HEIGHT } from '../constants'
 
 import Card from './Card'
 
@@ -19,7 +20,7 @@ const styles = {
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',
-    height: '100vh'
+    height: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT}px)`
   }),
   card: css({
     position: 'absolute',
@@ -80,54 +81,54 @@ const Group = ({ t, group }) => {
             </animated.div>
           </animated.div>
         ))}
-      </div>
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, height: 100, textAlign: 'center' }}>
-        <span
-          style={{
-            display: 'inline-block',
-            width: 60,
-            height: 60,
-            borderRadius: '50%',
-            margin: 20,
-            backgroundColor: '#9F2500',
-            padding: 15,
-            lineHeight: 0,
-            verticalAlign: 'middle',
-            boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);'
-          }}>
-          <MdNotificationsOff size={25} fill='#fff' />
-        </span>
-        <span
-          style={{
-            display: 'inline-block',
-            width: 60,
-            height: 60,
-            borderRadius: '50%',
-            margin: 20,
-            backgroundColor: '#E9A733',
-            padding: 15,
-            lineHeight: 0,
-            verticalAlign: 'middle',
-            boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);'
-          }}>
-          <MdStar size={25} fill='#fff' />
-        </span>
-        <span
-          style={{
-            display: 'inline-block',
-            width: 60,
-            height: 60,
-            borderRadius: '50%',
-            margin: 20,
-            backgroundColor: 'rgb(8,48,107)',
-            padding: 15,
-            lineHeight: 0,
-            verticalAlign: 'middle',
-            boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);'
-          }}>
-          <MdNotificationsActive size={25} fill='#fff' />
-        </span>
+        <div style={{ position: 'absolute', bottom: 30, left: 0, right: 0, height: 100, textAlign: 'center' }}>
+          <span
+            style={{
+              display: 'inline-block',
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              margin: 20,
+              backgroundColor: '#9F2500',
+              padding: 15,
+              lineHeight: 0,
+              verticalAlign: 'middle',
+              boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+            }}>
+            <MdNotificationsOff size={25} fill='#fff' />
+          </span>
+          <span
+            style={{
+              display: 'inline-block',
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              margin: 20,
+              backgroundColor: '#E9A733',
+              padding: 15,
+              lineHeight: 0,
+              verticalAlign: 'middle',
+              boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+            }}>
+            <MdStar size={25} fill='#fff' />
+          </span>
+          <span
+            style={{
+              display: 'inline-block',
+              width: 60,
+              height: 60,
+              borderRadius: '50%',
+              margin: 20,
+              backgroundColor: 'rgb(8,48,107)',
+              padding: 15,
+              lineHeight: 0,
+              verticalAlign: 'middle',
+              boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+            }}>
+            <MdNotificationsActive size={25} fill='#fff' />
+          </span>
+        </div>
       </div>
     </>
   )

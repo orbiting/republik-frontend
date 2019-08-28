@@ -17,7 +17,7 @@ import StatusError from '../components/StatusError'
 
 const query = gql`
 query {
-  userCardGroup(id: "441d029a-63d1-4af3-8560-44747963fa24") {
+  cardGroup(id: "c2abde51-42ee-49a5-bdb6-748bed8aecb4") {
     id
     name
     slug
@@ -29,7 +29,7 @@ query {
       }
       nodes {
         id
-        candidate: user {
+        user {
           name
           portrait
           slug
@@ -44,7 +44,7 @@ query {
 const Page = ({ serverContext, router: { query: { group } }, data, t }) => (
   <Frame raw>
     <Loader loading={data.loading} error={data.error} render={() => {
-      if (!data.userCardGroup) {
+      if (!data.cardGroup) {
         return (
           <StatusError
             statusCode={404}
@@ -54,14 +54,14 @@ const Page = ({ serverContext, router: { query: { group } }, data, t }) => (
       return (
         <>
           <Meta data={{
-            title: group,
+            title: data.cardGroup.name,
             description: t('UserCard/Group/description'),
             url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroup').toPath({
               group
             })}`
             // image
           }} />
-          <Group group={data.userCardGroup} />
+          <Group group={data.cardGroup} />
         </>
       )
     }} />

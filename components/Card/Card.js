@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 
-const partyColors = {
-  SP: 'red',
-  SVP: 'darkgreen'
-}
+import Spider from './Spider'
+import getPartyColor from './partyColors'
 
-const Card = ({ payload, candidate }) => {
+const Card = ({ payload, user }) => {
   const [slide, setSlide] = useState(0)
   const slides = 2
+
+  const partyColor = getPartyColor(payload.party)
 
   return (
     <div
       style={{
         height: '100%',
-        borderBottom: `10px solid ${partyColors[payload.party] || '#999'}`,
+        borderBottom: `10px solid ${partyColor}`,
         position: 'relative'
       }}>
-      {candidate.portrait && <img
-        src={candidate.portrait}
+      {user.portrait && <img
+        src={user.portrait}
         alt=''
         style={{
           width: '100%',
@@ -25,6 +25,11 @@ const Card = ({ payload, candidate }) => {
           padding: 20
         }}
       />}
+      {payload.smartvoteCleavage && <Spider
+        width={400}
+        height={400}
+        fill={partyColor}
+        data={payload.smartvoteCleavage} />}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 15px', backgroundColor: '#fff' }}>
         <div style={{ position: 'absolute', top: -30, left: 0, right: 0, textAlign: 'center' }}>
           {Array.from({ length: slides }).map((_, i) => (
@@ -42,7 +47,7 @@ const Card = ({ payload, candidate }) => {
           ))}
         </div>
         <strong>
-          {candidate.name}, {payload.party}
+          {user.name}, {payload.party}
         </strong>
         <br />
         {slide === 0 && <>

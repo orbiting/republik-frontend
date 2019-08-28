@@ -10,12 +10,14 @@ import {
 import AudioIcon from 'react-icons/lib/md/volume-up'
 import ChartIcon from './Icons/Chart'
 import TimeIcon from './Icons/Time'
+import ShareIOSIcon from './Icons/ShareIOS'
 import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
 import GalleryIcon from 'react-icons/lib/md/filter'
 import LinkIcon from './Icons/Web'
+import CopyLinkIcon from 'react-icons/lib/md/link'
 import MailIcon from 'react-icons/lib/md/mail-outline'
 import PdfIcon from 'react-icons/lib/md/picture-as-pdf'
 import ShareIcon from 'react-icons/lib/md/share'
@@ -117,6 +119,7 @@ export const styles = {
 }
 
 const ICONS = {
+  copyLink: CopyLinkIcon,
   audio: AudioIcon,
   chart: ChartIcon,
   discussion: DiscussionIcon,
@@ -127,6 +130,7 @@ const ICONS = {
   mail: MailIcon,
   markdown: MarkdownIcon,
   share: ShareIcon,
+  shareIOS: ShareIOSIcon,
   twitter: TwitterIcon,
   whatsapp: WhatsappIcon,
   key: KeyIcon,

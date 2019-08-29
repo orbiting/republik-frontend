@@ -5,7 +5,7 @@ import { colors, fontStyles } from '@project-r/styleguide'
 const maxValue = 100
 const factor = 0.75
 const radians = 2 * Math.PI
-const levels = 3
+const levels = 2
 const axisLineColor = 'rgba(0,0,0,0.17)'
 
 function getHorizontalPosition (i, range, factor = 1) {

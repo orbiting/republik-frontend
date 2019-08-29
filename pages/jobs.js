@@ -42,7 +42,7 @@ export default compose(
             Die Republik ist ein täglich erscheinendes digitales, werbefreies Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Wir sind getrieben von unserem Willen, eine gewichtige unabhängige Stimme in der Schweizer Medienlandschaft zu sein. Werde Teil einer <A href='/impressum'>interdisziplinären und leidenschaftlichen Crew</A>.
           </P>
 
-          <P><strong>Zur Zeit haben wir keine offenen Stellen.</strong></P>
+          <P>Zur Zeit haben wir keine offenen Stellen.</P>
         </Content>
       </MainContainer>
     </Frame>

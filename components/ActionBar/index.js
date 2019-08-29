@@ -57,16 +57,18 @@ class ActionBar extends Component {
       estimatedConsumptionMinutes,
       shareOverlayTitle,
       showBookmark,
+      showShare,
       documentId,
       bookmarked,
       inNativeApp,
-      animate
+      animate,
+      inIOS
     } = this.props
     const { showShareOverlay } = this.state
 
     const icons = [
-      {
-        icon: 'share',
+      showShare && {
+        icon: inIOS ? 'shareIOS' : 'share',
         href: url,
         onClick: e => {
           e.preventDefault()
@@ -210,7 +212,8 @@ ActionBar.defaultProps = {
   fill: colors.secondary,
   tweet: '',
   emailBody: '',
-  emailAttachUrl: true
+  emailAttachUrl: true,
+  showShare: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

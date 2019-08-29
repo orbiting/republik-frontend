@@ -5,8 +5,9 @@ import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
 import {
-  colors
+  colors, fontStyles
 } from '@project-r/styleguide'
+import ShareButtons from './ShareButtons'
 
 class ArticleActionBar extends Component {
   constructor (props) {
@@ -24,7 +25,31 @@ class ArticleActionBar extends Component {
   }
   render () {
     const { alive } = this.state
-    const { animate, title, template, path, linkedDiscussion, ownDiscussion, documentId, dossierUrl, estimatedReadingMinutes, estimatedConsumptionMinutes, onAudioClick, onGalleryClick, onPdfClick, pdfUrl, showBookmark, t, url, inNativeApp } = this.props
+    const {
+      animate,
+      title,
+      tweet,
+      emailBody,
+      emailAttachUrl,
+      template,
+      path,
+      linkedDiscussion,
+      ownDiscussion,
+      documentId,
+      dossierUrl,
+      estimatedReadingMinutes,
+      estimatedConsumptionMinutes,
+      onAudioClick,
+      onGalleryClick,
+      onPdfClick,
+      pdfUrl,
+      showBookmark,
+      t,
+      url,
+      inNativeApp,
+      inIOS,
+      grandSharing
+    } = this.props
     const { userBookmark } = this.context
     const {
       discussionId,
@@ -33,6 +58,7 @@ class ArticleActionBar extends Component {
       discussionCount,
       isDiscussionPage
     } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
+    const emailSubject = t('article/share/emailSubject', { title })
 
     return (
       <Fragment>
@@ -45,13 +71,13 @@ class ArticleActionBar extends Component {
           dossierUrl={dossierUrl}
           onPdfClick={onPdfClick}
           pdfUrl={pdfUrl}
-          emailSubject={t('article/share/emailSubject', {
-            title
-          })}
+          emailSubject={emailSubject}
           onAudioClick={onAudioClick}
           inNativeApp={inNativeApp}
+          inIOS={inIOS}
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
+          showShare={!grandSharing}
           documentId={documentId}
           bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
@@ -66,6 +92,20 @@ class ArticleActionBar extends Component {
             count={discussionCount}
             style={{ marginLeft: 7 }} />
         }
+        {!!grandSharing &&
+          <div style={{ marginBottom: 20, marginTop: 20 }}>
+            <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
+              { t('article/share/title') }
+            </h3>
+            <ShareButtons
+              url={url}
+              tweet={tweet}
+              emailSubject={emailSubject}
+              emailBody={emailBody}
+              emailAttachUrl={emailAttachUrl}
+              eventCategory='ArticleShareButtons' />
+          </div>
+        }
       </Fragment>
     )
   }
@@ -73,6 +113,13 @@ class ArticleActionBar extends Component {
 
 ArticleActionBar.contextTypes = {
   userBookmark: PropTypes.object
+}
+
+ArticleActionBar.defaultProps = {
+  tweet: '',
+  emailSubject: '',
+  emailBody: '',
+  emailAttachUrl: true
 }
 
 export default ArticleActionBar

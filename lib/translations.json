@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-25T19:26:54.945Z",
+  "updated": "2019-08-28T08:32:18.765Z",
   "title": "live",
   "data": [
     {
@@ -3239,6 +3239,22 @@
       "value": "PDF-Optionen"
     },
     {
+      "key": "article/actionbar/link/title",
+      "value": "Link kopieren"
+    },
+    {
+      "key": "article/actionbar/link/label",
+      "value": "Link kopieren"
+    },
+    {
+      "key": "article/actionbar/link/label/success",
+      "value": "Link kopiert!"
+    },
+    {
+      "key": "article/actionbar/link/label/error",
+      "value": "Nicht unterstützt :("
+    },
+    {
       "key": "article/series/episode",
       "value": "Episode {count}"
     },
@@ -5172,7 +5188,7 @@
     },
     {
       "key": "trial/meta/description",
-      "value": "Melden Sie sich an, um kostenlos eine kleine Auswahl unserer Artikel zu lesen."
+      "value": "Melden Sie sich für einen kostenlosen Streifzug durch die Republik an."
     }
   ]
 }

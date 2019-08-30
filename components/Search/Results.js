@@ -366,9 +366,8 @@ class Results extends Component {
                                       }}
                                     />
                                   ) : (
-                                    node.entity.meta.shortTitle
-                                      ? undefined
-                                      : node.entity.meta.description
+                                    !node.entity.meta.shortTitle &&
+                                    node.entity.meta.description
                                   )
                                 }
                                 kind={

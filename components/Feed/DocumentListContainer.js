@@ -18,6 +18,7 @@ export const documentFragment = `
     ...UserProgressOnDocument
     meta {
       credits
+      shortTitle
       title
       description
       publishDate

@@ -18,9 +18,12 @@ const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
-  renderFeedItem = doc =>
-    <TeaserFeed
+  renderFeedItem = doc => {
+    const { shortTitle } = doc.meta
+    return <TeaserFeed
       {...doc.meta}
+      title={shortTitle || doc.meta.title}
+      description={shortTitle ? undefined : doc.meta.description}
       t={this.props.t}
       credits={this.props.showHeader ? formatCredits(doc.meta.credits) : doc.meta.credits}
       publishDate={undefined}
@@ -39,6 +42,7 @@ class Feed extends Component {
         userProgress={doc.userProgress}
         {...doc.meta} />}
     />
+  }
 
   render () {
     const { documents, showHeader } = this.props

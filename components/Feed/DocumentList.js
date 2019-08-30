@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import PropTypes from 'prop-types'
 import withInNativeApp from '../../lib/withInNativeApp'
 
-import { A, mediaQueries, Spinner } from '@project-r/styleguide'
+import { A, Spinner } from '@project-r/styleguide'
 import Feed from './Feed'
 
 import ErrorMessage from '../ErrorMessage'
@@ -13,12 +13,6 @@ import ErrorMessage from '../ErrorMessage'
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 
 const styles = {
-  container: css({
-    [mediaQueries.mUp]: {
-      maxWidth: 695,
-      margin: 'auto'
-    }
-  }),
   more: css({
     position: 'relative',
     height: 50,
@@ -33,7 +27,7 @@ const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMor
   ] = useInfiniteScroll({ hasMore, loadMore })
 
   return (
-    <div {...styles.container}>
+    <>
       <div ref={containerRef}>
         <Feed documents={documents} {...feedProps} />
       </div>
@@ -56,7 +50,7 @@ const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMor
         </A>
         }
       </div>
-    </div>
+    </>
   )
 }
 

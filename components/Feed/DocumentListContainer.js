@@ -143,7 +143,7 @@ class DocumentListContainer extends Component {
                 } else {
                   const hasMore = connection.pageInfo.hasNextPage
                   return (
-                    <div>
+                    <>
                       {help}
                       <DocumentList
                         documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
@@ -153,7 +153,7 @@ class DocumentListContainer extends Component {
                         loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
                         feedProps={feedProps}
                       />
-                    </div>
+                    </>
                   )
                 }
               }}

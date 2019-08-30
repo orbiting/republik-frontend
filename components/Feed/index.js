@@ -16,15 +16,11 @@ import DocumentListContainer, { documentListQueryFragment } from './DocumentList
 
 const styles = {
   container: css({
-    padding: '15px 15px 120px',
+    paddingTop: 15,
+    paddingBottom: 120,
     [mediaQueries.mUp]: {
-      padding: '40px 0 120px'
+      paddingTop: 40
     }
-  }),
-  more: css({
-    position: 'relative',
-    height: 50,
-    padding: '10px 0 0 0'
   })
 }
 

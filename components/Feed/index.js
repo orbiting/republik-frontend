@@ -12,7 +12,8 @@ import {
   Center,
   Interaction
 } from '@project-r/styleguide'
-import DocumentListContainer, { documentFragment } from './DocumentListContainer'
+import DocumentList from './DocumentList'
+import { makeLoadMore, documentFragment } from './DocumentListContainer'
 
 const styles = {
   container: css({
@@ -24,8 +25,12 @@ const styles = {
   })
 }
 
-const documentsQuery = gql`
+const query = gql`
   query getFeed($cursor: String) {
+    greeting {
+      text
+      id
+    }
     documents: search(
       filters: [
         {key: "template", not: true, value: "format"},
@@ -49,15 +54,6 @@ const documentsQuery = gql`
     }
   }
   ${documentFragment}
-`
-
-const greetingQuery = gql`
-  {
-    greeting {
-      text
-      id
-    }
-  }
 `
 
 const greetingSubscription = gql`
@@ -107,7 +103,9 @@ class Feed extends Component {
   }
 
   render () {
-    const { meta, data: { error, loading, greeting } } = this.props
+    const { meta, data: { error, loading, greeting, documents: connection, fetchMore } } = this.props
+
+    const mapNodes = node => node.entity
 
     return (
       <Frame raw meta={meta}>
@@ -123,9 +121,16 @@ class Feed extends Component {
                       {greeting.text}
                     </Interaction.H1>
                   )}
-                  <DocumentListContainer
-                    query={documentsQuery}
-                    mapNodes={node => node.entity}
+
+                  <DocumentList
+                    documents={connection.nodes.map(mapNodes)}
+                    totalCount={connection.totalCount}
+                    hasMore={connection.pageInfo.hasNextPage}
+                    loadMore={makeLoadMore({
+                      fetchMore,
+                      connection,
+                      mapNodes
+                    })}
                   />
                 </>
               )
@@ -138,7 +143,7 @@ class Feed extends Component {
 }
 
 export default compose(
-  graphql(greetingQuery),
+  graphql(query),
   withT,
   withInNativeApp
 )(Feed)

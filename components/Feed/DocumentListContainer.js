@@ -82,7 +82,22 @@ export const documentListQueryFragment = `
   ${documentFragment}
 `
 
-const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection, mapNodes }) => () =>
+const defaultProps = {
+  getConnection: data => data.documents,
+  mergeConnection: (data, connection) => ({
+    ...data,
+    documents: connection
+  }),
+  mapNodes: e => e
+}
+
+export const makeLoadMore = ({
+  fetchMore,
+  connection,
+  getConnection = defaultProps.getConnection,
+  mergeConnection = defaultProps.mergeConnection,
+  mapNodes = defaultProps.mapNodes
+}) => () =>
   fetchMore({
     updateQuery: (previousResult, { fetchMoreResult }) => {
       const prevCon = getConnection(previousResult)
@@ -148,7 +163,6 @@ class DocumentListContainer extends Component {
                       <DocumentList
                         documents={connection.nodes.map(mapNodes)}
                         totalCount={connection.totalCount}
-                        unfilteredCount={connection.nodes.length}
                         hasMore={hasMore}
                         loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection, mapNodes })}
                         feedProps={feedProps}
@@ -165,14 +179,7 @@ class DocumentListContainer extends Component {
   }
 }
 
-DocumentListContainer.defaultProps = {
-  getConnection: data => data.documents,
-  mergeConnection: (data, connection) => ({
-    ...data,
-    documents: connection
-  }),
-  mapNodes: e => e
-}
+DocumentListContainer.defaultProps = defaultProps
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,

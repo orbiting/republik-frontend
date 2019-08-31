@@ -20,7 +20,7 @@ const styles = {
   })
 }
 
-const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMore, feedProps, t }) => {
+const DocumentList = ({ documents, totalCount, hasMore, loadMore, feedProps, t }) => {
   const [
     { containerRef, infiniteScroll, loadingMore, loadingMoreError },
     setInfiniteScroll
@@ -43,7 +43,7 @@ const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMor
             t('feed/loadMore',
               {
                 count: documents.length,
-                remaining: totalCount - unfilteredCount
+                remaining: totalCount - documents.length
               }
             )
           }
@@ -57,7 +57,6 @@ const DocumentList = ({ documents, totalCount, unfilteredCount, hasMore, loadMor
 DocumentList.propTypes = {
   documents: PropTypes.array.isRequired,
   totalCount: PropTypes.number.isRequired,
-  unfilteredCount: PropTypes.number.isRequired,
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
   t: PropTypes.func.isRequired,

@@ -82,7 +82,7 @@ export const documentListQueryFragment = `
   ${documentFragment}
 `
 
-const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection }) => () =>
+const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection, mapNodes }) => () =>
   fetchMore({
     updateQuery: (previousResult, { fetchMoreResult }) => {
       const prevCon = getConnection(previousResult)
@@ -93,7 +93,7 @@ const makeLoadMore = ({ fetchMore, connection, getConnection, mergeConnection })
       ].filter(
         // deduplicating due to off by one in pagination API
         (node, index, all) =>
-          all.findIndex(n => n.id === node.id) === index
+          all.findIndex(n => mapNodes(n).id === mapNodes(node).id) === index
       )
       return mergeConnection(fetchMoreResult, {
         ...prevCon,
@@ -121,7 +121,6 @@ class DocumentListContainer extends Component {
       query,
       getConnection,
       mergeConnection,
-      filterDocuments,
       mapNodes,
       placeholder,
       help,
@@ -147,11 +146,11 @@ class DocumentListContainer extends Component {
                     <>
                       {help}
                       <DocumentList
-                        documents={connection.nodes.filter(filterDocuments).map(mapNodes)}
+                        documents={connection.nodes.map(mapNodes)}
                         totalCount={connection.totalCount}
                         unfilteredCount={connection.nodes.length}
                         hasMore={hasMore}
-                        loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection })}
+                        loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection, mapNodes })}
                         feedProps={feedProps}
                       />
                     </>
@@ -172,14 +171,12 @@ DocumentListContainer.defaultProps = {
     ...data,
     documents: connection
   }),
-  filterDocuments: () => true,
   mapNodes: e => e
 }
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
   getConnection: PropTypes.func.isRequired,
-  filterDocuments: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element,
   help: PropTypes.element,

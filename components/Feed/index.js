@@ -12,7 +12,7 @@ import {
   Center,
   Interaction
 } from '@project-r/styleguide'
-import DocumentListContainer, { documentListQueryFragment } from './DocumentListContainer'
+import DocumentListContainer, { documentFragment } from './DocumentListContainer'
 
 const styles = {
   container: css({
@@ -25,15 +25,31 @@ const styles = {
 }
 
 const documentsQuery = gql`
-  query getDocuments($cursor: String) {
-    documents(feed: true, first: 30, after: $cursor) {
-      ...DocumentListConnection
+  query getFeed($cursor: String) {
+    documents: search(
+      filters: [
+        {key: "template", not: true, value: "format"},
+        {key: "template", not: true, value: "front"}
+      ], 
+      filter: {feed: true},
+      sort: {key: publishedAt, direction: DESC},
+      first: 30,
+      after: $cursor
+    ) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        entity {
+          ...DocumentListDocument
+        }
+      }
     }
   }
-  ${documentListQueryFragment}
+  ${documentFragment}
 `
-
-const filterDocuments = node => node.meta.template !== 'format' && node.meta.template !== 'front'
 
 const greetingQuery = gql`
   {
@@ -109,7 +125,7 @@ class Feed extends Component {
                   )}
                   <DocumentListContainer
                     query={documentsQuery}
-                    filterDocuments={filterDocuments}
+                    mapNodes={node => node.entity}
                   />
                 </>
               )

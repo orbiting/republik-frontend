@@ -10,11 +10,10 @@ import Head from 'next/head'
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
 import { withEditor } from '../Auth/checkRoles'
-import withT from '../../lib/withT'
+import withT, { t } from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import HrefLink from '../Link/Href'
-import SSRCachingBoundary from '../SSRCachingBoundary'
 import ErrorMessage from '../ErrorMessage'
 
 import { negativeColors } from '../Frame/Footer'
@@ -27,8 +26,12 @@ import { Link, cleanAsPath } from '../../lib/routes'
 import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import { intersperse } from '../../lib/utils/helpers'
 
+import * as withData from './withData'
+
 const schema = createFrontSchema({
-  Link: HrefLink
+  Link: HrefLink,
+  ...withData,
+  t
 })
 
 const getDocument = gql`
@@ -59,6 +62,7 @@ const getDocument = gql`
         twitterDescription
         twitterImage
         twitterTitle
+        lastPublishedAt
       }
     }
   }
@@ -110,7 +114,8 @@ const Front = ({
             </Head>
             {renderMdast({
               type: 'root',
-              children: front.children.nodes.map(v => v.body)
+              children: front.children.nodes.map(v => v.body),
+              lastPublishedAt: front.meta.lastPublishedAt
             }, schema, { MissingNode })}
           </Fragment>
         )
@@ -141,12 +146,11 @@ const Front = ({
         }
 
         return <div ref={containerRef} style={containerStyle}>
-          <SSRCachingBoundary key='content' cacheKey={front.id}>
-            {() => renderMdast({
-              type: 'root',
-              children: front.children.nodes.map(v => v.body)
-            }, schema, { MissingNode })}
-          </SSRCachingBoundary>
+          {renderMdast({
+            type: 'root',
+            children: front.children.nodes.map(v => v.body),
+            lastPublishedAt: front.meta.lastPublishedAt
+          }, schema, { MissingNode })}
           {hasMore && <div {...styles.more}>
             {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
             {loadingMore && <InlineSpinner />}

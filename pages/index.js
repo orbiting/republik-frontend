@@ -17,7 +17,7 @@ import {
 const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
   if (router.query.stale !== 'marketing' && (isMember || router.query.extractId)) {
     // does it's own meta
-    return <Front extractId={router.query.extractId} />
+    return <Front extractId={router.query.extractId} finite />
   }
   if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} />

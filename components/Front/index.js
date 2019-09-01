@@ -9,6 +9,8 @@ import Head from 'next/head'
 
 import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 
+import CheckCircle from 'react-icons/lib/md/check-circle'
+
 import { withEditor } from '../Auth/checkRoles'
 import withT, { t } from '../../lib/withT'
 import Loader from '../Loader'
@@ -39,10 +41,10 @@ const schema = createFrontSchema({
 })
 
 const getDocument = gql`
-  query getFront($path: String!, $first: Int!, $after: ID, $only: ID) {
+  query getFront($path: String!, $first: Int!, $after: ID, $before: ID, $only: ID) {
     front: document(path: $path) {
       id
-      children(first: $first, after: $after, only: $only) {
+      children(first: $first, after: $after, before: $before, only: $only) {
         totalCount
         pageInfo {
           hasNextPage
@@ -91,7 +93,8 @@ const Front = ({
   containerStyle,
   extractId,
   serverContext,
-  isEditor
+  isEditor,
+  finite
 }) => {
   const meta = front && {
     ...front.meta,
@@ -155,11 +158,11 @@ const Front = ({
             children: front.children.nodes.map(v => v.body),
             lastPublishedAt: front.meta.lastPublishedAt
           }, schema, { MissingNode })}
-          {hasMore && <div {...styles.more}>
+          {(hasMore || finite) && <div {...styles.more}>
             {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
             {loadingMore && <InlineSpinner />}
-            {!infiniteScroll && hasMore && <Fragment>
-              <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+            {!infiniteScroll && <Fragment>
+              {hasMore && !finite && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
                 event && event.preventDefault()
                 setInfiniteScroll(true)
               }}>
@@ -171,7 +174,11 @@ const Front = ({
                     }
                   )
                 }
-              </Editorial.A>
+              </Editorial.A>}
+              {finite && <div>
+                <CheckCircle size={32} style={{ marginBottom: 10 }} /><br />
+                {t('front/finite')}
+              </div>}
               {front.meta.path === '/' && <div style={{ marginTop: 10 }}>{t.elements('front/chronology', {
                 years: intersperse([2019, 2018].map(year =>
                   <Link key={year} route='overview' params={{ year }} passHref>
@@ -196,7 +203,8 @@ export default compose(
     options: props => ({
       variables: {
         path: props.path || cleanAsPath(props.router.asPath),
-        first: 15,
+        first: props.finite ? 1000 : 15,
+        before: props.finite ? 'end' : undefined,
         only: props.extractId
       }
     }),

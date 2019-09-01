@@ -23,11 +23,6 @@ const LINKS = [
     params: {}
   },
   {
-    key: 'feuilleton',
-    route: 'feuilleton',
-    params: {}
-  },
-  {
     key: 'feed',
     route: 'feed',
     params: {}

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { compose } from 'react-apollo'
-import timeahead from '../../lib/timeahead'
 import withT from '../../lib/withT'
 import withMe from '../../lib/apollo/withMe'
 import { Link } from '../../lib/routes'
@@ -23,7 +22,8 @@ import {
   CommentComposer,
   CommentComposerPlaceholder,
   Interaction,
-  Editorial
+  Editorial,
+  timeahead
 } from '@project-r/styleguide'
 
 import Box from '../Frame/Box'

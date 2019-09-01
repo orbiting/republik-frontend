@@ -15,6 +15,8 @@ import Loader from '../Loader'
 import Frame from '../Frame'
 import HrefLink from '../Link/Href'
 import ErrorMessage from '../ErrorMessage'
+import CommentLink from '../Discussion/CommentLink'
+import DiscussionLink from '../Discussion/DiscussionLink'
 
 import { negativeColors } from '../Frame/Footer'
 
@@ -30,6 +32,8 @@ import * as withData from './withData'
 
 const schema = createFrontSchema({
   Link: HrefLink,
+  CommentLink,
+  DiscussionLink,
   ...withData,
   t
 })

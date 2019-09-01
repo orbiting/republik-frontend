@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
-import timeago from '../../lib/timeago'
 import withT from '../../lib/withT'
 
 import ActionBar from '../ActionBar/Feed'
@@ -220,10 +219,6 @@ class Results extends Component {
     const { minHeight } = this.state
     const keepCachedAggregations = preloadedTotalCount !== 0 && preloadedAggregations !== null
 
-    const timeagoFromNow = createdAtString => {
-      return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
-    }
-
     return (
       <div {...styles.container}>
         {resultsOutdated && !keepCachedAggregations && (
@@ -396,7 +391,6 @@ class Results extends Component {
                                   title: node.entity.discussion.title
                                 }}
                                 highlights={node.highlights}
-                                timeago={timeagoFromNow}
                                 Link={CommentLink}
                                 t={t}
                               />

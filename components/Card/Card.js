@@ -26,8 +26,8 @@ const Card = ({ payload, user }) => {
         }}
       />}
       {payload.smartvoteCleavage && <Spider
-        width={400}
-        height={400}
+        width={300}
+        height={300}
         fill={partyColor}
         data={payload.smartvoteCleavage} />}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 15px', backgroundColor: '#fff' }}>

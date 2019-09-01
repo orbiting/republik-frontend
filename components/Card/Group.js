@@ -33,9 +33,9 @@ const styles = {
   }),
   cardInner: css({
     backgroundColor: 'white',
-    width: '55vh',
+    width: '40vh',
     maxWidth: 400,
-    height: '75vh',
+    height: '60vh',
     maxHeight: 570,
     willChange: 'transform',
     borderRadius: 10,

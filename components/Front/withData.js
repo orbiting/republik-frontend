@@ -55,9 +55,10 @@ export const withFeedData = graphql(feedQuery, {
       ...excludeRepoIdsCS.split(',')
     ].filter(Boolean)
 
-    let from = minPublishDate || lastPublishedAt
+    let from = minPublishDate || (lastPublishedAt
       ? `${lastPublishedAt.split('T')[0]}T02:00:00.000Z`
       : undefined
+    )
 
     return {
       variables: {

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-08-28T08:32:18.765Z",
+  "updated": "2019-09-01T06:15:41.892Z",
   "title": "live",
   "data": [
     {
@@ -5189,6 +5189,30 @@
     {
       "key": "trial/meta/description",
       "value": "Melden Sie sich für einen kostenlosen Streifzug durch die Republik an."
+    },
+    {
+      "key": "Trial/Page/unauthorized/perlentaucher/heading",
+      "value": "Spezialangebot für Perlentaucher"
+    },
+    {
+      "key": "Trial/Page/unauthorized/perlentaucher/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 30.09.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
+      "key": "Trial/Page/unauthorized/papier/heading",
+      "value": "Neugier wird belohnt. Unser Angebot für Papierleserinnen"
+    },
+    {
+      "key": "Trial/Page/unauthorized/papier/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 30.09.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
+      "key": "Trial/Page/unauthorized/buchbasel/heading",
+      "value": "Unser Spezialangebot zur BuchBasel"
+    },
+    {
+      "key": "Trial/Page/unauthorized/buchbasel/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
     }
   ]
 }

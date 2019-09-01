@@ -11,10 +11,21 @@ import {
 } from '../lib/constants'
 
 const Page = ({ router, t }) => {
+  const { campaign } = router.query
+
   const meta = {
-    pageTitle: t('trial/meta/pageTitle'),
-    title: t('trial/meta/title'),
-    description: t('trial/meta/description'),
+    pageTitle: t.first([
+      `trial/meta/${campaign}/pageTitle`,
+      'trial/meta/pageTitle'
+    ]),
+    title: t([
+      `trial/meta/${campaign}/title`,
+      'trial/meta/title'
+    ]),
+    description: t([
+      `trial/meta/${campaign}/description`,
+      'trial/meta/description'
+    ]),
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
     url: `${PUBLIC_BASE_URL}${router.pathname}`
   }

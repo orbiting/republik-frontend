@@ -70,6 +70,8 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
             documents.nodes.map(doc => (
               <TeaserFeed
                 {...doc.meta}
+                title={doc.meta.shortTitle || doc.meta.title}
+                description={!doc.meta.shortTitle && doc.meta.description}
                 Link={Link}
                 key={doc.meta.path}
                 bar={<ActionBar

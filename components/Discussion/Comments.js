@@ -3,9 +3,6 @@ import { css } from 'glamor'
 import { compose } from 'react-apollo'
 
 import withT from '../../lib/withT'
-import timeahead from '../../lib/timeahead'
-import timeago from '../../lib/timeago'
-import timeduration from '../../lib/timeduration'
 
 import { isAdmin } from './graphql/enhancers/isAdmin'
 import { withDiscussionDisplayAuthor } from './graphql/enhancers/withDiscussionDisplayAuthor'
@@ -254,27 +251,8 @@ const Comments = props => {
 
           clock: {
             now,
-            formatTimeRelative: (date, options = {}) => {
-              const td = (+date - now) / 1000
-              const direction = options.direction || (td > 0 ? 'future' : 'past')
-
-              switch (direction) {
-                case 'future': {
-                  return timeahead(t, Math.max(0, td))
-                }
-                case 'past': {
-                  /*
-                   * On large screens we use the full timeago string. On smaller screens
-                   * we abreviate it to just '5h' instead of the full '5 hours ago'.
-                   */
-                  if (isDesktop) {
-                    return timeago(t, Math.max(0, -td))
-                  } else {
-                    return timeduration(t, Math.max(0, -td))
-                  }
-                }
-              }
-            }
+            isDesktop,
+            t
           },
 
           links: {

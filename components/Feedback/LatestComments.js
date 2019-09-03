@@ -3,8 +3,6 @@ import { compose } from 'react-apollo'
 import { css } from 'glamor'
 import { withComments } from './enhancers'
 import withT from '../../lib/withT'
-import timeago from '../../lib/timeago'
-import timeduration from '../../lib/timeduration'
 
 import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
 
@@ -12,9 +10,7 @@ import {
   CommentTeaser,
   Loader,
   fontStyles,
-  linkRule,
-  mediaQueries,
-  useMediaQuery
+  linkRule
 } from '@project-r/styleguide'
 
 import CommentLink from '../Discussion/CommentLink'
@@ -34,16 +30,6 @@ const styles = {
 }
 
 const LatestComments = ({ t, data, fetchMore }) => {
-  const isDesktop = useMediaQuery(mediaQueries.mUp)
-
-  const timeagoFromNow = createdAtString => {
-    if (isDesktop) {
-      return timeago(t, (new Date() - Date.parse(createdAtString)) / 1000)
-    } else {
-      return timeduration(t, (new Date() - Date.parse(createdAtString)) / 1000)
-    }
-  }
-
   return (
     <Loader
       loading={data.loading}
@@ -79,7 +65,6 @@ const LatestComments = ({ t, data, fetchMore }) => {
                       preview={preview}
                       createdAt={createdAt}
                       updatedAt={updatedAt}
-                      timeago={timeagoFromNow}
                       tags={tags}
                       parentIds={parentIds}
                       Link={CommentLink}

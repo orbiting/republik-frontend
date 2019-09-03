@@ -6,9 +6,7 @@ import { compose } from 'react-apollo'
 import ArticleItem from './ArticleItem'
 import { withActiveDiscussions } from './enhancers'
 
-import { Link } from '../../lib/routes'
-import PathLink from '../Link/Path'
-import { GENERAL_FEEDBACK_DISCUSSION_ID } from '../../lib/constants'
+import DiscussionLink from '../Discussion/DiscussionLink'
 
 import {
   Interaction,
@@ -51,50 +49,6 @@ const styles = {
       ...fontStyles.sansSerifRegular21
     }
   }))
-}
-
-const DiscussionLink = ({
-  children,
-  discussion
-}) => {
-  let tab
-  if (discussion && discussion.document) {
-    const meta = discussion.document.meta || {}
-    const ownDiscussion = meta.ownDiscussion && !meta.ownDiscussion.closed
-    const template = meta.template
-    tab =
-      (ownDiscussion && template === 'article' && 'article') ||
-      (discussion && discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID && 'general')
-  }
-  if (tab) {
-    return (
-      <Link
-        route='discussion'
-        params={{ t: tab, id: discussion.id }}
-        passHref
-      >
-        {children}
-      </Link>
-    )
-  }
-  if (discussion) {
-    const path = discussion.document &&
-      discussion.document.meta &&
-      discussion.document.meta.path
-      ? discussion.document.meta.path
-      : discussion.path
-    if (path) {
-      return (
-        <PathLink
-          path={path}
-          passHref
-        >
-          {children}
-        </PathLink>
-      )
-    }
-  }
-  return children
 }
 
 const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) => (

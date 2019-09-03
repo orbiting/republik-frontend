@@ -12,7 +12,8 @@ import {
   Center,
   Interaction
 } from '@project-r/styleguide'
-import DocumentListContainer, { documentListQueryFragment } from './DocumentListContainer'
+import DocumentList from './DocumentList'
+import { makeLoadMore, documentFragment } from './DocumentListContainer'
 
 const styles = {
   container: css({
@@ -24,24 +25,35 @@ const styles = {
   })
 }
 
-const documentsQuery = gql`
-  query getDocuments($cursor: String) {
-    documents(feed: true, first: 30, after: $cursor) {
-      ...DocumentListConnection
-    }
-  }
-  ${documentListQueryFragment}
-`
-
-const filterDocuments = node => node.meta.template !== 'format' && node.meta.template !== 'front'
-
-const greetingQuery = gql`
-  {
+const query = gql`
+  query getFeed($cursor: String) {
     greeting {
       text
       id
     }
+    documents: search(
+      filters: [
+        {key: "template", not: true, value: "format"},
+        {key: "template", not: true, value: "front"}
+      ], 
+      filter: {feed: true},
+      sort: {key: publishedAt, direction: DESC},
+      first: 30,
+      after: $cursor
+    ) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        entity {
+          ...DocumentListDocument
+        }
+      }
+    }
   }
+  ${documentFragment}
 `
 
 const greetingSubscription = gql`
@@ -91,7 +103,9 @@ class Feed extends Component {
   }
 
   render () {
-    const { meta, data: { error, loading, greeting } } = this.props
+    const { meta, data: { error, loading, greeting, documents: connection, fetchMore } } = this.props
+
+    const mapNodes = node => node.entity
 
     return (
       <Frame raw meta={meta}>
@@ -107,9 +121,16 @@ class Feed extends Component {
                       {greeting.text}
                     </Interaction.H1>
                   )}
-                  <DocumentListContainer
-                    query={documentsQuery}
-                    filterDocuments={filterDocuments}
+
+                  <DocumentList
+                    documents={connection.nodes.map(mapNodes)}
+                    totalCount={connection.totalCount}
+                    hasMore={connection.pageInfo.hasNextPage}
+                    loadMore={makeLoadMore({
+                      fetchMore,
+                      connection,
+                      mapNodes
+                    })}
                   />
                 </>
               )
@@ -122,7 +143,7 @@ class Feed extends Component {
 }
 
 export default compose(
-  graphql(greetingQuery),
+  graphql(query),
   withT,
   withInNativeApp
 )(Feed)

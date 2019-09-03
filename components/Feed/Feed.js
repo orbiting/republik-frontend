@@ -21,6 +21,8 @@ class Feed extends Component {
   renderFeedItem = doc =>
     <TeaserFeed
       {...doc.meta}
+      title={doc.meta.shortTitle || doc.meta.title}
+      description={!doc.meta.shortTitle && doc.meta.description}
       t={this.props.t}
       credits={this.props.showHeader ? formatCredits(doc.meta.credits) : doc.meta.credits}
       publishDate={undefined}

@@ -16,8 +16,8 @@ import Loader from '../components/Loader'
 import StatusError from '../components/StatusError'
 
 const query = gql`
-query {
-  cardGroup(id: "c2abde51-42ee-49a5-bdb6-748bed8aecb4") {
+query getCardGroup($slug: String!) {
+  cardGroup(slug: $slug) {
     id
     name
     slug
@@ -71,5 +71,11 @@ const Page = ({ serverContext, router: { query: { group } }, data, t }) => (
 export default compose(
   withRouter,
   withT,
-  graphql(query)
+  graphql(query, {
+    options: ({ router }) => ({
+      variables: {
+        slug: router.query.group
+      }
+    })
+  })
 )(Page)

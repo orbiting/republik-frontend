@@ -6,7 +6,6 @@ import { compose } from 'react-apollo'
 
 import MdNotificationsOff from 'react-icons/lib/md/notifications-off'
 import MdNotificationsActive from 'react-icons/lib/md/notifications-active'
-import MdStar from 'react-icons/lib/md/star'
 
 import withT from '../../lib/withT'
 import { HEADER_HEIGHT, NAVBAR_HEIGHT } from '../constants'
@@ -51,7 +50,7 @@ const from = i => ({ x: 0, rot: 0, scale: 1.5, y: -1000 })
 const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Group = ({ t, group }) => {
-  const data = group.cards.nodes
+  const data = [].concat(group.cards.nodes).reverse()
   const [gone] = useState(() => new Set()) // The set flags all the cards that are flicked out
   const [props, set] = useSprings(data.length, i => ({ ...to(i), from: from(i) })) // Create a bunch of springs using the helpers above
   // Create a gesture, we're interested in down-state, delta (current-pos - click-pos), direction and velocity
@@ -97,21 +96,6 @@ const Group = ({ t, group }) => {
               boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
             }}>
             <MdNotificationsOff size={25} fill='#fff' />
-          </span>
-          <span
-            style={{
-              display: 'inline-block',
-              width: 60,
-              height: 60,
-              borderRadius: '50%',
-              margin: 20,
-              backgroundColor: '#E9A733',
-              padding: 15,
-              lineHeight: 0,
-              verticalAlign: 'middle',
-              boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
-            }}>
-            <MdStar size={25} fill='#fff' />
           </span>
           <span
             style={{

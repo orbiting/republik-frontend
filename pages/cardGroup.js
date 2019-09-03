@@ -31,10 +31,17 @@ query getCardGroup($slug: String!) {
         id
         user {
           name
-          portrait
+          portrait(properties: {bw: false, width: 600, height: 800})
           slug
         }
         payload
+        statement {
+          id
+          preview(length: 100) {
+            string
+            more
+          }
+        }
       }
     }
   }

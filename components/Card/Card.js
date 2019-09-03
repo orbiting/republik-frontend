@@ -5,9 +5,26 @@ import getPartyColor from './partyColors'
 
 const Card = ({ payload, user }) => {
   const [slide, setSlide] = useState(0)
-  const slides = 2
 
   const partyColor = getPartyColor(payload.party)
+  const slides = [
+    user.portrait && <div style={{
+      height: '100%',
+      backgroundImage: `url(${user.portrait})`,
+      backgroundSize: 'cover'
+    }} />,
+    payload.smartvoteCleavage && <div style={{ width: 300, margin: '0 auto', paddingTop: 100 }}>
+      <Spider
+        width={300}
+        height={300}
+        fill={partyColor}
+        data={payload.smartvoteCleavage} />
+    </div>
+  ].filter(Boolean)
+  if (!slides.length) {
+    slides.push(<div style={{ textAlign: 'center', paddingTop: 100 }}>Nix</div>)
+  }
+  const totalSlides = slides.length
 
   return (
     <div
@@ -16,23 +33,10 @@ const Card = ({ payload, user }) => {
         borderBottom: `10px solid ${partyColor}`,
         position: 'relative'
       }}>
-      {user.portrait && <img
-        src={user.portrait}
-        alt=''
-        style={{
-          width: '100%',
-          marginTop: '3%',
-          padding: 20
-        }}
-      />}
-      {payload.smartvoteCleavage && <Spider
-        width={300}
-        height={300}
-        fill={partyColor}
-        data={payload.smartvoteCleavage} />}
+      {slides[slide]}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 15px', backgroundColor: '#fff' }}>
         <div style={{ position: 'absolute', top: -30, left: 0, right: 0, textAlign: 'center' }}>
-          {Array.from({ length: slides }).map((_, i) => (
+          {slides.map((_, i) => (
             <span
               key={i}
               style={{
@@ -53,7 +57,7 @@ const Card = ({ payload, user }) => {
         {slide === 0 && <>
           Listenplatz {payload.listNumber} mit Chance, neu
           <br />
-          {payload.occupation}, geboren {payload.yearOfBirth}
+          {payload.occupation} {payload.yearOfBirth && `, geboren ${payload.yearOfBirth}`}
         </>}
         {slide === 1 && <>
           Statement<br />
@@ -81,7 +85,7 @@ const Card = ({ payload, user }) => {
           width: '50%'
         }}
         onClick={() => {
-          setSlide(Math.min(slides - 1, slide + 1))
+          setSlide(Math.min(totalSlides - 1, slide + 1))
         }}
       />
     </div>

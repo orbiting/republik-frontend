@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-01T06:15:41.892Z",
+  "updated": "2019-09-04T14:18:13.706Z",
   "title": "live",
   "data": [
     {
@@ -5213,6 +5213,14 @@
     {
       "key": "Trial/Page/unauthorized/buchbasel/intro",
       "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
+      "key": "Trial/Page/unauthorized/science-et-cite/heading",
+      "value": "Spezialangebot für «Science et Cité»"
+    },
+    {
+      "key": "Trial/Page/unauthorized/science-et-cite/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die «Republik». Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
     }
   ]
 }

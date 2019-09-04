@@ -61,7 +61,7 @@ const Spider = ({ data, fill, width, height }) => {
       ))}
       {axes.map((_, i) => (
         <line
-          key={i}
+          key={`axis-${i}`}
           stroke={axisLineColor}
           strokeWidth='1'
           x1={cx}
@@ -76,7 +76,7 @@ const Spider = ({ data, fill, width, height }) => {
         const y = getVerticalPosition(i, cx, factor)
 
         return (
-          <g transform={`translate(${x} ${y}) rotate(${rot})`}>
+          <g key={`labels-${i}`} transform={`translate(${x} ${y}) rotate(${rot})`}>
             <text
               key={i}
               fill={colors.text}
@@ -90,6 +90,7 @@ const Spider = ({ data, fill, width, height }) => {
                 .split('\n')
                 .map((line, i) =>
                   <tspan
+                    key={i}
                     x='0'
                     y={below
                       ? i ? '2.2em' : '1.1em'

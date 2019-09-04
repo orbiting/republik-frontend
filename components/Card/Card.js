@@ -13,7 +13,7 @@ const Card = ({ payload, user }) => {
       backgroundImage: `url(${user.portrait})`,
       backgroundSize: 'cover'
     }} />,
-    payload.smartvoteCleavage && <div style={{ width: 300, margin: '0 auto', paddingTop: 100 }}>
+    payload.smartvoteCleavage && <div style={{ width: 300, margin: '0 auto', paddingTop: 50 }}>
       <Spider
         width={300}
         height={300}
@@ -22,7 +22,7 @@ const Card = ({ payload, user }) => {
     </div>
   ].filter(Boolean)
   if (!slides.length) {
-    slides.push(<div style={{ textAlign: 'center', paddingTop: 100 }}>Nix</div>)
+    slides.push(<div style={{ textAlign: 'center', paddingTop: 100 }}>Nüt</div>)
   }
   const totalSlides = slides.length
 
@@ -57,7 +57,10 @@ const Card = ({ payload, user }) => {
         {slide === 0 && <>
           Listenplatz {payload.listNumber} mit Chance, neu
           <br />
-          {payload.occupation} {payload.yearOfBirth && `, geboren ${payload.yearOfBirth}`}
+          {[
+            payload.occupation,
+            `geboren ${payload.yearOfBirth}`
+          ].filter(Boolean).join(', ')}
         </>}
         {slide === 1 && <>
           Statement<br />

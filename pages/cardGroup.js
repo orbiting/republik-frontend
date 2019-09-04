@@ -16,12 +16,12 @@ import Loader from '../components/Loader'
 import StatusError from '../components/StatusError'
 
 const query = gql`
-query getCardGroup($slug: String!) {
+query getCardGroup($slug: String!, $after: String) {
   cardGroup(slug: $slug) {
     id
     name
     slug
-    cards(first: 10) {
+    cards(first: 50, after: $after) {
       totalCount
       pageInfo {
         hasNextPage
@@ -68,7 +68,29 @@ const Page = ({ serverContext, router: { query: { group } }, data, t }) => (
             })}`
             // image
           }} />
-          <Group group={data.cardGroup} />
+          <Group group={data.cardGroup} fetchMore={({ endCursor }) => data.fetchMore({
+            variables: {
+              after: endCursor
+            },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              return {
+                ...previousResult,
+                ...fetchMoreResult,
+                cardGroup: {
+                  ...previousResult.cardGroup,
+                  ...fetchMoreResult.cardGroup,
+                  cards: {
+                    ...previousResult.cardGroup.cards,
+                    ...fetchMoreResult.cardGroup.cards,
+                    nodes: [
+                      ...previousResult.cardGroup.cards.nodes,
+                      ...fetchMoreResult.cardGroup.cards.nodes
+                    ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+                  }
+                }
+              }
+            }
+          })} />
         </>
       )
     }} />

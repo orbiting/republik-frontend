@@ -55,7 +55,21 @@ const Card = ({ payload, user }) => {
         </strong>
         <br />
         {slide === 0 && <>
-          Listenplatz {payload.listNumber} mit Chance, neu
+          {payload.councilOfStates.candidacy && <strong>
+            {payload.nationalCouncil.candidacy
+              ? 'Stände- und Nationalratskandidatur'
+              : 'Ständeratskandidatur'
+            }
+            <br />
+          </strong>}
+          {[
+            payload.listPlaces && payload.listPlaces.length && `Listenplatz ${payload.listPlaces.join(', ')}`,
+            payload.councilOfStates.candidacy
+              ? payload.councilOfStates.incumbent
+                ? 'bisher'
+                : payload.nationalCouncil.incumbent ? 'bisher im Nationalrat' : 'neu'
+              : payload.nationalCouncil.incumbent ? 'bisher' : 'neu'
+          ].filter(Boolean).join(', ')}
           <br />
           {[
             payload.occupation,

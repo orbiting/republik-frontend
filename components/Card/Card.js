@@ -1,7 +1,25 @@
 import React, { useState } from 'react'
+import { css } from 'glamor'
+
+import { Editorial, InfoBoxText, InfoBoxListItem } from '@project-r/styleguide'
+
+import { chfFormat } from '../../lib/utils/format'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
+
+const styles = {
+  centerContent: css({
+    width: 300,
+    margin: '0 auto',
+    paddingTop: 50
+  }),
+  financialSlide: css({
+    '& ul': {
+      marginTop: 0
+    }
+  })
+}
 
 const Card = ({ payload, user }) => {
   const [slide, setSlide] = useState(0)
@@ -13,17 +31,39 @@ const Card = ({ payload, user }) => {
       backgroundImage: `url(${user.portrait})`,
       backgroundSize: 'cover'
     }} />,
-    payload.smartvoteCleavage && <div style={{ width: 300, margin: '0 auto', paddingTop: 50 }}>
-      <Spider
-        width={300}
-        height={300}
-        fill={partyColor}
-        data={payload.smartvoteCleavage} />
+    payload.smartvoteCleavage && <div {...styles.centerContent}>
+      <InfoBoxText>
+        <Spider
+          width={300}
+          height={300}
+          fill={partyColor}
+          data={payload.smartvoteCleavage} />
+        <br /><br />
+        <div style={{ textAlign: 'right' }}>
+          <small>Quelle: Smartvote</small>
+        </div>
+      </InfoBoxText>
+    </div>,
+    <div {...styles.centerContent} {...styles.financialSlide}>
+      <InfoBoxText>
+        <strong>Wahlkampfbudget</strong>
+        {payload.campaignBudget ? `: ${chfFormat(payload.campaignBudget)}` : <><br />Keine Angabe</>}
+        {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
+        <br />
+        <strong>Interessenbindungen</strong>
+        {payload.vestedInterestsSmartvote.length ? <Editorial.UL compact>
+          {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
+            <InfoBoxListItem key={i}>
+              {vestedInterest.name}
+              {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
+              {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
+            </InfoBoxListItem>
+          )}
+        </Editorial.UL> : <><br />Keine Angabe<br /></>}
+        <small>Quelle: Smartvote</small>
+      </InfoBoxText>
     </div>
   ].filter(Boolean)
-  if (!slides.length) {
-    slides.push(<div style={{ textAlign: 'center', paddingTop: 100 }}>Nüt</div>)
-  }
   const totalSlides = slides.length
 
   return (

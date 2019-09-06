@@ -16,7 +16,7 @@ import Card from './Card'
 const styles = {
   container: css({
     position: 'relative',
-    background: 'lightblue',
+    background: '#add8e666',
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',
@@ -34,6 +34,7 @@ const styles = {
   cardInner: css({
     userSelect: 'none',
     backgroundColor: 'white',
+    minWidth: 300,
     width: '40vh',
     maxWidth: 400,
     height: '60vh',
@@ -41,7 +42,7 @@ const styles = {
     willChange: 'transform',
     borderRadius: 10,
     overflow: 'hidden',
-    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+    boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
   })
 }
 

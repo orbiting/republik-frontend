@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { css } from 'glamor'
 
-import { Editorial, InfoBoxText, InfoBoxListItem } from '@project-r/styleguide'
+import {
+  Interaction, Editorial,
+  InfoBoxText, InfoBoxListItem
+} from '@project-r/styleguide'
 
 import { chfFormat } from '../../lib/utils/format'
 
@@ -9,10 +12,26 @@ import Spider from './Spider'
 import getPartyColor from './partyColors'
 
 const styles = {
+  bottomText: css({
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: '10px 15px',
+    backgroundColor: '#fff',
+    fontSize: 16,
+    lineHeight: '20px'
+  }),
+  occupation: css({
+    display: 'block',
+    maxHeight: 40,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden'
+  }),
   centerContent: css({
-    width: 300,
-    margin: '0 auto',
-    paddingTop: 50
+    width: 280,
+    margin: '0 auto'
   }),
   financialSlide: css({
     '& ul': {
@@ -34,14 +53,13 @@ const Card = ({ payload, user }) => {
     payload.smartvoteCleavage && <div {...styles.centerContent}>
       <InfoBoxText>
         <Spider
-          width={300}
-          height={300}
+          size={280}
           fill={partyColor}
           data={payload.smartvoteCleavage} />
-        <br /><br />
-        <div style={{ textAlign: 'right' }}>
+        <br />
+        <span style={{ display: 'block', textAlign: 'right' }}>
           <small>Quelle: Smartvote</small>
-        </div>
+        </span>
       </InfoBoxText>
     </div>,
     <div {...styles.centerContent} {...styles.financialSlide}>
@@ -66,15 +84,19 @@ const Card = ({ payload, user }) => {
   ].filter(Boolean)
   const totalSlides = slides.length
 
+  const { listPlaces } = payload.nationalCouncil
+
   return (
     <div
       style={{
         height: '100%',
+        backgroundColor: '#f3f3f3',
         borderBottom: `10px solid ${partyColor}`,
-        position: 'relative'
+        position: 'relative',
+        overflow: 'hidden'
       }}>
       {slides[slide]}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '10px 15px', backgroundColor: '#fff' }}>
+      <div {...styles.bottomText} {...Interaction.fontRule}>
         <div style={{ position: 'absolute', top: -30, left: 0, right: 0, textAlign: 'center' }}>
           {slides.map((_, i) => (
             <span
@@ -91,35 +113,35 @@ const Card = ({ payload, user }) => {
           ))}
         </div>
         <strong>
-          {user.name}, {payload.party}
-        </strong>
-        <br />
-        {slide === 0 && <>
-          {payload.councilOfStates.candidacy && <strong>
+          {payload.councilOfStates.candidacy && <>
             {payload.nationalCouncil.candidacy
               ? 'Stände- und Nationalratskandidatur'
               : 'Ständeratskandidatur'
             }
             <br />
-          </strong>}
-          {[
-            payload.listPlaces && payload.listPlaces.length && `Listenplatz ${payload.listPlaces.join(', ')}`,
+          </>}
+          {user.name}
+        </strong>
+        &nbsp;
+        {payload.age || payload.yearOfBirth}
+        <br />
+        <strong>
+          {payload.party}
+          {','}&nbsp;
+          {
             payload.councilOfStates.candidacy
               ? payload.councilOfStates.incumbent
                 ? 'bisher'
                 : payload.nationalCouncil.incumbent ? 'bisher im Nationalrat' : 'neu'
               : payload.nationalCouncil.incumbent ? 'bisher' : 'neu'
-          ].filter(Boolean).join(', ')}
-          <br />
-          {[
-            payload.occupation,
-            `geboren ${payload.yearOfBirth}`
-          ].filter(Boolean).join(', ')}
-        </>}
-        {slide === 1 && <>
-          Statement<br />
-          Lange etc.
-        </>}
+          }
+        </strong>
+        {' '}
+        {listPlaces && !!listPlaces.length && `Listenplatz: ${listPlaces.join(' & ')}`}
+        <br />
+        <span {...styles.occupation}>
+          {payload.occupation}
+        </span>
       </div>
       <div
         style={{

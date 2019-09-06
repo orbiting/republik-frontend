@@ -28,9 +28,9 @@ const axes = [
 ]
 const nAxes = axes.length
 
-const Spider = ({ data, fill, width, height }) => {
-  const cx = width / 2
-  const cy = height / 2
+const Spider = ({ data, fill, size }) => {
+  const cx = size / 2
+  const cy = size / 2
   const points = data.map((d, i) => {
     return {
       x: getHorizontalPosition(i, cx, (d / maxValue) * factor),
@@ -44,7 +44,7 @@ const Spider = ({ data, fill, width, height }) => {
   })
 
   return (
-    <svg width={width} height={height}>
+    <svg width={size} height={size}>
       {levelFactors.map(levelFactor => (
         <g key={levelFactor}>
           {range(0, nAxes).map(i =>

@@ -31,11 +31,15 @@ const styles = {
   }),
   centerContent: css({
     width: 280,
-    margin: '0 auto'
+    margin: '0 auto',
+    paddingTop: 5
   }),
   financialSlide: css({
     '& ul': {
       marginTop: 0
+    },
+    '& p': {
+      marginBottom: 0
     }
   })
 }
@@ -69,15 +73,18 @@ const Card = ({ payload, user }) => {
         {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
         <br />
         <strong>Interessenbindungen</strong>
-        {payload.vestedInterestsSmartvote.length ? <Editorial.UL compact>
-          {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
-            <InfoBoxListItem key={i}>
-              {vestedInterest.name}
-              {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
-              {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
-            </InfoBoxListItem>
-          )}
-        </Editorial.UL> : <><br />Keine Angabe<br /></>}
+        {!payload.vestedInterestsSmartvote.length && <><br />Keine Angabe</>}
+      </InfoBoxText>
+      {!!payload.vestedInterestsSmartvote.length && <Editorial.UL compact>
+        {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
+          <InfoBoxListItem key={i}>
+            {vestedInterest.name}
+            {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
+            {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
+          </InfoBoxListItem>
+        )}
+      </Editorial.UL>}
+      <InfoBoxText>
         <small>Quelle: Smartvote</small>
       </InfoBoxText>
     </div>
@@ -96,22 +103,27 @@ const Card = ({ payload, user }) => {
         overflow: 'hidden'
       }}>
       {slides[slide]}
+      {totalSlides > 1 && <div style={{
+        position: 'absolute',
+        top: 8,
+        left: 10,
+        right: 10
+      }}>
+        {slides.map((_, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              left: `${i * 100 / totalSlides + 1}%`,
+              width: `${100 / totalSlides - 2}%`,
+              height: 3,
+              borderRadius: 1,
+              backgroundColor: i === slide ? '#fff' : 'rgba(0, 0, 0, 0.2)'
+            }}
+          />
+        ))}
+      </div>}
       <div {...styles.bottomText} {...Interaction.fontRule}>
-        <div style={{ position: 'absolute', top: -30, left: 0, right: 0, textAlign: 'center' }}>
-          {slides.map((_, i) => (
-            <span
-              key={i}
-              style={{
-                display: 'inline-block',
-                width: 5,
-                height: 5,
-                margin: 5,
-                borderRadius: '50%',
-                backgroundColor: i === slide ? '#fff' : 'rgba(255, 255, 255, 0.6)'
-              }}
-            />
-          ))}
-        </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
             {payload.nationalCouncil.candidacy

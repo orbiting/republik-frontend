@@ -4,10 +4,13 @@ import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
 
-import MdNotificationsOff from 'react-icons/lib/md/notifications-off'
-import MdNotificationsActive from 'react-icons/lib/md/notifications-active'
+import IgnoreIcon from 'react-icons/lib/md/notifications-off'
+import FollowIcon from 'react-icons/lib/md/notifications-active'
+import RevertIcon from 'react-icons/lib/md/settings-backup-restore'
+import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
+import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { HEADER_HEIGHT, NAVBAR_HEIGHT } from '../constants'
 
 import Card from './Card'
@@ -24,8 +27,8 @@ const styles = {
   card: css({
     position: 'absolute',
     width: '100vw',
-    height: '90vh',
-    willChange: 'transform',
+    height: '80vh',
+    minHeight: 480,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -33,21 +36,14 @@ const styles = {
   cardInner: css({
     userSelect: 'none',
     backgroundColor: 'white',
-    minWidth: 300,
-    width: '40vh',
-    maxWidth: 400,
-    height: '60vh',
-    minHeight: 450,
-    maxHeight: 570,
-    willChange: 'transform',
     borderRadius: 10,
     overflow: 'hidden',
     boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
   }),
   button: css({
     display: 'inline-block',
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     borderRadius: '50%',
     margin: 20,
     padding: 15,
@@ -57,7 +53,7 @@ const styles = {
   }),
   buttonPanel: css({
     position: 'absolute',
-    bottom: 30,
+    bottom: 10,
     left: 0,
     right: 0,
     height: 100,
@@ -75,29 +71,39 @@ const fromFall = () => ({
 
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-const SpringCard = ({ i, zIndex, card, bindGestures, fallIn, active }) => {
+const SpringCard = ({
+  i, zIndex, card, bindGestures, cardWidth,
+  fallIn,
+  isTop, isHot
+}) => {
   const [props, set] = useSpring(() => fallIn
     ? { ...to(), delay: i * 100, from: fromFall() }
     : { ...to(), from: { opacity: 0 } }
   )
   const { x, y, rot, scale, opacity } = props
-  if (active) {
+  if (isTop) {
     set({
       scale: 1.05, rot: 0
     })
   }
 
+  const willChange = isHot ? 'transform' : undefined
+
   return (
     <animated.div {...styles.card} style={{
       transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-      zIndex: zIndex
+      zIndex: zIndex,
+      willChange
     }}>
       <animated.div
-        {...bindGestures(set, card)}
+        {...bindGestures(set, card, isTop)}
         {...styles.cardInner}
         style={{
+          width: cardWidth,
+          height: cardWidth * 1.45,
           opacity,
-          transform: interpolate([rot, scale], interpolateTransform)
+          transform: interpolate([rot, scale], interpolateTransform),
+          willChange
         }}
       >
         {card && <Card key={card.id} {...card} />}
@@ -106,7 +112,8 @@ const SpringCard = ({ i, zIndex, card, bindGestures, fallIn, active }) => {
   )
 }
 
-const nSprings = 5
+const nNew = 5
+const nOld = 3
 const Group = ({ t, group, fetchMore }) => {
   const allCards = group.cards.nodes
   // const totalCount = group.cards.totalCount
@@ -115,17 +122,24 @@ const Group = ({ t, group, fetchMore }) => {
     card,
     i
   })
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [activeCards, setActiveCards] = useState(() => allCards.slice(0, nSprings).map((card, i) => ({
+  const [topIndex, setTopIndex] = useState(0)
+  const [activeCards, setActiveCards] = useState(() => allCards.slice(0, nNew).map((card, i) => ({
     ...mapCardToActive(card, i),
     fallIn: true
   })))
   const [gone] = useState(() => new Set())
+  const windowWidth = useWindowWidth()
+  const cardWidth = windowWidth > 500
+    ? 320
+    : 300
 
-  const bindGestures = useGesture(({ args: [set, card], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+  const bindGestures = useGesture(({ args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     // flick hard enough
-    const trigger = velocity > 0.2
-    const dir = xDir < 0 ? -1 : 1
+    const out = Math.abs(xDelta) > cardWidth / 4
+    const trigger = velocity > 0.2 || out
+    const dir = out
+      ? xDelta < 0 ? -1 : 1
+      : xDir < 0 ? -1 : 1
 
     // If button/finger's up, fly out
     if (!down && trigger) {
@@ -135,7 +149,7 @@ const Group = ({ t, group, fetchMore }) => {
         ? acs.concat(mapCardToActive(allCards[acs.length], acs.length))
         : acs
       )
-      setActiveIndex(index => index + 1)
+      setTopIndex(index => index + 1)
 
       // move to proper useEffect
       if (activeCards.length >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
@@ -144,15 +158,17 @@ const Group = ({ t, group, fetchMore }) => {
     }
 
     const isGone = gone.has(card)
-    const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0
+    const x = isGone
+      ? (200 + windowWidth) * dir
+      : down ? xDelta : 0
     // how much the card tilts, flicking it harder makes it rotate faster
     const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0)
 
     // active cards lift up a bit
-    const scale = down ? 1.05 : 1
+    const scale = down || isTop ? 1.05 : 1
     set({
       x,
-      rot,
+      rot: !down && !isGone ? 0 : rot,
       scale,
       delay: undefined,
       config: {
@@ -166,12 +182,20 @@ const Group = ({ t, group, fetchMore }) => {
     <>
       <div {...styles.container}>
         {activeCards.map((activeCard, i) => {
-          if (i + 3 < activeIndex) {
+          if (i + nOld < topIndex) {
             return null
           }
+          const isTop = topIndex === i
           return <SpringCard
             {...activeCard}
-            active={activeIndex === i}
+            windowWidth={windowWidth}
+            cardWidth={cardWidth}
+            isHot={
+              isTop ||
+              activeCard.fallIn ||
+              Math.abs(topIndex - i) === 1
+            }
+            isTop={isTop}
             zIndex={activeCards.length - i}
             bindGestures={bindGestures} />
         })}
@@ -179,11 +203,27 @@ const Group = ({ t, group, fetchMore }) => {
         <div {...styles.buttonPanel} style={{
           zIndex: activeCards.length + 1
         }}>
+          <span {...styles.button} style={{
+            backgroundColor: '#EBB900',
+            width: 40,
+            height: 40,
+            padding: 10
+          }}>
+            <RevertIcon size={20} fill='#fff' />
+          </span>
           <span {...styles.button} style={{ backgroundColor: '#9F2500' }}>
-            <MdNotificationsOff size={25} fill='#fff' />
+            <IgnoreIcon size={25} fill='#fff' />
           </span>
           <span {...styles.button} style={{ backgroundColor: 'rgb(8,48,107)' }}>
-            <MdNotificationsActive size={25} fill='#fff' />
+            <FollowIcon size={25} fill='#fff' />
+          </span>
+          <span {...styles.button} style={{
+            backgroundColor: '#4B6359', // disabled #B7C1BD
+            width: 40,
+            height: 40,
+            padding: 10
+          }}>
+            <OverviewIcon size={20} fill='#fff' />
           </span>
         </div>
       </div>

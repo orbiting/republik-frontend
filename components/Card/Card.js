@@ -77,7 +77,9 @@ const Card = ({ payload, user }) => {
     <div {...styles.centerContent} {...styles.financialSlide}>
       <InfoBoxText>
         <strong>Wahlkampfbudget</strong>
-        {payload.campaignBudget ? `: ${chfFormat(payload.campaignBudget)}` : <><br />Keine Angabe</>}
+        {payload.campaignBudget
+          ? `: ${chfFormat(payload.campaignBudget)}`
+          : !payload.campaignBudgetComment && <><br />Keine Angabe</>}
         {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
         <br />
         <strong>Interessenbindungen</strong>

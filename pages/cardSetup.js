@@ -3,7 +3,7 @@ import { withRouter } from 'next/router'
 
 import Frame from '../components/Frame'
 import CardClaim from '../components/Card/Claim'
-import CardUpsert from '../components/Card/Upsert'
+import CardUpdate from '../components/Card/Update'
 
 const Page = ({ router }) => {
   const { token } = router.query
@@ -18,7 +18,7 @@ const Page = ({ router }) => {
 
   return (
     <Frame>
-      <CardUpsert />
+      <CardUpdate />
     </Frame>
   )
 }

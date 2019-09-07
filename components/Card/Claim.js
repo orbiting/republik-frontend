@@ -57,13 +57,20 @@ const styles = {
 
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
+const maybeCard = (data, apply) => {
+  return data.cards &&
+    data.cards.nodes.length > 0 &&
+    data.cards.nodes[0] &&
+    apply(data.cards.nodes[0])
+}
+
 const Page = (props) => {
   const { serverContext, router: { query: { token } }, data, me, t } = props
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: (me && me.email) || '' })
   const [portrait, setPortrait] = useState({ values: {} })
-  const [statement, setStatement] = useState({ value: '' })
+  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) })
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [autoClaimCard, setAutoClaimCard] = useState(false)
@@ -198,10 +205,6 @@ const Page = (props) => {
 
   const catchError = error => {
     setServerError(error)
-    reset()
-  }
-
-  const reset = () => {
     setSigningIn(false)
     setLoading(false)
   }

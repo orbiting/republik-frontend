@@ -41,6 +41,11 @@ const styles = {
     '& p': {
       marginBottom: 0
     }
+  }),
+  small: css({
+    fontSize: 12,
+    lineHeight: '16px',
+    display: 'block'
   })
 }
 
@@ -56,14 +61,17 @@ const Card = ({ payload, user }) => {
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent}>
       <InfoBoxText>
-        <Spider
-          size={280}
-          fill={partyColor}
-          data={payload.smartvoteCleavage} />
-        <br />
-        <span style={{ display: 'block', textAlign: 'right' }}>
-          <small>Quelle: Smartvote</small>
+        <strong>Wertehaltungen</strong><br />
+        <small {...styles.small}>
+          Von 0 – keine bis 100 – starke Zustimmung.
+        </small>
+        <span style={{ display: 'block', margin: '10px 0' }}>
+          <Spider
+            size={280}
+            fill={partyColor}
+            data={payload.smartvoteCleavage} />
         </span>
+        <small {...styles.small}>Quelle: Smartvote</small>
       </InfoBoxText>
     </div>,
     <div {...styles.centerContent} {...styles.financialSlide}>
@@ -85,7 +93,7 @@ const Card = ({ payload, user }) => {
         )}
       </Editorial.UL>}
       <InfoBoxText>
-        <small>Quelle: Smartvote</small>
+        <small {...styles.small} style={{ marginTop: 10 }}>Quelle: Smartvote</small>
       </InfoBoxText>
     </div>
   ].filter(Boolean)

@@ -1,8 +1,8 @@
 import React from 'react'
-import { range } from 'd3-array'
+import { range, max } from 'd3-array'
 import { colors, fontStyles } from '@project-r/styleguide'
 
-const maxValue = 100
+const maxDomain = 100
 const factor = 0.75
 const radians = 2 * Math.PI
 const levels = 2
@@ -16,7 +16,7 @@ function getVerticalPosition (i, range, factor = 1) {
 }
 
 const base = 22.5
-const axes = [
+export const axes = [
   { rot: 0, text: 'Offene\nAussenpolitik' },
   { rot: base * 2, text: 'Liberale\nWirtschaftspolitik' },
   { rot: base * 4, text: 'Restriktive\nFinanzpolitik' },
@@ -33,10 +33,13 @@ const Spider = ({ data, fill, size }) => {
   const cy = size / 2
   const points = data.map((d, i) => {
     return {
-      x: getHorizontalPosition(i, cx, (d / maxValue) * factor),
-      y: getVerticalPosition(i, cy, (d / maxValue) * factor)
+      x: getHorizontalPosition(i, cx, (d / maxDomain) * factor),
+      y: getVerticalPosition(i, cy, (d / maxDomain) * factor),
+      value: d
     }
   })
+
+  const maxValue = max(data)
 
   const radius = factor * Math.min(cx, cy)
   const levelFactors = range(0, levels).map((level) => {
@@ -78,7 +81,6 @@ const Spider = ({ data, fill, size }) => {
         return (
           <g key={`labels-${i}`} transform={`translate(${x} ${y}) rotate(${rot})`}>
             <text
-              key={i}
               fill={colors.text}
               style={{
                 ...fontStyles.sansSerif,
@@ -93,8 +95,8 @@ const Spider = ({ data, fill, size }) => {
                     key={i}
                     x='0'
                     y={below
-                      ? i ? '2.2em' : '1.1em'
-                      : i ? '-0.5em' : '-1.6em'}>
+                      ? `${1.1 * (i + 1)}em`
+                      : `-${0.5 + 1.1 * i}em`}>
                     {line}
                   </tspan>
                 )}
@@ -102,9 +104,31 @@ const Spider = ({ data, fill, size }) => {
           </g>
         )
       })}
-      <polygon fill={fill} fillOpacity={0.8} points={points.map((p) => {
+      <polygon fill={fill} fillOpacity={0.7} points={points.map((p) => {
         return [p.x, p.y].join(',')
       }).join(' ')} />
+      {points.map(({ value, x, y }, i) => {
+        if (value !== maxValue) {
+          return null
+        }
+        const below = i > 2 && i < 6
+        const { rot } = axes[i]
+
+        return <g key={`max-${i}`} transform={`translate(${x} ${y}) rotate(${rot})`}>
+          <text
+            style={{
+              ...fontStyles.sansSerifMedium,
+              fontSize: 12
+            }}
+            fill={colors.text}
+            textAnchor='middle'
+            dy={below
+              ? value > 92 ? '0em' : '0.8em'
+              : value > 92 ? '0.8em' : '0em'}>
+            {Math.round(value)}
+          </text>
+        </g>
+      })}
     </svg>
   )
 }

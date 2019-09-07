@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
@@ -74,7 +74,8 @@ const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) s
 const SpringCard = ({
   i, zIndex, card, bindGestures, cardWidth,
   fallIn,
-  isTop, isHot
+  isTop, isHot,
+  dragTime
 }) => {
   const [props, set] = useSpring(() => fallIn
     ? { ...to(), delay: i * 100, from: fromFall() }
@@ -106,7 +107,7 @@ const SpringCard = ({
           willChange
         }}
       >
-        {card && <Card key={card.id} {...card} />}
+        {card && <Card key={card.id} {...card} dragTime={dragTime} />}
       </animated.div>
     </animated.div>
   )
@@ -133,7 +134,15 @@ const Group = ({ t, group, fetchMore }) => {
     ? 320
     : 300
 
-  const bindGestures = useGesture(({ args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+  const dragTime = useRef(0)
+
+  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+    if (first) {
+      dragTime.current = time
+    }
+    if (last) {
+      dragTime.current = time - dragTime.current
+    }
     // flick hard enough
     const out = Math.abs(xDelta) > cardWidth / 4
     const trigger = velocity > 0.2 || out
@@ -188,6 +197,7 @@ const Group = ({ t, group, fetchMore }) => {
           const isTop = topIndex === i
           return <SpringCard
             {...activeCard}
+            dragTime={dragTime}
             windowWidth={windowWidth}
             cardWidth={cardWidth}
             isHot={

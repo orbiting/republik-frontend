@@ -7,6 +7,7 @@ import {
 } from '@project-r/styleguide'
 
 import { chfFormat } from '../../lib/utils/format'
+import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
@@ -49,8 +50,22 @@ const styles = {
   })
 }
 
-const Card = ({ payload, user }) => {
+const Card = ({ payload, user, dragTime, inNativeIOSApp }) => {
   const [slide, setSlide] = useState(0)
+
+  const gotoSlide = nextSlide => {
+    if (nextSlide !== slide) {
+      setSlide(nextSlide)
+    }
+    if (inNativeIOSApp) {
+      postMessage({
+        type: 'haptic',
+        payload: {
+          type: nextSlide !== slide ? 'impactLight' : 'impactHeavy'
+        }
+      })
+    }
+  }
 
   const partyColor = getPartyColor(payload.party)
   const slides = [
@@ -174,7 +189,10 @@ const Card = ({ payload, user }) => {
           width: '50%'
         }}
         onClick={() => {
-          setSlide(Math.max(0, slide - 1))
+          if (dragTime.current > 100) {
+            return
+          }
+          gotoSlide(Math.max(0, slide - 1))
         }}
       />
       <div
@@ -186,11 +204,14 @@ const Card = ({ payload, user }) => {
           width: '50%'
         }}
         onClick={() => {
-          setSlide(Math.min(totalSlides - 1, slide + 1))
+          if (dragTime.current > 100) {
+            return
+          }
+          gotoSlide(Math.min(totalSlides - 1, slide + 1))
         }}
       />
     </div>
   )
 }
 
-export default Card
+export default withInNativeApp(Card)

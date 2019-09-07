@@ -87,7 +87,7 @@ const Page = (props) => {
         })
           .then(() => {
             window.location = format({
-              pathname: `/wahltinder/setup`,
+              pathname: `/wahltindaer/setup`,
               query: { thank: 'you' }
             })
           })
@@ -129,7 +129,7 @@ const Page = (props) => {
     return (
       <>
         <H2>Da passt etwas nicht.</H2>
-        <P>In unserer Datenbank lässt sich keine passende Wahltinder-Karte finden.</P>
+        <P>In unserer Datenbank lässt sich keine passende Wahltindär-Karte finden.</P>
         <P>
           Wahrscheinlich ist der von Ihnen verwendete Link veraltet oder unvollständig. Falls das
           Problem wider allen Erwartungen weiterhin auftritt, helfen wir Ihnen unter wahlen19@republik.ch
@@ -232,10 +232,10 @@ const Page = (props) => {
         })}`
         // image
       }} /> */}
-      <H1>Wahltinder</H1>
+      <H1>Wahltindär</H1>
       <P>
         Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
-        Seite eine Wahltinder-Karte angepasst und übernommen werden kann.
+        Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
       </P>
 
       <div style={{ display: 'flex', marginBottom: 40, marginTop: 40 }}>
@@ -299,7 +299,7 @@ const Page = (props) => {
             Konto: <Emphasis>{me.email}</Emphasis>
           </P>
           <P>
-            Beim Speichern wird diese Wahltinder-Karte {me.email} zugeordnet. Um diese Karte einem anderen
+            Beim Speichern wird diese Wahltindär-Karte {me.email} zugeordnet. Um diese Karte einem anderen
             Konto zuzuordnen, melden Sie sich erst ab.
           </P>
           <P>

@@ -48,8 +48,8 @@ const Upsert = ({ router, data }) => {
       <>
         <H2>Diese Seite ist Kandidatinnen und Kandidaten der Parlamentswahlen vorbehalten.</H2>
         <P>
-          Ihrem Konto ist keine Wahltinder-Karte hinterlegt. Falls Sie sich für eine Kandidatur in
-          den Nationalrat oder Ständerat angemeldet haben, können Ihre Wahltinder-Karte über
+          Ihrem Konto ist keine Wahltindär-Karte hinterlegt. Falls Sie sich für eine Kandidatur in
+          den Nationalrat oder Ständerat angemeldet haben, können Ihre Wahltindär-Karte über
           den speziellen Link in der Begrüssungs-E-Mail übernehmen.
         </P>
         <P>
@@ -70,24 +70,24 @@ const Upsert = ({ router, data }) => {
     <>
       {router.query.thank ? (
         <>
-          <H1>Ihre Wahltinder-Karte ist parat 🔥</H1>
+          <H1>Ihre Wahltindär-Karte ist parat 🔥</H1>
           <P>
-            Wir freuen uns, Sie an Bord unseres Wahltinder-Projektes begrüssen zu dürfen und sind
+            Wir freuen uns, Sie an Bord unseres Wahltindär-Projektes begrüssen zu dürfen und sind
             in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite
             können Sie Angaben ändern oder weitere Informationen hinzufügen.
           </P>
         </>
       ) : (
         <>
-          <H1>Wahltinder (Upsert-Seite)</H1>
+          <H1>Wahltindär (Upsert-Seite)</H1>
           <P>
             Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
-            Seite eine Wahltinder-Karte angepasst und übernommen werden kann.
+            Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
           </P>
         </>
       )}
 
-      <H2>Ihre Wahltinder-Karte</H2>
+      <H2>Ihre Wahltindär-Karte</H2>
 
       <div style={{ display: 'flex', marginBottom: 40, marginTop: 40 }}>
         <div {...styles.portrait}>

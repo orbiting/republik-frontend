@@ -74,6 +74,7 @@ const Spider = ({ data, fill, size }) => {
       ))}
       {axes.map(({ text, rot }, i) => {
         const below = i > 2 && i < 6
+        const highlight = data[i] === maxValue
 
         const x = getHorizontalPosition(i, cx, factor)
         const y = getVerticalPosition(i, cx, factor)
@@ -83,20 +84,20 @@ const Spider = ({ data, fill, size }) => {
             <text
               fill={colors.text}
               style={{
-                ...fontStyles.sansSerif,
-                fontSize: 12
+                ...fontStyles[highlight ? 'sansSerifMedium' : 'sansSerif'],
+                fontSize: highlight ? 12 : 11
               }}
               textAnchor='middle'
             >
               {text
                 .split('\n')
-                .map((line, i) =>
+                .map((line, i, all) =>
                   <tspan
                     key={i}
                     x='0'
                     y={below
                       ? `${1.1 * (i + 1)}em`
-                      : `-${0.5 + 1.1 * i}em`}>
+                      : `-${0.5 + 1.1 * (all.length - i - 1)}em`}>
                     {line}
                   </tspan>
                 )}

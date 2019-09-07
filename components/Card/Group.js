@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { css } from 'glamor'
-import { useSprings, animated, interpolate } from 'react-spring/web.cjs'
+import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
-import { range, max } from 'd3-array'
 
 import MdNotificationsOff from 'react-icons/lib/md/notifications-off'
 import MdNotificationsActive from 'react-icons/lib/md/notifications-active'
@@ -38,6 +37,7 @@ const styles = {
     width: '40vh',
     maxWidth: 400,
     height: '60vh',
+    minHeight: 450,
     maxHeight: 570,
     willChange: 'transform',
     borderRadius: 10,
@@ -65,30 +65,64 @@ const styles = {
   })
 }
 
-const to = i => ({
-  x: 0, y: i * -4, scale: 1, rot: -10 + Math.random() * 20, delay: i * 100
+const randDegs = 5
+const to = () => ({
+  x: 0, y: -5 + Math.random() * 10, scale: 1, rot: -randDegs + Math.random() * randDegs * 2, opacity: 1
 })
-const from = i => ({
-  x: 0, rot: 0, scale: 1.5, y: -1200
+const fromFall = () => ({
+  x: 0, rot: 0, scale: 1.5, y: -1200, opacity: 1
 })
 
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
-const nSprings = 5
+const SpringCard = ({ i, zIndex, card, bindGestures, fallIn, active }) => {
+  const [props, set] = useSpring(() => fallIn
+    ? { ...to(), delay: i * 100, from: fromFall() }
+    : { ...to(), from: { opacity: 0 } }
+  )
+  const { x, y, rot, scale, opacity } = props
+  if (active) {
+    set({
+      scale: 1.05, rot: 0
+    })
+  }
 
+  return (
+    <animated.div {...styles.card} style={{
+      transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
+      zIndex: zIndex
+    }}>
+      <animated.div
+        {...bindGestures(set, card)}
+        {...styles.cardInner}
+        style={{
+          opacity,
+          transform: interpolate([rot, scale], interpolateTransform)
+        }}
+      >
+        {card && <Card key={card.id} {...card} />}
+      </animated.div>
+    </animated.div>
+  )
+}
+
+const nSprings = 5
 const Group = ({ t, group, fetchMore }) => {
   const allCards = group.cards.nodes
-  const totalCount = group.cards.totalCount
-  const [activeCardIndexes, setACI] = useState(
-    range(0, nSprings)
-  )
+  // const totalCount = group.cards.totalCount
+  const mapCardToActive = (card, i) => ({
+    key: card.id,
+    card,
+    i
+  })
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeCards, setActiveCards] = useState(() => allCards.slice(0, nSprings).map((card, i) => ({
+    ...mapCardToActive(card, i),
+    fallIn: true
+  })))
   const [gone] = useState(() => new Set())
-  const [springs, setSprings] = useSprings(nSprings, i => ({ ...to(i), from: from(i) }))
 
-  const bind = useGesture(({ args: [index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-    const cardIndex = activeCardIndexes[index]
-    const card = allCards[cardIndex]
-
+  const bindGestures = useGesture(({ args: [set, card], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     // flick hard enough
     const trigger = velocity > 0.2
     const dir = xDir < 0 ? -1 : 1
@@ -96,78 +130,54 @@ const Group = ({ t, group, fetchMore }) => {
     // If button/finger's up, fly out
     if (!down && trigger) {
       gone.add(card)
-      if (cardIndex < totalCount - 1) {
-        setTimeout(
-          () => {
-            setACI(aci => {
-              if (aci[index] === cardIndex) {
-                const nAci = [].concat(aci)
-                nAci[index] = null
-                return nAci
-              }
-              return aci
-            })
-            setSprings(i => {
-              if (index !== i) return
-              return { ...to(i), delay: undefined, config: { friction: 50, tension: 800 } }
-            })
-            if (max(activeCardIndexes) >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
-              fetchMore(group.cards.pageInfo)
-            }
-            setTimeout(
-              () => {
-                setACI(aci => {
-                  if (aci[index] === null) {
-                    const nAci = [].concat(aci)
-                    nAci[index] = max(nAci) + 1
-                    return nAci
-                  }
-                  return aci
-                })
-              },
-              1000
-            )
-          },
-          1000
-        )
+
+      setActiveCards(acs => allCards[acs.length]
+        ? acs.concat(mapCardToActive(allCards[acs.length], acs.length))
+        : acs
+      )
+      setActiveIndex(index => index + 1)
+
+      // move to proper useEffect
+      if (activeCards.length >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
+        fetchMore(group.cards.pageInfo)
       }
     }
-    setSprings(i => {
-      if (index !== i) return
-      const isGone = gone.has(card)
-      const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0
-      // how much the card tilts, flicking it harder makes it rotate faster
-      const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0)
 
-      // active cards lift up a bit
-      const scale = down ? 1.1 : 1
+    const isGone = gone.has(card)
+    const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0
+    // how much the card tilts, flicking it harder makes it rotate faster
+    const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0)
 
-      return { x, rot, scale, delay: undefined, config: { friction: 50, tension: down ? 800 : isGone ? 200 : 500 } }
+    // active cards lift up a bit
+    const scale = down ? 1.05 : 1
+    set({
+      x,
+      rot,
+      scale,
+      delay: undefined,
+      config: {
+        friction: 50,
+        tension: down ? 800 : isGone ? 200 : 500
+      }
     })
   })
 
   return (
     <>
       <div {...styles.container}>
-        {springs.map(({ x, y, rot, scale }, i) => {
-          const cardIndex = activeCardIndexes[i]
-          const card = allCards[cardIndex]
-          return (
-            <animated.div key={i} {...styles.card} style={{
-              transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-              zIndex: cardIndex === null
-                ? 0
-                : totalCount - cardIndex
-            }}>
-              <animated.div {...bind(i)} {...styles.cardInner} style={{ transform: interpolate([rot, scale], interpolateTransform) }}>
-                {card && <Card {...card} />}
-              </animated.div>
-            </animated.div>
-          )
+        {activeCards.map((activeCard, i) => {
+          if (i + 3 < activeIndex) {
+            return null
+          }
+          return <SpringCard
+            {...activeCard}
+            active={activeIndex === i}
+            zIndex={activeCards.length - i}
+            bindGestures={bindGestures} />
         })}
 
         <div {...styles.buttonPanel} style={{
-          zIndex: totalCount + 1
+          zIndex: activeCards.length + 1
         }}>
           <span {...styles.button} style={{ backgroundColor: '#9F2500' }}>
             <MdNotificationsOff size={25} fill='#fff' />

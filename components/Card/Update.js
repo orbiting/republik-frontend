@@ -78,7 +78,7 @@ const Update = (props) => {
           payload: {
             campaignBudget: budget.value,
             campaignBudgetComment: budgetComment.value,
-            vestedInterestsRepublik: vestedInterests.value
+            vestedInterests: vestedInterests.value
           }
         })
           .then(() => {

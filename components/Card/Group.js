@@ -144,7 +144,7 @@ const Group = ({ t, group, fetchMore }) => {
       dragTime.current = time - dragTime.current
     }
     // flick hard enough
-    const out = Math.abs(xDelta) > cardWidth / 4
+    const out = Math.abs(xDelta) > cardWidth / 2
     const trigger = velocity > 0.2 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1

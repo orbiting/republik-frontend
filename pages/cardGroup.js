@@ -14,6 +14,7 @@ import Meta from '../components/Frame/Meta'
 import Group from '../components/Card/Group'
 import Loader from '../components/Loader'
 import StatusError from '../components/StatusError'
+import { cardFragment } from '../components/Card/fragments'
 
 const query = gql`
 query getCardGroup($slug: String!, $after: String) {
@@ -29,23 +30,13 @@ query getCardGroup($slug: String!, $after: String) {
       }
       nodes {
         id
-        user {
-          name
-          portrait(properties: {bw: false, width: 600, height: 800})
-          slug
-        }
-        payload
-        statement {
-          id
-          preview(length: 100) {
-            string
-            more
-          }
-        }
+        ...Card
       }
     }
   }
 }
+
+${cardFragment}
 `
 
 const Page = ({ serverContext, router: { query: { group } }, data, t }) => (

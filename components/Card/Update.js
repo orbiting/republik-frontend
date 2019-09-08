@@ -3,17 +3,26 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import AutosizeInput from 'react-textarea-autosize'
 
-import { Loader, Interaction, InlineSpinner, Button, A, Field, mediaQueries, colors } from '@project-r/styleguide'
+import { Loader, Interaction, InlineSpinner, Button, mediaQueries, colors } from '@project-r/styleguide'
 
 import ErrorMessage from '../ErrorMessage'
-import Portrait from '../Profile/Portrait'
-import { styles as fieldSetStyles } from '../FieldSet'
 
-const { H1, H2, H3, P } = Interaction
+import Portrait from './Form/Portrait'
+import Details from './Form/Details'
+import Statement from './Form/Statement'
+import CampaignBudget from './Form/CampaignBudget'
+import VestedInterests from './Form/VestedInterests'
+
+const { H1, H2, P } = Interaction
 
 const styles = {
+  portraitAndDetails: css({
+    marginTop: 40,
+    [mediaQueries.mUp]: {
+      display: 'flex'
+    }
+  }),
   portrait: css({
     minWidth: 300,
     width: 600 / 2,
@@ -22,6 +31,14 @@ const styles = {
       minWidth: 300,
       width: 600 / 2,
       height: 800 / 2
+    }
+  }),
+  details: css({
+    marginTop: 40,
+    marginBottom: 40,
+    [mediaQueries.mUp]: {
+      marginTop: 0,
+      marginLeft: 40
     }
   }),
   errorMessages: css({
@@ -44,7 +61,7 @@ const maybeCard = (data, apply) => {
 
 const initialVestedInterests = (data) => {
   const records =
-    maybeCard(data, card => card.payload.vestedInterestsRepublik) ||
+    maybeCard(data, card => card.payload.vestedInterests) ||
     maybeCard(data, card => card.payload.vestedInterestsSmartvote) ||
     []
 
@@ -114,16 +131,7 @@ const Update = (props) => {
     )
   }
 
-  const { name, cards } = me
-  const [ card ] = cards.nodes
-  const {
-    party,
-    councilOfStates,
-    nationalCouncil,
-    occupation,
-    yearOfBirth
-  } = card.payload
-  const { listName, listPlaces, listNumbers } = nationalCouncil
+  const [ card ] = me.cards.nodes
 
   const handlePortrait = ({ values, errors }) => {
     setPortrait({
@@ -161,15 +169,12 @@ const Update = (props) => {
     })
   }
 
-  const addVestedInterest = e => {
-    e && e.preventDefault && e.preventDefault()
-
+  const handleVestedInterests = (value, shouldValidate) => {
     setVestedInterests({
       ...vestedInterests,
-      value: [
-        ...vestedInterests.value,
-        { id: `vestedInterest${vestedInterests.value.length}` }
-      ]
+      value,
+      error: false,
+      dirty: shouldValidate
     })
   }
 
@@ -225,98 +230,35 @@ const Update = (props) => {
 
       <H2>Ihre Wahltindär-Karte</H2>
 
-      <div style={{ display: 'flex', marginBottom: 40, marginTop: 40 }}>
+      <div {...styles.portraitAndDetails}>
         <div {...styles.portrait}>
           <Portrait
             user={me}
-            isEditing
-            isMe
             values={portrait.values}
             errors={portrait.errors}
             onChange={handlePortrait} />
         </div>
-        <div style={{ marginLeft: 40 }}>
-          <H3>{name}, {party}</H3>
-          <P>{occupation}, geboren {yearOfBirth}</P>
-          {nationalCouncil.candidacy && (
-            <>
-              <H3>Nationalratskandidatur</H3>
-              <P>Liste: «{listName}»</P>
-              <P>Listenplätze: {
-                listNumbers.length > 0
-                  ? listNumbers.join(', ')
-                  : listPlaces.join(', ')
-              }</P>
-            </>
-          )}
-          {councilOfStates.candidacy && (
-            <>
-              <H3>Ständeratskandidatur</H3>
-            </>
-          )}
+        <div {...styles.details}>
+          <Details card={card} user={me} />
         </div>
       </div>
 
-      <Field
-        label={'Ihr Statement'}
-        renderInput={({ ref, ...inputProps }) => (
-          <AutosizeInput
-            {...inputProps}
-            {...fieldSetStyles.autoSize}
-            inputRef={ref} />
-        )}
-        value={statement.value}
-        error={statement.dirty && statement.error}
-        dirty={statement.dirty}
-        onChange={(_, value, shouldValidate) => handleStatement(value, shouldValidate)} />
+      <Statement
+        statement={statement}
+        handleStatement={handleStatement} />
 
       <div>
-        <H2>Wahlkampf-Budget</H2>
-
-        <Field
-          label='Ihr Wahlkampf-Budget (in CHF)'
-          value={budget.value}
-          error={budget.dirty && budget.error}
-          dirty={budget.dirty}
-          onChange={(_, value, shouldValidate) => handleBudget(value, shouldValidate)} />
-
-        <Field
-          label={'Bemerkungen zum Wahlkampf-Budget'}
-          renderInput={({ ref, ...inputProps }) => (
-            <AutosizeInput
-              {...inputProps}
-              {...fieldSetStyles.autoSize}
-              inputRef={ref} />
-          )}
-          value={budgetComment.value}
-          error={budgetComment.dirty && budgetComment.error}
-          dirty={budgetComment.dirty}
-          onChange={(_, value, shouldValidate) => handleBudgetComment(value, shouldValidate)} />
+        <CampaignBudget
+          budget={budget}
+          handleBudget={handleBudget}
+          budgetComment={budgetComment}
+          handleBudgetComment={handleBudgetComment} />
       </div>
 
       <div>
-        <H2>Interessenbindungen</H2>
-
-        <ul>
-          {vestedInterests.value.map((vestedInterest) => (
-            <li key={vestedInterest.id}>
-              <P key={vestedInterest.id}>
-                {vestedInterest.name} ({vestedInterest.entity}); {vestedInterest.position}
-              </P>
-              <P>
-                <A href='#aendern' onClick={() => {}}>Ändern</A>
-                {' '}
-                <A href='#entfernen' onClick={() => {}}>Entfernen</A>
-              </P>
-            </li>
-          ))}
-        </ul>
-
-        <P>
-          <A href='#interessenbindung' onClick={addVestedInterest}>
-            Interessenbindung hinzufügen
-          </A>
-        </P>
+        <VestedInterests
+          vestedInterests={vestedInterests}
+          handleVestedInterests={handleVestedInterests} />
       </div>
 
       {showErrors && errorMessages.length > 0 && (

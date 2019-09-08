@@ -3,7 +3,6 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import AutosizeInput from 'react-textarea-autosize'
 import { format } from 'url'
 
 import isEmail from 'validator/lib/isEmail'
@@ -17,17 +16,24 @@ import Loader from '../Loader'
 import StatusError from '../StatusError'
 import ErrorMessage from '../ErrorMessage'
 
-import Portrait from '../Profile/Portrait'
-import { styles as fieldSetStyles } from '../FieldSet'
+import Portrait from './Form/Portrait'
+import Details from './Form/Details'
+import Statement from './Form/Statement'
 
 import { withSignIn } from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 
-const { H1, H2, H3, P, Emphasis } = Interaction
+const { H1, H2, P, Emphasis } = Interaction
 
 const styles = {
+  portraitAndDetails: css({
+    marginTop: 40,
+    [mediaQueries.mUp]: {
+      display: 'flex'
+    }
+  }),
   portrait: css({
     minWidth: 300,
     width: 600 / 2,
@@ -36,6 +42,14 @@ const styles = {
       minWidth: 300,
       width: 600 / 2,
       height: 800 / 2
+    }
+  }),
+  details: css({
+    marginTop: 40,
+    marginBottom: 40,
+    [mediaQueries.mUp]: {
+      marginTop: 0,
+      marginLeft: 40
     }
   }),
   errorMessages: css({
@@ -147,9 +161,6 @@ const Page = (props) => {
   }
 
   const [ card ] = data.cards.nodes
-  const { party, councilOfStates, nationalCouncil, occupation, yearOfBirth } = card.payload
-  const { listName, listPlaces, listNumbers } = nationalCouncil
-  const { name } = card.user
 
   const handlePortrait = ({ values, errors }) => {
     setPortrait({
@@ -245,47 +256,18 @@ const Page = (props) => {
         <div {...styles.portrait}>
           <Portrait
             user={card.user}
-            isEditing
-            isMe
-            styles={{ preview: css({ filter: '' }) }}
             values={portrait.values}
             errors={portrait.errors}
             onChange={handlePortrait} />
         </div>
         <div style={{ marginLeft: 40 }}>
-          <H2>{name}, {party}</H2>
-          <P>{occupation}, geboren {yearOfBirth}</P>
-          {nationalCouncil.candidacy && (
-            <>
-              <H3>Nationalratskandidatur</H3>
-              <P>Liste: «{listName}»</P>
-              <P>Listenplätze: {
-                listNumbers.length > 0
-                  ? listNumbers.join(', ')
-                  : listPlaces.join(', ')
-              }</P>
-            </>
-          )}
-          {councilOfStates.candidacy && (
-            <>
-              <H3>Ständeratskandidatur</H3>
-            </>
-          )}
+          <Details card={card} user={card.user} />
         </div>
       </div>
 
-      <Field
-        label={'Ihr Statement'}
-        renderInput={({ ref, ...inputProps }) => (
-          <AutosizeInput
-            {...inputProps}
-            {...fieldSetStyles.autoSize}
-            inputRef={ref} />
-        )}
-        value={statement.value}
-        error={statement.dirty && statement.error}
-        dirty={statement.dirty}
-        onChange={(_, value, shouldValidate) => handleStatement(value, shouldValidate)} />
+      <Statement
+        statement={statement}
+        handleStatement={handleStatement} />
 
       {!me && (
         <Field

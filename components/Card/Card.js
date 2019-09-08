@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import {
-  Interaction // , Editorial
+  Interaction
 } from '@project-r/styleguide'
 
 import { chfFormat } from '../../lib/utils/format'
@@ -34,7 +34,7 @@ const styles = {
   centerContent: css({
     width: 280,
     margin: '0 auto',
-    paddingTop: PADDING
+    paddingTop: PADDING + 3
   }),
   p: css(Interaction.fontRule, {
     margin: '0 0 5px',

@@ -10,11 +10,13 @@ import RevertIcon from 'react-icons/lib/md/settings-backup-restore'
 import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 
 import Card from './Card'
 import Container from './Container'
-import { mediaQueries } from '@project-r/styleguide'
+import Cantons from './Cantons'
+import { Editorial, Interaction, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   card: css({
@@ -79,6 +81,25 @@ const styles = {
     left: 0,
     right: 0,
     textAlign: 'center'
+  }),
+  switch: css({
+    position: 'absolute',
+    left: 8,
+    top: 5
+  }),
+  canton: css(Interaction.fontRule, {
+    position: 'absolute',
+    right: 8,
+    top: 5,
+    textAlign: 'right',
+    paddingRight: 60 + 10,
+    '& svg': {
+      width: 60,
+      height: 60,
+      position: 'absolute',
+      right: 0,
+      top: 0
+    }
   })
 }
 
@@ -138,7 +159,7 @@ const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore }) => {
   const allCards = group.cards.nodes
-  // const totalCount = group.cards.totalCount
+  const totalCount = group.cards.totalCount
   const mapCardToActive = (card, i) => ({
     key: card.id,
     card,
@@ -208,8 +229,20 @@ const Group = ({ t, group, fetchMore }) => {
     })
   })
 
+  const Icon = Cantons[group.slug] || null
+
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
+      <div {...styles.switch} style={{ zIndex: activeCards.length + 1 }}>
+        <Link route='cardGroups' passHref>
+          <Editorial.A>Kanton wechseln</Editorial.A>
+        </Link>
+      </div>
+      <div {...styles.canton}>
+        <strong>Kanton {group.name}</strong><br />
+        {totalCount} Kandidaturen
+        {Icon && <Icon />}
+      </div>
       {!!windowWidth && activeCards.map((activeCard, i) => {
         if (i + nOld < topIndex) {
           return null

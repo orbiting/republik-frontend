@@ -93,7 +93,7 @@ const Page = ({ data, data: { cardGroups }, t }) => (
               const Icon = Cantons[cardGroup.slug] || null
 
               return (
-                <Link route='cardGroup' params={{ group: cardGroup.slug }} passHref>
+                <Link key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
                   <a {...styles.canton}>
                     {Icon && <Icon size={SIZE} {...styles.icon} />}
                     <strong>{cardGroup.name}</strong>

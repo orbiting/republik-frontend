@@ -22,7 +22,7 @@ const styles = {
   card: css({
     position: 'absolute',
     width: '100vw',
-    top: 0,
+    top: 20,
     bottom: 80,
     minHeight: 340,
     display: 'flex',
@@ -92,10 +92,10 @@ const styles = {
     right: 8,
     top: 5,
     textAlign: 'right',
-    paddingRight: 60 + 10,
+    paddingRight: 40 + 10,
     '& svg': {
-      width: 60,
-      height: 60,
+      width: 40,
+      height: 40,
       position: 'absolute',
       right: 0,
       top: 0
@@ -241,7 +241,7 @@ const Group = ({ t, group, fetchMore }) => {
       <div {...styles.canton}>
         <strong>Kanton {group.name}</strong><br />
         {totalCount} Kandidaturen
-        {Icon && <Icon />}
+        {Icon && <Icon size={40} />}
       </div>
       {!!windowWidth && activeCards.map((activeCard, i) => {
         if (i + nOld < topIndex) {

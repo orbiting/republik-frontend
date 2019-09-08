@@ -17,23 +17,45 @@ const styles = {
     width: '100%',
     paddingBottom: 20
   }),
-  regularHeight: css({
+  minHeight: css({
     minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
     [mediaQueries.mUp]: {
       minHeight: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
     }
   }),
-  memberHeight: css({
+  minMemberHeight: css({
     minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
     [mediaQueries.mUp]: {
       minHeight: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
     }
+  }),
+  height: css({
+    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
+    [mediaQueries.mUp]: {
+      height: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
+    }
+  }),
+  memberHeight: css({
+    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
+    [mediaQueries.mUp]: {
+      height: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
+    }
   })
 }
 
-const Container = ({ children, isMember }) => <div {...styles.container} {...styles[isMember ? 'memberHeight' : 'regularHeight']}>
-  {children}
-  <Footer />
-</div>
+const Container = ({ children, style = {}, isMember }) => {
+  const heightKey = style.minHeight
+    ? isMember ? 'memberHeight' : 'height'
+    : isMember ? 'minMemberHeight' : 'minHeight'
+  return (
+    <div
+      {...styles.container}
+      {...styles[heightKey]}
+      style={style}>
+      {children}
+      <Footer />
+    </div>
+  )
+}
 
 export default withMembership(Container)

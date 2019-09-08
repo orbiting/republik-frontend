@@ -85,7 +85,7 @@ const Spider = ({ data, fill, size }) => {
               fill={colors.text}
               style={{
                 ...fontStyles[highlight ? 'sansSerifMedium' : 'sansSerif'],
-                fontSize: highlight ? 12 : 11
+                fontSize: highlight ? 11 : 10
               }}
               textAnchor='middle'
             >
@@ -119,7 +119,7 @@ const Spider = ({ data, fill, size }) => {
           <text
             style={{
               ...fontStyles.sansSerifMedium,
-              fontSize: 12
+              fontSize: 11
             }}
             fill={colors.text}
             textAnchor='middle'

@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import {
-  Interaction, Editorial,
-  InfoBoxText, InfoBoxListItem
+  Interaction // , Editorial
 } from '@project-r/styleguide'
 
 import { chfFormat } from '../../lib/utils/format'
@@ -12,13 +11,15 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import Spider from './Spider'
 import getPartyColor from './partyColors'
 
+const PADDING = 15
+
 const styles = {
   bottomText: css({
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    padding: '10px 15px',
+    padding: `10px ${PADDING}px`,
     backgroundColor: '#fff',
     fontSize: 16,
     lineHeight: '20px'
@@ -33,24 +34,31 @@ const styles = {
   centerContent: css({
     width: 280,
     margin: '0 auto',
-    paddingTop: 5
+    paddingTop: PADDING
   }),
-  financialSlide: css({
-    '& ul': {
-      marginTop: 0
-    },
-    '& p': {
-      marginBottom: 0
+  p: css(Interaction.fontRule, {
+    margin: '0 0 5px',
+    fontSize: 15,
+    lineHeight: '22px',
+    '& small': {
+      display: 'block',
+      fontSize: 10,
+      lineHeight: '16px'
     }
   }),
-  small: css({
-    fontSize: 12,
-    lineHeight: '16px',
-    display: 'block'
+  ul: css({
+    margin: 0,
+    marginTop: -3,
+    paddingLeft: 20,
+    fontSize: 15,
+    lineHeight: '22px'
   })
 }
 
-const Card = ({ payload, user, dragTime, inNativeIOSApp }) => {
+const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
+const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
+
+const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -67,6 +75,8 @@ const Card = ({ payload, user, dragTime, inNativeIOSApp }) => {
     }
   }
 
+  const innerWidth = width - PADDING * 2
+
   const partyColor = getPartyColor(payload.party)
   const slides = [
     user.portrait && <div style={{
@@ -74,23 +84,20 @@ const Card = ({ payload, user, dragTime, inNativeIOSApp }) => {
       backgroundImage: `url(${user.portrait})`,
       backgroundSize: 'cover'
     }} />,
-    payload.smartvoteCleavage && <div {...styles.centerContent}>
-      <InfoBoxText>
+    payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
+      <Paragraph>
         <strong>Wertehaltungen</strong><br />
         <small {...styles.small}>
           Von 0 – keine bis 100 – starke Zustimmung.
         </small>
-        <span style={{ display: 'block', margin: '10px 0' }}>
-          <Spider
-            size={280}
-            fill={partyColor}
-            data={payload.smartvoteCleavage} />
-        </span>
-        <small {...styles.small}>Quelle: Smartvote</small>
-      </InfoBoxText>
+      </Paragraph>
+      <Spider
+        size={innerWidth}
+        fill={partyColor}
+        data={payload.smartvoteCleavage} />
     </div>,
-    <div {...styles.centerContent} {...styles.financialSlide}>
-      <InfoBoxText>
+    <div {...styles.centerContent} style={{ width: innerWidth }}>
+      <Paragraph>
         <strong>Wahlkampfbudget</strong>
         {payload.campaignBudget
           ? `: ${chfFormat(payload.campaignBudget)}`
@@ -99,19 +106,19 @@ const Card = ({ payload, user, dragTime, inNativeIOSApp }) => {
         <br />
         <strong>Interessenbindungen</strong>
         {!payload.vestedInterestsSmartvote.length && <><br />Keine Angabe</>}
-      </InfoBoxText>
-      {!!payload.vestedInterestsSmartvote.length && <Editorial.UL compact>
+      </Paragraph>
+      {!!payload.vestedInterestsSmartvote.length && <UL>
         {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
-          <InfoBoxListItem key={i}>
+          <li key={i}>
             {vestedInterest.name}
             {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
             {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
-          </InfoBoxListItem>
+          </li>
         )}
-      </Editorial.UL>}
-      <InfoBoxText>
+      </UL>}
+      <Paragraph>
         <small {...styles.small} style={{ marginTop: 10 }}>Quelle: Smartvote</small>
-      </InfoBoxText>
+      </Paragraph>
     </div>
   ].filter(Boolean)
   const totalSlides = slides.length

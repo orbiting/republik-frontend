@@ -14,13 +14,15 @@ import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 
 import Card from './Card'
 import Container from './Container'
+import { mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   card: css({
     position: 'absolute',
     width: '100vw',
-    height: '80vh',
-    minHeight: 480,
+    top: 0,
+    bottom: 80,
+    minHeight: 340,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -34,21 +36,48 @@ const styles = {
   }),
   button: css({
     display: 'inline-block',
-    width: 55,
-    height: 55,
     borderRadius: '50%',
-    margin: 20,
-    padding: 15,
+    margin: 10,
+    [mediaQueries.mUp]: {
+      margin: 20
+    },
     lineHeight: 0,
     verticalAlign: 'middle',
     boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
   }),
+  buttonSmall: css({
+    width: 30,
+    height: 30,
+    padding: 5,
+    '& svg': {
+      width: 20,
+      height: 20
+    },
+    [mediaQueries.mUp]: {
+      width: 40,
+      height: 40,
+      padding: 10
+    }
+  }),
+  buttonBig: css({
+    width: 45,
+    height: 45,
+    padding: 10,
+    '& svg': {
+      width: 25,
+      height: 25
+    },
+    [mediaQueries.mUp]: {
+      width: 55,
+      height: 55,
+      padding: 15
+    }
+  }),
   buttonPanel: css({
     position: 'absolute',
-    bottom: 10,
+    bottom: 25,
     left: 0,
     right: 0,
-    height: 100,
     textAlign: 'center'
   })
 }
@@ -93,13 +122,13 @@ const SpringCard = ({
         {...styles.cardInner}
         style={{
           width: cardWidth,
-          height: cardWidth * 1.45,
+          height: cardWidth * 1.4,
           opacity,
           transform: interpolate([rot, scale], interpolateTransform),
           willChange
         }}
       >
-        {card && <Card key={card.id} {...card} dragTime={dragTime} />}
+        {card && <Card key={card.id} {...card} width={cardWidth} dragTime={dragTime} />}
       </animated.div>
     </animated.div>
   )
@@ -124,7 +153,7 @@ const Group = ({ t, group, fetchMore }) => {
   const windowWidth = useWindowWidth()
   const cardWidth = windowWidth > 500
     ? 320
-    : 300
+    : windowWidth > 360 ? 300 : 240
 
   const dragTime = useRef(0)
 
@@ -180,8 +209,8 @@ const Group = ({ t, group, fetchMore }) => {
   })
 
   return (
-    <Container>
-      {activeCards.map((activeCard, i) => {
+    <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
+      {!!windowWidth && activeCards.map((activeCard, i) => {
         if (i + nOld < topIndex) {
           return null
         }
@@ -204,27 +233,21 @@ const Group = ({ t, group, fetchMore }) => {
       <div {...styles.buttonPanel} style={{
         zIndex: activeCards.length + 1
       }}>
-        <span {...styles.button} style={{
-          backgroundColor: '#EBB900',
-          width: 40,
-          height: 40,
-          padding: 10
+        <span {...styles.button} {...styles.buttonSmall} style={{
+          backgroundColor: '#EBB900'
         }}>
-          <RevertIcon size={20} fill='#fff' />
+          <RevertIcon fill='#fff' />
         </span>
-        <span {...styles.button} style={{ backgroundColor: '#9F2500' }}>
-          <IgnoreIcon size={25} fill='#fff' />
+        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: '#9F2500' }}>
+          <IgnoreIcon fill='#fff' />
         </span>
-        <span {...styles.button} style={{ backgroundColor: 'rgb(8,48,107)' }}>
-          <FollowIcon size={25} fill='#fff' />
+        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: 'rgb(8,48,107)' }}>
+          <FollowIcon fill='#fff' />
         </span>
-        <span {...styles.button} style={{
-          backgroundColor: '#4B6359', // disabled #B7C1BD
-          width: 40,
-          height: 40,
-          padding: 10
+        <span {...styles.button} {...styles.buttonSmall} style={{
+          backgroundColor: '#4B6359' // disabled #B7C1BD
         }}>
-          <OverviewIcon size={20} fill='#fff' />
+          <OverviewIcon fill='#fff' />
         </span>
       </div>
     </Container>

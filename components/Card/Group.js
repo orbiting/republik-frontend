@@ -11,19 +11,11 @@ import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
-import { HEADER_HEIGHT, NAVBAR_HEIGHT } from '../constants'
 
 import Card from './Card'
+import Container from './Container'
 
 const styles = {
-  container: css({
-    position: 'relative',
-    background: '#add8e666',
-    overflow: 'hidden',
-    // overscrollBehaviorY: 'contain',
-    width: '100%',
-    height: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT}px)`
-  }),
   card: css({
     position: 'absolute',
     width: '100vw',
@@ -188,56 +180,54 @@ const Group = ({ t, group, fetchMore }) => {
   })
 
   return (
-    <>
-      <div {...styles.container}>
-        {activeCards.map((activeCard, i) => {
-          if (i + nOld < topIndex) {
-            return null
+    <Container>
+      {activeCards.map((activeCard, i) => {
+        if (i + nOld < topIndex) {
+          return null
+        }
+        const isTop = topIndex === i
+        return <SpringCard
+          {...activeCard}
+          dragTime={dragTime}
+          windowWidth={windowWidth}
+          cardWidth={cardWidth}
+          isHot={
+            isTop ||
+            activeCard.fallIn ||
+            Math.abs(topIndex - i) === 1
           }
-          const isTop = topIndex === i
-          return <SpringCard
-            {...activeCard}
-            dragTime={dragTime}
-            windowWidth={windowWidth}
-            cardWidth={cardWidth}
-            isHot={
-              isTop ||
-              activeCard.fallIn ||
-              Math.abs(topIndex - i) === 1
-            }
-            isTop={isTop}
-            zIndex={activeCards.length - i}
-            bindGestures={bindGestures} />
-        })}
+          isTop={isTop}
+          zIndex={activeCards.length - i}
+          bindGestures={bindGestures} />
+      })}
 
-        <div {...styles.buttonPanel} style={{
-          zIndex: activeCards.length + 1
+      <div {...styles.buttonPanel} style={{
+        zIndex: activeCards.length + 1
+      }}>
+        <span {...styles.button} style={{
+          backgroundColor: '#EBB900',
+          width: 40,
+          height: 40,
+          padding: 10
         }}>
-          <span {...styles.button} style={{
-            backgroundColor: '#EBB900',
-            width: 40,
-            height: 40,
-            padding: 10
-          }}>
-            <RevertIcon size={20} fill='#fff' />
-          </span>
-          <span {...styles.button} style={{ backgroundColor: '#9F2500' }}>
-            <IgnoreIcon size={25} fill='#fff' />
-          </span>
-          <span {...styles.button} style={{ backgroundColor: 'rgb(8,48,107)' }}>
-            <FollowIcon size={25} fill='#fff' />
-          </span>
-          <span {...styles.button} style={{
-            backgroundColor: '#4B6359', // disabled #B7C1BD
-            width: 40,
-            height: 40,
-            padding: 10
-          }}>
-            <OverviewIcon size={20} fill='#fff' />
-          </span>
-        </div>
+          <RevertIcon size={20} fill='#fff' />
+        </span>
+        <span {...styles.button} style={{ backgroundColor: '#9F2500' }}>
+          <IgnoreIcon size={25} fill='#fff' />
+        </span>
+        <span {...styles.button} style={{ backgroundColor: 'rgb(8,48,107)' }}>
+          <FollowIcon size={25} fill='#fff' />
+        </span>
+        <span {...styles.button} style={{
+          backgroundColor: '#4B6359', // disabled #B7C1BD
+          width: 40,
+          height: 40,
+          padding: 10
+        }}>
+          <OverviewIcon size={20} fill='#fff' />
+        </span>
       </div>
-    </>
+    </Container>
   )
 }
 

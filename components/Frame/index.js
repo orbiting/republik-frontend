@@ -89,6 +89,7 @@ const Index = ({
   formatColor,
   headerAudioPlayer,
   onSearchClick,
+  footer = true,
   dark
 }) => (
   <div {...styles.container}>
@@ -135,7 +136,7 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    {!inNativeApp && <Footer />}
+    {!inNativeApp && footer && <Footer />}
   </div>
 )
 

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-09T14:46:34.935Z",
+  "updated": "2019-09-09T20:27:31.358Z",
   "title": "live",
   "data": [
     {
@@ -5337,6 +5337,14 @@
     {
       "key": "components/Card/Update/nothing/help",
       "value": "Bei Schwierigkeiten wenden Sie sich bitte an wahlen19@republik.ch"
+    },
+    {
+      "key": "components/Card/Update/read",
+      "value": "Magazin lesen"
+    },
+    {
+      "key": "components/Card/Update/onboarding",
+      "value": "Konto einrichten"
     }
   ]
 }

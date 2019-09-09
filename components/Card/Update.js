@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 import { Loader, Interaction, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -180,6 +181,20 @@ const Update = (props) => {
             __html: t('components/Card/Update/lead')
           }}
         />
+      </P>
+
+      <P {...formStyles.paragraph}>
+        <Link route='index'>
+          <Button primary>
+            {t('components/Card/Update/read')}
+          </Button>
+        </Link>
+        {' '}
+        <Link route='onboarding' params={{ context: 'card' }}>
+          <Button>
+            {t('components/Card/Update/onboarding')}
+          </Button>
+        </Link>
       </P>
 
       <div {...formStyles.portraitAndDetails}>

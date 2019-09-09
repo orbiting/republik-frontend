@@ -50,14 +50,44 @@ const fixture = [{
   title: 'update',
   credits: [
     {
-      'type': 'text',
-      'value': ', 5.12.2017, Update: 06.12.2017'
+      type: 'text',
+      value: 'Von '
+    },
+    {
+      children: [
+        {
+          'type': 'text',
+          'value': 'Sylke Gruhnwald'
+        }
+      ],
+      type: 'link',
+      title: null,
+      url: '/~sylke'
+    },
+    {
+      type: 'text',
+      value: ', 06.04.2019, Update: 03.09.2019'
     }
   ],
   expected: [
     {
-      'type': 'text',
-      'value': ', Update: 06.12.2017' // only publishDate removed
+      type: 'text',
+      value: 'Von '
+    },
+    {
+      children: [
+        {
+          'type': 'text',
+          'value': 'Sylke Gruhnwald'
+        }
+      ],
+      type: 'link',
+      title: null,
+      url: '/~sylke'
+    },
+    {
+      type: 'text',
+      value: ', Update: 03.09.2019'
     }
   ]
 },
@@ -133,6 +163,20 @@ const fixture = [{
     {
       'type': 'text',
       'value': ', Gion-Mattias Durband' // date removed
+    }
+  ]
+}, {
+  title: 'Update',
+  credits: [
+    {
+      type: 'text',
+      value: '27.08.2019, Update: 05.09.2019'
+    }
+  ],
+  expected: [
+    {
+      type: 'text',
+      value: 'Update: 05.09.2019' // without author credit
     }
   ]
 }]

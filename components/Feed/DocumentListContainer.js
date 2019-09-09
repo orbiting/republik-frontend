@@ -11,6 +11,11 @@ import {
 
 import { userProgressFragment } from '../Article/Progress/api'
 
+// we do not query / use shortTitle here
+// - initially we only use it on the front
+// - once we have a lot of content we can start
+//   to experiment with switching feeds to short titles
+// tpr, 05.09.2019
 export const documentFragment = `
   fragment DocumentListDocument on Document {
     id
@@ -18,7 +23,6 @@ export const documentFragment = `
     ...UserProgressOnDocument
     meta {
       credits
-      shortTitle
       title
       description
       publishDate

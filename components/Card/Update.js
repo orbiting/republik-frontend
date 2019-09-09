@@ -3,7 +3,9 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Loader, Interaction, InlineSpinner, Button } from '@project-r/styleguide'
+import { Loader, Interaction, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
+
+import withT from '../../lib/withT'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -33,10 +35,10 @@ const initialVestedInterests = (data) => {
 }
 
 const Update = (props) => {
-  const { router, data } = props
+  const { data, t } = props
 
   const [portrait, setPortrait] = useState({ values: {} })
-  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) })
+  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
   const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
   const [budgetComment, setBudgetComment] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudgetComment) }))
   const [vestedInterests, setVestedInterests] = useState(() => ({ value: initialVestedInterests(data) }))
@@ -82,14 +84,12 @@ const Update = (props) => {
   if (!me || me.cards.nodes.length === 0) {
     return (
       <>
-        <H2 {...formStyles.heading}>Diese Seite ist Kandidatinnen und Kandidaten der Parlamentswahlen vorbehalten.</H2>
+        <H2 {...formStyles.heading}>{t('components/Card/Update/nothing/title')}</H2>
         <P {...formStyles.paragraph}>
-          Ihrem Konto ist keine Wahltindär-Karte hinterlegt. Falls Sie sich für eine Kandidatur in
-          den Nationalrat oder Ständerat angemeldet haben, können Ihre Wahltindär-Karte über
-          den speziellen Link in der Begrüssungs-E-Mail übernehmen.
+          {t('components/Card/Update/nothing/lead')}
         </P>
         <P {...formStyles.paragraph}>
-          Bei Schwierigkeiten, wenden Sie sich an wahlen19@republik.ch
+          {t('components/Card/Update/nothing/help')}
         </P>
       </>
     )
@@ -173,26 +173,14 @@ const Update = (props) => {
 
   return (
     <>
-      {router.query.thank ? (
-        <>
-          <H1 {...formStyles.heading}>Ihre Wahltindär-Karte ist parat 🔥</H1>
-          <P {...formStyles.paragraph}>
-            Wir freuen uns, Sie an Bord unseres Wahltindär-Projektes begrüssen zu dürfen und sind
-            in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite
-            können Sie Angaben ändern oder weitere Informationen hinzufügen.
-          </P>
-        </>
-      ) : (
-        <>
-          <H1 {...formStyles.heading}>Wahltindär (Upsert-Seite)</H1>
-          <P {...formStyles.paragraph}>
-            Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
-            Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
-          </P>
-        </>
-      )}
-
-      <H2 {...formStyles.heading}>Ihre Wahltindär-Karte</H2>
+      <H1 {...formStyles.heading}>{t('components/Card/Update/title')}</H1>
+      <P {...formStyles.paragraph}>
+        <RawHtml
+          dangerouslySetInnerHTML={{
+            __html: t('components/Card/Update/lead')
+          }}
+        />
+      </P>
 
       <div {...formStyles.portraitAndDetails}>
         <div {...formStyles.portrait}>
@@ -208,24 +196,26 @@ const Update = (props) => {
       </div>
 
       <div {...formStyles.section}>
+        <P>{t('components/Card/Claim/statement/question')}</P>
         <Statement
+          label={t('components/Card/Claim/statement/label')}
           statement={statement}
           handleStatement={handleStatement} />
       </div>
 
-      <div {...formStyles.section}>
+      {false && <div {...formStyles.section}>
         <CampaignBudget
           budget={budget}
           handleBudget={handleBudget}
           budgetComment={budgetComment}
           handleBudgetComment={handleBudgetComment} />
-      </div>
+      </div>}
 
-      <div {...formStyles.section}>
+      {false && <div {...formStyles.section}>
         <VestedInterests
           vestedInterests={vestedInterests}
           handleVestedInterests={handleVestedInterests} />
-      </div>
+      </div>}
 
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>
@@ -247,7 +237,7 @@ const Update = (props) => {
             block
             onClick={updateCard}
             disabled={showErrors && errorMessages.length > 0}>
-            Speichern
+            {t('components/Card/Update/submit')}
           </Button>
         }
       </div>
@@ -319,4 +309,4 @@ const withUpdateCard = graphql(
   }
 )
 
-export default compose(withRouter, withMeCard, withUpdateCard)(Update)
+export default compose(withRouter, withT, withMeCard, withUpdateCard)(Update)

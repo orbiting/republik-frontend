@@ -5,9 +5,9 @@ import { Field } from '@project-r/styleguide'
 
 import { styles as fieldSetStyles } from '../../FieldSet'
 
-const Statement = ({ statement, handleStatement }) => (
+const Statement = ({ statement, handleStatement, label }) => (
   <Field
-    label={'Ihr Statement'}
+    label={label}
     renderInput={({ ref, ...inputProps }) => (
       <AutosizeInput
         {...inputProps}

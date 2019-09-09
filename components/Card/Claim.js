@@ -7,7 +7,7 @@ import { format } from 'url'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { Interaction, InlineSpinner, A, Button, Field } from '@project-r/styleguide'
+import { Interaction, InlineSpinner, A, Button, Field, RawHtml } from '@project-r/styleguide'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -26,7 +26,7 @@ import { withSignOut } from '../Auth/SignOut'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 
-const { H1, H2, P, Emphasis } = Interaction
+const { H1, H2, P } = Interaction
 
 const styles = {
   signedIn: css({
@@ -52,7 +52,7 @@ const Page = (props) => {
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: (me && me.email) || '' })
   const [portrait, setPortrait] = useState({ values: {} })
-  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) })
+  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [autoClaimCard, setAutoClaimCard] = useState(false)
@@ -76,8 +76,7 @@ const Page = (props) => {
         })
           .then(() => {
             window.location = format({
-              pathname: `/wahltindaer/setup`,
-              query: { thank: 'you' }
+              pathname: `/wahltindaer/setup`
             })
           })
           .catch(catchError)
@@ -117,12 +116,14 @@ const Page = (props) => {
   if (!data.cards || data.cards.nodes.length === 0) {
     return (
       <>
-        <H2 {...formStyles.heading}>Da passt etwas nicht.</H2>
-        <P {...formStyles.paragraph}>In unserer Datenbank lässt sich keine passende Wahltindär-Karte finden.</P>
+        <H2 {...formStyles.heading}>{t('components/Card/Claim/404/title')}</H2>
+        <P {...formStyles.paragraph}>{t('components/Card/Claim/404/lead')}</P>
         <P {...formStyles.paragraph}>
-          Wahrscheinlich ist der von Ihnen verwendete Link veraltet oder unvollständig. Falls das
-          Problem wider allen Erwartungen weiterhin auftritt, helfen wir Ihnen unter wahlen19@republik.ch
-          gerne und zügig weiter.
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('components/Card/Claim/404/help')
+            }}
+          />
         </P>
       </>
     )
@@ -153,8 +154,8 @@ const Page = (props) => {
       ...email,
       value,
       error: (
-        (value.trim().length <= 0 && 'E-Mail-Adresse fehlt') ||
-        (!isEmail(value) && 'E-Mail-Adresse ungültig')
+        (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
+        (!isEmail(value) && t('Trial/Form/email/error/invalid'))
       ),
       dirty: shouldValidate
     })
@@ -206,18 +207,13 @@ const Page = (props) => {
 
   return (
     <>
-      {/* <Meta data={{
-        title: data.cardGroup.name,
-        description: t('UserCard/Group/description'),
-        url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroup').toPath({
-          group
-        })}`
-        // image
-      }} /> */}
-      <H1 {...formStyles.heading}>Wahltindär</H1>
-      <P {...formStyles.paragraph}>
-        Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
-        Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
+      <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
+      <P>
+        <RawHtml
+          dangerouslySetInnerHTML={{
+            __html: t('components/Card/Claim/lead')
+          }}
+        />
       </P>
 
       <div {...formStyles.portraitAndDetails}>
@@ -234,7 +230,9 @@ const Page = (props) => {
       </div>
 
       <div {...formStyles.section}>
+        <P>{t('components/Card/Claim/statement/question')}</P>
         <Statement
+          label={t('components/Card/Claim/statement/label')}
           statement={statement}
           handleStatement={handleStatement} />
       </div>
@@ -242,7 +240,7 @@ const Page = (props) => {
       {!me && (
         <div {...formStyles.section}>
           <Field
-            label='Ihre E-Mail-Adresse'
+            label={t('Trial/Form/email/label')}
             value={email.value}
             error={email.dirty && email.error}
             dirty={email.dirty}
@@ -253,20 +251,18 @@ const Page = (props) => {
       {me && (
         <div {...formStyles.section}>
           <P {...formStyles.paragraph}>
-            Konto: <Emphasis>{me.email}</Emphasis>
+            {t('components/Card/Claim/me/account')}<strong> {me.email}</strong>
           </P>
-          <P {...formStyles.paragraph}>
-            Beim Speichern wird diese Wahltindär-Karte {me.email} zugeordnet. Um diese Karte einem anderen
-            Konto zuzuordnen, melden Sie sich erst ab.
-          </P>
-          <P {...formStyles.paragraph}>
+          <P>
+            {t('components/Card/Claim/me/assignNote')}
+            <br />
             <A
               href='#abmelden'
               onClick={e => {
                 e.preventDefault()
                 props.signOut()
               }}>
-              Abmelden
+              {t('components/Card/Claim/me/signOut')}
             </A>
           </P>
         </div>
@@ -301,7 +297,7 @@ const Page = (props) => {
               block
               onClick={claimCard}
               disabled={showErrors && errorMessages.length > 0}>
-              Speichern
+              {t('components/Card/Claim/submit')}
             </Button>
           }
         </div>

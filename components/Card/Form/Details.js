@@ -17,8 +17,7 @@ const Details = (props) => {
 
   const {
     listName,
-    listPlaces,
-    listNumbers
+    listPlaces
   } = nationalCouncil
 
   return (
@@ -29,11 +28,9 @@ const Details = (props) => {
         <>
           <H3>Nationalratskandidatur</H3>
           <P>Liste: «{listName}»</P>
-          <P>Listenplätze: {
-            listNumbers.length > 0
-              ? listNumbers.join(', ')
-              : listPlaces.join(', ')
-          }</P>
+          {listPlaces && listPlaces.length && <P>Listenplätze: {
+            listPlaces.join(', ')
+          }</P>}
         </>
       )}
       {councilOfStates.candidacy && (

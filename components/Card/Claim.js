@@ -7,7 +7,7 @@ import { format } from 'url'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { Interaction, InlineSpinner, A, Button, Field, mediaQueries, colors } from '@project-r/styleguide'
+import { Interaction, InlineSpinner, A, Button, Field } from '@project-r/styleguide'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -19,6 +19,7 @@ import ErrorMessage from '../ErrorMessage'
 import Portrait from './Form/Portrait'
 import Details from './Form/Details'
 import Statement from './Form/Statement'
+import { styles as formStyles } from './Form/styles'
 
 import { withSignIn } from '../Auth/SignIn'
 import { withSignOut } from '../Auth/SignOut'
@@ -28,39 +29,6 @@ import Consents, { getConsentsError } from '../Pledge/Consents'
 const { H1, H2, P, Emphasis } = Interaction
 
 const styles = {
-  portraitAndDetails: css({
-    marginTop: 40,
-    [mediaQueries.mUp]: {
-      display: 'flex'
-    }
-  }),
-  portrait: css({
-    minWidth: 300,
-    width: 600 / 2,
-    height: 800 / 2,
-    [mediaQueries.mUp]: {
-      minWidth: 300,
-      width: 600 / 2,
-      height: 800 / 2
-    }
-  }),
-  details: css({
-    marginTop: 40,
-    marginBottom: 40,
-    [mediaQueries.mUp]: {
-      marginTop: 0,
-      marginLeft: 40
-    }
-  }),
-  errorMessages: css({
-    color: colors.error,
-    marginTop: 40
-  }),
-  button: css({
-    marginTop: 40,
-    width: 170,
-    textAlign: 'center'
-  }),
   signedIn: css({
     marginTop: 40
   }),
@@ -149,9 +117,9 @@ const Page = (props) => {
   if (!data.cards || data.cards.nodes.length === 0) {
     return (
       <>
-        <H2>Da passt etwas nicht.</H2>
-        <P>In unserer Datenbank lässt sich keine passende Wahltindär-Karte finden.</P>
-        <P>
+        <H2 {...formStyles.heading}>Da passt etwas nicht.</H2>
+        <P {...formStyles.paragraph}>In unserer Datenbank lässt sich keine passende Wahltindär-Karte finden.</P>
+        <P {...formStyles.paragraph}>
           Wahrscheinlich ist der von Ihnen verwendete Link veraltet oder unvollständig. Falls das
           Problem wider allen Erwartungen weiterhin auftritt, helfen wir Ihnen unter wahlen19@republik.ch
           gerne und zügig weiter.
@@ -246,14 +214,14 @@ const Page = (props) => {
         })}`
         // image
       }} /> */}
-      <H1>Wahltindär</H1>
-      <P>
+      <H1 {...formStyles.heading}>Wahltindär</H1>
+      <P {...formStyles.paragraph}>
         Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
         Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
       </P>
 
-      <div style={{ display: 'flex', marginBottom: 40, marginTop: 40 }}>
-        <div {...styles.portrait}>
+      <div {...formStyles.portraitAndDetails}>
+        <div {...formStyles.portrait}>
           <Portrait
             user={card.user}
             values={portrait.values}
@@ -265,29 +233,33 @@ const Page = (props) => {
         </div>
       </div>
 
-      <Statement
-        statement={statement}
-        handleStatement={handleStatement} />
+      <div {...formStyles.section}>
+        <Statement
+          statement={statement}
+          handleStatement={handleStatement} />
+      </div>
 
       {!me && (
-        <Field
-          label='Ihre E-Mail-Adresse'
-          value={email.value}
-          error={email.dirty && email.error}
-          dirty={email.dirty}
-          onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
+        <div {...formStyles.section}>
+          <Field
+            label='Ihre E-Mail-Adresse'
+            value={email.value}
+            error={email.dirty && email.error}
+            dirty={email.dirty}
+            onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
+        </div>
       )}
 
       {me && (
-        <div {...styles.signedIn}>
-          <P>
+        <div {...formStyles.section}>
+          <P {...formStyles.paragraph}>
             Konto: <Emphasis>{me.email}</Emphasis>
           </P>
-          <P>
+          <P {...formStyles.paragraph}>
             Beim Speichern wird diese Wahltindär-Karte {me.email} zugeordnet. Um diese Karte einem anderen
             Konto zuzuordnen, melden Sie sich erst ab.
           </P>
-          <P>
+          <P {...formStyles.paragraph}>
             <A
               href='#abmelden'
               onClick={e => {
@@ -300,7 +272,7 @@ const Page = (props) => {
         </div>
       )}
 
-      <div style={{ marginTop: 40 }}>
+      <div {...formStyles.section}>
         <Consents
           required={REQUIRED_CONSENTS}
           accepted={consents}
@@ -309,7 +281,7 @@ const Page = (props) => {
       </div>
 
       {showErrors && errorMessages.length > 0 && (
-        <div {...styles.errorMessages}>
+        <div {...formStyles.errorMessages}>
           {t('Trial/Form/error/title')}<br />
           <ul>
             {errorMessages.map((error, i) => (
@@ -320,7 +292,7 @@ const Page = (props) => {
       )}
 
       {!signingIn && (
-        <div {...styles.button}>
+        <div {...formStyles.button}>
           {loading
             ? <InlineSpinner />
             : <Button
@@ -349,7 +321,6 @@ const Page = (props) => {
       )}
 
       {serverError && <ErrorMessage error={serverError} />}
-
     </>
   )
 }

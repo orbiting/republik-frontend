@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
 
-import { Loader, Interaction, InlineSpinner, Button, mediaQueries, colors } from '@project-r/styleguide'
+import { Loader, Interaction, InlineSpinner, Button } from '@project-r/styleguide'
 
 import ErrorMessage from '../ErrorMessage'
 
@@ -13,44 +12,9 @@ import Details from './Form/Details'
 import Statement from './Form/Statement'
 import CampaignBudget from './Form/CampaignBudget'
 import VestedInterests from './Form/VestedInterests'
+import { styles as formStyles } from './Form/styles'
 
 const { H1, H2, P } = Interaction
-
-const styles = {
-  portraitAndDetails: css({
-    marginTop: 40,
-    [mediaQueries.mUp]: {
-      display: 'flex'
-    }
-  }),
-  portrait: css({
-    minWidth: 300,
-    width: 600 / 2,
-    height: 800 / 2,
-    [mediaQueries.mUp]: {
-      minWidth: 300,
-      width: 600 / 2,
-      height: 800 / 2
-    }
-  }),
-  details: css({
-    marginTop: 40,
-    marginBottom: 40,
-    [mediaQueries.mUp]: {
-      marginTop: 0,
-      marginLeft: 40
-    }
-  }),
-  errorMessages: css({
-    color: colors.error,
-    marginTop: 40
-  }),
-  button: css({
-    marginTop: 40,
-    width: 170,
-    textAlign: 'center'
-  })
-}
 
 const maybeCard = (data, apply) => {
   return data.me &&
@@ -65,7 +29,7 @@ const initialVestedInterests = (data) => {
     maybeCard(data, card => card.payload.vestedInterestsSmartvote) ||
     []
 
-  return records.map((vestedInterest, index) => ({ id: `vestedInterest${index}`, ...vestedInterest }))
+  return records.map((vestedInterest, index) => ({ id: `interest${index}`, ...vestedInterest }))
 }
 
 const Update = (props) => {
@@ -118,14 +82,14 @@ const Update = (props) => {
   if (!me || me.cards.nodes.length === 0) {
     return (
       <>
-        <H2>Diese Seite ist Kandidatinnen und Kandidaten der Parlamentswahlen vorbehalten.</H2>
-        <P>
+        <H2 {...formStyles.heading}>Diese Seite ist Kandidatinnen und Kandidaten der Parlamentswahlen vorbehalten.</H2>
+        <P {...formStyles.paragraph}>
           Ihrem Konto ist keine Wahltindär-Karte hinterlegt. Falls Sie sich für eine Kandidatur in
           den Nationalrat oder Ständerat angemeldet haben, können Ihre Wahltindär-Karte über
           den speziellen Link in der Begrüssungs-E-Mail übernehmen.
         </P>
-        <P>
-          Bei Schwierigkeiten, wenden Sie sich an kontakt@republik.ch
+        <P {...formStyles.paragraph}>
+          Bei Schwierigkeiten, wenden Sie sich an wahlen19@republik.ch
         </P>
       </>
     )
@@ -211,8 +175,8 @@ const Update = (props) => {
     <>
       {router.query.thank ? (
         <>
-          <H1>Ihre Wahltindär-Karte ist parat 🔥</H1>
-          <P>
+          <H1 {...formStyles.heading}>Ihre Wahltindär-Karte ist parat 🔥</H1>
+          <P {...formStyles.paragraph}>
             Wir freuen uns, Sie an Bord unseres Wahltindär-Projektes begrüssen zu dürfen und sind
             in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite
             können Sie Angaben ändern oder weitere Informationen hinzufügen.
@@ -220,34 +184,36 @@ const Update = (props) => {
         </>
       ) : (
         <>
-          <H1>Wahltindär (Upsert-Seite)</H1>
-          <P>
+          <H1 {...formStyles.heading}>Wahltindär (Upsert-Seite)</H1>
+          <P {...formStyles.paragraph}>
             Ein toller, einleitender Satz. Mit ein bisschen Erklär-Dingens, dass auf dieser
             Seite eine Wahltindär-Karte angepasst und übernommen werden kann.
           </P>
         </>
       )}
 
-      <H2>Ihre Wahltindär-Karte</H2>
+      <H2 {...formStyles.heading}>Ihre Wahltindär-Karte</H2>
 
-      <div {...styles.portraitAndDetails}>
-        <div {...styles.portrait}>
+      <div {...formStyles.portraitAndDetails}>
+        <div {...formStyles.portrait}>
           <Portrait
             user={me}
             values={portrait.values}
             errors={portrait.errors}
             onChange={handlePortrait} />
         </div>
-        <div {...styles.details}>
+        <div {...formStyles.details}>
           <Details card={card} user={me} />
         </div>
       </div>
 
-      <Statement
-        statement={statement}
-        handleStatement={handleStatement} />
+      <div {...formStyles.section}>
+        <Statement
+          statement={statement}
+          handleStatement={handleStatement} />
+      </div>
 
-      <div>
+      <div {...formStyles.section}>
         <CampaignBudget
           budget={budget}
           handleBudget={handleBudget}
@@ -255,14 +221,14 @@ const Update = (props) => {
           handleBudgetComment={handleBudgetComment} />
       </div>
 
-      <div>
+      <div {...formStyles.section}>
         <VestedInterests
           vestedInterests={vestedInterests}
           handleVestedInterests={handleVestedInterests} />
       </div>
 
       {showErrors && errorMessages.length > 0 && (
-        <div {...styles.errorMessages}>
+        <div {...formStyles.errorMessages}>
           Fehler<br />
           <ul>
             {errorMessages.map((error, i) => (
@@ -272,7 +238,7 @@ const Update = (props) => {
         </div>
       )}
 
-      <div {...styles.button}>
+      <div {...formStyles.button}>
         {loading
           ? <InlineSpinner />
           : <Button

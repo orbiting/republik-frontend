@@ -1,9 +1,16 @@
 
 import React, { useState, useEffect } from 'react'
+import { css } from 'glamor'
 
 import { Interaction, A, Field } from '@project-r/styleguide'
 
 const { H2, P } = Interaction
+
+const styles = {
+  form: css({
+    marginBottom: 40
+  })
+}
 
 const Form = (props) => {
   const [name, setName] = useState({ value: props.name })
@@ -46,6 +53,10 @@ const Form = (props) => {
   const commit = e => {
     e && e.preventDefault && e.preventDefault()
 
+    handleName(name.value, true)
+    handleEntity(entity.value, true)
+    handlePosition(position.value, true)
+
     const errors = [
       name.error,
       entity.error,
@@ -71,7 +82,7 @@ const Form = (props) => {
   }
 
   return (
-    <>
+    <div {...styles.form}>
       <Field
         label='Bezeichnung'
         value={name.value}
@@ -96,7 +107,7 @@ const Form = (props) => {
         {' '}
         <A href='#abbrechen' onClick={cancel}>Abbrechen</A>
       </P>
-    </>
+    </div>
   )
 }
 
@@ -134,6 +145,8 @@ const VestedInterests = ({ vestedInterests, handleVestedInterests }) => {
   }
 
   const editInterest = (e, id) => {
+    e && e.preventDefault && e.preventDefault()
+
     setIsEditing(id)
   }
 
@@ -162,17 +175,19 @@ const VestedInterests = ({ vestedInterests, handleVestedInterests }) => {
         {interests.map((interest) => {
           return (
             <li key={interest.id}>
-              <P>
-                {interest.name} ({interest.entity}); {interest.position}
-              </P>
               {interest.id === isEditing ? (
                 <Form {...interest} onCommit={replaceInterest} onCancel={cancelEditing} />
               ) : (
-                <P>
-                  <A href='#aendern' onClick={e => editInterest(e, interest.id)}>Ändern</A>
-                  {' '}
-                  <A href='#entfernen' onClick={e => removeInterest(e, interest.id)}>Entfernen</A>
-                </P>
+                <>
+                  <P>
+                    {interest.name} ({interest.entity}); {interest.position}
+                  </P>
+                  <P>
+                    <A href='#aendern' onClick={e => editInterest(e, interest.id)}>Ändern</A>
+                    {' '}
+                    <A href='#entfernen' onClick={e => removeInterest(e, interest.id)}>Entfernen</A>
+                  </P>
+                </>
               )}
             </li>
           )

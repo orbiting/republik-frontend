@@ -82,13 +82,14 @@ class Page extends Component {
       expandedSection: null,
       hasOnceVisitedAll: false
     }
+    const { router: { query: { context } } } = props
 
     this.sections = [
       { component: Newsletter, name: 'newsletter', ref: React.createRef(), visited: false },
       { component: AppLogin, name: 'app-login', ref: React.createRef(), visited: false },
       { component: Usability, name: 'usability', ref: React.createRef(), visited: false },
-      { component: Profile, name: 'profile', ref: React.createRef(), visited: false }
-    ]
+      context !== 'card' && { component: Profile, name: 'profile', ref: React.createRef(), visited: false }
+    ].filter(Boolean)
 
     this.onExpand = props => {
       this.setState(({ expandedSection }) => ({

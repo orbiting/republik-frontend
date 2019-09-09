@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-09T11:21:13.026Z",
+  "updated": "2019-09-09T14:46:34.935Z",
   "title": "live",
   "data": [
     {
@@ -5228,11 +5228,11 @@
     },
     {
       "key": "pages/cardGroups/description",
-      "value": "Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+      "value": "Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/pageTitle",
-      "value": "Republik Wahltindär"
+      "value": "«Republik Wahltindär»"
     },
     {
       "key": "pages/cardGroups/headline",
@@ -5240,7 +5240,7 @@
     },
     {
       "key": "pages/cardGroups/lead",
-      "value": "Über 4500 Kandidaturen für 246 Plätze im National- und Ständerat. Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons durch und treten Sie in einen Dialog mit ihnen."
+      "value": "Über 4500 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/choose",
@@ -5260,7 +5260,7 @@
     },
     {
       "key": "pages/cardGroup/description",
-      "value": "Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen {count} Politikerinnen des Kantons {name} und treten Sie in einen Dialog mit ihnen."
+      "value": "Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen {count} Politikerinnen des Kantons {name} und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "components/Card/Claim/404/title",
@@ -5268,11 +5268,11 @@
     },
     {
       "key": "components/Card/Claim/404/lead",
-      "value": "In unserer Datenbank lässt sich keine passende Wahltindär-Karte finden."
+      "value": "In unserer Datenbank lässt sich nichts Passendes finden."
     },
     {
       "key": "components/Card/Claim/404/help",
-      "value": "Wahrscheinlich ist der von Ihnen verwendete Link veraltet oder unvollständig. Falls das Problem wider allen Erwartungen weiterhin auftritt, helfen wir Ihnen unter <a href=\"mailto:wahlen19@republik.ch?subject=Nicht%20gefunden\">wahlen19@republik.ch</a> gerne und zügig weiter."
+      "value": "Wahrscheinlich ist der von Ihnen verwendete Link bereits benutzt worden oder unvollständig. Falls das Problem wider alle Erwartungen weiterhin auftritt, helfen wir Ihnen unter <a href=\"mailto:wahlen19@republik.ch?subject=Nicht%20gefunden\">wahlen19@republik.ch</a> gerne und zügig weiter."
     },
     {
       "key": "pages/cardSetup/title",
@@ -5280,7 +5280,7 @@
     },
     {
       "key": "pages/cardSetup/description",
-      "value": "Hier können Kandidatinnen und Kandidaten Ihr Profil einrichten."
+      "value": "Hier können Kandidatinnen und Kandidaten ihr Profil einrichten."
     },
     {
       "key": "components/Card/Claim/headline",
@@ -5288,7 +5288,7 @@
     },
     {
       "key": "components/Card/Claim/lead",
-      "value": "Wir möchten Sie dazu einladen, sich bei unserem Publikum zur Wahl zu empfehlen und an unserem Dialog teilzunehmen. Richten Sie dafür Ihr Profil ein und geben Sie ein Statement um bei der Debatte gleich dabei zu sein. «Republik Wahltindär» wird in wenigen Tagen auf republik.ch/wahltindaer verfügbar sein. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
+      "value": "Wir möchten Sie dazu einladen, sich bei unserem Publikum zur Wahl zu empfehlen und an unserem Dialog teilzunehmen. Richten Sie dafür Ihr Profil ein und geben Sie ein Statement ab, um bei der Debatte von Anfang an dabei zu sein. «Republik Wahltindär» wird in wenigen Tagen auf republik.ch/wahltindaer verfügbar sein, <a href=\"/wahltindaer/meta\" target=\"_blank\">mehr erfahren</a>."
     },
     {
       "key": "components/Card/Claim/statement/label",
@@ -5304,7 +5304,7 @@
     },
     {
       "key": "components/Card/Claim/me/assignNote",
-      "value": "Beim Speichern wird diese Wahltindär-Karte Ihrem Konto zugeordnet. Um diese Karte einem anderen Konto zuzuordnen, melden Sie sich ab."
+      "value": "Beim Speichern wird diese Wahltindär-Karte Ihrem Konto zugeordnet. Um diese Karte einem anderen Konto zuzuordnen, melden Sie sich bitte ab."
     },
     {
       "key": "components/Card/Claim/me/signOut",
@@ -5316,15 +5316,15 @@
     },
     {
       "key": "components/Card/Update/title",
-      "value": "Vielen Dank für Ihr Statement 🔥"
+      "value": "Vielen Dank für Ihr Statement 🔥!"
     },
     {
       "key": "components/Card/Update/lead",
-      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite können Sie Ihre Angaben aktualisieren. In wenigen Tagen geht es los: <a href=\"/wahltindaer/meta\" target=\"_blank\">mehr erfahren</a>."
+      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite können Sie Ihre Angaben aktualisieren. In wenigen Tagen geht es los: <a href=\"/wahltindaer/meta\" target=\"_blank\">mehr erfahren</a>."
     },
     {
       "key": "components/Card/Update/submit",
-      "value": "aktualisieren"
+      "value": "Aktualisieren"
     },
     {
       "key": "components/Card/Update/nothing/title",
@@ -5332,11 +5332,11 @@
     },
     {
       "key": "components/Card/Update/nothing/lead",
-      "value": "Ihrem Konto ist keine Wahltindär-Karte hinterlegt. Falls Sie sich für eine Kandidatur in den Nationalrat oder Ständerat angemeldet haben, können Ihre Wahltindär-Karte über den speziellen Link in der Begrüssungs-E-Mail übernehmen."
+      "value": "Ihrem Konto ist keine Wahltindär-Karte hinterlegt. Falls Sie sich für eine Kandidatur in den Nationalrat oder den Ständerat angemeldet haben, können Sie Ihre Wahltindär-Karte über den speziellen Link in der Begrüssungs-E-Mail übernehmen."
     },
     {
       "key": "components/Card/Update/nothing/help",
-      "value": "Bei Schwierigkeiten, wenden Sie sich an wahlen19@republik.ch"
+      "value": "Bei Schwierigkeiten wenden Sie sich bitte an wahlen19@republik.ch"
     }
   ]
 }

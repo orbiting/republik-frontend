@@ -47,6 +47,7 @@ const Update = (props) => {
   const [serverError, setServerError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [autoUpdateCard, setAutoUpdateCard] = useState(false)
+  const [isDirty, setIsDirty] = useState(false)
 
   useEffect(() => {
     if (autoUpdateCard) {
@@ -58,16 +59,10 @@ const Update = (props) => {
         props.updateCard({
           id: card.id,
           portrait: portrait.values.portrait,
-          statement: statement.value,
-          payload: {
-            campaignBudget: budget.value,
-            campaignBudgetComment: budgetComment.value,
-            vestedInterests: vestedInterests.value
-          }
+          statement: statement.value
         })
           .then(() => {
-            // Success...
-            console.log('Success')
+            setIsDirty(false)
             setLoading(false)
           })
           .catch(catchError)
@@ -99,6 +94,7 @@ const Update = (props) => {
   const [ card ] = me.cards.nodes
 
   const handlePortrait = ({ values, errors }) => {
+    setIsDirty(true)
     setPortrait({
       values,
       errors
@@ -106,6 +102,7 @@ const Update = (props) => {
   }
 
   const handleStatement = (value, shouldValidate) => {
+    setIsDirty(true)
     setStatement({
       ...statement,
       value,
@@ -247,7 +244,7 @@ const Update = (props) => {
         {loading
           ? <InlineSpinner />
           : <Button
-            primary
+            primary={isDirty}
             type='submit'
             block
             onClick={updateCard}
@@ -298,13 +295,12 @@ const UPDATE_CARD = gql`
     $id: ID!
     $portrait: String
     $statement: String!
-    $payload: JSON!
   ) {
     updateCard(
       id: $id
       portrait: $portrait
       statement: $statement
-      payload: $payload
+      payload: {}
     ) {
       ...Card
     }

@@ -67,7 +67,11 @@ const Page = (props) => {
     ),
     dirty: shouldValidate
   })
-  const [email, setEmail] = useState(getEmailState((me && me.email) || ''))
+  const [email, setEmail] = useState(getEmailState(maybeCard(data, card => {
+    if (card.user.email && !card.user.email.match(/^wahl2019-[0-9]+@republik\.ch$/)) {
+      return card.user.email
+    }
+  }) || ''))
 
   const [consents, setConsents] = useState([])
   const [portrait, setPortrait] = useState({ values: {} })
@@ -153,9 +157,8 @@ const Page = (props) => {
 
   const errorMessages = [
     portrait.errors && portrait.errors.portrait,
-    portrait.errors && portrait.errors.portraitPreview,
     statement.error,
-    email.error
+    !me && email.error
   ].concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
     .filter(Boolean)
 
@@ -314,7 +317,7 @@ const Page = (props) => {
 
 const CARDS_VIA_ACCESS_TOKEN = gql`
   query claimCardForm($accessToken: ID!) {
-    cards(accessToken: $accessToken first: 1) {
+    cards(accessToken: $accessToken, first: 1) {
       nodes {
         id
         payload
@@ -322,9 +325,10 @@ const CARDS_VIA_ACCESS_TOKEN = gql`
           id
           name
         }
-        user {
+        user(accessToken: $accessToken) {
           id
           name
+          email
           isUserOfCurrentSession
           portrait(properties:{width:600 height:800 bw:false})
         }

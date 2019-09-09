@@ -158,7 +158,7 @@ const toDesktop = (i, innerWidth, cardWidth) => {
 const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Cards = () => {
-  const width = useWindowWidth()
+  const width = useWindowWidth() || (typeof window !== 'undefined' && window.innerWidth)
   const prevWidth = usePrevious(width)
   const isDesktop = width >= mediaQueries.mBreakPoint
   const cardWidth = cardWidthDesktop(width)

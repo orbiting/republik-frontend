@@ -85,7 +85,11 @@ const Update = (props) => {
           {t('components/Card/Update/nothing/lead')}
         </P>
         <P {...formStyles.paragraph}>
-          {t('components/Card/Update/nothing/help')}
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('components/Card/Update/nothing/help')
+            }}
+          />
         </P>
       </>
     )

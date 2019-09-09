@@ -218,7 +218,7 @@ const Page = (props) => {
             errors={portrait.errors}
             onChange={handlePortrait} />
         </div>
-        <div style={{ marginLeft: 40 }}>
+        <div {...formStyles.details}>
           <Details card={card} user={card.user} />
         </div>
       </div>

@@ -33,7 +33,7 @@ query {
 }
 `
 
-const SIZE = 65
+const SIZE = 40
 const WIDTH = 250
 const MARGIN = 10
 
@@ -79,6 +79,8 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
         </Editorial.Headline>
         <Editorial.P>
           {t('pages/cardGroups/lead')}
+          {' '}
+          <Editorial.A href='/wahltindaer/meta'>{t('pages/cardGroups/lead/more')}</Editorial.A>
         </Editorial.P>
         <Editorial.P>
           <strong>{isEditor ? t('pages/cardGroups/choose') : t('pages/cardGroups/comingsoon')}</strong>

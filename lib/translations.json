@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-09T20:27:31.358Z",
+  "updated": "2019-09-09T21:57:58.057Z",
   "title": "live",
   "data": [
     {
@@ -5243,6 +5243,10 @@
       "value": "Über 4500 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
+      "key": "pages/cardGroups/lead/more",
+      "value": "Mehr über das Projekt erfahren."
+    },
+    {
       "key": "pages/cardGroups/choose",
       "value": "Wählen Sie Ihren Kanton:"
     },
@@ -5336,7 +5340,7 @@
     },
     {
       "key": "components/Card/Update/nothing/help",
-      "value": "Bei Schwierigkeiten wenden Sie sich bitte an wahlen19@republik.ch"
+      "value": "Bei Schwierigkeiten wenden Sie sich bitte an <a href=\"mailto:wahlen19@republik.ch?subject=Keine%20Karte\">wahlen19@republik.ch</a>"
     },
     {
       "key": "components/Card/Update/read",

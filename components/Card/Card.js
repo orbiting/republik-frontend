@@ -101,11 +101,11 @@ const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
         <strong>Wahlkampfbudget</strong>
         {payload.campaignBudget
           ? `: ${chfFormat(payload.campaignBudget)}`
-          : !payload.campaignBudgetComment && <><br />Keine Angabe</>}
+          : !payload.campaignBudgetComment && <><br />Keine Angaben</>}
         {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
         <br />
         <strong>Interessenbindungen</strong>
-        {!payload.vestedInterestsSmartvote.length && <><br />Keine Angabe</>}
+        {!payload.vestedInterestsSmartvote.length && <><br />Keine Angaben</>}
       </Paragraph>
       {!!payload.vestedInterestsSmartvote.length && <UL>
         {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>

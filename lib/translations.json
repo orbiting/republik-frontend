@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-01T06:15:41.892Z",
+  "updated": "2019-09-09T08:30:16.858Z",
   "title": "live",
   "data": [
     {
@@ -2879,8 +2879,12 @@
       "value": "+41797874765"
     },
     {
+      "key": "front/finite",
+      "value": "Sie haben die aktuelle Republik gelesen."
+    },
+    {
       "key": "front/chronology",
-      "value": "Übersicht {years}"
+      "value": "Archiv {years}"
     },
     {
       "key": "front/loadMore",
@@ -5213,6 +5217,50 @@
     {
       "key": "Trial/Page/unauthorized/buchbasel/intro",
       "value": "Lesen Sie 4 Wochen kostenlos die ganze «Republik». Einlösbar bis 14.11.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
+      "key": "Trial/Page/unauthorized/science-et-cite/heading",
+      "value": "Spezialangebot für «Science et Cité»"
+    },
+    {
+      "key": "Trial/Page/unauthorized/science-et-cite/intro",
+      "value": "Lesen Sie 4 Wochen kostenlos die «Republik». Einlösbar bis 31.10.2019. Tragen Sie dazu unten Ihre E-Mail-Adresse ein."
+    },
+    {
+      "key": "pages/cardGroups/description",
+      "value": "Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+    },
+    {
+      "key": "pages/cardGroups/pageTitle",
+      "value": "Republik Wahltindär"
+    },
+    {
+      "key": "pages/cardGroups/headline",
+      "value": "Wahltindär"
+    },
+    {
+      "key": "pages/cardGroups/lead",
+      "value": "Über 4500 Kandidaturen für 246 Plätze im National- und Ständerat. Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons durch und treten Sie in einen Dialog mit ihnen."
+    },
+    {
+      "key": "pages/cardGroups/choose",
+      "value": "Wählen Sie Ihren Kanton:"
+    },
+    {
+      "key": "pages/cardGroups/comingsoon",
+      "value": "In wenigen Tagen hier verfügbar."
+    },
+    {
+      "key": "pages/cardGroups/cardCount/other",
+      "value": "{count} Kandidaturen"
+    },
+    {
+      "key": "pages/cardGroup/title",
+      "value": "Kanton {name} – Wahltindär"
+    },
+    {
+      "key": "pages/cardGroup/description",
+      "value": "Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen {count} Politikerinnen des Kantons {name} und treten Sie in einen Dialog mit ihnen."
     }
   ]
 }

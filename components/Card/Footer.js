@@ -53,7 +53,7 @@ const Footer = ({ t, zIndex }) => {
       </div>
       <div {...styles.right}>
         Quellen<br />
-        <Editorial.A href='https://www.smartvote.ch/de/home'>Smartvote</Editorial.A>, <Editorial.A href='https://lobbywatch.ch/de'>Lobbywatch</Editorial.A>, <Editorial.A href='https://www.bfs.admin.ch/bfs/de/home/statistiken/kataloge-datenbanken/tabellen.assetdetail.8826608.html'>BFS</Editorial.A>
+        <Editorial.A href='https://www.smartvote.ch/de/home'>Smartvote</Editorial.A>, <Editorial.A href='https://www.bfs.admin.ch/bfs/de/home/statistiken/kataloge-datenbanken/tabellen.assetdetail.8826608.html'>BFS</Editorial.A>
       </div>
     </div>
   )

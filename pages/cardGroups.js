@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -16,6 +16,7 @@ import Loader from '../components/Loader'
 import Container from '../components/Card/Container'
 import Cantons from '../components/Card/Cantons'
 import { Editorial, Interaction, colors } from '@project-r/styleguide'
+import { withEditor } from '../components/Auth/checkRoles'
 
 const query = gql`
 query {
@@ -63,23 +64,24 @@ const styles = {
   })
 }
 
-const Page = ({ data, data: { cardGroups }, t }) => (
+const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
   <Frame raw footer={false} meta={{
-    pageTitle: 'Republik Wahltindär',
-    title: 'Republik Wahltindär',
-    description: 'Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons durch und treten Sie in einen Dialog mit ihnen.',
+    pageTitle: t('pages/cardGroups/pageTitle'),
+    title: t('pages/cardGroups/pageTitle'),
+    description: t('pages/cardGroups/description'),
     url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroups').toPath()}`
+    // ToDo: image
   }}>
     <Container>
       <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>
         <Editorial.Headline>
-          Wahltindär
+          {t('pages/cardGroups/headline')}
         </Editorial.Headline>
         <Editorial.P>
-          Über 4500 Kandidaturen für 246 Plätze im National- und Ständerat. Wischen Sie sich durch die engagierten, aufopfernden und machthungrigen Politikerinnen Ihres Kantons durch und treten Sie in einen Dialog mit ihnen.
+          {t('pages/cardGroups/lead')}
         </Editorial.P>
         <Editorial.P>
-          <strong>Wählen Sie Ihren Kanton:</strong>
+          <strong>{isEditor ? t('pages/cardGroups/choose') : t('pages/cardGroups/comingsoon')}</strong>
         </Editorial.P>
       </div>
       <Loader loading={data.loading} error={data.error} render={() => {
@@ -88,19 +90,23 @@ const Page = ({ data, data: { cardGroups }, t }) => (
           .sort((a, b) => descending(a.cards.totalCount, b.cards.totalCount))
 
         return (
-          <div {...styles.cantons}>
+          <div {...styles.cantons} style={{ opacity: isEditor ? 1 : 0.5 }}>
             {groups.map(cardGroup => {
               const Icon = Cantons[cardGroup.slug] || null
 
+              const L = isEditor ? Link : Fragment
+
               return (
-                <Link key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
+                <L key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
                   <a {...styles.canton}>
                     {Icon && <Icon size={SIZE} {...styles.icon} />}
                     <strong>{cardGroup.name}</strong>
                     <br />
-                    {cardGroup.cards.totalCount} Kandidaturen
+                    {t.pluralize('pages/cardGroups/cardCount', {
+                      count: cardGroup.cards.totalCount
+                    })}
                   </a>
-                </Link>
+                </L>
               )
             })}
           </div>
@@ -115,5 +121,6 @@ const Page = ({ data, data: { cardGroups }, t }) => (
 export default compose(
   withRouter,
   withT,
+  withEditor,
   graphql(query)
 )(Page)

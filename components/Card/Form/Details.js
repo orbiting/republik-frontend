@@ -23,21 +23,15 @@ const Details = (props) => {
   return (
     <>
       <H2>{user.name}, {party}</H2>
-      <P>{occupation}, geboren {yearOfBirth}</P>
-      {nationalCouncil.candidacy && (
-        <>
-          <H3>Nationalratskandidatur</H3>
-          <P>Liste: «{listName}»</P>
-          {listPlaces && listPlaces.length && <P>Listenplätze: {
-            listPlaces.join(', ')
-          }</P>}
-        </>
-      )}
-      {councilOfStates.candidacy && (
-        <>
-          <H3>Ständeratskandidatur</H3>
-        </>
-      )}
+      <P>{[occupation, yearOfBirth].filter(Boolean).join(', ')}</P>
+      <H3>{councilOfStates.candidacy && nationalCouncil.candidacy
+        ? 'Stände- und Nationalratskandidatur'
+        : councilOfStates.candidacy ? 'Ständeratskandidatur' : 'Nationalratskandidatur'
+      }</H3>
+      {listName && <P>Liste: «{listName}»</P>}
+      {listPlaces && listPlaces.length && <P>Listenplätze: {
+        listPlaces.join(', ')
+      }</P>}
     </>
   )
 }

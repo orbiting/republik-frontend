@@ -49,10 +49,28 @@ const maybeCard = (data, apply) => {
 const Page = (props) => {
   const { serverContext, router: { query: { token } }, data, me, t } = props
 
+  const getStatementState = (value, shouldValidate) => ({
+    value,
+    error: (
+      (value.trim().length <= 0 && 'Statement fehlt')
+    ),
+    dirty: shouldValidate
+  })
+  const [statement, setStatement] = useState(
+    getStatementState(maybeCard(data, card => card.payload.statement) || '')
+  )
+  const getEmailState = (value, shouldValidate) => ({
+    value,
+    error: (
+      (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
+      (!isEmail(value) && t('Trial/Form/email/error/invalid'))
+    ),
+    dirty: shouldValidate
+  })
+  const [email, setEmail] = useState(getEmailState((me && me.email) || ''))
+
   const [consents, setConsents] = useState([])
-  const [email, setEmail] = useState({ value: (me && me.email) || '' })
   const [portrait, setPortrait] = useState({ values: {} })
-  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [autoClaimCard, setAutoClaimCard] = useState(false)
@@ -64,8 +82,6 @@ const Page = (props) => {
 
   useEffect(() => {
     if (autoClaimCard) {
-      setShowErrors(true)
-
       if (errorMessages.length === 0) {
         props.claimCard({
           id: card.id,
@@ -87,8 +103,6 @@ const Page = (props) => {
 
   useEffect(() => {
     if (autoSignIn) {
-      setShowErrors(true)
-
       if (errorMessages.length === 0) {
         props.signIn(
           email.value,
@@ -104,9 +118,8 @@ const Page = (props) => {
           })
           .catch(catchError)
       }
+      setAutoSignIn(false)
     }
-
-    setAutoSignIn(false)
   }, [autoSignIn])
 
   if (data.loading || data.error) {
@@ -138,35 +151,21 @@ const Page = (props) => {
     })
   }
 
-  const handleStatement = (value, shouldValidate) => {
-    setStatement({
-      ...statement,
-      value,
-      error: (
-        (value.trim().length <= 0 && 'Statement fehlt')
-      ),
-      dirty: shouldValidate
-    })
-  }
-
-  const handleEmail = (value, shouldValidate) => {
-    setEmail({
-      ...email,
-      value,
-      error: (
-        (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
-        (!isEmail(value) && t('Trial/Form/email/error/invalid'))
-      ),
-      dirty: shouldValidate
-    })
-  }
+  const errorMessages = [
+    portrait.errors && portrait.errors.portrait,
+    portrait.errors && portrait.errors.portraitPreview,
+    statement.error,
+    email.error
+  ].concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
+    .filter(Boolean)
 
   const claimCard = e => {
     e && e.preventDefault && e.preventDefault()
 
-    handleEmail(email.value, true)
-    handleStatement(statement.value, true)
-    handlePortrait(portrait)
+    if (errorMessages.length) {
+      setShowErrors(true)
+      return
+    }
 
     setLoading(true)
 
@@ -197,14 +196,6 @@ const Page = (props) => {
     )
   }
 
-  const errorMessages = [
-    portrait.errors && portrait.errors.portrait,
-    portrait.errors && portrait.errors.portraitPreview,
-    statement.error,
-    email.error
-  ].concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
-    .filter(Boolean)
-
   return (
     <>
       <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
@@ -234,7 +225,7 @@ const Page = (props) => {
         <Statement
           label={t('components/Card/Claim/statement/label')}
           statement={statement}
-          handleStatement={handleStatement} />
+          handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
       </div>
 
       {!me && (
@@ -244,7 +235,7 @@ const Page = (props) => {
             value={email.value}
             error={email.dirty && email.error}
             dirty={email.dirty}
-            onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
+            onChange={(_, value, shouldValidate) => setEmail(getEmailState(value, shouldValidate))} />
         </div>
       )}
 

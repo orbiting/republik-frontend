@@ -10,6 +10,7 @@ import {
 } from '@project-r/styleguide'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
+import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 
 const CARDS_ASSETS_BASE_URL = `${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/marketing`
 const MAX_WIDTH = 800
@@ -152,20 +153,6 @@ const toDesktop = (i, innerWidth, cardWidth) => {
     rot: randomRotation(),
     delay: i * 100
   }
-}
-
-const useWindowWidth = () => {
-  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : undefined)
-
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth)
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [setWidth])
-
-  return width
 }
 
 const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`

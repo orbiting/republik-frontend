@@ -65,7 +65,7 @@ const styles = {
 }
 
 const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
-  <Frame raw footer={false} meta={{
+  <Frame raw footer={false} navBar={false} meta={{
     pageTitle: t('pages/cardGroups/pageTitle'),
     title: t('pages/cardGroups/pageTitle'),
     description: t('pages/cardGroups/description'),

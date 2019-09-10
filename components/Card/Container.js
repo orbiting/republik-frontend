@@ -3,7 +3,7 @@ import { css } from 'glamor'
 
 import { withMembership } from '../Auth/checkRoles'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, NAVBAR_HEIGHT, NAVBAR_HEIGHT_MOBILE } from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { mediaQueries } from '@project-r/styleguide'
 
 import Footer from './Footer'
@@ -18,35 +18,23 @@ const styles = {
     paddingBottom: 20
   }),
   minHeight: css({
-    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
+    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      minHeight: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
-    }
-  }),
-  minMemberHeight: css({
-    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
-    [mediaQueries.mUp]: {
-      minHeight: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
+      minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`
     }
   }),
   height: css({
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
+    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      height: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
-    }
-  }),
-  memberHeight: css({
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
-    [mediaQueries.mUp]: {
-      height: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
+      height: `calc(100vh - ${HEADER_HEIGHT}px)`
     }
   })
 }
 
 const Container = ({ children, style = {}, isMember }) => {
   const heightKey = style.minHeight
-    ? isMember ? 'memberHeight' : 'height'
-    : isMember ? 'minMemberHeight' : 'minHeight'
+    ? 'height'
+    : 'minHeight'
   return (
     <div
       {...styles.container}

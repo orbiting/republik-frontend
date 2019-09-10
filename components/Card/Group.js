@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
@@ -85,13 +85,15 @@ const styles = {
   switch: css({
     position: 'absolute',
     left: 8,
-    top: 5
+    top: 5,
+    maxWidth: '35%'
   }),
   canton: css(Interaction.fontRule, {
     position: 'absolute',
     right: 8,
     top: 5,
     textAlign: 'right',
+    maxWidth: '64%',
     paddingRight: 40 + 10,
     '& svg': {
       width: 40,
@@ -124,11 +126,13 @@ const SpringCard = ({
     : { ...to(), from: { opacity: 0 } }
   )
   const { x, y, rot, scale, opacity } = props
-  if (isTop) {
-    set({
-      scale: 1.05, rot: 0
-    })
-  }
+  useEffect(() => {
+    if (isTop) {
+      set({
+        scale: 1.05, rot: 0
+      })
+    }
+  }, [isTop])
 
   const willChange = isHot ? 'transform' : undefined
 

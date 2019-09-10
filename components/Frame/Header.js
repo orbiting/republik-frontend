@@ -335,7 +335,7 @@ class Header extends Component {
     const textFill = dark ? negativeColors.text : colors.text
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
-    const showNavBar = isMember
+    const showNavBar = this.props.navBar && isMember
 
     const toggleExpanded = () => {
       if (onPrimaryNavExpandedChange) {

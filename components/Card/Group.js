@@ -181,13 +181,29 @@ const Group = ({ t, group, fetchMore }) => {
     : windowWidth > 360 ? 300 : 240
 
   const dragTime = useRef(0)
+  const onCard = useRef(false)
+
+  useEffect(() => {
+    const onTouchMove = event => {
+      if (onCard.current) {
+        event.preventDefault()
+      }
+    }
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+
+    return () => {
+      window.removeEventListener('touchmove', onTouchMove)
+    }
+  }, [])
 
   const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     if (first) {
       dragTime.current = time
+      onCard.current = true
     }
     if (last) {
       dragTime.current = time - dragTime.current
+      onCard.current = false
     }
     // flick hard enough
     const out = Math.abs(xDelta) > cardWidth / 2

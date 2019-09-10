@@ -119,7 +119,8 @@ const SpringCard = ({
   i, zIndex, card, bindGestures, cardWidth,
   fallIn,
   isTop, isHot,
-  dragTime
+  dragTime,
+  swiped, windowWidth
 }) => {
   const [props, set] = useSpring(() => fallIn
     ? { ...to(), delay: i * 100, from: fromFall() }
@@ -133,6 +134,25 @@ const SpringCard = ({
       })
     }
   }, [isTop])
+  useEffect(() => {
+    if (swiped) {
+      const { dir, velocity, xDelta } = swiped
+      const x = 200 + windowWidth * dir
+      // how much the card tilts, flicking it harder makes it rotate faster
+      const rot = xDelta / 100 + dir * 10 * velocity
+
+      set({
+        x,
+        rot,
+        scale: 1,
+        delay: undefined,
+        config: {
+          friction: 50,
+          tension: 200
+        }
+      })
+    }
+  }, [swiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
 
@@ -174,7 +194,7 @@ const Group = ({ t, group, fetchMore }) => {
     ...mapCardToActive(card, i),
     fallIn: true
   })))
-  const [gone] = useState(() => new Set())
+  const [swipes, setSwipes] = useState([])
   const windowWidth = useWindowWidth()
   const cardWidth = windowWidth > 500
     ? 320
@@ -214,37 +234,36 @@ const Group = ({ t, group, fetchMore }) => {
 
     // If button/finger's up, fly out
     if (!down && trigger) {
-      gone.add(card)
+      setSwipes(swipes => {
+        swipes[topIndex] = { dir, xDelta, velocity, cardId: card.id }
+        return swipes
+      })
+
+      setTopIndex(index => index + 1)
 
       setActiveCards(acs => allCards[acs.length]
         ? acs.concat(mapCardToActive(allCards[acs.length], acs.length))
         : acs
       )
-      setTopIndex(index => index + 1)
-
       // move to proper useEffect
       if (activeCards.length >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
         fetchMore(group.cards.pageInfo)
       }
+      return
     }
 
-    const isGone = gone.has(card)
-    const x = isGone
-      ? (200 + windowWidth) * dir
-      : down ? xDelta : 0
-    // how much the card tilts, flicking it harder makes it rotate faster
-    const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0)
+    const x = down ? xDelta : 0
+    const rot = xDelta / 100
 
-    // active cards lift up a bit
     const scale = down || isTop ? 1.05 : 1
     set({
       x,
-      rot: !down && !isGone ? 0 : rot,
+      rot: !down ? 0 : rot,
       scale,
       delay: undefined,
       config: {
         friction: 50,
-        tension: down ? 800 : isGone ? 200 : 500
+        tension: down ? 800 : 500
       }
     })
   })
@@ -270,6 +289,7 @@ const Group = ({ t, group, fetchMore }) => {
         const isTop = topIndex === i
         return <SpringCard
           {...activeCard}
+          swiped={swipes[i]}
           dragTime={dragTime}
           windowWidth={windowWidth}
           cardWidth={cardWidth}

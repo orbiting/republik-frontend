@@ -6,7 +6,7 @@ import { compose } from 'react-apollo'
 
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
-import RevertIcon from 'react-icons/lib/md/settings-backup-restore'
+import RevertIcon from 'react-icons/lib/md/settings-backup-restore' // rotate-left
 import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
@@ -16,7 +16,7 @@ import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import { Editorial, Interaction, mediaQueries } from '@project-r/styleguide'
+import { Editorial, Interaction, mediaQueries, usePrevious } from '@project-r/styleguide'
 
 const styles = {
   card: css({
@@ -112,6 +112,12 @@ const to = () => ({
 const fromFall = () => ({
   x: 0, rot: 0, scale: 1.5, y: -1200, opacity: 1
 })
+const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
+  x: (200 + windowWidth) * dir,
+  // how much the card tilts, flicking it harder makes it rotate faster
+  rot: xDelta / 100 + dir * 10 * velocity,
+  scale: 1
+})
 
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
@@ -122,29 +128,31 @@ const SpringCard = ({
   dragTime,
   swiped, windowWidth
 }) => {
-  const [props, set] = useSpring(() => fallIn
+  const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: i * 100, from: fromFall() }
-    : { ...to(), from: { opacity: 0 } }
+    : {
+      ...to(),
+      ...swiped && fromSwiped(swiped, windowWidth),
+      from: { opacity: 0 }
+    }
   )
   const { x, y, rot, scale, opacity } = props
+  const wasTop = usePrevious(isTop)
   useEffect(() => {
     if (isTop) {
       set({
-        scale: 1.05, rot: 0
+        scale: 1.05,
+        rot: 0,
+        x: 0
       })
+    } else if (wasTop) {
+      set(to())
     }
   }, [isTop])
   useEffect(() => {
     if (swiped) {
-      const { dir, velocity, xDelta } = swiped
-      const x = 200 + windowWidth * dir
-      // how much the card tilts, flicking it harder makes it rotate faster
-      const rot = xDelta / 100 + dir * 10 * velocity
-
       set({
-        x,
-        rot,
-        scale: 1,
+        ...fromSwiped(swiped, windowWidth),
         delay: undefined,
         config: {
           friction: 50,
@@ -184,16 +192,16 @@ const nOld = 3
 const Group = ({ t, group, fetchMore }) => {
   const allCards = group.cards.nodes
   const totalCount = group.cards.totalCount
-  const mapCardToActive = (card, i) => ({
-    key: card.id,
-    card,
-    i
-  })
   const [topIndex, setTopIndex] = useState(0)
-  const [activeCards, setActiveCards] = useState(() => allCards.slice(0, nNew).map((card, i) => ({
-    ...mapCardToActive(card, i),
-    fallIn: true
-  })))
+
+  // request more
+  // ToDo: loading & error state
+  useEffect(() => {
+    if (topIndex >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
+      fetchMore(group.cards.pageInfo)
+    }
+  }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
+
   const [swipes, setSwipes] = useState([])
   const windowWidth = useWindowWidth()
   const cardWidth = windowWidth > 500
@@ -216,6 +224,39 @@ const Group = ({ t, group, fetchMore }) => {
     }
   }, [])
 
+  const onSwipe = (swiped) => {
+    setSwipes(swipes => {
+      swipes[topIndex] = swiped
+      return swipes
+    })
+    setTopIndex(topIndex + 1)
+  }
+  const onRevert = () => {
+    if (topIndex < 1) {
+      return
+    }
+    setSwipes(swipes => {
+      swipes[topIndex - 1] = undefined
+      return swipes
+    })
+    setTopIndex(topIndex - 1)
+  }
+  const activeCard = allCards[topIndex]
+  const onRight = (e) => {
+    if (!activeCard) {
+      return
+    }
+    e.preventDefault()
+    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id })
+  }
+  const onLeft = (e) => {
+    if (!activeCard) {
+      return
+    }
+    e.preventDefault()
+    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id })
+  }
+
   const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     if (first) {
       dragTime.current = time
@@ -225,40 +266,25 @@ const Group = ({ t, group, fetchMore }) => {
       dragTime.current = time - dragTime.current
       onCard.current = false
     }
-    // flick hard enough
+
     const out = Math.abs(xDelta) > cardWidth / 2
     const trigger = velocity > 0.2 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1
       : xDir < 0 ? -1 : 1
 
-    // If button/finger's up, fly out
     if (!down && trigger) {
-      setSwipes(swipes => {
-        swipes[topIndex] = { dir, xDelta, velocity, cardId: card.id }
-        return swipes
-      })
-
-      setTopIndex(index => index + 1)
-
-      setActiveCards(acs => allCards[acs.length]
-        ? acs.concat(mapCardToActive(allCards[acs.length], acs.length))
-        : acs
-      )
-      // move to proper useEffect
-      if (activeCards.length >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
-        fetchMore(group.cards.pageInfo)
-      }
+      onSwipe({ dir, xDelta, velocity, cardId: card.id })
       return
     }
 
     const x = down ? xDelta : 0
-    const rot = xDelta / 100
-
+    const rot = down ? xDelta / 100 : 0
     const scale = down || isTop ? 1.05 : 1
+
     set({
       x,
-      rot: !down ? 0 : rot,
+      rot,
       scale,
       delay: undefined,
       config: {
@@ -272,7 +298,7 @@ const Group = ({ t, group, fetchMore }) => {
 
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
-      <div {...styles.switch} style={{ zIndex: activeCards.length + 1 }}>
+      <div {...styles.switch} style={{ zIndex: allCards.length + 1 }}>
         <Link route='cardGroups' passHref>
           <Editorial.A>Kanton wechseln</Editorial.A>
         </Link>
@@ -282,39 +308,43 @@ const Group = ({ t, group, fetchMore }) => {
         {totalCount} Kandidaturen
         {Icon && <Icon size={40} />}
       </div>
-      {!!windowWidth && activeCards.map((activeCard, i) => {
-        if (i + nOld < topIndex) {
+      {!!windowWidth && allCards.map((card, i) => {
+        if (i + nOld < topIndex || i - nNew >= topIndex) {
           return null
         }
         const isTop = topIndex === i
+        const fallIn = i < nNew
         return <SpringCard
-          {...activeCard}
+          key={card.id}
+          card={card}
           swiped={swipes[i]}
           dragTime={dragTime}
           windowWidth={windowWidth}
           cardWidth={cardWidth}
+          fallIn={fallIn}
           isHot={
             isTop ||
-            activeCard.fallIn ||
+            fallIn ||
             Math.abs(topIndex - i) === 1
           }
           isTop={isTop}
-          zIndex={activeCards.length - i}
+          zIndex={allCards.length - i}
           bindGestures={bindGestures} />
       })}
 
       <div {...styles.buttonPanel} style={{
-        zIndex: activeCards.length + 1
+        zIndex: allCards.length + 1
       }}>
         <span {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: '#EBB900'
-        }}>
+          backgroundColor: '#EBB900',
+          opacity: topIndex > 0 ? 1 : 0.5
+        }} onClick={onRevert}>
           <RevertIcon fill='#fff' />
         </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: '#9F2500' }}>
+        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: '#9F2500' }} onClick={onLeft}>
           <IgnoreIcon fill='#fff' />
         </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: 'rgb(8,48,107)' }}>
+        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: 'rgb(8,48,107)' }} onClick={onRight}>
           <FollowIcon fill='#fff' />
         </span>
         <span {...styles.button} {...styles.buttonSmall} style={{

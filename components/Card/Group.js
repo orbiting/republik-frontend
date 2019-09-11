@@ -11,7 +11,7 @@ import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
-import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
+import { useWindowSize } from '../../lib/hooks/useWindowSize'
 
 import Card from './Card'
 import Container from './Container'
@@ -251,7 +251,7 @@ const Group = ({ t, group, fetchMore }) => {
   }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
 
   const [swipes, setSwipes] = useState([])
-  const windowWidth = useWindowWidth()
+  const [windowWidth] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
     : windowWidth > 360 ? 300 : 240
@@ -315,7 +315,7 @@ const Group = ({ t, group, fetchMore }) => {
       onCard.current = false
     }
 
-    const out = Math.abs(xDelta) > cardWidth / 2
+    const out = Math.abs(xDelta) > cardWidth / 2.5
     const trigger = velocity > 0.4 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1

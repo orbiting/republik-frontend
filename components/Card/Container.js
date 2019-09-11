@@ -1,10 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { withMembership } from '../Auth/checkRoles'
+import { mediaQueries, useMediaQuery } from '@project-r/styleguide'
 
+import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
-import { mediaQueries } from '@project-r/styleguide'
 
 import Footer from './Footer'
 
@@ -31,19 +31,26 @@ const styles = {
   })
 }
 
-const Container = ({ children, style = {}, isMember }) => {
+const Container = ({ children, style = {} }) => {
+  const heightStyle = {}
   const heightKey = style.minHeight
     ? 'height'
     : 'minHeight'
+  const isDesktop = useMediaQuery(mediaQueries.mUp)
+  const height = useWindowSize()[1]
+  if (height) {
+    heightStyle[heightKey] = height - (isDesktop ? HEADER_HEIGHT : HEADER_HEIGHT_MOBILE)
+  }
+
   return (
     <div
       {...styles.container}
       {...styles[heightKey]}
-      style={style}>
+      style={{ ...heightStyle, ...style }}>
       {children}
       <Footer />
     </div>
   )
 }
 
-export default withMembership(Container)
+export default Container

@@ -36,7 +36,7 @@ css.global('div:focus', {
 })
 
 const styles = {
-  container: css({
+  bodyGrowerContainer: css({
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
@@ -93,9 +93,10 @@ const Index = ({
   navBar = true,
   dark
 }) => (
-  <div {...styles.container}>
+  <div {...footer && styles.bodyGrowerContainer}>
+    {/* body growing only needed when rendering a footer */}
     <div
-      {...styles.bodyGrower}
+      {...footer && styles.bodyGrower}
       {...(!cover
         ? styles.padHeader
         : undefined

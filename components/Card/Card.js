@@ -19,10 +19,15 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    padding: `10px ${PADDING}px`,
+    padding: `5px ${PADDING}px`,
     backgroundColor: '#fff',
-    fontSize: 16,
-    lineHeight: '20px'
+    fontSize: 14,
+    lineHeight: '16px',
+    '@media (min-width: 340px)': {
+      padding: `10px ${PADDING}px`,
+      fontSize: 16,
+      lineHeight: '20px'
+    }
   }),
   occupation: css({
     display: 'block',
@@ -34,7 +39,10 @@ const styles = {
   centerContent: css({
     width: 280,
     margin: '0 auto',
-    paddingTop: PADDING + 3
+    paddingTop: PADDING - 2,
+    '@media (min-width: 340px)': {
+      paddingTop: PADDING + 3
+    }
   }),
   p: css(Interaction.fontRule, {
     margin: '0 0 5px',

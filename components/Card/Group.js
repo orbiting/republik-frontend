@@ -11,7 +11,6 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
-import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -81,7 +80,10 @@ const styles = {
     lineHeight: 0,
     verticalAlign: 'middle',
     boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
-    transition: 'opacity 300ms'
+    transition: 'opacity 300ms',
+    ...fontStyles.sansSerifMedium,
+    color: '#fff',
+    textAlign: 'center'
   }),
   buttonSmall: css({
     width: 30,
@@ -378,6 +380,7 @@ const Group = ({ t, group, fetchMore }) => {
   })
 
   const Icon = Cantons[group.slug] || null
+  const rightSwipes = swipes.filter(swipe => swipe.dir === 1)
 
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
@@ -442,24 +445,25 @@ const Group = ({ t, group, fetchMore }) => {
       }}>
         <button {...styles.button} {...styles.buttonSmall} style={{
           backgroundColor: cardColors.revert,
-          opacity: topIndex > 0 ? 1 : 0
+          opacity: swipes.length > 0 ? 1 : 0
         }} onClick={onRevert}>
-          <RevertIcon fill='#fff' />
+          <RevertIcon />
         </button>
         <button {...styles.button} {...styles.buttonBig} style={{
           backgroundColor: cardColors.left
         }} onClick={onLeft}>
-          <IgnoreIcon fill='#fff' />
+          <IgnoreIcon />
         </button>
         <button {...styles.button} {...styles.buttonBig} style={{
           backgroundColor: cardColors.right
         }} onClick={onRight}>
-          <FollowIcon fill='#fff' />
+          <FollowIcon />
         </button>
         <button {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: '#4B6359' // disabled #B7C1BD
+          backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
+          opacity: swipes.length > 0 ? 1 : 0
         }}>
-          <OverviewIcon fill='#fff' />
+          {rightSwipes.length}
         </button>
       </div>
     </Container>

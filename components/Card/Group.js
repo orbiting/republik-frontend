@@ -12,8 +12,6 @@ import {
   fontStyles
 } from '@project-r/styleguide'
 
-import createPersistedState from '../../lib/hooks/use-persisted-state'
-
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
@@ -21,12 +19,16 @@ import RevertIcon from 'react-icons/lib/md/rotate-left'
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import createPersistedState from '../../lib/hooks/use-persisted-state'
 import sharedStyles from '../sharedStyles'
+
+import Discussion from '../Discussion/Discussion'
 
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
 import OverviewOverlay from './OverviewOverlay'
+import Overlay from './Overlay'
 
 const cardColors = {
   left: '#9F2500',
@@ -85,7 +87,7 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: 20
     },
-    lineHeight: 0,
+    lineHeight: 1.1,
     verticalAlign: 'middle',
     boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
     transition: 'opacity 300ms',
@@ -399,7 +401,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     event.preventDefault()
     Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
   }
-  const closeOverview = event => {
+  const closeOverlay = event => {
     if (event) {
       event.preventDefault()
     }
@@ -473,7 +475,20 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
               swipes={swipes}
               setSwipes={setSwipes}
               isPersisted={isPersisted}
-              onClose={closeOverview} />}
+              onClose={closeOverlay} />}
+          {query.suffix === 'diskussion' &&
+            <Overlay title='Diskussion' onClose={closeOverlay}>
+              {group.discussion
+                ? <Discussion
+                  discussionId={group.discussion.id}
+                  focusId={query.focus}
+                  mute={!!query.mute} />
+                : <Interaction.P>
+                  Diese Debatte ist zur Zeit nicht verfügbar.
+                </Interaction.P>
+              }
+            </Overlay>
+          }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
             opacity: swipes.length > 0 ? 1 : 0
@@ -490,12 +505,12 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           }} onClick={onRight}>
             <FollowIcon />
           </button>
-          <button {...styles.button} {...styles.buttonSmall} style={{
+          <a {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
             opacity: swipes.length > 0 ? 1 : 0
           }} onClick={showOverview}>
             {rightSwipes.length}
-          </button>
+          </a>
         </div>
       </>}
     </Container>

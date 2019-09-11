@@ -3,8 +3,14 @@ import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 
-import { Editorial, Interaction, mediaQueries, usePrevious, fontStyles } from '@project-r/styleguide'
+import {
+  Editorial, Interaction,
+  mediaQueries,
+  usePrevious,
+  fontStyles
+} from '@project-r/styleguide'
 
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 
@@ -13,13 +19,14 @@ import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
+import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import sharedStyles from '../sharedStyles'
 
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
+import OverviewOverlay from './OverviewOverlay'
 
 const cardColors = {
   left: '#9F2500',
@@ -251,7 +258,7 @@ const SpringCard = ({
 
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore }) => {
+const Group = ({ t, group, fetchMore, router: { query } }) => {
   const storageKey = `republik-card-swipes-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
@@ -307,11 +314,15 @@ const Group = ({ t, group, fetchMore }) => {
     }
   }, [])
 
-  const onSwipe = (swiped) => {
+  const onSwipe = (swiped, card) => {
     setSwipes(swipes => {
       return swipes
         .filter(swipe => swipe.cardId !== swiped.cardId)
-        .concat(swiped)
+        .concat({ ...swiped,
+          metaCache: card && {
+            name: card.user.name,
+            slug: card.user.slug
+          } })
     })
   }
   const onRevert = () => {
@@ -327,14 +338,14 @@ const Group = ({ t, group, fetchMore }) => {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id })
+    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
   }
   const onLeft = (e) => {
     if (!activeCard) {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id })
+    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
   }
 
   const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -359,7 +370,7 @@ const Group = ({ t, group, fetchMore }) => {
     }
 
     if (!down && trigger) {
-      onSwipe({ dir, xDelta, velocity, cardId: card.id })
+      onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
       return
     }
 
@@ -382,6 +393,18 @@ const Group = ({ t, group, fetchMore }) => {
   const Icon = Cantons[group.slug] || null
   const rightSwipes = swipes.filter(swipe => swipe.dir === 1)
 
+  const showOverview = event => {
+    event.preventDefault()
+    Router.replaceRoute('cardGroup', { ...query, show: 'overview' })
+  }
+  const closeOverview = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    const { show, ...rest } = query
+    Router.replaceRoute('cardGroup', rest)
+  }
+
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
       <div {...styles.switch} style={{ zIndex: allCards.length + 1 }}>
@@ -394,82 +417,86 @@ const Group = ({ t, group, fetchMore }) => {
         {totalCount} Kandidaturen
         {Icon && <Icon size={40} />}
       </div>
-      <div {...styles.bottom}>
-        {!isPersisted && !!windowWidth && <>
-            Ihr Browser konnte Ihre Wischer nicht speichern.
-          </>
-        }
-        <br />
-        {swipes.length === totalCount && <>
-          <br />
-          Sie haben den Kanton 100% durch geswipt.
-          <br /><br />
-          {isPersisted && <Editorial.A onClick={(e) => {
-            e.preventDefault()
-            setSwipes([])
-          }}>
-            Alles löschen
-          </Editorial.A>}
-        </>}
-      </div>
-      {!!windowWidth && allCards.map((card, i) => {
-        if (i + nOld < topIndex || i - nNew >= topIndex) {
-          return null
-        }
-        const isTop = topIndex === i
-        const fallIn = i < nNew
-        const swiped = swipes.find(swipe => swipe.cardId === card.id)
-
-        return <SpringCard
-          key={card.id}
-          index={i}
-          card={card}
-          swiped={swiped}
-          dragTime={dragTime}
-          windowWidth={windowWidth}
-          cardWidth={cardWidth}
-          fallIn={fallIn}
-          isHot={
-            isTop ||
-            fallIn ||
-            Math.abs(topIndex - i) === 1
+      {!!windowWidth && <>
+        <div {...styles.bottom}>
+          {!isPersisted && <>
+              Ihr Browser konnte Ihre Wischer nicht speichern.
+            </>
           }
-          isTop={isTop}
-          dragDir={isTop && dragDir}
-          zIndex={allCards.length - i}
-          bindGestures={bindGestures} />
-      })}
+          <br />
+          {swipes.length === totalCount && <>
+            <br />
+            Sie haben den Kanton 100% durch geswipt.
+            <br /><br />
+            {isPersisted && <Editorial.A onClick={(e) => {
+              e.preventDefault()
+              setSwipes([])
+            }}>
+              Alles löschen
+            </Editorial.A>}
+          </>}
+        </div>
+        {allCards.map((card, i) => {
+          if (i + nOld < topIndex || i - nNew >= topIndex) {
+            return null
+          }
+          const isTop = topIndex === i
+          const fallIn = i < nNew
+          const swiped = swipes.find(swipe => swipe.cardId === card.id)
 
-      <div {...styles.buttonPanel} style={{
-        zIndex: allCards.length + 1
-      }}>
-        <button {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: cardColors.revert,
-          opacity: swipes.length > 0 ? 1 : 0
-        }} onClick={onRevert}>
-          <RevertIcon />
-        </button>
-        <button {...styles.button} {...styles.buttonBig} style={{
-          backgroundColor: cardColors.left
-        }} onClick={onLeft}>
-          <IgnoreIcon />
-        </button>
-        <button {...styles.button} {...styles.buttonBig} style={{
-          backgroundColor: cardColors.right
-        }} onClick={onRight}>
-          <FollowIcon />
-        </button>
-        <button {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
-          opacity: swipes.length > 0 ? 1 : 0
+          return <SpringCard
+            key={card.id}
+            index={i}
+            card={card}
+            swiped={swiped}
+            dragTime={dragTime}
+            windowWidth={windowWidth}
+            cardWidth={cardWidth}
+            fallIn={fallIn}
+            isHot={
+              isTop ||
+              fallIn ||
+              Math.abs(topIndex - i) === 1
+            }
+            isTop={isTop}
+            dragDir={isTop && dragDir}
+            zIndex={allCards.length - i}
+            bindGestures={bindGestures} />
+        })}
+
+        <div {...styles.buttonPanel} style={{
+          zIndex: allCards.length + 1
         }}>
-          {rightSwipes.length}
-        </button>
-      </div>
+          {query.show === 'overview' && <OverviewOverlay swipes={swipes} onClose={closeOverview} />}
+          <button {...styles.button} {...styles.buttonSmall} style={{
+            backgroundColor: cardColors.revert,
+            opacity: swipes.length > 0 ? 1 : 0
+          }} onClick={onRevert}>
+            <RevertIcon />
+          </button>
+          <button {...styles.button} {...styles.buttonBig} style={{
+            backgroundColor: cardColors.left
+          }} onClick={onLeft}>
+            <IgnoreIcon />
+          </button>
+          <button {...styles.button} {...styles.buttonBig} style={{
+            backgroundColor: cardColors.right
+          }} onClick={onRight}>
+            <FollowIcon />
+          </button>
+          <button {...styles.button} {...styles.buttonSmall} style={{
+            backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
+            opacity: swipes.length > 0 ? 1 : 0
+          }} onClick={showOverview}>
+            {rightSwipes.length}
+          </button>
+        </div>
+      </>}
     </Container>
   )
 }
 
 export default compose(
-  withT
+  withT,
+  withRouter
 )(Group)

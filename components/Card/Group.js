@@ -183,6 +183,7 @@ const SpringCard = ({
   )
   const { x, y, rot, scale, opacity } = props
   const wasTop = usePrevious(isTop)
+  const wasSwiped = usePrevious(swiped)
   useEffect(() => {
     if (swiped) {
       set({
@@ -199,10 +200,10 @@ const SpringCard = ({
         rot: 0,
         x: 0
       })
-    } else if (wasTop) {
+    } else if (wasTop || wasSwiped) {
       set(to())
     }
-  }, [swiped, isTop, wasTop])
+  }, [swiped, isTop, wasTop, wasSwiped])
 
   const willChange = isHot ? 'transform' : undefined
   const dir = dragDir || (swiped && swiped.dir)
@@ -249,9 +250,10 @@ const SpringCard = ({
 const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore }) => {
+  const storageKey = `republik-card-swipes-${group.slug}`
   const useSwipeState = useMemo(
-    () => createPersistedState(`republik-card-swipes-${group.slug}`),
-    [group.slug]
+    () => createPersistedState(storageKey),
+    [storageKey]
   )
 
   const allCards = group.cards.nodes
@@ -387,12 +389,21 @@ const Group = ({ t, group, fetchMore }) => {
       </div>
       <div {...styles.bottom}>
         {!isPersisted && <>
-          Ihr Browser konnte Ihre Wischer nicht speichern.
-        </>}
+            Ihr Browser konnte Ihre Wischer nicht speichern.
+          </>
+        }
         <br />
         {!activeCard && <>
           <br />
           Sie haben den Kanton 100% durch geswipt.
+          <br /><br />
+          {isPersisted && <Editorial.A onClick={(e) => {
+            e.preventDefault()
+            setSwipes([])
+            setTopIndex(0)
+          }}>
+            Alles löschen
+          </Editorial.A>}
         </>}
       </div>
       {!!windowWidth && allCards.map((card, i) => {

@@ -11,7 +11,7 @@ import Footer from './Footer'
 const styles = {
   container: css({
     position: 'relative',
-    background: '#add8e666',
+    background: '#DEEFF5',
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',

@@ -6,7 +6,7 @@ import { compose } from 'react-apollo'
 
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
-import RevertIcon from 'react-icons/lib/md/settings-backup-restore' // rotate-left
+import RevertIcon from 'react-icons/lib/md/rotate-left'
 import OverviewIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
@@ -155,7 +155,7 @@ const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const SpringCard = ({
-  i, zIndex, card, bindGestures, cardWidth,
+  index, zIndex, card, bindGestures, cardWidth,
   fallIn,
   isTop, isHot,
   dragTime,
@@ -163,7 +163,7 @@ const SpringCard = ({
   dragDir
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
-    ? { ...to(), delay: i * 100, from: fromFall() }
+    ? { ...to(), delay: index * 100, from: fromFall() }
     : {
       ...to(),
       ...swiped && fromSwiped(swiped, windowWidth),
@@ -206,7 +206,9 @@ const SpringCard = ({
       willChange
     }}>
       <animated.div
-        {...bindGestures(set, card, isTop)}
+        {...swiped
+          ? undefined // prevent catching a card after swipping
+          : bindGestures(set, card, isTop, index)}
         {...styles.cardInner}
         style={{
           width: cardWidth,
@@ -307,7 +309,7 @@ const Group = ({ t, group, fetchMore }) => {
     onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id })
   }
 
-  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     if (first) {
       dragTime.current = time
       onCard.current = true
@@ -371,6 +373,7 @@ const Group = ({ t, group, fetchMore }) => {
         const fallIn = i < nNew
         return <SpringCard
           key={card.id}
+          index={i}
           card={card}
           swiped={swipes[i]}
           dragTime={dragTime}

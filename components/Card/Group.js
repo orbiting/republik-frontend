@@ -16,7 +16,13 @@ import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import { Editorial, Interaction, mediaQueries, usePrevious } from '@project-r/styleguide'
+import { Editorial, Interaction, mediaQueries, usePrevious, fontStyles } from '@project-r/styleguide'
+
+const cardColors = {
+  left: '#9F2500',
+  right: 'rgb(8,48,107)',
+  revert: '#EBB900'
+}
 
 const styles = {
   card: css({
@@ -30,11 +36,36 @@ const styles = {
     justifyContent: 'center'
   }),
   cardInner: css({
+    position: 'relative',
     userSelect: 'none',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 10,
     overflow: 'hidden',
     boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
+  }),
+  swipeIndicator: css({
+    position: 'absolute',
+    textTransform: 'uppercase',
+    padding: '3px 6px',
+    borderRadius: 3,
+    fontSize: 20,
+    ...fontStyles.sansSerifMedium,
+    color: '#fff',
+    boxShadow: '0px 0px 15px -3px #fff',
+    transition: 'opacity 300ms',
+    transitionDelay: '100ms'
+  }),
+  swipeIndicatorLeft: css({
+    transform: 'rotate(42deg)',
+    right: 0,
+    top: 50,
+    backgroundColor: cardColors.left
+  }),
+  swipeIndicatorRight: css({
+    transform: 'rotate(-12deg)',
+    left: 10,
+    top: 25,
+    backgroundColor: cardColors.right
   }),
   button: css({
     display: 'inline-block',
@@ -126,7 +157,8 @@ const SpringCard = ({
   fallIn,
   isTop, isHot,
   dragTime,
-  swiped, windowWidth
+  swiped, windowWidth,
+  dragDir
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: i * 100, from: fromFall() }
@@ -163,6 +195,7 @@ const SpringCard = ({
   }, [swiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
+  const dir = dragDir || (swiped && swiped.dir)
 
   return (
     <animated.div {...styles.card} style={{
@@ -181,7 +214,21 @@ const SpringCard = ({
           willChange
         }}
       >
-        {card && <Card key={card.id} {...card} width={cardWidth} dragTime={dragTime} />}
+        {card &&
+          <Card key={card.id} {...card} width={cardWidth} dragTime={dragTime} />
+        }
+        <div
+          {...styles.swipeIndicator}
+          {...styles.swipeIndicatorLeft}
+          style={{ opacity: dir === -1 ? 1 : 0 }}>
+          ignorieren
+        </div>
+        <div
+          {...styles.swipeIndicator}
+          {...styles.swipeIndicatorRight}
+          style={{ opacity: dir === 1 ? 1 : 0 }}>
+          folgen
+        </div>
       </animated.div>
     </animated.div>
   )
@@ -193,6 +240,7 @@ const Group = ({ t, group, fetchMore }) => {
   const allCards = group.cards.nodes
   const totalCount = group.cards.totalCount
   const [topIndex, setTopIndex] = useState(0)
+  const [dragDir, setDragDir] = useState(false)
 
   // request more
   // ToDo: loading & error state
@@ -268,10 +316,15 @@ const Group = ({ t, group, fetchMore }) => {
     }
 
     const out = Math.abs(xDelta) > cardWidth / 2
-    const trigger = velocity > 0.2 || out
+    const trigger = velocity > 0.4 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1
       : xDir < 0 ? -1 : 1
+
+    const newDragDir = trigger && down && dir
+    if (newDragDir !== dragDir) {
+      setDragDir(newDragDir)
+    }
 
     if (!down && trigger) {
       onSwipe({ dir, xDelta, velocity, cardId: card.id })
@@ -328,6 +381,7 @@ const Group = ({ t, group, fetchMore }) => {
             Math.abs(topIndex - i) === 1
           }
           isTop={isTop}
+          dragDir={isTop && dragDir}
           zIndex={allCards.length - i}
           bindGestures={bindGestures} />
       })}
@@ -336,15 +390,19 @@ const Group = ({ t, group, fetchMore }) => {
         zIndex: allCards.length + 1
       }}>
         <span {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: '#EBB900',
+          backgroundColor: cardColors.revert,
           opacity: topIndex > 0 ? 1 : 0.5
         }} onClick={onRevert}>
           <RevertIcon fill='#fff' />
         </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: '#9F2500' }} onClick={onLeft}>
+        <span {...styles.button} {...styles.buttonBig} style={{
+          backgroundColor: cardColors.left
+        }} onClick={onLeft}>
           <IgnoreIcon fill='#fff' />
         </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: 'rgb(8,48,107)' }} onClick={onRight}>
+        <span {...styles.button} {...styles.buttonBig} style={{
+          backgroundColor: cardColors.right
+        }} onClick={onRight}>
           <FollowIcon fill='#fff' />
         </span>
         <span {...styles.button} {...styles.buttonSmall} style={{

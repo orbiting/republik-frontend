@@ -8,7 +8,7 @@ import {
 
 import MdClose from 'react-icons/lib/md/close'
 
-const OverviewOverlay = ({ onClose, swipes }) => {
+const OverviewOverlay = ({ onClose, swipes, setSwipes, isPersisted }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 700, minHeight: 'none' }}>
       <OverlayToolbar>
@@ -22,18 +22,26 @@ const OverviewOverlay = ({ onClose, swipes }) => {
       </OverlayToolbar>
       <OverlayBody>
         <div style={{ textAlign: 'left' }}>
-          <Interaction.H2>Rechts</Interaction.H2>
+          <Interaction.H2>Folgen</Interaction.H2>
           <Editorial.UL>
             {swipes.filter(swipe => swipe.dir === 1 && swipe.metaCache).map(swipe => {
               return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
             })}
           </Editorial.UL>
-          <Interaction.H2>Links</Interaction.H2>
+          <Interaction.H2>Ignorieren</Interaction.H2>
           <Editorial.UL>
             {swipes.filter(swipe => swipe.dir === -1 && swipe.metaCache).map(swipe => {
               return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
             })}
           </Editorial.UL>
+          <br />
+          {isPersisted && <Editorial.A href='#' onClick={(e) => {
+            e.preventDefault()
+            setSwipes([])
+            onClose()
+          }}>
+            Alles löschen
+          </Editorial.A>}
         </div>
       </OverlayBody>
     </Overlay>

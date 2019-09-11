@@ -184,7 +184,7 @@ const SpringCard = ({
   dragDir
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
-    ? { ...to(), delay: index * 100, from: fromFall() }
+    ? { ...to(), delay: fallIn * 100, from: fromFall() }
     : {
       ...to(),
       ...swiped && fromSwiped(swiped, windowWidth),
@@ -299,6 +299,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     ? 320
     : windowWidth > 360 ? 300 : 240
 
+  const fallInBudget = useRef(nNew)
   const dragTime = useRef(0)
   const onCard = useRef(false)
 
@@ -429,12 +430,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             <br />
             Sie haben den Kanton 100% durch geswipt.
             <br /><br />
-            {isPersisted && <Editorial.A onClick={(e) => {
-              e.preventDefault()
-              setSwipes([])
-            }}>
-              Alles löschen
-            </Editorial.A>}
+            <Editorial.A>Ihre Liste anzeigen</Editorial.A>
           </>}
         </div>
         {allCards.map((card, i) => {
@@ -442,8 +438,12 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             return null
           }
           const isTop = topIndex === i
-          const fallIn = i < nNew
           const swiped = swipes.find(swipe => swipe.cardId === card.id)
+          let fallIn = false
+          if (fallInBudget.current > 0 && !swiped) {
+            fallIn = fallInBudget.current
+            fallInBudget.current -= 1
+          }
 
           return <SpringCard
             key={card.id}
@@ -468,7 +468,12 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
         <div {...styles.buttonPanel} style={{
           zIndex: allCards.length + 1
         }}>
-          {query.suffix === 'liste' && <OverviewOverlay swipes={swipes} onClose={closeOverview} />}
+          {query.suffix === 'liste' &&
+            <OverviewOverlay
+              swipes={swipes}
+              setSwipes={setSwipes}
+              isPersisted={isPersisted}
+              onClose={closeOverview} />}
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
             opacity: swipes.length > 0 ? 1 : 0

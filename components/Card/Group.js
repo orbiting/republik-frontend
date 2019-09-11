@@ -1,8 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
+
+import { Editorial, Interaction, mediaQueries, usePrevious, fontStyles } from '@project-r/styleguide'
+
+import createPersistedState from '../../lib/hooks/use-persisted-state'
 
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
@@ -17,7 +21,6 @@ import sharedStyles from '../sharedStyles'
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import { Editorial, Interaction, mediaQueries, usePrevious, fontStyles } from '@project-r/styleguide'
 
 const cardColors = {
   left: '#9F2500',
@@ -121,6 +124,14 @@ const styles = {
     top: 5,
     maxWidth: '35%'
   }),
+  bottom: css({
+    position: 'absolute',
+    top: 100,
+    left: 50,
+    right: 50,
+    bottom: 120,
+    textAlign: 'center'
+  }),
   canton: css(Interaction.fontRule, {
     position: 'absolute',
     right: 8,
@@ -173,17 +184,6 @@ const SpringCard = ({
   const { x, y, rot, scale, opacity } = props
   const wasTop = usePrevious(isTop)
   useEffect(() => {
-    if (isTop) {
-      set({
-        scale: 1.05,
-        rot: 0,
-        x: 0
-      })
-    } else if (wasTop) {
-      set(to())
-    }
-  }, [isTop])
-  useEffect(() => {
     if (swiped) {
       set({
         ...fromSwiped(swiped, windowWidth),
@@ -193,8 +193,16 @@ const SpringCard = ({
           tension: 200
         }
       })
+    } else if (isTop) {
+      set({
+        scale: 1.05,
+        rot: 0,
+        x: 0
+      })
+    } else if (wasTop) {
+      set(to())
     }
-  }, [swiped, windowWidth])
+  }, [swiped, isTop, wasTop])
 
   const willChange = isHot ? 'transform' : undefined
   const dir = dragDir || (swiped && swiped.dir)
@@ -241,6 +249,11 @@ const SpringCard = ({
 const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore }) => {
+  const useSwipeState = useMemo(
+    () => createPersistedState(`republik-card-swipes-${group.slug}`),
+    [group.slug]
+  )
+
   const allCards = group.cards.nodes
   const totalCount = group.cards.totalCount
   const [topIndex, setTopIndex] = useState(0)
@@ -254,7 +267,15 @@ const Group = ({ t, group, fetchMore }) => {
     }
   }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
 
-  const [swipes, setSwipes] = useState([])
+  const [swipes, setSwipes, isPersisted] = useSwipeState([])
+  const activeCard = allCards[topIndex]
+  useEffect(() => {
+    const swiped = activeCard && swipes.find(swipe => swipe.cardId === activeCard.id)
+    if (swiped) {
+      setTopIndex(topIndex + 1)
+    }
+  }, [swipes, activeCard])
+
   const [windowWidth] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
@@ -278,8 +299,9 @@ const Group = ({ t, group, fetchMore }) => {
 
   const onSwipe = (swiped) => {
     setSwipes(swipes => {
-      swipes[topIndex] = swiped
       return swipes
+        .filter(swipe => swipe.cardId !== swiped.cardId)
+        .concat(swiped)
     })
     setTopIndex(topIndex + 1)
   }
@@ -288,12 +310,10 @@ const Group = ({ t, group, fetchMore }) => {
       return
     }
     setSwipes(swipes => {
-      swipes[topIndex - 1] = undefined
-      return swipes
+      return swipes.slice(0, swipes.length - 1)
     })
     setTopIndex(topIndex - 1)
   }
-  const activeCard = allCards[topIndex]
   const onRight = (e) => {
     if (!activeCard) {
       return
@@ -365,17 +385,29 @@ const Group = ({ t, group, fetchMore }) => {
         {totalCount} Kandidaturen
         {Icon && <Icon size={40} />}
       </div>
+      <div {...styles.bottom}>
+        {!isPersisted && <>
+          Ihr Browser konnte Ihre Wischer nicht speichern.
+        </>}
+        <br />
+        {!activeCard && <>
+          <br />
+          Sie haben den Kanton 100% durch geswipt.
+        </>}
+      </div>
       {!!windowWidth && allCards.map((card, i) => {
         if (i + nOld < topIndex || i - nNew >= topIndex) {
           return null
         }
         const isTop = topIndex === i
         const fallIn = i < nNew
+        const swiped = swipes.find(swipe => swipe.cardId === card.id)
+
         return <SpringCard
           key={card.id}
           index={i}
           card={card}
-          swiped={swipes[i]}
+          swiped={swiped}
           dragTime={dragTime}
           windowWidth={windowWidth}
           cardWidth={cardWidth}

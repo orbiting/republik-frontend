@@ -258,7 +258,14 @@ const Group = ({ t, group, fetchMore }) => {
 
   const allCards = group.cards.nodes
   const totalCount = group.cards.totalCount
-  const [topIndex, setTopIndex] = useState(0)
+  const [swipes, setSwipes, isPersisted] = useSwipeState([])
+  const getUnswipedIndex = () => {
+    const firstUnswipedIndex = allCards.findIndex(card => !swipes.find(swipe => swipe.cardId === card.id))
+    return firstUnswipedIndex === -1
+      ? allCards.length
+      : firstUnswipedIndex
+  }
+  const [topIndex, setTopIndex] = useState(getUnswipedIndex)
   const [dragDir, setDragDir] = useState(false)
 
   // request more
@@ -269,14 +276,13 @@ const Group = ({ t, group, fetchMore }) => {
     }
   }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
 
-  const [swipes, setSwipes, isPersisted] = useSwipeState([])
   const activeCard = allCards[topIndex]
   useEffect(() => {
-    const swiped = activeCard && swipes.find(swipe => swipe.cardId === activeCard.id)
-    if (swiped) {
-      setTopIndex(topIndex + 1)
+    const unswipedIndex = getUnswipedIndex()
+    if (unswipedIndex !== topIndex) {
+      setTopIndex(unswipedIndex)
     }
-  }, [swipes, activeCard])
+  }, [swipes, topIndex, activeCard])
 
   const [windowWidth] = useWindowSize()
   const cardWidth = windowWidth > 500
@@ -305,7 +311,6 @@ const Group = ({ t, group, fetchMore }) => {
         .filter(swipe => swipe.cardId !== swiped.cardId)
         .concat(swiped)
     })
-    setTopIndex(topIndex + 1)
   }
   const onRevert = () => {
     if (topIndex < 1) {
@@ -314,7 +319,6 @@ const Group = ({ t, group, fetchMore }) => {
     setSwipes(swipes => {
       return swipes.slice(0, swipes.length - 1)
     })
-    setTopIndex(topIndex - 1)
   }
   const onRight = (e) => {
     if (!activeCard) {
@@ -388,19 +392,18 @@ const Group = ({ t, group, fetchMore }) => {
         {Icon && <Icon size={40} />}
       </div>
       <div {...styles.bottom}>
-        {!isPersisted && <>
+        {!isPersisted && !!windowWidth && <>
             Ihr Browser konnte Ihre Wischer nicht speichern.
           </>
         }
         <br />
-        {!activeCard && <>
+        {swipes.length === totalCount && <>
           <br />
           Sie haben den Kanton 100% durch geswipt.
           <br /><br />
           {isPersisted && <Editorial.A onClick={(e) => {
             e.preventDefault()
             setSwipes([])
-            setTopIndex(0)
           }}>
             Alles löschen
           </Editorial.A>}

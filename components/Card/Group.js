@@ -12,6 +12,7 @@ import OverviewIcon from 'react-icons/lib/md/list'
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import sharedStyles from '../sharedStyles'
 
 import Card from './Card'
 import Container from './Container'
@@ -67,7 +68,7 @@ const styles = {
     top: 25,
     backgroundColor: cardColors.right
   }),
-  button: css({
+  button: css(sharedStyles.plainButton, {
     display: 'inline-block',
     borderRadius: '50%',
     margin: 10,
@@ -76,7 +77,8 @@ const styles = {
     },
     lineHeight: 0,
     verticalAlign: 'middle',
-    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
+    transition: 'opacity 300ms'
   }),
   buttonSmall: css({
     width: 30,
@@ -389,27 +391,27 @@ const Group = ({ t, group, fetchMore }) => {
       <div {...styles.buttonPanel} style={{
         zIndex: allCards.length + 1
       }}>
-        <span {...styles.button} {...styles.buttonSmall} style={{
+        <button {...styles.button} {...styles.buttonSmall} style={{
           backgroundColor: cardColors.revert,
-          opacity: topIndex > 0 ? 1 : 0.5
+          opacity: topIndex > 0 ? 1 : 0
         }} onClick={onRevert}>
           <RevertIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonBig} style={{
+        </button>
+        <button {...styles.button} {...styles.buttonBig} style={{
           backgroundColor: cardColors.left
         }} onClick={onLeft}>
           <IgnoreIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonBig} style={{
+        </button>
+        <button {...styles.button} {...styles.buttonBig} style={{
           backgroundColor: cardColors.right
         }} onClick={onRight}>
           <FollowIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonSmall} style={{
+        </button>
+        <button {...styles.button} {...styles.buttonSmall} style={{
           backgroundColor: '#4B6359' // disabled #B7C1BD
         }}>
           <OverviewIcon fill='#fff' />
-        </span>
+        </button>
       </div>
     </Container>
   )

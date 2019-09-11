@@ -29,6 +29,10 @@ const styles = {
       lineHeight: '20px'
     }
   }),
+  portrait: css({
+    height: '100%',
+    backgroundSize: 'cover'
+  }),
   occupation: css({
     display: 'block',
     maxHeight: 40,
@@ -84,13 +88,13 @@ const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
   }
 
   const innerWidth = width - PADDING * 2
+  const textLines = 2 + !!payload.occupation + !!payload.councilOfStates.candidacy
 
   const partyColor = getPartyColor(payload.party)
   const slides = [
-    user.portrait && <div style={{
-      height: '100%',
+    user.portrait && <div {...styles.portrait} style={{
       backgroundImage: `url(${user.portrait})`,
-      backgroundSize: 'cover'
+      height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>

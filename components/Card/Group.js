@@ -365,14 +365,14 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
       ? xDelta < 0 ? -1 : 1
       : xDir < 0 ? -1 : 1
 
+    if (!down && trigger) {
+      onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
+      setDragDir(false)
+      return
+    }
     const newDragDir = trigger && down && dir
     if (newDragDir !== dragDir) {
       setDragDir(newDragDir)
-    }
-
-    if (!down && trigger) {
-      onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
-      return
     }
 
     const x = down ? xDelta : 0
@@ -396,13 +396,13 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
 
   const showOverview = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', { ...query, show: 'overview' })
+    Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
   }
   const closeOverview = event => {
     if (event) {
       event.preventDefault()
     }
-    const { show, ...rest } = query
+    const { suffix, ...rest } = query
     Router.replaceRoute('cardGroup', rest)
   }
 
@@ -468,7 +468,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
         <div {...styles.buttonPanel} style={{
           zIndex: allCards.length + 1
         }}>
-          {query.show === 'overview' && <OverviewOverlay swipes={swipes} onClose={closeOverview} />}
+          {query.suffix === 'liste' && <OverviewOverlay swipes={swipes} onClose={closeOverview} />}
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
             opacity: swipes.length > 0 ? 1 : 0

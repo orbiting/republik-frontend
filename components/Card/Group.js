@@ -61,7 +61,8 @@ const styles = {
     fontSize: 20,
     ...fontStyles.sansSerifMedium,
     color: '#fff',
-    boxShadow: '0px 0px 15px -3px #fff',
+    pointerEvents: 'none',
+    // boxShadow: '0px 0px 15px -3px #fff',
     transition: 'opacity 300ms',
     transitionDelay: '100ms'
   }),

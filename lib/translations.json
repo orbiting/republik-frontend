@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T17:40:01.848Z",
+  "updated": "2019-09-12T19:06:51.651Z",
   "title": "live",
   "data": [
     {
@@ -5517,6 +5517,42 @@
     {
       "key": "nav/cardGroups",
       "value": "Wahltindär"
+    },
+    {
+      "key": "components/Card/electionPlausibility/title",
+      "value": "Platzrating: {rate}"
+    },
+    {
+      "key": "components/Card/electionPlausibility/GOOD",
+      "value": "gut"
+    },
+    {
+      "key": "components/Card/electionPlausibility/DECENT",
+      "value": "passabel"
+    },
+    {
+      "key": "components/Card/electionPlausibility/WEAK",
+      "value": "schlecht"
+    },
+    {
+      "key": "components/Card/electionPlausibility/UNKNOWN",
+      "value": "unbekannt"
+    },
+    {
+      "key": "components/Card/electionPlausibility/GOOD/emoji",
+      "value": "👍"
+    },
+    {
+      "key": "components/Card/electionPlausibility/DECENT/emoji",
+      "value": "👌"
+    },
+    {
+      "key": "components/Card/electionPlausibility/WEAK/emoji",
+      "value": "🤞"
+    },
+    {
+      "key": "components/Card/electionPlausibility/UNKNOWN/emoji",
+      "value": "🤞"
     }
   ]
 }

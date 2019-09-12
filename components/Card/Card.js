@@ -149,7 +149,8 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
   ].filter(Boolean)
   const totalSlides = slides.length
 
-  const { listPlaces } = payload.nationalCouncil
+  const { listPlaces, electionPlausibility } = payload.nationalCouncil
+  const plausibilityEmoji = t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
 
   return (
     <div
@@ -235,9 +236,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 : t('components/Card/incumbent/new')
           }
         </strong>
-        {listPlaces && !!listPlaces.length &&
-          `, ${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`
-        }
+        {listPlaces && !!listPlaces.length && <>
+          {`, ${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`}
+          {!!plausibilityEmoji && `${'\u00a0'}${plausibilityEmoji}`}
+        </>}
         <br />
         <span {...styles.occupation}>
           {payload.occupation}

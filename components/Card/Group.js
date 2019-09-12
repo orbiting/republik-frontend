@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
-import { withRouter } from 'next/router'
+import NativeRouter, { withRouter } from 'next/router'
 
 import {
   Editorial, Interaction,
@@ -419,11 +419,23 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     if (event) {
       event.preventDefault()
     }
-    const { suffix, ...rest } = query
+    const { suffix, focus, ...rest } = query
     Router.replaceRoute('cardGroup', rest)
   }
   const onDetail = card => {
     setDetailCard(card)
+    // use native router for shadow routing
+    NativeRouter.push({
+      pathname: '/cardGroup',
+      query
+    }, `/~${card.user.slug}`, { shallow: true })
+  }
+  const closeDetailOverlay = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    setDetailCard()
+    Router.replaceRoute('cardGroup', query)
   }
 
   const showOverview = query.suffix === 'liste'
@@ -549,9 +561,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           {showDetail &&
             <Overlay
               title={detailCard.user.name}
-              onClose={() => {
-                setDetailCard()
-              }}
+              onClose={closeDetailOverlay}
             />
           }
           <button {...styles.button} {...styles.buttonSmall} style={{

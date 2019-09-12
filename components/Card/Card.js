@@ -2,11 +2,8 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import {
-  Interaction,
-  DiscussionIconLink
+  Interaction
 } from '@project-r/styleguide'
-
-import InfoIcon from 'react-icons/lib/md/info'
 
 import { Link } from '../../lib/routes'
 import { chfFormat } from '../../lib/utils/format'
@@ -14,6 +11,8 @@ import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
+import InfoIcon from './InfoIcon'
+import DiscussionIconLink from './DiscussionIconLink'
 
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
@@ -39,7 +38,7 @@ const styles = {
   icons: css({
     zIndex: 1,
     position: 'absolute',
-    top: -15,
+    top: -12,
     right: PADDING
   }),
   portrait: css({
@@ -182,16 +181,21 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       </div>}
       <div {...styles.bottomText} {...Interaction.fontRule}>
         <div {...styles.icons}>
-          {!!statement &&
+          {!statement && <>
             <Link route='cardGroup' params={{
               group: group.slug,
               suffix: 'diskussion',
-              focus: statement.id
+              focus: statement && statement.id
             }} passHref>
               <DiscussionIconLink
-                discussionCommentsCount={1 + statement.comments.totalCount} />
+                style={{
+                  marginLeft: 0,
+                  verticalAlign: 'top',
+                  marginTop: 3
+                }}
+                count={1 + (statement ? statement.comments.totalCount : 0)} />
             </Link>
-          }
+          </>}
           <a href={`/~${user.slug}`} onClick={(e) => {
             if (shouldIgnoreClick(e)) {
               return

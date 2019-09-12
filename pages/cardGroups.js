@@ -15,6 +15,7 @@ import Frame from '../components/Frame'
 import Loader from '../components/Loader'
 import Container from '../components/Card/Container'
 import Cantons from '../components/Card/Cantons'
+import Logo from '../components/Card/Logo'
 import { Editorial, Interaction, colors } from '@project-r/styleguide'
 import { withEditor } from '../components/Auth/checkRoles'
 
@@ -76,6 +77,10 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
       <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>
         <Editorial.Headline>
           {t('pages/cardGroups/headline')}
+          <Logo style={{
+            marginLeft: 20,
+            marginBottom: -20
+          }} size={80} />
         </Editorial.Headline>
         <Editorial.P>
           {t('pages/cardGroups/lead')}

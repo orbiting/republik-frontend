@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T16:29:06.571Z",
+  "updated": "2019-09-12T17:40:01.848Z",
   "title": "live",
   "data": [
     {
@@ -5236,7 +5236,7 @@
     },
     {
       "key": "pages/cardGroups/headline",
-      "value": "Wahltindär 🔥"
+      "value": "Wahltindär"
     },
     {
       "key": "pages/cardGroups/lead",
@@ -5260,7 +5260,7 @@
     },
     {
       "key": "pages/cardGroup/title",
-      "value": "Kanton {name} – Wahltindär 🔥"
+      "value": "🔥 Kanton {name} – Wahltindär"
     },
     {
       "key": "pages/cardGroup/description",

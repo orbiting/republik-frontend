@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -18,7 +18,6 @@ import Cantons from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
 import Beta from '../components/Card/Beta'
 import { Editorial, Interaction, colors } from '@project-r/styleguide'
-import { withEditor } from '../components/Auth/checkRoles'
 
 const query = gql`
 query {
@@ -66,7 +65,7 @@ const styles = {
   })
 }
 
-const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
+const Page = ({ data, data: { cardGroups }, t }) => (
   <Frame raw footer={false} navBar={false} meta={{
     pageTitle: t('pages/cardGroups/pageTitle'),
     title: t('pages/cardGroups/pageTitle'),
@@ -96,7 +95,7 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
           <Editorial.A href='/wahltindaer/meta'>{t('pages/cardGroups/lead/more')}</Editorial.A>
         </Editorial.P>
         <Editorial.P>
-          <strong>{isEditor ? t('pages/cardGroups/choose') : t('pages/cardGroups/comingsoon')}</strong>
+          <strong>{t('pages/cardGroups/choose')}</strong>
         </Editorial.P>
       </div>
       <Loader loading={data.loading} error={data.error} render={() => {
@@ -105,14 +104,12 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
           .sort((a, b) => descending(a.cards.totalCount, b.cards.totalCount))
 
         return (
-          <div {...styles.cantons} style={{ opacity: isEditor ? 1 : 0.5 }}>
+          <div {...styles.cantons} style={{ opacity: 1 }}>
             {groups.map(cardGroup => {
               const Icon = Cantons[cardGroup.slug] || null
 
-              const L = isEditor ? Link : Fragment
-
               return (
-                <L key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
+                <Link key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
                   <a {...styles.canton}>
                     {Icon && <Icon size={SIZE} {...styles.icon} />}
                     <strong>{cardGroup.name}</strong>
@@ -121,7 +118,7 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
                       count: cardGroup.cards.totalCount
                     })}
                   </a>
-                </L>
+                </Link>
               )
             })}
           </div>
@@ -136,6 +133,5 @@ const Page = ({ data, data: { cardGroups }, isEditor, t }) => (
 export default compose(
   withRouter,
   withT,
-  withEditor,
   graphql(query)
 )(Page)

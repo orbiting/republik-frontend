@@ -94,10 +94,10 @@ const Index = ({
   pullable,
   dark
 }) => (
-  <div {...footer && styles.bodyGrowerContainer}>
+  <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
     {/* body growing only needed when rendering a footer */}
     <div
-      {...footer && styles.bodyGrower}
+      {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
       {...(!cover
         ? styles.padHeader
         : undefined

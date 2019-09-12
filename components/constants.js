@@ -22,8 +22,8 @@ export const LOGO_PADDING_MOBILE = Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGH
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60
 
-export const ZINDEX_LOADINGBAR = 30
-export const ZINDEX_POPOVER = 25
+export const ZINDEX_LOADINGBAR = 3010
+export const ZINDEX_POPOVER = 3000
 export const ZINDEX_HEADER = 20
 export const ZINDEX_NAVBAR = 19
 export const ZINDEX_BOTTOM_PANEL = 16

@@ -1,61 +1,56 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import { withMembership } from '../Auth/checkRoles'
+import { mediaQueries, useMediaQuery } from '@project-r/styleguide'
 
-import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, NAVBAR_HEIGHT, NAVBAR_HEIGHT_MOBILE } from '../constants'
-import { mediaQueries } from '@project-r/styleguide'
+import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import Footer from './Footer'
 
 const styles = {
   container: css({
     position: 'relative',
-    background: '#add8e666',
+    background: '#DEEFF5',
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',
     paddingBottom: 20
   }),
   minHeight: css({
-    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
+    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      minHeight: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
-    }
-  }),
-  minMemberHeight: css({
-    minHeight: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
-    [mediaQueries.mUp]: {
-      minHeight: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
+      minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`
     }
   }),
   height: css({
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + 1}px)`,
+    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE}px)`,
     [mediaQueries.mUp]: {
-      height: `calc(100vh - ${HEADER_HEIGHT + 1}px)`
-    }
-  }),
-  memberHeight: css({
-    height: `calc(100vh - ${HEADER_HEIGHT_MOBILE + NAVBAR_HEIGHT_MOBILE + 1}px)`,
-    [mediaQueries.mUp]: {
-      height: `calc(100vh - ${HEADER_HEIGHT + NAVBAR_HEIGHT + 1}px)`
+      height: `calc(100vh - ${HEADER_HEIGHT}px)`
     }
   })
 }
 
-const Container = ({ children, style = {}, isMember }) => {
+const Container = ({ children, style = {} }) => {
+  const heightStyle = {}
   const heightKey = style.minHeight
-    ? isMember ? 'memberHeight' : 'height'
-    : isMember ? 'minMemberHeight' : 'minHeight'
+    ? 'height'
+    : 'minHeight'
+  const isDesktop = useMediaQuery(mediaQueries.mUp)
+  const height = useWindowSize()[1]
+  if (height) {
+    heightStyle[heightKey] = height - (isDesktop ? HEADER_HEIGHT : HEADER_HEIGHT_MOBILE)
+  }
+
   return (
     <div
       {...styles.container}
       {...styles[heightKey]}
-      style={style}>
+      style={{ ...heightStyle, ...style }}>
       {children}
       <Footer />
     </div>
   )
 }
 
-export default withMembership(Container)
+export default Container

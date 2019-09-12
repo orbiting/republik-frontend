@@ -10,7 +10,7 @@ import {
 } from '@project-r/styleguide'
 import { ASSETS_SERVER_BASE_URL } from '../../lib/constants'
 import { t } from '../../lib/withT'
-import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
+import { useWindowSize } from '../../lib/hooks/useWindowSize'
 
 const CARDS_ASSETS_BASE_URL = `${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/marketing`
 const MAX_WIDTH = 800
@@ -158,7 +158,7 @@ const toDesktop = (i, innerWidth, cardWidth) => {
 const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Cards = () => {
-  const width = useWindowWidth() || (typeof window !== 'undefined' && window.innerWidth)
+  const [width = (typeof window !== 'undefined' && window.innerWidth)] = useWindowSize()
   const prevWidth = usePrevious(width)
   const isDesktop = width >= mediaQueries.mBreakPoint
   const cardWidth = cardWidthDesktop(width)

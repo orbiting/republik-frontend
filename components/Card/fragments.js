@@ -15,6 +15,9 @@ export const cardFragment = gql`
         string
         more
       }
+      comments {
+        totalCount
+      }
     }
   }
 `

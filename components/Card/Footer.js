@@ -15,7 +15,6 @@ import {
 const styles = {
   container: css({
     position: 'absolute',
-    zIndex: 100,
     left: 8,
     right: 8,
     bottom: 5,

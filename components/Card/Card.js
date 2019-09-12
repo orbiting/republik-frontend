@@ -5,11 +5,17 @@ import {
   Interaction
 } from '@project-r/styleguide'
 
+import { Link } from '../../lib/routes'
 import { chfFormat } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
+import InfoIcon from './InfoIcon'
+import DiscussionIconLink from './DiscussionIconLink'
+
+import { shouldIgnoreClick } from '../Link/utils'
+import sharedStyles from '../sharedStyles'
 
 const PADDING = 15
 
@@ -19,10 +25,25 @@ const styles = {
     bottom: 0,
     left: 0,
     right: 0,
-    padding: `10px ${PADDING}px`,
+    padding: `5px ${PADDING}px`,
     backgroundColor: '#fff',
-    fontSize: 16,
-    lineHeight: '20px'
+    fontSize: 14,
+    lineHeight: '16px',
+    '@media (min-width: 340px)': {
+      padding: `10px ${PADDING}px`,
+      fontSize: 16,
+      lineHeight: '20px'
+    }
+  }),
+  icons: css({
+    zIndex: 1,
+    position: 'absolute',
+    top: -12,
+    right: PADDING
+  }),
+  portrait: css({
+    height: '100%',
+    backgroundSize: 'cover'
   }),
   occupation: css({
     display: 'block',
@@ -34,7 +55,10 @@ const styles = {
   centerContent: css({
     width: 280,
     margin: '0 auto',
-    paddingTop: PADDING + 3
+    paddingTop: PADDING - 2,
+    '@media (min-width: 340px)': {
+      paddingTop: PADDING + 3
+    }
   }),
   p: css(Interaction.fontRule, {
     margin: '0 0 5px',
@@ -58,7 +82,7 @@ const styles = {
 const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
 const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
 
-const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -76,13 +100,13 @@ const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
   }
 
   const innerWidth = width - PADDING * 2
+  const textLines = 2 + !!payload.occupation + !!payload.councilOfStates.candidacy
 
   const partyColor = getPartyColor(payload.party)
   const slides = [
-    user.portrait && <div style={{
-      height: '100%',
+    user.portrait && <div {...styles.portrait} style={{
       backgroundImage: `url(${user.portrait})`,
-      backgroundSize: 'cover'
+      height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>
@@ -156,6 +180,32 @@ const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
         ))}
       </div>}
       <div {...styles.bottomText} {...Interaction.fontRule}>
+        <div {...styles.icons}>
+          {!statement && <>
+            <Link route='cardGroup' params={{
+              group: group.slug,
+              suffix: 'diskussion',
+              focus: statement && statement.id
+            }} passHref>
+              <DiscussionIconLink
+                style={{
+                  marginLeft: 0,
+                  verticalAlign: 'top',
+                  marginTop: 3
+                }}
+                count={1 + (statement ? statement.comments.totalCount : 0)} />
+            </Link>
+          </>}
+          <a href={`/~${user.slug}`} onClick={(e) => {
+            if (shouldIgnoreClick(e)) {
+              return
+            }
+            e.preventDefault()
+            onDetail()
+          }} {...sharedStyles.plainButton}>
+            <InfoIcon size={30} fill='#000' />
+          </a>
+        </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
             {payload.nationalCouncil.candidacy

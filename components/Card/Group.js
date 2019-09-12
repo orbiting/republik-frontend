@@ -1,22 +1,41 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
+
+import {
+  Editorial, Interaction,
+  mediaQueries,
+  usePrevious,
+  fontStyles
+} from '@project-r/styleguide'
 
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
-import RevertIcon from 'react-icons/lib/md/settings-backup-restore'
-import OverviewIcon from 'react-icons/lib/md/list'
+import RevertIcon from 'react-icons/lib/md/rotate-left'
 
 import withT from '../../lib/withT'
-import { Link } from '../../lib/routes'
-import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
+import { Router, Link } from '../../lib/routes'
+import { useWindowSize } from '../../lib/hooks/useWindowSize'
+import createPersistedState from '../../lib/hooks/use-persisted-state'
+import sharedStyles from '../sharedStyles'
+import { ZINDEX_HEADER } from '../constants'
+
+import Discussion from '../Discussion/Discussion'
 
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import { Editorial, Interaction, mediaQueries } from '@project-r/styleguide'
+import OverviewOverlay from './OverviewOverlay'
+import Overlay from './Overlay'
+
+const cardColors = {
+  left: '#9F2500',
+  right: 'rgb(8,48,107)',
+  revert: '#EBB900'
+}
 
 const styles = {
   card: css({
@@ -30,22 +49,52 @@ const styles = {
     justifyContent: 'center'
   }),
   cardInner: css({
+    position: 'relative',
     userSelect: 'none',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 10,
     overflow: 'hidden',
     boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
   }),
-  button: css({
+  swipeIndicator: css({
+    position: 'absolute',
+    textTransform: 'uppercase',
+    padding: '3px 6px',
+    borderRadius: 3,
+    fontSize: 20,
+    ...fontStyles.sansSerifMedium,
+    color: '#fff',
+    pointerEvents: 'none',
+    // boxShadow: '0px 0px 15px -3px #fff',
+    transition: 'opacity 300ms',
+    transitionDelay: '100ms'
+  }),
+  swipeIndicatorLeft: css({
+    transform: 'rotate(42deg)',
+    right: 0,
+    top: 50,
+    backgroundColor: cardColors.left
+  }),
+  swipeIndicatorRight: css({
+    transform: 'rotate(-12deg)',
+    left: 10,
+    top: 25,
+    backgroundColor: cardColors.right
+  }),
+  button: css(sharedStyles.plainButton, {
     display: 'inline-block',
     borderRadius: '50%',
     margin: 10,
     [mediaQueries.mUp]: {
       margin: 20
     },
-    lineHeight: 0,
+    lineHeight: 1.1,
     verticalAlign: 'middle',
-    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)'
+    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
+    transition: 'opacity 300ms',
+    ...fontStyles.sansSerifMedium,
+    color: '#fff',
+    textAlign: 'center'
   }),
   buttonSmall: css({
     width: 30,
@@ -85,13 +134,23 @@ const styles = {
   switch: css({
     position: 'absolute',
     left: 8,
-    top: 5
+    top: 5,
+    maxWidth: '35%'
+  }),
+  bottom: css({
+    position: 'absolute',
+    top: 100,
+    left: 50,
+    right: 50,
+    bottom: 120,
+    textAlign: 'center'
   }),
   canton: css(Interaction.fontRule, {
     position: 'absolute',
     right: 8,
     top: 5,
     textAlign: 'right',
+    maxWidth: '64%',
     paddingRight: 40 + 10,
     '& svg': {
       width: 40,
@@ -110,36 +169,69 @@ const to = () => ({
 const fromFall = () => ({
   x: 0, rot: 0, scale: 1.5, y: -1200, opacity: 1
 })
+const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
+  x: (200 + windowWidth) * dir,
+  // how much the card tilts, flicking it harder makes it rotate faster
+  rot: xDelta / 100 + dir * 10 * velocity,
+  scale: 1
+})
 
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const SpringCard = ({
-  i, zIndex, card, bindGestures, cardWidth,
+  index, zIndex, card, bindGestures, cardWidth,
   fallIn,
   isTop, isHot,
-  dragTime
+  dragTime,
+  swiped, windowWidth,
+  dragDir,
+  onDetail, group
 }) => {
-  const [props, set] = useSpring(() => fallIn
-    ? { ...to(), delay: i * 100, from: fromFall() }
-    : { ...to(), from: { opacity: 0 } }
+  const [props, set] = useSpring(() => fallIn && !swiped
+    ? { ...to(), delay: fallIn * 100, from: fromFall() }
+    : {
+      ...to(),
+      ...swiped && fromSwiped(swiped, windowWidth),
+      from: { opacity: 0 }
+    }
   )
   const { x, y, rot, scale, opacity } = props
-  if (isTop) {
-    set({
-      scale: 1.05, rot: 0
-    })
-  }
+  const wasTop = usePrevious(isTop)
+  const wasSwiped = usePrevious(swiped)
+  useEffect(() => {
+    if (swiped) {
+      set({
+        ...fromSwiped(swiped, windowWidth),
+        delay: undefined,
+        config: {
+          friction: 50,
+          tension: 200
+        }
+      })
+    } else if (isTop) {
+      set({
+        scale: 1.05,
+        rot: 0,
+        x: 0
+      })
+    } else if (wasTop || wasSwiped) {
+      set(to())
+    }
+  }, [swiped, isTop, wasTop, wasSwiped])
 
   const willChange = isHot ? 'transform' : undefined
+  const dir = dragDir || (swiped && swiped.dir)
 
   return (
     <animated.div {...styles.card} style={{
       transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-      zIndex: zIndex,
+      zIndex,
       willChange
     }}>
       <animated.div
-        {...bindGestures(set, card, isTop)}
+        {...swiped
+          ? undefined // prevent catching a card after swipping
+          : bindGestures(set, card, isTop, index)}
         {...styles.cardInner}
         style={{
           width: cardWidth,
@@ -149,7 +241,28 @@ const SpringCard = ({
           willChange
         }}
       >
-        {card && <Card key={card.id} {...card} width={cardWidth} dragTime={dragTime} />}
+        {card &&
+          <Card key={card.id}
+            {...card}
+            width={cardWidth}
+            dragTime={dragTime}
+            onDetail={() => {
+              onDetail(card)
+            }}
+            group={group} />
+        }
+        <div
+          {...styles.swipeIndicator}
+          {...styles.swipeIndicatorLeft}
+          style={{ opacity: dir === -1 ? 1 : 0 }}>
+          ignorieren
+        </div>
+        <div
+          {...styles.swipeIndicator}
+          {...styles.swipeIndicatorRight}
+          style={{ opacity: dir === 1 ? 1 : 0 }}>
+          folgen
+        </div>
       </animated.div>
     </animated.div>
   )
@@ -157,83 +270,163 @@ const SpringCard = ({
 
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore }) => {
+const Group = ({ t, group, fetchMore, router: { query } }) => {
+  const storageKey = `republik-card-swipes-${group.slug}`
+  const useSwipeState = useMemo(
+    () => createPersistedState(storageKey),
+    [storageKey]
+  )
+
   const allCards = group.cards.nodes
   const totalCount = group.cards.totalCount
-  const mapCardToActive = (card, i) => ({
-    key: card.id,
-    card,
-    i
-  })
-  const [topIndex, setTopIndex] = useState(0)
-  const [activeCards, setActiveCards] = useState(() => allCards.slice(0, nNew).map((card, i) => ({
-    ...mapCardToActive(card, i),
-    fallIn: true
-  })))
-  const [gone] = useState(() => new Set())
-  const windowWidth = useWindowWidth()
+  const [swipes, setSwipes, isPersisted] = useSwipeState([])
+  const getUnswipedIndex = () => {
+    const firstUnswipedIndex = allCards.findIndex(card => !swipes.find(swipe => swipe.cardId === card.id))
+    return firstUnswipedIndex === -1
+      ? allCards.length
+      : firstUnswipedIndex
+  }
+  const [topIndex, setTopIndex] = useState(getUnswipedIndex)
+  const [dragDir, setDragDir] = useState(false)
+  const [detailCard, setDetailCard] = useState()
+
+  // request more
+  // ToDo: loading & error state
+  useEffect(() => {
+    if (topIndex >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
+      fetchMore(group.cards.pageInfo)
+    }
+  }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
+
+  const activeCard = allCards[topIndex]
+  useEffect(() => {
+    const unswipedIndex = getUnswipedIndex()
+    if (unswipedIndex !== topIndex) {
+      setTopIndex(unswipedIndex)
+    }
+  }, [swipes, topIndex, activeCard])
+
+  const [windowWidth] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
     : windowWidth > 360 ? 300 : 240
 
+  const fallInBudget = useRef(nNew)
   const dragTime = useRef(0)
+  const onCard = useRef(false)
 
-  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
+  useEffect(() => {
+    const onTouchMove = event => {
+      if (onCard.current) {
+        event.preventDefault()
+      }
+    }
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+
+    return () => {
+      window.removeEventListener('touchmove', onTouchMove)
+    }
+  }, [])
+
+  const onSwipe = (swiped, card) => {
+    setSwipes(swipes => {
+      return swipes
+        .filter(swipe => swipe.cardId !== swiped.cardId)
+        .concat({ ...swiped,
+          metaCache: card && {
+            name: card.user.name,
+            slug: card.user.slug
+          } })
+    })
+  }
+  const onRevert = () => {
+    if (topIndex < 1) {
+      return
+    }
+    setSwipes(swipes => {
+      return swipes.slice(0, swipes.length - 1)
+    })
+  }
+  const onRight = (e) => {
+    if (!activeCard) {
+      return
+    }
+    e.preventDefault()
+    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+  }
+  const onLeft = (e) => {
+    if (!activeCard) {
+      return
+    }
+    e.preventDefault()
+    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+  }
+
+  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
     if (first) {
       dragTime.current = time
+      onCard.current = true
     }
     if (last) {
       dragTime.current = time - dragTime.current
+      onCard.current = false
     }
-    // flick hard enough
-    const out = Math.abs(xDelta) > cardWidth / 2
-    const trigger = velocity > 0.2 || out
+
+    const out = Math.abs(xDelta) > cardWidth / 2.5
+    const trigger = velocity > 0.4 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1
       : xDir < 0 ? -1 : 1
 
-    // If button/finger's up, fly out
     if (!down && trigger) {
-      gone.add(card)
-
-      setActiveCards(acs => allCards[acs.length]
-        ? acs.concat(mapCardToActive(allCards[acs.length], acs.length))
-        : acs
-      )
-      setTopIndex(index => index + 1)
-
-      // move to proper useEffect
-      if (activeCards.length >= allCards.length - 5 && group.cards.pageInfo.hasNextPage) {
-        fetchMore(group.cards.pageInfo)
-      }
+      onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
+      setDragDir(false)
+      return
+    }
+    const newDragDir = trigger && down && dir
+    if (newDragDir !== dragDir) {
+      setDragDir(newDragDir)
     }
 
-    const isGone = gone.has(card)
-    const x = isGone
-      ? (200 + windowWidth) * dir
-      : down ? xDelta : 0
-    // how much the card tilts, flicking it harder makes it rotate faster
-    const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0)
-
-    // active cards lift up a bit
+    const x = down ? xDelta : 0
+    const rot = down ? xDelta / 100 : 0
     const scale = down || isTop ? 1.05 : 1
+
     set({
       x,
-      rot: !down && !isGone ? 0 : rot,
+      rot,
       scale,
       delay: undefined,
       config: {
         friction: 50,
-        tension: down ? 800 : isGone ? 200 : 500
+        tension: down ? 800 : 500
       }
     })
   })
 
   const Icon = Cantons[group.slug] || null
+  const rightSwipes = swipes.filter(swipe => swipe.dir === 1)
+
+  const showOverview = event => {
+    event.preventDefault()
+    Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
+  }
+  const closeOverlay = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    const { suffix, ...rest } = query
+    Router.replaceRoute('cardGroup', rest)
+  }
+  const onDetail = card => {
+    setDetailCard(card)
+  }
 
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
-      <div {...styles.switch} style={{ zIndex: activeCards.length + 1 }}>
+      <div {...styles.switch} style={{
+        zIndex: ZINDEX_HEADER + allCards.length + 1
+      }}>
         <Link route='cardGroups' passHref>
           <Editorial.A>Kanton wechseln</Editorial.A>
         </Link>
@@ -243,50 +436,118 @@ const Group = ({ t, group, fetchMore }) => {
         {totalCount} Kandidaturen
         {Icon && <Icon size={40} />}
       </div>
-      {!!windowWidth && activeCards.map((activeCard, i) => {
-        if (i + nOld < topIndex) {
-          return null
-        }
-        const isTop = topIndex === i
-        return <SpringCard
-          {...activeCard}
-          dragTime={dragTime}
-          windowWidth={windowWidth}
-          cardWidth={cardWidth}
-          isHot={
-            isTop ||
-            activeCard.fallIn ||
-            Math.abs(topIndex - i) === 1
+      {!!windowWidth && <>
+        <div {...styles.bottom}>
+          {!isPersisted && <>
+              Ihr Browser konnte Ihre Wischer nicht speichern.
+            </>
           }
-          isTop={isTop}
-          zIndex={activeCards.length - i}
-          bindGestures={bindGestures} />
-      })}
+          <br />
+          {swipes.length === totalCount && <>
+            <br />
+            Sie haben den Kanton 100% durch geswipt.
+            <br /><br />
+            <Link route='cardGroup' params={{
+              group: group.slug,
+              suffix: 'liste'
+            }}>
+              <Editorial.A>Ihre Liste anzeigen</Editorial.A>
+            </Link>
+          </>}
+        </div>
+        {allCards.map((card, i) => {
+          if (i + nOld < topIndex || i - nNew >= topIndex) {
+            return null
+          }
+          const isTop = topIndex === i
+          const swiped = swipes.find(swipe => swipe.cardId === card.id)
+          let fallIn = false
+          if (fallInBudget.current > 0 && !swiped) {
+            fallIn = fallInBudget.current
+            fallInBudget.current -= 1
+          }
 
-      <div {...styles.buttonPanel} style={{
-        zIndex: activeCards.length + 1
-      }}>
-        <span {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: '#EBB900'
+          return <SpringCard
+            key={card.id}
+            index={i}
+            card={card}
+            swiped={swiped}
+            dragTime={dragTime}
+            windowWidth={windowWidth}
+            cardWidth={cardWidth}
+            fallIn={fallIn}
+            isHot={
+              isTop ||
+              fallIn ||
+              Math.abs(topIndex - i) === 1
+            }
+            isTop={isTop}
+            dragDir={isTop && dragDir}
+            zIndex={ZINDEX_HEADER + allCards.length - i}
+            bindGestures={bindGestures}
+            onDetail={onDetail}
+            group={group} />
+        })}
+
+        <div {...styles.buttonPanel} style={{
+          zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
-          <RevertIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: '#9F2500' }}>
-          <IgnoreIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonBig} style={{ backgroundColor: 'rgb(8,48,107)' }}>
-          <FollowIcon fill='#fff' />
-        </span>
-        <span {...styles.button} {...styles.buttonSmall} style={{
-          backgroundColor: '#4B6359' // disabled #B7C1BD
-        }}>
-          <OverviewIcon fill='#fff' />
-        </span>
-      </div>
+          {query.suffix === 'liste' &&
+            <OverviewOverlay
+              swipes={swipes}
+              setSwipes={setSwipes}
+              isPersisted={isPersisted}
+              onClose={closeOverlay} />}
+          {query.suffix === 'diskussion' &&
+            <Overlay title='Diskussion' onClose={closeOverlay}>
+              {group.discussion
+                ? <Discussion
+                  discussionId={group.discussion.id}
+                  focusId={query.focus}
+                  mute={!!query.mute} />
+                : <Interaction.P>
+                  Diese Debatte ist zur Zeit nicht verfügbar.
+                </Interaction.P>
+              }
+            </Overlay>
+          }
+          {!!detailCard &&
+            <Overlay
+              title={`Detail von ${detailCard.user.name}`}
+              onClose={() => {
+                setDetailCard()
+              }}
+            />
+          }
+          <button {...styles.button} {...styles.buttonSmall} style={{
+            backgroundColor: cardColors.revert,
+            opacity: swipes.length > 0 ? 1 : 0
+          }} onClick={onRevert}>
+            <RevertIcon />
+          </button>
+          <button {...styles.button} {...styles.buttonBig} style={{
+            backgroundColor: cardColors.left
+          }} onClick={onLeft}>
+            <IgnoreIcon />
+          </button>
+          <button {...styles.button} {...styles.buttonBig} style={{
+            backgroundColor: cardColors.right
+          }} onClick={onRight}>
+            <FollowIcon />
+          </button>
+          <a {...styles.button} {...styles.buttonSmall} style={{
+            backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
+            opacity: swipes.length > 0 ? 1 : 0
+          }} onClick={showOverview}>
+            {rightSwipes.length}
+          </a>
+        </div>
+      </>}
     </Container>
   )
 }
 
 export default compose(
-  withT
+  withT,
+  withRouter
 )(Group)

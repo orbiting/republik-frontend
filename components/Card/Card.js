@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import {
-  Interaction
+  Interaction,
+  DiscussionIconLink
 } from '@project-r/styleguide'
 
+import InfoIcon from 'react-icons/lib/md/info'
+
+import { Link } from '../../lib/routes'
 import { chfFormat } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
+
+import { shouldIgnoreClick } from '../Link/utils'
+import sharedStyles from '../sharedStyles'
 
 const PADDING = 15
 
@@ -28,6 +35,12 @@ const styles = {
       fontSize: 16,
       lineHeight: '20px'
     }
+  }),
+  icons: css({
+    zIndex: 1,
+    position: 'absolute',
+    top: -15,
+    right: PADDING
   }),
   portrait: css({
     height: '100%',
@@ -70,7 +83,7 @@ const styles = {
 const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
 const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
 
-const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -168,6 +181,27 @@ const Card = ({ payload, user, dragTime, width, inNativeIOSApp }) => {
         ))}
       </div>}
       <div {...styles.bottomText} {...Interaction.fontRule}>
+        <div {...styles.icons}>
+          {!!statement &&
+            <Link route='cardGroup' params={{
+              group: group.slug,
+              suffix: 'diskussion',
+              focus: statement.id
+            }} passHref>
+              <DiscussionIconLink
+                discussionCommentsCount={1 + statement.comments.totalCount} />
+            </Link>
+          }
+          <a href={`/~${user.slug}`} onClick={(e) => {
+            if (shouldIgnoreClick(e)) {
+              return
+            }
+            e.preventDefault()
+            onDetail()
+          }} {...sharedStyles.plainButton}>
+            <InfoIcon size={30} fill='#000' />
+          </a>
+        </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
             {payload.nationalCouncil.candidacy

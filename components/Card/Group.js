@@ -21,6 +21,7 @@ import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import sharedStyles from '../sharedStyles'
+import { ZINDEX_HEADER } from '../constants'
 
 import Discussion from '../Discussion/Discussion'
 
@@ -183,7 +184,8 @@ const SpringCard = ({
   isTop, isHot,
   dragTime,
   swiped, windowWidth,
-  dragDir
+  dragDir,
+  onDetail, group
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: fallIn * 100, from: fromFall() }
@@ -223,7 +225,7 @@ const SpringCard = ({
   return (
     <animated.div {...styles.card} style={{
       transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-      zIndex: zIndex,
+      zIndex,
       willChange
     }}>
       <animated.div
@@ -240,7 +242,14 @@ const SpringCard = ({
         }}
       >
         {card &&
-          <Card key={card.id} {...card} width={cardWidth} dragTime={dragTime} />
+          <Card key={card.id}
+            {...card}
+            width={cardWidth}
+            dragTime={dragTime}
+            onDetail={() => {
+              onDetail(card)
+            }}
+            group={group} />
         }
         <div
           {...styles.swipeIndicator}
@@ -279,6 +288,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
   }
   const [topIndex, setTopIndex] = useState(getUnswipedIndex)
   const [dragDir, setDragDir] = useState(false)
+  const [detailCard, setDetailCard] = useState()
 
   // request more
   // ToDo: loading & error state
@@ -408,10 +418,15 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     const { suffix, ...rest } = query
     Router.replaceRoute('cardGroup', rest)
   }
+  const onDetail = card => {
+    setDetailCard(card)
+  }
 
   return (
     <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
-      <div {...styles.switch} style={{ zIndex: allCards.length + 1 }}>
+      <div {...styles.switch} style={{
+        zIndex: ZINDEX_HEADER + allCards.length + 1
+      }}>
         <Link route='cardGroups' passHref>
           <Editorial.A>Kanton wechseln</Editorial.A>
         </Link>
@@ -432,7 +447,12 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             <br />
             Sie haben den Kanton 100% durch geswipt.
             <br /><br />
-            <Editorial.A>Ihre Liste anzeigen</Editorial.A>
+            <Link route='cardGroup' params={{
+              group: group.slug,
+              suffix: 'liste'
+            }}>
+              <Editorial.A>Ihre Liste anzeigen</Editorial.A>
+            </Link>
           </>}
         </div>
         {allCards.map((card, i) => {
@@ -463,12 +483,14 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             }
             isTop={isTop}
             dragDir={isTop && dragDir}
-            zIndex={allCards.length - i}
-            bindGestures={bindGestures} />
+            zIndex={ZINDEX_HEADER + allCards.length - i}
+            bindGestures={bindGestures}
+            onDetail={onDetail}
+            group={group} />
         })}
 
         <div {...styles.buttonPanel} style={{
-          zIndex: allCards.length + 1
+          zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
           {query.suffix === 'liste' &&
             <OverviewOverlay
@@ -488,6 +510,14 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
                 </Interaction.P>
               }
             </Overlay>
+          }
+          {!!detailCard &&
+            <Overlay
+              title={`Detail von ${detailCard.user.name}`}
+              onClose={() => {
+                setDetailCard()
+              }}
+            />
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,

@@ -9,7 +9,9 @@ import {
   Editorial, Interaction,
   mediaQueries,
   usePrevious,
-  fontStyles
+  fontStyles,
+  RawHtml,
+  Label
 } from '@project-r/styleguide'
 
 import IgnoreIcon from 'react-icons/lib/md/notifications-off'
@@ -88,7 +90,7 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: 20
     },
-    lineHeight: 1.1,
+    lineHeight: '18px',
     verticalAlign: 'middle',
     boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
     transition: 'opacity 300ms',
@@ -179,6 +181,7 @@ const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const SpringCard = ({
+  t,
   index, zIndex, card, bindGestures, cardWidth,
   fallIn,
   isTop, isHot,
@@ -243,6 +246,7 @@ const SpringCard = ({
       >
         {card &&
           <Card key={card.id}
+            t={t}
             {...card}
             width={cardWidth}
             dragTime={dragTime}
@@ -255,13 +259,13 @@ const SpringCard = ({
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorLeft}
           style={{ opacity: dir === -1 ? 1 : 0 }}>
-          ignorieren
+          {t('components/Card/ignore')}
         </div>
         <div
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorRight}
           style={{ opacity: dir === 1 ? 1 : 0 }}>
-          folgen
+          {t('components/Card/follow')}
         </div>
       </animated.div>
     </animated.div>
@@ -438,30 +442,36 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
         <Link route='cardGroups' passHref>
-          <Editorial.A>Kanton wechseln</Editorial.A>
+          <Editorial.A>{t('components/Card/Group/switch')}</Editorial.A>
         </Link>
       </div>
       <div {...styles.canton}>
-        <strong>Kanton {group.name}</strong><br />
-        {totalCount} Kandidaturen
+        <strong>{t(`components/Card/Group/${group.name.length > 10 ? 'labelShort' : 'label'}`, {
+          groupName: group.name
+        })}</strong><br />
+        {t.pluralize('components/Card/Group/cardCount', {
+          count: totalCount
+        })}
         {Icon && <Icon size={40} />}
       </div>
       {!!windowWidth && <>
         <div {...styles.bottom}>
           {!isPersisted && <>
-              Ihr Browser konnte Ihre Wischer nicht speichern.
+              {t('components/Card/Group/noLocalStorage')}
             </>
           }
           <br />
           {swipes.length === totalCount && <>
             <br />
-            Sie haben den Kanton 100% durch geswipt.
+            {t('components/Card/Group/end/done', {
+              groupName: group.name
+            })}
             <br /><br />
             <Link route='cardGroup' params={{
               group: group.slug,
               suffix: 'liste'
             }}>
-              <Editorial.A>Ihre Liste anzeigen</Editorial.A>
+              <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
             </Link>
           </>}
         </div>
@@ -480,6 +490,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           return <SpringCard
             key={card.id}
             index={i}
+            t={t}
             card={card}
             swiped={swiped}
             dragTime={dragTime}
@@ -504,26 +515,40 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
         }}>
           {showOverview &&
             <OverviewOverlay
+              t={t}
+              group={group}
               swipes={swipes}
               setSwipes={setSwipes}
               isPersisted={isPersisted}
               onClose={closeOverlay} />}
           {showDiscussion &&
-            <Overlay title='Diskussion' onClose={closeOverlay}>
+            <Overlay title={
+              (group.discussion && group.discussion.title) ||
+              t('components/Card/Group/discussion/title', {
+                groupName: group.name
+              })
+            } onClose={closeOverlay}>
+              <Label style={{ display: 'block', marginBottom: 10 }}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('components/Card/Group/discussion/lead')
+                  }}
+                />
+              </Label>
               {group.discussion
                 ? <Discussion
                   discussionId={group.discussion.id}
                   focusId={query.focus}
                   mute={!!query.mute} />
                 : <Interaction.P>
-                  Diese Debatte ist zur Zeit nicht verfügbar.
+                  {t('components/Card/Group/noDiscussion')}
                 </Interaction.P>
               }
             </Overlay>
           }
           {showDetail &&
             <Overlay
-              title={`Detail von ${detailCard.user.name}`}
+              title={detailCard.user.name}
               onClose={() => {
                 setDetailCard()
               }}
@@ -532,23 +557,26 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
             opacity: swipes.length > 0 ? 1 : 0
-          }} onClick={onRevert}>
+          }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>
           <button {...styles.button} {...styles.buttonBig} style={{
             backgroundColor: cardColors.left
-          }} onClick={onLeft}>
+          }} title={t('components/Card/Group/ignore')} onClick={onLeft}>
             <IgnoreIcon />
           </button>
           <button {...styles.button} {...styles.buttonBig} style={{
             backgroundColor: cardColors.right
-          }} onClick={onRight}>
+          }} title={t('components/Card/Group/follow')} onClick={onRight}>
             <FollowIcon />
           </button>
           <a {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
-            opacity: swipes.length > 0 ? 1 : 0
-          }} onClick={onShowOverview}>
+            opacity: swipes.length > 0 ? 1 : 0,
+            fontSize: rightSwipes.length > 99
+              ? 12
+              : 16
+          }} title={t('components/Card/Group/overview')} onClick={onShowOverview}>
             {rightSwipes.length}
           </a>
         </div>

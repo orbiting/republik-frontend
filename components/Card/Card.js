@@ -82,7 +82,7 @@ const styles = {
 const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
 const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -110,9 +110,9 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>
-        <strong>Wertehaltungen</strong><br />
+        <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small {...styles.small}>
-          Von 0 – keine bis 100 – starke Zustimmung.
+          {t('components/Card/Smartspider/legend')}
         </small>
       </Paragraph>
       <Spider
@@ -122,14 +122,16 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>
-        <strong>Wahlkampfbudget</strong>
+        <strong>
+          {t('components/Card/personalBudget')}
+        </strong>
         {payload.campaignBudget
           ? `: ${chfFormat(payload.campaignBudget)}`
-          : !payload.campaignBudgetComment && <><br />Keine Angaben</>}
+          : !payload.campaignBudgetComment && <><br />{t('components/Card/na')}</>}
         {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
         <br />
-        <strong>Interessenbindungen</strong>
-        {!payload.vestedInterestsSmartvote.length && <><br />Keine Angaben</>}
+        <strong>{t('components/Card/vestedInterests')}</strong>
+        {!payload.vestedInterestsSmartvote.length && <><br />{t('components/Card/na')}</>}
       </Paragraph>
       {!!payload.vestedInterestsSmartvote.length && <UL>
         {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
@@ -141,7 +143,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         )}
       </UL>}
       <Paragraph>
-        <small {...styles.small} style={{ marginTop: 10 }}>Quelle: Smartvote</small>
+        <small {...styles.small} style={{ marginTop: 10 }}>{t('components/Card/sourceSmartvote')}</small>
       </Paragraph>
     </div>
   ].filter(Boolean)
@@ -208,10 +210,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
-            {payload.nationalCouncil.candidacy
-              ? 'Stände- und Nationalratskandidatur'
-              : 'Ständeratskandidatur'
-            }
+            {t(`components/Card/candidacy/${payload.nationalCouncil.candidacy ? 'sr_nr' : 'sr'}`)}
             <br />
           </>}
           {user.name}
@@ -225,13 +224,17 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           {
             payload.councilOfStates.candidacy
               ? payload.councilOfStates.incumbent
-                ? 'bisher'
-                : payload.nationalCouncil.incumbent ? 'bisher im Nationalrat' : 'neu'
-              : payload.nationalCouncil.incumbent ? 'bisher' : 'neu'
+                ? t('components/Card/incumbent')
+                : payload.nationalCouncil.incumbent
+                  ? t('components/Card/incumbent/nr')
+                  : t('components/Card/incumbent/new')
+              : payload.nationalCouncil.incumbent
+                ? t('components/Card/incumbent')
+                : t('components/Card/incumbent/new')
           }
         </strong>
         {' '}
-        {listPlaces && !!listPlaces.length && `Listenplatz: ${listPlaces.join(' & ')}`}
+        {listPlaces && !!listPlaces.length && `${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`}
         <br />
         <span {...styles.occupation}>
           {payload.occupation}

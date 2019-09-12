@@ -51,8 +51,9 @@ const Footer = ({ t, zIndex }) => {
         </Link>
       </div>
       <div {...styles.right}>
-        Quellen<br />
-        <Editorial.A href='https://www.smartvote.ch/de/home'>Smartvote</Editorial.A>, <Editorial.A href='https://www.bfs.admin.ch/bfs/de/home/statistiken/kataloge-datenbanken/tabellen.assetdetail.8826608.html'>BFS</Editorial.A>
+        <Editorial.A href='/wahltindaer/meta#das-republik-wahltindaer-im-detail'>
+          {t('components/Card/Footer/sources')}
+        </Editorial.A>
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-09T21:57:58.057Z",
+  "updated": "2019-09-12T11:51:26.338Z",
   "title": "live",
   "data": [
     {
@@ -5236,7 +5236,7 @@
     },
     {
       "key": "pages/cardGroups/headline",
-      "value": "Wahltindär"
+      "value": "Wahltindär 🔥"
     },
     {
       "key": "pages/cardGroups/lead",
@@ -5260,7 +5260,7 @@
     },
     {
       "key": "pages/cardGroup/title",
-      "value": "Kanton {name} – Wahltindär"
+      "value": "Kanton {name} – Wahltindär 🔥"
     },
     {
       "key": "pages/cardGroup/description",
@@ -5349,6 +5349,170 @@
     {
       "key": "components/Card/Update/onboarding",
       "value": "Konto einrichten"
+    },
+    {
+      "key": "components/Card/Group/noLocalStorage",
+      "value": "Ihr Browser kann Ihre Wischer auf Ihrem Computer nicht abspeichern. Vermutlich weil Sie im Privatmodus unterwegs sind oder er sehr alt ist. Die können Ihre Daten aber auf der Übersichtsseite herunterladen. "
+    },
+    {
+      "key": "components/Card/Group/end/done",
+      "value": "Sie haben alle Kandidaturen des Kanton {groupName} durchgeswipt."
+    },
+    {
+      "key": "components/Card/Group/end/showList",
+      "value": "Ihre Liste anzeigen"
+    },
+    {
+      "key": "components/Card/Group/cardCount/other",
+      "value": "{count} Kandidaturen"
+    },
+    {
+      "key": "components/Card/Group/label",
+      "value": "Kanton {groupName}"
+    },
+    {
+      "key": "components/Card/Group/labelShort",
+      "value": "{groupName}"
+    },
+    {
+      "key": "components/Card/Group/noDiscussion",
+      "value": "Diese Debatte ist zur Zeit nicht verfügbar."
+    },
+    {
+      "key": "components/Card/Group/discussion/title",
+      "value": "Wahldebatte {groupName}"
+    },
+    {
+      "key": "components/Card/Group/discussion/lead",
+      "value": "Hier können Sie die Kandidatinnen und Kandidaten Fragen stellen, entgegnen, beipflichten und nachhaken. Oder Statements, die Sie nicht überzeugen, gepflegt ignorieren. Falls Sie Feedback für die Republik haben: <a href=\"https://www.republik.ch/dialog?t=article&id=da157c69-e8a9-4be7-9ce0-b12e0f548d19\">Allgemeines zum «Wahltindär»</a>."
+    },
+    {
+      "key": "components/Card/Group/revert",
+      "value": "zurück"
+    },
+    {
+      "key": "components/Card/Group/ignore",
+      "value": "ignorieren"
+    },
+    {
+      "key": "components/Card/Group/follow",
+      "value": "folgen"
+    },
+    {
+      "key": "components/Card/Group/overview",
+      "value": "Ihre Übersicht"
+    },
+    {
+      "key": "components/Card/Group/switch",
+      "value": "Kanton wechseln"
+    },
+    {
+      "key": "components/Card/Footer/sources",
+      "value": "Quelle: Smartvote et al."
+    },
+    {
+      "key": "components/Card/ignore",
+      "value": "ignorieren"
+    },
+    {
+      "key": "components/Card/follow",
+      "value": "folgen"
+    },
+    {
+      "key": "components/Card/personalBudget",
+      "value": "Wahlkampfbudget:"
+    },
+    {
+      "key": "components/Card/na",
+      "value": "Keine Angaben"
+    },
+    {
+      "key": "components/Card/Smartspider/title",
+      "value": "Wertehaltungen"
+    },
+    {
+      "key": "components/Card/Smartspider/legend",
+      "value": "Von 0 – keine bis 100 – starke Zustimmung."
+    },
+    {
+      "key": "components/Card/sourceSmartvote",
+      "value": "Quelle: Smartvote"
+    },
+    {
+      "key": "components/Card/vestedInterests",
+      "value": "Interessenbindungen:"
+    },
+    {
+      "key": "components/Card/candidacy/sr_nr",
+      "value": "Stände- und Nationalratskandidatur"
+    },
+    {
+      "key": "components/Card/candidacy/sr",
+      "value": "Ständeratskandidatur"
+    },
+    {
+      "key": "components/Card/candidacy/nr",
+      "value": "Nationalratskandidatur"
+    },
+    {
+      "key": "components/Card/incumbent",
+      "value": "bisher"
+    },
+    {
+      "key": "components/Card/incumbent/nr",
+      "value": "bisher im Nationalrat"
+    },
+    {
+      "key": "components/Card/incumbent/new",
+      "value": "neu"
+    },
+    {
+      "key": "components/Card/listPlaces",
+      "value": "Listenplatz:"
+    },
+    {
+      "key": "components/Card/Overview/title",
+      "value": "Ihre Wischliste {groupName}"
+    },
+    {
+      "key": "components/Card/Overview/followTitle/other",
+      "value": "Sie folgen {count} Personen"
+    },
+    {
+      "key": "components/Card/Overview/followTitle/1",
+      "value": "Sie folgen einer Personen"
+    },
+    {
+      "key": "components/Card/Overview/ignoreTitle/other",
+      "value": "Sie ignorieren {count} Personen"
+    },
+    {
+      "key": "components/Card/Overview/ignoreTitle/1",
+      "value": "Sie ignorieren eine Personen"
+    },
+    {
+      "key": "components/Card/Overview/data/title",
+      "value": "Ihre Daten"
+    },
+    {
+      "key": "components/Card/Overview/data/isPersisted",
+      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind bleiben Sie dies auch gespeichert und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der jetztigen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen in ein bis zwei Wochen nochmals hierher zu kommen."
+    },
+    {
+      "key": "components/Card/Overview/data/notPersisted",
+      "value": "Ihr Browser kann Ihre Wischer auf Ihrem Computer nicht abspeichern. Vermutlich weil Sie im Privatmodus unterwegs sind oder er sehr alt ist."
+    },
+    {
+      "key": "components/Card/Overview/data/download",
+      "value": "Daten als CSV herunterladen"
+    },
+    {
+      "key": "components/Card/Overview/data/clear",
+      "value": "Daten aus Ihrem Browser löschen"
+    },
+    {
+      "key": "components/Card/Overview/data/clear/confirm",
+      "value": "Sind Sie sicher das Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind folgen Sie den Person welche Sie nach rechts gewischt haben weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
     }
   ]
 }

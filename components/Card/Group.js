@@ -14,7 +14,7 @@ import {
   Label
 } from '@project-r/styleguide'
 
-import IgnoreIcon from 'react-icons/lib/md/notifications-off'
+import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 

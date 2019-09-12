@@ -6,7 +6,7 @@ import {
 
 import Overlay from './Overlay'
 
-const OverviewOverlay = ({ onClose, swipes, setSwipes, isPersisted, group, t }) => {
+const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) => {
   const withMetaCache = swipes.filter(swipe => swipe.metaCache)
   const rightSwipes = withMetaCache.filter(swipe => swipe.dir === 1)
   const leftSwipes = withMetaCache.filter(swipe => swipe.dir === -1)
@@ -50,7 +50,7 @@ const OverviewOverlay = ({ onClose, swipes, setSwipes, isPersisted, group, t }) 
           if (!window.confirm(t('components/Card/Overview/data/clear/confirm'))) {
             return
           }
-          setSwipes([])
+          onReset()
           onClose()
         }}>
           {t('components/Card/Overview/data/clear')}

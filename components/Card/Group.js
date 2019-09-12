@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
-import { compose } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import NativeRouter, { withRouter } from 'next/router'
+import gql from 'graphql-tag'
 
 import {
   Editorial, Interaction,
@@ -21,6 +22,7 @@ import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
+import withMe from '../../lib/apollo/withMe'
 import sharedStyles from '../sharedStyles'
 import { ZINDEX_HEADER } from '../constants'
 
@@ -273,9 +275,11 @@ const SpringCard = ({
   )
 }
 
+const useQueueState = createPersistedState('republik-card-queue')
+
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query } }) => {
+const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
   const storageKey = `republik-card-swipes-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
@@ -333,24 +337,137 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     }
   }, [])
 
+  const [queue, setQueue] = useQueueState({ statePerUserId: {}, pending: [] })
+  const addToQueue = (userId, sub) => setQueue(queue => ({
+    ...queue,
+    pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
+  }))
+
+  useEffect(() => {
+    if (me && queue && queue.pending && queue.pending.length) {
+      const timeout = setTimeout(
+        () => {
+          setQueue(queue => {
+            const item = queue.pending[0]
+            if (!item) {
+              return queue
+            }
+            const { userId } = item
+            const currentState = queue.statePerUserId[userId]
+            const now = Date.now()
+            if (currentState && currentState.wip && now - currentState.wip < 1000 * 31) {
+              return { ...queue }
+            }
+            const clearOwn = () => {
+              setQueue(queue => {
+                const statePerUserId = { ...queue.statePerUserId }
+                if (now === statePerUserId[userId].wip) {
+                  delete statePerUserId[userId]
+                }
+                return {
+                  ...queue,
+                  statePerUserId
+                }
+              })
+            }
+
+            if (item.sub) {
+              subToUser({ userId })
+                .then(({ data: { subscribe: sub } }) => {
+                  setQueue(queue => ({
+                    ...queue,
+                    statePerUserId: {
+                      ...queue.statePerUserId,
+                      [userId]: { id: sub.id }
+                    }
+                  }))
+                })
+                .catch(() => {
+                  // no retries for now
+                  clearOwn()
+                })
+              return {
+                ...queue,
+                statePerUserId: {
+                  ...queue.statePerUserId,
+                  [userId]: {
+                    ...currentState,
+                    wip: now
+                  }
+                },
+                pending: queue.pending.slice(1)
+              }
+            } else {
+              if (currentState && currentState.id) {
+                unsubFromUser({ subscriptionId: currentState.id })
+                  .then(() => clearOwn())
+                  .catch(() => {
+                    clearOwn()
+                  })
+                return {
+                  ...queue,
+                  statePerUserId: {
+                    ...queue.statePerUserId,
+                    [userId]: {
+                      ...currentState,
+                      wip: now
+                    }
+                  },
+                  pending: queue.pending.slice(1)
+                }
+              }
+              // never subscribed in this browser
+              return {
+                ...queue,
+                statePerUserId: {
+                  ...queue.statePerUserId,
+                  [userId]: undefined
+                },
+                pending: queue.pending.slice(1)
+              }
+            }
+          })
+        },
+        500 + Math.random() * 1000
+      )
+
+      return () => clearTimeout(timeout)
+    }
+  }, [queue, me])
+
   const onSwipe = (swiped, card) => {
+    if (card && card.user) {
+      addToQueue(card.user.id, swiped.dir === 1)
+    }
     setSwipes(swipes => {
+      const newRecord = {
+        ...swiped,
+        metaCache: card && {
+          name: card.user.name,
+          slug: card.user.slug
+        }
+      }
       return swipes
         .filter(swipe => swipe.cardId !== swiped.cardId)
-        .concat({ ...swiped,
-          metaCache: card && {
-            name: card.user.name,
-            slug: card.user.slug
-          } })
+        .concat(newRecord)
     })
   }
   const onRevert = () => {
-    if (topIndex < 1) {
+    const prev = allCards.filter((_, i) => i < topIndex).pop()
+    if (!prev) {
       return
     }
+    const swiped = swipes.find(swipe => swipe.cardId === prev.id)
+
+    if (prev && prev.user) {
+      addToQueue(prev.user.id, false)
+    }
     setSwipes(swipes => {
-      return swipes.slice(0, swipes.length - 1)
+      return swipes.filter(swipe => swipe !== swiped)
     })
+  }
+  const onReset = () => {
+    setSwipes([])
   }
   const onRight = (e) => {
     if (!activeCard) {
@@ -531,7 +648,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
               t={t}
               group={group}
               swipes={swipes}
-              setSwipes={setSwipes}
+              onReset={onReset}
               isPersisted={isPersisted}
               onClose={closeOverlay} />}
           {showDiscussion &&
@@ -598,7 +715,37 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
   )
 }
 
+const subscribeMutation = gql`
+mutation subToUser($userId: ID!) {
+  subscribe(objectId: $userId, type: User) {
+    id
+  }
+}
+`
+const unsubeMutation = gql`
+mutation unsubFromUser($subscriptionId: ID!) {
+  unsubscribe(subscriptionId: $subscriptionId) {
+    id
+  }
+}
+`
+
 export default compose(
   withT,
-  withRouter
+  withRouter,
+  withMe,
+  graphql(subscribeMutation, {
+    props: ({ mutate }) => ({
+      subToUser: variables => mutate({
+        variables
+      })
+    })
+  }),
+  graphql(unsubeMutation, {
+    props: ({ mutate }) => ({
+      unsubFromUser: variables => mutate({
+        variables
+      })
+    })
+  })
 )(Group)

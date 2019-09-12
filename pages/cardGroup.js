@@ -28,6 +28,7 @@ query getCardGroup($slug: String!, $after: String) {
     slug
     discussion {
       id
+      title
     }
     cards(first: 50, after: $after) {
       totalCount

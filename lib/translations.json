@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T19:17:36.073Z",
+  "updated": "2019-09-12T19:30:29.121Z",
   "title": "live",
   "data": [
     {
@@ -5553,6 +5553,10 @@
     {
       "key": "components/Card/electionPlausibility/UNKNOWN/emoji",
       "value": "🤞"
+    },
+    {
+      "key": "components/Card/Overview/nothing",
+      "value": "Sie haben in diesem Browser noch nicht gewischt."
     }
   ]
 }

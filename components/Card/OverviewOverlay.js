@@ -14,6 +14,9 @@ const OverviewOverlay = ({ onClose, swipes, setSwipes, isPersisted, group, t }) 
     <Overlay onClose={onClose} title={t('components/Card/Overview/title', {
       groupName: group.name
     })}>
+      {!withMetaCache.length && <Interaction.P>
+        {t('components/Card/Overview/nothing')}
+      </Interaction.P>}
       {!!rightSwipes.length && <>
         <Interaction.H3>{t.pluralize('components/Card/Overview/followTitle', {
           count: rightSwipes.length

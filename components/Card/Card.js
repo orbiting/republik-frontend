@@ -181,11 +181,11 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       </div>}
       <div {...styles.bottomText} {...Interaction.fontRule}>
         <div {...styles.icons}>
-          {!statement && <>
+          {!!statement && <>
             <Link route='cardGroup' params={{
               group: group.slug,
               suffix: 'diskussion',
-              focus: statement && statement.id
+              focus: statement.id
             }} passHref>
               <DiscussionIconLink
                 style={{
@@ -193,7 +193,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                   verticalAlign: 'top',
                   marginTop: 3
                 }}
-                count={1 + (statement ? statement.comments.totalCount : 0)} />
+                count={1 + statement.comments.totalCount} />
             </Link>
           </>}
           <a href={`/~${user.slug}`} onClick={(e) => {

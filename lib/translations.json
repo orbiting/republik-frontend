@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T19:06:51.651Z",
+  "updated": "2019-09-12T19:17:36.073Z",
   "title": "live",
   "data": [
     {
@@ -5520,7 +5520,7 @@
     },
     {
       "key": "components/Card/electionPlausibility/title",
-      "value": "Platzrating: {rate}"
+      "value": "Platzrating: {text} {emoji}"
     },
     {
       "key": "components/Card/electionPlausibility/GOOD",

@@ -14,7 +14,6 @@ import {
   Label
 } from '@project-r/styleguide'
 
-import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 
@@ -27,6 +26,8 @@ import { ZINDEX_HEADER } from '../constants'
 
 import Discussion from '../Discussion/Discussion'
 
+import IgnoreIcon from './IgnoreIcon'
+import Details from './Details'
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
@@ -562,7 +563,9 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             <Overlay
               title={detailCard.user.name}
               onClose={closeDetailOverlay}
-            />
+            >
+              <Details card={detailCard} />
+            </Overlay>
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,

@@ -407,7 +407,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
   const Icon = Cantons[group.slug] || null
   const rightSwipes = swipes.filter(swipe => swipe.dir === 1)
 
-  const showOverview = event => {
+  const onShowOverview = event => {
     event.preventDefault()
     Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
   }
@@ -422,8 +422,18 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     setDetailCard(card)
   }
 
+  const showOverview = query.suffix === 'liste'
+  const showDiscussion = query.suffix === 'diskussion'
+  const showDetail = !!detailCard
+
   return (
-    <Container style={{ minHeight: cardWidth * 1.4 + 60 }}>
+    <Container style={{
+      minHeight: cardWidth * 1.4 + 60,
+      zIndex: ZINDEX_HEADER + 1,
+      overflow: showOverview || showDiscussion || showDetail
+        ? 'visible'
+        : undefined
+    }}>
       <div {...styles.switch} style={{
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
@@ -492,13 +502,13 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
         <div {...styles.buttonPanel} style={{
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
-          {query.suffix === 'liste' &&
+          {showOverview &&
             <OverviewOverlay
               swipes={swipes}
               setSwipes={setSwipes}
               isPersisted={isPersisted}
               onClose={closeOverlay} />}
-          {query.suffix === 'diskussion' &&
+          {showDiscussion &&
             <Overlay title='Diskussion' onClose={closeOverlay}>
               {group.discussion
                 ? <Discussion
@@ -511,7 +521,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
               }
             </Overlay>
           }
-          {!!detailCard &&
+          {showDetail &&
             <Overlay
               title={`Detail von ${detailCard.user.name}`}
               onClose={() => {
@@ -538,7 +548,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           <a {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
             opacity: swipes.length > 0 ? 1 : 0
-          }} onClick={showOverview}>
+          }} onClick={onShowOverview}>
             {rightSwipes.length}
           </a>
         </div>

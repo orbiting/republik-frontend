@@ -50,7 +50,7 @@ const Page = ({ serverContext, router: { query: { group } }, isEditor, data, t }
   const Wrapper = data.loading ? Container : Fragment
 
   return (
-    <Frame footer={false} navBar={false} raw>
+    <Frame footer={false} navBar={false} pullable={false} raw>
       <Wrapper>
         <Loader loading={data.loading} error={data.error} render={() => {
           if (!data.cardGroup) {

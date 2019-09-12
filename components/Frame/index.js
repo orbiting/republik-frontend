@@ -91,6 +91,7 @@ const Index = ({
   onSearchClick,
   footer = true,
   navBar = true,
+  pullable,
   dark
 }) => (
   <div {...footer && styles.bodyGrowerContainer}>
@@ -117,6 +118,7 @@ const Index = ({
         showSecondary={showSecondary}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
+        pullable={pullable}
       />
       <noscript>
         <Box style={{ padding: 30 }}>

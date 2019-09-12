@@ -215,8 +215,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           </>}
           {user.name}
         </strong>
-        {','}&nbsp;
-        {payload.age || payload.yearOfBirth}
+        {!!(payload.age || payload.yearOfBirth) && <>
+          {','}&nbsp;
+          {payload.age || payload.yearOfBirth}
+        </>}
         <br />
         <strong>
           {payload.party}
@@ -233,9 +235,8 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 : t('components/Card/incumbent/new')
           }
         </strong>
-        {', '}
         {listPlaces && !!listPlaces.length &&
-          `${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`
+          `, ${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`
         }
         <br />
         <span {...styles.occupation}>

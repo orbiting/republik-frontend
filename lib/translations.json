@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T13:01:11.275Z",
+  "updated": "2019-09-12T16:29:06.571Z",
   "title": "live",
   "data": [
     {
@@ -5240,7 +5240,7 @@
     },
     {
       "key": "pages/cardGroups/lead",
-      "value": "Über 4500 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+      "value": "Über 4600 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/lead/more",
@@ -5513,6 +5513,10 @@
     {
       "key": "components/Card/Overview/data/clear/confirm",
       "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
+    },
+    {
+      "key": "nav/cardGroups",
+      "value": "Wahltindär"
     }
   ]
 }

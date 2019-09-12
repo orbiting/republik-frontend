@@ -126,7 +126,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           {t('components/Card/personalBudget')}
         </strong>
         {payload.campaignBudget
-          ? `: ${chfFormat(payload.campaignBudget)}`
+          ? ` ${chfFormat(payload.campaignBudget)}`
           : !payload.campaignBudgetComment && <><br />{t('components/Card/na')}</>}
         {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
         <br />
@@ -215,7 +215,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           </>}
           {user.name}
         </strong>
-        &nbsp;
+        {','}&nbsp;
         {payload.age || payload.yearOfBirth}
         <br />
         <strong>
@@ -233,8 +233,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 : t('components/Card/incumbent/new')
           }
         </strong>
-        {' '}
-        {listPlaces && !!listPlaces.length && `${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`}
+        {', '}
+        {listPlaces && !!listPlaces.length &&
+          `${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`
+        }
         <br />
         <span {...styles.occupation}>
           {payload.occupation}

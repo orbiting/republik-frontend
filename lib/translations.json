@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T11:51:26.338Z",
+  "updated": "2019-09-12T13:01:11.275Z",
   "title": "live",
   "data": [
     {
@@ -5356,7 +5356,7 @@
     },
     {
       "key": "components/Card/Group/end/done",
-      "value": "Sie haben alle Kandidaturen des Kanton {groupName} durchgeswipt."
+      "value": "Sie haben alle Kandidaturen des Kantons {groupName} durchgeswipt."
     },
     {
       "key": "components/Card/Group/end/showList",
@@ -5376,7 +5376,7 @@
     },
     {
       "key": "components/Card/Group/noDiscussion",
-      "value": "Diese Debatte ist zur Zeit nicht verfügbar."
+      "value": "Diese Debatte ist zurzeit nicht verfügbar."
     },
     {
       "key": "components/Card/Group/discussion/title",
@@ -5384,7 +5384,7 @@
     },
     {
       "key": "components/Card/Group/discussion/lead",
-      "value": "Hier können Sie die Kandidatinnen und Kandidaten Fragen stellen, entgegnen, beipflichten und nachhaken. Oder Statements, die Sie nicht überzeugen, gepflegt ignorieren. Falls Sie Feedback für die Republik haben: <a href=\"https://www.republik.ch/dialog?t=article&id=da157c69-e8a9-4be7-9ce0-b12e0f548d19\">Allgemeines zum «Wahltindär»</a>."
+      "value": "Hier können Sie den Kandidatinnen und Kandidaten Fragen stellen, ihnen entgegnen, beipflichten und nachhaken. Oder Statements, die Sie nicht überzeugen, gepflegt ignorieren. Falls Sie Feedback für die Republik haben: <a href=\"https://www.republik.ch/dialog?t=article&id=da157c69-e8a9-4be7-9ce0-b12e0f548d19\">Allgemeines zum «Wahltindär»</a>."
     },
     {
       "key": "components/Card/Group/revert",
@@ -5424,7 +5424,7 @@
     },
     {
       "key": "components/Card/na",
-      "value": "Keine Angaben"
+      "value": "keine Angaben"
     },
     {
       "key": "components/Card/Smartspider/title",
@@ -5432,7 +5432,7 @@
     },
     {
       "key": "components/Card/Smartspider/legend",
-      "value": "Von 0 – keine bis 100 – starke Zustimmung."
+      "value": "Von 0 = keine bis 100 = starke Zustimmung."
     },
     {
       "key": "components/Card/sourceSmartvote",
@@ -5476,19 +5476,19 @@
     },
     {
       "key": "components/Card/Overview/followTitle/other",
-      "value": "Sie folgen {count} Personen"
+      "value": "Sie folgen {count} Personen."
     },
     {
       "key": "components/Card/Overview/followTitle/1",
-      "value": "Sie folgen einer Personen"
+      "value": "Sie folgen einer Person."
     },
     {
       "key": "components/Card/Overview/ignoreTitle/other",
-      "value": "Sie ignorieren {count} Personen"
+      "value": "Sie ignorieren {count} Personen."
     },
     {
       "key": "components/Card/Overview/ignoreTitle/1",
-      "value": "Sie ignorieren eine Personen"
+      "value": "Sie ignorieren eine Person."
     },
     {
       "key": "components/Card/Overview/data/title",
@@ -5496,23 +5496,23 @@
     },
     {
       "key": "components/Card/Overview/data/isPersisted",
-      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind bleiben Sie dies auch gespeichert und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der jetztigen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen in ein bis zwei Wochen nochmals hierher zu kommen."
+      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind, bleiben sie auch gespeichert, und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der momentanen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen, in ein bis zwei Wochen nochmals hierherzukommen."
     },
     {
       "key": "components/Card/Overview/data/notPersisted",
-      "value": "Ihr Browser kann Ihre Wischer auf Ihrem Computer nicht abspeichern. Vermutlich weil Sie im Privatmodus unterwegs sind oder er sehr alt ist."
+      "value": "Ihr Browser kann Ihre Wischer auf Ihrem Computer nicht abspeichern. Vermutlich deshalb, weil Sie im Privatmodus unterwegs sind oder weil Ihr Computer ein älteres Modell ist."
     },
     {
       "key": "components/Card/Overview/data/download",
-      "value": "Daten als CSV herunterladen"
+      "value": "Daten als CSV herunterladen."
     },
     {
       "key": "components/Card/Overview/data/clear",
-      "value": "Daten aus Ihrem Browser löschen"
+      "value": "Daten aus Ihrem Browser löschen."
     },
     {
       "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher das Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind folgen Sie den Person welche Sie nach rechts gewischt haben weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
+      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
     }
   ]
 }

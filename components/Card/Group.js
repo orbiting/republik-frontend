@@ -25,6 +25,11 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
 import sharedStyles from '../sharedStyles'
 import { ZINDEX_HEADER } from '../constants'
+import TrialForm from '../Trial/Form'
+import {
+  TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN
+} from '../../lib/constants'
+import { parseJSONObject } from '../../lib/safeJSON'
 
 import Discussion from '../Discussion/Discussion'
 
@@ -35,6 +40,10 @@ import Container from './Container'
 import Cantons from './Cantons'
 import OverviewOverlay from './OverviewOverlay'
 import Overlay from './Overlay'
+
+const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
+
+const trialAccessCampaignId = (trailCampaignes.wahltindaer && trailCampaignes.wahltindaer.accessCampaignId) || TRIAL_CAMPAIGN
 
 const cardColors = {
   left: '#9F2500',
@@ -164,6 +173,15 @@ const styles = {
       right: 0,
       top: 0
     }
+  }),
+  trial: css({
+    display: 'flex',
+    height: '100%',
+    padding: 20,
+    ...fontStyles.serifTitle,
+    fontSize: 28,
+    alignItems: 'center',
+    justifyContent: 'center'
   })
 }
 
@@ -182,6 +200,19 @@ const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
 })
 
 const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+
+const specials = {
+  trial: ({ t }) => (
+    <div {...styles.trial}>
+      <div {...styles.trialInner}>
+        {t('components/Card/Group/promo/trial')}
+        <Interaction.P>
+          {t('components/Card/Group/promo/trial/note')}
+        </Interaction.P>
+      </div>
+    </div>
+  )
+}
 
 const SpringCard = ({
   t,
@@ -227,6 +258,7 @@ const SpringCard = ({
 
   const willChange = isHot ? 'transform' : undefined
   const dir = dragDir || (swiped && swiped.dir)
+  const Special = specials[card.id]
 
   return (
     <animated.div {...styles.card} style={{
@@ -247,8 +279,9 @@ const SpringCard = ({
           willChange
         }}
       >
-        {card &&
-          <Card key={card.id}
+        {Special
+          ? <Special t={t} />
+          : <Card key={card.id}
             t={t}
             {...card}
             width={cardWidth}
@@ -261,14 +294,20 @@ const SpringCard = ({
         <div
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorLeft}
-          style={{ opacity: dir === -1 ? 1 : 0 }}>
-          {t('components/Card/ignore')}
+          style={{
+            opacity: dir === -1 ? 1 : 0,
+            right: card.payload ? undefined : 30
+          }}>
+          {t(card.payload ? 'components/Card/ignore' : 'components/Card/no')}
         </div>
         <div
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorRight}
-          style={{ opacity: dir === 1 ? 1 : 0 }}>
-          {t('components/Card/follow')}
+          style={{
+            opacity: dir === 1 ? 1 : 0,
+            left: card.payload ? undefined : 30
+          }}>
+          {t(card.payload ? 'components/Card/follow' : 'components/Card/yes')}
         </div>
       </animated.div>
     </animated.div>
@@ -281,13 +320,18 @@ const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
   const topFromQuery = useRef(query.top)
+  const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
     [storageKey]
   )
 
-  const allCards = group.cards.nodes
+  const allCards = [
+    ...group.cards.nodes.slice(0, 13),
+    trialCard.current,
+    ...group.cards.nodes.slice(13)
+  ].filter(Boolean)
   const totalCount = group.cards.totalCount
   const [swipes, setSwipes, isPersisted] = useSwipeState([])
   const getUnswipedIndex = () => {
@@ -299,6 +343,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   const [topIndex, setTopIndex] = useState(getUnswipedIndex)
   const [dragDir, setDragDir] = useState(false)
   const [detailCard, setDetailCard] = useState()
+  const [showTrialOverlay, setTrialOverlay] = useState(false)
 
   // request more
   // ToDo: loading & error state
@@ -449,13 +494,16 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     if (topFromQuery.current) {
       topFromQuery.current = null
     }
+    if (swiped.dir === 1 && card.id === 'trial') {
+      setTrialOverlay(true)
+    }
     if (card && card.user) {
       addToQueue(card.user.id, swiped.dir === 1)
     }
     setSwipes(swipes => {
       const newRecord = {
         ...swiped,
-        cardCache: card,
+        cardCache: card.payload ? card : undefined,
         date: new Date().toISOString()
       }
       return swipes
@@ -542,7 +590,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   })
 
   const Icon = Cantons[group.slug] || null
-  const rightSwipes = swipes.filter(swipe => swipe.dir === 1)
+  const rightSwipes = swipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
 
   const onShowOverview = event => {
     event.preventDefault()
@@ -569,6 +617,12 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     setDetailCard()
     Router.replaceRoute('cardGroup', query)
   }
+  const closeTrialOverlay = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    setTrialOverlay(false)
+  }
 
   const showOverview = query.suffix === 'liste'
   const showDiscussion = query.suffix === 'diskussion'
@@ -578,7 +632,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     <Container style={{
       minHeight: cardWidth * 1.4 + 60,
       zIndex: ZINDEX_HEADER + 1,
-      overflow: showOverview || showDiscussion || showDetail
+      overflow: showOverview || showDiscussion || showDetail || showTrialOverlay
         ? 'visible'
         : undefined
     }}>
@@ -657,6 +711,13 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         <div {...styles.buttonPanel} style={{
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
+          {showTrialOverlay &&
+            <Overlay title={'Probelesen'} onClose={closeTrialOverlay}>
+              <TrialForm
+                accessCampaignId={trialAccessCampaignId}
+                narrow />
+            </Overlay>
+          }
           {showOverview &&
             <OverviewOverlay
               t={t}

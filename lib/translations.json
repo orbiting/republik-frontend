@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-13T03:13:52.465Z",
+  "updated": "2019-09-13T04:33:38.767Z",
   "title": "live",
   "data": [
     {
@@ -5419,6 +5419,14 @@
       "value": "folgen"
     },
     {
+      "key": "components/Card/yes",
+      "value": "ja"
+    },
+    {
+      "key": "components/Card/no",
+      "value": "nein"
+    },
+    {
       "key": "components/Card/personalBudget",
       "value": "Wahlkampfbudget:"
     },
@@ -5572,7 +5580,11 @@
     },
     {
       "key": "components/Card/Group/promo/trial",
-      "value": "Nunja, Sie sind ja noch gar nicht angemeldet. Möchten Sie die Republik 14 Tage lang probelesen und die Wahldebatte verfolgen? Wir benötigen lediglich Ihre E-Mail-Adresse dazu."
+      "value": "Möchten Sie die Republik 14 Tage lang probe­lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+    },
+    {
+      "key": "components/Card/Group/promo/trial/note",
+      "value": "Wir benötigen lediglich Ihre E-Mail-Adresse dazu."
     },
     {
       "key": "components/Card/Group/promo/abo",
@@ -5580,7 +5592,7 @@
     },
     {
       "key": "components/Card/Details/source",
-      "value": "Mehr über die Quellen und Methodik"
+      "value": "Mehr über Quellen und Methodik"
     },
     {
       "key": "components/Card/Details/links",
@@ -5601,6 +5613,14 @@
     {
       "key": "components/Card/Details/lobbywatch/note",
       "value": "Auf lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
+    },
+    {
+      "key": "Onboarding/Page/more/cards",
+      "value": "Lust (weiter)zuwischen? {link}."
+    },
+    {
+      "key": "Onboarding/Page/more/cards/link",
+      "value": "Zum «Wahltindär»"
     }
   ]
 }

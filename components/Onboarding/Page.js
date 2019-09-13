@@ -228,6 +228,25 @@ class Page extends Component {
                     )
                   })}
                 </P>
+
+                <P {...styles.p}>
+                  {t.first.elements([
+                    `Onboarding/Page/${context}/more/cards`,
+                    'Onboarding/Page/more/cards'
+                  ], {
+                    link: (
+                      <Link key='cards' route='cardGroups' passHref>
+                        <a {...linkRule}>
+                          {t.first([
+                            `Onboarding/Page/${context}/more/cards/link`,
+                            'Onboarding/Page/more/cards/link'
+                          ])}
+                        </a>
+                      </Link>
+                    )
+                  })}
+                </P>
+
                 <P {...styles.p}>
                   {t.first.elements([
                     `Onboarding/Page/${context}/more/questions`,

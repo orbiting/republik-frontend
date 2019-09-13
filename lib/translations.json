@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T19:30:29.121Z",
+  "updated": "2019-09-13T01:07:59.053Z",
   "title": "live",
   "data": [
     {
@@ -5476,19 +5476,19 @@
     },
     {
       "key": "components/Card/Overview/followTitle/other",
-      "value": "Sie folgen {count} Personen."
+      "value": "Sie folgen {count} Personen:"
     },
     {
       "key": "components/Card/Overview/followTitle/1",
-      "value": "Sie folgen einer Person."
+      "value": "Sie folgen einer Person:"
     },
     {
       "key": "components/Card/Overview/ignoreTitle/other",
-      "value": "Sie ignorieren {count} Personen."
+      "value": "Sie ignorieren {count} Personen:"
     },
     {
       "key": "components/Card/Overview/ignoreTitle/1",
-      "value": "Sie ignorieren eine Person."
+      "value": "Sie ignorieren eine Person:"
     },
     {
       "key": "components/Card/Overview/data/title",
@@ -5557,6 +5557,46 @@
     {
       "key": "components/Card/Overview/nothing",
       "value": "Sie haben in diesem Browser noch nicht gewischt."
+    },
+    {
+      "key": "components/Card/Group/tutorial/right",
+      "value": "Indem Sie nach rechts wischen folgen Sie dieser Person im Dialog. Wenn diese reden will, werden Sie benachrichtigt."
+    },
+    {
+      "key": "components/Card/Group/tutorial/left",
+      "value": "Wischen Sie eine Profil-Karte nach links, ignorieren Sie die Person. Übrigends: Sie können innerhalb einer Karte zwischen dem Porträt, Smartspider und den Finanzen blättern, drücken Sie dazu die Karte in der linken oder rechten Hälfte."
+    },
+    {
+      "key": "components/Card/Group/promo/trial",
+      "value": "Nunja, Sie sind ja noch gar nicht angemeldet. Möchten Sie die Republik 14 Tage lang probelesen und die Wahldebatte verfolgen? Wir benötigen lediglich Ihre E-Mail-Adresse dazu."
+    },
+    {
+      "key": "components/Card/Group/promo/abo",
+      "value": "Wie wärs mit einem Republik-Abo? Unser Magazin ist unabhängig und werbefrei. Unser einziger Kunde sind Sie – wir wollen Sie inspirieren, bereichern und überraschen."
+    },
+    {
+      "key": "components/Card/Details/source",
+      "value": "Mehr über die Quellen und Methodik."
+    },
+    {
+      "key": "components/Card/Details/links",
+      "value": "Weiterführende Informationen"
+    },
+    {
+      "key": "components/Card/Details/smartvote",
+      "value": "Smartvote Profil"
+    },
+    {
+      "key": "components/Card/Details/smartvote/note",
+      "value": "Das ist unsere Hauptquelle, im Profil von Smartvote.ch finden Sie zusäzliche Informationen, können die Wertehaltungen mit Ihren eigenen vergleichen. Übrigens: der Verein hinter Smartvote sucht noch spenden."
+    },
+    {
+      "key": "components/Card/Details/lobbywatch",
+      "value": "Interessenbindungen auf Lobbywatch.ch recherchieren"
+    },
+    {
+      "key": "components/Card/Details/lobbywatch/note",
+      "value": "Auf Lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
     }
   ]
 }

@@ -1,48 +1,48 @@
 import React from 'react'
 
 import {
-  Interaction, Editorial
+  Editorial
 } from '@project-r/styleguide'
 
 import Overlay from './Overlay'
+import Table from './Table'
+
+import { Paragraph } from './Shared'
 
 const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) => {
-  const withMetaCache = swipes.filter(swipe => swipe.metaCache)
-  const rightSwipes = withMetaCache.filter(swipe => swipe.dir === 1)
-  const leftSwipes = withMetaCache.filter(swipe => swipe.dir === -1)
+  const withCache = swipes.filter(swipe => swipe.cardCache)
+  const rightSwipes = withCache.filter(swipe => swipe.dir === 1)
+  const leftSwipes = withCache.filter(swipe => swipe.dir === -1)
   return (
-    <Overlay onClose={onClose} title={t('components/Card/Overview/title', {
+    <Overlay beta onClose={onClose} title={t('components/Card/Overview/title', {
       groupName: group.name
     })}>
-      {!withMetaCache.length && <Interaction.P>
-        {t('components/Card/Overview/nothing')}
-      </Interaction.P>}
+      {!withCache.length && <Paragraph>
+        <strong>{t('components/Card/Overview/nothing')}</strong>
+      </Paragraph>}
       {!!rightSwipes.length && <>
-        <Interaction.H3>{t.pluralize('components/Card/Overview/followTitle', {
-          count: rightSwipes.length
-        })}</Interaction.H3>
-        <Editorial.UL>
-          {rightSwipes.map(swipe => {
-            return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
+        <Paragraph><strong>
+          {t.pluralize('components/Card/Overview/followTitle', {
+            count: rightSwipes.length
           })}
-        </Editorial.UL>
-      </>}
-      {!!leftSwipes.length && <>
-        <Interaction.H3>{t.pluralize('components/Card/Overview/ignoreTitle', {
-          count: leftSwipes.length
-        })}</Interaction.H3>
-        <Editorial.UL>
-          {leftSwipes.map(swipe => {
-            return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
-          })}
-        </Editorial.UL>
+        </strong></Paragraph>
+        <Table cards={rightSwipes.map(s => s.cardCache)} />
       </>}
       <br />
-      <Interaction.H3>{t('components/Card/Overview/data/title')}</Interaction.H3>
-      <Interaction.P>
+      {!!leftSwipes.length && <>
+        <Paragraph><strong>
+          {t.pluralize('components/Card/Overview/ignoreTitle', {
+            count: leftSwipes.length
+          })}
+        </strong></Paragraph>
+        <Table cards={leftSwipes.map(s => s.cardCache)} />
+      </>}
+      <br />
+      <Paragraph><strong>{t('components/Card/Overview/data/title')}</strong></Paragraph>
+      <Paragraph>
         {t(`components/Card/Overview/data/${isPersisted ? 'isPersisted' : 'notPersisted'}`)}
-      </Interaction.P>
-      <Interaction.P>
+      </Paragraph>
+      <Paragraph>
         <Editorial.A>{t('components/Card/Overview/data/download')}</Editorial.A>
         <br />
         {isPersisted && <Editorial.A href='#' onClick={(e) => {
@@ -55,7 +55,7 @@ const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) =>
         }}>
           {t('components/Card/Overview/data/clear')}
         </Editorial.A>}
-      </Interaction.P>
+      </Paragraph>
     </Overlay>
   )
 }

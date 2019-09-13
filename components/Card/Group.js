@@ -442,10 +442,8 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     setSwipes(swipes => {
       const newRecord = {
         ...swiped,
-        metaCache: card && {
-          name: card.user.name,
-          slug: card.user.slug
-        }
+        cardCache: card,
+        date: new Date().toISOString()
       }
       return swipes
         .filter(swipe => swipe.cardId !== swiped.cardId)

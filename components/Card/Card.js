@@ -17,6 +17,8 @@ import DiscussionIconLink from './DiscussionIconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
 
+import { UL, Paragraph } from './Shared'
+
 const PADDING = 15
 
 const styles = {
@@ -59,28 +61,8 @@ const styles = {
     '@media (min-width: 340px)': {
       paddingTop: PADDING + 3
     }
-  }),
-  p: css(Interaction.fontRule, {
-    margin: '0 0 5px',
-    fontSize: 15,
-    lineHeight: '22px',
-    '& small': {
-      display: 'block',
-      fontSize: 10,
-      lineHeight: '16px'
-    }
-  }),
-  ul: css({
-    margin: 0,
-    marginTop: -3,
-    paddingLeft: 20,
-    fontSize: 15,
-    lineHeight: '22px'
   })
 }
-
-const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
-const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
 
 const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t }) => {
   const [slide, setSlide] = useState(0)
@@ -111,7 +93,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
-        <small {...styles.small}>
+        <small>
           {t('components/Card/Smartspider/legend')}
         </small>
       </Paragraph>
@@ -143,7 +125,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         )}
       </UL>}
       <Paragraph>
-        <small {...styles.small} style={{ marginTop: 10 }}>{t('components/Card/sourceSmartvote')}</small>
+        <small style={{ marginTop: 10 }}>{t('components/Card/sourceSmartvote')}</small>
       </Paragraph>
     </div>
   ].filter(Boolean)

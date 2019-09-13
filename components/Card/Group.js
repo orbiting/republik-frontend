@@ -338,10 +338,19 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   }, [])
 
   const [queue, setQueue] = useQueueState({ statePerUserId: {}, pending: [] })
-  const addToQueue = (userId, sub) => setQueue(queue => ({
-    ...queue,
-    pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
-  }))
+  const addToQueue = (userId, sub) => setQueue(queue => {
+    if (!sub && !queue.statePerUserId[userId]) {
+      // only rm pending subs
+      return {
+        ...queue,
+        pending: queue.pending.filter(item => item.userId !== userId)
+      }
+    }
+    return {
+      ...queue,
+      pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
+    }
+  })
 
   useEffect(() => {
     if (me && queue && queue.pending && queue.pending.length) {

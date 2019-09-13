@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-13T01:07:59.053Z",
+  "updated": "2019-09-13T01:11:27.942Z",
   "title": "live",
   "data": [
     {
@@ -5512,7 +5512,11 @@
     },
     {
       "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
+      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. Eine Liste zum Entfolgen, folgt bald."
+    },
+    {
+      "key": "components/Card/Overview/data/clear/confirm/suffix",
+      "value": "In der Debatte können Sie den Politiker entfolgen."
     },
     {
       "key": "nav/cardGroups",

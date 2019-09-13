@@ -280,6 +280,7 @@ const useQueueState = createPersistedState('republik-card-queue')
 const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
+  const topFromQuery = useRef(query.top)
   const storageKey = `republik-card-swipes-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
@@ -290,7 +291,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   const totalCount = group.cards.totalCount
   const [swipes, setSwipes, isPersisted] = useSwipeState([])
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => !swipes.find(swipe => swipe.cardId === card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipes.find(swipe => swipe.cardId === card.id))
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
@@ -445,6 +446,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   }, [queue, me])
 
   const onSwipe = (swiped, card) => {
+    if (topFromQuery.current) {
+      topFromQuery.current = null
+    }
     if (card && card.user) {
       addToQueue(card.user.id, swiped.dir === 1)
     }
@@ -475,6 +479,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     })
   }
   const onReset = () => {
+    if (topFromQuery.current) {
+      topFromQuery.current = null
+    }
     setSwipes([])
   }
   const onRight = (e) => {
@@ -539,14 +546,13 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
 
   const onShowOverview = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
+    Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
   }
   const closeOverlay = event => {
     if (event) {
       event.preventDefault()
     }
-    const { suffix, focus, ...rest } = query
-    Router.replaceRoute('cardGroup', rest)
+    Router.replaceRoute('cardGroup', { group: group.slug })
   }
   const onDetail = card => {
     setDetailCard(card)
@@ -618,7 +624,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             return null
           }
           const isTop = topIndex === i
-          const swiped = swipes.find(swipe => swipe.cardId === card.id)
+          const swiped = topFromQuery.current !== card.id && swipes.find(swipe => swipe.cardId === card.id)
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current

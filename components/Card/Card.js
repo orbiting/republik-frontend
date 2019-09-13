@@ -157,7 +157,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 count={1 + statement.comments.totalCount} />
             </Link>
           </>}
-          <a href={`/~${user.slug}`} onClick={(e) => {
+          {!!onDetail && <a href={`/~${user.slug}`} onClick={(e) => {
             if (shouldIgnoreClick(e)) {
               return
             }
@@ -165,7 +165,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
             onDetail()
           }} {...sharedStyles.plainButton}>
             <InfoIcon size={30} fill='#000' />
-          </a>
+          </a>}
         </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
@@ -212,7 +212,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           width: '50%'
         }}
         onClick={() => {
-          if (dragTime.current > 100) {
+          if (dragTime && dragTime.current > 100) {
             return
           }
           gotoSlide(Math.max(0, slide - 1))
@@ -227,7 +227,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           width: '50%'
         }}
         onClick={() => {
-          if (dragTime.current > 100) {
+          if (dragTime && dragTime.current > 100) {
             return
           }
           gotoSlide(Math.min(totalSlides - 1, slide + 1))

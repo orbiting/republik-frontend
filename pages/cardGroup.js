@@ -18,7 +18,7 @@ import StatusError from '../components/StatusError'
 import { cardFragment } from '../components/Card/fragments'
 
 const query = gql`
-query getCardGroup($slug: String!, $after: String) {
+query getCardGroup($slug: String!, $after: String, $top: [ID!]) {
   cardGroup(slug: $slug) {
     id
     name
@@ -27,7 +27,7 @@ query getCardGroup($slug: String!, $after: String) {
       id
       title
     }
-    cards(first: 50, after: $after) {
+    cards(first: 50, after: $after, focus: $top) {
       totalCount
       pageInfo {
         hasNextPage
@@ -111,7 +111,8 @@ export default compose(
   graphql(query, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.group
+        slug: router.query.group,
+        top: router.query.top ? [router.query.top] : undefined
       }
     })
   })

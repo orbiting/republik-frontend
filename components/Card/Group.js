@@ -206,9 +206,6 @@ const specials = {
     <div {...styles.trial}>
       <div {...styles.trialInner}>
         {t('components/Card/Group/promo/trial')}
-        <Interaction.P>
-          {t('components/Card/Group/promo/trial/note')}
-        </Interaction.P>
       </div>
     </div>
   )

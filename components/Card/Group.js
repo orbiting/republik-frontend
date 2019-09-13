@@ -275,13 +275,13 @@ const SpringCard = ({
   )
 }
 
-const useQueueState = createPersistedState('republik-card-queue')
+const useQueueState = createPersistedState('republik-card-group-queue')
 
 const nNew = 5
 const nOld = 3
 const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
   const topFromQuery = useRef(query.top)
-  const storageKey = `republik-card-swipes-${group.slug}`
+  const storageKey = `republik-card-group-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
     [storageKey]

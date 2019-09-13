@@ -6,7 +6,8 @@ import gql from 'graphql-tag'
 import withT from '../lib/withT'
 import { routes } from '../lib/routes'
 import {
-  PUBLIC_BASE_URL
+  PUBLIC_BASE_URL,
+  CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
 import Frame from '../components/Frame'
@@ -68,8 +69,8 @@ const Page = ({ serverContext, router: { query: { group } }, data, t }) => {
             }),
             url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroup').toPath({
               group: data.cardGroup.slug
-            })}`
-            // ToDo: image
+            })}`,
+            image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
           }} />
           return (
             <>

@@ -8,6 +8,7 @@ import CardUpdate from '../components/Card/Update'
 import Meta from '../components/Frame/Meta'
 
 import withT from '../lib/withT'
+import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const Page = ({ router, t }) => {
   const { token } = router.query
@@ -17,7 +18,8 @@ const Page = ({ router, t }) => {
       <Frame>
         <Meta data={{
           title: t('pages/cardSetup/title'),
-          description: t('pages/cardSetup/description')
+          description: t('pages/cardSetup/description'),
+          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
         }} />
         <Head>
           <meta name='robots' content='noindex' />

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-13T01:11:27.942Z",
+  "updated": "2019-09-13T03:13:52.465Z",
   "title": "live",
   "data": [
     {
@@ -5512,7 +5512,7 @@
     },
     {
       "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. Eine Liste zum Entfolgen, folgt bald."
+      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen halten). Eine Liste zum Entfolgen, folgt bald."
     },
     {
       "key": "components/Card/Overview/data/clear/confirm/suffix",
@@ -5524,7 +5524,7 @@
     },
     {
       "key": "components/Card/electionPlausibility/title",
-      "value": "Platzrating: {text} {emoji}"
+      "value": "Rating des Listen­platzes: {text} {emoji}"
     },
     {
       "key": "components/Card/electionPlausibility/GOOD",
@@ -5568,7 +5568,7 @@
     },
     {
       "key": "components/Card/Group/tutorial/left",
-      "value": "Wischen Sie eine Profil-Karte nach links, ignorieren Sie die Person. Übrigends: Sie können innerhalb einer Karte zwischen dem Porträt, Smartspider und den Finanzen blättern, drücken Sie dazu die Karte in der linken oder rechten Hälfte."
+      "value": "Wischen Sie eine Profil-Karte nach links, ignorieren Sie die Person. Übrigens: Sie können innerhalb einer Karte zwischen Porträt, Smartspider und Finanzen blättern. Drücken Sie dazu die Karte auf der linken oder rechten Hälfte."
     },
     {
       "key": "components/Card/Group/promo/trial",
@@ -5580,7 +5580,7 @@
     },
     {
       "key": "components/Card/Details/source",
-      "value": "Mehr über die Quellen und Methodik."
+      "value": "Mehr über die Quellen und Methodik"
     },
     {
       "key": "components/Card/Details/links",
@@ -5588,19 +5588,19 @@
     },
     {
       "key": "components/Card/Details/smartvote",
-      "value": "Smartvote Profil"
+      "value": "Smartvote-Profil"
     },
     {
       "key": "components/Card/Details/smartvote/note",
-      "value": "Das ist unsere Hauptquelle, im Profil von Smartvote.ch finden Sie zusäzliche Informationen, können die Wertehaltungen mit Ihren eigenen vergleichen. Übrigens: der Verein hinter Smartvote sucht noch spenden."
+      "value": "Das ist unsere Hauptquelle, im Profil von smartvote.ch finden Sie zusäzliche Informationen, können die Wertehaltungen mit Ihrer eigenen vergleichen. Übrigens: Der Verein hinter Smartvote sucht noch Spenden."
     },
     {
       "key": "components/Card/Details/lobbywatch",
-      "value": "Interessenbindungen auf Lobbywatch.ch recherchieren"
+      "value": "Interessenbindungen auf lobbywatch.ch"
     },
     {
       "key": "components/Card/Details/lobbywatch/note",
-      "value": "Auf Lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
+      "value": "Auf lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
     }
   ]
 }

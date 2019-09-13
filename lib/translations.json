@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-12T13:01:11.275Z",
+  "updated": "2019-09-13T01:11:27.942Z",
   "title": "live",
   "data": [
     {
@@ -5236,11 +5236,11 @@
     },
     {
       "key": "pages/cardGroups/headline",
-      "value": "Wahltindär 🔥"
+      "value": "Wahltindär"
     },
     {
       "key": "pages/cardGroups/lead",
-      "value": "Über 4500 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+      "value": "Über 4600 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/lead/more",
@@ -5260,7 +5260,7 @@
     },
     {
       "key": "pages/cardGroup/title",
-      "value": "Kanton {name} – Wahltindär 🔥"
+      "value": "🔥 Kanton {name} – Wahltindär"
     },
     {
       "key": "pages/cardGroup/description",
@@ -5476,19 +5476,19 @@
     },
     {
       "key": "components/Card/Overview/followTitle/other",
-      "value": "Sie folgen {count} Personen."
+      "value": "Sie folgen {count} Personen:"
     },
     {
       "key": "components/Card/Overview/followTitle/1",
-      "value": "Sie folgen einer Person."
+      "value": "Sie folgen einer Person:"
     },
     {
       "key": "components/Card/Overview/ignoreTitle/other",
-      "value": "Sie ignorieren {count} Personen."
+      "value": "Sie ignorieren {count} Personen:"
     },
     {
       "key": "components/Card/Overview/ignoreTitle/1",
-      "value": "Sie ignorieren eine Person."
+      "value": "Sie ignorieren eine Person:"
     },
     {
       "key": "components/Card/Overview/data/title",
@@ -5512,7 +5512,95 @@
     },
     {
       "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. In der Debatte können Sie den Politiker entfolgen."
+      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin – schliesslich sollten Sie ein Auge auf die Politikerinnen halten. Eine Liste zum Entfolgen, folgt bald."
+    },
+    {
+      "key": "components/Card/Overview/data/clear/confirm/suffix",
+      "value": "In der Debatte können Sie den Politiker entfolgen."
+    },
+    {
+      "key": "nav/cardGroups",
+      "value": "Wahltindär"
+    },
+    {
+      "key": "components/Card/electionPlausibility/title",
+      "value": "Platzrating: {text} {emoji}"
+    },
+    {
+      "key": "components/Card/electionPlausibility/GOOD",
+      "value": "gut"
+    },
+    {
+      "key": "components/Card/electionPlausibility/DECENT",
+      "value": "passabel"
+    },
+    {
+      "key": "components/Card/electionPlausibility/WEAK",
+      "value": "schlecht"
+    },
+    {
+      "key": "components/Card/electionPlausibility/UNKNOWN",
+      "value": "unbekannt"
+    },
+    {
+      "key": "components/Card/electionPlausibility/GOOD/emoji",
+      "value": "👍"
+    },
+    {
+      "key": "components/Card/electionPlausibility/DECENT/emoji",
+      "value": "👌"
+    },
+    {
+      "key": "components/Card/electionPlausibility/WEAK/emoji",
+      "value": "🤞"
+    },
+    {
+      "key": "components/Card/electionPlausibility/UNKNOWN/emoji",
+      "value": "🤞"
+    },
+    {
+      "key": "components/Card/Overview/nothing",
+      "value": "Sie haben in diesem Browser noch nicht gewischt."
+    },
+    {
+      "key": "components/Card/Group/tutorial/right",
+      "value": "Indem Sie nach rechts wischen folgen Sie dieser Person im Dialog. Wenn diese reden will, werden Sie benachrichtigt."
+    },
+    {
+      "key": "components/Card/Group/tutorial/left",
+      "value": "Wischen Sie eine Profil-Karte nach links, ignorieren Sie die Person. Übrigends: Sie können innerhalb einer Karte zwischen dem Porträt, Smartspider und den Finanzen blättern, drücken Sie dazu die Karte in der linken oder rechten Hälfte."
+    },
+    {
+      "key": "components/Card/Group/promo/trial",
+      "value": "Nunja, Sie sind ja noch gar nicht angemeldet. Möchten Sie die Republik 14 Tage lang probelesen und die Wahldebatte verfolgen? Wir benötigen lediglich Ihre E-Mail-Adresse dazu."
+    },
+    {
+      "key": "components/Card/Group/promo/abo",
+      "value": "Wie wärs mit einem Republik-Abo? Unser Magazin ist unabhängig und werbefrei. Unser einziger Kunde sind Sie – wir wollen Sie inspirieren, bereichern und überraschen."
+    },
+    {
+      "key": "components/Card/Details/source",
+      "value": "Mehr über die Quellen und Methodik."
+    },
+    {
+      "key": "components/Card/Details/links",
+      "value": "Weiterführende Informationen"
+    },
+    {
+      "key": "components/Card/Details/smartvote",
+      "value": "Smartvote Profil"
+    },
+    {
+      "key": "components/Card/Details/smartvote/note",
+      "value": "Das ist unsere Hauptquelle, im Profil von Smartvote.ch finden Sie zusäzliche Informationen, können die Wertehaltungen mit Ihren eigenen vergleichen. Übrigens: der Verein hinter Smartvote sucht noch spenden."
+    },
+    {
+      "key": "components/Card/Details/lobbywatch",
+      "value": "Interessenbindungen auf Lobbywatch.ch recherchieren"
+    },
+    {
+      "key": "components/Card/Details/lobbywatch/note",
+      "value": "Auf Lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
     }
   ]
 }

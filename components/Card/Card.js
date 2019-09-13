@@ -6,7 +6,6 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
-import { chfFormat } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
@@ -16,6 +15,8 @@ import DiscussionIconLink from './DiscussionIconLink'
 
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
+
+import { Paragraph, Finance } from './Shared'
 
 const PADDING = 15
 
@@ -59,28 +60,8 @@ const styles = {
     '@media (min-width: 340px)': {
       paddingTop: PADDING + 3
     }
-  }),
-  p: css(Interaction.fontRule, {
-    margin: '0 0 5px',
-    fontSize: 15,
-    lineHeight: '22px',
-    '& small': {
-      display: 'block',
-      fontSize: 10,
-      lineHeight: '16px'
-    }
-  }),
-  ul: css({
-    margin: 0,
-    marginTop: -3,
-    paddingLeft: 20,
-    fontSize: 15,
-    lineHeight: '22px'
   })
 }
-
-const Paragraph = ({ children }) => <p {...styles.p}>{children}</p>
-const UL = ({ children }) => <ul {...styles.ul}>{children}</ul>
 
 const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t }) => {
   const [slide, setSlide] = useState(0)
@@ -111,7 +92,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Paragraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
-        <small {...styles.small}>
+        <small>
           {t('components/Card/Smartspider/legend')}
         </small>
       </Paragraph>
@@ -121,35 +102,13 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         data={payload.smartvoteCleavage} />
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
-      <Paragraph>
-        <strong>
-          {t('components/Card/personalBudget')}
-        </strong>
-        {payload.campaignBudget
-          ? ` ${chfFormat(payload.campaignBudget)}`
-          : !payload.campaignBudgetComment && <><br />{t('components/Card/na')}</>}
-        {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
-        <br />
-        <strong>{t('components/Card/vestedInterests')}</strong>
-        {!payload.vestedInterestsSmartvote.length && <><br />{t('components/Card/na')}</>}
-      </Paragraph>
-      {!!payload.vestedInterestsSmartvote.length && <UL>
-        {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
-          <li key={i}>
-            {vestedInterest.name}
-            {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
-            {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
-          </li>
-        )}
-      </UL>}
-      <Paragraph>
-        <small {...styles.small} style={{ marginTop: 10 }}>{t('components/Card/sourceSmartvote')}</small>
-      </Paragraph>
+      <Finance payload={payload} />
     </div>
   ].filter(Boolean)
   const totalSlides = slides.length
 
-  const { listPlaces } = payload.nationalCouncil
+  const { listPlaces, electionPlausibility } = payload.nationalCouncil
+  const plausibilityEmoji = t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
 
   return (
     <div
@@ -198,7 +157,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 count={1 + statement.comments.totalCount} />
             </Link>
           </>}
-          <a href={`/~${user.slug}`} onClick={(e) => {
+          {!!onDetail && <a href={`/~${user.slug}`} onClick={(e) => {
             if (shouldIgnoreClick(e)) {
               return
             }
@@ -206,7 +165,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
             onDetail()
           }} {...sharedStyles.plainButton}>
             <InfoIcon size={30} fill='#000' />
-          </a>
+          </a>}
         </div>
         <strong>
           {payload.councilOfStates.candidacy && <>
@@ -215,8 +174,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           </>}
           {user.name}
         </strong>
-        {','}&nbsp;
-        {payload.age || payload.yearOfBirth}
+        {!!(payload.age || payload.yearOfBirth) && <>
+          {','}&nbsp;
+          {payload.age || payload.yearOfBirth}
+        </>}
         <br />
         <strong>
           {payload.party}
@@ -233,10 +194,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 : t('components/Card/incumbent/new')
           }
         </strong>
-        {', '}
-        {listPlaces && !!listPlaces.length &&
-          `${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`
-        }
+        {listPlaces && !!listPlaces.length && <>
+          {`, ${t('components/Card/listPlaces').trim()}${'\u00a0'}${listPlaces.join(' & ')}`}
+          {!!plausibilityEmoji && `${'\u00a0'}${plausibilityEmoji}`}
+        </>}
         <br />
         <span {...styles.occupation}>
           {payload.occupation}
@@ -251,7 +212,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           width: '50%'
         }}
         onClick={() => {
-          if (dragTime.current > 100) {
+          if (dragTime && dragTime.current > 100) {
             return
           }
           gotoSlide(Math.max(0, slide - 1))
@@ -266,7 +227,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           width: '50%'
         }}
         onClick={() => {
-          if (dragTime.current > 100) {
+          if (dragTime && dragTime.current > 100) {
             return
           }
           gotoSlide(Math.min(totalSlides - 1, slide + 1))

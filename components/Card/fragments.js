@@ -4,6 +4,7 @@ export const cardFragment = gql`
   fragment Card on Card {
     id
     user {
+      id
       name
       portrait(properties: {bw: false, width: 600, height: 800})
       slug

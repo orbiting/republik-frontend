@@ -3,8 +3,6 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Editorial } from '@project-r/styleguide'
-
 import withT from '../lib/withT'
 import { routes } from '../lib/routes'
 import {
@@ -18,10 +16,9 @@ import Group from '../components/Card/Group'
 import Loader from '../components/Loader'
 import StatusError from '../components/StatusError'
 import { cardFragment } from '../components/Card/fragments'
-import { withEditor } from '../components/Auth/checkRoles'
 
 const query = gql`
-query getCardGroup($slug: String!, $after: String) {
+query getCardGroup($slug: String!, $after: String, $top: [ID!]) {
   cardGroup(slug: $slug) {
     id
     name
@@ -30,7 +27,7 @@ query getCardGroup($slug: String!, $after: String) {
       id
       title
     }
-    cards(first: 50, after: $after) {
+    cards(first: 50, after: $after, focus: $top) {
       totalCount
       pageInfo {
         hasNextPage
@@ -47,7 +44,7 @@ query getCardGroup($slug: String!, $after: String) {
 ${cardFragment}
 `
 
-const Page = ({ serverContext, router: { query: { group } }, isEditor, data, t }) => {
+const Page = ({ serverContext, router: { query: { group } }, data, t }) => {
   const Wrapper = data.loading ? Container : Fragment
 
   return (
@@ -74,16 +71,6 @@ const Page = ({ serverContext, router: { query: { group } }, isEditor, data, t }
             })}`
             // ToDo: image
           }} />
-          if (!isEditor) {
-            return <Container>
-              {meta}
-              <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>
-                <Editorial.P>
-                  <strong>{t('pages/cardGroups/comingsoon')}</strong>
-                </Editorial.P>
-              </div>
-            </Container>
-          }
           return (
             <>
               {meta}
@@ -121,11 +108,11 @@ const Page = ({ serverContext, router: { query: { group } }, isEditor, data, t }
 export default compose(
   withRouter,
   withT,
-  withEditor,
   graphql(query, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.group
+        slug: router.query.group,
+        top: router.query.top ? [router.query.top] : undefined
       }
     })
   })

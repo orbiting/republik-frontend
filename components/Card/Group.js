@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
-import { compose } from 'react-apollo'
-import { withRouter } from 'next/router'
+import { compose, graphql } from 'react-apollo'
+import NativeRouter, { withRouter } from 'next/router'
+import gql from 'graphql-tag'
 
 import {
   Editorial, Interaction,
@@ -14,7 +15,6 @@ import {
   Label
 } from '@project-r/styleguide'
 
-import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 
@@ -22,11 +22,14 @@ import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
+import withMe from '../../lib/apollo/withMe'
 import sharedStyles from '../sharedStyles'
 import { ZINDEX_HEADER } from '../constants'
 
 import Discussion from '../Discussion/Discussion'
 
+import IgnoreIcon from './IgnoreIcon'
+import Details from './Details'
 import Card from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
@@ -272,10 +275,13 @@ const SpringCard = ({
   )
 }
 
+const useQueueState = createPersistedState('republik-card-group-queue')
+
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query } }) => {
-  const storageKey = `republik-card-swipes-${group.slug}`
+const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
+  const topFromQuery = useRef(query.top)
+  const storageKey = `republik-card-group-${group.slug}`
   const useSwipeState = useMemo(
     () => createPersistedState(storageKey),
     [storageKey]
@@ -285,7 +291,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
   const totalCount = group.cards.totalCount
   const [swipes, setSwipes, isPersisted] = useSwipeState([])
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => !swipes.find(swipe => swipe.cardId === card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipes.find(swipe => swipe.cardId === card.id))
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
@@ -332,24 +338,151 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
     }
   }, [])
 
+  const [queue, setQueue] = useQueueState({ statePerUserId: {}, pending: [] })
+  const addToQueue = (userId, sub) => setQueue(queue => {
+    if (!sub && !queue.statePerUserId[userId]) {
+      // only rm pending subs
+      return {
+        ...queue,
+        pending: queue.pending.filter(item => item.userId !== userId)
+      }
+    }
+    return {
+      ...queue,
+      pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
+    }
+  })
+
+  useEffect(() => {
+    if (me && queue && queue.pending && queue.pending.length) {
+      const timeout = setTimeout(
+        () => {
+          setQueue(queue => {
+            const item = queue.pending[0]
+            if (!item) {
+              return queue
+            }
+            const { userId } = item
+            const currentState = queue.statePerUserId[userId]
+            const now = Date.now()
+            if (currentState && currentState.wip && now - currentState.wip < 1000 * 31) {
+              return { ...queue }
+            }
+            const clearOwn = () => {
+              setQueue(queue => {
+                const statePerUserId = { ...queue.statePerUserId }
+                if (now === statePerUserId[userId].wip) {
+                  delete statePerUserId[userId]
+                }
+                return {
+                  ...queue,
+                  statePerUserId
+                }
+              })
+            }
+
+            if (item.sub) {
+              subToUser({ userId })
+                .then(({ data: { subscribe: sub } }) => {
+                  setQueue(queue => ({
+                    ...queue,
+                    statePerUserId: {
+                      ...queue.statePerUserId,
+                      [userId]: { id: sub.id }
+                    }
+                  }))
+                })
+                .catch(() => {
+                  // no retries for now
+                  clearOwn()
+                })
+              return {
+                ...queue,
+                statePerUserId: {
+                  ...queue.statePerUserId,
+                  [userId]: {
+                    ...currentState,
+                    wip: now
+                  }
+                },
+                pending: queue.pending.slice(1)
+              }
+            } else {
+              if (currentState && currentState.id) {
+                unsubFromUser({ subscriptionId: currentState.id })
+                  .then(() => clearOwn())
+                  .catch(() => {
+                    clearOwn()
+                  })
+                return {
+                  ...queue,
+                  statePerUserId: {
+                    ...queue.statePerUserId,
+                    [userId]: {
+                      ...currentState,
+                      wip: now
+                    }
+                  },
+                  pending: queue.pending.slice(1)
+                }
+              }
+              // never subscribed in this browser
+              return {
+                ...queue,
+                statePerUserId: {
+                  ...queue.statePerUserId,
+                  [userId]: undefined
+                },
+                pending: queue.pending.slice(1)
+              }
+            }
+          })
+        },
+        500 + Math.random() * 1000
+      )
+
+      return () => clearTimeout(timeout)
+    }
+  }, [queue, me])
+
   const onSwipe = (swiped, card) => {
-    setSwipes(swipes => {
-      return swipes
-        .filter(swipe => swipe.cardId !== swiped.cardId)
-        .concat({ ...swiped,
-          metaCache: card && {
-            name: card.user.name,
-            slug: card.user.slug
-          } })
-    })
-  }
-  const onRevert = () => {
-    if (topIndex < 1) {
-      return
+    if (topFromQuery.current) {
+      topFromQuery.current = null
+    }
+    if (card && card.user) {
+      addToQueue(card.user.id, swiped.dir === 1)
     }
     setSwipes(swipes => {
-      return swipes.slice(0, swipes.length - 1)
+      const newRecord = {
+        ...swiped,
+        cardCache: card,
+        date: new Date().toISOString()
+      }
+      return swipes
+        .filter(swipe => swipe.cardId !== swiped.cardId)
+        .concat(newRecord)
     })
+  }
+  const prevCards = allCards.filter((_, i) => i < topIndex)
+  const onRevert = () => {
+    const prev = prevCards[prevCards.length - 1]
+    if (!prev) {
+      return
+    }
+    const swiped = swipes.find(swipe => swipe.cardId === prev.id)
+
+    if (prev && prev.user) {
+      addToQueue(prev.user.id, false)
+    }
+    setSwipes(swipes => {
+      return swipes.filter(swipe => swipe !== swiped)
+    })
+  }
+  const onReset = () => {
+    if (topFromQuery.current) {
+      topFromQuery.current = null
+    }
+    setSwipes([])
   }
   const onRight = (e) => {
     if (!activeCard) {
@@ -413,17 +546,28 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
 
   const onShowOverview = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', { ...query, suffix: 'liste' })
+    Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
   }
   const closeOverlay = event => {
     if (event) {
       event.preventDefault()
     }
-    const { suffix, ...rest } = query
-    Router.replaceRoute('cardGroup', rest)
+    Router.replaceRoute('cardGroup', { group: group.slug })
   }
   const onDetail = card => {
     setDetailCard(card)
+    // use native router for shadow routing
+    NativeRouter.push({
+      pathname: '/cardGroup',
+      query
+    }, `/~${card.user.slug}`, { shallow: true })
+  }
+  const closeDetailOverlay = event => {
+    if (event) {
+      event.preventDefault()
+    }
+    setDetailCard()
+    Router.replaceRoute('cardGroup', query)
   }
 
   const showOverview = query.suffix === 'liste'
@@ -480,7 +624,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
             return null
           }
           const isTop = topIndex === i
-          const swiped = swipes.find(swipe => swipe.cardId === card.id)
+          const swiped = topFromQuery.current !== card.id && swipes.find(swipe => swipe.cardId === card.id)
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current
@@ -518,7 +662,7 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
               t={t}
               group={group}
               swipes={swipes}
-              setSwipes={setSwipes}
+              onReset={onReset}
               isPersisted={isPersisted}
               onClose={closeOverlay} />}
           {showDiscussion &&
@@ -549,14 +693,15 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
           {showDetail &&
             <Overlay
               title={detailCard.user.name}
-              onClose={() => {
-                setDetailCard()
-              }}
-            />
+              onClose={closeDetailOverlay}
+              beta
+            >
+              <Details card={detailCard} />
+            </Overlay>
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
-            opacity: swipes.length > 0 ? 1 : 0
+            opacity: prevCards.length > 0 ? 1 : 0
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>
@@ -585,7 +730,37 @@ const Group = ({ t, group, fetchMore, router: { query } }) => {
   )
 }
 
+const subscribeMutation = gql`
+mutation subToUser($userId: ID!) {
+  subscribe(objectId: $userId, type: User) {
+    id
+  }
+}
+`
+const unsubeMutation = gql`
+mutation unsubFromUser($subscriptionId: ID!) {
+  unsubscribe(subscriptionId: $subscriptionId) {
+    id
+  }
+}
+`
+
 export default compose(
   withT,
-  withRouter
+  withRouter,
+  withMe,
+  graphql(subscribeMutation, {
+    props: ({ mutate }) => ({
+      subToUser: variables => mutate({
+        variables
+      })
+    })
+  }),
+  graphql(unsubeMutation, {
+    props: ({ mutate }) => ({
+      unsubFromUser: variables => mutate({
+        variables
+      })
+    })
+  })
 )(Group)

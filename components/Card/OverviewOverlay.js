@@ -1,58 +1,83 @@
-import React, {} from 'react'
+import React from 'react'
+import { csvFormat } from 'd3-dsv'
 
 import {
-  Interaction, Editorial
+  Editorial
 } from '@project-r/styleguide'
 
 import Overlay from './Overlay'
+import Table from './Table'
 
-const OverviewOverlay = ({ onClose, swipes, setSwipes, isPersisted, group, t }) => {
-  const withMetaCache = swipes.filter(swipe => swipe.metaCache)
-  const rightSwipes = withMetaCache.filter(swipe => swipe.dir === 1)
-  const leftSwipes = withMetaCache.filter(swipe => swipe.dir === -1)
+import { swissTime } from '../../lib/utils/format'
+
+import { Paragraph } from './Shared'
+
+const formatDate = swissTime.format('%Y-%m-%d-%H%M')
+
+const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) => {
+  const withCache = swipes.filter(swipe => swipe.cardCache)
+  const rightSwipes = withCache.filter(swipe => swipe.dir === 1)
+  const leftSwipes = withCache.filter(swipe => swipe.dir === -1)
   return (
-    <Overlay onClose={onClose} title={t('components/Card/Overview/title', {
+    <Overlay beta onClose={onClose} title={t('components/Card/Overview/title', {
       groupName: group.name
     })}>
+      {!withCache.length && <Paragraph>
+        <strong>{t('components/Card/Overview/nothing')}</strong>
+      </Paragraph>}
       {!!rightSwipes.length && <>
-        <Interaction.H3>{t.pluralize('components/Card/Overview/followTitle', {
-          count: rightSwipes.length
-        })}</Interaction.H3>
-        <Editorial.UL>
-          {rightSwipes.map(swipe => {
-            return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
+        <Paragraph><strong>
+          {t.pluralize('components/Card/Overview/followTitle', {
+            count: rightSwipes.length
           })}
-        </Editorial.UL>
-      </>}
-      {!!leftSwipes.length && <>
-        <Interaction.H3>{t.pluralize('components/Card/Overview/ignoreTitle', {
-          count: leftSwipes.length
-        })}</Interaction.H3>
-        <Editorial.UL>
-          {leftSwipes.map(swipe => {
-            return <Editorial.LI key={swipe.cardId}>{swipe.metaCache.name}</Editorial.LI>
-          })}
-        </Editorial.UL>
+        </strong></Paragraph>
+        <Table cards={rightSwipes.map(s => s.cardCache)} />
       </>}
       <br />
-      <Interaction.H3>{t('components/Card/Overview/data/title')}</Interaction.H3>
-      <Interaction.P>
+      {!!leftSwipes.length && <>
+        <Paragraph><strong>
+          {t.pluralize('components/Card/Overview/ignoreTitle', {
+            count: leftSwipes.length
+          })}
+        </strong></Paragraph>
+        <Table cards={leftSwipes.map(s => s.cardCache)} />
+      </>}
+      <br />
+      <Paragraph><strong>{t('components/Card/Overview/data/title')}</strong></Paragraph>
+      <Paragraph>
         {t(`components/Card/Overview/data/${isPersisted ? 'isPersisted' : 'notPersisted'}`)}
-      </Interaction.P>
-      <Interaction.P>
-        <Editorial.A>{t('components/Card/Overview/data/download')}</Editorial.A>
+      </Paragraph>
+      <Paragraph>
+        <Editorial.A download={`wahltindaer-${formatDate(new Date())}.csv`} onClick={(e) => {
+          const url = e.target.href = URL.createObjectURL(
+            new window.Blob(
+              [csvFormat(withCache.map(s => ({
+                status: s.dir === 1 ? 'folgen' : 'ignorieren',
+                name: s.cardCache.user.name,
+                partei: s.cardCache.payload.party,
+                jahrgang: s.cardCache.payload.yearOfBirth,
+                reoublikLink: `https://www.republik.ch/~${s.cardCache.user.slug}`,
+                smartvoteLink: s.cardCache.payload.councilOfStates.linkSmartvote || s.cardCache.payload.nationalCouncil.linkSmartvote
+              })))],
+              { type: 'text/csv' }
+            )
+          )
+          setTimeout(function () { URL.revokeObjectURL(url) }, 50)
+        }}>
+          {t('components/Card/Overview/data/download')}
+        </Editorial.A>
         <br />
         {isPersisted && <Editorial.A href='#' onClick={(e) => {
           e.preventDefault()
           if (!window.confirm(t('components/Card/Overview/data/clear/confirm'))) {
             return
           }
-          setSwipes([])
+          onReset()
           onClose()
         }}>
           {t('components/Card/Overview/data/clear')}
         </Editorial.A>}
-      </Interaction.P>
+      </Paragraph>
     </Overlay>
   )
 }

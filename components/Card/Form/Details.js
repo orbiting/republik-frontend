@@ -29,8 +29,8 @@ const Details = (props) => {
         : councilOfStates.candidacy ? 'Ständeratskandidatur' : 'Nationalratskandidatur'
       }</H3>
       {listName && <P>Liste: «{listName}»</P>}
-      {listPlaces && listPlaces.length && <P>Listenplätze: {
-        listPlaces.join(', ')
+      {listPlaces && listPlaces.length && <P>Listenplatz: {
+        listPlaces.join(' & ')
       }</P>}
     </>
   )

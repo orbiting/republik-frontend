@@ -464,9 +464,11 @@ class Profile extends Component {
                             values={values}
                             errors={errors}
                             dirty={dirty} />
-                          <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }} passHref>
-                            <Editorial.A>Jetzt «Wahltindär» spielen</Editorial.A>
-                          </ShadowQueryLink>
+                          {card && (
+                            <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }} passHref>
+                              <Editorial.A>Jetzt «Wahltindär» spielen</Editorial.A>
+                            </ShadowQueryLink>
+                          )}
                           {user.badges && (
                             <div {...styles.badges}>
                               {user.badges.map(badge => (

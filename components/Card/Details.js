@@ -23,15 +23,18 @@ const Details = ({ card, t }) => {
       {!!payload.nationalCouncil.listName && <Paragraph>
         Liste: {payload.nationalCouncil.listName}<br />
         {payload.nationalCouncil.listPlaces && <>
-          Listenplatz: {payload.nationalCouncil.listPlaces.join(' & ')}
+          Listenplatz: {payload.nationalCouncil.listPlaces.join(' & ')}<br />
+        </>}
+        {!!plausibilityText && <>
+          {t('components/Card/electionPlausibility/title', {
+            text: plausibilityText,
+            emoji: plausibilityEmoji
+          })}<br />
+          <Editorial.A href='/wahltindaer/meta#das-republik-wahltindaer-im-detail'>
+            {t('components/Card/Details/source')}
+          </Editorial.A>
         </>}
       </Paragraph>}
-      <Paragraph>
-        {!!plausibilityText && t('components/Card/electionPlausibility/title', {
-          text: plausibilityText,
-          emoji: plausibilityEmoji
-        })}
-      </Paragraph>
       <Paragraph>
         Beruf: {payload.occupation}
       </Paragraph>

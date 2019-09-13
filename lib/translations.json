@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-13T04:33:38.767Z",
+  "updated": "2019-09-13T12:56:27.911Z",
   "title": "live",
   "data": [
     {
@@ -5520,7 +5520,7 @@
     },
     {
       "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen halten). Eine Liste zum Entfolgen, folgt bald."
+      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen haben). Eine Liste zum Entfolgen folgt bald."
     },
     {
       "key": "components/Card/Overview/data/clear/confirm/suffix",
@@ -5572,19 +5572,15 @@
     },
     {
       "key": "components/Card/Group/tutorial/right",
-      "value": "Indem Sie nach rechts wischen folgen Sie dieser Person im Dialog. Wenn diese reden will, werden Sie benachrichtigt."
+      "value": "Indem Sie nach rechts wischen, folgen Sie dieser Person im Dialog. Wenn diese reden will, werden Sie benachrichtigt."
     },
     {
       "key": "components/Card/Group/tutorial/left",
-      "value": "Wischen Sie eine Profil-Karte nach links, ignorieren Sie die Person. Übrigens: Sie können innerhalb einer Karte zwischen Porträt, Smartspider und Finanzen blättern. Drücken Sie dazu die Karte auf der linken oder rechten Hälfte."
+      "value": "Wischen Sie eine Profilkarte nach links, ignorieren Sie die Person. Übrigens: Sie können innerhalb einer Karte zwischen Porträt, Smartspider und Finanzen blättern. Drücken Sie dazu die Karte auf der linken oder der rechten Hälfte."
     },
     {
       "key": "components/Card/Group/promo/trial",
-      "value": "Möchten Sie die Republik 14 Tage lang probe­lesen und die Wahl­debatte live mit­­ver­fol­gen?"
-    },
-    {
-      "key": "components/Card/Group/promo/trial/note",
-      "value": "Wir benötigen lediglich Ihre E-Mail-Adresse dazu."
+      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
     },
     {
       "key": "components/Card/Group/promo/abo",
@@ -5604,7 +5600,7 @@
     },
     {
       "key": "components/Card/Details/smartvote/note",
-      "value": "Das ist unsere Hauptquelle, im Profil von smartvote.ch finden Sie zusäzliche Informationen, können die Wertehaltungen mit Ihrer eigenen vergleichen. Übrigens: Der Verein hinter Smartvote sucht noch Spenden."
+      "value": "Das ist unsere Hauptquelle, im Profil von smartvote.ch finden Sie zusätzliche Informationen, können Sie die Werthaltungen mit Ihrer eigenen vergleichen. Übrigens: Der Verein hinter Smartvote sucht noch Spenden."
     },
     {
       "key": "components/Card/Details/lobbywatch",
@@ -5612,7 +5608,7 @@
     },
     {
       "key": "components/Card/Details/lobbywatch/note",
-      "value": "Auf lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben bauen wir hier eine Vorschau ein und setzten einen direkten Link."
+      "value": "Auf lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben, bauen wir hier eine Vorschau ein und setzen einen direkten Link."
     },
     {
       "key": "Onboarding/Page/more/cards",

@@ -452,8 +452,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         .concat(newRecord)
     })
   }
+  const prevCards = allCards.filter((_, i) => i < topIndex)
   const onRevert = () => {
-    const prev = allCards.filter((_, i) => i < topIndex).pop()
+    const prev = prevCards[prevCards.length - 1]
     if (!prev) {
       return
     }
@@ -686,7 +687,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: cardColors.revert,
-            opacity: swipes.length > 0 ? 1 : 0
+            opacity: prevCards.length > 0 ? 1 : 0
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>

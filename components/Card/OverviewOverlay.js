@@ -1,4 +1,5 @@
 import React from 'react'
+import { csvFormat } from 'd3-dsv'
 
 import {
   Editorial
@@ -7,7 +8,11 @@ import {
 import Overlay from './Overlay'
 import Table from './Table'
 
+import { swissTime } from '../../lib/utils/format'
+
 import { Paragraph } from './Shared'
+
+const formatDate = swissTime.format('%Y-%m-%d-%H%M')
 
 const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) => {
   const withCache = swipes.filter(swipe => swipe.cardCache)
@@ -43,7 +48,24 @@ const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) =>
         {t(`components/Card/Overview/data/${isPersisted ? 'isPersisted' : 'notPersisted'}`)}
       </Paragraph>
       <Paragraph>
-        <Editorial.A>{t('components/Card/Overview/data/download')}</Editorial.A>
+        <Editorial.A download={`wahltindaer-${formatDate(new Date())}.csv`} onClick={(e) => {
+          const url = e.target.href = URL.createObjectURL(
+            new window.Blob(
+              [csvFormat(withCache.map(s => ({
+                status: s.dir === 1 ? 'folgen' : 'ignorieren',
+                name: s.cardCache.user.name,
+                partei: s.cardCache.payload.party,
+                jahrgang: s.cardCache.payload.yearOfBirth,
+                reoublikLink: `https://www.republik.ch/~${s.cardCache.user.slug}`,
+                smartvoteLink: s.cardCache.payload.councilOfStates.linkSmartvote || s.cardCache.payload.nationalCouncil.linkSmartvote
+              })))],
+              { type: 'text/csv' }
+            )
+          )
+          setTimeout(function () { URL.revokeObjectURL(url) }, 50)
+        }}>
+          {t('components/Card/Overview/data/download')}
+        </Editorial.A>
         <br />
         {isPersisted && <Editorial.A href='#' onClick={(e) => {
           e.preventDefault()

@@ -6,7 +6,6 @@ import {
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
-import { chfFormat } from '../../lib/utils/format'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 
 import Spider from './Spider'
@@ -17,7 +16,7 @@ import DiscussionIconLink from './DiscussionIconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
 
-import { UL, Paragraph } from './Shared'
+import { Paragraph, Finance } from './Shared'
 
 const PADDING = 15
 
@@ -103,30 +102,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         data={payload.smartvoteCleavage} />
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
-      <Paragraph>
-        <strong>
-          {t('components/Card/personalBudget')}
-        </strong>
-        {payload.campaignBudget
-          ? ` ${chfFormat(payload.campaignBudget)}`
-          : !payload.campaignBudgetComment && <><br />{t('components/Card/na')}</>}
-        {payload.campaignBudgetComment && <><br />{payload.campaignBudgetComment}<br /></>}
-        <br />
-        <strong>{t('components/Card/vestedInterests')}</strong>
-        {!payload.vestedInterestsSmartvote.length && <><br />{t('components/Card/na')}</>}
-      </Paragraph>
-      {!!payload.vestedInterestsSmartvote.length && <UL>
-        {payload.vestedInterestsSmartvote.map((vestedInterest, i) =>
-          <li key={i}>
-            {vestedInterest.name}
-            {vestedInterest.entity ? ` (${vestedInterest.entity})` : ''}
-            {vestedInterest.position ? `; ${vestedInterest.position}` : ''}
-          </li>
-        )}
-      </UL>}
-      <Paragraph>
-        <small style={{ marginTop: 10 }}>{t('components/Card/sourceSmartvote')}</small>
-      </Paragraph>
+      <Finance payload={payload} />
     </div>
   ].filter(Boolean)
   const totalSlides = slides.length

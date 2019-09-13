@@ -688,6 +688,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             <Overlay
               title={detailCard.user.name}
               onClose={closeDetailOverlay}
+              beta
             >
               <Details card={detailCard} />
             </Overlay>

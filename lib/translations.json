@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-13T12:56:27.911Z",
+  "updated": "2019-09-14T16:30:09.104Z",
   "title": "live",
   "data": [
     {
@@ -5292,7 +5292,7 @@
     },
     {
       "key": "components/Card/Claim/lead",
-      "value": "Wir möchten Sie dazu einladen, sich bei unserem Publikum zur Wahl zu empfehlen und an unserem Dialog teilzunehmen. Richten Sie dafür Ihr Profil ein und geben Sie ein Statement ab, um bei der Debatte von Anfang an dabei zu sein. «Republik Wahltindär» wird in wenigen Tagen auf republik.ch/wahltindaer verfügbar sein, <a href=\"/wahltindaer/meta\" target=\"_blank\">mehr erfahren</a>."
+      "value": "Wir laden Sie dazu ein, sich bei unserem Publikum zur Wahl zu empfehlen und an unserem Dialog teilzunehmen. Richten Sie dafür Ihr Profil ein und geben Sie ein Statement ab, um bei der Debatten dabei zu sein. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
     },
     {
       "key": "components/Card/Claim/statement/label",
@@ -5324,7 +5324,7 @@
     },
     {
       "key": "components/Card/Update/lead",
-      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite können Sie Ihre Angaben aktualisieren. In wenigen Tagen geht es los: <a href=\"/wahltindaer/meta\" target=\"_blank\">mehr erfahren</a>."
+      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite können Sie Ihre Angaben aktualisieren. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
     },
     {
       "key": "components/Card/Update/submit",

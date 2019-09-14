@@ -36,7 +36,7 @@ css.global('div:focus', {
 })
 
 const styles = {
-  container: css({
+  bodyGrowerContainer: css({
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column'
@@ -89,11 +89,15 @@ const Index = ({
   formatColor,
   headerAudioPlayer,
   onSearchClick,
+  footer = true,
+  navBar = true,
+  pullable,
   dark
 }) => (
-  <div {...styles.container}>
+  <div {...(footer || inNativeApp ? styles.bodyGrowerContainer : undefined)}>
+    {/* body growing only needed when rendering a footer */}
     <div
-      {...styles.bodyGrower}
+      {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
       {...(!cover
         ? styles.padHeader
         : undefined
@@ -107,12 +111,14 @@ const Index = ({
         dark={dark && !inNativeIOSApp}
         me={me}
         cover={cover}
+        navBar={navBar}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}
         showSecondary={showSecondary}
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
+        pullable={pullable}
       />
       <noscript>
         <Box style={{ padding: 30 }}>
@@ -135,7 +141,7 @@ const Index = ({
         </MainContainer>
       )}
     </div>
-    {!inNativeApp && <Footer />}
+    {!inNativeApp && footer && <Footer />}
   </div>
 )
 

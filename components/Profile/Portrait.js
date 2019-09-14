@@ -1,5 +1,5 @@
 import React from 'react'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import Dropzone from 'react-dropzone'
 
 import withT from '../../lib/withT'
@@ -67,13 +67,13 @@ const readFile = (file) => {
   })
 }
 
-export default withT(({ t, user, isEditing, isMe, values, errors, onChange }) => {
+export default withT(({ t, user, isEditing, styles: propStyles = {}, isMe, values, errors, onChange }) => {
   const preview = isEditing && values.portraitPreview
   const imgUrl = values.portrait !== undefined
     ? values.portraitPreview
     : user.portrait
   const img = (
-    <span {...styles.img} {...(preview && styles.preview)}
+    <span {...styles.img} {...(preview && merge(styles.preview, propStyles.preview))}
       style={{
         backgroundImage: imgUrl
           ? `url(${imgUrl})`

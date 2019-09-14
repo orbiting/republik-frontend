@@ -308,7 +308,8 @@ class Header extends Component {
       inNativeApp,
       inNativeIOSApp,
       isMember,
-      headerAudioPlayer: HeaderAudioPlayer
+      headerAudioPlayer: HeaderAudioPlayer,
+      pullable = true
     } = this.props
     const { withoutSticky, backButton, renderSecondaryNav } = this.state
 
@@ -335,7 +336,7 @@ class Header extends Component {
     const textFill = dark ? negativeColors.text : colors.text
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
-    const showNavBar = isMember
+    const showNavBar = this.props.navBar && isMember
 
     const toggleExpanded = () => {
       if (onPrimaryNavExpandedChange) {
@@ -483,7 +484,7 @@ class Header extends Component {
           routeChangeStarted = true
         }} />
         {!!cover && <div {...styles.cover}>{cover}</div>}
-        {inNativeApp && <Pullable dark={dark} onRefresh={() => {
+        {inNativeApp && pullable && <Pullable dark={dark} onRefresh={() => {
           if (inNativeIOSApp) {
             postMessage({ type: 'haptic', payload: { type: 'impact' } })
           }

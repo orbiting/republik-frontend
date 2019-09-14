@@ -17,9 +17,12 @@ import FeedActionBar from '../ActionBar/Feed'
 
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
+import { cardFragment } from '../Card/fragments'
+// import Card from '../Card/Card'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import ShadowQueryLink from '../Link/ShadowQuery'
 
 import Badge from './Badge'
 import Comments from './Comments'
@@ -39,7 +42,8 @@ import {
   Interaction,
   linkRule,
   mediaQueries,
-  TeaserFeed
+  TeaserFeed,
+  Editorial
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -203,6 +207,17 @@ const getPublicUser = gql`
           createdAt
         }
       }
+      cards(first: 1) {
+        nodes {
+          id
+          ...Card
+          group {
+            id
+            name
+            slug
+          }
+        }
+      }
       candidacies {
         election {
           slug
@@ -225,6 +240,7 @@ const getPublicUser = gql`
     }
   }
   ${documentListQueryFragment}
+  ${cardFragment}
 `
 
 class Profile extends Component {
@@ -377,6 +393,8 @@ class Profile extends Component {
               values, errors, dirty,
               isMobile
             } = this.state
+
+            const card = user.cards && user.cards.nodes && user.cards.nodes[0]
             return (
               <Fragment>
                 {!user.hasPublicProfile && (
@@ -446,6 +464,11 @@ class Profile extends Component {
                             values={values}
                             errors={errors}
                             dirty={dirty} />
+                          {card && (
+                            <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }} passHref>
+                              <Editorial.A>Jetzt «Wahltindär» spielen</Editorial.A>
+                            </ShadowQueryLink>
+                          )}
                           {user.badges && (
                             <div {...styles.badges}>
                               {user.badges.map(badge => (

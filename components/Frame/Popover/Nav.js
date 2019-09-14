@@ -232,6 +232,13 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           />
           <br />
           <NavLink
+            route='cardGroups'
+            translation={t('nav/cardGroups')}
+            active={active}
+            closeHandler={closeHandler}
+          />
+          <br />
+          <NavLink
             route='events'
             translation={t('nav/events')}
             active={active}

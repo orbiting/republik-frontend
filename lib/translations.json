@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-14T16:30:09.104Z",
+  "updated": "2019-09-15T13:54:44.709Z",
   "title": "live",
   "data": [
     {
@@ -643,28 +643,36 @@
       "value": "Hier finden Sie alles, was regelmässig in der Republik auftaucht: Kolumnen, Unternehmensnachrichten, Debatten und Kleinzeug."
     },
     {
-      "key": "formats/title/editorial",
-      "value": "Zum Stand der Dinge"
+      "key": "formats/title/weekly",
+      "value": "Durch die Woche"
     },
     {
-      "key": "formats/title/meta",
-      "value": "Zur Lage der Republik"
-    },
-    {
-      "key": "formats/title/feuilleton",
-      "value": "Feuilleton"
+      "key": "formats/title/opinion",
+      "value": "Kolumnen"
     },
     {
       "key": "formats/title/scribble",
-      "value": "Ameisen"
+      "value": "Formate"
     },
     {
-      "key": "formats/latest",
-      "value": "Neueste Beiträge"
+      "key": "formats/title/meta",
+      "value": "Rund um die Republik"
     },
     {
-      "key": "formats/loadMore",
-      "value": "Mehr Beiträge"
+      "key": "formats/title/social",
+      "value": "Mit der Community"
+    },
+    {
+      "key": "formats/title/newsletter",
+      "value": "Die Newsletter"
+    },
+    {
+      "key": "formats/additionalLinks/events",
+      "value": "Veranstaltungen"
+    },
+    {
+      "key": "formats/additionalLinks/project-r-newsletter",
+      "value": "Project-R-Newsletter"
     },
     {
       "key": "crew/pageTitle",
@@ -2877,6 +2885,10 @@
     {
       "key": "shareholder/contact/phone/link",
       "value": "+41797874765"
+    },
+    {
+      "key": "front/finite/feed",
+      "value": "Zum Feed"
     },
     {
       "key": "front/finite",

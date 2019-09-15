@@ -91,7 +91,10 @@ class TeaserBlock extends Component {
   }
   render () {
     const { hover, width } = this.state
-    const { teasers, highlight, onHighlight, lazy, maxHeight } = this.props
+    const { highlight, onHighlight, lazy, maxHeight } = this.props
+
+    const teasers = this.props.teasers
+      .filter(teaser => teaser.nodes[0].identifier !== 'LIVETEASER')
 
     const hoverOff = () => {
       // prevent flicker

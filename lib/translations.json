@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-15T13:01:43.030Z",
+  "updated": "2019-09-15T13:54:44.709Z",
   "title": "live",
   "data": [
     {
@@ -2885,6 +2885,10 @@
     {
       "key": "shareholder/contact/phone/link",
       "value": "+41797874765"
+    },
+    {
+      "key": "front/finite/feed",
+      "value": "Zum Feed"
     },
     {
       "key": "front/finite",

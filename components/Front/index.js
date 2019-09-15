@@ -155,8 +155,30 @@ const Front = ({
         const end = (hasMore || finite) && <div {...styles.more}>
           {finite && <div style={{ marginBottom: 10 }}>
             <CheckCircle size={32} style={{ marginBottom: 10 }} /><br />
-            {t('front/finite')}
+            {t('front/finite')}<br />
           </div>}
+          {finite && <div style={{ marginBottom: 10 }}>
+            <Link route='feed' passHref>
+              <Editorial.A style={{ color: negativeColors.text }}>{t('front/finite/feed')}</Editorial.A>
+            </Link>
+          </div>}
+          <div style={{ marginBottom: 10 }}>
+            {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
+            {loadingMore && <InlineSpinner />}
+            {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+              event && event.preventDefault()
+              setInfiniteScroll(true)
+            }}>
+              {
+                t('front/loadMore',
+                  {
+                    count: front.children.nodes.length,
+                    remaining: front.children.totalCount - front.children.nodes.length
+                  }
+                )
+              }
+            </Editorial.A>}
+          </div>
           {front.meta.path === '/' && <div style={{ marginBottom: 10 }}>{t.elements('front/chronology', {
             years: intersperse([2019, 2018].map(year =>
               <Link key={year} route='overview' params={{ year }} passHref>
@@ -164,21 +186,6 @@ const Front = ({
               </Link>
             ), () => ', ')
           })}</div>}
-          {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
-          {loadingMore && <InlineSpinner />}
-          {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
-            event && event.preventDefault()
-            setInfiniteScroll(true)
-          }}>
-            {
-              t('front/loadMore',
-                {
-                  count: front.children.nodes.length,
-                  remaining: front.children.totalCount - front.children.nodes.length
-                }
-              )
-            }
-          </Editorial.A>}
         </div>
 
         const nodes = front.children.nodes

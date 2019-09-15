@@ -61,11 +61,23 @@ const getFormats = gql`
   }
 `
 
+const keyMap = {
+  'editorial-#08809A': 'weekly',
+  'editorial-#000000': 'opinion',
+  'meta-#000000': 'meta',
+  'scribble-#D44338': 'scribble',
+  'editorial-#D44338': 'scribble',
+  'meta-#3CAD00': 'social',
+  'newsletter': 'newsletter'
+}
+
 const sectionOrder = [
-  'editorial',
-  'feuilleton',
+  'weekly',
+  'opinion',
   'scribble',
-  'meta'
+  'meta',
+  'social',
+  'newsletter'
 ]
 
 const getColorFromMeta = meta => {
@@ -84,11 +96,17 @@ class GroupedFormats extends Component {
         error={error}
         render={() => {
           const sections = nest()
-            .key(d => d['meta']['kind'])
+            .key(d => {
+              const color = getColorFromMeta(d.meta)
+              const key = d.meta.title.match(/newsletter/i)
+                ? 'newsletter'
+                : `${d.meta.kind}-${color}`
+              return keyMap[key] || ''
+            })
             .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
             .sortValues((a, b) => ascending(a.meta.title, b.meta.title))
             .entries(documents.nodes)
-            .filter(d => d.values.length)
+            .filter(d => d.values.length && d.key)
 
           return (
             <Fragment>

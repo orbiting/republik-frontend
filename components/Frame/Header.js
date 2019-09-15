@@ -210,7 +210,7 @@ const isActiveRoute = (active, route, params = {}) => (
 const isFront = router => {
   const active = matchPath(router.asPath)
 
-  return isActiveRoute(active, 'front', {})
+  return isActiveRoute(active, 'index', {})
 }
 
 const hasBackButton = props => (

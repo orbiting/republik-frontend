@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
@@ -12,7 +12,7 @@ import createFrontSchema from '@project-r/styleguide/lib/templates/Front'
 import CheckCircle from 'react-icons/lib/md/check-circle'
 
 import { withEditor } from '../Auth/checkRoles'
-import withT, { t } from '../../lib/withT'
+import withT from '../../lib/withT'
 import Loader from '../Loader'
 import Frame from '../Frame'
 import HrefLink from '../Link/Href'
@@ -31,14 +31,6 @@ import { useInfiniteScroll } from '../../lib/hooks/useInfiniteScroll'
 import { intersperse } from '../../lib/utils/helpers'
 
 import * as withData from './withData'
-
-const schema = createFrontSchema({
-  Link: HrefLink,
-  CommentLink,
-  DiscussionLink,
-  ...withData,
-  t
-})
 
 const getDocument = gql`
   query getFront($path: String!, $first: Int!, $after: ID, $before: ID, $only: ID) {
@@ -102,6 +94,23 @@ const Front = ({
     url: `${PUBLIC_BASE_URL}${front.meta.path}`
   }
 
+  const hasMore = front && front.children.pageInfo.hasNextPage
+  const [
+    { containerRef, infiniteScroll, loadingMore, loadingMoreError },
+    setInfiniteScroll
+  ] = useInfiniteScroll({
+    hasMore,
+    loadMore: fetchMore
+  })
+
+  const schema = useMemo(() => createFrontSchema({
+    Link: HrefLink,
+    CommentLink,
+    DiscussionLink,
+    ...withData,
+    t
+  }), [])
+
   const MissingNode = isEditor
     ? undefined
     : ({ children }) => children
@@ -130,14 +139,40 @@ const Front = ({
     )
   }
 
-  const hasMore = front && front.children.pageInfo.hasNextPage
-  const [
-    { containerRef, infiniteScroll, loadingMore, loadingMoreError },
-    setInfiniteScroll
-  ] = useInfiniteScroll({
-    hasMore,
-    loadMore: fetchMore
-  })
+  const end = (hasMore || finite) && <div {...styles.more}>
+    {finite && <div style={{ marginBottom: 10 }}>
+      <CheckCircle size={32} style={{ marginBottom: 10 }} /><br />
+      {t('front/finite')}
+    </div>}
+    {front.meta.path === '/' && <div style={{ marginBottom: 10 }}>{t.elements('front/chronology', {
+      years: intersperse([2019, 2018].map(year =>
+        <Link key={year} route='overview' params={{ year }} passHref>
+          <Editorial.A style={{ color: negativeColors.text }}>{year}</Editorial.A>
+        </Link>
+      ), () => ', ')
+    })}</div>}
+    {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
+    {loadingMore && <InlineSpinner />}
+    {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+      event && event.preventDefault()
+      setInfiniteScroll(true)
+    }}>
+      {
+        t('front/loadMore',
+          {
+            count: front.children.nodes.length,
+            remaining: front.children.totalCount - front.children.nodes.length
+          }
+        )
+      }
+    </Editorial.A>}
+  </div>
+
+  const nodes = front.children.nodes
+  const endIndex = nodes.findIndex(node => node.id === 'end')
+  const sliceIndex = endIndex === -1
+    ? undefined
+    : endIndex
 
   return (
     <Frame
@@ -155,39 +190,15 @@ const Front = ({
         return <div ref={containerRef} style={containerStyle}>
           {renderMdast({
             type: 'root',
-            children: front.children.nodes.map(v => v.body),
+            children: nodes.slice(0, sliceIndex).map(v => v.body),
             lastPublishedAt: front.meta.lastPublishedAt
           }, schema, { MissingNode })}
-          {(hasMore || finite) && <div {...styles.more}>
-            {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
-            {loadingMore && <InlineSpinner />}
-            {!infiniteScroll && <Fragment>
-              {hasMore && !finite && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
-                event && event.preventDefault()
-                setInfiniteScroll(true)
-              }}>
-                {
-                  t('front/loadMore',
-                    {
-                      count: front.children.nodes.length,
-                      remaining: front.children.totalCount - front.children.nodes.length
-                    }
-                  )
-                }
-              </Editorial.A>}
-              {finite && <div>
-                <CheckCircle size={32} style={{ marginBottom: 10 }} /><br />
-                {t('front/finite')}
-              </div>}
-              {front.meta.path === '/' && <div style={{ marginTop: 10 }}>{t.elements('front/chronology', {
-                years: intersperse([2019, 2018].map(year =>
-                  <Link key={year} route='overview' params={{ year }} passHref>
-                    <Editorial.A style={{ color: negativeColors.text }}>{year}</Editorial.A>
-                  </Link>
-                ), () => ', ')
-              })}</div>}
-            </Fragment>}
-          </div>}
+          {end}
+          {sliceIndex && <>{renderMdast({
+            type: 'root',
+            children: nodes.slice(endIndex + 1).map(v => v.body),
+            lastPublishedAt: front.meta.lastPublishedAt
+          }, schema, { MissingNode })}</>}
         </div>
       }} />
       {renderAfter && renderAfter(meta)}
@@ -219,7 +230,8 @@ export default compose(
           return data.fetchMore({
             variables: {
               first: 15,
-              after: data.front && data.front.children.pageInfo.endCursor
+              after: data.front && data.front.children.pageInfo.endCursor,
+              before: undefined
             },
             updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
               const previousSearch = previousResult.front.children || {}

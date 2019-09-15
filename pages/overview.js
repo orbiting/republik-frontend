@@ -147,6 +147,7 @@ class FrontOverview extends Component {
 
     if (!knownYears[year] || !knownYears[year].after) {
       teasersByMonth.reverse()
+      teasersByMonth.forEach(m => m.values.reverse())
     }
 
     return (

@@ -14,7 +14,7 @@ import { shouldIgnoreClick } from '../../Link/utils'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 
-import { colors, fontStyles, Interaction, mediaQueries } from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries, Label } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -192,9 +192,9 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             <SignOut Link={SignoutLink} />
           ) : (
             <SignIn beforeForm={(
-              <Interaction.P style={{ marginBottom: '20px' }}>
+              <Label style={{ display: 'block', marginTop: 20, marginBottom: 10 }}>
                 {t('me/signedOut')}
-              </Interaction.P>
+              </Label>
             )} />
           )}
         </div>

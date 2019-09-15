@@ -5,7 +5,7 @@ import { withRouter } from 'next/router'
 
 import withT from '../../lib/withT'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
-import { Router } from '../../lib/routes'
+import { Router, matchPath } from '../../lib/routes'
 
 import { Logo, colors, mediaQueries } from '@project-r/styleguide'
 
@@ -14,7 +14,6 @@ import { withMembership } from '../Auth/checkRoles'
 import Toggle from './Toggle'
 import User from './User'
 import Popover from './Popover'
-import NavBar, { getNavBarStateFromRouter } from './NavBar'
 import NavPopover from './Popover/Nav'
 import LoadingBar from './LoadingBar'
 import Pullable from './Pullable'
@@ -27,14 +26,11 @@ import { shouldIgnoreClick } from '../Link/utils'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT,
-  NAVBAR_HEIGHT_MOBILE,
   ZINDEX_HEADER,
   LOGO_WIDTH,
   LOGO_PADDING,
   LOGO_WIDTH_MOBILE,
-  LOGO_PADDING_MOBILE,
-  isPositionStickySupported
+  LOGO_PADDING_MOBILE
 } from '../constants'
 import { negativeColors } from './constants'
 
@@ -181,13 +177,6 @@ const styles = {
     [mediaQueries.mUp]: {
       top: HEADER_HEIGHT - 3
     }
-  }),
-  hrFixedAfterNavBar: css({
-    position: 'fixed',
-    marginTop: NAVBAR_HEIGHT_MOBILE,
-    [mediaQueries.mUp]: {
-      marginTop: NAVBAR_HEIGHT
-    }
   })
 }
 
@@ -212,10 +201,22 @@ const forceRefRedraw = ref => {
   }
 }
 
+const isActiveRoute = (active, route, params = {}) => (
+  !!active && active.route === route && Object.keys(params).every(
+    key => active.params[key] === params[key]
+  )
+)
+
+const isFront = router => {
+  const active = matchPath(router.asPath)
+
+  return isActiveRoute(active, 'front', {})
+}
+
 const hasBackButton = props => (
   props.inNativeIOSApp &&
   props.me &&
-  !getNavBarStateFromRouter(props.router).hasActiveLink
+  !isFront(props.router)
 )
 
 let routeChangeStarted
@@ -259,11 +260,6 @@ class Header extends Component {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
-
-    const withoutSticky = !isPositionStickySupported()
-    if (withoutSticky) {
-      this.setState({ withoutSticky })
-    }
   }
 
   componentDidUpdate () {
@@ -311,7 +307,7 @@ class Header extends Component {
       headerAudioPlayer: HeaderAudioPlayer,
       pullable = true
     } = this.props
-    const { withoutSticky, backButton, renderSecondaryNav } = this.state
+    const { backButton, renderSecondaryNav } = this.state
 
     // If onPrimaryNavExpandedChange is defined, expanded state management is delegated
     // up to the higher-order component. Otherwise it's managed inside the component.
@@ -335,8 +331,6 @@ class Header extends Component {
     }
     const textFill = dark ? negativeColors.text : colors.text
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
-
-    const showNavBar = this.props.navBar && isMember
 
     const toggleExpanded = () => {
       if (onPrimaryNavExpandedChange) {
@@ -399,7 +393,7 @@ class Header extends Component {
                     () => {
                       if (!routeChangeStarted) {
                         Router.replaceRoute(
-                          'feed'
+                          'front'
                         ).then(() => window.scrollTo(0, 0))
                       }
                     },
@@ -454,19 +448,8 @@ class Header extends Component {
             />
           )}
         </div>
-        {showNavBar && opaque && (
-          <Fragment>
-            <hr
-              {...styles.stickyWithFallback}
-              {...styles.hr}
-              {...styles.hrThin}
-              style={hrColorStyle} />
-            <NavBar fixed={withoutSticky} dark={dark} router={router} />
-          </Fragment>
-        )}
         {opaque && <hr
-          {...styles[showNavBar ? 'sticky' : 'stickyWithFallback']}
-          {...((showNavBar && withoutSticky && styles.hrFixedAfterNavBar) || undefined)}
+          {...styles.stickyWithFallback}
           {...styles.hr}
           {...styles[formatColor ? 'hrThick' : 'hrThin']}
           style={formatColor ? {

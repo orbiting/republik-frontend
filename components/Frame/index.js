@@ -90,7 +90,6 @@ const Index = ({
   headerAudioPlayer,
   onSearchClick,
   footer = true,
-  navBar = true,
   pullable,
   dark
 }) => (
@@ -111,7 +110,6 @@ const Index = ({
         dark={dark && !inNativeIOSApp}
         me={me}
         cover={cover}
-        navBar={navBar}
         onPrimaryNavExpandedChange={onPrimaryNavExpandedChange}
         primaryNavExpanded={primaryNavExpanded}
         secondaryNav={secondaryNav}

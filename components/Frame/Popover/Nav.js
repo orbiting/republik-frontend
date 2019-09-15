@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 
 import { css } from 'glamor'
@@ -9,7 +9,6 @@ import { Link, matchPath, Router } from '../../../lib/routes'
 import withT from '../../../lib/withT'
 import withInNativeApp from '../../../lib/withInNativeApp'
 
-import NavBar from '../NavBar'
 import { withMembership } from '../../Auth/checkRoles'
 import { shouldIgnoreClick } from '../../Link/utils'
 
@@ -43,36 +42,39 @@ const styles = {
     ...fontStyles.sansSerifRegular21,
     flexGrow: 1,
     marginBottom: 20,
-    paddingTop: '20px',
+    paddingTop: 10,
     [mediaQueries.mUp]: {
-      display: 'flex',
-      justifyContent: 'space-between'
+      paddingTop: 20
+    },
+    display: 'flex',
+    justifyContent: 'space-between',
+    [mediaQueries.mUp]: {
+      fontSize: 32,
+      lineHeight: '48px'
+    }
+  }),
+  sectionCompact: css({
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
     }
   }),
   section: css({
-    margin: '0px 20px',
-    '& + &': {
-      borderTop: `1px solid ${colors.divider}`,
-      margin: '25px 20px',
-      paddingTop: '25px'
-    },
+    padding: '0 10px',
     [mediaQueries.mUp]: {
-      '& + &': {
-        borderTop: 'none',
-        margin: '0 50px',
-        padding: '0 50px'
-      },
-      '&:first-child': {
-        paddingLeft: '25px'
-      },
-      '&:last-child': {
-        marginRight: 0,
-        paddingRight: '25px',
-        textAlign: 'right'
+      padding: '0 25px'
+    },
+    '&:first-child': {
+      [mediaQueries.mUp]: {
+        padding: '0 10px'
       }
+    },
+    '&:last-child': {
+      textAlign: 'right'
     }
   }),
   link: css({
+    display: 'block',
     textDecoration: 'none',
     color: colors.text,
     ':visited': {
@@ -83,11 +85,7 @@ const styles = {
         color: colors.primary
       }
     },
-    cursor: 'pointer',
-    [mediaQueries.mUp]: {
-      fontSize: 34,
-      lineHeight: '60px'
-    }
+    cursor: 'pointer'
   })
 }
 
@@ -129,78 +127,67 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
   return (
     <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
-      {isMember && <Fragment>
-        <NavBar router={router} />
-        <hr {...styles.hr} />
-      </Fragment>}
       <div {...styles.sections}>
-        <div {...styles.section}>
+        <div {...styles.section} {...styles.sectionCompact}>
           {me && (
-            <div>
+            <>
               <NavLink
                 route='account'
                 translation={t('Frame/Popover/myaccount')}
                 active={active}
                 closeHandler={closeHandler}
               />
-              <br />
               {!(inNativeIOSApp && !isMember) && (
-                <Fragment>
-                  <NavLink
-                    route='profile'
-                    params={{ slug: me.username || me.id }}
-                    translation={t('Frame/Popover/myprofile')}
-                    active={active}
-                    closeHandler={closeHandler}
-                  />
-                  <br />
-                </Fragment>
+                <NavLink
+                  route='profile'
+                  params={{ slug: me.username || me.id }}
+                  translation={t('Frame/Popover/myprofile')}
+                  active={active}
+                  closeHandler={closeHandler}
+                />
               )}
               {isMember && (
-                <Fragment>
-                  <NavLink
-                    route='bookmarks'
-                    translation={t('nav/bookmarks')}
-                    active={active}
-                    closeHandler={closeHandler}
-                  />
-                  <br />
-                </Fragment>
+                <NavLink
+                  route='bookmarks'
+                  translation={t('nav/bookmarks')}
+                  active={active}
+                  closeHandler={closeHandler}
+                />
               )}
               {me.accessCampaigns.length > 0 &&
-                <Fragment>
-                  <a
-                    {...styles.link}
-                    style={{ cursor: 'pointer' }}
-                    href='/konto#teilen'
-                    onClick={(e) => {
-                      if (shouldIgnoreClick(e)) {
-                        return
-                      }
+                <a
+                  {...styles.link}
+                  style={{ cursor: 'pointer' }}
+                  href='/konto#teilen'
+                  onClick={(e) => {
+                    if (shouldIgnoreClick(e)) {
+                      return
+                    }
 
-                      Router
-                        .pushRoute('/konto#teilen')
-                        .then(closeHandler)
-                    }}>
-                    {t('nav/share')}
-                  </a>
-                  <br />
-                </Fragment>
+                    Router
+                      .pushRoute('/konto#teilen')
+                      .then(closeHandler)
+                  }}>
+                  {t('nav/share')}
+                </a>
               }
               {!inNativeIOSApp && (
-                <Fragment>
-                  <NavLink
-                    route='pledge'
-                    params={me ? { group: 'GIVE' } : undefined}
-                    translation={t(me ? 'nav/give' : 'nav/offers')}
-                    active={active}
-                    closeHandler={closeHandler}
-                  />
-                  <br />
-                </Fragment>
+                <NavLink
+                  route='pledge'
+                  params={me ? { group: 'GIVE' } : undefined}
+                  translation={t(me ? 'nav/give' : 'nav/offers')}
+                  active={active}
+                  closeHandler={closeHandler}
+                />
               )}
-            </div>
+            </>
           )}
+          <NavLink
+            route='events'
+            translation={t('nav/events')}
+            active={active}
+            closeHandler={closeHandler}
+          />
           {me ? (
             <SignOut Link={SignoutLink} />
           ) : (
@@ -210,19 +197,31 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
               </Interaction.P>
             )} />
           )}
-          <br />
         </div>
         <div {...styles.section}>
           {isMember && (
-            <Fragment>
-              <NavLink
-                route='formats'
-                translation={t('nav/formats')}
-                active={active}
-                closeHandler={closeHandler}
-              />
-              <br />
-            </Fragment>
+            <NavLink
+              route='feed'
+              translation={t('navbar/feed')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
+          {isMember && (
+            <NavLink
+              route='discussion'
+              translation={t('navbar/discussion')}
+              active={active}
+              closeHandler={closeHandler}
+            />
+          )}
+          {isMember && (
+            <NavLink
+              route='formats'
+              translation={t('nav/formats')}
+              active={active}
+              closeHandler={closeHandler}
+            />
           )}
           <NavLink
             route='community'
@@ -230,28 +229,18 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             active={active}
             closeHandler={closeHandler}
           />
-          <br />
           <NavLink
             route='cardGroups'
             translation={t('nav/cardGroups')}
             active={active}
             closeHandler={closeHandler}
           />
-          <br />
-          <NavLink
-            route='events'
-            translation={t('nav/events')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <br />
           <NavLink
             route='legal/imprint'
             translation={t('nav/team')}
             active={active}
             closeHandler={closeHandler}
           />
-          <br />
           <NavLink
             route='meta'
             translation={t('nav/meta')}

@@ -2,14 +2,6 @@ import { Logo } from '@project-r/styleguide'
 
 export const HEADER_HEIGHT = 60
 export const HEADER_HEIGHT_MOBILE = 45
-export const NAVBAR_HEIGHT = 41
-export const NAVBAR_HEIGHT_MOBILE = 36
-
-export const isPositionStickySupported = () => {
-  const style = document.createElement('a').style
-  style.cssText = 'position:sticky;position:-webkit-sticky;'
-  return style.position.indexOf('sticky') !== -1
-}
 
 export const LOGO_HEIGHT = 28.02
 export const LOGO_WIDTH = LOGO_HEIGHT * Logo.ratio
@@ -25,7 +17,6 @@ export const CONTENT_PADDING = 60
 export const ZINDEX_LOADINGBAR = 3010
 export const ZINDEX_POPOVER = 3000
 export const ZINDEX_HEADER = 20
-export const ZINDEX_NAVBAR = 19
 export const ZINDEX_BOTTOM_PANEL = 16
 export const ZINDEX_CONTENT = 15
 export const ZINDEX_FOOTER = 11

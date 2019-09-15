@@ -9,10 +9,7 @@ import { mediaQueries } from '@project-r/styleguide'
 
 import {
   HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  NAVBAR_HEIGHT,
-  NAVBAR_HEIGHT_MOBILE,
-  isPositionStickySupported
+  HEADER_HEIGHT_MOBILE
 } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
 import withMe from '../../../lib/apollo/withMe'
@@ -49,9 +46,6 @@ class Progress extends Component {
     this.headerHeight = () => {
       const mobile = this.mobile()
       let height = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
-      if (this.withoutSticky) {
-        height += mobile ? NAVBAR_HEIGHT_MOBILE : NAVBAR_HEIGHT
-      }
       return height
     }
 
@@ -250,8 +244,6 @@ class Progress extends Component {
   componentDidMount () {
     window.addEventListener('scroll', this.onScroll)
     this.onScroll()
-
-    this.withoutSticky = !isPositionStickySupported()
   }
 
   componentWillUnmount () {

@@ -137,7 +137,7 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                 active={active}
                 closeHandler={closeHandler}
               />
-              {!(inNativeIOSApp && !isMember) && (
+              {(!inNativeIOSApp || isMember) && (
                 <NavLink
                   route='profile'
                   params={{ slug: me.username || me.id }}
@@ -171,16 +171,16 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
                   {t('nav/share')}
                 </a>
               }
-              {!inNativeIOSApp && (
-                <NavLink
-                  route='pledge'
-                  params={me ? { group: 'GIVE' } : undefined}
-                  translation={t(me ? 'nav/give' : 'nav/offers')}
-                  active={active}
-                  closeHandler={closeHandler}
-                />
-              )}
             </>
+          )}
+          {!inNativeIOSApp && (
+            <NavLink
+              route='pledge'
+              params={me ? { group: 'GIVE' } : undefined}
+              translation={t(me ? 'nav/give' : 'nav/offers')}
+              active={active}
+              closeHandler={closeHandler}
+            />
           )}
           <NavLink
             route='events'

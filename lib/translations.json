@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-15T12:41:27.536Z",
+  "updated": "2019-09-15T12:56:32.956Z",
   "title": "live",
   "data": [
     {
@@ -665,6 +665,14 @@
     {
       "key": "formats/title/newsletter",
       "value": "Die Newsletter"
+    },
+    {
+      "key": "formats/additionalLinks/events",
+      "value": "Veranstaltungen"
+    },
+    {
+      "key": "formats/additionalLinks/project-r-newsletter",
+      "value": "Project-R-Newsletter"
     },
     {
       "key": "crew/pageTitle",

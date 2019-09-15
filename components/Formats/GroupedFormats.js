@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { graphql, compose } from 'react-apollo'
 import { ascending } from 'd3-array'
 import { css } from 'glamor'
@@ -87,52 +87,65 @@ const getColorFromMeta = meta => {
   return color || colors[kind]
 }
 
-class GroupedFormats extends Component {
-  render () {
-    const { data: { loading, error, documents }, t } = this.props
-    return (
-      <Loader
-        loading={loading}
-        error={error}
-        render={() => {
-          const sections = nest()
-            .key(d => {
-              const color = getColorFromMeta(d.meta)
-              const key = d.meta.title.match(/newsletter/i)
-                ? 'newsletter'
-                : `${d.meta.kind}-${color}`
-              return keyMap[key] || ''
-            })
-            .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
-            .sortValues((a, b) => ascending(a.meta.title, b.meta.title))
-            .entries(documents.nodes)
-            .filter(d => d.values.length && d.key)
+const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
+  const additionalLinks = [
+    { href: '/veranstaltungen', label: t('formats/additionalLinks/events'), color: '#3CAD00', kind: 'meta' },
+    { href: 'https://project-r.construction/news', label: t('formats/additionalLinks/project-r-newsletter'), color: '#000000', kind: 'meta' }
+  ]
 
-          return (
-            <Fragment>
-              {sections.map(({ key, values }) => (
-                <section {...styles.section} key={key}>
-                  <h2 {...styles.h2}>
-                    {t(`formats/title/${key}`)}
-                  </h2>
-                  {values.filter(value => value.linkedDocuments.totalCount).map(doc => (
-                    <Link href={doc.meta.path} passHref key={doc.meta.path}>
-                      <a {...styles.link} href={doc.meta.path}>
-                        <FormatTag
-                          color={getColorFromMeta(doc.meta)}
-                          label={doc.meta.title}
-                          count={doc.linkedDocuments.totalCount} />
-                      </a>
-                    </Link>
-                  ))}
-                </section>
-              ))}
-            </Fragment>
-          )
-        }}
-      />
-    )
-  }
+  return (
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        const links = documents.nodes
+          .map(doc => {
+            return {
+              color: getColorFromMeta(doc.meta),
+              label: doc.meta.title,
+              href: doc.meta.path,
+              kind: doc.meta.kind,
+              count: doc.linkedDocuments.totalCount
+            }
+          })
+          .concat(additionalLinks)
+
+        const sections = nest()
+          .key(d => {
+            const key = d.label.match(/newsletter/i)
+              ? 'newsletter'
+              : `${d.kind}-${d.color}`
+            return keyMap[key] || ''
+          })
+          .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
+          .sortValues((a, b) => ascending(a.count === undefined, b.count === undefined) || ascending(a.label, b.label))
+          .entries(links)
+          .filter(d => d.values.length && d.key)
+
+        return (
+          <Fragment>
+            {sections.map(({ key, values }) => (
+              <section {...styles.section} key={key}>
+                <h2 {...styles.h2}>
+                  {t(`formats/title/${key}`)}
+                </h2>
+                {values.filter(value => value.count !== 0).map(link => (
+                  <Link href={link.href} passHref key={link.href}>
+                    <a {...styles.link} href={link.href}>
+                      <FormatTag
+                        color={link.color}
+                        label={link.label}
+                        count={link.count} />
+                    </a>
+                  </Link>
+                ))}
+              </section>
+            ))}
+          </Fragment>
+        )
+      }}
+    />
+  )
 }
 
 export default compose(withT, graphql(getFormats))(GroupedFormats)

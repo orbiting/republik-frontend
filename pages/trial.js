@@ -18,11 +18,11 @@ const Page = ({ router, t }) => {
       `trial/meta/${campaign}/pageTitle`,
       'trial/meta/pageTitle'
     ]),
-    title: t([
+    title: t.first([
       `trial/meta/${campaign}/title`,
       'trial/meta/title'
     ]),
-    description: t([
+    description: t.first([
       `trial/meta/${campaign}/description`,
       'trial/meta/description'
     ]),

@@ -207,14 +207,16 @@ class NotificationOptions extends PureComponent {
         message={t('components/DiscussionPreferences/loading')}
         render={() => {
           const { expanded, mutating, webNotificationsPermission } = this.state
-          const { discussionNotificationChannels } = me
+          const { defaultDiscussionNotificationOption, discussionNotificationChannels } = me
           const { userPreference } = discussion
 
           const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
             value: option,
             text: t(`components/Discussion/Notification/dropdown/${option}/label`)
           }))
-          const selectedValue = userPreference && userPreference.notifications
+          const selectedValue =
+            (userPreference && userPreference.notifications !== null && userPreference.notifications) ||
+            defaultDiscussionNotificationOption
 
           const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
           const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&

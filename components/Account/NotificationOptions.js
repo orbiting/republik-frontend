@@ -13,7 +13,7 @@ import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { A, Loader, InlineSpinner, Checkbox, Dropdown } from '@project-r/styleguide'
+import { A, Loader, InlineSpinner, Checkbox, Dropdown, mediaQueries } from '@project-r/styleguide'
 
 import { DISCUSSION_NOTIFICATION_CHANNELS, DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
 import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
@@ -35,6 +35,12 @@ const styles = {
     marginTop: 20,
     position: 'relative',
     zIndex: ZINDEX_CONTENT
+  }),
+  dropdownItem: css({
+    fontSize: 16,
+    [mediaQueries.mUp]: {
+      fontSize: 'inherit'
+    }
   })
 }
 
@@ -97,7 +103,9 @@ class NotificationOptions extends Component {
           const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(
             option => ({
               value: option,
-              text: t(`components/Discussion/Notification/${option}/label`)
+              text: <span {...styles.dropdownItem}>
+                {t(`components/Discussion/Notification/${option}/label`)}
+              </span>
             }))
 
           return (
@@ -166,6 +174,7 @@ class NotificationOptions extends Component {
                   <P>{t('account/discussionNotificationChannels/WEB/hint/unsupported')}</P>
                 </WarningContainer>
               )}
+              <P style={{ marginTop: 10 }}>{t('account/notificationOptions/dialog')}</P>
               <div {...styles.dropdown}>
                 <Dropdown
                   label={t('account/defaultDiscussionNotificationOption/label')}

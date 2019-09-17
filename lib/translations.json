@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-15T13:54:44.709Z",
+  "updated": "2019-09-17T15:27:14.687Z",
   "title": "live",
   "data": [
     {
@@ -1043,8 +1043,12 @@
       "value": "Sie müssen sich zuerst im App anmelden um neue Anmeldungen im App bestätigen zu können."
     },
     {
+      "key": "account/notificationOptions/dialog",
+      "value": "Ihre Standardeinstellung für den Dialog:"
+    },
+    {
       "key": "account/notificationOptions/title",
-      "value": "Debatten-Benachrichtigungen"
+      "value": "Benachrichtigungen über Beiträge"
     },
     {
       "key": "account/discussionNotificationChannels/intro",
@@ -1084,7 +1088,7 @@
     },
     {
       "key": "account/defaultDiscussionNotificationOption/label",
-      "value": "Standardeinstellung für Benachrichtigungen"
+      "value": "Benachrichtigungen über Beiträge"
     },
     {
       "key": "account/progress/title",
@@ -1812,11 +1816,11 @@
     },
     {
       "key": "components/Discussion/Notification/MY_CHILDREN/label",
-      "value": "Nur meine Beiträge"
+      "value": "Meine und von abonnierten Profilen"
     },
     {
       "key": "components/Discussion/Notification/ALL/label",
-      "value": "Alle neuen Beiträge"
+      "value": "Alle neuen"
     },
     {
       "key": "components/Discussion/Notification/NONE/label",
@@ -1852,7 +1856,7 @@
     },
     {
       "key": "components/Discussion/info/MY_CHILDREN",
-      "value": "{types} für Antworten auf meine Beiträge"
+      "value": "{types} für Antworten auf meine Beiträge und Beiträge von abonnierten Profilen"
     },
     {
       "key": "components/Discussion/info/ALL",
@@ -1864,15 +1868,15 @@
     },
     {
       "key": "components/Discussion/Notification/dropdown/label",
-      "value": "Benachrichtigungen für diese Debatte"
+      "value": "Benachrichtigungen bei Beiträgen"
     },
     {
       "key": "components/Discussion/Notification/dropdown/MY_CHILDREN/label",
-      "value": "Nur meine Beiträge"
+      "value": "Meine und von abonnierten Profilen"
     },
     {
       "key": "components/Discussion/Notification/dropdown/ALL/label",
-      "value": "Alle neuen Beiträge"
+      "value": "Alle neuen"
     },
     {
       "key": "components/Discussion/Notification/dropdown/NONE/label",

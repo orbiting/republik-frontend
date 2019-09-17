@@ -23,7 +23,7 @@ const TokenPackageLink = compose(
       accessToken: data.me && data.me.accessToken
     })
   })
-)(({ loading, accessToken, children, params, inNativeApp, inNativeIOSApp, ...props }) => {
+)(({ loading, accessToken, children, params, inNativeApp, inNativeIOSApp, inIOS, ...props }) => {
   if (loading) {
     return '...'
   }

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-17T15:27:14.687Z",
+  "updated": "2019-09-17T16:22:23.218Z",
   "title": "live",
   "data": [
     {
@@ -5379,8 +5379,8 @@
       "value": "Ihre Liste anzeigen"
     },
     {
-      "key": "components/Card/Group/cardCount/other",
-      "value": "{count} Kandidaturen"
+      "key": "components/Card/Group/sequence",
+      "value": "{swipes}/{total}"
     },
     {
       "key": "components/Card/Group/label",

@@ -17,6 +17,7 @@ import {
 
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
+import ListIcon from 'react-icons/lib/md/list'
 
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
@@ -139,7 +140,7 @@ const styles = {
     }
   }),
   buttonPanel: css({
-    position: 'absolute',
+    position: 'fixed',
     bottom: 25,
     left: 0,
     right: 0,
@@ -644,8 +645,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         <strong>{t(`components/Card/Group/${group.name.length > 10 ? 'labelShort' : 'label'}`, {
           groupName: group.name
         })}</strong><br />
-        {t.pluralize('components/Card/Group/cardCount', {
-          count: totalCount
+        {!!windowWidth && t('components/Card/Group/sequence', {
+          swipes: swipes.length,
+          total: totalCount
         })}
         {Icon && <Icon size={40} />}
       </div>
@@ -758,8 +760,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             </Overlay>
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
-            backgroundColor: cardColors.revert,
-            opacity: prevCards.length > 0 ? 1 : 0
+            backgroundColor: prevCards.length ? cardColors.revert : '#B7C1BD'
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>
@@ -775,12 +776,11 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
           </button>
           <a {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
-            opacity: swipes.length > 0 ? 1 : 0,
             fontSize: rightSwipes.length > 99
               ? 12
               : 16
           }} title={t('components/Card/Group/overview')} onClick={onShowOverview}>
-            {rightSwipes.length}
+            {rightSwipes.length || <ListIcon />}
           </a>
         </div>
       </>}

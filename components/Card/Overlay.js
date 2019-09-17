@@ -19,7 +19,7 @@ const CardOverlay = ({ onClose, title, children, beta = false, maxWidth = 720 })
         {beta && <Beta style={{
           position: 'absolute',
           right: 60,
-          top: 0
+          top: 8
         }} />}
         <OverlayToolbarConfirm
           onClick={onClose}

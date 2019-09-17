@@ -85,8 +85,8 @@ const Page = ({ data, data: { cardGroups }, t }) => (
             }} size={80} />
             <Beta style={{
               position: 'absolute',
-              left: -20,
-              bottom: -12
+              left: -40,
+              bottom: -20
             }} />
           </span>
         </Editorial.Headline>

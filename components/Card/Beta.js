@@ -14,7 +14,6 @@ const styles = {
     ...fontStyles.sansSerifMedium,
     color: '#fff',
     pointerEvents: 'none',
-    transform: 'rotate(-13deg)',
     backgroundColor: colors.secondary
   })
 }

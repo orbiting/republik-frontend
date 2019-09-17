@@ -18,6 +18,8 @@ import sharedStyles from '../sharedStyles'
 
 import { Paragraph, Finance } from './Shared'
 
+export const MEDIUM_MIN_WIDTH = 360
+
 const PADDING = 15
 
 const styles = {
@@ -30,7 +32,7 @@ const styles = {
     backgroundColor: '#fff',
     fontSize: 14,
     lineHeight: '16px',
-    '@media (min-width: 340px)': {
+    [`@media (min-width: ${MEDIUM_MIN_WIDTH}px)`]: {
       padding: `10px ${PADDING}px`,
       fontSize: 16,
       lineHeight: '20px'
@@ -57,7 +59,7 @@ const styles = {
     width: 280,
     margin: '0 auto',
     paddingTop: PADDING - 2,
-    '@media (min-width: 340px)': {
+    [`@media (min-width: ${MEDIUM_MIN_WIDTH}px)`]: {
       paddingTop: PADDING + 3
     }
   })

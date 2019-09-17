@@ -36,7 +36,7 @@ import Discussion from '../Discussion/Discussion'
 
 import IgnoreIcon from './IgnoreIcon'
 import Details from './Details'
-import Card from './Card'
+import Card, { MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
 import OverviewOverlay from './OverviewOverlay'
@@ -362,7 +362,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   const [windowWidth] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
-    : windowWidth > 360 ? 300 : 240
+    : windowWidth >= MEDIUM_MIN_WIDTH ? 300 : 240
 
   const fallInBudget = useRef(nNew)
   const dragTime = useRef(0)

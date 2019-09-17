@@ -236,14 +236,14 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             closeHandler={closeHandler}
           />
           <NavLink
-            route='legal/imprint'
-            translation={t('nav/team')}
+            route='meta'
+            translation={t('nav/meta')}
             active={active}
             closeHandler={closeHandler}
           />
           <NavLink
-            route='meta'
-            translation={t('nav/meta')}
+            route='legal/imprint'
+            translation={t('nav/team')}
             active={active}
             closeHandler={closeHandler}
           />

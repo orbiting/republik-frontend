@@ -47,6 +47,7 @@ const OverviewOverlay = ({ onClose, swipes, onReset, isPersisted, group, t }) =>
       <Paragraph>
         {t(`components/Card/Overview/data/${isPersisted ? 'isPersisted' : 'notPersisted'}`)}
       </Paragraph>
+      <br />
       <Paragraph>
         <Editorial.A download={`wahltindaer-${formatDate(new Date())}.csv`} onClick={(e) => {
           const url = e.target.href = URL.createObjectURL(

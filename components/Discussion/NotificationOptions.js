@@ -53,6 +53,12 @@ const styles = {
     ...fontStyles.sansSerifRegular14,
     display: 'block',
     cursor: 'pointer'
+  }),
+  dropdownItem: css({
+    fontSize: 16,
+    [mediaQueries.mUp]: {
+      fontSize: 'inherit'
+    }
   })
 }
 
@@ -212,7 +218,9 @@ class NotificationOptions extends PureComponent {
 
           const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
             value: option,
-            text: t(`components/Discussion/Notification/dropdown/${option}/label`)
+            text: <span {...styles.dropdownItem}>
+              {t(`components/Discussion/Notification/dropdown/${option}/label`)}
+            </span>
           }))
           const selectedValue =
             (userPreference && userPreference.notifications !== null && userPreference.notifications) ||

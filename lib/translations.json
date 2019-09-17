@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-17T15:11:31.473Z",
+  "updated": "2019-09-17T15:27:14.687Z",
   "title": "live",
   "data": [
     {
@@ -1041,6 +1041,10 @@
     {
       "key": "account/authSettings/firstfactor/APP/disabled",
       "value": "Sie müssen sich zuerst im App anmelden um neue Anmeldungen im App bestätigen zu können."
+    },
+    {
+      "key": "account/notificationOptions/dialog",
+      "value": "Ihre Standardeinstellung für den Dialog:"
     },
     {
       "key": "account/notificationOptions/title",

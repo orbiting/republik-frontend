@@ -61,14 +61,13 @@ const getFormats = gql`
   }
 `
 
-const keyMap = {
+const colorMap = {
   'editorial-#08809A': 'weekly',
   'editorial-#000000': 'opinion',
   'meta-#000000': 'meta',
   'scribble-#D44338': 'scribble',
   'editorial-#D44338': 'scribble',
-  'meta-#3CAD00': 'social',
-  'newsletter': 'newsletter'
+  'meta-#3CAD00': 'social'
 }
 
 const sectionOrder = [
@@ -114,20 +113,24 @@ const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
           .key(d => {
             const key = d.label.match(/newsletter/i)
               ? 'newsletter'
-              : `${d.kind}-${d.color}`
-            return keyMap[key] || ''
+              : d.kind
+            return colorMap[`${key}-${d.color}`] || key || ''
           })
           .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
           .sortValues((a, b) => ascending(a.count === undefined, b.count === undefined) || ascending(a.label, b.label))
           .entries(links)
-          .filter(d => d.values.length && d.key)
+          .map(d => {
+            d.label = t(`formats/title/${d.key}`, undefined, '')
+            return d
+          })
+          .filter(d => d.values.length && d.label)
 
         return (
           <Fragment>
-            {sections.map(({ key, values }) => (
+            {sections.map(({ key, label, values }) => (
               <section {...styles.section} key={key}>
                 <h2 {...styles.h2}>
-                  {t(`formats/title/${key}`)}
+                  {label}
                 </h2>
                 {values.filter(value => value.count !== 0).map(link => (
                   <Link href={link.href} passHref key={link.href}>

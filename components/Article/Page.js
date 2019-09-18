@@ -31,9 +31,10 @@ import {
 
 import {
   AudioPlayer,
+  Center,
   colors,
-  mediaQueries,
-  Center
+  Interaction,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
@@ -92,6 +93,9 @@ const getSchemaCreator = template => {
 }
 
 const styles = {
+  prepublicationNotice: css({
+    backgroundColor: colors.social
+  }),
   bar: css({
     display: 'inline-block',
     marginTop: '15px',
@@ -181,6 +185,7 @@ const getDocument = gql`
         estimatedConsumptionMinutes
         indicateGallery
         indicateVideo
+        prepublication
       }
     }
   }
@@ -572,6 +577,15 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
+              {meta.prepublication && (
+                <div {...styles.prepublicationNotice}>
+                  <Center>
+                    <Interaction.P>
+                      {t('article/prepublication/notice')}
+                    </Interaction.P>
+                  </Center>
+                </div>
+              )}
               {!isFormat && !isNewsletterSource && (
                 <PayNote.Before
                   variation={payNoteVariation}

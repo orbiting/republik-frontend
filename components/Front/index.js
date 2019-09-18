@@ -2,7 +2,12 @@ import React, { Fragment, useMemo } from 'react'
 import { graphql, compose } from 'react-apollo'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
-import { Editorial, InlineSpinner } from '@project-r/styleguide'
+import {
+  colors,
+  Editorial,
+  InlineSpinner,
+  Interaction
+} from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 import StatusError from '../StatusError'
 import Head from 'next/head'
@@ -60,6 +65,7 @@ const getDocument = gql`
         twitterDescription
         twitterImage
         twitterTitle
+        prepublication
         lastPublishedAt
       }
     }
@@ -67,6 +73,10 @@ const getDocument = gql`
 `
 
 const styles = {
+  prepublicationNotice: css({
+    backgroundColor: colors.social,
+    padding: 15
+  }),
   more: css({
     backgroundColor: negativeColors.containerBg,
     color: negativeColors.text,
@@ -195,6 +205,11 @@ const Front = ({
           : endIndex
 
         return <div ref={containerRef} style={containerStyle}>
+          {front.meta.prepublication && (
+            <div {...styles.prepublicationNotice}>
+              <Interaction.P>{t('front/prepublication/notice')}</Interaction.P>
+            </div>
+          )}
           {renderMdast({
             type: 'root',
             children: nodes.slice(0, sliceIndex).map(v => v.body),

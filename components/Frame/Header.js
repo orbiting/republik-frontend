@@ -377,7 +377,7 @@ class Header extends Component {
                 onClick={toggleExpanded}
               />
             </div>
-            {inNativeIOSApp && <a
+            {(inNativeIOSApp || backButton) && <a
               style={{
                 opacity: backButton ? 1 : 0,
                 pointerEvents: backButton ? undefined : 'none',
@@ -393,7 +393,7 @@ class Header extends Component {
                     () => {
                       if (!routeChangeStarted) {
                         Router.replaceRoute(
-                          'front'
+                          'index'
                         ).then(() => window.scrollTo(0, 0))
                       }
                     },

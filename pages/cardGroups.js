@@ -19,6 +19,7 @@ import Cantons from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
 import Beta from '../components/Card/Beta'
 import { Editorial, Interaction, colors } from '@project-r/styleguide'
+import DiscussionIconLink from '../components/Card/DiscussionIconLink'
 
 const query = gql`
 query {
@@ -30,13 +31,20 @@ query {
       cards {
         totalCount
       }
+      discussion {
+        id
+        comments {
+          id
+          totalCount
+        }
+      }
     }
   }
 }
 `
 
 const SIZE = 40
-const WIDTH = 250
+const WIDTH = 270
 const MARGIN = 10
 
 const styles = {
@@ -56,10 +64,29 @@ const styles = {
     textAlign: 'left',
     width: WIDTH,
     height: SIZE,
-    overflow: 'hidden',
-    textDecoration: 'none'
+    overflow: 'hidden'
   }),
-  icon: css({
+  cardCount: css({
+    fontFeatureSettings: '"tnum" 1, "kern" 1'
+  }),
+  cardsLink: css({
+    display: 'inline-block',
+    minWidth: 130,
+    color: colors.text,
+    textDecoration: 'none',
+    '@media(hover)': {
+      '[href]:hover > *': {
+        opacity: 0.8
+      }
+    }
+  }),
+  discussionLink: css({
+    position: 'relative',
+    top: -12,
+    display: 'inline-block',
+    paddingLeft: 10
+  }),
+  flag: css({
     position: 'absolute',
     left: 0,
     top: 0
@@ -107,19 +134,31 @@ const Page = ({ data, data: { cardGroups }, t }) => (
         return (
           <div {...styles.cantons} style={{ opacity: 1 }}>
             {groups.map(cardGroup => {
-              const Icon = Cantons[cardGroup.slug] || null
-
+              const Flag = Cantons[cardGroup.slug] || null
+              const commentCount = cardGroup.discussion.comments.totalCount
               return (
-                <Link key={cardGroup.slug} route='cardGroup' params={{ group: cardGroup.slug }} passHref>
-                  <a {...styles.canton}>
-                    {Icon && <Icon size={SIZE} {...styles.icon} />}
-                    <strong>{cardGroup.name}</strong>
-                    <br />
-                    {t.pluralize('pages/cardGroups/cardCount', {
-                      count: cardGroup.cards.totalCount
-                    })}
-                  </a>
-                </Link>
+                <div {...styles.canton} key={cardGroup.slug}>
+                  <Link route='cardGroup' params={{ group: cardGroup.slug }} passHref>
+                    <a {...styles.cardsLink}>
+                      {Flag && <Flag size={SIZE} {...styles.flag} />}
+                      <strong>{cardGroup.name}</strong>
+                      <br />
+                      <span>{t.pluralize.elements('pages/cardGroups/cardCount', {
+                        count: <span key='count' {...styles.cardCount}>
+                          {cardGroup.cards.totalCount}
+                        </span>
+                      })}</span>
+                    </a>
+                  </Link>
+                  {!!commentCount && <span {...styles.discussionLink}>
+                    <Link route='cardGroup' params={{
+                      group: cardGroup.slug,
+                      suffix: 'diskussion'
+                    }} passHref>
+                      <DiscussionIconLink count={commentCount} />
+                    </Link>
+                  </span>}
+                </div>
               )
             })}
           </div>

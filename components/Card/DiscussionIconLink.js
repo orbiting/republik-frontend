@@ -18,11 +18,11 @@ const styles = {
     whiteSpace: 'nowrap',
     paddingLeft: DEFAULT_PADDING,
     paddingRight: DEFAULT_PADDING,
-    // '@media(hover)': {
-    //   '[href]:hover > *': {
-    //     opacity: 0.6
-    //   }
-    // },
+    '@media(hover)': {
+      '[href]:hover > *': {
+        opacity: 0.8
+      }
+    },
     ':first-child': {
       paddingLeft: 0
     },
@@ -34,45 +34,37 @@ const styles = {
     }
   }),
   text: css({
+    position: 'absolute',
+    top: 4 + 2,
+    left: 5,
+    right: 4,
+    textAlign: 'center',
     display: 'inline-block',
-    textOverflow: 'ellipsis',
     overflow: 'hidden',
-    verticalAlign: 'middle',
     color: colors.primary,
-    marginTop: -1,
-    paddingLeft: 4,
-    ...fontStyles.sansSerifMedium16
+    ...fontStyles.sansSerifMedium,
+    fontFeatureSettings: '"tnum" 1, "kern" 1',
+    fontSize: 14,
+    lineHeight: 1
   }),
   icon: css({
+    position: 'relative',
     display: 'inline-block',
-    marginBottom: -2,
     verticalAlign: 'middle'
   })
 }
 
 const IconLink = ({ href, onClick, count, style, small }) => {
-  const size = small ? 22 : 24
-  const fontSize = small ? '15px' : undefined
-  const lineHeight = small ? '20px' : undefined
-  const patchedStyle = {
-    marginLeft: small ? 0 : 20,
-    ...style
-  }
-
+  const length = String(count).length
+  const aw = 4 + (length - 1) * 7
   return (
-    <a href={href} onClick={onClick} {...styles.link} style={patchedStyle}>
+    <a href={href} onClick={onClick} {...styles.link} style={style}>
       <span {...styles.icon}>
-        <Icon size={size} fill={colors.primary} />
-      </span>
-      {count > 0 && (
-        <span
-          {...styles.text}
-          {...styles.text}
-          style={{ fontSize, lineHeight }}
-        >
+        <Icon aw={aw} fill={colors.primary} />
+        <span {...styles.text}>
           {count}
         </span>
-      )}
+      </span>
     </a>
   )
 }
@@ -87,16 +79,28 @@ IconLink.propTypes = {
 
 export default IconLink
 
-const Icon = ({ size, fill }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox='0 0 24 24'
-    style={{ verticalAlign: 'middle' }}
-  >
-    <g transform='translate(2 2)' fill='none' fillRule='evenodd'>
-      <path d='M7 20a1 1 0 0 1-1-1v-3H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6.1l-3.7 3.71c-.2.19-.45.29-.7.29H7zm1-6v3.08L11.08 14H18V2H2v12h6z' fill={fill} fillRule='nonzero' />
-      <path fill='#fff' fillOpacity={1} d='M8 14v3.08L11.08 14H18V2H2v12z' />
-    </g>
-  </svg>
-)
+const Icon = ({ fill, aw = 8, ah = 6 }) => {
+  const x0 = 18 + aw
+  const x1 = 19 + aw
+  const x2 = 20 + aw
+
+  const y0 = 20 + ah
+  const y1 = 19 + ah
+  const y2 = 16 + ah
+  const y3 = 15 + ah
+  const y4 = 14 + ah
+  const y5 = 17 + ah
+  return (
+    <svg
+      width={24 + aw}
+      height={24 + ah}
+      viewBox={`0 0 ${24 + aw} ${24 + ah}`}
+      style={{ verticalAlign: 'middle' }}
+    >
+      <g transform='translate(2 2)' fill='none'>
+        <path d={`M7,${y0} C6.44771525,${y0} 6,${y1 + 0.5522847} 6,${y1} L6,${y2} L2,${y2} C0.8954305,${y2} 0,${y3 + 0.1045695} 0,${y4} L0,2 C0,0.8954305 0.8954305,0 2,0 L${x0},0 C${x1 + 0.1045695},0 ${x2},0.8954305 ${x2},2 L${x2},${y4} C${x2},${y3 + 0.1045695} ${x1 + 0.1045695},${y2} ${x0},${y2} L11.9,${y2} L8.2,${y1 + 0.71} C8,${y1 + 0.9} 7.75,${y0} 7.5,${y0} L7,${y0} Z`} fill={fill} />
+        <polygon fill='#fff' points={`8 ${y4} 8 ${y5 + 0.08} 11.08 ${y4} ${x0} ${y4} ${x0} 2 2 2 2 ${y4}`} />
+      </g>
+    </svg>
+  )
+}

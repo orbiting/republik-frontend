@@ -62,6 +62,13 @@ const styles = {
     [`@media (min-width: ${MEDIUM_MIN_WIDTH}px)`]: {
       paddingTop: PADDING + 3
     }
+  }),
+  opacityHover: css({
+    '@media(hover)': {
+      '[href]:hover > *': {
+        opacity: 0.8
+      }
+    }
   })
 }
 
@@ -154,7 +161,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
                 style={{
                   marginLeft: 0,
                   verticalAlign: 'top',
-                  marginTop: 3
+                  marginTop: 1
                 }}
                 count={1 + statement.comments.totalCount} />
             </Link>
@@ -165,7 +172,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
             }
             e.preventDefault()
             onDetail()
-          }} {...sharedStyles.plainButton}>
+          }} {...sharedStyles.plainButton} {...styles.opacityHover}>
             <InfoIcon size={30} fill='#000' />
           </a>}
         </div>

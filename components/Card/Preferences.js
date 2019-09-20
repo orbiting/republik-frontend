@@ -69,6 +69,9 @@ const Filters = ({ t }) => {
           onChange={(e) => {
             const newValue = +e.target.value
             setPreferences(p => ({ ...p,
+              mySmartspiderSort: p.mySmartspiderSort === undefined
+                ? true
+                : p.mySmartspiderSort,
               mySmartspider: [
                 ...(p.mySmartspider || nullSmartspider).slice(0, i),
                 newValue,

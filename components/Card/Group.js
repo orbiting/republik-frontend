@@ -822,9 +822,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
               verticalAlign: 'top',
               marginRight: 5
             }} />
-            {variables && variables.mustHave && variables.smartspider
+            {(variables.mustHave && variables.mustHave.length) || variables.smartspider
               ? `${totalCount} ${[
-                variables.mustHave && t('components/Card/Group/preferences/filter', {
+                variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
                   filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
                 }),
                 variables.smartspider && t('components/Card/Group/preferences/sort')

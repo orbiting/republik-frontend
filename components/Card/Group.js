@@ -18,6 +18,7 @@ import {
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 import ListIcon from 'react-icons/lib/md/list'
+import PreferencesIcon from 'react-icons/lib/md/filter-list'
 
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
@@ -41,6 +42,7 @@ import Container from './Container'
 import Cantons from './Cantons'
 import OverviewOverlay from './OverviewOverlay'
 import Overlay from './Overlay'
+import Preferences from './Preferences'
 
 const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
 
@@ -141,9 +143,9 @@ const styles = {
   }),
   buttonPanel: css({
     position: 'fixed',
-    bottom: 25,
-    left: 0,
-    right: 0,
+    bottom: 30,
+    left: 5,
+    right: 5,
     textAlign: 'center'
   }),
   switch: css({
@@ -166,13 +168,12 @@ const styles = {
     top: 5,
     textAlign: 'right',
     maxWidth: '64%',
-    paddingRight: 40 + 10,
     '& svg': {
+      float: 'right',
       width: 40,
       height: 40,
-      position: 'absolute',
-      right: 0,
-      top: 0
+      marginLeft: 10,
+      marginBottom: 10
     }
   }),
   trial: css({
@@ -316,7 +317,7 @@ const useQueueState = createPersistedState('republik-card-group-queue')
 
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
+const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser, variables }) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
@@ -331,6 +332,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     ...group.cards.nodes.slice(13)
   ].filter(Boolean)
   const totalCount = group.cards.totalCount
+  const allTotalCount = group.all.totalCount
   const [swipes, setSwipes, isPersisted] = useSwipeState([])
   const getUnswipedIndex = () => {
     const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipes.find(swipe => swipe.cardId === card.id))
@@ -341,7 +343,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   const [topIndex, setTopIndex] = useState(getUnswipedIndex)
   const [dragDir, setDragDir] = useState(false)
   const [detailCard, setDetailCard] = useState()
-  const [showTrialOverlay, setTrialOverlay] = useState(false)
+  const [showOverlay, setOverlay] = useState(false)
 
   // request more
   // ToDo: loading & error state
@@ -359,7 +361,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     }
   }, [swipes, topIndex, activeCard])
 
-  const [windowWidth] = useWindowSize()
+  const [windowWidth, windowHeight] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
     : windowWidth >= MEDIUM_MIN_WIDTH ? 300 : 240
@@ -493,7 +495,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
       topFromQuery.current = null
     }
     if (swiped.dir === 1 && card.id === 'trial') {
-      setTrialOverlay(true)
+      setOverlay('trial')
     }
     if (card && card.user) {
       addToQueue(card.user.id, swiped.dir === 1)
@@ -587,16 +589,19 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     })
   })
 
-  const Icon = Cantons[group.slug] || null
+  const Flag = Cantons[group.slug] || null
   const rightSwipes = swipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
 
   const onShowOverview = event => {
     event.preventDefault()
     Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
   }
-  const closeOverlay = event => {
+  const closeOverlayWithRoute = event => {
     if (event) {
       event.preventDefault()
+    }
+    if (detailCard) {
+      setDetailCard()
     }
     Router.replaceRoute('cardGroup', { group: group.slug })
   }
@@ -608,18 +613,16 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
       query
     }, `/~${card.user.slug}`, { shallow: true })
   }
-  const closeDetailOverlay = event => {
+  const closeOverlay = event => {
     if (event) {
       event.preventDefault()
     }
-    setDetailCard()
-    Router.replaceRoute('cardGroup', query)
+    setOverlay(false)
   }
-  const closeTrialOverlay = event => {
-    if (event) {
-      event.preventDefault()
-    }
-    setTrialOverlay(false)
+
+  const onPreferenceClick = (e) => {
+    e.preventDefault()
+    setOverlay('preferences')
   }
 
   const showOverview = query.suffix === 'liste'
@@ -630,7 +633,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     <Container style={{
       minHeight: cardWidth * 1.4 + 60,
       zIndex: ZINDEX_HEADER + 1,
-      overflow: showOverview || showDiscussion || showDetail || showTrialOverlay
+      overflow: showOverview || showDiscussion || showDetail || showOverlay
         ? 'visible'
         : undefined
     }}>
@@ -642,14 +645,14 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         </Link>
       </div>
       <div {...styles.canton}>
+        {!!Flag && <Flag size={40} />}
         <strong>{t(`components/Card/Group/${group.name.length > 10 ? 'labelShort' : 'label'}`, {
           groupName: group.name
         })}</strong><br />
         {!!windowWidth && t('components/Card/Group/sequence', {
           swipes: swipes.length,
-          total: totalCount
+          total: allTotalCount
         })}
-        {Icon && <Icon size={40} />}
       </div>
       {!!windowWidth && <>
         <div {...styles.bottom}>
@@ -658,19 +661,39 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             </>
           }
           <br />
-          {swipes.length === totalCount && <>
-            <br />
-            {t('components/Card/Group/end/done', {
-              groupName: group.name
-            })}
-            <br /><br />
-            <Link route='cardGroup' params={{
-              group: group.slug,
-              suffix: 'liste'
-            }}>
-              <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
-            </Link>
-          </>}
+          {swipes.length === allTotalCount
+            ? <>
+              <br />
+              {t('components/Card/Group/end/done', {
+                groupName: group.name
+              })}
+              <br /><br />
+              <Link route='cardGroup' params={{
+                group: group.slug,
+                suffix: 'liste'
+              }}>
+                <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
+              </Link>
+            </>
+            : !activeCard && <>
+              <br />
+              {t.pluralize('components/Card/Group/end/doneFilterCount', {
+                groupName: group.name,
+                count: totalCount
+              })}
+              <br /><br />
+              <Editorial.A href='#' onClick={onPreferenceClick}>
+                {t('components/Card/Group/end/showPreferences')}
+              </Editorial.A>
+              <br /><br />
+              <Link route='cardGroup' params={{
+                group: group.slug,
+                suffix: 'liste'
+              }}>
+                <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
+              </Link>
+            </>
+          }
         </div>
         {allCards.map((card, i) => {
           if (i + nOld < topIndex || i - nNew >= topIndex) {
@@ -710,11 +733,16 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         <div {...styles.buttonPanel} style={{
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
-          {showTrialOverlay &&
-            <Overlay title={'Probelesen'} onClose={closeTrialOverlay}>
+          {showOverlay === 'trial' &&
+            <Overlay title={'Probelesen'} onClose={closeOverlay}>
               <TrialForm
                 accessCampaignId={trialAccessCampaignId}
                 narrow />
+            </Overlay>
+          }
+          {showOverlay === 'preferences' &&
+            <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
+              <Preferences />
             </Overlay>
           }
           {showOverview &&
@@ -724,14 +752,14 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
               swipes={swipes}
               onReset={onReset}
               isPersisted={isPersisted}
-              onClose={closeOverlay} />}
+              onClose={closeOverlayWithRoute} />}
           {showDiscussion &&
             <Overlay title={
               (group.discussion && group.discussion.title) ||
               t('components/Card/Group/discussion/title', {
                 groupName: group.name
               })
-            } onClose={closeOverlay}>
+            } onClose={closeOverlayWithRoute}>
               <Label style={{ display: 'block', marginBottom: 10 }}>
                 <RawHtml
                   dangerouslySetInnerHTML={{
@@ -753,7 +781,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
           {showDetail &&
             <Overlay
               title={detailCard.user.name}
-              onClose={closeDetailOverlay}
+              onClose={closeOverlayWithRoute}
               beta
             >
               <Details card={detailCard} />
@@ -781,7 +809,28 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
               : 16
           }} title={t('components/Card/Group/overview')} onClick={onShowOverview}>
             {rightSwipes.length || <ListIcon />}
-          </a>
+          </a><br />
+          <Editorial.A href='#' onClick={onPreferenceClick} style={{
+            display: 'inline-block',
+            padding: '5px 0',
+            textDecoration: 'none',
+            backgroundColor: windowHeight < 500
+              ? 'rgba(222,239,245,0.5)'
+              : 'none'
+          }}>
+            <PreferencesIcon style={{
+              verticalAlign: 'top',
+              marginRight: 5
+            }} />
+            {variables && variables.mustHave && variables.smartspider
+              ? `${totalCount} ${[
+                variables.mustHave && t('components/Card/Group/preferences/filter', {
+                  filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
+                }),
+                variables.smartspider && t('components/Card/Group/preferences/sort')
+              ].filter(Boolean).join(', ')}`
+              : t('components/Card/Group/preferences/none')}
+          </Editorial.A>
         </div>
       </>}
     </Container>

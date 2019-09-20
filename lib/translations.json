@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-18T15:59:35.111Z",
+  "updated": "2019-09-20T16:28:56.544Z",
   "title": "live",
   "data": [
     {
@@ -5641,6 +5641,90 @@
     {
       "key": "Onboarding/Page/more/cards/link",
       "value": "Zum «Wahltindär»"
+    },
+    {
+      "key": "components/Card/Group/preferences",
+      "value": "Ihre Präferenzen"
+    },
+    {
+      "key": "components/Card/Group/preferences/none",
+      "value": "Präferenz festlegen"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter",
+      "value": "mit {filters}"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/portrait",
+      "value": "Porträtbild"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/smartspider",
+      "value": "Smartspider"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/statement",
+      "value": "Statement"
+    },
+    {
+      "key": "components/Card/Group/preferences/sort",
+      "value": "nach Wertehaltung"
+    },
+    {
+      "key": "components/Card/Preferences/filter",
+      "value": "Nur Profile mit:"
+    },
+    {
+      "key": "components/Card/Preferences/filter/portrait",
+      "value": "Porträtbild"
+    },
+    {
+      "key": "components/Card/Preferences/filter/smartspider",
+      "value": "Smartspider"
+    },
+    {
+      "key": "components/Card/Preferences/filter/statement",
+      "value": "Statement"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider",
+      "value": "Ihre Wertehaltung:"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro",
+      "value": "Haben Sie bereits den Smartvote-Fragebogen ausgefüllt? Dann können Sie hier Ihre Wertehaltungen übertragen zum Vergleichen und Sortieren. Falls nicht: {link}."
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro/linkText",
+      "value": "Jetzt ausfüllen und vergleichbaren Werte erhalten"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro/linkHref",
+      "value": "https://www.smartvote.ch/de/group/2/election/19_ch_nr/matching/questionnaire/rapid/category/1"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/sort",
+      "value": "Profile mit ähnlichen Smartspider zuerst anzeigen"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/reset",
+      "value": "Smartspider zurücksetzen"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/resetConfirm",
+      "value": "Möchten Sie Ihre Smartspider-Werte entfernen?"
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/0",
+      "value": "Es gibt keine Kandidatur im Kanton {groupName}, die auf Ihre Präferenzen passt."
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/other",
+      "value": "Sie haben alle auf Ihre Präferenzen passenden Kandidaturen im Kanton {groupName} durchgeswipt."
+    },
+    {
+      "key": "components/Card/Group/end/showPreferences",
+      "value": "Präferenzen anpassen"
     }
   ]
 }

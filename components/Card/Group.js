@@ -221,7 +221,8 @@ const SpringCard = ({
   dragTime,
   swiped, windowWidth,
   dragDir,
-  onDetail, group
+  onDetail, group,
+  mySmartspider
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: fallIn * 100, from: fromFall() }
@@ -283,6 +284,7 @@ const SpringCard = ({
           : <Card key={card.id}
             t={t}
             {...card}
+            mySmartspider={mySmartspider}
             width={cardWidth}
             dragTime={dragTime}
             onDetail={() => {
@@ -317,7 +319,7 @@ const useQueueState = createPersistedState('republik-card-group-queue')
 
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser, variables }) => {
+const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser, variables, mySmartspider }) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
@@ -727,7 +729,8 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}
-            group={group} />
+            group={group}
+            mySmartspider={mySmartspider} />
         })}
 
         <div {...styles.buttonPanel} style={{

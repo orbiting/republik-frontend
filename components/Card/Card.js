@@ -72,7 +72,7 @@ const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -108,7 +108,8 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       <Spider
         size={innerWidth}
         fill={partyColor}
-        data={payload.smartvoteCleavage} />
+        data={payload.smartvoteCleavage}
+        reference={mySmartspider} />
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Finance payload={payload} />

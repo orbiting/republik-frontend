@@ -28,7 +28,7 @@ export const axes = [
 ]
 const nAxes = axes.length
 
-const Spider = ({ data, fill, size }) => {
+const Spider = ({ data, fill, size, reference }) => {
   const cx = size / 2
   const cy = size / 2
   const points = data.map((d, i) => {
@@ -108,6 +108,42 @@ const Spider = ({ data, fill, size }) => {
       <polygon fill={fill} fillOpacity={0.7} points={points.map((p) => {
         return [p.x, p.y].join(',')
       }).join(' ')} />
+      {reference && <g>
+        {reference.map((d, i) => {
+          const nd = i === nAxes - 1 ? reference[0] : reference[i + 1]
+          if (d < 0 && nd < 0) {
+            return null
+          }
+
+          const p = d < 0
+            ? [
+              getHorizontalPosition(i + 0.9, cx, (nd / maxDomain) * factor),
+              getVerticalPosition(i + 0.9, cy, (nd / maxDomain) * factor)
+            ]
+            : [
+              getHorizontalPosition(i, cx, (d / maxDomain) * factor),
+              getVerticalPosition(i, cy, (d / maxDomain) * factor)
+            ]
+
+          const np = nd < 0
+            ? [
+              getHorizontalPosition(i + 0.1, cx, (d / maxDomain) * factor),
+              getVerticalPosition(i + 0.1, cy, (d / maxDomain) * factor)
+            ]
+            : [
+              getHorizontalPosition(i + 1, cx, (nd / maxDomain) * factor),
+              getVerticalPosition(i + 1, cy, (nd / maxDomain) * factor)
+            ]
+
+          return <line key={i}
+            stroke={colors.secondary}
+            strokeWidth='1'
+            x1={p[0]}
+            y1={p[1]}
+            x2={np[0]}
+            y2={np[1]} />
+        })}
+      </g>}
       {points.map(({ value, x, y }, i) => {
         if (value !== maxValue) {
           return null

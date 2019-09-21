@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { css } from 'glamor'
 
 import withT from '../../lib/withT'
-import { Checkbox, Label, Editorial, mediaQueries } from '@project-r/styleguide'
+import { Checkbox, Label, Editorial, mediaQueries, colors } from '@project-r/styleguide'
 
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 
@@ -133,8 +133,9 @@ const Filters = ({ t }) => {
         <div {...styles.mySmartspiderSpider}>
           <Spider
             size={280}
-            fill={'#000'}
-            data={preferences.mySmartspider.map(v => Math.max(0, v))} />
+            fill={colors.secondary}
+            data={preferences.mySmartspider.map(v => Math.max(0, v))}
+            reference={preferences.mySmartspider} />
         </div>
         <br /><br />
         <Editorial.A href='#' onClick={(e) => {

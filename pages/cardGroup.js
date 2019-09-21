@@ -50,7 +50,7 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
 ${cardFragment}
 `
 
-const Inner = ({ data, t, serverContext, variables }) => {
+const Inner = ({ data, t, serverContext, variables, mySmartspider }) => {
   const loading = data.loading && !data.cardGroup
   const Wrapper = loading ? Container : Fragment
 
@@ -79,7 +79,7 @@ const Inner = ({ data, t, serverContext, variables }) => {
       return (
         <>
           {meta}
-          <Group group={data.cardGroup} variables={variables} fetchMore={({ endCursor }) => data.fetchMore({
+          <Group group={data.cardGroup} variables={variables} mySmartspider={mySmartspider} fetchMore={({ endCursor }) => data.fetchMore({
             variables: {
               after: endCursor
             },
@@ -126,6 +126,7 @@ const Page = ({ serverContext, router: { query: { group, top } } }) => {
     <Frame footer={false} pullable={false} raw>
       <Query
         serverContext={serverContext}
+        mySmartspider={slowPreferences.mySmartspider}
         variables={{
           slug: group,
           top: top ? [top] : undefined,

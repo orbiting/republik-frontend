@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 
 import withT from '../lib/withT'
 import { routes } from '../lib/routes'
+import { useDebounce } from '../lib/hooks/useDebounce'
 import {
   PUBLIC_BASE_URL,
   CDN_FRONTEND_BASE_URL
@@ -119,6 +120,7 @@ const Query = compose(
 
 const Page = ({ serverContext, router: { query: { group, top } } }) => {
   const [preferences] = useCardPreferences({})
+  const [slowPreferences] = useDebounce(preferences, 500)
 
   return (
     <Frame footer={false} pullable={false} raw>
@@ -128,12 +130,12 @@ const Page = ({ serverContext, router: { query: { group, top } } }) => {
           slug: group,
           top: top ? [top] : undefined,
           mustHave: [
-            preferences.portrait && 'portrait',
-            preferences.smartspider && 'smartspider',
-            preferences.statement && 'statement'
+            slowPreferences.portrait && 'portrait',
+            slowPreferences.smartspider && 'smartspider',
+            slowPreferences.statement && 'statement'
           ].filter(Boolean),
-          smartspider: preferences.mySmartspider && preferences.mySmartspiderSort
-            ? preferences.mySmartspider
+          smartspider: slowPreferences.mySmartspider && slowPreferences.mySmartspiderSort
+            ? slowPreferences.mySmartspider
             : undefined
         }} />
     </Frame>

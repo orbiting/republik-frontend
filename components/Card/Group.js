@@ -627,7 +627,7 @@ const Group = ({
                 </Editorial.A>
               </Link>
             </>
-            : !activeCard && <>
+            : !activeCard && allCards.length >= totalCount && <>
               <br />
               {t.pluralize('components/Card/Group/end/doneFilterCount', {
                 groupName: group.name,

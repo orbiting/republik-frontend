@@ -4,6 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import withT from '../lib/withT'
+import withMe from '../lib/apollo/withMe'
 import { routes } from '../lib/routes'
 import { useDebounce } from '../lib/hooks/useDebounce'
 import {
@@ -50,12 +51,40 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
 ${cardFragment}
 `
 
-const Inner = ({ data, t, serverContext, variables, mySmartspider }) => {
-  const loading = data.loading && !data.cardGroup
+const subscripedByMeQuery = gql`
+query getSubscribedCardGroup($slug: String!) {
+  cardGroup(slug: $slug) {
+    id
+    cards(first: 5000, filters: {subscribedByMe: true}) {
+      totalCount
+      nodes {
+        id
+        ...Card
+        user {
+          id
+          subscribedByMe {
+            id
+            createdAt
+          }
+        }
+      }
+    }
+  }
+}
+
+${cardFragment}
+`
+
+const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider }) => {
+  const loading = (
+    (subscripedByMeData && subscripedByMeData.loading) ||
+    (data.loading && !data.cardGroup)
+  )
   const Wrapper = loading ? Container : Fragment
+  const error = data.error || (subscripedByMeData && subscripedByMeData.error)
 
   return <Wrapper>
-    <Loader loading={loading} error={data.error} render={() => {
+    <Loader loading={loading} error={error} render={() => {
       if (!data.cardGroup) {
         return (
           <StatusError
@@ -79,29 +108,34 @@ const Inner = ({ data, t, serverContext, variables, mySmartspider }) => {
       return (
         <>
           {meta}
-          <Group group={data.cardGroup} variables={variables} mySmartspider={mySmartspider} fetchMore={({ endCursor }) => data.fetchMore({
-            variables: {
-              after: endCursor
-            },
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              return {
-                ...previousResult,
-                ...fetchMoreResult,
-                cardGroup: {
-                  ...previousResult.cardGroup,
-                  ...fetchMoreResult.cardGroup,
-                  cards: {
-                    ...previousResult.cardGroup.cards,
-                    ...fetchMoreResult.cardGroup.cards,
-                    nodes: [
-                      ...previousResult.cardGroup.cards.nodes,
-                      ...fetchMoreResult.cardGroup.cards.nodes
-                    ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+          <Group
+            group={data.cardGroup}
+            subscripedByMeCards={subscripedByMeData && subscripedByMeData.cardGroup.cards.nodes}
+            variables={variables}
+            mySmartspider={mySmartspider}
+            fetchMore={({ endCursor }) => data.fetchMore({
+              variables: {
+                after: endCursor
+              },
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                return {
+                  ...previousResult,
+                  ...fetchMoreResult,
+                  cardGroup: {
+                    ...previousResult.cardGroup,
+                    ...fetchMoreResult.cardGroup,
+                    cards: {
+                      ...previousResult.cardGroup.cards,
+                      ...fetchMoreResult.cardGroup.cards,
+                      nodes: [
+                        ...previousResult.cardGroup.cards.nodes,
+                        ...fetchMoreResult.cardGroup.cards.nodes
+                      ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+                    }
                   }
                 }
               }
-            }
-          })} />
+            })} />
         </>
       )
     }} />
@@ -110,6 +144,18 @@ const Inner = ({ data, t, serverContext, variables, mySmartspider }) => {
 
 const Query = compose(
   withT,
+  withMe,
+  graphql(subscripedByMeQuery, {
+    skip: props => !props.me,
+    options: ({ variables: { slug } }) => ({
+      variables: {
+        slug
+      }
+    }),
+    props: ({ data }) => ({
+      subscripedByMeData: data
+    })
+  }),
   graphql(query, {
     options: ({ variables }) => ({
       variables,

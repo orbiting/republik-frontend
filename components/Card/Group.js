@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
+import { ascending } from 'd3-array'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose, graphql } from 'react-apollo'
@@ -43,6 +44,7 @@ import Cantons from './Cantons'
 import OverviewOverlay from './OverviewOverlay'
 import Overlay from './Overlay'
 import Preferences from './Preferences'
+import { useQueue } from './useQueue'
 
 const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
 
@@ -315,11 +317,19 @@ const SpringCard = ({
   )
 }
 
-const useQueueState = createPersistedState('republik-card-group-queue')
-
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser, variables, mySmartspider }) => {
+const Group = ({
+  t,
+  group,
+  fetchMore,
+  router: { query },
+  me,
+  subToUser, unsubFromUser,
+  variables,
+  mySmartspider,
+  subscripedByMeCards
+}) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
@@ -328,21 +338,72 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     [storageKey]
   )
 
+  const [ addToQueue, setStatePerUserId ] = useQueue({
+    me,
+    subToUser,
+    unsubFromUser
+  })
+
+  const totalCount = group.cards.totalCount
+  const allTotalCount = group.all.totalCount
+  const [allSwipes, setSwipes, isPersisted] = useSwipeState([])
+  const swipedMap = useMemo(() => {
+    return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
+  }, [allSwipes])
+  useEffect(() => {
+    const newRemoteSwipes = (subscripedByMeCards || [])
+      .filter(card => !swipedMap.has(card.id))
+      .map(card => {
+        const swipe = {
+          dir: 1,
+          xDelta: 0,
+          velocity: 0.2,
+          cardId: card.id,
+          cardCache: card,
+          date: card.user.subscribedByMe.createdAt
+        }
+        // swipedMap.set(card.id, swipe)
+        return swipe
+      })
+    if (newRemoteSwipes.length) {
+      setSwipes(swipes => swipes.concat(newRemoteSwipes))
+    }
+    if (subscripedByMeCards && subscripedByMeCards.length) {
+      setStatePerUserId(subscripedByMeCards.reduce(
+        (state, card) => {
+          state[card.user.id] = { id: card.user.subscribedByMe.id }
+          return state
+        },
+        {}
+      ))
+    }
+  }, [subscripedByMeCards])
+
   const allCards = [
     ...group.cards.nodes.slice(0, 13),
     trialCard.current,
     ...group.cards.nodes.slice(13)
   ].filter(Boolean)
-  const totalCount = group.cards.totalCount
-  const allTotalCount = group.all.totalCount
-  const [swipes, setSwipes, isPersisted] = useSwipeState([])
+
+  allCards.sort((a, b) => {
+    const aSwipe = swipedMap.get(a.id)
+    const bSwipe = swipedMap.get(b.id)
+    return aSwipe && bSwipe
+      ? ascending(allSwipes.indexOf(aSwipe), allSwipes.indexOf(bSwipe))
+      : (
+        ascending(!aSwipe, !bSwipe) ||
+        ascending(allCards.indexOf(a), allCards.indexOf(b))
+      )
+  })
+
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipes.find(swipe => swipe.cardId === card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipedMap.has(card.id))
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
   }
-  const [topIndex, setTopIndex] = useState(getUnswipedIndex)
+  const topIndex = getUnswipedIndex()
+
   const [dragDir, setDragDir] = useState(false)
   const [detailCard, setDetailCard] = useState()
   const [showOverlay, setOverlay] = useState(false)
@@ -356,12 +417,6 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
 
   const activeCard = allCards[topIndex]
-  useEffect(() => {
-    const unswipedIndex = getUnswipedIndex()
-    if (unswipedIndex !== topIndex) {
-      setTopIndex(unswipedIndex)
-    }
-  }, [swipes, topIndex, activeCard])
 
   const [windowWidth, windowHeight] = useWindowSize()
   const cardWidth = windowWidth > 500
@@ -384,113 +439,6 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
       window.removeEventListener('touchmove', onTouchMove)
     }
   }, [])
-
-  const [queue, setQueue] = useQueueState({ statePerUserId: {}, pending: [] })
-  const addToQueue = (userId, sub) => setQueue(queue => {
-    if (!sub && !queue.statePerUserId[userId]) {
-      // only rm pending subs
-      return {
-        ...queue,
-        pending: queue.pending.filter(item => item.userId !== userId)
-      }
-    }
-    return {
-      ...queue,
-      pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
-    }
-  })
-
-  useEffect(() => {
-    if (me && queue && queue.pending && queue.pending.length) {
-      const timeout = setTimeout(
-        () => {
-          setQueue(queue => {
-            const item = queue.pending[0]
-            if (!item) {
-              return queue
-            }
-            const { userId } = item
-            const currentState = queue.statePerUserId[userId]
-            const now = Date.now()
-            if (currentState && currentState.wip && now - currentState.wip < 1000 * 31) {
-              return { ...queue }
-            }
-            const clearOwn = () => {
-              setQueue(queue => {
-                const statePerUserId = { ...queue.statePerUserId }
-                if (now === statePerUserId[userId].wip) {
-                  delete statePerUserId[userId]
-                }
-                return {
-                  ...queue,
-                  statePerUserId
-                }
-              })
-            }
-
-            if (item.sub) {
-              subToUser({ userId })
-                .then(({ data: { subscribe: sub } }) => {
-                  setQueue(queue => ({
-                    ...queue,
-                    statePerUserId: {
-                      ...queue.statePerUserId,
-                      [userId]: { id: sub.id }
-                    }
-                  }))
-                })
-                .catch(() => {
-                  // no retries for now
-                  clearOwn()
-                })
-              return {
-                ...queue,
-                statePerUserId: {
-                  ...queue.statePerUserId,
-                  [userId]: {
-                    ...currentState,
-                    wip: now
-                  }
-                },
-                pending: queue.pending.slice(1)
-              }
-            } else {
-              if (currentState && currentState.id) {
-                unsubFromUser({ subscriptionId: currentState.id })
-                  .then(() => clearOwn())
-                  .catch(() => {
-                    clearOwn()
-                  })
-                return {
-                  ...queue,
-                  statePerUserId: {
-                    ...queue.statePerUserId,
-                    [userId]: {
-                      ...currentState,
-                      wip: now
-                    }
-                  },
-                  pending: queue.pending.slice(1)
-                }
-              }
-              // never subscribed in this browser
-              return {
-                ...queue,
-                statePerUserId: {
-                  ...queue.statePerUserId,
-                  [userId]: undefined
-                },
-                pending: queue.pending.slice(1)
-              }
-            }
-          })
-        },
-        500 + Math.random() * 1000
-      )
-
-      return () => clearTimeout(timeout)
-    }
-  }, [queue, me])
 
   const onSwipe = (swiped, card) => {
     if (topFromQuery.current) {
@@ -519,7 +467,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     if (!prev) {
       return
     }
-    const swiped = swipes.find(swipe => swipe.cardId === prev.id)
+    const swiped = swipedMap.get(prev.id)
 
     if (prev && prev.user) {
       addToQueue(prev.user.id, false)
@@ -592,7 +540,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   })
 
   const Flag = Cantons[group.slug] || null
-  const rightSwipes = swipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+  const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
 
   const onShowOverview = event => {
     event.preventDefault()
@@ -652,7 +600,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
           groupName: group.name
         })}</strong><br />
         {!!windowWidth && t('components/Card/Group/sequence', {
-          swipes: swipes.length,
+          swipes: allSwipes.length,
           total: allTotalCount
         })}
       </div>
@@ -663,7 +611,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             </>
           }
           <br />
-          {swipes.length === allTotalCount
+          {allSwipes.length === allTotalCount
             ? <>
               <br />
               {t('components/Card/Group/end/done', {
@@ -674,7 +622,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
                 group: group.slug,
                 suffix: 'liste'
               }}>
-                <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
+                <Editorial.A>
+                  {t('components/Card/Group/end/showList')}
+                </Editorial.A>
               </Link>
             </>
             : !activeCard && <>
@@ -692,7 +642,9 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
                 group: group.slug,
                 suffix: 'liste'
               }}>
-                <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
+                <Editorial.A>
+                  {t('components/Card/Group/end/showList')}
+                </Editorial.A>
               </Link>
             </>
           }
@@ -702,7 +654,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             return null
           }
           const isTop = topIndex === i
-          const swiped = topFromQuery.current !== card.id && swipes.find(swipe => swipe.cardId === card.id)
+          const swiped = topFromQuery.current !== card.id && swipedMap.get(card.id)
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current
@@ -752,7 +704,7 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             <OverviewOverlay
               t={t}
               group={group}
-              swipes={swipes}
+              swipes={allSwipes}
               onReset={onReset}
               isPersisted={isPersisted}
               onClose={closeOverlayWithRoute} />}

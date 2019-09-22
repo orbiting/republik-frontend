@@ -1,5 +1,6 @@
 import React from 'react'
 import { range, max } from 'd3-array'
+import { color } from 'd3-color'
 import { colors, fontStyles } from '@project-r/styleguide'
 
 const maxDomain = 100
@@ -40,6 +41,9 @@ const Spider = ({ data, fill, size, reference }) => {
   })
 
   const maxValue = max(data)
+  const maxDiff = reference && max(reference.map((d, i) =>
+    d < 0 ? 0 : Math.abs(d - data[i])
+  ))
 
   const radius = factor * Math.min(cx, cy)
   const levelFactors = range(0, levels).map((level) => {
@@ -74,7 +78,9 @@ const Spider = ({ data, fill, size, reference }) => {
       ))}
       {axes.map(({ text, rot }, i) => {
         const below = i > 2 && i < 6
-        const highlight = data[i] === maxValue
+        const highlight = maxDiff
+          ? Math.abs(data[i] - reference[i]) === maxDiff
+          : data[i] === maxValue
 
         const x = getHorizontalPosition(i, cx, factor)
         const y = getVerticalPosition(i, cx, factor)
@@ -105,9 +111,6 @@ const Spider = ({ data, fill, size, reference }) => {
           </g>
         )
       })}
-      <polygon fill={fill} fillOpacity={0.7} points={points.map((p) => {
-        return [p.x, p.y].join(',')
-      }).join(' ')} />
       {reference && <g>
         {reference.map((d, i) => {
           const nd = i === nAxes - 1 ? reference[0] : reference[i + 1]
@@ -136,7 +139,7 @@ const Spider = ({ data, fill, size, reference }) => {
             ]
 
           return <line key={i}
-            stroke={colors.secondary}
+            stroke='#000'
             strokeWidth='1'
             x1={p[0]}
             y1={p[1]}
@@ -144,8 +147,19 @@ const Spider = ({ data, fill, size, reference }) => {
             y2={np[1]} />
         })}
       </g>}
+      <polygon
+        opacity={0.7}
+        fill={fill}
+        stroke={fill}
+        strokeWidth='1' points={points.map((p) => {
+          return [p.x, p.y].join(',')
+        }).join(' ')} />
       {points.map(({ value, x, y }, i) => {
-        if (value !== maxValue) {
+        if (!maxDiff && value !== maxValue) {
+          return null
+        }
+        const diff = reference && value - reference[i]
+        if (maxDiff && Math.abs(diff) !== maxDiff) {
           return null
         }
         const below = i > 2 && i < 6
@@ -157,12 +171,16 @@ const Spider = ({ data, fill, size, reference }) => {
               ...fontStyles.sansSerifMedium,
               fontSize: 11
             }}
-            fill={colors.text}
+            fill={color(fill).darker(1.5)}
             textAnchor='middle'
             dy={below
               ? value > 92 ? '0em' : '0.8em'
               : value > 92 ? '0.8em' : '0em'}>
-            {Math.round(value)}
+            {reference
+              ? diff > 0
+                ? `+${Math.round(diff)}`
+                : !!diff && Math.round(diff)
+              : Math.round(value)}
           </text>
         </g>
       })}

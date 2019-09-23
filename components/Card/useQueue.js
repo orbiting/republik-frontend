@@ -36,6 +36,12 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
       }
     }))
   }
+  const clearPending = () => {
+    setQueue(queue => ({
+      ...queue,
+      pending: []
+    }))
+  }
 
   useEffect(() => {
     if (me && queue && queue.pending && queue.pending.length) {
@@ -129,5 +135,10 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
     }
   }, [queue, me])
 
-  return [addToQueue, replaceStatePerUserId, queue.pending]
+  return [
+    addToQueue,
+    clearPending,
+    queue.statePerUserId,
+    replaceStatePerUserId
+  ]
 }

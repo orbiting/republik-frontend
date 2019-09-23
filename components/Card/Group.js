@@ -338,7 +338,7 @@ const Group = ({
     [storageKey]
   )
 
-  const [addToQueue, replaceStatePerUserId] = useQueue({
+  const [ addToQueue, clearPending, statePerUserId, replaceStatePerUserId ] = useQueue({
     me,
     subToUser,
     unsubFromUser
@@ -356,7 +356,12 @@ const Group = ({
     if (!subscripedByMeCards || !me) {
       return
     }
-    const rmLocalSwipes = []
+    const rmLocalSwipes = rightSwipes.filter(
+      swipe => (
+        swipe.remote &&
+        !subscripedByMeCards.find(c => c.id === swipe.cardId)
+      )
+    )
     const newRemoteSwipes = subscripedByMeCards
       .filter(card => {
         const swipe = swipedMap.get(card.id)
@@ -375,7 +380,8 @@ const Group = ({
           velocity: 0.2,
           cardId: card.id,
           cardCache: card,
-          date: card.user.subscribedByMe.createdAt
+          date: card.user.subscribedByMe.createdAt,
+          remote: true
         }
         return swipe
       })
@@ -496,7 +502,11 @@ const Group = ({
     if (topFromQuery.current) {
       topFromQuery.current = null
     }
-    setSwipes([])
+    clearPending()
+    setSwipes(swipes => swipes.filter(swipe =>
+      swipe.cardCache &&
+      statePerUserId[swipe.cardCache.user.id]
+    ))
   }
   const onRight = (e) => {
     if (!activeCard) {

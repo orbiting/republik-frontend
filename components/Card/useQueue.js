@@ -121,5 +121,5 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
     }
   }, [queue, me])
 
-  return [addToQueue, setStatePerUserId]
+  return [addToQueue, setStatePerUserId, queue.pending]
 }

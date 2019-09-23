@@ -148,6 +148,7 @@ const Query = compose(
   graphql(subscripedByMeQuery, {
     skip: props => !props.me,
     options: ({ variables: { slug } }) => ({
+      fetchPolicy: 'network-only',
       variables: {
         slug
       }

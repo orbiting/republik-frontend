@@ -338,7 +338,7 @@ const Group = ({
     [storageKey]
   )
 
-  const [ addToQueue, setStatePerUserId ] = useQueue({
+  const [addToQueue, setStatePerUserId, pending] = useQueue({
     me,
     subToUser,
     unsubFromUser
@@ -350,9 +350,29 @@ const Group = ({
   const swipedMap = useMemo(() => {
     return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
   }, [allSwipes])
+  const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+
   useEffect(() => {
-    const newRemoteSwipes = (subscripedByMeCards || [])
-      .filter(card => !swipedMap.has(card.id))
+    if (!subscripedByMeCards || !me) {
+      return
+    }
+    const rmLocalSwipes = rightSwipes.filter(
+      swipe => (
+        !subscripedByMeCards.find(c => c.id === swipe.cardId) &&
+        !pending.find(({ sub, userId }) => sub && userId === swipe.cardCache.user.id)
+      )
+    )
+    const newRemoteSwipes = subscripedByMeCards
+      .filter(card => {
+        const swipe = swipedMap.get(card.id)
+        if (swipe) {
+          if (swipe.dir === 1) {
+            return false
+          }
+          rmLocalSwipes.push(swipe)
+        }
+        return true
+      })
       .map(card => {
         const swipe = {
           dir: 1,
@@ -362,13 +382,14 @@ const Group = ({
           cardCache: card,
           date: card.user.subscribedByMe.createdAt
         }
-        // swipedMap.set(card.id, swipe)
         return swipe
       })
-    if (newRemoteSwipes.length) {
-      setSwipes(swipes => swipes.concat(newRemoteSwipes))
-    }
-    if (subscripedByMeCards && subscripedByMeCards.length) {
+    setSwipes(swipes =>
+      swipes
+        .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
+        .concat(newRemoteSwipes)
+    )
+    if (subscripedByMeCards.length) {
       setStatePerUserId(subscripedByMeCards.reduce(
         (state, card) => {
           state[card.user.id] = { id: card.user.subscribedByMe.id }
@@ -540,7 +561,6 @@ const Group = ({
   })
 
   const Flag = Cantons[group.slug] || null
-  const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
 
   const onShowOverview = event => {
     event.preventDefault()

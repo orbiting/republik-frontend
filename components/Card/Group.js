@@ -256,7 +256,7 @@ const SpringCard = ({
     } else if (wasTop || wasSwiped) {
       set(to())
     }
-  }, [swiped, isTop, wasTop, wasSwiped])
+  }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
   const dir = dragDir || (swiped && swiped.dir)

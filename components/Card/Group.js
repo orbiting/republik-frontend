@@ -338,7 +338,7 @@ const Group = ({
     [storageKey]
   )
 
-  const [addToQueue, setStatePerUserId, pending] = useQueue({
+  const [addToQueue, replaceStatePerUserId] = useQueue({
     me,
     subToUser,
     unsubFromUser
@@ -356,12 +356,7 @@ const Group = ({
     if (!subscripedByMeCards || !me) {
       return
     }
-    const rmLocalSwipes = rightSwipes.filter(
-      swipe => (
-        !subscripedByMeCards.find(c => c.id === swipe.cardId) &&
-        !pending.find(({ sub, userId }) => sub && userId === swipe.cardCache.user.id)
-      )
-    )
+    const rmLocalSwipes = []
     const newRemoteSwipes = subscripedByMeCards
       .filter(card => {
         const swipe = swipedMap.get(card.id)
@@ -390,7 +385,7 @@ const Group = ({
         .concat(newRemoteSwipes)
     )
     if (subscripedByMeCards.length) {
-      setStatePerUserId(subscripedByMeCards.reduce(
+      replaceStatePerUserId(subscripedByMeCards.reduce(
         (state, card) => {
           state[card.user.id] = { id: card.user.subscribedByMe.id }
           return state

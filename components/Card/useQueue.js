@@ -19,12 +19,20 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
       pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
     }
   })
-  const setStatePerUserId = statePerUserId => {
+  const replaceStatePerUserId = statePerUserId => {
     setQueue(queue => ({
       ...queue,
       statePerUserId: {
-        ...queue.statePerUserId,
-        ...statePerUserId
+        ...statePerUserId,
+        ...Object.keys(queue.statePerUserId).reduce(
+          (wipState, key) => {
+            if (queue.statePerUserId[key].wip > Date.now() - 1000 * 31) {
+              wipState[key] = queue.statePerUserId[key]
+            }
+            return wipState
+          },
+          {}
+        )
       }
     }))
   }
@@ -121,5 +129,5 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
     }
   }, [queue, me])
 
-  return [addToQueue, setStatePerUserId, queue.pending]
+  return [addToQueue, replaceStatePerUserId, queue.pending]
 }

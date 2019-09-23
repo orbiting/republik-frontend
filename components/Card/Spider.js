@@ -78,7 +78,7 @@ const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
       ))}
       {axes.map(({ text, rot }, i) => {
         const below = i > 2 && i < 6
-        const highlight = maxDiff
+        const highlight = maxDiff !== undefined
           ? Math.abs(data[i] - reference[i]) === maxDiff
           : data[i] === maxValue
 
@@ -155,11 +155,11 @@ const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
         })}
       </g>}
       {points.map(({ value, x, y }, i) => {
-        if (!maxDiff && value !== maxValue) {
+        if (maxDiff === undefined && value !== maxValue) {
           return null
         }
         const diff = reference && value - reference[i]
-        if (maxDiff && Math.abs(diff) !== maxDiff) {
+        if (maxDiff !== undefined && Math.abs(diff) !== maxDiff) {
           return null
         }
         const below = i > 2 && i < 6

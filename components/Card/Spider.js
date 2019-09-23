@@ -29,7 +29,7 @@ export const axes = [
 ]
 const nAxes = axes.length
 
-const Spider = ({ data, fill, size, reference }) => {
+const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
   const cx = size / 2
   const cy = size / 2
   const points = data.map((d, i) => {
@@ -111,6 +111,13 @@ const Spider = ({ data, fill, size, reference }) => {
           </g>
         )
       })}
+      <polygon
+        opacity={fillOpacity}
+        fill={fill}
+        stroke={fill}
+        strokeWidth='1' points={points.map((p) => {
+          return [p.x, p.y].join(',')
+        }).join(' ')} />
       {reference && <g>
         {reference.map((d, i) => {
           const nd = i === nAxes - 1 ? reference[0] : reference[i + 1]
@@ -147,13 +154,6 @@ const Spider = ({ data, fill, size, reference }) => {
             y2={np[1]} />
         })}
       </g>}
-      <polygon
-        opacity={0.7}
-        fill={fill}
-        stroke={fill}
-        strokeWidth='1' points={points.map((p) => {
-          return [p.x, p.y].join(',')
-        }).join(' ')} />
       {points.map(({ value, x, y }, i) => {
         if (!maxDiff && value !== maxValue) {
           return null

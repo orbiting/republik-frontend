@@ -134,6 +134,7 @@ const Filters = ({ t }) => {
           <Spider
             size={280}
             fill='#000'
+            fillOpacity={0.3}
             data={preferences.mySmartspider.map(v => Math.max(0, v))}
             reference={preferences.mySmartspider} />
         </div>

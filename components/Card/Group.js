@@ -478,7 +478,6 @@ const Group = ({
         .concat(newRecord)
     })
   }
-  const prevCards = allCards.filter((_, i) => i < topIndex)
   const revertCard = card => {
     const swiped = swipedMap.get(card.id)
 
@@ -489,12 +488,19 @@ const Group = ({
       return swipes.filter(swipe => swipe !== swiped)
     })
   }
+  let prevCard = allCards[topIndex - 1]
+  if (
+    prevCard &&
+    allSwipes.length &&
+    allSwipes[allSwipes.length - 1].cardId !== prevCard.id
+  ) {
+    prevCard = null
+  }
   const onRevert = () => {
-    const prev = prevCards[prevCards.length - 1]
-    if (!prev) {
+    if (!prevCard) {
       return
     }
-    revertCard(prev)
+    revertCard(prevCard)
   }
   const onReset = () => {
     if (topFromQuery.current) {
@@ -796,7 +802,7 @@ const Group = ({
             </Overlay>
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
-            backgroundColor: prevCards.length ? cardColors.revert : '#B7C1BD'
+            backgroundColor: prevCard ? cardColors.revert : '#B7C1BD'
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>

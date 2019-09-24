@@ -38,7 +38,7 @@ const styles = {
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = (props) => {
-  const { beforeRequestAccess, narrow, trialEligibility, me, t } = props
+  const { beforeRequestAccess, beforeSignIn, onSuccess, narrow, trialEligibility, me, meRefetch, t } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
@@ -49,6 +49,12 @@ const Form = (props) => {
           block
           onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
+        </Button>
+        {' '}
+        <Button
+          block
+          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}>
+          {t('Trial/Form/authorized/withAccess/setup/label')}
         </Button>
       </div>
     )
@@ -63,23 +69,10 @@ const Form = (props) => {
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
   const [autoRequestAccess, setAutoRequestAccess] = useState(false)
-  const [autoRedirectOnboarding, setAutoRedirectOnboarding] = useState(false)
 
   useEffect(
     () => { autoRequestAccess && !signingIn && me && requestAccess() },
     [autoRequestAccess, signingIn]
-  )
-
-  useEffect(
-    () => {
-      if (autoRedirectOnboarding) {
-        window.location = format({
-          pathname: `/einrichten`,
-          query: { context: 'trial' }
-        })
-      }
-    },
-    [autoRedirectOnboarding]
   )
 
   const handleEmail = (value, shouldValidate) => {
@@ -109,6 +102,8 @@ const Form = (props) => {
         return setShowErrors(true)
       }
 
+      beforeSignIn && beforeSignIn()
+
       return props.signIn(
         email.value,
         'trial',
@@ -131,7 +126,17 @@ const Form = (props) => {
     beforeRequestAccess && beforeRequestAccess()
 
     props.requestAccess()
-      .then(() => setAutoRedirectOnboarding(true))
+      .then(() => {
+        const shouldRedirect = onSuccess ? onSuccess() : true
+        if (shouldRedirect) {
+          window.location = format({
+            pathname: `/einrichten`,
+            query: { context: 'trial' }
+          })
+        } else {
+          meRefetch()
+        }
+      })
       .catch(catchError)
   }
 

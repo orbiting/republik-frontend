@@ -14,7 +14,7 @@ import TrialForm from './TrialForm'
 
 const formatDate = swissTime.format('%Y-%m-%d-%H%M')
 
-const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, queue, isPersisted, t, me }) => {
+const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, queue, isPersisted, isStale, t, me }) => {
   const { statePerUserId, pending } = queue
   const withCache = swipes.filter(swipe => swipe.cardCache)
   const rightSwipes = withCache.filter(swipe => swipe.dir === 1).map(swipe => {
@@ -40,7 +40,7 @@ const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, 
 
   return (
     <>
-      {!me && <>
+      {(!me || isStale) && <>
         <Paragraph>
           {t('components/Card/MyList/trial')}
         </Paragraph>

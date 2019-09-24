@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef } from 'react'
 import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -144,7 +144,6 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
 
 const Query = compose(
   withT,
-  withMe,
   graphql(subscripedByMeQuery, {
     skip: props => !props.me,
     options: ({ variables: { slug } }) => ({
@@ -165,13 +164,18 @@ const Query = compose(
   })
 )(Inner)
 
-const Page = ({ serverContext, router: { query: { group, top } } }) => {
+const Page = ({ serverContext, router: { query: { group, top, stale } }, me }) => {
   const [preferences] = useCardPreferences({})
   const [slowPreferences] = useDebounce(preferences, 500)
+  const meRef = useRef(me)
+  if (!stale) {
+    meRef.current = me
+  }
 
   return (
     <Frame footer={false} pullable={false} raw>
       <Query
+        me={meRef.current}
         serverContext={serverContext}
         mySmartspider={slowPreferences.mySmartspider}
         variables={{
@@ -191,5 +195,6 @@ const Page = ({ serverContext, router: { query: { group, top } } }) => {
 }
 
 export default compose(
+  withMe,
   withRouter
 )(Page)

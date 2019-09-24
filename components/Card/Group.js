@@ -579,15 +579,6 @@ const Group = ({
     event.preventDefault()
     Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
   }
-  const closeOverlayWithRoute = event => {
-    if (event) {
-      event.preventDefault()
-    }
-    if (detailCard) {
-      setDetailCard()
-    }
-    Router.replaceRoute('cardGroup', { group: group.slug })
-  }
   const onDetail = card => {
     setDetailCard(card)
     // use native router for shadow routing
@@ -600,6 +591,10 @@ const Group = ({
     if (event) {
       event.preventDefault()
     }
+    if (detailCard) {
+      setDetailCard()
+    }
+    Router.replaceRoute('cardGroup', { group: group.slug }, { shallow: true })
     setOverlay(false)
   }
 
@@ -723,7 +718,7 @@ const Group = ({
         }}>
           {showOverlay === 'trial' &&
             <Overlay title={'Probelesen'} onClose={closeOverlay}>
-              <TrialForm />
+              <TrialForm redirect />
             </Overlay>
           }
           {showOverlay === 'preferences' &&
@@ -734,7 +729,7 @@ const Group = ({
           {showOverview &&
             <Overlay beta title={t('components/Card/Group/title', {
               groupName: group.name
-            })} onClose={closeOverlayWithRoute}>
+            })} onClose={closeOverlay}>
               <MyList
                 t={t}
                 me={me}
@@ -745,7 +740,8 @@ const Group = ({
                 ignoreCard={ignoreCard}
                 queue={queue}
                 isPersisted={isPersisted}
-                onClose={closeOverlayWithRoute} />
+                onClose={closeOverlay}
+                isStale={query.stale} />
             </Overlay>}
           {showDiscussion &&
             <Overlay title={
@@ -753,7 +749,7 @@ const Group = ({
               t('components/Card/Group/discussion/title', {
                 groupName: group.name
               })
-            } onClose={closeOverlayWithRoute}>
+            } onClose={closeOverlay}>
               <Label style={{ display: 'block', marginBottom: 10 }}>
                 <RawHtml
                   dangerouslySetInnerHTML={{
@@ -775,7 +771,7 @@ const Group = ({
           {showDetail &&
             <Overlay
               title={detailCard.user.name}
-              onClose={closeOverlayWithRoute}
+              onClose={closeOverlay}
               beta
             >
               <Details card={detailCard} />

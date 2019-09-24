@@ -348,6 +348,9 @@ const Group = ({
 
   useEffect(() => {
     if (!subscripedByMeCards || !me) {
+      if (Object.keys(queue.statePerUserId).length) {
+        replaceStatePerUserId({})
+      }
       return
     }
     const rmLocalSwipes = rightSwipes.filter(
@@ -384,15 +387,13 @@ const Group = ({
         .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
         .concat(newRemoteSwipes)
     )
-    if (subscripedByMeCards.length) {
-      replaceStatePerUserId(subscripedByMeCards.reduce(
-        (state, card) => {
-          state[card.user.id] = { id: card.user.subscribedByMe.id }
-          return state
-        },
-        {}
-      ))
-    }
+    replaceStatePerUserId(subscripedByMeCards.reduce(
+      (state, card) => {
+        state[card.user.id] = { id: card.user.subscribedByMe.id }
+        return state
+      },
+      {}
+    ))
   }, [subscripedByMeCards])
 
   const allCards = [

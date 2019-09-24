@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-24T16:04:59.596Z",
+  "updated": "2019-09-24T21:56:34.677Z",
   "title": "live",
   "data": [
     {
@@ -5199,6 +5199,10 @@
       "value": "Magazin lesen"
     },
     {
+      "key": "Trial/Form/authorized/withAccess/setup/label",
+      "value": "Konto einrichten"
+    },
+    {
       "key": "Trial/Form/authorized/withoutAccess/button/label",
       "value": "Aktivieren"
     },
@@ -5651,8 +5655,12 @@
       "value": "Statement"
     },
     {
-      "key": "components/Card/Group/preferences/sort",
-      "value": "nach Wertehaltung"
+      "key": "components/Card/Group/preferences/partySort",
+      "value": "nach {party}-Wertehaltung"
+    },
+    {
+      "key": "components/Card/Group/preferences/mySort",
+      "value": "nach Ihrer Wertehaltung"
     },
     {
       "key": "components/Card/Preferences/filter",
@@ -5676,11 +5684,11 @@
     },
     {
       "key": "components/Card/Preferences/mySmartspider/intro",
-      "value": "Haben Sie bereits den Smartvote-Fragebogen ausgefüllt? Dann können Sie hier Ihre Wertehaltungen übertragen zum Vergleichen und Sortieren. Falls nicht: {link}."
+      "value": "Haben Sie den Smartvote-Fragebogen ausgefüllt? Dann können Sie hier Ihre Wertehaltungen übertragen zum Vergleichen und Sortieren. Falls nicht: {link}."
     },
     {
       "key": "components/Card/Preferences/mySmartspider/intro/linkText",
-      "value": "Jetzt ausfüllen und vergleichbaren Werte erhalten"
+      "value": "Jetzt ausfüllen und vergleichbare Werte erhalten"
     },
     {
       "key": "components/Card/Preferences/mySmartspider/intro/linkHref",
@@ -5688,7 +5696,7 @@
     },
     {
       "key": "components/Card/Preferences/mySmartspider/sort",
-      "value": "Profile mit ähnlichen Smartspider zuerst anzeigen"
+      "value": "Profile mit geringster Distanz zu Ihnen zuerst"
     },
     {
       "key": "components/Card/Preferences/mySmartspider/reset",
@@ -5729,6 +5737,14 @@
     {
       "key": "components/Card/MyList/trial",
       "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+    },
+    {
+      "key": "components/Card/Preferences/medianSmartspiders",
+      "value": "Nach Wertehaltung der Bundeshausparteien sortieren:"
+    },
+    {
+      "key": "components/Card/Preferences/medianSmartspiders/explanation",
+      "value": "Die Position der Partei entspricht dem nationalen Mittelwert ihrer Kandidierenden. Drücken Sie auf eine Grafik um Profile mit ähnlichen Werten zuerst zu sehen."
     }
   ]
 }

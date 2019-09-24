@@ -321,6 +321,7 @@ const Group = ({
   subToUser, unsubFromUser,
   variables,
   mySmartspider,
+  medianSmartspider,
   subscripedByMeCards
 }) => {
   const topFromQuery = useRef(query.top)
@@ -575,9 +576,15 @@ const Group = ({
 
   const Flag = Cantons[group.slug] || null
 
+  const medianSmartspiderQuery = medianSmartspider && { party: query.party }
+
   const onShowOverview = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
+    Router.replaceRoute('cardGroup', {
+      group: group.slug,
+      suffix: 'liste',
+      ...medianSmartspiderQuery
+    })
   }
   const onDetail = card => {
     setDetailCard(card)
@@ -594,7 +601,10 @@ const Group = ({
     if (detailCard) {
       setDetailCard()
     }
-    Router.replaceRoute('cardGroup', { group: group.slug }, { shallow: true })
+    Router.replaceRoute('cardGroup', {
+      group: group.slug,
+      ...medianSmartspiderQuery
+    }, { shallow: true })
     setOverlay(false)
   }
 
@@ -723,7 +733,14 @@ const Group = ({
           }
           {showOverlay === 'preferences' &&
             <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
-              <Preferences />
+              <Preferences
+                party={medianSmartspiderQuery && medianSmartspiderQuery.party}
+                onParty={party => {
+                  Router.replaceRoute('cardGroup', {
+                    group: group.slug,
+                    ...party && { party }
+                  }, { shallow: true })
+                }} />
             </Overlay>
           }
           {showOverview &&
@@ -817,7 +834,11 @@ const Group = ({
                 variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
                   filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
                 }),
-                variables.smartspider && t('components/Card/Group/preferences/sort')
+                variables.smartspider && medianSmartspider
+                  ? t('components/Card/Group/preferences/partySort', {
+                    party: medianSmartspider.label || medianSmartspider.value
+                  })
+                  : t('components/Card/Group/preferences/mySort')
               ].filter(Boolean).join(', ')}`
               : t('components/Card/Group/preferences/none')}
           </Editorial.A>

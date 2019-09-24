@@ -1,14 +1,25 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
+import { color } from 'd3-color'
 
 import withT from '../../lib/withT'
-import { Checkbox, Label, Editorial, mediaQueries } from '@project-r/styleguide'
+import {
+  Checkbox,
+  Label,
+  Editorial,
+  mediaQueries,
+  fontStyles,
+  plainButtonRule,
+  colors
+} from '@project-r/styleguide'
 
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 
 import { Paragraph } from './Shared'
 import Spider, { axes as spiderAxes } from './Spider'
 import Slider from './Slider'
+import medianSmartspiders from './medianSmartspiders'
+import getPartyColor from './partyColors'
 
 export const useCardPreferences = createPersistedState('republik-card-preferences')
 
@@ -22,13 +33,27 @@ const styles = {
       right: 0,
       top: 0
     }
+  }),
+  medianSmartspider: css({
+    border: '1px solid transparent',
+    display: 'inline-block',
+    textAlign: 'center',
+    ...fontStyles.sansSerifMedium,
+    fontSize: 14,
+    padding: 2,
+    ':first-child': {
+      marginLeft: -2
+    },
+    ':last-child': {
+      marginRight: -2
+    }
   })
 }
 
 const inactiveValue = -1
 const nullSmartspider = [inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue]
 
-const Filters = ({ t }) => {
+const Filters = ({ t, party, onParty }) => {
   const [preferences, setPreferences] = useCardPreferences({})
 
   const setSlider = (newValue, i) => setPreferences(p => {
@@ -82,6 +107,48 @@ const Filters = ({ t }) => {
     <br style={{ clear: 'left' }} />
     <br />
     <Paragraph>
+      <strong>{t('components/Card/Preferences/medianSmartspiders')}</strong>
+    </Paragraph>
+    <div>
+      {medianSmartspiders.map(medianSmartspider => {
+        const fill = getPartyColor(medianSmartspider.value)
+        const active = party === medianSmartspider.value
+        return (
+          <button
+            {...plainButtonRule}
+            {...styles.medianSmartspider}
+            onClick={(e) => {
+              e.preventDefault()
+              onParty(
+                active
+                  ? undefined
+                  : medianSmartspider.value
+              )
+            }}
+            style={{
+              color: color(fill).darker(0.5),
+              borderColor: active
+                ? colors.primary
+                : undefined
+            }}>
+            <Spider
+              label={false}
+              size={55}
+              fill={fill}
+              data={medianSmartspider.smartspider}
+              reference={preferences.mySmartspider} />
+            <br />
+            {medianSmartspider.label || medianSmartspider.value}
+          </button>
+        )
+      })}
+    </div>
+    <br />
+    <Paragraph>
+      {t('components/Card/Preferences/medianSmartspiders/explanation')}
+    </Paragraph>
+    <br />
+    <Paragraph>
       <strong>{t('components/Card/Preferences/mySmartspider')}</strong>
     </Paragraph>
     <Paragraph>
@@ -122,8 +189,9 @@ const Filters = ({ t }) => {
       {preferences.mySmartspider && <>
         <br />
         <Checkbox
-          checked={preferences.mySmartspiderSort}
+          checked={preferences.mySmartspiderSort && !party}
           onChange={(_, checked) => {
+            onParty()
             setPreferences(p => ({ ...p, mySmartspiderSort: checked }))
           }}
         >

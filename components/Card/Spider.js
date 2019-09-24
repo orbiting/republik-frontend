@@ -4,7 +4,6 @@ import { color } from 'd3-color'
 import { colors, fontStyles } from '@project-r/styleguide'
 
 const maxDomain = 100
-const factor = 0.75
 const radians = 2 * Math.PI
 const levels = 2
 const axisLineColor = 'rgba(0,0,0,0.17)'
@@ -29,9 +28,11 @@ export const axes = [
 ]
 const nAxes = axes.length
 
-const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
+const Spider = ({ data, fill, fillOpacity = 0.7, size, reference, label = true }) => {
   const cx = size / 2
   const cy = size / 2
+  const factor = label ? 0.75 : 0.95
+
   const points = data.map((d, i) => {
     return {
       x: getHorizontalPosition(i, cx, (d / maxDomain) * factor),
@@ -76,7 +77,7 @@ const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
           x2={getHorizontalPosition(i, cx, factor)}
           y2={getVerticalPosition(i, cy, factor)} />
       ))}
-      {axes.map(({ text, rot }, i) => {
+      {label && axes.map(({ text, rot }, i) => {
         const below = i > 2 && i < 6
         const highlight = maxDiff !== undefined
           ? Math.abs(data[i] - reference[i]) === maxDiff
@@ -154,7 +155,7 @@ const Spider = ({ data, fill, fillOpacity = 0.7, size, reference }) => {
             y2={np[1]} />
         })}
       </g>}
-      {points.map(({ value, x, y }, i) => {
+      {label && points.map(({ value, x, y }, i) => {
         if (maxDiff === undefined && value !== maxValue) {
           return null
         }

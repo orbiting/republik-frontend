@@ -20,6 +20,7 @@ import Loader from '../components/Loader'
 import StatusError from '../components/StatusError'
 import { cardFragment } from '../components/Card/fragments'
 import { useCardPreferences } from '../components/Card/Preferences'
+import medianSmartspiders from '../components/Card/medianSmartspiders'
 
 const query = gql`
 query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float]) {
@@ -75,7 +76,7 @@ query getSubscribedCardGroup($slug: String!) {
 ${cardFragment}
 `
 
-const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider }) => {
+const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider }) => {
   const loading = (
     (subscripedByMeData && subscripedByMeData.loading) ||
     (data.loading && !data.cardGroup)
@@ -113,6 +114,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
             subscripedByMeCards={subscripedByMeData && subscripedByMeData.cardGroup.cards.nodes}
             variables={variables}
             mySmartspider={mySmartspider}
+            medianSmartspider={medianSmartspider}
             fetchMore={({ endCursor }) => data.fetchMore({
               variables: {
                 after: endCursor
@@ -164,7 +166,7 @@ const Query = compose(
   })
 )(Inner)
 
-const Page = ({ serverContext, router: { query: { group, top, stale } }, me }) => {
+const Page = ({ serverContext, router: { query: { group, top, stale, party } }, me }) => {
   const [preferences] = useCardPreferences({})
   const [slowPreferences] = useDebounce(preferences, 500)
   const meRef = useRef(me)
@@ -172,11 +174,14 @@ const Page = ({ serverContext, router: { query: { group, top, stale } }, me }) =
     meRef.current = me
   }
 
+  const medianSmartspider = party && medianSmartspiders.find(m => m.value === party)
+
   return (
     <Frame footer={false} pullable={false} raw>
       <Query
         me={meRef.current}
         serverContext={serverContext}
+        medianSmartspider={medianSmartspider}
         mySmartspider={slowPreferences.mySmartspider}
         variables={{
           slug: group,
@@ -186,9 +191,11 @@ const Page = ({ serverContext, router: { query: { group, top, stale } }, me }) =
             slowPreferences.smartspider && 'smartspider',
             slowPreferences.statement && 'statement'
           ].filter(Boolean),
-          smartspider: slowPreferences.mySmartspider && slowPreferences.mySmartspiderSort
-            ? slowPreferences.mySmartspider
-            : undefined
+          smartspider: medianSmartspider
+            ? medianSmartspider.smartspider
+            : slowPreferences.mySmartspider && slowPreferences.mySmartspiderSort
+              ? slowPreferences.mySmartspider
+              : undefined
         }} />
     </Frame>
   )

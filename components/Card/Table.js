@@ -1,8 +1,10 @@
 import React from 'react'
 import { css, merge } from 'glamor'
 
+import MdClose from 'react-icons/lib/md/close'
+
 import {
-  fontFamilies, Editorial
+  fontFamilies, Editorial, plainButtonRule, InlineSpinner
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
@@ -58,41 +60,56 @@ const styles = {
   })
 }
 
-const Table = ({ children }) => (
+export const Table = ({ children }) => (
   <div style={{ overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING }}>
     <table {...styles.table}>
-      {children}
+      <tbody>
+        {children}
+      </tbody>
     </table>
   </div>
 )
 
-export default ({ cards }) => (
-  <Table>
-    <thead>
-      <tr>
-        <th {...styles.td}>Name</th>
-        <th {...styles.num}>Nr.</th>
-        <th {...styles.td}>Partei</th>
-        <th {...styles.num}>Jahrgang</th>
-      </tr>
-    </thead>
-    <tbody>
-      {cards.map((card, i) => {
-        return <tr key={`entity${i}`}>
-          <td {...styles.td}>
-            <Link route='profile' params={{ slug: card.user.slug }} passHref>
-              <Editorial.A>{card.user.name}</Editorial.A>
-            </Link>
+export const TitleRow = ({ children }) => (
+  <tr>
+    <th colSpan='4' {...styles.td} style={{ paddingTop: 10 }}>
+      {children}
+    </th>
+  </tr>
+)
 
-          </td>
-          <td {...styles.num}>{[
-            card.payload.councilOfStates.candidacy && 'SR',
-            ...card.payload.nationalCouncil.listNumbers
-          ].filter(Boolean).join(' & ')}</td>
-          <td {...styles.td}>{card.payload.party}</td>
-          <td {...styles.num}>{card.payload.yearOfBirth}</td>
-        </tr>
-      })}
-    </tbody>
-  </Table>
+export const CardRows = ({ nodes, rmCard }) => (
+  <>
+    <tr>
+      <th {...styles.td}>Name</th>
+      <th {...styles.num}>Nr.</th>
+      <th {...styles.td}>Partei</th>
+      <th {...styles.num}>Jahrgang</th>
+      <th {...styles.num} />
+    </tr>
+    {nodes.map(({ card, sub, pending }, i) => {
+      return <tr key={`entity${i}`}>
+        <td {...styles.td}>
+          <Link route='profile' params={{ slug: card.user.slug }} passHref>
+            <Editorial.A>{card.user.name}</Editorial.A>
+          </Link>
+
+        </td>
+        <td {...styles.num}>{[
+          card.payload.councilOfStates.candidacy && 'SR',
+          ...card.payload.nationalCouncil.listNumbers
+        ].filter(Boolean).join(' & ')}</td>
+        <td {...styles.td}>{card.payload.party}</td>
+        <td {...styles.num}>{card.payload.yearOfBirth}</td>
+        <td>
+          {pending ? <InlineSpinner size={20} /> : <button {...plainButtonRule} onClick={(e) => {
+            e.preventDefault()
+            rmCard(card)
+          }}>
+            <MdClose size={20} />
+          </button>}
+        </td>
+      </tr>
+    })}
+  </>
 )

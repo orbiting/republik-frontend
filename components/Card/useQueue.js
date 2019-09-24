@@ -61,7 +61,7 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
             const clearOwn = () => {
               setQueue(queue => {
                 const statePerUserId = { ...queue.statePerUserId }
-                if (now === statePerUserId[userId].wip) {
+                if (statePerUserId[userId] && now === statePerUserId[userId].wip) {
                   delete statePerUserId[userId]
                 }
                 return {
@@ -136,9 +136,9 @@ export const useQueue = ({ me, subToUser, unsubFromUser }) => {
   }, [queue, me])
 
   return [
+    queue,
     addToQueue,
     clearPending,
-    queue.statePerUserId,
     replaceStatePerUserId
   ]
 }

@@ -13,7 +13,8 @@ import {
   usePrevious,
   fontStyles,
   RawHtml,
-  Label
+  Label,
+  plainButtonRule
 } from '@project-r/styleguide'
 
 import FollowIcon from 'react-icons/lib/md/notifications-active'
@@ -26,7 +27,6 @@ import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
-import sharedStyles from '../sharedStyles'
 import { ZINDEX_HEADER } from '../constants'
 import TrialForm from '../Trial/Form'
 import {
@@ -41,7 +41,7 @@ import Details from './Details'
 import Card, { MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import OverviewOverlay from './OverviewOverlay'
+import MyList from './MyList'
 import Overlay from './Overlay'
 import Preferences from './Preferences'
 import { useQueue } from './useQueue'
@@ -100,7 +100,7 @@ const styles = {
     top: 25,
     backgroundColor: cardColors.right
   }),
-  button: css(sharedStyles.plainButton, {
+  button: css(plainButtonRule, {
     display: 'inline-block',
     borderRadius: '50%',
     margin: 10,
@@ -338,7 +338,7 @@ const Group = ({
     [storageKey]
   )
 
-  const [ addToQueue, clearPending, statePerUserId, replaceStatePerUserId ] = useQueue({
+  const [ queue, addToQueue, clearPending, replaceStatePerUserId ] = useQueue({
     me,
     subToUser,
     unsubFromUser
@@ -484,29 +484,38 @@ const Group = ({
     })
   }
   const prevCards = allCards.filter((_, i) => i < topIndex)
+  const rmCard = card => {
+    const swiped = swipedMap.get(card.id)
+
+    if (card && card.user) {
+      addToQueue(card.user.id, false)
+    }
+    setSwipes(swipes => {
+      return swipes.filter(swipe => swipe !== swiped)
+    })
+  }
   const onRevert = () => {
     const prev = prevCards[prevCards.length - 1]
     if (!prev) {
       return
     }
-    const swiped = swipedMap.get(prev.id)
-
-    if (prev && prev.user) {
-      addToQueue(prev.user.id, false)
-    }
-    setSwipes(swipes => {
-      return swipes.filter(swipe => swipe !== swiped)
-    })
+    rmCard(prev)
   }
   const onReset = () => {
     if (topFromQuery.current) {
       topFromQuery.current = null
     }
     clearPending()
-    setSwipes(swipes => swipes.filter(swipe =>
-      swipe.cardCache &&
-      statePerUserId[swipe.cardCache.user.id]
-    ))
+    setSwipes(swipes => swipes
+      .filter(swipe =>
+        swipe.cardCache &&
+        queue.statePerUserId[swipe.cardCache.user.id]
+      )
+      .map(swipe => {
+        swipe.remote = true
+        return swipe
+      })
+    )
   }
   const onRight = (e) => {
     if (!activeCard) {
@@ -726,13 +735,19 @@ const Group = ({
             </Overlay>
           }
           {showOverview &&
-            <OverviewOverlay
-              t={t}
-              group={group}
-              swipes={allSwipes}
-              onReset={onReset}
-              isPersisted={isPersisted}
-              onClose={closeOverlayWithRoute} />}
+            <Overlay beta title={t('components/Card/Group/title', {
+              groupName: group.name
+            })} onClose={closeOverlayWithRoute}>
+              <MyList
+                t={t}
+                me={me}
+                swipes={allSwipes}
+                onReset={onReset}
+                rmCard={rmCard}
+                queue={queue}
+                isPersisted={isPersisted}
+                onClose={closeOverlayWithRoute} />
+            </Overlay>}
           {showDiscussion &&
             <Overlay title={
               (group.discussion && group.discussion.title) ||

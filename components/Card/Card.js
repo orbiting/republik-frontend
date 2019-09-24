@@ -16,7 +16,7 @@ import DiscussionIconLink from './DiscussionIconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
 
-import { Paragraph, Finance } from './Shared'
+import { SmallParagraph, Finance } from './Shared'
 
 export const MEDIUM_MIN_WIDTH = 360
 
@@ -99,12 +99,12 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
-      <Paragraph>
+      <SmallParagraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small>
           {t('components/Card/Smartspider/legend')}
         </small>
-      </Paragraph>
+      </SmallParagraph>
       <Spider
         size={innerWidth}
         fill={partyColor}

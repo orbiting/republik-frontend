@@ -17,8 +17,10 @@ import {
   plainButtonRule
 } from '@project-r/styleguide'
 
+import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
+
 import ListIcon from 'react-icons/lib/md/list'
 import PreferencesIcon from 'react-icons/lib/md/filter-list'
 
@@ -28,15 +30,9 @@ import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
 import { ZINDEX_HEADER } from '../constants'
-import TrialForm from '../Trial/Form'
-import {
-  TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN
-} from '../../lib/constants'
-import { parseJSONObject } from '../../lib/safeJSON'
 
 import Discussion from '../Discussion/Discussion'
 
-import IgnoreIcon from './IgnoreIcon'
 import Details from './Details'
 import Card, { MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
@@ -45,10 +41,7 @@ import MyList from './MyList'
 import Overlay from './Overlay'
 import Preferences from './Preferences'
 import { useQueue } from './useQueue'
-
-const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
-
-const trialAccessCampaignId = (trailCampaignes.wahltindaer && trailCampaignes.wahltindaer.accessCampaignId) || TRIAL_CAMPAIGN
+import TrialForm from './TrialForm'
 
 const cardColors = {
   left: '#9F2500',
@@ -484,7 +477,7 @@ const Group = ({
     })
   }
   const prevCards = allCards.filter((_, i) => i < topIndex)
-  const rmCard = card => {
+  const revertCard = card => {
     const swiped = swipedMap.get(card.id)
 
     if (card && card.user) {
@@ -499,7 +492,7 @@ const Group = ({
     if (!prev) {
       return
     }
-    rmCard(prev)
+    revertCard(prev)
   }
   const onReset = () => {
     if (topFromQuery.current) {
@@ -517,19 +510,25 @@ const Group = ({
       })
     )
   }
+  const followCard = card => {
+    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
+  }
   const onRight = (e) => {
     if (!activeCard) {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+    followCard(activeCard)
+  }
+  const ignoreCard = card => {
+    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
   }
   const onLeft = (e) => {
     if (!activeCard) {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+    ignoreCard(activeCard)
   }
 
   const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -724,9 +723,7 @@ const Group = ({
         }}>
           {showOverlay === 'trial' &&
             <Overlay title={'Probelesen'} onClose={closeOverlay}>
-              <TrialForm
-                accessCampaignId={trialAccessCampaignId}
-                narrow />
+              <TrialForm />
             </Overlay>
           }
           {showOverlay === 'preferences' &&
@@ -743,7 +740,9 @@ const Group = ({
                 me={me}
                 swipes={allSwipes}
                 onReset={onReset}
-                rmCard={rmCard}
+                revertCard={revertCard}
+                followCard={followCard}
+                ignoreCard={ignoreCard}
                 queue={queue}
                 isPersisted={isPersisted}
                 onClose={closeOverlayWithRoute} />

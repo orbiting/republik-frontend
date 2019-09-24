@@ -1,7 +1,9 @@
 import React from 'react'
 import { css, merge } from 'glamor'
 
-import MdClose from 'react-icons/lib/md/close'
+import IgnoreIcon from './IgnoreIcon'
+import FollowIcon from 'react-icons/lib/md/notifications-active'
+import RevertIcon from 'react-icons/lib/md/rotate-left'
 
 import {
   fontFamilies, Editorial, plainButtonRule, InlineSpinner
@@ -78,14 +80,14 @@ export const TitleRow = ({ children }) => (
   </tr>
 )
 
-export const CardRows = ({ nodes, rmCard }) => (
+export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
   <>
     <tr>
       <th {...styles.td}>Name</th>
       <th {...styles.num}>Nr.</th>
       <th {...styles.td}>Partei</th>
       <th {...styles.num}>Jahrgang</th>
-      <th {...styles.num} />
+      <th style={{ width: 50 }} />
     </tr>
     {nodes.map(({ card, sub, pending }, i) => {
       return <tr key={`entity${i}`}>
@@ -102,12 +104,35 @@ export const CardRows = ({ nodes, rmCard }) => (
         <td {...styles.td}>{card.payload.party}</td>
         <td {...styles.num}>{card.payload.yearOfBirth}</td>
         <td>
-          {pending ? <InlineSpinner size={20} /> : <button {...plainButtonRule} onClick={(e) => {
-            e.preventDefault()
-            rmCard(card)
-          }}>
-            <MdClose size={20} />
-          </button>}
+          {pending ? <InlineSpinner size={20} /> : <>
+            <button {...plainButtonRule}
+              title={t('components/Card/Group/revert')}
+              onClick={(e) => {
+                e.preventDefault()
+                revertCard(card)
+              }}
+            >
+              <RevertIcon size={20} />
+            </button>
+            {ignoreCard && <button {...plainButtonRule}
+              title={t('components/Card/Group/ignore')}
+              onClick={(e) => {
+                e.preventDefault()
+                ignoreCard(card)
+              }}
+            >
+              <IgnoreIcon size={20} />
+            </button>}
+            {followCard && <button {...plainButtonRule}
+              title={t('components/Card/Group/follow')}
+              onClick={(e) => {
+                e.preventDefault()
+                followCard(card)
+              }}
+            >
+              <FollowIcon size={20} />
+            </button>}
+          </>}
         </td>
       </tr>
     })}

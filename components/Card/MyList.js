@@ -10,25 +10,28 @@ import { Table, TitleRow, CardRows } from './Table'
 import { swissTime } from '../../lib/utils/format'
 
 import { Paragraph } from './Shared'
+import TrialForm from './TrialForm'
 
 const formatDate = swissTime.format('%Y-%m-%d-%H%M')
 
-const MyList = ({ onClose, swipes, onReset, rmCard, queue, isPersisted, t, me }) => {
+const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, queue, isPersisted, t, me }) => {
   const { statePerUserId, pending } = queue
   const withCache = swipes.filter(swipe => swipe.cardCache)
-  const leftSwipes = withCache.filter(swipe => swipe.dir === -1).map(swipe => ({
-    card: swipe.cardCache
-  }))
   const rightSwipes = withCache.filter(swipe => swipe.dir === 1).map(swipe => {
     const pendingItem = pending.find(item => item.userId === swipe.cardCache.user.id)
     return {
       card: swipe.cardCache,
       sub: statePerUserId[swipe.cardCache.user.id] || (pendingItem && pendingItem.sub),
-      pending: !!pendingItem
+      pending: me && !!pendingItem
     }
   })
   const activeRightSwipes = rightSwipes.filter(swipe => swipe.sub)
   const leftoverRightSwipes = rightSwipes.filter(swipe => !swipe.sub)
+  const leftSwipes = leftoverRightSwipes.concat(
+    withCache.filter(swipe => swipe.dir === -1).map(swipe => ({
+      card: swipe.cardCache
+    }))
+  )
 
   const [showIgnore, setShowIgnore] = useState(false)
   const ignoreTitle = t.pluralize('components/Card/MyList/ignoreTitle', {
@@ -37,6 +40,13 @@ const MyList = ({ onClose, swipes, onReset, rmCard, queue, isPersisted, t, me })
 
   return (
     <>
+      {!me && <>
+        <Paragraph>
+          {t('components/Card/MyList/trial')}
+        </Paragraph>
+        <TrialForm />
+        <br />
+      </>}
       {!withCache.length
         ? <Paragraph>
           <strong>{t('components/Card/MyList/nothing')}</strong>
@@ -48,15 +58,11 @@ const MyList = ({ onClose, swipes, onReset, rmCard, queue, isPersisted, t, me })
                 count: activeRightSwipes.length
               })}
             </TitleRow>
-            <CardRows rmCard={rmCard} nodes={activeRightSwipes} />
-          </>}
-          {!!leftoverRightSwipes.length && <>
-            <TitleRow>
-              {t.pluralize('components/Card/MyList/withoutSub', {
-                count: leftoverRightSwipes.length
-              })}
-            </TitleRow>
-            <CardRows rmCard={rmCard} nodes={leftoverRightSwipes} />
+            <CardRows
+              t={t}
+              revertCard={revertCard}
+              ignoreCard={ignoreCard}
+              nodes={activeRightSwipes} />
           </>}
           {!!leftSwipes.length && <>
             <TitleRow onClick={() => {
@@ -69,7 +75,11 @@ const MyList = ({ onClose, swipes, onReset, rmCard, queue, isPersisted, t, me })
                 {showIgnore ? ignoreTitle : ignoreTitle.replace(/:$/, '')}
               </Editorial.A>
             </TitleRow>
-            {showIgnore && <CardRows rmCard={rmCard} nodes={leftSwipes} />}
+            {showIgnore && <CardRows
+              t={t}
+              revertCard={revertCard}
+              followCard={followCard}
+              nodes={leftSwipes} />}
           </>}
         </Table>
       }

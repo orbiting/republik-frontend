@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-24T11:04:58.227Z",
+  "updated": "2019-09-24T16:04:59.596Z",
   "title": "live",
   "data": [
     {
@@ -5412,7 +5412,7 @@
     },
     {
       "key": "components/Card/Group/revert",
-      "value": "zurück"
+      "value": "zurücksetzen"
     },
     {
       "key": "components/Card/Group/ignore",
@@ -5513,14 +5513,6 @@
     {
       "key": "components/Card/MyList/followTitle/1",
       "value": "Sie folgen einer Person:"
-    },
-    {
-      "key": "components/Card/MyList/ignoreTitle/other",
-      "value": "Sie ignorieren {count} Personen:"
-    },
-    {
-      "key": "components/Card/MyList/ignoreTitle/1",
-      "value": "Sie ignorieren eine Person:"
     },
     {
       "key": "components/Card/MyList/data/title",
@@ -5727,12 +5719,16 @@
       "value": "Sind Sie sicher, dass Sie Ihre Daten löschen wollen? Sofern Sie angemeldet sind, folgen Sie den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen haben). Sie können oben die Personen welchen Sie folgen einzeln entfolgen."
     },
     {
-      "key": "components/Card/MyList/withoutSub/other",
-      "value": "Folgenden {count} Personen folgen Sie nicht mehr:"
+      "key": "components/Card/MyList/ignoreTitle/other",
+      "value": "Sie ignorieren {count} Personen:"
     },
     {
-      "key": "components/Card/MyList/withoutSub/1",
-      "value": "Folgender Person folgen Sie nicht mehr:"
+      "key": "components/Card/MyList/ignoreTitle/1",
+      "value": "Sie ignorieren eine Person:"
+    },
+    {
+      "key": "components/Card/MyList/trial",
+      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
     }
   ]
 }

@@ -43,11 +43,7 @@ import Preferences from './Preferences'
 import { useQueue } from './useQueue'
 import TrialForm from './TrialForm'
 
-const cardColors = {
-  left: '#9F2500',
-  right: 'rgb(8,48,107)',
-  revert: '#EBB900'
-}
+import { cardColors } from './constants'
 
 const styles = {
   card: css({

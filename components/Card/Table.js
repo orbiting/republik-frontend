@@ -6,10 +6,12 @@ import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
 
 import {
-  fontFamilies, Editorial, plainButtonRule, InlineSpinner
+  fontFamilies, Editorial, plainButtonRule, InlineSpinner, colors
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+
+import { cardColors } from './constants'
 
 const PADDING = 12
 
@@ -59,6 +61,14 @@ const styles = {
   highlight: css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontWeight: 'normal'
+  }),
+  actionButton: css(plainButtonRule, {
+    lineHeight: 0,
+    borderRadius: '50%',
+    padding: 4,
+    '& + &': {
+      marginLeft: 3
+    }
   })
 }
 
@@ -85,9 +95,9 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
     <tr>
       <th {...styles.td}>Name</th>
       <th {...styles.num}>Nr.</th>
-      <th {...styles.td}>Partei</th>
-      <th {...styles.num}>Jahrgang</th>
-      <th style={{ width: 50 }} />
+      <th {...styles.td} />
+      <th {...styles.num} />
+      <th style={{ width: 82 }} />
     </tr>
     {nodes.map(({ card, sub, pending }, i) => {
       return <tr key={`entity${i}`}>
@@ -103,35 +113,48 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
         ].filter(Boolean).join(' & ')}</td>
         <td {...styles.td}>{card.payload.party}</td>
         <td {...styles.num}>{card.payload.yearOfBirth}</td>
-        <td>
+        <td style={{
+          verticalAlign: 'top'
+        }}>
           {pending ? <InlineSpinner size={20} /> : <>
-            <button {...plainButtonRule}
+            <button {...styles.actionButton}
               title={t('components/Card/Group/revert')}
               onClick={(e) => {
                 e.preventDefault()
                 revertCard(card)
               }}
+              style={{
+                backgroundColor: cardColors.revert
+              }}
             >
-              <RevertIcon size={20} />
+              <RevertIcon fill='#fff' size={16} />
             </button>
-            {ignoreCard && <button {...plainButtonRule}
+            <button {...styles.actionButton}
               title={t('components/Card/Group/ignore')}
               onClick={(e) => {
                 e.preventDefault()
-                ignoreCard(card)
+                ignoreCard && ignoreCard(card)
+              }}
+              style={{
+                backgroundColor: ignoreCard ? cardColors.left : colors.disabled,
+                cursor: ignoreCard ? 'pointer' : 'default'
               }}
             >
-              <IgnoreIcon size={20} />
-            </button>}
-            {followCard && <button {...plainButtonRule}
+              <IgnoreIcon fill='#fff' size={16} />
+            </button>
+            <button {...styles.actionButton}
               title={t('components/Card/Group/follow')}
               onClick={(e) => {
                 e.preventDefault()
-                followCard(card)
+                followCard && followCard(card)
+              }}
+              style={{
+                backgroundColor: followCard ? cardColors.right : colors.disabled,
+                cursor: followCard ? 'pointer' : 'default'
               }}
             >
-              <FollowIcon size={20} />
-            </button>}
+              <FollowIcon fill='#fff' size={16} />
+            </button>
           </>}
         </td>
       </tr>

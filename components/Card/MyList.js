@@ -40,13 +40,6 @@ const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, 
 
   return (
     <>
-      {(!me || isStale) && <>
-        <Paragraph>
-          {t('components/Card/MyList/trial')}
-        </Paragraph>
-        <TrialForm />
-        <br />
-      </>}
       {!withCache.length
         ? <Paragraph>
           <strong>{t('components/Card/MyList/nothing')}</strong>
@@ -84,6 +77,13 @@ const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, 
         </Table>
       }
       <br />
+      {(!me || isStale) && <>
+        <Paragraph>
+          {t('components/Card/MyList/trial')}
+        </Paragraph>
+        <TrialForm />
+        <br />
+      </>}
       <Paragraph><strong>{t('components/Card/MyList/data/title')}</strong></Paragraph>
       <Paragraph>
         {t(`components/Card/MyList/data/${isPersisted ? 'isPersisted' : 'notPersisted'}`)}

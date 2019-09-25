@@ -11,6 +11,16 @@ import { chfFormat } from '../../lib/utils/format'
 const styles = {
   p: css(Interaction.fontRule, {
     margin: '0 0 5px',
+    fontSize: 16,
+    lineHeight: '22px',
+    '& small': {
+      display: 'block',
+      fontSize: 14,
+      lineHeight: '20px'
+    }
+  }),
+  smallP: css(Interaction.fontRule, {
+    margin: '0 0 5px',
     fontSize: 15,
     lineHeight: '22px',
     '& small': {
@@ -29,6 +39,7 @@ const styles = {
 }
 
 export const Paragraph = ({ children, style }) => <p {...styles.p} style={style}>{children}</p>
+export const SmallParagraph = ({ children, style }) => <p {...styles.smallP} style={style}>{children}</p>
 export const UL = ({ children, style }) => <ul {...styles.ul} style={style}>{children}</ul>
 
 export const Finance = withT(({ payload, t }) => (

@@ -16,7 +16,7 @@ import DiscussionIconLink from './DiscussionIconLink'
 import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
 
-import { Paragraph, Finance } from './Shared'
+import { SmallParagraph, Finance } from './Shared'
 
 export const MEDIUM_MIN_WIDTH = 360
 
@@ -72,7 +72,7 @@ const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -99,16 +99,17 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
     payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
-      <Paragraph>
+      <SmallParagraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small>
           {t('components/Card/Smartspider/legend')}
         </small>
-      </Paragraph>
+      </SmallParagraph>
       <Spider
         size={innerWidth}
         fill={partyColor}
-        data={payload.smartvoteCleavage} />
+        data={payload.smartvoteCleavage}
+        reference={mySmartspider} />
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Finance payload={payload} />

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { css } from 'glamor'
+import { ascending } from 'd3-array'
 import { useSpring, animated, interpolate } from 'react-spring/web.cjs'
 import { useGesture } from 'react-use-gesture/dist/index.js'
 import { compose, graphql } from 'react-apollo'
@@ -12,45 +13,37 @@ import {
   usePrevious,
   fontStyles,
   RawHtml,
-  Label
+  Label,
+  plainButtonRule
 } from '@project-r/styleguide'
 
+import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
+
 import ListIcon from 'react-icons/lib/md/list'
+import PreferencesIcon from 'react-icons/lib/md/filter-list'
 
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
 import { useWindowSize } from '../../lib/hooks/useWindowSize'
 import createPersistedState from '../../lib/hooks/use-persisted-state'
 import withMe from '../../lib/apollo/withMe'
-import sharedStyles from '../sharedStyles'
 import { ZINDEX_HEADER } from '../constants'
-import TrialForm from '../Trial/Form'
-import {
-  TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN
-} from '../../lib/constants'
-import { parseJSONObject } from '../../lib/safeJSON'
 
 import Discussion from '../Discussion/Discussion'
 
-import IgnoreIcon from './IgnoreIcon'
 import Details from './Details'
 import Card, { MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
-import OverviewOverlay from './OverviewOverlay'
+import MyList from './MyList'
 import Overlay from './Overlay'
+import Preferences from './Preferences'
+import { useQueue } from './useQueue'
+import TrialForm from './TrialForm'
 
-const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
-
-const trialAccessCampaignId = (trailCampaignes.wahltindaer && trailCampaignes.wahltindaer.accessCampaignId) || TRIAL_CAMPAIGN
-
-const cardColors = {
-  left: '#9F2500',
-  right: 'rgb(8,48,107)',
-  revert: '#EBB900'
-}
+import { cardColors } from './constants'
 
 const styles = {
   card: css({
@@ -96,7 +89,7 @@ const styles = {
     top: 25,
     backgroundColor: cardColors.right
   }),
-  button: css(sharedStyles.plainButton, {
+  button: css(plainButtonRule, {
     display: 'inline-block',
     borderRadius: '50%',
     margin: 10,
@@ -141,9 +134,9 @@ const styles = {
   }),
   buttonPanel: css({
     position: 'fixed',
-    bottom: 25,
-    left: 0,
-    right: 0,
+    bottom: 30,
+    left: 5,
+    right: 5,
     textAlign: 'center'
   }),
   switch: css({
@@ -166,13 +159,12 @@ const styles = {
     top: 5,
     textAlign: 'right',
     maxWidth: '64%',
-    paddingRight: 40 + 10,
     '& svg': {
+      float: 'right',
       width: 40,
       height: 40,
-      position: 'absolute',
-      right: 0,
-      top: 0
+      marginLeft: 10,
+      marginBottom: 10
     }
   }),
   trial: css({
@@ -220,7 +212,8 @@ const SpringCard = ({
   dragTime,
   swiped, windowWidth,
   dragDir,
-  onDetail, group
+  onDetail, group,
+  mySmartspider
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: fallIn * 100, from: fromFall() }
@@ -252,7 +245,7 @@ const SpringCard = ({
     } else if (wasTop || wasSwiped) {
       set(to())
     }
-  }, [swiped, isTop, wasTop, wasSwiped])
+  }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
   const dir = dragDir || (swiped && swiped.dir)
@@ -282,6 +275,7 @@ const SpringCard = ({
           : <Card key={card.id}
             t={t}
             {...card}
+            mySmartspider={mySmartspider}
             width={cardWidth}
             dragTime={dragTime}
             onDetail={() => {
@@ -312,11 +306,20 @@ const SpringCard = ({
   )
 }
 
-const useQueueState = createPersistedState('republik-card-group-queue')
-
 const nNew = 5
 const nOld = 3
-const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFromUser }) => {
+const Group = ({
+  t,
+  group,
+  fetchMore,
+  router: { query },
+  me,
+  subToUser, unsubFromUser,
+  variables,
+  mySmartspider,
+  medianSmartspider,
+  subscripedByMeCards
+}) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
@@ -325,23 +328,98 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     [storageKey]
   )
 
+  const [ queue, addToQueue, clearPending, replaceStatePerUserId ] = useQueue({
+    me,
+    subToUser,
+    unsubFromUser
+  })
+
+  const totalCount = group.cards.totalCount
+  const allTotalCount = group.all.totalCount
+  const [allSwipes, setSwipes, isPersisted] = useSwipeState([])
+  const swipedMap = useMemo(() => {
+    return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
+  }, [allSwipes])
+  const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+
+  useEffect(() => {
+    if (!subscripedByMeCards || !me) {
+      if (Object.keys(queue.statePerUserId).length) {
+        replaceStatePerUserId({})
+      }
+      return
+    }
+    const rmLocalSwipes = rightSwipes.filter(
+      swipe => (
+        swipe.remote &&
+        !subscripedByMeCards.find(c => c.id === swipe.cardId)
+      )
+    )
+    const newRemoteSwipes = subscripedByMeCards
+      .filter(card => {
+        const swipe = swipedMap.get(card.id)
+        if (swipe) {
+          if (swipe.dir === 1) {
+            return false
+          }
+          rmLocalSwipes.push(swipe)
+        }
+        return true
+      })
+      .map(card => {
+        const swipe = {
+          dir: 1,
+          xDelta: 0,
+          velocity: 0.2,
+          cardId: card.id,
+          cardCache: card,
+          date: card.user.subscribedByMe.createdAt,
+          remote: true
+        }
+        return swipe
+      })
+    setSwipes(swipes =>
+      swipes
+        .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
+        .concat(newRemoteSwipes)
+    )
+    replaceStatePerUserId(subscripedByMeCards.reduce(
+      (state, card) => {
+        state[card.user.id] = { id: card.user.subscribedByMe.id }
+        return state
+      },
+      {}
+    ))
+  }, [subscripedByMeCards])
+
   const allCards = [
     ...group.cards.nodes.slice(0, 13),
     trialCard.current,
     ...group.cards.nodes.slice(13)
   ].filter(Boolean)
-  const totalCount = group.cards.totalCount
-  const [swipes, setSwipes, isPersisted] = useSwipeState([])
+
+  allCards.sort((a, b) => {
+    const aSwipe = swipedMap.get(a.id)
+    const bSwipe = swipedMap.get(b.id)
+    return aSwipe && bSwipe
+      ? ascending(allSwipes.indexOf(aSwipe), allSwipes.indexOf(bSwipe))
+      : (
+        ascending(!aSwipe, !bSwipe) ||
+        ascending(allCards.indexOf(a), allCards.indexOf(b))
+      )
+  })
+
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipes.find(swipe => swipe.cardId === card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipedMap.has(card.id))
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
   }
-  const [topIndex, setTopIndex] = useState(getUnswipedIndex)
+  const topIndex = getUnswipedIndex()
+
   const [dragDir, setDragDir] = useState(false)
   const [detailCard, setDetailCard] = useState()
-  const [showTrialOverlay, setTrialOverlay] = useState(false)
+  const [showOverlay, setOverlay] = useState(false)
 
   // request more
   // ToDo: loading & error state
@@ -352,14 +430,8 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
   }, [topIndex, allCards.length, group.cards.pageInfo.hasNextPage])
 
   const activeCard = allCards[topIndex]
-  useEffect(() => {
-    const unswipedIndex = getUnswipedIndex()
-    if (unswipedIndex !== topIndex) {
-      setTopIndex(unswipedIndex)
-    }
-  }, [swipes, topIndex, activeCard])
 
-  const [windowWidth] = useWindowSize()
+  const [windowWidth, windowHeight] = useWindowSize()
   const cardWidth = windowWidth > 500
     ? 320
     : windowWidth >= MEDIUM_MIN_WIDTH ? 300 : 240
@@ -381,119 +453,12 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     }
   }, [])
 
-  const [queue, setQueue] = useQueueState({ statePerUserId: {}, pending: [] })
-  const addToQueue = (userId, sub) => setQueue(queue => {
-    if (!sub && !queue.statePerUserId[userId]) {
-      // only rm pending subs
-      return {
-        ...queue,
-        pending: queue.pending.filter(item => item.userId !== userId)
-      }
-    }
-    return {
-      ...queue,
-      pending: queue.pending.filter(item => item.userId !== userId).concat({ sub, userId: userId })
-    }
-  })
-
-  useEffect(() => {
-    if (me && queue && queue.pending && queue.pending.length) {
-      const timeout = setTimeout(
-        () => {
-          setQueue(queue => {
-            const item = queue.pending[0]
-            if (!item) {
-              return queue
-            }
-            const { userId } = item
-            const currentState = queue.statePerUserId[userId]
-            const now = Date.now()
-            if (currentState && currentState.wip && now - currentState.wip < 1000 * 31) {
-              return { ...queue }
-            }
-            const clearOwn = () => {
-              setQueue(queue => {
-                const statePerUserId = { ...queue.statePerUserId }
-                if (now === statePerUserId[userId].wip) {
-                  delete statePerUserId[userId]
-                }
-                return {
-                  ...queue,
-                  statePerUserId
-                }
-              })
-            }
-
-            if (item.sub) {
-              subToUser({ userId })
-                .then(({ data: { subscribe: sub } }) => {
-                  setQueue(queue => ({
-                    ...queue,
-                    statePerUserId: {
-                      ...queue.statePerUserId,
-                      [userId]: { id: sub.id }
-                    }
-                  }))
-                })
-                .catch(() => {
-                  // no retries for now
-                  clearOwn()
-                })
-              return {
-                ...queue,
-                statePerUserId: {
-                  ...queue.statePerUserId,
-                  [userId]: {
-                    ...currentState,
-                    wip: now
-                  }
-                },
-                pending: queue.pending.slice(1)
-              }
-            } else {
-              if (currentState && currentState.id) {
-                unsubFromUser({ subscriptionId: currentState.id })
-                  .then(() => clearOwn())
-                  .catch(() => {
-                    clearOwn()
-                  })
-                return {
-                  ...queue,
-                  statePerUserId: {
-                    ...queue.statePerUserId,
-                    [userId]: {
-                      ...currentState,
-                      wip: now
-                    }
-                  },
-                  pending: queue.pending.slice(1)
-                }
-              }
-              // never subscribed in this browser
-              return {
-                ...queue,
-                statePerUserId: {
-                  ...queue.statePerUserId,
-                  [userId]: undefined
-                },
-                pending: queue.pending.slice(1)
-              }
-            }
-          })
-        },
-        500 + Math.random() * 1000
-      )
-
-      return () => clearTimeout(timeout)
-    }
-  }, [queue, me])
-
   const onSwipe = (swiped, card) => {
     if (topFromQuery.current) {
       topFromQuery.current = null
     }
     if (swiped.dir === 1 && card.id === 'trial') {
-      setTrialOverlay(true)
+      setOverlay('trial')
     }
     if (card && card.user) {
       addToQueue(card.user.id, swiped.dir === 1)
@@ -509,40 +474,65 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
         .concat(newRecord)
     })
   }
-  const prevCards = allCards.filter((_, i) => i < topIndex)
-  const onRevert = () => {
-    const prev = prevCards[prevCards.length - 1]
-    if (!prev) {
-      return
-    }
-    const swiped = swipes.find(swipe => swipe.cardId === prev.id)
+  const revertCard = card => {
+    const swiped = swipedMap.get(card.id)
 
-    if (prev && prev.user) {
-      addToQueue(prev.user.id, false)
+    if (card && card.user) {
+      addToQueue(card.user.id, false)
     }
     setSwipes(swipes => {
       return swipes.filter(swipe => swipe !== swiped)
     })
   }
+  let prevCard = allCards[topIndex - 1]
+  if (
+    prevCard &&
+    allSwipes.length &&
+    allSwipes[allSwipes.length - 1].cardId !== prevCard.id
+  ) {
+    prevCard = null
+  }
+  const onRevert = () => {
+    if (!prevCard) {
+      return
+    }
+    revertCard(prevCard)
+  }
   const onReset = () => {
     if (topFromQuery.current) {
       topFromQuery.current = null
     }
-    setSwipes([])
+    clearPending()
+    setSwipes(swipes => swipes
+      .filter(swipe =>
+        swipe.cardCache &&
+        queue.statePerUserId[swipe.cardCache.user.id]
+      )
+      .map(swipe => {
+        swipe.remote = true
+        return swipe
+      })
+    )
+  }
+  const followCard = card => {
+    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
   }
   const onRight = (e) => {
     if (!activeCard) {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+    followCard(activeCard)
+  }
+  const ignoreCard = card => {
+    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
   }
   const onLeft = (e) => {
     if (!activeCard) {
       return
     }
     e.preventDefault()
-    onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: activeCard.id }, activeCard)
+    ignoreCard(activeCard)
   }
 
   const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
@@ -587,18 +577,17 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     })
   })
 
-  const Icon = Cantons[group.slug] || null
-  const rightSwipes = swipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+  const Flag = Cantons[group.slug] || null
+
+  const medianSmartspiderQuery = medianSmartspider && { party: query.party }
 
   const onShowOverview = event => {
     event.preventDefault()
-    Router.replaceRoute('cardGroup', { group: group.slug, suffix: 'liste' })
-  }
-  const closeOverlay = event => {
-    if (event) {
-      event.preventDefault()
-    }
-    Router.replaceRoute('cardGroup', { group: group.slug })
+    Router.replaceRoute('cardGroup', {
+      group: group.slug,
+      suffix: 'liste',
+      ...medianSmartspiderQuery
+    })
   }
   const onDetail = card => {
     setDetailCard(card)
@@ -608,18 +597,23 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
       query
     }, `/~${card.user.slug}`, { shallow: true })
   }
-  const closeDetailOverlay = event => {
+  const closeOverlay = event => {
     if (event) {
       event.preventDefault()
     }
-    setDetailCard()
-    Router.replaceRoute('cardGroup', query)
+    if (detailCard) {
+      setDetailCard()
+    }
+    Router.replaceRoute('cardGroup', {
+      group: group.slug,
+      ...medianSmartspiderQuery
+    }, { shallow: true })
+    setOverlay(false)
   }
-  const closeTrialOverlay = event => {
-    if (event) {
-      event.preventDefault()
-    }
-    setTrialOverlay(false)
+
+  const onPreferenceClick = (e) => {
+    e.preventDefault()
+    setOverlay('preferences')
   }
 
   const showOverview = query.suffix === 'liste'
@@ -630,26 +624,26 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
     <Container style={{
       minHeight: cardWidth * 1.4 + 60,
       zIndex: ZINDEX_HEADER + 1,
-      overflow: showOverview || showDiscussion || showDetail || showTrialOverlay
+      overflow: showOverview || showDiscussion || showDetail || showOverlay
         ? 'visible'
         : undefined
     }}>
       <div {...styles.switch} style={{
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
-        <Link route='cardGroups' passHref>
+        <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
           <Editorial.A>{t('components/Card/Group/switch')}</Editorial.A>
         </Link>
       </div>
       <div {...styles.canton}>
+        {!!Flag && <Flag size={40} />}
         <strong>{t(`components/Card/Group/${group.name.length > 10 ? 'labelShort' : 'label'}`, {
           groupName: group.name
         })}</strong><br />
         {!!windowWidth && t('components/Card/Group/sequence', {
-          swipes: swipes.length,
-          total: totalCount
+          swipes: allSwipes.length,
+          total: allTotalCount
         })}
-        {Icon && <Icon size={40} />}
       </div>
       {!!windowWidth && <>
         <div {...styles.bottom}>
@@ -658,26 +652,50 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             </>
           }
           <br />
-          {swipes.length === totalCount && <>
-            <br />
-            {t('components/Card/Group/end/done', {
-              groupName: group.name
-            })}
-            <br /><br />
-            <Link route='cardGroup' params={{
-              group: group.slug,
-              suffix: 'liste'
-            }}>
-              <Editorial.A>{t('components/Card/Group/end/showList')}</Editorial.A>
-            </Link>
-          </>}
+          {allSwipes.length === allTotalCount
+            ? <>
+              <br />
+              {t('components/Card/Group/end/done', {
+                groupName: group.name
+              })}
+              <br /><br />
+              <Link route='cardGroup' params={{
+                group: group.slug,
+                suffix: 'liste'
+              }}>
+                <Editorial.A>
+                  {t('components/Card/Group/end/showList')}
+                </Editorial.A>
+              </Link>
+            </>
+            : !activeCard && allCards.length >= totalCount && <>
+              <br />
+              {t.pluralize('components/Card/Group/end/doneFilterCount', {
+                groupName: group.name,
+                count: totalCount
+              })}
+              <br /><br />
+              <Editorial.A href='#' onClick={onPreferenceClick}>
+                {t('components/Card/Group/end/showPreferences')}
+              </Editorial.A>
+              <br /><br />
+              <Link route='cardGroup' params={{
+                group: group.slug,
+                suffix: 'liste'
+              }}>
+                <Editorial.A>
+                  {t('components/Card/Group/end/showList')}
+                </Editorial.A>
+              </Link>
+            </>
+          }
         </div>
         {allCards.map((card, i) => {
           if (i + nOld < topIndex || i - nNew >= topIndex) {
             return null
           }
           const isTop = topIndex === i
-          const swiped = topFromQuery.current !== card.id && swipes.find(swipe => swipe.cardId === card.id)
+          const swiped = topFromQuery.current !== card.id && swipedMap.get(card.id)
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current
@@ -704,27 +722,47 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}
-            group={group} />
+            group={group}
+            mySmartspider={mySmartspider} />
         })}
 
         <div {...styles.buttonPanel} style={{
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
-          {showTrialOverlay &&
-            <Overlay title={'Probelesen'} onClose={closeTrialOverlay}>
-              <TrialForm
-                accessCampaignId={trialAccessCampaignId}
-                narrow />
+          {showOverlay === 'trial' &&
+            <Overlay title={'Probelesen'} onClose={closeOverlay}>
+              <TrialForm redirect />
+            </Overlay>
+          }
+          {showOverlay === 'preferences' &&
+            <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
+              <Preferences
+                party={medianSmartspiderQuery && medianSmartspiderQuery.party}
+                onParty={party => {
+                  Router.replaceRoute('cardGroup', {
+                    group: group.slug,
+                    ...party && { party }
+                  }, { shallow: true })
+                }} />
             </Overlay>
           }
           {showOverview &&
-            <OverviewOverlay
-              t={t}
-              group={group}
-              swipes={swipes}
-              onReset={onReset}
-              isPersisted={isPersisted}
-              onClose={closeOverlay} />}
+            <Overlay beta title={t('components/Card/Group/title', {
+              groupName: group.name
+            })} onClose={closeOverlay}>
+              <MyList
+                t={t}
+                me={me}
+                swipes={allSwipes}
+                onReset={onReset}
+                revertCard={revertCard}
+                followCard={followCard}
+                ignoreCard={ignoreCard}
+                queue={queue}
+                isPersisted={isPersisted}
+                onClose={closeOverlay}
+                isStale={query.stale} />
+            </Overlay>}
           {showDiscussion &&
             <Overlay title={
               (group.discussion && group.discussion.title) ||
@@ -753,14 +791,14 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
           {showDetail &&
             <Overlay
               title={detailCard.user.name}
-              onClose={closeDetailOverlay}
+              onClose={closeOverlay}
               beta
             >
               <Details card={detailCard} />
             </Overlay>
           }
           <button {...styles.button} {...styles.buttonSmall} style={{
-            backgroundColor: prevCards.length ? cardColors.revert : '#B7C1BD'
+            backgroundColor: prevCard ? cardColors.revert : '#B7C1BD'
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
             <RevertIcon />
           </button>
@@ -781,7 +819,32 @@ const Group = ({ t, group, fetchMore, router: { query }, me, subToUser, unsubFro
               : 16
           }} title={t('components/Card/Group/overview')} onClick={onShowOverview}>
             {rightSwipes.length || <ListIcon />}
-          </a>
+          </a><br />
+          <Editorial.A href='#' onClick={onPreferenceClick} style={{
+            display: 'inline-block',
+            padding: '5px 0',
+            textDecoration: 'none',
+            backgroundColor: windowHeight < 500
+              ? 'rgba(222,239,245,0.5)'
+              : 'none'
+          }}>
+            <PreferencesIcon style={{
+              verticalAlign: 'top',
+              marginRight: 5
+            }} />
+            {(variables.mustHave && variables.mustHave.length) || variables.smartspider
+              ? `${totalCount} ${[
+                variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
+                  filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
+                }),
+                variables.smartspider && medianSmartspider
+                  ? t('components/Card/Group/preferences/partySort', {
+                    party: medianSmartspider.label || medianSmartspider.value
+                  })
+                  : t('components/Card/Group/preferences/mySort')
+              ].filter(Boolean).join(', ')}`
+              : t('components/Card/Group/preferences/none')}
+          </Editorial.A>
         </div>
       </>}
     </Container>

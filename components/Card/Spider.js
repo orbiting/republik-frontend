@@ -1,9 +1,9 @@
 import React from 'react'
 import { range, max } from 'd3-array'
+import { color } from 'd3-color'
 import { colors, fontStyles } from '@project-r/styleguide'
 
 const maxDomain = 100
-const factor = 0.75
 const radians = 2 * Math.PI
 const levels = 2
 const axisLineColor = 'rgba(0,0,0,0.17)'
@@ -28,9 +28,11 @@ export const axes = [
 ]
 const nAxes = axes.length
 
-const Spider = ({ data, fill, size }) => {
+const Spider = ({ data, fill, fillOpacity = 0.7, size, reference, label = true }) => {
   const cx = size / 2
   const cy = size / 2
+  const factor = label ? 0.75 : 0.95
+
   const points = data.map((d, i) => {
     return {
       x: getHorizontalPosition(i, cx, (d / maxDomain) * factor),
@@ -40,6 +42,9 @@ const Spider = ({ data, fill, size }) => {
   })
 
   const maxValue = max(data)
+  const maxDiff = reference && max(reference.map((d, i) =>
+    d < 0 ? 0 : Math.abs(d - data[i])
+  ))
 
   const radius = factor * Math.min(cx, cy)
   const levelFactors = range(0, levels).map((level) => {
@@ -72,9 +77,11 @@ const Spider = ({ data, fill, size }) => {
           x2={getHorizontalPosition(i, cx, factor)}
           y2={getVerticalPosition(i, cy, factor)} />
       ))}
-      {axes.map(({ text, rot }, i) => {
+      {label && axes.map(({ text, rot }, i) => {
         const below = i > 2 && i < 6
-        const highlight = data[i] === maxValue
+        const highlight = maxDiff !== undefined
+          ? Math.abs(data[i] - reference[i]) === maxDiff
+          : data[i] === maxValue
 
         const x = getHorizontalPosition(i, cx, factor)
         const y = getVerticalPosition(i, cx, factor)
@@ -105,11 +112,55 @@ const Spider = ({ data, fill, size }) => {
           </g>
         )
       })}
-      <polygon fill={fill} fillOpacity={0.7} points={points.map((p) => {
-        return [p.x, p.y].join(',')
-      }).join(' ')} />
-      {points.map(({ value, x, y }, i) => {
-        if (value !== maxValue) {
+      <polygon
+        opacity={fillOpacity}
+        fill={fill}
+        stroke={fill}
+        strokeWidth='1' points={points.map((p) => {
+          return [p.x, p.y].join(',')
+        }).join(' ')} />
+      {reference && <g>
+        {reference.map((d, i) => {
+          const nd = i === nAxes - 1 ? reference[0] : reference[i + 1]
+          if (d < 0 && nd < 0) {
+            return null
+          }
+
+          const p = d < 0
+            ? [
+              getHorizontalPosition(i + 0.9, cx, (nd / maxDomain) * factor),
+              getVerticalPosition(i + 0.9, cy, (nd / maxDomain) * factor)
+            ]
+            : [
+              getHorizontalPosition(i, cx, (d / maxDomain) * factor),
+              getVerticalPosition(i, cy, (d / maxDomain) * factor)
+            ]
+
+          const np = nd < 0
+            ? [
+              getHorizontalPosition(i + 0.1, cx, (d / maxDomain) * factor),
+              getVerticalPosition(i + 0.1, cy, (d / maxDomain) * factor)
+            ]
+            : [
+              getHorizontalPosition(i + 1, cx, (nd / maxDomain) * factor),
+              getVerticalPosition(i + 1, cy, (nd / maxDomain) * factor)
+            ]
+
+          return <line key={i}
+            stroke='#000'
+            strokeWidth='1'
+            x1={p[0]}
+            y1={p[1]}
+            x2={np[0]}
+            y2={np[1]} />
+        })}
+      </g>}
+      {label && points.map(({ value, x, y }, i) => {
+        if (maxDiff === undefined && value !== maxValue) {
+          return null
+        }
+        const diff = reference && value - reference[i]
+        if (maxDiff !== undefined && Math.abs(diff) !== maxDiff) {
           return null
         }
         const below = i > 2 && i < 6
@@ -121,12 +172,16 @@ const Spider = ({ data, fill, size }) => {
               ...fontStyles.sansSerifMedium,
               fontSize: 11
             }}
-            fill={colors.text}
+            fill={color(fill).darker(1.5)}
             textAnchor='middle'
             dy={below
               ? value > 92 ? '0em' : '0.8em'
               : value > 92 ? '0.8em' : '0em'}>
-            {Math.round(value)}
+            {reference
+              ? diff > 0
+                ? `+${Math.round(diff)}`
+                : !!diff && Math.round(diff)
+              : Math.round(value)}
           </text>
         </g>
       })}

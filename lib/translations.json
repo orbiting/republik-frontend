@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-18T15:59:35.111Z",
+  "updated": "2019-09-24T21:56:34.677Z",
   "title": "live",
   "data": [
     {
@@ -5199,6 +5199,10 @@
       "value": "Magazin lesen"
     },
     {
+      "key": "Trial/Form/authorized/withAccess/setup/label",
+      "value": "Konto einrichten"
+    },
+    {
       "key": "Trial/Form/authorized/withoutAccess/button/label",
       "value": "Aktivieren"
     },
@@ -5412,7 +5416,7 @@
     },
     {
       "key": "components/Card/Group/revert",
-      "value": "zurück"
+      "value": "zurücksetzen"
     },
     {
       "key": "components/Card/Group/ignore",
@@ -5503,51 +5507,35 @@
       "value": "Listenplatz:"
     },
     {
-      "key": "components/Card/Overview/title",
+      "key": "components/Card/Group/title",
       "value": "Ihre Wischliste {groupName}"
     },
     {
-      "key": "components/Card/Overview/followTitle/other",
+      "key": "components/Card/MyList/followTitle/other",
       "value": "Sie folgen {count} Personen:"
     },
     {
-      "key": "components/Card/Overview/followTitle/1",
+      "key": "components/Card/MyList/followTitle/1",
       "value": "Sie folgen einer Person:"
     },
     {
-      "key": "components/Card/Overview/ignoreTitle/other",
-      "value": "Sie ignorieren {count} Personen:"
-    },
-    {
-      "key": "components/Card/Overview/ignoreTitle/1",
-      "value": "Sie ignorieren eine Person:"
-    },
-    {
-      "key": "components/Card/Overview/data/title",
+      "key": "components/Card/MyList/data/title",
       "value": "Ihre Daten"
     },
     {
-      "key": "components/Card/Overview/data/isPersisted",
-      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind, bleiben sie auch gespeichert, und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der momentanen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen, in ein bis zwei Wochen nochmals hierherzukommen."
+      "key": "components/Card/MyList/data/isPersisted",
+      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind, bleiben sie auch gespeichert, und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der momentanen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen, in einer Wochen nochmals hierherzukommen."
     },
     {
-      "key": "components/Card/Overview/data/notPersisted",
+      "key": "components/Card/MyList/data/notPersisted",
       "value": "Ihr Browser kann Ihre Wischer auf Ihrem Computer nicht abspeichern. Vermutlich deshalb, weil Sie im Privatmodus unterwegs sind oder weil Ihr Computer ein älteres Modell ist."
     },
     {
-      "key": "components/Card/Overview/data/download",
+      "key": "components/Card/MyList/data/download",
       "value": "Daten als CSV herunterladen."
     },
     {
-      "key": "components/Card/Overview/data/clear",
-      "value": "Daten aus Ihrem Browser löschen."
-    },
-    {
-      "key": "components/Card/Overview/data/clear/confirm",
-      "value": "Sind Sie sicher, dass Sie Ihre Wischliste löschen wollen? Sofern Sie angemeldet sind, folgen Sie der Person oder den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen haben). Eine Liste zum Entfolgen folgt bald."
-    },
-    {
-      "key": "components/Card/Overview/data/clear/confirm/suffix",
+      "key": "components/Card/MyList/data/clear/confirm/suffix",
       "value": "In der Debatte können Sie den Politiker entfolgen."
     },
     {
@@ -5591,7 +5579,7 @@
       "value": "🤞"
     },
     {
-      "key": "components/Card/Overview/nothing",
+      "key": "components/Card/MyList/nothing",
       "value": "Sie haben in diesem Browser noch nicht gewischt."
     },
     {
@@ -5641,6 +5629,122 @@
     {
       "key": "Onboarding/Page/more/cards/link",
       "value": "Zum «Wahltindär»"
+    },
+    {
+      "key": "components/Card/Group/preferences",
+      "value": "Ihre Präferenzen"
+    },
+    {
+      "key": "components/Card/Group/preferences/none",
+      "value": "Präferenz festlegen"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter",
+      "value": "mit {filters}"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/portrait",
+      "value": "Porträtbild"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/smartspider",
+      "value": "Smartspider"
+    },
+    {
+      "key": "components/Card/Group/preferences/filter/statement",
+      "value": "Statement"
+    },
+    {
+      "key": "components/Card/Group/preferences/partySort",
+      "value": "nach {party}-Wertehaltung"
+    },
+    {
+      "key": "components/Card/Group/preferences/mySort",
+      "value": "nach Ihrer Wertehaltung"
+    },
+    {
+      "key": "components/Card/Preferences/filter",
+      "value": "Nur Profile mit:"
+    },
+    {
+      "key": "components/Card/Preferences/filter/portrait",
+      "value": "Porträtbild"
+    },
+    {
+      "key": "components/Card/Preferences/filter/smartspider",
+      "value": "Smartspider"
+    },
+    {
+      "key": "components/Card/Preferences/filter/statement",
+      "value": "Statement"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider",
+      "value": "Ihre Wertehaltung:"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro",
+      "value": "Haben Sie den Smartvote-Fragebogen ausgefüllt? Dann können Sie hier Ihre Wertehaltungen übertragen zum Vergleichen und Sortieren. Falls nicht: {link}."
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro/linkText",
+      "value": "Jetzt ausfüllen und vergleichbare Werte erhalten"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/intro/linkHref",
+      "value": "https://www.smartvote.ch/de/group/2/election/19_ch_nr/matching/questionnaire/rapid/category/1"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/sort",
+      "value": "Profile mit geringster Distanz zu Ihnen zuerst"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/reset",
+      "value": "Smartspider zurücksetzen"
+    },
+    {
+      "key": "components/Card/Preferences/mySmartspider/resetConfirm",
+      "value": "Möchten Sie Ihre Smartspider-Werte entfernen?"
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/0",
+      "value": "Es gibt keine Kandidatur im Kanton {groupName}, die auf Ihre Präferenzen passt."
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/other",
+      "value": "Sie haben alle auf Ihre Präferenzen passenden Kandidaturen im Kanton {groupName} durchgeswipt."
+    },
+    {
+      "key": "components/Card/Group/end/showPreferences",
+      "value": "Präferenzen anpassen"
+    },
+    {
+      "key": "components/Card/MyList/data/clear",
+      "value": "Daten aus Ihrem Browser löschen."
+    },
+    {
+      "key": "components/Card/MyList/data/clear/confirm",
+      "value": "Sind Sie sicher, dass Sie Ihre Daten löschen wollen? Sofern Sie angemeldet sind, folgen Sie den Personen, welche Sie nach rechts gewischt haben, weiterhin (schliesslich sollten Sie ein Auge auf die Politikerinnen haben). Sie können oben die Personen welchen Sie folgen einzeln entfolgen."
+    },
+    {
+      "key": "components/Card/MyList/ignoreTitle/other",
+      "value": "Sie ignorieren {count} Personen:"
+    },
+    {
+      "key": "components/Card/MyList/ignoreTitle/1",
+      "value": "Sie ignorieren eine Person:"
+    },
+    {
+      "key": "components/Card/MyList/trial",
+      "value": "Möchten Sie die Republik 14 Tage lang Probe­ lesen und die Wahl­debatte live mit­­ver­fol­gen?"
+    },
+    {
+      "key": "components/Card/Preferences/medianSmartspiders",
+      "value": "Nach Wertehaltung der Bundeshausparteien sortieren:"
+    },
+    {
+      "key": "components/Card/Preferences/medianSmartspiders/explanation",
+      "value": "Die Position der Partei entspricht dem nationalen Mittelwert ihrer Kandidierenden. Drücken Sie auf eine Grafik um Profile mit ähnlichen Werten zuerst zu sehen."
     }
   ]
 }

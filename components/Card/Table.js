@@ -1,11 +1,17 @@
 import React from 'react'
 import { css, merge } from 'glamor'
 
+import IgnoreIcon from './IgnoreIcon'
+import FollowIcon from 'react-icons/lib/md/notifications-active'
+import RevertIcon from 'react-icons/lib/md/rotate-left'
+
 import {
-  fontFamilies, Editorial
+  fontFamilies, Editorial, plainButtonRule, InlineSpinner, colors
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+
+import { cardColors } from './constants'
 
 const PADDING = 12
 
@@ -55,44 +61,103 @@ const styles = {
   highlight: css({
     fontFamily: fontFamilies.sansSerifMedium,
     fontWeight: 'normal'
+  }),
+  actionButton: css(plainButtonRule, {
+    lineHeight: 0,
+    borderRadius: '50%',
+    padding: 4,
+    '& + &': {
+      marginLeft: 3
+    }
   })
 }
 
-const Table = ({ children }) => (
+export const Table = ({ children }) => (
   <div style={{ overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING }}>
     <table {...styles.table}>
-      {children}
+      <tbody>
+        {children}
+      </tbody>
     </table>
   </div>
 )
 
-export default ({ cards }) => (
-  <Table>
-    <thead>
-      <tr>
-        <th {...styles.td}>Name</th>
-        <th {...styles.num}>Nr.</th>
-        <th {...styles.td}>Partei</th>
-        <th {...styles.num}>Jahrgang</th>
-      </tr>
-    </thead>
-    <tbody>
-      {cards.map((card, i) => {
-        return <tr key={`entity${i}`}>
-          <td {...styles.td}>
-            <Link route='profile' params={{ slug: card.user.slug }} passHref>
-              <Editorial.A>{card.user.name}</Editorial.A>
-            </Link>
+export const TitleRow = ({ children }) => (
+  <tr>
+    <th colSpan='4' {...styles.td} style={{ paddingTop: 10 }}>
+      {children}
+    </th>
+  </tr>
+)
 
-          </td>
-          <td {...styles.num}>{[
-            card.payload.councilOfStates.candidacy && 'SR',
-            ...card.payload.nationalCouncil.listNumbers
-          ].filter(Boolean).join(' & ')}</td>
-          <td {...styles.td}>{card.payload.party}</td>
-          <td {...styles.num}>{card.payload.yearOfBirth}</td>
-        </tr>
-      })}
-    </tbody>
-  </Table>
+export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
+  <>
+    <tr>
+      <th {...styles.td}>Name</th>
+      <th {...styles.num}>Nr.</th>
+      <th {...styles.td} />
+      <th {...styles.num} />
+      <th style={{ width: 82 }} />
+    </tr>
+    {nodes.map(({ card, sub, pending }, i) => {
+      return <tr key={`entity${i}`}>
+        <td {...styles.td}>
+          <Link route='profile' params={{ slug: card.user.slug }} passHref>
+            <Editorial.A>{card.user.name}</Editorial.A>
+          </Link>
+
+        </td>
+        <td {...styles.num}>{[
+          card.payload.councilOfStates.candidacy && 'SR',
+          ...card.payload.nationalCouncil.listNumbers
+        ].filter(Boolean).join(' & ')}</td>
+        <td {...styles.td}>{card.payload.party}</td>
+        <td {...styles.num}>{card.payload.yearOfBirth}</td>
+        <td style={{
+          verticalAlign: 'top'
+        }}>
+          {pending ? <InlineSpinner size={20} /> : <>
+            <button {...styles.actionButton}
+              title={t('components/Card/Group/revert')}
+              onClick={(e) => {
+                e.preventDefault()
+                revertCard(card)
+              }}
+              style={{
+                backgroundColor: cardColors.revert
+              }}
+            >
+              <RevertIcon fill='#fff' size={16} />
+            </button>
+            <button {...styles.actionButton}
+              title={t('components/Card/Group/ignore')}
+              onClick={(e) => {
+                e.preventDefault()
+                ignoreCard && ignoreCard(card)
+              }}
+              style={{
+                backgroundColor: ignoreCard ? cardColors.left : colors.disabled,
+                cursor: ignoreCard ? 'pointer' : 'default'
+              }}
+            >
+              <IgnoreIcon fill='#fff' size={16} />
+            </button>
+            <button {...styles.actionButton}
+              title={t('components/Card/Group/follow')}
+              onClick={(e) => {
+                e.preventDefault()
+                followCard && followCard(card)
+              }}
+              style={{
+                backgroundColor: followCard ? cardColors.right : colors.disabled,
+                cursor: followCard ? 'pointer' : 'default'
+              }}
+            >
+              <FollowIcon fill='#fff' size={16} />
+            </button>
+          </>}
+        </td>
+      </tr>
+    })}
+  </>
 )

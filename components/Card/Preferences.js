@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { css } from 'glamor'
 import { color } from 'd3-color'
 
@@ -24,6 +24,12 @@ import getPartyColor from './partyColors'
 export const useCardPreferences = createPersistedState('republik-card-preferences')
 
 const styles = {
+  smallCheckbox: css({
+    display: 'inline-block',
+    minWidth: 140,
+    marginRight: 5,
+    marginBottom: 5
+  }),
   mySmartspider: css({
     position: 'relative'
   }),
@@ -34,18 +40,21 @@ const styles = {
       top: 0
     }
   }),
+  mySmartspiderSlider: css({
+    marginBottom: 5
+  }),
   medianSmartspider: css({
-    border: '1px solid transparent',
+    border: '2px solid transparent',
     display: 'inline-block',
     textAlign: 'center',
     ...fontStyles.sansSerifMedium,
     fontSize: 14,
-    padding: 2,
+    padding: 1,
     ':first-child': {
-      marginLeft: -2
+      marginLeft: -1
     },
     ':last-child': {
-      marginRight: -2
+      marginRight: -1
     }
   })
 }
@@ -75,38 +84,42 @@ const Filters = ({ t, party, onParty }) => {
   })
 
   return <>
-    <Paragraph>
+    <Paragraph style={{ marginBottom: 10 }}>
       <strong>{t('components/Card/Preferences/filter')}</strong>
     </Paragraph>
-    <Checkbox
-      checked={preferences.portrait}
-      onChange={(_, checked) => {
-        setPreferences(p => ({ ...p, portrait: checked }))
-      }}
-    >
-      {t('components/Card/Preferences/filter/portrait')}
-    </Checkbox>
-    <br style={{ clear: 'left' }} />
-    <Checkbox
-      checked={preferences.smartspider}
-      onChange={(_, checked) => {
-        setPreferences(p => ({ ...p, smartspider: checked }))
-      }}
-    >
-      {t('components/Card/Preferences/filter/smartspider')}
-    </Checkbox>
-    <br style={{ clear: 'left' }} />
-    <Checkbox
-      checked={preferences.statement}
-      onChange={(_, checked) => {
-        setPreferences(p => ({ ...p, statement: checked }))
-      }}
-    >
-      {t('components/Card/Preferences/filter/statement')}
-    </Checkbox>
+    <span {...styles.smallCheckbox}>
+      <Checkbox
+        checked={preferences.portrait}
+        onChange={(_, checked) => {
+          setPreferences(p => ({ ...p, portrait: checked }))
+        }}
+      >
+        {t('components/Card/Preferences/filter/portrait')}
+      </Checkbox>
+    </span>
+    <span {...styles.smallCheckbox}>
+      <Checkbox
+        checked={preferences.smartspider}
+        onChange={(_, checked) => {
+          setPreferences(p => ({ ...p, smartspider: checked }))
+        }}
+      >
+        {t('components/Card/Preferences/filter/smartspider')}
+      </Checkbox>
+    </span>
+    <span {...styles.smallCheckbox}>
+      <Checkbox
+        checked={preferences.statement}
+        onChange={(_, checked) => {
+          setPreferences(p => ({ ...p, statement: checked }))
+        }}
+      >
+        {t('components/Card/Preferences/filter/statement')}
+      </Checkbox>
+    </span>
     <br style={{ clear: 'left' }} />
     <br />
-    <Paragraph>
+    <Paragraph style={{ marginBottom: 10 }}>
       <strong>{t('components/Card/Preferences/medianSmartspiders')}</strong>
     </Paragraph>
     <div>
@@ -167,7 +180,7 @@ const Filters = ({ t, party, onParty }) => {
             setSlider(inactiveValue, i)
           }
         }
-        return <Fragment key={i}>
+        return <div key={i} {...styles.mySmartspiderSlider}>
           <Label>
             {spiderAxes[i].text.replace(/\n/g, ' ').trim()}:
             {' '}
@@ -184,7 +197,7 @@ const Filters = ({ t, party, onParty }) => {
             onMouseUp={onUp}
             onTouchEnd={onUp} />
           <br />
-        </Fragment>
+        </div>
       })}
       {preferences.mySmartspider && <>
         <br />

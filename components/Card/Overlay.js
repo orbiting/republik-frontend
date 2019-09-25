@@ -26,7 +26,7 @@ const CardOverlay = ({ onClose, title, children, beta = false, maxWidth = 720 })
           label={<MdClose size={24} fill='#000' />}
         />
       </OverlayToolbar>
-      <OverlayBody style={{ textAlign: 'left', paddingBottom: 40 }}>
+      <OverlayBody style={{ textAlign: 'left' }}>
         {children}
       </OverlayBody>
     </Overlay>

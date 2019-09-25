@@ -581,7 +581,7 @@ const Group = ({
 
   const medianSmartspiderQuery = medianSmartspider && { party: query.party }
 
-  const onShowOverview = event => {
+  const onShowMyList = event => {
     event.preventDefault()
     Router.replaceRoute('cardGroup', {
       group: group.slug,
@@ -616,7 +616,7 @@ const Group = ({
     setOverlay('preferences')
   }
 
-  const showOverview = query.suffix === 'liste'
+  const showMyList = query.suffix === 'liste'
   const showDiscussion = query.suffix === 'diskussion'
   const showDetail = !!detailCard
 
@@ -624,7 +624,7 @@ const Group = ({
     <Container style={{
       minHeight: cardWidth * 1.4 + 60,
       zIndex: ZINDEX_HEADER + 1,
-      overflow: showOverview || showDiscussion || showDetail || showOverlay
+      overflow: showMyList || showDiscussion || showDetail || showOverlay
         ? 'visible'
         : undefined
     }}>
@@ -729,74 +729,6 @@ const Group = ({
         <div {...styles.buttonPanel} style={{
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}>
-          {showOverlay === 'trial' &&
-            <Overlay title={'Probelesen'} onClose={closeOverlay}>
-              <TrialForm redirect />
-            </Overlay>
-          }
-          {showOverlay === 'preferences' &&
-            <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
-              <Preferences
-                party={medianSmartspiderQuery && medianSmartspiderQuery.party}
-                onParty={party => {
-                  Router.replaceRoute('cardGroup', {
-                    group: group.slug,
-                    ...party && { party }
-                  }, { shallow: true })
-                }} />
-            </Overlay>
-          }
-          {showOverview &&
-            <Overlay beta title={t('components/Card/Group/title', {
-              groupName: group.name
-            })} onClose={closeOverlay}>
-              <MyList
-                t={t}
-                me={me}
-                swipes={allSwipes}
-                onReset={onReset}
-                revertCard={revertCard}
-                followCard={followCard}
-                ignoreCard={ignoreCard}
-                queue={queue}
-                isPersisted={isPersisted}
-                onClose={closeOverlay}
-                isStale={query.stale} />
-            </Overlay>}
-          {showDiscussion &&
-            <Overlay title={
-              (group.discussion && group.discussion.title) ||
-              t('components/Card/Group/discussion/title', {
-                groupName: group.name
-              })
-            } onClose={closeOverlay}>
-              <Label style={{ display: 'block', marginBottom: 10 }}>
-                <RawHtml
-                  dangerouslySetInnerHTML={{
-                    __html: t('components/Card/Group/discussion/lead')
-                  }}
-                />
-              </Label>
-              {group.discussion
-                ? <Discussion
-                  discussionId={group.discussion.id}
-                  focusId={query.focus}
-                  mute={!!query.mute} />
-                : <Interaction.P>
-                  {t('components/Card/Group/noDiscussion')}
-                </Interaction.P>
-              }
-            </Overlay>
-          }
-          {showDetail &&
-            <Overlay
-              title={detailCard.user.name}
-              onClose={closeOverlay}
-              beta
-            >
-              <Details card={detailCard} />
-            </Overlay>
-          }
           <button {...styles.button} {...styles.buttonSmall} style={{
             backgroundColor: prevCard ? cardColors.revert : '#B7C1BD'
           }} title={t('components/Card/Group/revert')} onClick={onRevert}>
@@ -817,7 +749,7 @@ const Group = ({
             fontSize: rightSwipes.length > 99
               ? 12
               : 16
-          }} title={t('components/Card/Group/overview')} onClick={onShowOverview}>
+          }} title={t('components/Card/Group/overview')} onClick={onShowMyList}>
             {rightSwipes.length || <ListIcon />}
           </a><br />
           <Editorial.A href='#' onClick={onPreferenceClick} style={{
@@ -847,6 +779,79 @@ const Group = ({
           </Editorial.A>
         </div>
       </>}
+      <div style={{
+        position: 'absolute',
+        zIndex: ZINDEX_HEADER + allCards.length + 1
+      }}>
+        {showOverlay === 'trial' &&
+          <Overlay title={'Probelesen'} onClose={closeOverlay}>
+            <TrialForm redirect />
+          </Overlay>
+        }
+        {showOverlay === 'preferences' &&
+          <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
+            <Preferences
+              party={medianSmartspiderQuery && medianSmartspiderQuery.party}
+              onParty={party => {
+                Router.replaceRoute('cardGroup', {
+                  group: group.slug,
+                  ...party && { party }
+                }, { shallow: true })
+              }} />
+          </Overlay>
+        }
+        {showMyList &&
+          <Overlay beta title={t('components/Card/Group/title', {
+            groupName: group.name
+          })} onClose={closeOverlay}>
+            <MyList
+              t={t}
+              me={me}
+              swipes={allSwipes}
+              onReset={onReset}
+              revertCard={revertCard}
+              followCard={followCard}
+              ignoreCard={ignoreCard}
+              queue={queue}
+              isPersisted={isPersisted}
+              onClose={closeOverlay}
+              isStale={query.stale} />
+          </Overlay>}
+        {showDiscussion &&
+          <Overlay title={
+            (group.discussion && group.discussion.title) ||
+            t('components/Card/Group/discussion/title', {
+              groupName: group.name
+            })
+          } onClose={closeOverlay}>
+            <Label style={{ display: 'block', marginBottom: 10 }}>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('components/Card/Group/discussion/lead')
+                }}
+              />
+            </Label>
+            {group.discussion
+              ? <Discussion
+                discussionId={group.discussion.id}
+                focusId={query.focus}
+                mute={!!query.mute} />
+              : <Interaction.P>
+                {t('components/Card/Group/noDiscussion')}
+              </Interaction.P>
+            }
+          </Overlay>
+        }
+        {showDetail &&
+          <Overlay
+            title={detailCard.user.name}
+            onClose={closeOverlay}
+            beta
+          >
+            <Details card={detailCard} />
+          </Overlay>
+        }
+      </div>
     </Container>
   )
 }

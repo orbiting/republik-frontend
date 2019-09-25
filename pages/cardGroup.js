@@ -76,7 +76,7 @@ query getSubscribedCardGroup($slug: String!) {
 ${cardFragment}
 `
 
-const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider }) => {
+const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
   const loading = (
     (subscripedByMeData && subscripedByMeData.loading) ||
     (data.loading && !data.cardGroup)
@@ -93,7 +93,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
             serverContext={serverContext} />
         )
       }
-      const meta = <Meta data={{
+      const meta = !(query.suffix === 'diskussion' && query.focus) && <Meta data={{
         title: t('pages/cardGroup/title', {
           name: data.cardGroup.name
         }),
@@ -160,13 +160,12 @@ const Query = compose(
   }),
   graphql(query, {
     options: ({ variables }) => ({
-      variables,
-      ssr: false
+      variables
     })
   })
 )(Inner)
 
-const Page = ({ serverContext, router: { query: { group, top, stale, party } }, me }) => {
+const Page = ({ serverContext, router: { query, query: { group, top, stale, party } }, me }) => {
   const [preferences] = useCardPreferences({})
   const [slowPreferences] = useDebounce(preferences, 500)
   const meRef = useRef(me)
@@ -183,6 +182,7 @@ const Page = ({ serverContext, router: { query: { group, top, stale, party } }, 
         serverContext={serverContext}
         medianSmartspider={medianSmartspider}
         mySmartspider={slowPreferences.mySmartspider}
+        query={query}
         variables={{
           slug: group,
           top: top ? [top] : undefined,

@@ -89,7 +89,7 @@ const Filters = ({ t, party, onParty }) => {
     </Paragraph>
     <span {...styles.smallCheckbox}>
       <Checkbox
-        checked={preferences.portrait}
+        checked={!!preferences.portrait}
         onChange={(_, checked) => {
           setPreferences(p => ({ ...p, portrait: checked }))
         }}
@@ -99,7 +99,7 @@ const Filters = ({ t, party, onParty }) => {
     </span>
     <span {...styles.smallCheckbox}>
       <Checkbox
-        checked={preferences.smartspider}
+        checked={!!preferences.smartspider}
         onChange={(_, checked) => {
           setPreferences(p => ({ ...p, smartspider: checked }))
         }}
@@ -109,7 +109,7 @@ const Filters = ({ t, party, onParty }) => {
     </span>
     <span {...styles.smallCheckbox}>
       <Checkbox
-        checked={preferences.statement}
+        checked={!!preferences.statement}
         onChange={(_, checked) => {
           setPreferences(p => ({ ...p, statement: checked }))
         }}
@@ -128,6 +128,7 @@ const Filters = ({ t, party, onParty }) => {
         const active = party === medianSmartspider.value
         return (
           <button
+            key={medianSmartspider.value}
             {...plainButtonRule}
             {...styles.medianSmartspider}
             onClick={(e) => {
@@ -202,7 +203,7 @@ const Filters = ({ t, party, onParty }) => {
       {preferences.mySmartspider && <>
         <br />
         <Checkbox
-          checked={preferences.mySmartspiderSort && !party}
+          checked={!!preferences.mySmartspiderSort && !party}
           onChange={(_, checked) => {
             onParty()
             setPreferences(p => ({ ...p, mySmartspiderSort: checked }))

@@ -93,7 +93,7 @@ const styles = {
   })
 }
 
-const Page = ({ data, data: { cardGroups }, t }) => (
+const Page = ({ data, data: { cardGroups }, router, t }) => (
   <Frame raw footer={false} meta={{
     pageTitle: t('pages/cardGroups/pageTitle'),
     title: t('pages/cardGroups/pageTitle'),
@@ -136,9 +136,12 @@ const Page = ({ data, data: { cardGroups }, t }) => (
             {groups.map(cardGroup => {
               const Flag = Cantons[cardGroup.slug] || null
               const commentCount = cardGroup.discussion.comments.totalCount
+              const partyQuery = router.query.party && {
+                party: router.query.party
+              }
               return (
                 <div {...styles.canton} key={cardGroup.slug}>
-                  <Link route='cardGroup' params={{ group: cardGroup.slug }} passHref>
+                  <Link route='cardGroup' params={{ group: cardGroup.slug, ...partyQuery }} passHref>
                     <a {...styles.cardsLink}>
                       {Flag && <Flag size={SIZE} {...styles.flag} />}
                       <strong>{cardGroup.name}</strong>
@@ -153,7 +156,8 @@ const Page = ({ data, data: { cardGroups }, t }) => (
                   {!!commentCount && <span {...styles.discussionLink}>
                     <Link route='cardGroup' params={{
                       group: cardGroup.slug,
-                      suffix: 'diskussion'
+                      suffix: 'diskussion',
+                      ...partyQuery
                     }} passHref>
                       <DiscussionIconLink count={commentCount} />
                     </Link>

@@ -631,7 +631,7 @@ const Group = ({
       <div {...styles.switch} style={{
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
-        <Link route='cardGroups' passHref>
+        <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
           <Editorial.A>{t('components/Card/Group/switch')}</Editorial.A>
         </Link>
       </div>

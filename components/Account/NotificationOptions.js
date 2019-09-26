@@ -103,7 +103,8 @@ class NotificationOptions extends Component {
           const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(
             option => ({
               value: option,
-              text: <span {...styles.dropdownItem}>
+              text: t(`components/Discussion/Notification/${option}/label`),
+              element: <span {...styles.dropdownItem}>
                 {t(`components/Discussion/Notification/${option}/label`)}
               </span>
             }))

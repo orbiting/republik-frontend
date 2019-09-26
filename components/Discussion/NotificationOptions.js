@@ -218,7 +218,8 @@ class NotificationOptions extends PureComponent {
 
           const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
             value: option,
-            text: <span {...styles.dropdownItem}>
+            text: t(`components/Discussion/Notification/dropdown/${option}/label`),
+            element: <span {...styles.dropdownItem}>
               {t(`components/Discussion/Notification/dropdown/${option}/label`)}
             </span>
           }))

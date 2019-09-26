@@ -72,7 +72,7 @@ const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -156,7 +156,8 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
             <Link route='cardGroup' params={{
               group: group.slug,
               suffix: 'diskussion',
-              focus: statement.id
+              focus: statement.id,
+              ...medianSmartspiderQuery
             }} passHref>
               <DiscussionIconLink
                 style={{

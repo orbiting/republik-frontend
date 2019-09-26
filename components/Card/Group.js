@@ -213,7 +213,8 @@ const SpringCard = ({
   swiped, windowWidth,
   dragDir,
   onDetail, group,
-  mySmartspider
+  mySmartspider,
+  medianSmartspiderQuery
 }) => {
   const [props, set] = useSpring(() => fallIn && !swiped
     ? { ...to(), delay: fallIn * 100, from: fromFall() }
@@ -276,6 +277,7 @@ const SpringCard = ({
             t={t}
             {...card}
             mySmartspider={mySmartspider}
+            medianSmartspiderQuery={medianSmartspiderQuery}
             width={cardWidth}
             dragTime={dragTime}
             onDetail={() => {
@@ -723,7 +725,8 @@ const Group = ({
             bindGestures={bindGestures}
             onDetail={onDetail}
             group={group}
-            mySmartspider={mySmartspider} />
+            mySmartspider={mySmartspider}
+            medianSmartspiderQuery={medianSmartspiderQuery} />
         })}
 
         <div {...styles.buttonPanel} style={{

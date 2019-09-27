@@ -75,7 +75,7 @@ const styles = {
     pointerEvents: 'none',
     // boxShadow: '0px 0px 15px -3px #fff',
     transition: 'opacity 300ms',
-    transitionDelay: '100ms'
+    transitionDelay: '10ms'
   }),
   swipeIndicatorLeft: css({
     transform: 'rotate(42deg)',
@@ -289,7 +289,8 @@ const SpringCard = ({
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorLeft}
           style={{
-            opacity: dir === -1 ? 1 : 0,
+            opacity: dir < 0
+              ? Math.abs(dir) : 0,
             right: card.payload ? undefined : 30
           }}>
           {t(card.payload ? 'components/Card/ignore' : 'components/Card/no')}
@@ -298,7 +299,8 @@ const SpringCard = ({
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorRight}
           style={{
-            opacity: dir === 1 ? 1 : 0,
+            opacity: dir > 0
+              ? Math.abs(dir) : 0,
             left: card.payload ? undefined : 30
           }}>
           {t(card.payload ? 'components/Card/follow' : 'components/Card/yes')}
@@ -547,7 +549,7 @@ const Group = ({
       onCard.current = false
     }
 
-    const out = Math.abs(xDelta) > cardWidth / 2.5
+    const out = Math.abs(xDelta) > cardWidth * 0.4
     const trigger = velocity > 0.4 || out
     const dir = out
       ? xDelta < 0 ? -1 : 1
@@ -558,7 +560,18 @@ const Group = ({
       setDragDir(false)
       return
     }
-    const newDragDir = trigger && down && dir
+
+    const newDragDir = (
+      (trigger && down && dir) ||
+      (
+        down && Math.abs(xDelta) > 10
+          ? (
+            (Math.abs(xDelta) / (cardWidth * 0.4)) * 0.5 *
+            (xDelta < 0 ? -1 : 1)
+          )
+          : false
+      )
+    )
     if (newDragDir !== dragDir) {
       setDragDir(newDragDir)
     }

@@ -29,9 +29,6 @@ const styles = {
     marginTop: 40,
     width: 170,
     textAlign: 'center'
-  }),
-  buttonIndex: css({
-    width: 210
   })
 }
 
@@ -43,16 +40,14 @@ const Form = (props) => {
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
     return (
-      <div {...merge(styles.button, styles.buttonIndex, narrow && { marginTop: 20 })}>
+      <div style={narrow ? { marginTop: 20 } : undefined}>
         <Button
           primary
-          block
           onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         {' '}
         <Button
-          block
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}>
           {t('Trial/Form/authorized/withAccess/setup/label')}
         </Button>

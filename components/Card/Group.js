@@ -767,11 +767,13 @@ const Group = ({
                 variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
                   filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
                 }),
-                variables.smartspider && medianSmartspider
-                  ? t('components/Card/Group/preferences/partySort', {
-                    party: medianSmartspider.label || medianSmartspider.value
-                  })
-                  : t('components/Card/Group/preferences/mySort')
+                variables.smartspider && (
+                  medianSmartspider
+                    ? t('components/Card/Group/preferences/partySort', {
+                      party: medianSmartspider.label || medianSmartspider.value
+                    })
+                    : t('components/Card/Group/preferences/mySort')
+                )
               ].filter(Boolean).join(', ')}`
               : t('components/Card/Group/preferences/none')}
           </Editorial.A>

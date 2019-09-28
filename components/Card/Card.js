@@ -22,7 +22,25 @@ export const MEDIUM_MIN_WIDTH = 360
 
 const PADDING = 15
 
-const styles = {
+export const styles = {
+  card: css({
+    position: 'absolute',
+    width: '100vw',
+    top: 20,
+    bottom: 80,
+    minHeight: 340,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }),
+  cardInner: css({
+    position: 'relative',
+    userSelect: 'none',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+    boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
+  }),
   bottomText: css({
     position: 'absolute',
     bottom: 0,
@@ -72,7 +90,7 @@ const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, withSlides = true }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -98,7 +116,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       backgroundImage: `url(${user.portrait})`,
       height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
-    payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
+    withSlides && payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <SmallParagraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small>
@@ -111,7 +129,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         data={payload.smartvoteCleavage}
         reference={mySmartspider} />
     </div>,
-    <div {...styles.centerContent} style={{ width: innerWidth }}>
+    withSlides && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Finance payload={payload} />
     </div>
   ].filter(Boolean)

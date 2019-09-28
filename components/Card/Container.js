@@ -31,7 +31,14 @@ const styles = {
   })
 }
 
-const Container = ({ children, style = {} }) => {
+export const RawContainer = ({ children, style, imprint }) => (
+  <div {...styles.container} style={style}>
+    {children}
+    <Footer imprint={imprint} />
+  </div>
+)
+
+const Container = ({ children, style = {}, imprint }) => {
   const heightStyle = {}
   const heightKey = style.minHeight
     ? 'height'
@@ -48,7 +55,7 @@ const Container = ({ children, style = {} }) => {
       {...styles[heightKey]}
       style={{ ...heightStyle, ...style }}>
       {children}
-      <Footer />
+      <Footer imprint={imprint} />
     </div>
   )
 }

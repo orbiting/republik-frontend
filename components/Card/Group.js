@@ -34,7 +34,7 @@ import { ZINDEX_HEADER } from '../constants'
 import Discussion from '../Discussion/Discussion'
 
 import Details from './Details'
-import Card, { MEDIUM_MIN_WIDTH } from './Card'
+import Card, { styles as cardStyles, MEDIUM_MIN_WIDTH } from './Card'
 import Container from './Container'
 import Cantons from './Cantons'
 import MyList from './MyList'
@@ -46,24 +46,6 @@ import TrialForm from './TrialForm'
 import { cardColors } from './constants'
 
 const styles = {
-  card: css({
-    position: 'absolute',
-    width: '100vw',
-    top: 20,
-    bottom: 80,
-    minHeight: 340,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }),
-  cardInner: css({
-    position: 'relative',
-    userSelect: 'none',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    overflow: 'hidden',
-    boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)'
-  }),
   swipeIndicator: css({
     position: 'absolute',
     textTransform: 'uppercase',
@@ -253,7 +235,7 @@ const SpringCard = ({
   const Special = specials[card.id]
 
   return (
-    <animated.div {...styles.card} style={{
+    <animated.div {...cardStyles.card} style={{
       transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
       zIndex,
       willChange
@@ -262,7 +244,7 @@ const SpringCard = ({
         {...swiped
           ? undefined // prevent catching a card after swipping
           : bindGestures(set, card, isTop, index)}
-        {...styles.cardInner}
+        {...cardStyles.cardInner}
         style={{
           width: cardWidth,
           height: cardWidth * 1.4,

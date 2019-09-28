@@ -496,7 +496,7 @@ class Profile extends Component {
                             errors={errors}
                             dirty={dirty} />
                           {/* show sequence # of profiles with a card here */}
-                          {card && !!user.sequenceNumber && <div>
+                          {card && !!user.sequenceNumber && <div style={{ color: colors.text }}>
                             {t('memberships/sequenceNumber/label', {
                               sequenceNumber: user.sequenceNumber
                             })}

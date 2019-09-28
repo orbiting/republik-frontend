@@ -1,12 +1,30 @@
 import React from 'react'
+import { css } from 'glamor'
 
 import {
+  mediaQueries,
   Editorial
 } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
+import { useCardPreferences } from './Preferences'
+import getPartyColor from './partyColors'
 import { Paragraph, Finance } from './Shared'
+import Spider from './Spider'
+
+const SPIDER_SIZE = 260
+
+const styles = {
+  spider: css({
+    [mediaQueries.mUp]: {
+      float: 'right',
+      width: SPIDER_SIZE,
+      marginLeft: 10,
+      marginBottom: 10
+    }
+  })
+}
 
 const Details = ({ card, t }) => {
   const { payload } = card
@@ -18,8 +36,18 @@ const Details = ({ card, t }) => {
   const linkSmartvote = payload.councilOfStates.linkSmartvote || payload.nationalCouncil.linkSmartvote
   const incumbent = payload.councilOfStates.incumbent || payload.nationalCouncil.incumbent
 
+  const [preferences] = useCardPreferences({})
+  const partyColor = getPartyColor(payload.party)
+
   return (
     <>
+      <div {...styles.spider}>
+        <Spider
+          size={SPIDER_SIZE}
+          fill={partyColor}
+          data={payload.smartvoteCleavage}
+          reference={preferences.mySmartspider} />
+      </div>
       {!!payload.nationalCouncil.listName && <Paragraph>
         Liste: {payload.nationalCouncil.listName}<br />
         {payload.nationalCouncil.listPlaces && <>
@@ -29,10 +57,7 @@ const Details = ({ card, t }) => {
           {t('components/Card/electionPlausibility/title', {
             text: plausibilityText,
             emoji: plausibilityEmoji
-          })}<br />
-          <Editorial.A href='/wahltindaer/meta#das-republik-wahltindaer-im-detail'>
-            {t('components/Card/Details/source')}
-          </Editorial.A>
+          })}
         </>}
       </Paragraph>}
       <Paragraph>
@@ -49,7 +74,7 @@ const Details = ({ card, t }) => {
         <small>{t('components/Card/Details/smartvote/note')}</small>
       </Paragraph>}
       {!!incumbent && <Paragraph style={{ marginBottom: 10 }}>
-        <Editorial.A href='https://lobbywatch.ch/de/daten/parlamentarier'>
+        <Editorial.A href={(payload.lobbywatch && payload.lobbywatch.link) || 'https://lobbywatch.ch/de/daten/parlamentarier'}>
           {t('components/Card/Details/lobbywatch')}
         </Editorial.A><br />
         <small>{t('components/Card/Details/lobbywatch/note')}</small>

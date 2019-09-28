@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-26T14:57:27.844Z",
+  "updated": "2019-09-28T21:20:13.559Z",
   "title": "live",
   "data": [
     {
@@ -5552,7 +5552,7 @@
     },
     {
       "key": "components/Card/electionPlausibility/title",
-      "value": "Rating des Listen­platzes: {text} {emoji}"
+      "value": "Rating des Listen­platzes: {text} {emoji}"
     },
     {
       "key": "components/Card/electionPlausibility/GOOD",
@@ -5608,7 +5608,7 @@
     },
     {
       "key": "components/Card/Details/source",
-      "value": "Mehr über Quellen und Methodik"
+      "value": "Quellen und Methodik"
     },
     {
       "key": "components/Card/Details/links",
@@ -5620,7 +5620,7 @@
     },
     {
       "key": "components/Card/Details/smartvote/note",
-      "value": "Das ist unsere Hauptquelle, im Profil von smartvote.ch finden Sie zusätzliche Informationen, können Sie die Werthaltungen mit Ihrer eigenen vergleichen. Übrigens: Der Verein hinter Smartvote sucht noch Spenden."
+      "value": "Unsere Hauptquelle. Übrigens: Der Verein hinter Smartvote sucht noch Spenden."
     },
     {
       "key": "components/Card/Details/lobbywatch",
@@ -5628,7 +5628,7 @@
     },
     {
       "key": "components/Card/Details/lobbywatch/note",
-      "value": "Auf lobbywatch.ch finden Sie mehr zu den Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung. Sobald wir Zeit haben, bauen wir hier eine Vorschau ein und setzen einen direkten Link."
+      "value": "Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung."
     },
     {
       "key": "Onboarding/Page/more/cards",

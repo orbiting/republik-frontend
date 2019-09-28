@@ -172,6 +172,10 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
   if (!stale) {
     meRef.current = me
   }
+  const topRef = useRef(top)
+  if (top) {
+    topRef.current = top
+  }
 
   const medianSmartspider = party && medianSmartspiders.find(m => m.value === party)
 
@@ -185,7 +189,7 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
         query={query}
         variables={{
           slug: group,
-          top: top ? [top] : undefined,
+          top: topRef.current ? [topRef.current] : undefined,
           mustHave: [
             slowPreferences.portrait && 'portrait',
             slowPreferences.smartspider && 'smartspider',

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-28T21:20:13.559Z",
+  "updated": "2019-09-28T22:51:42.540Z",
   "title": "live",
   "data": [
     {
@@ -5753,6 +5753,30 @@
     {
       "key": "components/Card/Preferences/medianSmartspiders/explanation",
       "value": "Die Position der Partei entspricht dem nationalen Mittelwert ihrer Kandidierenden. Drücken Sie auf eine Grafik um Profile mit ähnlichen Werten zuerst zu sehen."
+    },
+    {
+      "key": "components/Card/elected",
+      "value": "bereits gewählt"
+    },
+    {
+      "key": "components/Card/elected/sr",
+      "value": "in den Ständerat gewählt"
+    },
+    {
+      "key": "components/Card/elected/nr",
+      "value": "in den Nationalrat gewählt"
+    },
+    {
+      "key": "components/Card/reelected",
+      "value": "bereits wiedergewählt"
+    },
+    {
+      "key": "components/Card/reelected/sr",
+      "value": "in den Ständerat wiedergewählt"
+    },
+    {
+      "key": "components/Card/reelected/nr",
+      "value": "in den Nationalrat wiedergewählt"
     }
   ]
 }

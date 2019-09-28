@@ -107,8 +107,9 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
     }
   }
 
+  const { councilOfStates, nationalCouncil } = payload
   const innerWidth = width - PADDING * 2
-  const textLines = 2 + !!payload.occupation + !!payload.councilOfStates.candidacy
+  const textLines = 2 + !!payload.occupation + !!councilOfStates.candidacy
 
   const partyColor = getPartyColor(payload.party)
   const slides = [
@@ -135,7 +136,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
   ].filter(Boolean)
   const totalSlides = slides.length
 
-  const { listPlaces, electionPlausibility } = payload.nationalCouncil
+  const { listPlaces, electionPlausibility } = nationalCouncil
   const plausibilityEmoji = t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
 
   return (
@@ -197,8 +198,8 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           </a>}
         </div>
         <strong>
-          {payload.councilOfStates.candidacy && <>
-            {t(`components/Card/candidacy/${payload.nationalCouncil.candidacy ? 'sr_nr' : 'sr'}`)}
+          {councilOfStates.candidacy && <>
+            {t(`components/Card/candidacy/${nationalCouncil.candidacy ? 'sr_nr' : 'sr'}`)}
             <br />
           </>}
           {user.name}
@@ -212,15 +213,23 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
           {payload.party}
           {','}&nbsp;
           {
-            payload.councilOfStates.candidacy
-              ? payload.councilOfStates.incumbent
-                ? t('components/Card/incumbent')
-                : payload.nationalCouncil.incumbent
-                  ? t('components/Card/incumbent/nr')
+            councilOfStates.candidacy
+              ? councilOfStates.elected
+                ? nationalCouncil.candidacy
+                  ? t(`components/Card/${councilOfStates.incumbent ? 're' : ''}elected/sr`)
+                  : t(`components/Card/${councilOfStates.incumbent ? 're' : ''}elected`)
+                : councilOfStates.incumbent
+                  ? t('components/Card/incumbent')
+                  : nationalCouncil.incumbent
+                    ? t('components/Card/incumbent/nr')
+                    : t('components/Card/incumbent/new')
+              : nationalCouncil.elected
+                ? councilOfStates.candidacy
+                  ? t(`components/Card/${nationalCouncil.incumbent ? 're' : ''}elected/nr`)
+                  : t(`components/Card/${nationalCouncil.incumbent ? 're' : ''}elected`)
+                : nationalCouncil.incumbent
+                  ? t('components/Card/incumbent')
                   : t('components/Card/incumbent/new')
-              : payload.nationalCouncil.incumbent
-                ? t('components/Card/incumbent')
-                : t('components/Card/incumbent/new')
           }
         </strong>
         {listPlaces && !!listPlaces.length && <>

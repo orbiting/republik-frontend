@@ -8,7 +8,6 @@ import {
 
 import withT from '../../lib/withT'
 
-import { useCardPreferences } from './Preferences'
 import getPartyColor from './partyColors'
 import { Paragraph, Finance } from './Shared'
 import Spider from './Spider'
@@ -26,7 +25,7 @@ const styles = {
   })
 }
 
-const Details = ({ card, t }) => {
+const Details = ({ card, t, mySmartspider, skipSpider }) => {
   const { payload } = card
 
   const { electionPlausibility } = payload.nationalCouncil
@@ -36,18 +35,17 @@ const Details = ({ card, t }) => {
   const linkSmartvote = payload.councilOfStates.linkSmartvote || payload.nationalCouncil.linkSmartvote
   const incumbent = payload.councilOfStates.incumbent || payload.nationalCouncil.incumbent
 
-  const [preferences] = useCardPreferences({})
   const partyColor = getPartyColor(payload.party)
 
   return (
     <>
-      <div {...styles.spider}>
+      {payload.smartvoteCleavage && !skipSpider && <div {...styles.spider}>
         <Spider
           size={SPIDER_SIZE}
           fill={partyColor}
           data={payload.smartvoteCleavage}
-          reference={preferences.mySmartspider} />
-      </div>
+          reference={mySmartspider} />
+      </div>}
       {!!payload.nationalCouncil.listName && <Paragraph>
         Liste: {payload.nationalCouncil.listName}<br />
         {payload.nationalCouncil.listPlaces && <>

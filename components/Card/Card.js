@@ -90,7 +90,7 @@ export const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, withSlides = true }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -117,7 +117,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
       backgroundImage: `url(${user.portrait})`,
       height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
-    withSlides && payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
+    payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
       <SmallParagraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small>
@@ -130,10 +130,10 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         data={payload.smartvoteCleavage}
         reference={mySmartspider} />
     </div>,
-    withSlides && <div {...styles.centerContent} style={{ width: innerWidth }}>
+    <div {...styles.centerContent} style={{ width: innerWidth }}>
       <Finance payload={payload} />
     </div>
-  ].filter(Boolean)
+  ].filter(Boolean).slice(0, firstSlideOnly ? 1 : undefined)
   const totalSlides = slides.length
 
   const { listPlaces, electionPlausibility } = nationalCouncil

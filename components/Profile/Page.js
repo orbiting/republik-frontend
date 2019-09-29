@@ -419,7 +419,7 @@ class Profile extends Component {
                       transform: 'rotate(-1deg)',
                       margin: '30px 10px'
                     }}>
-                      <Card width={300} {...card} t={t} withSlides={false} />
+                      <Card width={300} {...card} t={t} firstSlideOnly />
                     </div>
                     <div style={{
                       padding: 30,
@@ -532,7 +532,6 @@ class Profile extends Component {
                       </div>
                     </div>
                     <div {...styles.mainColumn} ref={this.setMainRef}>
-                      {card && <CardDetails card={card} />}
                       <Biography
                         user={user}
                         isEditing={isEditing}
@@ -540,6 +539,9 @@ class Profile extends Component {
                         values={values}
                         errors={errors}
                         dirty={dirty} />
+                      {card && <div style={{ marginBottom: 40 }}>
+                        <CardDetails card={card} skipSpider={!card.user.portrait} />
+                      </div>}
                       {isMobile && isEditing && <div style={{ marginBottom: 40 }}>
                         <Edit
                           user={user}

@@ -848,7 +848,7 @@ const Group = ({
             onClose={closeOverlay}
             beta
           >
-            <Details card={detailCard} />
+            <Details card={detailCard} mySmartspider={mySmartspider} />
           </Overlay>
         }
       </div>

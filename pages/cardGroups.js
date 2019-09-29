@@ -18,8 +18,9 @@ import Container from '../components/Card/Container'
 import Cantons from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
 import Beta from '../components/Card/Beta'
-import { Editorial, Interaction, colors } from '@project-r/styleguide'
+import { Center, Editorial, Interaction, colors } from '@project-r/styleguide'
 import DiscussionIconLink from '../components/Card/DiscussionIconLink'
+import LatestComments from '../components/Feedback/LatestComments'
 
 const query = gql`
 query {
@@ -90,6 +91,10 @@ const styles = {
     position: 'absolute',
     left: 0,
     top: 0
+  }),
+  discussionFeedHeadline: css({
+    marginTop: 20,
+    marginBottom: 30
   })
 }
 
@@ -171,6 +176,16 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       <br />
       <br />
     </Container>
+
+    <Center>
+      <Interaction.H3 {...styles.discussionFeedHeadline}>
+        {t('pages/cardGroups/latestComments')}
+      </Interaction.H3>
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => <LatestComments discussionIds={data.cardGroups.nodes.map(card => card.discussion.id)} />} />
+    </Center>
   </Frame>
 )
 

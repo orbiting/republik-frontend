@@ -74,6 +74,7 @@ query getComments(
   $after: String,
   $orderBy: DiscussionOrder,
   $discussionId: ID,
+  $discussionIds: [ID!],
   $lastId: ID
 ) {
   comments(
@@ -81,6 +82,7 @@ query getComments(
     after: $after,
     orderBy: $orderBy,
     discussionId: $discussionId,
+    discussionIds: $discussionIds,
     lastId: $lastId,
     orderDirection: DESC
   ) {
@@ -163,10 +165,11 @@ export const withActiveDiscussions = graphql(getActiveDiscussions, {
 })
 
 export const withComments = (defaultProps = {}) => graphql(getComments, {
-  options: ({ discussionId, orderBy, first }) => {
+  options: ({ discussionId, discussionIds, orderBy, first }) => {
     return {
       variables: {
         discussionId,
+        discussionIds,
         orderBy: defaultProps.orderBy || 'DATE',
         first: defaultProps.first || 10
       }

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-28T22:51:42.540Z",
+  "updated": "2019-09-29T10:16:32.107Z",
   "title": "live",
   "data": [
     {
@@ -5293,6 +5293,10 @@
     {
       "key": "pages/cardGroups/cardCount/other",
       "value": "{count} Kandidaturen"
+    },
+    {
+      "key": "pages/cardGroups/latestComments",
+      "value": "Neuste Beiträge"
     },
     {
       "key": "pages/cardGroup/title",

@@ -17,7 +17,6 @@ import Loader from '../components/Loader'
 import Container from '../components/Card/Container'
 import Cantons from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
-import Beta from '../components/Card/Beta'
 import { Center, Editorial, Interaction, colors } from '@project-r/styleguide'
 import DiscussionIconLink from '../components/Card/DiscussionIconLink'
 import LatestComments from '../components/Feedback/LatestComments'
@@ -110,17 +109,10 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>
         <Editorial.Headline>
           {t('pages/cardGroups/headline')}
-          <span style={{ position: 'relative' }}>
-            <Logo style={{
-              marginLeft: 20,
-              marginBottom: -20
-            }} size={80} />
-            <Beta style={{
-              position: 'absolute',
-              left: -40,
-              bottom: -23
-            }} />
-          </span>
+          <Logo style={{
+            marginLeft: 20,
+            marginBottom: -20
+          }} size={80} />
         </Editorial.Headline>
         <Editorial.P>
           {t('pages/cardGroups/lead')}

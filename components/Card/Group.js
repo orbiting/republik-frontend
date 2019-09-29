@@ -801,7 +801,7 @@ const Group = ({
           </Overlay>
         }
         {showMyList &&
-          <Overlay beta title={t('components/Card/Group/title', {
+          <Overlay title={t('components/Card/Group/title', {
             groupName: group.name
           })} onClose={closeOverlay}>
             <MyList
@@ -846,7 +846,6 @@ const Group = ({
           <Overlay
             title={detailCard.user.name}
             onClose={closeOverlay}
-            beta
           >
             <Details card={detailCard} mySmartspider={mySmartspider} />
           </Overlay>

@@ -8,10 +8,12 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import Footer from './Footer'
 
+export const BACKGROUND_COLOR = '#DEEFF5'
+
 const styles = {
   container: css({
     position: 'relative',
-    background: '#DEEFF5',
+    backgroundColor: BACKGROUND_COLOR,
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',

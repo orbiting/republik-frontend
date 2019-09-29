@@ -357,13 +357,19 @@ class Profile extends Component {
       data: { loading, error, user }
     } = this.props
 
+    const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
     const metaData = {
       image: user && user.portrait
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
-      title: user
-        ? t('pages/profile/pageTitle', { name: user.name })
-        : t('pages/profile/empty/pageTitle')
+      title: card
+        ? user.name
+        : user
+          ? t('pages/profile/pageTitle', { name: user.name })
+          : t('pages/profile/empty/pageTitle'),
+      description: card
+        ? 'Profil anschauen und «Republik Wahltindär» spielen.'
+        : undefined
     }
 
     return (
@@ -396,7 +402,6 @@ class Profile extends Component {
               isMobile
             } = this.state
 
-            const card = user.cards && user.cards.nodes && user.cards.nodes[0]
             return (
               <Fragment>
                 {!user.hasPublicProfile && (

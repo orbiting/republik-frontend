@@ -8,15 +8,23 @@ import withT from '../../lib/withT'
 
 import Loader from '../Loader'
 
+import CardLogo from '../Card/Logo'
+import { cardFragment } from '../Card/fragments'
+import Card, { styles as cardStyles } from '../Card/Card'
+import { BACKGROUND_COLOR } from '../Card/Container'
+
 import {
-  Logo, fontFamilies, inQuotes
+  Logo, BrandMark, fontFamilies, inQuotes
 } from '@project-r/styleguide'
+
+const WIDTH = 1200
+const HEIGHT = 628
 
 const styles = {
   container: css({
     position: 'relative',
-    width: 1200,
-    height: 628,
+    width: WIDTH,
+    height: HEIGHT,
     backgroundColor: '#fff'
   }),
   logo: css({
@@ -80,37 +88,77 @@ const fontSizeBoost = length => {
   return 0
 }
 
-const Item = ({ loading, pkg, error, t, statement: { statement, portrait, name, sequenceNumber } = {} }) => {
-  const headline = t(`testimonial/detail/share/package/${pkg}`, undefined, '')
-  const invert = pkg === 'PROLONG'
-
+const Item = ({ loading, pkg, error, t, statement: { cards, statement, portrait, name, sequenceNumber } = {} }) => {
   return (
-    <Loader loading={loading} error={error} render={() => (
-      <div {...styles.container} style={invert ? {
-        backgroundColor: '#000',
-        color: '#fff'
-      } : undefined}>
-        <Head>
-          <meta name='robots' content='noindex' />
-        </Head>
-        <img {...styles.image} src={portrait} />
-        <div {...styles.text}>
-          {headline && <div {...styles.headline}>{headline}</div>}
-          {statement && <p {...styles.quote}
-            style={{ fontSize: 24 + fontSizeBoost(statement.length + headline.length) }}>
-            {inQuotes(statement)}
-          </p>}
-          {!!sequenceNumber && (
-            <div {...styles.number}>{t('memberships/sequenceNumber/label', {
-              sequenceNumber
-            })}</div>
-          )}
+    <Loader loading={loading} error={error} render={() => {
+      const card = cards && cards.nodes && cards.nodes[0]
+
+      if (card) {
+        return <div {...css({
+          backgroundColor: BACKGROUND_COLOR,
+          width: WIDTH,
+          height: HEIGHT,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        })}>
+          <Head>
+            <meta name='robots' content='noindex' />
+          </Head>
+          <div {...cardStyles.cardInner} style={{
+            width: 380,
+            height: 380 * 1.4,
+            transform: 'rotate(-1.5deg)',
+            margin: '30px 10px'
+          }}>
+            <Card width={380} {...card} t={t} firstSlideOnly />
+          </div>
+          <div style={{
+            marginLeft: 140,
+            height: 170,
+            width: 170
+          }}>
+            <BrandMark />
+          </div>
+          <div style={{
+            marginLeft: 40
+          }}>
+            <CardLogo size={170} />
+          </div>
         </div>
-        <div {...styles.logo}>
-          <Logo fill={invert ? '#fff' : '#000'} />
+      }
+
+      const headline = t(`testimonial/detail/share/package/${pkg}`, undefined, '')
+      const invert = pkg === 'PROLONG'
+
+      return (
+        <div {...styles.container} style={invert ? {
+          backgroundColor: '#000',
+          color: '#fff'
+        } : undefined}>
+          <Head>
+            <meta name='robots' content='noindex' />
+          </Head>
+          <img {...styles.image} src={portrait} />
+          <div {...styles.text}>
+            {headline && <div {...styles.headline}>{headline}</div>}
+            {statement && <p {...styles.quote}
+              style={{ fontSize: 24 + fontSizeBoost(statement.length + headline.length) }}>
+              {inQuotes(statement)}
+            </p>}
+            {!!sequenceNumber && (
+              <div {...styles.number}>{t('memberships/sequenceNumber/label', {
+                sequenceNumber
+              })}</div>
+            )}
+          </div>
+          <div {...styles.logo}>
+            <Logo fill={invert ? '#fff' : '#000'} />
+          </div>
         </div>
-      </div>
-    )} />
+      )
+    }} />
   )
 }
 
@@ -122,6 +170,17 @@ query statements($focus: String!) {
     statement
     portrait
     sequenceNumber
+    cards(first: 1) {
+      nodes {
+        id
+        ...Card
+        group {
+          id
+          name
+          slug
+        }
+      }
+    }
   }
   statements(focus: $focus, first: 1) {
     totalCount
@@ -133,7 +192,8 @@ query statements($focus: String!) {
       sequenceNumber
     }
   }
-}`
+}
+${cardFragment}`
 
 export default compose(
   withT,

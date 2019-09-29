@@ -184,7 +184,13 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       <Loader
         loading={data.loading}
         error={data.error}
-        render={() => <LatestComments discussionIds={data.cardGroups.nodes.map(card => card.discussion.id)} />} />
+        render={() => {
+          return (
+            <LatestComments
+              discussionIds={data.cardGroups.nodes.map(card => card.discussion.id)}
+              toDepth={0} />
+          )
+        }} />
     </Center>
   </Frame>
 )

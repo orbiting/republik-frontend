@@ -428,10 +428,12 @@ class Profile extends Component {
                     }}>
                       <Card width={300} {...card} t={t} firstSlideOnly />
                     </div>
-                    <div style={{
+                    <div {...css({
                       padding: 30,
-                      margin: '0 30px'
-                    }}>
+                      [mediaQueries.mUp]: {
+                        margin: '0 30px'
+                      }
+                    })}>
                       <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }}>
                         <Button primary>
                           «Wahltindär» spielen

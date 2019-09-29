@@ -141,6 +141,7 @@ const getPublicUser = gql`
   query getPublicUser($slug: String!) {
     user(slug: $slug) {
       id
+      slug
       username
       firstName
       lastName
@@ -359,6 +360,7 @@ class Profile extends Component {
 
     const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
     const metaData = {
+      url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
       image: user && user.portrait
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
@@ -466,7 +468,7 @@ class Profile extends Component {
                           <ActionBar
                             title={t('profile/share/title', { name: user.name })}
                             emailSubject={t('profile/share/emailSubject', { name: user.name })}
-                            url={`${PUBLIC_BASE_URL}/~${user.username}`}
+                            url={`${PUBLIC_BASE_URL}/~${user.slug}`}
                             download={metaData.image}
                             shareOverlayTitle={t('profile/share/overlayTitle')}
                           />

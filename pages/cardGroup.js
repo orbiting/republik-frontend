@@ -104,7 +104,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
         url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroup').toPath({
           group: data.cardGroup.slug
         })}`,
-        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
+        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
       }} />
       return (
         <>

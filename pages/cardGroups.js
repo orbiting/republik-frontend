@@ -103,7 +103,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
     title: t('pages/cardGroups/pageTitle'),
     description: t('pages/cardGroups/description'),
     url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroups').toPath()}`,
-    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
   }}>
     <Container imprint={false}>
       <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>

@@ -8,10 +8,12 @@ import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import Footer from './Footer'
 
+export const BACKGROUND_COLOR = '#DEEFF5'
+
 const styles = {
   container: css({
     position: 'relative',
-    background: '#DEEFF5',
+    backgroundColor: BACKGROUND_COLOR,
     overflow: 'hidden',
     // overscrollBehaviorY: 'contain',
     width: '100%',
@@ -31,7 +33,14 @@ const styles = {
   })
 }
 
-const Container = ({ children, style = {} }) => {
+export const RawContainer = ({ children, style, imprint }) => (
+  <div {...styles.container} style={style}>
+    {children}
+    <Footer imprint={imprint} />
+  </div>
+)
+
+const Container = ({ children, style = {}, imprint }) => {
   const heightStyle = {}
   const heightKey = style.minHeight
     ? 'height'
@@ -48,7 +57,7 @@ const Container = ({ children, style = {} }) => {
       {...styles[heightKey]}
       style={{ ...heightStyle, ...style }}>
       {children}
-      <Footer />
+      <Footer imprint={imprint} />
     </div>
   )
 }

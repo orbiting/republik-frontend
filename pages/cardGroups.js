@@ -17,9 +17,9 @@ import Loader from '../components/Loader'
 import Container from '../components/Card/Container'
 import Cantons from '../components/Card/Cantons'
 import Logo from '../components/Card/Logo'
-import Beta from '../components/Card/Beta'
-import { Editorial, Interaction, colors } from '@project-r/styleguide'
+import { Center, Editorial, Interaction, colors } from '@project-r/styleguide'
 import DiscussionIconLink from '../components/Card/DiscussionIconLink'
+import LatestComments from '../components/Feedback/LatestComments'
 
 const query = gql`
 query {
@@ -90,32 +90,29 @@ const styles = {
     position: 'absolute',
     left: 0,
     top: 0
+  }),
+  discussionFeedHeadline: css({
+    marginTop: 20,
+    marginBottom: 30
   })
 }
 
 const Page = ({ data, data: { cardGroups }, router, t }) => (
-  <Frame raw footer={false} meta={{
+  <Frame raw meta={{
     pageTitle: t('pages/cardGroups/pageTitle'),
     title: t('pages/cardGroups/pageTitle'),
     description: t('pages/cardGroups/description'),
     url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroups').toPath()}`,
-    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
+    image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
   }}>
-    <Container>
+    <Container imprint={false}>
       <div style={{ padding: 10, maxWidth: 700, margin: '40px auto 0', textAlign: 'center' }}>
         <Editorial.Headline>
           {t('pages/cardGroups/headline')}
-          <span style={{ position: 'relative' }}>
-            <Logo style={{
-              marginLeft: 20,
-              marginBottom: -20
-            }} size={80} />
-            <Beta style={{
-              position: 'absolute',
-              left: -40,
-              bottom: -23
-            }} />
-          </span>
+          <Logo style={{
+            marginLeft: 20,
+            marginBottom: -20
+          }} size={80} />
         </Editorial.Headline>
         <Editorial.P>
           {t('pages/cardGroups/lead')}
@@ -171,6 +168,22 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       <br />
       <br />
     </Container>
+
+    <Center style={{ marginBottom: 30 }}>
+      <Interaction.H3 {...styles.discussionFeedHeadline}>
+        {t('pages/cardGroups/latestComments')}
+      </Interaction.H3>
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          return (
+            <LatestComments
+              discussionIds={data.cardGroups.nodes.map(card => card.discussion.id)}
+              toDepth={0} />
+          )
+        }} />
+    </Center>
   </Frame>
 )
 

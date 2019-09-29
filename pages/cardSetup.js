@@ -19,7 +19,7 @@ const Page = ({ router, t }) => {
         <Meta data={{
           title: t('pages/cardSetup/title'),
           description: t('pages/cardSetup/description'),
-          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-08.png`
+          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
         }} />
         <Head>
           <meta name='robots' content='noindex' />

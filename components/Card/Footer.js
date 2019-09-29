@@ -42,14 +42,14 @@ const styles = {
   })
 }
 
-const Footer = ({ t, zIndex }) => {
+const Footer = ({ t, zIndex, imprint = true }) => {
   return (
     <div {...styles.container}>
-      <div {...styles.left}>
+      {imprint && <div {...styles.left}>
         <Link route='legal/imprint' passHref>
           <Editorial.A>{t('footer/legal/imprint')}</Editorial.A>
         </Link>
-      </div>
+      </div>}
       <div {...styles.right}>
         <Editorial.A href='/wahltindaer/meta#das-republik-wahltindaer-im-detail'>
           {t('components/Card/Footer/sources')}

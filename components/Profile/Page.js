@@ -18,7 +18,9 @@ import FeedActionBar from '../ActionBar/Feed'
 import HrefLink from '../Link/Href'
 import StatusError from '../StatusError'
 import { cardFragment } from '../Card/fragments'
-// import Card from '../Card/Card'
+import Card, { styles as cardStyles } from '../Card/Card'
+import { RawContainer as CardContainer } from '../Card/Container'
+import CardDetails from '../Card/Details'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
 import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
@@ -43,7 +45,7 @@ import {
   linkRule,
   mediaQueries,
   TeaserFeed,
-  Editorial
+  Button
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -355,13 +357,19 @@ class Profile extends Component {
       data: { loading, error, user }
     } = this.props
 
+    const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
     const metaData = {
       image: user && user.portrait
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
-      title: user
-        ? t('pages/profile/pageTitle', { name: user.name })
-        : t('pages/profile/empty/pageTitle')
+      title: card
+        ? `🔥 ${user.name}`
+        : user
+          ? t('pages/profile/pageTitle', { name: user.name })
+          : t('pages/profile/empty/pageTitle'),
+      description: card
+        ? 'Profil anschauen und «Republik Wahltindär» spielen.'
+        : undefined
     }
 
     return (
@@ -394,7 +402,6 @@ class Profile extends Component {
               isMobile
             } = this.state
 
-            const card = user.cards && user.cards.nodes && user.cards.nodes[0]
             return (
               <Fragment>
                 {!user.hasPublicProfile && (
@@ -404,48 +411,77 @@ class Profile extends Component {
                     </MainContainer>
                   </Box>
                 )}
-                <MainContainer>
-                  <div ref={this.setInnerRef} {...styles.head}>
-                    <p {...styles.statement}>
-                      <Statement
-                        user={user}
-                        isEditing={isEditing}
-                        onChange={this.onChange}
-                        values={values}
-                        errors={errors}
-                        dirty={dirty} />
-                    </p>
-                    <div {...styles.portrait}>
-                      <Portrait
-                        user={user}
-                        isEditing={isEditing}
-                        isMe={this.isMe()}
-                        onChange={this.onChange}
-                        values={values}
-                        errors={errors}
-                        dirty={dirty} />
+                {card && <CardContainer imprint={false} style={{ minHeight: 300 * 1.4 + 60 }}>
+                  <div {...css({
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap'
+                  })}>
+                    <div {...cardStyles.cardInner} style={{
+                      width: 300,
+                      height: 300 * 1.4,
+                      transform: 'rotate(-1deg)',
+                      margin: '30px 10px'
+                    }}>
+                      <Card width={300} {...card} t={t} firstSlideOnly />
                     </div>
-                    <div {...styles.headInfo}>
-                      {!!user.hasPublicProfile &&
-                      <span {...styles.headInfoShare}>
-                        <ActionBar
-                          title={t('profile/share/title', { name: user.name })}
-                          emailSubject={t('profile/share/emailSubject', { name: user.name })}
-                          url={`${PUBLIC_BASE_URL}/~${user.username}`}
-                          download={metaData.image}
-                          shareOverlayTitle={t('profile/share/overlayTitle')}
-                        />
-                      </span>
-                      }
-                      {!!user.sequenceNumber && <span {...styles.headInfoNumber}>
-                        {t('memberships/sequenceNumber/label', {
-                          sequenceNumber: user.sequenceNumber
-                        })}
-                      </span>}
-                      <div style={{ clear: 'both' }} />
+                    <div style={{
+                      padding: 30,
+                      margin: '0 30px'
+                    }}>
+                      <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }}>
+                        <Button primary>
+                          «Wahltindär» spielen
+                        </Button>
+                      </ShadowQueryLink>
                     </div>
                   </div>
-                  <div {...styles.container}>
+                </CardContainer>}
+                <MainContainer>
+                  <div ref={this.setInnerRef} {...styles.head}>
+                    {!card && <>
+                      <p {...styles.statement}>
+                        <Statement
+                          user={user}
+                          isEditing={isEditing}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty} />
+                      </p>
+                      <div {...styles.portrait}>
+                        <Portrait
+                          user={user}
+                          isEditing={isEditing}
+                          isMe={this.isMe()}
+                          onChange={this.onChange}
+                          values={values}
+                          errors={errors}
+                          dirty={dirty} />
+                      </div>
+                      <div {...styles.headInfo}>
+                        {!!user.hasPublicProfile &&
+                        <span {...styles.headInfoShare}>
+                          <ActionBar
+                            title={t('profile/share/title', { name: user.name })}
+                            emailSubject={t('profile/share/emailSubject', { name: user.name })}
+                            url={`${PUBLIC_BASE_URL}/~${user.username}`}
+                            download={metaData.image}
+                            shareOverlayTitle={t('profile/share/overlayTitle')}
+                          />
+                        </span>
+                        }
+                        {!!user.sequenceNumber && <span {...styles.headInfoNumber}>
+                          {t('memberships/sequenceNumber/label', {
+                            sequenceNumber: user.sequenceNumber
+                          })}
+                        </span>}
+                        <div style={{ clear: 'both' }} />
+                      </div>
+                    </>}
+                  </div>
+                  <div {...styles.container} style={{ borderTop: card ? 'none' : undefined }}>
                     <div {...styles.sidebar}>
                       <div style={this.state.sticky && !isEditing
                         ? {
@@ -464,11 +500,12 @@ class Profile extends Component {
                             values={values}
                             errors={errors}
                             dirty={dirty} />
-                          {card && (
-                            <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }} passHref>
-                              <Editorial.A>Jetzt «Wahltindär» spielen</Editorial.A>
-                            </ShadowQueryLink>
-                          )}
+                          {/* show sequence # of profiles with a card here */}
+                          {card && !!user.sequenceNumber && <div style={{ color: colors.text }}>
+                            {t('memberships/sequenceNumber/label', {
+                              sequenceNumber: user.sequenceNumber
+                            })}
+                          </div>}
                           {user.badges && (
                             <div {...styles.badges}>
                               {user.badges.map(badge => (
@@ -507,6 +544,9 @@ class Profile extends Component {
                         values={values}
                         errors={errors}
                         dirty={dirty} />
+                      {card && <div style={{ marginBottom: 40 }}>
+                        <CardDetails card={card} skipSpider={!card.user.portrait} />
+                      </div>}
                       {isMobile && isEditing && <div style={{ marginBottom: 40 }}>
                         <Edit
                           user={user}

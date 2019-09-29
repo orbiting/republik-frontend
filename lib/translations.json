@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-29T11:23:12.886Z",
+  "updated": "2019-09-29T20:17:24.792Z",
   "title": "live",
   "data": [
     {
@@ -5536,7 +5536,7 @@
     },
     {
       "key": "components/Card/MyList/data/isPersisted",
-      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind, bleiben sie auch gespeichert, und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen. In der momentanen Beta-Version sind noch nicht alle Auswertungen zu Ihrer Liste verfügbar, wir empfehlen Ihnen, in einer Wochen nochmals hierherzukommen."
+      "value": "Sind in Ihrem Browser abgespeichert. Falls Sie nicht im Privatmodus sind, bleiben sie auch gespeichert, und Sie können später zu dieser Seite zurückkehren und Ihre Liste wieder einsehen."
     },
     {
       "key": "components/Card/MyList/data/notPersisted",

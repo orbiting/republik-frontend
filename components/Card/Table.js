@@ -96,7 +96,6 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
       <th {...styles.td}>Name</th>
       <th {...styles.num}>Nr.</th>
       <th {...styles.td} />
-      <th {...styles.num} />
       <th style={{ width: 82 }} />
     </tr>
     {nodes.map(({ card, sub, pending }, i) => {
@@ -105,16 +104,16 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
           <Link route='profile' params={{ slug: card.user.slug }} passHref>
             <Editorial.A>{card.user.name}</Editorial.A>
           </Link>
-
+          {card.payload.yearOfBirth && `, ${card.payload.yearOfBirth}`}
         </td>
         <td {...styles.num}>{[
           card.payload.councilOfStates.candidacy && 'SR',
-          ...card.payload.nationalCouncil.listNumbers
+          card.payload.nationalCouncil.listNumbers[0]
         ].filter(Boolean).join(' & ')}</td>
         <td {...styles.td}>{card.payload.party}</td>
-        <td {...styles.num}>{card.payload.yearOfBirth}</td>
         <td style={{
-          verticalAlign: 'top'
+          verticalAlign: 'top',
+          whiteSpace: 'nowrap'
         }}>
           {pending ? <InlineSpinner size={20} /> : <>
             <button {...styles.actionButton}

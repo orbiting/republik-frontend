@@ -363,7 +363,7 @@ class Profile extends Component {
         ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
       title: card
-        ? user.name
+        ? `🔥 ${user.name}`
         : user
           ? t('pages/profile/pageTitle', { name: user.name })
           : t('pages/profile/empty/pageTitle'),

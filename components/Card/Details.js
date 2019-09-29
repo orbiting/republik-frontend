@@ -7,6 +7,9 @@ import {
 } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
+
+import ShareButtons from '../ActionBar/ShareButtons'
 
 import getPartyColor from './partyColors'
 import { Paragraph, Finance } from './Shared'
@@ -26,7 +29,7 @@ const styles = {
 }
 
 const Details = ({ card, t, mySmartspider, skipSpider }) => {
-  const { payload } = card
+  const { payload, user } = card
 
   const { electionPlausibility } = payload.nationalCouncil
   const plausibilityText = t(`components/Card/electionPlausibility/${electionPlausibility}`, undefined, '')
@@ -78,6 +81,16 @@ const Details = ({ card, t, mySmartspider, skipSpider }) => {
         <small>{t('components/Card/Details/lobbywatch/note')}</small>
       </Paragraph>}
       <Finance payload={payload} />
+      <Paragraph style={{ marginTop: 20 }}>
+        <strong>{t('profile/share/overlayTitle')}</strong>
+      </Paragraph>
+      <ShareButtons
+        url={`${PUBLIC_BASE_URL}/~${user.slug}`}
+        tweet=''
+        emailSubject={`🔥 ${user.name}`}
+        emailBody=''
+        emailAttachUrl
+        eventCategory='CardShareButtons' />
     </>
   )
 }

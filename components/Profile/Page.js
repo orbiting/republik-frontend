@@ -362,7 +362,7 @@ class Profile extends Component {
     const metaData = {
       url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
       image: user && user.portrait
-        ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
+        ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}b1&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
         : '',
       title: card
         ? `🔥 ${user.name}`

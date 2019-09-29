@@ -110,21 +110,21 @@ const Item = ({ loading, pkg, error, t, statement: { cards, statement, portrait,
             width: 380,
             height: 380 * 1.4,
             transform: 'rotate(-1.5deg)',
-            margin: '30px 10px'
+            margin: '30px 40px 30px -120px'
           }}>
-            <Card width={380} {...card} t={t} firstSlideOnly />
+            <Card width={380} {...card} t={t} firstSlideOnly noEmoji />
           </div>
           <div style={{
             marginLeft: 140,
-            height: 170,
-            width: 170
+            height: 190,
+            width: 190
           }}>
             <BrandMark />
           </div>
           <div style={{
             marginLeft: 40
           }}>
-            <CardLogo size={170} />
+            <CardLogo size={190} />
           </div>
         </div>
       }

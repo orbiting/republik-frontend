@@ -90,7 +90,7 @@ export const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly }) => {
+const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, noEmoji }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -137,7 +137,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
   const totalSlides = slides.length
 
   const { listPlaces, electionPlausibility } = nationalCouncil
-  const plausibilityEmoji = t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
+  const plausibilityEmoji = !noEmoji && t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
 
   return (
     <div

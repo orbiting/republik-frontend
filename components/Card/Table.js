@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css, merge } from 'glamor'
+import { nest } from 'd3-collection'
+import { ascending } from 'd3-array'
 
 import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
@@ -82,9 +84,9 @@ export const Table = ({ children }) => (
   </div>
 )
 
-export const TitleRow = ({ children }) => (
+export const TitleRow = ({ children, first }) => (
   <tr>
-    <th colSpan='4' {...styles.td} style={{ paddingTop: 10 }}>
+    <th colSpan='3' {...styles.td} style={{ paddingTop: first ? 0 : 10 }}>
       {children}
     </th>
   </tr>
@@ -92,71 +94,90 @@ export const TitleRow = ({ children }) => (
 
 export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
   <>
-    <tr>
-      <th {...styles.td}>Name</th>
-      <th {...styles.num}>Nr.</th>
-      <th {...styles.td} />
-      <th style={{ width: 82 }} />
-    </tr>
-    {nodes.map(({ card, sub, pending }, i) => {
-      return <tr key={`entity${i}`}>
-        <td {...styles.td}>
-          <Link route='profile' params={{ slug: card.user.slug }} passHref>
-            <Editorial.A>{card.user.name}</Editorial.A>
-          </Link>
-          {card.payload.yearOfBirth && `, ${card.payload.yearOfBirth}`}
-        </td>
-        <td {...styles.num}>{[
-          card.payload.councilOfStates.candidacy && 'SR',
-          card.payload.nationalCouncil.listNumbers[0]
-        ].filter(Boolean).join(' & ')}</td>
-        <td {...styles.td}>{card.payload.party}</td>
-        <td style={{
-          verticalAlign: 'top',
-          whiteSpace: 'nowrap'
-        }}>
-          {pending ? <InlineSpinner size={20} /> : <>
-            <button {...styles.actionButton}
-              title={t('components/Card/Group/revert')}
-              onClick={(e) => {
-                e.preventDefault()
-                revertCard(card)
-              }}
-              style={{
-                backgroundColor: cardColors.revert
-              }}
-            >
-              <RevertIcon fill='#fff' size={16} />
-            </button>
-            <button {...styles.actionButton}
-              title={t('components/Card/Group/ignore')}
-              onClick={(e) => {
-                e.preventDefault()
-                ignoreCard && ignoreCard(card)
-              }}
-              style={{
-                backgroundColor: ignoreCard ? cardColors.left : colors.disabled,
-                cursor: ignoreCard ? 'pointer' : 'default'
-              }}
-            >
-              <IgnoreIcon fill='#fff' size={16} />
-            </button>
-            <button {...styles.actionButton}
-              title={t('components/Card/Group/follow')}
-              onClick={(e) => {
-                e.preventDefault()
-                followCard && followCard(card)
-              }}
-              style={{
-                backgroundColor: followCard ? cardColors.right : colors.disabled,
-                cursor: followCard ? 'pointer' : 'default'
-              }}
-            >
-              <FollowIcon fill='#fff' size={16} />
-            </button>
-          </>}
-        </td>
-      </tr>
-    })}
+    {nest()
+      .key(({ card: { payload } }) => payload.party)
+      .sortValues((a, b) => ascending(
+        a.card.payload.nationalCouncil.listNumbers[0],
+        b.card.payload.nationalCouncil.listNumbers[0]
+      ))
+      .entries(nodes)
+      .map(({ key, values: cards }, listI) => (
+        <Fragment key={key}>
+          <tr>
+            <th colSpan='2' {...styles.td} style={{
+              paddingTop: 10, paddingBottom: 5
+            }}>
+              {key}
+            </th>
+            <th {...styles.num} style={{
+              paddingTop: 10, paddingBottom: 5
+            }}>
+              Nr.
+            </th>
+          </tr>
+          {cards.map(({ card, sub, pending }, i) => {
+            return <tr key={`entity${i}`}>
+              <td style={{
+                verticalAlign: 'top',
+                whiteSpace: 'nowrap',
+                width: 85
+              }}>
+                {pending ? <InlineSpinner size={20} /> : <>
+                  <button {...styles.actionButton}
+                    title={t('components/Card/Group/revert')}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      revertCard(card)
+                    }}
+                    style={{
+                      backgroundColor: cardColors.revert
+                    }}
+                  >
+                    <RevertIcon fill='#fff' size={16} />
+                  </button>
+                  <button {...styles.actionButton}
+                    title={t('components/Card/Group/ignore')}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      ignoreCard && ignoreCard(card)
+                    }}
+                    style={{
+                      backgroundColor: ignoreCard ? cardColors.left : colors.disabled,
+                      cursor: ignoreCard ? 'pointer' : 'default'
+                    }}
+                  >
+                    <IgnoreIcon fill='#fff' size={16} />
+                  </button>
+                  <button {...styles.actionButton}
+                    title={t('components/Card/Group/follow')}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      followCard && followCard(card)
+                    }}
+                    style={{
+                      backgroundColor: followCard ? cardColors.right : colors.disabled,
+                      cursor: followCard ? 'pointer' : 'default'
+                    }}
+                  >
+                    <FollowIcon fill='#fff' size={16} />
+                  </button>
+                </>}
+              </td>
+              <td {...styles.td}>
+                <Link route='profile' params={{ slug: card.user.slug }} passHref>
+                  <Editorial.A>
+                    {card.user.name}
+                    {card.payload.yearOfBirth && `, ${card.payload.yearOfBirth}`}
+                  </Editorial.A>
+                </Link>
+              </td>
+              <td {...styles.num}>{[
+                card.payload.councilOfStates.candidacy && 'SR',
+                card.payload.nationalCouncil.listNumbers[0]
+              ].filter(Boolean).join(' & ')}</td>
+            </tr>
+          })}
+        </Fragment>
+      ))}
   </>
 )

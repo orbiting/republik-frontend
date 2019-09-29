@@ -46,7 +46,7 @@ const MyList = ({ onClose, swipes, onReset, revertCard, followCard, ignoreCard, 
         </Paragraph>
         : <Table>
           {!!activeRightSwipes.length && <>
-            <TitleRow first>
+            <TitleRow>
               {t.pluralize('components/Card/MyList/followTitle', {
                 count: activeRightSwipes.length
               })}

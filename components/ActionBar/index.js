@@ -53,6 +53,7 @@ class ActionBar extends Component {
       onGalleryClick,
       onPdfClick,
       pdfUrl,
+      fontSize,
       estimatedReadingMinutes,
       estimatedConsumptionMinutes,
       shareOverlayTitle,
@@ -119,6 +120,14 @@ class ActionBar extends Component {
           onPdfClick()
         }),
         title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
+      },
+      fontSize && {
+        icon: 'fontSize',
+        href: url,
+        onClick: e => {
+          e.preventDefault()
+        },
+        title: 'Adjust font size'
       },
       onAudioClick && {
         icon: 'audio',
@@ -213,7 +222,8 @@ ActionBar.defaultProps = {
   tweet: '',
   emailBody: '',
   emailAttachUrl: true,
-  showShare: true
+  showShare: true,
+  fontSize: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

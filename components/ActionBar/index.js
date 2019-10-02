@@ -7,6 +7,7 @@ import Bookmark from './Bookmark'
 import IconLink from '../IconLink'
 import ReadingTime from './ReadingTime'
 import ShareOverlay from './ShareOverlay'
+import FontSizeOverlay from './FontSizeOverlay'
 import withT from '../../lib/withT'
 import { postMessage } from '../../lib/withInNativeApp'
 import track from '../../lib/piwik'
@@ -28,7 +29,8 @@ class ActionBar extends Component {
     super(props)
 
     this.state = {
-      showShareOverlay: false
+      showShareOverlay: false,
+      showFontSizeOverlay: false
     }
 
     this.toggleShare = () => {
@@ -36,7 +38,14 @@ class ActionBar extends Component {
         showShareOverlay: !this.state.showShareOverlay
       })
     }
+
+    this.toggleFontSize = () => {
+      this.setState({
+        showFontSizeOverlay: !this.state.showFontSizeOverlay
+      })
+    }
   }
+
   render () {
     const {
       t,
@@ -65,7 +74,7 @@ class ActionBar extends Component {
       animate,
       inIOS
     } = this.props
-    const { showShareOverlay } = this.state
+    const { showShareOverlay, showFontSizeOverlay } = this.state
 
     const icons = [
       showShare && {
@@ -126,6 +135,7 @@ class ActionBar extends Component {
         href: url,
         onClick: e => {
           e.preventDefault()
+          this.toggleFontSize()
         },
         title: 'Adjust font size'
       },
@@ -178,6 +188,10 @@ class ActionBar extends Component {
             emailSubject={emailSubject}
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl} />
+        )}
+        {showFontSizeOverlay && (
+          <FontSizeOverlay
+            onClose={this.toggleFontSize} />
         )}
         <span {...styles.buttonGroup}>
           {showBookmark && (

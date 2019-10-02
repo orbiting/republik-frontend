@@ -14,6 +14,7 @@ const thumbStyle = {
   width: thumbSize,
   height: thumbSize,
   background: colors.primary,
+  cursor: 'pointer',
   outline: 'none'
 }
 
@@ -49,6 +50,9 @@ const styles = {
       ...thumbStyle,
       WebkitAppearance: 'none',
       marginTop: (thumbSize - trackHeight) * -0.5
+    },
+    '::-moz-focus-outer': {
+      border: 0
     },
     '::-moz-range-thumb': {
       ...thumbStyle

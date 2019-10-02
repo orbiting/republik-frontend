@@ -92,8 +92,9 @@ const styles = {
   })
 }
 
-const Slider = ({ label, inactive, onChange, ...props }) => (
+const Slider = ({ label, labelLeft, inactive, onChange, ...props }) => (
   <label {...styles.label}>
+    {labelLeft && (<span style={{ marginRight: 10 }}>{labelLeft}</span>)}
     <input
       {...inactive
         ? merge(styles.slider, styles.sliderInactive)

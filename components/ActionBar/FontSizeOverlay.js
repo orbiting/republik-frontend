@@ -9,6 +9,7 @@ import {
 import MdClose from 'react-icons/lib/md/close'
 
 import withT from '../../lib/withT'
+import Slider from '../Card/Slider'
 
 const FontSizeOverlay = ({
   onClose
@@ -25,8 +26,16 @@ const FontSizeOverlay = ({
         />
       </OverlayToolbar>
       <OverlayBody>
-        <div style={{ textAlign: 'center' }}>
-          <p>Test</p>
+        <div>
+          <Slider
+            labelLeft='t'
+            label='T'
+            value='100'
+            min='50'
+            max='300'
+            onChange={(e) => {
+              e.preventDefault()
+            }} />
         </div>
       </OverlayBody>
     </Overlay>

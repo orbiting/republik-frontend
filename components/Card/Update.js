@@ -320,7 +320,7 @@ const UPDATE_CARD = gql`
     $id: ID!
     $portrait: String
     $statement: String!
-    $payload: JSON!
+    $payload: JSON
   ) {
     updateCard(
       id: $id

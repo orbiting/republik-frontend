@@ -218,12 +218,12 @@ const Financing = (props) => {
     </H2>
 
     {sections.map(section => <>
-      <H3 {...styles.section}>
+      <H3 {...styles.section} key={`financing-section-${section}`}>
         {t(`components/Card/Form/Financing/section/${section}`)}
       </H3>
       {questions.filter(q => q.section === section).map(question => (
         <FinancingQuestion
-          key={`financing-${question.id}`}
+          key={`financing-question-${question.id}`}
           question={question}
           financing={financing}
           onChange={handleFinancingQuestion}

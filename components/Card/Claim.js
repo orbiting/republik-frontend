@@ -19,6 +19,7 @@ import ErrorMessage from '../ErrorMessage'
 import Portrait from './Form/Portrait'
 import Details from './Form/Details'
 import Statement from './Form/Statement'
+import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
 
 import { withSignIn } from '../Auth/SignIn'
@@ -73,6 +74,15 @@ const Page = (props) => {
     }
   }) || ''))
 
+  const getFinancingState = (value, shouldValidate) => ({
+    value,
+    error: false,
+    dirty: shouldValidate
+  })
+  const [financing, setFinancing] = useState(
+    getFinancingState(maybeCard(data, card => card.payload.financing) || {})
+  )
+
   const [consents, setConsents] = useState([])
   const [portrait, setPortrait] = useState({ values: {} })
   const [showErrors, setShowErrors] = useState(false)
@@ -92,6 +102,9 @@ const Page = (props) => {
           accessToken: token,
           portrait: portrait.values.portrait,
           statement: statement.value,
+          payload: {
+            financing: financing.value
+          },
           email: email.value
         })
           .then(() => {
@@ -152,6 +165,15 @@ const Page = (props) => {
     setPortrait({
       values,
       errors
+    })
+  }
+
+  const handleFinancing = (value, shouldValidate) => {
+    setFinancing({
+      ...financing,
+      value,
+      error: false,
+      dirty: shouldValidate
     })
   }
 
@@ -242,6 +264,12 @@ const Page = (props) => {
         </div>
       )}
 
+      {card.statement && (
+        <Financing
+          financing={financing}
+          onChange={handleFinancing} />
+      )}
+
       {me && (
         <div {...formStyles.section}>
           <P {...formStyles.paragraph}>
@@ -321,6 +349,9 @@ const CARDS_VIA_ACCESS_TOKEN = gql`
       nodes {
         id
         payload
+        statement {
+          id
+        }
         group {
           id
           name
@@ -354,12 +385,14 @@ const CLAIM_CARD = gql`
     $accessToken: ID!
     $portrait: String
     $statement: String!
+    $payload: JSON
   ) {
     claimCard(
       id: $id
       accessToken: $accessToken
       portrait: $portrait
       statement: $statement
+      payload: $payload
     ) {
       id
     }
@@ -370,8 +403,8 @@ const withClaimCard = graphql(
   CLAIM_CARD,
   {
     props: ({ mutate }) => ({
-      claimCard: ({ id, accessToken, portrait, statement, email }) => mutate({
-        variables: { id, accessToken, portrait, statement, email }
+      claimCard: ({ id, accessToken, portrait, statement, payload, email }) => mutate({
+        variables: { id, accessToken, portrait, statement, payload, email }
       })
     })
   }

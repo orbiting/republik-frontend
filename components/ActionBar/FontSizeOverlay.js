@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import {
   Overlay, OverlayBody,
@@ -11,54 +11,37 @@ import withT from '../../lib/withT'
 import Slider from '../Card/Slider'
 import { compose } from 'react-apollo'
 
-class FontSizeOverlay extends Component {
-  constructor (props) {
-    super(props)
+import { DEFAULT_FONT_SIZE, useFontSize } from '../../lib/fontSize'
 
-    this.state = {
-      fontSize: 100
-    }
+const FontSizeOverlay = ({ onClose }) => {
+  const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
 
-    this.setFontSize = (value) => {
-      this.setState({
-        fontSize: value
-      })
-    }
-  }
-
-  render () {
-    const { onClose } = this.props
-    const { fontSize } = this.state
-
-    return (
-      <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
-        <OverlayToolbar>
-          <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-            Adjust Font Size
-          </Interaction.Emphasis>
-          <OverlayToolbarConfirm
-            onClick={onClose}
-            label={<MdClose size={24} fill='#000' />}
-          />
-        </OverlayToolbar>
-        <OverlayBody>
-          <div>
-            <Slider
-              labelLeft='t'
-              label='T'
-              value={fontSize}
-              min='50'
-              max='300'
-              step='25'
-              title={'Font size: ' + fontSize + '%'}
-              onChange={(e, newValue) => {
-                this.setFontSize(newValue)
-              }} />
-          </div>
-        </OverlayBody>
-      </Overlay>
-    )
-  }
+  return (
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+      <OverlayToolbar>
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+          Adjust Font Size
+        </Interaction.Emphasis>
+        <OverlayToolbarConfirm
+          onClick={onClose}
+          label={<MdClose size={24} fill='#000' />}
+        />
+      </OverlayToolbar>
+      <OverlayBody>
+        <div>
+          <Slider
+            labelLeft='t'
+            label='T'
+            value={fontSize}
+            min='8'
+            max='48'
+            step='1'
+            title={'Font size: ' + fontSize + '%'}
+            onChange={(e, newValue) => { setFontSize(newValue) }} />
+        </div>
+      </OverlayBody>
+    </Overlay>
+  )
 }
 
 export default compose(withT)(FontSizeOverlay)

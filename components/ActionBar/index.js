@@ -137,7 +137,7 @@ class ActionBar extends Component {
           e.preventDefault()
           this.toggleFontSize()
         },
-        title: 'Adjust font size'
+        title: 'Adjust font size' // TRANSLATE
       },
       onAudioClick && {
         icon: 'audio',

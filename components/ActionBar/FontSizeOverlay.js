@@ -3,12 +3,11 @@ import React from 'react'
 import {
   Overlay, OverlayBody,
   OverlayToolbar, OverlayToolbarConfirm,
-  Interaction, Label
+  Interaction, Label, Slider
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
 import withT from '../../lib/withT'
-import Slider from '../Card/Slider'
 import { compose } from 'react-apollo'
 
 import { DEFAULT_FONT_SIZE, useFontSize } from '../../lib/fontSize'

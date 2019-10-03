@@ -6,6 +6,7 @@ import withT from '../../lib/withT'
 import {
   Checkbox,
   Label,
+  Slider,
   Editorial,
   mediaQueries,
   fontStyles,
@@ -17,7 +18,6 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 
 import { Paragraph } from './Shared'
 import Spider, { axes as spiderAxes } from './Spider'
-import Slider from './Slider'
 import medianSmartspiders from './medianSmartspiders'
 import getPartyColor from './partyColors'
 

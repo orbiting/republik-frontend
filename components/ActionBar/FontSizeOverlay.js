@@ -15,7 +15,6 @@ import { DEFAULT_FONT_SIZE, useFontSize } from '../../lib/fontSize'
 const FontSizeOverlay = ({ onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const fontPercentage = Math.round(100 * fontSize / DEFAULT_FONT_SIZE)
-  const fullWidth = { width: '100%' }
 
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
@@ -34,14 +33,13 @@ const FontSizeOverlay = ({ onClose }) => {
             {'Font size: ' + fontPercentage + '%'}
           </Label><br />
           <Slider
-            labelStyle={fullWidth}
-            style={fullWidth}
             value={fontSize}
             min='8'
             max='48'
             step='1'
             title={fontPercentage + '%'}
-            onChange={(e, newValue) => { setFontSize(newValue) }} />
+            onChange={(e, newValue) => { setFontSize(newValue) }}
+            fullWidth />
           <br />
           <br />
         </div>

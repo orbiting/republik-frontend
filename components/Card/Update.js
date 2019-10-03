@@ -15,6 +15,7 @@ import Details from './Form/Details'
 import Statement from './Form/Statement'
 import CampaignBudget from './Form/CampaignBudget'
 import VestedInterests from './Form/VestedInterests'
+import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
 
 const { H1, H2, P } = Interaction
@@ -35,6 +36,10 @@ const initialVestedInterests = (data) => {
   return records.map((vestedInterest, index) => ({ id: `interest${index}`, ...vestedInterest }))
 }
 
+const initialFinancing = (data) => {
+  return maybeCard(data, card => card.payload.financing) || {}
+}
+
 const Update = (props) => {
   const { data, t } = props
 
@@ -43,6 +48,7 @@ const Update = (props) => {
   const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
   const [budgetComment, setBudgetComment] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudgetComment) }))
   const [vestedInterests, setVestedInterests] = useState(() => ({ value: initialVestedInterests(data) }))
+  const [financing, setFinancing] = useState(() => ({ value: initialFinancing(data) }))
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -59,7 +65,8 @@ const Update = (props) => {
         props.updateCard({
           id: card.id,
           portrait: portrait.values.portrait,
-          statement: statement.value
+          statement: statement.value,
+          payload: { financing: financing.value }
         })
           .then(() => {
             setIsDirty(false)
@@ -144,6 +151,15 @@ const Update = (props) => {
     })
   }
 
+  const handleFinancing = (value, shouldValidate) => {
+    setFinancing({
+      ...financing,
+      value,
+      error: false,
+      dirty: shouldValidate
+    })
+  }
+
   const updateCard = e => {
     e && e.preventDefault && e.preventDefault()
 
@@ -151,6 +167,7 @@ const Update = (props) => {
     handlePortrait(portrait)
     handleBudget(budget.value, true)
     handleBudgetComment(budgetComment.value, true)
+    handleFinancing(financing.value, true)
 
     setAutoUpdateCard(true)
   }
@@ -233,6 +250,10 @@ const Update = (props) => {
           handleVestedInterests={handleVestedInterests} />
       </div>}
 
+      <Financing
+        financing={financing}
+        onChange={handleFinancing} />
+
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>
           Fehler<br />
@@ -299,12 +320,13 @@ const UPDATE_CARD = gql`
     $id: ID!
     $portrait: String
     $statement: String!
+    $payload: JSON!
   ) {
     updateCard(
       id: $id
       portrait: $portrait
       statement: $statement
-      payload: {}
+      payload: $payload
     ) {
       ...Card
     }

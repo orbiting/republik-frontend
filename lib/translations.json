@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-29T20:17:24.792Z",
+  "updated": "2019-10-03T13:38:16.076Z",
   "title": "live",
   "data": [
     {
@@ -5276,7 +5276,7 @@
     },
     {
       "key": "pages/cardGroups/lead",
-      "value": "Über 4600 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+      "value": "Über 4700 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/lead/more",
@@ -5781,6 +5781,94 @@
     {
       "key": "components/Card/reelected/nr",
       "value": "in den Nationalrat wiedergewählt"
+    },
+    {
+      "key": "components/Card/Form/Financing/headline",
+      "value": "Angaben zur Wahlkampffinanzierung"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/1",
+      "value": "Einnahmen"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/2",
+      "value": "Ausgaben"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/3",
+      "value": "Anderes"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/label",
+      "value": "in CHF"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1",
+      "value": "Wie hoch sind voraussichtlich Ihre Gesamteinnahmen für den Wahlkampf 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1a",
+      "value": "Wie viel Geld investieren Sie persönlich in Ihren Wahlkampf?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1b",
+      "value": "Wie hoch ist der Betrag, den Sie von Privatpersonen erhalten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI",
+      "value": "Wie viele Privatpersonen unterstützen Ihren Wahlkampf finanziell?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/label",
+      "value": "Anzahl Personen"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1c",
+      "value": "Wie hoch ist der Betrag, den Sie von institutionellen Spendern wie Unternehmen, Verbänden und Vereinen erhalten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI",
+      "value": "Bitte führen Sie Ihre institutionellen Spender auf."
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/label",
+      "value": "Liste mit Namen und Beträgen"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1d",
+      "value": "Erhalten Sie einen Betrag für Ihren persönlichen Wahlkampf von Ihrer Partei? Wie hoch ist dieser?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1dI",
+      "value": "Falls institutionelle Spender direkt für Ihre Kandidatur werben, wie viel Geld investieren diese schätzungsweise?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2",
+      "value": "Wie hoch sind voraussichtlich Ihre Gesamtausgaben für den Wahlkampf 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2a",
+      "value": "Wie viel investieren Sie in klassische Werbemittel wie Plakate, Inserate und Flyer?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2b",
+      "value": "Wie hoch sind Ihre Ausgaben für Online-Werbung wie Google-Ads und Werbe-Banner auf Webseiten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2c",
+      "value": "Wie viel geben Sie für Social Media wie Facebook und Twitter aus?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2d",
+      "value": "Bezahlen Sie einen Beitrag an den Wahlkampf Ihrer Partei? Wie hoch ist dieser?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3",
+      "value": "Was möchten Sie hinzufügen?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/label",
+      "value": "Anmerkungen"
     }
   ]
 }

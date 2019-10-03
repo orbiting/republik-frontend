@@ -36,9 +36,7 @@ const texts = {
 }
 
 const knownYears = {
-  2018: { path: '/2018' },
-  // B3fTOtcv9 2018-12-31T03:50:00.000Z: Statuspanik – die Krankheit des Mannes
-  2019: { before: 'B3fTOtcv9' }
+  2018: { path: '/2018' }
 }
 
 const getAll = gql`

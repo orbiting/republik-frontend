@@ -48,7 +48,7 @@ const maybeCard = (data, apply) => {
 }
 
 const Page = (props) => {
-  const { serverContext, router: { query: { token } }, data, me, t } = props
+  const { serverContext, router: { query: { token, locale } }, data, me, t } = props
 
   const getStatementState = (value, shouldValidate) => ({
     value,
@@ -253,6 +253,12 @@ const Page = (props) => {
           handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
       </div>
 
+      {(card.statement || locale) && (
+        <Financing
+          financing={financing}
+          onChange={handleFinancing} />
+      )}
+
       {!me && (
         <div {...formStyles.section}>
           <Field
@@ -262,12 +268,6 @@ const Page = (props) => {
             dirty={email.dirty}
             onChange={(_, value, shouldValidate) => setEmail(getEmailState(value, shouldValidate))} />
         </div>
-      )}
-
-      {card.statement && (
-        <Financing
-          financing={financing}
-          onChange={handleFinancing} />
       )}
 
       {me && (

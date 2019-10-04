@@ -19,12 +19,11 @@ export const styles = {
     }
   }),
   portrait: css({
-    width: 600 / 3,
-    height: 800 / 3,
+    width: 300 / 3,
+    height: 400 / 3,
     [mediaQueries.mUp]: {
-      minWidth: 300,
-      width: 600 / 2,
-      height: 800 / 2
+      width: 300 / 2,
+      height: 400 / 2
     }
   }),
   details: css({

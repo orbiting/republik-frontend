@@ -80,14 +80,14 @@ const questions = [
     requires: ['1', '1c']
   },
   {
+    id: '1cII',
+    section: 1,
+    requires: ['1', '1c']
+  },
+  {
     id: '1d',
     section: 1,
     requires: ['1']
-  },
-  {
-    id: '1dI',
-    section: 1,
-    requires: ['1', '1d']
   },
   {
     id: '2',

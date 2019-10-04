@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-04T09:21:29.787Z",
+  "updated": "2019-10-04T09:46:35.407Z",
   "title": "live",
   "data": [
     {
@@ -5832,15 +5832,15 @@
     },
     {
       "key": "components/Card/Form/Financing/question/1cI/label",
-      "value": "Liste mit Namen und Beträgen"
+      "value": "Namen und Frankenbetrag"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cII",
+      "value": "Falls institutionelle Spender direkt für Ihre Kandidatur werben, wie viel Geld investieren diese schätzungsweise?"
     },
     {
       "key": "components/Card/Form/Financing/question/1d",
       "value": "Erhalten Sie einen Betrag für Ihren persönlichen Wahlkampf von Ihrer Partei? Wie hoch ist dieser?"
-    },
-    {
-      "key": "components/Card/Form/Financing/question/1dI",
-      "value": "Falls institutionelle Spender direkt für Ihre Kandidatur werben, wie viel Geld investieren diese schätzungsweise?"
     },
     {
       "key": "components/Card/Form/Financing/question/2",
@@ -5852,7 +5852,7 @@
     },
     {
       "key": "components/Card/Form/Financing/question/2b",
-      "value": "Wie hoch sind Ihre Ausgaben für Online-Werbung wie Google-Ads und Werbe-Banner auf Webseiten?"
+      "value": "Wie hoch sind Ihre Ausgaben für Online-Werbung wie Google-Ads und Werbebanner auf Webseiten?"
     },
     {
       "key": "components/Card/Form/Financing/question/2c",
@@ -5923,12 +5923,12 @@
       "value": "Liste des noms et montant en francs"
     },
     {
-      "key": "components/Card/Form/Financing/question/1d/fr_CH",
-      "value": "Recevez-vous un montant pour votre campagne électorale personnelle de la part de votre parti? À combien s’élève ce montant?"
+      "key": "components/Card/Form/Financing/question/1cII/fr_CH",
+      "value": "Si des donateurs institutionnels font directement de la publicité pour votre candidature, quel montant investissent-ils approximativement?"
     },
     {
-      "key": "components/Card/Form/Financing/question/1dI/fr_CH",
-      "value": "Si des donateurs institutionnels font directement de la publicité pour votre candidature, quel montant investissent-ils approximativement?"
+      "key": "components/Card/Form/Financing/question/1d/fr_CH",
+      "value": "Recevez-vous un montant pour votre campagne électorale personnelle de la part de votre parti? À combien s’élève ce montant?"
     },
     {
       "key": "components/Card/Form/Financing/question/2/fr_CH",
@@ -6011,12 +6011,12 @@
       "value": "Indicando il nome e l’importo versato in CHF"
     },
     {
-      "key": "components/Card/Form/Financing/question/1d/it_CH",
-      "value": "Ottiene un contributo per la Sua campagna elettorale personale dal Suo partito? A quanto ammonta?"
+      "key": "components/Card/Form/Financing/question/1cII/it_CH",
+      "value": "Se i donatori istituzionali promuovono direttamente la Sua candidatura, secondo la Sua stima, quanto denaro investono?"
     },
     {
-      "key": "components/Card/Form/Financing/question/1dI/it_CH",
-      "value": "Se i donatori istituzionali promuovono direttamente la Sua candidatura, secondo la Sua stima, quanto denaro investono? "
+      "key": "components/Card/Form/Financing/question/1d/it_CH",
+      "value": "Ottiene un contributo per la Sua campagna elettorale personale dal Suo partito? A quanto ammonta?"
     },
     {
       "key": "components/Card/Form/Financing/question/2/it_CH",

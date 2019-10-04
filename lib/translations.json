@@ -1,5 +1,5 @@
 {
-  "updated": "2019-09-29T20:17:24.792Z",
+  "updated": "2019-10-04T12:02:28.552Z",
   "title": "live",
   "data": [
     {
@@ -5276,7 +5276,7 @@
     },
     {
       "key": "pages/cardGroups/lead",
-      "value": "Über 4600 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
+      "value": "Über 4700 Kandidaturen für 246 Plätze im National- und im Ständerat. Wischen Sie sich durch die engagierten, sich aufopfernden und machthungrigen Politikerinnen Ihres Kantons und treten Sie in einen Dialog mit ihnen."
     },
     {
       "key": "pages/cardGroups/lead/more",
@@ -5364,7 +5364,15 @@
     },
     {
       "key": "components/Card/Update/lead",
-      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. Auf dieser Seite können Sie Ihre Angaben aktualisieren. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
+      "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
+    },
+    {
+      "key": "components/Card/Update/financing/title",
+      "value": "Vielen Dank für Ihre Teilnahme!"
+    },
+    {
+      "key": "components/Card/Update/financing/lead",
+      "value": "Wir freuen uns und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben."
     },
     {
       "key": "components/Card/Update/submit",
@@ -5781,6 +5789,270 @@
     {
       "key": "components/Card/reelected/nr",
       "value": "in den Nationalrat wiedergewählt"
+    },
+    {
+      "key": "components/Card/Form/Financing/headline",
+      "value": "Umfrage zur Wahlkampffinanzierung"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/1",
+      "value": "Einnahmen"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/2",
+      "value": "Ausgaben"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/3",
+      "value": "Anderes"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/label",
+      "value": "in CHF"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1",
+      "value": "Wie hoch sind voraussichtlich Ihre Gesamteinnahmen für den Wahlkampf 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1a",
+      "value": "Wie viel Geld investieren Sie persönlich in Ihren Wahlkampf?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1b",
+      "value": "Wie hoch ist der Betrag, den Sie von Privatpersonen erhalten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI",
+      "value": "Wie viele Privatpersonen unterstützen Ihren Wahlkampf finanziell?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/label",
+      "value": "Anzahl Personen"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1c",
+      "value": "Wie hoch ist der Betrag, den Sie von institutionellen Spendern wie Unternehmen, Verbänden und Vereinen erhalten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI",
+      "value": "Bitte führen Sie Ihre institutionellen Spender auf."
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/label",
+      "value": "Namen und Frankenbetrag"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cII",
+      "value": "Falls institutionelle Spender direkt für Ihre Kandidatur werben, wie viel Geld investieren diese schätzungsweise?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1d",
+      "value": "Erhalten Sie einen Betrag für Ihren persönlichen Wahlkampf von Ihrer Partei? Wie hoch ist dieser?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2",
+      "value": "Wie hoch sind voraussichtlich Ihre Gesamtausgaben für den Wahlkampf 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2a",
+      "value": "Wie viel investieren Sie in klassische Werbemittel wie Plakate, Inserate und Flyer?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2b",
+      "value": "Wie hoch sind Ihre Ausgaben für Online-Werbung wie Google-Ads und Werbebanner auf Webseiten?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2c",
+      "value": "Wie viel geben Sie für Social Media wie Facebook und Twitter aus?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2d",
+      "value": "Bezahlen Sie einen Beitrag an den Wahlkampf Ihrer Partei? Wie hoch ist dieser?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3",
+      "value": "Was möchten Sie hinzufügen?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/label",
+      "value": "Anmerkungen"
+    },
+    {
+      "key": "components/Card/Form/Financing/headline/fr_CH",
+      "value": "Sondage sur le financement des campagnes électorales"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/1/fr_CH",
+      "value": "Rentrées"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/2/fr_CH",
+      "value": "Dépenses"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/3/fr_CH",
+      "value": "Autres"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/label/fr_CH",
+      "value": "en francs"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1/fr_CH",
+      "value": "À combien s’élèvent probablement vos rentrées totales pour la campagne électorale de 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1a/fr_CH",
+      "value": "Combien d’argent investissez-vous personnellement dans votre campagne électorale?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1b/fr_CH",
+      "value": "Quel est le montant que vous recevez de personnes privées?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/fr_CH",
+      "value": "Combien de personnes privées soutiennent financièrement votre campagne électorale?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/label/fr_CH",
+      "value": "Nombre de personnes"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1c/fr_CH",
+      "value": "Quel est le montant que vous recevez de la part de donateurs institutionnels tels que des entreprises ou des associations?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/fr_CH",
+      "value": "Nous vous prions de bien vouloir citer vos donateurs institutionnels."
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/label/fr_CH",
+      "value": "Noms et montant en francs"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cII/fr_CH",
+      "value": "Si des donateurs institutionnels font directement de la publicité pour votre candidature, quel montant investissent-ils approximativement?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1d/fr_CH",
+      "value": "Recevez-vous un montant pour votre campagne électorale personnelle de la part de votre parti? À combien s’élève ce montant?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2/fr_CH",
+      "value": "À combien s’élèvent vraisemblablement vos dépenses totales pour la campagne électorale de 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2a/fr_CH",
+      "value": "Combien investissez-vous dans des supports publicitaires classiques tels que des affiches, des annonces et des flyers?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2b/fr_CH",
+      "value": "À combien s’élèvent vos dépenses pour la publicité en ligne, comme les annonces Google et les bannières publicitaires sur des sites Web?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2c/fr_CH",
+      "value": "Combien dépensez-vous pour les réseaux sociaux comme Facebook et Twitter?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2d/fr_CH",
+      "value": "Versez-vous une contribution à la campagne électorale de votre parti? À combien s’élève cette contribution?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/fr_CH",
+      "value": "Que souhaiteriez-vous ajouter?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/label/fr_CH",
+      "value": "Annotations"
+    },
+    {
+      "key": "components/Card/Form/Financing/headline/it_CH",
+      "value": "Sondaggio sul finanziamento della campagna"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/1/it_CH",
+      "value": "Entrate"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/2/it_CH",
+      "value": "Spese"
+    },
+    {
+      "key": "components/Card/Form/Financing/section/3/it_CH",
+      "value": "Altri"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/label/it_CH",
+      "value": "in CHF"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1/it_CH",
+      "value": "A quanto ammontano presumibilmente le Sue entrate complessive per la campagna elettorale 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1a/it_CH",
+      "value": "Quanto denaro investe personalmente nella Sua campagna elettorale?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1b/it_CH",
+      "value": "A quanto ammontano le donazioni versate da privati?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/it_CH",
+      "value": "Quanti privati sostengono finanziariamente la Sua campagna elettorale?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1bI/label/it_CH",
+      "value": "Numero di persone"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1c/it_CH",
+      "value": "A quanto ammonta l’importo che ottiene da donatori istituzionali quali imprese, associazioni o unioni? "
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/it_CH",
+      "value": "Voglia elencare i donatori istituzionali che La sostengono."
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cI/label/it_CH",
+      "value": "Indicando il nome e l’importo versato in CHF"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1cII/it_CH",
+      "value": "Se i donatori istituzionali promuovono direttamente la Sua candidatura, secondo la Sua stima, quanto denaro investono?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/1d/it_CH",
+      "value": "Ottiene un contributo per la Sua campagna elettorale personale dal Suo partito? A quanto ammonta?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2/it_CH",
+      "value": "A quanto ammontano presumibilmente le Sue spese complessive per la campagna elettorale 2019?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2a/it_CH",
+      "value": "Quanto investe in strumenti pubblicitari classici quali manifesti, inserzioni o volantini?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2b/it_CH",
+      "value": "A quanto ammontano le Sue spese per la pubblicità in rete, ad esempio per Google Ads o per banner pubblicitari sui siti web?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2c/it_CH",
+      "value": "Quanto spende per i social media quali Facebook o Twitter?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/2d/it_CH",
+      "value": "Paga un contributo alla campagna elettorale del Suo partito? Se sì, a quanto ammonta?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/it_CH",
+      "value": "Desidera aggiungere altro?"
+    },
+    {
+      "key": "components/Card/Form/Financing/question/3/label/it_CH",
+      "value": "Annotazioni"
     }
   ]
 }

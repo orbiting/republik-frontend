@@ -3,7 +3,7 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Loader, Interaction, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
+import { Loader, Interaction, A, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -15,6 +15,7 @@ import Details from './Form/Details'
 import Statement from './Form/Statement'
 import CampaignBudget from './Form/CampaignBudget'
 import VestedInterests from './Form/VestedInterests'
+import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
 
 const { H1, H2, P } = Interaction
@@ -36,18 +37,26 @@ const initialVestedInterests = (data) => {
 }
 
 const Update = (props) => {
-  const { data, t } = props
+  const { data, t, router: { query: { locale } } } = props
 
+  const statementId = maybeCard(data, card => card.statement && card.statement.id)
+  const group = maybeCard(data, card => card.group)
   const [portrait, setPortrait] = useState({ values: {} })
   const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
   const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
   const [budgetComment, setBudgetComment] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudgetComment) }))
   const [vestedInterests, setVestedInterests] = useState(() => ({ value: initialVestedInterests(data) }))
+  const payloadFinancing = maybeCard(data, card => card.payload.financing) || {}
+  const hasPayloadFinancingValues = Object.keys(payloadFinancing).length
+
+  const [financing, setFinancing] = useState({ value: payloadFinancing })
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [autoUpdateCard, setAutoUpdateCard] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
+
+  const [financingExpanded, setFinancingExpanded] = useState(!hasPayloadFinancingValues)
 
   useEffect(() => {
     if (autoUpdateCard) {
@@ -59,11 +68,14 @@ const Update = (props) => {
         props.updateCard({
           id: card.id,
           portrait: portrait.values.portrait,
-          statement: statement.value
+          statement: statement.value,
+          payload: { financing: financing.value }
         })
           .then(() => {
             setIsDirty(false)
             setLoading(false)
+            setFinancingExpanded(false)
+            window.scrollTo(0, 0)
           })
           .catch(catchError)
       }
@@ -144,6 +156,15 @@ const Update = (props) => {
     })
   }
 
+  const handleFinancing = (value, shouldValidate) => {
+    setFinancing({
+      ...financing,
+      value,
+      error: false,
+      dirty: shouldValidate
+    })
+  }
+
   const updateCard = e => {
     e && e.preventDefault && e.preventDefault()
 
@@ -151,6 +172,7 @@ const Update = (props) => {
     handlePortrait(portrait)
     handleBudget(budget.value, true)
     handleBudgetComment(budgetComment.value, true)
+    handleFinancing(financing.value, true)
 
     setAutoUpdateCard(true)
   }
@@ -173,13 +195,15 @@ const Update = (props) => {
 
   const errorMessages = findErrorMessages()
 
+  const titleBaseKey = `components/Card/Update${hasPayloadFinancingValues ? '/financing' : ''}`
+
   return (
     <>
-      <H1 {...formStyles.heading}>{t('components/Card/Update/title')}</H1>
+      <H1 {...formStyles.heading}>{t(`${titleBaseKey}/title`)}</H1>
       <P {...formStyles.paragraph}>
         <RawHtml
           dangerouslySetInnerHTML={{
-            __html: t('components/Card/Update/lead')
+            __html: t(`${titleBaseKey}/lead`)
           }}
         />
       </P>
@@ -212,11 +236,21 @@ const Update = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        <P>{t('components/Card/Claim/statement/question')}</P>
-        <Statement
-          label={t('components/Card/Claim/statement/label')}
-          statement={statement}
-          handleStatement={handleStatement} />
+        {statementId && group
+          ? <P>
+            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
+              <A>
+                Ihr Statement im «Wahltindär: {group.name}».
+              </A>
+            </Link>
+          </P>
+          : <>
+            <P>{t('components/Card/Claim/statement/question')}</P>
+            <Statement
+              label={t('components/Card/Claim/statement/label')}
+              statement={statement}
+              handleStatement={handleStatement} />
+          </>}
       </div>
 
       {false && <div {...formStyles.section}>
@@ -232,6 +266,24 @@ const Update = (props) => {
           vestedInterests={vestedInterests}
           handleVestedInterests={handleVestedInterests} />
       </div>}
+
+      {financingExpanded
+        ? <Financing
+          collapsed
+          financing={financing}
+          onChange={handleFinancing} />
+        : <P style={{ marginTop: 40, marginBottom: 40 }}>
+          <A href='#' onClick={(e) => {
+            e.preventDefault()
+            setFinancingExpanded(true)
+          }}>
+            {t.first([
+              `components/Card/Form/Financing/headline/${locale}`,
+              'components/Card/Form/Financing/headline'
+            ])}
+          </A>
+        </P>
+      }
 
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>
@@ -269,7 +321,11 @@ const fragmentCard = gql`
     payload
     group {
       id
+      slug
       name
+    }
+    statement {
+      id
     }
   }
 `
@@ -299,12 +355,13 @@ const UPDATE_CARD = gql`
     $id: ID!
     $portrait: String
     $statement: String!
+    $payload: JSON
   ) {
     updateCard(
       id: $id
       portrait: $portrait
       statement: $statement
-      payload: {}
+      payload: $payload
     ) {
       ...Card
     }

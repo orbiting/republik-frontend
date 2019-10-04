@@ -11,6 +11,7 @@ import { Interaction, InlineSpinner, A, Button, Field, RawHtml } from '@project-
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
 import Loader from '../Loader'
 import StatusError from '../StatusError'
@@ -19,6 +20,7 @@ import ErrorMessage from '../ErrorMessage'
 import Portrait from './Form/Portrait'
 import Details from './Form/Details'
 import Statement from './Form/Statement'
+import Financing from './Form/Financing'
 import { styles as formStyles } from './Form/styles'
 
 import { withSignIn } from '../Auth/SignIn'
@@ -47,7 +49,7 @@ const maybeCard = (data, apply) => {
 }
 
 const Page = (props) => {
-  const { serverContext, router: { query: { token } }, data, me, t } = props
+  const { serverContext, router: { query: { token, locale } }, data, me, t } = props
 
   const getStatementState = (value, shouldValidate) => ({
     value,
@@ -73,6 +75,15 @@ const Page = (props) => {
     }
   }) || ''))
 
+  const getFinancingState = (value, shouldValidate) => ({
+    value,
+    error: false,
+    dirty: shouldValidate
+  })
+  const [financing, setFinancing] = useState(
+    getFinancingState(maybeCard(data, card => card.payload.financing) || {})
+  )
+
   const [consents, setConsents] = useState([])
   const [portrait, setPortrait] = useState({ values: {} })
   const [showErrors, setShowErrors] = useState(false)
@@ -92,11 +103,14 @@ const Page = (props) => {
           accessToken: token,
           portrait: portrait.values.portrait,
           statement: statement.value,
+          payload: {
+            financing: financing.value
+          },
           email: email.value
         })
           .then(() => {
             window.location = format({
-              pathname: `/wahltindaer/setup`
+              pathname: '/wahltindaer/setup'
             })
           })
           .catch(catchError)
@@ -155,6 +169,15 @@ const Page = (props) => {
     })
   }
 
+  const handleFinancing = (value, shouldValidate) => {
+    setFinancing({
+      ...financing,
+      value,
+      error: false,
+      dirty: shouldValidate
+    })
+  }
+
   const errorMessages = [
     portrait.errors && portrait.errors.portrait,
     statement.error,
@@ -199,16 +222,21 @@ const Page = (props) => {
     )
   }
 
+  const statementId = card.statement && card.statement.id
+  const group = card.group
+
   return (
     <>
-      <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
-      <P>
-        <RawHtml
-          dangerouslySetInnerHTML={{
-            __html: t('components/Card/Claim/lead')
-          }}
-        />
-      </P>
+      {!statementId && <>
+        <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
+        <P>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('components/Card/Claim/lead')
+            }}
+          />
+        </P>
+      </>}
 
       <div {...formStyles.portraitAndDetails}>
         <div {...formStyles.portrait}>
@@ -224,12 +252,28 @@ const Page = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        <P>{t('components/Card/Claim/statement/question')}</P>
-        <Statement
-          label={t('components/Card/Claim/statement/label')}
-          statement={statement}
-          handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
+        {statementId && group
+          ? <P>
+            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
+              <A>
+                Ihr Statement im «Wahltindär: {group.name}».
+              </A>
+            </Link>
+          </P>
+          : <>
+            <P>{t('components/Card/Claim/statement/question')}</P>
+            <Statement
+              label={t('components/Card/Claim/statement/label')}
+              statement={statement}
+              handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
+          </>}
       </div>
+
+      {(card.statement || locale) && (
+        <Financing
+          financing={financing}
+          onChange={handleFinancing} />
+      )}
 
       {!me && (
         <div {...formStyles.section}>
@@ -321,8 +365,12 @@ const CARDS_VIA_ACCESS_TOKEN = gql`
       nodes {
         id
         payload
+        statement {
+          id
+        }
         group {
           id
+          slug
           name
         }
         user(accessToken: $accessToken) {
@@ -354,12 +402,14 @@ const CLAIM_CARD = gql`
     $accessToken: ID!
     $portrait: String
     $statement: String!
+    $payload: JSON
   ) {
     claimCard(
       id: $id
       accessToken: $accessToken
       portrait: $portrait
       statement: $statement
+      payload: $payload
     ) {
       id
     }
@@ -370,8 +420,8 @@ const withClaimCard = graphql(
   CLAIM_CARD,
   {
     props: ({ mutate }) => ({
-      claimCard: ({ id, accessToken, portrait, statement, email }) => mutate({
-        variables: { id, accessToken, portrait, statement, email }
+      claimCard: ({ id, accessToken, portrait, statement, payload, email }) => mutate({
+        variables: { id, accessToken, portrait, statement, payload, email }
       })
     })
   }

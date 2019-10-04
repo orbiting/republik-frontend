@@ -146,7 +146,7 @@ const FinancingQuestion = (props) => {
     props.onChange(updateFinancingQuestion)
   }
 
-  if (requires && !value && !requires.every(id => props.financing.value[id] && props.financing.value[id].value.length > 0)) {
+  if (requires && !value && !requires.every(id => props.financing.value[id] && +props.financing.value[id].value)) {
     return null
   }
 

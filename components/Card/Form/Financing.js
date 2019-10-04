@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import AutosizeInput from 'react-textarea-autosize'
+import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
 
 import { Field, Interaction, mediaQueries } from '@project-r/styleguide'
 
@@ -14,7 +16,9 @@ const styles = {
     marginTop: 40,
     marginBottom: 40
   }),
-  section: css({}),
+  section: css({
+    marginTop: 40
+  }),
   questionContainer: css({
     [mediaQueries.mUp]: {
       display: 'flex',
@@ -118,7 +122,7 @@ const questions = [
 ]
 
 const FinancingQuestion = (props) => {
-  const { t } = props
+  const { locale, t } = props
   const { id, type, transform, requires } = props.question
   const { value, error, dirty } = props.financing.value[id] || {}
 
@@ -149,12 +153,19 @@ const FinancingQuestion = (props) => {
   if (type === 'text') {
     return <div {...styles.textQuestionContainer}>
       <div {...styles.question}>
-        <P>{t(`components/Card/Form/Financing/question/${id}`)}</P>
+        <P>
+          {t.first([
+            `components/Card/Form/Financing/question/${id}/${locale}`,
+            `components/Card/Form/Financing/question/${id}`
+          ])}
+        </P>
       </div>
       <div {...styles.field}>
         <Field
           label={t.first([
+            `components/Card/Form/Financing/question/${id}/label/${locale}`,
             `components/Card/Form/Financing/question/${id}/label`,
+            `components/Card/Form/Financing/question/label/${locale}`,
             'components/Card/Form/Financing/question/label'
           ])}
           renderInput={({ ref, ...inputProps }) => (
@@ -173,12 +184,19 @@ const FinancingQuestion = (props) => {
 
   return <div {...styles.questionContainer}>
     <div {...styles.question}>
-      <P>{t(`components/Card/Form/Financing/question/${id}`)}</P>
+      <P>
+        {t.first([
+          `components/Card/Form/Financing/question/${id}/${locale}`,
+          `components/Card/Form/Financing/question/${id}`
+        ])}
+      </P>
     </div>
     <div {...styles.field}>
       <Field
         label={t.first([
+          `components/Card/Form/Financing/question/${id}/label/${locale}`,
           `components/Card/Form/Financing/question/${id}/label`,
+          `components/Card/Form/Financing/question/label/${locale}`,
           'components/Card/Form/Financing/question/label'
         ])}
         value={financingQuestion.value}
@@ -190,7 +208,7 @@ const FinancingQuestion = (props) => {
 }
 
 const Financing = (props) => {
-  const { t } = props
+  const { router: { query: { locale } }, t } = props
 
   const [financing, setFinancing] = useState(props.financing || {})
 
@@ -214,12 +232,18 @@ const Financing = (props) => {
 
   return <>
     <H2 {...styles.headline}>
-      {t('components/Card/Form/Financing/headline')}
+      {t.first([
+        `components/Card/Form/Financing/headline/${locale}`,
+        'components/Card/Form/Financing/headline'
+      ])}
     </H2>
 
     {sections.map(section => <>
       <H3 {...styles.section} key={`financing-section-${section}`}>
-        {t(`components/Card/Form/Financing/section/${section}`)}
+        {t.first([
+          `components/Card/Form/Financing/section/${section}/${locale}`,
+          `components/Card/Form/Financing/section/${section}`
+        ])}
       </H3>
       {questions.filter(q => q.section === section).map(question => (
         <FinancingQuestion
@@ -227,10 +251,11 @@ const Financing = (props) => {
           question={question}
           financing={financing}
           onChange={handleFinancingQuestion}
+          locale={locale}
           t={t} />
       ))}
     </>)}
   </>
 }
 
-export default withT(Financing)
+export default compose(withRouter, withT)(Financing)

@@ -36,12 +36,8 @@ const initialVestedInterests = (data) => {
   return records.map((vestedInterest, index) => ({ id: `interest${index}`, ...vestedInterest }))
 }
 
-const initialFinancing = (data) => {
-  return maybeCard(data, card => card.payload.financing) || {}
-}
-
 const Update = (props) => {
-  const { data, t } = props
+  const { data, t, router: { query: { locale } } } = props
 
   const statementId = maybeCard(data, card => card.statement && card.statement.id)
   const group = maybeCard(data, card => card.group)
@@ -50,12 +46,17 @@ const Update = (props) => {
   const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
   const [budgetComment, setBudgetComment] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudgetComment) }))
   const [vestedInterests, setVestedInterests] = useState(() => ({ value: initialVestedInterests(data) }))
-  const [financing, setFinancing] = useState(() => ({ value: initialFinancing(data) }))
+  const payloadFinancing = maybeCard(data, card => card.payload.financing) || {}
+  const hasPayloadFinancingValues = Object.keys(payloadFinancing).length
+
+  const [financing, setFinancing] = useState({ value: payloadFinancing })
   const [showErrors, setShowErrors] = useState(false)
   const [serverError, setServerError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [autoUpdateCard, setAutoUpdateCard] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
+
+  const [financingExpanded, setFinancingExpanded] = useState(!hasPayloadFinancingValues)
 
   useEffect(() => {
     if (autoUpdateCard) {
@@ -73,6 +74,8 @@ const Update = (props) => {
           .then(() => {
             setIsDirty(false)
             setLoading(false)
+            setFinancingExpanded(false)
+            window.scrollTo(0, 0)
           })
           .catch(catchError)
       }
@@ -192,13 +195,15 @@ const Update = (props) => {
 
   const errorMessages = findErrorMessages()
 
+  const titleBaseKey = `components/Card/Update${hasPayloadFinancingValues ? '/financing' : ''}`
+
   return (
     <>
-      <H1 {...formStyles.heading}>{t('components/Card/Update/title')}</H1>
+      <H1 {...formStyles.heading}>{t(`${titleBaseKey}/title`)}</H1>
       <P {...formStyles.paragraph}>
         <RawHtml
           dangerouslySetInnerHTML={{
-            __html: t('components/Card/Update/lead')
+            __html: t(`${titleBaseKey}/lead`)
           }}
         />
       </P>
@@ -262,9 +267,23 @@ const Update = (props) => {
           handleVestedInterests={handleVestedInterests} />
       </div>}
 
-      <Financing
-        financing={financing}
-        onChange={handleFinancing} />
+      {financingExpanded
+        ? <Financing
+          collapsed
+          financing={financing}
+          onChange={handleFinancing} />
+        : <P style={{ marginTop: 40, marginBottom: 40 }}>
+          <A href='#' onClick={(e) => {
+            e.preventDefault()
+            setFinancingExpanded(true)
+          }}>
+            {t.first([
+              `components/Card/Form/Financing/headline/${locale}`,
+              'components/Card/Form/Financing/headline'
+            ])}
+          </A>
+        </P>
+      }
 
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>

@@ -110,7 +110,7 @@ const Page = (props) => {
         })
           .then(() => {
             window.location = format({
-              pathname: `/wahltindaer/setup`
+              pathname: '/wahltindaer/setup'
             })
           })
           .catch(catchError)

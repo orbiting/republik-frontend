@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import AutosizeInput from 'react-textarea-autosize'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -238,8 +238,8 @@ const Financing = (props) => {
       ])}
     </H2>
 
-    {sections.map(section => <>
-      <H3 {...styles.section} key={`financing-section-${section}`}>
+    {sections.map(section => <Fragment key={`financing-section-${section}`}>
+      <H3 {...styles.section}>
         {t.first([
           `components/Card/Form/Financing/section/${section}/${locale}`,
           `components/Card/Form/Financing/section/${section}`
@@ -254,7 +254,7 @@ const Financing = (props) => {
           locale={locale}
           t={t} />
       ))}
-    </>)}
+    </Fragment>)}
   </>
 }
 

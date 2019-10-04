@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-04T11:15:11.659Z",
+  "updated": "2019-10-04T12:02:28.552Z",
   "title": "live",
   "data": [
     {
@@ -5365,6 +5365,14 @@
     {
       "key": "components/Card/Update/lead",
       "value": "Wir freuen uns, Sie an Bord des «Republik Wahltindär» begrüssen zu dürfen, und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben. <a href=\"/wahltindaer/meta\" target=\"_blank\">Mehr erfahren</a>."
+    },
+    {
+      "key": "components/Card/Update/financing/title",
+      "value": "Vielen Dank für Ihre Teilnahme!"
+    },
+    {
+      "key": "components/Card/Update/financing/lead",
+      "value": "Wir freuen uns und sind in besonderem Masse begeistert, dass Sie sich die Zeit dafür genommen haben."
     },
     {
       "key": "components/Card/Update/submit",

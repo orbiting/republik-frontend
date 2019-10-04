@@ -11,6 +11,7 @@ import { Interaction, InlineSpinner, A, Button, Field, RawHtml } from '@project-
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
+import { Link } from '../../lib/routes'
 
 import Loader from '../Loader'
 import StatusError from '../StatusError'
@@ -221,16 +222,21 @@ const Page = (props) => {
     )
   }
 
+  const statementId = card.statement && card.statement.id
+  const group = card.group
+
   return (
     <>
-      <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
-      <P>
-        <RawHtml
-          dangerouslySetInnerHTML={{
-            __html: t('components/Card/Claim/lead')
-          }}
-        />
-      </P>
+      {!statementId && <>
+        <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
+        <P>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('components/Card/Claim/lead')
+            }}
+          />
+        </P>
+      </>}
 
       <div {...formStyles.portraitAndDetails}>
         <div {...formStyles.portrait}>
@@ -246,11 +252,21 @@ const Page = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        <P>{t('components/Card/Claim/statement/question')}</P>
-        <Statement
-          label={t('components/Card/Claim/statement/label')}
-          statement={statement}
-          handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
+        {statementId && group
+          ? <P>
+            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
+              <A>
+                Ihr Statement im «Wahltindär: {group.name}».
+              </A>
+            </Link>
+          </P>
+          : <>
+            <P>{t('components/Card/Claim/statement/question')}</P>
+            <Statement
+              label={t('components/Card/Claim/statement/label')}
+              statement={statement}
+              handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
+          </>}
       </div>
 
       {(card.statement || locale) && (
@@ -354,6 +370,7 @@ const CARDS_VIA_ACCESS_TOKEN = gql`
         }
         group {
           id
+          slug
           name
         }
         user(accessToken: $accessToken) {

@@ -3,7 +3,7 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Loader, Interaction, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
+import { Loader, Interaction, A, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -43,6 +43,8 @@ const initialFinancing = (data) => {
 const Update = (props) => {
   const { data, t } = props
 
+  const statementId = maybeCard(data, card => card.statement && card.statement.id)
+  const group = maybeCard(data, card => card.group)
   const [portrait, setPortrait] = useState({ values: {} })
   const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
   const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
@@ -229,11 +231,21 @@ const Update = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        <P>{t('components/Card/Claim/statement/question')}</P>
-        <Statement
-          label={t('components/Card/Claim/statement/label')}
-          statement={statement}
-          handleStatement={handleStatement} />
+        {statementId && group
+          ? <P>
+            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
+              <A>
+                Ihr Statement im «Wahltindär: {group.name}».
+              </A>
+            </Link>
+          </P>
+          : <>
+            <P>{t('components/Card/Claim/statement/question')}</P>
+            <Statement
+              label={t('components/Card/Claim/statement/label')}
+              statement={statement}
+              handleStatement={handleStatement} />
+          </>}
       </div>
 
       {false && <div {...formStyles.section}>
@@ -290,7 +302,11 @@ const fragmentCard = gql`
     payload
     group {
       id
+      slug
       name
+    }
+    statement {
+      id
     }
   }
 `

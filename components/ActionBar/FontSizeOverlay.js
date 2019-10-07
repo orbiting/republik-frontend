@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  Overlay, OverlayBody,
+  DEFAULT_FONT_SIZE, Overlay, OverlayBody,
   OverlayToolbar, OverlayToolbarConfirm,
   Interaction, Slider
 } from '@project-r/styleguide'
@@ -10,7 +10,7 @@ import MdClose from 'react-icons/lib/md/close'
 import withT from '../../lib/withT'
 import { compose } from 'react-apollo'
 
-import { DEFAULT_FONT_SIZE, useFontSize } from '../../lib/fontSize'
+import { useFontSize } from '../../lib/fontSize'
 
 const FontSizeOverlay = ({ onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)

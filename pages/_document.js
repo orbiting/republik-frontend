@@ -4,9 +4,9 @@ import Document, {
   NextScript
 } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
-import { fontFaces } from '@project-r/styleguide'
+import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
-import { DEFAULT_FONT_SIZE, FONT_SIZE_KEY } from '../lib/fontSize'
+import { FONT_SIZE_KEY } from '../lib/fontSize'
 
 // filter our preload links (js files)
 // see https://github.com/zeit/next.js/issues/5054
@@ -86,7 +86,7 @@ export default class MyDocument extends Document {
           />
           <style
             dangerouslySetInnerHTML={{
-              __html: fontFaces()
+              __html: [fontFaces(), `html, body { font-size: ${DEFAULT_FONT_SIZE}px }`].join('\n')
             }}
           />
           {css
@@ -109,9 +109,9 @@ export default class MyDocument extends Document {
           {!nojs && <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />}
           {!nojs && <script dangerouslySetInnerHTML={{ __html: `
             (function() {
-                var fontSize = window.localStorage.getItem('${FONT_SIZE_KEY}')
-                fontSize = fontSize ? fontSize : ${DEFAULT_FONT_SIZE}
-                document.documentElement.style.fontSize = fontSize + 'px'
+                try {
+                  document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'
+                } catch (e) {}
               })();` }} />}
           <Main />
           {!nojs && <NextScript />}

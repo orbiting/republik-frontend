@@ -5,7 +5,8 @@ import { ApolloProvider } from 'react-apollo'
 import { HeadersProvider } from '../lib/withHeaders'
 import withApolloClient from '../lib/apollo/withApolloClient'
 import Track from '../components/Track'
-import { DEFAULT_FONT_SIZE, useFontSize } from '../lib/fontSize'
+import { useFontSize } from '../lib/fontSize'
+import { DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 
 const FontSizeSync = () => {
   const [fontSize] = useFontSize(DEFAULT_FONT_SIZE)

@@ -3,7 +3,7 @@ import React from 'react'
 import {
   Overlay, OverlayBody,
   OverlayToolbar, OverlayToolbarConfirm,
-  Interaction, Label, Slider
+  Interaction, Slider
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
@@ -29,10 +29,8 @@ const FontSizeOverlay = ({ onClose }) => {
       </OverlayToolbar>
       <OverlayBody>
         <div>
-          <Label>
-            {'Font size: ' + fontPercentage + '%'}
-          </Label><br />
           <Slider
+            label={'Font size: ' + fontPercentage + '%'}
             value={fontSize}
             min='8'
             max='48'

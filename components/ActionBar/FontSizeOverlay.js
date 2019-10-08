@@ -34,7 +34,7 @@ const FontSizeOverlay = ({ t, onClose }) => {
             value={fontSize}
             min='8'
             max='48'
-            step='1'
+            step='4'
             title={fontPercentage + '%'}
             onChange={(e, newValue) => { setFontSize(newValue) }}
             fullWidth />

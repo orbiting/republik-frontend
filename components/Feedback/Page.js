@@ -36,6 +36,8 @@ import {
   Label,
   mediaQueries
 } from '@project-r/styleguide'
+import FontSizeSync from '../FontSize/Sync'
+import FontSizeAdjust from '../FontSize/Adjust'
 
 const tabMq = '@media only screen and (min-width: 468px)'
 
@@ -216,6 +218,7 @@ class FeedbackPage extends Component {
 
     return (
       <Frame raw meta={pageMeta}>
+        <FontSizeSync />
         <Center {...styles.container}>
           <div {...styles.intro}>
             <WithMembership render={() => (
@@ -296,6 +299,7 @@ class FeedbackPage extends Component {
               )} />
               <div {...styles.selectedHeadline} ref={this.setArticleRef}>
                 <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
+                <FontSizeAdjust t={t} style={{ float: 'right' }} />
               </div>
             </Fragment>
           )}

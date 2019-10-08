@@ -6,7 +6,6 @@ import Document, {
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
-import { FONT_SIZE_KEY } from '../lib/fontSize'
 
 // filter our preload links (js files)
 // see https://github.com/zeit/next.js/issues/5054
@@ -107,9 +106,6 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           {!nojs && <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />}
-          {!nojs && <script dangerouslySetInnerHTML={{ __html: `try {
-                  document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'
-                } catch (e) {}` }} />}
           <Main />
           {!nojs && <NextScript />}
           {!nojs && piwik && <script dangerouslySetInnerHTML={{ __html: `

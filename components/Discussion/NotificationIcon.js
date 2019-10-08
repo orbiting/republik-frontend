@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { fontStyles } from '@project-r/styleguide'
+import { convertStyleToRem, fontStyles } from '@project-r/styleguide'
 
 import NotificationsIcon from 'react-icons/lib/md/notifications'
 import NotificationsOffIcon from 'react-icons/lib/md/notifications-off'
@@ -14,7 +14,7 @@ export const styles = {
     display: 'block'
   }),
   text: css({
-    ...fontStyles.sansSerifRegular14,
+    ...convertStyleToRem(fontStyles.sansSerifRegular14),
     display: 'block'
   })
 }

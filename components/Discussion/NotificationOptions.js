@@ -18,7 +18,9 @@ import {
   InlineSpinner,
   fontStyles,
   mediaQueries,
-  colors
+  colors,
+  convertStyleToRem,
+  pxToRem
 } from '@project-r/styleguide'
 import NotificationIcon from './NotificationIcon'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from './constants'
@@ -50,12 +52,12 @@ const styles = {
     }
   }),
   link: css({
-    ...fontStyles.sansSerifRegular14,
+    ...convertStyleToRem(fontStyles.sansSerifRegular14),
     display: 'block',
     cursor: 'pointer'
   }),
   dropdownItem: css({
-    fontSize: 16,
+    fontSize: pxToRem(16),
     [mediaQueries.mUp]: {
       fontSize: 'inherit'
     }

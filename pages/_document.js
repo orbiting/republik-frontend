@@ -105,7 +105,7 @@ export default class MyDocument extends Document {
           <meta name='msapplication-config' content='/static/browserconfig.xml' />
           <meta name='referrer' content='no-referrer' />
         </Head>
-        <body style={{ fontSize: `${DEFAULT_FONT_SIZE}px` }}> /* prevent unwanted resize of non article elements */
+        <body>
           {!nojs && <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />}
           {!nojs && <script dangerouslySetInnerHTML={{ __html: `try {
                   document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'

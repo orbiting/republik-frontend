@@ -36,7 +36,7 @@ const DiscussionCommentComposer = props => {
     me,
     discussionClosed,
     discussionUserCanComment,
-    discussionPreferences: { loading, error, discussion },
+    discussionPreferences,
     now,
     parentId
   } = props
@@ -66,23 +66,14 @@ const DiscussionCommentComposer = props => {
     } catch (e) {}
   }, [])
 
-  const submitComment = ({ text, tags }) =>
-    props.submitComment(null, text, tags).then(
-      () => {
-        setActive(false)
-        return { ok: true }
-      },
-      error => ({ error: `${error}` })
-    )
-
   const timeAheadFromNow = dateString => timeahead(t, (now - Date.parse(dateString)) / 1000)
 
   return (
     <Loader
-      loading={loading}
-      error={error || (discussion === null && t('discussion/missing'))}
+      loading={discussionPreferences.loading}
+      error={discussionPreferences.error || (discussionPreferences.discussion === null && t('discussion/missing'))}
       render={() => {
-        const displayAuthor = discussionDisplayAuthor || {}
+        const { discussion } = discussionPreferences
 
         const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
         if (!me || disableTopLevelComments) {
@@ -114,6 +105,26 @@ const DiscussionCommentComposer = props => {
                   {t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })}
                 </Interaction.P>
               </Box>
+            )
+          }
+
+          // workaround to know if there is a userPreference record with potentially credential null
+          const noPreferences = discussion.userPreference.notifications === null
+          const autoCredential = noPreferences && !discussion.userPreference.anonymity && discussionPreferences.me && discussionPreferences.me.credentials.find(c => c.isListed)
+          const displayAuthor = {
+            ...discussionDisplayAuthor,
+            ...autoCredential ? { credential: autoCredential } : {}
+          }
+          const submitComment = ({ text, tags }) => {
+            if (autoCredential) {
+              props.setDiscussionPreferences(undefined, autoCredential.description)
+            }
+            return props.submitComment(null, text, tags).then(
+              () => {
+                setActive(false)
+                return { ok: true }
+              },
+              error => ({ error: `${error}` })
             )
           }
 
@@ -151,6 +162,7 @@ const DiscussionCommentComposer = props => {
                 {showPreferences && (
                   <DiscussionPreferences
                     discussionId={discussionId}
+                    autoCredential={autoCredential}
                     onClose={() => {
                       setShowPreferences(false)
                     }}

@@ -19,7 +19,7 @@ import {
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import Credential from '../Credential'
 
-export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loading, error, me, discussion }, setDiscussionPreferences }) => (
+export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loading, error, me, discussion }, setDiscussionPreferences, autoCredential }) => (
   <Overlay onClose={onClose}>
     <Loader
       loading={loading}
@@ -34,6 +34,7 @@ export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loa
             t={t}
             credentials={credentials}
             rules={rules}
+            autoCredential={autoCredential}
             userPreference={userPreference}
             onClose={onClose}
             setDiscussionPreferences={setDiscussionPreferences}
@@ -65,7 +66,8 @@ class DiscussionPreferencesEditor extends PureComponent {
         return { anonymity: false, credential: null }
       }
 
-      const { anonymity, credential } = props.userPreference
+      const { anonymity } = props.userPreference
+      const credential = props.userPreference.credential || props.autoCredential
       return {
         anonymity,
         credential: credential ? credential.description : null

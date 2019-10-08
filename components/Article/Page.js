@@ -66,6 +66,7 @@ import * as graphqlTag from 'graphql-tag'
 /* eslint-enable */
 
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+import FontSizeSync from '../FontSize/Sync'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -577,6 +578,7 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
+              <FontSizeSync />
               {meta.prepublication && (
                 <div {...styles.prepublicationNotice}>
                   <Center>

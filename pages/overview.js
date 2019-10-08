@@ -18,6 +18,7 @@ import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
 
+import Front from '../components/Front'
 import TeaserBlock from '../components/Overview/TeaserBlock'
 import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
@@ -70,6 +71,10 @@ class FrontOverview extends Component {
   }
   render () {
     const { data, isMember, me, router: { query }, t } = this.props
+
+    if (query.extractId) {
+      return <Front extractId={query.extractId} {...knownYears[+query.year]} {...this.props} />
+    }
 
     const year = +query.year
     const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
@@ -179,6 +184,7 @@ class FrontOverview extends Component {
                     onHighlight={this.onHighlight} />}
                 </P>
                 <TeaserBlock
+                  {...knownYears[+query.year]}
                   teasers={values}
                   highlight={highlight}
                   onHighlight={this.onHighlight}
@@ -201,7 +207,7 @@ export default compose(
   graphql(getAll, {
     skip: props => {
       const knownYear = knownYears[+props.router.query.year]
-      return knownYear && !knownYear.path
+      return knownYear && !knownYear.path && !props.router.query.extractId
     },
     options: props => ({
       variables: knownYears[+props.router.query.year] || {
@@ -212,7 +218,7 @@ export default compose(
   graphql(getKnownYear, {
     skip: props => {
       const knownYear = knownYears[+props.router.query.year]
-      return !knownYear || knownYear.path
+      return (!knownYear || knownYear.path) && !props.router.query.extractId
     },
     options: props => ({
       variables: knownYears[+props.router.query.year]

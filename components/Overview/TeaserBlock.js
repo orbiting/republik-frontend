@@ -91,7 +91,7 @@ class TeaserBlock extends Component {
   }
   render () {
     const { hover, width } = this.state
-    const { highlight, onHighlight, lazy, maxHeight } = this.props
+    const { path, highlight, onHighlight, lazy, maxHeight } = this.props
 
     const teasers = this.props.teasers
       .filter(teaser => (
@@ -193,11 +193,11 @@ class TeaserBlock extends Component {
               onMouseLeave={hoverOff}
               onClick={() => { touch = undefined }}>
               {hover && hover.teaser.id === teaser.id &&
-                <TeaserHover {...hover} contextWidth={width} highlight={highlight} />}
+                <TeaserHover {...hover} contextWidth={width} path={path} highlight={highlight} />}
               <div style={{ position: 'relative' }} data-teaser={teaser.id}>
                 <Image
                   onLoad={this.measure}
-                  src={getSmallImgSrc(teaser)}
+                  src={getSmallImgSrc(teaser, path)}
                   style={{
                     display: 'inline-block',
                     // unbreakable margin

@@ -12,7 +12,7 @@ import { compose } from 'react-apollo'
 
 import { useFontSize } from '../../lib/fontSize'
 
-const FontSizeOverlay = ({ onClose }) => {
+const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const fontPercentage = Math.round(100 * fontSize / DEFAULT_FONT_SIZE)
 
@@ -20,7 +20,7 @@ const FontSizeOverlay = ({ onClose }) => {
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          Adjust Font Size
+          {t('article/actionbar/fontSize/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}

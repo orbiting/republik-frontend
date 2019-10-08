@@ -1,5 +1,7 @@
 import React from 'react'
 import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
+
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing/Feuilleton'
@@ -12,10 +14,12 @@ import {
   CDN_FRONTEND_BASE_URL
 } from '../lib/constants'
 
-const FeuilletonPage = ({ t, me, isMember, inNativeIOSApp }) => {
+const FeuilletonPage = (props) => {
+  const { t, me, router, isMember, inNativeIOSApp } = props
+
   if (isMember) {
     // does it's own meta
-    return <Front />
+    return <Front extractId={router.query.extractId} {...props} />
   }
   if (inNativeIOSApp) {
     return <UnauthorizedPage me={me} />
@@ -37,5 +41,6 @@ const FeuilletonPage = ({ t, me, isMember, inNativeIOSApp }) => {
 export default compose(
   withMembership,
   withInNativeApp,
+  withRouter,
   withT
 )(FeuilletonPage)

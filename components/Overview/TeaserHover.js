@@ -33,7 +33,7 @@ class TeaserHover extends Component {
     window.cancelAnimationFrame(this.loadEndRaf)
   }
   render () {
-    const { measurement, teaser, contextWidth, highlight } = this.props
+    const { path = '/', measurement, teaser, contextWidth, highlight } = this.props
     const { loading } = this.state
 
     const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
@@ -76,14 +76,14 @@ class TeaserHover extends Component {
           })}>
             <img
               {...styles.preview}
-              src={getSmallImgSrc(teaser)} />
+              src={getSmallImgSrc(teaser, path)} />
             <iframe
               frameBorder='0'
               scrolling='no'
               sandbox=''
               onLoad={onLoadEnd}
               onError={onLoadEnd}
-              src={`/?extractId=${teaser.id}`}
+              src={`${path}?extractId=${teaser.id}`}
               {...styles.iframe}
               style={{
                 opacity: loading ? 0 : 1

@@ -18,6 +18,7 @@ import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
 import { negativeColors } from '../components/Frame/constants'
 
+import Front from '../components/Front'
 import TeaserBlock from '../components/Overview/TeaserBlock'
 import { P } from '../components/Overview/Elements'
 import text18 from '../components/Overview/2018'
@@ -36,15 +37,12 @@ const texts = {
 }
 
 const knownYears = {
-  // 2l7waBIDo 2019-01-01T03:50:00.000Z: Die Ehre Albaniens, Teil 1
-  2018: { after: '2l7waBIDo' },
-  // B3fTOtcv9 2018-12-31T03:50:00.000Z: Statuspanik – die Krankheit des Mannes
-  2019: { before: 'B3fTOtcv9' }
+  2018: { path: '/2018' }
 }
 
 const getAll = gql`
-query getCompleteFrontOverview {
-  front: document(path: "/") {
+query getCompleteFrontOverview($path: String!) {
+  front: document(path: $path) {
     id
     content
   }
@@ -73,6 +71,10 @@ class FrontOverview extends Component {
   }
   render () {
     const { data, isMember, me, router: { query }, t } = this.props
+
+    if (query.extractId) {
+      return <Front extractId={query.extractId} {...knownYears[+query.year]} {...this.props} />
+    }
 
     const year = +query.year
     const startDate = new Date(`${year - 1}-12-31T23:00:00.000Z`)
@@ -145,7 +147,7 @@ class FrontOverview extends Component {
       [[]]
     )[0]
 
-    if (!knownYears[year] || !knownYears[year].after) {
+    if (!knownYears[year] || (!knownYears[year].after && !knownYears[year].path)) {
       teasersByMonth.reverse()
       teasersByMonth.forEach(m => m.values.reverse())
     }
@@ -182,6 +184,7 @@ class FrontOverview extends Component {
                     onHighlight={this.onHighlight} />}
                 </P>
                 <TeaserBlock
+                  {...knownYears[+query.year]}
                   teasers={values}
                   highlight={highlight}
                   onHighlight={this.onHighlight}
@@ -202,10 +205,21 @@ class FrontOverview extends Component {
 export default compose(
   withRouter,
   graphql(getAll, {
-    skip: props => knownYears[+props.router.query.year]
+    skip: props => {
+      const knownYear = knownYears[+props.router.query.year]
+      return knownYear && !knownYear.path && !props.router.query.extractId
+    },
+    options: props => ({
+      variables: knownYears[+props.router.query.year] || {
+        path: '/'
+      }
+    })
   }),
   graphql(getKnownYear, {
-    skip: props => !knownYears[+props.router.query.year],
+    skip: props => {
+      const knownYear = knownYears[+props.router.query.year]
+      return (!knownYear || knownYear.path) && !props.router.query.extractId
+    },
     options: props => ({
       variables: knownYears[+props.router.query.year]
     })

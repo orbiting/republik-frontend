@@ -2,22 +2,19 @@ import React, { useEffect } from 'react'
 import { FONT_SIZE_KEY, useFontSize } from '../../lib/fontSize'
 import { DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import NextHead from 'next/head'
-import { css } from 'glamor'
 
 const FontSizeSync = () => {
   const [fontSize] = useFontSize(DEFAULT_FONT_SIZE)
   useEffect(
     () => {
-      // document.documentElement.style.fontSize = fontSize + 'px'
-      document.documentElement.className = css({ fontSize }).toString()
+      document.documentElement.style.fontSize = fontSize + 'px'
     },
     [fontSize]
   )
   useEffect(
     () => {
       return () => {
-        // document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
-        document.documentElement.className = ''
+        document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
       }
     },
     []

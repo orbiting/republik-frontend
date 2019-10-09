@@ -34,13 +34,13 @@ const FontSizeOverlay = ({ t, onClose }) => {
       </OverlayToolbar>
       <OverlayBody>
         <div>
-          <label {...labelStyle}>{'Font size: ' + fontPercentage + '%'}</label>
+          <label {...labelStyle}>{fontPercentage}%</label>
           <Slider
             value={fontSize}
             min='8'
             max='48'
             step='4'
-            title={fontPercentage + '%'}
+            title={`${fontPercentage}%`}
             onChange={(e, newValue) => { setFontSize(newValue) }}
             fullWidth />
           <br />

@@ -33,7 +33,7 @@ import { shouldIgnoreClick } from '../Link/utils'
 
 const styles = {
   container: css({
-    marginTop: 20,
+    marginTop: pxToRem(20),
     position: 'relative'
   }),
   spinner: css({
@@ -42,8 +42,8 @@ const styles = {
     right: 5
   }),
   expanded: css({
-    marginBottom: 30,
-    marginTop: 20
+    marginBottom: pxToRem(30),
+    marginTop: pxToRem(20)
   }),
   links: css({
     [mediaQueries.mUp]: {

@@ -8,7 +8,7 @@ const FontSizeSync = () => {
   const [fontSize] = useFontSize(DEFAULT_FONT_SIZE)
   useEffect(
     () => {
-      document.documentElement.style.fontSize = fontSize + 'px'
+      // document.documentElement.style.fontSize = fontSize + 'px'
       document.documentElement.className = css({ fontSize }).toString()
     },
     [fontSize]
@@ -16,7 +16,7 @@ const FontSizeSync = () => {
   useEffect(
     () => {
       return () => {
-        document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
+        // document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
         document.documentElement.className = ''
       }
     },

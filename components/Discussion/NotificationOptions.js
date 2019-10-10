@@ -18,7 +18,9 @@ import {
   InlineSpinner,
   fontStyles,
   mediaQueries,
-  colors
+  colors,
+  convertStyleToRem,
+  pxToRem
 } from '@project-r/styleguide'
 import NotificationIcon from './NotificationIcon'
 import { DISCUSSION_NOTIFICATION_OPTIONS } from './constants'
@@ -31,7 +33,7 @@ import { shouldIgnoreClick } from '../Link/utils'
 
 const styles = {
   container: css({
-    marginTop: 20,
+    marginTop: pxToRem(20),
     position: 'relative'
   }),
   spinner: css({
@@ -40,8 +42,8 @@ const styles = {
     right: 5
   }),
   expanded: css({
-    marginBottom: 30,
-    marginTop: 20
+    marginBottom: pxToRem(30),
+    marginTop: pxToRem(20)
   }),
   links: css({
     [mediaQueries.mUp]: {
@@ -50,12 +52,12 @@ const styles = {
     }
   }),
   link: css({
-    ...fontStyles.sansSerifRegular14,
+    ...convertStyleToRem(fontStyles.sansSerifRegular14),
     display: 'block',
     cursor: 'pointer'
   }),
   dropdownItem: css({
-    fontSize: 16,
+    fontSize: pxToRem(16),
     [mediaQueries.mUp]: {
       fontSize: 'inherit'
     }

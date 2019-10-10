@@ -4,7 +4,7 @@ import Document, {
   NextScript
 } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
-import { fontFaces } from '@project-r/styleguide'
+import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
 
 // filter our preload links (js files)
@@ -85,7 +85,7 @@ export default class MyDocument extends Document {
           />
           <style
             dangerouslySetInnerHTML={{
-              __html: fontFaces()
+              __html: [fontFaces(), `html, body { font-size: ${DEFAULT_FONT_SIZE}px }`].join('\n')
             }}
           />
           {css

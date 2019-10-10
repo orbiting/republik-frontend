@@ -5,7 +5,7 @@ import { color } from 'd3-color'
 import withT from '../../lib/withT'
 import {
   Checkbox,
-  Label,
+  Slider,
   Editorial,
   mediaQueries,
   fontStyles,
@@ -17,7 +17,6 @@ import createPersistedState from '../../lib/hooks/use-persisted-state'
 
 import { Paragraph } from './Shared'
 import Spider, { axes as spiderAxes } from './Spider'
-import Slider from './Slider'
 import medianSmartspiders from './medianSmartspiders'
 import getPartyColor from './partyColors'
 
@@ -181,13 +180,10 @@ const Filters = ({ t, party, onParty }) => {
             setSlider(inactiveValue, i)
           }
         }
+        const label = `${spiderAxes[i].text.replace(/\n/g, ' ').trim()}: ${value < 0 ? 'keine Angaben' : value}`
         return <div key={i} {...styles.mySmartspiderSlider}>
-          <Label>
-            {spiderAxes[i].text.replace(/\n/g, ' ').trim()}:
-            {' '}
-            {value < 0 ? 'keine Angaben' : value}
-          </Label><br />
           <Slider
+            label={label}
             value={value}
             min={inactiveValue}
             max='100'

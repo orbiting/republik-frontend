@@ -66,6 +66,7 @@ import * as graphqlTag from 'graphql-tag'
 /* eslint-enable */
 
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+import FontSizeSync from '../FontSize/Sync'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -577,6 +578,7 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
+              <FontSizeSync />
               {meta.prepublication && (
                 <div {...styles.prepublicationNotice}>
                   <Center>
@@ -592,12 +594,13 @@ class ArticlePage extends Component {
                   expanded={isAwayFromBottomBar} />
               )}
               {this.state.showPdf &&
-                <PdfOverlay
-                  article={article}
-                  onClose={this.togglePdf} />}
+              <PdfOverlay
+                article={article}
+                onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
-                  <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
+                  <SSRCachingBoundary
+                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format

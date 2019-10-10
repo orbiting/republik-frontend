@@ -22,6 +22,8 @@ import {
   A,
   colors,
   fontStyles,
+  convertStyleToRem,
+  pxToRem,
   mediaQueries,
   useMediaQuery,
   inQuotes
@@ -35,7 +37,7 @@ const styles = {
     margin: '20px 0'
   }),
   orderBy: css({
-    ...fontStyles.sansSerifRegular16,
+    ...convertStyleToRem(fontStyles.sansSerifRegular16),
     outline: 'none',
     color: colors.text,
     WebkitAppearance: 'none',
@@ -53,6 +55,12 @@ const styles = {
   }),
   emptyDiscussion: css({
     margin: '20px 0'
+  }),
+  reloadLink: css({
+    float: 'right',
+    lineHeight: pxToRem('25px'),
+    fontSize: pxToRem('16px'),
+    cursor: 'pointer'
   })
 }
 
@@ -272,7 +280,7 @@ const Comments = props => {
               <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='DATE' />
               <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='VOTES' />
               <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='REPLIES' />
-              <A style={{ float: 'right', lineHeight: '25px', cursor: 'pointer' }} href='' onClick={onReload}>
+              <A {...styles.reloadLink} href='' onClick={onReload}>
                 {t('components/Discussion/reload')}
               </A>
               <br style={{ clear: 'both' }} />

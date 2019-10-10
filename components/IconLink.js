@@ -15,6 +15,7 @@ import DiscussionIcon from 'react-icons/lib/md/chat-bubble-outline'
 import DownloadIcon from 'react-icons/lib/md/file-download'
 import FacebookIcon from 'react-icons/lib/fa/facebook'
 import FolderIcon from 'react-icons/lib/fa/folder-open'
+import FontSizeIcon from './Icons/FontSize'
 import GalleryIcon from 'react-icons/lib/md/filter'
 import LinkIcon from './Icons/Web'
 import CopyLinkIcon from 'react-icons/lib/md/link'
@@ -138,7 +139,8 @@ const ICONS = {
   gallery: GalleryIcon,
   time: TimeIcon,
   video: VideoIcon,
-  etiquette: EtiquetteIcon
+  etiquette: EtiquetteIcon,
+  fontSize: FontSizeIcon
 }
 
 const IconLink = ({

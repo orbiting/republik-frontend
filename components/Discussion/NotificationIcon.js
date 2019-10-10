@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
-import { fontStyles } from '@project-r/styleguide'
+import { convertStyleToRem, fontStyles } from '@project-r/styleguide'
 
 import NotificationsIcon from 'react-icons/lib/md/notifications'
 import NotificationsOffIcon from 'react-icons/lib/md/notifications-off'
@@ -14,7 +14,7 @@ export const styles = {
     display: 'block'
   }),
   text: css({
-    ...fontStyles.sansSerifRegular14,
+    ...convertStyleToRem(fontStyles.sansSerifRegular14),
     display: 'block'
   })
 }
@@ -35,7 +35,7 @@ const Icon = ({
       onClick={onClick}
       style={style}
     >
-      <Icon fill={fill} size={size} style={{ position: 'absolute', top: '-4px' }} />
+      <Icon fill={fill} size={size} style={{ position: 'absolute', top: '0', height: '1.0625rem' }} />
       {children && (
         <span {...styles.text} style={{ paddingLeft: `${size + 5}px` }}>
           {children}

@@ -299,10 +299,10 @@ class FeedbackPage extends Component {
               )} />
               <div {...styles.selectedHeadline} ref={this.setArticleRef}>
                 <ArticleDiscussionHeadline discussionId={activeDiscussionId} />
-                <FontSizeAdjust t={t} style={{ float: 'right' }} />
               </div>
             </Fragment>
           )}
+          <FontSizeAdjust t={t} style={{ display: 'block', textAlign: 'right' }} />
           {activeDiscussionId && (
             <Discussion
               discussionId={activeDiscussionId}

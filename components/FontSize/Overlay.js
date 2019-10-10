@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import {
   DEFAULT_FONT_SIZE, Overlay, OverlayBody,
@@ -17,7 +17,8 @@ import track from '../../lib/piwik'
 
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
-  const fontPercentage = Math.round(100 * fontSize / DEFAULT_FONT_SIZE)
+  const fontPercentage = useRef()
+  fontPercentage.current = `${Math.round(100 * fontSize / DEFAULT_FONT_SIZE)}%`
   const labelStyle = css({
     ...fontStyles.sansSerifRegular14,
     color: colors.secondary
@@ -28,37 +29,35 @@ const FontSizeOverlay = ({ t, onClose }) => {
       'trackEvent',
       'FontSize',
       action,
-      `${fontPercentage}%`
+      fontPercentage.current
     ])
   }
 
-  const closeOverlay = () => {
-    trackFontSize('closeOverlay')
-    onClose()
-  }
-
-  useEffect(() => { trackFontSize('openOverlay') }, [])
+  useEffect(() => {
+    trackFontSize('openOverlay')
+    return () => { trackFontSize('closeOverlay') }
+  }, [])
 
   return (
-    <Overlay onClose={closeOverlay} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
-          onClick={closeOverlay}
+          onClick={onClose}
           label={<MdClose size={24} fill='#000' />}
         />
       </OverlayToolbar>
       <OverlayBody>
         <div>
-          <label {...labelStyle}>{fontPercentage}%</label>
+          <label {...labelStyle}>{fontPercentage.current}</label>
           <Slider
             value={fontSize}
             min='8'
             max='48'
             step='4'
-            title={`${fontPercentage}%`}
+            title={fontPercentage.current}
             onChange={(e, newValue) => { setFontSize(newValue) }}
             fullWidth />
           <br />

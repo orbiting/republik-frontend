@@ -6,24 +6,31 @@ import NextHead from 'next/head'
 const FontSizeSync = () => {
   const [fontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const lastStyleTag = useRef()
+
+  const setRootFontSize = () => {
+    document.documentElement.style.fontSize = fontSize + 'px'
+
+    // IE, Edge do not recalculate all font sizes
+    // unless new css or at least an style element is added
+    // to prevent pollution we always remove the last one
+    if (lastStyleTag.current) {
+      document.head.removeChild(lastStyleTag.current)
+    }
+    lastStyleTag.current = document.createElement('style')
+    lastStyleTag.current.setAttribute('data-font-size-sync', fontSize)
+    document.head.appendChild(lastStyleTag.current)
+  }
+
   useEffect(
     () => {
-      document.documentElement.style.fontSize = fontSize + 'px'
-
-      // IE, Edge do not recalculate all font sizes
-      // unless new css or at least an style element is added
-      // to prevent polution we always remove the last one
-      if (lastStyleTag.current) {
-        document.head.removeChild(lastStyleTag.current)
-      }
-      lastStyleTag.current = document.createElement('style')
-      lastStyleTag.current.setAttribute('data-font-size-sync', fontSize)
-      document.head.appendChild(lastStyleTag.current)
+      setRootFontSize()
     },
     [fontSize]
   )
   useEffect(
     () => {
+      // resize on browser: back button for IE, Edge
+      setRootFontSize()
       return () => {
         document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
         if (lastStyleTag.current) {

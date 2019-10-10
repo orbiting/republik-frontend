@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-10T12:42:54.537Z",
+  "updated": "2019-10-10T14:46:25.464Z",
   "title": "live",
   "data": [
     {
@@ -340,7 +340,7 @@
     },
     {
       "key": "marketing/signin",
-      "value": "Sie haben schon ein Abo? {link}"
+      "value": "Sie haben schon eine Zugang? {link}"
     },
     {
       "key": "marketing/signin/link",
@@ -3568,7 +3568,7 @@
     },
     {
       "key": "memberships/give/description/before/notGive",
-      "value": "Wollen Sie das Abonnement nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihr Abo und Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+      "value": "Wollen Sie das Abonnement nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
     },
     {
       "key": "memberships/give/description/before/1",
@@ -3636,7 +3636,7 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link/buyText",
-      "value": "Jahresabo lösen"
+      "value": "Jahresmitgliedschaft lösen"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",

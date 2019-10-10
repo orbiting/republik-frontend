@@ -44,7 +44,6 @@ const tabMq = '@media only screen and (min-width: 468px)'
 const styles = {
   container: css({
     padding: '20px 15px 120px 15px',
-    overflow: 'scroll',
     [mediaQueries.mUp]: {
       padding: '55px 0 120px 0'
     }

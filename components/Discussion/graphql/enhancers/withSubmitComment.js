@@ -30,7 +30,8 @@ export const withSubmitComment = compose(
         orderBy,
         depth,
         focusId,
-        discussionDisplayAuthor: displayAuthor
+        discussionDisplayAuthor: displayAuthor,
+        discussionUserPreference: userPreference
       },
       mutate
     }) => ({
@@ -68,7 +69,16 @@ export const withSubmitComment = compose(
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
               parentIds,
-              tags
+              tags,
+              discussion: {
+                __typename: 'Discussion',
+                id: discussionId,
+                userPreference: {
+                  __typename: 'DiscussionPreferences',
+                  notifications: userPreference.notifications
+                },
+                userWaitUntil: null
+              }
             }
           },
           update: (proxy, { data: { submitComment: comment } }) => {

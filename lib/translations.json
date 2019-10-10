@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-08T15:34:43.516Z",
+  "updated": "2019-10-10T14:34:58.519Z",
   "title": "live",
   "data": [
     {
@@ -340,7 +340,7 @@
     },
     {
       "key": "marketing/signin",
-      "value": "Sie haben schon ein Abo? {link}"
+      "value": "Sie haben schon eine Zugang? {link}"
     },
     {
       "key": "marketing/signin/link",
@@ -412,7 +412,7 @@
     },
     {
       "key": "marketing/offers/students",
-      "value": "Ausbildungs-Abo und Mitgliedschaft"
+      "value": "Ausbildungs-Mitgliedschaft"
     },
     {
       "key": "marketing/offers/students/reasonTemplate",
@@ -2307,10 +2307,6 @@
       "value": "Noch nicht bereit, versuchen sie es erneut in einigen Sekunden."
     },
     {
-      "key": "package/title",
-      "value": "Abo und Mitgliedschaft für ein Jahr"
-    },
-    {
       "key": "package/customize/changePackage",
       "value": "(ändern)"
     },
@@ -2372,11 +2368,11 @@
     },
     {
       "key": "package/ABO/title",
-      "value": "Abo und Mitgliedschaft"
+      "value": "Jahresmitgliedschaft"
     },
     {
       "key": "package/ABO/description",
-      "value": "Es freut uns, dass Sie dabei sind! Sie erhalten unser Magazin im Jahresabonnement. Durch Ihren jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. "
+      "value": "Es freut uns, dass Sie dabei sind! Durch Ihren jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. Sie erhalten ab sofort unser Magazin."
     },
     {
       "key": "package/ABO_GIVE/price",
@@ -2384,7 +2380,7 @@
     },
     {
       "key": "package/ABO_GIVE/title",
-      "value": "Abo und Mitgliedschaft als Geschenk"
+      "value": "Mitgliedschaft als Geschenk"
     },
     {
       "key": "package/ABO_GIVE/description",
@@ -2404,7 +2400,7 @@
     },
     {
       "key": "package/BENEFACTOR/title",
-      "value": "Abo und Gönner-Mitgliedschaft"
+      "value": "Gönner-Mitgliedschaft"
     },
     {
       "key": "package/BENEFACTOR/price",
@@ -2412,7 +2408,7 @@
     },
     {
       "key": "package/BENEFACTOR/description",
-      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  \n"
+      "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-Up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold, sowie ein signiertes Handbuch für Journalismus im 21. Jahrhundert.  "
     },
     {
       "key": "package/MONTHLY_ABO/title",
@@ -2492,7 +2488,7 @@
     },
     {
       "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
-      "value": "Ab zehn Monaten lohnt sich ein Jahres-Abo: {link}"
+      "value": "Ab zehn Monaten lohnt sich eine Jahresmitgliedschaft: {link}"
     },
     {
       "key": "payment/title",
@@ -3544,19 +3540,19 @@
     },
     {
       "key": "memberships/giver/giveable/show",
-      "value": "Abo und Mitgliedschaft verschenken?"
+      "value": "Mitgliedschaft verschenken?"
     },
     {
       "key": "memberships/giver/given/notGive",
-      "value": "Sie haben das Abo und die Mitgliedschaft verschenkt."
+      "value": "Sie haben die Mitgliedschaft verschenkt."
     },
     {
       "key": "memberships/giver/given/1",
-      "value": "Sie haben schon ein Abo und eine Mitgliedschaft verschenkt."
+      "value": "Sie haben schon eine Mitgliedschaft verschenkt."
     },
     {
       "key": "memberships/giver/given/other",
-      "value": "Sie haben schon {count} Abos und Mitgliedschaften verschenkt."
+      "value": "Sie haben schon {count} Mitgliedschaften verschenkt."
     },
     {
       "key": "memberships/giver/description",
@@ -3572,15 +3568,15 @@
     },
     {
       "key": "memberships/give/description/before/notGive",
-      "value": "Wollen Sie das Abonnement nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihr Abo und Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+      "value": "Wollen Sie das Abonnement nicht selber nutzen? Und nicht Mitglied von Project R werden? Sie können Ihre Mitgliedschaft mit folgendem Gutscheincode verschenken:"
     },
     {
       "key": "memberships/give/description/before/1",
-      "value": "Sie können das Abo und die Mitgliedschaft mit folgendem Gutscheincode verschenken:"
+      "value": "Sie können die Mitgliedschaft mit folgendem Gutscheincode verschenken:"
     },
     {
       "key": "memberships/give/description/before/other",
-      "value": "Sie können die Abos und Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
+      "value": "Sie können die Mitgliedschaften mit folgenden Gutscheincodes verschenken:"
     },
     {
       "key": "memberships/give/ABO_GIVE_MONTHS/description/before/1",
@@ -3640,7 +3636,7 @@
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/upgrade/link/buyText",
-      "value": "Jahresabo lösen"
+      "value": "Jahresmitgliedschaft lösen"
     },
     {
       "key": "memberships/MONTHLY_ABO/manage/reactivate",
@@ -4292,7 +4288,7 @@
     },
     {
       "key": "memberships/manage/cancel/link",
-      "value": "Mitgliedschaft und Abonnement kündigen"
+      "value": "Mitgliedschaft kündigen"
     },
     {
       "key": "option/PROLONG/additionalPeriods/endDate",
@@ -4316,11 +4312,11 @@
     },
     {
       "key": "memberships/title/ABO",
-      "value": "Mitgliedschaft und Abonnement (#{sequenceNumber})"
+      "value": "Mitgliedschaft (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/BENEFACTOR_ABO",
-      "value": "Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+      "value": "Gönner-Mitgliedschaft (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/MONTHLY_ABO",
@@ -4336,7 +4332,7 @@
     },
     {
       "key": "memberships/title/BENEFACTOR_ABO/give",
-      "value": "{name}: Gönner-Mitgliedschaft und -Abonnement (#{sequenceNumber})"
+      "value": "{name}: Gönner-Mitgliedschaft (#{sequenceNumber})"
     },
     {
       "key": "memberships/title/ABO_GIVE_MONTHS/give",
@@ -4488,7 +4484,7 @@
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/title",
-      "value": "Republik Jahres-Abo und Mitgliedschaft verschenken"
+      "value": "Republik Jahresmitgliedschaft verschenken"
     },
     {
       "key": "pledge/meta/package/ABO_GIVE/description",
@@ -4596,7 +4592,7 @@
     },
     {
       "key": "pledge/option/PROLONG/ABO/label",
-      "value": "Abo und Mitgliedschaft"
+      "value": "Jahresmitgliedschaft"
     },
     {
       "key": "pledge/option/PROLONG/ABO/label/give",

@@ -578,76 +578,79 @@ class ArticlePage extends Component {
 
           return (
             <Fragment>
-              <FontSizeSync />
-              {meta.prepublication && (
-                <div {...styles.prepublicationNotice}>
-                  <Center>
-                    <Interaction.P>
-                      {t('article/prepublication/notice')}
-                    </Interaction.P>
-                  </Center>
-                </div>
-              )}
-              {!isFormat && !isNewsletterSource && (
-                <PayNote.Before
-                  variation={payNoteVariation}
-                  expanded={isAwayFromBottomBar} />
-              )}
-              {this.state.showPdf &&
+              <div style={{ overflow: 'scroll' }}>
+                <FontSizeSync />
+                {meta.prepublication && (
+                  <div {...styles.prepublicationNotice}>
+                    <Center>
+                      <Interaction.P>
+                        {t('article/prepublication/notice')}
+                      </Interaction.P>
+                    </Center>
+                  </div>
+                )}
+                {!isFormat && !isNewsletterSource && (
+                  <PayNote.Before
+                    variation={payNoteVariation}
+                    expanded={isAwayFromBottomBar} />
+                )}
+                {this.state.showPdf &&
                 <PdfOverlay
                   article={article}
                   onClose={this.togglePdf} />}
-              <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                <ProgressComponent article={article}>
-                  <SSRCachingBoundary cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
-                    {() => renderMdast({
-                      ...article.content,
-                      format: meta.format
-                    },
-                    schema, { MissingNode })}
-                  </SSRCachingBoundary>
-                </ProgressComponent>
-              </ArticleGallery>
-              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && isMember && (
-                <Center>
-                  <AutoDiscussionTeaser
+                <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
+                  <ProgressComponent article={article}>
+                    <SSRCachingBoundary
+                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
+                      {() => renderMdast({
+                        ...article.content,
+                        format: meta.format
+                      },
+                      schema, { MissingNode })}
+                    </SSRCachingBoundary>
+                  </ProgressComponent>
+                </ArticleGallery>
+                {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && isMember && (
+                  <Center>
+                    <AutoDiscussionTeaser
+                      discussionId={ownDiscussion.id}
+                    />
+                  </Center>
+                )}
+                {!isFormat && (
+                  <PayNote.After
+                    variation={payNoteVariation}
+                    bottomBarRef={this.bottomBarRef} />
+                )}
+                {meta.template === 'discussion' && ownDiscussion && <Center>
+                  <Discussion
                     discussionId={ownDiscussion.id}
-                  />
-                </Center>
-              )}
-              {!isFormat && (
-                <PayNote.After
-                  variation={payNoteVariation}
-                  bottomBarRef={this.bottomBarRef} />
-              )}
-              {meta.template === 'discussion' && ownDiscussion && <Center>
-                <Discussion
-                  discussionId={ownDiscussion.id}
-                  focusId={router.query.focus}
-                  mute={!!router.query.mute} />
-              </Center>}
-              {isMember && (
-                <Fragment>
-                  {meta.template === 'article' && <Center>
-                    <div ref={this.bottomBarRef} {...styles.bar}>
-                      {actionBarEnd}
-                    </div>
-                  </Center>}
-                </Fragment>
-              )}
-              {isMember && episodes && <RelatedEpisodes
-                title={series.title}
-                episodes={episodes}
-                path={meta.path} />}
-              {isFormat && <Feed formatId={article.id} />}
-              {(isMember || isFormat) && (
-                <Fragment>
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                </Fragment>
-              )}
+                    focusId={router.query.focus}
+                    mute={!!router.query.mute} />
+                </Center>}
+                {isMember && (
+                  <Fragment>
+                    {meta.template === 'article' && <Center>
+                      <div ref={this.bottomBarRef} {...styles.bar}>
+                        {actionBarEnd}
+                      </div>
+                    </Center>}
+                  </Fragment>
+                )}
+                {isMember && episodes && <RelatedEpisodes
+                  title={series.title}
+                  episodes={episodes}
+                  path={meta.path} />}
+                {isFormat && <Feed formatId={article.id} />}
+                {(isMember || isFormat) && (
+                  <Fragment>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                  </Fragment>
+                )}
+              </div>
             </Fragment>
           )
         }} />

@@ -49,10 +49,6 @@ const styles = {
       paddingTop: HEADER_HEIGHT - 1
     }
   }),
-  overflowGuard: css({
-    overflow: 'auto',
-    WebkitOverflowScrolling: 'touch'
-  }),
   bodyGrower: css({
     flexGrow: 1
   }),
@@ -122,28 +118,26 @@ const Index = ({
         headerAudioPlayer={headerAudioPlayer}
         pullable={pullable}
       />
-      <div {...styles.overflowGuard}>
-        <noscript>
-          <Box style={{ padding: 30 }}>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('noscript')
-              }} />
-          </Box>
-        </noscript>
-        {me && me.prolongBeforeDate !== null &&
-          <ProlongBox
-            t={t}
-            prolongBeforeDate={me.prolongBeforeDate}
-            dark={dark} />}
-        {raw ? (
-          children
-        ) : (
-          <MainContainer>
-            <Content>{children}</Content>
-          </MainContainer>
-        )}
-      </div>
+      <noscript>
+        <Box style={{ padding: 30 }}>
+          <RawHtml
+            dangerouslySetInnerHTML={{
+              __html: t('noscript')
+            }} />
+        </Box>
+      </noscript>
+      {me && me.prolongBeforeDate !== null &&
+        <ProlongBox
+          t={t}
+          prolongBeforeDate={me.prolongBeforeDate}
+          dark={dark} />}
+      {raw ? (
+        children
+      ) : (
+        <MainContainer>
+          <Content>{children}</Content>
+        </MainContainer>
+      )}
     </div>
     {!inNativeApp && footer && <Footer />}
   </div>

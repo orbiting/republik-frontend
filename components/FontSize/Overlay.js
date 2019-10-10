@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
   DEFAULT_FONT_SIZE, Overlay, OverlayBody,
@@ -13,22 +13,40 @@ import { compose } from 'react-apollo'
 
 import { useFontSize } from '../../lib/fontSize'
 import { css } from 'glamor'
+import track from '../../lib/piwik'
 
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const fontPercentage = Math.round(100 * fontSize / DEFAULT_FONT_SIZE)
   const labelStyle = css({
     ...fontStyles.sansSerifRegular14,
-    color: colors.secondary })
+    color: colors.secondary
+  })
+
+  const trackFontSize = (action) => {
+    track([
+      'trackEvent',
+      'FontSize',
+      action,
+      `${fontPercentage}%`
+    ])
+  }
+
+  const closeOverlay = () => {
+    trackFontSize('closeOverlay')
+    onClose()
+  }
+
+  useEffect(() => { trackFontSize('openOverlay') }, [])
 
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={closeOverlay} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           {t('article/actionbar/fontSize/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
-          onClick={onClose}
+          onClick={closeOverlay}
           label={<MdClose size={24} fill='#000' />}
         />
       </OverlayToolbar>

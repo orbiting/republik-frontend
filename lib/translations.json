@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-10T15:07:07.543Z",
+  "updated": "2019-10-11T08:53:48.576Z",
   "title": "live",
   "data": [
     {
@@ -340,7 +340,7 @@
     },
     {
       "key": "marketing/signin",
-      "value": "Sie haben schon eine Zugang? {link}"
+      "value": "Sie haben schon einen Zugang? {link}"
     },
     {
       "key": "marketing/signin/link",

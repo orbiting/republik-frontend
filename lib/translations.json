@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-11T10:18:06.082Z",
+  "updated": "2019-10-13T15:00:18.646Z",
   "title": "live",
   "data": [
     {
@@ -2480,11 +2480,11 @@
     },
     {
       "key": "package/customize/ABO_GIVE_MONTHS/years/1",
-      "value": "Verschenken Sie ein Jahr statt Monate"
+      "value": "Verschenken Sie eine Jahresmitgliedschaft statt Monate"
     },
     {
       "key": "package/customize/ABO_GIVE_MONTHS/years/other",
-      "value": "Verschenken Sie Jahre statt Monate"
+      "value": "Verschenken Sie eine Mitgliedschaft statt Monate"
     },
     {
       "key": "option/ABO_GIVE_MONTHS/periods/notice/reachedMax",
@@ -5473,6 +5473,78 @@
     {
       "key": "components/Card/no",
       "value": "nein"
+    },
+    {
+      "key": "components/Card/financing/title",
+      "value": "Wahlkampffinanzierung"
+    },
+    {
+      "key": "components/Card/financing/source",
+      "value": "Quelle: Selbstdeklaration gegenüber der Republik; voraussichtliche Werte"
+    },
+    {
+      "key": "components/Card/financing/1/title",
+      "value": "Verfügbare Mittel:"
+    },
+    {
+      "key": "components/Card/financing/2/title",
+      "value": "Ausgaben:"
+    },
+    {
+      "key": "components/Card/financing/3/title",
+      "value": "Anmerkungen:"
+    },
+    {
+      "key": "components/Card/financing/1a",
+      "value": "Eigenmittel"
+    },
+    {
+      "key": "components/Card/financing/1b",
+      "value": "Privatpersonen"
+    },
+    {
+      "key": "components/Card/financing/1b/other",
+      "value": "{count} Privatpersonen"
+    },
+    {
+      "key": "components/Card/financing/1b/1",
+      "value": "Eine Privatperson"
+    },
+    {
+      "key": "components/Card/financing/1bI/label",
+      "value": "Anzahl Privatpersonen: "
+    },
+    {
+      "key": "components/Card/financing/1c",
+      "value": "Institutionelle Spender"
+    },
+    {
+      "key": "components/Card/financing/1cI/label",
+      "value": "Institutionelle Spender:"
+    },
+    {
+      "key": "components/Card/financing/1cII",
+      "value": "Indirekt"
+    },
+    {
+      "key": "components/Card/financing/1d",
+      "value": "Partei"
+    },
+    {
+      "key": "components/Card/financing/2a",
+      "value": "Plakate, Inserate und Flyer"
+    },
+    {
+      "key": "components/Card/financing/2b",
+      "value": "Google-Ads und Werbebanner"
+    },
+    {
+      "key": "components/Card/financing/2c",
+      "value": "Social Media"
+    },
+    {
+      "key": "components/Card/financing/2d",
+      "value": "Beitrag an Partei"
     },
     {
       "key": "components/Card/personalBudget",

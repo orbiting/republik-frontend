@@ -168,7 +168,7 @@ const FinanceFinancingAnswers = ({ payload, payload: { financing }, t, width }) 
 export const Finance = withT(({ payload, t, width }) => (
   <>
     {payload.financing && <FinanceFinancingAnswers payload={payload} width={width} t={t} />}
-    {(!payload.financing || !(payload.financing['1'] && +payload.financing['1'].value)) && <Paragraph>
+    {(!payload.financing || !Object.keys(payload.financing).find(key => payload.financing[key] && payload.financing !== '0')) && <Paragraph>
       <strong>
         {t('components/Card/personalBudget')}
       </strong>

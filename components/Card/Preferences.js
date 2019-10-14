@@ -116,6 +116,16 @@ const Filters = ({ t, party, onParty }) => {
         {t('components/Card/Preferences/filter/statement')}
       </Checkbox>
     </span>
+    <span {...styles.smallCheckbox}>
+      <Checkbox
+        checked={!!preferences.financing}
+        onChange={(_, checked) => {
+          setPreferences(p => ({ ...p, financing: checked }))
+        }}
+      >
+        {t('components/Card/Preferences/filter/financing')}
+      </Checkbox>
+    </span>
     <br style={{ clear: 'left' }} />
     <br />
     <Paragraph style={{ marginBottom: 10 }}>

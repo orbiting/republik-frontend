@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-13T15:00:18.646Z",
+  "updated": "2019-10-14T08:42:29.282Z",
   "title": "live",
   "data": [
     {
@@ -5555,6 +5555,10 @@
       "value": "keine Angaben"
     },
     {
+      "key": "components/Card/unidentified",
+      "value": "unbekannt"
+    },
+    {
       "key": "components/Card/Smartspider/title",
       "value": "Wertehaltungen"
     },
@@ -5747,6 +5751,10 @@
       "value": "Statement"
     },
     {
+      "key": "components/Card/Group/preferences/filter/financing",
+      "value": "Finanzantworten"
+    },
+    {
       "key": "components/Card/Group/preferences/partySort",
       "value": "nach {party}-Wertehaltung"
     },
@@ -5769,6 +5777,10 @@
     {
       "key": "components/Card/Preferences/filter/statement",
       "value": "Statement"
+    },
+    {
+      "key": "components/Card/Preferences/filter/financing",
+      "value": "Finanzantworten"
     },
     {
       "key": "components/Card/Preferences/mySmartspider",

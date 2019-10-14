@@ -68,8 +68,7 @@ const FinanceFinancingAnswers = ({ payload, payload: { financing }, t, width }) 
         : t(`components/Card/financing/${key}`),
       color: colorMap[key],
       value: financing[key].value
-    })
-    )
+    }))
   const incomeDetailTotal = sum(incomeDetail, d => +d.value)
   const incomeTotal = financing['1'] && max([+financing['1'].value, incomeDetailTotal])
 
@@ -79,8 +78,7 @@ const FinanceFinancingAnswers = ({ payload, payload: { financing }, t, width }) 
       label: t(`components/Card/financing/${key}`),
       color: colorMap[key],
       value: financing[key].value
-    })
-    )
+    }))
   const expenseDetailTotal = sum(expenseDetail, d => +d.value)
   const expenseTotal = financing['2'] && max([+financing['2'].value, expenseDetailTotal])
   const total = max([
@@ -117,7 +115,7 @@ const FinanceFinancingAnswers = ({ payload, payload: { financing }, t, width }) 
         values={incomeDetail.concat([
           incomeTotal > incomeDetailTotal &&
           {
-            label: t('components/Card/na'),
+            label: t('components/Card/unidentified'),
             value: String(incomeTotal - incomeDetailTotal)
           }
         ].filter(Boolean))} />}
@@ -152,7 +150,7 @@ const FinanceFinancingAnswers = ({ payload, payload: { financing }, t, width }) 
         values={expenseDetail.concat([
           expenseTotal > expenseDetailTotal &&
           {
-            label: t('components/Card/na'),
+            label: t('components/Card/unidentified'),
             value: String(expenseTotal - expenseDetailTotal)
           }
         ].filter(Boolean))} />}

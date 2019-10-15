@@ -236,8 +236,7 @@ ActionBar.defaultProps = {
   tweet: '',
   emailBody: '',
   emailAttachUrl: true,
-  showShare: true,
-  fontSize: true
+  showShare: true
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-14T08:42:29.282Z",
+  "updated": "2019-10-15T12:31:28.558Z",
   "title": "live",
   "data": [
     {
@@ -3277,6 +3277,10 @@
     {
       "key": "article/actionbar/fontSize/title",
       "value": "Schriftgrösse anpassen"
+    },
+    {
+      "key": "article/actionbar/fontSize/example",
+      "value": "Beispiel"
     },
     {
       "key": "article/series/episode",

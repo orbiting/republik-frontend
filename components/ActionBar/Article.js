@@ -48,7 +48,8 @@ class ArticleActionBar extends Component {
       url,
       inNativeApp,
       inIOS,
-      grandSharing
+      grandSharing,
+      fontSize
     } = this.props
     const { userBookmark } = this.context
     const {
@@ -78,6 +79,7 @@ class ArticleActionBar extends Component {
           onGalleryClick={onGalleryClick}
           showBookmark={alive && showBookmark}
           showShare={!grandSharing}
+          fontSize={fontSize}
           documentId={documentId}
           bookmarked={alive ? !!userBookmark : undefined}
           estimatedReadingMinutes={estimatedReadingMinutes}
@@ -119,7 +121,8 @@ ArticleActionBar.defaultProps = {
   tweet: '',
   emailSubject: '',
   emailBody: '',
-  emailAttachUrl: true
+  emailAttachUrl: true,
+  fontSize: true
 }
 
 export default ArticleActionBar

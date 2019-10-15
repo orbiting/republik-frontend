@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from 'react'
 import { FONT_SIZE_KEY, useFontSize } from '../../lib/fontSize'
 import { DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import NextHead from 'next/head'
+import { useDebounce } from '../../lib/hooks/useDebounce'
 
 const FontSizeSync = () => {
   const [fontSize] = useFontSize(DEFAULT_FONT_SIZE)
+  const [slowFontSize] = useDebounce(fontSize, 500)
   const lastStyleTag = useRef()
 
   const setRootFontSize = () => {
@@ -25,7 +27,7 @@ const FontSizeSync = () => {
     () => {
       setRootFontSize()
     },
-    [fontSize]
+    [slowFontSize]
   )
   useEffect(
     () => {

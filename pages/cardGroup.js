@@ -193,7 +193,8 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
           mustHave: [
             slowPreferences.portrait && 'portrait',
             slowPreferences.smartspider && 'smartspider',
-            slowPreferences.statement && 'statement'
+            slowPreferences.statement && 'statement',
+            slowPreferences.financing && 'financing'
           ].filter(Boolean),
           smartspider: medianSmartspider
             ? medianSmartspider.smartspider

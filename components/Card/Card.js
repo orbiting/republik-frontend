@@ -59,7 +59,7 @@ export const styles = {
   icons: css({
     zIndex: 1,
     position: 'absolute',
-    top: -12,
+    top: -16,
     right: PADDING
   }),
   portrait: css({
@@ -131,7 +131,7 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         reference={mySmartspider} />
     </div>,
     <div {...styles.centerContent} style={{ width: innerWidth }}>
-      <Finance payload={payload} />
+      <Finance payload={payload} width={innerWidth} />
     </div>
   ].filter(Boolean).slice(0, firstSlideOnly ? 1 : undefined)
   const totalSlides = slides.length

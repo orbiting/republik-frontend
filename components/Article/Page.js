@@ -501,7 +501,10 @@ class ArticlePage extends Component {
       })
       : undefined
     const actionBarEnd = actionBar
-      ? React.cloneElement(actionBarNav, {
+      ? React.cloneElement(actionBar, {
+        animate: false,
+        estimatedReadingMinutes: undefined,
+        estimatedConsumptionMinutes: undefined,
         grandSharing: !inNativeApp
       })
       : undefined

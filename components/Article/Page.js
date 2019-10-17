@@ -495,7 +495,9 @@ class ArticlePage extends Component {
       ? React.cloneElement(actionBar, {
         animate: false,
         estimatedReadingMinutes: undefined,
-        estimatedConsumptionMinutes: undefined
+        estimatedConsumptionMinutes: undefined,
+        onPdfClick: undefined,
+        pdfUrl: undefined
       })
       : undefined
     const actionBarEnd = actionBar

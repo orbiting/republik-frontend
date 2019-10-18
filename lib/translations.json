@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-18T13:44:19.445Z",
+  "updated": "2019-10-18T14:55:40.708Z",
   "title": "live",
   "data": [
     {
@@ -5735,6 +5735,10 @@
       "value": "Präferenz festlegen"
     },
     {
+      "key": "components/Card/Group/preferences/elected",
+      "value": "gewählt"
+    },
+    {
       "key": "components/Card/Group/preferences/filter",
       "value": "mit {filters}"
     },
@@ -5764,23 +5768,23 @@
     },
     {
       "key": "components/Card/Preferences/filter",
-      "value": "Nur Profile mit:"
+      "value": "Nur:"
     },
     {
       "key": "components/Card/Preferences/filter/portrait",
-      "value": "Porträtbild"
+      "value": "mit Porträtbild"
     },
     {
       "key": "components/Card/Preferences/filter/smartspider",
-      "value": "Smartspider"
+      "value": "mit Smartspider"
     },
     {
       "key": "components/Card/Preferences/filter/statement",
-      "value": "Statement"
+      "value": "mit Statement"
     },
     {
       "key": "components/Card/Preferences/filter/financing",
-      "value": "Finanzantworten"
+      "value": "mit Finanzantworten"
     },
     {
       "key": "components/Card/Preferences/mySmartspider",
@@ -6213,6 +6217,10 @@
     {
       "key": "components/Card/votes/1",
       "value": "Eine Stimme"
+    },
+    {
+      "key": "components/Card/Preferences/filter/elected",
+      "value": "gewählt"
     }
   ]
 }

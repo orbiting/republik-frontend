@@ -762,8 +762,9 @@ const Group = ({
               verticalAlign: 'top',
               marginRight: 5
             }} />
-            {(variables.mustHave && variables.mustHave.length) || variables.smartspider
+            {(variables.mustHave && variables.mustHave.length) || variables.smartspider || variables.elected
               ? `${totalCount} ${[
+                variables.elected && t('components/Card/Group/preferences/elected'),
                 variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
                   filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
                 }),
@@ -791,6 +792,7 @@ const Group = ({
         {showOverlay === 'preferences' &&
           <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
             <Preferences
+              forcedVariables={group.forcedVariables}
               party={medianSmartspiderQuery && medianSmartspiderQuery.party}
               onParty={party => {
                 Router.replaceRoute('cardGroup', {

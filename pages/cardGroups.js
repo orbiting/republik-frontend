@@ -148,6 +148,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
         const partyQuery = router.query.party && {
           party: router.query.party
         }
+        const AllFlag = Cantons.bundesversammlung || null
 
         return <>
           {data.nElected.totalCount === 200 && <Interaction.P style={{ margin: '20px auto', textAlign: 'center' }}>
@@ -158,17 +159,16 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
             <div {...styles.canton} style={{
               fontSize: 18,
               lineHeight: 1.25,
-              height: 'auto'
+              height: 'auto',
+              // backgroundColor: '#fff',
+              padding: 10,
+              paddingLeft: 10 + SIZE + 10,
+              width: 10 + WIDTH + 10,
+              margin: 0
             }}>
-              <Link route='cardGroup' params={{ group: 'gewaehlte', ...partyQuery }} passHref>
+              <Link route='cardGroup' params={{ group: 'bundesversammlung', ...partyQuery }} passHref>
                 <a {...styles.cardsLink}>
-                  <span {...styles.flag} style={{
-                    paddingTop: 3,
-                    paddingLeft: 3,
-                    fontSize: SIZE - 4
-                  }}>
-                    {'💐'}
-                  </span>
+                  <AllFlag size={SIZE} style={{ top: 10 + 3, left: 10 }} {...styles.flag} />
                   <strong>{t('pages/cardGroups/elected/title')}</strong><br />
                   {t('pages/cardGroups/elected/nationalCouncil')} <strong>{data.nElected.totalCount}</strong> <MdCheck {...mdCheckProps} /><br />
                   {t('pages/cardGroups/elected/councilOfStates')} <strong>{data.sElected.totalCount}</strong> <MdCheck {...mdCheckProps} />

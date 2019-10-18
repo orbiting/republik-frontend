@@ -244,6 +244,7 @@ const Query = compose(
       data: {
         ...data,
         cardGroup: {
+          special: true,
           ...specialGroups[slug],
           cards: data.cards,
           all: data.all

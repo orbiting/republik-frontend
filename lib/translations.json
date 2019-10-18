@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-18T14:55:40.708Z",
+  "updated": "2019-10-18T16:07:00.369Z",
   "title": "live",
   "data": [
     {
@@ -6221,6 +6221,10 @@
     {
       "key": "components/Card/Preferences/filter/elected",
       "value": "gewählt"
+    },
+    {
+      "key": "components/Card/Group/switch/special",
+      "value": "Kanton wählen"
     }
   ]
 }

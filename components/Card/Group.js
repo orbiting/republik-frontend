@@ -125,7 +125,11 @@ const styles = {
     position: 'absolute',
     left: 8,
     top: 5,
-    maxWidth: '35%'
+    maxWidth: '35%',
+    fontSize: 14,
+    [mediaQueries.mUp]: {
+      fontSize: 16
+    }
   }),
   bottom: css({
     position: 'absolute',
@@ -147,6 +151,10 @@ const styles = {
       height: 40,
       marginLeft: 10,
       marginBottom: 10
+    },
+    fontSize: 14,
+    [mediaQueries.mUp]: {
+      fontSize: 16
     }
   }),
   trial: css({
@@ -629,7 +637,7 @@ const Group = ({
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
         <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
-          <Editorial.A>{t('components/Card/Group/switch')}</Editorial.A>
+          <Editorial.A>{t(`components/Card/Group/switch${group.special ? '/special' : ''}`)}</Editorial.A>
         </Link>
       </div>
       <div {...styles.canton}>

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-16T10:23:05.483Z",
+  "updated": "2019-10-18T13:44:19.445Z",
   "title": "live",
   "data": [
     {
@@ -5287,10 +5287,6 @@
       "value": "Mehr über das Projekt erfahren."
     },
     {
-      "key": "pages/cardGroups/choose",
-      "value": "Wählen Sie Ihren Kanton:"
-    },
-    {
       "key": "pages/cardGroups/comingsoon",
       "value": "In wenigen Tagen hier verfügbar."
     },
@@ -5460,7 +5456,7 @@
     },
     {
       "key": "components/Card/Footer/sources",
-      "value": "Quelle: Smartvote et al."
+      "value": "Quelle: Smartvote, BFS et al."
     },
     {
       "key": "components/Card/ignore",
@@ -5855,30 +5851,6 @@
       "value": "Die Position der Partei entspricht dem nationalen Mittelwert ihrer Kandidierenden. Drücken Sie auf eine Grafik um Profile mit ähnlichen Werten zuerst zu sehen."
     },
     {
-      "key": "components/Card/elected",
-      "value": "bereits gewählt"
-    },
-    {
-      "key": "components/Card/elected/sr",
-      "value": "in den Ständerat gewählt"
-    },
-    {
-      "key": "components/Card/elected/nr",
-      "value": "in den Nationalrat gewählt"
-    },
-    {
-      "key": "components/Card/reelected",
-      "value": "bereits wiedergewählt"
-    },
-    {
-      "key": "components/Card/reelected/sr",
-      "value": "in den Ständerat wiedergewählt"
-    },
-    {
-      "key": "components/Card/reelected/nr",
-      "value": "in den Nationalrat wiedergewählt"
-    },
-    {
       "key": "components/Card/Form/Financing/headline",
       "value": "Umfrage zur Wahlkampffinanzierung"
     },
@@ -6141,6 +6113,106 @@
     {
       "key": "components/Card/Form/Financing/question/3/label/it_CH",
       "value": "Annotazioni"
+    },
+    {
+      "key": "pages/cardGroups/lead/pending",
+      "value": "Bald finden Sie hier alle Gewählten. Diese Ansicht wird fortlaufend mit Daten des Bundesamts für Statistik aktualisiert."
+    },
+    {
+      "key": "pages/cardGroups/lead/complete",
+      "value": "Der grosse Wahltag ist vorbei. Alle Nationalratssitze und die Mehrheit des Ständerats wurden besetzt. Wischen Sie sich durch das neue Parlament und folgen Sie einigen Ihrer neuen Freunden und Feinden."
+    },
+    {
+      "key": "pages/cardGroups/choose",
+      "value": "Nach Kanton:"
+    },
+    {
+      "key": "pages/cardGroups/elected",
+      "value": "Alle Gewählten:"
+    },
+    {
+      "key": "pages/cardGroups/elected/title",
+      "value": "Neue Bundesversammlung"
+    },
+    {
+      "key": "pages/cardGroups/elected/nationalCouncil",
+      "value": "Nationalrat: "
+    },
+    {
+      "key": "pages/cardGroups/elected/councilOfStates",
+      "value": "Ständerat: "
+    },
+    {
+      "key": "pages/cardGroups/elected/open",
+      "value": "{nationalCouncil} {councilOfStates} sind noch offen."
+    },
+    {
+      "key": "pages/cardGroups/elected/open/nationalCouncil/0",
+      "value": " "
+    },
+    {
+      "key": "pages/cardGroups/elected/open/nationalCouncil/other",
+      "value": "{count} Nationalratssitze und"
+    },
+    {
+      "key": "pages/cardGroups/elected/open/nationalCouncil/1",
+      "value": "Ein Nationalratssitz und"
+    },
+    {
+      "key": "pages/cardGroups/elected/open/councilOfStates/other",
+      "value": "{count} Ständeratssitze"
+    },
+    {
+      "key": "pages/cardGroups/elected/open/councilOfStates/1",
+      "value": "Ein Ständeratssitz"
+    },
+    {
+      "key": "pages/cardGroups/openSuffix",
+      "value": "offen"
+    },
+    {
+      "key": "components/Card/elected",
+      "value": "gewählt"
+    },
+    {
+      "key": "components/Card/elected/silent",
+      "value": "in stiller Wahl gewählt"
+    },
+    {
+      "key": "components/Card/elected/sr/appenzell-innerrhoden",
+      "value": "an der Landsgemeinde gewählt"
+    },
+    {
+      "key": "components/Card/reelected/sr/appenzell-innerrhoden",
+      "value": "an der Landsgemeinde wiedergewählt"
+    },
+    {
+      "key": "components/Card/elected/sr",
+      "value": "in den Ständerat gewählt"
+    },
+    {
+      "key": "components/Card/elected/nr",
+      "value": "in den Nationalrat gewählt"
+    },
+    {
+      "key": "components/Card/reelected",
+      "value": "wiedergewählt"
+    },
+    {
+      "key": "components/Card/reelected/sr",
+      "value": "in den Ständerat wiedergewählt"
+    },
+    {
+      "key": "components/Card/reelected/nr",
+      "value": "in den Nationalrat wiedergewählt"
+    },
+    {
+      "key": "components/Card/votes/other",
+      "value": "{count} Stimmen"
+    },
+    {
+      "key": "components/Card/votes/1",
+      "value": "Eine Stimme"
     }
   ]
 }

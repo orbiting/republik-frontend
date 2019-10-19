@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-19T13:53:09.281Z",
+  "updated": "2019-10-19T16:07:13.182Z",
   "title": "live",
   "data": [
     {
@@ -6183,11 +6183,15 @@
       "value": "in stiller Wahl gewählt"
     },
     {
-      "key": "components/Card/elected/sr/appenzell-innerrhoden",
+      "key": "components/Card/reelected/silent",
+      "value": "in stiller Wahl wiedergewählt"
+    },
+    {
+      "key": "components/Card/elected/appenzell-innerrhoden",
       "value": "an der Landsgemeinde gewählt"
     },
     {
-      "key": "components/Card/reelected/sr/appenzell-innerrhoden",
+      "key": "components/Card/reelected/appenzell-innerrhoden",
       "value": "an der Landsgemeinde wiedergewählt"
     },
     {

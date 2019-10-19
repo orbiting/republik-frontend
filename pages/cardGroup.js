@@ -90,6 +90,11 @@ query getSpecialCards($after: String, $top: [ID!], $mustHave: [CardFiltersMustHa
     nodes {
       id
       ...Card
+      group {
+        id
+        name
+        slug
+      }
     }
   }
 }

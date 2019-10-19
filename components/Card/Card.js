@@ -90,7 +90,7 @@ export const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, noEmoji }) => {
+const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, noEmoji }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
@@ -210,6 +210,9 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
         </>}
         <br />
         <strong>
+          {!contextGroup || contextGroup.slug !== group.slug
+            ? `${group.name}, `
+            : undefined}
           {payload.party}
           {','}&nbsp;
           {
@@ -217,7 +220,11 @@ const Card = ({ payload, user, statement, group, dragTime, width, inNativeIOSApp
               ? councilOfStates.elected
                 ? nationalCouncil.candidacy
                   ? t(`components/Card/${councilOfStates.incumbent ? 're' : ''}elected/sr`)
-                  : t(`components/Card/${councilOfStates.incumbent ? 're' : ''}elected`)
+                  : t.first([
+                    `components/Card/${councilOfStates.incumbent ? 're' : ''}elected/${group.slug}`,
+                    !councilOfStates.votes && `components/Card/${councilOfStates.incumbent ? 're' : ''}elected/silent`,
+                    `components/Card/${councilOfStates.incumbent ? 're' : ''}elected`
+                  ].filter(Boolean))
                 : councilOfStates.incumbent
                   ? t('components/Card/incumbent')
                   : nationalCouncil.incumbent

@@ -273,7 +273,8 @@ const SpringCard = ({
             onDetail={() => {
               onDetail(card)
             }}
-            group={group} />
+            group={card.group || group}
+            contextGroup={group} />
         }
         <div
           {...styles.swipeIndicator}

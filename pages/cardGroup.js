@@ -144,10 +144,16 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
         )
       }
       const meta = !(query.suffix === 'diskussion' && query.focus) && <Meta data={{
-        title: t('pages/cardGroup/title', {
+        title: t.first([
+          `pages/cardGroup/title/${data.cardGroup.slug}`,
+          'pages/cardGroup/title'
+        ], {
           name: data.cardGroup.name
         }),
-        description: t('pages/cardGroup/description', {
+        description: t.first([
+          `pages/cardGroup/description/${data.cardGroup.slug}`,
+          'pages/cardGroup/description'
+        ], {
           name: data.cardGroup.name,
           count: data.cardGroup.cards.totalCount
         }),

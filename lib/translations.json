@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-18T16:07:00.369Z",
+  "updated": "2019-10-19T13:53:09.281Z",
   "title": "live",
   "data": [
     {
@@ -6225,6 +6225,14 @@
     {
       "key": "components/Card/Group/switch/special",
       "value": "Kanton wählen"
+    },
+    {
+      "key": "pages/cardGroup/title/bundesversammlung",
+      "value": "🔥 Die neue Bundesversammlung im Wahltindär"
+    },
+    {
+      "key": "pages/cardGroup/description/bundesversammlung",
+      "value": "Wischen Sie sich durch die neue Bundesversammlung und folgen Sie einigen Ihrer neuen Freunden und Feinden."
     }
   ]
 }

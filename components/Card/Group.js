@@ -201,7 +201,7 @@ const SpringCard = ({
   isTop, isHot,
   dragTime,
   swiped, windowWidth,
-  dragDir,
+  indicateDir,
   onDetail, group,
   mySmartspider,
   medianSmartspiderQuery
@@ -239,7 +239,7 @@ const SpringCard = ({
   }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
-  const dir = dragDir || (swiped && swiped.dir)
+  const dir = indicateDir || (swiped && swiped.dir)
   const Special = specials[card.id]
 
   return (
@@ -335,6 +335,9 @@ const Group = ({
     return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
   }, [allSwipes])
   const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+  const swipedLength = group.special
+    ? allSwipes.filter(s => !s.remote).length
+    : allSwipes.length
 
   useEffect(() => {
     if (!subscribedByMeCards || !me) {
@@ -404,7 +407,13 @@ const Group = ({
   })
 
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipedMap.has(card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => {
+      if (topFromQuery.current === card.id) {
+        return true
+      }
+      const swipe = swipedMap.get(card.id)
+      return !swipe || (group.special && swipe.remote)
+    })
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
@@ -481,8 +490,8 @@ const Group = ({
   let prevCard = allCards[topIndex - 1]
   if (
     prevCard &&
-    allSwipes.length &&
-    allSwipes[allSwipes.length - 1].cardId !== prevCard.id
+    swipedLength &&
+    allSwipes[swipedLength - 1].cardId !== prevCard.id
   ) {
     prevCard = null
   }
@@ -646,7 +655,7 @@ const Group = ({
           groupName: group.name
         })}</strong><br />
         {!!windowWidth && t('components/Card/Group/sequence', {
-          swipes: allSwipes.length,
+          swipes: swipedLength,
           total: allTotalCount
         })}
       </div>
@@ -657,7 +666,7 @@ const Group = ({
             </>
           }
           <br />
-          {allSwipes.length === allTotalCount
+          {swipedLength === allTotalCount
             ? <>
               <br />
               {t('components/Card/Group/end/done', {
@@ -700,7 +709,15 @@ const Group = ({
             return null
           }
           const isTop = topIndex === i
-          const swiped = topFromQuery.current !== card.id && swipedMap.get(card.id)
+
+          const swipe = swipedMap.get(card.id)
+          let swiped = swipe
+          if (
+            topFromQuery.current === card.id ||
+            (group.special && swiped && swiped.remote)
+          ) {
+            swiped = false
+          }
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current
@@ -723,7 +740,7 @@ const Group = ({
               Math.abs(topIndex - i) === 1
             }
             isTop={isTop}
-            dragDir={isTop && dragDir}
+            indicateDir={(isTop && dragDir) || (swipe && swipe.dir)}
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}

@@ -129,7 +129,7 @@ const specialGroups = {
 const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
   const loading = (
     (subscripedByMeData && subscripedByMeData.loading) ||
-    (data.loading && !data.cardGroup)
+    (data.loading && (!data.cardGroup || !data.cardGroup.cards))
   )
   const Wrapper = loading ? Container : Fragment
   const error = data.error || (subscripedByMeData && subscripedByMeData.error)

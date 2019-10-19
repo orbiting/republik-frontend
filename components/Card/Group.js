@@ -312,7 +312,7 @@ const Group = ({
   variables,
   mySmartspider,
   medianSmartspider,
-  subscripedByMeCards
+  subscribedByMeCards
 }) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
@@ -337,7 +337,7 @@ const Group = ({
   const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
 
   useEffect(() => {
-    if (!subscripedByMeCards || !me) {
+    if (!subscribedByMeCards || !me) {
       if (Object.keys(queue.statePerUserId).length) {
         replaceStatePerUserId({})
       }
@@ -346,10 +346,10 @@ const Group = ({
     const rmLocalSwipes = rightSwipes.filter(
       swipe => (
         swipe.remote &&
-        !subscripedByMeCards.find(c => c.id === swipe.cardId)
+        !subscribedByMeCards.find(c => c.id === swipe.cardId)
       )
     )
-    const newRemoteSwipes = subscripedByMeCards
+    const newRemoteSwipes = subscribedByMeCards
       .filter(card => {
         const swipe = swipedMap.get(card.id)
         if (swipe) {
@@ -377,14 +377,14 @@ const Group = ({
         .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
         .concat(newRemoteSwipes)
     )
-    replaceStatePerUserId(subscripedByMeCards.reduce(
+    replaceStatePerUserId(subscribedByMeCards.reduce(
       (state, card) => {
         state[card.user.id] = { id: card.user.subscribedByMe.id }
         return state
       },
       {}
     ))
-  }, [subscripedByMeCards])
+  }, [subscribedByMeCards])
 
   const allCards = [
     ...group.cards.nodes.slice(0, 13),

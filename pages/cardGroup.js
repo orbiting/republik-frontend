@@ -52,7 +52,7 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
 ${cardFragment}
 `
 
-const subscripedByMeQuery = gql`
+const subscribedByMeQuery = gql`
 query getSubscribedCardGroup($slug: String!) {
   cardGroup(slug: $slug) {
     id
@@ -97,7 +97,7 @@ query getSpecialCards($after: String, $top: [ID!], $mustHave: [CardFiltersMustHa
 ${cardFragment}
 `
 
-const subscripedByMeSpecialQuery = gql`
+const subscribedByMeSpecialQuery = gql`
 query getSubscribedSpecialCards($elected: Boolean) {
   cards(first: 5000, filters: {subscribedByMe: true, elected: $elected}) {
     totalCount
@@ -126,13 +126,13 @@ const specialGroups = {
   }
 }
 
-const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
+const Inner = ({ data, subscribedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
   const loading = (
-    (subscripedByMeData && subscripedByMeData.loading) ||
+    (subscribedByMeData && subscribedByMeData.loading) ||
     (data.loading && (!data.cardGroup || !data.cardGroup.cards))
   )
   const Wrapper = loading ? Container : Fragment
-  const error = data.error || (subscripedByMeData && subscripedByMeData.error)
+  const error = data.error || (subscribedByMeData && subscribedByMeData.error)
 
   return <Wrapper>
     <Loader loading={loading} error={error} render={() => {
@@ -167,7 +167,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
           {meta}
           <Group
             group={data.cardGroup}
-            subscripedByMeCards={subscripedByMeData && subscripedByMeData.cards}
+            subscribedByMeCards={subscribedByMeData && subscribedByMeData.cards}
             variables={variables}
             mySmartspider={mySmartspider}
             medianSmartspider={medianSmartspider}
@@ -202,7 +202,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
 
 const Query = compose(
   withT,
-  graphql(subscripedByMeQuery, {
+  graphql(subscribedByMeQuery, {
     skip: props => !props.me || specialGroups[props.variables.slug],
     options: ({ variables: { slug } }) => ({
       fetchPolicy: 'network-only',
@@ -211,7 +211,7 @@ const Query = compose(
       }
     }),
     props: ({ data }) => ({
-      subscripedByMeData: {
+      subscribedByMeData: {
         loading: data.loading,
         error: data.error,
         cards: data.cardGroup && data.cardGroup.cards.nodes
@@ -224,14 +224,14 @@ const Query = compose(
       variables
     })
   }),
-  graphql(subscripedByMeSpecialQuery, {
+  graphql(subscribedByMeSpecialQuery, {
     skip: props => !props.me || !specialGroups[props.variables.slug],
     options: ({ variables: { slug } }) => ({
       fetchPolicy: 'network-only',
       variables: specialGroups[slug].forcedVariables
     }),
     props: ({ data }) => ({
-      subscripedByMeData: {
+      subscribedByMeData: {
         loading: data.loading,
         error: data.error,
         cards: data.cards && data.cards.nodes

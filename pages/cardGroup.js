@@ -23,7 +23,7 @@ import { useCardPreferences } from '../components/Card/Preferences'
 import medianSmartspiders from '../components/Card/medianSmartspiders'
 
 const query = gql`
-query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float]) {
+query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float], $elected: Boolean) {
   cardGroup(slug: $slug) {
     id
     name
@@ -35,7 +35,7 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
     all: cards(first: 0) {
       totalCount
     }
-    cards(first: 50, after: $after, focus: $top, filters: {mustHave: $mustHave}, sort: {smartspider: $smartspider}) {
+    cards(first: 50, after: $after, focus: $top, filters: {mustHave: $mustHave, elected: $elected}, sort: {smartspider: $smartspider}) {
       totalCount
       pageInfo {
         hasNextPage
@@ -52,7 +52,7 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
 ${cardFragment}
 `
 
-const subscripedByMeQuery = gql`
+const subscribedByMeQuery = gql`
 query getSubscribedCardGroup($slug: String!) {
   cardGroup(slug: $slug) {
     id
@@ -76,13 +76,68 @@ query getSubscribedCardGroup($slug: String!) {
 ${cardFragment}
 `
 
-const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
+const specialQuery = gql`
+query getSpecialCards($after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float], $elected: Boolean) {
+  all: cards(first: 0, filters: {elected: $elected}) {
+    totalCount
+  }
+  cards(first: 50, after: $after, focus: $top, filters: {mustHave: $mustHave, elected: $elected}, sort: {smartspider: $smartspider}) {
+    totalCount
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    nodes {
+      id
+      ...Card
+      group {
+        id
+        name
+        slug
+      }
+    }
+  }
+}
+
+${cardFragment}
+`
+
+const subscribedByMeSpecialQuery = gql`
+query getSubscribedSpecialCards($elected: Boolean) {
+  cards(first: 5000, filters: {subscribedByMe: true, elected: $elected}) {
+    totalCount
+    nodes {
+      id
+      ...Card
+      user {
+        id
+        subscribedByMe {
+          id
+          createdAt
+        }
+      }
+    }
+  }
+}
+
+${cardFragment}
+`
+
+const specialGroups = {
+  bundesversammlung: {
+    name: 'Neue Bundesversammlung',
+    slug: 'bundesversammlung',
+    forcedVariables: { elected: true }
+  }
+}
+
+const Inner = ({ data, subscribedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
   const loading = (
-    (subscripedByMeData && subscripedByMeData.loading) ||
-    (data.loading && !data.cardGroup)
+    (subscribedByMeData && subscribedByMeData.loading) ||
+    (data.loading && (!data.cardGroup || !data.cardGroup.cards))
   )
   const Wrapper = loading ? Container : Fragment
-  const error = data.error || (subscripedByMeData && subscripedByMeData.error)
+  const error = data.error || (subscribedByMeData && subscribedByMeData.error)
 
   return <Wrapper>
     <Loader loading={loading} error={error} render={() => {
@@ -94,10 +149,16 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
         )
       }
       const meta = !(query.suffix === 'diskussion' && query.focus) && <Meta data={{
-        title: t('pages/cardGroup/title', {
+        title: t.first([
+          `pages/cardGroup/title/${data.cardGroup.slug}`,
+          'pages/cardGroup/title'
+        ], {
           name: data.cardGroup.name
         }),
-        description: t('pages/cardGroup/description', {
+        description: t.first([
+          `pages/cardGroup/description/${data.cardGroup.slug}`,
+          'pages/cardGroup/description'
+        ], {
           name: data.cardGroup.name,
           count: data.cardGroup.cards.totalCount
         }),
@@ -111,7 +172,7 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
           {meta}
           <Group
             group={data.cardGroup}
-            subscripedByMeCards={subscripedByMeData && subscripedByMeData.cardGroup.cards.nodes}
+            subscribedByMeCards={subscribedByMeData && subscribedByMeData.cards}
             variables={variables}
             mySmartspider={mySmartspider}
             medianSmartspider={medianSmartspider}
@@ -146,8 +207,8 @@ const Inner = ({ data, subscripedByMeData, t, serverContext, variables, mySmarts
 
 const Query = compose(
   withT,
-  graphql(subscripedByMeQuery, {
-    skip: props => !props.me,
+  graphql(subscribedByMeQuery, {
+    skip: props => !props.me || specialGroups[props.variables.slug],
     options: ({ variables: { slug } }) => ({
       fetchPolicy: 'network-only',
       variables: {
@@ -155,12 +216,51 @@ const Query = compose(
       }
     }),
     props: ({ data }) => ({
-      subscripedByMeData: data
+      subscribedByMeData: {
+        loading: data.loading,
+        error: data.error,
+        cards: data.cardGroup && data.cardGroup.cards.nodes
+      }
     })
   }),
   graphql(query, {
+    skip: props => specialGroups[props.variables.slug],
     options: ({ variables }) => ({
       variables
+    })
+  }),
+  graphql(subscribedByMeSpecialQuery, {
+    skip: props => !props.me || !specialGroups[props.variables.slug],
+    options: ({ variables: { slug } }) => ({
+      fetchPolicy: 'network-only',
+      variables: specialGroups[slug].forcedVariables
+    }),
+    props: ({ data }) => ({
+      subscribedByMeData: {
+        loading: data.loading,
+        error: data.error,
+        cards: data.cards && data.cards.nodes
+      }
+    })
+  }),
+  graphql(specialQuery, {
+    skip: props => !specialGroups[props.variables.slug],
+    options: ({ variables: { slug, ...variables } }) => ({
+      variables: {
+        ...variables,
+        ...specialGroups[slug].forcedVariables
+      }
+    }),
+    props: ({ data, ownProps: { variables: { slug } } }) => ({
+      data: {
+        ...data,
+        cardGroup: {
+          special: true,
+          ...specialGroups[slug],
+          cards: data.cards,
+          all: data.all
+        }
+      }
     })
   })
 )(Inner)
@@ -190,6 +290,7 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
         variables={{
           slug: group,
           top: topRef.current ? [topRef.current] : undefined,
+          elected: slowPreferences.elected ? true : undefined,
           mustHave: [
             slowPreferences.portrait && 'portrait',
             slowPreferences.smartspider && 'smartspider',

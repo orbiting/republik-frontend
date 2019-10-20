@@ -25,7 +25,7 @@ export const useCardPreferences = createPersistedState('republik-card-preference
 const styles = {
   smallCheckbox: css({
     display: 'inline-block',
-    minWidth: 140,
+    minWidth: 150,
     marginRight: 5,
     marginBottom: 5
   }),
@@ -61,7 +61,7 @@ const styles = {
 const inactiveValue = -1
 const nullSmartspider = [inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue, inactiveValue]
 
-const Filters = ({ t, party, onParty }) => {
+const Filters = ({ t, party, onParty, forcedVariables = {} }) => {
   const [preferences, setPreferences] = useCardPreferences({})
 
   const setSlider = (newValue, i) => setPreferences(p => {
@@ -116,6 +116,17 @@ const Filters = ({ t, party, onParty }) => {
         {t('components/Card/Preferences/filter/statement')}
       </Checkbox>
     </span>
+    {!forcedVariables.elected &&
+      <span {...styles.smallCheckbox}>
+        <Checkbox
+          checked={!!preferences.elected}
+          onChange={(_, checked) => {
+            setPreferences(p => ({ ...p, elected: checked }))
+          }}
+        >
+          {t('components/Card/Preferences/filter/elected')}
+        </Checkbox>
+      </span>}
     <span {...styles.smallCheckbox}>
       <Checkbox
         checked={!!preferences.financing}

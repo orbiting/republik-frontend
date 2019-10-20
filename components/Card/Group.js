@@ -125,7 +125,11 @@ const styles = {
     position: 'absolute',
     left: 8,
     top: 5,
-    maxWidth: '35%'
+    maxWidth: '35%',
+    fontSize: 14,
+    [mediaQueries.mUp]: {
+      fontSize: 16
+    }
   }),
   bottom: css({
     position: 'absolute',
@@ -147,6 +151,10 @@ const styles = {
       height: 40,
       marginLeft: 10,
       marginBottom: 10
+    },
+    fontSize: 14,
+    [mediaQueries.mUp]: {
+      fontSize: 16
     }
   }),
   trial: css({
@@ -193,7 +201,8 @@ const SpringCard = ({
   isTop, isHot,
   dragTime,
   swiped, windowWidth,
-  dragDir,
+  indicateDir,
+  indicatePastDir,
   onDetail, group,
   mySmartspider,
   medianSmartspiderQuery
@@ -209,6 +218,8 @@ const SpringCard = ({
   const { x, y, rot, scale, opacity } = props
   const wasTop = usePrevious(isTop)
   const wasSwiped = usePrevious(swiped)
+  const [slide, setSlide] = useState(0)
+
   useEffect(() => {
     if (swiped) {
       set({
@@ -231,7 +242,11 @@ const SpringCard = ({
   }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
-  const dir = dragDir || (swiped && swiped.dir)
+  const dir = (
+    indicateDir ||
+    (swiped && swiped.dir) ||
+    (slide === 0 && indicatePastDir && indicatePastDir * 0.8)
+  )
   const Special = specials[card.id]
 
   return (
@@ -265,7 +280,9 @@ const SpringCard = ({
             onDetail={() => {
               onDetail(card)
             }}
-            group={group} />
+            onSlide={setSlide}
+            group={card.group || group}
+            contextGroup={group} />
         }
         <div
           {...styles.swipeIndicator}
@@ -304,7 +321,7 @@ const Group = ({
   variables,
   mySmartspider,
   medianSmartspider,
-  subscripedByMeCards
+  subscribedByMeCards
 }) => {
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
@@ -327,9 +344,12 @@ const Group = ({
     return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
   }, [allSwipes])
   const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+  const swipedLength = group.special
+    ? allSwipes.filter(s => !s.remote).length
+    : allSwipes.length
 
   useEffect(() => {
-    if (!subscripedByMeCards || !me) {
+    if (!subscribedByMeCards || !me) {
       if (Object.keys(queue.statePerUserId).length) {
         replaceStatePerUserId({})
       }
@@ -338,10 +358,10 @@ const Group = ({
     const rmLocalSwipes = rightSwipes.filter(
       swipe => (
         swipe.remote &&
-        !subscripedByMeCards.find(c => c.id === swipe.cardId)
+        !subscribedByMeCards.find(c => c.id === swipe.cardId)
       )
     )
-    const newRemoteSwipes = subscripedByMeCards
+    const newRemoteSwipes = subscribedByMeCards
       .filter(card => {
         const swipe = swipedMap.get(card.id)
         if (swipe) {
@@ -369,14 +389,14 @@ const Group = ({
         .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
         .concat(newRemoteSwipes)
     )
-    replaceStatePerUserId(subscripedByMeCards.reduce(
+    replaceStatePerUserId(subscribedByMeCards.reduce(
       (state, card) => {
         state[card.user.id] = { id: card.user.subscribedByMe.id }
         return state
       },
       {}
     ))
-  }, [subscripedByMeCards])
+  }, [subscribedByMeCards])
 
   const allCards = [
     ...group.cards.nodes.slice(0, 13),
@@ -396,7 +416,13 @@ const Group = ({
   })
 
   const getUnswipedIndex = () => {
-    const firstUnswipedIndex = allCards.findIndex(card => topFromQuery.current === card.id || !swipedMap.has(card.id))
+    const firstUnswipedIndex = allCards.findIndex(card => {
+      if (topFromQuery.current === card.id) {
+        return true
+      }
+      const swipe = swipedMap.get(card.id)
+      return !swipe || (group.special && swipe.remote)
+    })
     return firstUnswipedIndex === -1
       ? allCards.length
       : firstUnswipedIndex
@@ -473,8 +499,8 @@ const Group = ({
   let prevCard = allCards[topIndex - 1]
   if (
     prevCard &&
-    allSwipes.length &&
-    allSwipes[allSwipes.length - 1].cardId !== prevCard.id
+    swipedLength &&
+    allSwipes[swipedLength - 1].cardId !== prevCard.id
   ) {
     prevCard = null
   }
@@ -629,7 +655,7 @@ const Group = ({
         zIndex: ZINDEX_HEADER + allCards.length + 1
       }}>
         <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
-          <Editorial.A>{t('components/Card/Group/switch')}</Editorial.A>
+          <Editorial.A>{t(`components/Card/Group/switch${group.special ? '/special' : ''}`)}</Editorial.A>
         </Link>
       </div>
       <div {...styles.canton}>
@@ -638,7 +664,7 @@ const Group = ({
           groupName: group.name
         })}</strong><br />
         {!!windowWidth && t('components/Card/Group/sequence', {
-          swipes: allSwipes.length,
+          swipes: swipedLength,
           total: allTotalCount
         })}
       </div>
@@ -649,7 +675,7 @@ const Group = ({
             </>
           }
           <br />
-          {allSwipes.length === allTotalCount
+          {swipedLength === allTotalCount
             ? <>
               <br />
               {t('components/Card/Group/end/done', {
@@ -692,7 +718,15 @@ const Group = ({
             return null
           }
           const isTop = topIndex === i
-          const swiped = topFromQuery.current !== card.id && swipedMap.get(card.id)
+
+          const swipe = swipedMap.get(card.id)
+          let swiped = swipe
+          if (
+            topFromQuery.current === card.id ||
+            (group.special && swiped && swiped.remote)
+          ) {
+            swiped = false
+          }
           let fallIn = false
           if (fallInBudget.current > 0 && !swiped) {
             fallIn = fallInBudget.current
@@ -715,7 +749,8 @@ const Group = ({
               Math.abs(topIndex - i) === 1
             }
             isTop={isTop}
-            dragDir={isTop && dragDir}
+            indicateDir={isTop && dragDir}
+            indicatePastDir={swipe && swipe.dir / 2}
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}
@@ -762,8 +797,9 @@ const Group = ({
               verticalAlign: 'top',
               marginRight: 5
             }} />
-            {(variables.mustHave && variables.mustHave.length) || variables.smartspider
+            {(variables.mustHave && variables.mustHave.length) || variables.smartspider || variables.elected
               ? `${totalCount} ${[
+                variables.elected && t('components/Card/Group/preferences/elected'),
                 variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
                   filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
                 }),
@@ -791,6 +827,7 @@ const Group = ({
         {showOverlay === 'preferences' &&
           <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
             <Preferences
+              forcedVariables={group.forcedVariables}
               party={medianSmartspiderQuery && medianSmartspiderQuery.party}
               onParty={party => {
                 Router.replaceRoute('cardGroup', {

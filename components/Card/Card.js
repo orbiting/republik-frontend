@@ -280,13 +280,13 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
           backgroundColor: partyColor,
           color: getTextColor(partyColor)
         }} {...styles.bottomTextVotes}>
-          {nationalCouncil.candidacy && t.pluralize('components/Card/votes', {
+          {nationalCouncil.candidacy && !!nationalCouncil.votes && t.pluralize('components/Card/votes', {
             count: nationalCouncil.votes,
             formattedCount: countFormat(nationalCouncil.votes)
           })}
           {dualCandidacy && ' für den NR'}
           {dualCandidacy && <br />}
-          {councilOfStates.candidacy && t.pluralize('components/Card/votes', {
+          {councilOfStates.candidacy && !!councilOfStates.votes && t.pluralize('components/Card/votes', {
             count: councilOfStates.votes,
             formattedCount: countFormat(councilOfStates.votes)
           })}

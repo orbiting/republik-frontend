@@ -90,12 +90,15 @@ export const styles = {
   })
 }
 
-const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, noEmoji }) => {
+const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, onSlide, noEmoji }) => {
   const [slide, setSlide] = useState(0)
 
   const gotoSlide = nextSlide => {
     if (nextSlide !== slide) {
       setSlide(nextSlide)
+      if (onSlide) {
+        onSlide(nextSlide)
+      }
     }
     if (inNativeIOSApp) {
       postMessage({

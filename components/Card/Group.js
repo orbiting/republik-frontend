@@ -202,6 +202,7 @@ const SpringCard = ({
   dragTime,
   swiped, windowWidth,
   indicateDir,
+  indicatePastDir,
   onDetail, group,
   mySmartspider,
   medianSmartspiderQuery
@@ -217,6 +218,8 @@ const SpringCard = ({
   const { x, y, rot, scale, opacity } = props
   const wasTop = usePrevious(isTop)
   const wasSwiped = usePrevious(swiped)
+  const [slide, setSlide] = useState(0)
+
   useEffect(() => {
     if (swiped) {
       set({
@@ -239,7 +242,11 @@ const SpringCard = ({
   }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
-  const dir = indicateDir || (swiped && swiped.dir)
+  const dir = (
+    indicateDir ||
+    (swiped && swiped.dir) ||
+    (slide === 0 && indicatePastDir && indicatePastDir * 0.8)
+  )
   const Special = specials[card.id]
 
   return (
@@ -273,6 +280,7 @@ const SpringCard = ({
             onDetail={() => {
               onDetail(card)
             }}
+            onSlide={setSlide}
             group={card.group || group}
             contextGroup={group} />
         }
@@ -741,7 +749,8 @@ const Group = ({
               Math.abs(topIndex - i) === 1
             }
             isTop={isTop}
-            indicateDir={(isTop && dragDir) || (swipe && swipe.dir)}
+            indicateDir={isTop && dragDir}
+            indicatePastDir={swipe && swipe.dir / 2}
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}

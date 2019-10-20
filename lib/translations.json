@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-20T10:23:13.250Z",
+  "updated": "2019-10-20T11:41:49.533Z",
   "title": "live",
   "data": [
     {
@@ -6237,6 +6237,10 @@
     {
       "key": "pages/cardGroup/description/bundesversammlung",
       "value": "Wischen Sie sich durch die neue Bundesversammlung und folgen Sie einigen Ihrer neuen Freunden und Feinden."
+    },
+    {
+      "key": "components/Card/Group/end/done/bundesversammlung",
+      "value": "Sie haben die (aktuell gewählte) Neue Bundesversammlung durchgeswipt."
     }
   ]
 }

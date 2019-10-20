@@ -678,9 +678,10 @@ const Group = ({
           {swipedLength === allTotalCount
             ? <>
               <br />
-              {t('components/Card/Group/end/done', {
-                groupName: group.name
-              })}
+              {t.first([
+                `components/Card/Group/end/done/${group.slug}`,
+                'components/Card/Group/end/done'
+              ], { groupName: group.name })}
               <br /><br />
               <Link route='cardGroup' params={{
                 group: group.slug,

@@ -131,7 +131,7 @@ const specialGroups = {
   }
 }
 
-const Inner = ({ data, subscribedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
+const Inner = ({ data, fetchMore, subscribedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
   const loading = (
     (subscribedByMeData && subscribedByMeData.loading) ||
     (data.loading && (!data.cardGroup || !data.cardGroup.cards))
@@ -176,29 +176,7 @@ const Inner = ({ data, subscribedByMeData, t, serverContext, variables, mySmarts
             variables={variables}
             mySmartspider={mySmartspider}
             medianSmartspider={medianSmartspider}
-            fetchMore={({ endCursor }) => data.fetchMore({
-              variables: {
-                after: endCursor
-              },
-              updateQuery: (previousResult, { fetchMoreResult }) => {
-                return {
-                  ...previousResult,
-                  ...fetchMoreResult,
-                  cardGroup: {
-                    ...previousResult.cardGroup,
-                    ...fetchMoreResult.cardGroup,
-                    cards: {
-                      ...previousResult.cardGroup.cards,
-                      ...fetchMoreResult.cardGroup.cards,
-                      nodes: [
-                        ...previousResult.cardGroup.cards.nodes,
-                        ...fetchMoreResult.cardGroup.cards.nodes
-                      ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
-                    }
-                  }
-                }
-              }
-            })} />
+            fetchMore={fetchMore} />
         </>
       )
     }} />
@@ -227,6 +205,32 @@ const Query = compose(
     skip: props => specialGroups[props.variables.slug],
     options: ({ variables }) => ({
       variables
+    }),
+    props: ({ data }) => ({
+      data,
+      fetchMore: ({ endCursor }) => data.fetchMore({
+        variables: {
+          after: endCursor
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          return {
+            ...previousResult,
+            ...fetchMoreResult,
+            cardGroup: {
+              ...previousResult.cardGroup,
+              ...fetchMoreResult.cardGroup,
+              cards: {
+                ...previousResult.cardGroup.cards,
+                ...fetchMoreResult.cardGroup.cards,
+                nodes: [
+                  ...previousResult.cardGroup.cards.nodes,
+                  ...fetchMoreResult.cardGroup.cards.nodes
+                ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+              }
+            }
+          }
+        }
+      })
     })
   }),
   graphql(subscribedByMeSpecialQuery, {
@@ -260,7 +264,26 @@ const Query = compose(
           cards: data.cards,
           all: data.all
         }
-      }
+      },
+      fetchMore: ({ endCursor }) => data.fetchMore({
+        variables: {
+          after: endCursor
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          return {
+            ...previousResult,
+            ...fetchMoreResult,
+            cards: {
+              ...previousResult.cards,
+              ...fetchMoreResult.cards,
+              nodes: [
+                ...previousResult.cards.nodes,
+                ...fetchMoreResult.cards.nodes
+              ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+            }
+          }
+        }
+      })
     })
   })
 )(Inner)

@@ -297,7 +297,7 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
               formattedCount: countFormat(councilOfStates.votes)
             })}
             {councilOfStates.elected && <MdCheck {...mdCheckProps} />}
-            {!!councilOfStates.secondBallotNecessary && ', noch offen'}
+            {!!councilOfStates.secondBallotNecessary && !councilOfStates.elected && ', noch offen'}
             {dualCandidacy && <br />}
           </>}
           {!!nationalCouncil.votes && <>

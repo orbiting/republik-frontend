@@ -151,7 +151,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
                   {'SR: '}
                   {card.payload.councilOfStates.elected && <MdCheck {...mdCheckProps} />}
                   {!!card.payload.councilOfStates.votes && countFormat(card.payload.councilOfStates.votes)}
-                  {card.payload.councilOfStates.secondBallotNecessary && <>
+                  {card.payload.councilOfStates.secondBallotNecessary && !card.payload.councilOfStates.elected && <>
                     <br />
                     noch offen
                   </>}

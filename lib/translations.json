@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-20T11:41:49.533Z",
+  "updated": "2019-10-20T12:58:59.391Z",
   "title": "live",
   "data": [
     {
@@ -6240,7 +6240,15 @@
     },
     {
       "key": "components/Card/Group/end/done/bundesversammlung",
-      "value": "Sie haben die (aktuell gewählte) Neue Bundesversammlung durchgeswipt."
+      "value": "Sie haben die (aktuell gewählte) neue Bundesversammlung durchgeswipt."
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/bundesversammlung/0",
+      "value": "Es gibt keine Person, die auf Ihre Präferenzen passt."
+    },
+    {
+      "key": "components/Card/Group/end/doneFilterCount/bundesversammlung/other",
+      "value": "Sie haben alle auf Ihre Präferenzen passenden durchgeswipt."
     }
   ]
 }

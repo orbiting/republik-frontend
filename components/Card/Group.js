@@ -675,7 +675,7 @@ const Group = ({
             </>
           }
           <br />
-          {swipedLength === allTotalCount
+          {swipedLength >= allTotalCount
             ? <>
               <br />
               {t.first([
@@ -694,7 +694,12 @@ const Group = ({
             </>
             : !activeCard && allCards.length >= totalCount && <>
               <br />
-              {t.pluralize('components/Card/Group/end/doneFilterCount', {
+              {t.first([
+                `components/Card/Group/end/doneFilterCount/${group.slug}/${totalCount}`,
+                `components/Card/Group/end/doneFilterCount/${group.slug}/other`,
+                `components/Card/Group/end/doneFilterCount/${totalCount}`,
+                'components/Card/Group/end/doneFilterCount/other'
+              ], {
                 groupName: group.name,
                 count: totalCount
               })}

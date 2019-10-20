@@ -1,21 +1,29 @@
 import React, { Fragment } from 'react'
 import { css, merge } from 'glamor'
 import { nest } from 'd3-collection'
-import { ascending } from 'd3-array'
+import { ascending, descending } from 'd3-array'
 
 import IgnoreIcon from './IgnoreIcon'
 import FollowIcon from 'react-icons/lib/md/notifications-active'
 import RevertIcon from 'react-icons/lib/md/rotate-left'
+
+import MdCheck from 'react-icons/lib/md/check'
 
 import {
   fontStyles, Editorial, plainButtonRule, InlineSpinner, colors
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
+import { countFormat } from '../../lib/utils/format'
 
 import { cardColors } from './constants'
 
 const PADDING = 10
+
+const mdCheckProps = {
+  style: { marginTop: -4, marginRight: 5 },
+  fill: colors.primary
+}
 
 const td = css({
   textAlign: 'left',
@@ -87,11 +95,25 @@ export const TitleRow = ({ children, first }) => (
 export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
   <>
     {nest()
-      .key(({ card: { payload } }) => payload.party)
-      .sortValues((a, b) => ascending(
-        a.card.payload.nationalCouncil.listNumbers[0],
-        b.card.payload.nationalCouncil.listNumbers[0]
-      ))
+      .key(({ card: { payload } }) => payload.nationalCouncil.elected || payload.councilOfStates.elected
+        ? 'Gewählt sind:'
+        : (
+          (payload.nationalCouncil.candidacy && payload.nationalCouncil.votes === null) ||
+          (payload.councilOfStates.candidacy && payload.councilOfStates.votes === null) ||
+          (payload.councilOfStates.candidacy && payload.councilOfStates.secondBallotNecessary)
+        )
+          ? 'Noch offen:'
+          : 'Nicht gewählt sind:')
+      .sortValues((a, b) =>
+        descending(
+          Math.max(a.card.payload.nationalCouncil.votes, a.card.payload.councilOfStates.votes),
+          Math.max(b.card.payload.nationalCouncil.votes, b.card.payload.councilOfStates.votes)
+        ) ||
+        ascending(
+          a.card.payload.nationalCouncil.listNumbers[0],
+          b.card.payload.nationalCouncil.listNumbers[0]
+        )
+      )
       .entries(nodes)
       .map(({ key, values: cards }, listI) => (
         <Fragment key={key}>
@@ -104,11 +126,12 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
             <th {...styles.num} style={{
               paddingTop: 10, paddingBottom: 5
             }}>
-              Nr.
+              Stimmen
             </th>
             <th />
           </tr>
           {cards.map(({ card, sub, pending }, i) => {
+            const dualCandidacy = !!card.payload.councilOfStates.candidacy && !!card.payload.nationalCouncil.candidacy
             return <tr key={`entity${i}`} style={{
               background: i % 2 ? colors.secondaryBg : undefined
             }}>
@@ -116,14 +139,27 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
                 <Link route='profile' params={{ slug: card.user.slug }} passHref>
                   <Editorial.A>
                     {card.user.name}
-                    {card.payload.yearOfBirth && `, ${card.payload.yearOfBirth}`}
+                    {card.payload.party && `, ${card.payload.party}`}
                   </Editorial.A>
                 </Link>
               </td>
-              <td {...styles.num}>{[
-                card.payload.councilOfStates.candidacy && 'SR',
-                card.payload.nationalCouncil.listNumbers[0]
-              ].filter(Boolean).join(' & ')}</td>
+              <td {...styles.num}>
+                {card.payload.councilOfStates.candidacy && card.payload.councilOfStates.votes !== null && <>
+                  {'SR: '}
+                  {card.payload.councilOfStates.elected && <MdCheck {...mdCheckProps} />}
+                  {!!card.payload.councilOfStates.votes && countFormat(card.payload.councilOfStates.votes)}
+                  {card.payload.councilOfStates.secondBallotNecessary && <>
+                    <br />
+                    noch offen
+                  </>}
+                </>}
+                {dualCandidacy && <br />}
+                {card.payload.nationalCouncil.candidacy && card.payload.nationalCouncil.votes !== null && <>
+                  {dualCandidacy ? 'NR: ' : ''}
+                  {card.payload.nationalCouncil.elected && <MdCheck {...mdCheckProps} />}
+                  {!!card.payload.nationalCouncil.votes && countFormat(card.payload.nationalCouncil.votes)}
+                </>}
+              </td>
               <td {...styles.td} style={{
                 whiteSpace: 'nowrap',
                 width: 85,

@@ -347,6 +347,7 @@ const Group = ({
   const swipedLength = group.special
     ? allSwipes.filter(s => !s.remote).length
     : allSwipes.length
+  const allRealCards = allSwipes.filter(swipe => swipe.cardCache)
 
   useEffect(() => {
     if (!subscribedByMeCards || !me) {
@@ -756,7 +757,6 @@ const Group = ({
             }
             isTop={isTop}
             indicateDir={isTop && dragDir}
-            indicatePastDir={swipe && swipe.dir / 2}
             zIndex={ZINDEX_HEADER + allCards.length - i}
             bindGestures={bindGestures}
             onDetail={onDetail}
@@ -851,6 +851,8 @@ const Group = ({
               t={t}
               me={me}
               swipes={allSwipes}
+              cardIds={allRealCards.map(swipe => swipe.cardId)}
+              first={allRealCards.length}
               onReset={onReset}
               revertCard={revertCard}
               followCard={followCard}

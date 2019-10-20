@@ -6,7 +6,7 @@ export const cardFragment = gql`
     user {
       id
       name
-      portrait(properties: {bw: false, width: 600, height: 800})
+      portrait(properties: {bw: false, width: 700, height: 800})
       slug
     }
     payload

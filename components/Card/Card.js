@@ -284,13 +284,13 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
             count: nationalCouncil.votes,
             formattedCount: countFormat(nationalCouncil.votes)
           })}
-          {dualCandidacy && ' für den NR'}
+          {dualCandidacy && !!nationalCouncil.votes && ' für den NR'}
           {dualCandidacy && <br />}
           {councilOfStates.candidacy && !!councilOfStates.votes && t.pluralize('components/Card/votes', {
             count: councilOfStates.votes,
             formattedCount: countFormat(councilOfStates.votes)
           })}
-          {dualCandidacy && ' für den SR'}
+          {dualCandidacy && !!councilOfStates.votes && ' für den SR'}
         </div>}
       </div>
       <div

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-19T16:07:13.182Z",
+  "updated": "2019-10-20T10:23:13.250Z",
   "title": "live",
   "data": [
     {
@@ -6216,7 +6216,7 @@
     },
     {
       "key": "components/Card/votes/other",
-      "value": "{count} Stimmen"
+      "value": "{formattedCount} Stimmen"
     },
     {
       "key": "components/Card/votes/1",

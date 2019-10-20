@@ -7,6 +7,7 @@ import {
 
 import { Link } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
+import { countFormat } from '../../lib/utils/format'
 
 import Spider from './Spider'
 import getPartyColor from './partyColors'
@@ -17,6 +18,8 @@ import { shouldIgnoreClick } from '../Link/utils'
 import sharedStyles from '../sharedStyles'
 
 import { SmallParagraph, Finance } from './Shared'
+
+import { rgb } from 'd3-color'
 
 export const MEDIUM_MIN_WIDTH = 360
 
@@ -56,6 +59,19 @@ export const styles = {
       lineHeight: '20px'
     }
   }),
+  bottomTextVotes: css({
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: PADDING,
+    paddingRight: PADDING,
+    marginLeft: -PADDING,
+    marginRight: -PADDING,
+    marginBottom: -5,
+    marginTop: 5,
+    [`@media (min-width: ${MEDIUM_MIN_WIDTH}px)`]: {
+      marginBottom: -10
+    }
+  }),
   icons: css({
     zIndex: 1,
     position: 'absolute',
@@ -88,6 +104,12 @@ export const styles = {
       }
     }
   })
+}
+
+const getTextColor = bgColor => {
+  const color = rgb(bgColor)
+  const yiq = (color.r * 299 + color.g * 587 + color.b * 114) / 1000
+  return yiq >= 128 ? 'black' : 'white'
 }
 
 const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, inNativeIOSApp, onDetail, t, mySmartspider, medianSmartspiderQuery, firstSlideOnly, onSlide, noEmoji }) => {
@@ -141,13 +163,17 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
 
   const { listPlaces, electionPlausibility } = nationalCouncil
   const plausibilityEmoji = !noEmoji && t(`components/Card/electionPlausibility/${electionPlausibility}/emoji`, undefined, '')
+  const dualCandidacy = !!nationalCouncil.candidacy && !!councilOfStates.candidacy
+  const hasVotes = !!(nationalCouncil.votes || councilOfStates.votes)
 
   return (
     <div
       style={{
         height: '100%',
         backgroundColor: '#f3f3f3',
-        borderBottom: `10px solid ${partyColor}`,
+        borderBottom: hasVotes
+          ? undefined
+          : `10px solid ${partyColor}`,
         position: 'relative',
         overflow: 'hidden'
       }}>
@@ -250,6 +276,22 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
         <span {...styles.occupation}>
           {payload.occupation}
         </span>
+        {hasVotes && <div style={{
+          backgroundColor: partyColor,
+          color: getTextColor(partyColor)
+        }} {...styles.bottomTextVotes}>
+          {nationalCouncil.candidacy && t.pluralize('components/Card/votes', {
+            count: nationalCouncil.votes,
+            formattedCount: countFormat(nationalCouncil.votes)
+          })}
+          {dualCandidacy && ' für den NR'}
+          {dualCandidacy && <br />}
+          {councilOfStates.candidacy && t.pluralize('components/Card/votes', {
+            count: councilOfStates.votes,
+            formattedCount: countFormat(councilOfStates.votes)
+          })}
+          {dualCandidacy && ' für den SR'}
+        </div>}
       </div>
       <div
         style={{

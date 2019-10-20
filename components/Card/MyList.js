@@ -4,14 +4,12 @@ import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 
 import {
-  Editorial
+  Editorial, Loader
 } from '@project-r/styleguide'
 
 import { Table, TitleRow, CardRows } from './Table'
 
 import { swissTime } from '../../lib/utils/format'
-
-import Loader from '../Loader'
 
 import { Paragraph } from './Shared'
 import TrialForm from './TrialForm'

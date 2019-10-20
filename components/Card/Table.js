@@ -97,11 +97,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
     {nest()
       .key(({ card: { payload } }) => payload.nationalCouncil.elected || payload.councilOfStates.elected
         ? 'Gewählt sind:'
-        : (
-          (payload.nationalCouncil.candidacy && payload.nationalCouncil.votes === null) ||
-          (payload.councilOfStates.candidacy && payload.councilOfStates.votes === null) ||
-          (payload.councilOfStates.candidacy && payload.councilOfStates.secondBallotNecessary)
-        )
+        : payload.councilOfStates.candidacy && payload.councilOfStates.secondBallotNecessary
           ? 'Noch offen:'
           : 'Nicht gewählt sind:')
       .sortValues((a, b) =>

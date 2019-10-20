@@ -109,8 +109,8 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
       .sortKeys((a, b) => ascending(keySort.indexOf(a), keySort.indexOf(b)))
       .sortValues((a, b) =>
         descending(
-          Math.max(a.card.payload.nationalCouncil.votes, a.card.payload.councilOfStates.votes),
-          Math.max(b.card.payload.nationalCouncil.votes, b.card.payload.councilOfStates.votes)
+          Math.max(a.card.payload.nationalCouncil.votes || 0, a.card.payload.councilOfStates.votes || 0),
+          Math.max(b.card.payload.nationalCouncil.votes || 0, b.card.payload.councilOfStates.votes || 0)
         ) ||
         ascending(
           a.card.payload.nationalCouncil.listNumbers[0],

@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 
 import {
-  Interaction
+  Interaction, colors
 } from '@project-r/styleguide'
+
+import MdCheck from 'react-icons/lib/md/check'
 
 import { Link } from '../../lib/routes'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
@@ -24,6 +26,11 @@ import { rgb } from 'd3-color'
 export const MEDIUM_MIN_WIDTH = 360
 
 const PADDING = 15
+
+const mdCheckProps = {
+  style: { marginTop: -4, marginLeft: 5 },
+  fill: colors.primary
+}
 
 export const styles = {
   card: css({
@@ -70,7 +77,8 @@ export const styles = {
     marginTop: 5,
     [`@media (min-width: ${MEDIUM_MIN_WIDTH}px)`]: {
       marginBottom: -10
-    }
+    },
+    fontFeatureSettings: '"tnum" 1, "kern" 1'
   }),
   icons: css({
     zIndex: 1,
@@ -254,11 +262,13 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
                     !councilOfStates.votes && `components/Card/${councilOfStates.incumbent ? 're' : ''}elected/silent`,
                     `components/Card/${councilOfStates.incumbent ? 're' : ''}elected`
                   ].filter(Boolean))
-                : councilOfStates.incumbent
-                  ? t('components/Card/incumbent')
-                  : nationalCouncil.incumbent
-                    ? t('components/Card/incumbent/nr')
-                    : t('components/Card/incumbent/new')
+                : nationalCouncil.elected
+                  ? t(`components/Card/${nationalCouncil.incumbent ? 're' : ''}elected/nr`)
+                  : councilOfStates.incumbent
+                    ? t('components/Card/incumbent')
+                    : nationalCouncil.incumbent
+                      ? t('components/Card/incumbent/nr')
+                      : t('components/Card/incumbent/new')
               : nationalCouncil.elected
                 ? councilOfStates.candidacy
                   ? t(`components/Card/${nationalCouncil.incumbent ? 're' : ''}elected/nr`)
@@ -280,17 +290,24 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
           backgroundColor: partyColor,
           color: getTextColor(partyColor)
         }} {...styles.bottomTextVotes}>
-          {nationalCouncil.candidacy && !!nationalCouncil.votes && t.pluralize('components/Card/votes', {
-            count: nationalCouncil.votes,
-            formattedCount: countFormat(nationalCouncil.votes)
-          })}
-          {dualCandidacy && !!nationalCouncil.votes && ' für den NR'}
-          {dualCandidacy && <br />}
-          {councilOfStates.candidacy && !!councilOfStates.votes && t.pluralize('components/Card/votes', {
-            count: councilOfStates.votes,
-            formattedCount: countFormat(councilOfStates.votes)
-          })}
-          {dualCandidacy && !!councilOfStates.votes && ' für den SR'}
+          {councilOfStates.candidacy && !!councilOfStates.votes && <>
+            {dualCandidacy && 'SR: '}
+            {t.pluralize('components/Card/votes', {
+              count: councilOfStates.votes,
+              formattedCount: countFormat(councilOfStates.votes)
+            })}
+            {councilOfStates.elected && <MdCheck {...mdCheckProps} />}
+            {!!councilOfStates.secondBallotNecessary && ', noch offen'}
+            {dualCandidacy && <br />}
+          </>}
+          {!!nationalCouncil.votes && <>
+            {dualCandidacy && 'NR: '}
+            {nationalCouncil.candidacy && t.pluralize('components/Card/votes', {
+              count: nationalCouncil.votes,
+              formattedCount: countFormat(nationalCouncil.votes)
+            })}
+            {nationalCouncil.elected && <MdCheck {...mdCheckProps} />}
+          </>}
         </div>}
       </div>
       <div

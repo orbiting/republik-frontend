@@ -92,6 +92,12 @@ export const TitleRow = ({ children, first }) => (
   </tr>
 )
 
+const keySort = [
+  'Gewählt sind:',
+  'Noch offen:',
+  'Nicht gewählt sind:'
+]
+
 export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
   <>
     {nest()
@@ -100,6 +106,7 @@ export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
         : payload.councilOfStates.candidacy && payload.councilOfStates.secondBallotNecessary
           ? 'Noch offen:'
           : 'Nicht gewählt sind:')
+      .sortKeys((a, b) => ascending(keySort.indexOf(a), keySort.indexOf(b)))
       .sortValues((a, b) =>
         descending(
           Math.max(a.card.payload.nationalCouncil.votes, a.card.payload.councilOfStates.votes),

@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-20T12:58:59.391Z",
+  "updated": "2019-10-20T14:40:45.502Z",
   "title": "live",
   "data": [
     {
@@ -6124,7 +6124,7 @@
     },
     {
       "key": "pages/cardGroups/lead/complete",
-      "value": "Der grosse Wahltag ist vorbei. Alle Nationalratssitze und die Mehrheit des Ständerats wurden besetzt. Wischen Sie sich durch das neue Parlament und folgen Sie einigen Ihrer neuen Freunden und Feinden."
+      "value": "Der grosse Wahltag ist vorbei. Alle Nationalratssitze und die Mehrheit des Ständerats wurden besetzt. Wischen Sie sich durch das neue Parlament und folgen Sie einigen Ihrer neuen Freunde und Feinde."
     },
     {
       "key": "pages/cardGroups/choose",
@@ -6236,7 +6236,7 @@
     },
     {
       "key": "pages/cardGroup/description/bundesversammlung",
-      "value": "Wischen Sie sich durch die neue Bundesversammlung und folgen Sie einigen Ihrer neuen Freunden und Feinden."
+      "value": "Wischen Sie sich durch die neue Bundesversammlung und folgen Sie einigen Ihrer neuen Freunde und Feinde."
     },
     {
       "key": "components/Card/Group/end/done/bundesversammlung",
@@ -6248,7 +6248,7 @@
     },
     {
       "key": "components/Card/Group/end/doneFilterCount/bundesversammlung/other",
-      "value": "Sie haben alle auf Ihre Präferenzen passenden durchgeswipt."
+      "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     }
   ]
 }

@@ -866,7 +866,7 @@ const Group = ({
           <Overlay title={
             (group.discussion && group.discussion.title) ||
             t('components/Card/Group/discussion/title', {
-              groupName: group.name
+              groupName: query.discussion ? '' : group.name
             })
           } onClose={closeOverlay}>
             <Label style={{ display: 'block', marginBottom: 10 }}>
@@ -876,9 +876,9 @@ const Group = ({
                 }}
               />
             </Label>
-            {group.discussion
+            {group.discussion || query.discussion
               ? <Discussion
-                discussionId={group.discussion.id}
+                discussionId={query.discussion || group.discussion.id}
                 focusId={query.focus}
                 mute={!!query.mute} />
               : <Interaction.P>

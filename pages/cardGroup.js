@@ -94,6 +94,9 @@ query getSpecialCards($after: String, $top: [ID!], $mustHave: [CardFiltersMustHa
         id
         name
         slug
+        discussion {
+          id
+        }
       }
     }
   }

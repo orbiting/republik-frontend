@@ -174,6 +174,8 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
   const dualCandidacy = !!nationalCouncil.candidacy && !!councilOfStates.candidacy
   const hasVotes = !!(nationalCouncil.votes || councilOfStates.votes)
 
+  const differentContext = !!(contextGroup && group && contextGroup.slug !== group.slug)
+
   return (
     <div
       style={{
@@ -210,10 +212,13 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
         <div {...styles.icons}>
           {!!statement && <>
             <Link route='cardGroup' params={{
-              group: group.slug,
+              group: differentContext ? contextGroup.slug : group.slug,
               suffix: 'diskussion',
               focus: statement.id,
-              ...medianSmartspiderQuery
+              ...medianSmartspiderQuery,
+              ...differentContext && {
+                discussion: group.discussion.id
+              }
             }} passHref>
               <DiscussionIconLink
                 style={{

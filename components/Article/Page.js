@@ -12,6 +12,7 @@ import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import PayNoteV2 from './PayNoteV2'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
@@ -67,6 +68,7 @@ import * as graphqlTag from 'graphql-tag'
 
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import FontSizeSync from '../FontSize/Sync'
+import withMemberStatus from '../../lib/withMemberStatus'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -361,7 +363,18 @@ class ArticlePage extends Component {
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, inIOS, router, isMember }, state) {
+  deriveStateFromProps ({
+    t,
+    data: { article },
+    inNativeApp,
+    inNativeIOSApp,
+    inIOS,
+    router,
+    isMember,
+    isActiveMember,
+    isTrial,
+    payNoteVariation
+  }, state) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -399,13 +412,23 @@ class ArticlePage extends Component {
       />
     )
 
+    const payNote = <PayNoteV2
+      isActiveMember={isActiveMember}
+      isTrial={isTrial}
+      inNativeIOSApp={inNativeIOSApp}
+      variation={payNoteVariation}
+      position='top' />
+
     const schema = meta && getSchemaCreator(meta.template)({
       t,
       dynamicComponentRequire,
       titleBlockAppend: (
-        <div ref={this.barRef} {...styles.bar}>
-          {actionBar}
-        </div>
+        <>
+          <div ref={this.barRef} {...styles.bar}>
+            {actionBar}
+          </div>
+          { payNote }
+        </>
       ),
       onAudioCoverClick: this.toggleAudio,
       getVideoPlayerProps: inNativeApp && !inNativeIOSApp
@@ -431,6 +454,7 @@ class ArticlePage extends Component {
       schema,
       meta,
       actionBar,
+      payNote,
       showSeriesNav,
       autoPlayAudioSource: id !== state.id
         ? router.query.audio === '1'
@@ -489,7 +513,7 @@ class ArticlePage extends Component {
   render () {
     const { router, t, data, data: { article }, isMember, isEditor, inNativeApp, inIOS } = this.props
 
-    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
+    const { meta, actionBar, payNote, schema, headerAudioPlayer, showSeriesNav } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
@@ -508,6 +532,9 @@ class ArticlePage extends Component {
         grandSharing: !inNativeApp
       })
       : undefined
+
+    const payNoteBottom = payNote && React.cloneElement(payNote, { position: 'bottom' })
+
     const series = meta && meta.series
     const episodes = series && series.episodes
 
@@ -569,11 +596,6 @@ class ArticlePage extends Component {
           }
 
           const isFormat = meta.template === 'format'
-          const isNewsletterSource = router.query.utm_source && router.query.utm_source === 'newsletter'
-          const payNoteVariation = series
-            ? 'series'
-            : this.props.payNoteVariation
-
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
@@ -592,11 +614,6 @@ class ArticlePage extends Component {
                     </Interaction.P>
                   </Center>
                 </div>
-              )}
-              {!isFormat && !isNewsletterSource && (
-                <PayNote.Before
-                  variation={payNoteVariation}
-                  expanded={isAwayFromBottomBar} />
               )}
               {this.state.showPdf &&
               <PdfOverlay
@@ -621,11 +638,7 @@ class ArticlePage extends Component {
                   />
                 </Center>
               )}
-              {!isFormat && (
-                <PayNote.After
-                  variation={payNoteVariation}
-                  bottomBarRef={this.bottomBarRef} />
-              )}
+              {!isFormat && payNoteBottom}
               {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
                   discussionId={ownDiscussion.id}
@@ -679,6 +692,7 @@ ArticlePage.childContextTypes = {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withMemberStatus,
   withEditor,
   withInNativeApp,
   withRouter,

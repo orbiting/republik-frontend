@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-23T14:54:57.305Z",
+  "updated": "2019-10-23T16:19:03.678Z",
   "title": "live",
   "data": [
     {
@@ -2955,8 +2955,12 @@
       "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet. {buyLink}"
     },
     {
-      "key": "article/payNote/before/ios",
-      "value": "Danke für Ihre Neugier! Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
+      "key": "article/payNote/ios/before/title",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "article/payNote/ios/before",
+      "value": "Dieser Artikel wurde grosszügigerweise für Sie von einer unserer {count} Verlegerinnen und Verleger freigeschaltet."
     },
     {
       "key": "article/payNote/before/buyText",
@@ -2967,8 +2971,12 @@
       "value": "Schön, Sie hier unten wieder zu sehen! Es wäre uns eine Freude, wenn Sie bei der Republik Verlegerin oder Verleger würden. Wir versprechen Ihnen dafür Journalismus ohne Kompromisse: ohne Schnörkel, ohne Werbung, ohne Ausreden bei Fehlern. {buyLink}"
     },
     {
-      "key": "article/payNote/after/ios",
-      "value": "Schön, Sie hier unten wieder zu sehen! Wir hoffen, es hat Ihnen gefallen."
+      "key": "article/payNote/ios/after/title",
+      "value": "Schön, Sie hier unten wieder zu sehen!"
+    },
+    {
+      "key": "article/payNote/ios/after",
+      "value": "Wir hoffen, es hat Ihnen gefallen."
     },
     {
       "key": "article/payNote/after/buyText",

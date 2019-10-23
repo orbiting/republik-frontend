@@ -1,13 +1,13 @@
 import React from 'react'
 import {
-  Field,
   BrandMark,
   Interaction,
   Center,
   mediaQueries,
   Button
 } from '@project-r/styleguide'
-import { MdArrowForward } from 'react-icons/lib/md'
+import TrialForm from '../Trial/Form'
+// import { MdArrowForward } from 'react-icons/lib/md'
 import { css, merge } from 'glamor'
 import { randomElement } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
@@ -16,14 +16,13 @@ import { Router } from '../../lib/routes'
 const TRY_TO_BUY_RATIO = 1
 
 const BG_COLORS = [
-  '#ff7669',
   '#cfefd7',
   '#fdb26e',
-  '#8ee6fd',
   '#f9eca1',
   '#6bd076'
 ]
 
+// TODO: add all versions
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
   'tryNote/191023-v2'
@@ -53,17 +52,17 @@ export const getPayNoteVariation = (isMember, isActiveMember, isSeries) => {
   if (isActiveMember) {
     return
   }
-  return isMember || Math.random() > TRY_TO_BUY_RATIO ? getBuyVariation() : getTryVariation()
+  return isMember || Math.random() > TRY_TO_BUY_RATIO ? getBuyVariation(isSeries) : getTryVariation()
 }
 
 export const getPayNoteColor = () => randomElement(BG_COLORS)
 
-// TODO: get count
+// TODO: add members count
 const getPayNoteText = (t, variation, position, element) => {
   return t(`article/${variation}/${position}${element ? '/' + element : ''}`)
 }
 
-const BuyNoteCa = ({ variation, position, t }) => {
+const BuyNoteCta = ({ variation, position, t }) => {
   return (<Button style={{ marginTop: 10 }} black onClick={trackEventOnClick(
     ['PayNote', `pledge ${position}`, variation],
     () => {
@@ -74,30 +73,19 @@ const BuyNoteCa = ({ variation, position, t }) => {
   </Button>)
 }
 
-// TODO: implement form
-const TryNoteCa = () => {
-  return <>
-    <div style={{ maxWidth: 300 }}><Field black label='Email' icon={<MdArrowForward size={30} />} /></div>
-    </>
-}
-
-// TODO: implement
-const IosNote = () => null
-
-const PayNoteCta = ({ variation, position, inNativeIOSApp, t }) => {
-  if (inNativeIOSApp) {
-    return <IosNote />
-  }
+// TODO: configure/style import form
+const PayNoteCta = ({ variation, position, t }) => {
   return isTryNote(variation)
-    ? <TryNoteCa />
-    : <BuyNoteCa variation={variation} position={position} t={t} />
+    ? <TrialForm />
+    : <BuyNoteCta variation={variation} position={position} t={t} />
 }
 
-// TODO: get membership count here
+// TODO: get membership count in article and pass it here
 const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) => {
-  const lead = getPayNoteText(t, variation, position, 'title')
-  const body = getPayNoteText(t, variation, position)
-  const cta = <PayNoteCta variation={variation} inNativeIOSApp={inNativeIOSApp} position={position} t={t} />
+  const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
+  const lead = getPayNoteText(t, variationInclIos, position, 'title')
+  const body = getPayNoteText(t, variationInclIos, position)
+  const cta = inNativeIOSApp ? null : <PayNoteCta variation={variation} position={position} t={t} />
   const styles = {
     banner: css({
       backgroundColor: bgColor,

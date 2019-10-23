@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-23T13:32:53.796Z",
+  "updated": "2019-10-23T14:54:57.305Z",
   "title": "live",
   "data": [
     {
@@ -2987,8 +2987,12 @@
       "value": "Jetzt probelesen"
     },
     {
+      "key": "article/payNote/series/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/series/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/series/before/buy/button",

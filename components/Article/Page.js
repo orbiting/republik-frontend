@@ -11,7 +11,7 @@ import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import { PayNote, getPayNoteVariation } from './PayNoteV2'
+import { PayNote, getPayNoteVariation, getPayNoteColor } from './PayNoteV2'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
@@ -379,8 +379,6 @@ class ArticlePage extends Component {
       ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
 
-    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember)
-
     const hasPdf = meta && meta.template === 'article'
 
     const actionBar = meta && (
@@ -412,11 +410,14 @@ class ArticlePage extends Component {
       />
     )
 
+    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember)
+    const payNoteColor = getPayNoteColor()
     const payNote = <PayNote
       t={t}
       inNativeIOSApp={inNativeIOSApp}
       variation={payNoteVariation}
-      position='before' />
+      position='before'
+      bgColor={payNoteColor} />
 
     const schema = meta && getSchemaCreator(meta.template)({
       t,
@@ -454,6 +455,8 @@ class ArticlePage extends Component {
       meta,
       actionBar,
       payNote,
+      payNoteVariation,
+      payNoteColor,
       showSeriesNav,
       autoPlayAudioSource: id !== state.id
         ? router.query.audio === '1'
@@ -512,7 +515,7 @@ class ArticlePage extends Component {
   render () {
     const { router, t, data, data: { article }, isMember, isEditor, inNativeApp, inIOS } = this.props
 
-    const { meta, actionBar, payNote, schema, headerAudioPlayer, showSeriesNav } = this.state
+    const { meta, actionBar, payNote, payNoteVariation, payNoteColor, schema, headerAudioPlayer, showSeriesNav } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
@@ -621,7 +624,7 @@ class ArticlePage extends Component {
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
                   <SSRCachingBoundary
-                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
+                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}:paynote-${payNoteVariation}-${payNoteColor}`}>
                     {() => renderMdast({
                       ...article.content,
                       format: meta.format

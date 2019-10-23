@@ -14,7 +14,12 @@ import { randomElement } from '../../lib/utils/helpers'
 const TRY_TO_BUY_RATIO = 0.8
 
 const BG_COLORS = [
-  '#ff7669'
+  '#ff7669',
+  '#cfefd7',
+  '#fdb26e',
+  '#8ee6fd',
+  '#f9eca1',
+  '#6bd076'
 ]
 
 const TRY_VARIATIONS = [
@@ -45,6 +50,8 @@ export const getPayNoteVariation = (isMember, isActiveMember) => {
   return isMember || Math.random() > TRY_TO_BUY_RATIO ? getBuyVariation() : getTryVariation()
 }
 
+export const getPayNoteColor = () => randomElement(BG_COLORS)
+
 const getPayNoteText = (t, variation, position, element) => {
   return t(`article/${variation}/${position}${element ? '/' + element : ''}`)
 }
@@ -53,13 +60,13 @@ const PayNoteCta = ({ inNativeIOSApp }) => {
   return <Field black small label='Email' />
 }
 
-const PayNoteBox = ({ lead, body, cta, t }) => {
+const PayNoteBox = ({ lead, body, cta, bgColor }) => {
   const styles = {
     box: css({
-      backgroundColor: BG_COLORS[0],
+      backgroundColor: bgColor,
       padding: '0 10px',
       margin: '40px 0 -40px',
-      borderTop: `2px solid ${colors.text}`,
+      borderTop: `1px solid ${colors.text}`,
       [mediaQueries.mUp]: {
         width: '67%'
       }
@@ -96,10 +103,10 @@ const PayNoteBox = ({ lead, body, cta, t }) => {
   </div>)
 }
 
-const PayNoteBanner = ({ lead, body, cta }) => {
+const PayNoteBanner = ({ lead, body, cta, bgColor }) => {
   const styles = {
     banner: css({
-      backgroundColor: BG_COLORS[0]
+      backgroundColor: bgColor
     }),
     brand: css({
       display: 'none',
@@ -130,13 +137,13 @@ const PayNoteBanner = ({ lead, body, cta }) => {
   </div>)
 }
 
-const PayNoteContainer = ({ inNativeIOSApp, variation, position, t }) => {
+const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) => {
   const lead = getPayNoteText(t, variation, position, 'title')
   const body = getPayNoteText(t, variation, position)
   const cta = <PayNoteCta variation={variation} inNativeIOSApp={inNativeIOSApp} />
   const Component = position === 'after' ? PayNoteBanner : PayNoteBox
 
-  return <Component lead={lead} body={body} cta={cta} t={t} />
+  return <Component lead={lead} body={body} cta={cta} bgColor={bgColor} />
 }
 
 export const PayNote = ({ variation, ...props }) => {

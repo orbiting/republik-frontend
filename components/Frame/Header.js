@@ -271,7 +271,7 @@ class Header extends Component {
     window.removeEventListener('resize', this.measure)
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     const backButton = hasBackButton(nextProps)
     if (this.state.backButton !== backButton) {
       this.setState({

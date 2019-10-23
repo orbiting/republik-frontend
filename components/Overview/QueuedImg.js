@@ -54,7 +54,7 @@ class QueuedImg extends Component {
   componentDidMount () {
     this.loadSrc(this.props.src)
   }
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.src !== this.props.src) {
       this.loadSrc(nextProps.src)
     }

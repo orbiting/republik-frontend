@@ -449,7 +449,7 @@ class ArticlePage extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     const currentArticle = this.props.data.article || {}
     const nextArticle = nextProps.data.article || {}
 

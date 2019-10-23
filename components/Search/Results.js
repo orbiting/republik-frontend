@@ -172,7 +172,7 @@ class Results extends Component {
     this.measure()
   }
 
-  componentWillReceiveProps (props) {
+  UNSAFE_componentWillReceiveProps (props) {
     if (props.data && props.data.search) {
       this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
     }

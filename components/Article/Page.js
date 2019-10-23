@@ -410,7 +410,8 @@ class ArticlePage extends Component {
       />
     )
 
-    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember)
+    const isSeries = meta && !!meta.series
+    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember, isSeries)
     const payNoteColor = getPayNoteColor()
     const payNote = <PayNote
       t={t}
@@ -422,14 +423,10 @@ class ArticlePage extends Component {
     const schema = meta && getSchemaCreator(meta.template)({
       t,
       dynamicComponentRequire,
-      titleBlockAppend: (
-        <>
-          <div ref={this.barRef} {...styles.bar}>
-            {actionBar}
-          </div>
-          { payNote }
-        </>
-      ),
+      titleBlockAppend: (<div ref={this.barRef} {...styles.bar}>
+        {actionBar}
+      </div>),
+      titleBlockAfter: payNote,
       onAudioCoverClick: this.toggleAudio,
       getVideoPlayerProps: inNativeApp && !inNativeIOSApp
         ? props => ({
@@ -446,7 +443,7 @@ class ArticlePage extends Component {
         : undefined
     })
 
-    const showSeriesNav = isMember && meta && !!meta.series
+    const showSeriesNav = isMember && isSeries
     const id = article && article.id
 
     return {

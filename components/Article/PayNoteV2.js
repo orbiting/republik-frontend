@@ -2,16 +2,18 @@ import React from 'react'
 import {
   Field,
   BrandMark,
-  colors,
-  Editorial,
+  Interaction,
   Center,
-  mediaQueries
+  mediaQueries,
+  Button
 } from '@project-r/styleguide'
-// import { MdArrowForward } from 'react-icons/lib/md'
-import { css } from 'glamor'
+import { MdArrowForward } from 'react-icons/lib/md'
+import { css, merge } from 'glamor'
 import { randomElement } from '../../lib/utils/helpers'
+import { trackEventOnClick } from '../../lib/piwik'
+import { Router } from '../../lib/routes'
 
-const TRY_TO_BUY_RATIO = 0.8
+const TRY_TO_BUY_RATIO = 1
 
 const BG_COLORS = [
   '#ff7669',
@@ -39,11 +41,15 @@ const BUY_VARIATIONS = [
   'payNote/190305-v9'
 ]
 
+const BUY_SERIES = 'payNote/series'
+
 const getTryVariation = () => randomElement(TRY_VARIATIONS)
 
-const getBuyVariation = () => randomElement(BUY_VARIATIONS)
+const getBuyVariation = (isSeries) => isSeries ? BUY_SERIES : randomElement(BUY_VARIATIONS)
 
-export const getPayNoteVariation = (isMember, isActiveMember) => {
+const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
+
+export const getPayNoteVariation = (isMember, isActiveMember, isSeries) => {
   if (isActiveMember) {
     return
   }
@@ -52,61 +58,50 @@ export const getPayNoteVariation = (isMember, isActiveMember) => {
 
 export const getPayNoteColor = () => randomElement(BG_COLORS)
 
+// TODO: get count
 const getPayNoteText = (t, variation, position, element) => {
   return t(`article/${variation}/${position}${element ? '/' + element : ''}`)
 }
 
-const PayNoteCta = ({ inNativeIOSApp }) => {
-  return <Field black small label='Email' />
+const BuyNoteCa = ({ variation, position, t }) => {
+  return (<Button style={{ marginTop: 10 }} black onClick={trackEventOnClick(
+    ['PayNote', `pledge ${position}`, variation],
+    () => {
+      Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
+    }
+  )}>
+    {getPayNoteText(t, variation, position, 'buy/button')}
+  </Button>)
 }
 
-const PayNoteBox = ({ lead, body, cta, bgColor }) => {
-  const styles = {
-    box: css({
-      backgroundColor: bgColor,
-      padding: '0 15px 0 10px',
-      margin: '40px 0 -40px',
-      borderTop: `1px solid ${colors.text}`,
-      [mediaQueries.mUp]: {
-        width: '67%'
-      }
-    }),
-    brand: css({
-      width: 40,
-      display: 'inline-block',
-      verticalAlign: 'top',
-      marginTop: 10,
-      background: '#ffffff',
-      padding: 5
-    }),
-    lead: css({
-      display: 'inline-block',
-      width: 'calc(100% - 50px)',
-      margin: '5px 0 10px 10px'
-    }),
-    body: css({
-      margin: 0,
-      paddingBottom: 10
-    }),
-    cta: css({
-      maxWidth: 260
-    })
+// TODO: implement form
+const TryNoteCa = () => {
+  return <>
+    <div style={{ maxWidth: 300 }}><Field black label='Email' icon={<MdArrowForward size={30} />} /></div>
+    </>
+}
+
+// TODO: implement
+const IosNote = () => null
+
+const PayNoteCta = ({ variation, position, inNativeIOSApp, t }) => {
+  if (inNativeIOSApp) {
+    return <IosNote />
   }
-
-  return (<div {...styles.box}>
-    <div {...styles.brand}>
-      <BrandMark />
-    </div>
-    <Editorial.Format {...styles.lead}>{lead}</Editorial.Format>
-    <Editorial.Note {...styles.body} dangerouslySetInnerHTML={{ __html: body }} />
-    <div {...styles.cta}>{cta}</div>
-  </div>)
+  return isTryNote(variation)
+    ? <TryNoteCa />
+    : <BuyNoteCa variation={variation} position={position} t={t} />
 }
 
-const PayNoteBanner = ({ lead, body, cta, bgColor }) => {
+// TODO: get membership count here
+const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) => {
+  const lead = getPayNoteText(t, variation, position, 'title')
+  const body = getPayNoteText(t, variation, position)
+  const cta = <PayNoteCta variation={variation} inNativeIOSApp={inNativeIOSApp} position={position} t={t} />
   const styles = {
     banner: css({
-      backgroundColor: bgColor
+      backgroundColor: bgColor,
+      paddingBottom: 10
     }),
     brand: css({
       display: 'none',
@@ -119,31 +114,35 @@ const PayNoteBanner = ({ lead, body, cta, bgColor }) => {
       }
     }),
     body: css({
-      margin: 0
-    }),
-    cta: css({
-      maxWidth: 260
+      margin: 0,
+      paddingBottom: 0,
+      color: '#000000'
     })
   }
+  const beforeStyles = {
+    banner: css({
+      marginTop: -20,
+      marginBottom: 40
+    }),
+    brand: css({
+      [mediaQueries.mUp]: {
+        display: 'none'
+      }
+    })
+  }
+  const isBefore = position === 'before'
 
-  return (<div {...styles.banner}>
+  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
     <Center>
-      <div {...styles.brand}>
+      <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
         <BrandMark />
       </div>
-      <Editorial.Note {...styles.body}><b>{lead}</b> <span dangerouslySetInnerHTML={{ __html: body }} /></Editorial.Note>
-      <div {...styles.cta}>{cta}</div>
+      <Interaction.P {...styles.body}>
+        <b>{lead}</b> <span dangerouslySetInnerHTML={{ __html: body }} />
+      </Interaction.P>
+      {cta}
     </Center>
   </div>)
-}
-
-const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) => {
-  const lead = getPayNoteText(t, variation, position, 'title')
-  const body = getPayNoteText(t, variation, position)
-  const cta = <PayNoteCta variation={variation} inNativeIOSApp={inNativeIOSApp} />
-  const Component = position === 'after' ? PayNoteBanner : PayNoteBox
-
-  return <Component lead={lead} body={body} cta={cta} bgColor={bgColor} />
 }
 
 export const PayNote = ({ variation, ...props }) => {

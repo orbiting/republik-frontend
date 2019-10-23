@@ -9,23 +9,54 @@ import {
 } from '@project-r/styleguide'
 // import { MdArrowForward } from 'react-icons/lib/md'
 import { css } from 'glamor'
+import { randomElement } from '../../lib/utils/helpers'
 
-const PayNoteLead = ({ isTrial, variation }) => {
-  return 'Suchen Sie klaren und kühnen Journalismus mit Sorgfalt, Tiefe und Witz?'
+const TRY_TO_BUY_RATIO = 0.8
+
+const BG_COLORS = [
+  '#ff7669'
+]
+
+const TRY_VARIATIONS = [
+  'tryNote/191023-v1',
+  'tryNote/191023-v2'
+]
+
+const BUY_VARIATIONS = [
+  'payNote/190305-v1',
+  'payNote/190305-v2',
+  'payNote/190305-v3',
+  'payNote/190305-v4',
+  'payNote/190305-v5',
+  'payNote/190305-v6',
+  'payNote/190305-v7',
+  'payNote/190305-v8',
+  'payNote/190305-v9'
+]
+
+const getTryVariation = () => randomElement(TRY_VARIATIONS)
+
+const getBuyVariation = () => randomElement(BUY_VARIATIONS)
+
+export const getPayNoteVariation = (isMember, isActiveMember) => {
+  if (isActiveMember) {
+    return
+  }
+  return isMember || Math.random() > TRY_TO_BUY_RATIO ? getBuyVariation() : getTryVariation()
 }
 
-const PayNoteBody = ({ isTrial, variation }) => {
-  return 'One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.'
+const getPayNoteText = (t, variation, position, element) => {
+  return t(`article/${variation}/${position}${element ? '/' + element : ''}`)
 }
 
-const PayNoteCta = ({ isTrial, inNativeIOSApp }) => {
+const PayNoteCta = ({ inNativeIOSApp }) => {
   return <Field black small label='Email' />
 }
 
-const PayNoteBox = ({ lead, body, cta }) => {
+const PayNoteBox = ({ lead, body, cta, t }) => {
   const styles = {
     box: css({
-      backgroundColor: '#ff7669',
+      backgroundColor: BG_COLORS[0],
       padding: '0 10px',
       margin: '40px 0 -40px',
       borderTop: `2px solid ${colors.text}`,
@@ -68,7 +99,7 @@ const PayNoteBox = ({ lead, body, cta }) => {
 const PayNoteBanner = ({ lead, body, cta }) => {
   const styles = {
     banner: css({
-      backgroundColor: '#ff7669'
+      backgroundColor: BG_COLORS[0]
     }),
     brand: css({
       display: 'none',
@@ -94,22 +125,20 @@ const PayNoteBanner = ({ lead, body, cta }) => {
         <BrandMark />
       </div>
       <Editorial.Note {...styles.body}><b>{lead}</b> {body}</Editorial.Note>
-      <div {...styles.cta}>
-        {cta}
-      </div>
+      <div {...styles.cta}>{cta}</div>
     </Center>
   </div>)
 }
 
-const PayNote = ({ isTrial, inNativeIOSApp, variation, position }) => {
-  const lead = <PayNoteLead isTrial={isTrial} variation={variation} />
-  const body = <PayNoteBody isTrial={isTrial} variation={variation} />
-  const cta = <PayNoteCta isTrial={isTrial} inNativeIOSApp={inNativeIOSApp} />
-  const Component = position === 'bottom' ? PayNoteBanner : PayNoteBox
+const PayNoteContainer = ({ inNativeIOSApp, variation, position, t }) => {
+  const lead = getPayNoteText(t, variation, position, 'title')
+  const body = getPayNoteText(t, variation, position)
+  const cta = <PayNoteCta variation={variation} inNativeIOSApp={inNativeIOSApp} />
+  const Component = position === 'after' ? PayNoteBanner : PayNoteBox
 
-  return <Component lead={lead} body={body} cta={cta} />
+  return <Component lead={lead} body={body} cta={cta} t={t} />
 }
 
-export default ({ isActiveMember, ...props }) => {
-  return isActiveMember ? null : <PayNote {...props} />
+export const PayNote = ({ variation, ...props }) => {
+  return variation ? <PayNoteContainer variation={variation} {...props} /> : null
 }

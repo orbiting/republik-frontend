@@ -8,11 +8,10 @@ import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
-import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import PayNoteV2 from './PayNoteV2'
+import { PayNote, getPayNoteVariation } from './PayNoteV2'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 
@@ -372,14 +371,15 @@ class ArticlePage extends Component {
     router,
     isMember,
     isActiveMember,
-    isTrial,
-    payNoteVariation
+    isTrial
   }, state) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
       ...runMetaFromQuery(article.content.meta.fromQuery, router.query)
     }
+
+    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember)
 
     const hasPdf = meta && meta.template === 'article'
 
@@ -412,12 +412,11 @@ class ArticlePage extends Component {
       />
     )
 
-    const payNote = <PayNoteV2
-      isActiveMember={isActiveMember}
-      isTrial={isTrial}
+    const payNote = <PayNote
+      t={t}
       inNativeIOSApp={inNativeIOSApp}
       variation={payNoteVariation}
-      position='top' />
+      position='before' />
 
     const schema = meta && getSchemaCreator(meta.template)({
       t,
@@ -533,7 +532,7 @@ class ArticlePage extends Component {
       })
       : undefined
 
-    const payNoteBottom = payNote && React.cloneElement(payNote, { position: 'bottom' })
+    const payNoteBottom = payNote && React.cloneElement(payNote, { position: 'after' })
 
     const series = meta && meta.series
     const episodes = series && series.episodes
@@ -704,11 +703,5 @@ const ComposedPage = compose(
     })
   })
 )(ArticlePage)
-
-ComposedPage.getInitialProps = () => {
-  return {
-    payNoteVariation: PayNote.getRandomVariation()
-  }
-}
 
 export default ComposedPage

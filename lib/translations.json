@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-20T14:40:45.502Z",
+  "updated": "2019-10-23T10:10:54.104Z",
   "title": "live",
   "data": [
     {
@@ -3195,6 +3195,38 @@
       "value": "Später"
     },
     {
+      "key": "article/tryNote/191023-v1/before/title",
+      "value": "Suchen Sie klaren und kühnen Journalismus mit Sorgfalt, Tiefe und Witz?"
+    },
+    {
+      "key": "article/tryNote/191023-v1/before",
+      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Entspricht das Ihrer Idee von gutem Journalismus? Testen Sie die Republik 14 Tage lang gratis - und wenn sie überzeugt sind, kommen sie anschliessend an Bord (Testabo endet automatisch). "
+    },
+    {
+      "key": "article/tryNote/191023-v1/after/title",
+      "value": "Sie wollen mehr mutigen Journalismus mit Sorgfalt, Tiefe und Witz?"
+    },
+    {
+      "key": "article/tryNote/191023-v1/after",
+      "value": "Werden Sie Teil der Republik. Testen Sie uns jetzt 14 Tage lang gratis, ausführlich und unverbindlich. Und wenn sie überzeugt sind, kommen sie anschliessend an Bord. "
+    },
+    {
+      "key": "article/tryNote/191023-v2/before/title",
+      "value": "Suchen auch Sie eine klarere Art von Journalismus?"
+    },
+    {
+      "key": "article/tryNote/191023-v2/before",
+      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Trifft das ihren Anspruch und Geschmack? Testen Sie die Republik 14 Tage lang gratis - und wenn sie überzeugt sind, kommen sie an Bord."
+    },
+    {
+      "key": "article/tryNote/191023-v2/after/title",
+      "value": "Wollen Sie mehr Republik?"
+    },
+    {
+      "key": "article/tryNote/191023-v2/after",
+      "value": "Dann werden Sie doch einfach Teil von uns. Testen Sie die Republik jetzt 14 Tage lang gratis, ausführlich und unverbindlich. Und und wenn sie überzeugt sind, kommen sie anschliessend an Bord."
+    },
+    {
       "key": "article/share/title",
       "value": "Artikel teilen"
     },
@@ -5604,7 +5636,7 @@
     },
     {
       "key": "components/Card/Group/title",
-      "value": "Ihre Wischliste {groupName}"
+      "value": "Ihre Liste: {groupName}"
     },
     {
       "key": "components/Card/MyList/followTitle/other",

@@ -64,7 +64,7 @@ const PayNoteBox = ({ lead, body, cta, bgColor }) => {
   const styles = {
     box: css({
       backgroundColor: bgColor,
-      padding: '0 10px',
+      padding: '0 15px 0 10px',
       margin: '40px 0 -40px',
       borderTop: `1px solid ${colors.text}`,
       [mediaQueries.mUp]: {
@@ -98,7 +98,7 @@ const PayNoteBox = ({ lead, body, cta, bgColor }) => {
       <BrandMark />
     </div>
     <Editorial.Format {...styles.lead}>{lead}</Editorial.Format>
-    <Editorial.Note {...styles.body}>{body}</Editorial.Note>
+    <Editorial.Note {...styles.body} dangerouslySetInnerHTML={{ __html: body }} />
     <div {...styles.cta}>{cta}</div>
   </div>)
 }
@@ -131,7 +131,7 @@ const PayNoteBanner = ({ lead, body, cta, bgColor }) => {
       <div {...styles.brand}>
         <BrandMark />
       </div>
-      <Editorial.Note {...styles.body}><b>{lead}</b> {body}</Editorial.Note>
+      <Editorial.Note {...styles.body}><b>{lead}</b> <span dangerouslySetInnerHTML={{ __html: body }} /></Editorial.Note>
       <div {...styles.cta}>{cta}</div>
     </Center>
   </div>)

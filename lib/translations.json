@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-23T12:21:40.978Z",
+  "updated": "2019-10-23T13:32:53.796Z",
   "title": "live",
   "data": [
     {
@@ -3007,8 +3007,12 @@
       "value": "An Bord kommen!"
     },
     {
+      "key": "article/payNote/190305-v1/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v1/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v1/before/buy/button",
@@ -3016,19 +3020,23 @@
     },
     {
       "key": "article/payNote/190305-v1/after/title",
-      "value": "Wenn Sie schon hier sind …"
+      "value": "Wenn Sie schon hier sind treffen Sie eine Entscheidung:"
     },
     {
       "key": "article/payNote/190305-v1/after",
-      "value": "… treffen Sie eine Entscheidung: Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
     },
     {
       "key": "article/payNote/190305-v1/after/buy/button",
       "value": "Ich bin dabei."
     },
     {
+      "key": "article/payNote/190305-v2/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v2/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v2/before/buy/button",
@@ -3047,8 +3055,12 @@
       "value": "Okay, weniger ist mehr!"
     },
     {
+      "key": "article/payNote/190305-v3/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v3/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser Online-Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v3/before/buy/button",
@@ -3056,19 +3068,23 @@
     },
     {
       "key": "article/payNote/190305-v3/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen …"
+      "value": "Sie haben in diesem Artikel viele Worte gelesen aber die wichtigsten drei fehlten."
     },
     {
       "key": "article/payNote/190305-v3/after",
-      "value": "… aber die wichtigsten drei fehlten. Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/190305-v3/after/buy/button",
       "value": "Ich bin an Bord."
     },
     {
+      "key": "article/payNote/190305-v4/before/title",
+      "value": "Wir sind die Republik."
+    },
+    {
       "key": "article/payNote/190305-v4/before",
-      "value": "Wir sind die Republik. Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/190305-v4/before/buy/button",
@@ -3076,19 +3092,23 @@
     },
     {
       "key": "article/payNote/190305-v4/after/title",
-      "value": "Wenn Sie schon hier sind …"
+      "value": "Wenn Sie schon hier sind treffen Sie eine Entscheidung:"
     },
     {
       "key": "article/payNote/190305-v4/after",
-      "value": "… treffen Sie eine Entscheidung: Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
     },
     {
       "key": "article/payNote/190305-v4/after/buy/button",
       "value": "Ich bin dabei."
     },
     {
+      "key": "article/payNote/190305-v5/before/title",
+      "value": "Wir sind die Republik."
+    },
+    {
       "key": "article/payNote/190305-v5/before",
-      "value": "Wir sind die Republik. Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/190305-v5/before/buy/button",
@@ -3107,8 +3127,12 @@
       "value": "Okay, weniger ist mehr!"
     },
     {
+      "key": "article/payNote/190305-v6/before/title",
+      "value": "Wir sind die Republik."
+    },
+    {
       "key": "article/payNote/190305-v6/before",
-      "value": "Wir sind die Republik. Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, das im Januar 2018 gestartet ist. Es ist ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/190305-v6/before/buy/button",
@@ -3116,19 +3140,23 @@
     },
     {
       "key": "article/payNote/190305-v6/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen …"
+      "value": "Sie haben in diesem Artikel viele Worte gelesen aber die wichtigsten drei fehlten."
     },
     {
       "key": "article/payNote/190305-v6/after",
-      "value": "… aber die wichtigsten drei fehlten. Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/190305-v6/after/buy/button",
       "value": "Ich bin an Bord."
     },
     {
+      "key": "article/payNote/190305-v7/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v7/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v7/before/buy/button",
@@ -3136,19 +3164,23 @@
     },
     {
       "key": "article/payNote/190305-v7/after/title",
-      "value": "Wenn Sie schon hier sind …"
+      "value": "Wenn Sie schon hier sind treffen Sie eine Entscheidung:"
     },
     {
       "key": "article/payNote/190305-v7/after",
-      "value": "… treffen Sie eine Entscheidung: Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
+      "value": "Wollen Sie, dass die noch junge Republik weiterhin unabhängigen Journalismus betreiben kann? Wir sind niemandem verpflichtet ausser unseren Leserinnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Oligarchen noch Werbetreibende haben einen Einfluss auf unsere Berichterstattung. Doch das funktioniert nur, wenn viele uns dabei unterstützen. {count} tun dies bereits."
     },
     {
       "key": "article/payNote/190305-v7/after/buy/button",
       "value": "Ich bin dabei."
     },
     {
+      "key": "article/payNote/190305-v8/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v8/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v8/before/buy/button",
@@ -3167,8 +3199,12 @@
       "value": "Okay, weniger ist mehr!"
     },
     {
+      "key": "article/payNote/190305-v9/before/title",
+      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus."
+    },
+    {
       "key": "article/payNote/190305-v9/before",
-      "value": "Wir sind die Republik – ein neues Modell im Schweizer Journalismus. Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
+      "value": "Unser digitales Magazin ist unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Wollen Sie unabhängigen Journalismus unterstützen, freuen wir uns, Sie an Bord zu sehen."
     },
     {
       "key": "article/payNote/190305-v9/before/buy/button",
@@ -3176,11 +3212,11 @@
     },
     {
       "key": "article/payNote/190305-v9/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen …"
+      "value": "Sie haben in diesem Artikel viele Worte gelesen aber die wichtigsten drei fehlten. "
     },
     {
       "key": "article/payNote/190305-v9/after",
-      "value": "… aber die wichtigsten drei fehlten. Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
     },
     {
       "key": "article/payNote/190305-v9/after/buy/button",
@@ -3216,7 +3252,7 @@
     },
     {
       "key": "article/tryNote/191023-v2/before",
-      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Trifft das ihren Anspruch und Geschmack? Testen Sie die Republik 14 Tage lang gratis - und wenn sie überzeugt sind, kommen sie an Bord."
+      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Trifft das ihren Anspruch und Geschmack? <b>Testen Sie die Republik 14 Tage lang gratis</b> - und wenn sie überzeugt sind, kommen sie an Bord."
     },
     {
       "key": "article/tryNote/191023-v2/after/title",

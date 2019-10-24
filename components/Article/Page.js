@@ -67,6 +67,7 @@ import gql from 'graphql-tag'
 
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
+import withMemberStatus from '../../lib/withMemberStatus'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -97,13 +98,6 @@ const getSchemaCreator = template => {
 const styles = {
   prepublicationNotice: css({
     backgroundColor: colors.social
-  }),
-  bar: css({
-    display: 'inline-block',
-    marginTop: '15px',
-    [mediaQueries.mUp]: {
-      marginTop: '20px'
-    }
   })
 }
 
@@ -500,7 +494,8 @@ class ArticlePage extends Component {
       isMember,
       isEditor,
       inNativeApp,
-      payNoteSeed
+      payNoteSeed,
+      isActiveMember
     } = this.props
 
     const { meta, actionBar, schema, headerAudioPlayer, showSeriesNav } = this.state
@@ -535,9 +530,6 @@ class ArticlePage extends Component {
       />
     )
 
-    const payNoteBefore = <PayNote seed={payNoteSeed} series={series} position='before' />
-    const payNoteAfter = React.cloneElement(payNoteBefore, { position: 'after' })
-
     const formatMeta = meta && (
       meta.template === 'format'
         ? meta
@@ -566,6 +558,9 @@ class ArticlePage extends Component {
           }} />
       }} />
     }
+
+    const payNote = !isActiveMember && <PayNote seed={payNoteSeed} series={series} position='before' />
+    const payNoteAfter = payNote && React.cloneElement(payNote, { position: 'after' })
 
     const splitContent = splitNodes(article.content, 'TITLE')
     const [title, mainContent] = splitContent.length > 1 ? splitContent : [undefined, splitContent[0]]
@@ -624,9 +619,9 @@ class ArticlePage extends Component {
                   {title && (<Fragment>
                     {renderSchema(title)}
                     <Center>
-                      <div ref={this.barRef} {...styles.bar}>{actionBar}</div>
+                      <div ref={this.barRef}>{actionBar}</div>
                     </Center>
-                    {!isFormat && !isNewsletterSource && payNoteBefore}
+                    {!isFormat && !isNewsletterSource && payNote}
                   </Fragment>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
@@ -651,7 +646,7 @@ class ArticlePage extends Component {
               {isMember && (
                 <Fragment>
                   {meta.template === 'article' && <Center>
-                    <div ref={this.bottomBarRef} {...styles.bar}>
+                    <div ref={this.bottomBarRef}>
                       {actionBarEnd}
                     </div>
                   </Center>}
@@ -695,6 +690,7 @@ ArticlePage.childContextTypes = {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withMemberStatus,
   withEditor,
   withInNativeApp,
   withRouter,

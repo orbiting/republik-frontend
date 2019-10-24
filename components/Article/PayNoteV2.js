@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import {
   BrandMark,
   Interaction,
@@ -58,7 +59,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 0.5
+const TRY_TO_BUY_RATIO = 0.8
 
 const BG_COLORS = [
   '#cfefd7',
@@ -97,20 +98,26 @@ const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
 
 const showBuyInsteadOfTry = (seed) => (seed / MAX_PAYNOTE_SEED) > TRY_TO_BUY_RATIO
 
-const getPayNoteVariation = (hasOngoingTrial, isActiveMember, isSeries, seed) => {
-  if (isActiveMember) {
-    return
-  }
+const getPayNoteVariation = (hasOngoingTrial, isSeries, seed) => {
   return hasOngoingTrial || showBuyInsteadOfTry(seed)
     ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
 }
 
 const getPayNoteColor = (seed) => getElementFromSeed(BG_COLORS, seed)
 
+const MembersCount = ({ membershipStats }) => (
+  <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
+    (membershipStats && membershipStats.count) || 20000
+  )}</span>
+)
+
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
-  console.log(countFormat((membershipStats && membershipStats.count) || 20000))
-  return t.elements(`article/${variation}/${position}${element ? '/' + element : ''}`, {
-    count: <span>20000</span> })
+  // react elements don't get rendered by dangerouslySetInnerHTML,
+  // which we need if we want the texts to support <b> tags, hence this mumbo-jumbo below
+  return t.elements(
+    `article/${variation}/${position}${element ? '/' + element : ''}`, {
+      count: ReactDOMServer.renderToStaticMarkup(<MembersCount key='count' membershipStats={membershipStats} />)
+    }).join('')
 }
 
 const BuyNoteCta = ({ variation, position, translator }) => {
@@ -131,16 +138,19 @@ const PayNoteCta = ({ variation, position, translator }) => {
     : <BuyNoteCta variation={variation} position={position} translator={translator} />
 }
 
-const PayNoteContainer = compose(
+export const PayNote = compose(
   withT,
   withInNativeApp,
+  withMemberStatus,
   graphql(memberShipQuery)
-)(({ t, inNativeIOSApp, data: { membershipStats }, variation, bgColor, position }) => {
+)(({ t, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
   const translator = initTranslator(t, membershipStats)
-  const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
-  const lead = translator(variationInclIos, position, 'title')
-  const body = translator(variationInclIos, position)
-  const cta = inNativeIOSApp ? null : <PayNoteCta variation={variation} position={position} translator={translator} />
+  const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(hasOngoingTrial, series, seed)
+  const bgColor = getPayNoteColor(seed)
+  const lead = translator(variation, position, 'title')
+  const body = translator(variation, position)
+  console.log('BODY', body)
+  const cta = !inNativeIOSApp && <PayNoteCta variation={variation} position={position} translator={translator} />
   const isBefore = position === 'before'
 
   return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)} style={{ backgroundColor: bgColor }}>
@@ -154,13 +164,4 @@ const PayNoteContainer = compose(
       {cta}
     </Center>
   </div>)
-})
-
-export const PayNote = compose(
-  withMemberStatus
-)(({ isActiveMember, hasOngoingTrial, seed, series, position }) => {
-  const variation = getPayNoteVariation(hasOngoingTrial, isActiveMember, series, seed)
-  const bgColor = getPayNoteColor(seed)
-
-  return variation ? <PayNoteContainer variation={variation} bgColor={bgColor} position={position} /> : null
 })

@@ -369,9 +369,7 @@ class ArticlePage extends Component {
     inNativeIOSApp,
     inIOS,
     router,
-    isMember,
-    isActiveMember,
-    isTrial
+    isMember
   }, state) {
     const meta = article && {
       ...article.meta,
@@ -430,7 +428,7 @@ class ArticlePage extends Component {
         : undefined
     })
 
-    const showSeriesNav = isMember
+    const showSeriesNav = isMember && meta && !!meta.series
     const id = article && article.id
 
     return {
@@ -597,6 +595,7 @@ class ArticlePage extends Component {
           }
 
           const isFormat = meta.template === 'format'
+          const isNewsletterSource = router.query.utm_source && router.query.utm_source === 'newsletter'
           const ownDiscussion = meta.ownDiscussion
           const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
@@ -627,7 +626,7 @@ class ArticlePage extends Component {
                     <Center>
                       <div ref={this.barRef} {...styles.bar}>{actionBar}</div>
                     </Center>
-                    {payNoteBefore}
+                    {!isFormat && !isNewsletterSource && payNoteBefore}
                   </Fragment>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>

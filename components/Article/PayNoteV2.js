@@ -41,8 +41,7 @@ const styles = {
 }
 const beforeStyles = {
   banner: css({
-    marginTop: -20,
-    marginBottom: 40
+    margin: '40px auto'
   }),
   brand: css({
     [mediaQueries.mUp]: {
@@ -59,7 +58,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 0.8
+const TRY_TO_BUY_RATIO = 0.5
 
 const BG_COLORS = [
   '#cfefd7',
@@ -96,11 +95,13 @@ const getBuyVariation = (seed, isSeries) => isSeries ? BUY_SERIES : getElementFr
 
 const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
 
+const showBuyInsteadOfTry = (seed) => (seed / MAX_PAYNOTE_SEED) > TRY_TO_BUY_RATIO
+
 const getPayNoteVariation = (hasOngoingTrial, isActiveMember, isSeries, seed) => {
   if (isActiveMember) {
     return
   }
-  return hasOngoingTrial || Math.random() > TRY_TO_BUY_RATIO
+  return hasOngoingTrial || showBuyInsteadOfTry(seed)
     ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
 }
 

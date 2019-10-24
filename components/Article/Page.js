@@ -11,9 +11,13 @@ import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import { PayNote, getPayNoteVariation, getPayNoteColor } from './PayNoteV2'
+import { PayNote, MAX_PAYNOTE_SEED } from './PayNoteV2'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
+import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+import FontSizeSync from '../FontSize/Sync'
+import { getRandomInt } from '../../lib/utils/helpers'
+import { splitNodes } from '../../lib/utils/mdast'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
@@ -64,11 +68,6 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 /* eslint-enable */
-
-import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
-import FontSizeSync from '../FontSize/Sync'
-import withMemberStatus from '../../lib/withMemberStatus'
-import { splitNodes } from '../../lib/utils/helpers'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -430,11 +429,8 @@ class ArticlePage extends Component {
         : undefined
     })
 
-    const series = meta && !!meta.series
     const showSeriesNav = isMember
     const id = article && article.id
-    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember, series)
-    const payNoteColor = getPayNoteColor()
 
     return {
       id,
@@ -444,9 +440,7 @@ class ArticlePage extends Component {
       showSeriesNav,
       autoPlayAudioSource: id !== state.id
         ? router.query.audio === '1'
-        : state.autoPlayAudioSource,
-      payNoteVariation,
-      payNoteColor
+        : state.autoPlayAudioSource
     }
   }
 
@@ -506,10 +500,11 @@ class ArticlePage extends Component {
       data: { article },
       isMember,
       isEditor,
-      inNativeApp
+      inNativeApp,
+      payNoteSeed
     } = this.props
 
-    const { meta, actionBar, schema, headerAudioPlayer, showSeriesNav, payNoteVariation, payNoteColor } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, showSeriesNav } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
@@ -541,10 +536,7 @@ class ArticlePage extends Component {
       />
     )
 
-    const payNoteBefore = <PayNote
-      variation={payNoteVariation}
-      position='before'
-      bgColor={payNoteColor} />
+    const payNoteBefore = <PayNote seed={payNoteSeed} series={series} position='before' />
     const payNoteAfter = React.cloneElement(payNoteBefore, { position: 'after' })
 
     const formatMeta = meta && (
@@ -578,7 +570,7 @@ class ArticlePage extends Component {
 
     const splitContent = splitNodes(article.content, 'TITLE')
     const [title, mainContent] = splitContent.length > 1 ? splitContent : [undefined, splitContent[0]]
-    const renderContent = (content) => renderMdast({
+    const renderSchema = (content) => renderMdast({
       ...content,
       format: meta.format
     },
@@ -630,7 +622,7 @@ class ArticlePage extends Component {
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
                   {title && (<Fragment>
-                    {renderContent(title)}
+                    {renderSchema(title)}
                     <Center>
                       <div ref={this.barRef} {...styles.bar}>{actionBar}</div>
                     </Center>
@@ -638,7 +630,7 @@ class ArticlePage extends Component {
                   </Fragment>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
-                    {() => renderContent(mainContent)}
+                    {() => renderSchema(mainContent)}
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>
@@ -703,7 +695,6 @@ ArticlePage.childContextTypes = {
 const ComposedPage = compose(
   withT,
   withMembership,
-  withMemberStatus,
   withEditor,
   withInNativeApp,
   withRouter,
@@ -715,5 +706,11 @@ const ComposedPage = compose(
     })
   })
 )(ArticlePage)
+
+ComposedPage.getInitialProps = () => {
+  return {
+    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
+  }
+}
 
 export default ComposedPage

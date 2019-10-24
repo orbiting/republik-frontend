@@ -9,7 +9,7 @@ import {
 import TrialForm from '../Trial/Form'
 // import { MdArrowForward } from 'react-icons/lib/md'
 import { css, merge } from 'glamor'
-import { randomElement } from '../../lib/utils/helpers'
+import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
 import { Router } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
@@ -17,6 +17,7 @@ import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
+import withMemberStatus from '../../lib/withMemberStatus'
 
 const memberShipQuery = gql`
 query payNoteMembershipStats {
@@ -53,22 +54,25 @@ const BUY_VARIATIONS = [
   'payNote/190305-v9'
 ]
 
+export const MAX_PAYNOTE_SEED = Math.max(BG_COLORS.length, TRY_VARIATIONS.length, BUY_VARIATIONS.length)
+
 const BUY_SERIES = 'payNote/series'
 
-const getTryVariation = () => randomElement(TRY_VARIATIONS)
+const getTryVariation = (seed) => getElementFromSeed(TRY_VARIATIONS, seed)
 
-const getBuyVariation = (isSeries) => isSeries ? BUY_SERIES : randomElement(BUY_VARIATIONS)
+const getBuyVariation = (seed, isSeries) => isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
 
 const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
 
-export const getPayNoteVariation = (isMember, isActiveMember, isSeries) => {
+const getPayNoteVariation = (hasOngoingTrial, isActiveMember, isSeries, seed) => {
   if (isActiveMember) {
     return
   }
-  return isMember || Math.random() > TRY_TO_BUY_RATIO ? getBuyVariation(isSeries) : getTryVariation()
+  return hasOngoingTrial || Math.random() > TRY_TO_BUY_RATIO
+    ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
 }
 
-export const getPayNoteColor = () => randomElement(BG_COLORS)
+const getPayNoteColor = (seed) => getElementFromSeed(BG_COLORS, seed)
 
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
   console.log(countFormat((membershipStats && membershipStats.count) || 20000))
@@ -98,7 +102,7 @@ const PayNoteContainer = compose(
   withT,
   withInNativeApp,
   graphql(memberShipQuery)
-)(({ inNativeIOSApp, variation, position, t, bgColor, data: { membershipStats } }) => {
+)(({ t, inNativeIOSApp, data: { membershipStats }, variation, bgColor, position }) => {
   const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
   const translator = initTranslator(t, membershipStats)
   const lead = translator(variationInclIos, position, 'title')
@@ -151,6 +155,10 @@ const PayNoteContainer = compose(
   </div>)
 })
 
-export const PayNote = ({ variation, ...props }) => {
-  return variation ? <PayNoteContainer variation={variation} {...props} /> : null
-}
+export const PayNote = compose(
+  withMemberStatus
+)(({ isActiveMember, hasOngoingTrial, seed, series, position }) => {
+  const variation = getPayNoteVariation(hasOngoingTrial, isActiveMember, series, seed)
+  const bgColor = getPayNoteColor(seed)
+  return variation ? <PayNoteContainer variation={variation} bgColor={bgColor} position={position} /> : null
+})

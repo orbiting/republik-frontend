@@ -12,6 +12,19 @@ import { css, merge } from 'glamor'
 import { randomElement } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
 import { Router } from '../../lib/routes'
+import { compose, graphql } from 'react-apollo'
+import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
+import gql from 'graphql-tag'
+import { countFormat } from '../../lib/utils/format'
+
+const memberShipQuery = gql`
+query payNoteMembershipStats {
+  membershipStats {
+    count
+  }
+}
+`
 
 const TRY_TO_BUY_RATIO = 1
 
@@ -57,19 +70,20 @@ export const getPayNoteVariation = (isMember, isActiveMember, isSeries) => {
 
 export const getPayNoteColor = () => randomElement(BG_COLORS)
 
-// TODO: add members count
-const getPayNoteText = (t, variation, position, element) => {
-  return t(`article/${variation}/${position}${element ? '/' + element : ''}`)
+const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
+  console.log(countFormat((membershipStats && membershipStats.count) || 20000))
+  return t.elements(`article/${variation}/${position}${element ? '/' + element : ''}`, {
+    count: <span>20000</span> })
 }
 
-const BuyNoteCta = ({ variation, position, t }) => {
+const BuyNoteCta = ({ variation, position, translator }) => {
   return (<Button style={{ marginTop: 10 }} black onClick={trackEventOnClick(
     ['PayNote', `pledge ${position}`, variation],
     () => {
       Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
     }
   )}>
-    {getPayNoteText(t, variation, position, 'buy/button')}
+    {translator(variation, position, 'buy/button')}
   </Button>)
 }
 
@@ -80,12 +94,16 @@ const PayNoteCta = ({ variation, position, t }) => {
     : <BuyNoteCta variation={variation} position={position} t={t} />
 }
 
-// TODO: get membership count in article and pass it here
-const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) => {
+const PayNoteContainer = compose(
+  withT,
+  withInNativeApp,
+  graphql(memberShipQuery)
+)(({ inNativeIOSApp, variation, position, t, bgColor, data: { membershipStats } }) => {
   const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
-  const lead = getPayNoteText(t, variationInclIos, position, 'title')
-  const body = getPayNoteText(t, variationInclIos, position)
-  const cta = inNativeIOSApp ? null : <PayNoteCta variation={variation} position={position} t={t} />
+  const translator = initTranslator(t, membershipStats)
+  const lead = translator(variationInclIos, position, 'title')
+  const body = translator(variationInclIos, position)
+  const cta = inNativeIOSApp ? null : <PayNoteCta variation={variation} position={position} translator={translator} />
   const styles = {
     banner: css({
       backgroundColor: bgColor,
@@ -131,7 +149,7 @@ const PayNoteContainer = ({ inNativeIOSApp, variation, position, t, bgColor }) =
       {cta}
     </Center>
   </div>)
-}
+})
 
 export const PayNote = ({ variation, ...props }) => {
   return variation ? <PayNoteContainer variation={variation} {...props} /> : null

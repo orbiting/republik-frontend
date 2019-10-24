@@ -411,16 +411,6 @@ class ArticlePage extends Component {
       />
     )
 
-    const isSeries = meta && !!meta.series
-    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember, isSeries)
-    const payNoteColor = getPayNoteColor()
-    const payNote = <PayNote
-      t={t}
-      inNativeIOSApp={inNativeIOSApp}
-      variation={payNoteVariation}
-      position='before'
-      bgColor={payNoteColor} />
-
     const schema = meta && getSchemaCreator(meta.template)({
       t,
       dynamicComponentRequire,
@@ -440,21 +430,23 @@ class ArticlePage extends Component {
         : undefined
     })
 
-    const showSeriesNav = isMember && isSeries
+    const series = meta && !!meta.series
+    const showSeriesNav = isMember
     const id = article && article.id
+    const payNoteVariation = getPayNoteVariation(isTrial, isActiveMember, series)
+    const payNoteColor = getPayNoteColor()
 
     return {
       id,
       schema,
       meta,
       actionBar,
-      payNote,
-      payNoteVariation,
-      payNoteColor,
       showSeriesNav,
       autoPlayAudioSource: id !== state.id
         ? router.query.audio === '1'
-        : state.autoPlayAudioSource
+        : state.autoPlayAudioSource,
+      payNoteVariation,
+      payNoteColor
     }
   }
 
@@ -507,9 +499,17 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, isEditor, inNativeApp } = this.props
+    const {
+      router,
+      t,
+      data,
+      data: { article },
+      isMember,
+      isEditor,
+      inNativeApp
+    } = this.props
 
-    const { meta, actionBar, payNote, schema, headerAudioPlayer, showSeriesNav } = this.state
+    const { meta, actionBar, schema, headerAudioPlayer, showSeriesNav, payNoteVariation, payNoteColor } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
@@ -529,8 +529,6 @@ class ArticlePage extends Component {
       })
       : undefined
 
-    const payNoteBottom = payNote && React.cloneElement(payNote, { position: 'after' })
-
     const series = meta && meta.series
     const episodes = series && series.episodes
 
@@ -542,6 +540,12 @@ class ArticlePage extends Component {
         expanded={this.state.secondaryNavExpanded}
       />
     )
+
+    const payNoteBefore = <PayNote
+      variation={payNoteVariation}
+      position='before'
+      bgColor={payNoteColor} />
+    const payNoteAfter = React.cloneElement(payNoteBefore, { position: 'after' })
 
     const formatMeta = meta && (
       meta.template === 'format'
@@ -573,8 +577,7 @@ class ArticlePage extends Component {
     }
 
     const splitContent = splitNodes(article.content, 'TITLE')
-    const title = splitContent.length > 1 ? splitContent[0] : undefined
-    const mainContent = title ? splitContent[1] : splitContent[0]
+    const [title, mainContent] = splitContent.length > 1 ? splitContent : [undefined, splitContent[0]]
     const renderContent = (content) => renderMdast({
       ...content,
       format: meta.format
@@ -631,7 +634,7 @@ class ArticlePage extends Component {
                     <Center>
                       <div ref={this.barRef} {...styles.bar}>{actionBar}</div>
                     </Center>
-                    {payNote}
+                    {payNoteBefore}
                   </Fragment>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
@@ -646,7 +649,7 @@ class ArticlePage extends Component {
                   />
                 </Center>
               )}
-              {!isFormat && payNoteBottom}
+              {!isFormat && payNoteAfter}
               {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
                   discussionId={ownDiscussion.id}

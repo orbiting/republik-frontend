@@ -68,6 +68,7 @@ import * as graphqlTag from 'graphql-tag'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import FontSizeSync from '../FontSize/Sync'
 import withMemberStatus from '../../lib/withMemberStatus'
+import { splitNodes } from '../../lib/utils/helpers'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -423,10 +424,6 @@ class ArticlePage extends Component {
     const schema = meta && getSchemaCreator(meta.template)({
       t,
       dynamicComponentRequire,
-      titleBlockAppend: (<div ref={this.barRef} {...styles.bar}>
-        {actionBar}
-      </div>),
-      titleBlockAfter: payNote,
       onAudioCoverClick: this.toggleAudio,
       getVideoPlayerProps: inNativeApp && !inNativeIOSApp
         ? props => ({
@@ -510,9 +507,9 @@ class ArticlePage extends Component {
   }
 
   render () {
-    const { router, t, data, data: { article }, isMember, isEditor, inNativeApp, inIOS } = this.props
+    const { router, t, data, data: { article }, isMember, isEditor, inNativeApp } = this.props
 
-    const { meta, actionBar, payNote, payNoteVariation, payNoteColor, schema, headerAudioPlayer, showSeriesNav } = this.state
+    const { meta, actionBar, payNote, schema, headerAudioPlayer, showSeriesNav } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
@@ -575,6 +572,15 @@ class ArticlePage extends Component {
       }} />
     }
 
+    const splitContent = splitNodes(article.content, 'TITLE')
+    const title = splitContent.length > 1 ? splitContent[0] : undefined
+    const mainContent = title ? splitContent[1] : splitContent[0]
+    const renderContent = (content) => renderMdast({
+      ...content,
+      format: meta.format
+    },
+    schema, { MissingNode })
+
     return (
       <Frame
         raw
@@ -620,13 +626,16 @@ class ArticlePage extends Component {
                 onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
+                  {title && (<Fragment>
+                    {renderContent(title)}
+                    <Center>
+                      <div ref={this.barRef} {...styles.bar}>{actionBar}</div>
+                    </Center>
+                    {payNote}
+                  </Fragment>)}
                   <SSRCachingBoundary
-                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}:paynote-${payNoteVariation}-${payNoteColor}`}>
-                    {() => renderMdast({
-                      ...article.content,
-                      format: meta.format
-                    },
-                    schema, { MissingNode })}
+                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
+                    {() => renderContent(mainContent)}
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>

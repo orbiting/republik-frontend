@@ -145,7 +145,7 @@ class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isEditing: props.router.query.hasOwnProperty('edit') || false,
+      isEditing: props.router.query['edit'] || false,
       showErrors: true,
       errors: {},
       dirty: {},

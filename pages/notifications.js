@@ -186,7 +186,7 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
 
   const isProjectR = context === 'projectr'
   const logo = isProjectR ? (
-    <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
+    <a href='https://project-r.construction/' rel='noopener noreferrer' target='_blank' {...styles.logoProjectR}>
       <img
         style={{ height: 50 }}
         src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`} />
@@ -196,7 +196,7 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
       ? <div {...styles.logoRepublik}>
         <Logo />
       </div>
-      : <a href='/' target={logoTarget} {...styles.logoRepublik}>
+      : <a href='/' rel={logoTarget === '_blank' ? "noopener noreferrer" : undefined} target={logoTarget} {...styles.logoRepublik}>
         <Logo />
       </a>
   )

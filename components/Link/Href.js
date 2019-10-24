@@ -25,9 +25,13 @@ export default ({ href, passHref, children, query }) => {
 
   const path = urlObject.pathname
 
-  return <PathLink
-    path={path}
-    passHref={passHref}
-    children={children}
-    query={{ ...urlObject.query, ...query }} />
+  return (
+    <PathLink
+      path={path}
+      passHref={passHref}
+      query={{ ...urlObject.query, ...query }}
+    >
+      {children}
+    </PathLink>
+  )
 }

@@ -152,7 +152,7 @@ class Footer extends Component {
               <a
                 href='https://www.google.ch/maps/place/Sihlhallenstrasse+1,+8004+Zürich'
                 target='_blank'
-                rel='noopener'
+                rel='noopener noreferrer'
               >
                 {intersperse(
                   t('footer/contact/address').split('\n'),
@@ -182,11 +182,11 @@ class Footer extends Component {
                 <a>{t('footer/events')}</a>
               </Link>
               <br />
-              <a href='/manifest' target={!inNativeApp ? '_blank' : undefined}>
+              <a href='/manifest' rel={!inNativeApp ? 'noopener noreferrer' : undefined} target={!inNativeApp ? '_blank' : undefined}>
                 {t('footer/about/manifest')}
               </a>
               <br />
-              <a href='https://project-r.construction/' rel='noopener' target='_blank'>
+              <a href='https://project-r.construction/' rel='noopener noreferrer' target='_blank'>
                 {t('footer/about/projecR')}
               </a>
               <br />
@@ -302,12 +302,14 @@ class Footer extends Component {
                 href='https://www.facebook.com/RepublikMagazin'
                 target='_blank'
                 fill={negativeColors.text}
+                rel='noopener noreferrer'
               />
               <IconLink
                 icon='twitter'
                 href='https://twitter.com/RepublikMagazin'
                 target='_blank'
                 fill={negativeColors.text}
+                rel='noopener noreferrer'
               />
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import {
   HEADER_HEIGHT,
   HEADER_HEIGHT_MOBILE,

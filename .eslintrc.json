@@ -8,7 +8,8 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "node": true
   },
    "rules": {
     "react-hooks/rules-of-hooks": "error",

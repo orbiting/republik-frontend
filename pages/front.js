@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
 

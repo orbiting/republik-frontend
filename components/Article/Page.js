@@ -413,6 +413,7 @@ class ArticlePage extends Component {
     const schema = meta && getSchemaCreator(meta.template)({
       t,
       dynamicComponentRequire,
+      titleMargin: false,
       onAudioCoverClick: this.toggleAudio,
       getVideoPlayerProps: inNativeApp && !inNativeIOSApp
         ? props => ({

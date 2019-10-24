@@ -19,6 +19,38 @@ import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
 
+const styles = {
+  banner: css({
+    paddingBottom: 10
+  }),
+  brand: css({
+    display: 'none',
+    width: 40,
+    float: 'left',
+    verticalAlign: 'top',
+    margin: '10px 0 0 -60px',
+    [mediaQueries.mUp]: {
+      display: 'initial'
+    }
+  }),
+  body: css({
+    margin: 0,
+    paddingBottom: 0,
+    color: '#000000'
+  })
+}
+const beforeStyles = {
+  banner: css({
+    marginTop: -20,
+    marginBottom: 40
+  }),
+  brand: css({
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
+  })
+}
+
 const memberShipQuery = gql`
 query payNoteMembershipStats {
   membershipStats {
@@ -27,7 +59,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 1
+const TRY_TO_BUY_RATIO = 0.8
 
 const BG_COLORS = [
   '#cfefd7',
@@ -103,46 +135,14 @@ const PayNoteContainer = compose(
   withInNativeApp,
   graphql(memberShipQuery)
 )(({ t, inNativeIOSApp, data: { membershipStats }, variation, bgColor, position }) => {
-  const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
   const translator = initTranslator(t, membershipStats)
+  const variationInclIos = inNativeIOSApp ? 'payNote/ios' : variation
   const lead = translator(variationInclIos, position, 'title')
   const body = translator(variationInclIos, position)
   const cta = inNativeIOSApp ? null : <PayNoteCta variation={variation} position={position} translator={translator} />
-  const styles = {
-    banner: css({
-      backgroundColor: bgColor,
-      paddingBottom: 10
-    }),
-    brand: css({
-      display: 'none',
-      width: 40,
-      float: 'left',
-      verticalAlign: 'top',
-      margin: '10px 0 0 -60px',
-      [mediaQueries.mUp]: {
-        display: 'initial'
-      }
-    }),
-    body: css({
-      margin: 0,
-      paddingBottom: 0,
-      color: '#000000'
-    })
-  }
-  const beforeStyles = {
-    banner: css({
-      marginTop: -20,
-      marginBottom: 40
-    }),
-    brand: css({
-      [mediaQueries.mUp]: {
-        display: 'none'
-      }
-    })
-  }
   const isBefore = position === 'before'
 
-  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
+  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)} style={{ backgroundColor: bgColor }}>
     <Center>
       <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
         <BrandMark />
@@ -160,5 +160,6 @@ export const PayNote = compose(
 )(({ isActiveMember, hasOngoingTrial, seed, series, position }) => {
   const variation = getPayNoteVariation(hasOngoingTrial, isActiveMember, series, seed)
   const bgColor = getPayNoteColor(seed)
+
   return variation ? <PayNoteContainer variation={variation} bgColor={bgColor} position={position} /> : null
 })

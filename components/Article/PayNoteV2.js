@@ -124,10 +124,10 @@ const BuyNoteCta = ({ variation, position, translator }) => {
 }
 
 // TODO: configure/style import form
-const PayNoteCta = ({ variation, position, t }) => {
+const PayNoteCta = ({ variation, position, translator }) => {
   return isTryNote(variation)
     ? <TrialForm />
-    : <BuyNoteCta variation={variation} position={position} t={t} />
+    : <BuyNoteCta variation={variation} position={position} translator={translator} />
 }
 
 const PayNoteContainer = compose(

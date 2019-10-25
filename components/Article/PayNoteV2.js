@@ -68,10 +68,26 @@ const BG_COLORS = [
   '#6bd076'
 ]
 
-// TODO: add all versions
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
-  'tryNote/191023-v2'
+  'tryNote/191023-v2',
+  'tryNote/191023-v3',
+  'tryNote/191023-v4',
+  'tryNote/191023-v5',
+  'tryNote/191023-v6',
+  'tryNote/191023-v7',
+  'tryNote/191023-v8',
+  'tryNote/191023-v9',
+  'tryNote/191023-v10',
+  'tryNote/191023-v11',
+  'tryNote/191023-v12',
+  'tryNote/191023-v13',
+  'tryNote/191023-v14',
+  'tryNote/191023-v15',
+  'tryNote/191023-v16',
+  'tryNote/191023-v17',
+  'tryNote/191023-v18',
+  'tryNote/191023-v19'
 ]
 
 const BUY_VARIATIONS = [
@@ -113,7 +129,7 @@ const MembersCount = ({ membershipStats }) => (
 
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
   // react elements don't get rendered by dangerouslySetInnerHTML,
-  // which we need if we want the texts to support <b> tags, hence this mumbo-jumbo below
+  // which we use because we want to support <b> tags, hence this mumbo-jumbo below
   return t.elements(
     `article/${variation}/${position}${element ? '/' + element : ''}`, {
       count: ReactDOMServer.renderToStaticMarkup(<MembersCount key='count' membershipStats={membershipStats} />)
@@ -159,7 +175,7 @@ export const PayNote = compose(
         <BrandMark />
       </div>
       <Interaction.P {...styles.body}>
-        <b>{lead}</b> <span dangerouslySetInnerHTML={{ __html: body }} />
+        <b dangerouslySetInnerHTML={{ __html: lead }} /> <span dangerouslySetInnerHTML={{ __html: body }} />
       </Interaction.P>
       {cta}
     </Center>

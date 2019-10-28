@@ -8,6 +8,7 @@ import { Button, Interaction, Field, A, InlineSpinner } from '@project-r/stylegu
 import withT from '../../lib/withT'
 import withMe, { meQuery } from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
+import { MdArrowForward } from 'react-icons/lib/md'
 
 const { H3, P, Emphasis } = Interaction
 
@@ -96,7 +97,7 @@ class CodeAuthorization extends Component {
   }
 
   render () {
-    const { tokenType, email, onCancel, t } = this.props
+    const { tokenType, email, onCancel, t, minimal } = this.props
     const { code, dirty, error } = this.state
 
     const handleMutateError = () => {
@@ -141,13 +142,15 @@ class CodeAuthorization extends Component {
                 value={code}
                 autoComplete={'false'}
                 error={dirty && error}
+                black={minimal}
+                icon={minimal && <MdArrowForward style={{ cursor: 'pointer' }} size={30} onClick={onSubmit} />}
                 onChange={(_, value, shouldValidate) => {
                   this.setState(
                     checkCode({ value, shouldValidate, t }),
                     autoSubmit
                   )
                 }} />
-              <div {...styles.button}>
+              { !minimal && (<div {...styles.button}>
                 {loading
                   ? <InlineSpinner />
                   : <Button
@@ -158,7 +161,7 @@ class CodeAuthorization extends Component {
                     {t('Auth/CodeAuthorization/button/label')}
                   </Button>
                 }
-              </div>
+              </div>)}
               <ul {...styles.help}>
                 <li>
                   <A href='#' onClick={onCancel}>

@@ -5,10 +5,10 @@ import {
   Interaction,
   Center,
   mediaQueries,
-  Button
+  Button,
+  colors
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
-// import { MdArrowForward } from 'react-icons/lib/md'
 import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
@@ -22,7 +22,8 @@ import withMemberStatus from '../../lib/withMemberStatus'
 
 const styles = {
   banner: css({
-    paddingBottom: 10
+    backgroundColor: colors.social,
+    padding: '5px 0'
   }),
   brand: css({
     display: 'none',
@@ -38,6 +39,9 @@ const styles = {
     margin: 0,
     paddingBottom: 0,
     color: '#000000'
+  }),
+  cta: css({
+    marginTop: 10
   })
 }
 const beforeStyles = {
@@ -59,14 +63,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 0.8
-
-const BG_COLORS = [
-  '#cfefd7',
-  '#fdb26e',
-  '#f9eca1',
-  '#6bd076'
-]
+const TRY_TO_BUY_RATIO = 1
 
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
@@ -102,7 +99,7 @@ const BUY_VARIATIONS = [
   'payNote/190305-v9'
 ]
 
-export const MAX_PAYNOTE_SEED = Math.max(BG_COLORS.length, TRY_VARIATIONS.length, BUY_VARIATIONS.length)
+export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.length)
 
 const BUY_SERIES = 'payNote/series'
 
@@ -119,8 +116,6 @@ const getPayNoteVariation = (hasOngoingTrial, isSeries, seed) => {
     ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
 }
 
-const getPayNoteColor = (seed) => getElementFromSeed(BG_COLORS, seed)
-
 const MembersCount = ({ membershipStats }) => (
   <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
     (membershipStats && membershipStats.count) || 20000
@@ -129,7 +124,7 @@ const MembersCount = ({ membershipStats }) => (
 
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
   // react elements don't get rendered by dangerouslySetInnerHTML,
-  // which we use because we want to support <b> tags, hence this mumbo-jumbo below
+  // (which we use because to support <b> tags), hence this mumbo-jumbo below
   return t.elements(
     `article/${variation}/${position}${element ? '/' + element : ''}`, {
       count: ReactDOMServer.renderToStaticMarkup(<MembersCount key='count' membershipStats={membershipStats} />)
@@ -137,7 +132,7 @@ const initTranslator = (t, membershipStats) => (variation, position, element = u
 }
 
 const BuyNoteCta = ({ variation, position, translator }) => {
-  return (<Button style={{ marginTop: 10 }} black onClick={trackEventOnClick(
+  return (<Button primary black onClick={trackEventOnClick(
     ['PayNote', `pledge ${position}`, variation],
     () => {
       Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
@@ -147,10 +142,9 @@ const BuyNoteCta = ({ variation, position, translator }) => {
   </Button>)
 }
 
-// TODO: configure/style import form
 const PayNoteCta = ({ variation, position, translator }) => {
   return isTryNote(variation)
-    ? <TrialForm />
+    ? <TrialForm minimal />
     : <BuyNoteCta variation={variation} position={position} translator={translator} />
 }
 
@@ -162,14 +156,12 @@ export const PayNote = compose(
 )(({ t, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
   const translator = initTranslator(t, membershipStats)
   const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(hasOngoingTrial, series, seed)
-  const bgColor = getPayNoteColor(seed)
   const lead = translator(variation, position, 'title')
   const body = translator(variation, position)
-  console.log('BODY', body)
   const cta = !inNativeIOSApp && <PayNoteCta variation={variation} position={position} translator={translator} />
   const isBefore = position === 'before'
 
-  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)} style={{ backgroundColor: bgColor }}>
+  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
     <Center>
       <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
         <BrandMark />
@@ -177,7 +169,7 @@ export const PayNote = compose(
       <Interaction.P {...styles.body}>
         <b dangerouslySetInnerHTML={{ __html: lead }} /> <span dangerouslySetInnerHTML={{ __html: body }} />
       </Interaction.P>
-      {cta}
+      {cta && (<div {...styles.cta}>{cta}</div>)}
     </Center>
   </div>)
 })

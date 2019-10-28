@@ -15,6 +15,7 @@ import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
+import { MdArrowForward } from 'react-icons/lib/md'
 import { Button, Field, InlineSpinner, colors } from '@project-r/styleguide'
 
 const styles = {
@@ -35,7 +36,7 @@ const styles = {
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = (props) => {
-  const { beforeRequestAccess, beforeSignIn, onSuccess, narrow, trialEligibility, me, meRefetch, t } = props
+  const { beforeRequestAccess, beforeSignIn, onSuccess, narrow, trialEligibility, me, meRefetch, t, minimal } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
@@ -43,11 +44,13 @@ const Form = (props) => {
       <div style={narrow ? { marginTop: 20 } : undefined}>
         <Button
           primary
+          black={minimal}
           onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         {' '}
         <Button
+          black={minimal}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}>
           {t('Trial/Form/authorized/withAccess/setup/label')}
         </Button>
@@ -157,18 +160,21 @@ const Form = (props) => {
 
   return (
     <Fragment>
-      <form onSubmit={requestAccess}>
+      { !(signingIn && minimal) && (<form onSubmit={requestAccess}>
         {!me && (
-          <div style={{ opacity: (signingIn) ? 0.6 : 1, marginTop: narrow ? 0 : 20 }}>
+          <div style={{ opacity: (signingIn) ? 0.6 : 1, marginTop: narrow || minimal ? 0 : 20 }}>
             <Field
+              black={minimal}
               label={t('Trial/Form/email/label')}
               value={email.value}
               error={email.dirty && email.error}
               dirty={email.dirty}
               disabled={signingIn}
+              icon={minimal && <MdArrowForward style={{ cursor: 'pointer' }} size={30} onClick={requestAccess} />}
               onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
-            <div style={{ marginTop: narrow ? 10 : 40 }}>
+            <div style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}>
               <Consents
+                black={minimal}
                 required={REQUIRED_CONSENTS}
                 accepted={consents}
                 disabled={signingIn}
@@ -188,7 +194,7 @@ const Form = (props) => {
           </div>
         )}
 
-        {!signingIn && (
+        {!signingIn && !minimal && (
           <div {...merge(styles.button, narrow && { marginTop: 20 })}>
             {loading
               ? <InlineSpinner />
@@ -203,7 +209,7 @@ const Form = (props) => {
             }
           </div>
         )}
-      </form>
+      </form>)}
 
       {signingIn && (
         <div {...styles.switchBoard}>
@@ -214,7 +220,8 @@ const Form = (props) => {
             alternativeFirstFactors={[]}
             onCancel={reset}
             onTokenTypeChange={reset}
-            onSuccess={onSuccessSwitchBoard} />
+            onSuccess={onSuccessSwitchBoard}
+            minimal={minimal} />
         </div>
       )}
 

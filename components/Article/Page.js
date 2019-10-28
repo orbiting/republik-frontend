@@ -636,7 +636,6 @@ class ArticlePage extends Component {
                   />
                 </Center>
               )}
-              {!isFormat && payNoteAfter}
               {meta.template === 'discussion' && ownDiscussion && <Center>
                 <Discussion
                   discussionId={ownDiscussion.id}
@@ -657,7 +656,7 @@ class ArticlePage extends Component {
                 episodes={episodes}
                 path={meta.path} />}
               {isFormat && <Feed formatId={article.id} />}
-              {(isMember || isFormat) && (
+              {(isActiveMember || isFormat) && (
                 <Fragment>
                   <br />
                   <br />
@@ -665,6 +664,7 @@ class ArticlePage extends Component {
                   <br />
                 </Fragment>
               )}
+              {!isFormat && payNoteAfter}
             </Fragment>
           )
         }} />

@@ -1,88 +1,62 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
-import { css } from 'glamor'
-
-import { WithoutMembership, WithoutActiveMembership } from '../Auth/withMembership'
-import withMe from '../../lib/apollo/withMe'
-import withT from '../../lib/withT'
-import { trackEventOnClick } from '../../lib/piwik'
-import { Router, routes } from '../../lib/routes'
-import { countFormat } from '../../lib/utils/format'
-import withInNativeApp from '../../lib/withInNativeApp'
-import BottomPanel from './PayNoteBottomPanel'
-
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
 import {
-  Button,
-  Center,
+  BrandMark,
   Interaction,
-  colors,
-  fontStyles,
-  linkRule,
-  mediaQueries
+  Center,
+  mediaQueries,
+  Button,
+  colors
 } from '@project-r/styleguide'
-
-import { negativeColors } from '../Frame/Footer'
+import TrialForm from '../Trial/Form'
+import { css, merge } from 'glamor'
+import { getElementFromSeed } from '../../lib/utils/helpers'
+import { trackEventOnClick } from '../../lib/piwik'
+import { Router } from '../../lib/routes'
+import { compose, graphql } from 'react-apollo'
+import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
+import gql from 'graphql-tag'
+import { countFormat } from '../../lib/utils/format'
+import withMemberStatus from '../../lib/withMemberStatus'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
-  actions: css({
-    display: 'flex',
-    flexDirection: 'column',
+  banner: css({
+    backgroundColor: colors.social,
+    padding: '5px 0'
+  }),
+  brand: css({
+    display: 'none',
+    width: 40,
+    float: 'left',
+    verticalAlign: 'top',
+    margin: '10px 0 0 -60px',
     [mediaQueries.mUp]: {
-      alignItems: 'center',
-      flexDirection: 'row'
+      display: 'initial'
     }
   }),
-  beforeContent: css({
-    paddingRight: '25px',
-    [mediaQueries.mUp]: {
-      paddingRight: 0
-    }
-  }),
-  beforeParagraph: css({
+  body: css({
     margin: 0,
-    ...fontStyles.sansSerifRegular14,
-    lineHeight: '20px',
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
+    paddingBottom: 0,
+    color: '#000000'
   }),
-  secondaryContainer: css({
-    padding: '15px 0',
-    backgroundColor: colors.secondaryBg,
-    [mediaQueries.mUp]: {
-      padding: '30px 0'
-    }
+  cta: css({
+    marginTop: 10
+  })
+}
+const beforeStyles = {
+  banner: css({
+    margin: '40px auto'
   }),
-  blackContainer: css({
-    backgroundColor: negativeColors.primaryBg,
-    color: negativeColors.text,
-    textRendering: 'optimizeLegibility',
-    WebkitFontSmoothing: 'antialiased',
-    padding: '15px 0',
+  brand: css({
     [mediaQueries.mUp]: {
-      padding: '30px 0'
-    }
-  }),
-  aside: css({
-    marginTop: 15,
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular18,
-      lineHeight: '22px',
-      marginLeft: 30,
-      marginTop: 0
+      display: 'none'
     }
   })
 }
 
-const multiLineButtonStyle = {
-  height: 'auto',
-  minHeight: '60px'
-}
-
-const query = gql`
+const memberShipQuery = gql`
 query payNoteMembershipStats {
   membershipStats {
     count
@@ -90,142 +64,113 @@ query payNoteMembershipStats {
 }
 `
 
-const ACTIVE_VARIATIONS = [
-  '190305-v1',
-  '190305-v2',
-  '190305-v3',
-  '190305-v4',
-  '190305-v5',
-  '190305-v6',
-  '190305-v7',
-  '190305-v8',
-  '190305-v9'
+const TRY_TO_BUY_RATIO = 1
+
+const TRY_VARIATIONS = [
+  'tryNote/191023-v1',
+  'tryNote/191023-v2',
+  'tryNote/191023-v3',
+  'tryNote/191023-v4',
+  'tryNote/191023-v5',
+  'tryNote/191023-v6',
+  'tryNote/191023-v7',
+  'tryNote/191023-v8',
+  'tryNote/191023-v9',
+  'tryNote/191023-v10',
+  'tryNote/191023-v11',
+  'tryNote/191023-v12',
+  'tryNote/191023-v13',
+  'tryNote/191023-v14',
+  'tryNote/191023-v15',
+  'tryNote/191023-v16',
+  'tryNote/191023-v17',
+  'tryNote/191023-v18',
+  'tryNote/191023-v19'
 ]
 
-export const getRandomVariation = () => {
-  const randomIndex = Math.floor(Math.random() * ACTIVE_VARIATIONS.length)
-  return ACTIVE_VARIATIONS[randomIndex]
+const BUY_VARIATIONS = [
+  'payNote/190305-v1',
+  'payNote/190305-v2',
+  'payNote/190305-v3',
+  'payNote/190305-v4',
+  'payNote/190305-v5',
+  'payNote/190305-v6',
+  'payNote/190305-v7',
+  'payNote/190305-v8',
+  'payNote/190305-v9'
+]
+
+export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.length)
+
+const BUY_SERIES = 'payNote/series'
+
+const getTryVariation = (seed) => getElementFromSeed(TRY_VARIATIONS, seed)
+
+const getBuyVariation = (seed, isSeries) => isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
+
+const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
+
+const showBuyInsteadOfTry = (seed) => (seed / MAX_PAYNOTE_SEED) > TRY_TO_BUY_RATIO
+
+const getPayNoteVariation = (hasOngoingTrial, isSeries, seed) => {
+  return hasOngoingTrial || showBuyInsteadOfTry(seed)
+    ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
 }
 
-const CountSpan = ({ membershipStats }) => (
+const MembersCount = ({ membershipStats }) => (
   <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
     (membershipStats && membershipStats.count) || 20000
   )}</span>
 )
 
-export const Before = compose(
-  withT,
-  graphql(query),
-  withInNativeApp
-)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, expanded }) => (
-  <WithoutMembership render={() => {
-    if (me && me.activeMembership) {
-      return null
-    }
-
-    if (inNativeIOSApp) {
-      return (
-        <div {...styles.blackContainer}>
-          <Center>
-            <Interaction.P style={{ color: 'inherit' }}>
-              {t.elements('article/payNote/before/ios', {
-                count: <CountSpan key='count' membershipStats={membershipStats} />
-              })}
-            </Interaction.P>
-          </Center>
-        </div>
-      )
-    }
-    const translationPrefix = `article/payNote/${variation}`
-    return (
-      <BottomPanel expanded={expanded} variation={variation} button={(
-        <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
-          ['PayNote', 'pledge panel', variation],
-          () => {
-            Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
-          }
-        )}>
-          {t(`${translationPrefix}/before/buy/button`)}
-        </Button>
-      )}>
-        <div {...styles.beforeContent}>
-          <p {...styles.beforeParagraph}>
-            {t.elements(`${translationPrefix}/before`, {
-              count: <CountSpan key='count' membershipStats={membershipStats} />
-            })}
-          </p>
-        </div>
-      </BottomPanel>
-    )
-  }} />
-))
-
-export const After = compose(
-  withT,
-  withMe,
-  graphql(query),
-  withInNativeApp
-)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, bottomBarRef }) => (
-  <WithoutActiveMembership render={() => {
-    const translationPrefix = `article/payNote/${variation}`
-    return (
-      <div {...styles.secondaryContainer}>
-        <Center>
-          {inNativeIOSApp ? (
-            <div ref={bottomBarRef}>
-              <Interaction.P>
-                {t.elements('article/payNote/after/ios', {
-                  count: <CountSpan key='count' membershipStats={membershipStats} />
-                })}
-              </Interaction.P>
-            </div>
-          ) : (
-            <Fragment>
-              <Interaction.H3 style={{ marginBottom: 15 }}>
-                {t(`${translationPrefix}/after/title`)}
-              </Interaction.H3>
-              <Interaction.P>
-                {t.elements(`${translationPrefix}/after`, {
-                  count: <CountSpan key='count' membershipStats={membershipStats} />
-                })}
-              </Interaction.P>
-              <br />
-              <div {...styles.actions} ref={bottomBarRef}>
-                <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
-                  ['PayNote', 'pledge after', variation],
-                  () => {
-                    Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
-                  }
-                )}>
-                  {t(`${translationPrefix}/after/buy/button`)}
-                </Button>
-                {!me && (
-                  <div {...styles.aside}>
-                    {t.elements('article/payNote/secondaryAction/text', {
-                      link: (
-                        <a key='trial' {...linkRule} style={{ whiteSpace: 'nowrap' }}
-                          href={routes.find(r => r.name === 'trial').toPath()}
-                          onClick={trackEventOnClick(
-                            ['PayNote', 'preview after', variation],
-                            () => {
-                              Router.pushRoute('trial').then(() => window.scrollTo(0, 0))
-                            }
-                          )}>
-                          {t('article/payNote/secondaryAction/linkText')}
-                        </a>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            </Fragment>
-          )}
-        </Center>
-      </div>
-    )
-  }} />
-))
-
-Before.propTypes = After.propTypes = {
-  variation: PropTypes.oneOf(ACTIVE_VARIATIONS.concat('series')).isRequired
+const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
+  // react elements don't get rendered by dangerouslySetInnerHTML,
+  // (which we use because to support <b> tags), hence this mumbo-jumbo below
+  return t.elements(
+    `article/${variation}/${position}${element ? '/' + element : ''}`, {
+      count: ReactDOMServer.renderToStaticMarkup(<MembersCount key='count' membershipStats={membershipStats} />)
+    }).join('')
 }
+
+const BuyNoteCta = ({ variation, position, translator }) => {
+  return (<Button primary black onClick={trackEventOnClick(
+    ['PayNote', `pledge ${position}`, variation],
+    () => {
+      Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
+    }
+  )}>
+    {translator(variation, position, 'buy/button')}
+  </Button>)
+}
+
+const PayNoteCta = ({ variation, position, translator }) => {
+  return isTryNote(variation)
+    ? <TrialForm accessCampaignId={TRIAL_CAMPAIGN} minimal />
+    : <BuyNoteCta variation={variation} position={position} translator={translator} />
+}
+
+export const PayNote = compose(
+  withT,
+  withInNativeApp,
+  withMemberStatus,
+  graphql(memberShipQuery)
+)(({ t, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
+  const translator = initTranslator(t, membershipStats)
+  const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(hasOngoingTrial, series, seed)
+  const lead = translator(variation, position, 'title')
+  const body = translator(variation, position)
+  const cta = !inNativeIOSApp && <PayNoteCta variation={variation} position={position} translator={translator} />
+  const isBefore = position === 'before'
+
+  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
+    <Center>
+      <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
+        <BrandMark />
+      </div>
+      <Interaction.P {...styles.body}>
+        <b dangerouslySetInnerHTML={{ __html: lead }} /> <span dangerouslySetInnerHTML={{ __html: body }} />
+      </Interaction.P>
+      {cta && (<div {...styles.cta}>{cta}</div>)}
+    </Center>
+  </div>)
+})

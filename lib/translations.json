@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-25T10:51:34.895Z",
+  "updated": "2019-10-28T16:11:21.165Z",
   "title": "live",
   "data": [
     {
@@ -5265,6 +5265,14 @@
     {
       "key": "Auth/CodeAuthorization/description/emphasis",
       "value": "Bestätigungsziffern per E-Mail"
+    },
+    {
+      "key": "Auth/CodeAuthorization/description/minimal",
+      "value": "Wir haben Ihnen {emphasis} geschickt. Tragen Sie diese im oberen Feld ein."
+    },
+    {
+      "key": "Auth/CodeAuthorization/description/minimal/emphasis",
+      "value": "Bestätigungsziffern an Ihre  E-Mail-Adresse, {email},"
     },
     {
       "key": "Auth/CodeAuthorization/code/label",

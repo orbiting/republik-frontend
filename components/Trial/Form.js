@@ -26,6 +26,9 @@ const styles = {
   switchBoard: css({
     marginTop: 40
   }),
+  switchBoardMinimal: css({
+    marginTop: 0
+  }),
   button: css({
     marginTop: 40,
     width: 170,
@@ -95,7 +98,7 @@ const Form = (props) => {
     if (!me) {
       handleEmail(email.value, true)
 
-      if (errorMessages.length > 0) {
+      if (email.error || consentErrors) {
         setLoading(false)
         return setShowErrors(true)
       }
@@ -154,8 +157,10 @@ const Form = (props) => {
     setSigningIn(false)
   }
 
+  const consentErrors = getConsentsError(t, REQUIRED_CONSENTS, consents)
+
   const errorMessages = [email.error]
-    .concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
+    .concat(consentErrors)
     .filter(Boolean)
 
   return (
@@ -174,6 +179,7 @@ const Form = (props) => {
               onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
             <div style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}>
               <Consents
+                error={showErrors && consentErrors}
                 black={minimal}
                 required={REQUIRED_CONSENTS}
                 accepted={consents}
@@ -183,7 +189,7 @@ const Form = (props) => {
           </div>
         )}
 
-        {showErrors && errorMessages.length > 0 && (
+        {!minimal && showErrors && errorMessages.length > 0 && (
           <div {...styles.errorMessages}>
             {t('Trial/Form/error/title')}<br />
             <ul>
@@ -212,7 +218,7 @@ const Form = (props) => {
       </form>)}
 
       {signingIn && (
-        <div {...styles.switchBoard}>
+        <div {...merge(styles.switchBoard, minimal && styles.switchBoardMinimal)}>
           <SwitchBoard
             email={email.value}
             tokenType={tokenType}

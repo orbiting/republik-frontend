@@ -1,3 +1,4 @@
+import React from 'react'
 import { compose } from 'react-apollo'
 import NativeRouter, { withRouter } from 'next/router'
 

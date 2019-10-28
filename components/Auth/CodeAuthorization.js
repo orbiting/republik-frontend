@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Mutation, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
+import { merge, css } from 'glamor'
 
-import { Button, Interaction, Field, A, InlineSpinner } from '@project-r/styleguide'
+import { Button, Interaction, Field, A, InlineSpinner, linkBlackStyle } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import withMe, { meQuery } from '../../lib/apollo/withMe'
@@ -42,6 +42,11 @@ const styles = {
     '> li': {
       paddingBottom: 10
     }
+  }),
+  minimalHelp: css({
+    color: '#000000',
+    marginTop: 0,
+    '& a': linkBlackStyle
   }),
   description: css({
     marginBottom: 20
@@ -128,12 +133,14 @@ class CodeAuthorization extends Component {
 
           return (
             <form onSubmit={onSubmit} ref={this.formRef}>
-              <H3>{t('Auth/CodeAuthorization/title')}</H3>
-              <P {...styles.description}>
-                {t.elements('Auth/CodeAuthorization/description', {
-                  emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
-                })}
-              </P>
+              { !minimal && (<Fragment>
+                <H3>{t('Auth/CodeAuthorization/title')}</H3>
+                <P {...styles.description}>
+                  {t.elements('Auth/CodeAuthorization/description', {
+                    emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
+                  })}
+                </P>
+              </Fragment>) }
               <Field
                 renderInput={props => (
                   <input {...props} pattern={'[0-9]*'} />
@@ -162,12 +169,19 @@ class CodeAuthorization extends Component {
                   </Button>
                 }
               </div>)}
-              <ul {...styles.help}>
-                <li>
+              <ul {...merge(styles.help, minimal && styles.minimalHelp)}>
+                { minimal && (<li>
+                  {t.elements('Auth/CodeAuthorization/description/minimal', {
+                    emphasis: <Emphasis key='emphasis'>
+                      {t('Auth/CodeAuthorization/description/minimal/emphasis', { email: email })}
+                    </Emphasis>
+                  })} <A href='#' onClick={onCancel}>{t('Auth/CodeAuthorization/help/cancelLink')}</A>
+                </li>) }
+                { !minimal && (<li>
                   <A href='#' onClick={onCancel}>
                     {t('Auth/CodeAuthorization/help/cancelLink')}
                   </A>
-                </li>
+                </li>) }
                 <li>
                   {t('Auth/CodeAuthorization/help/lastResort')}
                 </li>

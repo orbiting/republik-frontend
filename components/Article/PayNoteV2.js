@@ -19,6 +19,7 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
   banner: css({
@@ -144,7 +145,7 @@ const BuyNoteCta = ({ variation, position, translator }) => {
 
 const PayNoteCta = ({ variation, position, translator }) => {
   return isTryNote(variation)
-    ? <TrialForm minimal />
+    ? <TrialForm accessCampaignId={TRIAL_CAMPAIGN} minimal />
     : <BuyNoteCta variation={variation} position={position} translator={translator} />
 }
 

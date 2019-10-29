@@ -14,6 +14,7 @@
    "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-no-target-blank": 0,
     "react/display-name": 0,
     "react/prop-types": 0,
     "no-unused-vars": "warn",

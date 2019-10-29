@@ -18,6 +18,7 @@ import { createRequire } from '@project-r/styleguide/lib/components/DynamicCompo
 import FontSizeSync from '../FontSize/Sync'
 import { getRandomInt } from '../../lib/utils/helpers'
 import { splitByTitle } from '../../lib/utils/mdast'
+import withMemberStatus from '../../lib/withMemberStatus'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
@@ -67,7 +68,6 @@ import gql from 'graphql-tag'
 
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
-import withMemberStatus from '../../lib/withMemberStatus'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -615,13 +615,13 @@ class ArticlePage extends Component {
                 onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
-                  {splitContent.title && (<Fragment>
+                  {splitContent.title && (<div style={{ marginBottom: 20 }}>
                     {renderSchema(splitContent.title)}
                     <Center>
-                      <div ref={this.barRef}>{actionBar}</div>
+                      <div ref={this.barRef} style={{ marginBottom: 50 }}>{actionBar}</div>
                     </Center>
                     {!isFormat && !isNewsletterSource && payNote}
-                  </Fragment>)}
+                  </div>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderSchema(splitContent.main)}

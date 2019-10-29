@@ -66,9 +66,6 @@ const styles = {
 }
 
 const beforeStyles = {
-  banner: css({
-    margin: '40px auto'
-  }),
   brand: css({
     [mediaQueries.mUp]: {
       display: 'none'
@@ -84,7 +81,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 0
+const TRY_TO_BUY_RATIO = 0.8
 
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
@@ -146,9 +143,9 @@ const MembersCount = ({ membershipStats }) => (
 )
 
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
-  const tKey = `article/${variation}/${position}${element ? '/' + element : ''}`
-  return t.elements(tKey, {
-    emphasis: <Interaction.Emphasis>{t(`${tKey}/emphasis`)}</Interaction.Emphasis>,
+  const baseKey = `article/${variation}/${position}${element ? '/' + element : ''}`
+  return t.elements(baseKey, {
+    emphasis: <Interaction.Emphasis>{t(`${baseKey}/emphasis`)}</Interaction.Emphasis>,
     count: <MembersCount key='count' membershipStats={membershipStats} />
   })
 }
@@ -215,7 +212,7 @@ export const PayNote = compose(
       hasOngoingTrial={hasOngoingTrial} />
   const isBefore = position === 'before'
 
-  return <div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
+  return <div {...styles.banner}>
     <Center>
       <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
         <BrandMark />

@@ -405,16 +405,18 @@ const Group = ({
     ...group.cards.nodes.slice(13)
   ].filter(Boolean)
 
-  allCards.sort((a, b) => {
-    const aSwipe = swipedMap.get(a.id)
-    const bSwipe = swipedMap.get(b.id)
-    return aSwipe && bSwipe
-      ? ascending(allSwipes.indexOf(aSwipe), allSwipes.indexOf(bSwipe))
-      : (
-        ascending(!aSwipe, !bSwipe) ||
-        ascending(allCards.indexOf(a), allCards.indexOf(b))
-      )
-  })
+  if (!group.special) {
+    allCards.sort((a, b) => {
+      const aSwipe = swipedMap.get(a.id)
+      const bSwipe = swipedMap.get(b.id)
+      return aSwipe && bSwipe
+        ? ascending(allSwipes.indexOf(aSwipe), allSwipes.indexOf(bSwipe))
+        : (
+          ascending(!aSwipe, !bSwipe) ||
+          ascending(allCards.indexOf(a), allCards.indexOf(b))
+        )
+    })
+  }
 
   const getUnswipedIndex = () => {
     const firstUnswipedIndex = allCards.findIndex(card => {
@@ -501,10 +503,11 @@ const Group = ({
   if (
     prevCard &&
     swipedLength &&
-    allSwipes[swipedLength - 1].cardId !== prevCard.id
+    allSwipes[allSwipes.length - 1].cardId !== prevCard.id
   ) {
     prevCard = null
   }
+
   const onRevert = () => {
     if (!prevCard) {
       return

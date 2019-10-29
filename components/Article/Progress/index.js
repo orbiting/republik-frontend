@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { compose, withApollo } from 'react-apollo'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
+import { withRouter } from 'next/router'
 
 import ProgressPrompt from './ProgressPrompt'
 import { mediaQueries } from '@project-r/styleguide'
@@ -258,12 +259,14 @@ class Progress extends Component {
       revokeProgressConsent,
       submitProgressConsent,
       article,
-      isArticle
+      isArticle,
+      router
     } = this.props
 
     const showConsentPrompt = (
       isArticle &&
       me &&
+      !router.query.trialSignup &&
       me.progressConsent === null &&
       article &&
       article.meta &&
@@ -328,5 +331,6 @@ Progress.childContextTypes = {
 export default compose(
   withApollo,
   withProgressApi,
-  withMe
+  withMe,
+  withRouter
 )(Progress)

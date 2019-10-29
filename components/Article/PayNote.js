@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   BrandMark,
   Interaction,
@@ -189,15 +189,10 @@ const TryNoteCta = compose(withRouter)(({ router }) => {
       // use native router for shadow routing
       NativeRouter.push({
         pathname: '/article',
-        query: { stale: 1 }
+        query: { trialSignup: 1 }
       }, router.asPath, { shallow: true })
     }}
     onSuccess={() => {
-      Router.replaceRoute(
-        'article',
-        {},
-        { shallow: true }
-      )
       return false
     }}
     accessCampaignId={TRIAL_CAMPAIGN}
@@ -218,11 +213,12 @@ const PayNoteCta = ({ variation, position, translator, isTrialContext }) => {
 
 export const PayNote = compose(
   withT,
+  withRouter,
   withInNativeApp,
   withMemberStatus,
   graphql(memberShipQuery)
-)(({ t, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
-  const [isTrialContext] = useState(hasOngoingTrial)
+)(({ t, router, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
+  const isTrialContext = hasOngoingTrial && !router.query.trialSignup
   const translator = initTranslator(t, membershipStats)
   const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(isTrialContext, series, seed)
   const lead = translator(variation, position, 'title')

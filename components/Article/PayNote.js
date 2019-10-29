@@ -117,9 +117,9 @@ const BUY_VARIATIONS = [
   'payNote/190305-v9'
 ]
 
-export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.length)
-
 const BUY_SERIES = 'payNote/series'
+
+export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.length)
 
 const goTo = (route) => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
@@ -145,7 +145,7 @@ const MembersCount = ({ membershipStats }) => (
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
   const baseKey = `article/${variation}/${position}${element ? '/' + element : ''}`
   return t.elements(baseKey, {
-    emphasis: <Interaction.Emphasis>{t(`${baseKey}/emphasis`)}</Interaction.Emphasis>,
+    emphasis: <Interaction.Emphasis key='emphasis'>{t(`${baseKey}/emphasis`)}</Interaction.Emphasis>,
     count: <MembersCount key='count' membershipStats={membershipStats} />
   })
 }

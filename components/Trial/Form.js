@@ -81,7 +81,7 @@ const Form = (props) => {
       ...email,
       value,
       error: (
-        (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
+        ((!value || value.trim().length <= 0) && t('Trial/Form/email/error/empty')) ||
         (!isEmail(value) && t('Trial/Form/email/error/invalid'))
       ),
       dirty: shouldValidate
@@ -98,7 +98,7 @@ const Form = (props) => {
     if (!me) {
       handleEmail(email.value, true)
 
-      if (email.error || consentErrors) {
+      if (!email.value || email.error || consentErrors) {
         setLoading(false)
         return setShowErrors(true)
       }

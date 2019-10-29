@@ -5,13 +5,15 @@ import {
   Center,
   mediaQueries,
   Button,
-  colors
+  colors,
+  fontStyles,
+  linkBlackStyle
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
-import { Router } from '../../lib/routes'
+import { Router, routes } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -42,8 +44,27 @@ const styles = {
   }),
   cta: css({
     marginTop: 10
+  }),
+  actions: css({
+    display: 'flex',
+    flexDirection: 'column',
+    [mediaQueries.mUp]: {
+      alignItems: 'center',
+      flexDirection: 'row'
+    }
+  }),
+  aside: css({
+    marginTop: 15,
+    ...fontStyles.sansSerifRegular16,
+    '& a': linkBlackStyle,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular18,
+      marginLeft: 30,
+      marginTop: 0
+    }
   })
 }
+
 const beforeStyles = {
   banner: css({
     margin: '40px auto'
@@ -63,7 +84,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 1
+const TRY_TO_BUY_RATIO = 0
 
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
@@ -103,11 +124,13 @@ export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.l
 
 const BUY_SERIES = 'payNote/series'
 
+const goTo = (route) => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
+
+const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
+
 const getTryVariation = (seed) => getElementFromSeed(TRY_VARIATIONS, seed)
 
 const getBuyVariation = (seed, isSeries) => isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
-
-const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
 
 const showBuyInsteadOfTry = (seed) => (seed / MAX_PAYNOTE_SEED) > TRY_TO_BUY_RATIO
 
@@ -125,26 +148,53 @@ const MembersCount = ({ membershipStats }) => (
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
   const tKey = `article/${variation}/${position}${element ? '/' + element : ''}`
   return t.elements(tKey, {
-    emphasis: (<Interaction.Emphasis>{t(`${tKey}/emphasis`)}</Interaction.Emphasis>),
+    emphasis: <Interaction.Emphasis>{t(`${tKey}/emphasis`)}</Interaction.Emphasis>,
     count: <MembersCount key='count' membershipStats={membershipStats} />
   })
 }
 
-const BuyNoteCta = ({ variation, position, translator }) => {
-  return (<Button primary black onClick={trackEventOnClick(
+const BuyButton = ({ variation, position, translator }) => {
+  return <Button primary black onClick={trackEventOnClick(
     ['PayNote', `pledge ${position}`, variation],
-    () => {
-      Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
-    }
+    () => goTo('pledge')
   )}>
     {translator(variation, position, 'buy/button')}
-  </Button>)
+  </Button>
 }
 
-const PayNoteCta = ({ variation, position, translator }) => {
-  return isTryNote(variation)
-    ? <TrialForm accessCampaignId={TRIAL_CAMPAIGN} minimal />
-    : <BuyNoteCta variation={variation} position={position} translator={translator} />
+const TrialLink = compose(withT)(({ t, variation }) => {
+  return <div {...styles.aside}>
+    {t.elements('article/payNote/secondaryAction/text', {
+      link:
+        (<a key='trial'
+          href={routes.find(r => r.name === 'trial').toPath()}
+          onClick={trackEventOnClick(
+            ['PayNote', 'preview after', variation],
+            () => goTo('trial')
+          )}>
+          {t('article/payNote/secondaryAction/linkText')}
+        </a>)
+    })}
+  </div>
+})
+
+const BuyNoteCta = ({ variation, position, translator, hasOngoingTrial }) => {
+  return <div {...styles.actions}>
+    <BuyButton variation={variation} position={position} translator={translator} />
+    {!hasOngoingTrial && <TrialLink variation={variation} />}
+  </div>
+}
+
+const PayNoteCta = ({ variation, position, translator, hasOngoingTrial }) => {
+  return <div {...styles.cta}>
+    {isTryNote(variation)
+      ? <TrialForm accessCampaignId={TRIAL_CAMPAIGN} minimal />
+      : <BuyNoteCta
+        variation={variation}
+        position={position}
+        translator={translator}
+        hasOngoingTrial={hasOngoingTrial} />}
+  </div>
 }
 
 export const PayNote = compose(
@@ -157,10 +207,15 @@ export const PayNote = compose(
   const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(hasOngoingTrial, series, seed)
   const lead = translator(variation, position, 'title')
   const body = translator(variation, position)
-  const cta = !inNativeIOSApp && <PayNoteCta variation={variation} position={position} translator={translator} />
+  const cta = !inNativeIOSApp &&
+    <PayNoteCta
+      variation={variation}
+      position={position}
+      translator={translator}
+      hasOngoingTrial={hasOngoingTrial} />
   const isBefore = position === 'before'
 
-  return (<div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
+  return <div {...merge(styles.banner, isBefore && beforeStyles.banner)}>
     <Center>
       <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
         <BrandMark />
@@ -168,7 +223,7 @@ export const PayNote = compose(
       <Interaction.P {...styles.body}>
         <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
       </Interaction.P>
-      {cta && (<div {...styles.cta}>{cta}</div>)}
+      {cta}
     </Center>
-  </div>)
+  </div>
 })

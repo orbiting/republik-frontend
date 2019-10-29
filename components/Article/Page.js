@@ -17,7 +17,7 @@ import { cleanAsPath } from '../../lib/routes'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
 import FontSizeSync from '../FontSize/Sync'
 import { getRandomInt } from '../../lib/utils/helpers'
-import { splitNodes } from '../../lib/utils/mdast'
+import { splitByTitle } from '../../lib/utils/mdast'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
@@ -562,8 +562,7 @@ class ArticlePage extends Component {
     const payNote = !isActiveMember && <PayNote seed={payNoteSeed} series={series} position='before' />
     const payNoteAfter = payNote && React.cloneElement(payNote, { position: 'after' })
 
-    const splitContent = splitNodes(article.content, 'TITLE')
-    const [title, mainContent] = splitContent.length > 1 ? splitContent : [undefined, splitContent[0]]
+    const splitContent = splitByTitle(article.content)
     const renderSchema = (content) => renderMdast({
       ...content,
       format: meta.format
@@ -616,8 +615,8 @@ class ArticlePage extends Component {
                 onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
                 <ProgressComponent article={article}>
-                  {title && (<Fragment>
-                    {renderSchema(title)}
+                  {splitContent.title && (<Fragment>
+                    {renderSchema(splitContent.title)}
                     <Center>
                       <div ref={this.barRef}>{actionBar}</div>
                     </Center>
@@ -625,7 +624,7 @@ class ArticlePage extends Component {
                   </Fragment>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
-                    {() => renderSchema(mainContent)}
+                    {() => renderSchema(splitContent.main)}
                   </SSRCachingBoundary>
                 </ProgressComponent>
               </ArticleGallery>

@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server'
 import {
   BrandMark,
   Interaction,
@@ -124,12 +123,11 @@ const MembersCount = ({ membershipStats }) => (
 )
 
 const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
-  // react elements don't get rendered by dangerouslySetInnerHTML,
-  // (which we use because to support <b> tags), hence this mumbo-jumbo below
-  return t.elements(
-    `article/${variation}/${position}${element ? '/' + element : ''}`, {
-      count: ReactDOMServer.renderToStaticMarkup(<MembersCount key='count' membershipStats={membershipStats} />)
-    }).join('')
+  const tKey = `article/${variation}/${position}${element ? '/' + element : ''}`
+  return t.elements(tKey, {
+    emphasis: (<Interaction.Emphasis>{t(`${tKey}/emphasis`)}</Interaction.Emphasis>),
+    count: <MembersCount key='count' membershipStats={membershipStats} />
+  })
 }
 
 const BuyNoteCta = ({ variation, position, translator }) => {
@@ -168,7 +166,7 @@ export const PayNote = compose(
         <BrandMark />
       </div>
       <Interaction.P {...styles.body}>
-        <b dangerouslySetInnerHTML={{ __html: lead }} /> <span dangerouslySetInnerHTML={{ __html: body }} />
+        <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
       </Interaction.P>
       {cta && (<div {...styles.cta}>{cta}</div>)}
     </Center>

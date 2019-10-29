@@ -562,7 +562,7 @@ class ArticlePage extends Component {
     const payNote = !isActiveMember && <PayNote seed={payNoteSeed} series={series} position='before' />
     const payNoteAfter = payNote && React.cloneElement(payNote, { position: 'after' })
 
-    const splitContent = splitByTitle(article.content)
+    const splitContent = article && splitByTitle(article.content)
     const renderSchema = (content) => renderMdast({
       ...content,
       format: meta.format

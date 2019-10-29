@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   BrandMark,
   Interaction,
@@ -14,6 +14,7 @@ import { css, merge } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
 import { Router, routes } from '../../lib/routes'
+import NativeRouter, { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
@@ -175,22 +176,43 @@ const TrialLink = compose(withT)(({ t, variation }) => {
   </div>
 })
 
-const BuyNoteCta = ({ variation, position, translator, hasOngoingTrial }) => {
+const BuyNoteCta = ({ variation, position, translator, isTrialContext }) => {
   return <div {...styles.actions}>
     <BuyButton variation={variation} position={position} translator={translator} />
-    {!hasOngoingTrial && <TrialLink variation={variation} />}
+    {!isTrialContext && <TrialLink variation={variation} />}
   </div>
 }
 
-const PayNoteCta = ({ variation, position, translator, hasOngoingTrial }) => {
+const TryNoteCta = compose(withRouter)(({ router }) => {
+  return <TrialForm
+    beforeSignIn={() => {
+      // use native router for shadow routing
+      NativeRouter.push({
+        pathname: '/article',
+        query: { stale: 1 }
+      }, router.asPath, { shallow: true })
+    }}
+    onSuccess={() => {
+      Router.replaceRoute(
+        'article',
+        {},
+        { shallow: true }
+      )
+      return false
+    }}
+    accessCampaignId={TRIAL_CAMPAIGN}
+    minimal />
+})
+
+const PayNoteCta = ({ variation, position, translator, isTrialContext }) => {
   return <div {...styles.cta}>
     {isTryNote(variation)
-      ? <TrialForm accessCampaignId={TRIAL_CAMPAIGN} minimal />
+      ? <TryNoteCta />
       : <BuyNoteCta
         variation={variation}
         position={position}
         translator={translator}
-        hasOngoingTrial={hasOngoingTrial} />}
+        isTrialContext={isTrialContext} />}
   </div>
 }
 
@@ -200,8 +222,9 @@ export const PayNote = compose(
   withMemberStatus,
   graphql(memberShipQuery)
 )(({ t, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
+  const [isTrialContext] = useState(hasOngoingTrial)
   const translator = initTranslator(t, membershipStats)
-  const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(hasOngoingTrial, series, seed)
+  const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(isTrialContext, series, seed)
   const lead = translator(variation, position, 'title')
   const body = translator(variation, position)
   const cta = !inNativeIOSApp &&
@@ -209,7 +232,7 @@ export const PayNote = compose(
       variation={variation}
       position={position}
       translator={translator}
-      hasOngoingTrial={hasOngoingTrial} />
+      isTrialContext={isTrialContext} />
   const isBefore = position === 'before'
 
   return <div {...styles.banner}>

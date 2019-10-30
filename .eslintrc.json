@@ -12,8 +12,8 @@
     "node": true
   },
    "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": 0,
+    "react-hooks/exhaustive-deps": 0,
     "react/jsx-no-target-blank": 0,
     "react/display-name": 0,
     "react/prop-types": 0,

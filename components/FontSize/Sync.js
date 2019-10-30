@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { FONT_SIZE_KEY, useFontSize } from '../../lib/fontSize'
 import { DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import NextHead from 'next/head'
@@ -9,7 +9,7 @@ const FontSizeSync = () => {
   const [slowFontSize] = useDebounce(fontSize, 500)
   const lastStyleTag = useRef()
 
-  const setRootFontSize = useCallback(() => {
+  const setRootFontSize = () => {
     document.documentElement.style.fontSize = fontSize + 'px'
 
     // IE, Edge do not recalculate all font sizes
@@ -21,11 +21,11 @@ const FontSizeSync = () => {
     lastStyleTag.current = document.createElement('style')
     lastStyleTag.current.setAttribute('data-font-size-sync', fontSize)
     document.head.appendChild(lastStyleTag.current)
-  })
+  }
 
   useEffect(() => {
     setRootFontSize()
-  }, [setRootFontSize, slowFontSize])
+  }, [slowFontSize])
   useEffect(() => {
     // resize on browser: back button for IE, Edge
     setRootFontSize()
@@ -36,7 +36,7 @@ const FontSizeSync = () => {
         document.head.removeChild(lastStyleTag.current)
       }
     }
-  }, [setRootFontSize])
+  }, [])
   return (
     <NextHead>
       <script

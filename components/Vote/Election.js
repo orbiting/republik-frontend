@@ -166,6 +166,7 @@ class Election extends Component {
 
       const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/election/labelReset')}</A>
 
+      const { updating } = this.state
       switch (electionState) {
         case ELECTION_STATES.START:
           return (
@@ -194,7 +195,6 @@ class Election extends Component {
             </Fragment>
           )
         case ELECTION_STATES.READY:
-          const { updating } = this.state
           return (
             <Fragment>
               <Button

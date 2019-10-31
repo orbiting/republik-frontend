@@ -1,3 +1,4 @@
+import React from 'react'
 import { A, Interaction } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 

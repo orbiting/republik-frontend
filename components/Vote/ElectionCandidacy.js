@@ -145,7 +145,7 @@ class ElectionCandidacy extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isEditing: props.router.query.hasOwnProperty('edit') || false,
+      isEditing: !!props.router.query.edit || false,
       showErrors: true,
       errors: {},
       dirty: {},
@@ -238,7 +238,7 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.data.me && nextProps.data.me !== this.props.data.me) {
       this.setState(this.deriveStateFromProps(nextProps))
     }

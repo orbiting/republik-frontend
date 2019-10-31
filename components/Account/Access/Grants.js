@@ -1,3 +1,4 @@
+import React from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import { Interaction, Editorial } from '@project-r/styleguide'

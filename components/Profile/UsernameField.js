@@ -70,7 +70,7 @@ class UsernameField extends Component {
         })
       })
   }
-  componentWillMount () {
+  UNSAFE_componentWillMount () {
     const { values } = this.props
     if (values.username) {
       this.check()

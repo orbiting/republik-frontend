@@ -21,7 +21,6 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
-import { negativeColors } from '../Frame/Footer'
 import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
@@ -29,7 +28,7 @@ const styles = {
     padding: '5px 0'
   }),
   bannerBefore: css({
-    backgroundColor: negativeColors.primaryBg
+    backgroundColor: colors.negative.primaryBg
   }),
   bannerAfter: css({
     backgroundColor: colors.primaryBg
@@ -49,7 +48,7 @@ const styles = {
     paddingBottom: 0
   }),
   bodyBefore: css({
-    color: negativeColors.text
+    color: colors.negative.text
   }),
   bodyAfter: css({
     color: '#000000'

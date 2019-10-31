@@ -6,7 +6,6 @@ import { Link } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
 import { romanize } from '../../lib/utils/romanize'
 import withT from '../../lib/withT'
-import { negativeColors } from '../Frame/Footer'
 
 import {
   Editorial,
@@ -20,7 +19,7 @@ const dayFormat = timeFormat('%d. %B %Y')
 
 const styles = {
   container: css({
-    color: negativeColors.text
+    color: colors.negative.text
   }),
   base: css({
     cursor: 'default',
@@ -28,18 +27,18 @@ const styles = {
     padding: '20px 15px',
     textAlign: 'center',
     '& + &': {
-      borderTop: `1px solid ${negativeColors.divider}`
+      borderTop: `1px solid ${colors.negative.divider}`
     }
   }),
   link: css({
     textDecoration: 'none',
-    color: negativeColors.text,
+    color: colors.negative.text,
     ':visited': {
-      color: negativeColors.text
+      color: colors.negative.text
     },
     '@media (hover)': {
       ':hover': {
-        color: negativeColors.primary
+        color: colors.negative.primary
       }
     },
     cursor: 'pointer'
@@ -49,7 +48,7 @@ const styles = {
     color: colors.text
   }),
   unpublished: css({
-    color: negativeColors.lightText
+    color: colors.negative.lightText
   }),
   title: css({
     ...fontStyles.serifTitle26,

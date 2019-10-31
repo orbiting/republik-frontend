@@ -190,6 +190,7 @@ const Form = (props) => {
               onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
             <div style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}>
               <Consents
+                darkMode={darkMode}
                 error={showErrors && consentErrors}
                 required={REQUIRED_CONSENTS}
                 accepted={consents}

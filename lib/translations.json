@@ -1,5 +1,5 @@
 {
-  "updated": "2019-10-28T17:17:26.692Z",
+  "updated": "2019-10-31T11:23:22.642Z",
   "title": "live",
   "data": [
     {
@@ -3699,6 +3699,10 @@
       "value": "Testen Sie es einfach 14 Tage lang gratis"
     },
     {
+      "key": "article/tryNote/thankYou",
+      "value": "Vielen Dank!"
+    },
+    {
       "key": "article/share/title",
       "value": "Artikel teilen"
     },
@@ -5419,11 +5423,7 @@
       "value": "Bestätigungsziffern per E-Mail"
     },
     {
-      "key": "Auth/CodeAuthorization/description/minimal",
-      "value": "Wir haben Ihnen {emphasis} geschickt. Tragen Sie diese im oberen Feld ein."
-    },
-    {
-      "key": "Auth/CodeAuthorization/description/minimal/emphasis",
+      "key": "Auth/CodeAuthorization/description/emphasis/email",
       "value": "Bestätigungsziffern an Ihre  E-Mail-Adresse, {email},"
     },
     {

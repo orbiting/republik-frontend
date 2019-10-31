@@ -62,6 +62,8 @@ const Form = (props) => {
         </Button>
         {' '}
         <Button
+          black={minimal && !darkMode}
+          white={minimal && darkMode}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}>
           {t('Trial/Form/authorized/withAccess/setup/label')}
         </Button>

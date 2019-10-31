@@ -140,23 +140,22 @@ class CodeAuthorization extends Component {
 
           return (
             <form onSubmit={onSubmit} ref={this.formRef}>
-              { minimal ? (
-                <ul {...listStyle} style={{ marginTop: 20 }}>
-                  <li>
-                    {t.elements('Auth/CodeAuthorization/description/minimal', {
-                      emphasis: <Emphasis key='emphasis'>
-                        {t('Auth/CodeAuthorization/description/minimal/emphasis', { email: email })}
-                      </Emphasis>
-                    })}
-                  </li>
-                </ul>) : (<Fragment>
-                  <H3>{t('Auth/CodeAuthorization/title')}</H3>
-                  <P {...styles.description}>
-                    {t.elements('Auth/CodeAuthorization/description', {
-                      emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
-                    })}
-                  </P>
-                </Fragment>) }
+              { minimal ? (<ul {...listStyle} style={{ marginTop: 20 }}>
+                <li>
+                  {t.elements('Auth/CodeAuthorization/description', {
+                    emphasis: <Emphasis key='emphasis'>
+                      {t('Auth/CodeAuthorization/description/emphasis/email', { email: email })}
+                    </Emphasis>
+                  })}
+                </li>
+              </ul>) : (<Fragment>
+                <H3>{t('Auth/CodeAuthorization/title')}</H3>
+                <P {...styles.description}>
+                  {t.elements('Auth/CodeAuthorization/description', {
+                    emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
+                  })}
+                </P>
+              </Fragment>) }
               <Field
                 renderInput={props => (
                   <input {...props} pattern={'[0-9]*'} />

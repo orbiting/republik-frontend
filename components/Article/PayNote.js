@@ -85,7 +85,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 1
+const TRY_TO_BUY_RATIO = 0.8
 
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
@@ -226,8 +226,9 @@ export const PayNote = compose(
   const isTrialContext = hasOngoingTrial && !router.query.trialSignup
   const translator = initTranslator(t, membershipStats)
   const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(isTrialContext, series, seed)
-  const lead = translator(variation, position, 'title')
-  const body = translator(variation, position)
+  const showThankYouNote = hasOngoingTrial && isTryNote(variation)
+  const lead = showThankYouNote ? t('article/tryNote/thankYou') : translator(variation, position, 'title')
+  const body = !showThankYouNote && translator(variation, position)
   const isBefore = position === 'before'
   const cta = !inNativeIOSApp &&
     <PayNoteCta

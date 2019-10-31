@@ -10,7 +10,7 @@ import {
   linkRule
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
-import { css, merge } from 'glamor'
+import { css } from 'glamor'
 import { getElementFromSeed } from '../../lib/utils/helpers'
 import { trackEventOnClick } from '../../lib/piwik'
 import { Router, routes } from '../../lib/routes'
@@ -27,12 +27,6 @@ const styles = {
   banner: css({
     padding: '5px 0'
   }),
-  bannerBefore: css({
-    backgroundColor: colors.negative.primaryBg
-  }),
-  bannerAfter: css({
-    backgroundColor: colors.primaryBg
-  }),
   brand: css({
     display: 'none',
     width: 40,
@@ -46,12 +40,6 @@ const styles = {
   body: css({
     margin: 0,
     paddingBottom: 0
-  }),
-  bodyBefore: css({
-    color: colors.negative.text
-  }),
-  bodyAfter: css({
-    color: '#000000'
   }),
   cta: css({
     marginTop: 10
@@ -238,10 +226,10 @@ export const PayNote = compose(
       translator={translator}
       isTrialContext={isTrialContext} />
 
-  return <div {...merge(styles.banner, isBefore ? styles.bannerBefore : styles.bannerAfter)}>
+  return <div {...styles.banner} style={{ backgroundColor: isBefore ? colors.negative.primaryBg : colors.primaryBg }}>
     <Center>
       { !isBefore && (<div {...styles.brand}><BrandMark /></div>) }
-      <Interaction.P {...merge(styles.body, isBefore ? styles.bodyBefore : styles.bodyAfter)}>
+      <Interaction.P {...styles.body} style={{ color: isBefore ? colors.negative.text : '#000000' }}>
         <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
       </Interaction.P>
       {cta}

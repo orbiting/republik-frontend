@@ -14,7 +14,7 @@
     "tape": "cross-env NODE_ENV=test babel-tape-runner",
     "test": "cross-env NODE_ENV=test babel-tape-runner \"?(lib|pages|components)/**/*.test.js\" | faucet",
     "cloc": "find . -name '*.js' -not -path \"./node_modules*\" -not -path \"./.next*\" | xargs wc -l",
-    "standardize": "standard --fix",
+    "lint": "eslint --fix .",
     "precommit": "lint-staged",
     "translations": "gsheets --key=1a-8RESf0Yjo2Mu15Q4SGWTmnY3ifuFbCVSD7WyYRhT0 --title=live --pretty --out lib/translations.json",
     "translations-vote": "gsheets --key=1oBlTiPKIon4p5aek5vEXluWMn0TRwrk-JftznGjTmdQ --title=live --pretty --out components/Vote/translations-vote.json",
@@ -37,12 +37,9 @@
   "homepage": "https://github.com/orbiting/republik-frontend#readme",
   "lint-staged": {
     "*.js": [
-      "standard --fix",
+      "eslint --fix",
       "git add"
     ]
-  },
-  "standard": {
-    "parser": "babel-eslint"
   },
   "babel": {
     "plugins": [
@@ -78,18 +75,23 @@
   },
   "devDependencies": {
     "abab": "^2.0.0",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.3",
     "babel-tape-runner": "^3.0.0",
     "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.2.0",
     "faucet": "0.0.1",
     "gsheets": "^2.0.0",
     "husky": "^0.14.3",
     "lint-staged": "^4.0.4",
     "nodemon": "^1.19.0",
+    "prettier": "^1.18.2",
     "react-test-renderer": "^16.5.2",
-    "standard": "^12.0.1",
     "tape": "^4.9.1"
   },
   "dependencies": {

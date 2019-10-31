@@ -261,7 +261,7 @@ class Search extends Component {
     }
   }
 
-  componentWillReceiveProps ({ query }) {
+  UNSAFE_componentWillReceiveProps ({ query }) {
     this.setStateFromQuery(query)
   }
 

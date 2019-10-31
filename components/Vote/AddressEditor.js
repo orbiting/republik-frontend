@@ -68,7 +68,7 @@ class AddressEditor extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.data.me && nextProps.data.me !== this.props.data.me) {
       this.setState(this.deriveStateFromProps(nextProps))
     }

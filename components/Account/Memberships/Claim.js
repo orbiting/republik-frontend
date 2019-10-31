@@ -130,7 +130,7 @@ class ClaimMembership extends Component {
     this.handleEmail(values.email, false, t)
     this.handleVoucherCode(values.voucherCode, false, t)
   }
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.me !== this.props.me) {
       this.checkUserFields(nextProps)
     }

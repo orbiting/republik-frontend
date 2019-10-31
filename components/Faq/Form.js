@@ -127,7 +127,7 @@ class QuestionForm extends Component {
         }))
       })
   }
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.me !== this.props.me) {
       this.checkUserFields(nextProps)
     }

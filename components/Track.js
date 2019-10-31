@@ -72,7 +72,7 @@ class Track extends Component {
   componentWillUnmount () {
     Router.events.off('routeChangeComplete', this.onRouteChangeComplete)
   }
-  componentWillReceiveProps ({ me }) {
+  UNSAFE_componentWillReceiveProps ({ me }) {
     if (
       me !== this.props.me &&
       ((!me || !this.props.me) || me.email !== this.props.me.email)

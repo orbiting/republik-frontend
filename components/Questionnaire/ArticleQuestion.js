@@ -69,7 +69,7 @@ class ArticleQuestion extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.question.userAnswer !== this.props.question.userAnswer) {
       this.setState(this.deriveStateFromProps(nextProps))
     }

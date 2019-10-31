@@ -81,7 +81,7 @@ class Submit extends Component {
         : ref
     }
   }
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     const {
       dirty
     } = this.state

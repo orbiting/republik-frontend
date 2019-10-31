@@ -146,11 +146,11 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
 
   const partyColor = getPartyColor(payload.party)
   const slides = [
-    user.portrait && <div {...styles.portrait} style={{
+    user.portrait && <div key='portrait' {...styles.portrait} style={{
       backgroundImage: `url(${user.portrait})`,
       height: `calc(100% - ${16 * textLines + 10}px)`
     }} />,
-    payload.smartvoteCleavage && <div {...styles.centerContent} style={{ width: innerWidth }}>
+    payload.smartvoteCleavage && <div key='spider' {...styles.centerContent} style={{ width: innerWidth }}>
       <SmallParagraph>
         <strong>{t('components/Card/Smartspider/title')}</strong><br />
         <small>
@@ -163,7 +163,7 @@ const Card = ({ payload, user, statement, group, contextGroup, dragTime, width, 
         data={payload.smartvoteCleavage}
         reference={mySmartspider} />
     </div>,
-    <div {...styles.centerContent} style={{ width: innerWidth }}>
+    <div key='finance' {...styles.centerContent} style={{ width: innerWidth }}>
       <Finance payload={payload} width={innerWidth} />
     </div>
   ].filter(Boolean).slice(0, firstSlideOnly ? 1 : undefined)

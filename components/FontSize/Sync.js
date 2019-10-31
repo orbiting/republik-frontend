@@ -23,30 +23,29 @@ const FontSizeSync = () => {
     document.head.appendChild(lastStyleTag.current)
   }
 
-  useEffect(
-    () => {
-      setRootFontSize()
-    },
-    [slowFontSize]
-  )
-  useEffect(
-    () => {
-      // resize on browser: back button for IE, Edge
-      setRootFontSize()
-      return () => {
-        document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
-        if (lastStyleTag.current) {
-          document.head.removeChild(lastStyleTag.current)
-        }
+  useEffect(() => {
+    setRootFontSize()
+  }, [slowFontSize])
+  useEffect(() => {
+    // resize on browser: back button for IE, Edge
+    setRootFontSize()
+    return () => {
+      document.documentElement.style.fontSize =
+        DEFAULT_FONT_SIZE + 'px'
+      if (lastStyleTag.current) {
+        document.head.removeChild(lastStyleTag.current)
       }
-    },
-    []
+    }
+  }, [])
+  return (
+    <NextHead>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `try {document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'} catch (e) {}`,
+        }}
+      />
+    </NextHead>
   )
-  return <NextHead>
-    <script dangerouslySetInnerHTML={{
-      __html: `try {document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'} catch (e) {}`
-    }} />
-  </NextHead>
 }
 
 export default FontSizeSync

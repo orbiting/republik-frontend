@@ -23,7 +23,10 @@ import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  ASSETS_SERVER_BASE_URL,
+  PUBLIC_BASE_URL,
+} from '../../lib/constants'
 import ShadowQueryLink from '../Link/ShadowQuery'
 
 import Badge from './Badge'
@@ -45,7 +48,7 @@ import {
   linkRule,
   mediaQueries,
   TeaserFeed,
-  Button
+  Button,
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -62,41 +65,41 @@ const styles = {
     paddingBottom: 60,
     paddingTop: 10,
     [mediaQueries.mUp]: {
-      paddingTop: SIDEBAR_TOP + 5
-    }
+      paddingTop: SIDEBAR_TOP + 5,
+    },
   }),
   sidebar: css({
     paddingBottom: '20px',
     [mediaQueries.mUp]: {
       float: 'left',
-      width: PORTRAIT_SIZE_M
-    }
+      width: PORTRAIT_SIZE_M,
+    },
   }),
   mainColumn: css({
     [mediaQueries.mUp]: {
       float: 'left',
       paddingLeft: 20,
-      width: `calc(100% - ${PORTRAIT_SIZE_M}px)`
-    }
+      width: `calc(100% - ${PORTRAIT_SIZE_M}px)`,
+    },
   }),
   head: css({
     position: 'relative',
-    paddingTop: 20
+    paddingTop: 20,
   }),
   statement: css({
     [mediaQueries.mUp]: {
       float: 'right',
       width: `calc(100% - ${PORTRAIT_SIZE_M + 20}px)`,
-      paddingBottom: 30
-    }
+      paddingBottom: 30,
+    },
   }),
   portrait: css({
     width: PORTRAIT_SIZE_S,
     height: PORTRAIT_SIZE_S,
     [mediaQueries.mUp]: {
       width: PORTRAIT_SIZE_M,
-      height: PORTRAIT_SIZE_M
-    }
+      height: PORTRAIT_SIZE_M,
+    },
   }),
   headInfo: css({
     ...fontStyles.sansSerifRegular16,
@@ -105,8 +108,8 @@ const styles = {
     right: 0,
     left: PORTRAIT_SIZE_S + 10,
     [mediaQueries.mUp]: {
-      left: PORTRAIT_SIZE_M + 20
-    }
+      left: PORTRAIT_SIZE_M + 20,
+    },
   }),
   headInfoNumber: css({
     display: 'inline-block',
@@ -116,25 +119,25 @@ const styles = {
     verticalAlign: 'middle',
     [mediaQueries.mUp]: {
       marginRight: 0,
-      float: 'left'
-    }
+      float: 'left',
+    },
   }),
   headInfoShare: css({
     display: 'inline-block',
     float: 'right',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
   }),
   badges: css({
-    margin: '20px 0 30px 0'
+    margin: '20px 0 30px 0',
   }),
   candidacy: css({
     marginTop: 0,
-    marginBottom: 20
-  })
+    marginBottom: 20,
+  }),
 }
 
 export const DEFAULT_VALUES = {
-  publicUrl: 'https://'
+  publicUrl: 'https://',
 }
 
 const getPublicUser = gql`
@@ -179,7 +182,7 @@ const getPublicUser = gql`
         nodes {
           id
           content
-          preview(length:210) {
+          preview(length: 210) {
             string
             more
           }
@@ -247,7 +250,7 @@ const getPublicUser = gql`
 `
 
 class Profile extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isMobile: false,
@@ -256,18 +259,18 @@ class Profile extends Component {
       showErrors: false,
       values: {},
       errors: {},
-      dirty: {}
+      dirty: {},
     }
 
     this.onScroll = () => {
       const y = window.pageYOffset
       const mobile = window.innerWidth < mediaQueries.mBreakPoint
-      let sticky = (
+      let sticky =
         !mobile &&
         y + HEADER_HEIGHT > this.y + this.innerHeight &&
         this.mainHeight > this.sidebarHeight &&
-        this.sidebarHeight < (window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP)
-      )
+        this.sidebarHeight <
+          window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP
 
       if (sticky !== this.state.sticky) {
         this.setState({ sticky })
@@ -302,28 +305,36 @@ class Profile extends Component {
       this.onScroll()
     }
     this.isMe = () => {
-      const { me, data: { user } } = this.props
+      const {
+        me,
+        data: { user },
+      } = this.props
       return me && me.id === user.id
     }
     this.startEditing = () => {
-      const { data: { user } } = this.props
+      const {
+        data: { user },
+      } = this.props
       const { isEditing } = this.state
       if (!isEditing && this.isMe()) {
-        const credential = user.credentials && user.credentials.find(c => c.isListed)
+        const credential =
+          user.credentials && user.credentials.find(c => c.isListed)
         this.setState({
           isEditing: true,
           values: {
             ...user,
             publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
             credential: credential && credential.description,
-            portrait: undefined
-          }
+            portrait: undefined,
+          },
         })
         window.scrollTo(0, 0)
       }
     }
     this.autoEditStart = () => {
-      const { data: { user } } = this.props
+      const {
+        data: { user },
+      } = this.props
       if (user && !user.username && user.isEligibleForProfile) {
         this.startEditing() // will check if it's me
       }
@@ -334,44 +345,50 @@ class Profile extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
     this.autoEditStart()
   }
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     this.measure()
     if (!prevProps.data.user) {
       this.autoEditStart()
     }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
 
-  render () {
+  render() {
     const {
       t,
       me,
-      data: { loading, error, user }
+      data: { loading, error, user },
     } = this.props
 
-    const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
+    const card =
+      user && user.cards && user.cards.nodes && user.cards.nodes[0]
     const metaData = {
       url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
-      image: user && user.portrait
-        ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(user.updatedAt)}b1&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${user.id}`)}`
-        : '',
+      image:
+        user && user.portrait
+          ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
+              user.updatedAt,
+            )}b1&url=${encodeURIComponent(
+              `${PUBLIC_BASE_URL}/community?share=${user.id}`,
+            )}`
+          : '',
       title: card
         ? `🔥 ${user.name}`
         : user
-          ? t('pages/profile/pageTitle', { name: user.name })
-          : t('pages/profile/empty/pageTitle'),
+        ? t('pages/profile/pageTitle', { name: user.name })
+        : t('pages/profile/empty/pageTitle'),
       description: card
         ? 'Profil anschauen und «Republik Wahltindär» spielen.'
-        : undefined
+        : undefined,
     }
 
     return (
@@ -384,24 +401,38 @@ class Profile extends Component {
               return (
                 <StatusError
                   statusCode={404}
-                  serverContext={this.props.serverContext}>
-                  <Interaction.H2>{t('pages/profile/empty/title')}</Interaction.H2>
-                  {!!me && <p>
-                    {t.elements('pages/profile/empty/content', {
-                      link: (
-                        <Link route='profile' params={{ slug: me.username || me.id }}>
-                          <a {...linkRule}>{t('pages/profile/empty/content/linktext')}</a>
-                        </Link>
-                      )
-                    })}
-                  </p>}
+                  serverContext={this.props.serverContext}
+                >
+                  <Interaction.H2>
+                    {t('pages/profile/empty/title')}
+                  </Interaction.H2>
+                  {!!me && (
+                    <p>
+                      {t.elements('pages/profile/empty/content', {
+                        link: (
+                          <Link
+                            route="profile"
+                            params={{ slug: me.username || me.id }}
+                          >
+                            <a {...linkRule}>
+                              {t(
+                                'pages/profile/empty/content/linktext',
+                              )}
+                            </a>
+                          </Link>
+                        ),
+                      })}
+                    </p>
+                  )}
                 </StatusError>
               )
             }
             const {
               isEditing,
-              values, errors, dirty,
-              isMobile
+              values,
+              errors,
+              dirty,
+              isMobile,
             } = this.state
 
             return (
@@ -409,92 +440,135 @@ class Profile extends Component {
                 {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      <Interaction.P>{t('profile/private')}</Interaction.P>
+                      <Interaction.P>
+                        {t('profile/private')}
+                      </Interaction.P>
                     </MainContainer>
                   </Box>
                 )}
-                {card && <CardContainer imprint={false} style={{ minHeight: 300 * 1.4 + 60 }}>
-                  <div {...css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap'
-                  })}>
-                    <div {...cardStyles.cardInner} style={{
-                      width: 300,
-                      height: 300 * 1.4,
-                      transform: 'rotate(-1deg)',
-                      margin: '30px 10px'
-                    }}>
-                      <Card width={300} {...card} t={t} firstSlideOnly />
+                {card && (
+                  <CardContainer
+                    imprint={false}
+                    style={{ minHeight: 300 * 1.4 + 60 }}
+                  >
+                    <div
+                      {...css({
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexWrap: 'wrap',
+                      })}
+                    >
+                      <div
+                        {...cardStyles.cardInner}
+                        style={{
+                          width: 300,
+                          height: 300 * 1.4,
+                          transform: 'rotate(-1deg)',
+                          margin: '30px 10px',
+                        }}
+                      >
+                        <Card
+                          width={300}
+                          {...card}
+                          t={t}
+                          firstSlideOnly
+                        />
+                      </div>
+                      <div
+                        {...css({
+                          padding: 30,
+                          [mediaQueries.mUp]: {
+                            margin: '0 30px',
+                          },
+                        })}
+                      >
+                        <ShadowQueryLink
+                          path={`/wahltindaer/${card.group.slug}`}
+                          query={{ top: card.id }}
+                        >
+                          <Button primary>
+                            «Wahltindär» spielen
+                          </Button>
+                        </ShadowQueryLink>
+                      </div>
                     </div>
-                    <div {...css({
-                      padding: 30,
-                      [mediaQueries.mUp]: {
-                        margin: '0 30px'
-                      }
-                    })}>
-                      <ShadowQueryLink path={`/wahltindaer/${card.group.slug}`} query={{ top: card.id }}>
-                        <Button primary>
-                          «Wahltindär» spielen
-                        </Button>
-                      </ShadowQueryLink>
-                    </div>
-                  </div>
-                </CardContainer>}
+                  </CardContainer>
+                )}
                 <MainContainer>
                   <div ref={this.setInnerRef} {...styles.head}>
-                    {!card && <>
-                      <p {...styles.statement}>
-                        <Statement
-                          user={user}
-                          isEditing={isEditing}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                      </p>
-                      <div {...styles.portrait}>
-                        <Portrait
-                          user={user}
-                          isEditing={isEditing}
-                          isMe={this.isMe()}
-                          onChange={this.onChange}
-                          values={values}
-                          errors={errors}
-                          dirty={dirty} />
-                      </div>
-                      <div {...styles.headInfo}>
-                        {!!user.hasPublicProfile &&
-                        <span {...styles.headInfoShare}>
-                          <ActionBar
-                            title={t('profile/share/title', { name: user.name })}
-                            emailSubject={t('profile/share/emailSubject', { name: user.name })}
-                            url={`${PUBLIC_BASE_URL}/~${user.slug}`}
-                            download={metaData.image}
-                            shareOverlayTitle={t('profile/share/overlayTitle')}
+                    {!card && (
+                      <>
+                        <p {...styles.statement}>
+                          <Statement
+                            user={user}
+                            isEditing={isEditing}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty}
                           />
-                        </span>
-                        }
-                        {!!user.sequenceNumber && <span {...styles.headInfoNumber}>
-                          {t('memberships/sequenceNumber/label', {
-                            sequenceNumber: user.sequenceNumber
-                          })}
-                        </span>}
-                        <div style={{ clear: 'both' }} />
-                      </div>
-                    </>}
+                        </p>
+                        <div {...styles.portrait}>
+                          <Portrait
+                            user={user}
+                            isEditing={isEditing}
+                            isMe={this.isMe()}
+                            onChange={this.onChange}
+                            values={values}
+                            errors={errors}
+                            dirty={dirty}
+                          />
+                        </div>
+                        <div {...styles.headInfo}>
+                          {!!user.hasPublicProfile && (
+                            <span {...styles.headInfoShare}>
+                              <ActionBar
+                                title={t('profile/share/title', {
+                                  name: user.name,
+                                })}
+                                emailSubject={t(
+                                  'profile/share/emailSubject',
+                                  { name: user.name },
+                                )}
+                                url={`${PUBLIC_BASE_URL}/~${user.slug}`}
+                                download={metaData.image}
+                                shareOverlayTitle={t(
+                                  'profile/share/overlayTitle',
+                                )}
+                              />
+                            </span>
+                          )}
+                          {!!user.sequenceNumber && (
+                            <span {...styles.headInfoNumber}>
+                              {t('memberships/sequenceNumber/label', {
+                                sequenceNumber: user.sequenceNumber,
+                              })}
+                            </span>
+                          )}
+                          <div style={{ clear: 'both' }} />
+                        </div>
+                      </>
+                    )}
                   </div>
-                  <div {...styles.container} style={{ borderTop: card ? 'none' : undefined }}>
+                  <div
+                    {...styles.container}
+                    style={{ borderTop: card ? 'none' : undefined }}
+                  >
                     <div {...styles.sidebar}>
-                      <div style={this.state.sticky && !isEditing
-                        ? {
-                          position: 'fixed',
-                          top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
-                          left: `${this.x}px`,
-                          width: PORTRAIT_SIZE_M
+                      <div
+                        style={
+                          this.state.sticky && !isEditing
+                            ? {
+                                position: 'fixed',
+                                top: `${HEADER_HEIGHT +
+                                  SIDEBAR_TOP}px`,
+                                left: `${this.x}px`,
+                                width: PORTRAIT_SIZE_M,
+                              }
+                            : {}
                         }
-                        : {}}>
+                      >
                         <div ref={this.setSidebarInnerRef}>
                           <Interaction.H3>{user.name}</Interaction.H3>
                           <Credentials
@@ -503,17 +577,24 @@ class Profile extends Component {
                             onChange={this.onChange}
                             values={values}
                             errors={errors}
-                            dirty={dirty} />
+                            dirty={dirty}
+                          />
                           {/* show sequence # of profiles with a card here */}
-                          {card && !!user.sequenceNumber && <div style={{ color: colors.text }}>
-                            {t('memberships/sequenceNumber/label', {
-                              sequenceNumber: user.sequenceNumber
-                            })}
-                          </div>}
+                          {card && !!user.sequenceNumber && (
+                            <div style={{ color: colors.text }}>
+                              {t('memberships/sequenceNumber/label', {
+                                sequenceNumber: user.sequenceNumber,
+                              })}
+                            </div>
+                          )}
                           {user.badges && (
                             <div {...styles.badges}>
-                              {user.badges.map(badge => (
-                                <Badge badge={badge} size={27} />
+                              {user.badges.map((badge, i) => (
+                                <Badge
+                                  key={i}
+                                  badge={badge}
+                                  size={27}
+                                />
                               ))}
                             </div>
                           )}
@@ -523,20 +604,23 @@ class Profile extends Component {
                             onChange={this.onChange}
                             values={values}
                             errors={errors}
-                            dirty={dirty} />
+                            dirty={dirty}
+                          />
                           <Edit
                             user={user}
                             state={this.state}
                             setState={this.setState.bind(this)}
                             startEditing={this.startEditing}
-                            onChange={this.onChange} />
+                            onChange={this.onChange}
+                          />
                           <Contact
                             user={user}
                             isEditing={isEditing}
                             onChange={this.onChange}
                             values={values}
                             errors={errors}
-                            dirty={dirty} />
+                            dirty={dirty}
+                          />
                         </div>
                       </div>
                     </div>
@@ -547,18 +631,27 @@ class Profile extends Component {
                         onChange={this.onChange}
                         values={values}
                         errors={errors}
-                        dirty={dirty} />
-                      {card && <div style={{ marginBottom: 40 }}>
-                        <CardDetails card={card} skipSpider={!card.user.portrait} />
-                      </div>}
-                      {isMobile && isEditing && <div style={{ marginBottom: 40 }}>
-                        <Edit
-                          user={user}
-                          state={this.state}
-                          setState={this.setState.bind(this)}
-                          startEditing={this.startEditing} />
-                      </div>}
-                      {user.candidacies.map((c, i) =>
+                        dirty={dirty}
+                      />
+                      {card && (
+                        <div style={{ marginBottom: 40 }}>
+                          <CardDetails
+                            card={card}
+                            skipSpider={!card.user.portrait}
+                          />
+                        </div>
+                      )}
+                      {isMobile && isEditing && (
+                        <div style={{ marginBottom: 40 }}>
+                          <Edit
+                            user={user}
+                            state={this.state}
+                            setState={this.setState.bind(this)}
+                            startEditing={this.startEditing}
+                          />
+                        </div>
+                      )}
+                      {user.candidacies.map((c, i) => (
                         <div key={i} style={{ marginBottom: 60 }}>
                           <Interaction.H3 style={{ marginBottom: 0 }}>
                             {`${c.election.description}`}
@@ -572,40 +665,62 @@ class Profile extends Component {
                               profile
                             />
                           </div>
-                          { this.isMe() && c.election && (new Date() < new Date(c.election.candidacyEndDate)) &&
-                          <div style={{ marginTop: 10 }}>
-                            <Link route='voteSubmit' params={{ edit: true }} passHref>
-                              <A>Kandidatur bearbeiten</A>
-                            </Link>
-                          </div>
-                          }
+                          {this.isMe() &&
+                            c.election &&
+                            new Date() <
+                              new Date(
+                                c.election.candidacyEndDate,
+                              ) && (
+                              <div style={{ marginTop: 10 }}>
+                                <Link
+                                  route="voteSubmit"
+                                  params={{ edit: true }}
+                                  passHref
+                                >
+                                  <A>Kandidatur bearbeiten</A>
+                                </Link>
+                              </div>
+                            )}
                         </div>
-                      )
-                      }
+                      ))}
                       <div>
-                        {user.documents && !!user.documents.totalCount &&
-                        <Interaction.H3 style={{ marginBottom: 20 }}>
-                          {t.pluralize('profile/documents/title', {
-                            count: user.documents.totalCount
-                          })}
-                        </Interaction.H3>
-                        }
                         {user.documents &&
-                        user.documents.nodes.map(doc => (
-                          <TeaserFeed
-                            {...doc.meta}
-                            title={doc.meta.shortTitle || doc.meta.title}
-                            description={!doc.meta.shortTitle && doc.meta.description}
-                            Link={HrefLink}
-                            key={doc.meta.path}
-                            bar={<FeedActionBar
-                              documentId={doc.id}
-                              userBookmark={doc.userBookmark}
-                              userProgress={doc.userProgress}
+                          !!user.documents.totalCount && (
+                            <Interaction.H3
+                              style={{ marginBottom: 20 }}
+                            >
+                              {t.pluralize(
+                                'profile/documents/title',
+                                {
+                                  count: user.documents.totalCount,
+                                },
+                              )}
+                            </Interaction.H3>
+                          )}
+                        {user.documents &&
+                          user.documents.nodes.map(doc => (
+                            <TeaserFeed
                               {...doc.meta}
-                              meta={doc.meta} />}
-                          />
-                        ))}
+                              title={
+                                doc.meta.shortTitle || doc.meta.title
+                              }
+                              description={
+                                !doc.meta.shortTitle &&
+                                doc.meta.description
+                              }
+                              Link={HrefLink}
+                              key={doc.meta.path}
+                              bar={
+                                <FeedActionBar
+                                  documentId={doc.id}
+                                  userBookmark={doc.userBookmark}
+                                  userProgress={doc.userProgress}
+                                  {...doc.meta}
+                                  meta={doc.meta}
+                                />
+                              }
+                            />
+                          ))}
                       </div>
                       <Comments comments={user.comments} />
                     </div>
@@ -628,8 +743,8 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.slug
-      }
+        slug: router.query.slug,
+      },
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {
       const slug = router.query.slug
@@ -648,17 +763,15 @@ export default compose(
         if (serverContext) {
           serverContext.res.redirect(301, `/~${targetSlug}`)
           serverContext.res.end()
-        } else if (process.browser) { // SSR does two two-passes: data (with serverContext) & render (without)
-          Router.replaceRoute(
-            'profile',
-            { slug: targetSlug }
-          )
+        } else if (process.browser) {
+          // SSR does two two-passes: data (with serverContext) & render (without)
+          Router.replaceRoute('profile', { slug: targetSlug })
         }
       }
 
       return {
-        data
+        data,
       }
-    }
-  })
+    },
+  }),
 )(Profile)

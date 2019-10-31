@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
 import { Interaction } from '@project-r/styleguide'

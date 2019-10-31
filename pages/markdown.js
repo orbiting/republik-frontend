@@ -85,7 +85,7 @@ export default compose(
             <td><CommentBodyHeading>Eine Überschrift</CommentBodyHeading></td>
           </tr>
           <tr>
-            <td>> Ein Zitat</td>
+            <td>&gt; Ein Zitat</td>
             <td>
               <CommentBodyBlockQuote>
                 <CommentBodyBlockQuoteParagraph>Ein Zitat</CommentBodyBlockQuoteParagraph>

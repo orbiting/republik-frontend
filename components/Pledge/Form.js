@@ -217,7 +217,7 @@ class Pledge extends Component {
       }))
     }
   }
-  componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps (nextProps) {
     if (nextProps.customMe !== this.props.customMe) {
       this.checkUserFields(nextProps)
     }

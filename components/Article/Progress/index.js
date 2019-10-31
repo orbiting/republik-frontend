@@ -8,10 +8,7 @@ import { withRouter } from 'next/router'
 import ProgressPrompt from './ProgressPrompt'
 import { mediaQueries } from '@project-r/styleguide'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../../constants'
 import { scrollIt } from '../../../lib/utils/scroll'
 import withMe from '../../../lib/apollo/withMe'
 import { PROGRESS_EXPLAINER_PATH } from '../../../lib/constants'
@@ -25,7 +22,7 @@ const RESTORE_FADE_AREA = 200
 const RESTORE_MIN = 0.4
 
 class Progress extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -55,10 +52,12 @@ class Progress extends Component {
       if (this.state.restore) {
         const y = window.pageYOffset
 
-        const restoreOpacity = 1 - Math.min(
-          1,
-          Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
-        )
+        const restoreOpacity =
+          1 -
+          Math.min(
+            1,
+            Math.max(RESTORE_MIN, y - RESTORE_AREA) / RESTORE_FADE_AREA
+          )
         if (restoreOpacity !== this.state.restoreOpacity) {
           this.setState({ restoreOpacity })
         }
@@ -90,11 +89,10 @@ class Progress extends Component {
         percentage > 0 &&
         // ignore elements until min index
         element.index >= MIN_INDEX &&
-        (
-          !article.userProgress ||
+        (!article.userProgress ||
           article.userProgress.nodeId !== element.nodeId ||
-          Math.floor(article.userProgress.percentage * 100) !== Math.floor(percentage * 100)
-        )
+          Math.floor(article.userProgress.percentage * 100) !==
+            Math.floor(percentage * 100))
       ) {
         this.props.upsertDocumentProgress(
           article.id,
@@ -112,10 +110,13 @@ class Progress extends Component {
 
       const headerHeight = this.headerHeight()
       const getDistanceForIndex = index => {
-        return Math.abs(progressElements[index].getBoundingClientRect().top - headerHeight)
+        return Math.abs(
+          progressElements[index].getBoundingClientRect().top - headerHeight
+        )
       }
 
-      let closestIndex = (progressElements[this.lastClosestIndex] && this.lastClosestIndex) || 0
+      let closestIndex =
+        (progressElements[this.lastClosestIndex] && this.lastClosestIndex) || 0
       let closestDistance = getDistanceForIndex(closestIndex)
 
       const length = progressElements.length
@@ -153,16 +154,10 @@ class Progress extends Component {
 
     this.getPercentage = () => {
       const { height, top } = this.container.getBoundingClientRect()
-      const yFromArticleTop = Math.max(
-        0,
-        -top + this.headerHeight()
-      )
+      const yFromArticleTop = Math.max(0, -top + this.headerHeight())
       const ratio = yFromArticleTop / height
-      const percentage = ratio === 0
-        ? 0
-        : (-top + window.innerHeight) > height
-          ? 1
-          : ratio
+      const percentage =
+        ratio === 0 ? 0 : -top + window.innerHeight > height ? 1 : ratio
       return percentage
     }
 
@@ -173,12 +168,14 @@ class Progress extends Component {
 
       const headerHeight = this.headerHeight()
       const progressElements = this.getProgressElements()
-      const progressElement = !!nodeId && progressElements.find((element, index) => {
-        if (element.getAttribute('data-pos') === nodeId) {
-          return true
-        }
-        return false
-      })
+      const progressElement =
+        !!nodeId &&
+        progressElements.find((element, index) => {
+          if (element.getAttribute('data-pos') === nodeId) {
+            return true
+          }
+          return false
+        })
 
       if (progressElement) {
         const { top } = progressElement.getBoundingClientRect()
@@ -192,7 +189,7 @@ class Progress extends Component {
       }
       if (percentage) {
         const { height } = this.container.getBoundingClientRect()
-        const offset = (percentage * height) - headerHeight
+        const offset = percentage * height - headerHeight
 
         scrollIt(offset, 400)
       }
@@ -211,47 +208,56 @@ class Progress extends Component {
       this.props.upsertMediaProgress(mediaId, currentTime)
     }, 300)
 
-    this.saveMediaProgressWhilePlaying = throttle((mediaId, currentTime) => {
-      // Fires every 5 seconds while playing.
-      this.props.upsertMediaProgress(mediaId, currentTime)
-    }, 5000, { trailing: true })
+    this.saveMediaProgressWhilePlaying = throttle(
+      (mediaId, currentTime) => {
+        // Fires every 5 seconds while playing.
+        this.props.upsertMediaProgress(mediaId, currentTime)
+      },
+      5000,
+      { trailing: true }
+    )
 
     this.getMediaProgress = ({ mediaId, durationMs } = {}) => {
       if (!mediaId) {
         return Promise.resolve()
       }
-      return this.props.client.query({
-        query: mediaProgressQuery,
-        variables: { mediaId },
-        fetchPolicy: 'network-only'
-      }).then(({ data: { mediaProgress: { secs } } = {} }) => {
-        if (secs) {
-          if (durationMs && Math.round(secs) === Math.round(durationMs / 1000)) {
-            return
+      return this.props.client
+        .query({
+          query: mediaProgressQuery,
+          variables: { mediaId },
+          fetchPolicy: 'network-only'
+        })
+        .then(({ data: { mediaProgress: { secs } } = {} }) => {
+          if (secs) {
+            if (
+              durationMs &&
+              Math.round(secs) === Math.round(durationMs / 1000)
+            ) {
+              return
+            }
+            return secs - 2
           }
-          return secs - 2
-        }
-      })
+        })
     }
   }
 
-  getChildContext () {
+  getChildContext() {
     return {
       getMediaProgress: this.getMediaProgress,
       saveMediaProgress: this.saveMediaProgress
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
     this.onScroll()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
   }
 
-  render () {
+  render() {
     const { restore, restoreOpacity } = this.state
     const {
       children,
@@ -263,7 +269,7 @@ class Progress extends Component {
       router
     } = this.props
 
-    const showConsentPrompt = (
+    const showConsentPrompt =
       isArticle &&
       me &&
       !router.query.trialSignup &&
@@ -271,7 +277,6 @@ class Progress extends Component {
       article &&
       article.meta &&
       article.meta.path !== PROGRESS_EXPLAINER_PATH
-    )
 
     const progressPrompt = showConsentPrompt && (
       <ProgressPrompt
@@ -280,20 +285,19 @@ class Progress extends Component {
       />
     )
 
-    const showRestore = (
+    const showRestore =
       isArticle &&
       restore &&
       restoreOpacity > RESTORE_MIN &&
       article.userProgress &&
       article.userProgress.percentage &&
       article.userProgress.percentage !== 1
-    )
 
     return (
       <div ref={this.containerRef}>
         {progressPrompt || null}
         {children}
-        {showRestore &&
+        {showRestore && (
           <RestoreButton
             onClick={this.restoreArticleProgress}
             onClose={e => {
@@ -303,14 +307,16 @@ class Progress extends Component {
               this.setState({ restore: false })
             }}
             opacity={restoreOpacity}
-            userProgress={article.userProgress} />}
+            userProgress={article.userProgress}
+          />
+        )}
       </div>
     )
   }
 }
 
 Progress.propTypes = {
-  children: PropTypes.array || PropTypes.object,
+  children: PropTypes.node,
   me: PropTypes.shape({
     progressConsent: PropTypes.bool
   }),

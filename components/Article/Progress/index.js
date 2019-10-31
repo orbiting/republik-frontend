@@ -310,7 +310,7 @@ class Progress extends Component {
 }
 
 Progress.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.array || PropTypes.object,
   me: PropTypes.shape({
     progressConsent: PropTypes.bool
   }),

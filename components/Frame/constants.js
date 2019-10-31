@@ -4,5 +4,6 @@ export const negativeColors = {
   primaryBg: '#191919',
   text: '#f0f0f0',
   lightText: '#828282',
-  divider: '#5b5b5b'
+  divider: '#5b5b5b',
+  error: '#ff5724'
 }

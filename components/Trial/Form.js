@@ -180,7 +180,6 @@ const Form = (props) => {
             <div style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}>
               <Consents
                 error={showErrors && consentErrors}
-                black={minimal}
                 required={REQUIRED_CONSENTS}
                 accepted={consents}
                 disabled={signingIn}

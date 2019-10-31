@@ -7,7 +7,7 @@ import {
   Button,
   colors,
   fontStyles,
-  linkBlackStyle
+  linkRule
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css, merge } from 'glamor'
@@ -21,12 +21,18 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
+import { negativeColors } from '../Frame/Footer'
 import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
   banner: css({
-    backgroundColor: colors.social,
     padding: '5px 0'
+  }),
+  bannerBefore: css({
+    backgroundColor: negativeColors.primaryBg
+  }),
+  bannerAfter: css({
+    backgroundColor: colors.primaryBg
   }),
   brand: css({
     display: 'none',
@@ -40,7 +46,12 @@ const styles = {
   }),
   body: css({
     margin: 0,
-    paddingBottom: 0,
+    paddingBottom: 0
+  }),
+  bodyBefore: css({
+    color: negativeColors.text
+  }),
+  bodyAfter: css({
     color: '#000000'
   }),
   cta: css({
@@ -56,20 +67,13 @@ const styles = {
   }),
   aside: css({
     marginTop: 15,
+    color: colors.lightText,
     ...fontStyles.sansSerifRegular16,
-    '& a': linkBlackStyle,
+    '& a': linkRule,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular18,
       marginLeft: 30,
       marginTop: 0
-    }
-  })
-}
-
-const beforeStyles = {
-  brand: css({
-    [mediaQueries.mUp]: {
-      display: 'none'
     }
   })
 }
@@ -82,7 +86,7 @@ query payNoteMembershipStats {
 }
 `
 
-const TRY_TO_BUY_RATIO = 0.8
+const TRY_TO_BUY_RATIO = 1
 
 const TRY_VARIATIONS = [
   'tryNote/191023-v1',
@@ -152,7 +156,7 @@ const initTranslator = (t, membershipStats) => (variation, position, element = u
 }
 
 const BuyButton = ({ variation, position, translator }) => {
-  return <Button primary black onClick={trackEventOnClick(
+  return <Button primary onClick={trackEventOnClick(
     ['PayNote', `pledge ${position}`, variation],
     () => goTo('pledge')
   )}>
@@ -176,14 +180,14 @@ const TrialLink = compose(withT)(({ t, variation }) => {
   </div>
 })
 
-const BuyNoteCta = ({ variation, position, translator, isTrialContext }) => {
+const BuyNoteCta = ({ variation, position, translator, isTrialContext, darkMode }) => {
   return <div {...styles.actions}>
     <BuyButton variation={variation} position={position} translator={translator} />
-    {!isTrialContext && <TrialLink variation={variation} />}
+    {!isTrialContext && position === 'after' && <TrialLink variation={variation} darkMode={darkMode} />}
   </div>
 }
 
-const TryNoteCta = compose(withRouter)(({ router }) => {
+const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
   return <TrialForm
     beforeSignIn={() => {
       // use native router for shadow routing
@@ -196,14 +200,16 @@ const TryNoteCta = compose(withRouter)(({ router }) => {
       return false
     }}
     accessCampaignId={TRIAL_CAMPAIGN}
+    darkMode={darkMode}
     minimal />
 })
 
-const PayNoteCta = ({ variation, position, translator, isTrialContext }) => {
+const PayNoteCta = ({ variation, position, translator, isTrialContext, darkMode }) => {
   return <div {...styles.cta}>
     {isTryNote(variation)
-      ? <TryNoteCta />
+      ? <TryNoteCta darkMode={darkMode} />
       : <BuyNoteCta
+        darkMode={darkMode}
         variation={variation}
         position={position}
         translator={translator}
@@ -223,20 +229,19 @@ export const PayNote = compose(
   const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(isTrialContext, series, seed)
   const lead = translator(variation, position, 'title')
   const body = translator(variation, position)
+  const isBefore = position === 'before'
   const cta = !inNativeIOSApp &&
     <PayNoteCta
+      darkMode={isBefore}
       variation={variation}
       position={position}
       translator={translator}
       isTrialContext={isTrialContext} />
-  const isBefore = position === 'before'
 
-  return <div {...styles.banner}>
+  return <div {...merge(styles.banner, isBefore ? styles.bannerBefore : styles.bannerAfter)}>
     <Center>
-      <div {...merge(styles.brand, isBefore && beforeStyles.brand)}>
-        <BrandMark />
-      </div>
-      <Interaction.P {...styles.body}>
+      { !isBefore && (<div {...styles.brand}><BrandMark /></div>) }
+      <Interaction.P {...merge(styles.body, isBefore ? styles.bodyBefore : styles.bodyAfter)}>
         <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
       </Interaction.P>
       {cta}

@@ -614,14 +614,14 @@ class ArticlePage extends Component {
                 article={article}
                 onClose={this.togglePdf} />}
               <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                {splitContent.title && (<div style={{ marginBottom: 20 }}>
-                  {renderSchema(splitContent.title)}
-                  <Center>
-                    <div ref={this.barRef} style={{ marginBottom: 50 }}>{actionBar}</div>
-                  </Center>
-                  {!isFormat && !isNewsletterSource && payNote}
-                </div>)}
                 <ProgressComponent article={article}>
+                  {splitContent.title && (<div style={{ marginBottom: 20 }}>
+                    {renderSchema(splitContent.title)}
+                    <Center>
+                      <div ref={this.barRef} style={{ marginBottom: 50 }}>{actionBar}</div>
+                    </Center>
+                    {!isFormat && !isNewsletterSource && payNote}
+                  </div>)}
                   <SSRCachingBoundary
                     cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}>
                     {() => renderSchema(splitContent.main)}

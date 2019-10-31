@@ -875,7 +875,7 @@ const Group = ({
             <Label style={{ display: 'block', marginBottom: 10 }}>
               <RawHtml
                 dangerouslySetInnerHTML={{
-                  __html: t('components/Card/Group/discussion/lead')
+                  __html: t('components/Card/Group/discussion/lead/closed')
                 }}
               />
             </Label>

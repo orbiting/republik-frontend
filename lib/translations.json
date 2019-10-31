@@ -5947,6 +5947,10 @@
       "value": "Hier können Sie den Kandidatinnen und Kandidaten Fragen stellen, ihnen entgegnen, beipflichten und nachhaken. Oder Statements, die Sie nicht überzeugen, gepflegt ignorieren. Falls Sie Feedback für die Republik haben: <a href=\"https://www.republik.ch/dialog?t=article&id=da157c69-e8a9-4be7-9ce0-b12e0f548d19\">Allgemeines zum «Wahltindär»</a>."
     },
     {
+      "key": "components/Card/Group/discussion/lead/closed",
+      "value": "Die Wahldebatten sind vorbei. Falls Sie Feedback für die Republik haben: <a href=\"https://www.republik.ch/dialog?t=article&id=da157c69-e8a9-4be7-9ce0-b12e0f548d19\">Allgemeines zum «Wahltindär»</a>."
+    },
+    {
       "key": "components/Card/Group/revert",
       "value": "zurücksetzen"
     },

@@ -39,7 +39,17 @@ const styles = {
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = (props) => {
-  const { beforeRequestAccess, beforeSignIn, onSuccess, narrow, trialEligibility, me, meRefetch, t, minimal } = props
+  const {
+    beforeRequestAccess,
+    beforeSignIn,
+    onSuccess,
+    narrow,
+    trialEligibility,
+    me,
+    meRefetch,
+    t,
+    minimal,
+    darkMode } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
@@ -47,13 +57,11 @@ const Form = (props) => {
       <div style={narrow ? { marginTop: 20 } : undefined}>
         <Button
           primary
-          black={minimal}
           onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         {' '}
         <Button
-          black={minimal}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}>
           {t('Trial/Form/authorized/withAccess/setup/label')}
         </Button>
@@ -169,13 +177,16 @@ const Form = (props) => {
         {!me && (
           <div style={{ opacity: (signingIn) ? 0.6 : 1, marginTop: narrow || minimal ? 0 : 20 }}>
             <Field
-              black={minimal}
+              black={minimal && !darkMode}
+              white={minimal && darkMode}
               label={t('Trial/Form/email/label')}
               value={email.value}
               error={email.dirty && email.error}
               dirty={email.dirty}
               disabled={signingIn}
-              icon={minimal && <MdArrowForward style={{ cursor: 'pointer' }} size={30} onClick={requestAccess} />}
+              icon={minimal && (
+                <MdArrowForward style={{ cursor: 'pointer' }} size={30} onClick={requestAccess} />
+              )}
               onChange={(_, value, shouldValidate) => handleEmail(value, shouldValidate)} />
             <div style={{ marginTop: (narrow && 10) || (minimal && '0') || 40 }}>
               <Consents

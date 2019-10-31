@@ -32,7 +32,6 @@ import {
   LOGO_WIDTH_MOBILE,
   LOGO_PADDING_MOBILE
 } from '../constants'
-import { negativeColors } from './constants'
 
 const SEARCH_BUTTON_WIDTH = 28
 const TRANSITION_MS = 200
@@ -322,14 +321,14 @@ class Header extends Component {
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
     const bgStyle = opaque ? {
-      backgroundColor: dark ? negativeColors.primaryBg : '#fff'
+      backgroundColor: dark ? colors.negative.primaryBg : '#fff'
     } : undefined
-    const hrColor = dark ? negativeColors.containerBg : colors.divider
+    const hrColor = dark ? colors.negative.containerBg : colors.divider
     const hrColorStyle = {
       color: hrColor,
       backgroundColor: hrColor
     }
-    const textFill = dark ? negativeColors.text : colors.text
+    const textFill = dark ? colors.negative.text : colors.text
     const logoFill = dark ? colors.logoDark || '#fff' : colors.logo || '#000'
 
     const toggleExpanded = () => {

@@ -14,16 +14,14 @@ import {
   Container,
   Logo,
   mediaQueries,
-  fontFamilies
+  fontFamilies,
+  colors
 } from '@project-r/styleguide'
 
-import { negativeColors } from './constants'
 import { ZINDEX_FOOTER } from '../constants'
 
 import IconLink from '../IconLink'
 import { shouldIgnoreClick } from '../Link/utils'
-
-export { negativeColors } from './constants'
 
 const COL_PADDING_S = 15
 const COL_PADDING_M = 70
@@ -35,7 +33,7 @@ const styles = {
     },
     position: 'relative',
     zIndex: ZINDEX_FOOTER, // goes over sidebar
-    backgroundColor: negativeColors.primaryBg,
+    backgroundColor: colors.negative.primaryBg,
     paddingTop: 30,
     paddingBottom: 30,
     textRendering: 'optimizeLegibility',
@@ -63,7 +61,7 @@ const styles = {
     marginBottom: 10,
     fontSize: 12,
     lineHeight: '18px',
-    color: negativeColors.text,
+    color: colors.negative.text,
     float: 'left',
     width: '50%',
     [mediaQueries.mUp]: {
@@ -76,26 +74,26 @@ const styles = {
     '& a': {
       fontFamily: fontFamilies.sansSerifRegular,
       textDecoration: 'none',
-      color: negativeColors.text,
+      color: colors.negative.text,
       ':visited': {
-        color: negativeColors.text
+        color: colors.negative.text
       },
       '@media (hover)': {
         ':hover': {
-          color: negativeColors.lightText
+          color: colors.negative.lightText
         }
       }
     }
   }),
   title: css({
-    color: negativeColors.lightText,
+    color: colors.negative.lightText,
     fontFamily: fontFamilies.sansSerifMedium
   }),
   hr: css({
     marginTop: 20,
     marginBottom: 20,
     border: 'none',
-    borderBottom: `1px solid ${negativeColors.divider}`
+    borderBottom: `1px solid ${colors.negative.divider}`
   }),
   lastLine: css({
     textAlign: 'center',
@@ -104,7 +102,7 @@ const styles = {
     lineHeight: '24px'
   }),
   since: css({
-    color: negativeColors.lightText,
+    color: colors.negative.lightText,
     [mediaQueries.mUp]: {
       display: 'inline-block'
     }
@@ -287,12 +285,12 @@ class Footer extends Component {
           <div {...styles.lastLine}>
             <Link route='index'>
               <a {...styles.logo} {...styles.left}>
-                <Logo fill={negativeColors.text} height={20} />
+                <Logo fill={colors.negative.text} height={20} />
               </a>
             </Link>
             <Link route='index'>
               <a {...styles.brandmark} {...styles.left}>
-                <BrandMark fill={negativeColors.text} />
+                <BrandMark fill={colors.negative.text} />
               </a>
             </Link>
             <span {...styles.since}>{t('footer/since')}</span>
@@ -301,13 +299,13 @@ class Footer extends Component {
                 icon='facebook'
                 href='https://www.facebook.com/RepublikMagazin'
                 target='_blank'
-                fill={negativeColors.text}
+                fill={colors.negative.text}
               />
               <IconLink
                 icon='twitter'
                 href='https://twitter.com/RepublikMagazin'
                 target='_blank'
-                fill={negativeColors.text}
+                fill={colors.negative.text}
               />
             </div>
           </div>

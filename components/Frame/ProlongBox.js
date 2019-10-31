@@ -12,8 +12,6 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import { Link } from '../../lib/routes'
 import { timeFormat } from '../../lib/utils/format'
 
-import { negativeColors } from './constants'
-
 const styles = {
   box: css({
     padding: 15
@@ -29,7 +27,7 @@ const styles = {
     backgroundColor: colors.primaryBg
   }),
   boxDark: css({
-    backgroundColor: negativeColors.primaryBg,
+    backgroundColor: colors.negative.primaryBg,
     color: '#fff'
   })
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  BrandMark,
   Interaction,
   Center,
   mediaQueries,
@@ -26,16 +25,6 @@ import { TRIAL_CAMPAIGN } from '../../lib/constants'
 const styles = {
   banner: css({
     padding: '5px 0'
-  }),
-  brand: css({
-    display: 'none',
-    width: 40,
-    float: 'left',
-    verticalAlign: 'top',
-    margin: '10px 0 0 -60px',
-    [mediaQueries.mUp]: {
-      display: 'initial'
-    }
   }),
   body: css({
     margin: 0,
@@ -66,11 +55,11 @@ const styles = {
 }
 
 const memberShipQuery = gql`
-query payNoteMembershipStats {
-  membershipStats {
-    count
+  query payNoteMembershipStats {
+    membershipStats {
+      count
+    }
   }
-}
 `
 
 const TRY_TO_BUY_RATIO = 0.8
@@ -111,97 +100,154 @@ const BUY_VARIATIONS = [
 
 const BUY_SERIES = 'payNote/series'
 
-export const MAX_PAYNOTE_SEED = Math.max(TRY_VARIATIONS.length, BUY_VARIATIONS.length)
+export const MAX_PAYNOTE_SEED = Math.max(
+  TRY_VARIATIONS.length,
+  BUY_VARIATIONS.length
+)
 
-const goTo = (route) => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
+const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-const isTryNote = (variation) => variation.indexOf('tryNote') !== -1
+const isTryNote = variation => variation.indexOf('tryNote') !== -1
 
-const getTryVariation = (seed) => getElementFromSeed(TRY_VARIATIONS, seed)
+const getTryVariation = seed => getElementFromSeed(TRY_VARIATIONS, seed)
 
-const getBuyVariation = (seed, isSeries) => isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
+const getBuyVariation = (seed, isSeries) =>
+  isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
 
-const showBuyInsteadOfTry = (seed) => (seed / MAX_PAYNOTE_SEED) > TRY_TO_BUY_RATIO
+const showBuyInsteadOfTry = seed => seed / MAX_PAYNOTE_SEED > TRY_TO_BUY_RATIO
 
 const getPayNoteVariation = (hasOngoingTrial, isSeries, seed) => {
   return hasOngoingTrial || showBuyInsteadOfTry(seed)
-    ? getBuyVariation(seed, isSeries) : getTryVariation(seed)
+    ? getBuyVariation(seed, isSeries)
+    : getTryVariation(seed)
 }
 
 const MembersCount = ({ membershipStats }) => (
-  <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
-    (membershipStats && membershipStats.count) || 20000
-  )}</span>
+  <span style={{ whiteSpace: 'nowrap' }}>
+    {countFormat((membershipStats && membershipStats.count) || 20000)}
+  </span>
 )
 
-const initTranslator = (t, membershipStats) => (variation, position, element = undefined) => {
-  const baseKey = `article/${variation}/${position}${element ? '/' + element : ''}`
+const initTranslator = (t, membershipStats) => (
+  variation,
+  position,
+  element = undefined
+) => {
+  const baseKey = `article/${variation}/${position}${
+    element ? '/' + element : ''
+  }`
   return t.elements(baseKey, {
-    emphasis: <Interaction.Emphasis key='emphasis'>{t(`${baseKey}/emphasis`)}</Interaction.Emphasis>,
-    count: <MembersCount key='count' membershipStats={membershipStats} />
+    emphasis: (
+      <Interaction.Emphasis key="emphasis">
+        {t(`${baseKey}/emphasis`)}
+      </Interaction.Emphasis>
+    ),
+    count: <MembersCount key="count" membershipStats={membershipStats} />
   })
 }
 
 const BuyButton = ({ variation, position, translator }) => {
-  return <Button primary onClick={trackEventOnClick(
-    ['PayNote', `pledge ${position}`, variation],
-    () => goTo('pledge')
-  )}>
-    {translator(variation, position, 'buy/button')}
-  </Button>
+  return (
+    <Button
+      primary
+      onClick={trackEventOnClick(
+        ['PayNote', `pledge ${position}`, variation],
+        () => goTo('pledge')
+      )}
+    >
+      {translator(variation, position, 'buy/button')}
+    </Button>
+  )
 }
 
 const TrialLink = compose(withT)(({ t, variation }) => {
-  return <div {...styles.aside}>
-    {t.elements('article/payNote/secondaryAction/text', {
-      link:
-        (<a key='trial'
-          href={routes.find(r => r.name === 'trial').toPath()}
-          onClick={trackEventOnClick(
-            ['PayNote', 'preview after', variation],
-            () => goTo('trial')
-          )}>
-          {t('article/payNote/secondaryAction/linkText')}
-        </a>)
-    })}
-  </div>
+  return (
+    <div {...styles.aside}>
+      {t.elements('article/payNote/secondaryAction/text', {
+        link: (
+          <a
+            key="trial"
+            href={routes.find(r => r.name === 'trial').toPath()}
+            onClick={trackEventOnClick(
+              ['PayNote', 'preview after', variation],
+              () => goTo('trial')
+            )}
+          >
+            {t('article/payNote/secondaryAction/linkText')}
+          </a>
+        )
+      })}
+    </div>
+  )
 })
 
-const BuyNoteCta = ({ variation, position, translator, isTrialContext, darkMode }) => {
-  return <div {...styles.actions}>
-    <BuyButton variation={variation} position={position} translator={translator} />
-    {!isTrialContext && position === 'after' && <TrialLink variation={variation} darkMode={darkMode} />}
-  </div>
-}
-
-const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
-  return <TrialForm
-    beforeSignIn={() => {
-      // use native router for shadow routing
-      NativeRouter.push({
-        pathname: '/article',
-        query: { trialSignup: 1 }
-      }, router.asPath, { shallow: true })
-    }}
-    onSuccess={() => {
-      return false
-    }}
-    accessCampaignId={TRIAL_CAMPAIGN}
-    darkMode={darkMode}
-    minimal />
-})
-
-const PayNoteCta = ({ variation, position, translator, isTrialContext, darkMode }) => {
-  return <div {...styles.cta}>
-    {isTryNote(variation)
-      ? <TryNoteCta darkMode={darkMode} />
-      : <BuyNoteCta
-        darkMode={darkMode}
+const BuyNoteCta = ({
+  variation,
+  position,
+  translator,
+  isTrialContext,
+  darkMode
+}) => {
+  return (
+    <div {...styles.actions}>
+      <BuyButton
         variation={variation}
         position={position}
         translator={translator}
-        isTrialContext={isTrialContext} />}
-  </div>
+      />
+      {!isTrialContext && position === 'after' && (
+        <TrialLink variation={variation} darkMode={darkMode} />
+      )}
+    </div>
+  )
+}
+
+const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
+  return (
+    <TrialForm
+      beforeSignIn={() => {
+        // use native router for shadow routing
+        NativeRouter.push(
+          {
+            pathname: '/article',
+            query: { trialSignup: 1 }
+          },
+          router.asPath,
+          { shallow: true }
+        )
+      }}
+      onSuccess={() => {
+        return false
+      }}
+      accessCampaignId={TRIAL_CAMPAIGN}
+      darkMode={darkMode}
+      minimal
+    />
+  )
+})
+
+const PayNoteCta = ({
+  variation,
+  position,
+  translator,
+  isTrialContext,
+  darkMode
+}) => {
+  return (
+    <div {...styles.cta}>
+      {isTryNote(variation) ? (
+        <TryNoteCta darkMode={darkMode} />
+      ) : (
+        <BuyNoteCta
+          darkMode={darkMode}
+          variation={variation}
+          position={position}
+          translator={translator}
+          isTrialContext={isTrialContext}
+        />
+      )}
+    </div>
+  )
 }
 
 export const PayNote = compose(
@@ -210,29 +256,57 @@ export const PayNote = compose(
   withInNativeApp,
   withMemberStatus,
   graphql(memberShipQuery)
-)(({ t, router, inNativeIOSApp, hasOngoingTrial, data: { membershipStats }, seed, series, position }) => {
-  const isTrialContext = hasOngoingTrial && !router.query.trialSignup
-  const translator = initTranslator(t, membershipStats)
-  const variation = inNativeIOSApp ? 'payNote/ios' : getPayNoteVariation(isTrialContext, series, seed)
-  const showThankYouNote = hasOngoingTrial && isTryNote(variation)
-  const lead = showThankYouNote ? t('article/tryNote/thankYou') : translator(variation, position, 'title')
-  const body = !showThankYouNote && translator(variation, position)
-  const isBefore = position === 'before'
-  const cta = !inNativeIOSApp &&
-    <PayNoteCta
-      darkMode={isBefore}
-      variation={variation}
-      position={position}
-      translator={translator}
-      isTrialContext={isTrialContext} />
+)(
+  ({
+    t,
+    router,
+    inNativeIOSApp,
+    hasOngoingTrial,
+    data: { membershipStats },
+    seed,
+    series,
+    position
+  }) => {
+    const isTrialContext = hasOngoingTrial && !router.query.trialSignup
+    const translator = initTranslator(t, membershipStats)
+    const variation = inNativeIOSApp
+      ? 'payNote/ios'
+      : getPayNoteVariation(isTrialContext, series, seed)
+    const showThankYouNote = hasOngoingTrial && isTryNote(variation)
+    const lead = showThankYouNote
+      ? t('article/tryNote/thankYou')
+      : translator(variation, position, 'title')
+    const body = !showThankYouNote && translator(variation, position)
+    const isBefore = position === 'before'
+    const cta = !inNativeIOSApp && (
+      <PayNoteCta
+        darkMode={isBefore}
+        variation={variation}
+        position={position}
+        translator={translator}
+        isTrialContext={isTrialContext}
+      />
+    )
 
-  return <div {...styles.banner} style={{ backgroundColor: isBefore ? colors.negative.primaryBg : colors.primaryBg }}>
-    <Center>
-      { !isBefore && (<div {...styles.brand}><BrandMark /></div>) }
-      <Interaction.P {...styles.body} style={{ color: isBefore ? colors.negative.text : '#000000' }}>
-        <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
-      </Interaction.P>
-      {cta}
-    </Center>
-  </div>
-})
+    return (
+      <div
+        {...styles.banner}
+        style={{
+          backgroundColor: isBefore
+            ? colors.negative.primaryBg
+            : colors.primaryBg
+        }}
+      >
+        <Center>
+          <Interaction.P
+            {...styles.body}
+            style={{ color: isBefore ? colors.negative.text : '#000000' }}
+          >
+            <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
+          </Interaction.P>
+          {cta}
+        </Center>
+      </div>
+    )
+  }
+)

@@ -238,7 +238,8 @@ const Form = (props) => {
             onCancel={reset}
             onTokenTypeChange={reset}
             onSuccess={onSuccessSwitchBoard}
-            minimal={minimal} />
+            minimal={minimal}
+            darkMode={darkMode} />
         </div>
       )}
 

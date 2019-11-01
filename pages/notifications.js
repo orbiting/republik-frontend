@@ -30,12 +30,16 @@ import {
   LOGO_PADDING_MOBILE
 } from '../components/constants'
 
-import {
-  CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { CURTAIN_MESSAGE, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 import {
-  Interaction, NarrowContainer, Logo, linkRule, mediaQueries, colors, Button
+  Interaction,
+  NarrowContainer,
+  Logo,
+  linkRule,
+  mediaQueries,
+  colors,
+  Button
 } from '@project-r/styleguide'
 
 const styles = {
@@ -109,7 +113,15 @@ const hasCurtain = !!CURTAIN_MESSAGE
 
 const { H1, P } = Interaction
 
-const Page = ({ router: { query, query: { context, token, tokenType, noAutoAuthorize } }, t, me, inNativeApp }) => {
+const Page = ({
+  router: {
+    query,
+    query: { context, token, tokenType, noAutoAuthorize }
+  },
+  t,
+  me,
+  inNativeApp
+}) => {
   let { type, email } = query
   if (email !== undefined) {
     try {
@@ -129,21 +141,26 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
   let content
   if (type === 'token-authorization') {
     logoTarget = '_blank'
-    content = <TokenAuthorization
-      email={email}
-      token={token}
-      tokenType={tokenType || DEFAULT_TOKEN_TYPE}
-      noAutoAuthorize={noAutoAuthorize}
-      context={context}
-    />
+    content = (
+      <TokenAuthorization
+        email={email}
+        token={token}
+        tokenType={tokenType || DEFAULT_TOKEN_TYPE}
+        noAutoAuthorize={noAutoAuthorize}
+        context={context}
+      />
+    )
   } else if (type === 'newsletter-subscription') {
     logoTarget = '_blank'
-    content = <MacNewsletterSubscription
-      name={query.name}
-      subscribed={query.subscribed}
-      mac={query.mac}
-      email={email}
-      context={context} />
+    content = (
+      <MacNewsletterSubscription
+        name={query.name}
+        subscribed={!!query.subscribed}
+        mac={query.mac}
+        email={email}
+        context={context}
+      />
+    )
   } else {
     const afterTokenAuth =
       type === 'email-confirmed' || type === 'session-denied'
@@ -151,54 +168,66 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
     const displayCloseNote =
       !me || ['claim', 'preview', 'access'].includes(context)
 
-    content = <Fragment>
-      <P>
-        <RawHtmlTranslation first={[
-          `notifications/${type}/${context}/text`,
-          `notifications/${type}/text`
-        ]} replacements={query} missingValue='' />
-      </P>
-      {afterTokenAuth && displayCloseNote
-        ? <P>{t('notifications/closeNote')}</P>
-        : (!hasCurtain || inNativeApp) && (
-          <div {...styles.button}>
-            <Link route='index'>
-              <Button block primary>
-                {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
-              </Button>
-            </Link>
-          </div>
-        )
-
-      }
-    </Fragment>
+    content = (
+      <Fragment>
+        <P>
+          <RawHtmlTranslation
+            first={[
+              `notifications/${type}/${context}/text`,
+              `notifications/${type}/text`
+            ]}
+            replacements={query}
+            missingValue=""
+          />
+        </P>
+        {afterTokenAuth && displayCloseNote ? (
+          <P>{t('notifications/closeNote')}</P>
+        ) : (
+          (!hasCurtain || inNativeApp) && (
+            <div {...styles.button}>
+              <Link route="index">
+                <Button block primary>
+                  {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
+                </Button>
+              </Link>
+            </div>
+          )
+        )}
+      </Fragment>
+    )
   }
-  const displayMe = (
-    type === 'invalid-email' &&
-    ['signIn', 'pledge'].indexOf(context) !== -1
-  )
+  const displayMe =
+    type === 'invalid-email' && ['signIn', 'pledge'].indexOf(context) !== -1
   const links = [
-    me && context === 'pledge' && type !== 'token-authorization' && {
-      route: 'account',
-      label: t('notifications/links/merci')
-    }
+    me &&
+      context === 'pledge' &&
+      type !== 'token-authorization' && {
+        route: 'account',
+        label: t('notifications/links/merci')
+      }
   ].filter(Boolean)
 
   const isProjectR = context === 'projectr'
   const logo = isProjectR ? (
-    <a href='https://project-r.construction/' rel='noopener' target='_blank' {...styles.logoProjectR}>
+    <a
+      href="https://project-r.construction/"
+      rel="noopener"
+      target="_blank"
+      {...styles.logoProjectR}
+    >
       <img
         style={{ height: 50 }}
-        src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`} />
+        src={`${CDN_FRONTEND_BASE_URL}/static/project_r_logo.png`}
+      />
     </a>
+  ) : hasCurtain ? (
+    <div {...styles.logoRepublik}>
+      <Logo />
+    </div>
   ) : (
-    hasCurtain
-      ? <div {...styles.logoRepublik}>
-        <Logo />
-      </div>
-      : <a href='/' target={logoTarget} {...styles.logoRepublik}>
-        <Logo />
-      </a>
+    <a href="/" target={logoTarget} {...styles.logoRepublik}>
+      <Logo />
+    </a>
   )
 
   const stickyBar = !isProjectR
@@ -207,27 +236,30 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
     <div>
       <Head>
         <title>{t('notifications/pageTitle')}</title>
-        <meta name='robots' content='noindex' />
+        <meta name="robots" content="noindex" />
       </Head>
       <NarrowContainer>
-        <div {...(stickyBar ? styles.bar : undefined)}>
-          {logo}
-        </div>
-        {inNativeApp && <Link route='index'>
-          <a {...styles.close}>
-            <MdClose size={32} fill='#000' />
-          </a>
-        </Link>}
+        <div {...(stickyBar ? styles.bar : undefined)}>{logo}</div>
+        {inNativeApp && (
+          <Link route="index">
+            <a {...styles.close}>
+              <MdClose size={32} fill="#000" />
+            </a>
+          </Link>
+        )}
         <div
           {...styles.text}
           {...(stickyBar ? styles.padHeader : undefined)}
           style={{
             marginTop: inNativeApp ? 15 : undefined
-          }}>
-          {title && <Fragment>
-            <H1>{title}</H1>
-            <br />
-          </Fragment>}
+          }}
+        >
+          {title && (
+            <Fragment>
+              <H1>{title}</H1>
+              <br />
+            </Fragment>
+          )}
           {content}
           {displayMe && (
             <div {...styles.me}>
@@ -236,13 +268,14 @@ const Page = ({ router: { query, query: { context, token, tokenType, noAutoAutho
           )}
           {!hasCurtain && links.length > 0 && (
             <P {...styles.link}>
-              {intersperse(links.map((link, i) => (
-                <Link key={i} route={link.route} params={link.params}>
-                  <a {...linkRule}>
-                    {link.label}
-                  </a>
-                </Link>
-              )), () => ' – ')}
+              {intersperse(
+                links.map((link, i) => (
+                  <Link key={i} route={link.route} params={link.params}>
+                    <a {...linkRule}>{link.label}</a>
+                  </Link>
+                )),
+                () => ' – '
+              )}
             </P>
           )}
         </div>

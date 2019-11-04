@@ -107,8 +107,6 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-const isTryNote = variation => variation.indexOf('tryNote') !== -1
-
 const getTryVariation = seed => {
   return {
     key: `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,

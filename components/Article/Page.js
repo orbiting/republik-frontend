@@ -645,6 +645,16 @@ class ArticlePage extends Component {
                 ? Progress
                 : EmptyComponent
 
+            const titleNode =
+              splitContent.title &&
+              splitContent.title.children[
+                splitContent.title.children.length - 1
+              ]
+            const titleAlign =
+              (titleNode && titleNode.data && titleNode.data.center) || isFormat
+                ? 'center'
+                : undefined
+
             return (
               <Fragment>
                 <FontSizeSync />
@@ -674,7 +684,7 @@ class ArticlePage extends Component {
                             ref={this.barRef}
                             {...styles.actionBar}
                             style={{
-                              textAlign: isFormat ? 'center' : 'left',
+                              textAlign: titleAlign,
                               marginTop: isFormat ? 20 : 0
                             }}
                           >

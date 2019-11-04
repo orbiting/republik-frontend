@@ -509,7 +509,7 @@ class ArticlePage extends Component {
       isEditor,
       inNativeApp,
       payNoteSeed,
-      isActiveMember
+      hasActiveMembership
     } = this.props
 
     const {
@@ -588,7 +588,7 @@ class ArticlePage extends Component {
       )
     }
 
-    const payNote = !isActiveMember && (
+    const payNote = !hasActiveMembership && (
       <PayNote seed={payNoteSeed} series={series} position="before" />
     )
     const payNoteAfter =
@@ -736,7 +736,7 @@ class ArticlePage extends Component {
                   />
                 )}
                 {isFormat && <Feed formatId={article.id} />}
-                {(isActiveMember || isFormat) && (
+                {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />
                     <br />

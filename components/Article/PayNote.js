@@ -124,11 +124,11 @@ const getBuyVariation = (seed, isSeries) => {
   }
 }
 
-const showBuyInsteadOfTry = seed => seed / MAX_PAYNOTE_SEED > TRY_TO_BUY_RATIO
+const showTry = seed => seed / MAX_PAYNOTE_SEED < TRY_TO_BUY_RATIO
 
 const getPayNoteVariation = (
   inNativeIOSApp,
-  hasOngoingTrial,
+  isEligibleForTrial,
   isSeries,
   seed
 ) => {
@@ -137,9 +137,9 @@ const getPayNoteVariation = (
       key: 'article/payNote/ios'
     }
   }
-  return hasOngoingTrial || showBuyInsteadOfTry(seed)
-    ? getBuyVariation(seed, isSeries)
-    : getTryVariation(seed)
+  return isEligibleForTrial && showTry(seed)
+    ? getTryVariation(seed)
+    : getBuyVariation(seed, isSeries)
 }
 
 const MembersCount = ({ membershipStats }) => (
@@ -204,25 +204,22 @@ const TrialLink = compose(withT)(({ t, variation }) => {
   )
 })
 
-const BuyNoteCta = ({
-  variation,
-  position,
-  membershipStats,
-  isTrialContext
-}) => {
-  return (
-    <div {...styles.actions}>
-      <BuyButton
-        variation={variation}
-        position={position}
-        membershipStats={membershipStats}
-      />
-      {!isTrialContext && position === 'after' && (
-        <TrialLink variation={variation} />
-      )}
-    </div>
-  )
-}
+const BuyNoteCta = compose(withMemberStatus)(
+  ({ isEligibleForTrial, variation, position, membershipStats }) => {
+    return (
+      <div {...styles.actions}>
+        <BuyButton
+          variation={variation}
+          position={position}
+          membershipStats={membershipStats}
+        />
+        {isEligibleForTrial && position === 'after' && (
+          <TrialLink variation={variation} />
+        )}
+      </div>
+    )
+  }
+)
 
 const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
   return (
@@ -248,13 +245,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
   )
 })
 
-const PayNoteCta = ({
-  variation,
-  position,
-  membershipStats,
-  isTrialContext,
-  darkMode
-}) => {
+const PayNoteCta = ({ variation, position, membershipStats, darkMode }) => {
   return (
     <div {...styles.cta}>
       {variation.cta === 'try' ? (
@@ -264,7 +255,6 @@ const PayNoteCta = ({
           variation={variation}
           position={position}
           membershipStats={membershipStats}
-          isTrialContext={isTrialContext}
         />
       )}
     </div>
@@ -282,26 +272,24 @@ export const PayNote = compose(
     t,
     router,
     inNativeIOSApp,
-    hasOngoingTrial,
+    isEligibleForTrial,
     data: { membershipStats },
     seed,
     series,
     position
   }) => {
-    const isTrialContext = hasOngoingTrial && !router.query.trialSignup
+    const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
     const variation = getPayNoteVariation(
       inNativeIOSApp,
-      isTrialContext,
+      isEligibleForTrial || isTrialThankYou,
       series,
       seed
     )
-    const showThankYouNote = hasOngoingTrial && variation.cta === 'try'
-    const lead = showThankYouNote
+    const lead = isTrialThankYou
       ? t('article/tryNote/thankYou')
       : translate(t, membershipStats, variation.key, position, 'title')
     const body =
-      !showThankYouNote &&
-      translate(t, membershipStats, variation.key, position)
+      !isTrialThankYou && translate(t, membershipStats, variation.key, position)
     const isBefore = position === 'before'
     const cta = !!variation.cta && (
       <PayNoteCta
@@ -309,7 +297,6 @@ export const PayNote = compose(
         variation={variation}
         position={position}
         membershipStats={membershipStats}
-        isTrialContext={isTrialContext}
       />
     )
 

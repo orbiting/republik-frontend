@@ -6,7 +6,8 @@ import {
   Button,
   colors,
   fontStyles,
-  linkRule
+  linkRule,
+  RawHtml
 } from '@project-r/styleguide'
 import TrialForm from '../Trial/Form'
 import { css } from 'glamor'
@@ -107,9 +108,11 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-const getTryVariation = seed => {
+const getTryVariation = (seed, isThankYou) => {
   return {
-    key: `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,
+    key: isThankYou
+      ? 'article/tryNote/thankYou'
+      : `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,
     cta: 'try'
   }
 }
@@ -128,6 +131,7 @@ const showTry = seed => seed / MAX_PAYNOTE_SEED < TRY_TO_BUY_RATIO
 
 const getPayNoteVariation = (
   inNativeIOSApp,
+  isTrialThankYou,
   isEligibleForTrial,
   isSeries,
   seed
@@ -137,44 +141,43 @@ const getPayNoteVariation = (
       key: 'article/payNote/ios'
     }
   }
-  return isEligibleForTrial && showTry(seed)
-    ? getTryVariation(seed)
+  return isTrialThankYou || (isEligibleForTrial && showTry(seed))
+    ? getTryVariation(seed, isTrialThankYou)
     : getBuyVariation(seed, isSeries)
 }
 
-const translate = (
-  t,
-  membershipStats,
-  variation,
-  position,
-  element = undefined
-) => {
-  const baseKey = `${variation}/${position}${element ? '/' + element : ''}`
-  return t.elements(baseKey, {
-    emphasis: (
-      <Interaction.Emphasis key="emphasis">
-        {t(`${baseKey}/emphasis`)}
-      </Interaction.Emphasis>
-    ),
-    count: countFormat((membershipStats && membershipStats.count) || 20000)
-  })
-}
+const Translation = compose(
+  withT,
+  graphql(memberShipQuery)
+)(({ t, data: { membershipStats }, baseKey, position, element }) => {
+  const tKey = [baseKey, position, element].filter(el => el).join('/')
+  const count = countFormat((membershipStats && membershipStats.count) || 20000)
+  return (
+    <RawHtml
+      dangerouslySetInnerHTML={{
+        __html: t(tKey, { count: count })
+      }}
+    />
+  )
+})
 
-const BuyButton = compose(withT)(
-  ({ t, variation, position, membershipStats }) => {
-    return (
-      <Button
-        primary
-        onClick={trackEventOnClick(
-          ['PayNote', `pledge ${position}`, variation.key],
-          () => goTo('pledge')
-        )}
-      >
-        {translate(t, membershipStats, variation.key, position, 'buy/button')}
-      </Button>
-    )
-  }
-)
+const BuyButton = ({ variation, position }) => {
+  return (
+    <Button
+      primary
+      onClick={trackEventOnClick(
+        ['PayNote', `pledge ${position}`, variation.key],
+        () => goTo('pledge')
+      )}
+    >
+      <Translation
+        baseKey={variation.key}
+        position={position}
+        element="buy/button"
+      />
+    </Button>
+  )
+}
 
 const TrialLink = compose(withT)(({ t, variation }) => {
   const tKey = 'article/payNote/secondaryAction'
@@ -199,14 +202,10 @@ const TrialLink = compose(withT)(({ t, variation }) => {
 })
 
 const BuyNoteCta = compose(withMemberStatus)(
-  ({ isEligibleForTrial, variation, position, membershipStats }) => {
+  ({ isEligibleForTrial, variation, position }) => {
     return (
       <div {...styles.actions}>
-        <BuyButton
-          variation={variation}
-          position={position}
-          membershipStats={membershipStats}
-        />
+        <BuyButton variation={variation} position={position} />
         {isEligibleForTrial && position === 'after' && (
           <TrialLink variation={variation} />
         )}
@@ -239,80 +238,65 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
   )
 })
 
-const PayNoteCta = ({ variation, position, membershipStats, darkMode }) => {
+const PayNoteCta = ({ variation, position, darkMode }) => {
   return (
     <div {...styles.cta}>
       {variation.cta === 'try' ? (
         <TryNoteCta darkMode={darkMode} />
       ) : (
-        <BuyNoteCta
-          variation={variation}
-          position={position}
-          membershipStats={membershipStats}
-        />
+        <BuyNoteCta variation={variation} position={position} />
       )}
     </div>
   )
 }
 
 export const PayNote = compose(
-  withT,
   withRouter,
   withInNativeApp,
-  withMemberStatus,
-  graphql(memberShipQuery)
-)(
-  ({
-    t,
-    router,
+  withMemberStatus
+)(({ router, inNativeIOSApp, isEligibleForTrial, seed, series, position }) => {
+  const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
+  const variation = getPayNoteVariation(
     inNativeIOSApp,
+    isTrialThankYou,
     isEligibleForTrial,
-    data: { membershipStats },
-    seed,
     series,
-    position
-  }) => {
-    const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
-    const variation = getPayNoteVariation(
-      inNativeIOSApp,
-      isEligibleForTrial || isTrialThankYou,
-      series,
-      seed
-    )
-    const lead = isTrialThankYou
-      ? t('article/tryNote/thankYou')
-      : translate(t, membershipStats, variation.key, position, 'title')
-    const body =
-      !isTrialThankYou && translate(t, membershipStats, variation.key, position)
-    const isBefore = position === 'before'
-    const cta = !!variation.cta && (
-      <PayNoteCta
-        darkMode={isBefore}
-        variation={variation}
-        position={position}
-        membershipStats={membershipStats}
-      />
-    )
+    seed
+  )
+  const lead = (
+    <Translation
+      baseKey={variation.key}
+      position={!isTrialThankYou && position}
+      element="title"
+    />
+  )
+  const body = (
+    <Translation
+      baseKey={variation.key}
+      position={!isTrialThankYou && position}
+    />
+  )
+  const isBefore = position === 'before'
+  const cta = !!variation.cta && (
+    <PayNoteCta darkMode={isBefore} variation={variation} position={position} />
+  )
 
-    return (
-      <div
-        {...styles.banner}
-        style={{
-          backgroundColor: isBefore
-            ? colors.negative.primaryBg
-            : colors.primaryBg
-        }}
-      >
-        <Center>
-          <Interaction.P
-            {...styles.body}
-            style={{ color: isBefore ? colors.negative.text : '#000000' }}
-          >
-            <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
-          </Interaction.P>
-          {cta}
-        </Center>
-      </div>
-    )
-  }
-)
+  return (
+    <div
+      {...styles.banner}
+      style={{
+        backgroundColor: isBefore ? colors.negative.primaryBg : colors.primaryBg
+      }}
+    >
+      <Center>
+        <Interaction.P
+          {...styles.body}
+          style={{ color: isBefore ? colors.negative.text : '#000000' }}
+        >
+          <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
+        </Interaction.P>
+        {cta}
+      </Center>
+    </div>
+  )
+})

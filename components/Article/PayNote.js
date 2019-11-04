@@ -65,40 +65,40 @@ const memberShipQuery = gql`
 const TRY_TO_BUY_RATIO = 0.8
 
 const TRY_VARIATIONS = [
-  'tryNote/191023-v1',
-  'tryNote/191023-v2',
-  'tryNote/191023-v3',
-  'tryNote/191023-v4',
-  'tryNote/191023-v5',
-  'tryNote/191023-v6',
-  'tryNote/191023-v7',
-  'tryNote/191023-v8',
-  'tryNote/191023-v9',
-  'tryNote/191023-v10',
-  'tryNote/191023-v11',
-  'tryNote/191023-v12',
-  'tryNote/191023-v13',
-  'tryNote/191023-v14',
-  'tryNote/191023-v15',
-  'tryNote/191023-v16',
-  'tryNote/191023-v17',
-  'tryNote/191023-v18',
-  'tryNote/191023-v19'
+  '191023-v1',
+  '191023-v2',
+  '191023-v3',
+  '191023-v4',
+  '191023-v5',
+  '191023-v6',
+  '191023-v7',
+  '191023-v8',
+  '191023-v9',
+  '191023-v10',
+  '191023-v11',
+  '191023-v12',
+  '191023-v13',
+  '191023-v14',
+  '191023-v15',
+  '191023-v16',
+  '191023-v17',
+  '191023-v18',
+  '191023-v19'
 ]
 
 const BUY_VARIATIONS = [
-  'payNote/190305-v1',
-  'payNote/190305-v2',
-  'payNote/190305-v3',
-  'payNote/190305-v4',
-  'payNote/190305-v5',
-  'payNote/190305-v6',
-  'payNote/190305-v7',
-  'payNote/190305-v8',
-  'payNote/190305-v9'
+  '190305-v1',
+  '190305-v2',
+  '190305-v3',
+  '190305-v4',
+  '190305-v5',
+  '190305-v6',
+  '190305-v7',
+  '190305-v8',
+  '190305-v9'
 ]
 
-const BUY_SERIES = 'payNote/series'
+const BUY_SERIES = 'series'
 
 export const MAX_PAYNOTE_SEED = Math.max(
   TRY_VARIATIONS.length,
@@ -109,14 +109,36 @@ const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
 const isTryNote = variation => variation.indexOf('tryNote') !== -1
 
-const getTryVariation = seed => getElementFromSeed(TRY_VARIATIONS, seed)
+const getTryVariation = seed => {
+  return {
+    key: `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,
+    cta: 'try'
+  }
+}
 
-const getBuyVariation = (seed, isSeries) =>
-  isSeries ? BUY_SERIES : getElementFromSeed(BUY_VARIATIONS, seed)
+const getBuyVariation = (seed, isSeries) => {
+  const variation = isSeries
+    ? BUY_SERIES
+    : getElementFromSeed(BUY_VARIATIONS, seed)
+  return {
+    key: `article/payNote/${variation}`,
+    cta: 'buy'
+  }
+}
 
 const showBuyInsteadOfTry = seed => seed / MAX_PAYNOTE_SEED > TRY_TO_BUY_RATIO
 
-const getPayNoteVariation = (hasOngoingTrial, isSeries, seed) => {
+const getPayNoteVariation = (
+  inNativeIOSApp,
+  hasOngoingTrial,
+  isSeries,
+  seed
+) => {
+  if (inNativeIOSApp) {
+    return {
+      key: 'article/payNote/ios'
+    }
+  }
   return hasOngoingTrial || showBuyInsteadOfTry(seed)
     ? getBuyVariation(seed, isSeries)
     : getTryVariation(seed)
@@ -135,9 +157,7 @@ const translate = (
   position,
   element = undefined
 ) => {
-  const baseKey = `article/${variation}/${position}${
-    element ? '/' + element : ''
-  }`
+  const baseKey = `${variation}/${position}${element ? '/' + element : ''}`
   return t.elements(baseKey, {
     emphasis: (
       <Interaction.Emphasis key="emphasis">
@@ -154,20 +174,21 @@ const BuyButton = compose(withT)(
       <Button
         primary
         onClick={trackEventOnClick(
-          ['PayNote', `pledge ${position}`, variation],
+          ['PayNote', `pledge ${position}`, variation.key],
           () => goTo('pledge')
         )}
       >
-        {translate(t, membershipStats, variation, position, 'buy/button')}
+        {translate(t, membershipStats, variation.key, position, 'buy/button')}
       </Button>
     )
   }
 )
 
 const TrialLink = compose(withT)(({ t, variation }) => {
+  const tKey = 'article/payNote/secondaryAction'
   return (
     <div {...styles.aside}>
-      {t.elements('article/payNote/secondaryAction/text', {
+      {t.elements(`${tKey}/text`, {
         link: (
           <a
             key="trial"
@@ -177,7 +198,7 @@ const TrialLink = compose(withT)(({ t, variation }) => {
               () => goTo('trial')
             )}
           >
-            {t('article/payNote/secondaryAction/linkText')}
+            {t(`${tKey}/linkText`)}
           </a>
         )
       })}
@@ -189,18 +210,17 @@ const BuyNoteCta = ({
   variation,
   position,
   membershipStats,
-  isTrialContext,
-  darkMode
+  isTrialContext
 }) => {
   return (
     <div {...styles.actions}>
       <BuyButton
         variation={variation}
         position={position}
-        translator={membershipStats}
+        membershipStats={membershipStats}
       />
       {!isTrialContext && position === 'after' && (
-        <TrialLink variation={variation} darkMode={darkMode} />
+        <TrialLink variation={variation} />
       )}
     </div>
   )
@@ -239,11 +259,10 @@ const PayNoteCta = ({
 }) => {
   return (
     <div {...styles.cta}>
-      {isTryNote(variation) ? (
+      {variation.cta === 'try' ? (
         <TryNoteCta darkMode={darkMode} />
       ) : (
         <BuyNoteCta
-          darkMode={darkMode}
           variation={variation}
           position={position}
           membershipStats={membershipStats}
@@ -272,17 +291,21 @@ export const PayNote = compose(
     position
   }) => {
     const isTrialContext = hasOngoingTrial && !router.query.trialSignup
-    const variation = inNativeIOSApp
-      ? 'payNote/ios'
-      : getPayNoteVariation(isTrialContext, series, seed)
-    const showThankYouNote = hasOngoingTrial && isTryNote(variation)
+    const variation = getPayNoteVariation(
+      inNativeIOSApp,
+      isTrialContext,
+      series,
+      seed
+    )
+    const showThankYouNote = hasOngoingTrial && variation.cta === 'try'
     const lead = showThankYouNote
       ? t('article/tryNote/thankYou')
-      : translate(t, membershipStats, variation, position, 'title')
+      : translate(t, membershipStats, variation.key, position, 'title')
     const body =
-      !showThankYouNote && translate(t, membershipStats, variation, position)
+      !showThankYouNote &&
+      translate(t, membershipStats, variation.key, position)
     const isBefore = position === 'before'
-    const cta = !inNativeIOSApp && (
+    const cta = !!variation.cta && (
       <PayNoteCta
         darkMode={isBefore}
         variation={variation}

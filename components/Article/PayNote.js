@@ -142,12 +142,6 @@ const getPayNoteVariation = (
     : getBuyVariation(seed, isSeries)
 }
 
-const MembersCount = ({ membershipStats }) => (
-  <span style={{ whiteSpace: 'nowrap' }}>
-    {countFormat((membershipStats && membershipStats.count) || 20000)}
-  </span>
-)
-
 const translate = (
   t,
   membershipStats,
@@ -162,7 +156,7 @@ const translate = (
         {t(`${baseKey}/emphasis`)}
       </Interaction.Emphasis>
     ),
-    count: <MembersCount key="count" membershipStats={membershipStats} />
+    count: countFormat((membershipStats && membershipStats.count) || 20000)
   })
 }
 

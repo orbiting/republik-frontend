@@ -128,7 +128,9 @@ const MembersCount = ({ membershipStats }) => (
   </span>
 )
 
-const initTranslator = (t, membershipStats) => (
+const translate = (
+  t,
+  membershipStats,
   variation,
   position,
   element = undefined
@@ -146,19 +148,21 @@ const initTranslator = (t, membershipStats) => (
   })
 }
 
-const BuyButton = ({ variation, position, translator }) => {
-  return (
-    <Button
-      primary
-      onClick={trackEventOnClick(
-        ['PayNote', `pledge ${position}`, variation],
-        () => goTo('pledge')
-      )}
-    >
-      {translator(variation, position, 'buy/button')}
-    </Button>
-  )
-}
+const BuyButton = compose(withT)(
+  ({ t, variation, position, membershipStats }) => {
+    return (
+      <Button
+        primary
+        onClick={trackEventOnClick(
+          ['PayNote', `pledge ${position}`, variation],
+          () => goTo('pledge')
+        )}
+      >
+        {translate(t, membershipStats, variation, position, 'buy/button')}
+      </Button>
+    )
+  }
+)
 
 const TrialLink = compose(withT)(({ t, variation }) => {
   return (
@@ -184,7 +188,7 @@ const TrialLink = compose(withT)(({ t, variation }) => {
 const BuyNoteCta = ({
   variation,
   position,
-  translator,
+  membershipStats,
   isTrialContext,
   darkMode
 }) => {
@@ -193,7 +197,7 @@ const BuyNoteCta = ({
       <BuyButton
         variation={variation}
         position={position}
-        translator={translator}
+        translator={membershipStats}
       />
       {!isTrialContext && position === 'after' && (
         <TrialLink variation={variation} darkMode={darkMode} />
@@ -229,7 +233,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
 const PayNoteCta = ({
   variation,
   position,
-  translator,
+  membershipStats,
   isTrialContext,
   darkMode
 }) => {
@@ -242,7 +246,7 @@ const PayNoteCta = ({
           darkMode={darkMode}
           variation={variation}
           position={position}
-          translator={translator}
+          membershipStats={membershipStats}
           isTrialContext={isTrialContext}
         />
       )}
@@ -268,22 +272,22 @@ export const PayNote = compose(
     position
   }) => {
     const isTrialContext = hasOngoingTrial && !router.query.trialSignup
-    const translator = initTranslator(t, membershipStats)
     const variation = inNativeIOSApp
       ? 'payNote/ios'
       : getPayNoteVariation(isTrialContext, series, seed)
     const showThankYouNote = hasOngoingTrial && isTryNote(variation)
     const lead = showThankYouNote
       ? t('article/tryNote/thankYou')
-      : translator(variation, position, 'title')
-    const body = !showThankYouNote && translator(variation, position)
+      : translate(t, membershipStats, variation, position, 'title')
+    const body =
+      !showThankYouNote && translate(t, membershipStats, variation, position)
     const isBefore = position === 'before'
     const cta = !inNativeIOSApp && (
       <PayNoteCta
         darkMode={isBefore}
         variation={variation}
         position={position}
-        translator={translator}
+        membershipStats={membershipStats}
         isTrialContext={isTrialContext}
       />
     )

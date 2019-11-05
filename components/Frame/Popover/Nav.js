@@ -90,25 +90,23 @@ const styles = {
 }
 
 const SignoutLink = ({ children, ...props }) => (
-  <a {...styles.link} {...props}>{children}</a>
+  <a {...styles.link} {...props}>
+    {children}
+  </a>
 )
 
 const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
-  if (
-    active &&
-    active.route === route
-  ) {
+  if (active && active.route === route) {
     return (
       <a
         {...styles.link}
         style={{ cursor: 'pointer' }}
         onClick={e => {
           e.preventDefault()
-          Router.replaceRoute(route, params)
-            .then(() => {
-              window.scroll(0, 0)
-              closeHandler()
-            })
+          Router.replaceRoute(route, params).then(() => {
+            window.scroll(0, 0)
+            closeHandler()
+          })
         }}
       >
         {translation}
@@ -122,24 +120,33 @@ const NavLink = ({ route, translation, params = {}, active, closeHandler }) => {
   )
 }
 
-const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSApp, isMember }) => {
+const Nav = ({
+  me,
+  router,
+  closeHandler,
+  children,
+  t,
+  inNativeApp,
+  inNativeIOSApp,
+  isMember
+}) => {
   const active = matchPath(router.asPath)
   return (
-    <div {...styles.container} id='nav'>
+    <div {...styles.container} id="nav">
       <hr {...styles.hr} {...styles.hrFixed} />
       <div {...styles.sections}>
         <div {...styles.section} {...styles.sectionCompact}>
           {me && (
             <>
               <NavLink
-                route='account'
+                route="account"
                 translation={t('Frame/Popover/myaccount')}
                 active={active}
                 closeHandler={closeHandler}
               />
               {(!inNativeIOSApp || isMember) && (
                 <NavLink
-                  route='profile'
+                  route="profile"
                   params={{ slug: me.username || me.id }}
                   translation={t('Frame/Popover/myprofile')}
                   active={active}
@@ -148,34 +155,33 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
               )}
               {isMember && (
                 <NavLink
-                  route='bookmarks'
+                  route="bookmarks"
                   translation={t('nav/bookmarks')}
                   active={active}
                   closeHandler={closeHandler}
                 />
               )}
-              {me.accessCampaigns.length > 0 &&
+              {me.accessCampaigns.length > 0 && (
                 <a
                   {...styles.link}
                   style={{ cursor: 'pointer' }}
-                  href='/konto#teilen'
-                  onClick={(e) => {
+                  href="/konto#teilen"
+                  onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return
                     }
 
-                    Router
-                      .pushRoute('/konto#teilen')
-                      .then(closeHandler)
-                  }}>
+                    Router.pushRoute('/konto#teilen').then(closeHandler)
+                  }}
+                >
                   {t('nav/share')}
                 </a>
-              }
+              )}
             </>
           )}
           {!inNativeIOSApp && (
             <NavLink
-              route='pledge'
+              route="pledge"
               params={me ? { group: 'GIVE' } : undefined}
               translation={t(me ? 'nav/give' : 'nav/offers')}
               active={active}
@@ -183,7 +189,7 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
             />
           )}
           <NavLink
-            route='events'
+            route="events"
             translation={t('nav/events')}
             active={active}
             closeHandler={closeHandler}
@@ -191,17 +197,21 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           {me ? (
             <SignOut Link={SignoutLink} />
           ) : (
-            <SignIn beforeForm={(
-              <Label style={{ display: 'block', marginTop: 20, marginBottom: 10 }}>
-                {t('me/signedOut')}
-              </Label>
-            )} />
+            <SignIn
+              beforeForm={
+                <Label
+                  style={{ display: 'block', marginTop: 20, marginBottom: 10 }}
+                >
+                  {t('me/signedOut')}
+                </Label>
+              }
+            />
           )}
         </div>
         <div {...styles.section}>
           {isMember && (
             <NavLink
-              route='feed'
+              route="feed"
               translation={t('navbar/feed')}
               active={active}
               closeHandler={closeHandler}
@@ -209,7 +219,7 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           )}
           {isMember && (
             <NavLink
-              route='discussion'
+              route="discussion"
               translation={t('navbar/discussion')}
               active={active}
               closeHandler={closeHandler}
@@ -217,32 +227,26 @@ const Nav = ({ me, router, closeHandler, children, t, inNativeApp, inNativeIOSAp
           )}
           {isMember && (
             <NavLink
-              route='formats'
+              route="formats"
               translation={t('nav/formats')}
               active={active}
               closeHandler={closeHandler}
             />
           )}
           <NavLink
-            route='community'
+            route="community"
             translation={t('nav/community')}
             active={active}
             closeHandler={closeHandler}
           />
           <NavLink
-            route='cardGroups'
-            translation={t('nav/cardGroups')}
-            active={active}
-            closeHandler={closeHandler}
-          />
-          <NavLink
-            route='meta'
+            route="meta"
             translation={t('nav/meta')}
             active={active}
             closeHandler={closeHandler}
           />
           <NavLink
-            route='legal/imprint'
+            route="legal/imprint"
             translation={t('nav/team')}
             active={active}
             closeHandler={closeHandler}

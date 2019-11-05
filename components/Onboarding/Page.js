@@ -16,9 +16,13 @@ import {
 
 import PathLink from '../Link/Path'
 import Greeting, { fragments as fragmentsGreeting } from './Greeting'
-import Newsletter, { fragments as fragmentsNewsletter } from './Sections/Newsletter'
+import Newsletter, {
+  fragments as fragmentsNewsletter
+} from './Sections/Newsletter'
 import AppLogin, { fragments as fragmentsAppLogin } from './Sections/AppLogin'
-import Usability, { fragments as fragmentsUsability } from './Sections/Usability'
+import Usability, {
+  fragments as fragmentsUsability
+} from './Sections/Usability'
 import Profile, { fragments as fragmentsProfile } from './Sections/Profile'
 import Frame from '../Frame'
 import { scrollIt } from '../../lib/utils/scroll'
@@ -75,20 +79,44 @@ const styles = {
 }
 
 class Page extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       expandedSection: null,
       hasOnceVisitedAll: false
     }
-    const { router: { query: { context } } } = props
+    const {
+      router: {
+        query: { context }
+      }
+    } = props
 
     this.sections = [
-      { component: Newsletter, name: 'newsletter', ref: React.createRef(), visited: false },
-      { component: AppLogin, name: 'app-login', ref: React.createRef(), visited: false },
-      { component: Usability, name: 'usability', ref: React.createRef(), visited: false },
-      context !== 'card' && { component: Profile, name: 'profile', ref: React.createRef(), visited: false }
+      {
+        component: Newsletter,
+        name: 'newsletter',
+        ref: React.createRef(),
+        visited: false
+      },
+      {
+        component: AppLogin,
+        name: 'app-login',
+        ref: React.createRef(),
+        visited: false
+      },
+      {
+        component: Usability,
+        name: 'usability',
+        ref: React.createRef(),
+        visited: false
+      },
+      context !== 'card' && {
+        component: Profile,
+        name: 'profile',
+        ref: React.createRef(),
+        visited: false
+      }
     ].filter(Boolean)
 
     this.onExpand = props => {
@@ -102,10 +130,13 @@ class Page extends Component {
       let sectionIndex = 0
 
       if (expandedSection) {
-        const currentSection = this.sections.find(({ name }) => expandedSection === name)
+        const currentSection = this.sections.find(
+          ({ name }) => expandedSection === name
+        )
         currentSection.visited = true
 
-        const nextIndex = this.sections.findIndex(({ name }) => expandedSection === name) + 1
+        const nextIndex =
+          this.sections.findIndex(({ name }) => expandedSection === name) + 1
 
         if (nextIndex < this.sections.length) {
           sectionIndex = nextIndex
@@ -122,18 +153,25 @@ class Page extends Component {
       this.setState(
         { expandedSection: this.sections[sectionIndex].name },
         () => {
-          const { top } = this.sections[sectionIndex].ref.current.getBoundingClientRect()
+          const { top } = this.sections[
+            sectionIndex
+          ].ref.current.getBoundingClientRect()
           const { pageYOffset } = window
 
-          const target = pageYOffset + top - (HEADER_HEIGHT * 1.2)
+          const target = pageYOffset + top - HEADER_HEIGHT * 1.2
           scrollIt(target, 400)
         }
       )
     }
   }
 
-  render () {
-    const { router: { query: { context } }, t } = this.props
+  render() {
+    const {
+      router: {
+        query: { context }
+      },
+      t
+    } = this.props
     const { expandedSection } = this.state
 
     const meta = {
@@ -169,26 +207,33 @@ class Page extends Component {
                 </P>
                 {context && <Greeting employee={employees[0]} />}
                 <P {...styles.p}>
-                  {t.first([
-                    `Onboarding/Page/${context}/introduction`,
-                    'Onboarding/Page/introduction'
-                  ], null, '')}
+                  {t.first(
+                    [
+                      `Onboarding/Page/${context}/introduction`,
+                      'Onboarding/Page/introduction'
+                    ],
+                    null,
+                    ''
+                  )}
                 </P>
 
                 <div {...styles.sections}>
-                  {this.sections.map(({ component: Component, name, ref, visited }) => {
-                    return (
-                      <Component
-                        key={name}
-                        name={name}
-                        user={user}
-                        onExpand={this.onExpand.bind(this)}
-                        isExpanded={expandedSection === name}
-                        onContinue={this.onContinue.bind(this)}
-                        forwardedRef={ref}
-                        isVisited={visited} />
-                    )
-                  })}
+                  {this.sections.map(
+                    ({ component: Component, name, ref, visited }) => {
+                      return (
+                        <Component
+                          key={name}
+                          name={name}
+                          user={user}
+                          onExpand={this.onExpand.bind(this)}
+                          isExpanded={expandedSection === name}
+                          onContinue={this.onContinue.bind(this)}
+                          forwardedRef={ref}
+                          isVisited={visited}
+                        />
+                      )
+                    }
+                  )}
                 </div>
 
                 {!!context && (
@@ -199,7 +244,7 @@ class Page extends Component {
                       </div>
                     ) */}
                     <div {...styles.buttonContainer}>
-                      <Link route='index'>
+                      <Link route="index">
                         <Button primary={!expandedSection}>
                           {t.first([
                             `Onboarding/Page/${context}/button`,
@@ -212,82 +257,76 @@ class Page extends Component {
                 )}
 
                 <P {...styles.p}>
-                  {t.first.elements([
-                    `Onboarding/Page/${context}/more/account`,
-                    'Onboarding/Page/more/account'
-                  ], {
-                    link: (
-                      <Link key='account' route='account' passHref>
-                        <a {...linkRule}>
-                          {t.first([
-                            `Onboarding/Page/${context}/more/account/link`,
-                            'Onboarding/Page/more/account/link'
-                          ])}
-                        </a>
-                      </Link>
-                    )
-                  })}
+                  {t.first.elements(
+                    [
+                      `Onboarding/Page/${context}/more/account`,
+                      'Onboarding/Page/more/account'
+                    ],
+                    {
+                      link: (
+                        <Link key="account" route="account" passHref>
+                          <a {...linkRule}>
+                            {t.first([
+                              `Onboarding/Page/${context}/more/account/link`,
+                              'Onboarding/Page/more/account/link'
+                            ])}
+                          </a>
+                        </Link>
+                      )
+                    }
+                  )}
                 </P>
 
                 <P {...styles.p}>
-                  {t.first.elements([
-                    `Onboarding/Page/${context}/more/cards`,
-                    'Onboarding/Page/more/cards'
-                  ], {
-                    link: (
-                      <Link key='cards' route='cardGroups' passHref>
-                        <a {...linkRule}>
-                          {t.first([
-                            `Onboarding/Page/${context}/more/cards/link`,
-                            'Onboarding/Page/more/cards/link'
-                          ])}
-                        </a>
-                      </Link>
-                    )
-                  })}
-                </P>
-
-                <P {...styles.p}>
-                  {t.first.elements([
-                    `Onboarding/Page/${context}/more/questions`,
-                    'Onboarding/Page/more/questions'
-                  ], {
-                    linkManual: (
-                      <PathLink key='anleitung' path='/anleitung' passHref>
-                        <a {...linkRule}>
-                          {t.first([
-                            `Onboarding/Page/${context}/more/questions/linkManual`,
-                            'Onboarding/Page/more/questions/linkManual'
-                          ])}
-                        </a>
-                      </PathLink>
-                    ),
-                    linkFaq: (
-                      <Link key='route' route='faq' passHref>
-                        <a {...linkRule}>
-                          {t.first([
-                            `Onboarding/Page/${context}/more/questions/linkFaq`,
-                            'Onboarding/Page/more/questions/linkFaq'
-                          ])}
-                        </a>
-                      </Link>
-                    )
-                  })}
+                  {t.first.elements(
+                    [
+                      `Onboarding/Page/${context}/more/questions`,
+                      'Onboarding/Page/more/questions'
+                    ],
+                    {
+                      linkManual: (
+                        <PathLink key="anleitung" path="/anleitung" passHref>
+                          <a {...linkRule}>
+                            {t.first([
+                              `Onboarding/Page/${context}/more/questions/linkManual`,
+                              'Onboarding/Page/more/questions/linkManual'
+                            ])}
+                          </a>
+                        </PathLink>
+                      ),
+                      linkFaq: (
+                        <Link key="route" route="faq" passHref>
+                          <a {...linkRule}>
+                            {t.first([
+                              `Onboarding/Page/${context}/more/questions/linkFaq`,
+                              'Onboarding/Page/more/questions/linkFaq'
+                            ])}
+                          </a>
+                        </Link>
+                      )
+                    }
+                  )}
                 </P>
                 <P {...styles.p}>
-                  {t.first.elements([
-                    `Onboarding/Page/${context}/more/help`,
-                    'Onboarding/Page/more/help'
-                  ], {
-                    email: (
-                      <a
-                        key='email'
-                        href={`mailto:${t('Onboarding/Page/more/help/email')}`}
-                        {...linkRule}>
-                        {t('Onboarding/Page/more/help/email')}
-                      </a>
-                    )
-                  })}
+                  {t.first.elements(
+                    [
+                      `Onboarding/Page/${context}/more/help`,
+                      'Onboarding/Page/more/help'
+                    ],
+                    {
+                      email: (
+                        <a
+                          key="email"
+                          href={`mailto:${t(
+                            'Onboarding/Page/more/help/email'
+                          )}`}
+                          {...linkRule}
+                        >
+                          {t('Onboarding/Page/more/help/email')}
+                        </a>
+                      )
+                    }
+                  )}
                 </P>
               </Center>
             )
@@ -298,4 +337,7 @@ class Page extends Component {
   }
 }
 
-export default compose(withT, withRouter)(Page)
+export default compose(
+  withT,
+  withRouter
+)(Page)

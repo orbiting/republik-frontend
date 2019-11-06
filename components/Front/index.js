@@ -25,8 +25,6 @@ import ErrorMessage from '../ErrorMessage'
 import CommentLink from '../Discussion/CommentLink'
 import DiscussionLink from '../Discussion/DiscussionLink'
 
-import { negativeColors } from '../Frame/Footer'
-
 import { renderMdast } from 'mdast-react-render'
 
 import { PUBLIC_BASE_URL } from '../../lib/constants'
@@ -78,8 +76,8 @@ const styles = {
     padding: 15
   }),
   more: css({
-    backgroundColor: negativeColors.containerBg,
-    color: negativeColors.text,
+    backgroundColor: colors.negative.containerBg,
+    color: colors.negative.text,
     textAlign: 'center',
     padding: '20px 0'
   })
@@ -169,13 +167,13 @@ const Front = ({
           </div>}
           {finite && <div style={{ marginBottom: 10 }}>
             <Link route='feed' passHref>
-              <Editorial.A style={{ color: negativeColors.text }}>{t('front/finite/feed')}</Editorial.A>
+              <Editorial.A style={{ color: colors.negative.text }}>{t('front/finite/feed')}</Editorial.A>
             </Link>
           </div>}
           <div style={{ marginBottom: 10 }}>
             {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
             {loadingMore && <InlineSpinner />}
-            {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: negativeColors.text }} onClick={event => {
+            {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: colors.negative.text }} onClick={event => {
               event && event.preventDefault()
               setInfiniteScroll(true)
             }}>
@@ -192,7 +190,7 @@ const Front = ({
           {front.meta.path === '/' && <div style={{ marginBottom: 10 }}>{t.elements('front/chronology', {
             years: intersperse([2019, 2018].map(year =>
               <Link key={year} route='overview' params={{ year }} passHref>
-                <Editorial.A style={{ color: negativeColors.text }}>{year}</Editorial.A>
+                <Editorial.A style={{ color: colors.negative.text }}>{year}</Editorial.A>
               </Link>
             ), () => ', ')
           })}</div>}

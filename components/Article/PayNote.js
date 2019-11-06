@@ -1,31 +1,39 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-import gql from 'graphql-tag'
-import { graphql, compose } from 'react-apollo'
-import { css } from 'glamor'
-
-import { WithoutMembership, WithoutActiveMembership } from '../Auth/withMembership'
-import withMe from '../../lib/apollo/withMe'
-import withT from '../../lib/withT'
-import { trackEventOnClick } from '../../lib/piwik'
-import { Router, routes } from '../../lib/routes'
-import { countFormat } from '../../lib/utils/format'
-import withInNativeApp from '../../lib/withInNativeApp'
-import BottomPanel from './PayNoteBottomPanel'
-
+import React from 'react'
 import {
-  Button,
-  Center,
   Interaction,
+  Center,
+  mediaQueries,
+  Button,
   colors,
   fontStyles,
   linkRule,
-  mediaQueries
+  RawHtml
 } from '@project-r/styleguide'
-
-import { negativeColors } from '../Frame/Footer'
+import TrialForm from '../Trial/Form'
+import { css } from 'glamor'
+import { getElementFromSeed } from '../../lib/utils/helpers'
+import { trackEventOnClick } from '../../lib/piwik'
+import { Router, routes } from '../../lib/routes'
+import NativeRouter, { withRouter } from 'next/router'
+import { compose, graphql } from 'react-apollo'
+import withT from '../../lib/withT'
+import withInNativeApp from '../../lib/withInNativeApp'
+import gql from 'graphql-tag'
+import { countFormat } from '../../lib/utils/format'
+import withMemberStatus from '../../lib/withMemberStatus'
+import { TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
+  banner: css({
+    padding: '5px 0'
+  }),
+  body: css({
+    margin: 0,
+    paddingBottom: 0
+  }),
+  cta: css({
+    marginTop: 10
+  }),
   actions: css({
     display: 'flex',
     flexDirection: 'column',
@@ -34,63 +42,32 @@ const styles = {
       flexDirection: 'row'
     }
   }),
-  beforeContent: css({
-    paddingRight: '25px',
-    [mediaQueries.mUp]: {
-      paddingRight: 0
-    }
-  }),
-  beforeParagraph: css({
-    margin: 0,
-    ...fontStyles.sansSerifRegular14,
-    lineHeight: '20px',
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
-  }),
-  secondaryContainer: css({
-    padding: '15px 0',
-    backgroundColor: colors.secondaryBg,
-    [mediaQueries.mUp]: {
-      padding: '30px 0'
-    }
-  }),
-  blackContainer: css({
-    backgroundColor: negativeColors.primaryBg,
-    color: negativeColors.text,
-    textRendering: 'optimizeLegibility',
-    WebkitFontSmoothing: 'antialiased',
-    padding: '15px 0',
-    [mediaQueries.mUp]: {
-      padding: '30px 0'
-    }
-  }),
   aside: css({
     marginTop: 15,
+    color: colors.lightText,
     ...fontStyles.sansSerifRegular16,
+    '& a': linkRule,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular18,
-      lineHeight: '22px',
       marginLeft: 30,
       marginTop: 0
     }
   })
 }
 
-const multiLineButtonStyle = {
-  height: 'auto',
-  minHeight: '60px'
-}
-
-const query = gql`
-query payNoteMembershipStats {
-  membershipStats {
-    count
+const memberShipQuery = gql`
+  query payNoteMembershipStats {
+    membershipStats {
+      count
+    }
   }
-}
 `
 
-const ACTIVE_VARIATIONS = [
+const TRY_TO_BUY_RATIO = 0.5
+
+const TRY_VARIATIONS = ['191106-v1', '191106-v2', '191106-v3', '191106-v4']
+
+const BUY_VARIATIONS = [
   '190305-v1',
   '190305-v2',
   '190305-v3',
@@ -102,130 +79,204 @@ const ACTIVE_VARIATIONS = [
   '190305-v9'
 ]
 
-export const getRandomVariation = () => {
-  const randomIndex = Math.floor(Math.random() * ACTIVE_VARIATIONS.length)
-  return ACTIVE_VARIATIONS[randomIndex]
-}
+const BUY_SERIES = 'series'
 
-const CountSpan = ({ membershipStats }) => (
-  <span style={{ whiteSpace: 'nowrap' }}>{countFormat(
-    (membershipStats && membershipStats.count) || 20000
-  )}</span>
+export const MAX_PAYNOTE_SEED = Math.max(
+  TRY_VARIATIONS.length,
+  BUY_VARIATIONS.length
 )
 
-export const Before = compose(
-  withT,
-  graphql(query),
-  withInNativeApp
-)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, expanded }) => (
-  <WithoutMembership render={() => {
-    if (me && me.activeMembership) {
-      return null
-    }
+const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-    if (inNativeIOSApp) {
-      return (
-        <div {...styles.blackContainer}>
-          <Center>
-            <Interaction.P style={{ color: 'inherit' }}>
-              {t.elements('article/payNote/before/ios', {
-                count: <CountSpan key='count' membershipStats={membershipStats} />
-              })}
-            </Interaction.P>
-          </Center>
-        </div>
-      )
-    }
-    const translationPrefix = `article/payNote/${variation}`
-    return (
-      <BottomPanel expanded={expanded} variation={variation} button={(
-        <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
-          ['PayNote', 'pledge panel', variation],
-          () => {
-            Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
-          }
-        )}>
-          {t(`${translationPrefix}/before/buy/button`)}
-        </Button>
-      )}>
-        <div {...styles.beforeContent}>
-          <p {...styles.beforeParagraph}>
-            {t.elements(`${translationPrefix}/before`, {
-              count: <CountSpan key='count' membershipStats={membershipStats} />
-            })}
-          </p>
-        </div>
-      </BottomPanel>
-    )
-  }} />
-))
+const getTryVariation = (seed, isThankYou) => {
+  return {
+    key: isThankYou
+      ? 'article/tryNote/thankYou'
+      : `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,
+    cta: 'try'
+  }
+}
 
-export const After = compose(
+const getBuyVariation = (seed, isSeries) => {
+  const variation = isSeries
+    ? BUY_SERIES
+    : getElementFromSeed(BUY_VARIATIONS, seed)
+  return {
+    key: `article/payNote/${variation}`,
+    cta: 'buy'
+  }
+}
+
+const showTry = seed => seed / MAX_PAYNOTE_SEED < TRY_TO_BUY_RATIO
+
+const getPayNoteVariation = (
+  inNativeIOSApp,
+  isTrialThankYou,
+  isEligibleForTrial,
+  isSeries,
+  seed
+) => {
+  if (inNativeIOSApp) {
+    return {
+      key: 'article/payNote/ios'
+    }
+  }
+  return isTrialThankYou || (isEligibleForTrial && showTry(seed))
+    ? getTryVariation(seed, isTrialThankYou)
+    : getBuyVariation(seed, isSeries)
+}
+
+const Translation = compose(
   withT,
-  withMe,
-  graphql(query),
-  withInNativeApp
-)(({ t, me, data: { membershipStats }, inNativeIOSApp, variation, bottomBarRef }) => (
-  <WithoutActiveMembership render={() => {
-    const translationPrefix = `article/payNote/${variation}`
+  graphql(memberShipQuery)
+)(({ t, data: { membershipStats }, baseKey, position, element }) => {
+  const tKey = [baseKey, position, element].filter(el => el).join('/')
+  const count = countFormat((membershipStats && membershipStats.count) || 20000)
+  return (
+    <RawHtml
+      dangerouslySetInnerHTML={{
+        __html: t(tKey, { count: count }, '')
+      }}
+    />
+  )
+})
+
+const BuyButton = ({ variation, position }) => {
+  return (
+    <Button
+      primary
+      onClick={trackEventOnClick(
+        ['PayNote', `pledge ${position}`, variation.key],
+        () => goTo('pledge')
+      )}
+    >
+      <Translation
+        baseKey={variation.key}
+        position={position}
+        element="buy/button"
+      />
+    </Button>
+  )
+}
+
+const TrialLink = compose(withT)(({ t, variation }) => {
+  const tKey = 'article/payNote/secondaryAction'
+  return (
+    <div {...styles.aside}>
+      {t.elements(`${tKey}/text`, {
+        link: (
+          <a
+            key="trial"
+            href={routes.find(r => r.name === 'trial').toPath()}
+            onClick={trackEventOnClick(
+              ['PayNote', 'preview after', variation],
+              () => goTo('trial')
+            )}
+          >
+            {t(`${tKey}/linkText`)}
+          </a>
+        )
+      })}
+    </div>
+  )
+})
+
+const BuyNoteCta = compose(withMemberStatus)(
+  ({ isEligibleForTrial, variation, position }) => {
     return (
-      <div {...styles.secondaryContainer}>
-        <Center>
-          {inNativeIOSApp ? (
-            <div ref={bottomBarRef}>
-              <Interaction.P>
-                {t.elements('article/payNote/after/ios', {
-                  count: <CountSpan key='count' membershipStats={membershipStats} />
-                })}
-              </Interaction.P>
-            </div>
-          ) : (
-            <Fragment>
-              <Interaction.H3 style={{ marginBottom: 15 }}>
-                {t(`${translationPrefix}/after/title`)}
-              </Interaction.H3>
-              <Interaction.P>
-                {t.elements(`${translationPrefix}/after`, {
-                  count: <CountSpan key='count' membershipStats={membershipStats} />
-                })}
-              </Interaction.P>
-              <br />
-              <div {...styles.actions} ref={bottomBarRef}>
-                <Button primary style={multiLineButtonStyle} onClick={trackEventOnClick(
-                  ['PayNote', 'pledge after', variation],
-                  () => {
-                    Router.pushRoute('pledge').then(() => window.scrollTo(0, 0))
-                  }
-                )}>
-                  {t(`${translationPrefix}/after/buy/button`)}
-                </Button>
-                {!me && (
-                  <div {...styles.aside}>
-                    {t.elements('article/payNote/secondaryAction/text', {
-                      link: (
-                        <a key='trial' {...linkRule} style={{ whiteSpace: 'nowrap' }}
-                          href={routes.find(r => r.name === 'trial').toPath()}
-                          onClick={trackEventOnClick(
-                            ['PayNote', 'preview after', variation],
-                            () => {
-                              Router.pushRoute('trial').then(() => window.scrollTo(0, 0))
-                            }
-                          )}>
-                          {t('article/payNote/secondaryAction/linkText')}
-                        </a>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            </Fragment>
-          )}
-        </Center>
+      <div {...styles.actions}>
+        <BuyButton variation={variation} position={position} />
+        {isEligibleForTrial && position === 'after' && (
+          <TrialLink variation={variation} />
+        )}
       </div>
     )
-  }} />
-))
+  }
+)
 
-Before.propTypes = After.propTypes = {
-  variation: PropTypes.oneOf(ACTIVE_VARIATIONS.concat('series')).isRequired
+const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
+  return (
+    <TrialForm
+      beforeSignIn={() => {
+        // use native router for shadow routing
+        NativeRouter.push(
+          {
+            pathname: '/article',
+            query: { trialSignup: 1 }
+          },
+          router.asPath,
+          { shallow: true }
+        )
+      }}
+      onSuccess={() => {
+        return false
+      }}
+      accessCampaignId={TRIAL_CAMPAIGN}
+      darkMode={darkMode}
+      minimal
+    />
+  )
+})
+
+const PayNoteCta = ({ variation, position, darkMode }) => {
+  return (
+    <div {...styles.cta}>
+      {variation.cta === 'try' ? (
+        <TryNoteCta darkMode={darkMode} />
+      ) : (
+        <BuyNoteCta variation={variation} position={position} />
+      )}
+    </div>
+  )
 }
+
+export const PayNote = compose(
+  withRouter,
+  withInNativeApp,
+  withMemberStatus
+)(({ router, inNativeIOSApp, isEligibleForTrial, seed, series, position }) => {
+  const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
+  const variation = getPayNoteVariation(
+    inNativeIOSApp,
+    isTrialThankYou,
+    isEligibleForTrial,
+    series,
+    seed
+  )
+  const lead = (
+    <Translation
+      baseKey={variation.key}
+      position={!isTrialThankYou && position}
+      element="title"
+    />
+  )
+  const body = (
+    <Translation
+      baseKey={variation.key}
+      position={!isTrialThankYou && position}
+    />
+  )
+  const isBefore = position === 'before'
+  const cta = !!variation.cta && (
+    <PayNoteCta darkMode={isBefore} variation={variation} position={position} />
+  )
+
+  return (
+    <div
+      {...styles.banner}
+      style={{
+        backgroundColor: isBefore ? colors.negative.primaryBg : colors.primaryBg
+      }}
+    >
+      <Center>
+        <Interaction.P
+          {...styles.body}
+          style={{ color: isBefore ? colors.negative.text : '#000000' }}
+        >
+          <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
+        </Interaction.P>
+        {cta}
+      </Center>
+    </div>
+  )
+})

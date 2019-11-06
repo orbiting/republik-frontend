@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { css } from 'glamor'
-import { negativeColors } from '../Frame/Footer'
 import SeriesNavPanel from './SeriesNavPanel'
 
 import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
@@ -39,8 +38,8 @@ const styles = {
     }
   }),
   menu: css({
-    backgroundColor: negativeColors.primaryBg,
-    color: negativeColors.text,
+    backgroundColor: colors.negative.primaryBg,
+    color: colors.negative.text,
     fontFamily: fontFamilies.sansSerifRegular,
     position: 'fixed',
     visibility: 'hidden',

@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Mutation, compose } from 'react-apollo'
 import gql from 'graphql-tag'
-import { css } from 'glamor'
+import { merge, css } from 'glamor'
 
-import { Button, Interaction, Field, A, InlineSpinner } from '@project-r/styleguide'
+import { Button, Interaction, Field, A, InlineSpinner, colors } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import withMe, { meQuery } from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
+import { MdDone } from 'react-icons/lib/md'
 
 const { H3, P, Emphasis } = Interaction
 
@@ -41,6 +42,13 @@ const styles = {
     '> li': {
       paddingBottom: 10
     }
+  }),
+  minimalHelp: css({
+    color: '#000000',
+    margin: '10px 0 0 0'
+  }),
+  minimalHelpDarkMode: css({
+    color: colors.negative.text
   }),
   description: css({
     marginBottom: 20
@@ -96,12 +104,17 @@ class CodeAuthorization extends Component {
   }
 
   render () {
-    const { tokenType, email, onCancel, t } = this.props
+    const { tokenType, email, onCancel, t, minimal, darkMode } = this.props
     const { code, dirty, error } = this.state
 
     const handleMutateError = () => {
       this.setState(() => ({ error: t('Auth/CodeAuthorization/code/invalid'), dirty: true }))
     }
+
+    const listStyle = merge(
+      styles.help,
+      minimal && styles.minimalHelp,
+      minimal && darkMode && styles.minimalHelpDarkMode)
 
     return (
       <Mutation mutation={AUTHORIZE_SESSION} awaitRefetchQueries>
@@ -127,12 +140,22 @@ class CodeAuthorization extends Component {
 
           return (
             <form onSubmit={onSubmit} ref={this.formRef}>
-              <H3>{t('Auth/CodeAuthorization/title')}</H3>
-              <P {...styles.description}>
-                {t.elements('Auth/CodeAuthorization/description', {
-                  emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
-                })}
-              </P>
+              { minimal ? (<ul {...listStyle} style={{ marginTop: 20 }}>
+                <li>
+                  {t.elements('Auth/CodeAuthorization/description', {
+                    emphasis: <Emphasis key='emphasis'>
+                      {t('Auth/CodeAuthorization/description/emphasis/email', { email: email })}
+                    </Emphasis>
+                  })}
+                </li>
+              </ul>) : (<Fragment>
+                <H3>{t('Auth/CodeAuthorization/title')}</H3>
+                <P {...styles.description}>
+                  {t.elements('Auth/CodeAuthorization/description', {
+                    emphasis: <Emphasis key='emphasis'>{t('Auth/CodeAuthorization/description/emphasis')}</Emphasis>
+                  })}
+                </P>
+              </Fragment>) }
               <Field
                 renderInput={props => (
                   <input {...props} pattern={'[0-9]*'} />
@@ -141,13 +164,16 @@ class CodeAuthorization extends Component {
                 value={code}
                 autoComplete={'false'}
                 error={dirty && error}
+                black={minimal && !darkMode}
+                white={minimal && darkMode}
+                icon={minimal && <MdDone style={{ cursor: 'pointer' }} size={30} onClick={onSubmit} />}
                 onChange={(_, value, shouldValidate) => {
                   this.setState(
                     checkCode({ value, shouldValidate, t }),
                     autoSubmit
                   )
                 }} />
-              <div {...styles.button}>
+              { !minimal && (<div {...styles.button}>
                 {loading
                   ? <InlineSpinner />
                   : <Button
@@ -158,8 +184,8 @@ class CodeAuthorization extends Component {
                     {t('Auth/CodeAuthorization/button/label')}
                   </Button>
                 }
-              </div>
-              <ul {...styles.help}>
+              </div>)}
+              <ul {...listStyle}>
                 <li>
                   <A href='#' onClick={onCancel}>
                     {t('Auth/CodeAuthorization/help/cancelLink')}

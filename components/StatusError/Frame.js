@@ -4,10 +4,7 @@ import React, { Fragment, Component } from 'react'
 import { css } from 'glamor'
 import { range } from 'd3-array'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import {
   NarrowContainer,
@@ -56,7 +53,7 @@ const styles = {
 }
 
 class Header extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {
       scroll: 0,
@@ -81,18 +78,18 @@ class Header extends Component {
       }
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.handleScroll)
     window.addEventListener('resize', this.handleResize)
     this.handleScroll()
     this.handleResize()
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.cancelAnimationFrame(this._req)
     window.removeEventListener('scroll', this.handleScroll)
     window.removeEventListener('resize', this.handleResize)
   }
-  render () {
+  render() {
     const { children, statusCode } = this.props
     const { isMobile } = this.state
     const scroll = Math.max(this.state.scroll, 0)
@@ -101,14 +98,13 @@ class Header extends Component {
     return (
       <Fragment>
         <div {...styles.cover}>
-          {(isMobile
-            ? range(7)
-            : range(11)
-          ).map((_, i) => (
-            <div key={i}
+          {(isMobile ? range(7) : range(11)).map((_, i) => (
+            <div
+              key={i}
               {...styles.headline}
               {...styles.secondary}
-              style={t(y(scroll, i * space), z(scroll, i * space))}>
+              style={t(y(scroll, i * space), z(scroll, i * space))}
+            >
               <span style={{ opacity: o(scroll, i * space) }}>
                 {statusCode}
               </span>
@@ -119,9 +115,7 @@ class Header extends Component {
           </div>
         </div>
         <div {...styles.content}>
-          <NarrowContainer>
-            {children}
-          </NarrowContainer>
+          <NarrowContainer>{children}</NarrowContainer>
         </div>
       </Fragment>
     )
@@ -133,12 +127,7 @@ const y = (scroll, pos) => {
 }
 
 const o = (scroll, pos) => {
-  return Math.max(
-    0,
-    scroll > pos
-      ? 1 - (scroll - pos) / 350
-      : 1
-  )
+  return Math.max(0, scroll > pos ? 1 - (scroll - pos) / 350 : 1)
 }
 
 const z = (scroll, pos) => {

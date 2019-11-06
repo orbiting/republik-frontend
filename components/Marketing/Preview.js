@@ -1,11 +1,7 @@
 import React, { Fragment } from 'react'
 import { compose } from 'react-apollo'
 
-import {
-  Editorial,
-  Container,
-  Interaction
-} from '@project-r/styleguide'
+import { Editorial, Container, Interaction } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
 import Frame from '../Frame'
@@ -18,47 +14,48 @@ import withMe from '../../lib/apollo/withMe'
 import withMembership from '../Auth/withMembership'
 
 const Prestitial = ({ me, isMember, t }) => {
-  const text = me && !isMember
-    ? t.elements(
-      'marketing/preview/prestitial/noMembership',
-      {
-        link: <Link route='pledge' passHref>
-          <Editorial.A>
-            <br />
-            {t('marketing/preview/prestitial/noMembership/link')}
-          </Editorial.A>
-        </Link>
-      }
-    )
-    : t('marketing/preview/prestitial/withMembership')
+  const text =
+    me && !isMember
+      ? t.elements('marketing/preview/prestitial/noMembership', {
+          link: (
+            <Link route='pledge' passHref>
+              <Editorial.A>
+                <br />
+                {t('marketing/preview/prestitial/noMembership/link')}
+              </Editorial.A>
+            </Link>
+          )
+        })
+      : t('marketing/preview/prestitial/withMembership')
 
-  return (
-    <Interaction.P style={{ textAlign: 'center' }}>
-      {text}
-    </Interaction.P>
-  )
+  return <Interaction.P style={{ textAlign: 'center' }}>{text}</Interaction.P>
 }
 
 const Preview = ({ me, isMember, meta, t }) => {
-  return <Fragment>
-    {!me && <Frame raw meta={meta}>
-      <Container style={{ maxWidth: '665px' }}>
-        <SignUp />
-      </Container>
-    </Frame>
-    }
-    {me && <Front
-      renderBefore={() => (
-        <Box>
-          <Container>
-            <Prestitial me={me} isMember={isMember} t={t} />
+  return (
+    <Fragment>
+      {!me && (
+        <Frame raw meta={meta}>
+          <Container style={{ maxWidth: '665px' }}>
+            <SignUp />
           </Container>
-        </Box>
+        </Frame>
       )}
-      meta={meta}
-      path='/preview-front'
-    />}
-  </Fragment>
+      {me && (
+        <Front
+          renderBefore={() => (
+            <Box>
+              <Container>
+                <Prestitial me={me} isMember={isMember} t={t} />
+              </Container>
+            </Box>
+          )}
+          meta={meta}
+          path='/preview-front'
+        />
+      )}
+    </Fragment>
+  )
 }
 
 export default compose(

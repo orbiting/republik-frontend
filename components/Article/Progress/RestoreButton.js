@@ -12,11 +12,7 @@ import { swissNumbers } from '../../../lib/utils/format'
 
 import sharedStyles from '../../sharedStyles'
 
-import {
-  ProgressCircle,
-  colors,
-  mediaQueries
-} from '@project-r/styleguide'
+import { ProgressCircle, colors, mediaQueries } from '@project-r/styleguide'
 
 const RADIUS = 16
 const formatPercent = swissNumbers.format('.0%')
@@ -100,7 +96,7 @@ const styles = {
 }
 
 class RestoreButton extends React.Component {
-  render () {
+  render() {
     const { t, onClick, onClose, opacity, userProgress } = this.props
 
     const title = t('progress/restore/title', {
@@ -115,12 +111,11 @@ class RestoreButton extends React.Component {
             stroke='#000'
             strokePlaceholder='#e9e9e9'
             radius={RADIUS}
-            strokeWidth={3} />
+            strokeWidth={3}
+          />
           <DownIcon {...styles.buttonIcon} fill='#000' />
         </button>
-        <div {...styles.label}>
-          {title}
-        </div>
+        <div {...styles.label}>{title}</div>
         <div {...styles.note}>
           {datetime(t, new Date(userProgress.updatedAt), 'progress/restore')}
         </div>

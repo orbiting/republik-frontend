@@ -7,8 +7,14 @@ import withApolloClient from '../lib/apollo/withApolloClient'
 import Track from '../components/Track'
 
 class WebApp extends App {
-  render () {
-    const { Component, pageProps, apolloClient, headers, serverContext } = this.props
+  render() {
+    const {
+      Component,
+      pageProps,
+      apolloClient,
+      headers,
+      serverContext
+    } = this.props
     return (
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>

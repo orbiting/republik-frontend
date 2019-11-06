@@ -87,4 +87,8 @@ const UserGuidance = ({ t, inNativeIOSApp, signOut }) => (
   </Box>
 )
 
-export default compose(withT, withInNativeApp, withSignOut)(UserGuidance)
+export default compose(
+  withT,
+  withInNativeApp,
+  withSignOut
+)(UserGuidance)

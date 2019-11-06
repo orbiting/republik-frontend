@@ -15,15 +15,12 @@ import GiveMemberships from './Memberships/Give'
 
 import query from './belongingsQuery'
 
-import {
-  RawHtml,
-  linkRule
-} from '@project-r/styleguide'
+import { RawHtml, linkRule } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
 class PledgeList extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const { pledges } = this.props
     pledges.forEach(pledge => {
       pledge.options.forEach(option => {
@@ -48,97 +45,125 @@ class PledgeList extends Component {
       ])
     })
   }
-  render () {
+  render() {
     const { pledges, t, highlightId, me } = this.props
 
-    return <Fragment>
-      {pledges.map(pledge => {
-        const options = pledge.options.filter(option => (
-          option.amount && option.minAmount !== option.maxAmount
-        ))
-        const createdAt = new Date(pledge.createdAt)
+    return (
+      <Fragment>
+        {pledges.map(pledge => {
+          const options = pledge.options.filter(
+            option => option.amount && option.minAmount !== option.maxAmount
+          )
+          const createdAt = new Date(pledge.createdAt)
 
-        return (
-          <AccountItem key={pledge.id}
-            highlighted={highlightId === pledge.id}
-            title={t(`package/${pledge.package.name}/title`)}
-            createdAt={createdAt}>
-            <List>
-              {!!options.length && options.map((option, i) => {
-                const { membership, additionalPeriods } = option
-                const isAboGive = membership && (membership.user.id !== me.id)
-                const endDate = additionalPeriods &&
-                  additionalPeriods.length &&
-                  additionalPeriods[additionalPeriods.length - 1].endDate
+          return (
+            <AccountItem
+              key={pledge.id}
+              highlighted={highlightId === pledge.id}
+              title={t(`package/${pledge.package.name}/title`)}
+              createdAt={createdAt}
+            >
+              <List>
+                {!!options.length &&
+                  options.map((option, i) => {
+                    const { membership, additionalPeriods } = option
+                    const isAboGive = membership && membership.user.id !== me.id
+                    const endDate =
+                      additionalPeriods &&
+                      additionalPeriods.length &&
+                      additionalPeriods[additionalPeriods.length - 1].endDate
 
-                return (
-                  <Item key={`option-${i}`}>
-                    {option.maxAmount > 1 ? `${option.amount} ` : ''}
-                    {t.first([
-                      isAboGive && `pledge/option/${pledge.package.name}/${option.reward.name}/label/give`,
-                      isAboGive && `option/${option.reward.name}/label/give`,
-                      `pledge/option/${pledge.package.name}/${option.reward.name}/label/${option.amount}`,
-                      `pledge/option/${pledge.package.name}/${option.reward.name}/label/other`,
-                      `pledge/option/${pledge.package.name}/${option.reward.name}/label`,
-                      `option/${option.reward.name}/label/${option.amount}`,
-                      `option/${option.reward.name}/label/other`,
-                      `option/${option.reward.name}/label`
-                    ].filter(Boolean), {
-                      count: option.amount,
-                      name: option.membership && option.membership.user.name,
-                      sequenceNumber: option.membership && option.membership.sequenceNumber,
-                      endDateSuffix: endDate ? t('option/suffix/endDate', {
-                        formattedEndDate: dayFormat(new Date(endDate))
-                      }) : '',
-                      periods: option.reward && option.reward.interval &&
-                        t.pluralize(
-                          `option/${option.reward.name}/interval/${option.reward.interval}/periods`,
-                          { count: option.periods }
-                        )
-                    })}
-                  </Item>
-                )
-              })}
-              {
-                pledge.payments.map((payment, i) => (
+                    return (
+                      <Item key={`option-${i}`}>
+                        {option.maxAmount > 1 ? `${option.amount} ` : ''}
+                        {t.first(
+                          [
+                            isAboGive &&
+                              `pledge/option/${pledge.package.name}/${option.reward.name}/label/give`,
+                            isAboGive &&
+                              `option/${option.reward.name}/label/give`,
+                            `pledge/option/${pledge.package.name}/${option.reward.name}/label/${option.amount}`,
+                            `pledge/option/${pledge.package.name}/${option.reward.name}/label/other`,
+                            `pledge/option/${pledge.package.name}/${option.reward.name}/label`,
+                            `option/${option.reward.name}/label/${option.amount}`,
+                            `option/${option.reward.name}/label/other`,
+                            `option/${option.reward.name}/label`
+                          ].filter(Boolean),
+                          {
+                            count: option.amount,
+                            name:
+                              option.membership && option.membership.user.name,
+                            sequenceNumber:
+                              option.membership &&
+                              option.membership.sequenceNumber,
+                            endDateSuffix: endDate
+                              ? t('option/suffix/endDate', {
+                                  formattedEndDate: dayFormat(new Date(endDate))
+                                })
+                              : '',
+                            periods:
+                              option.reward &&
+                              option.reward.interval &&
+                              t.pluralize(
+                                `option/${option.reward.name}/interval/${option.reward.interval}/periods`,
+                                { count: option.periods }
+                              )
+                          }
+                        )}
+                      </Item>
+                    )
+                  })}
+                {pledge.payments.map((payment, i) => (
                   <Item key={`payment-${i}`}>
-                    {payment.method === 'PAYMENTSLIP' && payment.status === 'WAITING' && (
-                      <span>
-                        <RawHtml dangerouslySetInnerHTML={{
-                          __html: t(`account/pledges/payment/PAYMENTSLIP/paperInvoice/${+(payment.paperInvoice)}`)
-                        }} />
-                        <br /><br />
-                      </span>
-                    )}
-                    <RawHtml dangerouslySetInnerHTML={{
-                      __html: t.first([
-                        `account/pledges/payment/status/${payment.method}/${pledge.package.company.name}/${payment.status}`,
-                        `account/pledges/payment/status/${payment.method}/${payment.status}`,
-                        `account/pledges/payment/status/generic/${payment.status}`
-                      ], {
-                        formattedTotal: chfFormat(payment.total / 100),
-                        hrid: payment.hrid,
-                        method: t(`account/pledges/payment/method/${payment.method}`)
-                      })
-                    }} />
+                    {payment.method === 'PAYMENTSLIP' &&
+                      payment.status === 'WAITING' && (
+                        <span>
+                          <RawHtml
+                            dangerouslySetInnerHTML={{
+                              __html: t(
+                                `account/pledges/payment/PAYMENTSLIP/paperInvoice/${+payment.paperInvoice}`
+                              )
+                            }}
+                          />
+                          <br />
+                          <br />
+                        </span>
+                      )}
+                    <RawHtml
+                      dangerouslySetInnerHTML={{
+                        __html: t.first(
+                          [
+                            `account/pledges/payment/status/${payment.method}/${pledge.package.company.name}/${payment.status}`,
+                            `account/pledges/payment/status/${payment.method}/${payment.status}`,
+                            `account/pledges/payment/status/generic/${payment.status}`
+                          ],
+                          {
+                            formattedTotal: chfFormat(payment.total / 100),
+                            hrid: payment.hrid,
+                            method: t(
+                              `account/pledges/payment/method/${payment.method}`
+                            )
+                          }
+                        )
+                      }}
+                    />
                   </Item>
-                ))
-              }
-            </List>
-            <GiveMemberships
-              memberships={pledge.memberships}
-              pkg={pledge.package} />
-          </AccountItem>
-        )
-      })}
-      <div style={{ marginTop: 30 }}>
-        <Link route='pledge' params={{ group: 'GIVE' }}>
-          <a {...linkRule}>
-            {t('account/pledges/promo')}
-          </a>
-        </Link>
-      </div>
-    </Fragment>
+                ))}
+              </List>
+              <GiveMemberships
+                memberships={pledge.memberships}
+                pkg={pledge.package}
+              />
+            </AccountItem>
+          )
+        })}
+        <div style={{ marginTop: 30 }}>
+          <Link route='pledge' params={{ group: 'GIVE' }}>
+            <a {...linkRule}>{t('account/pledges/promo')}</a>
+          </Link>
+        </div>
+      </Fragment>
+    )
   }
 }
 
@@ -151,12 +176,8 @@ export default compose(
         loading: data.loading,
         error: data.error,
         pledges: (
-          (
-            !data.loading &&
-            !data.error &&
-            data.me &&
-            data.me.pledges
-          ) || []
+          (!data.loading && !data.error && data.me && data.me.pledges) ||
+          []
         ).filter(pledge => pledge.status !== 'DRAFT')
       }
     }

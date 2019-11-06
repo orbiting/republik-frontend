@@ -48,7 +48,10 @@ export const withSubmitComment = compose(
         submittedComments.add(id)
 
         const { parentId, parentIds } = parent
-          ? { parentId: parent.id, parentIds: parent.parentIds.concat(parent.id) }
+          ? {
+              parentId: parent.id,
+              parentIds: parent.parentIds.concat(parent.id)
+            }
           : { parentId: null, parentIds: [] }
 
         return mutate({

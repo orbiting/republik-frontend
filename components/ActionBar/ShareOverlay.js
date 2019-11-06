@@ -1,8 +1,10 @@
 import React from 'react'
 
 import {
-  Overlay, OverlayBody,
-  OverlayToolbar, OverlayToolbarConfirm,
+  Overlay,
+  OverlayBody,
+  OverlayToolbar,
+  OverlayToolbarConfirm,
   Interaction
 } from '@project-r/styleguide'
 
@@ -44,7 +46,8 @@ const ShareOverlay = ({
             emailSubject={emailSubject}
             emailBody={emailBody}
             emailAttachUrl={emailAttachUrl}
-            eventCategory='ShareOverlay' />
+            eventCategory='ShareOverlay'
+          />
         </div>
       </OverlayBody>
     </Overlay>

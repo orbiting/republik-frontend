@@ -38,7 +38,7 @@ const loadImage = src => {
 }
 
 class QueuedImg extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
     this.state = {}
     this.loadSrc = src => {
@@ -51,24 +51,24 @@ class QueuedImg extends Component {
       }
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.loadSrc(this.props.src)
   }
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
       this.loadSrc(nextProps.src)
     }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.ignore = true
   }
-  render () {
+  render() {
     const { src } = this.props
     const { loadedSrc } = this.state
 
-    return loadedSrc === src || loadedSrcs.has(src)
-      ? <img {...this.props} />
-      : null
+    return loadedSrc === src || loadedSrcs.has(src) ? (
+      <img {...this.props} />
+    ) : null
   }
 }
 

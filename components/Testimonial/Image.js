@@ -17,17 +17,14 @@ const styles = {
 }
 
 class Image extends Component {
-  tick () {
+  tick() {
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(
-      () => {
-        this.next()
-        this.tick()
-      },
-      this.props.duration
-    )
+    this.timeout = setTimeout(() => {
+      this.next()
+      this.tick()
+    }, this.props.duration)
   }
-  next () {
+  next() {
     const { statement, query, error } = this.props
     if (error && !query.sequenceNumber) {
       console.error(error)
@@ -44,53 +41,61 @@ class Image extends Component {
     }
     Router.push(to, to, { shallow: true })
   }
-  componentDidMount () {
+  componentDidMount() {
     this.tick()
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
-  render () {
-    const {
-      statement
-    } = this.props
+  render() {
+    const { statement } = this.props
 
     return (
       <div>
         <Head>
           <meta name='robots' content='noindex' />
         </Head>
-        <Loader loading={!statement} render={() => (
-          <img {...styles.img}
-            onDoubleClick={() => {
-              this.next()
-              this.tick()
-            }}
-            src={statement.portrait}
-            alt={`${statement.sequenceNumber} – ${statement.name}`} />
-        )} />
+        <Loader
+          loading={!statement}
+          render={() => (
+            <img
+              {...styles.img}
+              onDoubleClick={() => {
+                this.next()
+                this.tick()
+              }}
+              src={statement.portrait}
+              alt={`${statement.sequenceNumber} – ${statement.name}`}
+            />
+          )}
+        />
       </div>
     )
   }
 }
 
-const query = gql`query aSequence($sequenceNumber: Int!, $orderDirection: OrderDirection!) {
-  nextStatement(sequenceNumber: $sequenceNumber, orderDirection: $orderDirection) {
-    id
-    sequenceNumber
-    name
-    portrait(properties: {width: 1920, height: 1920})
+const query = gql`
+  query aSequence($sequenceNumber: Int!, $orderDirection: OrderDirection!) {
+    nextStatement(
+      sequenceNumber: $sequenceNumber
+      orderDirection: $orderDirection
+    ) {
+      id
+      sequenceNumber
+      name
+      portrait(properties: { width: 1920, height: 1920 })
+    }
   }
-}`
+`
 
 export default compose(
   graphql(query, {
     props: ({ data }) => {
-      return ({
+      return {
         loading: data.loading,
         error: data.error,
         statement: data.nextStatement
-      })
+      }
     }
   })
 )(Image)

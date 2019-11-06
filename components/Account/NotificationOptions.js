@@ -13,9 +13,19 @@ import { ZINDEX_CONTENT } from '../constants'
 
 import Box from '../Frame/Box'
 import { P } from './Elements'
-import { A, Loader, InlineSpinner, Checkbox, Dropdown, mediaQueries } from '@project-r/styleguide'
+import {
+  A,
+  Loader,
+  InlineSpinner,
+  Checkbox,
+  Dropdown,
+  mediaQueries
+} from '@project-r/styleguide'
 
-import { DISCUSSION_NOTIFICATION_CHANNELS, DISCUSSION_NOTIFICATION_OPTIONS } from '../Discussion/constants'
+import {
+  DISCUSSION_NOTIFICATION_CHANNELS,
+  DISCUSSION_NOTIFICATION_OPTIONS
+} from '../Discussion/constants'
 import { withUpdateNotificationSettings } from '../Discussion/graphql/enhancers/withUpdateNotificationSettings'
 
 const styles = {
@@ -53,40 +63,44 @@ const WarningContainer = ({ children }) => (
 )
 
 class NotificationOptions extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       mutating: {}
     }
   }
 
-  confirmPermission () {
+  confirmPermission() {
     if (!isNotificationSupported()) {
       return
     }
     const { t, me, updateNotificationSettings } = this.props
     const { discussionNotificationChannels } = me
 
-    window.Notification.requestPermission((status) => {
+    window.Notification.requestPermission(status => {
       if (status !== 'granted') {
         return
       }
       // Globally opt in to the WEB notification channel.
-      const channels = discussionNotificationChannels.indexOf('WEB') === -1
-        ? [...discussionNotificationChannels, 'WEB']
-        : discussionNotificationChannels
+      const channels =
+        discussionNotificationChannels.indexOf('WEB') === -1
+          ? [...discussionNotificationChannels, 'WEB']
+          : discussionNotificationChannels
       updateNotificationSettings({
         discussionNotificationChannels: channels
       })
       /* eslint-disable no-new */
-      new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
-        body: t('components/Discussion/WelcomeNotification/body'),
-        icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
-      })
+      new window.Notification(
+        t('components/Discussion/WelcomeNotification/title'),
+        {
+          body: t('components/Discussion/WelcomeNotification/body'),
+          icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
+        }
+      )
     })
   }
 
-  render () {
+  render() {
     const { t, me, loading, error, updateNotificationSettings } = this.props
 
     const notificationPermission = getNotificationPermission()
@@ -98,24 +112,32 @@ class NotificationOptions extends Component {
         error={error}
         ErrorContainer={ErrorContainer}
         render={() => {
-          const { discussionNotificationChannels, defaultDiscussionNotificationOption } = me
+          const {
+            discussionNotificationChannels,
+            defaultDiscussionNotificationOption
+          } = me
           const { mutating } = this.state
-          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(
-            option => ({
-              value: option,
-              text: t(`components/Discussion/Notification/${option}/label`),
-              element: <span {...styles.dropdownItem}>
+          const dropdownItems = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
+            value: option,
+            text: t(`components/Discussion/Notification/${option}/label`),
+            element: (
+              <span {...styles.dropdownItem}>
                 {t(`components/Discussion/Notification/${option}/label`)}
               </span>
-            }))
+            )
+          }))
 
           return (
             <Fragment>
-              <P style={{ marginTop: 20 }}>{t('account/discussionNotificationChannels/intro')}</P>
-              {DISCUSSION_NOTIFICATION_CHANNELS.map((channel) => (
+              <P style={{ marginTop: 20 }}>
+                {t('account/discussionNotificationChannels/intro')}
+              </P>
+              {DISCUSSION_NOTIFICATION_CHANNELS.map(channel => (
                 <p key={channel}>
                   <Checkbox
-                    checked={discussionNotificationChannels.indexOf(channel) > -1}
+                    checked={
+                      discussionNotificationChannels.indexOf(channel) > -1
+                    }
                     onChange={(_, checked) => {
                       let channels = [].concat(discussionNotificationChannels)
                       if (checked) {
@@ -142,7 +164,9 @@ class NotificationOptions extends Component {
                       }).then(finish)
                     }}
                   >
-                    {t(`account/discussionNotificationChannels/${channel}/label`)}
+                    {t(
+                      `account/discussionNotificationChannels/${channel}/label`
+                    )}
                     {mutating[channel] && (
                       <span {...styles.spinner}>
                         <InlineSpinner size={24} />
@@ -152,36 +176,57 @@ class NotificationOptions extends Component {
                 </p>
               ))}
               {notificationPermission === 'granted' && (
-                <P>{t('account/discussionNotificationChannels/WEB/hint/live')}</P>
+                <P>
+                  {t('account/discussionNotificationChannels/WEB/hint/live')}
+                </P>
               )}
               {notificationPermission === 'default' && (
                 <WarningContainer>
                   <P>
-                    {t('account/discussionNotificationChannels/WEB/hint/default')}<br />
-                    <A style={{ cursor: 'pointer' }} onClick={(e) => {
-                      e.preventDefault()
-                      this.confirmPermission()
-                    }}>{t('account/discussionNotificationChannels/WEB/enable')}</A>
+                    {t(
+                      'account/discussionNotificationChannels/WEB/hint/default'
+                    )}
+                    <br />
+                    <A
+                      style={{ cursor: 'pointer' }}
+                      onClick={e => {
+                        e.preventDefault()
+                        this.confirmPermission()
+                      }}
+                    >
+                      {t('account/discussionNotificationChannels/WEB/enable')}
+                    </A>
                   </P>
                 </WarningContainer>
               )}
-              {notificationPermission === 'denied' && discussionNotificationChannels.indexOf('WEB') > -1 && (
-                <WarningContainer>
-                  <P>{t('account/discussionNotificationChannels/WEB/hint/denied')}</P>
-                </WarningContainer>
-              )}
+              {notificationPermission === 'denied' &&
+                discussionNotificationChannels.indexOf('WEB') > -1 && (
+                  <WarningContainer>
+                    <P>
+                      {t(
+                        'account/discussionNotificationChannels/WEB/hint/denied'
+                      )}
+                    </P>
+                  </WarningContainer>
+                )}
               {unsupportedClient && (
                 <WarningContainer>
-                  <P>{t('account/discussionNotificationChannels/WEB/hint/unsupported')}</P>
+                  <P>
+                    {t(
+                      'account/discussionNotificationChannels/WEB/hint/unsupported'
+                    )}
+                  </P>
                 </WarningContainer>
               )}
-              <P style={{ marginTop: 10 }}>{t('account/notificationOptions/dialog')}</P>
+              <P style={{ marginTop: 10 }}>
+                {t('account/notificationOptions/dialog')}
+              </P>
               <div {...styles.dropdown}>
                 <Dropdown
                   label={t('account/defaultDiscussionNotificationOption/label')}
                   items={dropdownItems}
                   value={defaultDiscussionNotificationOption}
-                  onChange={(item) => {
+                  onChange={item => {
                     const name = 'defaultDiscussionNotificationOption'
                     this.setState(state => ({
                       mutating: {
@@ -198,7 +243,9 @@ class NotificationOptions extends Component {
                       }))
                     }
                     updateNotificationSettings({
-                      defaultDiscussionNotificationOption: item.target ? item.target.value : item.value
+                      defaultDiscussionNotificationOption: item.target
+                        ? item.target.value
+                        : item.value
                     }).then(finish)
                   }}
                 />

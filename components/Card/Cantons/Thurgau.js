@@ -3,7 +3,7 @@ import React from 'react'
 const SvgThurgau = props => (
   <svg
     width={props.size}
-    height={props.size * 471.43 / 469.879}
+    height={(props.size * 471.43) / 469.879}
     viewBox='-205.796 -206.414 469.879 471.43'
     {...props}
   >

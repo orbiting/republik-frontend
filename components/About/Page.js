@@ -21,31 +21,31 @@ import withT from '../../lib/withT'
 import Employee from '../Imprint/Employee'
 
 const query = gql`
-query AboutPage {
-  membershipStats {
-    count
-  }
-  employees {
-    title
-    name
-    group
-    subgroup
-    user {
-      id
-      portrait
-      slug
+  query AboutPage {
+    membershipStats {
+      count
+    }
+    employees {
+      title
+      name
+      group
+      subgroup
+      user {
+        id
+        portrait
+        slug
+      }
+    }
+    mediaResponses {
+      medium
+      publishDate
+      title
+      url
+    }
+    documents(feed: true, first: 0, template: "article") {
+      totalCount
     }
   }
-  mediaResponses {
-    medium
-    publishDate
-    title
-    url
-  }
-  documents(feed: true, first: 0, template: "article") {
-    totalCount
-  }
-}
 `
 
 const styles = {
@@ -116,7 +116,14 @@ const Subheader2 = ({ children }) => (
 const AboutPage = ({
   t,
   data,
-  data: { membershipStats, documents, employees, mediaResponses, loading, error }
+  data: {
+    membershipStats,
+    documents,
+    employees,
+    mediaResponses,
+    loading,
+    error
+  }
 }) => {
   const publishersCount = membershipStats
     ? countFormat(membershipStats.count)
@@ -127,13 +134,17 @@ const AboutPage = ({
     <Fragment>
       <Container>
         <div {...styles.titleBlock}>
-          <Interaction.Headline style={{ maxWidth: '1080px', textAlign: 'center', margin: '0 auto' }}>
+          <Interaction.Headline
+            style={{
+              maxWidth: '1080px',
+              textAlign: 'center',
+              margin: '0 auto'
+            }}
+          >
             {t('pages/about/title')}
           </Interaction.Headline>
           <div {...styles.lead}>
-            <Editorial.Lead>
-              {t('pages/about/lead')}
-            </Editorial.Lead>
+            <Editorial.Lead>{t('pages/about/lead')}</Editorial.Lead>
           </div>
         </div>
       </Container>
@@ -148,20 +159,32 @@ const AboutPage = ({
           </P>
         </section> */}
         <section {...styles.section}>
-          <Subheader>{t('pages/about/publishers/title', { count: publishersCount })}</Subheader>
+          <Subheader>
+            {t('pages/about/publishers/title', { count: publishersCount })}
+          </Subheader>
           <P>
             {t.elements('pages/about/publishers/text', {
               count: publishersCount,
-              emphasis1: <Emphasis>{t('pages/about/publishers/text/emphasis1')}</Emphasis>
+              emphasis1: (
+                <Emphasis>
+                  {t('pages/about/publishers/text/emphasis1')}
+                </Emphasis>
+              )
             })}
           </P>
         </section>
         <section {...styles.section}>
-          <Subheader>{t('pages/about/output/title', { count: documentsCount })}</Subheader>
+          <Subheader>
+            {t('pages/about/output/title', { count: documentsCount })}
+          </Subheader>
           <P>
             {t.elements('pages/about/output/text', {
-              emphasis1: <Emphasis>{t('pages/about/output/text/emphasis1')}</Emphasis>,
-              emphasis2: <Emphasis>{t('pages/about/output/text/emphasis2')}</Emphasis>
+              emphasis1: (
+                <Emphasis>{t('pages/about/output/text/emphasis1')}</Emphasis>
+              ),
+              emphasis2: (
+                <Emphasis>{t('pages/about/output/text/emphasis2')}</Emphasis>
+              )
             })}
           </P>
         </section>
@@ -178,25 +201,39 @@ const AboutPage = ({
         <section {...styles.section}>
           <Subheader2>Geschäftsbericht 2017–2018</Subheader2>
           <P {...styles.faqCta}>
-            <a {...styles.link} href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf'>
+            <a
+              {...styles.link}
+              href='https://cdn.republik.space/s3/republik-assets/assets/geschaeftsbericht2017_2018_fuer_gv_und_urabstimmung.pdf'
+            >
               Der erste Geschäftsbericht
-            </a>
-            {' '}
-            beleuchtet die Periode zwischen Januar 2017 und Juni 2018. Also nur ein halbes Jahr der bisherigen Publikationstätigkeit der Republik. Anfang Januar 2017 hatten wir nicht mehr als 8 Leute, 3 Hotelzimmer und einen Plan. Ende Juni 2018 ein Unternehmen mit über 20’000 Verlegerinnen und Verlegern und rund 50 Mitarbeitenden.
+            </a>{' '}
+            beleuchtet die Periode zwischen Januar 2017 und Juni 2018. Also nur
+            ein halbes Jahr der bisherigen Publikationstätigkeit der Republik.
+            Anfang Januar 2017 hatten wir nicht mehr als 8 Leute, 3 Hotelzimmer
+            und einen Plan. Ende Juni 2018 ein Unternehmen mit über 20’000
+            Verlegerinnen und Verlegern und rund 50 Mitarbeitenden.
           </P>
         </section>
         <section {...styles.section}>
           <Subheader2>Auszeichnungen & Nominierungen</Subheader2>
           <P {...styles.faqCta}>
-            <a {...styles.link} href='https://www.grimme-online-award.de/2019/nominierte/'>
+            <a
+              {...styles.link}
+              href='https://www.grimme-online-award.de/2019/nominierte/'
+            >
               Nominierung für «Grimme online»
-            </a><br />
+            </a>
+            <br />
             Kategorie Information
           </P>
           <P {...styles.faqCta}>
-            <a {...styles.link} href='https://newspaper-congress.eu/european-digital-publishing-award/'>
+            <a
+              {...styles.link}
+              href='https://newspaper-congress.eu/european-digital-publishing-award/'
+            >
               European Publishing Award
-            </a><br />
+            </a>
+            <br />
             European Start-Up of the Year
           </P>
         </section>
@@ -219,23 +256,24 @@ const AboutPage = ({
             )}
           />
         </section>
-        {employees && employees.length && <Fragment>
-          <Breakout size='breakout'>
-            <div {...styles.tiles}>
-              {employees.map((employee, index) => (
-                <Employee
-                  {...employee}
-                  title={employee.title || employee.group}
-                  minColumns={3}
-                  maxColumns={6}
-                  key={index}
-                />
-              ))}
-            </div>
-          </Breakout>
-        </Fragment>}
+        {employees && employees.length && (
+          <Fragment>
+            <Breakout size='breakout'>
+              <div {...styles.tiles}>
+                {employees.map((employee, index) => (
+                  <Employee
+                    {...employee}
+                    title={employee.title || employee.group}
+                    minColumns={3}
+                    maxColumns={6}
+                    key={index}
+                  />
+                ))}
+              </div>
+            </Breakout>
+          </Fragment>
+        )}
       </Center>
-
     </Fragment>
   )
 }
@@ -248,11 +286,14 @@ export default compose(
       return {
         data: {
           ...data,
-          employees: employees && employees
-            .filter((employee, index, all) => all.findIndex(e => e.name === employee.name) === index)
-            .sort(
-              (a, b) => ascending(a.name, b.name)
-            )
+          employees:
+            employees &&
+            employees
+              .filter(
+                (employee, index, all) =>
+                  all.findIndex(e => e.name === employee.name) === index
+              )
+              .sort((a, b) => ascending(a.name, b.name))
         }
       }
     }

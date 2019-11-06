@@ -33,7 +33,7 @@ const styles = {
 }
 
 class ProgressSettings extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       mutating: false
@@ -47,7 +47,7 @@ class ProgressSettings extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       t,
       me,
@@ -70,7 +70,10 @@ class ProgressSettings extends Component {
                 checked={hasAccepted}
                 disabled={mutating}
                 onChange={(_, checked) => {
-                  if (hasAccepted && !window.confirm(t('account/progress/consent/confirmRevoke'))) {
+                  if (
+                    hasAccepted &&
+                    !window.confirm(t('account/progress/consent/confirmRevoke'))
+                  ) {
                     return
                   }
                   this.setState({
@@ -81,7 +84,9 @@ class ProgressSettings extends Component {
                       mutating: false
                     })
                   }
-                  const consentMutation = hasAccepted ? revokeProgressConsent : submitProgressConsent
+                  const consentMutation = hasAccepted
+                    ? revokeProgressConsent
+                    : submitProgressConsent
                   consentMutation()
                     .then(finish)
                     .catch(this.catchServerError)

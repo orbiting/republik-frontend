@@ -9,7 +9,9 @@ export const LOGO_PADDING = Math.floor((HEADER_HEIGHT - LOGO_HEIGHT - 1) / 2)
 
 export const LOGO_HEIGHT_MOBILE = 22.78
 export const LOGO_WIDTH_MOBILE = LOGO_HEIGHT_MOBILE * Logo.ratio
-export const LOGO_PADDING_MOBILE = Math.floor((HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2)
+export const LOGO_PADDING_MOBILE = Math.floor(
+  (HEADER_HEIGHT_MOBILE - LOGO_HEIGHT_MOBILE - 1) / 2
+)
 
 export const TESTIMONIAL_IMAGE_SIZE = 238
 export const CONTENT_PADDING = 60

@@ -45,14 +45,18 @@ const styles = {
 }
 
 class ChoiceQuestion extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid()
+      answerId:
+        (props.question.userAnswer && props.question.userAnswer.id) || uuid()
     }
   }
-  handleChange = (value) => {
-    const { onChange, question: { userAnswer, cardinality } } = this.props
+  handleChange = value => {
+    const {
+      onChange,
+      question: { userAnswer, cardinality }
+    } = this.props
     const nextValue = new Set(userAnswer ? userAnswer.payload.value : [])
 
     if (cardinality === 0 || cardinality > 1) {
@@ -71,47 +75,46 @@ class ChoiceQuestion extends Component {
     onChange(answerId, Array.from(nextValue))
   }
 
-  render () {
-    const { question: { text, userAnswer, cardinality, options }, t } = this.props
-    const multipleAllowed = (cardinality === 0 || cardinality > 1)
+  render() {
+    const {
+      question: { text, userAnswer, cardinality, options },
+      t
+    } = this.props
+    const multipleAllowed = cardinality === 0 || cardinality > 1
     const OptionComponent = multipleAllowed ? Checkbox : Radio
-    const optionGroups = nest().key(o => o.category).entries(options)
+    const optionGroups = nest()
+      .key(o => o.category)
+      .entries(options)
     const userAnswerValues = userAnswer ? userAnswer.payload.value : []
 
     return (
       <div>
         <div {...questionStyles.label}>
-          { text &&
-          <H2>{text}</H2>
-          }
-          { multipleAllowed &&
-          <P {...questionStyles.help}>{t('questionnaire/choice/helpMultiple')}</P>
-          }
+          {text && <H2>{text}</H2>}
+          {multipleAllowed && (
+            <P {...questionStyles.help}>
+              {t('questionnaire/choice/helpMultiple')}
+            </P>
+          )}
         </div>
         <div {...questionStyles.body} {...styles.options}>
-          {
-            optionGroups.map(({ key, values }) =>
-              <div key={key} {...styles.optionGroup}>
-                {key !== 'null' &&
-                  <H3 {...styles.optionGroupHeader}>{key}</H3>
-                }
-                <div {...(multipleAllowed && styles.optionList)}>
-                  {
-                    values.map((o, i) =>
-                      <div key={i} {...styles.option}>
-                        <OptionComponent
-                          onChange={() => this.handleChange(o.value)}
-                          checked={userAnswerValues.some(v => v === o.value)}
-                        >
-                          {o.label}
-                        </OptionComponent>
-                      </div>
-                    )
-                  }
-                </div>
+          {optionGroups.map(({ key, values }) => (
+            <div key={key} {...styles.optionGroup}>
+              {key !== 'null' && <H3 {...styles.optionGroupHeader}>{key}</H3>}
+              <div {...(multipleAllowed && styles.optionList)}>
+                {values.map((o, i) => (
+                  <div key={i} {...styles.option}>
+                    <OptionComponent
+                      onChange={() => this.handleChange(o.value)}
+                      checked={userAnswerValues.some(v => v === o.value)}
+                    >
+                      {o.label}
+                    </OptionComponent>
+                  </div>
+                ))}
               </div>
-            )
-          }
+            </div>
+          ))}
         </div>
       </div>
     )

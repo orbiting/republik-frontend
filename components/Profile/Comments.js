@@ -14,26 +14,28 @@ const Comments = ({ t, comments }) => {
           count: comments.totalCount
         })}
       </Interaction.H3>
-      {comments.nodes.filter(comment => comment.content).map((comment) => {
-        const discussion = comment.discussion || {}
-        const context = {
-          title: discussion.title
-        }
-        return (
-          <CommentTeaser
-            key={comment.id}
-            id={comment.id}
-            context={context}
-            preview={comment.preview}
-            createdAt={comment.createdAt}
-            tags={comment.tags}
-            parentIds={comment.parentIds}
-            discussion={discussion}
-            Link={CommentLink}
-            t={t}
-          />
-        )
-      })}
+      {comments.nodes
+        .filter(comment => comment.content)
+        .map(comment => {
+          const discussion = comment.discussion || {}
+          const context = {
+            title: discussion.title
+          }
+          return (
+            <CommentTeaser
+              key={comment.id}
+              id={comment.id}
+              context={context}
+              preview={comment.preview}
+              createdAt={comment.createdAt}
+              tags={comment.tags}
+              parentIds={comment.parentIds}
+              discussion={discussion}
+              Link={CommentLink}
+              t={t}
+            />
+          )
+        })}
     </div>
   )
 }

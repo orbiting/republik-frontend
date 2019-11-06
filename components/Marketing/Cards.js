@@ -47,7 +47,8 @@ const styles = {
       width: '85vw',
       willChange: 'transform',
       borderRadius: '5px',
-      boxShadow: '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)',
+      boxShadow:
+        '0 12px 50px -10px rgba(0, 0, 0, 0.4), 0 10px 10px -10px rgba(0, 0, 0, 0.1)',
       overflow: 'hidden',
       padding: '20px 15px 15px 15px'
     },
@@ -126,14 +127,11 @@ const cards = [
   }
 ]
 
-const cardWidthDesktop = (innerWidth) => Math.min(
-  Math.max(MAX_WIDTH, innerWidth) / 2,
-  480
-)
+const cardWidthDesktop = innerWidth =>
+  Math.min(Math.max(MAX_WIDTH, innerWidth) / 2, 480)
 
-const xDesktop = (i, innerWidth, cardWidth) => (
+const xDesktop = (i, innerWidth, cardWidth) =>
   Math.floor(innerWidth / 2) + (i % 2 ? PADDING : -cardWidth + PADDING * 2)
-)
 
 const randomRotation = () => -3 + Math.random() * 6
 
@@ -148,7 +146,7 @@ const toMobile = (i, innerWidth, cardWidth) => ({
 const toDesktop = (i, innerWidth, cardWidth) => {
   return {
     x: xDesktop(i, innerWidth, cardWidth),
-    y: 35 + (i - i % 2) * 25,
+    y: 35 + (i - (i % 2)) * 25,
     scale: 1,
     rot: randomRotation(),
     delay: i * 100
@@ -158,7 +156,9 @@ const toDesktop = (i, innerWidth, cardWidth) => {
 const trans = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const Cards = () => {
-  const [width = (typeof window !== 'undefined' && window.innerWidth)] = useWindowSize()
+  const [
+    width = typeof window !== 'undefined' && window.innerWidth
+  ] = useWindowSize()
   const prevWidth = usePrevious(width)
   const isDesktop = width >= mediaQueries.mBreakPoint
   const cardWidth = cardWidthDesktop(width)
@@ -166,35 +166,29 @@ const Cards = () => {
   const [gone] = useState(() => new Set())
   const [zIndexes, setZIndexes] = useState([])
   const setTopIndex = topIndex => {
-    setZIndexes(indexes => [
-      ...indexes.filter(i => i !== topIndex), topIndex
-    ])
+    setZIndexes(indexes => [...indexes.filter(i => i !== topIndex), topIndex])
   }
-  const [props, set] = useSprings(
-    cards.length,
-    i => ({
-      from: { ...to(i, width, cardWidth), x: i % 2 ? width + 1000 : -1000 }
-    })
-  )
+  const [props, set] = useSprings(cards.length, i => ({
+    from: { ...to(i, width, cardWidth), x: i % 2 ? width + 1000 : -1000 }
+  }))
   const [inView, setInView] = useState(undefined)
-  useEffect(
-    () => {
-      if (!inView) {
-        return
-      }
+  useEffect(() => {
+    if (!inView) {
+      return
+    }
 
-      gone.clear()
-      setZIndexes([])
-      set(i => ({
-        ...to(i, window.innerWidth, cardWidth),
-        ...(prevWidth !== width ? {
-          delay: undefined,
-          config: { friction: 50, tension: 1000 }
-        } : undefined)
-      }))
-    },
-    [width, prevWidth, inView]
-  )
+    gone.clear()
+    setZIndexes([])
+    set(i => ({
+      ...to(i, window.innerWidth, cardWidth),
+      ...(prevWidth !== width
+        ? {
+            delay: undefined,
+            config: { friction: 50, tension: 1000 }
+          }
+        : undefined)
+    }))
+  }, [width, prevWidth, inView])
   const rootRef = useRef()
   useEffect(() => {
     if (inView) {
@@ -222,7 +216,9 @@ const Cards = () => {
       const xPos = isDesktop ? xDesktop(i, window.innerWidth, cardWidth) : 0
       const x = isGone
         ? (200 + window.innerWidth) * dir
-        : down ? xPos + xDelta : xPos
+        : down
+        ? xPos + xDelta
+        : xPos
       const rot = down || isGone ? 0 : randomRotation()
       const scale = down ? 1.1 : 1 // Active cards lift up a bit
       return {
@@ -243,48 +239,63 @@ const Cards = () => {
       }, 600)
     }
   }
-  const bind = useGesture(({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
-    const trigger = (
-      (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
-      Math.abs(xDelta) > cardWidth / 4
-    )
-    const dir = velocity > 0.2
-      ? xDir < 0 ? -1 : 1
-      : xDelta < 0 ? -1 : 1
-    if (!down && trigger && !gone.has(index)) {
-      gone.add(index)
+  const bind = useGesture(
+    ({ args: [index], down, delta: [xDelta], direction: [xDir], velocity }) => {
+      const trigger =
+        (velocity > 0.2 && Math.abs(xDelta) > cardWidth / 8) ||
+        Math.abs(xDelta) > cardWidth / 4
+      const dir = velocity > 0.2 ? (xDir < 0 ? -1 : 1) : xDelta < 0 ? -1 : 1
+      if (!down && trigger && !gone.has(index)) {
+        gone.add(index)
+      }
+      if (down && zIndexes[zIndexes.length - 1] !== index) {
+        setTopIndex(index)
+      }
+      animateCard(index, { down, xDelta, dir })
+      if (!down) {
+        maybeRestoreCards()
+      }
     }
-    if (down && zIndexes[zIndexes.length - 1] !== index) {
-      setTopIndex(index)
-    }
-    animateCard(index, { down, xDelta, dir })
-    if (!down) {
-      maybeRestoreCards()
-    }
-  })
+  )
 
   return (
     <div {...styles.root} ref={rootRef}>
-      {!!width && props.map(({ x, y, rot, scale }, i) => (
-        <animated.div key={i} style={{
-          transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-          zIndex: zIndexes.indexOf(i) + 1,
-          width: isDesktop ? cardWidth - PADDING * 4 : '100%'
-        }}>
-          <animated.div {...bind(i)} style={{
-            transform: interpolate([rot, scale], trans),
-            maxWidth: isDesktop ? undefined : 350
-          }} onDoubleClick={() => {
-            gone.add(i)
-            animateCard(i, { dir: i % 2 ? 1 : -1 })
-            maybeRestoreCards()
-          }}>
-            <Editorial.Subhead style={{ marginTop: 0 }}>{cards[i].title}</Editorial.Subhead>
-            <Editorial.P>{cards[i].subtitle}</Editorial.P>
-            <FigureImage src={cards[i].image} attributes={{ draggable: false }} />
+      {!!width &&
+        props.map(({ x, y, rot, scale }, i) => (
+          <animated.div
+            key={i}
+            style={{
+              transform: interpolate(
+                [x, y],
+                (x, y) => `translate3d(${x}px,${y}px,0)`
+              ),
+              zIndex: zIndexes.indexOf(i) + 1,
+              width: isDesktop ? cardWidth - PADDING * 4 : '100%'
+            }}
+          >
+            <animated.div
+              {...bind(i)}
+              style={{
+                transform: interpolate([rot, scale], trans),
+                maxWidth: isDesktop ? undefined : 350
+              }}
+              onDoubleClick={() => {
+                gone.add(i)
+                animateCard(i, { dir: i % 2 ? 1 : -1 })
+                maybeRestoreCards()
+              }}
+            >
+              <Editorial.Subhead style={{ marginTop: 0 }}>
+                {cards[i].title}
+              </Editorial.Subhead>
+              <Editorial.P>{cards[i].subtitle}</Editorial.P>
+              <FigureImage
+                src={cards[i].image}
+                attributes={{ draggable: false }}
+              />
+            </animated.div>
           </animated.div>
-        </animated.div>
-      ))}
+        ))}
     </div>
   )
 }

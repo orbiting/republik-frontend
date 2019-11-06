@@ -37,9 +37,7 @@ server.get('/pgp/:userSlug.asc', async (req, res) => {
     return res.status(404).end()
   }
 
-  res
-    .attachment(`${user.username || user.name}.asc`)
-    .end(user.pgpPublicKey)
+  res.attachment(`${user.username || user.name}.asc`).end(user.pgpPublicKey)
 })
 
 module.exports = server

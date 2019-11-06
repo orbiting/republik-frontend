@@ -1,7 +1,4 @@
-import {
-  fontFamilies,
-  mediaQueries
-} from '@project-r/styleguide'
+import { fontFamilies, mediaQueries } from '@project-r/styleguide'
 
 export default `
 

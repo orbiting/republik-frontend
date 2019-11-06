@@ -10,18 +10,15 @@ import { SUPPORTED_TOKEN_TYPES } from '../constants'
 
 const SwitchBoard = props => {
   if (props.tokenType && props.tokenType === 'EMAIL_CODE') {
-    return (
-      <CodeAuthorization {...props} />
-    )
+    return <CodeAuthorization {...props} />
   }
 
-  return (
-    <Poller {...props} />
-  )
+  return <Poller {...props} />
 }
 
 SwitchBoard.propTypes = {
-  tokenType: PropTypes.oneOf(SUPPORTED_TOKEN_TYPES.concat('EMAIL_CODE')).isRequired,
+  tokenType: PropTypes.oneOf(SUPPORTED_TOKEN_TYPES.concat('EMAIL_CODE'))
+    .isRequired,
   email: PropTypes.string.isRequired,
   phrase: PropTypes.string.isRequired,
   alternativeFirstFactors: PropTypes.arrayOf(

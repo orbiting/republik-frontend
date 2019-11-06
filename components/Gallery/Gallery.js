@@ -4,17 +4,12 @@ import withT from '../../lib/withT'
 
 import photoswipeStyle from './photoswipeStyle'
 
-import {
-  Spinner
-} from '@project-r/styleguide'
+import { Spinner } from '@project-r/styleguide'
 
 import PhotoSwipe from 'photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
 
-import {
-  imageSizeInfo,
-  imageResizeUrl
-} from 'mdast-react-render/lib/utils'
+import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 const removeQuery = (url = '') => url.split('?')[0]
 
@@ -39,7 +34,9 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         preload: [1, 2],
         barsSize: { top: 65, bottom: 'auto' },
         history: false,
-        errorMsg: `<div class="pswp__error-msg"><a href="%url%" target="_blank">${t('article/gallery/error')}</a></div>`,
+        errorMsg: `<div class="pswp__error-msg"><a href="%url%" target="_blank">${t(
+          'article/gallery/error'
+        )}</a></div>`,
         addCaptionHTMLFn: (item, captionEl) => {
           if (!item.title) {
             captionEl.children[0].innerHTML = ''
@@ -57,9 +54,10 @@ const Gallery = ({ items, onClose, startItemSrc, children, t }) => {
         options
       )
 
-      gallery.listen('gettingData', function (index, item) {
+      gallery.listen('gettingData', function(index, item) {
         const sizeInfo = imageSizeInfo(item.src)
-        const maxWidth = Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500
+        const maxWidth =
+          Math.ceil((window.innerWidth * MAX_SPREAD_ZOOM) / 500) * 500
         const resizeUrl = imageResizeUrl(item.src, maxWidth)
         const aspectRatio = sizeInfo.height / sizeInfo.width
         item.src = resizeUrl

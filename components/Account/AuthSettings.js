@@ -4,9 +4,7 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 import ErrorMessage from '../ErrorMessage'
 import withT from '../../lib/withT'
-import {
-  InlineSpinner, Radio, Label, Loader
-} from '@project-r/styleguide'
+import { InlineSpinner, Radio, Label, Loader } from '@project-r/styleguide'
 import { SUPPORTED_TOKEN_TYPES } from '../constants'
 import { P } from './Elements'
 
@@ -26,7 +24,7 @@ const styles = {
 }
 
 class AuthSettings extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       mutating: false,
@@ -41,9 +39,12 @@ class AuthSettings extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
-      t, authSettings, loading, error,
+      t,
+      authSettings,
+      loading,
+      error,
       updatePreferredFirstFactor
     } = this.props
 
@@ -65,7 +66,7 @@ class AuthSettings extends Component {
                   </span>
                 )}
               </P>
-              {SUPPORTED_TOKEN_TYPES.map((tokenType) => {
+              {SUPPORTED_TOKEN_TYPES.map(tokenType => {
                 const disabled = enabledFirstFactors.indexOf(tokenType) === -1
                 return (
                   <Fragment key={tokenType}>
@@ -91,17 +92,20 @@ class AuthSettings extends Component {
                       {t(`account/authSettings/firstfactor/${tokenType}/label`)}
                     </Radio>
                     <br />
-                    {disabled && <Fragment>
-                      <Label>
-                        {t(`account/authSettings/firstfactor/${tokenType}/disabled`)}
-                      </Label>
-                      <br />
-                    </Fragment>}
+                    {disabled && (
+                      <Fragment>
+                        <Label>
+                          {t(
+                            `account/authSettings/firstfactor/${tokenType}/disabled`
+                          )}
+                        </Label>
+                        <br />
+                      </Fragment>
+                    )}
                   </Fragment>
                 )
               })}
-              {serverError &&
-                <ErrorMessage error={serverError} />}
+              {serverError && <ErrorMessage error={serverError} />}
             </div>
           )
         }}
@@ -111,9 +115,7 @@ class AuthSettings extends Component {
 }
 
 const mutation = gql`
-  mutation preferredFirstFactor(
-    $tokenType: SignInTokenType
-  ) {
+  mutation preferredFirstFactor($tokenType: SignInTokenType) {
     preferredFirstFactor(tokenType: $tokenType) {
       id
       enabledFirstFactors
@@ -148,9 +150,7 @@ export default compose(
       data,
       loading: data.loading || !data.authSettings,
       error: data.error,
-      authSettings: data.loading
-        ? undefined
-        : data.authSettings
+      authSettings: data.loading ? undefined : data.authSettings
     })
   }),
   withT

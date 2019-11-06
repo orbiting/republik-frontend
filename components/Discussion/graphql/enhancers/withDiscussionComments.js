@@ -2,7 +2,12 @@ import { graphql } from 'react-apollo'
 import produce from 'immer'
 
 import { debug } from '../../debug'
-import { bumpCounts, mergeComments, submittedComments, mergeComment } from '../store'
+import {
+  bumpCounts,
+  mergeComments,
+  submittedComments,
+  mergeComment
+} from '../store'
 import { discussionQuery, commentsSubscription } from '../documents'
 
 /**
@@ -18,14 +23,33 @@ import { discussionQuery, commentsSubscription } from '../documents'
  */
 
 export const withDiscussionComments = graphql(discussionQuery, {
-  props: ({ ownProps: { discussionId, orderBy }, data: { fetchMore, subscribeToMore, ...data } }) => ({
+  props: ({
+    ownProps: { discussionId, orderBy },
+    data: { fetchMore, subscribeToMore, ...data }
+  }) => ({
     discussionComments: {
       ...data,
       fetchMore: ({ parentId, after, appendAfter, depth } = {}) => {
         return fetchMore({
-          variables: { discussionId, parentId, after, orderBy, depth: depth || 3 },
-          updateQuery: (previousResult, { fetchMoreResult: { discussion } }) => {
-            return produce(previousResult, mergeComments({ parentId, appendAfter, comments: discussion.comments }))
+          variables: {
+            discussionId,
+            parentId,
+            after,
+            orderBy,
+            depth: depth || 3
+          },
+          updateQuery: (
+            previousResult,
+            { fetchMoreResult: { discussion } }
+          ) => {
+            return produce(
+              previousResult,
+              mergeComments({
+                parentId,
+                appendAfter,
+                comments: discussion.comments
+              })
+            )
           }
         })
       },
@@ -33,7 +57,7 @@ export const withDiscussionComments = graphql(discussionQuery, {
         return subscribeToMore({
           document: commentsSubscription,
           variables: { discussionId },
-          onError (...args) {
+          onError(...args) {
             debug('subscribe:onError', args)
           },
           updateQuery: (previousResult, { subscriptionData }) => {
@@ -45,7 +69,10 @@ export const withDiscussionComments = graphql(discussionQuery, {
              * this case update the Discussion object. This is why we only care about the
              * 'CREATED' mutation and ignore 'DELETED' (which can't happen anyways) and 'UPDATED'.
              */
-            if (subscriptionData.data && subscriptionData.data.comment.mutation === 'CREATED') {
+            if (
+              subscriptionData.data &&
+              subscriptionData.data.comment.mutation === 'CREATED'
+            ) {
               const comment = subscriptionData.data.comment.node
 
               /*

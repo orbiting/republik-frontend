@@ -72,11 +72,18 @@ const styles = {
   })
 }
 
-const getInitials = me => (
-  me.name && me.name.trim()
+const getInitials = me =>
+  (me.name && me.name.trim()
     ? me.name.split(' ').filter((n, i, all) => i === 0 || all.length - 1 === i)
-    : me.email.split('@')[0].split(/\.|-|_/).slice(0, 2)
-).slice(0, 2).filter(Boolean).map(s => s[0]).join('')
+    : me.email
+        .split('@')[0]
+        .split(/\.|-|_/)
+        .slice(0, 2)
+  )
+    .slice(0, 2)
+    .filter(Boolean)
+    .map(s => s[0])
+    .join('')
 
 const User = ({ t, me, onClick, title, dark }) => {
   const color = dark ? colors.negative.text : colors.text
@@ -93,18 +100,20 @@ const User = ({ t, me, onClick, title, dark }) => {
           onClick()
         }}
       >
-        {me && (me.portrait
-          ? <img src={me.portrait} {...styles.portrait} />
-          : <span {...styles.portrait}>
-            {getInitials(me)}
-          </span>
+        {me &&
+          (me.portrait ? (
+            <img src={me.portrait} {...styles.portrait} />
+          ) : (
+            <span {...styles.portrait}>{getInitials(me)}</span>
+          ))}
+        {!me && (
+          <Fragment>
+            <span {...styles.anonymous}>
+              <PersonIcon size={ICON_SIZE} fill={color} />
+            </span>
+            <span {...styles.label}>{t('header/signin')}</span>
+          </Fragment>
         )}
-        {!me && <Fragment>
-          <span {...styles.anonymous}>
-            <PersonIcon size={ICON_SIZE} fill={color} />
-          </span>
-          <span {...styles.label}>{t('header/signin')}</span>
-        </Fragment>}
       </a>
     </div>
   )

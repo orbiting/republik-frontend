@@ -65,7 +65,7 @@ const styles = {
 }
 
 class NotificationOptions extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -75,59 +75,72 @@ class NotificationOptions extends PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.subscribe()
     this.maybeMute()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.subscribe()
     this.maybeMute()
   }
 
-  initNotificationsState () {
+  initNotificationsState() {
     this.setState({
       webNotificationsPermission: getNotificationPermission()
     })
   }
 
-  confirmPermission () {
+  confirmPermission() {
     if (!isNotificationSupported()) {
       return
     }
     const { t, discussionPreferences, updateNotificationSettings } = this.props
-    const { discussionNotificationChannels } = discussionPreferences && discussionPreferences.me
+    const { discussionNotificationChannels } =
+      discussionPreferences && discussionPreferences.me
 
-    window.Notification.requestPermission((status) => {
+    window.Notification.requestPermission(status => {
       if (status !== 'granted') {
         return
       }
       // Globally opt in to the WEB notification channel.
-      const channels = discussionNotificationChannels.indexOf('WEB') === -1
-        ? [...discussionNotificationChannels, 'WEB']
-        : discussionNotificationChannels
+      const channels =
+        discussionNotificationChannels.indexOf('WEB') === -1
+          ? [...discussionNotificationChannels, 'WEB']
+          : discussionNotificationChannels
       updateNotificationSettings({
         discussionNotificationChannels: channels
       })
       /* eslint-disable no-new */
-      new window.Notification(t('components/Discussion/WelcomeNotification/title'), {
-        body: t('components/Discussion/WelcomeNotification/body'),
-        icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
-      })
+      new window.Notification(
+        t('components/Discussion/WelcomeNotification/title'),
+        {
+          body: t('components/Discussion/WelcomeNotification/body'),
+          icon: `${CDN_FRONTEND_BASE_URL}/static/apple-touch-icon.png`
+        }
+      )
       this.initNotificationsState()
     })
   }
 
-  subscribe () {
+  subscribe() {
     this.initNotificationsState()
-    if (this.unsubscribe || !isNotificationSupported() || !this.props.discussionPreferences) {
+    if (
+      this.unsubscribe ||
+      !isNotificationSupported() ||
+      !this.props.discussionPreferences
+    ) {
       return
     }
     this.unsubscribe = this.props.discussionPreferences.subscribeToMore({
       document: webNotificationSubscription,
       updateQuery: (prev, { subscriptionData }) => {
-        const webNotification = subscriptionData.data && subscriptionData.data.webNotification
-        if (!webNotification || this.state.webNotificationsPermission === 'denied') {
+        const webNotification =
+          subscriptionData.data && subscriptionData.data.webNotification
+        if (
+          !webNotification ||
+          this.state.webNotificationsPermission === 'denied'
+        ) {
           return prev
         }
         /* eslint-disable no-new */
@@ -136,7 +149,7 @@ class NotificationOptions extends PureComponent {
           icon: webNotification.icon,
           tag: webNotification.tag
         })
-        n.onclick = (e) => {
+        n.onclick = e => {
           e.preventDefault() // prevent the browser from focusing the Notification's tab
           window.focus()
           window.location = webNotification.url
@@ -146,7 +159,7 @@ class NotificationOptions extends PureComponent {
     })
   }
 
-  maybeMute () {
+  maybeMute() {
     const {
       discussionPreferences: { discussion },
       setDiscussionPreferences,
@@ -156,12 +169,12 @@ class NotificationOptions extends PureComponent {
       return
     }
 
-    const {
-      userPreference
-    } = discussion
+    const { userPreference } = discussion
 
     const clearUrl = () => {
-      const { router: { asPath, query } } = this.props
+      const {
+        router: { asPath, query }
+      } = this.props
       const result = matchPath(asPath)
       const params = {
         ...query,
@@ -169,11 +182,7 @@ class NotificationOptions extends PureComponent {
       }
       // using delete instead of undefined to avoid an empty query
       delete params.mute
-      Router.replaceRoute(
-        result.route,
-        params,
-        { shallow: true }
-      )
+      Router.replaceRoute(result.route, params, { shallow: true })
     }
 
     // Mute notifications for this discussion if not already done
@@ -194,11 +203,11 @@ class NotificationOptions extends PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
 
-  render () {
+  render() {
     const {
       t,
       discussionPreferences: { loading, error, me, discussion },
@@ -215,119 +224,167 @@ class NotificationOptions extends PureComponent {
         message={t('components/DiscussionPreferences/loading')}
         render={() => {
           const { expanded, mutating, webNotificationsPermission } = this.state
-          const { defaultDiscussionNotificationOption, discussionNotificationChannels } = me
+          const {
+            defaultDiscussionNotificationOption,
+            discussionNotificationChannels
+          } = me
           const { userPreference } = discussion
 
-          const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(option => ({
-            value: option,
-            text: t(`components/Discussion/Notification/dropdown/${option}/label`),
-            element: <span {...styles.dropdownItem}>
-              {t(`components/Discussion/Notification/dropdown/${option}/label`)}
-            </span>
-          }))
+          const notificationOptions = DISCUSSION_NOTIFICATION_OPTIONS.map(
+            option => ({
+              value: option,
+              text: t(
+                `components/Discussion/Notification/dropdown/${option}/label`
+              ),
+              element: (
+                <span {...styles.dropdownItem}>
+                  {t(
+                    `components/Discussion/Notification/dropdown/${option}/label`
+                  )}
+                </span>
+              )
+            })
+          )
           const selectedValue =
-            (userPreference && userPreference.notifications !== null && userPreference.notifications) ||
+            (userPreference &&
+              userPreference.notifications !== null &&
+              userPreference.notifications) ||
             defaultDiscussionNotificationOption
 
-          const emailEnabled = discussionNotificationChannels.indexOf('EMAIL') > -1
-          const browserEnabled = discussionNotificationChannels.indexOf('WEB') > -1 &&
+          const emailEnabled =
+            discussionNotificationChannels.indexOf('EMAIL') > -1
+          const browserEnabled =
+            discussionNotificationChannels.indexOf('WEB') > -1 &&
             webNotificationsPermission === 'granted'
           const appEnabled = discussionNotificationChannels.indexOf('APP') > -1
-          const notificationsChannelEnabled = emailEnabled || browserEnabled || appEnabled
+          const notificationsChannelEnabled =
+            emailEnabled || browserEnabled || appEnabled
 
-          const translationKey = selectedValue !== 'NONE' && (
-            (emailEnabled && browserEnabled && appEnabled && 'EMAIL_WEB_APP') ||
-            (emailEnabled && browserEnabled && 'EMAIL_WEB') ||
-            (emailEnabled && appEnabled && 'EMAIL_APP') ||
-            (browserEnabled && appEnabled && 'WEB_APP') ||
-            (emailEnabled && 'EMAIL') ||
-            (appEnabled && 'APP') ||
-            (browserEnabled && 'WEB')
-          )
-          const types = translationKey && t(`components/Discussion/NotificationChannel/${translationKey}/label`)
+          const translationKey =
+            selectedValue !== 'NONE' &&
+            ((emailEnabled &&
+              browserEnabled &&
+              appEnabled &&
+              'EMAIL_WEB_APP') ||
+              (emailEnabled && browserEnabled && 'EMAIL_WEB') ||
+              (emailEnabled && appEnabled && 'EMAIL_APP') ||
+              (browserEnabled && appEnabled && 'WEB_APP') ||
+              (emailEnabled && 'EMAIL') ||
+              (appEnabled && 'APP') ||
+              (browserEnabled && 'WEB'))
+          const types =
+            translationKey &&
+            t(
+              `components/Discussion/NotificationChannel/${translationKey}/label`
+            )
 
-          const color = selectedValue === 'NONE' ? colors.disabled : colors.primary
+          const color =
+            selectedValue === 'NONE' ? colors.disabled : colors.primary
 
           return (
             <div {...styles.container}>
               {!notificationsChannelEnabled && (
-                <A {...styles.link}
+                <A
+                  {...styles.link}
                   href='/konto#benachrichtigungen'
-                  onClick={(e) => {
+                  onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return
                     }
 
                     e.preventDefault()
-                    Router.pushRoute('/konto#benachrichtigungen')
-                      .then(() => {
-                        focusSelector('#benachrichtigungen')
-                      })
-                  }}>
+                    Router.pushRoute('/konto#benachrichtigungen').then(() => {
+                      focusSelector('#benachrichtigungen')
+                    })
+                  }}
+                >
                   {t('components/Discussion/Notification/noChannels')}
                 </A>
               )}
-              {notificationsChannelEnabled && <Fragment>
-                <NotificationIcon off={selectedValue === 'NONE'} style={{ fontSize: '14px', color }} fill={color} onClick={() => {
-                  this.setState(state => ({
-                    expanded: !state.expanded
-                  }))
-                }}>
-                  {t(`components/Discussion/info/${selectedValue}`, {
-                    types
-                  })}
-                </NotificationIcon>
-                {expanded && <div {...styles.expanded}>
-                  <Dropdown
-                    label={t('components/Discussion/Notification/dropdown/label')}
-                    items={notificationOptions}
-                    value={selectedValue}
-                    onChange={(item) => {
-                      const notifications = item.target ? item.target.value : item.value
+              {notificationsChannelEnabled && (
+                <Fragment>
+                  <NotificationIcon
+                    off={selectedValue === 'NONE'}
+                    style={{ fontSize: '14px', color }}
+                    fill={color}
+                    onClick={() => {
                       this.setState(state => ({
-                        mutating: true
+                        expanded: !state.expanded
                       }))
-                      const finish = () => {
-                        this.setState(state => ({
-                          mutating: false
-                        }))
-                      }
-                      // anonymity and credentials remain unchanged.
-                      setDiscussionPreferences(undefined, undefined, notifications).then(
-                        finish
-                      )
                     }}
-                  />
-                  {mutating && (
-                    <span {...styles.spinner}>
-                      <InlineSpinner size={24} />
-                    </span>
-                  )}
-                  <div {...styles.links}>
-                    <A {...styles.link}
-                      href='/konto#benachrichtigungen'
-                      onClick={(e) => {
-                        if (shouldIgnoreClick(e)) {
-                          return
-                        }
+                  >
+                    {t(`components/Discussion/info/${selectedValue}`, {
+                      types
+                    })}
+                  </NotificationIcon>
+                  {expanded && (
+                    <div {...styles.expanded}>
+                      <Dropdown
+                        label={t(
+                          'components/Discussion/Notification/dropdown/label'
+                        )}
+                        items={notificationOptions}
+                        value={selectedValue}
+                        onChange={item => {
+                          const notifications = item.target
+                            ? item.target.value
+                            : item.value
+                          this.setState(state => ({
+                            mutating: true
+                          }))
+                          const finish = () => {
+                            this.setState(state => ({
+                              mutating: false
+                            }))
+                          }
+                          // anonymity and credentials remain unchanged.
+                          setDiscussionPreferences(
+                            undefined,
+                            undefined,
+                            notifications
+                          ).then(finish)
+                        }}
+                      />
+                      {mutating && (
+                        <span {...styles.spinner}>
+                          <InlineSpinner size={24} />
+                        </span>
+                      )}
+                      <div {...styles.links}>
+                        <A
+                          {...styles.link}
+                          href='/konto#benachrichtigungen'
+                          onClick={e => {
+                            if (shouldIgnoreClick(e)) {
+                              return
+                            }
 
-                        e.preventDefault()
-                        Router.pushRoute('/konto#benachrichtigungen')
-                          .then(() => {
-                            focusSelector('#benachrichtigungen')
-                          })
-                      }}>
-                      {t('components/Discussion/Notification/settings')}
-                    </A>
-                    {webNotificationsPermission === 'default' && (
-                      <A {...styles.link} onClick={(e) => {
-                        e.preventDefault()
-                        this.confirmPermission()
-                      }}>{t('components/Discussion/Notification/enable')}</A>
-                    )}
-                  </div>
-                </div>}
-              </Fragment>}
+                            e.preventDefault()
+                            Router.pushRoute('/konto#benachrichtigungen').then(
+                              () => {
+                                focusSelector('#benachrichtigungen')
+                              }
+                            )
+                          }}
+                        >
+                          {t('components/Discussion/Notification/settings')}
+                        </A>
+                        {webNotificationsPermission === 'default' && (
+                          <A
+                            {...styles.link}
+                            onClick={e => {
+                              e.preventDefault()
+                              this.confirmPermission()
+                            }}
+                          >
+                            {t('components/Discussion/Notification/enable')}
+                          </A>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </Fragment>
+              )}
             </div>
           )
         }}

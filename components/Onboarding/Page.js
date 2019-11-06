@@ -244,7 +244,7 @@ class Page extends Component {
                       </div>
                     ) */}
                     <div {...styles.buttonContainer}>
-                      <Link route="index">
+                      <Link route='index'>
                         <Button primary={!expandedSection}>
                           {t.first([
                             `Onboarding/Page/${context}/button`,
@@ -264,7 +264,7 @@ class Page extends Component {
                     ],
                     {
                       link: (
-                        <Link key="account" route="account" passHref>
+                        <Link key='account' route='account' passHref>
                           <a {...linkRule}>
                             {t.first([
                               `Onboarding/Page/${context}/more/account/link`,
@@ -285,7 +285,7 @@ class Page extends Component {
                     ],
                     {
                       linkManual: (
-                        <PathLink key="anleitung" path="/anleitung" passHref>
+                        <PathLink key='anleitung' path='/anleitung' passHref>
                           <a {...linkRule}>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkManual`,
@@ -295,7 +295,7 @@ class Page extends Component {
                         </PathLink>
                       ),
                       linkFaq: (
-                        <Link key="route" route="faq" passHref>
+                        <Link key='route' route='faq' passHref>
                           <a {...linkRule}>
                             {t.first([
                               `Onboarding/Page/${context}/more/questions/linkFaq`,
@@ -316,7 +316,7 @@ class Page extends Component {
                     {
                       email: (
                         <a
-                          key="email"
+                          key='email'
                           href={`mailto:${t(
                             'Onboarding/Page/more/help/email'
                           )}`}

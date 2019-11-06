@@ -236,7 +236,7 @@ const Form = props => {
               ) : (
                 <Button
                   primary
-                  type="submit"
+                  type='submit'
                   block
                   onClick={requestAccess}
                   disabled={showErrors && errorMessages.length > 0}

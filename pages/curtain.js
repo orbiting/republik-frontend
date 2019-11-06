@@ -4,7 +4,10 @@ import Head from 'next/head'
 import { withRouter } from 'next/router'
 
 import {
-  NarrowContainer, Logo, mediaQueries, fontStyles
+  NarrowContainer,
+  Logo,
+  mediaQueries,
+  fontStyles
 } from '@project-r/styleguide'
 
 import { SPACE } from '../components/Frame/PureFooter'
@@ -87,11 +90,12 @@ export default withRouter(({ router }) => {
           <Logo fill={colors.color} />
         </div>
 
-        <div {...styles.message}
+        <div
+          {...styles.message}
           dangerouslySetInnerHTML={{
             __html: CURTAIN_MESSAGE
-          }} />
-
+          }}
+        />
       </NarrowContainer>
     </div>
   )

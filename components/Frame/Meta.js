@@ -1,10 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 
-import {
-  imageSizeInfo,
-  imageResizeUrl
-} from 'mdast-react-render/lib/utils'
+import { imageSizeInfo, imageResizeUrl } from 'mdast-react-render/lib/utils'
 
 export default ({ data, data: { image } }) => {
   const title = data.pageTitle || `${data.title} – Republik`
@@ -22,18 +19,36 @@ export default ({ data, data: { image } }) => {
       <meta property='og:type' content='website' />
       <meta property='og:url' content={data.url} />
       <meta property='og:title' content={data.facebookTitle || data.title} />
-      <meta property='og:description' content={data.facebookDescription || data.description} />
+      <meta
+        property='og:description'
+        content={data.facebookDescription || data.description}
+      />
       {!!facebookImage && <meta property='og:image' content={facebookImage} />}
-      {!!fbSizeInfo && <meta property='og:image:width' content={fbSizeInfo.width} />}
-      {!!fbSizeInfo && <meta property='og:image:height' content={fbSizeInfo.height} />}
+      {!!fbSizeInfo && (
+        <meta property='og:image:width' content={fbSizeInfo.width} />
+      )}
+      {!!fbSizeInfo && (
+        <meta property='og:image:height' content={fbSizeInfo.height} />
+      )}
 
       <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:card' content={twitterImage ? 'summary_large_image' : 'summary'} />
+      <meta
+        name='twitter:card'
+        content={twitterImage ? 'summary_large_image' : 'summary'}
+      />
       <meta name='twitter:site' content='@RepublikMagazin' />
       <meta name='twitter:creator' content='@RepublikMagazin' />
       <meta name='twitter:title' content={data.twitterTitle || data.title} />
-      <meta name='twitter:description' content={data.twitterDescription || data.description} />
-      {!!twitterImage && <meta name='twitter:image:src' content={imageResizeUrl(twitterImage, '3000x')} />}
+      <meta
+        name='twitter:description'
+        content={data.twitterDescription || data.description}
+      />
+      {!!twitterImage && (
+        <meta
+          name='twitter:image:src'
+          content={imageResizeUrl(twitterImage, '3000x')}
+        />
+      )}
     </Head>
   )
 }

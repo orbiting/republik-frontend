@@ -4,9 +4,7 @@ import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 import MaskedInput from 'react-maskedinput'
 
-import {
-  FieldSet
-} from '@project-r/styleguide'
+import { FieldSet } from '@project-r/styleguide'
 
 export const styles = {
   mask: css({
@@ -36,22 +34,22 @@ const FieldSetWithMaskAndAutoSize = props => (
         : {}
       if (field.autoSize) {
         fieldProps.renderInput = ({ ref, ...inputProps }) => (
-          <AutosizeInput {...styles.autoSize}
-            {...inputProps}
-            inputRef={ref} />
+          <AutosizeInput {...styles.autoSize} {...inputProps} inputRef={ref} />
         )
       }
       if (field.mask) {
-        fieldProps.renderInput = (inputProps) => (
+        fieldProps.renderInput = inputProps => (
           <MaskedInput
             {...inputProps}
             {...styles.mask}
             placeholderChar={field.maskChar || ' '}
-            mask={field.mask} />
+            mask={field.mask}
+          />
         )
       }
       return fieldProps
-    }} />
+    }}
+  />
 )
 
 FieldSetWithMaskAndAutoSize.utils = FieldSet.utils

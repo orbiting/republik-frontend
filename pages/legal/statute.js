@@ -4,13 +4,9 @@ import Frame from '../../components/Frame'
 import md from 'markdown-in-js'
 import mdComponents from '../../lib/utils/mdComponents'
 
-import {
-  H1, P, A
-} from '@project-r/styleguide'
+import { H1, P, A } from '@project-r/styleguide'
 
-import {
-  CDN_FRONTEND_BASE_URL
-} from '../../lib/constants'
+import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 
 export default () => {
   const meta = {
@@ -20,12 +16,13 @@ export default () => {
 
   return (
     <Frame meta={meta} indented>
-      <H1>
-        {meta.title}
-      </H1>
+      <H1>{meta.title}</H1>
 
       <P>
-        <A download href={`${CDN_FRONTEND_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}>
+        <A
+          download
+          href={`${CDN_FRONTEND_BASE_URL}/static/statuten_project_r_genossenschaft_unterschrieben.pdf`}
+        >
           PDF herunterladen
         </A>
       </P>

@@ -24,21 +24,26 @@ const styles = {
 }
 
 class TeaserHover extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = { loading: true }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.cancelAnimationFrame(this.loadEndRaf)
   }
-  render () {
-    const { path = '/', measurement, teaser, contextWidth, highlight } = this.props
+  render() {
+    const {
+      path = '/',
+      measurement,
+      teaser,
+      contextWidth,
+      highlight
+    } = this.props
     const { loading } = this.state
 
-    const hoverWidth = typeof window !== 'undefined' && window.innerWidth > 420
-      ? 400
-      : 300
+    const hoverWidth =
+      typeof window !== 'undefined' && window.innerWidth > 420 ? 400 : 300
     const onLoadEnd = () => {
       this.loadEndRaf = window.requestAnimationFrame(() => {
         this.setState({ loading: false })
@@ -47,36 +52,42 @@ class TeaserHover extends Component {
     const ratio = measurement.height / measurement.width
     const scale = hoverWidth / renderWidth
     return (
-      <div style={{
-        position: 'absolute',
-        zIndex: ZINDEX_POPOVER,
-        top: measurement.y - 5,
-        left: measurement.x > hoverWidth / 2
-          ? measurement.x + measurement.width / 2 + hoverWidth / 2 > contextWidth
-            ? contextWidth - hoverWidth
-            : measurement.x + measurement.width / 2 - hoverWidth / 2
-          : 0
-      }}>
-        <div style={{
-          width: hoverWidth,
+      <div
+        style={{
           position: 'absolute',
-          bottom: 0,
-          height: Math.ceil(hoverWidth * ratio - 5),
-          lineHeight: 0,
-          boxShadow: '0 2px 8px rgba(0,0,0,.4)'
-        }}>
-          <div {...css({
+          zIndex: ZINDEX_POPOVER,
+          top: measurement.y - 5,
+          left:
+            measurement.x > hoverWidth / 2
+              ? measurement.x + measurement.width / 2 + hoverWidth / 2 >
+                contextWidth
+                ? contextWidth - hoverWidth
+                : measurement.x + measurement.width / 2 - hoverWidth / 2
+              : 0
+        }}
+      >
+        <div
+          style={{
+            width: hoverWidth,
             position: 'absolute',
-            top: 0,
-            width: renderWidth,
-            height: Math.ceil(renderWidth * ratio - 5 / scale),
-            overflow: 'hidden',
-            transform: `scale(${hoverWidth / renderWidth})`,
-            transformOrigin: '0% 0%'
-          })}>
-            <img
-              {...styles.preview}
-              src={getSmallImgSrc(teaser, path)} />
+            bottom: 0,
+            height: Math.ceil(hoverWidth * ratio - 5),
+            lineHeight: 0,
+            boxShadow: '0 2px 8px rgba(0,0,0,.4)'
+          }}
+        >
+          <div
+            {...css({
+              position: 'absolute',
+              top: 0,
+              width: renderWidth,
+              height: Math.ceil(renderWidth * ratio - 5 / scale),
+              overflow: 'hidden',
+              transform: `scale(${hoverWidth / renderWidth})`,
+              transformOrigin: '0% 0%'
+            })}
+          >
+            <img {...styles.preview} src={getSmallImgSrc(teaser, path)} />
             <iframe
               frameBorder='0'
               scrolling='no'
@@ -87,10 +98,9 @@ class TeaserHover extends Component {
               {...styles.iframe}
               style={{
                 opacity: loading ? 0 : 1
-              }} />
-            <TeaserNodes
-              nodes={teaser.nodes}
-              highlight={highlight} />
+              }}
+            />
+            <TeaserNodes nodes={teaser.nodes} highlight={highlight} />
           </div>
         </div>
       </div>

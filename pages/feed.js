@@ -13,9 +13,7 @@ const FeedPage = ({ me, t }) => {
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`
   }
 
-  return (
-    <Feed meta={meta} />
-  )
+  return <Feed meta={meta} />
 }
 
 export default compose(

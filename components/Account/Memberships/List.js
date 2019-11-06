@@ -4,9 +4,7 @@ import { compose, graphql } from 'react-apollo'
 import withT from '../../../lib/withT'
 import withMe from '../../../lib/apollo/withMe'
 
-import {
-  Interaction, Loader
-} from '@project-r/styleguide'
+import { Interaction, Loader } from '@project-r/styleguide'
 
 import query from '../belongingsQuery'
 
@@ -17,43 +15,51 @@ import Box from '../../Frame/Box'
 const { H2, P } = Interaction
 
 class MembershipsList extends Component {
-  render () {
+  render() {
     const {
-      memberships, t,
-      loading, error,
+      memberships,
+      t,
+      loading,
+      error,
       highlightId,
       prolongIds,
       waitingMemberships
     } = this.props
 
     return (
-      <Loader loading={loading} error={error} render={() => {
-        if (!memberships.length) {
-          return null
-        }
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (!memberships.length) {
+            return null
+          }
 
-        return (
-          <div>
-            <H2>{t.pluralize('memberships/title', {
-              count: memberships.length
-            })}</H2>
-            {!memberships.find(membership => membership.active) &&
-              <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
-                <P>
-                  {t('memberships/noActive')}
-                </P>
-              </Box>
-            }
-            {memberships.map(membership => (
-              <Manage key={membership.id}
-                membership={membership}
-                prolong={prolongIds.includes(membership.id)}
-                highlighted={highlightId === membership.pledge.id}
-                waitingMemberships={waitingMemberships} />
-            ))}
-          </div>
-        )
-      }} />
+          return (
+            <div>
+              <H2>
+                {t.pluralize('memberships/title', {
+                  count: memberships.length
+                })}
+              </H2>
+              {!memberships.find(membership => membership.active) && (
+                <Box style={{ padding: '15px 20px', margin: '1em 0em' }}>
+                  <P>{t('memberships/noActive')}</P>
+                </Box>
+              )}
+              {memberships.map(membership => (
+                <Manage
+                  key={membership.id}
+                  membership={membership}
+                  prolong={prolongIds.includes(membership.id)}
+                  highlighted={highlightId === membership.pledge.id}
+                  waitingMemberships={waitingMemberships}
+                />
+              ))}
+            </div>
+          )
+        }}
+      />
     )
   }
 }
@@ -62,32 +68,35 @@ export default compose(
   withMe,
   graphql(query, {
     props: ({ data, ownProps: { me } }) => {
-      const prolongPackage = (
+      const prolongPackage =
         data.me &&
         data.me.customPackages &&
         data.me.customPackages.find(p => p.name === 'PROLONG')
-      )
 
-      const memberships = (
-        !data.loading &&
-        !data.error &&
-        data.me &&
-        data.me.memberships &&
-        data.me.memberships.filter(m => (
-          m.pledge.package.group !== 'GIVE' ||
-          (me.id === m.user.id && !m.voucherCode)
-        ))
-      ) || []
+      const memberships =
+        (!data.loading &&
+          !data.error &&
+          data.me &&
+          data.me.memberships &&
+          data.me.memberships.filter(
+            m =>
+              m.pledge.package.group !== 'GIVE' ||
+              (me.id === m.user.id && !m.voucherCode)
+          )) ||
+        []
       return {
         loading: data.loading,
         error: data.error,
-        prolongIds: (
-          prolongPackage && prolongPackage.options
-            .filter(option => option.membership)
-            .map(option => option.membership.id)
-        ) || [],
+        prolongIds:
+          (prolongPackage &&
+            prolongPackage.options
+              .filter(option => option.membership)
+              .map(option => option.membership.id)) ||
+          [],
         memberships,
-        waitingMemberships: memberships.some(m => !m.active && !m.periods.length)
+        waitingMemberships: memberships.some(
+          m => !m.active && !m.periods.length
+        )
       }
     }
   }),

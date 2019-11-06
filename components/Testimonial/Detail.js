@@ -44,20 +44,28 @@ const styles = {
 const Detail = ({
   t,
   share,
-  data: { id, slug, name, credentials, statement, portrait, sequenceNumber, video, updatedAt }
+  data: {
+    id,
+    slug,
+    name,
+    credentials,
+    statement,
+    portrait,
+    sequenceNumber,
+    video,
+    updatedAt
+  }
 }) => (
   <div {...styles.detail}>
     <div
       style={
-        video ? (
-          {
-            maxWidth: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }
-        ) : (
-          {}
-        )
+        video
+          ? {
+              maxWidth: 400,
+              marginLeft: 'auto',
+              marginRight: 'auto'
+            }
+          : {}
       }
     >
       <H3 {...styles.detailTitle}>
@@ -83,8 +91,10 @@ const Detail = ({
         >
           <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
+      ) : statement ? (
+        <SerifP>{inQuotes(statement)}</SerifP>
       ) : (
-        statement ? <SerifP>{inQuotes(statement)}</SerifP> : <br />
+        <br />
       )}
       {!!sequenceNumber && (
         <P {...styles.number}>
@@ -102,7 +112,11 @@ const Detail = ({
           emailSubject={t('statement/share/title', {
             name
           })}
-          download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${id}`)}`}
+          download={`${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
+            updatedAt
+          )}&url=${encodeURIComponent(
+            `${PUBLIC_BASE_URL}/community?share=${id}`
+          )}`}
           shareOverlayTitle={t('statement/share/overlayTitle', {
             name
           })}

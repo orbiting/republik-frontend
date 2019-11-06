@@ -79,7 +79,9 @@ const Comments = props => {
   /*
    * Subscribe to GraphQL updates of the dicsussion query.
    */
-  React.useEffect(() => props.discussionComments.subscribe(), [props.discussionComments.subscribe])
+  React.useEffect(() => props.discussionComments.subscribe(), [
+    props.discussionComments.subscribe
+  ])
 
   /*
    * Local state: share overlay and discussion preferences.
@@ -90,7 +92,10 @@ const Comments = props => {
   /*
    * Fetching comment that is in focus.
    */
-  const [{ currentFocus, focusLoading, focusError }, setFocusState] = React.useState({})
+  const [
+    { currentFocus, focusLoading, focusError },
+    setFocusState
+  ] = React.useState({})
   const fetchFocus = () => {
     /*
      * If we're still loading, or not trying to focus a comment, there is nothing
@@ -133,7 +138,9 @@ const Comments = props => {
      * to load more comments beneath that ancestor. We may have to repeat that
      * process multiple times until we make the comment we want available.
      */
-    const focus = discussion.comments.nodes.find(comment => comment.id === focusId)
+    const focus = discussion.comments.nodes.find(
+      comment => comment.id === focusId
+    )
     if (focus) {
       /*
        * To make sure we don't run 'focusSelector()' multiple times, we store
@@ -204,7 +211,11 @@ const Comments = props => {
   return (
     <Loader
       loading={loading || (focusId && focusLoading)}
-      error={error || (focusId && focusError) || (discussion === null && t('discussion/missing'))}
+      error={
+        error ||
+        (focusId && focusError) ||
+        (discussion === null && t('discussion/missing'))
+      }
       render={() => {
         const { focus } = discussion.comments
 
@@ -228,16 +239,25 @@ const Comments = props => {
 
           actions: {
             submitComment: (parentComment, content, tags) =>
-              props.submitComment(parentComment, content, tags).then(() => ({ ok: true }), error => ({ error })),
+              props
+                .submitComment(parentComment, content, tags)
+                .then(() => ({ ok: true }), error => ({ error })),
             editComment: (comment, text, tags) =>
-              props.editComment(comment, text, tags).then(() => ({ ok: true }), error => ({ error })),
+              props
+                .editComment(comment, text, tags)
+                .then(() => ({ ok: true }), error => ({ error })),
             upvoteComment: props.upvoteComment,
             downvoteComment: props.downvoteComment,
             unvoteComment: props.unvoteComment,
             unpublishComment: comment => {
-              const message = t(`styleguide/CommentActions/unpublish/confirm${comment.userCanEdit ? '' : '/admin'}`, {
-                name: comment.displayAuthor.name
-              })
+              const message = t(
+                `styleguide/CommentActions/unpublish/confirm${
+                  comment.userCanEdit ? '' : '/admin'
+                }`,
+                {
+                  name: comment.displayAuthor.name
+                }
+              )
               if (!window.confirm(message)) {
                 return Promise.reject(new Error())
               } else {
@@ -268,7 +288,13 @@ const Comments = props => {
               return <CommentLink {...props} displayAuthor={displayAuthor} />
             },
             Comment: ({ comment, ...props }) => {
-              return <CommentLink {...props} discussion={discussion} commentId={comment.id} />
+              return (
+                <CommentLink
+                  {...props}
+                  discussion={discussion}
+                  commentId={comment.id}
+                />
+              )
             }
           },
           composerSecondaryActions: <SecondaryActions />
@@ -277,9 +303,24 @@ const Comments = props => {
         return (
           <>
             <div {...styles.orderByContainer}>
-              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='DATE' />
-              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='VOTES' />
-              <OrderBy t={t} orderBy={orderBy} setOrderBy={setOrderBy} value='REPLIES' />
+              <OrderBy
+                t={t}
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                value='DATE'
+              />
+              <OrderBy
+                t={t}
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                value='VOTES'
+              />
+              <OrderBy
+                t={t}
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                value='REPLIES'
+              />
               <A {...styles.reloadLink} href='' onClick={onReload}>
                 {t('components/Discussion/reload')}
               </A>
@@ -294,7 +335,9 @@ const Comments = props => {
                       authorName: focus.displayAuthor.name,
                       quotedDiscussionTitle: inQuotes(discussion.title)
                     }),
-                    description: focus.preview ? focus.preview.string : undefined,
+                    description: focus.preview
+                      ? focus.preview.string
+                      : undefined,
                     url: getFocusUrl(discussion, focus.id)
                   }}
                 />
@@ -358,7 +401,10 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
     }
   })
 
-  const childrenOfComment = id => nodes.filter(n => n.parentIds[n.parentIds.length - 1] === id).map(convertComment)
+  const childrenOfComment = id =>
+    nodes
+      .filter(n => n.parentIds[n.parentIds.length - 1] === id)
+      .map(convertComment)
 
   return {
     totalCount,
@@ -368,7 +414,9 @@ const asTree = ({ totalCount, directTotalCount, pageInfo, nodes }) => {
   }
 }
 
-const EmptyDiscussion = ({ t }) => <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
+const EmptyDiscussion = ({ t }) => (
+  <div {...styles.emptyDiscussion}>{t('components/Discussion/empty')}</div>
+)
 
 const OrderBy = ({ t, orderBy, setOrderBy, value }) => (
   <button

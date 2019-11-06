@@ -15,12 +15,17 @@ import { shouldIgnoreClick } from '../Link/utils'
 import Detail from './Detail'
 
 import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL, ASSETS_SERVER_BASE_URL
+  PUBLIC_BASE_URL,
+  CDN_FRONTEND_BASE_URL,
+  ASSETS_SERVER_BASE_URL
 } from '../../lib/constants'
 
 import {
-  Interaction, mediaQueries, fontFamilies,
-  Field, A
+  Interaction,
+  mediaQueries,
+  fontFamilies,
+  Field,
+  A
 } from '@project-r/styleguide'
 
 const { P } = Interaction
@@ -39,7 +44,9 @@ const PADDING = 5
 const getItemStyles = (singleRow, minColumns = 1, maxColumns = 5) => {
   const sizes = [
     { minWidth: 0, columns: minColumns },
-    ...SIZES.filter(({ minWidth, columns }) => columns > minColumns && columns <= maxColumns)
+    ...SIZES.filter(
+      ({ minWidth, columns }) => columns > minColumns && columns <= maxColumns
+    )
   ]
   return css({
     display: 'block',
@@ -146,26 +153,46 @@ const styles = {
   })
 }
 
-export const Item = ({ previewImage, image, name, isActive, href, onClick, singleRow, minColumns, maxColumns, style }) => {
+export const Item = ({
+  previewImage,
+  image,
+  name,
+  isActive,
+  href,
+  onClick,
+  singleRow,
+  minColumns,
+  maxColumns,
+  style
+}) => {
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns, maxColumns)
     : singleRow
-      ? styles.singleRowItem
-      : styles.item
+    ? styles.singleRowItem
+    : styles.item
   const Element = href ? 'a' : 'span'
   return (
-    <Element href={href} {...itemStyles} style={{
-      ...style,
-      cursor: href ? 'pointer' : undefined
-    }} onClick={href && onClick}>
+    <Element
+      href={href}
+      {...itemStyles}
+      style={{
+        ...style,
+        cursor: href ? 'pointer' : undefined
+      }}
+      onClick={href && onClick}
+    >
       <span {...styles.aspect}>
-        {previewImage
-          ? <span {...styles.previewImage} style={{
-            backgroundImage: `url(${previewImage})`
-          }} />
-          : <img src={image} {...styles.aspectImg} />}
-        <span {...styles.aspectFade}
-          style={{ opacity: isActive ? 0 : 1 }} />
+        {previewImage ? (
+          <span
+            {...styles.previewImage}
+            style={{
+              backgroundImage: `url(${previewImage})`
+            }}
+          />
+        ) : (
+          <img src={image} {...styles.aspectImg} />
+        )}
+        <span {...styles.aspectFade} style={{ opacity: isActive ? 0 : 1 }} />
       </span>
       {!isActive && <span {...styles.name}>{name}</span>}
       {isActive && <span {...styles.itemArrow} />}
@@ -176,7 +203,7 @@ export const Item = ({ previewImage, image, name, isActive, href, onClick, singl
 const AUTO_INFINITE = 300
 
 export class List extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       seed: props.seed || generateSeed(),
@@ -187,11 +214,9 @@ export class List extends Component {
     }
     this.measure = () => {
       const maxColumns = this.getMaxColumns()
-      const sizeIndex = max(SIZES, (d, i) => (
-        d.minWidth <= window.innerWidth && maxColumns >= d.columns
-          ? i
-          : -1
-      ))
+      const sizeIndex = max(SIZES, (d, i) =>
+        d.minWidth <= window.innerWidth && maxColumns >= d.columns ? i : -1
+      )
       const size = SIZES[sizeIndex]
       const columns = size.columns
       if (columns !== this.state.columns && this.props.statements) {
@@ -204,7 +229,9 @@ export class List extends Component {
       }
       this.onScroll()
     }
-    this.ref = ref => { this.container = ref }
+    this.ref = ref => {
+      this.container = ref
+    }
     this.onScroll = () => {
       const { statements, isPage, hasMore } = this.props
 
@@ -213,58 +240,73 @@ export class List extends Component {
         if (bbox.bottom < window.innerHeight * 2) {
           const { isFetchingMore, endless } = this.state
           if (
-            isFetchingMore || !hasMore ||
+            isFetchingMore ||
+            !hasMore ||
             (statements.length >= AUTO_INFINITE && !endless)
           ) {
             return
           }
-          this.setState(() => ({
-            isFetchingMore: true
-          }), () => {
-            const query = this.query = [
-              this.props.seed,
-              this.props.focus,
-              this.props.query
-            ].join('_')
-            this.props.loadMore().then(({ data }) => {
-              if (query !== this.query) {
+          this.setState(
+            () => ({
+              isFetchingMore: true
+            }),
+            () => {
+              const query = (this.query = [
+                this.props.seed,
+                this.props.focus,
+                this.props.query
+              ].join('_'))
+              this.props.loadMore().then(({ data }) => {
+                if (query !== this.query) {
+                  this.setState(
+                    () => ({
+                      isFetchingMore: false
+                    }),
+                    () => {
+                      this.onScroll()
+                    }
+                  )
+                  return
+                }
                 this.setState(() => ({
                   isFetchingMore: false
-                }), () => {
-                  this.onScroll()
-                })
-                return
-              }
-              this.setState(() => ({
-                isFetchingMore: false
-              }))
-            })
-          })
+                }))
+              })
+            }
+          )
         }
       }
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.props.isPage && window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.measure()
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.isPage && window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
-  getMaxColumns () {
+  getMaxColumns() {
     return this.props.singleRow ? this.props.first : 5
   }
-  render () {
+  render() {
     const {
-      loading, error, statements, t,
-      onSelect, focus, isPage,
-      search, hasMore, totalCount,
-      singleRow, minColumns,
+      loading,
+      error,
+      statements,
+      t,
+      onSelect,
+      focus,
+      isPage,
+      search,
+      hasMore,
+      totalCount,
+      singleRow,
+      minColumns,
       showCredentials,
       share
     } = this.props
@@ -286,37 +328,42 @@ export class List extends Component {
           const lastIndex = statements.length - 1
           const focusItem = focus && statements[0]
 
-          const singleRowOpenItem = (
+          const singleRowOpenItem =
             singleRow &&
             open[0] &&
             statements.find(statement => statement.id === open[0])
-          )
 
           statements.forEach(({ id, portrait, name, credentials }, i) => {
             const row = singleRow ? 0 : Math.floor(i / columns)
             const offset = i % columns
             const openId = open[row - 1]
-            if (
-              !singleRow && openId && offset === 0
-            ) {
-              const openItem = statements
-                .find(statement => statement.id === openId)
+            if (!singleRow && openId && offset === 0) {
+              const openItem = statements.find(
+                statement => statement.id === openId
+              )
               if (openItem) {
                 items.push(
                   <Detail
                     key={`detail${row - 1}`}
                     share={share}
-                    t={t} data={openItem} />
+                    t={t}
+                    data={openItem}
+                  />
                 )
               }
             }
 
             const isActive = open[row] === id
-            const credential = showCredentials && credentials && credentials[0] && credentials[0].description
+            const credential =
+              showCredentials &&
+              credentials &&
+              credentials[0] &&
+              credentials[0].description
             const label = [name, credential].filter(Boolean).join(', ')
 
-            items.push((
-              <Item key={id}
+            items.push(
+              <Item
+                key={id}
                 image={portrait}
                 name={label}
                 isActive={isActive}
@@ -324,7 +371,7 @@ export class List extends Component {
                 minColumns={minColumns}
                 maxColumns={this.getMaxColumns()}
                 href={id && `/community?id=${id}`}
-                onClick={(e) => {
+                onClick={e => {
                   if (shouldIgnoreClick(e)) {
                     return
                   }
@@ -332,44 +379,56 @@ export class List extends Component {
                   if (onSelect && onSelect(id) === false) {
                     return
                   }
-                  this.setState((state) => ({
+                  this.setState(state => ({
                     open: {
                       ...state.open,
                       [row]: state.open[row] === id ? undefined : id
                     }
                   }))
-                }} />
-            ))
+                }}
+              />
+            )
 
             const lastOpenId = open[row]
-            if (
-              !singleRow && i === lastIndex && lastOpenId
-            ) {
-              const openItem = statements
-                .find(statement => statement.id === lastOpenId)
+            if (!singleRow && i === lastIndex && lastOpenId) {
+              const openItem = statements.find(
+                statement => statement.id === lastOpenId
+              )
               if (openItem) {
                 items.push(
-                  <Detail key={`detail${row}`} share={share} t={t} data={openItem} />
+                  <Detail
+                    key={`detail${row}`}
+                    share={share}
+                    t={t}
+                    data={openItem}
+                  />
                 )
               }
             }
           })
 
           const metaData = focusItem
-            ? ({
-              pageTitle: t('testimonial/meta/single/pageTitle', focusItem),
-              title: t('testimonial/meta/single/title', focusItem),
-              description: t('testimonial/meta/single/description', focusItem),
-              url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
-              image: `${ASSETS_SERVER_BASE_URL}/render?viewport=1200x628&updatedAt=${encodeURIComponent(focusItem.updatedAt)}&url=${encodeURIComponent(`${PUBLIC_BASE_URL}/community?share=${focusItem.id}`)}`
-            })
-            : ({
-              pageTitle: t('testimonial/meta/pageTitle'),
-              title: t('testimonial/meta/title'),
-              description: t('testimonial/meta/description'),
-              url: `${PUBLIC_BASE_URL}/community`,
-              image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
-            })
+            ? {
+                pageTitle: t('testimonial/meta/single/pageTitle', focusItem),
+                title: t('testimonial/meta/single/title', focusItem),
+                description: t(
+                  'testimonial/meta/single/description',
+                  focusItem
+                ),
+                url: `${PUBLIC_BASE_URL}/community?id=${focusItem.id}`,
+                image: `${ASSETS_SERVER_BASE_URL}/render?viewport=1200x628&updatedAt=${encodeURIComponent(
+                  focusItem.updatedAt
+                )}&url=${encodeURIComponent(
+                  `${PUBLIC_BASE_URL}/community?share=${focusItem.id}`
+                )}`
+              }
+            : {
+                pageTitle: t('testimonial/meta/pageTitle'),
+                title: t('testimonial/meta/title'),
+                description: t('testimonial/meta/description'),
+                url: `${PUBLIC_BASE_URL}/community`,
+                image: `${CDN_FRONTEND_BASE_URL}/static/social-media/community.jpg`
+              }
 
           return (
             <Fragment>
@@ -377,22 +436,24 @@ export class List extends Component {
                 {!!isPage && <Meta data={metaData} />}
                 {items}
                 <div style={{ marginBottom: 20 }} />
-                {
-                  statements.length >= AUTO_INFINITE &&
+                {statements.length >= AUTO_INFINITE &&
                   !this.state.endless &&
                   hasMore && (
                     <P {...styles.more}>
-                      <A href='#' onClick={e => {
-                        e.preventDefault()
-                        this.setState(
-                          () => ({
-                            endless: true
-                          }),
-                          () => {
-                            this.onScroll()
-                          }
-                        )
-                      }}>
+                      <A
+                        href='#'
+                        onClick={e => {
+                          e.preventDefault()
+                          this.setState(
+                            () => ({
+                              endless: true
+                            }),
+                            () => {
+                              this.onScroll()
+                            }
+                          )
+                        }}
+                      >
                         {t('testimonial/infinite/endless', {
                           count: AUTO_INFINITE,
                           remaining: totalCount - AUTO_INFINITE
@@ -401,16 +462,20 @@ export class List extends Component {
                     </P>
                   )}
                 {!hasMore && hasEndText && (
-                  <P {...styles.more}>{t('testimonial/infinite/end', {
-                    count: statements.length
-                  })}</P>
+                  <P {...styles.more}>
+                    {t('testimonial/infinite/end', {
+                      count: statements.length
+                    })}
+                  </P>
                 )}
               </div>
-              {singleRowOpenItem && <Detail
-                t={t} share={share} data={singleRowOpenItem} />}
+              {singleRowOpenItem && (
+                <Detail t={t} share={share} data={singleRowOpenItem} />
+              )}
             </Fragment>
           )
-        }} />
+        }}
+      />
     )
   }
 }
@@ -447,15 +512,18 @@ const ListWithQuery = compose(
   withT,
   graphql(query, {
     props: ({ data }) => {
-      return ({
+      return {
         loading: data.loading,
         error: data.error,
         totalCount: data.statements && data.statements.totalCount,
         statements: data.statements && data.statements.nodes,
         hasMore: data.statements && data.statements.pageInfo.hasNextPage,
-        loadMore () {
+        loadMore() {
           return data.fetchMore({
-            updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
+            updateQuery: (
+              previousResult,
+              { fetchMoreResult, queryVariables }
+            ) => {
               const nodes = [
                 ...previousResult.statements.nodes,
                 ...fetchMoreResult.statements.nodes
@@ -464,9 +532,10 @@ const ListWithQuery = compose(
                 ...fetchMoreResult,
                 statements: {
                   ...fetchMoreResult.statements,
-                  nodes: nodes.filter(({ id }, index, all) => (
-                    index === all.findIndex(node => node.id === id)
-                  ))
+                  nodes: nodes.filter(
+                    ({ id }, index, all) =>
+                      index === all.findIndex(node => node.id === id)
+                  )
                 }
               }
             },
@@ -475,7 +544,7 @@ const ListWithQuery = compose(
             }
           })
         }
-      })
+      }
     }
   })
 )(List)
@@ -488,11 +557,11 @@ ListWithQuery.defaultProps = {
 export const generateSeed = () => Math.random() * 2 - 1
 
 class Container extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
   }
-  render () {
+  render() {
     const { t, id, isPage } = this.props
     const { query } = this.state
 
@@ -500,7 +569,8 @@ class Container extends Component {
 
     return (
       <div>
-        <Field label={t('testimonial/search/label')}
+        <Field
+          label={t('testimonial/search/label')}
           name='search'
           value={query}
           autoComplete='off'
@@ -508,13 +578,19 @@ class Container extends Component {
             this.setState(() => ({
               query: value
             }))
-          }} />
+          }}
+        />
         <div {...styles.options}>
-          <A style={{ float: 'right', cursor: 'pointer' }} onClick={() => {
-            this.setState(() => ({
-              seed: generateSeed()
-            }))
-          }}>{t('testimonial/search/seed')}</A>
+          <A
+            style={{ float: 'right', cursor: 'pointer' }}
+            onClick={() => {
+              this.setState(() => ({
+                seed: generateSeed()
+              }))
+            }}
+          >
+            {t('testimonial/search/seed')}
+          </A>
         </div>
         <br style={{ clear: 'left' }} />
         <ListWithQuery
@@ -524,24 +600,22 @@ class Container extends Component {
             if (!id) {
               return
             }
-            this.setState(() => ({
-              // keep it around for the query
-              clearedFocus: id
-            }), () => {
-              Router.pushRoute(
-                'community',
-                {},
-                { shallow: true }
-              )
-            })
+            this.setState(
+              () => ({
+                // keep it around for the query
+                clearedFocus: id
+              }),
+              () => {
+                Router.pushRoute('community', {}, { shallow: true })
+              }
+            )
           }}
           search={query}
-          seed={seed} />
+          seed={seed}
+        />
       </div>
     )
   }
 }
 
-export default compose(
-  withT
-)(Container)
+export default compose(withT)(Container)

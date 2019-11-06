@@ -7,11 +7,7 @@ import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
 import Loader from '../Loader'
 
-import {
-  mediaQueries,
-  Center,
-  Interaction
-} from '@project-r/styleguide'
+import { mediaQueries, Center, Interaction } from '@project-r/styleguide'
 import DocumentList from './DocumentList'
 import { makeLoadMore, documentFragment } from './DocumentListContainer'
 
@@ -33,12 +29,12 @@ const query = gql`
     }
     documents: search(
       filters: [
-        {key: "template", not: true, value: "format"},
-        {key: "template", not: true, value: "front"}
-      ], 
-      filter: {feed: true},
-      sort: {key: publishedAt, direction: DESC},
-      first: 30,
+        { key: "template", not: true, value: "format" }
+        { key: "template", not: true, value: "front" }
+      ]
+      filter: { feed: true }
+      sort: { key: publishedAt, direction: DESC }
+      first: 30
       after: $cursor
     ) {
       totalCount
@@ -66,19 +62,19 @@ const greetingSubscription = gql`
 `
 
 class Feed extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.subscribe()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.subscribe()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unsubscribe && this.unsubscribe()
   }
 
-  subscribe () {
+  subscribe() {
     if (!this.unsubscribe && this.props.data.greeting) {
       this.unsubscribe = this.props.data.subscribeToMore({
         document: greetingSubscription,
@@ -102,8 +98,11 @@ class Feed extends Component {
     }
   }
 
-  render () {
-    const { meta, data: { error, loading, greeting, documents: connection, fetchMore } } = this.props
+  render() {
+    const {
+      meta,
+      data: { error, loading, greeting, documents: connection, fetchMore }
+    } = this.props
 
     const mapNodes = node => node.entity
 
@@ -134,8 +133,8 @@ class Feed extends Component {
                   />
                 </>
               )
-            }
-            } />
+            }}
+          />
         </Center>
       </Frame>
     )

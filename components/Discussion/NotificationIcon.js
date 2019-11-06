@@ -19,23 +19,16 @@ export const styles = {
   })
 }
 
-const Icon = ({
-  off,
-  fill,
-  children,
-  size = DEFAULT_SIZE,
-  style,
-  onClick
-}) => {
+const Icon = ({ off, fill, children, size = DEFAULT_SIZE, style, onClick }) => {
   const Icon = off ? NotificationsOffIcon : NotificationsIcon
 
   return (
-    <a
-      {...styles.link}
-      onClick={onClick}
-      style={style}
-    >
-      <Icon fill={fill} size={size} style={{ position: 'absolute', top: '0', height: '1.0625rem' }} />
+    <a {...styles.link} onClick={onClick} style={style}>
+      <Icon
+        fill={fill}
+        size={size}
+        style={{ position: 'absolute', top: '0', height: '1.0625rem' }}
+      />
       {children && (
         <span {...styles.text} style={{ paddingLeft: `${size + 5}px` }}>
           {children}

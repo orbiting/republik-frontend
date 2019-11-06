@@ -2,9 +2,7 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { css } from 'glamor'
 
-import {
-  Interaction, H2, mediaQueries, inQuotes
-} from '@project-r/styleguide'
+import { Interaction, H2, mediaQueries, inQuotes } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -54,7 +52,7 @@ export const fragments = {
   `
 }
 
-export default (props) => {
+export default props => {
   const { employee } = props
 
   if (!employee) {
@@ -70,7 +68,9 @@ export default (props) => {
       )}
       <div>
         <H2>{inQuotes(employee.greeting)}</H2>
-        <P>– {employee.name}, {employee.group}</P>
+        <P>
+          – {employee.name}, {employee.group}
+        </P>
       </div>
     </div>
   )

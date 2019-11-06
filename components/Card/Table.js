@@ -10,7 +10,11 @@ import RevertIcon from 'react-icons/lib/md/rotate-left'
 import MdCheck from 'react-icons/lib/md/check'
 
 import {
-  fontStyles, Editorial, plainButtonRule, InlineSpinner, colors
+  fontStyles,
+  Editorial,
+  plainButtonRule,
+  InlineSpinner,
+  colors
 } from '@project-r/styleguide'
 
 import { Link } from '../../lib/routes'
@@ -75,11 +79,16 @@ const styles = {
 }
 
 export const Table = ({ children }) => (
-  <div style={{ overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING }}>
+  <div
+    style={{
+      overflowX: 'auto',
+      overflowY: 'hidden',
+      marginLeft: -PADDING,
+      marginRight: -PADDING
+    }}
+  >
     <table {...styles.table}>
-      <tbody>
-        {children}
-      </tbody>
+      <tbody>{children}</tbody>
     </table>
   </div>
 )
@@ -92,125 +101,179 @@ export const TitleRow = ({ children, first }) => (
   </tr>
 )
 
-const keySort = [
-  'Gewählt sind:',
-  'Noch offen:',
-  'Nicht gewählt sind:'
-]
+const keySort = ['Gewählt sind:', 'Noch offen:', 'Nicht gewählt sind:']
 
 export const CardRows = ({ nodes, revertCard, ignoreCard, followCard, t }) => (
   <>
     {nest()
-      .key(({ card: { payload } }) => payload.nationalCouncil.elected || payload.councilOfStates.elected
-        ? 'Gewählt sind:'
-        : payload.councilOfStates.candidacy && payload.councilOfStates.secondBallotNecessary
+      .key(({ card: { payload } }) =>
+        payload.nationalCouncil.elected || payload.councilOfStates.elected
+          ? 'Gewählt sind:'
+          : payload.councilOfStates.candidacy &&
+            payload.councilOfStates.secondBallotNecessary
           ? 'Noch offen:'
-          : 'Nicht gewählt sind:')
+          : 'Nicht gewählt sind:'
+      )
       .sortKeys((a, b) => ascending(keySort.indexOf(a), keySort.indexOf(b)))
-      .sortValues((a, b) =>
-        descending(
-          Math.max(a.card.payload.nationalCouncil.votes || 0, a.card.payload.councilOfStates.votes || 0),
-          Math.max(b.card.payload.nationalCouncil.votes || 0, b.card.payload.councilOfStates.votes || 0)
-        ) ||
-        ascending(
-          a.card.payload.nationalCouncil.listNumbers[0],
-          b.card.payload.nationalCouncil.listNumbers[0]
-        )
+      .sortValues(
+        (a, b) =>
+          descending(
+            Math.max(
+              a.card.payload.nationalCouncil.votes || 0,
+              a.card.payload.councilOfStates.votes || 0
+            ),
+            Math.max(
+              b.card.payload.nationalCouncil.votes || 0,
+              b.card.payload.councilOfStates.votes || 0
+            )
+          ) ||
+          ascending(
+            a.card.payload.nationalCouncil.listNumbers[0],
+            b.card.payload.nationalCouncil.listNumbers[0]
+          )
       )
       .entries(nodes)
       .map(({ key, values: cards }, listI) => (
         <Fragment key={key}>
           <tr>
-            <th {...styles.td} style={{
-              paddingTop: 10, paddingBottom: 5
-            }}>
+            <th
+              {...styles.td}
+              style={{
+                paddingTop: 10,
+                paddingBottom: 5
+              }}
+            >
               {key}
             </th>
-            <th {...styles.num} style={{
-              paddingTop: 10, paddingBottom: 5
-            }}>
+            <th
+              {...styles.num}
+              style={{
+                paddingTop: 10,
+                paddingBottom: 5
+              }}
+            >
               Stimmen
             </th>
             <th />
           </tr>
           {cards.map(({ card, sub, pending }, i) => {
-            const dualCandidacy = !!card.payload.councilOfStates.candidacy && !!card.payload.nationalCouncil.candidacy
-            return <tr key={`entity${i}`} style={{
-              background: i % 2 ? colors.secondaryBg : undefined
-            }}>
-              <td {...styles.td}>
-                <Link route='profile' params={{ slug: card.user.slug }} passHref>
-                  <Editorial.A>
-                    {card.user.name}
-                    {card.payload.party && `, ${card.payload.party}`}
-                  </Editorial.A>
-                </Link>
-              </td>
-              <td {...styles.num}>
-                {card.payload.councilOfStates.candidacy && card.payload.councilOfStates.votes !== null && <>
-                  {'SR: '}
-                  {card.payload.councilOfStates.elected && <MdCheck {...mdCheckProps} />}
-                  {!!card.payload.councilOfStates.votes && countFormat(card.payload.councilOfStates.votes)}
-                  {card.payload.councilOfStates.secondBallotNecessary && !card.payload.councilOfStates.elected && <>
-                    <br />
-                    noch offen
-                  </>}
-                </>}
-                {dualCandidacy && <br />}
-                {card.payload.nationalCouncil.candidacy && card.payload.nationalCouncil.votes !== null && <>
-                  {dualCandidacy ? 'NR: ' : ''}
-                  {card.payload.nationalCouncil.elected && <MdCheck {...mdCheckProps} />}
-                  {!!card.payload.nationalCouncil.votes && countFormat(card.payload.nationalCouncil.votes)}
-                </>}
-              </td>
-              <td {...styles.td} style={{
-                whiteSpace: 'nowrap',
-                width: 85,
-                paddingTop: 3,
-                paddingBottom: 3
-              }}>
-                {pending ? <InlineSpinner size={18} /> : <>
-                  <button {...styles.actionButton}
-                    title={t('components/Card/Group/revert')}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      revertCard(card)
-                    }}
-                    style={{
-                      backgroundColor: cardColors.revert
-                    }}
+            const dualCandidacy =
+              !!card.payload.councilOfStates.candidacy &&
+              !!card.payload.nationalCouncil.candidacy
+            return (
+              <tr
+                key={`entity${i}`}
+                style={{
+                  background: i % 2 ? colors.secondaryBg : undefined
+                }}
+              >
+                <td {...styles.td}>
+                  <Link
+                    route='profile'
+                    params={{ slug: card.user.slug }}
+                    passHref
                   >
-                    <RevertIcon fill='#fff' size={14} />
-                  </button>
-                  <button {...styles.actionButton}
-                    title={t('components/Card/Group/ignore')}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      ignoreCard && ignoreCard(card)
-                    }}
-                    style={{
-                      backgroundColor: ignoreCard ? cardColors.left : colors.disabled,
-                      cursor: ignoreCard ? 'pointer' : 'default'
-                    }}
-                  >
-                    <IgnoreIcon fill='#fff' size={14} />
-                  </button>
-                  <button {...styles.actionButton}
-                    title={t('components/Card/Group/follow')}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      followCard && followCard(card)
-                    }}
-                    style={{
-                      backgroundColor: followCard ? cardColors.right : colors.disabled,
-                      cursor: followCard ? 'pointer' : 'default'
-                    }}
-                  >
-                    <FollowIcon fill='#fff' size={14} />
-                  </button>
-                </>}
-              </td>
-            </tr>
+                    <Editorial.A>
+                      {card.user.name}
+                      {card.payload.party && `, ${card.payload.party}`}
+                    </Editorial.A>
+                  </Link>
+                </td>
+                <td {...styles.num}>
+                  {card.payload.councilOfStates.candidacy &&
+                    card.payload.councilOfStates.votes !== null && (
+                      <>
+                        {'SR: '}
+                        {card.payload.councilOfStates.elected && (
+                          <MdCheck {...mdCheckProps} />
+                        )}
+                        {!!card.payload.councilOfStates.votes &&
+                          countFormat(card.payload.councilOfStates.votes)}
+                        {card.payload.councilOfStates.secondBallotNecessary &&
+                          !card.payload.councilOfStates.elected && (
+                            <>
+                              <br />
+                              noch offen
+                            </>
+                          )}
+                      </>
+                    )}
+                  {dualCandidacy && <br />}
+                  {card.payload.nationalCouncil.candidacy &&
+                    card.payload.nationalCouncil.votes !== null && (
+                      <>
+                        {dualCandidacy ? 'NR: ' : ''}
+                        {card.payload.nationalCouncil.elected && (
+                          <MdCheck {...mdCheckProps} />
+                        )}
+                        {!!card.payload.nationalCouncil.votes &&
+                          countFormat(card.payload.nationalCouncil.votes)}
+                      </>
+                    )}
+                </td>
+                <td
+                  {...styles.td}
+                  style={{
+                    whiteSpace: 'nowrap',
+                    width: 85,
+                    paddingTop: 3,
+                    paddingBottom: 3
+                  }}
+                >
+                  {pending ? (
+                    <InlineSpinner size={18} />
+                  ) : (
+                    <>
+                      <button
+                        {...styles.actionButton}
+                        title={t('components/Card/Group/revert')}
+                        onClick={e => {
+                          e.preventDefault()
+                          revertCard(card)
+                        }}
+                        style={{
+                          backgroundColor: cardColors.revert
+                        }}
+                      >
+                        <RevertIcon fill='#fff' size={14} />
+                      </button>
+                      <button
+                        {...styles.actionButton}
+                        title={t('components/Card/Group/ignore')}
+                        onClick={e => {
+                          e.preventDefault()
+                          ignoreCard && ignoreCard(card)
+                        }}
+                        style={{
+                          backgroundColor: ignoreCard
+                            ? cardColors.left
+                            : colors.disabled,
+                          cursor: ignoreCard ? 'pointer' : 'default'
+                        }}
+                      >
+                        <IgnoreIcon fill='#fff' size={14} />
+                      </button>
+                      <button
+                        {...styles.actionButton}
+                        title={t('components/Card/Group/follow')}
+                        onClick={e => {
+                          e.preventDefault()
+                          followCard && followCard(card)
+                        }}
+                        style={{
+                          backgroundColor: followCard
+                            ? cardColors.right
+                            : colors.disabled,
+                          cursor: followCard ? 'pointer' : 'default'
+                        }}
+                      >
+                        <FollowIcon fill='#fff' size={14} />
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            )
           })}
         </Fragment>
       ))}

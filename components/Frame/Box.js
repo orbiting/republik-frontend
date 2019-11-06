@@ -1,9 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 
-import {
-  colors
-} from '@project-r/styleguide'
+import { colors } from '@project-r/styleguide'
 
 const styles = {
   box: css({

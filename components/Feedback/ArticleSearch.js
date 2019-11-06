@@ -33,18 +33,22 @@ const Icon = ({ IconComponent, onClick, title, fill }) => (
   <button
     title={title}
     {...styles.button}
-    onClick={onClick ? e => {
-      e.preventDefault()
-      e.stopPropagation()
-      onClick()
-    } : undefined}
+    onClick={
+      onClick
+        ? e => {
+            e.preventDefault()
+            e.stopPropagation()
+            onClick()
+          }
+        : undefined
+    }
   >
     <IconComponent fill={fill} size={30} />
   </button>
 )
 
 class ArticleSearch extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
 
     this.state = {
@@ -60,16 +64,20 @@ class ArticleSearch extends Component {
     }
   }
 
-  onChange = (value) => {
+  onChange = value => {
     const { onChange } = this.props
     if (!value) {
-      this.setState({ value: null, meta: {} }, () => { onChange && onChange(null) })
+      this.setState({ value: null, meta: {} }, () => {
+        onChange && onChange(null)
+      })
     } else {
-      this.setState({ ...value }, () => { onChange && onChange(value) })
+      this.setState({ ...value }, () => {
+        onChange && onChange(value)
+      })
     }
   }
 
-  onFilterChange = (filter) => {
+  onFilterChange = filter => {
     this.performSearch.cancel()
     if (filter.length < 3) {
       this.setState({ filter, items: [] })
@@ -78,84 +86,95 @@ class ArticleSearch extends Component {
     }
   }
 
-  performSearch = debounce((search) => {
+  performSearch = debounce(search => {
     const { t } = this.props
     this.setState({ loading: true })
     const { client } = this.props
-    client.query({
-      query: getArticleSearchResults,
-      variables: {
-        search,
-        'sort': {
-          'key': 'relevance'
-        },
-        filters: [
-          {
-            'key': 'template',
-            'value': 'article'
+    client
+      .query({
+        query: getArticleSearchResults,
+        variables: {
+          search,
+          sort: {
+            key: 'relevance'
           },
-          {
-            'key': 'template',
-            'value': 'front',
-            'not': true
-          }
-        ]
-      }
-    }).then(res => {
-      const filteredNodes =
-        res.data &&
-        res.data.search.nodes.filter(n => {
-          const meta = n.entity && n.entity.meta
-          return (
-            meta &&
-            ((meta.ownDiscussion && !meta.ownDiscussion.closed) ||
-              (meta.linkedDiscussion && !meta.linkedDiscussion.closed))
-          )
-        })
-      const items = filteredNodes.length
-        ? filteredNodes.map(n => {
-          const meta = n.entity && n.entity.meta
-          const linkedDiscussion =
-              meta &&
-              meta.linkedDiscussion &&
-              !meta.linkedDiscussion.closed &&
-              (!meta.linkedDiscussion.closed || (meta.linkedDiscussion.comments && meta.linkedDiscussion.comments.totalCount > 0)) &&
-              meta.linkedDiscussion
-          const discussionId =
-              meta &&
-              ((meta.ownDiscussion &&
-                (!meta.ownDiscussion.closed || (meta.ownDiscussion.comments && meta.ownDiscussion.comments.totalCount > 0)) &&
-                meta.ownDiscussion.id) ||
-                (linkedDiscussion && linkedDiscussion.id))
-
-          return {
-            discussionId,
-            routePath: linkedDiscussion && linkedDiscussion.path,
-            meta: {
-              title: meta.title,
-              credits: meta.credits,
-              path: meta.path
+          filters: [
+            {
+              key: 'template',
+              value: 'article'
             },
-            text: (
-              <ArticleItem
-                title={meta.title}
-                newPage={!!linkedDiscussion}
-                iconSize={24}
-                Wrapper={Interaction.P}
-              />
-            ),
-            value: discussionId
-          }
-        }) : [{
-          discussionId: null,
-          text: <NoResultsItem title={t('feedback/articleSearch/empty')} />,
-          value: 'none'
-        }]
-      this.setState({ items, loading: false })
-    })
+            {
+              key: 'template',
+              value: 'front',
+              not: true
+            }
+          ]
+        }
+      })
+      .then(res => {
+        const filteredNodes =
+          res.data &&
+          res.data.search.nodes.filter(n => {
+            const meta = n.entity && n.entity.meta
+            return (
+              meta &&
+              ((meta.ownDiscussion && !meta.ownDiscussion.closed) ||
+                (meta.linkedDiscussion && !meta.linkedDiscussion.closed))
+            )
+          })
+        const items = filteredNodes.length
+          ? filteredNodes.map(n => {
+              const meta = n.entity && n.entity.meta
+              const linkedDiscussion =
+                meta &&
+                meta.linkedDiscussion &&
+                !meta.linkedDiscussion.closed &&
+                (!meta.linkedDiscussion.closed ||
+                  (meta.linkedDiscussion.comments &&
+                    meta.linkedDiscussion.comments.totalCount > 0)) &&
+                meta.linkedDiscussion
+              const discussionId =
+                meta &&
+                ((meta.ownDiscussion &&
+                  (!meta.ownDiscussion.closed ||
+                    (meta.ownDiscussion.comments &&
+                      meta.ownDiscussion.comments.totalCount > 0)) &&
+                  meta.ownDiscussion.id) ||
+                  (linkedDiscussion && linkedDiscussion.id))
+
+              return {
+                discussionId,
+                routePath: linkedDiscussion && linkedDiscussion.path,
+                meta: {
+                  title: meta.title,
+                  credits: meta.credits,
+                  path: meta.path
+                },
+                text: (
+                  <ArticleItem
+                    title={meta.title}
+                    newPage={!!linkedDiscussion}
+                    iconSize={24}
+                    Wrapper={Interaction.P}
+                  />
+                ),
+                value: discussionId
+              }
+            })
+          : [
+              {
+                discussionId: null,
+                text: (
+                  <NoResultsItem title={t('feedback/articleSearch/empty')} />
+                ),
+                value: 'none'
+              }
+            ]
+        this.setState({ items, loading: false })
+      })
   }, 200)
 
-  render () {
+  render() {
     const { t } = this.props
     const { value, filter, items, loading, isOpen } = this.state
 
@@ -174,20 +193,19 @@ class ArticleSearch extends Component {
               <div style={{ height: 30, width: 30, position: 'relative' }}>
                 <Spinner size={30} />
               </div>
+            ) : filter ? (
+              <Icon
+                IconComponent={Close}
+                fill={filter ? colors.text : colors.disabled}
+                onClick={this.onReset}
+                title={t('search/input/reset/aria')}
+              />
+            ) : (
+              <Icon
+                IconComponent={Search}
+                fill={filter ? colors.text : colors.disabled}
+              />
             )
-              : filter ? (
-                <Icon
-                  IconComponent={Close}
-                  fill={filter ? colors.text : colors.disabled}
-                  onClick={this.onReset}
-                  title={t('search/input/reset/aria')}
-                />
-              ) : (
-                <Icon
-                  IconComponent={Search}
-                  fill={filter ? colors.text : colors.disabled}
-                />
-              )
           }
         />
       </div>

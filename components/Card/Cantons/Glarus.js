@@ -3,7 +3,7 @@ import React from 'react'
 const SvgGlarus = props => (
   <svg
     width={props.size}
-    height={props.size * 471.439 / 469.862}
+    height={(props.size * 471.439) / 469.862}
     viewBox='-205.784 -206.266 469.862 471.439'
     {...props}
   >

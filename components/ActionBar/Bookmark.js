@@ -12,7 +12,8 @@ import { colors } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
 
 import {
-  onDocumentFragment, BOOKMARKS_COLLECTION_NAME
+  onDocumentFragment,
+  BOOKMARKS_COLLECTION_NAME
 } from '../Bookmarks/fragments'
 
 import { getBookmarkedDocuments } from '../Bookmarks/queries'
@@ -30,7 +31,7 @@ const styles = {
 }
 
 class Bookmark extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -51,7 +52,9 @@ class Bookmark extends Component {
         removeDocumentFromCollection,
         documentId
       } = this.props
-      const mutate = bookmarked ? removeDocumentFromCollection : addDocumentToCollection
+      const mutate = bookmarked
+        ? removeDocumentFromCollection
+        : addDocumentToCollection
       mutate(documentId, this.props.router.route !== '/bookmarks')
         .then(this.finish)
         .catch(this.catchServerError)
@@ -72,7 +75,7 @@ class Bookmark extends Component {
     }
   }
 
-  render () {
+  render() {
     const { t, style, small, isMember, bookmarked } = this.props
     if (!isMember) {
       return null
@@ -88,14 +91,12 @@ class Bookmark extends Component {
         {...styles.button}
         style={style}
         title={title}
-        onClick={this.toggle}>
+        onClick={this.toggle}
+      >
         <Icon
           size={size}
-          fill={error
-            ? colors.error
-            : mutating
-              ? colors.disabled
-              : colors.text} />
+          fill={error ? colors.error : mutating ? colors.disabled : colors.text}
+        />
       </button>
     )
   }
@@ -112,11 +113,11 @@ Bookmark.propTypes = {
 }
 
 const addMutation = gql`
-  mutation addDocumentToCollection(
-    $documentId: ID!
-    $collectionName: String!
-  ) {
-    addDocumentToCollection(documentId: $documentId, collectionName: $collectionName) {
+  mutation addDocumentToCollection($documentId: ID!, $collectionName: String!) {
+    addDocumentToCollection(
+      documentId: $documentId
+      collectionName: $collectionName
+    ) {
       id
       document {
         id
@@ -133,7 +134,10 @@ const removeMutation = gql`
     $documentId: ID!
     $collectionName: String!
   ) {
-    removeDocumentFromCollection(documentId: $documentId, collectionName: $collectionName) {
+    removeDocumentFromCollection(
+      documentId: $documentId
+      collectionName: $collectionName
+    ) {
       id
       document {
         id

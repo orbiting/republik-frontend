@@ -3,7 +3,7 @@ import React from 'react'
 const SvgSchaffhausen = props => (
   <svg
     width={props.size}
-    height={props.size * 471.462 / 469.862}
+    height={(props.size * 471.462) / 469.862}
     viewBox='-205.87 -206.309 469.862 471.462'
     {...props}
   >

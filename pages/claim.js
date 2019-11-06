@@ -5,7 +5,9 @@ import { withRouter } from 'next/router'
 import isEmail from 'validator/lib/isEmail'
 
 import { maybeDecode } from '../lib/utils/base64u'
-import ClaimMembership, { sanitizeVoucherCode } from '../components/Account/Memberships/Claim'
+import ClaimMembership, {
+  sanitizeVoucherCode
+} from '../components/Account/Memberships/Claim'
 import Frame from '../components/Frame'
 import withT from '../lib/withT'
 
@@ -30,12 +32,14 @@ const Claim = ({ router: { query }, t }) => {
     ])
   }
 
-  return <Frame meta={meta}>
-    <ClaimMembership
-      context={context}
-      email={email}
-      voucherCode={code} />
-  </Frame>
+  return (
+    <Frame meta={meta}>
+      <ClaimMembership context={context} email={email} voucherCode={code} />
+    </Frame>
+  )
 }
 
-export default compose(withRouter, withT)(Claim)
+export default compose(
+  withRouter,
+  withT
+)(Claim)

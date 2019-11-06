@@ -132,21 +132,21 @@ const Nav = ({
 }) => {
   const active = matchPath(router.asPath)
   return (
-    <div {...styles.container} id="nav">
+    <div {...styles.container} id='nav'>
       <hr {...styles.hr} {...styles.hrFixed} />
       <div {...styles.sections}>
         <div {...styles.section} {...styles.sectionCompact}>
           {me && (
             <>
               <NavLink
-                route="account"
+                route='account'
                 translation={t('Frame/Popover/myaccount')}
                 active={active}
                 closeHandler={closeHandler}
               />
               {(!inNativeIOSApp || isMember) && (
                 <NavLink
-                  route="profile"
+                  route='profile'
                   params={{ slug: me.username || me.id }}
                   translation={t('Frame/Popover/myprofile')}
                   active={active}
@@ -155,7 +155,7 @@ const Nav = ({
               )}
               {isMember && (
                 <NavLink
-                  route="bookmarks"
+                  route='bookmarks'
                   translation={t('nav/bookmarks')}
                   active={active}
                   closeHandler={closeHandler}
@@ -165,7 +165,7 @@ const Nav = ({
                 <a
                   {...styles.link}
                   style={{ cursor: 'pointer' }}
-                  href="/konto#teilen"
+                  href='/konto#teilen'
                   onClick={e => {
                     if (shouldIgnoreClick(e)) {
                       return
@@ -181,7 +181,7 @@ const Nav = ({
           )}
           {!inNativeIOSApp && (
             <NavLink
-              route="pledge"
+              route='pledge'
               params={me ? { group: 'GIVE' } : undefined}
               translation={t(me ? 'nav/give' : 'nav/offers')}
               active={active}
@@ -189,7 +189,7 @@ const Nav = ({
             />
           )}
           <NavLink
-            route="events"
+            route='events'
             translation={t('nav/events')}
             active={active}
             closeHandler={closeHandler}
@@ -211,7 +211,7 @@ const Nav = ({
         <div {...styles.section}>
           {isMember && (
             <NavLink
-              route="feed"
+              route='feed'
               translation={t('navbar/feed')}
               active={active}
               closeHandler={closeHandler}
@@ -219,7 +219,7 @@ const Nav = ({
           )}
           {isMember && (
             <NavLink
-              route="discussion"
+              route='discussion'
               translation={t('navbar/discussion')}
               active={active}
               closeHandler={closeHandler}
@@ -227,26 +227,26 @@ const Nav = ({
           )}
           {isMember && (
             <NavLink
-              route="formats"
+              route='formats'
               translation={t('nav/formats')}
               active={active}
               closeHandler={closeHandler}
             />
           )}
           <NavLink
-            route="community"
+            route='community'
             translation={t('nav/community')}
             active={active}
             closeHandler={closeHandler}
           />
           <NavLink
-            route="meta"
+            route='meta'
             translation={t('nav/meta')}
             active={active}
             closeHandler={closeHandler}
           />
           <NavLink
-            route="legal/imprint"
+            route='legal/imprint'
             translation={t('nav/team')}
             active={active}
             closeHandler={closeHandler}

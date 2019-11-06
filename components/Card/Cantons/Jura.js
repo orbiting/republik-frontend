@@ -3,7 +3,7 @@ import React from 'react'
 const SvgJura = props => (
   <svg
     width={props.size}
-    height={props.size * 469.543 / 467.969}
+    height={(props.size * 469.543) / 467.969}
     viewBox='-204.866 -205.348 467.969 469.543'
     {...props}
   >

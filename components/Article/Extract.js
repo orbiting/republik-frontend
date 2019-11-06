@@ -5,7 +5,7 @@ import { renderMdast } from 'mdast-react-render'
 import { withEditor } from '../Auth/checkRoles'
 
 // convert string into array of slice arguments, see tests
-export const parseSliceRanges = ranges => (
+export const parseSliceRanges = ranges =>
   ranges.split(':').map(range => {
     let [start, end] = range.split('...')
     start = +start || 0
@@ -20,7 +20,6 @@ export const parseSliceRanges = ranges => (
 
     return [start, end]
   })
-)
 
 const Extract = ({ schema, mdast, ranges, unpack, isEditor }) => {
   const sliceNode = (tree, [[start, end], ...childRanges]) => {
@@ -34,28 +33,20 @@ const Extract = ({ schema, mdast, ranges, unpack, isEditor }) => {
     }
   }
 
-  const part = sliceNode(
-    mdast, parseSliceRanges(ranges)
-  )
+  const part = sliceNode(mdast, parseSliceRanges(ranges))
 
   const unpackChildren = (children, level) => {
     if (level > 0) {
       return React.Children.toArray(children)
-        .map(child => unpackChildren(
-          child.props.children, level - 1
-        ))
-        .reduce(
-          (all, someChildren) => all.concat(someChildren),
-          []
-        )
+        .map(child => unpackChildren(child.props.children, level - 1))
+        .reduce((all, someChildren) => all.concat(someChildren), [])
     }
     return children
   }
-  const MissingNode = isEditor
-    ? undefined
-    : ({ children }) => children
+  const MissingNode = isEditor ? undefined : ({ children }) => children
   const children = unpackChildren(
-    renderMdast(part, schema, { MissingNode }), +unpack
+    renderMdast(part, schema, { MissingNode }),
+    +unpack
   )
 
   return (

@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { css, merge } from 'glamor'
 
-import {
-  colors, fontFamilies, RawHtml
-} from '@project-r/styleguide'
+import { colors, fontFamilies, RawHtml } from '@project-r/styleguide'
 
 const BAR_COLOR = '#EAEDEB'
 const HEIGHT = 8
@@ -80,79 +78,94 @@ const styles = {
 }
 
 const widthForGoal = (goal, status, accessor) => {
-  return Math.ceil(
-    Math.min(1, status[accessor] / goal[accessor]) * 1000000
-  ) / 10000 + '%'
+  return (
+    Math.ceil(Math.min(1, status[accessor] / goal[accessor]) * 1000000) /
+      10000 +
+    '%'
+  )
 }
 
 class GoalBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {}
   }
-  render () {
+  render() {
     const { status, goals, accessor, format, showLast } = this.props
     const goal = goals[goals.length - 1]
 
     const uniqueGoals = goals
-      .filter((d, i) => (
-        i === goals.findIndex(g => g[accessor] === d[accessor])
-      ))
+      .filter((d, i) => i === goals.findIndex(g => g[accessor] === d[accessor]))
       .reverse()
 
-    const hover = this.state.hover || (
-      showLast && uniqueGoals[0]
-    )
+    const hover = this.state.hover || (showLast && uniqueGoals[0])
 
     return (
       <div {...styles.bar} style={{ zIndex: hover ? 1 : 0 }}>
-        <div {...styles.barInner} style={{
-          width: widthForGoal(goal, status, accessor)
-        }} />
-        {uniqueGoals.length > 1 && uniqueGoals.map((uniqueGoal, i) => (
-          <div key={i}
-            {...merge(
-              styles.goal,
-              i === 0 && styles.currentGoal,
-              i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
-            )}
-            style={{
-              width: widthForGoal(goal, uniqueGoal, accessor)
-            }}
-            onTouchStart={(e) => {
-              e.preventDefault()
-              this.setState({
-                hover: uniqueGoal
-              })
-            }}
-            onTouchEnd={() => this.setState({
-              hover: undefined
-            })}
-            onMouseOver={() => this.setState({
-              hover: uniqueGoal
-            })}
-            onMouseOut={() => this.setState({
-              hover: undefined
-            })}>
-            {uniqueGoal === hover && (
-              <div {...styles.noInteraction}>
-                <div {...styles.goalBar} style={{
-                  width: widthForGoal(uniqueGoal, status, accessor)
-                }} />
-                <div {...styles.goalNumber}>
-                  {format(uniqueGoal[accessor])}
+        <div
+          {...styles.barInner}
+          style={{
+            width: widthForGoal(goal, status, accessor)
+          }}
+        />
+        {uniqueGoals.length > 1 &&
+          uniqueGoals.map((uniqueGoal, i) => (
+            <div
+              key={i}
+              {...merge(
+                styles.goal,
+                i === 0 && styles.currentGoal,
+                i > 0 && status[accessor] < goal[accessor] && styles.lowerGoal
+              )}
+              style={{
+                width: widthForGoal(goal, uniqueGoal, accessor)
+              }}
+              onTouchStart={e => {
+                e.preventDefault()
+                this.setState({
+                  hover: uniqueGoal
+                })
+              }}
+              onTouchEnd={() =>
+                this.setState({
+                  hover: undefined
+                })
+              }
+              onMouseOver={() =>
+                this.setState({
+                  hover: uniqueGoal
+                })
+              }
+              onMouseOut={() =>
+                this.setState({
+                  hover: undefined
+                })
+              }
+            >
+              {uniqueGoal === hover && (
+                <div {...styles.noInteraction}>
+                  <div
+                    {...styles.goalBar}
+                    style={{
+                      width: widthForGoal(uniqueGoal, status, accessor)
+                    }}
+                  />
+                  <div {...styles.goalNumber}>
+                    {format(uniqueGoal[accessor])}
+                  </div>
+                  {!!hover.description && <div {...styles.arrow} />}
                 </div>
-                {!!hover.description && <div {...styles.arrow} />}
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))}
         {!!hover && !!hover.description && (
           <div {...styles.box}>
-            <RawHtml dangerouslySetInnerHTML={{
-              __html: hover.description
-            }} />
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: hover.description
+              }}
+            />
           </div>
         )}
       </div>

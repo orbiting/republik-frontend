@@ -18,4 +18,8 @@ const styles = {
   })
 }
 
-export default ({ style }) => <span {...styles.beta} style={style}>beta</span>
+export default ({ style }) => (
+  <span {...styles.beta} style={style}>
+    beta
+  </span>
+)

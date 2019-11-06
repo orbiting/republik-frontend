@@ -6,20 +6,19 @@ import { parse, format } from 'url'
 import withMe from '../lib/apollo/withMe'
 import track from '../lib/piwik'
 
-import {
-  PUBLIC_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL } from '../lib/constants'
 
-import {
-  PSP_PLEDGE_ID_QUERY_KEYS
-} from './Payment/constants'
+import { PSP_PLEDGE_ID_QUERY_KEYS } from './Payment/constants'
 
 const trackRoles = me =>
   track([
     'setCustomDimension',
     1,
     me
-      ? [].concat(me.roles).sort().join(' ') || 'none'
+      ? []
+          .concat(me.roles)
+          .sort()
+          .join(' ') || 'none'
       : 'guest'
   ])
 
@@ -29,9 +28,7 @@ const trackPageView = url => {
   const { query, pathname } = urlObject
 
   // Redact receive payment psp payloads
-  if (
-    pathname === '/angebote' || pathname === '/en'
-  ) {
+  if (pathname === '/angebote' || pathname === '/en') {
     const key = PSP_PLEDGE_ID_QUERY_KEYS.find(key => query[key])
     if (key) {
       // redact all query params
@@ -56,7 +53,7 @@ const trackPageView = url => {
 }
 
 class Track extends Component {
-  componentDidMount () {
+  componentDidMount() {
     trackRoles(this.props.me)
     trackPageView(window.location.href)
     Router.events.on('routeChangeComplete', this.onRouteChangeComplete)
@@ -69,13 +66,13 @@ class Track extends Component {
       trackPageView(`${PUBLIC_BASE_URL}${url}`)
     }, 600)
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     Router.events.off('routeChangeComplete', this.onRouteChangeComplete)
   }
-  UNSAFE_componentWillReceiveProps ({ me }) {
+  UNSAFE_componentWillReceiveProps({ me }) {
     if (
       me !== this.props.me &&
-      ((!me || !this.props.me) || me.email !== this.props.me.email)
+      (!me || !this.props.me || me.email !== this.props.me.email)
     ) {
       // start new visit with potentially different roles
       track(['appendToTrackingUrl', 'new_visit=1'])
@@ -83,7 +80,7 @@ class Track extends Component {
       trackRoles(me)
     }
   }
-  render () {
+  render() {
     return null
   }
 }

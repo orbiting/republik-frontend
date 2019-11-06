@@ -6,9 +6,7 @@ import withT from '../../lib/withT'
 import { styles as iconLinkStyles } from '../IconLink'
 import datetime from '../Article/Progress/datetime'
 
-import {
-  ProgressCircle, colors, fontStyles
-} from '@project-r/styleguide'
+import { ProgressCircle, colors, fontStyles } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -34,14 +32,19 @@ const UserProgress = ({ t, fill, userProgress, text }) => {
   const percent = Math.round(percentage * 100)
 
   return (
-    <div {...iconLinkStyles.link} {...styles.container} title={datetime(t, new Date(updatedAt))}>
+    <div
+      {...iconLinkStyles.link}
+      {...styles.container}
+      title={datetime(t, new Date(updatedAt))}
+    >
       <div {...styles.icon}>
         <ProgressCircle
           progress={percent}
           stroke={fill}
           strokePlaceholder='#e9e9e9'
           radius={9}
-          strokeWidth={2} />
+          strokeWidth={2}
+        />
       </div>
       <span {...iconLinkStyles.text} {...styles.text} style={{ color: fill }}>
         {text || `${percent}%`}
@@ -59,6 +62,4 @@ UserProgress.propTypes = {
   style: PropTypes.object
 }
 
-export default compose(
-  withT
-)(UserProgress)
+export default compose(withT)(UserProgress)

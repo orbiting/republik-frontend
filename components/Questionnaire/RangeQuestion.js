@@ -4,10 +4,7 @@ import { css, merge } from 'glamor'
 import debounce from 'lodash/debounce'
 import uuid from 'uuid/v4'
 
-import {
-  colors,
-  Interaction
-} from '@project-r/styleguide'
+import { colors, Interaction } from '@project-r/styleguide'
 
 import questionStyles from './questionStyles'
 
@@ -108,39 +105,46 @@ const styles = {
 const sliderDefault = merge(styles.slider, styles.sliderEmpty)
 
 class RangeQuestion extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      answerId: (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
+      answerId:
+        (props.question.userAnswer && props.question.userAnswer.id) || uuid(),
       ...this.deriveStateFromProps(props)
     }
   }
 
-  deriveStateFromProps (props) {
-    return props.question.userAnswer ? props.question.userAnswer.payload : { value: null }
+  deriveStateFromProps(props) {
+    return props.question.userAnswer
+      ? props.question.userAnswer.payload
+      : { value: null }
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.question.userAnswer !== this.props.question.userAnswer) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
 
   renderInput = () => {
-    const { question: { ticks, kind } } = this.props
+    const {
+      question: { ticks, kind }
+    } = this.props
     const { value } = this.state
     const tickValues = ticks.map(t => t.value)
     const max = Math.max(...tickValues)
     const min = Math.min(...tickValues)
 
-    const step = kind === 'continous'
-      ? ticks.length / 100
-      : Math.abs(max - min) /
+    const step =
+      kind === 'continous'
+        ? ticks.length / 100
+        : Math.abs(max - min) /
           (ticks.length % 2 === 0 ? ticks.length : ticks.length + 1)
 
-    const defaultValue = (min < 0 || max < 0) && !(min < 0 && max < 0)
-      ? 0
-      : Math.abs(min - max) / 2
+    const defaultValue =
+      (min < 0 || max < 0) && !(min < 0 && max < 0)
+        ? 0
+        : Math.abs(min - max) / 2
 
     return (
       <div {...styles.sliderWrapper}>
@@ -152,21 +156,25 @@ class RangeQuestion extends Component {
           step={step}
           value={value === null ? defaultValue : value}
           onChange={e => this.handleChange(+e.target.value)}
-          onMouseDownCapture={() => (value === null) && this.handleChange(defaultValue)}
+          onMouseDownCapture={() =>
+            value === null && this.handleChange(defaultValue)
+          }
         />
       </div>
     )
   }
 
   renderLabels = () => {
-    const { question: { ticks } } = this.props
+    const {
+      question: { ticks }
+    } = this.props
     return (
       <div {...styles.ticks}>
-        {
-          ticks.map(t =>
-            <div key={t.label} style={{ width: `${100 / (ticks.length)}%` }}>{t.label}</div>
-          )
-        }
+        {ticks.map(t => (
+          <div key={t.label} style={{ width: `${100 / ticks.length}%` }}>
+            {t.label}
+          </div>
+        ))}
       </div>
     )
   }
@@ -179,26 +187,22 @@ class RangeQuestion extends Component {
     this.onChangeDebounced(answerId, value)
   }
 
-  render () {
-    const { question: { text } } = this.props
+  render() {
+    const {
+      question: { text }
+    } = this.props
     return (
       <div>
-        { text &&
+        {text && (
           <Interaction.H2 {...questionStyles.label}>{text}</Interaction.H2>
-        }
+        )}
         <div {...questionStyles.body}>
-          {
-            this.renderInput()
-          }
-          {
-            this.renderLabels()
-          }
+          {this.renderInput()}
+          {this.renderLabels()}
         </div>
       </div>
     )
   }
 }
 
-export default compose(
-  withApollo
-)(RangeQuestion)
+export default compose(withApollo)(RangeQuestion)

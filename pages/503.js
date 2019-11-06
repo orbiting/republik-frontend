@@ -4,14 +4,15 @@ import Head from 'next/head'
 import { withRouter } from 'next/router'
 
 import {
-  NarrowContainer, Logo, mediaQueries, fontStyles
+  NarrowContainer,
+  Logo,
+  mediaQueries,
+  fontStyles
 } from '@project-r/styleguide'
 
 import { SPACE } from '../components/Frame/PureFooter'
 
-import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const styles = {
   container: css({
@@ -80,10 +81,13 @@ export default withRouter(({ router }) => {
           </div>
 
           <div {...styles.message}>
-            Die alte Crowdfunding-Seite, die Abstimmung und das «Wer sind Sie?»-Update sind zur Zeit nicht verfügbar.
+            Die alte Crowdfunding-Seite, die Abstimmung und das «Wer sind
+            Sie?»-Update sind zur Zeit nicht verfügbar.
             <br />
             <br />
-            Die Crowdfunding-Seite und die Abstimmung sind auf archive.org verfügbar:<br />
+            Die Crowdfunding-Seite und die Abstimmung sind auf archive.org
+            verfügbar:
+            <br />
             <a href='https://web.archive.org/web/20170722203607/https://www.republik.ch/crowdfunding'>
               Crowdfunding
             </a>

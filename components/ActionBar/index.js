@@ -25,7 +25,7 @@ const styles = {
 }
 
 class ActionBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -46,7 +46,7 @@ class ActionBar extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       t,
       url,
@@ -83,12 +83,7 @@ class ActionBar extends Component {
         onClick: e => {
           e.preventDefault()
 
-          track([
-            'trackEvent',
-            'ActionBar',
-            'share',
-            url
-          ])
+          track(['trackEvent', 'ActionBar', 'share', url])
           if (inNativeApp) {
             postMessage({
               type: 'share',
@@ -121,13 +116,15 @@ class ActionBar extends Component {
       pdfUrl && {
         icon: 'pdf',
         href: pdfUrl,
-        onClick: onPdfClick && (e => {
-          if (shouldIgnoreClick(e)) {
-            return
-          }
-          e.preventDefault()
-          onPdfClick()
-        }),
+        onClick:
+          onPdfClick &&
+          (e => {
+            if (shouldIgnoreClick(e)) {
+              return
+            }
+            e.preventDefault()
+            onPdfClick()
+          }),
         title: t(`article/actionbar/pdf/${onPdfClick ? 'options' : 'open'}`)
       },
       fontSize && {
@@ -144,12 +141,7 @@ class ActionBar extends Component {
         href: '#audio',
         onClick: e => {
           e.preventDefault()
-          track([
-            'trackEvent',
-            'ActionBar',
-            'audio',
-            url
-          ])
+          track(['trackEvent', 'ActionBar', 'audio', url])
           onAudioClick && onAudioClick()
         },
         title: t('article/actionbar/audio'),
@@ -160,12 +152,7 @@ class ActionBar extends Component {
         href: '#gallery',
         onClick: e => {
           e.preventDefault()
-          track([
-            'trackEvent',
-            'ActionBar',
-            'gallery',
-            url
-          ])
+          track(['trackEvent', 'ActionBar', 'gallery', url])
           onGalleryClick && onGalleryClick()
         },
         title: t('feed/actionbar/gallery'),
@@ -173,9 +160,10 @@ class ActionBar extends Component {
       }
     ]
 
-    const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
-      ? estimatedConsumptionMinutes
-      : estimatedReadingMinutes
+    const displayConsumptionMinutes =
+      estimatedConsumptionMinutes > estimatedReadingMinutes
+        ? estimatedConsumptionMinutes
+        : estimatedReadingMinutes
 
     return (
       <Fragment>
@@ -187,11 +175,11 @@ class ActionBar extends Component {
             tweet={tweet}
             emailSubject={emailSubject}
             emailBody={emailBody}
-            emailAttachUrl={emailAttachUrl} />
+            emailAttachUrl={emailAttachUrl}
+          />
         )}
         {showFontSizeOverlay && (
-          <FontSizeOverlay
-            onClose={this.toggleFontSize} />
+          <FontSizeOverlay onClose={this.toggleFontSize} />
         )}
         <span {...styles.buttonGroup}>
           {showBookmark && (
@@ -203,9 +191,9 @@ class ActionBar extends Component {
               style={{ marginLeft: '-4px', paddingRight: 0 }}
             />
           )}
-          {icons
-            .filter(Boolean)
-            .map((props, i) => <IconLink key={props.icon} fill={fill} {...props} />)}
+          {icons.filter(Boolean).map((props, i) => (
+            <IconLink key={props.icon} fill={fill} {...props} />
+          ))}
           {displayConsumptionMinutes > 1 && (
             <ReadingTime minutes={displayConsumptionMinutes} />
           )}
@@ -240,6 +228,4 @@ ActionBar.defaultProps = {
 }
 
 // Note: This Component is used within SSRCachingBoundary and can not use context
-export default compose(
-  withT
-)(ActionBar)
+export default compose(withT)(ActionBar)

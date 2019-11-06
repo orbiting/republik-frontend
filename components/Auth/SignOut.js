@@ -6,25 +6,24 @@ import withT from '../../lib/withT'
 import { errorToString } from '../../lib/utils/errors'
 import { meQuery } from '../../lib/apollo/withMe'
 
-import {
-  A, InlineSpinner
-} from '@project-r/styleguide'
+import { A, InlineSpinner } from '@project-r/styleguide'
 
 class SignOut extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: false
     }
   }
-  render () {
+  render() {
     const { t, Link = A } = this.props
     const { loading, error } = this.state
 
     return (
       <span>
-        <Link href='#'
-          onClick={(e) => {
+        <Link
+          href='#'
+          onClick={e => {
             e.preventDefault()
             if (loading) {
               return
@@ -32,7 +31,8 @@ class SignOut extends Component {
             this.setState(() => ({
               loading: true
             }))
-            this.props.signOut()
+            this.props
+              .signOut()
               .then(({ data }) => {
                 if (data) {
                   this.setState(() => ({
@@ -55,7 +55,10 @@ class SignOut extends Component {
                   loading: false
                 }))
               })
-          }}>{t('signOut/label')}</Link>
+          }}
+        >
+          {t('signOut/label')}
+        </Link>
         {loading && <InlineSpinner size={25} />}
         {!!error && ` – ${error}`}
       </span>
@@ -68,19 +71,22 @@ SignOut.propTypes = {
 }
 
 const signOutMutation = gql`
-mutation signOut {
-  signOut
-}
+  mutation signOut {
+    signOut
+  }
 `
 
 export const withSignOut = compose(
   graphql(signOutMutation, {
     props: ({ mutate, ownProps }) => ({
-      signOut: () => mutate({
-        refetchQueries: [{
-          query: meQuery
-        }]
-      })
+      signOut: () =>
+        mutate({
+          refetchQueries: [
+            {
+              query: meQuery
+            }
+          ]
+        })
     })
   })
 )

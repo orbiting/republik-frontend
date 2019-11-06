@@ -36,7 +36,13 @@ import { intersperse } from '../../lib/utils/helpers'
 import * as withData from './withData'
 
 const getDocument = gql`
-  query getFront($path: String!, $first: Int!, $after: ID, $before: ID, $only: ID) {
+  query getFront(
+    $path: String!
+    $first: Int!
+    $after: ID
+    $before: ID
+    $only: ID
+  ) {
     front: document(path: $path) {
       id
       children(first: $first, after: $after, before: $before, only: $only) {
@@ -111,116 +117,169 @@ const Front = ({
     loadMore: fetchMore
   })
 
-  const schema = useMemo(() => createFrontSchema({
-    Link: HrefLink,
-    CommentLink,
-    DiscussionLink,
-    ...withData,
-    t
-  }), [])
+  const schema = useMemo(
+    () =>
+      createFrontSchema({
+        Link: HrefLink,
+        CommentLink,
+        DiscussionLink,
+        ...withData,
+        t
+      }),
+    []
+  )
 
-  const MissingNode = isEditor
-    ? undefined
-    : ({ children }) => children
+  const MissingNode = isEditor ? undefined : ({ children }) => children
 
   if (extractId) {
     return (
-      <Loader loading={data.loading} error={data.error} render={() => {
-        if (!front) {
-          return <StatusError
-            statusCode={404}
-            serverContext={serverContext} />
-        }
-        return (
-          <Fragment>
-            <Head>
-              <meta name='robots' content='noindex' />
-            </Head>
-            {renderMdast({
-              type: 'root',
-              children: front.children.nodes.map(v => v.body),
-              lastPublishedAt: front.meta.lastPublishedAt
-            }, schema, { MissingNode })}
-          </Fragment>
-        )
-      }} />
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          if (!front) {
+            return (
+              <StatusError statusCode={404} serverContext={serverContext} />
+            )
+          }
+          return (
+            <Fragment>
+              <Head>
+                <meta name='robots' content='noindex' />
+              </Head>
+              {renderMdast(
+                {
+                  type: 'root',
+                  children: front.children.nodes.map(v => v.body),
+                  lastPublishedAt: front.meta.lastPublishedAt
+                },
+                schema,
+                { MissingNode }
+              )}
+            </Fragment>
+          )
+        }}
+      />
     )
   }
 
   return (
-    <Frame
-      raw
-      meta={meta}
-    >
+    <Frame raw meta={meta}>
       {renderBefore && renderBefore(meta)}
-      <Loader loading={data.loading} error={data.error} message={t('pages/magazine/title')} render={() => {
-        if (!front) {
-          return <StatusError
-            statusCode={404}
-            serverContext={serverContext} />
-        }
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        message={t('pages/magazine/title')}
+        render={() => {
+          if (!front) {
+            return (
+              <StatusError statusCode={404} serverContext={serverContext} />
+            )
+          }
 
-        const end = (hasMore || finite) && <div {...styles.more}>
-          {finite && <div style={{ marginBottom: 10 }}>
-            <CheckCircle size={32} style={{ marginBottom: 10 }} /><br />
-            {t('front/finite')}<br />
-          </div>}
-          {finite && <div style={{ marginBottom: 10 }}>
-            <Link route='feed' passHref>
-              <Editorial.A style={{ color: colors.negative.text }}>{t('front/finite/feed')}</Editorial.A>
-            </Link>
-          </div>}
-          <div style={{ marginBottom: 10 }}>
-            {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
-            {loadingMore && <InlineSpinner />}
-            {!infiniteScroll && hasMore && <Editorial.A href='#' style={{ color: colors.negative.text }} onClick={event => {
-              event && event.preventDefault()
-              setInfiniteScroll(true)
-            }}>
-              {
-                t('front/loadMore',
-                  {
-                    count: front.children.nodes.length,
-                    remaining: front.children.totalCount - front.children.nodes.length
-                  }
-                )
-              }
-            </Editorial.A>}
-          </div>
-          {front.meta.path === '/' && <div style={{ marginBottom: 10 }}>{t.elements('front/chronology', {
-            years: intersperse([2019, 2018].map(year =>
-              <Link key={year} route='overview' params={{ year }} passHref>
-                <Editorial.A style={{ color: colors.negative.text }}>{year}</Editorial.A>
-              </Link>
-            ), () => ', ')
-          })}</div>}
-        </div>
-
-        const nodes = front.children.nodes
-        const endIndex = nodes.findIndex(node => node.id === 'end')
-        const sliceIndex = endIndex === -1
-          ? undefined
-          : endIndex
-
-        return <div ref={containerRef} style={containerStyle}>
-          {front.meta.prepublication && (
-            <div {...styles.prepublicationNotice}>
-              <Interaction.P>{t('front/prepublication/notice')}</Interaction.P>
+          const end = (hasMore || finite) && (
+            <div {...styles.more}>
+              {finite && (
+                <div style={{ marginBottom: 10 }}>
+                  <CheckCircle size={32} style={{ marginBottom: 10 }} />
+                  <br />
+                  {t('front/finite')}
+                  <br />
+                </div>
+              )}
+              {finite && (
+                <div style={{ marginBottom: 10 }}>
+                  <Link route='feed' passHref>
+                    <Editorial.A style={{ color: colors.negative.text }}>
+                      {t('front/finite/feed')}
+                    </Editorial.A>
+                  </Link>
+                </div>
+              )}
+              <div style={{ marginBottom: 10 }}>
+                {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
+                {loadingMore && <InlineSpinner />}
+                {!infiniteScroll && hasMore && (
+                  <Editorial.A
+                    href='#'
+                    style={{ color: colors.negative.text }}
+                    onClick={event => {
+                      event && event.preventDefault()
+                      setInfiniteScroll(true)
+                    }}
+                  >
+                    {t('front/loadMore', {
+                      count: front.children.nodes.length,
+                      remaining:
+                        front.children.totalCount - front.children.nodes.length
+                    })}
+                  </Editorial.A>
+                )}
+              </div>
+              {front.meta.path === '/' && (
+                <div style={{ marginBottom: 10 }}>
+                  {t.elements('front/chronology', {
+                    years: intersperse(
+                      [2019, 2018].map(year => (
+                        <Link
+                          key={year}
+                          route='overview'
+                          params={{ year }}
+                          passHref
+                        >
+                          <Editorial.A style={{ color: colors.negative.text }}>
+                            {year}
+                          </Editorial.A>
+                        </Link>
+                      )),
+                      () => ', '
+                    )
+                  })}
+                </div>
+              )}
             </div>
-          )}
-          {renderMdast({
-            type: 'root',
-            children: nodes.slice(0, sliceIndex).map(v => v.body),
-            lastPublishedAt: front.meta.lastPublishedAt
-          }, schema, { MissingNode })}
-          {end}
-          {sliceIndex && <>{renderMdast({
-            type: 'root',
-            children: nodes.slice(endIndex + 1).map(v => v.body),
-            lastPublishedAt: front.meta.lastPublishedAt
-          }, schema, { MissingNode })}</>}
-        </div>
-      }} />
+          )
+
+          const nodes = front.children.nodes
+          const endIndex = nodes.findIndex(node => node.id === 'end')
+          const sliceIndex = endIndex === -1 ? undefined : endIndex
+
+          return (
+            <div ref={containerRef} style={containerStyle}>
+              {front.meta.prepublication && (
+                <div {...styles.prepublicationNotice}>
+                  <Interaction.P>
+                    {t('front/prepublication/notice')}
+                  </Interaction.P>
+                </div>
+              )}
+              {renderMdast(
+                {
+                  type: 'root',
+                  children: nodes.slice(0, sliceIndex).map(v => v.body),
+                  lastPublishedAt: front.meta.lastPublishedAt
+                },
+                schema,
+                { MissingNode }
+              )}
+              {end}
+              {sliceIndex && (
+                <>
+                  {renderMdast(
+                    {
+                      type: 'root',
+                      children: nodes.slice(endIndex + 1).map(v => v.body),
+                      lastPublishedAt: front.meta.lastPublishedAt
+                    },
+                    schema,
+                    { MissingNode }
+                  )}
+                </>
+              )}
+            </div>
+          )
+        }}
+      />
       {renderAfter && renderAfter(meta)}
     </Frame>
   )
@@ -247,31 +306,33 @@ export default compose(
       return {
         data,
         fetchMore: () => {
-          return data.fetchMore({
-            variables: {
-              first: 15,
-              after: data.front && data.front.children.pageInfo.endCursor,
-              before: undefined
-            },
-            updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
-              const previousSearch = previousResult.front.children || {}
-              const currentSearch = fetchMoreResult.front.children || {}
-              const previousNodes = previousSearch.nodes || []
-              const currentNodes = currentSearch.nodes || []
-              const res = {
-                ...previousResult,
-                front: {
-                  ...previousResult.front,
-                  children: {
-                    ...previousResult.front.children,
-                    nodes: [...previousNodes, ...currentNodes],
-                    pageInfo: currentSearch.pageInfo
+          return data
+            .fetchMore({
+              variables: {
+                first: 15,
+                after: data.front && data.front.children.pageInfo.endCursor,
+                before: undefined
+              },
+              updateQuery: (previousResult = {}, { fetchMoreResult = {} }) => {
+                const previousSearch = previousResult.front.children || {}
+                const currentSearch = fetchMoreResult.front.children || {}
+                const previousNodes = previousSearch.nodes || []
+                const currentNodes = currentSearch.nodes || []
+                const res = {
+                  ...previousResult,
+                  front: {
+                    ...previousResult.front,
+                    children: {
+                      ...previousResult.front.children,
+                      nodes: [...previousNodes, ...currentNodes],
+                      pageInfo: currentSearch.pageInfo
+                    }
                   }
                 }
+                return res
               }
-              return res
-            }
-          }).catch(error => console.error(error))
+            })
+            .catch(error => console.error(error))
         }
       }
     }

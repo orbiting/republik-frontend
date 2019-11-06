@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { css } from 'glamor'
 import debounce from 'lodash/debounce'
 
-import {
-  LazyLoad
-} from '@project-r/styleguide'
+import { LazyLoad } from '@project-r/styleguide'
 
 import TeaserHover from './TeaserHover'
 import TeaserNodes from './TeaserNodes'
@@ -42,7 +40,7 @@ const styles = {
 }
 
 class TeaserBlock extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
     this.blockRef = React.createRef()
     this.state = {}
@@ -53,9 +51,7 @@ class TeaserBlock extends Component {
       return
     }
 
-    const teaserElements = Array.from(
-      parent.querySelectorAll('[data-teaser]')
-    )
+    const teaserElements = Array.from(parent.querySelectorAll('[data-teaser]'))
     if (!teaserElements.length) {
       return
     }
@@ -78,30 +74,30 @@ class TeaserBlock extends Component {
       this.setState({ width })
     }
   }, 33)
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.measure)
     this.measure()
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.measure()
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.measure)
     clearTimeout(this.hoverTimeout)
   }
-  render () {
+  render() {
     const { hover, width } = this.state
     const { path, highlight, onHighlight, lazy, maxHeight } = this.props
 
-    const teasers = this.props.teasers
-      .filter(teaser => (
+    const teasers = this.props.teasers.filter(
+      teaser =>
         teaser.nodes[0].identifier !== 'LIVETEASER' &&
         !(
           teaser.nodes[0].identifier === 'TEASER' &&
           teaser.nodes[0].data &&
           teaser.nodes[0].data.teaserType === 'carousel'
         )
-      ))
+    )
 
     const hoverOff = () => {
       // prevent flicker
@@ -114,38 +110,49 @@ class TeaserBlock extends Component {
     }
 
     return (
-      <div ref={this.blockRef} style={{
-        position: 'relative',
-        marginTop: maxHeight ? -50 : 0,
-        bottom: maxHeight ? -50 : 0
-      }}>
-        <LazyLoad visible={!lazy} attributes={{
-          ...styles.container,
-          ...css({
-            ...SIZES.reduce((styles, size) => {
-              // SSR approximation
-              const minHeight = teasers.length / size.columns * 50
-              if (size.minWidth) {
-                styles[`@media only screen and (min-width: ${size.minWidth}px)`] = {
-                  minHeight
+      <div
+        ref={this.blockRef}
+        style={{
+          position: 'relative',
+          marginTop: maxHeight ? -50 : 0,
+          bottom: maxHeight ? -50 : 0
+        }}
+      >
+        <LazyLoad
+          visible={!lazy}
+          attributes={{
+            ...styles.container,
+            ...css({
+              ...SIZES.reduce((styles, size) => {
+                // SSR approximation
+                const minHeight = (teasers.length / size.columns) * 50
+                if (size.minWidth) {
+                  styles[
+                    `@media only screen and (min-width: ${size.minWidth}px)`
+                  ] = {
+                    minHeight
+                  }
+                } else {
+                  styles.minHeight = minHeight
                 }
-              } else {
-                styles.minHeight = minHeight
-              }
-              return styles
-            }, {})
-          })
-        }} style={{
-          height: maxHeight,
-          overflowX: maxHeight ? 'hidden' : undefined
-        }}>
+                return styles
+              }, {})
+            })
+          }}
+          style={{
+            height: maxHeight,
+            overflowX: maxHeight ? 'hidden' : undefined
+          }}
+        >
           {teasers.map(teaser => {
             let touch
             const focus = event => {
               if (!this.measurements) {
                 return
               }
-              const measurement = this.measurements.find(m => m.id === teaser.id)
+              const measurement = this.measurements.find(
+                m => m.id === teaser.id
+              )
               if (!measurement) {
                 return
               }
@@ -155,63 +162,87 @@ class TeaserBlock extends Component {
                 currentEvent = currentEvent.changedTouches[0]
               }
 
-              const x = (currentEvent.clientX - measurement.left) / measurement.width
+              const x =
+                (currentEvent.clientX - measurement.left) / measurement.width
               if (x >= 1) {
                 hoverOff()
                 return
               }
 
-              this.setState({
-                hover: {
-                  touch,
-                  teaser,
-                  measurement
-                }
-              }, () => {
-                const index = Math.floor(x * teaser.nodes.length)
-                const activeNode = teaser.nodes[index]
-                const urlMeta = (activeNode && activeNode.data.urlMeta) || {}
+              this.setState(
+                {
+                  hover: {
+                    touch,
+                    teaser,
+                    measurement
+                  }
+                },
+                () => {
+                  const index = Math.floor(x * teaser.nodes.length)
+                  const activeNode = teaser.nodes[index]
+                  const urlMeta = (activeNode && activeNode.data.urlMeta) || {}
 
-                if (urlMeta.format) {
-                  onHighlight(data => data.urlMeta && data.urlMeta.format === urlMeta.format)
-                } else if (urlMeta.series) {
-                  onHighlight(data => data.urlMeta && data.urlMeta.series === urlMeta.series)
-                } else if (activeNode) {
-                  onHighlight(data => data.id === activeNode.data.id)
+                  if (urlMeta.format) {
+                    onHighlight(
+                      data =>
+                        data.urlMeta && data.urlMeta.format === urlMeta.format
+                    )
+                  } else if (urlMeta.series) {
+                    onHighlight(
+                      data =>
+                        data.urlMeta && data.urlMeta.series === urlMeta.series
+                    )
+                  } else if (activeNode) {
+                    onHighlight(data => data.id === activeNode.data.id)
+                  }
                 }
-              })
+              )
             }
 
-            const Image = lazy
-              ? QueuedImg
-              : 'img'
+            const Image = lazy ? QueuedImg : 'img'
 
-            return <div key={teaser.id}
-              onTouchStart={() => { touch = true }}
-              onMouseEnter={focus}
-              onMouseMove={focus}
-              onMouseLeave={hoverOff}
-              onClick={() => { touch = undefined }}>
-              {hover && hover.teaser.id === teaser.id &&
-                <TeaserHover {...hover} contextWidth={width} path={path} highlight={highlight} />}
-              <div style={{ position: 'relative' }} data-teaser={teaser.id}>
-                <Image
-                  onLoad={this.measure}
-                  src={getSmallImgSrc(teaser, path)}
-                  style={{
-                    display: 'inline-block',
-                    // unbreakable margin
-                    // GAP needs to be with an inline-block to prevent
-                    // the browser from breaking the margin between columns
-                    marginBottom: GAP,
-                    width: '100%'
-                  }} />
-                <TeaserNodes
-                  nodes={teaser.nodes}
-                  highlight={highlight}
-                  noClick={hover && hover.touch} />
+            return (
+              <div
+                key={teaser.id}
+                onTouchStart={() => {
+                  touch = true
+                }}
+                onMouseEnter={focus}
+                onMouseMove={focus}
+                onMouseLeave={hoverOff}
+                onClick={() => {
+                  touch = undefined
+                }}
+              >
+                {hover && hover.teaser.id === teaser.id && (
+                  <TeaserHover
+                    {...hover}
+                    contextWidth={width}
+                    path={path}
+                    highlight={highlight}
+                  />
+                )}
+                <div style={{ position: 'relative' }} data-teaser={teaser.id}>
+                  <Image
+                    onLoad={this.measure}
+                    src={getSmallImgSrc(teaser, path)}
+                    style={{
+                      display: 'inline-block',
+                      // unbreakable margin
+                      // GAP needs to be with an inline-block to prevent
+                      // the browser from breaking the margin between columns
+                      marginBottom: GAP,
+                      width: '100%'
+                    }}
+                  />
+                  <TeaserNodes
+                    nodes={teaser.nodes}
+                    highlight={highlight}
+                    noClick={hover && hover.touch}
+                  />
+                </div>
               </div>
-            </div>
+            )
           })}
         </LazyLoad>
       </div>

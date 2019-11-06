@@ -14,50 +14,53 @@ const dayFormat = timeFormat('%e. %B %Y')
 
 const Grants = ({ grant, revokeAccess, t }) => {
   const elements = {
-    recipient: grant.email &&
-      <Emphasis key={`grant-recipient-${grant.id}`}>
-        {grant.email}
-      </Emphasis>,
-    voucherCode: <Emphasis key={`grant-voucher-${grant.id}`}>
-      {grant.voucherCode}
-    </Emphasis>,
-    beginBefore: <Emphasis key={`grant-before-${grant.id}`}>
-      {dayFormat(new Date(grant.beginBefore))}
-    </Emphasis>,
-    beginAt: grant.beginAt &&
+    recipient: grant.email && (
+      <Emphasis key={`grant-recipient-${grant.id}`}>{grant.email}</Emphasis>
+    ),
+    voucherCode: (
+      <Emphasis key={`grant-voucher-${grant.id}`}>{grant.voucherCode}</Emphasis>
+    ),
+    beginBefore: (
+      <Emphasis key={`grant-before-${grant.id}`}>
+        {dayFormat(new Date(grant.beginBefore))}
+      </Emphasis>
+    ),
+    beginAt: grant.beginAt && (
       <Emphasis key={`grant-begin-${grant.id}`}>
         {dayFormat(new Date(grant.beginAt))}
-      </Emphasis>,
-    endAt: grant.endAt &&
+      </Emphasis>
+    ),
+    endAt: grant.endAt && (
       <Emphasis key={`grant-end-${grant.id}`}>
         {dayFormat(new Date(grant.endAt))}
       </Emphasis>
+    )
   }
 
   return (
     <Item key={`grant-item-${grant.id}`}>
-      {elements.recipient &&
+      {elements.recipient && (
         <Fragment>
-          { t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
+          {t.elements('Account/Access/Campaigns/Grants/recipient', elements)}
           <br />
         </Fragment>
-      }
-      {!elements.beginAt &&
+      )}
+      {!elements.beginAt && (
         <Fragment>
-          { t.elements('Account/Access/Campaigns/Grants/unclaimed', elements)}
+          {t.elements('Account/Access/Campaigns/Grants/unclaimed', elements)}
           <br />
-          { t.elements('Account/Access/Campaigns/Grants/beginBefore', elements)}
+          {t.elements('Account/Access/Campaigns/Grants/beginBefore', elements)}
           <br />
           <Revoke grant={grant} revokeAccess={revokeAccess} />
         </Fragment>
-      }
-      {elements.beginAt &&
+      )}
+      {elements.beginAt && (
         <Fragment>
-          { t.elements('Account/Access/Campaigns/Grants/beginAt', elements)}
+          {t.elements('Account/Access/Campaigns/Grants/beginAt', elements)}
           <br />
-          { t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
+          {t.elements('Account/Access/Campaigns/Grants/endAt', elements)}
         </Fragment>
-      }
+      )}
     </Item>
   )
 }

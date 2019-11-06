@@ -30,7 +30,7 @@ export const fragments = {
   `
 }
 
-const AppLogin = (props) => {
+const AppLogin = props => {
   const { user, t } = props
   const hasDevices = user && user.devices && !!user.devices.length
 
@@ -38,46 +38,73 @@ const AppLogin = (props) => {
     <Section
       heading={t('Onboarding/Sections/AppLogin/heading')}
       isTicked={hasDevices}
-      {...props}>
+      {...props}
+    >
       <P {...styles.p}>
-        {t.first([
-          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph1`,
-          'Onboarding/Sections/AppLogin/paragraph1'
-        ], null, '')}
+        {t.first(
+          [
+            `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph1`,
+            'Onboarding/Sections/AppLogin/paragraph1'
+          ],
+          null,
+          ''
+        )}
       </P>
       <P {...styles.p}>
-        {t.first([
-          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph2`,
-          'Onboarding/Sections/AppLogin/paragraph2'
-        ], null, '')}
+        {t.first(
+          [
+            `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph2`,
+            'Onboarding/Sections/AppLogin/paragraph2'
+          ],
+          null,
+          ''
+        )}
       </P>
       <P {...styles.p}>
-        {t.first([
-          `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph3`,
-          'Onboarding/Sections/AppLogin/paragraph3'
-        ], null, '')}
+        {t.first(
+          [
+            `Onboarding/Sections/AppLogin/hasDevice/${!!hasDevices}/paragraph3`,
+            'Onboarding/Sections/AppLogin/paragraph3'
+          ],
+          null,
+          ''
+        )}
       </P>
       <P {...styles.p}>
-        {t('Onboarding/Sections/AppLogin/ios')}<br />
-        <a href='https://itunes.apple.com/ch/app/republik/id1392772910' {...linkRule}>
+        {t('Onboarding/Sections/AppLogin/ios')}
+        <br />
+        <a
+          href='https://itunes.apple.com/ch/app/republik/id1392772910'
+          {...linkRule}
+        >
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/apple-store-badge.png`}
             height='54'
-            alt={t('Onboarding/Sections/AppLogin/ios/alt')} />
+            alt={t('Onboarding/Sections/AppLogin/ios/alt')}
+          />
         </a>
       </P>
       <P {...styles.p}>
-        {t('Onboarding/Sections/AppLogin/android')}<br />
-        <a href='https://play.google.com/store/apps/details?id=app.republik' {...linkRule}>
+        {t('Onboarding/Sections/AppLogin/android')}
+        <br />
+        <a
+          href='https://play.google.com/store/apps/details?id=app.republik'
+          {...linkRule}
+        >
           <img
             src={`${CDN_FRONTEND_BASE_URL}/static/google-play-badge.png`}
             height='54'
-            alt={t('Onboarding/Sections/AppLogin/android/alt')} />
+            alt={t('Onboarding/Sections/AppLogin/android/alt')}
+          />
         </a>
       </P>
       <P {...styles.p}>
-        {t('Onboarding/Sections/AppLogin/apk')}<br />
-        <a href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-1.0.3.apk`} {...linkRule}>
+        {t('Onboarding/Sections/AppLogin/apk')}
+        <br />
+        <a
+          href={`${ASSETS_SERVER_BASE_URL}/s3/republik-assets/assets/app/republik-1.0.3.apk`}
+          {...linkRule}
+        >
           {t('Onboarding/Sections/AppLogin/apk/link')}
         </a>
       </P>

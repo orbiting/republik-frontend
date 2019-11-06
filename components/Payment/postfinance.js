@@ -1,13 +1,7 @@
 import { ascending } from 'd3-array'
 import { PUBLIC_BASE_URL, PF_PSPID } from '../../lib/constants'
 
-export const getParams = ({
-  alias,
-  userId,
-  orderId,
-  amount,
-  sha
-}) => {
+export const getParams = ({ alias, userId, orderId, amount, sha }) => {
   const params = [
     {
       key: 'PSPID',

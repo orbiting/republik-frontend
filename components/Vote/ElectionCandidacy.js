@@ -3,7 +3,16 @@ import { withRouter } from 'next/router'
 import ErrorMessage from '../ErrorMessage'
 import voteT from './voteT'
 
-import { A, colors, InlineSpinner, Interaction, Button, Label, mediaQueries, NarrowContainer } from '@project-r/styleguide'
+import {
+  A,
+  colors,
+  InlineSpinner,
+  Interaction,
+  Button,
+  Label,
+  mediaQueries,
+  NarrowContainer
+} from '@project-r/styleguide'
 import withT from '../../lib/withT'
 import FieldSet from '../FieldSet'
 import Frame from '../../components/Frame'
@@ -28,16 +37,11 @@ const birthdayParse = swissTime.parse(birthdayFormat)
 
 const DEFAULT_COUNTRY = COUNTRIES[0]
 
-const addressFields = (t) => [
+const addressFields = t => [
   {
     label: t('Account/AddressForm/line1/label'),
     name: 'line1',
-    validator: (value) => (
-      (
-        !value &&
-        t('Account/AddressForm/line1/error/empty')
-      )
-    )
+    validator: value => !value && t('Account/AddressForm/line1/error/empty')
   },
   {
     label: t('Account/AddressForm/line2/label'),
@@ -46,36 +50,22 @@ const addressFields = (t) => [
   {
     label: t('Account/AddressForm/postalCode/label'),
     name: 'postalCode',
-    validator: (value) => (
-      (
-        !value &&
-        t('Account/AddressForm/postalCode/error/empty')
-      )
-    )
+    validator: value =>
+      !value && t('Account/AddressForm/postalCode/error/empty')
   },
   {
     label: t('Account/AddressForm/city/label'),
     name: 'city',
-    validator: (value) => (
-      (
-        !value &&
-        t('Account/AddressForm/city/error/empty')
-      )
-    )
+    validator: value => !value && t('Account/AddressForm/city/error/empty')
   },
   {
     label: t('Account/AddressForm/country/label'),
     name: 'country',
-    validator: (value) => (
-      (
-        !value &&
-        t('Account/AddressForm/country/error/empty')
-      )
-    )
+    validator: value => !value && t('Account/AddressForm/country/error/empty')
   }
 ]
 
-const fields = (t, vt) => ([
+const fields = (t, vt) => [
   {
     label: vt('info/candidacy/statement'),
     name: 'statement',
@@ -89,14 +79,12 @@ const fields = (t, vt) => ([
     name: 'birthday',
     mask: '11.11.1111',
     maskChar: '_',
-    validator: (value) => {
+    validator: value => {
       const parsedDate = birthdayParse(value)
       return (
-        (
-          parsedDate === null ||
-          parsedDate > (new Date()) ||
-          parsedDate < (new Date(1798, 3, 12))
-        ) &&
+        (parsedDate === null ||
+          parsedDate > new Date() ||
+          parsedDate < new Date(1798, 3, 12)) &&
         t('Account/Update/birthday/error/invalid')
       )
     }
@@ -104,10 +92,11 @@ const fields = (t, vt) => ([
   {
     label: vt('info/candidacy/credential'),
     name: 'credential',
-    validator: (value) => {
+    validator: value => {
       return (
-        ((!value || value === '') && vt('info/candidacy/credentialMissing'))) ||
-          (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
+        ((!value || value === '') && vt('info/candidacy/credentialMissing')) ||
+        (value.trim().length >= 40 && t('profile/credentials/errors/tooLong'))
+      )
     }
   },
   {
@@ -116,7 +105,7 @@ const fields = (t, vt) => ([
     name: 'disclosures',
     autoSize: true
   }
-])
+]
 
 const styles = {
   previewWrapper: css({
@@ -142,7 +131,7 @@ const styles = {
 }
 
 class ElectionCandidacy extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isEditing: !!props.router.query.edit || false,
@@ -168,9 +157,10 @@ class ElectionCandidacy extends React.Component {
         statement: values.statement,
         credential: values.credential,
         disclosures: values.disclosures,
-        birthday: values.birthday && values.birthday.length
-          ? values.birthday.trim()
-          : null,
+        birthday:
+          values.birthday && values.birthday.length
+            ? values.birthday.trim()
+            : null,
         portrait: values.portraitPreview ? values.portrait : undefined,
         address: {
           name: (me && me.address && me.address.name) || me.name,
@@ -180,16 +170,19 @@ class ElectionCandidacy extends React.Component {
           city: values.city,
           country: values.country
         }
-      }).then(() => {
-        return new Promise(resolve => setTimeout(resolve, 200)) // insert delay to slow down UI
-      }).then(() => {
-        this.setState(() => ({
-          isEditing: false,
-          updating: false,
-          error: null
-        }))
-      }).then(() => window.scrollTo(0, 0))
-        .catch((error) => {
+      })
+        .then(() => {
+          return new Promise(resolve => setTimeout(resolve, 200)) // insert delay to slow down UI
+        })
+        .then(() => {
+          this.setState(() => ({
+            isEditing: false,
+            updating: false,
+            error: null
+          }))
+        })
+        .then(() => window.scrollTo(0, 0))
+        .catch(error => {
           this.setState(() => ({
             updating: false,
             error
@@ -199,13 +192,15 @@ class ElectionCandidacy extends React.Component {
 
     this.cancel = async () => {
       const { cancelCandidacy } = this.props
-      cancelCandidacy(ELECTION_COOP_MEMBERS_SLUG).then(() => {
-        this.setState(() => ({
-          isEditing: false,
-          error: null
-        }))
-      }).then(() => window.scrollTo(0, 0))
-        .catch((error) => {
+      cancelCandidacy(ELECTION_COOP_MEMBERS_SLUG)
+        .then(() => {
+          this.setState(() => ({
+            isEditing: false,
+            error: null
+          }))
+        })
+        .then(() => window.scrollTo(0, 0))
+        .catch(error => {
           this.setState(() => ({
             updating: false,
             error
@@ -218,9 +213,11 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  deriveStateFromProps ({ data }) {
-    const { statement, birthday, disclosures, credentials, address, portrait } = data.me || {}
-    const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } = address || {}
+  deriveStateFromProps({ data }) {
+    const { statement, birthday, disclosures, credentials, address, portrait } =
+      data.me || {}
+    const { line1, line2, city, postalCode, country = DEFAULT_COUNTRY } =
+      address || {}
     const credential = credentials ? credentials.find(c => c.isListed) : {}
     return {
       values: {
@@ -238,13 +235,13 @@ class ElectionCandidacy extends React.Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.data.me && nextProps.data.me !== this.props.data.me) {
       this.setState(this.deriveStateFromProps(nextProps))
     }
   }
 
-  render () {
+  render() {
     const { t, vt } = this.props
     const { data } = this.props
 
@@ -255,75 +252,105 @@ class ElectionCandidacy extends React.Component {
 
     return (
       <Frame meta={meta}>
-        <Loader loading={data.loading} error={data.error} render={() => {
-          const { me, election } = data
-          if (!election) {
-            return null
-          }
-          const { values, errors, error, dirty, isEditing, updating } = this.state
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            const { me, election } = data
+            if (!election) {
+              return null
+            }
+            const {
+              values,
+              errors,
+              error,
+              dirty,
+              isEditing,
+              updating
+            } = this.state
 
-          const candidate = !updating && me.candidacies && me.candidacies.find(c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG)
+            const candidate =
+              !updating &&
+              me.candidacies &&
+              me.candidacies.find(
+                c => c.election.slug === ELECTION_COOP_MEMBERS_SLUG
+              )
 
-          const combinedErrors = {
-            username: (values.username || me.username) ? undefined : vt('common/missingUsername'),
-            ...errors
-          }
+            const combinedErrors = {
+              username:
+                values.username || me.username
+                  ? undefined
+                  : vt('common/missingUsername'),
+              ...errors
+            }
 
-          const isValid = !Object.keys(combinedErrors).some(k => Boolean(combinedErrors[k]))
+            const isValid = !Object.keys(combinedErrors).some(k =>
+              Boolean(combinedErrors[k])
+            )
 
-          const { name } = me
-          const { statement, birthday, disclosures, credential, city, portrait, portraitPreview } = values
-          const parsedBirthday = birthdayParse(birthday)
-
-          const candidacyPreview = me && {
-            user: {
-              name,
+            const { name } = me
+            const {
               statement,
+              birthday,
               disclosures,
-              credentials: [{
-                description: credential,
-                isListed: true
-              }],
-              portrait: portraitPreview || portrait
-            },
-            city,
-            yearOfBirth: parsedBirthday ? parsedBirthday.getFullYear() : undefined,
-            recommendation: candidate ? candidate.recommendation : undefined
-          }
+              credential,
+              city,
+              portrait,
+              portraitPreview
+            } = values
+            const parsedBirthday = birthdayParse(birthday)
 
-          if (new Date() >= new Date(election.candidacyEndDate)) {
+            const candidacyPreview = me && {
+              user: {
+                name,
+                statement,
+                disclosures,
+                credentials: [
+                  {
+                    description: credential,
+                    isListed: true
+                  }
+                ],
+                portrait: portraitPreview || portrait
+              },
+              city,
+              yearOfBirth: parsedBirthday
+                ? parsedBirthday.getFullYear()
+                : undefined,
+              recommendation: candidate ? candidate.recommendation : undefined
+            }
+
+            if (new Date() >= new Date(election.candidacyEndDate)) {
+              return (
+                <NarrowContainer>
+                  <P>{vt('vote/candidacy/tooLate')}</P>
+                </NarrowContainer>
+              )
+            }
+
             return (
               <NarrowContainer>
-                <P>{ vt('vote/candidacy/tooLate') }</P>
-              </NarrowContainer>
-            )
-          }
-
-          return (
-            <NarrowContainer>
-              <Title>
-                { candidate
-                  ? vt('info/candidacy/title2')
-                  : vt('info/candidacy/title')
-                }
-              </Title>
-              <div {...styles.previewWrapper}>
-                <H2>{ vt('info/candidacy/previewTitle') }</H2>
-                <div style={{ margin: `15px 0` }}>
-                  <P>{ vt('info/candidacy/previewLabel') }</P>
+                <Title>
+                  {candidate
+                    ? vt('info/candidacy/title2')
+                    : vt('info/candidacy/title')}
+                </Title>
+                <div {...styles.previewWrapper}>
+                  <H2>{vt('info/candidacy/previewTitle')}</H2>
+                  <div style={{ margin: `15px 0` }}>
+                    <P>{vt('info/candidacy/previewLabel')}</P>
+                  </div>
+                  <ElectionBallotRow
+                    maxVotes={0}
+                    expanded
+                    candidate={candidacyPreview}
+                  />
                 </div>
-                <ElectionBallotRow
-                  maxVotes={0}
-                  expanded
-                  candidate={candidacyPreview}
-                />
-              </div>
-              <div>
-                {
-                  (isEditing || !candidate) ? (
+                <div>
+                  {isEditing || !candidate ? (
                     <Fragment>
                       <Section>
-                        <H2>{ t('Account/Update/address/label') }</H2>
+                        <H2>{t('Account/Update/address/label')}</H2>
                         <div {...styles.vSpace}>
                           <FieldSet
                             values={values}
@@ -336,8 +363,15 @@ class ElectionCandidacy extends React.Component {
                         </div>
                       </Section>
                       <Section>
-                        <H2>{ vt('info/candidacy/candidacyTitle') }</H2>
-                        <div {...styles.vSpace} style={{ width: 104, height: 104, background: 'black' }}>
+                        <H2>{vt('info/candidacy/candidacyTitle')}</H2>
+                        <div
+                          {...styles.vSpace}
+                          style={{
+                            width: 104,
+                            height: 104,
+                            background: 'black'
+                          }}
+                        >
                           <Portrait
                             user={me}
                             isEditing
@@ -345,17 +379,18 @@ class ElectionCandidacy extends React.Component {
                             onChange={this.onChange}
                             values={values}
                             errors={errors}
-                            dirty={dirty} />
+                            dirty={dirty}
+                          />
                         </div>
                         <div {...styles.vSpace}>
-                          { !me.username &&
-                          <UsernameField
-                            user={me}
-                            values={values}
-                            errors={errors}
-                            onChange={this.onChange}
-                          />
-                          }
+                          {!me.username && (
+                            <UsernameField
+                              user={me}
+                              values={values}
+                              errors={errors}
+                              onChange={this.onChange}
+                            />
+                          )}
                           <FieldSet
                             values={values}
                             isEditing={isEditing}
@@ -366,45 +401,52 @@ class ElectionCandidacy extends React.Component {
                           />
                         </div>
                       </Section>
-                      { error &&
-                      <div {...styles.vSpace}>
-                        <ErrorMessage error={error} />
-                      </div>
-                      }
+                      {error && (
+                        <div {...styles.vSpace}>
+                          <ErrorMessage error={error} />
+                        </div>
+                      )}
                       <div {...styles.section}>
-                        <Small indent={false} dangerousHTML={vt('info/candidacy/finePrint')} />
+                        <Small
+                          indent={false}
+                          dangerousHTML={vt('info/candidacy/finePrint')}
+                        />
                       </div>
-                      { !isValid &&
-                      <div {...styles.vSpace}>
-                        <div {...styles.error}>
-                          { vt('info/candidacy/missingFields') }
-                          <ul>
-                            { Object.keys(combinedErrors).map(k => !!combinedErrors[k] &&
-                              <li key={k}>{ combinedErrors[k] }</li>) }
-                          </ul>
+                      {!isValid && (
+                        <div {...styles.vSpace}>
+                          <div {...styles.error}>
+                            {vt('info/candidacy/missingFields')}
+                            <ul>
+                              {Object.keys(combinedErrors).map(
+                                k =>
+                                  !!combinedErrors[k] && (
+                                    <li key={k}>{combinedErrors[k]}</li>
+                                  )
+                              )}
+                            </ul>
+                          </div>
                         </div>
-                      </div>
-                      }
+                      )}
                       <div {...styles.vSpace}>
-                        { (isEditing || !candidate) &&
-                        <div {...styles.saveButton}>
-                          { updating
-                            ? <InlineSpinner />
-                            : <Button
-                              type='submit'
-                              block
-                              primary
-                              onClick={this.save}
-                              disabled={updating || !isValid}
-                            >
-                              { candidate
-                                ? vt('info/candidacy/saveChanges')
-                                : vt('info/candidacy/sumbitCandidacy')
-                              }
-                            </Button>
-                          }
-                        </div>
-                        }
+                        {(isEditing || !candidate) && (
+                          <div {...styles.saveButton}>
+                            {updating ? (
+                              <InlineSpinner />
+                            ) : (
+                              <Button
+                                type='submit'
+                                block
+                                primary
+                                onClick={this.save}
+                                disabled={updating || !isValid}
+                              >
+                                {candidate
+                                  ? vt('info/candidacy/saveChanges')
+                                  : vt('info/candidacy/sumbitCandidacy')}
+                              </Button>
+                            )}
+                          </div>
+                        )}
                         <div {...styles.vSpace}>
                           <Body dangerousHTML={vt('info/footer')} />
                         </div>
@@ -413,85 +455,114 @@ class ElectionCandidacy extends React.Component {
                   ) : (
                     <Fragment>
                       <div {...styles.vSpace}>
-                        <Body dangerousHTML={vt('info/candidacy/confirmation')} />
+                        <Body
+                          dangerousHTML={vt('info/candidacy/confirmation')}
+                        />
                       </div>
                       <div {...styles.vSpace}>
-                        <A href='#' onClick={(e) => {
-                          e.preventDefault()
-                          this.startEditing()
-                        }}>
-                          { vt('info/candidacy/edit') }
+                        <A
+                          href='#'
+                          onClick={e => {
+                            e.preventDefault()
+                            this.startEditing()
+                          }}
+                        >
+                          {vt('info/candidacy/edit')}
                         </A>
                       </div>
-                      { this.props.me.roles.some(r => r === 'admin') &&
-                      <div {...styles.vSpace}>
-                        ADMIN TOOL: <A href='#' onClick={(e) => {
-                          e.preventDefault()
-                          this.cancel()
-                        }}>
-                          { vt('info/candidacy/delete') }
-                        </A>
-                      </div>
-                      }
+                      {this.props.me.roles.some(r => r === 'admin') && (
+                        <div {...styles.vSpace}>
+                          ADMIN TOOL:{' '}
+                          <A
+                            href='#'
+                            onClick={e => {
+                              e.preventDefault()
+                              this.cancel()
+                            }}
+                          >
+                            {vt('info/candidacy/delete')}
+                          </A>
+                        </div>
+                      )}
                     </Fragment>
-                  )
-                }
-              </div>
-            </NarrowContainer>
-          )
-        }} />
+                  )}
+                </div>
+              </NarrowContainer>
+            )
+          }}
+        />
       </Frame>
     )
   }
 }
 
-const cancelCandidacy = gql`mutation submitCandidacy($slug: String!) {
-  cancelCandidacy(slug: $slug) {
-    candidacies {
-      id
-    }
-  }
-}`
-
-const updateCandidacy = gql`mutation updateCandidacy($slug:String!, $birthday: Date, $statement: String, $disclosures: String, $address: AddressInput, $portrait: String, $username: String) {
-  updateMe(birthday: $birthday, statement: $statement, disclosures: $disclosures, address: $address, portrait: $portrait, username: $username, hasPublicProfile: true) {
-    id
-    username
-    name
-    portrait
-    statement
-    disclosures
-    birthday
-    address {
-      name
-      line1
-      line2
-      postalCode
-      city
-      country
-    }
-    credentials {
-      isListed
-      description
-    }
-    publicUrl
-  }
-  submitCandidacy(slug: $slug) {
-    id
-    yearOfBirth
-    city
-    recommendation
-    user {
-      id
+const cancelCandidacy = gql`
+  mutation submitCandidacy($slug: String!) {
+    cancelCandidacy(slug: $slug) {
       candidacies {
         id
-        election {
-          slug
+      }
+    }
+  }
+`
+
+const updateCandidacy = gql`
+  mutation updateCandidacy(
+    $slug: String!
+    $birthday: Date
+    $statement: String
+    $disclosures: String
+    $address: AddressInput
+    $portrait: String
+    $username: String
+  ) {
+    updateMe(
+      birthday: $birthday
+      statement: $statement
+      disclosures: $disclosures
+      address: $address
+      portrait: $portrait
+      username: $username
+      hasPublicProfile: true
+    ) {
+      id
+      username
+      name
+      portrait
+      statement
+      disclosures
+      birthday
+      address {
+        name
+        line1
+        line2
+        postalCode
+        city
+        country
+      }
+      credentials {
+        isListed
+        description
+      }
+      publicUrl
+    }
+    submitCandidacy(slug: $slug) {
+      id
+      yearOfBirth
+      city
+      recommendation
+      user {
+        id
+        candidacies {
+          id
+          election {
+            slug
+          }
         }
       }
     }
   }
-}`
+`
 
 const publishCredential = gql`
   mutation publishCredential($description: String) {
@@ -500,7 +571,6 @@ const publishCredential = gql`
       description
     }
   }
-
 `
 
 const query = gql`
@@ -564,8 +634,14 @@ export default compose(
     })
   }),
   graphql(updateCandidacy, {
-    props: ({ mutate, ownProps: { publishCredential, data: { me } } }) => ({
-      updateCandidacy: async (variables) => {
+    props: ({
+      mutate,
+      ownProps: {
+        publishCredential,
+        data: { me }
+      }
+    }) => ({
+      updateCandidacy: async variables => {
         const credential = (me.credentials || []).find(c => c.isListed) || {}
         if (variables.credential !== credential.description) {
           await publishCredential(variables.credential || null)

@@ -18,9 +18,7 @@ const styles = {
   })
 }
 export const PageCenter = ({ children }) => (
-  <div {...styles.center}>
-    {children}
-  </div>
+  <div {...styles.center}>{children}</div>
 )
 
 const UnauthorizedPage = withT(({ t, me, roles = [] }) => (
@@ -49,11 +47,12 @@ const UnauthorizedPage = withT(({ t, me, roles = [] }) => (
   </Frame>
 ))
 
-export const enforceAuthorization = roles => WrappedComponent => withAuthorization(roles)(({ isAuthorized, me, ...props }) => {
-  if (isAuthorized) {
-    return <WrappedComponent {...props} />
-  }
-  return <UnauthorizedPage me={me} roles={roles} />
-})
+export const enforceAuthorization = roles => WrappedComponent =>
+  withAuthorization(roles)(({ isAuthorized, me, ...props }) => {
+    if (isAuthorized) {
+      return <WrappedComponent {...props} />
+    }
+    return <UnauthorizedPage me={me} roles={roles} />
+  })
 
 export default withAuthorization

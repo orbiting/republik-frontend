@@ -5,9 +5,7 @@ import Loader from '../Loader'
 import DocumentList from './DocumentList'
 import noop from 'lodash/noop'
 
-import {
-  onDocumentFragment as bookmarkOnDocumentFragment
-} from '../Bookmarks/fragments'
+import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
 
 import { userProgressFragment } from '../Article/Progress/api'
 
@@ -106,10 +104,7 @@ export const makeLoadMore = ({
     updateQuery: (previousResult, { fetchMoreResult }) => {
       const prevCon = getConnection(previousResult)
       const moreCon = getConnection(fetchMoreResult)
-      const nodes = [
-        ...prevCon.nodes,
-        ...moreCon.nodes
-      ].filter(
+      const nodes = [...prevCon.nodes, ...moreCon.nodes].filter(
         // deduplicating due to off by one in pagination API
         (node, index, all) =>
           all.findIndex(n => mapNodes(n).id === mapNodes(node).id) === index
@@ -126,16 +121,16 @@ export const makeLoadMore = ({
   })
 
 class LifecycleWrapper extends Component {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.onComponentWillUnmount && this.props.onComponentWillUnmount()
   }
-  render () {
+  render() {
     return this.props.children
   }
 }
 
 class DocumentListContainer extends Component {
-  render () {
+  render() {
     const {
       query,
       getConnection,
@@ -149,8 +144,10 @@ class DocumentListContainer extends Component {
 
     return (
       <Query query={query}>
-        {({ loading, error, data, fetchMore, refetch }) =>
-          <LifecycleWrapper onComponentWillUnmount={refetchOnUnmount ? refetch : noop}>
+        {({ loading, error, data, fetchMore, refetch }) => (
+          <LifecycleWrapper
+            onComponentWillUnmount={refetchOnUnmount ? refetch : noop}
+          >
             <Loader
               loading={loading}
               error={error}
@@ -168,7 +165,13 @@ class DocumentListContainer extends Component {
                         documents={connection.nodes.map(mapNodes)}
                         totalCount={connection.totalCount}
                         hasMore={hasMore}
-                        loadMore={makeLoadMore({ fetchMore, connection, getConnection, mergeConnection, mapNodes })}
+                        loadMore={makeLoadMore({
+                          fetchMore,
+                          connection,
+                          getConnection,
+                          mergeConnection,
+                          mapNodes
+                        })}
                         feedProps={feedProps}
                       />
                     </>
@@ -177,7 +180,7 @@ class DocumentListContainer extends Component {
               }}
             />
           </LifecycleWrapper>
-        }
+        )}
       </Query>
     )
   }

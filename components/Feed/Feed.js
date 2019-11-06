@@ -9,54 +9,50 @@ import StickySection from './StickySection'
 import PropTypes from 'prop-types'
 import formatCredits from './formatCredits'
 
-import {
-  TeaserFeed
-} from '@project-r/styleguide'
+import { TeaserFeed } from '@project-r/styleguide'
 
 const dateFormat = timeFormat('%A,\n%d.%m.%Y')
 
 const groupByDate = nest().key(d => dateFormat(new Date(d.meta.publishDate)))
 
 class Feed extends Component {
-  renderFeedItem = doc =>
+  renderFeedItem = doc => (
     <TeaserFeed
       {...doc.meta}
       title={doc.meta.shortTitle || doc.meta.title}
       description={!doc.meta.shortTitle && doc.meta.description}
       t={this.props.t}
-      credits={this.props.showHeader ? formatCredits(doc.meta.credits) : doc.meta.credits}
+      credits={
+        this.props.showHeader
+          ? formatCredits(doc.meta.credits)
+          : doc.meta.credits
+      }
       publishDate={undefined}
       kind={
-        doc.meta.template === 'editorialNewsletter' ? (
-          'meta'
-        ) : (
-          doc.meta.kind
-        )
+        doc.meta.template === 'editorialNewsletter' ? 'meta' : doc.meta.kind
       }
       Link={Link}
       key={doc.meta.path}
-      bar={<ActionBar
-        documentId={doc.id}
-        userBookmark={doc.userBookmark}
-        userProgress={doc.userProgress}
-        {...doc.meta} />}
+      bar={
+        <ActionBar
+          documentId={doc.id}
+          userBookmark={doc.userBookmark}
+          userProgress={doc.userProgress}
+          {...doc.meta}
+        />
+      }
     />
+  )
 
-  render () {
+  render() {
     const { documents, showHeader } = this.props
 
     if (showHeader) {
-      return groupByDate.entries(documents).map(({ key, values }, i, all) =>
-        <StickySection
-          key={i}
-          hasSpaceAfter={i < all.length - 1}
-          label={key}
-        >
-          {
-            values.map(this.renderFeedItem)
-          }
+      return groupByDate.entries(documents).map(({ key, values }, i, all) => (
+        <StickySection key={i} hasSpaceAfter={i < all.length - 1} label={key}>
+          {values.map(this.renderFeedItem)}
         </StickySection>
-      )
+      ))
     } else {
       return documents.map(this.renderFeedItem)
     }
@@ -64,13 +60,15 @@ class Feed extends Component {
 }
 
 Feed.propTypes = {
-  documents: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    meta: PropTypes.shape({
-      publishDate: PropTypes.string.isRequired
-    }),
-    showHeader: PropTypes.bool
-  }).isRequired).isRequired
+  documents: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      meta: PropTypes.shape({
+        publishDate: PropTypes.string.isRequired
+      }),
+      showHeader: PropTypes.bool
+    }).isRequired
+  ).isRequired
 }
 
 Feed.defaultProps = {
@@ -78,6 +76,4 @@ Feed.defaultProps = {
   documents: []
 }
 
-export default compose(
-  withT
-)(Feed)
+export default compose(withT)(Feed)

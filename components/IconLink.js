@@ -2,10 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import {
-  mediaQueries,
-  colors
-} from '@project-r/styleguide'
+import { mediaQueries, colors } from '@project-r/styleguide'
 
 import AudioIcon from 'react-icons/lib/md/volume-up'
 import ChartIcon from './Icons/Chart'
@@ -162,11 +159,14 @@ const IconLink = ({
   const ref = useRef()
 
   useEffect(() => {
-    if (!animate || !(
-      'IntersectionObserver' in window &&
-      'IntersectionObserverEntry' in window &&
-      'isIntersecting' in window.IntersectionObserverEntry.prototype
-    )) {
+    if (
+      !animate ||
+      !(
+        'IntersectionObserver' in window &&
+        'IntersectionObserverEntry' in window &&
+        'isIntersecting' in window.IntersectionObserverEntry.prototype
+      )
+    ) {
       return
     }
     const observer = new window.IntersectionObserver(
@@ -186,7 +186,7 @@ const IconLink = ({
   return (
     <a
       {...styles.link}
-      {...(getExtraStyles(mobileOnly, stacked))}
+      {...getExtraStyles(mobileOnly, stacked)}
       href={href}
       onClick={onClick}
       style={style}
@@ -195,22 +195,25 @@ const IconLink = ({
       title={title}
     >
       <span {...styles.icon} ref={ref}>
-        {shouldAnimate && <span
-          {...styles.solid}
-          style={{ width: size, height: size }} />}
-        <Icon fill={fill} size={size} {...shouldAnimate && css({
-          position: 'relative',
-          animation: `${css.keyframes({
-            '0%': { fill: fill || colors.text },
-            '33%': { fill: colors.primary },
-            '100%': { fill: fill || colors.text }
-          })} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
-        })} />
+        {shouldAnimate && (
+          <span {...styles.solid} style={{ width: size, height: size }} />
+        )}
+        <Icon
+          fill={fill}
+          size={size}
+          {...(shouldAnimate &&
+            css({
+              position: 'relative',
+              animation: `${css.keyframes({
+                '0%': { fill: fill || colors.text },
+                '33%': { fill: colors.primary },
+                '100%': { fill: fill || colors.text }
+              })} 2.5s cubic-bezier(0.6, 0, 0.6, 1) alternate`
+            }))}
+        />
       </span>
       {children && (
-        <span
-          {...(stacked ? styles.stackedText : styles.text)}
-        >
+        <span {...(stacked ? styles.stackedText : styles.text)}>
           {children}
         </span>
       )}

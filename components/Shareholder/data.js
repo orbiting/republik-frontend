@@ -5,91 +5,125 @@ import { sum } from 'd3-array'
 // Make sure to update share image when changing data
 // - static/social-media/aktionariat.png
 const data = [
-  { Kategorie: 'Project R Gen',
-    'Aktionärin': 'Project R',
+  {
+    Kategorie: 'Project R Gen',
+    Aktionärin: 'Project R',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '490000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Susanne Sugimoto',
+    Anzahl: '490000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Susanne Sugimoto',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '70000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Laurent Burst',
+    Anzahl: '70000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Laurent Burst',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '70000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Nadja Schnetzler',
+    Anzahl: '70000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Nadja Schnetzler',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '70000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Christof Moser',
+    Anzahl: '70000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Christof Moser',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '70000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Constantin Seibt',
+    Anzahl: '70000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Constantin Seibt',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '70000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Clara Vuillemin',
+    Anzahl: '70000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Clara Vuillemin',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '40000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Patrick Recher',
+    Anzahl: '40000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Patrick Recher',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '40000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Thomas Preusse',
+    Anzahl: '40000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Thomas Preusse',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Richard Höchner',
+    Anzahl: '10000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Richard Höchner',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Sylvie Reinhard',
+    Anzahl: '10000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Sylvie Reinhard',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'David Schärer',
+    Anzahl: '10000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'David Schärer',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Gründerteam',
-    'Aktionärin': 'Tobias Peier',
+    Anzahl: '10000'
+  },
+  {
+    Kategorie: 'Gründerteam',
+    Aktionärin: 'Tobias Peier',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '10000' },
-  { Kategorie: 'Eigenaktien Republik',
-    'Aktionärin': 'Republik AG',
+    Anzahl: '10000'
+  },
+  {
+    Kategorie: 'Eigenaktien Republik',
+    Aktionärin: 'Republik AG',
     Typ: 'A',
     'Nominal CHF': '0.10',
-    Anzahl: '30000' },
-  { Kategorie: 'Geldgeber',
-    'Aktionärin': 'Gebrüder Meili',
+    Anzahl: '30000'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Gebrüder Meili',
     Typ: 'B',
     'Nominal CHF': '0.40',
-    Anzahl: '26111' },
-  { Kategorie: 'Geldgeber',
-    'Aktionärin': 'Mettiss AG',
+    Anzahl: '26111'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Mettiss AG',
     Typ: 'B',
     'Nominal CHF': '0.40',
-    Anzahl: '4445' },
-  { Kategorie: 'Geldgeber',
-    'Aktionärin': 'Steff Fischer',
+    Anzahl: '4445'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Steff Fischer',
     Typ: 'B',
     'Nominal CHF': '0.40',
-    Anzahl: '2778' }
+    Anzahl: '2778'
+  }
 ]
 
 export const groupped = hierarchy({

@@ -38,7 +38,8 @@ const styles = {
 }
 
 export default compose(
-  withT, withRouter
+  withT,
+  withRouter
 )(({ router, t }) => {
   const meta = {
     pageTitle: t('markdown/pageTitle'),
@@ -51,7 +52,11 @@ export default compose(
   return (
     <Frame meta={meta}>
       <Interaction.H1>Markdown</Interaction.H1>
-      <P>Sie wollen in einer Debatte eine Quelle verlinken oder einen Begriff hervorheben? Das können Sie ganz einfach mit Markdown. Hier die wichtigsten Tricks im Überblick:</P>
+      <P>
+        Sie wollen in einer Debatte eine Quelle verlinken oder einen Begriff
+        hervorheben? Das können Sie ganz einfach mit Markdown. Hier die
+        wichtigsten Tricks im Überblick:
+      </P>
       <table {...styles.table}>
         <tbody>
           <tr>
@@ -60,11 +65,15 @@ export default compose(
           </tr>
           <tr>
             <td>**fett**</td>
-            <td><Emphasis>fett</Emphasis></td>
+            <td>
+              <Emphasis>fett</Emphasis>
+            </td>
           </tr>
           <tr>
             <td>*kursiv*</td>
-            <td><Cursive>kursiv</Cursive></td>
+            <td>
+              <Cursive>kursiv</Cursive>
+            </td>
           </tr>
           <tr>
             <td>~~durchgestrichen~~</td>
@@ -77,18 +86,24 @@ export default compose(
           <tr>
             <td>Ein [Link](https://republik.ch)</td>
             <td>
-              <CommentBodyParagraph>Ein <A href='https://www.republik.ch'>Link</A></CommentBodyParagraph>
+              <CommentBodyParagraph>
+                Ein <A href='https://www.republik.ch'>Link</A>
+              </CommentBodyParagraph>
             </td>
           </tr>
           <tr>
             <td># Eine Überschrift</td>
-            <td><CommentBodyHeading>Eine Überschrift</CommentBodyHeading></td>
+            <td>
+              <CommentBodyHeading>Eine Überschrift</CommentBodyHeading>
+            </td>
           </tr>
           <tr>
             <td>&gt; Ein Zitat</td>
             <td>
               <CommentBodyBlockQuote>
-                <CommentBodyBlockQuoteParagraph>Ein Zitat</CommentBodyBlockQuoteParagraph>
+                <CommentBodyBlockQuoteParagraph>
+                  Ein Zitat
+                </CommentBodyBlockQuoteParagraph>
               </CommentBodyBlockQuote>
             </td>
           </tr>
@@ -102,13 +117,18 @@ export default compose(
           </tr>
           <tr>
             <td>***</td>
-            <td><HR /></td>
+            <td>
+              <HR />
+            </td>
           </tr>
           <tr>
             <td>
-              * Liste<br />
-              * Liste<br />
-              * Liste<br />
+              * Liste
+              <br />
+              * Liste
+              <br />
+              * Liste
+              <br />
             </td>
             <td>
               <CommentBodyList data={{ ordered: false }}>
@@ -120,9 +140,12 @@ export default compose(
           </tr>
           <tr>
             <td>
-              1. Liste<br />
-              2. Liste<br />
-              3. Liste<br />
+              1. Liste
+              <br />
+              2. Liste
+              <br />
+              3. Liste
+              <br />
             </td>
             <td>
               <CommentBodyList data={{ ordered: true }}>

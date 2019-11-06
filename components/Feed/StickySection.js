@@ -47,7 +47,7 @@ const style = {
 }
 
 class StickySection extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       sticky: false,
@@ -57,22 +57,23 @@ class StickySection extends Component {
       height: 0
     }
     this.sectionRef = null
-    this.setSectionRef = (el) => { this.sectionRef = el }
+    this.setSectionRef = el => {
+      this.sectionRef = el
+    }
 
     this.onScroll = () => {
       if (this.sectionRef) {
         const { sticky, isSmall, height } = this.state
         const { hasSpaceAfter } = this.props
 
-        const headerHeight = isSmall
-          ? HEADER_HEIGHT_MOBILE
-          : HEADER_HEIGHT
+        const headerHeight = isSmall ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
 
         const y = window.pageYOffset + headerHeight
 
         const offset = this.sectionRef.offsetTop
-        const nextSticky = (y > offset) && // scroll pos is below top of section
-          (offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y) // scroll pos is above bottom
+        const nextSticky =
+          y > offset && // scroll pos is below top of section
+          offset + height + (hasSpaceAfter ? STICKY_HEADER_HEIGHT : 0) > y // scroll pos is above bottom
         if (sticky !== nextSticky) {
           this.setState({ sticky: nextSticky })
         }
@@ -89,18 +90,18 @@ class StickySection extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
 
-  render () {
+  render() {
     const { children, label } = this.props
     const { sticky, width, isMedium } = this.state
 
@@ -112,16 +113,13 @@ class StickySection extends Component {
             {...(sticky ? style.sticky : undefined)}
             style={{
               position: sticky ? 'fixed' : 'relative',
-              width: isMedium ? width : (width ? SIDEBAR_WIDTH : '100%')
-            }}>
-            {
-              label
-            }
+              width: isMedium ? width : width ? SIDEBAR_WIDTH : '100%'
+            }}
+          >
+            {label}
           </div>
         </div>
-        {
-          children
-        }
+        {children}
       </section>
     )
   }

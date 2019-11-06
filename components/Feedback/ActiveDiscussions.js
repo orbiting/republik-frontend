@@ -18,40 +18,49 @@ import {
 } from '@project-r/styleguide'
 
 const styles = {
-  item: merge(linkRule, css({
-    color: colors.text,
-    textDecoration: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    textAlign: 'left',
-    padding: '10px 0',
-    cursor: 'pointer',
-    '& ~ &': {
-      borderTop: `1px solid ${colors.divider}`
-    },
-    '@media(hover)': {
-      '&:hover': {
-        background: colors.secondaryBg,
-        margin: '0 -15px',
-        padding: '10px 15px',
-        width: 'calc(100% + 30px)'
+  item: merge(
+    linkRule,
+    css({
+      color: colors.text,
+      textDecoration: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+      textAlign: 'left',
+      padding: '10px 0',
+      cursor: 'pointer',
+      '& ~ &': {
+        borderTop: `1px solid ${colors.divider}`
       },
-      '&:hover + &': {
-        borderColor: 'transparent'
+      '@media(hover)': {
+        '&:hover': {
+          background: colors.secondaryBg,
+          margin: '0 -15px',
+          padding: '10px 15px',
+          width: 'calc(100% + 30px)'
+        },
+        '&:hover + &': {
+          borderColor: 'transparent'
+        },
+        '& + &:hover': {
+          borderColor: 'transparent'
+        }
       },
-      '& + &:hover': {
-        borderColor: 'transparent'
+      ...fontStyles.sansSerifRegular18,
+      [mediaQueries.mUp]: {
+        ...fontStyles.sansSerifRegular21
       }
-    },
-    ...fontStyles.sansSerifRegular18,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular21
-    }
-  }))
+    })
+  )
 }
 
-const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) => (
+const ActiveDiscussionItem = ({
+  discussion,
+  onClick,
+  label,
+  selected,
+  path
+}) => (
   <DiscussionLink discussion={discussion} passHref>
     <a
       {...styles.item}
@@ -69,17 +78,19 @@ const ActiveDiscussionItem = ({ discussion, onClick, label, selected, path }) =>
 )
 
 class ActiveDiscussions extends Component {
-  render () {
+  render() {
     const { discussionId, ignoreDiscussionId, data } = this.props
 
-    const activeDiscussions = data &&
+    const activeDiscussions =
+      data &&
       data.activeDiscussions &&
-      data.activeDiscussions.filter(
-        activeDiscussion => (
-          activeDiscussion.discussion.id !== ignoreDiscussionId &&
-          !activeDiscussion.discussion.closed
+      data.activeDiscussions
+        .filter(
+          activeDiscussion =>
+            activeDiscussion.discussion.id !== ignoreDiscussionId &&
+            !activeDiscussion.discussion.closed
         )
-      ).slice(0, 10)
+        .slice(0, 10)
 
     return (
       <Loader
@@ -88,20 +99,26 @@ class ActiveDiscussions extends Component {
         render={() => {
           return (
             <div>
-              {activeDiscussions && activeDiscussions.map(activeDiscussion => {
-                const discussion = activeDiscussion.discussion
-                const selected = discussionId && discussionId === discussion.id
-                const meta = discussion.document ? discussion.document.meta : {}
-                const path = meta && meta.template === 'discussion' && discussion.path
-                return (
-                  <ActiveDiscussionItem
-                    key={discussion.id}
-                    label={discussion.title}
-                    selected={selected}
-                    discussion={discussion}
-                    path={path} />
-                )
-              })}
+              {activeDiscussions &&
+                activeDiscussions.map(activeDiscussion => {
+                  const discussion = activeDiscussion.discussion
+                  const selected =
+                    discussionId && discussionId === discussion.id
+                  const meta = discussion.document
+                    ? discussion.document.meta
+                    : {}
+                  const path =
+                    meta && meta.template === 'discussion' && discussion.path
+                  return (
+                    <ActiveDiscussionItem
+                      key={discussion.id}
+                      label={discussion.title}
+                      selected={selected}
+                      discussion={discussion}
+                      path={path}
+                    />
+                  )
+                })}
             </div>
           )
         }}
@@ -116,6 +133,4 @@ ActiveDiscussions.propTypes = {
   onChange: PropTypes.func
 }
 
-export default compose(
-  withActiveDiscussions
-)(ActiveDiscussions)
+export default compose(withActiveDiscussions)(ActiveDiscussions)

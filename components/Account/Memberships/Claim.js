@@ -21,7 +21,11 @@ import { withSignIn } from '../../Auth/SignIn'
 import { css } from 'glamor'
 
 import {
-  Field, Button, Interaction, RawHtml, InlineSpinner,
+  Field,
+  Button,
+  Interaction,
+  RawHtml,
+  InlineSpinner,
   colors
 } from '@project-r/styleguide'
 
@@ -34,15 +38,15 @@ const styles = {
   })
 }
 
-export const isMembershipVoucherCode = (voucherCode) => {
+export const isMembershipVoucherCode = voucherCode => {
   return voucherCode.length === 6
 }
 
-export const isAccessGrantVoucherCode = (voucherCode) => {
+export const isAccessGrantVoucherCode = voucherCode => {
   return voucherCode.length === 5
 }
 
-export const sanitizeVoucherCode = (value) => {
+export const sanitizeVoucherCode = value => {
   return value
     .replace(/[^a-zA-Z0-9]/g, '')
     .trim()
@@ -55,7 +59,7 @@ const relocateToOnboarding = context => {
 }
 
 class ClaimMembership extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -68,58 +72,63 @@ class ClaimMembership extends Component {
       signInResponse: {}
     }
   }
-  handleFirstName (value, shouldValidate, t) {
-    this.setState(FieldSet.utils.mergeField({
-      field: 'firstName',
-      value,
-      error: (value.trim().length <= 0 && t('pledge/contact/firstName/error/empty')),
-      dirty: shouldValidate
-    }))
+  handleFirstName(value, shouldValidate, t) {
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'firstName',
+        value,
+        error:
+          value.trim().length <= 0 && t('pledge/contact/firstName/error/empty'),
+        dirty: shouldValidate
+      })
+    )
   }
-  handleLastName (value, shouldValidate, t) {
-    this.setState(FieldSet.utils.mergeField({
-      field: 'lastName',
-      value,
-      error: (value.trim().length <= 0 && t('pledge/contact/lastName/error/empty')),
-      dirty: shouldValidate
-    }))
+  handleLastName(value, shouldValidate, t) {
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'lastName',
+        value,
+        error:
+          value.trim().length <= 0 && t('pledge/contact/lastName/error/empty'),
+        dirty: shouldValidate
+      })
+    )
   }
-  handleEmail (value, shouldValidate, t) {
-    this.setState(FieldSet.utils.mergeField({
-      field: 'email',
-      value,
-      error: (
-        (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
-        (!isEmail(value) && t('pledge/contact/email/error/invalid'))
-      ),
-      dirty: shouldValidate
-    }))
+  handleEmail(value, shouldValidate, t) {
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'email',
+        value,
+        error:
+          (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
+          (!isEmail(value) && t('pledge/contact/email/error/invalid')),
+        dirty: shouldValidate
+      })
+    )
   }
-  handleVoucherCode (value, shouldValidate, t) {
+  handleVoucherCode(value, shouldValidate, t) {
     const sanitizedValue = sanitizeVoucherCode(value)
 
-    this.setState(FieldSet.utils.mergeField({
-      field: 'voucherCode',
-      value,
-      error:
-        (
-          sanitizedValue.length === 0 &&
-          t('memberships/claim/voucherCode/label/error/empty')
-        ) ||
-        (
-          !isMembershipVoucherCode(sanitizedValue) &&
-          !isAccessGrantVoucherCode(sanitizedValue) &&
-          t('memberships/claim/voucherCode/label/error/unrecognized')
-        ),
-      dirty: shouldValidate
-    }))
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'voucherCode',
+        value,
+        error:
+          (sanitizedValue.length === 0 &&
+            t('memberships/claim/voucherCode/label/error/empty')) ||
+          (!isMembershipVoucherCode(sanitizedValue) &&
+            !isAccessGrantVoucherCode(sanitizedValue) &&
+            t('memberships/claim/voucherCode/label/error/unrecognized')),
+        dirty: shouldValidate
+      })
+    )
   }
-  checkUserFields ({ me, t }) {
+  checkUserFields({ me, t }) {
     const defaultValues = {
       firstName: (me && me.firstName) || '',
       lastName: (me && me.lastName) || '',
-      email: (me && me.email) || (this.props.email) || '',
-      voucherCode: (this.props.voucherCode) || ''
+      email: (me && me.email) || this.props.email || '',
+      voucherCode: this.props.voucherCode || ''
     }
     const values = {
       ...defaultValues,
@@ -130,15 +139,15 @@ class ClaimMembership extends Component {
     this.handleEmail(values.email, false, t)
     this.handleVoucherCode(values.voucherCode, false, t)
   }
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.me !== this.props.me) {
       this.checkUserFields(nextProps)
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.checkUserFields(this.props)
   }
-  claim (newTokenType) {
+  claim(newTokenType) {
     const { me, context } = this.props
     const { values } = this.state
 
@@ -156,19 +165,23 @@ class ClaimMembership extends Component {
     }
 
     if (me && me.email !== values.email) {
-      this.props.signOut().then(() => {
-        this.claim()
-      }).catch(catchError)
+      this.props
+        .signOut()
+        .then(() => {
+          this.claim()
+        })
+        .catch(catchError)
       return
     }
 
     if (!me) {
-      this.props.signIn(
-        values.email,
-        context || 'claim',
-        this.state.consents,
-        newTokenType || 'EMAIL_CODE'
-      )
+      this.props
+        .signIn(
+          values.email,
+          context || 'claim',
+          this.state.consents,
+          newTokenType || 'EMAIL_CODE'
+        )
         .then(({ data }) => {
           this.setState({
             polling: true,
@@ -183,17 +196,13 @@ class ClaimMembership extends Component {
     const claim = () => {
       const code = sanitizeVoucherCode(values.voucherCode)
 
-      const claimWith = (mutation, { code, context = 'unknown' }) => mutation(code)
-        .then(() => {
-          track([
-            'trackEvent',
-            'MembershipsClaim',
-            `claim success`,
-            context
-          ])
-        })
-        .then(() => relocateToOnboarding(context))
-        .catch(catchError)
+      const claimWith = (mutation, { code, context = 'unknown' }) =>
+        mutation(code)
+          .then(() => {
+            track(['trackEvent', 'MembershipsClaim', `claim success`, context])
+          })
+          .then(() => relocateToOnboarding(context))
+          .catch(catchError)
 
       if (isAccessGrantVoucherCode(code)) {
         claimWith(this.props.claimAccess, { code, context: 'access' })
@@ -202,14 +211,12 @@ class ClaimMembership extends Component {
       }
     }
 
-    if (
-      me.firstName !== values.firstName ||
-      me.lastName !== values.lastName
-    ) {
-      this.props.updateName({
-        firstName: values.firstName,
-        lastName: values.lastName
-      })
+    if (me.firstName !== values.firstName || me.lastName !== values.lastName) {
+      this.props
+        .updateName({
+          firstName: values.firstName,
+          lastName: values.lastName
+        })
         .then(() => {
           claim()
         })
@@ -219,7 +226,7 @@ class ClaimMembership extends Component {
 
     claim()
   }
-  render () {
+  render() {
     const { context, t } = this.props
 
     const {
@@ -236,27 +243,27 @@ class ClaimMembership extends Component {
 
     const requiredConsents = ['PRIVACY', 'TOS']
 
-    if (
-      values.voucherCode &&
-      isMembershipVoucherCode(values.voucherCode)
-    ) {
+    if (values.voucherCode && isMembershipVoucherCode(values.voucherCode)) {
       requiredConsents.push('STATUTE')
     }
 
-    const contextLead = t.first([
-      `memberships/claim/${context}/lead`,
-      'memberships/claim/lead'
-    ], undefined, '')
+    const contextLead = t.first(
+      [`memberships/claim/${context}/lead`, 'memberships/claim/lead'],
+      undefined,
+      ''
+    )
 
-    const contextBody = t.first([
-      `memberships/claim/${context}/body`,
-      'memberships/claim/body'
-    ], undefined, '')
+    const contextBody = t.first(
+      [`memberships/claim/${context}/body`, 'memberships/claim/body'],
+      undefined,
+      ''
+    )
 
-    const contextAddendum = t.first([
-      `memberships/claim/${context}/addendum`,
-      'memberships/claim/addendum'
-    ], undefined, '')
+    const contextAddendum = t.first(
+      [`memberships/claim/${context}/addendum`, 'memberships/claim/addendum'],
+      undefined,
+      ''
+    )
 
     const {
       tokenType = false,
@@ -264,34 +271,35 @@ class ClaimMembership extends Component {
       alternativeFirstFactors = []
     } = signInResponse
 
-    const alternativeFirstFactorsIncludingEmailCode =
-      Array.from(new Set(
+    const alternativeFirstFactorsIncludingEmailCode = Array.from(
+      new Set(
         alternativeFirstFactors
           .concat(['EMAIL_CODE'])
           .filter(tt => tt !== signInResponse.tokenType)
-      ))
+      )
+    )
 
     const errorMessages = Object.keys(errors)
       .map(key => errors[key])
-      .concat([
-        getConsentsError(t, requiredConsents, consents)
-      ])
+      .concat([getConsentsError(t, requiredConsents, consents)])
       .filter(Boolean)
 
     return (
       <Fragment>
-        <div style={{ opacity: (polling || loading) ? 0.6 : 1, marginBottom: 40 }}>
-          {contextLead &&
-            <H2 style={{ marginBottom: 20 }}>
-              {contextLead}
-            </H2>
-          }
-          {contextBody &&
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: contextBody
-            }} />
-          }
-          <Field label={t('memberships/claim/voucherCode/label')}
+        <div
+          style={{ opacity: polling || loading ? 0.6 : 1, marginBottom: 40 }}
+        >
+          {contextLead && <H2 style={{ marginBottom: 20 }}>{contextLead}</H2>}
+          {contextBody && (
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: contextBody
+              }}
+            />
+          )}
+          <Field
+            label={t('memberships/claim/voucherCode/label')}
             name='voucherCode'
             error={dirty.voucherCode && errors.voucherCode}
             value={values.voucherCode}
@@ -299,9 +307,11 @@ class ClaimMembership extends Component {
             autoComplete={'false'}
             onChange={(_, value, shouldValidate) => {
               this.handleVoucherCode(value, shouldValidate, t)
-            }} />
+            }}
+          />
           <br />
-          <Field label={t('pledge/contact/email/label')}
+          <Field
+            label={t('pledge/contact/email/label')}
             name='email'
             type='email'
             error={dirty.email && errors.email}
@@ -309,37 +319,46 @@ class ClaimMembership extends Component {
             disabled={polling || loading}
             onChange={(_, value, shouldValidate) => {
               this.handleEmail(value, shouldValidate, t)
-            }} />
+            }}
+          />
           <br />
-          <Field label={t('pledge/contact/firstName/label')}
+          <Field
+            label={t('pledge/contact/firstName/label')}
             name='firstName'
             error={dirty.firstName && errors.firstName}
             value={values.firstName}
             disabled={polling || loading}
             onChange={(_, value, shouldValidate) => {
               this.handleFirstName(value, shouldValidate, t)
-            }} />
+            }}
+          />
           <br />
-          <Field label={t('pledge/contact/lastName/label')}
+          <Field
+            label={t('pledge/contact/lastName/label')}
             name='lastName'
             error={dirty.lastName && errors.lastName}
             value={values.lastName}
             disabled={polling || loading}
             onChange={(_, value, shouldValidate) => {
               this.handleLastName(value, shouldValidate, t)
-            }} />
+            }}
+          />
           <br />
           <br />
-          {contextAddendum &&
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: contextAddendum
-            }} />
-          }
+          {contextAddendum && (
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: contextAddendum
+              }}
+            />
+          )}
           <br />
           <br />
           {!!showErrors && errorMessages.length > 0 && (
             <div style={{ color: colors.error, marginBottom: 40 }}>
-              {t('memberships/claim/error/title')}<br />
+              {t('memberships/claim/error/title')}
+              <br />
               <ul>
                 {errorMessages.map((error, i) => (
                   <li key={i}>{error}</li>
@@ -355,20 +374,22 @@ class ClaimMembership extends Component {
                 consents: keys
               }))
             }}
-            disabled={polling || loading} />
+            disabled={polling || loading}
+          />
           {!!serverError && <ErrorMessage error={serverError} />}
         </div>
         <div>
-          {!polling &&
+          {!polling && (
             <div {...styles.button}>
-              {loading
-                ? <InlineSpinner />
-                : <Button
+              {loading ? (
+                <InlineSpinner />
+              ) : (
+                <Button
                   primary
                   disabled={this.state.showErrors && errorMessages.length > 0}
                   onClick={() => {
                     if (errorMessages.length) {
-                      this.setState((state) => ({
+                      this.setState(state => ({
                         showErrors: true,
                         dirty: {
                           ...state.dirty,
@@ -381,31 +402,34 @@ class ClaimMembership extends Component {
                       return
                     }
                     this.claim()
-                  }}>
+                  }}
+                >
                   {t('memberships/claim/button')}
                 </Button>
-              }
+              )}
             </div>
-          }
-          {polling &&
+          )}
+          {polling && (
             <SwitchBoard
               tokenType={tokenType}
               phrase={phrase}
               email={values.email}
-              alternativeFirstFactors={alternativeFirstFactorsIncludingEmailCode}
+              alternativeFirstFactors={
+                alternativeFirstFactorsIncludingEmailCode
+              }
               onCancel={() => {
                 this.setState(() => ({
                   polling: false,
                   loading: false
                 }))
               }}
-              onTokenTypeChange={(altTokenType) => {
+              onTokenTypeChange={altTokenType => {
                 this.setState(
                   () => ({ polling: false }),
                   () => this.claim(altTokenType)
                 )
               }}
-              onSuccess={(me) => {
+              onSuccess={me => {
                 this.setState(
                   () => ({
                     values: { ...this.state.values, email: me.email },
@@ -413,8 +437,9 @@ class ClaimMembership extends Component {
                   }),
                   () => this.claim()
                 )
-              }} />
-          }
+              }}
+            />
+          )}
         </div>
       </Fragment>
     )
@@ -427,50 +452,59 @@ ClaimMembership.propTypes = {
 }
 
 const claimMembership = gql`
-mutation claimMembership($voucherCode: String!) {
-  claimMembership(voucherCode: $voucherCode)
-}`
+  mutation claimMembership($voucherCode: String!) {
+    claimMembership(voucherCode: $voucherCode)
+  }
+`
 
 const claimAccess = gql`
-mutation claimAccess($voucherCode: String!) {
-  claimAccess(voucherCode: $voucherCode) {
-    endAt
+  mutation claimAccess($voucherCode: String!) {
+    claimAccess(voucherCode: $voucherCode) {
+      endAt
+    }
   }
-}`
+`
 
-const updateName = gql`mutation updateName($firstName: String!, $lastName: String!) {
-  updateMe(firstName: $firstName, lastName: $lastName) {
-    id
+const updateName = gql`
+  mutation updateName($firstName: String!, $lastName: String!) {
+    updateMe(firstName: $firstName, lastName: $lastName) {
+      id
+    }
   }
-}`
+`
 
 export default compose(
   graphql(claimMembership, {
     props: ({ mutate }) => ({
-      claimMembership: voucherCode => mutate({
-        variables: {
-          voucherCode
-        }
-      })
+      claimMembership: voucherCode =>
+        mutate({
+          variables: {
+            voucherCode
+          }
+        })
     })
   }),
   graphql(claimAccess, {
     props: ({ mutate }) => ({
-      claimAccess: voucherCode => mutate({
-        variables: {
-          voucherCode
-        }
-      })
+      claimAccess: voucherCode =>
+        mutate({
+          variables: {
+            voucherCode
+          }
+        })
     })
   }),
   graphql(updateName, {
     props: ({ mutate }) => ({
-      updateName: variables => mutate({
-        variables,
-        refetchQueries: [{
-          query: meQuery
-        }]
-      })
+      updateName: variables =>
+        mutate({
+          variables,
+          refetchQueries: [
+            {
+              query: meQuery
+            }
+          ]
+        })
     })
   }),
   withSignOut,

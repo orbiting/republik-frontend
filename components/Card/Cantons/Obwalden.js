@@ -3,7 +3,7 @@ import React from 'react'
 const SvgObwalden = props => (
   <svg
     width={props.size}
-    height={props.size * 471.528 / 470.496}
+    height={(props.size * 471.528) / 470.496}
     viewBox='-205.467 -206.348 470.496 471.528'
     {...props}
   >

@@ -7,7 +7,14 @@ import { format } from 'url'
 
 import isEmail from 'validator/lib/isEmail'
 
-import { Interaction, InlineSpinner, A, Button, Field, RawHtml } from '@project-r/styleguide'
+import {
+  Interaction,
+  InlineSpinner,
+  A,
+  Button,
+  Field,
+  RawHtml
+} from '@project-r/styleguide'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -42,20 +49,28 @@ const styles = {
 const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const maybeCard = (data, apply) => {
-  return data.cards &&
+  return (
+    data.cards &&
     data.cards.nodes.length > 0 &&
     data.cards.nodes[0] &&
     apply(data.cards.nodes[0])
+  )
 }
 
-const Page = (props) => {
-  const { serverContext, router: { query: { token, locale } }, data, me, t } = props
+const Page = props => {
+  const {
+    serverContext,
+    router: {
+      query: { token, locale }
+    },
+    data,
+    me,
+    t
+  } = props
 
   const getStatementState = (value, shouldValidate) => ({
     value,
-    error: (
-      (value.trim().length <= 0 && 'Statement fehlt')
-    ),
+    error: value.trim().length <= 0 && 'Statement fehlt',
     dirty: shouldValidate
   })
   const [statement, setStatement] = useState(
@@ -63,17 +78,23 @@ const Page = (props) => {
   )
   const getEmailState = (value, shouldValidate) => ({
     value,
-    error: (
+    error:
       (value.trim().length <= 0 && t('Trial/Form/email/error/empty')) ||
-      (!isEmail(value) && t('Trial/Form/email/error/invalid'))
-    ),
+      (!isEmail(value) && t('Trial/Form/email/error/invalid')),
     dirty: shouldValidate
   })
-  const [email, setEmail] = useState(getEmailState(maybeCard(data, card => {
-    if (card.user.email && !card.user.email.match(/^wahl2019-[0-9]+@republik\.ch$/)) {
-      return card.user.email
-    }
-  }) || ''))
+  const [email, setEmail] = useState(
+    getEmailState(
+      maybeCard(data, card => {
+        if (
+          card.user.email &&
+          !card.user.email.match(/^wahl2019-[0-9]+@republik\.ch$/)
+        ) {
+          return card.user.email
+        }
+      }) || ''
+    )
+  )
 
   const getFinancingState = (value, shouldValidate) => ({
     value,
@@ -98,16 +119,17 @@ const Page = (props) => {
   useEffect(() => {
     if (autoClaimCard) {
       if (errorMessages.length === 0) {
-        props.claimCard({
-          id: card.id,
-          accessToken: token,
-          portrait: portrait.values.portrait,
-          statement: statement.value,
-          payload: {
-            financing: financing.value
-          },
-          email: email.value
-        })
+        props
+          .claimCard({
+            id: card.id,
+            accessToken: token,
+            portrait: portrait.values.portrait,
+            statement: statement.value,
+            payload: {
+              financing: financing.value
+            },
+            email: email.value
+          })
           .then(() => {
             window.location = format({
               pathname: '/wahltindaer/setup'
@@ -122,12 +144,8 @@ const Page = (props) => {
   useEffect(() => {
     if (autoSignIn) {
       if (errorMessages.length === 0) {
-        props.signIn(
-          email.value,
-          'card',
-          consents,
-          tokenType
-        )
+        props
+          .signIn(email.value, 'card', consents, tokenType)
           .then(({ data: { signIn } }) => {
             setTokenType(signIn.tokenType)
             setPhrase(signIn.phrase)
@@ -160,7 +178,7 @@ const Page = (props) => {
     )
   }
 
-  const [ card ] = data.cards.nodes
+  const [card] = data.cards.nodes
 
   const handlePortrait = ({ values, errors }) => {
     setPortrait({
@@ -182,7 +200,8 @@ const Page = (props) => {
     portrait.errors && portrait.errors.portrait,
     statement.error,
     !me && email.error
-  ].concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
+  ]
+    .concat(getConsentsError(t, REQUIRED_CONSENTS, consents))
     .filter(Boolean)
 
   const claimCard = e => {
@@ -215,11 +234,7 @@ const Page = (props) => {
   }
 
   if (!card) {
-    return (
-      <StatusError
-        statusCode={404}
-        serverContext={serverContext} />
-    )
+    return <StatusError statusCode={404} serverContext={serverContext} />
   }
 
   const statementId = card.statement && card.statement.id
@@ -227,16 +242,18 @@ const Page = (props) => {
 
   return (
     <>
-      {!statementId && <>
-        <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
-        <P>
-          <RawHtml
-            dangerouslySetInnerHTML={{
-              __html: t('components/Card/Claim/lead')
-            }}
-          />
-        </P>
-      </>}
+      {!statementId && (
+        <>
+          <H1 {...formStyles.heading}>{t('components/Card/Claim/headline')}</H1>
+          <P>
+            <RawHtml
+              dangerouslySetInnerHTML={{
+                __html: t('components/Card/Claim/lead')
+              }}
+            />
+          </P>
+        </>
+      )}
 
       <div {...formStyles.portraitAndDetails}>
         <div {...formStyles.portrait}>
@@ -244,7 +261,8 @@ const Page = (props) => {
             user={card.user}
             values={portrait.values}
             errors={portrait.errors}
-            onChange={handlePortrait} />
+            onChange={handlePortrait}
+          />
         </div>
         <div {...formStyles.details}>
           <Details card={card} user={card.user} />
@@ -252,27 +270,36 @@ const Page = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        {statementId && group
-          ? <P>
-            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
-              <A>
-                Ihr Statement im «Wahltindär: {group.name}».
-              </A>
+        {statementId && group ? (
+          <P>
+            <Link
+              route='cardGroup'
+              params={{
+                group: group.slug,
+                suffix: 'diskussion',
+                focus: statementId
+              }}
+              passHref
+            >
+              <A>Ihr Statement im «Wahltindär: {group.name}».</A>
             </Link>
           </P>
-          : <>
+        ) : (
+          <>
             <P>{t('components/Card/Claim/statement/question')}</P>
             <Statement
               label={t('components/Card/Claim/statement/label')}
               statement={statement}
-              handleStatement={(value, shouldValidate) => setStatement(getStatementState(value, shouldValidate))} />
-          </>}
+              handleStatement={(value, shouldValidate) =>
+                setStatement(getStatementState(value, shouldValidate))
+              }
+            />
+          </>
+        )}
       </div>
 
       {(card.statement || locale) && (
-        <Financing
-          financing={financing}
-          onChange={handleFinancing} />
+        <Financing financing={financing} onChange={handleFinancing} />
       )}
 
       {!me && (
@@ -282,14 +309,18 @@ const Page = (props) => {
             value={email.value}
             error={email.dirty && email.error}
             dirty={email.dirty}
-            onChange={(_, value, shouldValidate) => setEmail(getEmailState(value, shouldValidate))} />
+            onChange={(_, value, shouldValidate) =>
+              setEmail(getEmailState(value, shouldValidate))
+            }
+          />
         </div>
       )}
 
       {me && (
         <div {...formStyles.section}>
           <P {...formStyles.paragraph}>
-            {t('components/Card/Claim/me/account')}<strong> {me.email}</strong>
+            {t('components/Card/Claim/me/account')}
+            <strong> {me.email}</strong>
           </P>
           <P>
             {t('components/Card/Claim/me/assignNote')}
@@ -299,7 +330,8 @@ const Page = (props) => {
               onClick={e => {
                 e.preventDefault()
                 props.signOut()
-              }}>
+              }}
+            >
               {t('components/Card/Claim/me/signOut')}
             </A>
           </P>
@@ -311,12 +343,14 @@ const Page = (props) => {
           required={REQUIRED_CONSENTS}
           accepted={consents}
           disabled={signingIn}
-          onChange={setConsents} />
+          onChange={setConsents}
+        />
       </div>
 
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>
-          {t('Trial/Form/error/title')}<br />
+          {t('Trial/Form/error/title')}
+          <br />
           <ul>
             {errorMessages.map((error, i) => (
               <li key={i}>{error}</li>
@@ -327,17 +361,19 @@ const Page = (props) => {
 
       {!signingIn && (
         <div {...formStyles.button}>
-          {loading
-            ? <InlineSpinner />
-            : <Button
+          {loading ? (
+            <InlineSpinner />
+          ) : (
+            <Button
               primary
               type='submit'
               block
               onClick={claimCard}
-              disabled={showErrors && errorMessages.length > 0}>
+              disabled={showErrors && errorMessages.length > 0}
+            >
               {t('components/Card/Claim/submit')}
             </Button>
-          }
+          )}
         </div>
       )}
 
@@ -350,7 +386,8 @@ const Page = (props) => {
             alternativeFirstFactors={[]}
             onCancel={() => {}}
             onTokenTypeChange={() => {}}
-            onSuccess={onSuccessSwitchBoard} />
+            onSuccess={onSuccessSwitchBoard}
+          />
         </div>
       )}
 
@@ -378,23 +415,20 @@ const CARDS_VIA_ACCESS_TOKEN = gql`
           name
           email
           isUserOfCurrentSession
-          portrait(properties:{width:600 height:800 bw:false})
+          portrait(properties: { width: 600, height: 800, bw: false })
         }
       }
     }
   }
 `
 
-const withCardsViaAccessToken = graphql(
-  CARDS_VIA_ACCESS_TOKEN,
-  {
-    options: ({ router }) => ({
-      variables: {
-        accessToken: router.query.token
-      }
-    })
-  }
-)
+const withCardsViaAccessToken = graphql(CARDS_VIA_ACCESS_TOKEN, {
+  options: ({ router }) => ({
+    variables: {
+      accessToken: router.query.token
+    }
+  })
+})
 
 const CLAIM_CARD = gql`
   mutation claimCard(
@@ -416,16 +450,14 @@ const CLAIM_CARD = gql`
   }
 `
 
-const withClaimCard = graphql(
-  CLAIM_CARD,
-  {
-    props: ({ mutate }) => ({
-      claimCard: ({ id, accessToken, portrait, statement, payload, email }) => mutate({
+const withClaimCard = graphql(CLAIM_CARD, {
+  props: ({ mutate }) => ({
+    claimCard: ({ id, accessToken, portrait, statement, payload, email }) =>
+      mutate({
         variables: { id, accessToken, portrait, statement, payload, email }
       })
-    })
-  }
-)
+  })
+})
 
 export default compose(
   withSignOut,

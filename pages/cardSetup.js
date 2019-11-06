@@ -16,11 +16,13 @@ const Page = ({ router, t }) => {
   if (token) {
     return (
       <Frame>
-        <Meta data={{
-          title: t('pages/cardSetup/title'),
-          description: t('pages/cardSetup/description'),
-          image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
-        }} />
+        <Meta
+          data={{
+            title: t('pages/cardSetup/title'),
+            description: t('pages/cardSetup/description'),
+            image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
+          }}
+        />
         <Head>
           <meta name='robots' content='noindex' />
         </Head>
@@ -31,10 +33,12 @@ const Page = ({ router, t }) => {
 
   return (
     <Frame>
-      <Meta data={{
-        title: t('pages/cardSetup/title'),
-        description: t('pages/cardSetup/description')
-      }} />
+      <Meta
+        data={{
+          title: t('pages/cardSetup/title'),
+          description: t('pages/cardSetup/description')
+        }}
+      />
       <Head>
         <meta name='robots' content='noindex' />
       </Head>

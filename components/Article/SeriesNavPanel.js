@@ -84,34 +84,33 @@ const LinkContent = ({ episode, index, t }) => {
   )
 }
 
-const EpisodeLink = withRouter(({ episode, translation, params = {}, router, index, t }) => {
-  const route =
-    episode.document && episode.document.meta && episode.document.meta.path
-  if (!route) {
+const EpisodeLink = withRouter(
+  ({ episode, translation, params = {}, router, index, t }) => {
+    const route =
+      episode.document && episode.document.meta && episode.document.meta.path
+    if (!route) {
+      return (
+        <div {...styles.base} {...styles.unpublished}>
+          <LinkContent episode={episode} index={index} t={t} />
+        </div>
+      )
+    }
+    if (router.asPath && router.asPath === route) {
+      return (
+        <div {...styles.base} {...styles.current}>
+          <LinkContent episode={episode} index={index} t={t} />
+        </div>
+      )
+    }
     return (
-      <div {...styles.base} {...styles.unpublished}>
-        <LinkContent episode={episode} index={index} t={t} />
-      </div>
+      <Link route={route} params={params}>
+        <a {...styles.base} {...styles.link}>
+          <LinkContent episode={episode} index={index} t={t} />
+        </a>
+      </Link>
     )
   }
-  if (router.asPath && router.asPath === route) {
-    return (
-      <div
-        {...styles.base}
-        {...styles.current}
-      >
-        <LinkContent episode={episode} index={index} t={t} />
-      </div>
-    )
-  }
-  return (
-    <Link route={route} params={params}>
-      <a {...styles.base} {...styles.link}>
-        <LinkContent episode={episode} index={index} t={t} />
-      </a>
-    </Link>
-  )
-})
+)
 
 const Nav = ({ children, t, series }) => {
   return (

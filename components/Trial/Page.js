@@ -39,7 +39,7 @@ const getTranslationKey = (name, { isAuthorized, hasAccess, campaign }) => {
   ]
 }
 
-const Page = (props) => {
+const Page = props => {
   const { trialEligibility, me, router, t } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
   const { campaign } = router.query
@@ -54,16 +54,29 @@ const Page = (props) => {
 
   return (
     <Fragment>
-      <H1>{t.first(getTranslationKey('heading', { isAuthorized, hasAccess, campaign }))}</H1>
+      <H1>
+        {t.first(
+          getTranslationKey('heading', { isAuthorized, hasAccess, campaign })
+        )}
+      </H1>
       <P style={{ marginTop: 40, marginBottom: 40 }}>
-        {t.first(getTranslationKey('intro', { isAuthorized, hasAccess, campaign }), {
-          email: me && me.email,
-          until: until && dayFormat(new Date(until))
-        })}
+        {t.first(
+          getTranslationKey('intro', { isAuthorized, hasAccess, campaign }),
+          {
+            email: me && me.email,
+            until: until && dayFormat(new Date(until))
+          }
+        )}
       </P>
       <Form accessCampaignId={accessCampaignId} />
     </Fragment>
   )
 }
 
-export default compose(withTrialEligibility, withSignIn, withMe, withRouter, withT)(Page)
+export default compose(
+  withTrialEligibility,
+  withSignIn,
+  withMe,
+  withRouter,
+  withT
+)(Page)

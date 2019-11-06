@@ -1,9 +1,5 @@
 import { css, merge } from 'glamor'
-import {
-  colors,
-  mediaQueries,
-  fontFamilies
-} from '@project-r/styleguide'
+import { colors, mediaQueries, fontFamilies } from '@project-r/styleguide'
 
 const buttonStyle = css({
   [mediaQueries.onlyS]: {

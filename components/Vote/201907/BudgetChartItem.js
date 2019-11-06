@@ -5,7 +5,12 @@ import sharedStyles from '../../sharedStyles'
 import ExpandMoreIcon from 'react-icons/lib/md/expand-more'
 import ExpandLessIcon from 'react-icons/lib/md/expand-less'
 
-import { colors, fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  fontFamilies,
+  fontStyles,
+  mediaQueries
+} from '@project-r/styleguide'
 import voteT from '../voteT'
 
 const ICON_SIZE = 20
@@ -82,7 +87,7 @@ const styles = {
 }
 
 class BudgetChartItem extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       collapsed: true
@@ -95,67 +100,84 @@ class BudgetChartItem extends React.Component {
     }
   }
 
-  render () {
-    const { vt, children, category, height, background, color, total, highlight, last } = this.props
+  render() {
+    const {
+      vt,
+      children,
+      category,
+      height,
+      background,
+      color,
+      total,
+      highlight,
+      last
+    } = this.props
     const { collapsed } = this.state
 
     const hasMore = !!children
     const ExpandIcon = collapsed ? ExpandMoreIcon : ExpandLessIcon
-    const iconTitle = vt(`vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`)
+    const iconTitle = vt(
+      `vote/201907/budget/icon/${collapsed ? 'more' : 'less'}/title`
+    )
 
     const compact = !!height && height < 35
     const minHeight = compact ? 25 : 35
 
     return (
       <Fragment>
-        <div {...styles.wrapper} style={{
-          background,
-          borderBottom: collapsed ? '1px solid #fff' : undefined
-        }}>
-          <div {...styles.toggle}
+        <div
+          {...styles.wrapper}
+          style={{
+            background,
+            borderBottom: collapsed ? '1px solid #fff' : undefined
+          }}
+        >
+          <div
+            {...styles.toggle}
             onClick={hasMore ? this.toggleCollapsed : undefined}
             style={{
               color,
               height: Math.max(height || 0, minHeight),
               cursor: hasMore ? 'pointer' : undefined,
               fontFamily: highlight ? fontFamilies.sansSerifMedium : undefined
-            }}>
+            }}
+          >
             {hasMore && (
               <span {...styles.label} {...styles.category}>
                 {category}
                 <button
                   {...sharedStyles.plainButton}
                   {...styles.toggleIcon}
-                  title={iconTitle}>
+                  title={iconTitle}
+                >
                   <ExpandIcon size={ICON_SIZE} fill={'#fff'} />
                 </button>
               </span>
             )}
-            {!hasMore && (
-              <span {...styles.label}>
-                {category}
-              </span>
-            )}
-            {total && (
-              <span {...styles.label}>{total}</span>
-            )}
+            {!hasMore && <span {...styles.label}>{category}</span>}
+            {total && <span {...styles.label}>{total}</span>}
           </div>
         </div>
-        {collapsed ||
+        {collapsed || (
           <div {...styles.content}>
             {children}
-            <div {...styles.toggleContent} onClick={this.toggleCollapsed} style={{
-              borderBottom: last ? `1px solid ${colors.divider}` : undefined
-            }}>
+            <div
+              {...styles.toggleContent}
+              onClick={this.toggleCollapsed}
+              style={{
+                borderBottom: last ? `1px solid ${colors.divider}` : undefined
+              }}
+            >
               <button
                 {...sharedStyles.plainButton}
                 {...styles.toggleIconContent}
-                title={iconTitle}>
+                title={iconTitle}
+              >
                 <ExpandIcon size={ICON_SIZE} />
               </button>
             </div>
           </div>
-        }
+        )}
       </Fragment>
     )
   }

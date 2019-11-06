@@ -13,9 +13,7 @@ import { cardFragment } from '../Card/fragments'
 import Card, { styles as cardStyles } from '../Card/Card'
 import { BACKGROUND_COLOR } from '../Card/Container'
 
-import {
-  Logo, BrandMark, fontFamilies, inQuotes
-} from '@project-r/styleguide'
+import { Logo, BrandMark, fontFamilies, inQuotes } from '@project-r/styleguide'
 
 const WIDTH = 1200
 const HEIGHT = 628
@@ -88,126 +86,166 @@ const fontSizeBoost = length => {
   return 0
 }
 
-const Item = ({ loading, pkg, error, t, statement: { cards, statement, portrait, name, sequenceNumber } = {} }) => {
+const Item = ({
+  loading,
+  pkg,
+  error,
+  t,
+  statement: { cards, statement, portrait, name, sequenceNumber } = {}
+}) => {
   return (
-    <Loader loading={loading} error={error} render={() => {
-      const card = cards && cards.nodes && cards.nodes[0]
+    <Loader
+      loading={loading}
+      error={error}
+      render={() => {
+        const card = cards && cards.nodes && cards.nodes[0]
 
-      if (card) {
-        return <div {...css({
-          backgroundColor: BACKGROUND_COLOR,
-          width: WIDTH,
-          height: HEIGHT,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap'
-        })}>
-          <Head>
-            <meta name='robots' content='noindex' />
-          </Head>
-          <div {...cardStyles.cardInner} style={{
-            width: 380,
-            height: 380 * 1.4,
-            transform: 'rotate(-1.5deg)',
-            margin: '30px 40px 30px -120px'
-          }}>
-            <Card width={380} {...card} t={t} firstSlideOnly noEmoji />
-          </div>
-          <div style={{
-            marginLeft: 140,
-            height: 190,
-            width: 190
-          }}>
-            <BrandMark />
-          </div>
-          <div style={{
-            marginLeft: 40
-          }}>
-            <CardLogo size={190} />
-          </div>
-        </div>
-      }
+        if (card) {
+          return (
+            <div
+              {...css({
+                backgroundColor: BACKGROUND_COLOR,
+                width: WIDTH,
+                height: HEIGHT,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap'
+              })}
+            >
+              <Head>
+                <meta name='robots' content='noindex' />
+              </Head>
+              <div
+                {...cardStyles.cardInner}
+                style={{
+                  width: 380,
+                  height: 380 * 1.4,
+                  transform: 'rotate(-1.5deg)',
+                  margin: '30px 40px 30px -120px'
+                }}
+              >
+                <Card width={380} {...card} t={t} firstSlideOnly noEmoji />
+              </div>
+              <div
+                style={{
+                  marginLeft: 140,
+                  height: 190,
+                  width: 190
+                }}
+              >
+                <BrandMark />
+              </div>
+              <div
+                style={{
+                  marginLeft: 40
+                }}
+              >
+                <CardLogo size={190} />
+              </div>
+            </div>
+          )
+        }
 
-      const headline = t(`testimonial/detail/share/package/${pkg}`, undefined, '')
-      const invert = pkg === 'PROLONG'
+        const headline = t(
+          `testimonial/detail/share/package/${pkg}`,
+          undefined,
+          ''
+        )
+        const invert = pkg === 'PROLONG'
 
-      return (
-        <div {...styles.container} style={invert ? {
-          backgroundColor: '#000',
-          color: '#fff'
-        } : undefined}>
-          <Head>
-            <meta name='robots' content='noindex' />
-          </Head>
-          <img {...styles.image} src={portrait} />
-          <div {...styles.text}>
-            {headline && <div {...styles.headline}>{headline}</div>}
-            {statement && <p {...styles.quote}
-              style={{ fontSize: 24 + fontSizeBoost(statement.length + headline.length) }}>
-              {inQuotes(statement)}
-            </p>}
-            {!!sequenceNumber && (
-              <div {...styles.number}>{t('memberships/sequenceNumber/label', {
-                sequenceNumber
-              })}</div>
-            )}
+        return (
+          <div
+            {...styles.container}
+            style={
+              invert
+                ? {
+                    backgroundColor: '#000',
+                    color: '#fff'
+                  }
+                : undefined
+            }
+          >
+            <Head>
+              <meta name='robots' content='noindex' />
+            </Head>
+            <img {...styles.image} src={portrait} />
+            <div {...styles.text}>
+              {headline && <div {...styles.headline}>{headline}</div>}
+              {statement && (
+                <p
+                  {...styles.quote}
+                  style={{
+                    fontSize:
+                      24 + fontSizeBoost(statement.length + headline.length)
+                  }}
+                >
+                  {inQuotes(statement)}
+                </p>
+              )}
+              {!!sequenceNumber && (
+                <div {...styles.number}>
+                  {t('memberships/sequenceNumber/label', {
+                    sequenceNumber
+                  })}
+                </div>
+              )}
+            </div>
+            <div {...styles.logo}>
+              <Logo fill={invert ? '#fff' : '#000'} />
+            </div>
           </div>
-          <div {...styles.logo}>
-            <Logo fill={invert ? '#fff' : '#000'} />
-          </div>
-        </div>
-      )
-    }} />
+        )
+      }}
+    />
   )
 }
 
 const query = gql`
-query statements($focus: String!) {
-  user(slug: $focus) {
-    id
-    name
-    statement
-    portrait
-    sequenceNumber
-    cards(first: 1) {
-      nodes {
-        id
-        ...Card
-        group {
-          id
-          name
-          slug
-        }
-      }
-    }
-  }
-  statements(focus: $focus, first: 1) {
-    totalCount
-    nodes {
+  query statements($focus: String!) {
+    user(slug: $focus) {
       id
       name
       statement
       portrait
       sequenceNumber
+      cards(first: 1) {
+        nodes {
+          id
+          ...Card
+          group {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+    statements(focus: $focus, first: 1) {
+      totalCount
+      nodes {
+        id
+        name
+        statement
+        portrait
+        sequenceNumber
+      }
     }
   }
-}
-${cardFragment}`
+  ${cardFragment}
+`
 
 export default compose(
   withT,
   graphql(query, {
     props: ({ data, ownProps: { name } }) => {
-      return ({
+      return {
         loading: data.loading,
         error: data.error,
         statement: data.user
           ? data.user
-          : data.statements &&
-            data.statements.nodes &&
-            data.statements.nodes[0]
-      })
+          : data.statements && data.statements.nodes && data.statements.nodes[0]
+      }
     }
   })
 )(Item)

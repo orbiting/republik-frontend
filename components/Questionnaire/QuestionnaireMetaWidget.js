@@ -5,9 +5,7 @@ import gql from 'graphql-tag'
 import Loader from '../Loader'
 import { Router } from '../../lib/routes'
 
-import {
-  STATUS_POLL_INTERVAL_MS
-} from '../../lib/constants'
+import { STATUS_POLL_INTERVAL_MS } from '../../lib/constants'
 
 import {
   fontStyles,
@@ -54,37 +52,33 @@ const styles = {
   })
 }
 
-const ThankYouTile = ({ t }) =>
+const ThankYouTile = ({ t }) => (
   <TeaserFrontTile color='#000' bgColor='#fff'>
     <Editorial.Format>{t('questionnaire/title')}</Editorial.Format>
     <TeaserFrontTileHeadline.Interaction>
-      <div {...styles.big}>
-        {t('pages/meta/questionnaire/thankyou')}
-      </div>
+      <div {...styles.big}>{t('pages/meta/questionnaire/thankyou')}</div>
     </TeaserFrontTileHeadline.Interaction>
   </TeaserFrontTile>
+)
 
-const SignupTile = ({ t }) =>
+const SignupTile = ({ t }) => (
   <TeaserFrontTile color={colors.primary} bgColor='#fff'>
     <Editorial.Format>{t('questionnaire/title')}</Editorial.Format>
     <TeaserFrontTileHeadline.Interaction>
-      <div {...styles.big}>
-        {t('pages/meta/questionnaire/actionTitle')}
-      </div>
+      <div {...styles.big}>{t('pages/meta/questionnaire/actionTitle')}</div>
     </TeaserFrontTileHeadline.Interaction>
     <TeaserFrontLead>
       <Button
         primary
-        onClick={
-          () => Router
-            .pushRoute('/umfrage/2018')
-            .then(() => window.scrollTo(0, 0))
+        onClick={() =>
+          Router.pushRoute('/umfrage/2018').then(() => window.scrollTo(0, 0))
         }
       >
         {t('pages/meta/questionnaire/actionLabel')}
       </Button>
     </TeaserFrontLead>
   </TeaserFrontTile>
+)
 
 const ResultWrapper = ({ children }) => (
   <TeaserFrontTile align='top' color={colors.text} bgColor='#fff'>
@@ -93,53 +87,70 @@ const ResultWrapper = ({ children }) => (
 )
 
 class QuestionnaireMetaWidget extends Component {
-  render () {
+  render() {
     const { data, t } = this.props
     return (
-      <Loader loading={data.loading} error={data.error} render={() => {
-        const { questionnaire: { endDate, userHasSubmitted, turnout: { submitted } } } = data
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const {
+            questionnaire: {
+              endDate,
+              userHasSubmitted,
+              turnout: { submitted }
+            }
+          } = data
 
-        const hasEnded = new Date() > new Date(endDate)
+          const hasEnded = new Date() > new Date(endDate)
 
-        return (
-          <Fragment>
-            {!hasEnded && <TeaserFrontTileRow columns={2}>
-              {userHasSubmitted
-                ? <ThankYouTile t={t} />
-                : <SignupTile t={t} />
-              }
-              <TeaserFrontTile color={colors.text} bgColor='#fff'>
-                <TeaserFrontTileHeadline.Interaction>
-                  <div {...styles.number}>{countFormat(submitted)}</div>
-                </TeaserFrontTileHeadline.Interaction>
-                <TeaserFrontLead>
-                  <div {...styles.lead}>{t('pages/meta/questionnaire/counterText')}</div>
-                </TeaserFrontLead>
-              </TeaserFrontTile>
-            </TeaserFrontTileRow>}
-            <TeaserFrontTileRow columns={2}>
-              <Results
-                slug='2018'
-                Wrapper={ResultWrapper} orderFilter={[1, 11]} />
-            </TeaserFrontTileRow>
-          </Fragment>
-        )
-      }} />
+          return (
+            <Fragment>
+              {!hasEnded && (
+                <TeaserFrontTileRow columns={2}>
+                  {userHasSubmitted ? (
+                    <ThankYouTile t={t} />
+                  ) : (
+                    <SignupTile t={t} />
+                  )}
+                  <TeaserFrontTile color={colors.text} bgColor='#fff'>
+                    <TeaserFrontTileHeadline.Interaction>
+                      <div {...styles.number}>{countFormat(submitted)}</div>
+                    </TeaserFrontTileHeadline.Interaction>
+                    <TeaserFrontLead>
+                      <div {...styles.lead}>
+                        {t('pages/meta/questionnaire/counterText')}
+                      </div>
+                    </TeaserFrontLead>
+                  </TeaserFrontTile>
+                </TeaserFrontTileRow>
+              )}
+              <TeaserFrontTileRow columns={2}>
+                <Results
+                  slug='2018'
+                  Wrapper={ResultWrapper}
+                  orderFilter={[1, 11]}
+                />
+              </TeaserFrontTileRow>
+            </Fragment>
+          )
+        }}
+      />
     )
   }
 }
 
 const query = gql`
-{
-  questionnaire(slug: "2018") {
-    id
-    userHasSubmitted
-    endDate
-    turnout {
-      submitted
+  {
+    questionnaire(slug: "2018") {
+      id
+      userHasSubmitted
+      endDate
+      turnout {
+        submitted
+      }
     }
   }
-}
 `
 
 export default compose(

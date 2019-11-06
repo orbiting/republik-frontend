@@ -7,7 +7,12 @@ import { styles as fieldSetStyles } from '../../FieldSet'
 
 const { H2 } = Interaction
 
-const CampaignBudget = ({ budget, handleBudget, budgetComment, handleBudgetComment }) => (
+const CampaignBudget = ({
+  budget,
+  handleBudget,
+  budgetComment,
+  handleBudgetComment
+}) => (
   <>
     <H2>Wahlkampf-Budget</H2>
     <Field
@@ -15,19 +20,26 @@ const CampaignBudget = ({ budget, handleBudget, budgetComment, handleBudgetComme
       value={budget.value}
       error={budget.dirty && budget.error}
       dirty={budget.dirty}
-      onChange={(_, value, shouldValidate) => handleBudget(value, shouldValidate)} />
+      onChange={(_, value, shouldValidate) =>
+        handleBudget(value, shouldValidate)
+      }
+    />
     <Field
       label={'Bemerkungen zum Wahlkampf-Budget'}
       renderInput={({ ref, ...inputProps }) => (
         <AutosizeInput
           {...inputProps}
           {...fieldSetStyles.autoSize}
-          inputRef={ref} />
+          inputRef={ref}
+        />
       )}
       value={budgetComment.value}
       error={budgetComment.dirty && budgetComment.error}
       dirty={budgetComment.dirty}
-      onChange={(_, value, shouldValidate) => handleBudgetComment(value, shouldValidate)} />
+      onChange={(_, value, shouldValidate) =>
+        handleBudgetComment(value, shouldValidate)
+      }
+    />
   </>
 )
 

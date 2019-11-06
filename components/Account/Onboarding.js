@@ -7,19 +7,17 @@ import { Link } from '../../lib/routes'
 
 const { H2, P } = Interaction
 
-export default withT(({ t }) =>
+export default withT(({ t }) => (
   <Fragment>
     <H2>{t('Account/Onboarding/title')}</H2>
     <P>
       {t.elements('Account/Onboarding/text', {
         link: (
           <Link key='link' route='onboarding'>
-            <a {...linkRule}>
-              {t('Account/Onboarding/link')}
-            </a>
+            <a {...linkRule}>{t('Account/Onboarding/link')}</a>
           </Link>
         )
       })}
     </P>
   </Fragment>
-)
+))

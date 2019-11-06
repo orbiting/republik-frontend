@@ -2,11 +2,17 @@ import React from 'react'
 import { Body, Heading, Section, Small, Title } from './text'
 import { Link } from '../../lib/routes'
 import Collapsible from './Collapsible'
-import { Button, FigureCaption, FigureImage, NarrowContainer, P } from '@project-r/styleguide'
+import {
+  Button,
+  FigureCaption,
+  FigureImage,
+  NarrowContainer,
+  P
+} from '@project-r/styleguide'
 import { CDN_FRONTEND_BASE_URL } from '../../lib/constants'
 import voteT from './voteT'
 
-const voteNow =
+const voteNow = (
   <P>
     <Link route='voteSubmit'>
       <Button block big primary>
@@ -14,8 +20,9 @@ const voteNow =
       </Button>
     </Link>
   </P>
+)
 
-const VoteInfo = ({ vt }) =>
+const VoteInfo = ({ vt }) => (
   <NarrowContainer>
     <Title>{vt('info/title')}</Title>
     <Body dangerousHTML={vt('info/intro/body1')} />
@@ -25,7 +32,9 @@ const VoteInfo = ({ vt }) =>
       <Small dangerousHTML={vt('info/intro/more')} />
     </Collapsible>
     <P>
-      <FigureImage src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`} />
+      <FigureImage
+        src={`${CDN_FRONTEND_BASE_URL}/static/genossenschaft/info1.jpg?resize=650x`}
+      />
       <FigureCaption>{vt('vote/intro/caption')}</FigureCaption>
     </P>
     <Section>
@@ -44,5 +53,6 @@ const VoteInfo = ({ vt }) =>
       <Body dangerousHTML={vt('info/footer')} />
     </P>
   </NarrowContainer>
+)
 
 export default voteT(VoteInfo)

@@ -57,7 +57,11 @@ const Footer = ({ inverted, en }) => (
       {!!en && <Label>Read more in German</Label>}
       <div {...styles.mainNav}>
         <br />
-        <A href='https://project-r.construction/' target='_blank' rel='noopener'>
+        <A
+          href='https://project-r.construction/'
+          target='_blank'
+          rel='noopener'
+        >
           Project R
         </A>
       </div>
@@ -65,12 +69,15 @@ const Footer = ({ inverted, en }) => (
 
     <address {...styles.address} style={{ marginBottom: 20 }}>
       <A href='https://goo.gl/maps/j1F8cXQhrmo' target='_blank' rel='noopener'>
-        Republik AG<br />
+        Republik AG
+        <br />
         Sihlhallenstrasse 1<br />
-        8004 Zürich<br />
+        8004 Zürich
+        <br />
         {!!en && (
           <span>
-            Switzerland<br />
+            Switzerland
+            <br />
           </span>
         )}
       </A>

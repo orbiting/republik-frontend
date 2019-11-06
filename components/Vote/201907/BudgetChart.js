@@ -11,9 +11,10 @@ import { swissNumbers } from '../../../lib/utils/format'
 
 const countFormat = swissNumbers.format(',.2f')
 
-export const displayAmount = amount => vt('vote/201907/budget/amount', {
-  amount: countFormat(amount / 1000000)
-})
+export const displayAmount = amount =>
+  vt('vote/201907/budget/amount', {
+    amount: countFormat(amount / 1000000)
+  })
 
 const styles = {
   wrapper: css({
@@ -24,22 +25,24 @@ const styles = {
 }
 
 class BudgetChart extends Component {
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context)
     this.state = {
       height: props.maxHeight
     }
 
     this.measure = () => {
-      const headerHeight = window.innerWidth < mediaQueries.mBreakPoint
-        ? HEADER_HEIGHT_MOBILE
-        : HEADER_HEIGHT
+      const headerHeight =
+        window.innerWidth < mediaQueries.mBreakPoint
+          ? HEADER_HEIGHT_MOBILE
+          : HEADER_HEIGHT
 
       const height = Math.max(
         this.props.minHeight,
         Math.min(
           window.innerHeight - headerHeight - 4 * headerHeight,
-          this.props.maxHeight - headerHeight)
+          this.props.maxHeight - headerHeight
+        )
       )
       if (height) {
         this.setState({ height })
@@ -47,12 +50,12 @@ class BudgetChart extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.measure)
     this.measure()
   }
 
-  render () {
+  render() {
     const { vt, data, total, maxHeight } = this.props
     const { height } = this.state
 
@@ -69,27 +72,29 @@ class BudgetChart extends Component {
           total={displayAmount(total)}
           highlight
         />
-        {data.children && data.children.map(({ data }, i) => (
-          <BudgetChartItem
-            key={`item-${i}`}
-            category={data.category}
-            total={displayAmount(data.total)}
-            background={data.background}
-            height={data.total / total * (height || maxHeight)}
-            last={i === numBlocks - 1}
-          >
-            <Small dangerousHTML={data.more} indent={false} />
-            {data.children && (
-              <Fragment>
-                <BudgetTable
-                  {...data}
-                  data={data.children}
-                />
-                <Tiny dangerousHTML={vt('vote/201907/budget/table/caption')} indent={false} note />
-              </Fragment>
-            )}
-          </BudgetChartItem>
-        ))}
+        {data.children &&
+          data.children.map(({ data }, i) => (
+            <BudgetChartItem
+              key={`item-${i}`}
+              category={data.category}
+              total={displayAmount(data.total)}
+              background={data.background}
+              height={(data.total / total) * (height || maxHeight)}
+              last={i === numBlocks - 1}
+            >
+              <Small dangerousHTML={data.more} indent={false} />
+              {data.children && (
+                <Fragment>
+                  <BudgetTable {...data} data={data.children} />
+                  <Tiny
+                    dangerousHTML={vt('vote/201907/budget/table/caption')}
+                    indent={false}
+                    note
+                  />
+                </Fragment>
+              )}
+            </BudgetChartItem>
+          ))}
       </div>
     )
   }

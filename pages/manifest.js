@@ -12,14 +12,13 @@ import BackIcon from '../components/Icons/Back'
 
 import {
   NarrowContainer,
-  Logo, BrandMark as R,
+  Logo,
+  BrandMark as R,
   fontFamilies,
   mediaQueries
 } from '@project-r/styleguide'
 
-import {
-  PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { Link } from '../lib/routes'
 
 const pRule = css({
@@ -28,7 +27,9 @@ const pRule = css({
 })
 
 const P = ({ children, ...props }) => (
-  <p {...props} {...pRule}>{children}</p>
+  <p {...props} {...pRule}>
+    {children}
+  </p>
 )
 
 const styles = {
@@ -87,13 +88,18 @@ const styles = {
   })
 }
 
-const Highlight = ({ children, ...props }) => <span {...props} {...styles.highlight}>{children}</span>
+const Highlight = ({ children, ...props }) => (
+  <span {...props} {...styles.highlight}>
+    {children}
+  </span>
+)
 const Strong = ({ children }) => <span {...styles.strong}>{children}</span>
 
 const Page = ({ router, inNativeApp }) => {
   const meta = {
     title: 'Das Project-R-Manifest für die Republik',
-    description: 'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
+    description:
+      'Jetzt unser Crowdfunding für das digitale Magazin unterstützen.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/manifest.png`,
     url: `${PUBLIC_BASE_URL}${router.pathname}`
   }
@@ -124,20 +130,49 @@ ${PUBLIC_BASE_URL}
         <meta name='twitter:site' content='@RepublikMagazin' />
         <meta name='twitter:creator' content='@RepublikMagazin' />
       </Head>
-      {inNativeApp && <Link route='index'>
-        <a {...styles.back}>
-          <BackIcon size={25} style={{ marginTop: -3 }} fill='#000' />
-          Magazin
-        </a>
-      </Link>}
+      {inNativeApp && (
+        <Link route='index'>
+          <a {...styles.back}>
+            <BackIcon size={25} style={{ marginTop: -3 }} fill='#000' />
+            Magazin
+          </a>
+        </Link>
+      )}
       <div {...styles.column}>
         <R />
 
         <div {...styles.text}>
-          <Highlight>Ohne Journalismus keine Demokratie.</Highlight><br />
-          Und ohne Demokratie keine Freiheit. Wenn der Journalismus stirbt, stirbt auch die <Strong>offene Gesellschaft, das freie Wort, der Wettbewerb der besten Argumente. Freier Journalismus</Strong> war die erste Forderung der <Strong>liberalen Revolution.</Strong> Und das Erste, was jede Diktatur wieder abschafft. Journalismus ist ein Kind <Strong>der Aufklärung.</Strong> Seine Aufgabe ist die <Strong>Kritik der Macht.</Strong> Deshalb ist Journalismus mehr als nur ein Geschäft für irgendwelche Konzerne. Wer Journalismus macht, übernimmt <Strong>Verantwortung für die Öffentlichkeit.</Strong>
-          {' '}
-          Denn in der Demokratie gilt das Gleiche wie überall im Leben: Menschen brauchen <Strong>vernünftige Informationen, um vernünftige Entscheidungen zu treffen.</Strong> Guter Journalismus schickt <Strong>Expeditionsteams in die Wirklichkeit.</Strong> Seine Aufgabe ist, den Bürgerinnen und Bürgern die <Strong>Fakten und Zusammenhänge</Strong> zu liefern, pur, <Strong>unabhängig,</Strong> nach bestem Gewissen, <Strong>ohne Furcht</Strong> vor niemandem als der Langweile. Journalismus strebt nach <Strong>Klarheit</Strong>, er ist <Strong>der Feind der uralten Angst vor dem Neuen.</Strong> Journalismus braucht <Strong>Leidenschaft,</Strong> Können und Ernsthaftigkeit. Und ein aufmerksames, neugieriges, <Strong>furchtloses Publikum.</Strong> <Highlight style={{ verticalAlign: 'top' }}>Sie!</Highlight>
+          <Highlight>Ohne Journalismus keine Demokratie.</Highlight>
+          <br />
+          Und ohne Demokratie keine Freiheit. Wenn der Journalismus stirbt,
+          stirbt auch die{' '}
+          <Strong>
+            offene Gesellschaft, das freie Wort, der Wettbewerb der besten
+            Argumente. Freier Journalismus
+          </Strong>{' '}
+          war die erste Forderung der <Strong>liberalen Revolution.</Strong> Und
+          das Erste, was jede Diktatur wieder abschafft. Journalismus ist ein
+          Kind <Strong>der Aufklärung.</Strong> Seine Aufgabe ist die{' '}
+          <Strong>Kritik der Macht.</Strong> Deshalb ist Journalismus mehr als
+          nur ein Geschäft für irgendwelche Konzerne. Wer Journalismus macht,
+          übernimmt <Strong>Verantwortung für die Öffentlichkeit.</Strong> Denn
+          in der Demokratie gilt das Gleiche wie überall im Leben: Menschen
+          brauchen{' '}
+          <Strong>
+            vernünftige Informationen, um vernünftige Entscheidungen zu treffen.
+          </Strong>{' '}
+          Guter Journalismus schickt{' '}
+          <Strong>Expeditionsteams in die Wirklichkeit.</Strong> Seine Aufgabe
+          ist, den Bürgerinnen und Bürgern die{' '}
+          <Strong>Fakten und Zusammenhänge</Strong> zu liefern, pur,{' '}
+          <Strong>unabhängig,</Strong> nach bestem Gewissen,{' '}
+          <Strong>ohne Furcht</Strong> vor niemandem als der Langweile.
+          Journalismus strebt nach <Strong>Klarheit</Strong>, er ist{' '}
+          <Strong>der Feind der uralten Angst vor dem Neuen.</Strong>{' '}
+          Journalismus braucht <Strong>Leidenschaft,</Strong> Können und
+          Ernsthaftigkeit. Und ein aufmerksames, neugieriges,{' '}
+          <Strong>furchtloses Publikum.</Strong>{' '}
+          <Highlight style={{ verticalAlign: 'top' }}>Sie!</Highlight>
         </div>
       </div>
 
@@ -146,11 +181,13 @@ ${PUBLIC_BASE_URL}
       </div>
 
       <div style={{ textAlign: 'center', marginBottom: SPACE }}>
-        <P>
-          Manifest teilen
-        </P>
+        <P>Manifest teilen</P>
         <P style={{ marginBottom: SPACE / 2 }}>
-          <ActionBar fill='#000' {...share} shareOverlayTitle={'Manifest teilen'} />
+          <ActionBar
+            fill='#000'
+            {...share}
+            shareOverlayTitle={'Manifest teilen'}
+          />
         </P>
         <P>
           <A href={`${CDN_FRONTEND_BASE_URL}/static/manifest.pdf`}>

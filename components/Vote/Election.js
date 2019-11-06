@@ -101,7 +101,7 @@ const styles = {
 }
 
 class Election extends Component {
-  constructor (props, context) {
+  constructor(props, context) {
     super(props, context)
     this.state = {
       vote: [],
@@ -109,41 +109,61 @@ class Election extends Component {
       electionState: ELECTION_STATES.START
     }
 
-    this.transition = (nextState) => {
+    this.transition = nextState => {
       this.setState({ electionState: nextState })
     }
 
-    this.toggleSelection = (candidate) => {
-      const { data: { election: { numSeats } }, onChange } = this.props
+    this.toggleSelection = candidate => {
+      const {
+        data: {
+          election: { numSeats }
+        },
+        onChange
+      } = this.props
       const allowMultiple = numSeats > 1
       const collection = this.state.vote
-      const existingItem =
-        collection.find(item => item.id === candidate.id)
+      const existingItem = collection.find(item => item.id === candidate.id)
       const nextCollection = [
-        ...(allowMultiple ? collection.filter(item => item.id !== candidate.id) : []),
+        ...(allowMultiple
+          ? collection.filter(item => item.id !== candidate.id)
+          : []),
         ...(existingItem ? [] : [candidate])
       ]
-      this.setState({
-        vote: nextCollection,
-        electionState: nextCollection.length > 0
-          ? ELECTION_STATES.DIRTY
-          : ELECTION_STATES.START
-      }, () => onChange(this.state.vote))
+      this.setState(
+        {
+          vote: nextCollection,
+          electionState:
+            nextCollection.length > 0
+              ? ELECTION_STATES.DIRTY
+              : ELECTION_STATES.START
+        },
+        () => onChange(this.state.vote)
+      )
     }
 
     this.submitBallot = async () => {
-      const { onFinish, submitElectionBallot, data: { election: { id } } } = this.props
+      const {
+        onFinish,
+        submitElectionBallot,
+        data: {
+          election: { id }
+        }
+      } = this.props
       const { vote } = this.state
 
       this.setState({ updating: true })
 
       await submitElectionBallot(id, vote.map(c => c.id))
         .then(() => {
-          this.setState(() => ({
-            updating: false,
-            error: null
-          }), onFinish)
-        }).catch((error) => {
+          this.setState(
+            () => ({
+              updating: false,
+              error: null
+            }),
+            onFinish
+          )
+        })
+        .catch(error => {
           this.setState(() => ({
             updating: false,
             error
@@ -153,18 +173,25 @@ class Election extends Component {
 
     this.reset = e => {
       e.preventDefault()
-      this.setState({
-        vote: [],
-        electionState: ELECTION_STATES.START,
-        error: null
-      }, () => this.props.onChange([]))
+      this.setState(
+        {
+          vote: [],
+          electionState: ELECTION_STATES.START,
+          error: null
+        },
+        () => this.props.onChange([])
+      )
     }
 
     this.renderActions = () => {
       const { vt } = this.props
       const { electionState } = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{vt('vote/election/labelReset')}</A>
+      const resetLink = (
+        <A href='#' {...styles.link} onClick={this.reset}>
+          {vt('vote/election/labelReset')}
+        </A>
+      )
 
       const { updating } = this.state
       switch (electionState) {
@@ -200,13 +227,13 @@ class Election extends Component {
               <Button
                 key={'vote/election/labelConfirm'}
                 primary
-                onClick={() =>
-                  this.submitBallot()
-                }
+                onClick={() => this.submitBallot()}
               >
-                { updating
-                  ? <InlineSpinner size={40} />
-                  : vt('vote/election/labelConfirm') }
+                {updating ? (
+                  <InlineSpinner size={40} />
+                ) : (
+                  vt('vote/election/labelConfirm')
+                )}
               </Button>
               {resetLink}
             </Fragment>
@@ -216,14 +243,25 @@ class Election extends Component {
 
     this.renderConfirmation = () => {
       const { electionState, vote } = this.state
-      const { data: { election: { numSeats } }, vt } = this.props
+      const {
+        data: {
+          election: { numSeats }
+        },
+        vt
+      } = this.props
       if (electionState === ELECTION_STATES.READY) {
         return (
           <P {...styles.confirm}>
-            { vote.length < numSeats
-              ? vt.pluralize('vote/election/labelConfirmCount', { count: vote.length, numSeats, remaining: numSeats - vote.length })
-              : vt.pluralize('vote/election/labelConfirmAll', { numSeats, count: numSeats })
-            }
+            {vote.length < numSeats
+              ? vt.pluralize('vote/election/labelConfirmCount', {
+                  count: vote.length,
+                  numSeats,
+                  remaining: numSeats - vote.length
+                })
+              : vt.pluralize('vote/election/labelConfirmAll', {
+                  numSeats,
+                  count: numSeats
+                })}
           </P>
         )
       } else {
@@ -233,14 +271,17 @@ class Election extends Component {
 
     this.selectRecommendation = () => {
       const { vote } = this.state
-      const { data: { election }, vt } = this.props
+      const {
+        data: { election },
+        vt
+      } = this.props
 
-      const recommended = election.candidacies
-        .filter(c => c.recommendation)
-      const voteEqRecommendation = recommended
-        .filter(e => !vote.find(u => u.id === e.id))
-        .concat(vote.filter(e => !recommended.find(u => u.id === e.id)))
-        .length < 1
+      const recommended = election.candidacies.filter(c => c.recommendation)
+      const voteEqRecommendation =
+        recommended
+          .filter(e => !vote.find(u => u.id === e.id))
+          .concat(vote.filter(e => !recommended.find(u => u.id === e.id)))
+          .length < 1
 
       let replace = true
       if (vote.length > 0 && !voteEqRecommendation) {
@@ -255,110 +296,125 @@ class Election extends Component {
     }
   }
 
-  render () {
+  render() {
     const { data, mandatoryCandidates, vt, showMeta, me } = this.props
     const { election } = data
 
     return (
-      <Loader loading={data.loading} error={data.error} render={() => {
-        if (!election) {
-          return null
-        }
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          if (!election) {
+            return null
+          }
 
-        const { vote, error } = this.state
-        const hasEnded = Date.now() > new Date(election.endDate)
+          const { vote, error } = this.state
+          const hasEnded = Date.now() > new Date(election.endDate)
 
-        let dangerousDisabledHTML = this.props.dangerousDisabledHTML
-        if (election.userHasSubmitted) {
-          dangerousDisabledHTML = vt('vote/election/thankyou', {
-            submissionDate: messageDateFormat(new Date(election.userSubmitDate))
-          })
-        } else if (hasEnded) {
-          dangerousDisabledHTML = vt('vote/election/ended')
-        } else if (!me) {
-          dangerousDisabledHTML = vt('vote/election/notSignedIn')
-        } else if (!election.userIsEligible) {
-          dangerousDisabledHTML = vt('vote/election/notEligible')
-        }
+          let dangerousDisabledHTML = this.props.dangerousDisabledHTML
+          if (election.userHasSubmitted) {
+            dangerousDisabledHTML = vt('vote/election/thankyou', {
+              submissionDate: messageDateFormat(
+                new Date(election.userSubmitDate)
+              )
+            })
+          } else if (hasEnded) {
+            dangerousDisabledHTML = vt('vote/election/ended')
+          } else if (!me) {
+            dangerousDisabledHTML = vt('vote/election/notSignedIn')
+          } else if (!election.userIsEligible) {
+            dangerousDisabledHTML = vt('vote/election/notEligible')
+          }
 
-        const inProgress = !dangerousDisabledHTML
+          const inProgress = !dangerousDisabledHTML
 
-        const [recommended, others] = election.candidacies.reduce((acc, cur) => {
-          acc[cur.recommendation ? 0 : 1].push(cur)
-          return acc
-        }, [[], []])
+          const [recommended, others] = election.candidacies.reduce(
+            (acc, cur) => {
+              acc[cur.recommendation ? 0 : 1].push(cur)
+              return acc
+            },
+            [[], []]
+          )
 
-        const showHeader = recommended.length > 0 && election.numSeats > 1
+          const showHeader = recommended.length > 0 && election.numSeats > 1
 
-        return (
-          <div {...styles.wrapper}>
-            {showHeader &&
-            <div {...styles.header}>
-              {election.numSeats > 1 &&
-              <div {...styles.info}>
-                {inProgress &&
-                <P>
-                  <strong>{vt('vote/election/votesRemaining', {
-                    count: election.numSeats - vote.length,
-                    max: election.numSeats
-                  })}</strong>
-                </P>
-                }
-                {recommended.length > 0 &&
-                <span><StarsIcon size={18} />{' '}{vt('vote/election/legendStar')}<br /></span>
-                }
-                {mandatoryCandidates.length > 0 &&
-                <span><FavoriteIcon />{' '}{vt('vote/election/legendHeart')}</span>
-                }
-              </div>
-              }
-              {election.numSeats > 1 && recommended.length > 0 && inProgress &&
-              <Button
-                primary
-                style={{ ...fontStyles.sansSerifRegular16 }}
-                onClick={() => this.selectRecommendation()}
-              >
-                {vt('vote/members/recommendation')}
-              </Button>
-              }
-            </div>
-            }
-            {dangerousDisabledHTML && <div {...styles.wrapper} style={{ marginBottom: 30 }}>
-              <div {...styles.thankyou}>
-                <RawHtml
-                  type={P}
-                  dangerouslySetInnerHTML={{
-                    __html: dangerousDisabledHTML
-                  }}
-                />
-              </div>
-            </div>}
+          return (
             <div {...styles.wrapper}>
-              <ElectionBallot
-                maxVotes={election.numSeats}
-                candidacies={recommended.concat(others)}
-                selected={vote}
-                mandatory={mandatoryCandidates}
-                onChange={inProgress ? this.toggleSelection : undefined}
-                showMeta={showMeta}
-              />
-              {inProgress &&
-              <div {...styles.actions}>
-                {error &&
-                <ErrorMessage error={error} />
-                }
-                {
-                  this.renderConfirmation()
-                }
-                {
-                  this.renderActions()
-                }
+              {showHeader && (
+                <div {...styles.header}>
+                  {election.numSeats > 1 && (
+                    <div {...styles.info}>
+                      {inProgress && (
+                        <P>
+                          <strong>
+                            {vt('vote/election/votesRemaining', {
+                              count: election.numSeats - vote.length,
+                              max: election.numSeats
+                            })}
+                          </strong>
+                        </P>
+                      )}
+                      {recommended.length > 0 && (
+                        <span>
+                          <StarsIcon size={18} />{' '}
+                          {vt('vote/election/legendStar')}
+                          <br />
+                        </span>
+                      )}
+                      {mandatoryCandidates.length > 0 && (
+                        <span>
+                          <FavoriteIcon /> {vt('vote/election/legendHeart')}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {election.numSeats > 1 &&
+                    recommended.length > 0 &&
+                    inProgress && (
+                      <Button
+                        primary
+                        style={{ ...fontStyles.sansSerifRegular16 }}
+                        onClick={() => this.selectRecommendation()}
+                      >
+                        {vt('vote/members/recommendation')}
+                      </Button>
+                    )}
+                </div>
+              )}
+              {dangerousDisabledHTML && (
+                <div {...styles.wrapper} style={{ marginBottom: 30 }}>
+                  <div {...styles.thankyou}>
+                    <RawHtml
+                      type={P}
+                      dangerouslySetInnerHTML={{
+                        __html: dangerousDisabledHTML
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              <div {...styles.wrapper}>
+                <ElectionBallot
+                  maxVotes={election.numSeats}
+                  candidacies={recommended.concat(others)}
+                  selected={vote}
+                  mandatory={mandatoryCandidates}
+                  onChange={inProgress ? this.toggleSelection : undefined}
+                  showMeta={showMeta}
+                />
+                {inProgress && (
+                  <div {...styles.actions}>
+                    {error && <ErrorMessage error={error} />}
+                    {this.renderConfirmation()}
+                    {this.renderActions()}
+                  </div>
+                )}
               </div>
-              }
             </div>
-          </div>
-        )
-      }} />
+          )
+        }}
+      />
     )
   }
 }
@@ -383,7 +439,7 @@ const submitElectionBallotMutation = gql`
     submitElectionBallot(electionId: $electionId, candidacyIds: $candidacyIds) {
       id
       userHasSubmitted
-      userSubmitDate    
+      userSubmitDate
     }
   }
 `
@@ -391,51 +447,51 @@ const submitElectionBallotMutation = gql`
 const query = gql`
   query getElection($slug: String!) {
     election(slug: $slug) {
-    id
-    userIsEligible
-    userHasSubmitted
-    userSubmitDate    
-    description
-    beginDate
-    endDate
-    numSeats
-    discussion {
       id
-      comments {
+      userIsEligible
+      userHasSubmitted
+      userSubmitDate
+      description
+      beginDate
+      endDate
+      numSeats
+      discussion {
         id
-        totalCount
+        comments {
+          id
+          totalCount
+        }
       }
-    }
-    candidacies {
-      id
-      yearOfBirth
-      city
-      recommendation
-      comment {
+      candidacies {
         id
-      }
-      election {
-        slug
-        discussion {
+        yearOfBirth
+        city
+        recommendation
+        comment {
           id
         }
-      }
-      user {
-        id
-        name
-        username
-        email
-        statement
-        portrait
-        disclosures
-        credentials {
-          isListed
-          description
+        election {
+          slug
+          discussion {
+            id
+          }
+        }
+        user {
+          id
+          name
+          username
+          email
+          statement
+          portrait
+          disclosures
+          credentials {
+            isListed
+            description
+          }
         }
       }
     }
-   }
- }
+  }
 `
 
 export default compose(

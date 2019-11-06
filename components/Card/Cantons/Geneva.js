@@ -3,7 +3,7 @@ import React from 'react'
 const SvgGeneva = props => (
   <svg
     width={props.size}
-    height={props.size * 470.14 / 469.61}
+    height={(props.size * 470.14) / 469.61}
     viewBox='-204.487 -206.031 469.61 470.14'
     {...props}
   >

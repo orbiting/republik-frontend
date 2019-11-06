@@ -25,9 +25,7 @@ import Onboarding from './Onboarding'
 import SignIn from '../Auth/SignIn'
 import Box from '../Frame/Box'
 
-import {
-  H1, Interaction, mediaQueries
-} from '@project-r/styleguide'
+import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
 
 import query from './belongingsQuery'
 
@@ -62,7 +60,7 @@ const AccountAnchor = ({ children, id }) => {
 }
 
 class Account extends Component {
-  componentDidMount () {
+  componentDidMount() {
     if (window.location.hash.substr(1).length > 0) {
       const node = document.getElementById(window.location.hash.substr(1))
 
@@ -72,112 +70,129 @@ class Account extends Component {
     }
   }
 
-  render () {
-    const { loading, error, me, t, query, hasMemberships, hasActiveMemberships, hasAccessGrants, acceptedStatue, recurringAmount, hasPledges, merci, inNativeIOSApp } = this.props
+  render() {
+    const {
+      loading,
+      error,
+      me,
+      t,
+      query,
+      hasMemberships,
+      hasActiveMemberships,
+      hasAccessGrants,
+      acceptedStatue,
+      recurringAmount,
+      hasPledges,
+      merci,
+      inNativeIOSApp
+    } = this.props
 
-    return <Loader
-      loading={loading}
-      error={error}
-      render={() => {
-        if (!me) {
+    return (
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (!me) {
+            return (
+              <MainContainer>
+                <Content>
+                  <H1>{t('account/signedOut/title')}</H1>
+                  <P>{t('account/signedOut/signIn')}</P>
+                  <SignIn email={query.email} />
+                </Content>
+              </MainContainer>
+            )
+          }
+
           return (
-            <MainContainer>
-              <Content>
-                <H1>{t('account/signedOut/title')}</H1>
-                <P>
-                  {t('account/signedOut/signIn')}
-                </P>
-                <SignIn email={query.email} />
-              </Content>
-            </MainContainer>
+            <Fragment>
+              {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
+              {!hasAccessGrants && !hasMemberships && <UserGuidance />}
+              <MainContainer>
+                <Content>
+                  {!merci && (
+                    <H1>
+                      {t('Account/title', {
+                        nameOrEmail: me.name || me.email
+                      })}
+                    </H1>
+                  )}
+
+                  <Anchors />
+
+                  {inNativeIOSApp && (
+                    <Box style={{ padding: 14, marginBottom: 20 }}>
+                      <P>{t('account/ios/box')}</P>
+                    </Box>
+                  )}
+
+                  {hasActiveMemberships && (
+                    <AccountAnchor id='onboarding'>
+                      <Onboarding />
+                    </AccountAnchor>
+                  )}
+
+                  {!inNativeIOSApp && (
+                    <AccountAnchor id='abos'>
+                      <MembershipList highlightId={query.id} />
+                      {recurringAmount > 0 && (
+                        <PaymentSources query={query} total={recurringAmount} />
+                      )}
+                    </AccountAnchor>
+                  )}
+
+                  <AccountAnchor id='teilen'>
+                    <AccessCampaigns />
+                  </AccountAnchor>
+
+                  <AccountAnchor id='email'>
+                    <UpdateEmail />
+                  </AccountAnchor>
+
+                  <AccountAnchor id='account'>
+                    <UpdateMe
+                      acceptedStatue={acceptedStatue}
+                      hasMemberships={hasMemberships}
+                    />
+                  </AccountAnchor>
+
+                  {!inNativeIOSApp && (
+                    <AccountAnchor id='pledges'>
+                      {(hasPledges || !hasMemberships) && (
+                        <H2>{t('account/pledges/title')}</H2>
+                      )}
+                      <PledgeList highlightId={query.id} />
+                    </AccountAnchor>
+                  )}
+
+                  <AccountAnchor id='newsletter'>
+                    <H2>{t('account/newsletterSubscriptions/title')}</H2>
+                    <NewsletterSubscriptions />
+                  </AccountAnchor>
+
+                  <AccountAnchor id='benachrichtigungen'>
+                    <H2>{t('account/notificationOptions/title')}</H2>
+                    <NotificationOptions />
+                  </AccountAnchor>
+
+                  <AccountAnchor id='position'>
+                    <H2>{t('account/progress/title')}</H2>
+                    <ProgressSettings />
+                  </AccountAnchor>
+
+                  {APP_OPTIONS && (
+                    <AccountAnchor id='anmeldung'>
+                      <H2>{t('account/authSettings/title')}</H2>
+                      <AuthSettings />
+                    </AccountAnchor>
+                  )}
+                </Content>
+              </MainContainer>
+            </Fragment>
           )
-        }
-
-        return (
-          <Fragment>
-            {hasAccessGrants && !hasActiveMemberships && <AccessGrants />}
-            {!hasAccessGrants && !hasMemberships && <UserGuidance />}
-            <MainContainer>
-              <Content>
-                {!merci && (
-                  <H1>
-                    {t('Account/title', {
-                      nameOrEmail: me.name || me.email
-                    })}
-                  </H1>
-                )}
-
-                <Anchors />
-
-                {inNativeIOSApp && (
-                  <Box style={{ padding: 14, marginBottom: 20 }}>
-                    <P>
-                      {t('account/ios/box')}
-                    </P>
-                  </Box>
-                )}
-
-                {hasActiveMemberships && (
-                  <AccountAnchor id='onboarding'>
-                    <Onboarding />
-                  </AccountAnchor>
-                )}
-
-                {!inNativeIOSApp &&
-                  <AccountAnchor id='abos'>
-                    <MembershipList highlightId={query.id} />
-                    {recurringAmount > 0 &&
-                    <PaymentSources query={query} total={recurringAmount} />
-                    }
-                  </AccountAnchor>
-                }
-
-                <AccountAnchor id='teilen'>
-                  <AccessCampaigns />
-                </AccountAnchor>
-
-                <AccountAnchor id='email'>
-                  <UpdateEmail />
-                </AccountAnchor>
-
-                <AccountAnchor id='account'>
-                  <UpdateMe acceptedStatue={acceptedStatue} hasMemberships={hasMemberships} />
-                </AccountAnchor>
-
-                {!inNativeIOSApp &&
-                  <AccountAnchor id='pledges'>
-                    {(hasPledges || !hasMemberships) && (
-                      <H2>{t('account/pledges/title')}</H2>
-                    )}
-                    <PledgeList highlightId={query.id} />
-                  </AccountAnchor>
-                }
-
-                <AccountAnchor id='newsletter'>
-                  <H2>{t('account/newsletterSubscriptions/title')}</H2>
-                  <NewsletterSubscriptions />
-                </AccountAnchor>
-
-                <AccountAnchor id='benachrichtigungen'>
-                  <H2>{t('account/notificationOptions/title')}</H2>
-                  <NotificationOptions />
-                </AccountAnchor>
-
-                <AccountAnchor id='position'>
-                  <H2>{t('account/progress/title')}</H2>
-                  <ProgressSettings />
-                </AccountAnchor>
-
-                {APP_OPTIONS && <AccountAnchor id='anmeldung'>
-                  <H2>{t('account/authSettings/title')}</H2>
-                  <AuthSettings />
-                </AccountAnchor>}
-              </Content>
-            </MainContainer>
-          </Fragment>
-        )
-      }}
-    />
+        }}
+      />
+    )
   }
 }
 export default compose(
@@ -186,54 +201,38 @@ export default compose(
   withInNativeApp,
   graphql(query, {
     props: ({ data }) => {
-      const isReady = (
-        !data.loading &&
-        !data.error &&
-        data.me
-      )
-      const hasMemberships = (
-        isReady &&
-        data.me.memberships &&
-        !!data.me.memberships.length
-      )
-      const hasActiveMemberships = (
-        isReady &&
-        hasMemberships &&
-        data.me.memberships.some(m => m.active)
-      )
-      const hasPledges = (
-        isReady &&
-        data.me.pledges &&
-        !!data.me.pledges.length
-      )
-      const hasAccessGrants = (
-        isReady &&
-        data.me.accessGrants &&
-        !!data.me.accessGrants.length
-      )
+      const isReady = !data.loading && !data.error && data.me
+      const hasMemberships =
+        isReady && data.me.memberships && !!data.me.memberships.length
+      const hasActiveMemberships =
+        isReady && hasMemberships && data.me.memberships.some(m => m.active)
+      const hasPledges = isReady && data.me.pledges && !!data.me.pledges.length
+      const hasAccessGrants =
+        isReady && data.me.accessGrants && !!data.me.accessGrants.length
       return {
         loading: data.loading,
         error: data.error,
         hasPledges,
-        acceptedStatue: (
+        acceptedStatue:
           hasPledges &&
-          !!data.me.pledges.find(pledge => (
-            pledge.package.name !== 'MONTHLY_ABO' &&
-            pledge.package.name !== 'DONATE'
-          ))
-        ),
+          !!data.me.pledges.find(
+            pledge =>
+              pledge.package.name !== 'MONTHLY_ABO' &&
+              pledge.package.name !== 'DONATE'
+          ),
         hasMemberships,
         hasActiveMemberships,
         memberships: hasMemberships && data.me.memberships,
         hasAccessGrants,
         recurringAmount: hasMemberships
           ? max(
-            data.me.memberships.map(m => {
-              const recurringOptions = m.pledge.options
-                .filter(o => o.reward && o.reward.name === 'MONTHLY_ABO')
-              return max(recurringOptions.map(o => o.price)) || 0
-            })
-          )
+              data.me.memberships.map(m => {
+                const recurringOptions = m.pledge.options.filter(
+                  o => o.reward && o.reward.name === 'MONTHLY_ABO'
+                )
+                return max(recurringOptions.map(o => o.price)) || 0
+              })
+            )
           : 0
       }
     }

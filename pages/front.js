@@ -9,32 +9,32 @@ import Frame from '../components/Frame'
 import Front from '../components/Front'
 import StatusError from '../components/StatusError'
 
-import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
+import withMembership, {
+  UnauthorizedPage
+} from '../components/Auth/withMembership'
 import withInNativeApp from '../lib/withInNativeApp'
 
 const KNOWN_PATHS = []
 
-const isPathKnown = (router) => {
+const isPathKnown = router => {
   return KNOWN_PATHS.indexOf(cleanAsPath(router.asPath)) !== -1
 }
 
 class FrontPage extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.redirectUser()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.redirectUser()
   }
 
-  redirectUser () {
+  redirectUser() {
     const { router, isMember, inNativeIOSApp, serverContext } = this.props
 
     if (isPathKnown(router) && !isMember && !inNativeIOSApp) {
       if (serverContext) {
-        const indexPath = routes
-          .find(r => r.name === 'index')
-          .toPath()
+        const indexPath = routes.find(r => r.name === 'index').toPath()
 
         serverContext.res.redirect(302, indexPath)
         serverContext.res.end()
@@ -44,7 +44,7 @@ class FrontPage extends Component {
     }
   }
 
-  render () {
+  render() {
     const { router, isMember, inNativeIOSApp, serverContext } = this.props
 
     if (isMember) {
@@ -68,9 +68,7 @@ class FrontPage extends Component {
     // status page.
     return (
       <Frame raw>
-        <StatusError
-          statusCode={404}
-          serverContext={serverContext} />
+        <StatusError statusCode={404} serverContext={serverContext} />
       </Frame>
     )
   }

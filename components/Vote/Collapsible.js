@@ -27,7 +27,7 @@ const styles = {
 }
 
 class Collapsible extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       collapsed: true
@@ -40,28 +40,25 @@ class Collapsible extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const { label, children, vt } = this.props
     const { collapsed } = this.state
 
     return (
       <div {...styles.wrapper}>
         <div {...styles.toggle} onClick={this.toggleCollapsed}>
-          { collapsed
-            ? <div {...styles.toggleIcon}><ChevronRightIcon /></div>
-            : <div {...styles.toggleIcon}><ChevronDownIcon /></div>
-          }
-          {
-            label || vt('common/moreInfo')
-          }
+          {collapsed ? (
+            <div {...styles.toggleIcon}>
+              <ChevronRightIcon />
+            </div>
+          ) : (
+            <div {...styles.toggleIcon}>
+              <ChevronDownIcon />
+            </div>
+          )}
+          {label || vt('common/moreInfo')}
         </div>
-        { collapsed ||
-          <div>
-            {
-              children
-            }
-          </div>
-        }
+        {collapsed || <div>{children}</div>}
       </div>
     )
   }

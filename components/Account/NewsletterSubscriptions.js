@@ -56,7 +56,7 @@ export const NEWSLETTER_SETTINGS = gql`
   }
 `
 
-const NewsletterSubscriptions = (props) => (
+const NewsletterSubscriptions = props => (
   <Query query={NEWSLETTER_SETTINGS}>
     {({ loading, error, data }) => {
       const { t } = props
@@ -66,12 +66,16 @@ const NewsletterSubscriptions = (props) => (
       }
 
       if (!data.me || !data.me.newsletterSettings) {
-        return <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
+        return (
+          <Loader error={t('account/newsletterSubscriptions/unauthorized')} />
+        )
       }
 
       const { subscriptions, status } = data.me.newsletterSettings
 
-      const hasNonEligibleSubscription = subscriptions.some(({ isEligible }) => !isEligible)
+      const hasNonEligibleSubscription = subscriptions.some(
+        ({ isEligible }) => !isEligible
+      )
 
       return (
         <Fragment>
@@ -94,11 +98,14 @@ const NewsletterSubscriptions = (props) => (
                       checked={subscribed}
                       disabled={!isEligible || mutating}
                       onChange={(_, checked) => {
-                        mutate({ variables: {
-                          name,
-                          subscribed: checked
-                        } })
-                      }}>
+                        mutate({
+                          variables: {
+                            name,
+                            subscribed: checked
+                          }
+                        })
+                      }}
+                    >
                       <span {...styles.label}>
                         {t(`account/newsletterSubscriptions/${name}/label`)}
                         {mutating && (
@@ -108,7 +115,9 @@ const NewsletterSubscriptions = (props) => (
                         )}
                         <br />
                         <Label>
-                          {t(`account/newsletterSubscriptions/${name}/frequency`)}
+                          {t(
+                            `account/newsletterSubscriptions/${name}/frequency`
+                          )}
                         </Label>
                         {error && <ErrorMessage error={error} />}
                       </span>

@@ -8,9 +8,7 @@ import { ascending, descending } from 'd3-array'
 
 import { groupped, total, colors } from './data'
 
-import {
-  fontFamilies
-} from '@project-r/styleguide'
+import { fontFamilies } from '@project-r/styleguide'
 
 const nbspNumbers = formatLocale({
   decimal: ',',
@@ -38,8 +36,7 @@ const styles = {
 }
 
 export const radius = 250
-const layout = partition()
-  .size([2 * Math.PI, radius * radius])
+const layout = partition().size([2 * Math.PI, radius * radius])
 
 const startAngle = d => d.x0
 const endAngle = d => d.x1
@@ -59,16 +56,19 @@ const visSort = {
 
 const grouppedVis = groupped
   .copy()
-  .sort((a, b) => (
-    ascending(visSort[a.data.Kategorie], visSort[b.data.Kategorie]) ||
-    descending(a.value, b.value)
-  ))
+  .sort(
+    (a, b) =>
+      ascending(visSort[a.data.Kategorie], visSort[b.data.Kategorie]) ||
+      descending(a.value, b.value)
+  )
 
 const legend = []
   .concat(groupped.children)
   .sort((a, b) => descending(a.value, b.value))
 
-const arcs = layout(grouppedVis).descendants().filter(d => d.data.Kategorie)
+const arcs = layout(grouppedVis)
+  .descendants()
+  .filter(d => d.data.Kategorie)
 
 const computeTextRotation = d => {
   const centerRadians = startAngle(d) + (endAngle(d) - startAngle(d)) / 2
@@ -79,34 +79,49 @@ const computeTextRotation = d => {
 
 export default () => (
   <div {...styles.container}>
-    <svg viewBox={`-${radius} -${radius} ${radius * 2} ${radius * 2}`} width='100%' {...styles.svg}>
-      {arcs.map((d, i) =>
-        <path key={i}
+    <svg
+      viewBox={`-${radius} -${radius} ${radius * 2} ${radius * 2}`}
+      width='100%'
+      {...styles.svg}
+    >
+      {arcs.map((d, i) => (
+        <path
+          key={i}
           d={arcGenerator(d)}
           fill={colors[d.data.Kategorie]}
-          stroke='#fff' />
-      )}
-      {arcs.filter(d => d.depth === 1 || (d.value / total) > 0.01).map((d, i) => {
-        const centroid = arcGenerator.centroid(d)
-        const rotate = computeTextRotation(d)
+          stroke='#fff'
+        />
+      ))}
+      {arcs
+        .filter(d => d.depth === 1 || d.value / total > 0.01)
+        .map((d, i) => {
+          const centroid = arcGenerator.centroid(d)
+          const rotate = computeTextRotation(d)
 
-        const transform = `translate(${centroid}) rotate(${rotate})`
-        return [
-          <text key={`text${i}`}
-            dy='.35em'
-            fill='#fff'
-            textAnchor='middle'
-            fontSize={12}
-            transform={transform}>
-            {percentFormat(d.value / total)}
-          </text>
-        ]
-      })}
+          const transform = `translate(${centroid}) rotate(${rotate})`
+          return [
+            <text
+              key={`text${i}`}
+              dy='.35em'
+              fill='#fff'
+              textAnchor='middle'
+              fontSize={12}
+              transform={transform}
+            >
+              {percentFormat(d.value / total)}
+            </text>
+          ]
+        })}
       <g transform={`translate(-65, -45)`}>
         {legend.map((group, i) => (
           <g key={`legend${i}`} transform={`translate(0, ${i * 20})`}>
             <rect width={15} height={15} fill={colors[group.data.Kategorie]} />
-            <text x={20} dy='.8em' fill={colors[group.data.Kategorie]} style={{ fontFamilty: fontFamilies.sansSerifMedium }}>
+            <text
+              x={20}
+              dy='.8em'
+              fill={colors[group.data.Kategorie]}
+              style={{ fontFamilty: fontFamilies.sansSerifMedium }}
+            >
               {group.data.Kategorie}
             </text>
           </g>

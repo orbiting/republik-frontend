@@ -48,7 +48,7 @@ class TextInput extends Component {
     const { text = '', maxLength } = this.props
     return {
       count: text.length,
-      progress: text.length / maxLength * 100
+      progress: (text.length / maxLength) * 100
     }
   }
 
@@ -61,10 +61,11 @@ class TextInput extends Component {
     const progressColor = progress > 100 ? colors.error : colors.text
     return (
       <div {...styles.maxLength}>
-        {remaining < 21 &&
-        <span {...styles.remaining} style={{ color: progressColor }}>
-          {remaining}
-        </span>}
+        {remaining < 21 && (
+          <span {...styles.remaining} style={{ color: progressColor }}>
+            {remaining}
+          </span>
+        )}
         <TextInputProgress
           stroke={progressColor}
           radius={9}
@@ -75,7 +76,7 @@ class TextInput extends Component {
     )
   }
 
-  render () {
+  render() {
     const { text, placeholder, onChange } = this.props
     return (
       <div {...styles.form}>
@@ -85,10 +86,12 @@ class TextInput extends Component {
             <AutosizeInput
               {...inputProps}
               {...fieldSetStyles.autoSize}
-              inputRef={ref} />
+              inputRef={ref}
+            />
           )}
           value={text}
-          onChange={onChange} />
+          onChange={onChange}
+        />
         {this.renderProgress()}
       </div>
     )

@@ -22,16 +22,21 @@ const CancelMembershipPage = ({ router, me, t }) => {
   return (
     <Frame meta={meta}>
       <Interaction.H1>{meta.title}</Interaction.H1>
-      {me
-        ? <Cancel membershipId={membershipId} />
-        : <Fragment>
+      {me ? (
+        <Cancel membershipId={membershipId} />
+      ) : (
+        <Fragment>
           <br />
-          <SignIn context='cancel' beforeForm={(
-            <Interaction.P style={{ marginBottom: 20 }}>
-              { t('memberships/cancel/signIn') }
-            </Interaction.P>
-          )} />
-        </Fragment>}
+          <SignIn
+            context='cancel'
+            beforeForm={
+              <Interaction.P style={{ marginBottom: 20 }}>
+                {t('memberships/cancel/signIn')}
+              </Interaction.P>
+            }
+          />
+        </Fragment>
+      )}
     </Frame>
   )
 }

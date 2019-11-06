@@ -3,7 +3,7 @@ import React from 'react'
 const SvgNidwalden = props => (
   <svg
     width={props.size}
-    height={props.size * 469.824 / 468.551}
+    height={(props.size * 469.824) / 468.551}
     viewBox='-205.299 -205.34 468.551 469.824'
     {...props}
   >

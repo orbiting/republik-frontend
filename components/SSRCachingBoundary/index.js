@@ -24,16 +24,23 @@ const webpCacheKey = (headers, baseKey) => {
   if (!headers) {
     console.warn('[SSRCache] headers missing!')
   }
-  return headers && headers.accept && headers.accept.indexOf('image/webp') !== -1
+  return headers &&
+    headers.accept &&
+    headers.accept.indexOf('image/webp') !== -1
     ? `${baseKey}:webp`
     : baseKey
 }
 
-const SSRCachingBoundary = withHeaders(({ cacheKey, headers, children }) => getHtml
-  ? <div dangerouslySetInnerHTML={{
-    __html: getHtml(webpCacheKey(headers, cacheKey), children)
-  }} />
-  : <div>{children()}</div>
+const SSRCachingBoundary = withHeaders(({ cacheKey, headers, children }) =>
+  getHtml ? (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: getHtml(webpCacheKey(headers, cacheKey), children)
+      }}
+    />
+  ) : (
+    <div>{children()}</div>
+  )
 )
 
 SSRCachingBoundary.propTypes = {

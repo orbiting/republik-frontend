@@ -14,85 +14,99 @@ import withT from '../../lib/withT'
 
 import { countFormat } from '../../lib/utils/format'
 
-const DownloadableChart = ({ canDownload, ...props }) => <Fragment>
-  <Chart {...props} />
-  {canDownload && <Editorial.Note style={{ marginTop: 10, marginBottom: -5 }}>
-    Download:{' '}
-    <Editorial.A download='data.csv' onClick={(e) => {
-      const url = e.target.href = URL.createObjectURL(
-        new window.Blob(
-          [csvFormat(props.values)],
-          { type: 'text/csv' }
-        )
-      )
-      setTimeout(function () { URL.revokeObjectURL(url) }, 50)
-    }}>Data</Editorial.A>
-    {', '}
-    <Editorial.A download='config.json' onClick={(e) => {
-      const url = e.target.href = URL.createObjectURL(
-        new window.Blob(
-          [JSON.stringify(props.config, null, 2)],
-          { type: 'application/json' }
-        )
-      )
-      setTimeout(function () { URL.revokeObjectURL(url) }, 50)
-    }}>Config</Editorial.A>
-  </Editorial.Note>}
-</Fragment>
+const DownloadableChart = ({ canDownload, ...props }) => (
+  <Fragment>
+    <Chart {...props} />
+    {canDownload && (
+      <Editorial.Note style={{ marginTop: 10, marginBottom: -5 }}>
+        Download:{' '}
+        <Editorial.A
+          download='data.csv'
+          onClick={e => {
+            const url = (e.target.href = URL.createObjectURL(
+              new window.Blob([csvFormat(props.values)], { type: 'text/csv' })
+            ))
+            setTimeout(function() {
+              URL.revokeObjectURL(url)
+            }, 50)
+          }}
+        >
+          Data
+        </Editorial.A>
+        {', '}
+        <Editorial.A
+          download='config.json'
+          onClick={e => {
+            const url = (e.target.href = URL.createObjectURL(
+              new window.Blob([JSON.stringify(props.config, null, 2)], {
+                type: 'application/json'
+              })
+            ))
+            setTimeout(function() {
+              URL.revokeObjectURL(url)
+            }, 50)
+          }}
+        >
+          Config
+        </Editorial.A>
+      </Editorial.Note>
+    )}
+  </Fragment>
+)
 
 const query = gql`
-query getQuestionnaireResults($slug: String!, $orderFilter: [Int!]) {
-  questionnaire(slug: $slug) {
-    id
-    slug
-    questions(orderFilter: $orderFilter) {
+  query getQuestionnaireResults($slug: String!, $orderFilter: [Int!]) {
+    questionnaire(slug: $slug) {
       id
-      text
-      turnout {
-        skipped
-        submitted
-      }
-      __typename
-      ... on QuestionTypeRange {
-        ticks {
-          label
-          value
+      slug
+      questions(orderFilter: $orderFilter) {
+        id
+        text
+        turnout {
+          skipped
+          submitted
         }
-        result {
-          median
-          histogram(ticks: 10) {
-            x0
-            x1
-            count
-          }
-        }
-      }
-      ... on QuestionTypeChoice {
-        results: result(min: 3) {
-          count
-          option {
+        __typename
+        ... on QuestionTypeRange {
+          ticks {
             label
-            category
+            value
+          }
+          result {
+            median
+            histogram(ticks: 10) {
+              x0
+              x1
+              count
+            }
           }
         }
-        options {
-          label
+        ... on QuestionTypeChoice {
+          results: result(min: 3) {
+            count
+            option {
+              label
+              category
+            }
+          }
+          options {
+            label
+          }
         }
-      }
-      ... on QuestionTypeDocument {
-        results: result(min: 3, top: 20) {
-          count
-          document {
-            meta {
-              title
-              path
+        ... on QuestionTypeDocument {
+          results: result(min: 3, top: 20) {
+            count
+            document {
+              meta {
+                title
+                path
+              }
             }
           }
         }
       }
     }
   }
-}
 `
 
 const RANKED_CATEGORY_BAR_CONFIG = {
@@ -127,10 +141,7 @@ const STACKED_BAR_CONFIG = {
   numberFormat: '.0%',
   color: 'label',
   colorSort: 'none',
-  colorRange: [
-    '#3D155B', '#A46FDA',
-    '#B9EB56', '#90AA00', '#62790E'
-  ],
+  colorRange: ['#3D155B', '#A46FDA', '#B9EB56', '#90AA00', '#62790E'],
   sort: 'none',
   barStyle: 'large',
   colorLegend: true,
@@ -146,9 +157,16 @@ const BIN_BAR_CONFIG = {
   sort: 'none',
   barStyle: 'large',
   colorRange: [
-    '#62790E', '#90AA00', '#B9EB56', '#D6FA90',
-    '#bbb', '#bbb',
-    '#3D155B', '#542785', '#A46FDA', '#C79CF0'
+    '#62790E',
+    '#90AA00',
+    '#B9EB56',
+    '#D6FA90',
+    '#bbb',
+    '#bbb',
+    '#3D155B',
+    '#542785',
+    '#A46FDA',
+    '#C79CF0'
   ],
   colorLegend: false
 }
@@ -156,7 +174,9 @@ const BIN_BAR_CONFIG = {
 const RankedBars = withT(({ t, question, canDownload }) => {
   if (question.__typename === 'QuestionTypeDocument') {
     return (
-      <DownloadableChart t={t} canDownload={canDownload}
+      <DownloadableChart
+        t={t}
+        canDownload={canDownload}
         config={RANKED_BAR_CONFIG}
         values={question.results
           .filter(result => result.document)
@@ -164,7 +184,8 @@ const RankedBars = withT(({ t, question, canDownload }) => {
             label: result.document && result.document.meta.title,
             href: result.document && result.document.meta.path,
             value: String(result.count)
-          }))} />
+          }))}
+      />
     )
   }
 
@@ -177,42 +198,47 @@ const RankedBars = withT(({ t, question, canDownload }) => {
     value: String(result.count)
   })
   return (
-    <DownloadableChart t={t} canDownload={canDownload}
+    <DownloadableChart
+      t={t}
+      canDownload={canDownload}
       config={RANKED_CATEGORY_BAR_CONFIG}
-      values={question.results.map(mapResult)} />
+      values={question.results.map(mapResult)}
+    />
   )
 })
 
 const SentimentBar = withT(({ t, question, canDownload }) => {
   const mapResult = result => {
     return {
-      index: question.options.findIndex(option => (
-        option.label === result.option.label
-      )),
+      index: question.options.findIndex(
+        option => option.label === result.option.label
+      ),
       label: result.option.label,
       category: result.option.category,
       value: String(result.count / question.turnout.submitted)
     }
   }
   return (
-    <DownloadableChart t={t} canDownload={canDownload}
+    <DownloadableChart
+      t={t}
+      canDownload={canDownload}
       config={STACKED_BAR_CONFIG}
-      values={question.results.map(mapResult).sort(
-        (a, b) => ascending(a.index, b.index)
-      )} />
+      values={question.results
+        .map(mapResult)
+        .sort((a, b) => ascending(a.index, b.index))}
+    />
   )
 })
 
 const HistogramBar = withT(({ t, question, canDownload }) => {
   const mapResult = (result, i) => {
-    const tick = question.ticks.find(tick => (
-      tick.value === result.x0 ||
-      tick.value === result.x1
-    )) || (
-      result.x0 > 0
+    const tick =
+      question.ticks.find(
+        tick => tick.value === result.x0 || tick.value === result.x1
+      ) ||
+      (result.x0 > 0
         ? question.ticks[question.ticks.length - 1]
-        : question.ticks[0]
-    )
+        : question.ticks[0])
     return {
       category: tick.label,
       color: `${result.x0}:${result.x1}`,
@@ -223,57 +249,71 @@ const HistogramBar = withT(({ t, question, canDownload }) => {
   const values = question.result.histogram.map(mapResult).reverse()
 
   return (
-    <DownloadableChart t={t} canDownload={canDownload}
+    <DownloadableChart
+      t={t}
+      canDownload={canDownload}
       config={BIN_BAR_CONFIG}
-      values={values.slice(0, 6).concat(values.slice(-4).reverse())} />
+      values={values.slice(0, 6).concat(values.slice(-4).reverse())}
+    />
   )
 })
 
 const DefaultWrapper = ({ children }) => (
-  <div style={{ marginBottom: 40 }}>
-    {children}
-  </div>
+  <div style={{ marginBottom: 40 }}>{children}</div>
 )
 
 const Results = ({ data, t, canDownload, Wrapper = DefaultWrapper }) => {
-  return <Loader loading={data.loading} error={data.error} render={() => {
-    return data.questionnaire.questions.map(question => {
-      const { id, text } = question
+  return (
+    <Loader
+      loading={data.loading}
+      error={data.error}
+      render={() => {
+        return data.questionnaire.questions.map(question => {
+          const { id, text } = question
 
-      if (question.__typename === 'QuestionTypeText') {
-        return null
-      }
+          if (question.__typename === 'QuestionTypeText') {
+            return null
+          }
 
-      let ResultChart
-      if (question.__typename === 'QuestionTypeRange') {
-        ResultChart = HistogramBar
-      } else {
-        /* We assume that questions with 5 answers are sentiment
-         * questions that shall be displayed as stacked bars.
-         *
-         * The answers are roughly:
-         * - disagree strongly, disagree
-         * - sometimes, agree, agree strongly
-         */
-        const isSentimentQuestion = question.options && question.options.length === 5
+          let ResultChart
+          if (question.__typename === 'QuestionTypeRange') {
+            ResultChart = HistogramBar
+          } else {
+            /* We assume that questions with 5 answers are sentiment
+             * questions that shall be displayed as stacked bars.
+             *
+             * The answers are roughly:
+             * - disagree strongly, disagree
+             * - sometimes, agree, agree strongly
+             */
+            const isSentimentQuestion =
+              question.options && question.options.length === 5
 
-        ResultChart = isSentimentQuestion ? SentimentBar : RankedBars
-      }
+            ResultChart = isSentimentQuestion ? SentimentBar : RankedBars
+          }
 
-      return (
-        <Wrapper key={id}>
-          { text && <ChartTitle>{text}</ChartTitle> }
-          { ResultChart && <ResultChart canDownload={canDownload} question={question} /> }
-          { <Editorial.Note style={{ marginTop: 10 }}>
-            {t('questionnaire/turnout', {
-              formattedSubmittedCount: countFormat(question.turnout.submitted),
-              formattedSkippedCount: countFormat(question.turnout.skipped)
-            })}
-          </Editorial.Note> }
-        </Wrapper>
-      )
-    })
-  }} />
+          return (
+            <Wrapper key={id}>
+              {text && <ChartTitle>{text}</ChartTitle>}
+              {ResultChart && (
+                <ResultChart canDownload={canDownload} question={question} />
+              )}
+              {
+                <Editorial.Note style={{ marginTop: 10 }}>
+                  {t('questionnaire/turnout', {
+                    formattedSubmittedCount: countFormat(
+                      question.turnout.submitted
+                    ),
+                    formattedSkippedCount: countFormat(question.turnout.skipped)
+                  })}
+                </Editorial.Note>
+              }
+            </Wrapper>
+          )
+        })
+      }}
+    />
+  )
 }
 
 export default compose(

@@ -2,9 +2,7 @@ import { css } from 'glamor'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import {
-  colors, fontStyles
-} from '@project-r/styleguide'
+import { colors, fontStyles } from '@project-r/styleguide'
 
 const DEFAULT_PADDING = 5
 
@@ -61,9 +59,7 @@ const IconLink = ({ href, onClick, count, style, small }) => {
     <a href={href} onClick={onClick} {...styles.link} style={style}>
       <span {...styles.icon}>
         <Icon aw={aw} fill={colors.primary} />
-        <span {...styles.text}>
-          {count}
-        </span>
+        <span {...styles.text}>{count}</span>
       </span>
     </a>
   )
@@ -98,8 +94,21 @@ const Icon = ({ fill, aw = 8, ah = 6 }) => {
       style={{ verticalAlign: 'middle' }}
     >
       <g transform='translate(2 2)' fill='none'>
-        <path d={`M7,${y0} C6.44771525,${y0} 6,${y1 + 0.5522847} 6,${y1} L6,${y2} L2,${y2} C0.8954305,${y2} 0,${y3 + 0.1045695} 0,${y4} L0,2 C0,0.8954305 0.8954305,0 2,0 L${x0},0 C${x1 + 0.1045695},0 ${x2},0.8954305 ${x2},2 L${x2},${y4} C${x2},${y3 + 0.1045695} ${x1 + 0.1045695},${y2} ${x0},${y2} L11.9,${y2} L8.2,${y1 + 0.71} C8,${y1 + 0.9} 7.75,${y0} 7.5,${y0} L7,${y0} Z`} fill={fill} />
-        <polygon fill='#fff' points={`8 ${y4} 8 ${y5 + 0.08} 11.08 ${y4} ${x0} ${y4} ${x0} 2 2 2 2 ${y4}`} />
+        <path
+          d={`M7,${y0} C6.44771525,${y0} 6,${y1 +
+            0.5522847} 6,${y1} L6,${y2} L2,${y2} C0.8954305,${y2} 0,${y3 +
+            0.1045695} 0,${y4} L0,2 C0,0.8954305 0.8954305,0 2,0 L${x0},0 C${x1 +
+            0.1045695},0 ${x2},0.8954305 ${x2},2 L${x2},${y4} C${x2},${y3 +
+            0.1045695} ${x1 +
+            0.1045695},${y2} ${x0},${y2} L11.9,${y2} L8.2,${y1 + 0.71} C8,${y1 +
+            0.9} 7.75,${y0} 7.5,${y0} L7,${y0} Z`}
+          fill={fill}
+        />
+        <polygon
+          fill='#fff'
+          points={`8 ${y4} 8 ${y5 +
+            0.08} 11.08 ${y4} ${x0} ${y4} ${x0} 2 2 2 2 ${y4}`}
+        />
       </g>
     </svg>
   )

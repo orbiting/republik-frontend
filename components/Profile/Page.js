@@ -23,10 +23,7 @@ import { RawContainer as CardContainer } from '../Card/Container'
 import CardDetails from '../Card/Details'
 
 import { HEADER_HEIGHT, TESTIMONIAL_IMAGE_SIZE } from '../constants'
-import {
-  ASSETS_SERVER_BASE_URL,
-  PUBLIC_BASE_URL,
-} from '../../lib/constants'
+import { ASSETS_SERVER_BASE_URL, PUBLIC_BASE_URL } from '../../lib/constants'
 import ShadowQueryLink from '../Link/ShadowQuery'
 
 import Badge from './Badge'
@@ -48,7 +45,7 @@ import {
   linkRule,
   mediaQueries,
   TeaserFeed,
-  Button,
+  Button
 } from '@project-r/styleguide'
 import ElectionBallotRow from '../Vote/ElectionBallotRow'
 import { documentListQueryFragment } from '../Feed/DocumentListContainer'
@@ -65,41 +62,41 @@ const styles = {
     paddingBottom: 60,
     paddingTop: 10,
     [mediaQueries.mUp]: {
-      paddingTop: SIDEBAR_TOP + 5,
-    },
+      paddingTop: SIDEBAR_TOP + 5
+    }
   }),
   sidebar: css({
     paddingBottom: '20px',
     [mediaQueries.mUp]: {
       float: 'left',
-      width: PORTRAIT_SIZE_M,
-    },
+      width: PORTRAIT_SIZE_M
+    }
   }),
   mainColumn: css({
     [mediaQueries.mUp]: {
       float: 'left',
       paddingLeft: 20,
-      width: `calc(100% - ${PORTRAIT_SIZE_M}px)`,
-    },
+      width: `calc(100% - ${PORTRAIT_SIZE_M}px)`
+    }
   }),
   head: css({
     position: 'relative',
-    paddingTop: 20,
+    paddingTop: 20
   }),
   statement: css({
     [mediaQueries.mUp]: {
       float: 'right',
       width: `calc(100% - ${PORTRAIT_SIZE_M + 20}px)`,
-      paddingBottom: 30,
-    },
+      paddingBottom: 30
+    }
   }),
   portrait: css({
     width: PORTRAIT_SIZE_S,
     height: PORTRAIT_SIZE_S,
     [mediaQueries.mUp]: {
       width: PORTRAIT_SIZE_M,
-      height: PORTRAIT_SIZE_M,
-    },
+      height: PORTRAIT_SIZE_M
+    }
   }),
   headInfo: css({
     ...fontStyles.sansSerifRegular16,
@@ -108,8 +105,8 @@ const styles = {
     right: 0,
     left: PORTRAIT_SIZE_S + 10,
     [mediaQueries.mUp]: {
-      left: PORTRAIT_SIZE_M + 20,
-    },
+      left: PORTRAIT_SIZE_M + 20
+    }
   }),
   headInfoNumber: css({
     display: 'inline-block',
@@ -119,25 +116,25 @@ const styles = {
     verticalAlign: 'middle',
     [mediaQueries.mUp]: {
       marginRight: 0,
-      float: 'left',
-    },
+      float: 'left'
+    }
   }),
   headInfoShare: css({
     display: 'inline-block',
     float: 'right',
-    verticalAlign: 'middle',
+    verticalAlign: 'middle'
   }),
   badges: css({
-    margin: '20px 0 30px 0',
+    margin: '20px 0 30px 0'
   }),
   candidacy: css({
     marginTop: 0,
-    marginBottom: 20,
-  }),
+    marginBottom: 20
+  })
 }
 
 export const DEFAULT_VALUES = {
-  publicUrl: 'https://',
+  publicUrl: 'https://'
 }
 
 const getPublicUser = gql`
@@ -259,7 +256,7 @@ class Profile extends Component {
       showErrors: false,
       values: {},
       errors: {},
-      dirty: {},
+      dirty: {}
     }
 
     this.onScroll = () => {
@@ -269,8 +266,7 @@ class Profile extends Component {
         !mobile &&
         y + HEADER_HEIGHT > this.y + this.innerHeight &&
         this.mainHeight > this.sidebarHeight &&
-        this.sidebarHeight <
-          window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP
+        this.sidebarHeight < window.innerHeight - HEADER_HEIGHT - SIDEBAR_TOP
 
       if (sticky !== this.state.sticky) {
         this.setState({ sticky })
@@ -307,13 +303,13 @@ class Profile extends Component {
     this.isMe = () => {
       const {
         me,
-        data: { user },
+        data: { user }
       } = this.props
       return me && me.id === user.id
     }
     this.startEditing = () => {
       const {
-        data: { user },
+        data: { user }
       } = this.props
       const { isEditing } = this.state
       if (!isEditing && this.isMe()) {
@@ -325,15 +321,15 @@ class Profile extends Component {
             ...user,
             publicUrl: user.publicUrl || DEFAULT_VALUES.publicUrl,
             credential: credential && credential.description,
-            portrait: undefined,
-          },
+            portrait: undefined
+          }
         })
         window.scrollTo(0, 0)
       }
     }
     this.autoEditStart = () => {
       const {
-        data: { user },
+        data: { user }
       } = this.props
       if (user && !user.username && user.isEligibleForProfile) {
         this.startEditing() // will check if it's me
@@ -366,19 +362,18 @@ class Profile extends Component {
     const {
       t,
       me,
-      data: { loading, error, user },
+      data: { loading, error, user }
     } = this.props
 
-    const card =
-      user && user.cards && user.cards.nodes && user.cards.nodes[0]
+    const card = user && user.cards && user.cards.nodes && user.cards.nodes[0]
     const metaData = {
       url: user ? `${PUBLIC_BASE_URL}/~${user.slug}` : undefined,
       image:
         user && user.portrait
           ? `${ASSETS_SERVER_BASE_URL}/render?width=1200&height=628&updatedAt=${encodeURIComponent(
-              user.updatedAt,
+              user.updatedAt
             )}b1&url=${encodeURIComponent(
-              `${PUBLIC_BASE_URL}/community?share=${user.id}`,
+              `${PUBLIC_BASE_URL}/community?share=${user.id}`
             )}`
           : '',
       title: card
@@ -388,7 +383,7 @@ class Profile extends Component {
         : t('pages/profile/empty/pageTitle'),
       description: card
         ? 'Profil anschauen und «Republik Wahltindär» spielen.'
-        : undefined,
+        : undefined
     }
 
     return (
@@ -411,38 +406,28 @@ class Profile extends Component {
                       {t.elements('pages/profile/empty/content', {
                         link: (
                           <Link
-                            route="profile"
+                            route='profile'
                             params={{ slug: me.username || me.id }}
                           >
                             <a {...linkRule}>
-                              {t(
-                                'pages/profile/empty/content/linktext',
-                              )}
+                              {t('pages/profile/empty/content/linktext')}
                             </a>
                           </Link>
-                        ),
+                        )
                       })}
                     </p>
                   )}
                 </StatusError>
               )
             }
-            const {
-              isEditing,
-              values,
-              errors,
-              dirty,
-              isMobile,
-            } = this.state
+            const { isEditing, values, errors, dirty, isMobile } = this.state
 
             return (
               <Fragment>
                 {!user.hasPublicProfile && (
                   <Box>
                     <MainContainer>
-                      <Interaction.P>
-                        {t('profile/private')}
-                      </Interaction.P>
+                      <Interaction.P>{t('profile/private')}</Interaction.P>
                     </MainContainer>
                   </Box>
                 )}
@@ -456,7 +441,7 @@ class Profile extends Component {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        flexWrap: 'wrap',
+                        flexWrap: 'wrap'
                       })}
                     >
                       <div
@@ -465,31 +450,24 @@ class Profile extends Component {
                           width: 300,
                           height: 300 * 1.4,
                           transform: 'rotate(-1deg)',
-                          margin: '30px 10px',
+                          margin: '30px 10px'
                         }}
                       >
-                        <Card
-                          width={300}
-                          {...card}
-                          t={t}
-                          firstSlideOnly
-                        />
+                        <Card width={300} {...card} t={t} firstSlideOnly />
                       </div>
                       <div
                         {...css({
                           padding: 30,
                           [mediaQueries.mUp]: {
-                            margin: '0 30px',
-                          },
+                            margin: '0 30px'
+                          }
                         })}
                       >
                         <ShadowQueryLink
                           path={`/wahltindaer/${card.group.slug}`}
                           query={{ top: card.id }}
                         >
-                          <Button primary>
-                            «Wahltindär» spielen
-                          </Button>
+                          <Button primary>«Wahltindär» spielen</Button>
                         </ShadowQueryLink>
                       </div>
                     </div>
@@ -525,16 +503,15 @@ class Profile extends Component {
                             <span {...styles.headInfoShare}>
                               <ActionBar
                                 title={t('profile/share/title', {
-                                  name: user.name,
+                                  name: user.name
                                 })}
-                                emailSubject={t(
-                                  'profile/share/emailSubject',
-                                  { name: user.name },
-                                )}
+                                emailSubject={t('profile/share/emailSubject', {
+                                  name: user.name
+                                })}
                                 url={`${PUBLIC_BASE_URL}/~${user.slug}`}
                                 download={metaData.image}
                                 shareOverlayTitle={t(
-                                  'profile/share/overlayTitle',
+                                  'profile/share/overlayTitle'
                                 )}
                               />
                             </span>
@@ -542,7 +519,7 @@ class Profile extends Component {
                           {!!user.sequenceNumber && (
                             <span {...styles.headInfoNumber}>
                               {t('memberships/sequenceNumber/label', {
-                                sequenceNumber: user.sequenceNumber,
+                                sequenceNumber: user.sequenceNumber
                               })}
                             </span>
                           )}
@@ -561,10 +538,9 @@ class Profile extends Component {
                           this.state.sticky && !isEditing
                             ? {
                                 position: 'fixed',
-                                top: `${HEADER_HEIGHT +
-                                  SIDEBAR_TOP}px`,
+                                top: `${HEADER_HEIGHT + SIDEBAR_TOP}px`,
                                 left: `${this.x}px`,
-                                width: PORTRAIT_SIZE_M,
+                                width: PORTRAIT_SIZE_M
                               }
                             : {}
                         }
@@ -583,18 +559,14 @@ class Profile extends Component {
                           {card && !!user.sequenceNumber && (
                             <div style={{ color: colors.text }}>
                               {t('memberships/sequenceNumber/label', {
-                                sequenceNumber: user.sequenceNumber,
+                                sequenceNumber: user.sequenceNumber
                               })}
                             </div>
                           )}
                           {user.badges && (
                             <div {...styles.badges}>
                               {user.badges.map((badge, i) => (
-                                <Badge
-                                  key={i}
-                                  badge={badge}
-                                  size={27}
-                                />
+                                <Badge key={i} badge={badge} size={27} />
                               ))}
                             </div>
                           )}
@@ -668,12 +640,10 @@ class Profile extends Component {
                           {this.isMe() &&
                             c.election &&
                             new Date() <
-                              new Date(
-                                c.election.candidacyEndDate,
-                              ) && (
+                              new Date(c.election.candidacyEndDate) && (
                               <div style={{ marginTop: 10 }}>
                                 <Link
-                                  route="voteSubmit"
+                                  route='voteSubmit'
                                   params={{ edit: true }}
                                   passHref
                                 >
@@ -684,29 +654,20 @@ class Profile extends Component {
                         </div>
                       ))}
                       <div>
-                        {user.documents &&
-                          !!user.documents.totalCount && (
-                            <Interaction.H3
-                              style={{ marginBottom: 20 }}
-                            >
-                              {t.pluralize(
-                                'profile/documents/title',
-                                {
-                                  count: user.documents.totalCount,
-                                },
-                              )}
-                            </Interaction.H3>
-                          )}
+                        {user.documents && !!user.documents.totalCount && (
+                          <Interaction.H3 style={{ marginBottom: 20 }}>
+                            {t.pluralize('profile/documents/title', {
+                              count: user.documents.totalCount
+                            })}
+                          </Interaction.H3>
+                        )}
                         {user.documents &&
                           user.documents.nodes.map(doc => (
                             <TeaserFeed
                               {...doc.meta}
-                              title={
-                                doc.meta.shortTitle || doc.meta.title
-                              }
+                              title={doc.meta.shortTitle || doc.meta.title}
                               description={
-                                !doc.meta.shortTitle &&
-                                doc.meta.description
+                                !doc.meta.shortTitle && doc.meta.description
                               }
                               Link={HrefLink}
                               key={doc.meta.path}
@@ -743,8 +704,8 @@ export default compose(
   graphql(getPublicUser, {
     options: ({ router }) => ({
       variables: {
-        slug: router.query.slug,
-      },
+        slug: router.query.slug
+      }
     }),
     props: ({ data, ownProps: { serverContext, router, me } }) => {
       const slug = router.query.slug
@@ -770,8 +731,8 @@ export default compose(
       }
 
       return {
-        data,
+        data
       }
-    },
-  }),
+    }
+  })
 )(Profile)

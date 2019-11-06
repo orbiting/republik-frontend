@@ -42,10 +42,10 @@ const styles = {
   })
 }
 
-const readFile = (file) => {
+const readFile = file => {
   return new Promise((resolve, reject) => {
     const fileReader = new window.FileReader()
-    fileReader.addEventListener('load', (event) => {
+    fileReader.addEventListener('load', event => {
       const url = event.target.result
 
       // Strip out the information about the mime type of the file and the encoding
@@ -59,7 +59,7 @@ const readFile = (file) => {
       })
     })
 
-    fileReader.addEventListener('error', (error) => {
+    fileReader.addEventListener('error', error => {
       reject(error)
     })
 
@@ -67,105 +67,120 @@ const readFile = (file) => {
   })
 }
 
-export default withT(({ t, user, isEditing, styles: propStyles = {}, isMe, values, errors, onChange }) => {
-  const preview = isEditing && values.portraitPreview
-  const imgUrl = values.portrait !== undefined
-    ? values.portraitPreview
-    : user.portrait
-  const img = (
-    <span {...styles.img} {...(preview && merge(styles.preview, propStyles.preview))}
-      style={{
-        backgroundImage: imgUrl
-          ? `url(${imgUrl})`
-          : undefined
-      }} />
-  )
+export default withT(
+  ({
+    t,
+    user,
+    isEditing,
+    styles: propStyles = {},
+    isMe,
+    values,
+    errors,
+    onChange
+  }) => {
+    const preview = isEditing && values.portraitPreview
+    const imgUrl =
+      values.portrait !== undefined ? values.portraitPreview : user.portrait
+    const img = (
+      <span
+        {...styles.img}
+        {...(preview && merge(styles.preview, propStyles.preview))}
+        style={{
+          backgroundImage: imgUrl ? `url(${imgUrl})` : undefined
+        }}
+      />
+    )
 
-  const disabled = !isMe || !isEditing
-  const note = (() => {
-    if (disabled) {
-      return
-    }
-    if (errors && errors.portrait) {
-      return errors.portrait
-    }
-    if (values.portrait === undefined ? !user.portrait : !values.portraitPreview) {
-      return t('profile/portrait/choose')
-    }
-    if (user.portrait || values.portraitPreview) {
-      return t('profile/portrait/update')
-    }
-    return false
-  })()
+    const disabled = !isMe || !isEditing
+    const note = (() => {
+      if (disabled) {
+        return
+      }
+      if (errors && errors.portrait) {
+        return errors.portrait
+      }
+      if (
+        values.portrait === undefined ? !user.portrait : !values.portraitPreview
+      ) {
+        return t('profile/portrait/choose')
+      }
+      if (user.portrait || values.portraitPreview) {
+        return t('profile/portrait/update')
+      }
+      return false
+    })()
 
-  return (
-    <Dropzone
-      disablePreview
-      disabled={disabled}
-      className={styles.dropzone.toString()}
-      style={{
-        cursor: isEditing
-          ? 'pointer' : 'auto'
-      }}
-      accept='image/jpeg, image/png, image/gif'
-      onDrop={(accepted, rejected) => {
-        if (accepted.length) {
-          const file = accepted[0]
-          if (file.size && file.size > 6.5 * 1024 * 1024) {
+    return (
+      <Dropzone
+        disablePreview
+        disabled={disabled}
+        className={styles.dropzone.toString()}
+        style={{
+          cursor: isEditing ? 'pointer' : 'auto'
+        }}
+        accept='image/jpeg, image/png, image/gif'
+        onDrop={(accepted, rejected) => {
+          if (accepted.length) {
+            const file = accepted[0]
+            if (file.size && file.size > 6.5 * 1024 * 1024) {
+              onChange({
+                errors: {
+                  portrait: t('profile/portrait/tooBig')
+                }
+              })
+              return
+            }
+            readFile(file)
+              .then(({ content, url }) => {
+                onChange({
+                  values: {
+                    portrait: content,
+                    portraitPreview: url
+                  },
+                  errors: {
+                    portrait: undefined
+                  }
+                })
+              })
+              .catch(() => {
+                onChange({
+                  errors: {
+                    portrait: t('profile/portrait/readError')
+                  }
+                })
+              })
+          } else if (rejected.length) {
             onChange({
               errors: {
-                portrait: t('profile/portrait/tooBig')
+                portrait: t('profile/portrait/invalidType')
               }
             })
-            return
           }
-          readFile(file)
-            .then(({ content, url }) => {
+        }}
+      >
+        {isEditing && imgUrl && (
+          <div
+            {...styles.remove}
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
               onChange({
                 values: {
-                  portrait: content,
-                  portraitPreview: url
+                  portrait: null,
+                  portraitPreview: undefined
                 },
                 errors: {
                   portrait: undefined
                 }
               })
-            })
-            .catch(() => {
-              onChange({
-                errors: {
-                  portrait: t('profile/portrait/readError')
-                }
-              })
-            })
-        } else if (rejected.length) {
-          onChange({
-            errors: {
-              portrait: t('profile/portrait/invalidType')
-            }
-          })
-        }
-      }}
-    >
-      {isEditing && imgUrl && <div {...styles.remove} onClick={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        onChange({
-          values: {
-            portrait: null,
-            portraitPreview: undefined
-          },
-          errors: {
-            portrait: undefined
-          }
-        })
-      }}>
-        <MdClose size={16} style={{ display: 'block' }} />
-      </div>}
-      {img}
-      {note && <div {...styles.note}>
-        {note}
-      </div>}
-    </Dropzone>
-  )
-})
+            }}
+          >
+            <MdClose size={16} style={{ display: 'block' }} />
+          </div>
+        )}
+        {img}
+        {note && <div {...styles.note}>{note}</div>}
+      </Dropzone>
+    )
+  }
+)

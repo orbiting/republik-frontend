@@ -1,8 +1,7 @@
 import test from 'tape'
 import datetime from './datetime'
 import { t } from '../../../lib/withT'
-
-[
+;[
   [
     'today',
     new Date(2019, 1, 15, 7, 14, 0),
@@ -29,10 +28,7 @@ import { t } from '../../../lib/withT'
   ]
 ].map(([title, date, lastMidnight, expected]) => {
   test(`datetime.${title}`, assert => {
-    assert.equal(
-      datetime(t, date, undefined, lastMidnight),
-      expected
-    )
+    assert.equal(datetime(t, date, undefined, lastMidnight), expected)
     assert.end()
   })
 })

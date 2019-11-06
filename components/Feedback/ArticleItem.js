@@ -5,10 +5,7 @@ import withT from '../../lib/withT'
 
 import NewPage from 'react-icons/lib/md/open-in-new'
 
-import {
-  Interaction,
-  colors
-} from '@project-r/styleguide'
+import { Interaction, colors } from '@project-r/styleguide'
 
 const { P } = Interaction
 
@@ -36,12 +33,23 @@ const DefaultWrapper = ({ children, ...props }) => (
   <span {...props}>{children}</span>
 )
 
-const ArticleItem = ({ t, title, newPage, selected, iconSize, Wrapper = DefaultWrapper }) => (
+const ArticleItem = ({
+  t,
+  title,
+  newPage,
+  selected,
+  iconSize,
+  Wrapper = DefaultWrapper
+}) => (
   <Wrapper
     {...styles.container}
-    style={{ paddingRight: newPage && iconSize ? `${iconSize * 1.5}px` : undefined }}
+    style={{
+      paddingRight: newPage && iconSize ? `${iconSize * 1.5}px` : undefined
+    }}
   >
-    <span style={{ color: selected ? colors.primary : undefined }}>{title}</span>
+    <span style={{ color: selected ? colors.primary : undefined }}>
+      {title}
+    </span>
     {newPage && (
       <span {...styles.icon} title={t('feedback/articleItem/newPage/title')}>
         <NewPage size={iconSize} fill={colors.disabled} />

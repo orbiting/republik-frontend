@@ -5,9 +5,12 @@ import gql from 'graphql-tag'
 
 import {
   Button,
-  InlineSpinner, Loader,
-  Interaction, Label,
-  fontFamilies, colors,
+  InlineSpinner,
+  Loader,
+  Interaction,
+  Label,
+  fontFamilies,
+  colors,
   FieldSet
 } from '@project-r/styleguide'
 
@@ -26,20 +29,15 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     '& button': {
-      width: [
-        '48%',
-        'calc(50% - 5px)'
-      ]
+      width: ['48%', 'calc(50% - 5px)']
     }
   })
 }
 
 const { P } = Interaction
 
-const goTo = (type, email, context) => Router.replaceRoute(
-  'notifications',
-  { type, email, context }
-)
+const goTo = (type, email, context) =>
+  Router.replaceRoute('notifications', { type, email, context })
 
 const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
   return (
@@ -53,7 +51,7 @@ const shouldAutoAuthorize = ({ error, target, noAutoAuthorize }) => {
 }
 
 class TokenAuthorization extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -62,71 +60,70 @@ class TokenAuthorization extends Component {
       dirty: {}
     }
   }
-  authorize () {
+  authorize() {
     if (this.state.authorizing) {
       return
     }
 
-    const {
-      email,
-      authorize,
-      context
-    } = this.props
+    const { email, authorize, context } = this.props
 
-    this.setState({
-      authorizing: true
-    }, () => {
-      authorize({
-        consents: this.state.consents,
-        requiredFields: Object.keys(this.state.values).length > 0
-          ? this.state.values
-          : undefined
-      })
-        .then(() => goTo('email-confirmed', email, context))
-        .catch(error => {
-          this.setState({
-            authorizing: false,
-            authorizeError: error
-          })
+    this.setState(
+      {
+        authorizing: true
+      },
+      () => {
+        authorize({
+          consents: this.state.consents,
+          requiredFields:
+            Object.keys(this.state.values).length > 0
+              ? this.state.values
+              : undefined
         })
-    })
+          .then(() => goTo('email-confirmed', email, context))
+          .catch(error => {
+            this.setState({
+              authorizing: false,
+              authorizeError: error
+            })
+          })
+      }
+    )
   }
-  deny () {
+  deny() {
     if (this.state.authorizing) {
       return
     }
 
-    const {
-      email,
-      deny,
-      context
-    } = this.props
+    const { email, deny, context } = this.props
 
-    this.setState({
-      authorizing: true
-    }, () => {
-      deny()
-        .then(() => goTo('session-denied', email, context))
-        .catch(error => {
-          this.setState({
-            authorizing: false,
-            authorizeError: error
+    this.setState(
+      {
+        authorizing: true
+      },
+      () => {
+        deny()
+          .then(() => goTo('session-denied', email, context))
+          .catch(error => {
+            this.setState({
+              authorizing: false,
+              authorizeError: error
+            })
           })
-        })
-    })
+      }
+    )
   }
-  autoAuthorize () {
+  autoAuthorize() {
     if (!this.state.authorizing && shouldAutoAuthorize(this.props)) {
       this.authorize()
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.autoAuthorize()
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.autoAuthorize()
   }
-  render () {
+  render() {
     const {
       t,
       target,
@@ -140,9 +137,7 @@ class TokenAuthorization extends Component {
     if (error) {
       return (
         <Fragment>
-          <P>
-            {t('tokenAuthorization/error')}
-          </P>
+          <P>{t('tokenAuthorization/error')}</P>
           <ErrorMessage error={error} />
           <div style={{ marginTop: 80, marginBottom: 80 }}>
             <Me email={email} />
@@ -152,138 +147,163 @@ class TokenAuthorization extends Component {
     }
 
     return (
-      <Loader loading={loading || shouldAutoAuthorize(this.props)} render={() => {
-        const {
-          authorizeError,
-          consents,
-          values,
-          dirty,
-          errors
-        } = this.state
+      <Loader
+        loading={loading || shouldAutoAuthorize(this.props)}
+        render={() => {
+          const { authorizeError, consents, values, dirty, errors } = this.state
 
-        const errorMessages = Object.keys(errors)
-          .map(key => errors[key])
-          .concat(getConsentsError(
-            t,
-            target.requiredConsents,
-            consents
-          ))
-          .filter(Boolean)
+          const errorMessages = Object.keys(errors)
+            .map(key => errors[key])
+            .concat(getConsentsError(t, target.requiredConsents, consents))
+            .filter(Boolean)
 
-        const { country, city, ipAddress, userAgent, phrase, isCurrent } = target.session
-        const showSessionInfo = !isCurrent || noAutoAuthorize
-        return (
-          <Fragment>
-            <P>
-              {t(`tokenAuthorization/title/${showSessionInfo
-                ? 'sessionInfo'
-                : target.newUser
-                  ? 'new'
-                  : 'existing'}`)}
-            </P>
-            {showSessionInfo && <Fragment>
-              <P style={{
-                fontFamily: userAgent !== echo.userAgent
-                  ? fontFamilies.sansSerifMedium
-                  : undefined
-              }}>
-                {userAgent}
-              </P>
+          const {
+            country,
+            city,
+            ipAddress,
+            userAgent,
+            phrase,
+            isCurrent
+          } = target.session
+          const showSessionInfo = !isCurrent || noAutoAuthorize
+          return (
+            <Fragment>
               <P>
-                <Label>{t('tokenAuthorization/location')}</Label><br />
-                {!!city && <span style={{
-                  fontFamily: city !== echo.city
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {city}{', '}
-                </span>}
-                <span style={
-                  country !== echo.country
-                    ? {
-                      fontFamily: fontFamilies.sansSerifMedium,
-                      color: colors.error
-                    }
-                    : {}
-                }>
-                  {country || t('tokenAuthorization/location/unknown')}
-                </span>
+                {t(
+                  `tokenAuthorization/title/${
+                    showSessionInfo
+                      ? 'sessionInfo'
+                      : target.newUser
+                      ? 'new'
+                      : 'existing'
+                  }`
+                )}
               </P>
-              {echo.ipAddress !== ipAddress && <P>
-                <Label>{t('tokenAuthorization/ip')}</Label><br />
-                {ipAddress}
-              </P>}
-            </Fragment>}
-            <P>
-              <Label>{t('tokenAuthorization/email')}</Label><br />
-              <span>
-                {email}
-              </span>
-            </P>
-            {showSessionInfo && (
+              {showSessionInfo && (
+                <Fragment>
+                  <P
+                    style={{
+                      fontFamily:
+                        userAgent !== echo.userAgent
+                          ? fontFamilies.sansSerifMedium
+                          : undefined
+                    }}
+                  >
+                    {userAgent}
+                  </P>
+                  <P>
+                    <Label>{t('tokenAuthorization/location')}</Label>
+                    <br />
+                    {!!city && (
+                      <span
+                        style={{
+                          fontFamily:
+                            city !== echo.city
+                              ? fontFamilies.sansSerifMedium
+                              : undefined
+                        }}
+                      >
+                        {city}
+                        {', '}
+                      </span>
+                    )}
+                    <span
+                      style={
+                        country !== echo.country
+                          ? {
+                              fontFamily: fontFamilies.sansSerifMedium,
+                              color: colors.error
+                            }
+                          : {}
+                      }
+                    >
+                      {country || t('tokenAuthorization/location/unknown')}
+                    </span>
+                  </P>
+                  {echo.ipAddress !== ipAddress && (
+                    <P>
+                      <Label>{t('tokenAuthorization/ip')}</Label>
+                      <br />
+                      {ipAddress}
+                    </P>
+                  )}
+                </Fragment>
+              )}
               <P>
-                <Label>{t('tokenAuthorization/phrase')}</Label><br />
-                <span style={{
-                  fontFamily: !isCurrent
-                    ? fontFamilies.sansSerifMedium
-                    : undefined
-                }}>
-                  {phrase}
-                </span>
+                <Label>{t('tokenAuthorization/email')}</Label>
+                <br />
+                <span>{email}</span>
               </P>
-            )}
-            {!!target.requiredFields.length && (
-              <div style={{ marginTop: 20 }}>
-                <Interaction.P>
-                  {t('tokenAuthorization/fields/explanation')}
-                </Interaction.P>
-                <FieldSet
-                  values={values}
-                  errors={errors}
-                  dirty={dirty}
-                  onChange={fields => {
-                    this.setState(state => ({
-                      authorizeError: undefined,
-                      ...FieldSet.utils.mergeFields(fields)(state)
-                    }))
-                  }}
-                  fields={target.requiredFields.map(field => ({
-                    label: t(`tokenAuthorization/fields/label/${field}`),
-                    name: field,
-                    validator: (value) => (
-                      value.trim().length <= 0 &&
-                      t(`tokenAuthorization/fields/error/${field}/missing`)
-                    )
-                  }))} />
-              </div>
-            )}
-            {!!target.requiredConsents.length && (
-              <div style={{ marginTop: 20, textAlign: 'left' }}>
-                <Consents
-                  accepted={consents}
-                  required={target.requiredConsents}
-                  onChange={keys => {
-                    this.setState({
-                      consents: keys,
-                      authorizeError: undefined
-                    })
-                  }} />
-              </div>
-            )}
-            {!!authorizeError && <ErrorMessage error={authorizeError} />}
-            <br />
-            {!!this.state.showErrors && errorMessages.length > 0 && (
-              <div style={{ color: colors.error, marginBottom: 20 }}>
-                <ul>
-                  {errorMessages.map((error, i) => (
-                    <li key={i}>{error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {this.state.authorizing
-              ? <div style={{ textAlign: 'center' }}><InlineSpinner /></div>
-              : (
+              {showSessionInfo && (
+                <P>
+                  <Label>{t('tokenAuthorization/phrase')}</Label>
+                  <br />
+                  <span
+                    style={{
+                      fontFamily: !isCurrent
+                        ? fontFamilies.sansSerifMedium
+                        : undefined
+                    }}
+                  >
+                    {phrase}
+                  </span>
+                </P>
+              )}
+              {!!target.requiredFields.length && (
+                <div style={{ marginTop: 20 }}>
+                  <Interaction.P>
+                    {t('tokenAuthorization/fields/explanation')}
+                  </Interaction.P>
+                  <FieldSet
+                    values={values}
+                    errors={errors}
+                    dirty={dirty}
+                    onChange={fields => {
+                      this.setState(state => ({
+                        authorizeError: undefined,
+                        ...FieldSet.utils.mergeFields(fields)(state)
+                      }))
+                    }}
+                    fields={target.requiredFields.map(field => ({
+                      label: t(`tokenAuthorization/fields/label/${field}`),
+                      name: field,
+                      validator: value =>
+                        value.trim().length <= 0 &&
+                        t(`tokenAuthorization/fields/error/${field}/missing`)
+                    }))}
+                  />
+                </div>
+              )}
+              {!!target.requiredConsents.length && (
+                <div style={{ marginTop: 20, textAlign: 'left' }}>
+                  <Consents
+                    accepted={consents}
+                    required={target.requiredConsents}
+                    onChange={keys => {
+                      this.setState({
+                        consents: keys,
+                        authorizeError: undefined
+                      })
+                    }}
+                  />
+                </div>
+              )}
+              {!!authorizeError && <ErrorMessage error={authorizeError} />}
+              <br />
+              {!!this.state.showErrors && errorMessages.length > 0 && (
+                <div style={{ color: colors.error, marginBottom: 20 }}>
+                  <ul>
+                    {errorMessages.map((error, i) => (
+                      <li key={i}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {this.state.authorizing ? (
+                <div style={{ textAlign: 'center' }}>
+                  <InlineSpinner />
+                </div>
+              ) : (
                 <div {...styles.actions}>
                   <Button
                     style={{
@@ -294,20 +314,23 @@ class TokenAuthorization extends Component {
                     block
                     onClick={() => {
                       if (errorMessages.length) {
-                        this.setState((state) => Object.keys(state.errors).reduce(
-                          (nextState, key) => {
-                            nextState.dirty[key] = true
-                            return nextState
-                          },
-                          {
-                            showErrors: true,
-                            dirty: {}
-                          }
-                        ))
+                        this.setState(state =>
+                          Object.keys(state.errors).reduce(
+                            (nextState, key) => {
+                              nextState.dirty[key] = true
+                              return nextState
+                            },
+                            {
+                              showErrors: true,
+                              dirty: {}
+                            }
+                          )
+                        )
                         return
                       }
                       this.authorize()
-                    }}>
+                    }}
+                  >
                     {t('tokenAuthorization/grant')}
                   </Button>
                   <Button
@@ -317,18 +340,20 @@ class TokenAuthorization extends Component {
                     block
                     onClick={() => {
                       this.deny()
-                    }}>
+                    }}
+                  >
                     {t('tokenAuthorization/deny')}
                   </Button>
                 </div>
               )}
-            <br />
-            <Label>{t('tokenAuthorization/after')}</Label>
-            <br />
-            <br />
-          </Fragment>
-        )
-      }} />
+              <br />
+              <Label>{t('tokenAuthorization/after')}</Label>
+              <br />
+              <br />
+            </Fragment>
+          )
+        }}
+      />
     )
   }
 }
@@ -355,14 +380,21 @@ const denySession = gql`
 `
 
 const unauthorizedSessionQuery = gql`
-  query unauthorizedSession($email: String!, $token: String!, $tokenType: SignInTokenType!) {
+  query unauthorizedSession(
+    $email: String!
+    $token: String!
+    $tokenType: SignInTokenType!
+  ) {
     echo {
       ipAddress
       userAgent
       country
       city
     }
-    target: unauthorizedSession(email: $email, token: {type: $tokenType, payload: $token}) {
+    target: unauthorizedSession(
+      email: $email
+      token: { type: $tokenType, payload: $token }
+    ) {
       newUser
       enabledSecondFactors
       requiredConsents
@@ -383,28 +415,28 @@ export default compose(
   withT,
   graphql(authorizeSession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
-      authorize: ({ consents, requiredFields } = {}) => mutate({
-        variables: {
-          email,
-          tokens: [
-            { type: tokenType, payload: token }
-          ],
-          consents,
-          requiredFields
-        },
-        refetchQueries: [{ query: meQuery }]
-      })
+      authorize: ({ consents, requiredFields } = {}) =>
+        mutate({
+          variables: {
+            email,
+            tokens: [{ type: tokenType, payload: token }],
+            consents,
+            requiredFields
+          },
+          refetchQueries: [{ query: meQuery }]
+        })
     })
   }),
   graphql(denySession, {
     props: ({ ownProps: { email, token, tokenType }, mutate }) => ({
-      deny: () => mutate({
-        variables: {
-          email,
-          token: { type: tokenType, payload: token }
-        },
-        refetchQueries: [{ query: meQuery }]
-      })
+      deny: () =>
+        mutate({
+          variables: {
+            email,
+            token: { type: tokenType, payload: token }
+          },
+          refetchQueries: [{ query: meQuery }]
+        })
     })
   }),
   graphql(unauthorizedSessionQuery, {

@@ -88,8 +88,18 @@ const getColorFromMeta = meta => {
 
 const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
   const additionalLinks = [
-    { href: '/veranstaltungen', label: t('formats/additionalLinks/events'), color: '#3CAD00', kind: 'meta' },
-    { href: 'https://project-r.construction/news', label: t('formats/additionalLinks/project-r-newsletter'), color: '#000000', kind: 'meta' }
+    {
+      href: '/veranstaltungen',
+      label: t('formats/additionalLinks/events'),
+      color: '#3CAD00',
+      kind: 'meta'
+    },
+    {
+      href: 'https://project-r.construction/news',
+      label: t('formats/additionalLinks/project-r-newsletter'),
+      color: '#000000',
+      kind: 'meta'
+    }
   ]
 
   return (
@@ -111,13 +121,17 @@ const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
 
         const sections = nest()
           .key(d => {
-            const key = d.label.match(/newsletter/i)
-              ? 'newsletter'
-              : d.kind
+            const key = d.label.match(/newsletter/i) ? 'newsletter' : d.kind
             return colorMap[`${key}-${d.color}`] || key || ''
           })
-          .sortKeys((a, b) => ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b)))
-          .sortValues((a, b) => ascending(a.count === undefined, b.count === undefined) || ascending(a.label, b.label))
+          .sortKeys((a, b) =>
+            ascending(sectionOrder.indexOf(a), sectionOrder.indexOf(b))
+          )
+          .sortValues(
+            (a, b) =>
+              ascending(a.count === undefined, b.count === undefined) ||
+              ascending(a.label, b.label)
+          )
           .entries(links)
           .map(d => {
             d.label = t(`formats/title/${d.key}`, undefined, '')
@@ -129,19 +143,20 @@ const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
           <Fragment>
             {sections.map(({ key, label, values }) => (
               <section {...styles.section} key={key}>
-                <h2 {...styles.h2}>
-                  {label}
-                </h2>
-                {values.filter(value => value.count !== 0).map(link => (
-                  <Link href={link.href} passHref key={link.href}>
-                    <a {...styles.link} href={link.href}>
-                      <FormatTag
-                        color={link.color}
-                        label={link.label}
-                        count={link.count} />
-                    </a>
-                  </Link>
-                ))}
+                <h2 {...styles.h2}>{label}</h2>
+                {values
+                  .filter(value => value.count !== 0)
+                  .map(link => (
+                    <Link href={link.href} passHref key={link.href}>
+                      <a {...styles.link} href={link.href}>
+                        <FormatTag
+                          color={link.color}
+                          label={link.label}
+                          count={link.count}
+                        />
+                      </a>
+                    </Link>
+                  ))}
               </section>
             ))}
           </Fragment>
@@ -151,4 +166,7 @@ const GroupedFormats = ({ data: { loading, error, documents }, t }) => {
   )
 }
 
-export default compose(withT, graphql(getFormats))(GroupedFormats)
+export default compose(
+  withT,
+  graphql(getFormats)
+)(GroupedFormats)

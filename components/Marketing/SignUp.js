@@ -6,10 +6,7 @@ import SignIn from '../Auth/SignIn'
 
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
-import {
-  fontFamilies,
-  mediaQueries
-} from '@project-r/styleguide'
+import { fontFamilies, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   headline: css({
@@ -24,7 +21,6 @@ const styles = {
       lineHeight: '46px',
       marginTop: '70px'
     }
-
   }),
   lead: css({
     fontSize: '16px',
@@ -48,17 +44,20 @@ const styles = {
 }
 
 export default compose(
-  withMe, withT
-)(({ me, t }) =>
-  !me &&
-  <Fragment>
-    <h1 {...styles.headline}>{t('marketing/signup/title')}</h1>
-    <p {...styles.lead}>
-      {t('marketing/signup/lead')}
-    </p>
-    <div {...styles.signUp}>
-      <SignIn label={t('marketing/signup/button/label')} context='preview' />
-    </div>
-  </Fragment>
-
+  withMe,
+  withT
+)(
+  ({ me, t }) =>
+    !me && (
+      <Fragment>
+        <h1 {...styles.headline}>{t('marketing/signup/title')}</h1>
+        <p {...styles.lead}>{t('marketing/signup/lead')}</p>
+        <div {...styles.signUp}>
+          <SignIn
+            label={t('marketing/signup/button/label')}
+            context='preview'
+          />
+        </div>
+      </Fragment>
+    )
 )

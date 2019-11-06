@@ -8,7 +8,8 @@ import NativeRouter, { withRouter } from 'next/router'
 import gql from 'graphql-tag'
 
 import {
-  Editorial, Interaction,
+  Editorial,
+  Interaction,
   mediaQueries,
   usePrevious,
   fontStyles,
@@ -80,7 +81,8 @@ const styles = {
     },
     lineHeight: '18px',
     verticalAlign: 'middle',
-    boxShadow: '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
+    boxShadow:
+      '0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3)',
     transition: 'opacity 300ms',
     ...fontStyles.sansSerifMedium,
     color: '#fff',
@@ -170,10 +172,18 @@ const styles = {
 
 const randDegs = 5
 const to = () => ({
-  x: 0, y: -5 + Math.random() * 10, scale: 1, rot: -randDegs + Math.random() * randDegs * 2, opacity: 1
+  x: 0,
+  y: -5 + Math.random() * 10,
+  scale: 1,
+  rot: -randDegs + Math.random() * randDegs * 2,
+  opacity: 1
 })
 const fromFall = () => ({
-  x: 0, rot: 0, scale: 1.5, y: -1200, opacity: 1
+  x: 0,
+  rot: 0,
+  scale: 1.5,
+  y: -1200,
+  opacity: 1
 })
 const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
   x: (200 + windowWidth) * dir,
@@ -182,38 +192,45 @@ const fromSwiped = ({ dir, velocity, xDelta }, windowWidth) => ({
   scale: 1
 })
 
-const interpolateTransform = (r, s) => `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
+const interpolateTransform = (r, s) =>
+  `rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`
 
 const specials = {
   trial: ({ t }) => (
     <div {...styles.trial}>
-      <div {...styles.trialInner}>
-        {t('components/Card/Group/promo/trial')}
-      </div>
+      <div {...styles.trialInner}>{t('components/Card/Group/promo/trial')}</div>
     </div>
   )
 }
 
 const SpringCard = ({
   t,
-  index, zIndex, card, bindGestures, cardWidth,
+  index,
+  zIndex,
+  card,
+  bindGestures,
+  cardWidth,
   fallIn,
-  isTop, isHot,
+  isTop,
+  isHot,
   dragTime,
-  swiped, windowWidth,
+  swiped,
+  windowWidth,
   indicateDir,
   indicatePastDir,
-  onDetail, group,
+  onDetail,
+  group,
   mySmartspider,
   medianSmartspiderQuery
 }) => {
-  const [props, set] = useSpring(() => fallIn && !swiped
-    ? { ...to(), delay: fallIn * 100, from: fromFall() }
-    : {
-      ...to(),
-      ...swiped && fromSwiped(swiped, windowWidth),
-      from: { opacity: 0 }
-    }
+  const [props, set] = useSpring(() =>
+    fallIn && !swiped
+      ? { ...to(), delay: fallIn * 100, from: fromFall() }
+      : {
+          ...to(),
+          ...(swiped && fromSwiped(swiped, windowWidth)),
+          from: { opacity: 0 }
+        }
   )
   const { x, y, rot, scale, opacity } = props
   const wasTop = usePrevious(isTop)
@@ -242,23 +259,28 @@ const SpringCard = ({
   }, [swiped, isTop, wasTop, wasSwiped, windowWidth])
 
   const willChange = isHot ? 'transform' : undefined
-  const dir = (
+  const dir =
     indicateDir ||
     (swiped && swiped.dir) ||
     (slide === 0 && indicatePastDir && indicatePastDir * 0.8)
-  )
   const Special = specials[card.id]
 
   return (
-    <animated.div {...cardStyles.card} style={{
-      transform: interpolate([x, y], (x, y) => `translate3d(${x}px,${y}px,0)`),
-      zIndex,
-      willChange
-    }}>
+    <animated.div
+      {...cardStyles.card}
+      style={{
+        transform: interpolate(
+          [x, y],
+          (x, y) => `translate3d(${x}px,${y}px,0)`
+        ),
+        zIndex,
+        willChange
+      }}
+    >
       <animated.div
-        {...swiped
+        {...(swiped
           ? undefined // prevent catching a card after swipping
-          : bindGestures(set, card, isTop, index)}
+          : bindGestures(set, card, isTop, index))}
         {...cardStyles.cardInner}
         style={{
           width: cardWidth,
@@ -268,9 +290,11 @@ const SpringCard = ({
           willChange
         }}
       >
-        {Special
-          ? <Special t={t} />
-          : <Card key={card.id}
+        {Special ? (
+          <Special t={t} />
+        ) : (
+          <Card
+            key={card.id}
             t={t}
             {...card}
             mySmartspider={mySmartspider}
@@ -282,26 +306,27 @@ const SpringCard = ({
             }}
             onSlide={setSlide}
             group={card.group || group}
-            contextGroup={group} />
-        }
+            contextGroup={group}
+          />
+        )}
         <div
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorLeft}
           style={{
-            opacity: dir < 0
-              ? Math.abs(dir) : 0,
+            opacity: dir < 0 ? Math.abs(dir) : 0,
             right: card.payload ? undefined : 30
-          }}>
+          }}
+        >
           {t(card.payload ? 'components/Card/ignore' : 'components/Card/no')}
         </div>
         <div
           {...styles.swipeIndicator}
           {...styles.swipeIndicatorRight}
           style={{
-            opacity: dir > 0
-              ? Math.abs(dir) : 0,
+            opacity: dir > 0 ? Math.abs(dir) : 0,
             left: card.payload ? undefined : 30
-          }}>
+          }}
+        >
           {t(card.payload ? 'components/Card/follow' : 'components/Card/yes')}
         </div>
       </animated.div>
@@ -317,7 +342,8 @@ const Group = ({
   fetchMore,
   router: { query },
   me,
-  subToUser, unsubFromUser,
+  subToUser,
+  unsubFromUser,
   variables,
   mySmartspider,
   medianSmartspider,
@@ -326,12 +352,11 @@ const Group = ({
   const topFromQuery = useRef(query.top)
   const trialCard = useRef(!me && { id: 'trial' })
   const storageKey = `republik-card-group-${group.slug}`
-  const useSwipeState = useMemo(
-    () => createPersistedState(storageKey),
-    [storageKey]
-  )
+  const useSwipeState = useMemo(() => createPersistedState(storageKey), [
+    storageKey
+  ])
 
-  const [ queue, addToQueue, clearPending, replaceStatePerUserId ] = useQueue({
+  const [queue, addToQueue, clearPending, replaceStatePerUserId] = useQueue({
     me,
     subToUser,
     unsubFromUser
@@ -343,7 +368,9 @@ const Group = ({
   const swipedMap = useMemo(() => {
     return new Map(allSwipes.map(swipe => [swipe.cardId, swipe]))
   }, [allSwipes])
-  const rightSwipes = allSwipes.filter(swipe => swipe.dir === 1 && swipe.cardCache)
+  const rightSwipes = allSwipes.filter(
+    swipe => swipe.dir === 1 && swipe.cardCache
+  )
   const swipedLength = group.special
     ? allSwipes.filter(s => !s.remote).length
     : allSwipes.length
@@ -357,10 +384,8 @@ const Group = ({
       return
     }
     const rmLocalSwipes = rightSwipes.filter(
-      swipe => (
-        swipe.remote &&
-        !subscribedByMeCards.find(c => c.id === swipe.cardId)
-      )
+      swipe =>
+        swipe.remote && !subscribedByMeCards.find(c => c.id === swipe.cardId)
     )
     const newRemoteSwipes = subscribedByMeCards
       .filter(card => {
@@ -390,13 +415,12 @@ const Group = ({
         .filter(swipe => rmLocalSwipes.indexOf(swipe) === -1)
         .concat(newRemoteSwipes)
     )
-    replaceStatePerUserId(subscribedByMeCards.reduce(
-      (state, card) => {
+    replaceStatePerUserId(
+      subscribedByMeCards.reduce((state, card) => {
         state[card.user.id] = { id: card.user.subscribedByMe.id }
         return state
-      },
-      {}
-    ))
+      }, {})
+    )
   }, [subscribedByMeCards])
 
   const allCards = [
@@ -411,10 +435,8 @@ const Group = ({
       const bSwipe = swipedMap.get(b.id)
       return aSwipe && bSwipe
         ? ascending(allSwipes.indexOf(aSwipe), allSwipes.indexOf(bSwipe))
-        : (
-          ascending(!aSwipe, !bSwipe) ||
-          ascending(allCards.indexOf(a), allCards.indexOf(b))
-        )
+        : ascending(!aSwipe, !bSwipe) ||
+            ascending(allCards.indexOf(a), allCards.indexOf(b))
     })
   }
 
@@ -426,9 +448,7 @@ const Group = ({
       const swipe = swipedMap.get(card.id)
       return !swipe || (group.special && swipe.remote)
     })
-    return firstUnswipedIndex === -1
-      ? allCards.length
-      : firstUnswipedIndex
+    return firstUnswipedIndex === -1 ? allCards.length : firstUnswipedIndex
   }
   const topIndex = getUnswipedIndex()
 
@@ -447,9 +467,8 @@ const Group = ({
   const activeCard = allCards[topIndex]
 
   const [windowWidth, windowHeight] = useWindowSize()
-  const cardWidth = windowWidth > 500
-    ? 320
-    : windowWidth >= MEDIUM_MIN_WIDTH ? 300 : 240
+  const cardWidth =
+    windowWidth > 500 ? 320 : windowWidth >= MEDIUM_MIN_WIDTH ? 300 : 240
 
   const fallInBudget = useRef(nNew)
   const dragTime = useRef(0)
@@ -519,21 +538,22 @@ const Group = ({
       topFromQuery.current = null
     }
     clearPending()
-    setSwipes(swipes => swipes
-      .filter(swipe =>
-        swipe.cardCache &&
-        queue.statePerUserId[swipe.cardCache.user.id]
-      )
-      .map(swipe => {
-        swipe.remote = true
-        return swipe
-      })
+    setSwipes(swipes =>
+      swipes
+        .filter(
+          swipe =>
+            swipe.cardCache && queue.statePerUserId[swipe.cardCache.user.id]
+        )
+        .map(swipe => {
+          swipe.remote = true
+          return swipe
+        })
     )
   }
   const followCard = card => {
     onSwipe({ dir: 1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
   }
-  const onRight = (e) => {
+  const onRight = e => {
     if (!activeCard) {
       return
     }
@@ -543,7 +563,7 @@ const Group = ({
   const ignoreCard = card => {
     onSwipe({ dir: -1, xDelta: 0, velocity: 0.2, cardId: card.id }, card)
   }
-  const onLeft = (e) => {
+  const onLeft = e => {
     if (!activeCard) {
       return
     }
@@ -551,58 +571,62 @@ const Group = ({
     ignoreCard(activeCard)
   }
 
-  const bindGestures = useGesture(({ first, last, time, args: [set, card, isTop, index], down, delta: [xDelta], distance, direction: [xDir], velocity }) => {
-    if (first) {
-      dragTime.current = time
-      onCard.current = true
-    }
-    if (last) {
-      dragTime.current = time - dragTime.current
-      onCard.current = false
-    }
-
-    const out = Math.abs(xDelta) > cardWidth * 0.4
-    const trigger = velocity > 0.4 || out
-    const dir = out
-      ? xDelta < 0 ? -1 : 1
-      : xDir < 0 ? -1 : 1
-
-    if (!down && trigger) {
-      onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
-      setDragDir(false)
-      return
-    }
-
-    const newDragDir = (
-      (trigger && down && dir) ||
-      (
-        down && Math.abs(xDelta) > 10
-          ? (
-            (Math.abs(xDelta) / (cardWidth * 0.4)) * 0.5 *
-            (xDelta < 0 ? -1 : 1)
-          )
-          : false
-      )
-    )
-    if (newDragDir !== dragDir) {
-      setDragDir(newDragDir)
-    }
-
-    const x = down ? xDelta : 0
-    const rot = down ? xDelta / 100 : 0
-    const scale = down || isTop ? 1.05 : 1
-
-    set({
-      x,
-      rot,
-      scale,
-      delay: undefined,
-      config: {
-        friction: 50,
-        tension: down ? 800 : 500
+  const bindGestures = useGesture(
+    ({
+      first,
+      last,
+      time,
+      args: [set, card, isTop, index],
+      down,
+      delta: [xDelta],
+      distance,
+      direction: [xDir],
+      velocity
+    }) => {
+      if (first) {
+        dragTime.current = time
+        onCard.current = true
       }
-    })
-  })
+      if (last) {
+        dragTime.current = time - dragTime.current
+        onCard.current = false
+      }
+
+      const out = Math.abs(xDelta) > cardWidth * 0.4
+      const trigger = velocity > 0.4 || out
+      const dir = out ? (xDelta < 0 ? -1 : 1) : xDir < 0 ? -1 : 1
+
+      if (!down && trigger) {
+        onSwipe({ dir, xDelta, velocity, cardId: card.id }, card)
+        setDragDir(false)
+        return
+      }
+
+      const newDragDir =
+        (trigger && down && dir) ||
+        (down && Math.abs(xDelta) > 10
+          ? (Math.abs(xDelta) / (cardWidth * 0.4)) * 0.5 * (xDelta < 0 ? -1 : 1)
+          : false)
+      if (newDragDir !== dragDir) {
+        setDragDir(newDragDir)
+      }
+
+      const x = down ? xDelta : 0
+      const rot = down ? xDelta / 100 : 0
+      const scale = down || isTop ? 1.05 : 1
+
+      set({
+        x,
+        rot,
+        scale,
+        delay: undefined,
+        config: {
+          friction: 50,
+          tension: down ? 800 : 500
+        }
+      })
+    }
+  )
 
   const Flag = Cantons[group.slug] || null
 
@@ -619,10 +643,14 @@ const Group = ({
   const onDetail = card => {
     setDetailCard(card)
     // use native router for shadow routing
-    NativeRouter.push({
-      pathname: '/cardGroup',
-      query
-    }, `/~${card.user.slug}`, { shallow: true })
+    NativeRouter.push(
+      {
+        pathname: '/cardGroup',
+        query
+      },
+      `/~${card.user.slug}`,
+      { shallow: true }
+    )
   }
   const closeOverlay = event => {
     if (event) {
@@ -631,14 +659,18 @@ const Group = ({
     if (detailCard) {
       setDetailCard()
     }
-    Router.replaceRoute('cardGroup', {
-      group: group.slug,
-      ...medianSmartspiderQuery
-    }, { shallow: true })
+    Router.replaceRoute(
+      'cardGroup',
+      {
+        group: group.slug,
+        ...medianSmartspiderQuery
+      },
+      { shallow: true }
+    )
     setOverlay(false)
   }
 
-  const onPreferenceClick = (e) => {
+  const onPreferenceClick = e => {
     e.preventDefault()
     setOverlay('preferences')
   }
@@ -648,208 +680,299 @@ const Group = ({
   const showDetail = !!detailCard
 
   return (
-    <Container style={{
-      minHeight: cardWidth * 1.4 + 60,
-      zIndex: ZINDEX_HEADER + 1,
-      overflow: showMyList || showDiscussion || showDetail || showOverlay
-        ? 'visible'
-        : undefined
-    }}>
-      <div {...styles.switch} style={{
-        zIndex: ZINDEX_HEADER + allCards.length + 1
-      }}>
+    <Container
+      style={{
+        minHeight: cardWidth * 1.4 + 60,
+        zIndex: ZINDEX_HEADER + 1,
+        overflow:
+          showMyList || showDiscussion || showDetail || showOverlay
+            ? 'visible'
+            : undefined
+      }}
+    >
+      <div
+        {...styles.switch}
+        style={{
+          zIndex: ZINDEX_HEADER + allCards.length + 1
+        }}
+      >
         <Link route='cardGroups' params={medianSmartspiderQuery} passHref>
-          <Editorial.A>{t(`components/Card/Group/switch${group.special ? '/special' : ''}`)}</Editorial.A>
+          <Editorial.A>
+            {t(
+              `components/Card/Group/switch${group.special ? '/special' : ''}`
+            )}
+          </Editorial.A>
         </Link>
       </div>
       <div {...styles.canton}>
         {!!Flag && <Flag size={40} />}
-        <strong>{t(`components/Card/Group/${group.name.length > 10 ? 'labelShort' : 'label'}`, {
-          groupName: group.name
-        })}</strong><br />
-        {!!windowWidth && t('components/Card/Group/sequence', {
-          swipes: swipedLength,
-          total: allTotalCount
-        })}
-      </div>
-      {!!windowWidth && <>
-        <div {...styles.bottom}>
-          {!isPersisted && <>
-              {t('components/Card/Group/noLocalStorage')}
-            </>
-          }
-          <br />
-          {swipedLength >= allTotalCount
-            ? <>
-              <br />
-              {t.first([
-                `components/Card/Group/end/done/${group.slug}`,
-                'components/Card/Group/end/done'
-              ], { groupName: group.name })}
-              <br /><br />
-              <Link route='cardGroup' params={{
-                group: group.slug,
-                suffix: 'liste'
-              }}>
-                <Editorial.A>
-                  {t('components/Card/Group/end/showList')}
-                </Editorial.A>
-              </Link>
-            </>
-            : !activeCard && allCards.length >= totalCount && <>
-              <br />
-              {t.first([
-                `components/Card/Group/end/doneFilterCount/${group.slug}/${totalCount}`,
-                `components/Card/Group/end/doneFilterCount/${group.slug}/other`,
-                `components/Card/Group/end/doneFilterCount/${totalCount}`,
-                'components/Card/Group/end/doneFilterCount/other'
-              ], {
-                groupName: group.name,
-                count: totalCount
-              })}
-              <br /><br />
-              <Editorial.A href='#' onClick={onPreferenceClick}>
-                {t('components/Card/Group/end/showPreferences')}
-              </Editorial.A>
-              <br /><br />
-              <Link route='cardGroup' params={{
-                group: group.slug,
-                suffix: 'liste'
-              }}>
-                <Editorial.A>
-                  {t('components/Card/Group/end/showList')}
-                </Editorial.A>
-              </Link>
-            </>
-          }
-        </div>
-        {allCards.map((card, i) => {
-          if (i + nOld < topIndex || i - nNew >= topIndex) {
-            return null
-          }
-          const isTop = topIndex === i
-
-          const swipe = swipedMap.get(card.id)
-          let swiped = swipe
-          if (
-            topFromQuery.current === card.id ||
-            (group.special && swiped && swiped.remote)
-          ) {
-            swiped = false
-          }
-          let fallIn = false
-          if (fallInBudget.current > 0 && !swiped) {
-            fallIn = fallInBudget.current
-            fallInBudget.current -= 1
-          }
-
-          return <SpringCard
-            key={card.id}
-            index={i}
-            t={t}
-            card={card}
-            swiped={swiped}
-            dragTime={dragTime}
-            windowWidth={windowWidth}
-            cardWidth={cardWidth}
-            fallIn={fallIn}
-            isHot={
-              isTop ||
-              fallIn ||
-              Math.abs(topIndex - i) === 1
+        <strong>
+          {t(
+            `components/Card/Group/${
+              group.name.length > 10 ? 'labelShort' : 'label'
+            }`,
+            {
+              groupName: group.name
             }
-            isTop={isTop}
-            indicateDir={isTop && dragDir}
-            zIndex={ZINDEX_HEADER + allCards.length - i}
-            bindGestures={bindGestures}
-            onDetail={onDetail}
-            group={group}
-            mySmartspider={mySmartspider}
-            medianSmartspiderQuery={medianSmartspiderQuery} />
-        })}
+          )}
+        </strong>
+        <br />
+        {!!windowWidth &&
+          t('components/Card/Group/sequence', {
+            swipes: swipedLength,
+            total: allTotalCount
+          })}
+      </div>
+      {!!windowWidth && (
+        <>
+          <div {...styles.bottom}>
+            {!isPersisted && <>{t('components/Card/Group/noLocalStorage')}</>}
+            <br />
+            {swipedLength >= allTotalCount ? (
+              <>
+                <br />
+                {t.first(
+                  [
+                    `components/Card/Group/end/done/${group.slug}`,
+                    'components/Card/Group/end/done'
+                  ],
+                  { groupName: group.name }
+                )}
+                <br />
+                <br />
+                <Link
+                  route='cardGroup'
+                  params={{
+                    group: group.slug,
+                    suffix: 'liste'
+                  }}
+                >
+                  <Editorial.A>
+                    {t('components/Card/Group/end/showList')}
+                  </Editorial.A>
+                </Link>
+              </>
+            ) : (
+              !activeCard &&
+              allCards.length >= totalCount && (
+                <>
+                  <br />
+                  {t.first(
+                    [
+                      `components/Card/Group/end/doneFilterCount/${group.slug}/${totalCount}`,
+                      `components/Card/Group/end/doneFilterCount/${group.slug}/other`,
+                      `components/Card/Group/end/doneFilterCount/${totalCount}`,
+                      'components/Card/Group/end/doneFilterCount/other'
+                    ],
+                    {
+                      groupName: group.name,
+                      count: totalCount
+                    }
+                  )}
+                  <br />
+                  <br />
+                  <Editorial.A href='#' onClick={onPreferenceClick}>
+                    {t('components/Card/Group/end/showPreferences')}
+                  </Editorial.A>
+                  <br />
+                  <br />
+                  <Link
+                    route='cardGroup'
+                    params={{
+                      group: group.slug,
+                      suffix: 'liste'
+                    }}
+                  >
+                    <Editorial.A>
+                      {t('components/Card/Group/end/showList')}
+                    </Editorial.A>
+                  </Link>
+                </>
+              )
+            )}
+          </div>
+          {allCards.map((card, i) => {
+            if (i + nOld < topIndex || i - nNew >= topIndex) {
+              return null
+            }
+            const isTop = topIndex === i
 
-        <div {...styles.buttonPanel} style={{
+            const swipe = swipedMap.get(card.id)
+            let swiped = swipe
+            if (
+              topFromQuery.current === card.id ||
+              (group.special && swiped && swiped.remote)
+            ) {
+              swiped = false
+            }
+            let fallIn = false
+            if (fallInBudget.current > 0 && !swiped) {
+              fallIn = fallInBudget.current
+              fallInBudget.current -= 1
+            }
+
+            return (
+              <SpringCard
+                key={card.id}
+                index={i}
+                t={t}
+                card={card}
+                swiped={swiped}
+                dragTime={dragTime}
+                windowWidth={windowWidth}
+                cardWidth={cardWidth}
+                fallIn={fallIn}
+                isHot={isTop || fallIn || Math.abs(topIndex - i) === 1}
+                isTop={isTop}
+                indicateDir={isTop && dragDir}
+                zIndex={ZINDEX_HEADER + allCards.length - i}
+                bindGestures={bindGestures}
+                onDetail={onDetail}
+                group={group}
+                mySmartspider={mySmartspider}
+                medianSmartspiderQuery={medianSmartspiderQuery}
+              />
+            )
+          })}
+
+          <div
+            {...styles.buttonPanel}
+            style={{
+              zIndex: ZINDEX_HEADER + allCards.length + 1
+            }}
+          >
+            <button
+              {...styles.button}
+              {...styles.buttonSmall}
+              style={{
+                backgroundColor: prevCard ? cardColors.revert : '#B7C1BD'
+              }}
+              title={t('components/Card/Group/revert')}
+              onClick={onRevert}
+            >
+              <RevertIcon />
+            </button>
+            <button
+              {...styles.button}
+              {...styles.buttonBig}
+              style={{
+                backgroundColor: cardColors.left
+              }}
+              title={t('components/Card/Group/ignore')}
+              onClick={onLeft}
+            >
+              <IgnoreIcon />
+            </button>
+            <button
+              {...styles.button}
+              {...styles.buttonBig}
+              style={{
+                backgroundColor: cardColors.right
+              }}
+              title={t('components/Card/Group/follow')}
+              onClick={onRight}
+            >
+              <FollowIcon />
+            </button>
+            <a
+              {...styles.button}
+              {...styles.buttonSmall}
+              style={{
+                backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
+                fontSize: rightSwipes.length > 99 ? 12 : 16
+              }}
+              title={t('components/Card/Group/overview')}
+              onClick={onShowMyList}
+            >
+              {rightSwipes.length || <ListIcon />}
+            </a>
+            <br />
+            <Editorial.A
+              href='#'
+              onClick={onPreferenceClick}
+              style={{
+                display: 'inline-block',
+                padding: '5px 0',
+                textDecoration: 'none',
+                backgroundColor:
+                  windowHeight < 500 ? 'rgba(222,239,245,0.5)' : 'none'
+              }}
+            >
+              <PreferencesIcon
+                style={{
+                  verticalAlign: 'top',
+                  marginRight: 5
+                }}
+              />
+              {(variables.mustHave && variables.mustHave.length) ||
+              variables.smartspider ||
+              variables.elected
+                ? `${totalCount} ${[
+                    variables.elected &&
+                      t('components/Card/Group/preferences/elected'),
+                    variables.mustHave &&
+                      variables.mustHave.length &&
+                      t('components/Card/Group/preferences/filter', {
+                        filters: variables.mustHave
+                          .map(key =>
+                            t(`components/Card/Group/preferences/filter/${key}`)
+                          )
+                          .join(' und ')
+                      }),
+                    variables.smartspider &&
+                      (medianSmartspider
+                        ? t('components/Card/Group/preferences/partySort', {
+                            party:
+                              medianSmartspider.label || medianSmartspider.value
+                          })
+                        : t('components/Card/Group/preferences/mySort'))
+                  ]
+                    .filter(Boolean)
+                    .join(', ')}`
+                : t('components/Card/Group/preferences/none')}
+            </Editorial.A>
+          </div>
+        </>
+      )}
+      <div
+        style={{
+          position: 'absolute',
           zIndex: ZINDEX_HEADER + allCards.length + 1
-        }}>
-          <button {...styles.button} {...styles.buttonSmall} style={{
-            backgroundColor: prevCard ? cardColors.revert : '#B7C1BD'
-          }} title={t('components/Card/Group/revert')} onClick={onRevert}>
-            <RevertIcon />
-          </button>
-          <button {...styles.button} {...styles.buttonBig} style={{
-            backgroundColor: cardColors.left
-          }} title={t('components/Card/Group/ignore')} onClick={onLeft}>
-            <IgnoreIcon />
-          </button>
-          <button {...styles.button} {...styles.buttonBig} style={{
-            backgroundColor: cardColors.right
-          }} title={t('components/Card/Group/follow')} onClick={onRight}>
-            <FollowIcon />
-          </button>
-          <a {...styles.button} {...styles.buttonSmall} style={{
-            backgroundColor: rightSwipes.length ? '#4B6359' : '#B7C1BD',
-            fontSize: rightSwipes.length > 99
-              ? 12
-              : 16
-          }} title={t('components/Card/Group/overview')} onClick={onShowMyList}>
-            {rightSwipes.length || <ListIcon />}
-          </a><br />
-          <Editorial.A href='#' onClick={onPreferenceClick} style={{
-            display: 'inline-block',
-            padding: '5px 0',
-            textDecoration: 'none',
-            backgroundColor: windowHeight < 500
-              ? 'rgba(222,239,245,0.5)'
-              : 'none'
-          }}>
-            <PreferencesIcon style={{
-              verticalAlign: 'top',
-              marginRight: 5
-            }} />
-            {(variables.mustHave && variables.mustHave.length) || variables.smartspider || variables.elected
-              ? `${totalCount} ${[
-                variables.elected && t('components/Card/Group/preferences/elected'),
-                variables.mustHave && variables.mustHave.length && t('components/Card/Group/preferences/filter', {
-                  filters: variables.mustHave.map(key => t(`components/Card/Group/preferences/filter/${key}`)).join(' und ')
-                }),
-                variables.smartspider && (
-                  medianSmartspider
-                    ? t('components/Card/Group/preferences/partySort', {
-                      party: medianSmartspider.label || medianSmartspider.value
-                    })
-                    : t('components/Card/Group/preferences/mySort')
-                )
-              ].filter(Boolean).join(', ')}`
-              : t('components/Card/Group/preferences/none')}
-          </Editorial.A>
-        </div>
-      </>}
-      <div style={{
-        position: 'absolute',
-        zIndex: ZINDEX_HEADER + allCards.length + 1
-      }}>
-        {showOverlay === 'trial' &&
+        }}
+      >
+        {showOverlay === 'trial' && (
           <Overlay title={'Probelesen'} onClose={closeOverlay}>
             <TrialForm redirect />
           </Overlay>
-        }
-        {showOverlay === 'preferences' &&
-          <Overlay title={t('components/Card/Group/preferences')} onClose={closeOverlay}>
+        )}
+        {showOverlay === 'preferences' && (
+          <Overlay
+            title={t('components/Card/Group/preferences')}
+            onClose={closeOverlay}
+          >
             <Preferences
               forcedVariables={group.forcedVariables}
               party={medianSmartspiderQuery && medianSmartspiderQuery.party}
               onParty={party => {
-                Router.replaceRoute('cardGroup', {
-                  group: group.slug,
-                  ...party && { party }
-                }, { shallow: true })
-              }} />
+                Router.replaceRoute(
+                  'cardGroup',
+                  {
+                    group: group.slug,
+                    ...(party && { party })
+                  },
+                  { shallow: true }
+                )
+              }}
+            />
           </Overlay>
-        }
-        {showMyList &&
-          <Overlay title={t('components/Card/Group/title', {
-            groupName: group.name
-          })} onClose={closeOverlay}>
+        )}
+        {showMyList && (
+          <Overlay
+            title={t('components/Card/Group/title', {
+              groupName: group.name
+            })}
+            onClose={closeOverlay}
+          >
             <MyList
               t={t}
               me={me}
@@ -863,15 +986,20 @@ const Group = ({
               queue={queue}
               isPersisted={isPersisted}
               onClose={closeOverlay}
-              isStale={query.stale} />
-          </Overlay>}
-        {showDiscussion &&
-          <Overlay title={
-            (group.discussion && group.discussion.title) ||
-            t('components/Card/Group/discussion/title', {
-              groupName: query.discussion ? '' : group.name
-            })
-          } onClose={closeOverlay}>
+              isStale={query.stale}
+            />
+          </Overlay>
+        )}
+        {showDiscussion && (
+          <Overlay
+            title={
+              (group.discussion && group.discussion.title) ||
+              t('components/Card/Group/discussion/title', {
+                groupName: query.discussion ? '' : group.name
+              })
+            }
+            onClose={closeOverlay}
+          >
             <Label style={{ display: 'block', marginBottom: 10 }}>
               <RawHtml
                 dangerouslySetInnerHTML={{
@@ -879,43 +1007,42 @@ const Group = ({
                 }}
               />
             </Label>
-            {group.discussion || query.discussion
-              ? <Discussion
+            {group.discussion || query.discussion ? (
+              <Discussion
                 discussionId={query.discussion || group.discussion.id}
                 focusId={query.focus}
-                mute={!!query.mute} />
-              : <Interaction.P>
+                mute={!!query.mute}
+              />
+            ) : (
+              <Interaction.P>
                 {t('components/Card/Group/noDiscussion')}
               </Interaction.P>
-            }
+            )}
           </Overlay>
-        }
-        {showDetail &&
-          <Overlay
-            title={detailCard.user.name}
-            onClose={closeOverlay}
-          >
+        )}
+        {showDetail && (
+          <Overlay title={detailCard.user.name} onClose={closeOverlay}>
             <Details card={detailCard} mySmartspider={mySmartspider} />
           </Overlay>
-        }
+        )}
       </div>
     </Container>
   )
 }
 
 const subscribeMutation = gql`
-mutation subToUser($userId: ID!) {
-  subscribe(objectId: $userId, type: User) {
-    id
+  mutation subToUser($userId: ID!) {
+    subscribe(objectId: $userId, type: User) {
+      id
+    }
   }
-}
 `
 const unsubeMutation = gql`
-mutation unsubFromUser($subscriptionId: ID!) {
-  unsubscribe(subscriptionId: $subscriptionId) {
-    id
+  mutation unsubFromUser($subscriptionId: ID!) {
+    unsubscribe(subscriptionId: $subscriptionId) {
+      id
+    }
   }
-}
 `
 
 export default compose(
@@ -924,16 +1051,18 @@ export default compose(
   withMe,
   graphql(subscribeMutation, {
     props: ({ mutate }) => ({
-      subToUser: variables => mutate({
-        variables
-      })
+      subToUser: variables =>
+        mutate({
+          variables
+        })
     })
   }),
   graphql(unsubeMutation, {
     props: ({ mutate }) => ({
-      unsubFromUser: variables => mutate({
-        variables
-      })
+      unsubFromUser: variables =>
+        mutate({
+          variables
+        })
     })
   })
 )(Group)

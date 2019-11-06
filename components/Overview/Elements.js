@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 
 import { css } from 'glamor'
-import { fontStyles, mediaQueries, Editorial, colors } from '@project-r/styleguide'
+import {
+  fontStyles,
+  mediaQueries,
+  Editorial,
+  colors
+} from '@project-r/styleguide'
 
 const styles = {
   p: css({
@@ -14,14 +19,20 @@ const styles = {
   })
 }
 
-export const P = ({ children, ...props }) =>
-  <p {...styles.p} {...props}>{children}</p>
+export const P = ({ children, ...props }) => (
+  <p {...styles.p} {...props}>
+    {children}
+  </p>
+)
 
-export const A = ({ children, ...props }) =>
-  <Editorial.A style={{ color: colors.negative.text }} {...props}>{children}</Editorial.A>
+export const A = ({ children, ...props }) => (
+  <Editorial.A style={{ color: colors.negative.text }} {...props}>
+    {children}
+  </Editorial.A>
+)
 
 export class Highlight extends Component {
-  highlight = (data) => {
+  highlight = data => {
     const { ids, format, series } = this.props
     if (ids && ids.includes(data.id)) {
       return true
@@ -35,7 +46,7 @@ export class Highlight extends Component {
       }
     }
   }
-  render () {
+  render() {
     const { children, highlight, onHighlight } = this.props
     const isHighlighted = highlight === this.highlight
     const color = isHighlighted ? colors.negative.lightText : '#fff'
@@ -52,7 +63,8 @@ export class Highlight extends Component {
         }}
         onMouseLeave={() => {
           onHighlight()
-        }}>
+        }}
+      >
         {children}
       </Editorial.A>
     )

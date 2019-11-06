@@ -9,43 +9,41 @@ import withT from '../../lib/withT'
 
 import ActionBar from '../ActionBar/Feed'
 import Box from '../Frame/Box'
-import {
-  onDocumentFragment as bookmarkOnDocumentFragment
-} from '../Bookmarks/fragments'
+import { onDocumentFragment as bookmarkOnDocumentFragment } from '../Bookmarks/fragments'
 import { WithoutMembership } from '../Auth/withMembership'
 
 const getFeedDocuments = gql`
-query getFeedDocuments($formatId: String!) {
-  documents(format: $formatId, first: 100) {
-    totalCount
-    nodes {
-      id
-      ...BookmarkOnDocument
-      meta {
-        credits
-        title
-        description
-        publishDate
-        path
-        format {
-          id
-          meta {
-            kind
+  query getFeedDocuments($formatId: String!) {
+    documents(format: $formatId, first: 100) {
+      totalCount
+      nodes {
+        id
+        ...BookmarkOnDocument
+        meta {
+          credits
+          title
+          description
+          publishDate
+          path
+          format {
+            id
+            meta {
+              kind
+            }
           }
-        }
-        estimatedReadingMinutes
-        estimatedConsumptionMinutes
-        indicateChart
-        indicateGallery
-        indicateVideo
-        audioSource {
-          mp3
+          estimatedReadingMinutes
+          estimatedConsumptionMinutes
+          indicateChart
+          indicateGallery
+          indicateVideo
+          audioSource {
+            mp3
+          }
         }
       }
     }
   }
-}
-${bookmarkOnDocumentFragment}
+  ${bookmarkOnDocumentFragment}
 `
 
 const Feed = ({ t, data: { loading, error, documents } }) => (
@@ -58,14 +56,15 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
           <Interaction.H2>
             {t.pluralize('format/feed/title', { count: documents.totalCount })}
           </Interaction.H2>
-          <br /><br />
-          <WithoutMembership render={() => (
-            <Box style={{ padding: '15px 20px' }}>
-              <Interaction.P>
-                {t('format/feed/payNote')}
-              </Interaction.P>
-            </Box>
-          )} />
+          <br />
+          <br />
+          <WithoutMembership
+            render={() => (
+              <Box style={{ padding: '15px 20px' }}>
+                <Interaction.P>{t('format/feed/payNote')}</Interaction.P>
+              </Box>
+            )}
+          />
           {documents &&
             documents.nodes.map(doc => (
               <TeaserFeed
@@ -74,10 +73,13 @@ const Feed = ({ t, data: { loading, error, documents } }) => (
                 description={!doc.meta.shortTitle && doc.meta.description}
                 Link={Link}
                 key={doc.meta.path}
-                bar={<ActionBar
-                  documentId={doc.id}
-                  userBookmark={doc.userBookmark}
-                  {...doc.meta} />}
+                bar={
+                  <ActionBar
+                    documentId={doc.id}
+                    userBookmark={doc.userBookmark}
+                    {...doc.meta}
+                  />
+                }
               />
             ))}
         </Center>

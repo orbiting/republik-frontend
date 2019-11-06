@@ -11,12 +11,7 @@ import withMe from '../../lib/apollo/withMe'
 
 import { errorToString } from '../../lib/utils/errors'
 
-import {
-  InlineSpinner,
-  Button,
-  linkRule,
-  colors
-} from '@project-r/styleguide'
+import { InlineSpinner, Button, linkRule, colors } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -29,32 +24,34 @@ const styles = {
   })
 }
 
-const EditLink = ({ children, onClick, ...props }) =>
+const EditLink = ({ children, onClick, ...props }) => (
   <a
     href='#edit'
-    onClick={(e) => {
+    onClick={e => {
       e.preventDefault()
       onClick(e)
     }}
     {...props}
     {...linkRule}
-    {...styles.editLink}>
+    {...styles.editLink}
+  >
     {children}
   </a>
+)
 
 const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
-  const {
-    isEditing
-  } = state
+  const { isEditing } = state
   if (!me || me.id !== user.id) {
     return null
   }
   if (!isEditing) {
     return (
       <div {...styles.container}>
-        <EditLink onClick={() => {
-          startEditing()
-        }}>
+        <EditLink
+          onClick={() => {
+            startEditing()
+          }}
+        >
           {t('profile/edit/start')}
         </EditLink>
       </div>
@@ -92,42 +89,55 @@ const Edit = ({ me, user, t, state, setState, startEditing, update }) => {
           {state.error}
         </div>
       )}
-      <div style={{
-        opacity: errorMessages.length
-          ? 0.5
-          : 1
-      }}>
-        <Button block primary onClick={() => {
-          if (errorMessages.length) {
-            setState(state =>
-              Object.keys(state.errors).reduce(
-                (nextState, key) => {
-                  nextState.dirty[key] = true
-                  return nextState
-                },
-                {
-                  showErrors: true,
-                  dirty: {}
-                }
+      <div
+        style={{
+          opacity: errorMessages.length ? 0.5 : 1
+        }}
+      >
+        <Button
+          block
+          primary
+          onClick={() => {
+            if (errorMessages.length) {
+              setState(state =>
+                Object.keys(state.errors).reduce(
+                  (nextState, key) => {
+                    nextState.dirty[key] = true
+                    return nextState
+                  },
+                  {
+                    showErrors: true,
+                    dirty: {}
+                  }
+                )
               )
-            )
-            return
-          }
-          update({
-            ...state.values,
-            publicUrl: state.values.publicUrl === DEFAULT_VALUES.publicUrl ? '' : state.values.publicUrl
-          })
-        }}>
-          {t(state.values.hasPublicProfile && !user.hasPublicProfile ? 'profile/edit/publish' : 'profile/edit/save')}
+              return
+            }
+            update({
+              ...state.values,
+              publicUrl:
+                state.values.publicUrl === DEFAULT_VALUES.publicUrl
+                  ? ''
+                  : state.values.publicUrl
+            })
+          }}
+        >
+          {t(
+            state.values.hasPublicProfile && !user.hasPublicProfile
+              ? 'profile/edit/publish'
+              : 'profile/edit/save'
+          )}
         </Button>
       </div>
-      <EditLink onClick={() => {
-        setState({
-          isEditing: false,
-          values: {},
-          errors: {}
-        })
-      }}>
+      <EditLink
+        onClick={() => {
+          setState({
+            isEditing: false,
+            values: {},
+            errors: {}
+          })
+        }}
+      >
         {t('profile/edit/cancel')}
       </EditLink>
     </div>
@@ -224,7 +234,10 @@ export default compose(
     })
   }),
   graphql(mutation, {
-    props: ({ mutate, ownProps: { setState, publishCredential, user, ...rest } }) => ({
+    props: ({
+      mutate,
+      ownProps: { setState, publishCredential, user, ...rest }
+    }) => ({
       update: async variables => {
         setState({ updating: true })
 

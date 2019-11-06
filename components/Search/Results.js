@@ -138,7 +138,7 @@ const FilterSortPanel = ({
 }
 
 class Results extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
 
     this.state = {
@@ -164,15 +164,15 @@ class Results extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.measure()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.measure()
   }
 
-  UNSAFE_componentWillReceiveProps (props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.data && props.data.search) {
       this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
     }
@@ -182,14 +182,16 @@ class Results extends Component {
     const { search: searchAggs = {} } = this.props.dataAggregations || {}
 
     if (searchAggs.totalCount !== nextSearchAggs.totalCount) {
-      this.props.onTotalCountLoaded && this.props.onTotalCountLoaded(nextSearchAggs.totalCount)
+      this.props.onTotalCountLoaded &&
+        this.props.onTotalCountLoaded(nextSearchAggs.totalCount)
     }
     if (searchAggs.aggregations !== nextSearchAggs.aggregations) {
-      this.props.onAggregationsLoaded && this.props.onAggregationsLoaded(nextSearchAggs.aggregations)
+      this.props.onAggregationsLoaded &&
+        this.props.onAggregationsLoaded(nextSearchAggs.aggregations)
     }
   }
 
-  render () {
+  render() {
     const {
       t,
       data,
@@ -217,7 +219,8 @@ class Results extends Component {
     const resultsOutdated = searchQuery !== filterQuery
     const opacity = resultsOutdated ? 0.5 : 1
     const { minHeight } = this.state
-    const keepCachedAggregations = preloadedTotalCount !== 0 && preloadedAggregations !== null
+    const keepCachedAggregations =
+      preloadedTotalCount !== 0 && preloadedAggregations !== null
 
     return (
       <div {...styles.container}>
@@ -326,15 +329,14 @@ class Results extends Component {
                           node.highlights.find(
                             highlight => highlight.path === 'meta.description'
                           )
-                        const bar =
-                          node.entity.meta
-                            ? <ActionBar
-                              documentId={node.entity.id}
-                              userBookmark={node.entity.userBookmark}
-                              userProgress={node.entity.userProgress}
-                              {...node.entity.meta}
-                            />
-                            : null
+                        const bar = node.entity.meta ? (
+                          <ActionBar
+                            documentId={node.entity.id}
+                            userBookmark={node.entity.userBookmark}
+                            userProgress={node.entity.userProgress}
+                            {...node.entity.meta}
+                          />
+                        ) : null
                         return (
                           <Fragment key={index}>
                             {node.entity.__typename === 'Document' && (
@@ -349,7 +351,8 @@ class Results extends Component {
                                       }}
                                     />
                                   ) : (
-                                    node.entity.meta.shortTitle || node.entity.meta.title
+                                    node.entity.meta.shortTitle ||
+                                    node.entity.meta.title
                                   )
                                 }
                                 description={
@@ -367,17 +370,14 @@ class Results extends Component {
                                 }
                                 kind={
                                   node.entity.meta.template ===
-                                  'editorialNewsletter' ? (
-                                      'meta'
-                                    ) : (
-                                      node.entity.meta.kind
-                                    )
+                                  'editorialNewsletter'
+                                    ? 'meta'
+                                    : node.entity.meta.kind
                                 }
                                 publishDate={
-                                  node.entity.meta.template ===
-                                  'format' ? null : (
-                                      node.entity.meta.publishDate
-                                    )
+                                  node.entity.meta.template === 'format'
+                                    ? null
+                                    : node.entity.meta.publishDate
                                 }
                                 Link={Link}
                                 key={node.entity.meta.path}
@@ -401,18 +401,16 @@ class Results extends Component {
                           </Fragment>
                         )
                       })}
-                    {totalCount > 0 &&
+                    {totalCount > 0 && (
                       <div {...styles.countLoaded}>
-                        {nodes && nodes.length === totalCount ? (
-                          t.pluralize('search/pageInfo/total', {
-                            count: totalCount
-                          })
-                        ) : (
-                          t('search/pageInfo/loadedTotal', {
-                            loaded: nodes.length,
-                            total: totalCount
-                          })
-                        )}
+                        {nodes && nodes.length === totalCount
+                          ? t.pluralize('search/pageInfo/total', {
+                              count: totalCount
+                            })
+                          : t('search/pageInfo/loadedTotal', {
+                              loaded: nodes.length,
+                              total: totalCount
+                            })}
                         {pageInfo.hasNextPage && (
                           <button
                             {...styles.button}
@@ -426,7 +424,7 @@ class Results extends Component {
                           </button>
                         )}
                       </div>
-                    }
+                    )}
                   </div>
                 )}
               </Fragment>

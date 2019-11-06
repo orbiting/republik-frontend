@@ -45,11 +45,13 @@ const styles = {
 const Footer = ({ t, zIndex, imprint = true }) => {
   return (
     <div {...styles.container}>
-      {imprint && <div {...styles.left}>
-        <Link route='legal/imprint' passHref>
-          <Editorial.A>{t('footer/legal/imprint')}</Editorial.A>
-        </Link>
-      </div>}
+      {imprint && (
+        <div {...styles.left}>
+          <Link route='legal/imprint' passHref>
+            <Editorial.A>{t('footer/legal/imprint')}</Editorial.A>
+          </Link>
+        </div>
+      )}
       <div {...styles.right}>
         <Editorial.A href='/wahltindaer/meta#das-republik-wahltindaer-im-detail'>
           {t('components/Card/Footer/sources')}

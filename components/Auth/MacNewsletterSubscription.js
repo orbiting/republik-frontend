@@ -10,29 +10,21 @@ import { Router } from '../../lib/routes'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import ErrorMessage from '../ErrorMessage'
 
-const goTo = (type, email, context) => Router.replaceRoute(
-  'notifications',
-  { type, email, context }
-)
+const goTo = (type, email, context) =>
+  Router.replaceRoute('notifications', { type, email, context })
 
 class NewsletterSubscription extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
   }
-  render () {
+  render() {
     const { t, updateNewsletterSubscription, email } = this.props
     const { consents } = this.state
 
     const requiredConsents = ['PRIVACY']
-    const consentsError = getConsentsError(
-      t,
-      requiredConsents,
-      consents
-    )
-    const error = this.state.error || (
-      this.state.dirty && consentsError
-    )
+    const consentsError = getConsentsError(t, requiredConsents, consents)
+    const error = this.state.error || (this.state.dirty && consentsError)
 
     return (
       <Fragment>
@@ -45,42 +37,44 @@ class NewsletterSubscription extends Component {
                 consents: keys,
                 error: undefined
               })
-            }} />
+            }}
+          />
         </div>
         {!!error && <ErrorMessage error={error} />}
         <br />
-        {this.state.updating
-          ? <div style={{ textAlign: 'center' }}><InlineSpinner /></div>
-          : (
-            <div style={{ opacity: consentsError ? 0.5 : 1 }}>
-              <Button
-                primary
-                onClick={() => {
-                  if (consentsError) {
-                    this.setState({ dirty: true })
-                    return
-                  }
-                  this.setState({ updating: true }, () => {
-                    updateNewsletterSubscription({
-                      consents
-                    })
-                      .then(() => goTo(
-                        'email-confirmed',
-                        email,
-                        this.props.context
-                      ))
-                      .catch(error => {
-                        this.setState({
-                          updating: false,
-                          error
-                        })
-                      })
+        {this.state.updating ? (
+          <div style={{ textAlign: 'center' }}>
+            <InlineSpinner />
+          </div>
+        ) : (
+          <div style={{ opacity: consentsError ? 0.5 : 1 }}>
+            <Button
+              primary
+              onClick={() => {
+                if (consentsError) {
+                  this.setState({ dirty: true })
+                  return
+                }
+                this.setState({ updating: true }, () => {
+                  updateNewsletterSubscription({
+                    consents
                   })
-                }}>
-                {t('macNewsletterSubscription/button')}
-              </Button>
-            </div>
-          )}
+                    .then(() =>
+                      goTo('email-confirmed', email, this.props.context)
+                    )
+                    .catch(error => {
+                      this.setState({
+                        updating: false,
+                        error
+                      })
+                    })
+                })
+              }}
+            >
+              {t('macNewsletterSubscription/button')}
+            </Button>
+          </div>
+        )}
       </Fragment>
     )
   }
@@ -94,7 +88,13 @@ const mutation = gql`
     $mac: String!
     $consents: [String!]
   ) {
-    updateNewsletterSubscription(name: $name, subscribed: $subscribed, email: $email, mac: $mac, consents: $consents) {
+    updateNewsletterSubscription(
+      name: $name
+      subscribed: $subscribed
+      email: $email
+      mac: $mac
+      consents: $consents
+    ) {
       id
       name
       subscribed

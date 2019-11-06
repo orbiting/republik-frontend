@@ -19,7 +19,13 @@ import {
 import { withDiscussionPreferences } from './graphql/enhancers/withDiscussionPreferences'
 import Credential from '../Credential'
 
-export const DiscussionPreferences = ({ t, onClose, discussionPreferences: { loading, error, me, discussion }, setDiscussionPreferences, autoCredential }) => (
+export const DiscussionPreferences = ({
+  t,
+  onClose,
+  discussionPreferences: { loading, error, me, discussion },
+  setDiscussionPreferences,
+  autoCredential
+}) => (
   <Overlay onClose={onClose}>
     <Loader
       loading={loading}
@@ -58,7 +64,7 @@ export default compose(
 )(DiscussionPreferences)
 
 class DiscussionPreferencesEditor extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = (() => {
@@ -86,7 +92,7 @@ class DiscussionPreferencesEditor extends PureComponent {
         () => {
           onClose()
         },
-        (e) => {
+        e => {
           // ToDo Handle Error
           // console.warn(e)
         }
@@ -94,25 +100,30 @@ class DiscussionPreferencesEditor extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { t, credentials, rules, onClose } = this.props
 
     const anonymity = (() => {
       switch (rules.anonymity) {
-        case 'ALLOWED': return {
-          disabled: false,
-          value: this.state.anonymity
-        }
-        case 'ENFORCED': return {
-          disabled: true,
-          value: true
-        }
-        case 'FORBIDDEN': return {
-          disabled: true,
-          value: false
-        }
+        case 'ALLOWED':
+          return {
+            disabled: false,
+            value: this.state.anonymity
+          }
+        case 'ENFORCED':
+          return {
+            disabled: true,
+            value: true
+          }
+        case 'FORBIDDEN':
+          return {
+            disabled: true,
+            value: false
+          }
         default: {
-          console.warn(`DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`)
+          console.warn(
+            `DiscussionPreferencesForm: unknown anonymity permission: ${rules.anonymity}`
+          )
           return {
             disabled: true,
             value: false
@@ -121,16 +132,23 @@ class DiscussionPreferencesEditor extends PureComponent {
       }
     })()
 
-    const existingCredential = credentials.find(c => c.description === this.state.credential)
+    const existingCredential = credentials.find(
+      c => c.description === this.state.credential
+    )
     const isListedCredential = existingCredential && existingCredential.isListed
 
-    const credentialSuggestions = credentials.filter(c => c.description !== this.state.credential)
+    const credentialSuggestions = credentials.filter(
+      c => c.description !== this.state.credential
+    )
 
     return (
       <div>
         <OverlayToolbar>
           <OverlayToolbarClose onClick={onClose} />
-          <OverlayToolbarConfirm label={t('components/DiscussionPreferences/save')} onClick={this.onSave} />
+          <OverlayToolbarConfirm
+            label={t('components/DiscussionPreferences/save')}
+            onClick={this.onSave}
+          />
         </OverlayToolbar>
 
         <OverlayBody>
@@ -138,25 +156,38 @@ class DiscussionPreferencesEditor extends PureComponent {
             {t('components/DiscussionPreferences/explain')}
           </Interaction.P>
           <br />
-          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && <div style={{ marginBottom: 12 }}>
-            <Checkbox
-              disabled={anonymity.disabled}
-              checked={anonymity.value}
-              onChange={this.onChangeAnonymity}>
-              {t('components/DiscussionPreferences/commentAnonymously')}
-            </Checkbox>
-            <br style={{ clear: 'both' }} />
-            <Label>{t('components/DiscussionPreferences/commentAnonymously/disclaimer')}</Label>
-          </div>}
+          {(this.state.anonymity || rules.anonymity !== 'FORBIDDEN') && (
+            <div style={{ marginBottom: 12 }}>
+              <Checkbox
+                disabled={anonymity.disabled}
+                checked={anonymity.value}
+                onChange={this.onChangeAnonymity}
+              >
+                {t('components/DiscussionPreferences/commentAnonymously')}
+              </Checkbox>
+              <br style={{ clear: 'both' }} />
+              <Label>
+                {t(
+                  'components/DiscussionPreferences/commentAnonymously/disclaimer'
+                )}
+              </Label>
+            </div>
+          )}
 
           <Field
             label={t('components/DiscussionPreferences/credentialLabel')}
             value={this.state.credential}
-            onChange={(_, value) => { this.setState({ credential: value }) }}
+            onChange={(_, value) => {
+              this.setState({ credential: value })
+            }}
           />
           {isListedCredential && this.state.anonymity && (
             <div style={{ marginBottom: 10 }}>
-              <Label>{t('components/DiscussionPreferences/credentialAnonymityWarning')}</Label>
+              <Label>
+                {t(
+                  'components/DiscussionPreferences/credentialAnonymityWarning'
+                )}
+              </Label>
             </div>
           )}
 
@@ -167,15 +198,19 @@ class DiscussionPreferencesEditor extends PureComponent {
               </Label>
             )}
             {credentialSuggestions.map(c => (
-              <A key={c.description} href='#use' style={{ display: 'block' }} onClick={(e) => {
-                e.preventDefault()
-                this.setState({ credential: c.description })
-              }}>
+              <A
+                key={c.description}
+                href='#use'
+                style={{ display: 'block' }}
+                onClick={e => {
+                  e.preventDefault()
+                  this.setState({ credential: c.description })
+                }}
+              >
                 <Credential {...c} />
               </A>
             ))}
           </Interaction.P>
-
         </OverlayBody>
       </div>
     )

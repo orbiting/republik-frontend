@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import { SUPPORTED_FILTER } from './constants'
 
-import {
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -22,7 +18,8 @@ const styles = {
     }
   }),
   fadeout: css({
-    backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,1) 100%)',
+    backgroundImage:
+      'linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,1) 100%)',
     bottom: 0,
     display: 'none',
     position: 'absolute',
@@ -58,7 +55,7 @@ const styles = {
 }
 
 class FilterButton extends Component {
-  render () {
+  render() {
     const {
       filterBucketKey,
       filterBucketValue,
@@ -73,13 +70,18 @@ class FilterButton extends Component {
     return (
       <button
         {...styles.button}
-        style={selected ? { backgroundColor: colors.primary, color: '#fff' } : {}}
+        style={
+          selected ? { backgroundColor: colors.primary, color: '#fff' } : {}
+        }
         onClick={() => {
-          onClickHandler && onClickHandler(filterBucketKey, filterBucketValue, selected, count)
+          onClickHandler &&
+            onClickHandler(filterBucketKey, filterBucketValue, selected, count)
         }}
       >
         {label}
-        <span {...styles.count} style={{ visibility }}>{count}</span>
+        <span {...styles.count} style={{ visibility }}>
+          {count}
+        </span>
       </button>
     )
   }
@@ -100,21 +102,24 @@ FilterButton.defaultProps = {
 }
 
 class FilterButtonGroup extends Component {
-  render () {
+  render() {
     const { filterBucketKey, filters } = this.props
     return (
       <Fragment>
-        {filters.map(({ key, label, count, selected, loadingFilters, onClickHandler }) => (
-          <FilterButton
-            key={key}
-            filterBucketKey={filterBucketKey}
-            filterBucketValue={key}
-            selected={selected}
-            label={label}
-            count={count}
-            onClickHandler={onClickHandler}
-            loadingFilters={loadingFilters} />
-        ))}
+        {filters.map(
+          ({ key, label, count, selected, loadingFilters, onClickHandler }) => (
+            <FilterButton
+              key={key}
+              filterBucketKey={filterBucketKey}
+              filterBucketValue={key}
+              selected={selected}
+              label={label}
+              count={count}
+              onClickHandler={onClickHandler}
+              loadingFilters={loadingFilters}
+            />
+          )
+        )}
       </Fragment>
     )
   }
@@ -133,7 +138,7 @@ FilterButtonGroup.propTypes = {
 }
 
 class Filter extends Component {
-  render () {
+  render() {
     const {
       aggregations,
       filters,
@@ -146,10 +151,12 @@ class Filter extends Component {
       return null
     }
 
-    const aggregation = aggregations ? aggregations.reduce((map, obj) => {
-      map[obj.key] = obj
-      return map
-    }, {}) : {}
+    const aggregation = aggregations
+      ? aggregations.reduce((map, obj) => {
+          map[obj.key] = obj
+          return map
+        }, {})
+      : {}
 
     const filterButtonProps = (key, bucket) => {
       return {
@@ -173,9 +180,7 @@ class Filter extends Component {
     const kindFilters =
       aggregation.kind &&
       aggregation.kind.buckets
-        .filter(
-          bucket => SUPPORTED_FILTER.kind.indexOf(bucket.value) > -1
-        )
+        .filter(bucket => SUPPORTED_FILTER.kind.indexOf(bucket.value) > -1)
         .map(bucket => filterButtonProps('kind', bucket))
 
     const typeFilters =
@@ -209,24 +214,24 @@ class Filter extends Component {
         <div {...(allowCompact ? styles.compact : {})}>
           <FilterButtonGroup
             filterBucketKey='template'
-            filters={templateFilters} />
-          <FilterButton {...(booleanFilterButtonProps(aggregation.isSeriesMaster))} />
-          <FilterButtonGroup
-            filterBucketKey='kind'
-            filters={kindFilters} />
-          <FilterButtonGroup
-            filterBucketKey='type'
-            filters={typeFilters} />
+            filters={templateFilters}
+          />
+          <FilterButton
+            {...booleanFilterButtonProps(aggregation.isSeriesMaster)}
+          />
+          <FilterButtonGroup filterBucketKey='kind' filters={kindFilters} />
+          <FilterButtonGroup filterBucketKey='type' filters={typeFilters} />
           <FilterButtonGroup
             filterBucketKey='textLength'
-            filters={textLengthFilters} />
-          <FilterButton {...(booleanFilterButtonProps(aggregation.audioSource))} />
-          <FilterButton {...(booleanFilterButtonProps(aggregation.hasAudio))} />
-          <FilterButton {...(booleanFilterButtonProps(aggregation.hasVideo))} />
+            filters={textLengthFilters}
+          />
+          <FilterButton
+            {...booleanFilterButtonProps(aggregation.audioSource)}
+          />
+          <FilterButton {...booleanFilterButtonProps(aggregation.hasAudio)} />
+          <FilterButton {...booleanFilterButtonProps(aggregation.hasVideo)} />
         </div>
-        {allowCompact && (
-          <div {...styles.fadeout} />
-        )}
+        {allowCompact && <div {...styles.fadeout} />}
       </div>
     )
   }

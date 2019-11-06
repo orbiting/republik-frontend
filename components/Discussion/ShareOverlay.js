@@ -4,12 +4,7 @@ import withT from '../../lib/withT'
 
 import ShareOverlay from '../ActionBar/ShareOverlay'
 
-const DiscussionShareOverlay = ({
-  t,
-  onClose,
-  url,
-  title
-}) => (
+const DiscussionShareOverlay = ({ t, onClose, url, title }) => (
   <ShareOverlay
     onClose={onClose}
     url={url}
@@ -23,6 +18,4 @@ const DiscussionShareOverlay = ({
   />
 )
 
-export default compose(
-  withT
-)(DiscussionShareOverlay)
+export default compose(withT)(DiscussionShareOverlay)

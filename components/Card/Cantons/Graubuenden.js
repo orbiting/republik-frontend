@@ -3,7 +3,7 @@ import React from 'react'
 const SvgGraubuenden = props => (
   <svg
     width={props.size}
-    height={props.size * 470.791 / 469.269}
+    height={(props.size * 470.791) / 469.269}
     viewBox='-205.156 -206.388 469.269 470.791'
     {...props}
   >

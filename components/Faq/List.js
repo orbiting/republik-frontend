@@ -6,13 +6,14 @@ import { css, merge } from 'glamor'
 import Loader from '../Loader'
 
 import {
-  Interaction, RawHtml, colors,
-  fontFamilies, mediaQueries
+  Interaction,
+  RawHtml,
+  colors,
+  fontFamilies,
+  mediaQueries
 } from '@project-r/styleguide'
 
-import {
-  HEADER_HEIGHT, HEADER_HEIGHT_MOBILE
-} from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 import { nest } from 'd3-collection'
 
@@ -59,18 +60,17 @@ export const H2 = ({ children }) => (
   <Interaction.H2 {...styles.title}>{children}</Interaction.H2>
 )
 
-const AnswerP = (args) => (
-  <P {...args} {...styles.answer} />
-)
+const AnswerP = args => <P {...args} {...styles.answer} />
 
-const slug = string => string
-  .toLowerCase()
-  .replace(/[^0-9a-zäöü]+/g, ' ')
-  .trim()
-  .replace(/\s+/g, '-')
+const slug = string =>
+  string
+    .toLowerCase()
+    .replace(/[^0-9a-zäöü]+/g, ' ')
+    .trim()
+    .replace(/\s+/g, '-')
 
 export class RawList extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
 
     this.state = {}
@@ -81,13 +81,15 @@ export class RawList extends Component {
         <div key={i} {...styles.faq}>
           <a {...styles.faqAnchor} id={slug(faq.question)} />
           <P {...merge(styles.question, active && styles.active)}>
-            <a href={`#${slug(faq.question)}`}
+            <a
+              href={`#${slug(faq.question)}`}
               onClick={e => {
                 e.preventDefault()
                 this.setState(() => ({
                   [slug(faq.question)]: !active
                 }))
-              }}>
+              }}
+            >
               {faq.question}
             </a>
           </P>
@@ -97,58 +99,62 @@ export class RawList extends Component {
               key={`answer${i}`}
               dangerouslySetInnerHTML={{
                 __html: faq.answer.split('\n').join('<br />')
-              }} />
+              }}
+            />
           )}
         </div>
       )
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     if (window.location.hash) {
       this.setState(() => ({
         [window.location.hash.replace(/^#/, '')]: true
       }))
     }
   }
-  render () {
-    const { data: { loading, error, faqs }, flat } = this.props
+  render() {
+    const {
+      data: { loading, error, faqs },
+      flat
+    } = this.props
     return (
-      <Loader loading={loading} error={error} render={() => {
-        if (flat) {
-          return <div>
-            {faqs.map(this.renderFaq)}
-          </div>
-        }
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (flat) {
+            return <div>{faqs.map(this.renderFaq)}</div>
+          }
 
-        const faqsByCategory = nest()
-          .key(d => d.category)
-          .entries(faqs)
+          const faqsByCategory = nest()
+            .key(d => d.category)
+            .entries(faqs)
 
-        return (
-          <div>
-            {faqsByCategory.map(({ key: title, values }) => (
-              <div {...styles.category} key={title}>
-                <H2>{title}</H2>
-                {values.map(this.renderFaq)}
-              </div>
-            ))}
-          </div>
-        )
-      }} />
+          return (
+            <div>
+              {faqsByCategory.map(({ key: title, values }) => (
+                <div {...styles.category} key={title}>
+                  <H2>{title}</H2>
+                  {values.map(this.renderFaq)}
+                </div>
+              ))}
+            </div>
+          )
+        }}
+      />
     )
   }
 }
 
 const publishedFaqs = gql`
-query {
-  faqs {
-    category
-    question
-    answer
+  query {
+    faqs {
+      category
+      question
+      answer
+    }
   }
-}
 `
 
-export default compose(
-  graphql(publishedFaqs)
-)(RawList)
+export default compose(graphql(publishedFaqs))(RawList)

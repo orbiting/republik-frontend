@@ -110,64 +110,70 @@ const styles = {
 }
 
 const query = gql`
-query pledgeAccordion($crowdfundingName: String!) {
-  crowdfunding(name: $crowdfundingName) {
-    id
-    name
-    packages {
+  query pledgeAccordion($crowdfundingName: String!) {
+    crowdfunding(name: $crowdfundingName) {
       id
       name
-      group
-      options {
+      packages {
         id
-        price
-        userPrice
-        minAmount
-        maxAmount
-        defaultAmount
-        reward {
-          ... on MembershipType {
-            id
-            name
-          }
-          ... on Goodie {
-            id
-            name
+        name
+        group
+        options {
+          id
+          price
+          userPrice
+          minAmount
+          maxAmount
+          defaultAmount
+          reward {
+            ... on MembershipType {
+              id
+              name
+            }
+            ... on Goodie {
+              id
+              name
+            }
           }
         }
       }
     }
   }
-}
 `
 
-const PackageItem = ({ t, hover, setHover, crowdfundingName, name, title, price, onClick, href }) => (
+const PackageItem = ({
+  t,
+  hover,
+  setHover,
+  crowdfundingName,
+  name,
+  title,
+  price,
+  onClick,
+  href
+}) => (
   <a
-    {...merge(
-      styles.package,
-      hover === name && styles.packageHighlighted
-    )}
+    {...merge(styles.package, hover === name && styles.packageHighlighted)}
     onMouseOver={() => setHover(name)}
     onMouseOut={() => setHover(undefined)}
     onClick={onClick}
-    href={href}>
+    href={href}
+  >
     <div {...styles.packageHeader}>
       <div {...styles.packageTitle}>
-        {title || t.first(
-          [
+        {title ||
+          t.first([
             `package/${crowdfundingName}/${name}/title`,
             `package/${name}/title`
-          ]
-        )}
+          ])}
       </div>
-      {!!price && (<div {...styles.packagePrice}>
-        {t.first([
-          `package/${name}/price`,
-          'package/price'
-        ], {
-          formattedCHF: `CHF ${price / 100}`
-        })}
-      </div>)}
+      {!!price && (
+        <div {...styles.packagePrice}>
+          {t.first([`package/${name}/price`, 'package/price'], {
+            formattedCHF: `CHF ${price / 100}`
+          })}
+        </div>
+      )}
       <span {...styles.packageIcon}>
         <ChevronRightIcon size={24} />
       </span>
@@ -176,95 +182,96 @@ const PackageItem = ({ t, hover, setHover, crowdfundingName, name, title, price,
 )
 
 class Accordion extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       hover: undefined
     }
   }
-  render () {
+  render() {
     const { loading, error } = this.props
     if (loading || error) {
-      return <Loader loading={loading} error={error} style={{ minHeight: 400 }} />
+      return (
+        <Loader loading={loading} error={error} style={{ minHeight: 400 }} />
+      )
     }
 
-    const {
-      hover
-    } = this.state
+    const { hover } = this.state
 
-    const {
-      t,
-      packages,
-      filter,
-      group,
-      crowdfundingName
-    } = this.props
+    const { t, packages, filter, group, crowdfundingName } = this.props
 
     const groups = nest()
       .key(d => d.group)
-      .entries(packages.filter(filter
-        ? p => filter.includes(p.name)
-        : Boolean
-      ))
+      .entries(packages.filter(filter ? p => filter.includes(p.name) : Boolean))
 
     if (group) {
-      groups.sort(({ key: a }, { key: b }) => (
-        ascending(+(a !== group), +(b !== group)) ||
-        ascending(
-          groups.findIndex(d => d.key === a),
-          groups.findIndex(d => d.key === b)
-        )
-      ))
+      groups.sort(
+        ({ key: a }, { key: b }) =>
+          ascending(+(a !== group), +(b !== group)) ||
+          ascending(
+            groups.findIndex(d => d.key === a),
+            groups.findIndex(d => d.key === b)
+          )
+      )
     }
 
     return (
       <div style={{ marginTop: 20 }}>
-        {
-          groups.map(({ key: group, values: pkgs }) => {
-            const links = [
-              group === 'ME' && {
+        {groups.map(({ key: group, values: pkgs }) => {
+          const links = [
+            group === 'ME' && {
+              route: 'pledge',
+              params: { package: 'ABO', userPrice: 1 },
+              text: t('package/ABO/userPrice/teaser')
+            }
+          ].filter(Boolean)
+
+          const setHover = hover => this.setState({ hover })
+
+          let pkgItems = pkgs.map((pkg, i) => {
+            const price = pkg.options.reduce(
+              (amount, option) => amount + option.price * option.minAmount,
+              0
+            )
+            return {
+              route: 'pledge',
+              params: { package: pkg.name },
+              name: pkg.name,
+              price
+            }
+          })
+
+          if (group === 'ME') {
+            const benefactorIndex = pkgItems.findIndex(
+              item => item.name === 'BENEFACTOR'
+            )
+            // TMP Marketing Trial for Students
+            if (benefactorIndex !== -1) {
+              pkgItems.splice(benefactorIndex + 1, 0, {
                 route: 'pledge',
-                params: { package: 'ABO', userPrice: 1 },
-                text: t('package/ABO/userPrice/teaser')
-              }
-            ].filter(Boolean)
-
-            const setHover = hover => this.setState({ hover })
-
-            let pkgItems = pkgs.map((pkg, i) => {
-              const price = pkg.options.reduce(
-                (amount, option) => amount + option.price * option.minAmount,
-                0
-              )
-              return {
-                route: 'pledge',
-                params: { package: pkg.name },
-                name: pkg.name,
-                price
-              }
-            })
-
-            if (group === 'ME') {
-              const benefactorIndex = pkgItems.findIndex(item => item.name === 'BENEFACTOR')
-              // TMP Marketing Trial for Students
-              if (benefactorIndex !== -1) {
-                pkgItems.splice(benefactorIndex + 1, 0, {
-                  route: 'pledge',
-                  params: { package: 'ABO', userPrice: 1, price: 14000, reason: t('marketing/offers/students/reasonTemplate') },
-                  name: 'students',
-                  title: t('marketing/offers/students'),
-                  price: 14000
-                })
-              }
-              pkgItems.push({
-                route: 'claim',
-                name: 'claim',
-                title: t('marketing/offers/claim')
+                params: {
+                  package: 'ABO',
+                  userPrice: 1,
+                  price: 14000,
+                  reason: t('marketing/offers/students/reasonTemplate')
+                },
+                name: 'students',
+                title: t('marketing/offers/students'),
+                price: 14000
               })
             }
+            pkgItems.push({
+              route: 'claim',
+              name: 'claim',
+              title: t('marketing/offers/claim')
+            })
+          }
 
-            return <Fragment key={group}>
-              {groups.length > 1 && <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>}
+          return (
+            <Fragment key={group}>
+              {groups.length > 1 && (
+                <div {...styles.groupTitle}>{t(`package/group/${group}`)}</div>
+              )}
               {pkgItems.map(({ name, title, price, route, params }) => (
                 <Link key={name} route={route} params={params} passHref>
                   <PackageItem
@@ -274,25 +281,31 @@ class Accordion extends Component {
                     name={name}
                     title={title}
                     crowdfundingName={crowdfundingName}
-                    price={price} />
+                    price={price}
+                  />
                 </Link>
               ))}
               <div {...styles.buffer} />
-              { !!links.length && <div {...styles.links}>
-                {
-                  links.map((link, i) => (
-                    <Link key={i} route={link.route} params={link.params} passHref>
+              {!!links.length && (
+                <div {...styles.links}>
+                  {links.map((link, i) => (
+                    <Link
+                      key={i}
+                      route={link.route}
+                      params={link.params}
+                      passHref
+                    >
                       <Editorial.A>
-                        {link.text}<br />
+                        {link.text}
+                        <br />
                       </Editorial.A>
                     </Link>
-                  ))
-                }
-              </div>
-              }
+                  ))}
+                </div>
+              )}
             </Fragment>
-          })
-        }
+          )
+        })}
       </div>
     )
   }

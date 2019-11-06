@@ -45,7 +45,7 @@ const styles = {
   })
 }
 
-const sections = [ 1, 2, 3 ]
+const sections = [1, 2, 3]
 
 const questions = [
   {
@@ -121,7 +121,7 @@ const questions = [
   }
 ]
 
-const FinancingQuestion = (props) => {
+const FinancingQuestion = props => {
   const { locale, t } = props
   const { id, type, transform, requires } = props.question
   const { value, error, dirty } = props.financing.value[id] || {}
@@ -146,12 +146,56 @@ const FinancingQuestion = (props) => {
     props.onChange(updateFinancingQuestion)
   }
 
-  if (requires && !value && !requires.every(id => props.financing.value[id] && +props.financing.value[id].value)) {
+  if (
+    requires &&
+    !value &&
+    !requires.every(
+      id => props.financing.value[id] && +props.financing.value[id].value
+    )
+  ) {
     return null
   }
 
   if (type === 'text') {
-    return <div {...styles.textQuestionContainer}>
+    return (
+      <div {...styles.textQuestionContainer}>
+        <div {...styles.question}>
+          <P>
+            {t.first([
+              `components/Card/Form/Financing/question/${id}/${locale}`,
+              `components/Card/Form/Financing/question/${id}`
+            ])}
+          </P>
+        </div>
+        <div {...styles.field}>
+          <Field
+            label={t.first([
+              `components/Card/Form/Financing/question/${id}/label/${locale}`,
+              `components/Card/Form/Financing/question/${id}/label`,
+              `components/Card/Form/Financing/question/label/${locale}`,
+              'components/Card/Form/Financing/question/label'
+            ])}
+            renderInput={({ ref, ...inputProps }) => (
+              <AutosizeInput
+                {...inputProps}
+                {...fieldSetStyles.autoSize}
+                inputRef={ref}
+              />
+            )}
+            value={financingQuestion.value}
+            error={financingQuestion.dirty && financingQuestion.error}
+            dirty={financingQuestion.dirty}
+            onChange={(_, value, shouldValidate) =>
+              handleQuestion(value, shouldValidate)
+            }
+          />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div {...styles.questionContainer}>
       <div {...styles.question}>
         <P>
           {t.first([
@@ -168,51 +212,29 @@ const FinancingQuestion = (props) => {
             `components/Card/Form/Financing/question/label/${locale}`,
             'components/Card/Form/Financing/question/label'
           ])}
-          renderInput={({ ref, ...inputProps }) => (
-            <AutosizeInput
-              {...inputProps}
-              {...fieldSetStyles.autoSize}
-              inputRef={ref} />
-          )}
           value={financingQuestion.value}
           error={financingQuestion.dirty && financingQuestion.error}
           dirty={financingQuestion.dirty}
-          onChange={(_, value, shouldValidate) => handleQuestion(value, shouldValidate)} />
+          onChange={(_, value, shouldValidate) =>
+            handleQuestion(value, shouldValidate)
+          }
+        />
       </div>
     </div>
-  }
-
-  return <div {...styles.questionContainer}>
-    <div {...styles.question}>
-      <P>
-        {t.first([
-          `components/Card/Form/Financing/question/${id}/${locale}`,
-          `components/Card/Form/Financing/question/${id}`
-        ])}
-      </P>
-    </div>
-    <div {...styles.field}>
-      <Field
-        label={t.first([
-          `components/Card/Form/Financing/question/${id}/label/${locale}`,
-          `components/Card/Form/Financing/question/${id}/label`,
-          `components/Card/Form/Financing/question/label/${locale}`,
-          'components/Card/Form/Financing/question/label'
-        ])}
-        value={financingQuestion.value}
-        error={financingQuestion.dirty && financingQuestion.error}
-        dirty={financingQuestion.dirty}
-        onChange={(_, value, shouldValidate) => handleQuestion(value, shouldValidate)} />
-    </div>
-  </div>
+  )
 }
 
-const Financing = (props) => {
-  const { router: { query: { locale } }, t } = props
+const Financing = props => {
+  const {
+    router: {
+      query: { locale }
+    },
+    t
+  } = props
 
   const [financing, setFinancing] = useState(props.financing || {})
 
-  const handleFinancingQuestion = (value) => {
+  const handleFinancingQuestion = value => {
     const { id, error, dirty, ...response } = value
 
     const updatedFinancing = {
@@ -230,32 +252,42 @@ const Financing = (props) => {
     props.onChange(updatedFinancing.value)
   }
 
-  return <>
-    <H2 {...styles.headline}>
-      {t.first([
-        `components/Card/Form/Financing/headline/${locale}`,
-        'components/Card/Form/Financing/headline'
-      ])}
-    </H2>
-
-    {sections.map(section => <Fragment key={`financing-section-${section}`}>
-      <H3 {...styles.section}>
+  return (
+    <>
+      <H2 {...styles.headline}>
         {t.first([
-          `components/Card/Form/Financing/section/${section}/${locale}`,
-          `components/Card/Form/Financing/section/${section}`
+          `components/Card/Form/Financing/headline/${locale}`,
+          'components/Card/Form/Financing/headline'
         ])}
-      </H3>
-      {questions.filter(q => q.section === section).map(question => (
-        <FinancingQuestion
-          key={`financing-question-${question.id}`}
-          question={question}
-          financing={financing}
-          onChange={handleFinancingQuestion}
-          locale={locale}
-          t={t} />
+      </H2>
+
+      {sections.map(section => (
+        <Fragment key={`financing-section-${section}`}>
+          <H3 {...styles.section}>
+            {t.first([
+              `components/Card/Form/Financing/section/${section}/${locale}`,
+              `components/Card/Form/Financing/section/${section}`
+            ])}
+          </H3>
+          {questions
+            .filter(q => q.section === section)
+            .map(question => (
+              <FinancingQuestion
+                key={`financing-question-${question.id}`}
+                question={question}
+                financing={financing}
+                onChange={handleFinancingQuestion}
+                locale={locale}
+                t={t}
+              />
+            ))}
+        </Fragment>
       ))}
-    </Fragment>)}
-  </>
+    </>
+  )
 }
 
-export default compose(withRouter, withT)(Financing)
+export default compose(
+  withRouter,
+  withT
+)(Financing)

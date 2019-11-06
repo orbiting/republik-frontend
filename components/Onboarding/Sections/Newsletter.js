@@ -32,20 +32,21 @@ export const fragments = {
   `
 }
 
-const Newsletter = (props) => {
+const Newsletter = props => {
   const { user, t } = props
 
   // Is ticked when at least one newsletter consent it to be found
-  const isTicked = NEWSLETTERS.some(n => user && user[n] !== null && user[n] !== undefined)
+  const isTicked = NEWSLETTERS.some(
+    n => user && user[n] !== null && user[n] !== undefined
+  )
 
   return (
     <Section
       heading={t('Onboarding/Sections/Newsletter/heading')}
       isTicked={isTicked}
-      {...props}>
-      <P {...styles.p}>
-        {t('Onboarding/Sections/Newsletter/preamble')}
-      </P>
+      {...props}
+    >
+      <P {...styles.p}>{t('Onboarding/Sections/Newsletter/preamble')}</P>
       <NewsletterSubscriptions />
       <P {...styles.p}>
         {t.elements('Onboarding/Sections/Newsletter/hint', {

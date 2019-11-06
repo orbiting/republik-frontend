@@ -3,10 +3,7 @@ import { format } from 'd3-format'
 
 const amountFormat = format('.2f')
 
-export const getParams = ({
-  itemName,
-  amount
-}) => {
+export const getParams = ({ itemName, amount }) => {
   const params = [
     {
       key: 'cmd',

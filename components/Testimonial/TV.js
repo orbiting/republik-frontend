@@ -9,7 +9,13 @@ import withT from '../../lib/withT'
 
 import Loader from '../Loader'
 
-import { fontFamilies, Interaction, Logo, P, inQuotes } from '@project-r/styleguide'
+import {
+  fontFamilies,
+  Interaction,
+  Logo,
+  P,
+  inQuotes
+} from '@project-r/styleguide'
 
 const toViewport = px => `${px / 18}vw`
 
@@ -19,7 +25,7 @@ const styles = {
   container: css({
     position: 'relative',
     width: '100%',
-    paddingBottom: `${9 / 16 * 100}%`,
+    paddingBottom: `${(9 / 16) * 100}%`,
     backgroundColor: '#fff'
   }),
   screen: css({
@@ -90,65 +96,82 @@ const fontSizeBoost = length => {
 }
 
 const Item = ({ loading, error, t, statement }) => (
-  <Loader loading={loading || (!statement && !error)} error={error} render={() => {
-    const { statement: statementString, portrait, name, role, sequenceNumber } = statement
-    return (
-      <div {...styles.container}>
-        <div {...styles.screen}>
-          <Head>
-            <meta name='robots' content='noindex' />
-          </Head>
-          <img {...styles.image} src={portrait} />
-          <div {...styles.text}>
-            <Interaction.H2 {...styles.name}>
-              {name}
-            </Interaction.H2>
-            <Interaction.P {...styles.role}>
-              {role}
-            </Interaction.P>
-            {statementString && <P {...styles.quote}
-              style={{ fontSize: toViewport(24 + fontSizeBoost(statementString.length)) }}>
-              {inQuotes(statementString)}
-            </P>}
-            {!!sequenceNumber && (
-              <div {...styles.number}>{t('memberships/sequenceNumber/label', {
-                sequenceNumber
-              })}</div>
-            )}
-          </div>
-          <div {...styles.logo}>
-            <Logo />
+  <Loader
+    loading={loading || (!statement && !error)}
+    error={error}
+    render={() => {
+      const {
+        statement: statementString,
+        portrait,
+        name,
+        role,
+        sequenceNumber
+      } = statement
+      return (
+        <div {...styles.container}>
+          <div {...styles.screen}>
+            <Head>
+              <meta name='robots' content='noindex' />
+            </Head>
+            <img {...styles.image} src={portrait} />
+            <div {...styles.text}>
+              <Interaction.H2 {...styles.name}>{name}</Interaction.H2>
+              <Interaction.P {...styles.role}>{role}</Interaction.P>
+              {statementString && (
+                <P
+                  {...styles.quote}
+                  style={{
+                    fontSize: toViewport(
+                      24 + fontSizeBoost(statementString.length)
+                    )
+                  }}
+                >
+                  {inQuotes(statementString)}
+                </P>
+              )}
+              {!!sequenceNumber && (
+                <div {...styles.number}>
+                  {t('memberships/sequenceNumber/label', {
+                    sequenceNumber
+                  })}
+                </div>
+              )}
+            </div>
+            <div {...styles.logo}>
+              <Logo />
+            </div>
           </div>
         </div>
-      </div>
-    )
-  }} />
+      )
+    }}
+  />
 )
 
-const query = gql`query statements {
-  statements(first: 1) {
-    totalCount
-    nodes {
-      id
-      name
-      statement
-      portrait
-      sequenceNumber
+const query = gql`
+  query statements {
+    statements(first: 1) {
+      totalCount
+      nodes {
+        id
+        name
+        statement
+        portrait
+        sequenceNumber
+      }
     }
   }
-}`
+`
 
 export default compose(
   withT,
   graphql(query, {
     props: ({ data }) => {
-      return ({
+      return {
         loading: data.loading,
         error: data.error,
-        statement: data.statements &&
-          data.statements.nodes &&
-          data.statements.nodes[0]
-      })
+        statement:
+          data.statements && data.statements.nodes && data.statements.nodes[0]
+      }
     },
     options: ({ duration }) => ({
       pollInterval: duration

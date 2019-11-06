@@ -5,10 +5,7 @@ import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
 
-import {
-  Field,
-  colors
-} from '@project-r/styleguide'
+import { Field, colors } from '@project-r/styleguide'
 
 const styles = {
   button: css({
@@ -36,7 +33,7 @@ const Icon = ({ IconComponent, onClick, title }) => (
 )
 
 class Input extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
 
     this.setFocusRef = ref => {
@@ -44,7 +41,7 @@ class Input extends Component {
     }
   }
 
-  updateFocus () {
+  updateFocus() {
     if (this.focusRef && this.focusRef.input) {
       if (this.props.allowFocus) {
         this.focusRef.input.focus()
@@ -54,15 +51,15 @@ class Input extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.updateFocus()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.updateFocus()
   }
 
-  render () {
+  render() {
     const { t, value, allowSearch, onChange, onSearch, onReset } = this.props
     return (
       <div>
@@ -74,9 +71,7 @@ class Input extends Component {
           onSearch={onSearch}
           onReset={() => {}}
           icon={
-            !value || allowSearch ? (
-              null
-            ) : (
+            !value || allowSearch ? null : (
               <Icon
                 IconComponent={Close}
                 onClick={onReset}

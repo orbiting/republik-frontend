@@ -7,14 +7,13 @@ import Front from '../components/Front'
 import Marketing from '../components/Marketing/Feuilleton'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
-import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
+import withMembership, {
+  UnauthorizedPage
+} from '../components/Auth/withMembership'
 
-import {
-  PUBLIC_BASE_URL,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const FeuilletonPage = (props) => {
+const FeuilletonPage = props => {
   const { t, me, router, isMember, inNativeIOSApp } = props
 
   if (isMember) {

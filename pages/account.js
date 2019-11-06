@@ -13,9 +13,11 @@ const AccountPage = ({ router, t }) => {
   const postPledge = router.query.id || router.query.claim
   return (
     <Frame meta={meta} raw>
-      {postPledge
-        ? <Merci query={router.query} />
-        : <Account query={router.query} />}
+      {postPledge ? (
+        <Merci query={router.query} />
+      ) : (
+        <Account query={router.query} />
+      )}
     </Frame>
   )
 }

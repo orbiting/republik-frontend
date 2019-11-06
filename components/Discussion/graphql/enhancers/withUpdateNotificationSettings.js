@@ -10,9 +10,20 @@ import { updateNotificationSettingsMutation } from '../documents'
  *   }
  */
 
-export const withUpdateNotificationSettings = graphql(updateNotificationSettingsMutation, {
-  props: ({ mutate }) => ({
-    updateNotificationSettings: ({ discussionNotificationChannels, defaultDiscussionNotificationOption }) =>
-      mutate({ variables: { discussionNotificationChannels, defaultDiscussionNotificationOption } })
-  })
-})
+export const withUpdateNotificationSettings = graphql(
+  updateNotificationSettingsMutation,
+  {
+    props: ({ mutate }) => ({
+      updateNotificationSettings: ({
+        discussionNotificationChannels,
+        defaultDiscussionNotificationOption
+      }) =>
+        mutate({
+          variables: {
+            discussionNotificationChannels,
+            defaultDiscussionNotificationOption
+          }
+        })
+    })
+  }
+)

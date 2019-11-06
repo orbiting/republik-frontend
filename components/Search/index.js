@@ -16,10 +16,7 @@ import {
 import Input from './Input'
 import Results from './Results'
 
-import {
-  Center,
-  mediaQueries
-} from '@project-r/styleguide'
+import { Center, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -31,7 +28,7 @@ const styles = {
 }
 
 class Search extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
 
     this.state = {
@@ -88,7 +85,8 @@ class Search extends Component {
         allowFocus: !this.state.isMobile
       })
       this.updateUrl(undefined, serializeSort(sort))
-      track(['trackSiteSearch',
+      track([
+        'trackSiteSearch',
         this.state.searchQuery,
         false,
         this.state.totalCount
@@ -107,13 +105,13 @@ class Search extends Component {
       })
     }
 
-    this.onSubmit = (e) => {
+    this.onSubmit = e => {
       e.preventDefault()
       e.stopPropagation()
       this.onSearch()
     }
 
-    this.onSearchLoaded = (search) => {
+    this.onSearchLoaded = search => {
       const { trackingId } = search
       if (!!trackingId && trackingId !== this.state.trackingId) {
         this.setState({
@@ -122,13 +120,13 @@ class Search extends Component {
       }
     }
 
-    this.onTotalCountLoaded = (totalCount) => {
+    this.onTotalCountLoaded = totalCount => {
       this.setState({
         totalCount
       })
     }
 
-    this.onAggregationsLoaded = (aggregations) => {
+    this.onAggregationsLoaded = aggregations => {
       this.setState({
         preloadedAggregations: aggregations
       })
@@ -152,7 +150,12 @@ class Search extends Component {
       this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
-    this.onFilterClick = (filterBucketKey, filterBucketValue, selected, count) => {
+    this.onFilterClick = (
+      filterBucketKey,
+      filterBucketValue,
+      selected,
+      count
+    ) => {
       const filter = {
         key: filterBucketKey,
         value: filterBucketValue
@@ -165,7 +168,13 @@ class Search extends Component {
       if (selected) {
         filters = filters.filter(filter => filter.key !== filterBucketKey)
       } else {
-        if (!filters.find(filter => filter.key === filterBucketKey && filter.value === filterBucketValue)) {
+        if (
+          !filters.find(
+            filter =>
+              filter.key === filterBucketKey &&
+              filter.value === filterBucketValue
+          )
+        ) {
           filters.push(filter)
         }
       }
@@ -181,7 +190,8 @@ class Search extends Component {
       })
       this.updateUrl(serializedFilters, this.state.serializedSort)
       if (!selected) {
-        track(['trackSiteSearch',
+        track([
+          'trackSiteSearch',
           this.state.searchQuery,
           decodeURIComponent(serializedFilters),
           count
@@ -189,12 +199,8 @@ class Search extends Component {
       }
     }
 
-    this.pushUrl = (params) => {
-      Router.replaceRoute(
-        'search',
-        params,
-        { shallow: true }
-      )
+    this.pushUrl = params => {
+      Router.replaceRoute('search', params, { shallow: true })
     }
 
     this.updateUrl = (filters, sort) => {
@@ -213,7 +219,7 @@ class Search extends Component {
       }
     }
 
-    this.setStateFromQuery = (query) => {
+    this.setStateFromQuery = query => {
       let filters = DEFAULT_FILTERS
       let newState = {}
       const decodedQuery = !!query.q && decodeURIComponent(query.q)
@@ -228,7 +234,8 @@ class Search extends Component {
       }
 
       if (query.filters) {
-        const rawFilters = typeof query.filters === 'string' ? query.filters : query.filters[0]
+        const rawFilters =
+          typeof query.filters === 'string' ? query.filters : query.filters[0]
         const sanitizedFilters = deserializeFilters(rawFilters)
         const serializedFilters = serializeFilters(sanitizedFilters)
 
@@ -242,7 +249,8 @@ class Search extends Component {
       }
 
       if (query.sort) {
-        const rawSort = typeof query.sort === 'string' ? query.sort : query.sort[0]
+        const rawSort =
+          typeof query.sort === 'string' ? query.sort : query.sort[0]
         const sanitizedSort = deserializeSort(rawSort)
         const serializedSort = serializeSort(sanitizedSort)
 
@@ -261,11 +269,11 @@ class Search extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps ({ query }) {
+  UNSAFE_componentWillReceiveProps({ query }) {
     this.setStateFromQuery(query)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
     if (this.props.query) {
@@ -273,11 +281,11 @@ class Search extends Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize)
   }
 
-  render () {
+  render() {
     const {
       searchQuery,
       filterQuery,
@@ -318,7 +326,8 @@ class Search extends Component {
           onAggregationsLoaded={this.onAggregationsLoaded}
           onLoadMoreClick={this.onLoadMoreClick}
           onSearchLoaded={this.onSearchLoaded}
-          trackingId={trackingId} />
+          trackingId={trackingId}
+        />
       </Center>
     )
   }

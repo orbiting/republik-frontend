@@ -5,17 +5,19 @@ import { swissTime } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 
 import {
-  H1, P, RawHtml, colors,
-  fontFamilies, mediaQueries
+  H1,
+  P,
+  RawHtml,
+  colors,
+  fontFamilies,
+  mediaQueries
 } from '@project-r/styleguide'
 
 import { CONTENT_PADDING } from '../constants'
 
 import ActionBar from '../ActionBar'
 
-import {
-  PUBLIC_BASE_URL
-} from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 const BLOCK_PADDING_TOP = 10
 
@@ -63,52 +65,44 @@ const styles = {
 }
 
 const Content = ({ children, ...props }) => (
-  <div {...props} {...styles.content}>{children}</div>
+  <div {...props} {...styles.content}>
+    {children}
+  </div>
 )
 
 const publishedDateTimeFormat = swissTime.format('%e. %B %Y %H Uhr')
 
-const Update = withT(({
-  t,
-  data: {
-    slug,
-    title,
-    text,
-    children,
-    publishedDateTime
-  }
-}) => {
-  const date = new Date(publishedDateTime)
+const Update = withT(
+  ({ t, data: { slug, title, text, children, publishedDateTime } }) => {
+    const date = new Date(publishedDateTime)
 
-  return (
-    <div {...styles.container}>
-      <H1 {...styles.title}>{title}</H1>
-      <div {...styles.label}>
-        {publishedDateTimeFormat(date)}
-      </div>
-      {
-        children
-          ? (
-            <Content>
-              {children}
-            </Content>
-          )
-          : (
-            <RawHtml style='serif' type={Content} dangerouslySetInnerHTML={{
+    return (
+      <div {...styles.container}>
+        <H1 {...styles.title}>{title}</H1>
+        <div {...styles.label}>{publishedDateTimeFormat(date)}</div>
+        {children ? (
+          <Content>{children}</Content>
+        ) : (
+          <RawHtml
+            style='serif'
+            type={Content}
+            dangerouslySetInnerHTML={{
               __html: text || ''
-            }} />
-          )
-      }
+            }}
+          />
+        )}
 
-      <P>
-        <ActionBar
-          title={title}
-          url={`${PUBLIC_BASE_URL}/updates/${slug}`}
-          emailSubject={title}
-          tweet={title} />
-      </P>
-    </div>
-  )
-})
+        <P>
+          <ActionBar
+            title={title}
+            url={`${PUBLIC_BASE_URL}/updates/${slug}`}
+            emailSubject={title}
+            tweet={title}
+          />
+        </P>
+      </div>
+    )
+  }
+)
 
 export default Update

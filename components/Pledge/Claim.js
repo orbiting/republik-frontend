@@ -6,22 +6,19 @@ import SignIn from '../Auth/SignIn'
 import ErrorMessage from '../ErrorMessage'
 import { gotoMerci } from './Merci'
 
-import {
-  Loader,
-  Interaction
-} from '@project-r/styleguide'
+import { Loader, Interaction } from '@project-r/styleguide'
 
 const { P } = Interaction
 
 class ClaimPledge extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       loading: false,
       error: undefined
     }
   }
-  claim () {
+  claim() {
     const { me, id, pkg } = this.props
     const { loading, error } = this.state
 
@@ -31,7 +28,8 @@ class ClaimPledge extends Component {
     this.setState(() => ({
       loading: true
     }))
-    this.props.claim(id)
+    this.props
+      .claim(id)
       .then(() => {
         gotoMerci({
           id,
@@ -45,13 +43,13 @@ class ClaimPledge extends Component {
         }))
       })
   }
-  componentDidMount () {
+  componentDidMount() {
     this.claim()
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.claim()
   }
-  render () {
+  render() {
     const { t, me } = this.props
 
     if (me) {
@@ -65,13 +63,12 @@ class ClaimPledge extends Component {
 
     return (
       <div>
-        <P>
-          {t('pledge/claim/signIn/before')}
-        </P>
+        <P>{t('pledge/claim/signIn/before')}</P>
         <SignIn
           label={t('pledge/claim/signIn/button')}
           context='pledge'
-          acceptedConsents={['PRIVACY']} />
+          acceptedConsents={['PRIVACY']}
+        />
       </div>
     )
   }
@@ -84,17 +81,18 @@ ClaimPledge.propTypes = {
 }
 
 const claimPledge = gql`
-mutation reclaimPledge($pledgeId: ID!) {
-  reclaimPledge(pledgeId: $pledgeId)
-}
+  mutation reclaimPledge($pledgeId: ID!) {
+    reclaimPledge(pledgeId: $pledgeId)
+  }
 `
 
 export default graphql(claimPledge, {
   props: ({ mutate }) => ({
-    claim: pledgeId => mutate({
-      variables: {
-        pledgeId
-      }
-    })
+    claim: pledgeId =>
+      mutate({
+        variables: {
+          pledgeId
+        }
+      })
   })
 })(ClaimPledge)

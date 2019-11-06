@@ -2,13 +2,15 @@ import React from 'react'
 import { css } from 'glamor'
 
 import {
-  P, Interaction, A, Label, mediaQueries, slug
+  P,
+  Interaction,
+  A,
+  Label,
+  mediaQueries,
+  slug
 } from '@project-r/styleguide'
 
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from './constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from './constants'
 
 const portraitStyle = css({
   position: 'relative',
@@ -54,12 +56,18 @@ const Portrait = ({ odd, image, description, name, age, title, email }) => (
     <Interaction.H3 style={{ marginBottom: 0 }}>
       {name},&nbsp;{age}
     </Interaction.H3>
-    <Label>{title}</Label><br /><br />
-    <img className={odd ? portraitImageLeftStyle : portraitImageRightStyle} src={image} alt='' />
-    <P style={{ marginTop: 0, marginBottom: 10 }}>
-      {description}
-    </P>
-    <Interaction.P><A href={`mailto:${email}`}>{email}</A></Interaction.P>
+    <Label>{title}</Label>
+    <br />
+    <br />
+    <img
+      className={odd ? portraitImageLeftStyle : portraitImageRightStyle}
+      src={image}
+      alt=''
+    />
+    <P style={{ marginTop: 0, marginBottom: 10 }}>{description}</P>
+    <Interaction.P>
+      <A href={`mailto:${email}`}>{email}</A>
+    </Interaction.P>
   </div>
 )
 

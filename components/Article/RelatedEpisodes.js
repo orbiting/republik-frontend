@@ -47,19 +47,17 @@ const Tile = ({ t, episode, index, prev, next }) => {
   const path = meta && meta.path
   const image = (episode && episode.image) || (meta && meta.image)
 
-  const Link = path
-    ? HrefLink
-    : ({ children }) => children
-  const headline = <TeaserFrontTileHeadline.Editorial>
-    {episode.title}
-  </TeaserFrontTileHeadline.Editorial>
+  const Link = path ? HrefLink : ({ children }) => children
+  const headline = (
+    <TeaserFrontTileHeadline.Editorial>
+      {episode.title}
+    </TeaserFrontTileHeadline.Editorial>
+  )
 
   return (
     <Link href={path}>
       <TeaserFrontTile
-        color={path
-          ? colors.text
-          : colors.lightText}
+        color={path ? colors.text : colors.lightText}
         image={image}
         align={image ? 'top' : undefined}
       >
@@ -68,14 +66,13 @@ const Tile = ({ t, episode, index, prev, next }) => {
           {label || t('article/series/episode', { count: romanize(index + 1) })}
           {next && <ArrowRightIcon {...styles.next} />}
         </Editorial.Format>
-        {path
-          ? <Link href={path} passHref>
-            <a {...styles.link}>
-              {headline}
-            </a>
+        {path ? (
+          <Link href={path} passHref>
+            <a {...styles.link}>{headline}</a>
           </Link>
-          : headline
-        }
+        ) : (
+          headline
+        )}
         {!!date && (
           <TeaserFrontCredit>{dayFormat(new Date(date))}</TeaserFrontCredit>
         )}
@@ -101,18 +98,22 @@ const RelatedEpisodes = ({ t, episodes, path, title }) => {
           {title}
         </Interaction.H3>
         <TeaserFrontTileRow columns={2} mobileReverse>
-          {previousEpisode && <Tile
-            t={t}
-            episode={previousEpisode}
-            prev
-            index={episodes.indexOf(previousEpisode)}
-          />}
-          {nextEpisode && <Tile
-            t={t}
-            episode={nextEpisode}
-            next
-            index={episodes.indexOf(nextEpisode)}
-          />}
+          {previousEpisode && (
+            <Tile
+              t={t}
+              episode={previousEpisode}
+              prev
+              index={episodes.indexOf(previousEpisode)}
+            />
+          )}
+          {nextEpisode && (
+            <Tile
+              t={t}
+              episode={nextEpisode}
+              next
+              index={episodes.indexOf(nextEpisode)}
+            />
+          )}
         </TeaserFrontTileRow>
       </Breakout>
     </Center>

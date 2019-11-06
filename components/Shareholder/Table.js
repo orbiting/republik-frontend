@@ -4,9 +4,7 @@ import { formatLocale } from 'd3-format'
 
 import { groupped, total, totalChf, colors } from './data'
 
-import {
-  fontFamilies
-} from '@project-r/styleguide'
+import { fontFamilies } from '@project-r/styleguide'
 
 const nbspNumbers = formatLocale({
   decimal: ',',
@@ -69,10 +67,15 @@ const styles = {
 }
 
 const Table = ({ children }) => (
-  <div style={{ overflowX: 'auto', overflowY: 'hidden', marginLeft: -PADDING, marginRight: -PADDING }}>
-    <table {...styles.table}>
-      {children}
-    </table>
+  <div
+    style={{
+      overflowX: 'auto',
+      overflowY: 'hidden',
+      marginLeft: -PADDING,
+      marginRight: -PADDING
+    }}
+  >
+    <table {...styles.table}>{children}</table>
   </div>
 )
 
@@ -91,7 +94,10 @@ export default () => (
         const elements = [
           <tr key={i}>
             <td {...styles.groupTd} style={{ lineHeight: '1.3em' }}>
-              <span {...styles.highlight} style={{ color: colors[group.data.Kategorie] }}>
+              <span
+                {...styles.highlight}
+                style={{ color: colors[group.data.Kategorie] }}
+              >
                 {group.data.Kategorie.replace(/ /g, '\u00a0')}
               </span>
               <br />
@@ -101,7 +107,11 @@ export default () => (
             </td>
             <th {...styles.groupTdNum}>{countFormat(group.value)}</th>
             <th {...styles.groupTdNum}>{percentFormat(group.value / total)}</th>
-            <th {...styles.groupTdNum}>{percentFormat(group.value * group.data['Nominal CHF'] / totalChf)}</th>
+            <th {...styles.groupTdNum}>
+              {percentFormat(
+                (group.value * group.data['Nominal CHF']) / totalChf
+              )}
+            </th>
           </tr>
         ]
 
@@ -112,7 +122,11 @@ export default () => (
                 <td {...styles.td}>{entity.data.Aktionärin}</td>
                 <td {...styles.num}>{countFormat(entity.value)}</td>
                 <td {...styles.num}>{percentFormat(entity.value / total)}</td>
-                <td {...styles.num}>{percentFormat(entity.value * entity.data['Nominal CHF'] / totalChf)}</td>
+                <td {...styles.num}>
+                  {percentFormat(
+                    (entity.value * entity.data['Nominal CHF']) / totalChf
+                  )}
+                </td>
               </tr>
             )
           })

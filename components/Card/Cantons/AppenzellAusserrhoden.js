@@ -3,7 +3,7 @@ import React from 'react'
 const SvgAppenzellAusserrhoden = props => (
   <svg
     width={props.size}
-    height={props.size * 469.862 / 471.422}
+    height={(props.size * 469.862) / 471.422}
     viewBox='-205.823 -206.293 469.862 471.422'
     {...props}
   >

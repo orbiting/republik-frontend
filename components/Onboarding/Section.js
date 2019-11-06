@@ -3,12 +3,7 @@ import { css } from 'glamor'
 
 import DoneIcon from 'react-icons/lib/md/done'
 
-import {
-  Button,
-  Loader,
-  mediaQueries,
-  colors
-} from '@project-r/styleguide'
+import { Button, Loader, mediaQueries, colors } from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 
@@ -70,7 +65,7 @@ const styles = {
   })
 }
 
-const Section = (props) => {
+const Section = props => {
   const onExpand = e => {
     e.preventDefault()
     props.onExpand(props)
@@ -102,14 +97,14 @@ const Section = (props) => {
       </div>
       {isExpanded && (
         <div {...styles.content}>
-          {(isLoading || error) && (
-            <Loader loading={isLoading} error={error} />
-          )}
+          {(isLoading || error) && <Loader loading={isLoading} error={error} />}
           {!isLoading && !error && children}
           <div {...styles.contentFooter}>
-            {showContinue && <Button primary onClick={onContinue}>
-              {t('Onboarding/Section/button/continue')}
-            </Button>}
+            {showContinue && (
+              <Button primary onClick={onContinue}>
+                {t('Onboarding/Section/button/continue')}
+              </Button>
+            )}
           </div>
         </div>
       )}

@@ -86,7 +86,7 @@ export const fragments = {
 }
 
 class Profile extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -104,18 +104,24 @@ class Profile extends Component {
     }
   }
 
-  render () {
+  render() {
     const { user, onContinue, t } = this.props
     const { values, errors, dirty } = this.state
 
-    const mergedValues = Object.assign({}, user, { portrait: undefined }, values)
+    const mergedValues = Object.assign(
+      {},
+      user,
+      { portrait: undefined },
+      values
+    )
 
     return (
       <Section
         heading={t('Onboarding/Sections/Profile/heading')}
         showContinue={false}
         isTicked={user && user.hasPublicProfile}
-        {...this.props}>
+        {...this.props}
+      >
         <P {...styles.p}>
           {t('Onboarding/Sections/Profile/paragraph1', null, '')}
         </P>
@@ -130,7 +136,8 @@ class Profile extends Component {
             values={mergedValues}
             errors={errors}
             dirty={dirty}
-            onChange={this.onChange} />
+            onChange={this.onChange}
+          />
         </div>
         <div {...styles.field}>
           <Statement
@@ -140,7 +147,8 @@ class Profile extends Component {
             onChange={this.onChange}
             values={mergedValues}
             errors={errors}
-            dirty={dirty} />
+            dirty={dirty}
+          />
         </div>
         <div {...styles.field}>
           <UsernameField
@@ -150,7 +158,8 @@ class Profile extends Component {
             onChange={this.onChange}
             values={mergedValues}
             errors={errors}
-            dirty={dirty} />
+            dirty={dirty}
+          />
         </div>
         <div {...styles.checkbox}>
           <ListedCheckbox
@@ -160,7 +169,8 @@ class Profile extends Component {
             onChange={this.onChange}
             values={mergedValues}
             errors={errors}
-            dirty={dirty} />
+            dirty={dirty}
+          />
         </div>
         <div {...styles.checkbox}>
           <PublicCheckbox
@@ -170,24 +180,25 @@ class Profile extends Component {
             onChange={this.onChange}
             values={mergedValues}
             errors={errors}
-            dirty={dirty} />
+            dirty={dirty}
+          />
         </div>
         <Mutation
           mutation={mutation}
           variables={values}
-          onCompleted={this.onCompleted}>
+          onCompleted={this.onCompleted}
+        >
           {(mutate, { loading, error }) => (
             <Fragment>
               <div {...styles.actions}>
                 <div {...styles.save}>
-                  {loading
-                    ? <InlineSpinner />
-                    : (
-                      <Button primary block disabled={loading} onClick={mutate}>
-                        {t('Onboarding/Sections/Profile/button/save', null, '')}
-                      </Button>
-                    )
-                  }
+                  {loading ? (
+                    <InlineSpinner />
+                  ) : (
+                    <Button primary block disabled={loading} onClick={mutate}>
+                      {t('Onboarding/Sections/Profile/button/save', null, '')}
+                    </Button>
+                  )}
                 </div>
                 <div>
                   <Button block disabled={loading} onClick={onContinue}>

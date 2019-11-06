@@ -4,26 +4,24 @@ import ActionBar from './'
 import DiscussionIconLink from '../Discussion/IconLink'
 import { getDiscussionIconLinkProps } from './utils'
 
-import {
-  colors, fontStyles
-} from '@project-r/styleguide'
+import { colors, fontStyles } from '@project-r/styleguide'
 import ShareButtons from './ShareButtons'
 
 class ArticleActionBar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       alive: false
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     /* This Component is used within SSRCachingBoundary and can not
      * use context, live or personalised data until after componentDidMount
      */
     this.setState({ alive: true })
   }
-  render () {
+  render() {
     const { alive } = this.state
     const {
       animate,
@@ -58,7 +56,12 @@ class ArticleActionBar extends Component {
       discussionQuery,
       discussionCount,
       isDiscussionPage
-    } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
+    } = getDiscussionIconLinkProps(
+      linkedDiscussion,
+      ownDiscussion,
+      template,
+      path
+    )
     const emailSubject = t('article/share/emailSubject', { title })
 
     return (
@@ -85,19 +88,20 @@ class ArticleActionBar extends Component {
           estimatedReadingMinutes={estimatedReadingMinutes}
           estimatedConsumptionMinutes={estimatedConsumptionMinutes}
         />
-        {discussionId && alive &&
+        {discussionId && alive && (
           <DiscussionIconLink
             discussionId={discussionId}
             discussionPage={isDiscussionPage}
             path={discussionPath}
             query={discussionQuery}
             count={discussionCount}
-            style={{ marginLeft: 7 }} />
-        }
-        {!!grandSharing &&
+            style={{ marginLeft: 7 }}
+          />
+        )}
+        {!!grandSharing && (
           <div style={{ marginBottom: 20, marginTop: 20 }}>
             <h3 style={{ marginBottom: 10, ...fontStyles.sansSerifMedium16 }}>
-              { t('article/share/title') }
+              {t('article/share/title')}
             </h3>
             <ShareButtons
               url={url}
@@ -105,9 +109,10 @@ class ArticleActionBar extends Component {
               emailSubject={emailSubject}
               emailBody={emailBody}
               emailAttachUrl={emailAttachUrl}
-              eventCategory='ArticleShareButtons' />
+              eventCategory='ArticleShareButtons'
+            />
           </div>
-        }
+        )}
       </Fragment>
     )
   }

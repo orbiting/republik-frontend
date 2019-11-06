@@ -11,11 +11,7 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 
 import { DEFAULT_VALUES } from './Page'
 
-import {
-  Dropdown,
-  Label,
-  Interaction
-} from '@project-r/styleguide'
+import { Dropdown, Label, Interaction } from '@project-r/styleguide'
 
 const styles = {
   icons: css({
@@ -35,14 +31,11 @@ const fields = t => [
   {
     label: t('profile/contact/publicUrl/label'),
     name: 'publicUrl',
-    validator: (value) => (
-      (
-        !!value &&
-        !isWebUri(value) &&
-        value !== DEFAULT_VALUES.publicUrl &&
-        t('profile/contact/publicUrl/error')
-      )
-    )
+    validator: value =>
+      !!value &&
+      !isWebUri(value) &&
+      value !== DEFAULT_VALUES.publicUrl &&
+      t('profile/contact/publicUrl/error')
   }
 ]
 
@@ -56,89 +49,103 @@ const AccessRoleDropdown = ({ t, ...props }) => (
   />
 )
 
-const Contact = ({ user, isEditing, onChange, values, errors, dirty, t, inNativeIOSApp }) => {
+const Contact = ({
+  user,
+  isEditing,
+  onChange,
+  values,
+  errors,
+  dirty,
+  t,
+  inNativeIOSApp
+}) => {
   if (isEditing) {
-    return <Fragment>
-      <FieldSet
-        values={values}
-        errors={errors}
-        dirty={dirty}
-        onChange={onChange}
-        fields={fields(t)} />
-      <AccessRoleDropdown
-        t={t}
-        label={t('profile/contact/email/access/label')}
-        value={values.emailAccessRole}
-        onChange={item => {
-          onChange({
-            values: {
-              emailAccessRole: item.value
-            }
-          })
-        }} />
-      <FieldSet
-        values={values}
-        errors={errors}
-        dirty={dirty}
-        onChange={fields => {
-          const { pgpPublicKey } = fields.values
-          if (pgpPublicKey && pgpPublicKey.match(/PGP PRIVATE KEY/)) {
+    return (
+      <Fragment>
+        <FieldSet
+          values={values}
+          errors={errors}
+          dirty={dirty}
+          onChange={onChange}
+          fields={fields(t)}
+        />
+        <AccessRoleDropdown
+          t={t}
+          label={t('profile/contact/email/access/label')}
+          value={values.emailAccessRole}
+          onChange={item => {
             onChange({
               values: {
-                pgpPublicKey: ''
+                emailAccessRole: item.value
               }
             })
-            window.alert(t('profile/contact/pgpPublicKey/error/private'))
-            return
-          }
-          onChange(fields)
-        }}
-        additionalFieldProps={() => {
-          return {
-            renderInput: (props) => (
-              <textarea row={1}
-                {...fieldSetStyles.autoSize}
-                {...props} />
-            )
-          }
-        }}
-        fields={[
-          {
-            label: t('profile/contact/pgpPublicKey/label'),
-            name: 'pgpPublicKey'
-          }
-        ]} />
-      {!!user.phoneNumber && (
-        <Fragment>
-          <FieldSet
-            values={values}
-            errors={errors}
-            dirty={dirty}
-            onChange={onChange}
-            fields={[
-              {
-                label: t('profile/contact/phoneNumber/label'),
-                name: 'phoneNumber'
-              },
-              {
-                label: t('profile/contact/phoneNumberNote/label'),
-                name: 'phoneNumberNote'
-              }
-            ]} />
-          <AccessRoleDropdown
-            t={t}
-            label={t('profile/contact/phoneNumber/access/label')}
-            value={values.phoneNumberAccessRole}
-            onChange={item => {
+          }}
+        />
+        <FieldSet
+          values={values}
+          errors={errors}
+          dirty={dirty}
+          onChange={fields => {
+            const { pgpPublicKey } = fields.values
+            if (pgpPublicKey && pgpPublicKey.match(/PGP PRIVATE KEY/)) {
               onChange({
                 values: {
-                  phoneNumberAccessRole: item.value
+                  pgpPublicKey: ''
                 }
               })
-            }} />
-        </Fragment>
-      )}
-    </Fragment>
+              window.alert(t('profile/contact/pgpPublicKey/error/private'))
+              return
+            }
+            onChange(fields)
+          }}
+          additionalFieldProps={() => {
+            return {
+              renderInput: props => (
+                <textarea row={1} {...fieldSetStyles.autoSize} {...props} />
+              )
+            }
+          }}
+          fields={[
+            {
+              label: t('profile/contact/pgpPublicKey/label'),
+              name: 'pgpPublicKey'
+            }
+          ]}
+        />
+        {!!user.phoneNumber && (
+          <Fragment>
+            <FieldSet
+              values={values}
+              errors={errors}
+              dirty={dirty}
+              onChange={onChange}
+              fields={[
+                {
+                  label: t('profile/contact/phoneNumber/label'),
+                  name: 'phoneNumber'
+                },
+                {
+                  label: t('profile/contact/phoneNumberNote/label'),
+                  name: 'phoneNumberNote'
+                }
+              ]}
+            />
+            <AccessRoleDropdown
+              t={t}
+              label={t('profile/contact/phoneNumber/access/label')}
+              value={values.phoneNumberAccessRole}
+              onChange={item => {
+                onChange({
+                  values: {
+                    phoneNumberAccessRole: item.value
+                  }
+                })
+              }}
+            />
+          </Fragment>
+        )}
+      </Fragment>
+    )
   }
 
   return (
@@ -156,53 +163,62 @@ const Contact = ({ user, isEditing, onChange, values, errors, dirty, t, inNative
             href={`https://twitter.com/${user.twitterHandle}`}
           />
         )}
-        {user.email && (
-          <IconLink
-            icon='mail'
-            href={`mailto:${user.email}`}
-          />
-        )}
+        {user.email && <IconLink icon='mail' href={`mailto:${user.email}`} />}
         {user.publicUrl && user.publicUrl !== DEFAULT_VALUES.publicUrl && (
-          <IconLink
-            icon='link'
-            href={user.publicUrl}
-          />
+          <IconLink icon='link' href={user.publicUrl} />
         )}
       </div>
-      {!inNativeIOSApp && user.pgpPublicKeyId &&
+      {!inNativeIOSApp && user.pgpPublicKeyId && (
         <IconLink
           href={`/pgp/${user.username || user.id}.asc`}
           icon='key'
           size={20}
           title={t('profile/contact/pgpPublicKey/label')}
-          style={{ paddingBottom: 5, paddingLeft: 0 }}>
+          style={{ paddingBottom: 5, paddingLeft: 0 }}
+        >
           {user.pgpPublicKeyId.toUpperCase()}
-        </IconLink>}
-      {user.email &&
+        </IconLink>
+      )}
+      {user.email && (
         <Label style={{ display: 'block', marginBottom: 20 }}>
-          {t(`profile/contact/access/${user.emailAccessRole}/note`, {
-            field: t('profile/contact/email/label')
-          }, '')}
-        </Label>}
-      {user.phoneNumber && <Fragment>
-        <Interaction.P>
-          <a
-            href={`tel:${user.phoneNumber}`}
-            style={{ color: 'inherit', textDecoration: 'none' }}>
-            {user.phoneNumber}
-          </a>
-          <Label style={{ display: 'block', marginBottom: 5 }}>
-            {user.phoneNumberNote}
-          </Label>
-        </Interaction.P>
-        <Label style={{ display: 'block', marginBottom: 20 }}>
-          {t(`profile/contact/access/${user.phoneNumberAccessRole}/note`, {
-            field: t('profile/contact/phoneNumber/label')
-          }, '')}
+          {t(
+            `profile/contact/access/${user.emailAccessRole}/note`,
+            {
+              field: t('profile/contact/email/label')
+            },
+            ''
+          )}
         </Label>
-      </Fragment>}
+      )}
+      {user.phoneNumber && (
+        <Fragment>
+          <Interaction.P>
+            <a
+              href={`tel:${user.phoneNumber}`}
+              style={{ color: 'inherit', textDecoration: 'none' }}
+            >
+              {user.phoneNumber}
+            </a>
+            <Label style={{ display: 'block', marginBottom: 5 }}>
+              {user.phoneNumberNote}
+            </Label>
+          </Interaction.P>
+          <Label style={{ display: 'block', marginBottom: 20 }}>
+            {t(
+              `profile/contact/access/${user.phoneNumberAccessRole}/note`,
+              {
+                field: t('profile/contact/phoneNumber/label')
+              },
+              ''
+            )}
+          </Label>
+        </Fragment>
+      )}
     </Fragment>
   )
 }
 
-export default compose(withT, withInNativeApp)(Contact)
+export default compose(
+  withT,
+  withInNativeApp
+)(Contact)

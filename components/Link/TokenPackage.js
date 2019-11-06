@@ -6,12 +6,12 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import { Link } from '../../lib/routes'
 
 const tokenQuery = gql`
-query accessTokenCustomPledge {
-  me {
-    id
-    accessToken(scope: CUSTOM_PLEDGE)
+  query accessTokenCustomPledge {
+    me {
+      id
+      accessToken(scope: CUSTOM_PLEDGE)
+    }
   }
-}
 `
 
 const TokenPackageLink = compose(
@@ -23,17 +23,30 @@ const TokenPackageLink = compose(
       accessToken: data.me && data.me.accessToken
     })
   })
-)(({ loading, accessToken, children, params, inNativeApp, inNativeIOSApp, inIOS, ...props }) => {
-  if (loading) {
-    return '...'
+)(
+  ({
+    loading,
+    accessToken,
+    children,
+    params,
+    inNativeApp,
+    inNativeIOSApp,
+    inIOS,
+    ...props
+  }) => {
+    if (loading) {
+      return '...'
+    }
+    const p = { ...params }
+    if (accessToken) {
+      p.token = accessToken
+    }
+    return (
+      <Link route='pledge' {...props} params={p}>
+        {children}
+      </Link>
+    )
   }
-  const p = { ...params }
-  if (accessToken) {
-    p.token = accessToken
-  }
-  return <Link route='pledge' {...props} params={p}>
-    {children}
-  </Link>
-})
+)
 
 export default TokenPackageLink

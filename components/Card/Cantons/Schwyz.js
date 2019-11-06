@@ -3,7 +3,7 @@ import React from 'react'
 const SvgSchwyz = props => (
   <svg
     width={props.size}
-    height={props.size * 474.797 / 473.19}
+    height={(props.size * 474.797) / 473.19}
     viewBox='-207.698 -207.938 473.19 474.797'
     {...props}
   >

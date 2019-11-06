@@ -351,8 +351,8 @@ class ArticlePage extends Component {
                 closeHandler={this.toggleAudio}
                 autoPlay
                 download
-                scrubberPosition="bottom"
-                timePosition="left"
+                scrubberPosition='bottom'
+                timePosition='left'
                 t={t}
                 style={style}
                 controlsPadding={controlsPadding}
@@ -589,7 +589,7 @@ class ArticlePage extends Component {
     }
 
     const payNote = !hasActiveMembership && (
-      <PayNote seed={payNoteSeed} series={series} position="before" />
+      <PayNote seed={payNoteSeed} series={series} position='before' />
     )
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })

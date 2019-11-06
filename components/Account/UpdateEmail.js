@@ -9,31 +9,39 @@ import withMe from '../../lib/apollo/withMe'
 import { query } from './UpdateMe'
 
 import {
-  Loader, InlineSpinner, Button, A, Field, Interaction
+  Loader,
+  InlineSpinner,
+  Button,
+  A,
+  Field,
+  Interaction
 } from '@project-r/styleguide'
 
 const { P, H2 } = Interaction
 
-const CancelLink = ({ children, onClick, ...props }) =>
+const CancelLink = ({ children, onClick, ...props }) => (
   <A
-    onClick={(e) => {
+    onClick={e => {
       e.preventDefault()
       onClick(e)
     }}
     {...props}
-    style={{ display: 'block', marginTop: 5, cursor: 'pointer' }}>
+    style={{ display: 'block', marginTop: 5, cursor: 'pointer' }}
+  >
     {children}
   </A>
+)
 
 const InlineLoader = ({ children }) => (
   <div style={{ textAlign: 'center' }}>
     <InlineSpinner />
     <br />
     {children}
-  </div>)
+  </div>
+)
 
 class UpdateEmail extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -44,23 +52,20 @@ class UpdateEmail extends Component {
     }
   }
 
-  updateValue (value, shouldValidate) {
+  updateValue(value, shouldValidate) {
     this.setState(() => ({
       value,
-      error: (
-        value.trim().length <= 0 &&
-        this.props.t('Account/Update/email/empty')
-      ) || (
-        !isEmail(value) &&
-        this.props.t('Account/Update/email/error/invalid')
-      ),
+      error:
+        (value.trim().length <= 0 &&
+          this.props.t('Account/Update/email/empty')) ||
+        (!isEmail(value) && this.props.t('Account/Update/email/error/invalid')),
       dirty: {
         email: shouldValidate
       }
     }))
   }
 
-  submit () {
+  submit() {
     const { value } = this.state
     const { t, me } = this.props
     if (!window.confirm(t('Account/Update/email/confirm', { email: value }))) {
@@ -68,47 +73,53 @@ class UpdateEmail extends Component {
     }
 
     this.setState(() => ({ updating: true }))
-    this.props.updateEmail({
-      email: value,
-      userId: me.id
-    }).then(() => {
-      this.setState(() => ({
-        updating: false,
-        isEditing: false
-      }))
-    }).catch((error) => {
-      this.setState(() => ({
-        updating: false,
-        error: errorToString(error)
-      }))
-    })
+    this.props
+      .updateEmail({
+        email: value,
+        userId: me.id
+      })
+      .then(() => {
+        this.setState(() => ({
+          updating: false,
+          isEditing: false
+        }))
+      })
+      .catch(error => {
+        this.setState(() => ({
+          updating: false,
+          error: errorToString(error)
+        }))
+      })
   }
 
-  startEditing () {
-    this.setState((state) => ({
+  startEditing() {
+    this.setState(state => ({
       isEditing: true
     }))
   }
 
-  cancelEditing () {
+  cancelEditing() {
     this.setState({
       isEditing: false
     })
   }
 
-  renderEditButton () {
+  renderEditButton() {
     const { t } = this.props
     return (
-      <A href='#' onClick={e => {
-        e.preventDefault()
-        this.startEditing()
-      }}>
+      <A
+        href='#'
+        onClick={e => {
+          e.preventDefault()
+          this.startEditing()
+        }}
+      >
         {t('Account/Update/email/edit')}
       </A>
     )
   }
 
-  renderForm () {
+  renderForm() {
     const { t } = this.props
     const { value, error } = this.state
     return (
@@ -124,14 +135,16 @@ class UpdateEmail extends Component {
             event.preventDefault()
             this.updateValue(value, shouldValidate)
           }}
-          value={value} />
+          value={value}
+        />
         <br />
         <Button
           disabled={!!error}
           onClick={event => {
             event.preventDefault()
             this.submit()
-          }}>
+          }}
+        >
           {t('Account/Update/email/submit')}
         </Button>
         <CancelLink
@@ -146,51 +159,41 @@ class UpdateEmail extends Component {
     )
   }
 
-  render () {
-    const {
-      t,
-      me,
-      loading, error
-    } = this.props
-    const {
-      updating, isEditing
-    } = this.state
+  render() {
+    const { t, me, loading, error } = this.props
+    const { updating, isEditing } = this.state
 
     return (
-      <Loader loading={loading || !me} error={error} render={() => {
-        const body = (
-          updating
-            ? (
-              <InlineLoader>
-                {t('Account/Update/email/updating')}
-              </InlineLoader>
-            )
-            : isEditing
-              ? this.renderForm()
-              : this.renderEditButton()
-        )
-        return <div style={{ marginBottom: 80 }}>
-          <H2 style={{ marginBottom: 8 }}>{t('Account/Update/email/label')}</H2>
-          <P>
-            {me.email || ''}
-          </P>
-          <br />
-          {body}
-        </div>
-      }} />
+      <Loader
+        loading={loading || !me}
+        error={error}
+        render={() => {
+          const body = updating ? (
+            <InlineLoader>{t('Account/Update/email/updating')}</InlineLoader>
+          ) : isEditing ? (
+            this.renderForm()
+          ) : (
+            this.renderEditButton()
+          )
+          return (
+            <div style={{ marginBottom: 80 }}>
+              <H2 style={{ marginBottom: 8 }}>
+                {t('Account/Update/email/label')}
+              </H2>
+              <P>{me.email || ''}</P>
+              <br />
+              {body}
+            </div>
+          )
+        }}
+      />
     )
   }
 }
 
 const mutation = gql`
-  mutation updateEmail(
-    $userId: ID!
-    $email: String!
-  ) {
-    updateEmail(
-      userId: $userId
-      email: $email
-    ) {
+  mutation updateEmail($userId: ID!, $email: String!) {
+    updateEmail(userId: $userId, email: $email) {
       id
     }
   }
@@ -202,9 +205,11 @@ export default compose(
       updateEmail: variables => {
         return mutate({
           variables,
-          refetchQueries: [{
-            query
-          }]
+          refetchQueries: [
+            {
+              query
+            }
+          ]
         })
       }
     })

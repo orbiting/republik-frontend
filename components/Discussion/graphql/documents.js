@@ -118,8 +118,20 @@ export const discussionQuery = gql`
  */
 
 export const submitCommentMutation = gql`
-  mutation submitComment($discussionId: ID!, $parentId: ID, $id: ID!, $content: String!, $tags: [String!]!) {
-    submitComment(id: $id, discussionId: $discussionId, parentId: $parentId, content: $content, tags: $tags) {
+  mutation submitComment(
+    $discussionId: ID!
+    $parentId: ID
+    $id: ID!
+    $content: String!
+    $tags: [String!]!
+  ) {
+    submitComment(
+      id: $id
+      discussionId: $discussionId
+      parentId: $parentId
+      content: $content
+      tags: $tags
+    ) {
       ...Comment
       discussion {
         id
@@ -195,8 +207,14 @@ export const updateNotificationSettingsMutation = gql`
 `
 
 export const setDiscussionPreferencesMutation = gql`
-  mutation setDiscussionPreferences($discussionId: ID!, $discussionPreferences: DiscussionPreferencesInput!) {
-    setDiscussionPreferences(id: $discussionId, discussionPreferences: $discussionPreferences) {
+  mutation setDiscussionPreferences(
+    $discussionId: ID!
+    $discussionPreferences: DiscussionPreferencesInput!
+  ) {
+    setDiscussionPreferences(
+      id: $discussionId
+      discussionPreferences: $discussionPreferences
+    ) {
       ...Discussion
     }
   }

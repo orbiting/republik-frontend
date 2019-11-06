@@ -5,8 +5,11 @@ import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import {
-  Interaction, Label, A,
-  colors, fontFamilies,
+  Interaction,
+  Label,
+  A,
+  colors,
+  fontFamilies,
   Loader
 } from '@project-r/styleguide'
 
@@ -14,10 +17,7 @@ import FieldSet from '../FieldSet'
 
 import AddressForm from '../Account/AddressForm'
 
-import {
-  PF_FORM_ACTION,
-  PAYPAL_FORM_ACTION
-} from '../../lib/constants'
+import { PF_FORM_ACTION, PAYPAL_FORM_ACTION } from '../../lib/constants'
 
 import { inNativeAppBrowser } from '../../lib/withInNativeApp'
 
@@ -50,7 +50,11 @@ const PAYMENT_METHODS = [
             <PSPIcons.Visa />
           </span>
           <span style={{ display: 'inline-block', width: 10 }} />
-          <span style={{ opacity: !cardType || cardType === 'MasterCard' ? 1 : 0.4 }}>
+          <span
+            style={{
+              opacity: !cardType || cardType === 'MasterCard' ? 1 : 0.4
+            }}
+          >
             <PSPIcons.Mastercard />
           </span>
         </span>
@@ -126,23 +130,23 @@ const styles = {
 const { H2, P } = Interaction
 
 class PaymentForm extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {}
-    this.postFinanceFormRef = (ref) => {
+    this.postFinanceFormRef = ref => {
       this.postFinanceForm = ref
     }
-    this.payPalFormRef = (ref) => {
+    this.payPalFormRef = ref => {
       this.payPalForm = ref
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.autoSelect()
   }
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.autoSelect()
   }
-  autoSelect () {
+  autoSelect() {
     const {
       paymentSources,
       loadingPaymentSources,
@@ -152,16 +156,14 @@ class PaymentForm extends Component {
     } = this.props
     if (
       !loadingPaymentSources &&
-      (
-        !values.paymentMethod ||
-        (allowedMethods && allowedMethods.indexOf(values.paymentMethod) === -1)
-      )
+      (!values.paymentMethod ||
+        (allowedMethods && allowedMethods.indexOf(values.paymentMethod) === -1))
     ) {
       const chargablePaymentSource =
         paymentSources &&
-        paymentSources.find(ps => (
-          ps.status === 'CHARGEABLE' && ps.isDefault && !ps.isExpired
-        ))
+        paymentSources.find(
+          ps => ps.status === 'CHARGEABLE' && ps.isDefault && !ps.isExpired
+        )
       const stripeAllowed = allowedMethods
         ? allowedMethods.indexOf('STRIPE') !== -1
         : true
@@ -175,9 +177,7 @@ class PaymentForm extends Component {
       } else {
         onChange({
           values: {
-            paymentMethod: stripeAllowed
-              ? 'STRIPE'
-              : allowedMethods[0],
+            paymentMethod: stripeAllowed ? 'STRIPE' : allowedMethods[0],
             paymentSource: undefined,
             newSource: true
           }
@@ -185,81 +185,87 @@ class PaymentForm extends Component {
       }
     }
   }
-  createStripeSource ({ total, metadata, on3DSecure, returnUrl }) {
+  createStripeSource({ total, metadata, on3DSecure, returnUrl }) {
     const { values, t } = this.props
     return loadStripe().then(stripe => {
       return new Promise((resolve, reject) => {
-        stripe.source.create({
-          type: 'card',
-          currency: 'CHF',
-          amount: total,
-          usage: 'reusable',
-          card: {
-            number: values.cardNumber && values.cardNumber.trim(),
-            cvc: values.cardCVC && values.cardCVC.trim(),
-            exp_month: +values.cardMonth,
-            exp_year: +values.cardYear
-          },
-          metadata
-        }, (status, source) => {
-          if (status !== 200) {
-            // source.error.type
-            // source.error.param
-            // source.error.message
-            // see https://stripe.com/docs/api#errors
-            // - never happens because we use client validation
-            // - only when charging some additional errors can happen
-            //   those are handled server side in the pay mutation
-            // - if it happens, we simply display the English message
-            // test cards https://stripe.com/docs/testing#cards
-            reject(source.error.message)
-            return
-          }
-
-          if (source.card.three_d_secure !== 'required') {
-            resolve(source)
-            return
-          }
-
-          if (on3DSecure) {
-            on3DSecure()
-          }
-          stripe.source.create({
-            type: 'three_d_secure',
+        stripe.source.create(
+          {
+            type: 'card',
             currency: 'CHF',
             amount: total,
-            three_d_secure: {
-              card: source.id
-            },
-            redirect: {
-              return_url: returnUrl
+            usage: 'reusable',
+            card: {
+              number: values.cardNumber && values.cardNumber.trim(),
+              cvc: values.cardCVC && values.cardCVC.trim(),
+              exp_month: +values.cardMonth,
+              exp_year: +values.cardYear
             },
             metadata
-          }, (status, source3d) => {
+          },
+          (status, source) => {
             if (status !== 200) {
-              reject(t.first([
-                `payment/stripe/${source3d.error.code}`,
-                'payment/stripe/unkown'
-              ]))
+              // source.error.type
+              // source.error.param
+              // source.error.message
+              // see https://stripe.com/docs/api#errors
+              // - never happens because we use client validation
+              // - only when charging some additional errors can happen
+              //   those are handled server side in the pay mutation
+              // - if it happens, we simply display the English message
+              // test cards https://stripe.com/docs/testing#cards
+              reject(source.error.message)
               return
             }
-            if (source3d.redirect.status === 'succeeded') {
-              // can charge immediately
-              resolve(source3d)
-            } else if (source3d.redirect.status === 'failed') {
-              // no support or bank 3D Secure down
-              reject(
-                t('payment/stripe/redirect/failed')
-              )
-            } else {
-              window.location = source3d.redirect.url
+
+            if (source.card.three_d_secure !== 'required') {
+              resolve(source)
+              return
             }
-          })
-        })
+
+            if (on3DSecure) {
+              on3DSecure()
+            }
+            stripe.source.create(
+              {
+                type: 'three_d_secure',
+                currency: 'CHF',
+                amount: total,
+                three_d_secure: {
+                  card: source.id
+                },
+                redirect: {
+                  return_url: returnUrl
+                },
+                metadata
+              },
+              (status, source3d) => {
+                if (status !== 200) {
+                  reject(
+                    t.first([
+                      `payment/stripe/${source3d.error.code}`,
+                      'payment/stripe/unkown'
+                    ])
+                  )
+                  return
+                }
+                if (source3d.redirect.status === 'succeeded') {
+                  // can charge immediately
+                  resolve(source3d)
+                } else if (source3d.redirect.status === 'failed') {
+                  // no support or bank 3D Secure down
+                  reject(t('payment/stripe/redirect/failed'))
+                } else {
+                  window.location = source3d.redirect.url
+                }
+              }
+            )
+          }
+        )
       })
     })
   }
-  render () {
+  render() {
     const {
       t,
       allowedMethods,
@@ -277,171 +283,190 @@ class PaymentForm extends Component {
     const visibleMethods = allowedMethods || PAYMENT_METHODS.map(pm => pm.key)
 
     const hasChoice = visibleMethods.length > 1
-    const onlyStripe = (
-      !hasChoice &&
-      visibleMethods[0] === 'STRIPE'
-    )
+    const onlyStripe = !hasChoice && visibleMethods[0] === 'STRIPE'
 
     const paymentMethodForm = !values.paymentSource && paymentMethod
 
     return (
       <div>
-        <H2>
-          {t(`payment/title${!hasChoice ? '/single' : ''}`)}
-        </H2>
+        <H2>{t(`payment/title${!hasChoice ? '/single' : ''}`)}</H2>
         <div {...styles.secure}>
           <LockIcon /> {t('payment/secure')}
         </div>
-        <Loader style={{ minHeight: (PAYMENT_METHOD_HEIGHT) * 2 }} loading={loadingPaymentSources} render={() => {
-          const visiblePaymentSources = paymentSources
-            ? paymentSources.filter(ps => (
-              (!onlyChargable || (ps.status === 'CHARGEABLE' && !ps.isExpired)) && ps.isDefault
-            ))
-            : []
-          const hasVisiblePaymentSources = !!visiblePaymentSources.length
+        <Loader
+          style={{ minHeight: PAYMENT_METHOD_HEIGHT * 2 }}
+          loading={loadingPaymentSources}
+          render={() => {
+            const visiblePaymentSources = paymentSources
+              ? paymentSources.filter(
+                  ps =>
+                    (!onlyChargable ||
+                      (ps.status === 'CHARGEABLE' && !ps.isExpired)) &&
+                    ps.isDefault
+                )
+              : []
+            const hasVisiblePaymentSources = !!visiblePaymentSources.length
 
-          const showMethods = !hasVisiblePaymentSources || values.newSource
+            const showMethods = !hasVisiblePaymentSources || values.newSource
 
-          return (
-            <P>
-              {hasVisiblePaymentSources && (
-                <Fragment>
-                  <Label>{t('payment/method/existing')}</Label><br />
-                  {visiblePaymentSources.map((paymentSource, i) => {
-                    const Icon = (
-                      (paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
-                      (paymentSource.brand === 'MasterCard' && <PSPIcons.Mastercard />)
-                    )
+            return (
+              <P>
+                {hasVisiblePaymentSources && (
+                  <Fragment>
+                    <Label>{t('payment/method/existing')}</Label>
+                    <br />
+                    {visiblePaymentSources.map((paymentSource, i) => {
+                      const Icon =
+                        (paymentSource.brand === 'Visa' && <PSPIcons.Visa />) ||
+                        (paymentSource.brand === 'MasterCard' && (
+                          <PSPIcons.Mastercard />
+                        ))
 
-                    const disabled = paymentSource.status !== 'CHARGEABLE'
-                    const color = disabled
-                      ? colors.error
-                      : undefined
+                      const disabled = paymentSource.status !== 'CHARGEABLE'
+                      const color = disabled ? colors.error : undefined
 
-                    return (
-                      <label key={i}
-                        {...styles.paymentMethod}
-                        style={{
-                          opacity: values.paymentSource === paymentSource.id
-                            ? 1
-                            : 0.4,
-                          borderColor: color,
-                          color
-                        }}>
-                        <input
-                          type='radio'
-                          name='paymentMethod'
-                          disabled={disabled}
-                          onChange={(event) => {
-                            event.preventDefault()
-                            const value = event.target.value
-                            onChange({
-                              values: {
-                                newSource: false,
-                                paymentMethod: 'STRIPE',
-                                paymentSource: value
-                              }
-                            })
+                      return (
+                        <label
+                          key={i}
+                          {...styles.paymentMethod}
+                          style={{
+                            opacity:
+                              values.paymentSource === paymentSource.id
+                                ? 1
+                                : 0.4,
+                            borderColor: color,
+                            color
                           }}
-                          value={paymentSource.id}
-                          checked={values.paymentSource === paymentSource.id} />
-                        {Icon && Icon}
-                        {Icon && <span {...styles.paymentMethodHiddenText}>
-                          {paymentSource.brand}
-                        </span>}
-                        <span {...styles.paymentMethodSourceText}>
-                          {!Icon && paymentSource.brand}
-                          {'**** '}
-                          {paymentSource.last4}
-                          <br />
-                          {pad2(paymentSource.expMonth)}
-                          /
-                          {paymentSource.expYear}
-                        </span>
-                      </label>
-                    )
-                  })}
-                  <br />
-                </Fragment>
-              )}
-              {!hasVisiblePaymentSources && hasChoice && (
-                <Label>
-                  {t('payment/method/choose')}
-                </Label>
-              )}
-              {hasVisiblePaymentSources && !showMethods && (
-                <Label><A href='#show' onClick={(e) => {
-                  e.preventDefault()
-                  onChange({
-                    values: {
-                      newSource: true,
-                      paymentSource: undefined
-                    }
-                  })
-                }}>
-                  {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
-                </A></Label>
-              )}
-              {hasVisiblePaymentSources && showMethods && (
-                <Label>
-                  {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
-                </Label>
-              )}
-              {(hasChoice || hasVisiblePaymentSources) && <br />}
-              {showMethods && PAYMENT_METHODS
-                .filter(pm => (
-                  !pm.disabled &&
-                  visibleMethods.indexOf(pm.key) !== -1
-                ))
-                .map((pm) => (
-                  <label key={pm.key}
-                    {...styles.paymentMethod}
-                    style={{
-                      backgroundColor: pm.bgColor,
-                      opacity: paymentMethod === pm.key && !values.paymentSource
-                        ? 1 : 0.4
-                    }}>
-                    <input
-                      type='radio'
-                      name='paymentMethod'
-                      disabled={pm.disabled}
-                      onChange={(event) => {
-                        event.preventDefault()
-                        const value = event.target.value
-
+                        >
+                          <input
+                            type='radio'
+                            name='paymentMethod'
+                            disabled={disabled}
+                            onChange={event => {
+                              event.preventDefault()
+                              const value = event.target.value
+                              onChange({
+                                values: {
+                                  newSource: false,
+                                  paymentMethod: 'STRIPE',
+                                  paymentSource: value
+                                }
+                              })
+                            }}
+                            value={paymentSource.id}
+                            checked={values.paymentSource === paymentSource.id}
+                          />
+                          {Icon && Icon}
+                          {Icon && (
+                            <span {...styles.paymentMethodHiddenText}>
+                              {paymentSource.brand}
+                            </span>
+                          )}
+                          <span {...styles.paymentMethodSourceText}>
+                            {!Icon && paymentSource.brand}
+                            {'**** '}
+                            {paymentSource.last4}
+                            <br />
+                            {pad2(paymentSource.expMonth)}/
+                            {paymentSource.expYear}
+                          </span>
+                        </label>
+                      )
+                    })}
+                    <br />
+                  </Fragment>
+                )}
+                {!hasVisiblePaymentSources && hasChoice && (
+                  <Label>{t('payment/method/choose')}</Label>
+                )}
+                {hasVisiblePaymentSources && !showMethods && (
+                  <Label>
+                    <A
+                      href='#show'
+                      onClick={e => {
+                        e.preventDefault()
                         onChange({
                           values: {
-                            paymentMethod: value,
+                            newSource: true,
                             paymentSource: undefined
                           }
                         })
                       }}
-                      value={pm.key}
-                      checked={paymentMethod === pm.key && !values.paymentSource} />
-                    {pm.Icon ? <pm.Icon state={this.state} values={values} /> : null}
-                    <span {...(pm.Icon
-                      ? styles.paymentMethodHiddenText
-                      : styles.paymentMethodText
-                    )}>
-                      {t(`payment/method/${pm.key}`)}
-                    </span>
-                  </label>
-                ))}
-            </P>
-          )
-        }} />
-        {(paymentMethodForm === 'PAYMENTSLIP') && !withoutAddress && (
+                    >
+                      {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
+                    </A>
+                  </Label>
+                )}
+                {hasVisiblePaymentSources && showMethods && (
+                  <Label>
+                    {t(`payment/method/new${onlyStripe ? '/stripe' : ''}`)}
+                  </Label>
+                )}
+                {(hasChoice || hasVisiblePaymentSources) && <br />}
+                {showMethods &&
+                  PAYMENT_METHODS.filter(
+                    pm => !pm.disabled && visibleMethods.indexOf(pm.key) !== -1
+                  ).map(pm => (
+                    <label
+                      key={pm.key}
+                      {...styles.paymentMethod}
+                      style={{
+                        backgroundColor: pm.bgColor,
+                        opacity:
+                          paymentMethod === pm.key && !values.paymentSource
+                            ? 1
+                            : 0.4
+                      }}
+                    >
+                      <input
+                        type='radio'
+                        name='paymentMethod'
+                        disabled={pm.disabled}
+                        onChange={event => {
+                          event.preventDefault()
+                          const value = event.target.value
+
+                          onChange({
+                            values: {
+                              paymentMethod: value,
+                              paymentSource: undefined
+                            }
+                          })
+                        }}
+                        value={pm.key}
+                        checked={
+                          paymentMethod === pm.key && !values.paymentSource
+                        }
+                      />
+                      {pm.Icon ? (
+                        <pm.Icon state={this.state} values={values} />
+                      ) : null}
+                      <span
+                        {...(pm.Icon
+                          ? styles.paymentMethodHiddenText
+                          : styles.paymentMethodText)}
+                      >
+                        {t(`payment/method/${pm.key}`)}
+                      </span>
+                    </label>
+                  ))}
+              </P>
+            )
+          }}
+        />
+        {paymentMethodForm === 'PAYMENTSLIP' && !withoutAddress && (
           <div>
-            <Label>
-              {t('payment/paymentslip/explanation')}
-            </Label><br /><br />
+            <Label>{t('payment/paymentslip/explanation')}</Label>
+            <br />
+            <br />
             <Label>{t('payment/paymentslip/title')}</Label>
             <AddressForm
               values={values}
               errors={errors}
               dirty={dirty}
-              onChange={onChange} />
-            { /* <div style={{marginBottom: 5}}>
+              onChange={onChange}
+            />
+            {/* <div style={{marginBottom: 5}}>
               <Radio
                 checked={!values.paperInvoice}
                 onChange={() => {
@@ -466,14 +491,19 @@ class PaymentForm extends Component {
                 }}>
                 {t('payment/paymentslip/paperInvoice')}
               </Radio>
-            </div> */ }
+            </div> */}
           </div>
         )}
-        {(paymentMethodForm === 'STRIPE') && (
-          <form method='post' onSubmit={(e) => {
-            e.preventDefault()
-          }}>
-            <Label>{t(`payment/stripe/${onlyStripe ? 'only' : 'prefered'}`)}</Label>
+        {paymentMethodForm === 'STRIPE' && (
+          <form
+            method='post'
+            onSubmit={e => {
+              e.preventDefault()
+            }}
+          >
+            <Label>
+              {t(`payment/stripe/${onlyStripe ? 'only' : 'prefered'}`)}
+            </Label>
             <FieldSet
               values={values}
               errors={errors}
@@ -484,16 +514,11 @@ class PaymentForm extends Component {
                   name: 'cardNumber',
                   autoComplete: 'cc-number',
                   mask: '1111 1111 1111 1111',
-                  validator: (value) => (
-                    (
-                      !value &&
-                      t('payment/stripe/card/error/empty')
-                    ) || (
-                      !!this.state.stripe &&
+                  validator: value =>
+                    (!value && t('payment/stripe/card/error/empty')) ||
+                    (!!this.state.stripe &&
                       !this.state.stripe.card.validateCardNumber(value) &&
-                      t('payment/stripe/card/error/invalid')
-                    )
-                  )
+                      t('payment/stripe/card/error/invalid'))
                 },
                 {
                   label: t('payment/stripe/month/label'),
@@ -509,23 +534,15 @@ class PaymentForm extends Component {
                   label: t('payment/stripe/cvc/label'),
                   name: 'cardCVC',
                   autoComplete: 'cc-csc',
-                  validator: (value) => (
-                    (
-                      !value &&
-                      t('payment/stripe/cvc/error/empty')
-                    ) || (
-                      !!this.state.stripe &&
+                  validator: value =>
+                    (!value && t('payment/stripe/cvc/error/empty')) ||
+                    (!!this.state.stripe &&
                       !this.state.stripe.card.validateCVC(value) &&
-                      t('payment/stripe/cvc/error/invalid')
-                    )
-                  )
+                      t('payment/stripe/cvc/error/invalid'))
                 }
               ]}
               onChange={(fields, mounting) => {
-                if (
-                  (!mounting || values.cardNumber) &&
-                  !this.state.stripe
-                ) {
+                if ((!mounting || values.cardNumber) && !this.state.stripe) {
                   onChange({
                     errors: {
                       stripe: t('payment/stripe/js/loading')
@@ -570,57 +587,73 @@ class PaymentForm extends Component {
                 const year = nextState.values.cardYear
 
                 if (
-                  year && month &&
+                  year &&
+                  month &&
                   nextState.dirty.cardMonth &&
                   nextState.dirty.cardYear &&
                   !!this.state.stripe &&
                   !this.state.stripe.card.validateExpiry(month, year)
                 ) {
-                  nextState.errors.cardMonth = t('payment/stripe/month/error/invalid')
-                  nextState.errors.cardYear = t('payment/stripe/year/error/invalid')
+                  nextState.errors.cardMonth = t(
+                    'payment/stripe/month/error/invalid'
+                  )
+                  nextState.errors.cardYear = t(
+                    'payment/stripe/year/error/invalid'
+                  )
                 } else {
-                  nextState.errors.cardMonth = (
+                  nextState.errors.cardMonth =
                     !month && t('payment/stripe/month/error/empty')
-                  )
-                  nextState.errors.cardYear = (
+                  nextState.errors.cardYear =
                     !year && t('payment/stripe/year/error/empty')
-                  )
                 }
                 onChange(nextState)
-              }} />
+              }}
+            />
           </form>
         )}
-        {(paymentMethodForm === 'POSTFINANCECARD') && (
-          <form ref={this.postFinanceFormRef} method='post' action={PF_FORM_ACTION}>
-            {
-              postfinance.getParams({
+        {paymentMethodForm === 'POSTFINANCECARD' && (
+          <form
+            ref={this.postFinanceFormRef}
+            method='post'
+            action={PF_FORM_ACTION}
+          >
+            {postfinance
+              .getParams({
                 userId: payload.userId,
                 orderId: payload.id,
                 amount: payload.total,
                 alias: payload.pfAliasId,
                 sha: payload.pfSHA
-              }).map(param => (
-                <input key={param.key}
+              })
+              .map(param => (
+                <input
+                  key={param.key}
                   type='hidden'
                   name={param.key}
-                  value={param.value} />
-              ))
-            }
+                  value={param.value}
+                />
+              ))}
           </form>
         )}
-        {(paymentMethodForm === 'PAYPAL') && (
-          <form ref={this.payPalFormRef} method='post' action={PAYPAL_FORM_ACTION}>
-            {
-              paypal.getParams({
+        {paymentMethodForm === 'PAYPAL' && (
+          <form
+            ref={this.payPalFormRef}
+            method='post'
+            action={PAYPAL_FORM_ACTION}
+          >
+            {paypal
+              .getParams({
                 itemName: payload.id,
                 amount: payload.total
-              }).map(param => (
-                <input key={param.key}
+              })
+              .map(param => (
+                <input
+                  key={param.key}
                   type='hidden'
                   name={param.key}
-                  value={param.value} />
-              ))
-            }
+                  value={param.value}
+                />
+              ))}
           </form>
         )}
       </div>
@@ -666,21 +699,21 @@ PaymentForm.propTypes = {
 // - context
 
 export const query = gql`
-query myPaymentSources {
-  me {
-    id
-    paymentSources {
+  query myPaymentSources {
+    me {
       id
-      status
-      brand
-      last4
-      expMonth
-      expYear
-      isDefault
-      isExpired
+      paymentSources {
+        id
+        status
+        brand
+        last4
+        expMonth
+        expYear
+        isDefault
+        isExpired
+      }
     }
   }
-}
 `
 
 // all HOCs must support getWrappedInstance here

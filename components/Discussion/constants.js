@@ -6,8 +6,4 @@ export const DISCUSSION_NOTIFICATION_CHANNELS = [
   'WEB'
 ].filter(Boolean)
 
-export const DISCUSSION_NOTIFICATION_OPTIONS = [
-  'MY_CHILDREN',
-  'ALL',
-  'NONE'
-]
+export const DISCUSSION_NOTIFICATION_OPTIONS = ['MY_CHILDREN', 'ALL', 'NONE']

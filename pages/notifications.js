@@ -177,7 +177,7 @@ const Page = ({
               `notifications/${type}/text`
             ]}
             replacements={query}
-            missingValue=""
+            missingValue=''
           />
         </P>
         {afterTokenAuth && displayCloseNote ? (
@@ -185,7 +185,7 @@ const Page = ({
         ) : (
           (!hasCurtain || inNativeApp) && (
             <div {...styles.button}>
-              <Link route="index">
+              <Link route='index'>
                 <Button block primary>
                   {t(`notifications/closeButton${inNativeApp ? '/app' : ''}`)}
                 </Button>
@@ -210,9 +210,9 @@ const Page = ({
   const isProjectR = context === 'projectr'
   const logo = isProjectR ? (
     <a
-      href="https://project-r.construction/"
-      rel="noopener"
-      target="_blank"
+      href='https://project-r.construction/'
+      rel='noopener'
+      target='_blank'
       {...styles.logoProjectR}
     >
       <img
@@ -225,7 +225,7 @@ const Page = ({
       <Logo />
     </div>
   ) : (
-    <a href="/" target={logoTarget} {...styles.logoRepublik}>
+    <a href='/' target={logoTarget} {...styles.logoRepublik}>
       <Logo />
     </a>
   )
@@ -236,14 +236,14 @@ const Page = ({
     <div>
       <Head>
         <title>{t('notifications/pageTitle')}</title>
-        <meta name="robots" content="noindex" />
+        <meta name='robots' content='noindex' />
       </Head>
       <NarrowContainer>
         <div {...(stickyBar ? styles.bar : undefined)}>{logo}</div>
         {inNativeApp && (
-          <Link route="index">
+          <Link route='index'>
             <a {...styles.close}>
-              <MdClose size={32} fill="#000" />
+              <MdClose size={32} fill='#000' />
             </a>
           </Link>
         )}

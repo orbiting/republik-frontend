@@ -3,11 +3,7 @@ import { css } from 'glamor'
 import MdCheck from 'react-icons/lib/md/check'
 import { Link } from '../../lib/routes'
 
-import {
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 export const profilePictureSize = 70
 export const profilePictureMargin = 10
@@ -70,32 +66,49 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({ id, slug, firstName, lastName, credentials, portrait }) => {
+export const UserTeaser = ({
+  id,
+  slug,
+  firstName,
+  lastName,
+  credentials,
+  portrait
+}) => {
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>
-      {portrait && <Link route='profile' params={{ slug: slug || id }}>
-        <a {...styles.link}>
-          <img
-            {...styles.profilePicture}
-            src={portrait}
-            alt={`${firstName} ${lastName}`}
-          />
-        </a>
-      </Link>}
+      {portrait && (
+        <Link route='profile' params={{ slug: slug || id }}>
+          <a {...styles.link}>
+            <img
+              {...styles.profilePicture}
+              src={portrait}
+              alt={`${firstName} ${lastName}`}
+            />
+          </a>
+        </Link>
+      )}
       <div {...styles.meta}>
         <div {...styles.name}>
           <Link route='profile' params={{ slug: slug || id }}>
-            <a {...styles.link}>{firstName} {lastName}</a>
+            <a {...styles.link}>
+              {firstName} {lastName}
+            </a>
           </Link>
         </div>
-        {credential && <div {...styles.description}>
-          <div {...styles.descriptionText} style={{ color: credential.verified ? colors.text : colors.lightText }}>
-            {credential.description}
+        {credential && (
+          <div {...styles.description}>
+            <div
+              {...styles.descriptionText}
+              style={{
+                color: credential.verified ? colors.text : colors.lightText
+              }}
+            >
+              {credential.description}
+            </div>
+            {credential.verified && <MdCheck {...styles.verifiedCheck} />}
           </div>
-          {credential.verified &&
-            <MdCheck {...styles.verifiedCheck} />}
-        </div>}
+        )}
       </div>
     </div>
   )

@@ -18,12 +18,12 @@ const FontSizeAdjust = ({ t, style }) => {
     title: t('article/actionbar/fontSize/title')
   }
 
-  return <Fragment>
-    <IconLink style={style} fill={colors.text} {...fontSizeIcon} />
-    {showOverlay && (
-      <FontSizeOverlay onClose={() => setOverlay(false)} />
-    )}
-  </Fragment>
+  return (
+    <Fragment>
+      <IconLink style={style} fill={colors.text} {...fontSizeIcon} />
+      {showOverlay && <FontSizeOverlay onClose={() => setOverlay(false)} />}
+    </Fragment>
+  )
 }
 
 export default compose(withT)(FontSizeAdjust)

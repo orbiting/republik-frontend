@@ -44,7 +44,7 @@ const fields = t => [
 ]
 
 class Statement extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {
       isMobile: true
@@ -58,33 +58,35 @@ class Statement extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize)
   }
 
-  render () {
+  render() {
     const { t, user, isEditing, ...props } = this.props
     const { isMobile } = this.state
     if (!user.statement && !isEditing) {
       return null
     }
-    const fontSize = isMobile ? 22 : 24 + fontSizeBoost((user.statement || '').length)
+    const fontSize = isMobile
+      ? 22
+      : 24 + fontSizeBoost((user.statement || '').length)
     return (
-      <span
-        {...css(styles.quote)}
-        style={{ fontSize }}
-      >
-        {isEditing
-          ? <FieldSet
+      <span {...css(styles.quote)} style={{ fontSize }}>
+        {isEditing ? (
+          <FieldSet
             {...props}
             dirty={{ ...props.dirty, statement: true }}
-            fields={fields(t)} />
-          : inQuotes(user.statement)}
+            fields={fields(t)}
+          />
+        ) : (
+          inQuotes(user.statement)
+        )}
       </span>
     )
   }

@@ -53,8 +53,8 @@ const styles = {
 
 const { H2, P, Emphasis } = Interaction
 
-export const getFeatureDescription = (t) => t.elements(
-  'article/progressprompt/description/feature', {
+export const getFeatureDescription = t =>
+  t.elements('article/progressprompt/description/feature', {
     link: PROGRESS_EXPLAINER_PATH ? (
       <PathLink path={PROGRESS_EXPLAINER_PATH} passHref key='link'>
         <a {...linkRule}>
@@ -62,45 +62,43 @@ export const getFeatureDescription = (t) => t.elements(
         </a>
       </PathLink>
     ) : null
-  }
-)
+  })
 
-const ProgressPrompt = compose(
-  withT
-)(({ t, onSubmitConsent, onRevokeConsent }) => (
-  <WithMembership render={() => {
-    return (
-      <div {...styles.box}>
-        <Center>
-          <H2>
-            {t('article/progressprompt/headline')}
-          </H2>
-          <P {...styles.pMargin}>
-            {getFeatureDescription(t)}
-          </P>
-          <P {...styles.pMargin}>
-            <Emphasis>{t('article/progressprompt/question')}</Emphasis>
-            <span {...styles.actions}>
-              <Button onClick={onSubmitConsent}>
-                {t('article/progressprompt/button/confirm')}
-              </Button>
-              <Button onClick={onRevokeConsent}>
-                {t('article/progressprompt/button/reject')}
-              </Button>
-            </span>
-          </P>
-          <P>
-            {t.elements('article/progressprompt/description/settings', {
-              link: (
-                <AnchorLink id='position' key='link'>
-                  {t('article/progressprompt/description/settings/link')}
-                </AnchorLink>
-              ) })}
-          </P>
-        </Center>
-      </div>
-    )
-  }} />
-))
+const ProgressPrompt = compose(withT)(
+  ({ t, onSubmitConsent, onRevokeConsent }) => (
+    <WithMembership
+      render={() => {
+        return (
+          <div {...styles.box}>
+            <Center>
+              <H2>{t('article/progressprompt/headline')}</H2>
+              <P {...styles.pMargin}>{getFeatureDescription(t)}</P>
+              <P {...styles.pMargin}>
+                <Emphasis>{t('article/progressprompt/question')}</Emphasis>
+                <span {...styles.actions}>
+                  <Button onClick={onSubmitConsent}>
+                    {t('article/progressprompt/button/confirm')}
+                  </Button>
+                  <Button onClick={onRevokeConsent}>
+                    {t('article/progressprompt/button/reject')}
+                  </Button>
+                </span>
+              </P>
+              <P>
+                {t.elements('article/progressprompt/description/settings', {
+                  link: (
+                    <AnchorLink id='position' key='link'>
+                      {t('article/progressprompt/description/settings/link')}
+                    </AnchorLink>
+                  )
+                })}
+              </P>
+            </Center>
+          </div>
+        )
+      }}
+    />
+  )
+)
 
 export default ProgressPrompt

@@ -2,20 +2,18 @@ import React, { Component } from 'react'
 
 import withT from '../../../lib/withT'
 
-import {
-  RawHtml, A
-} from '@project-r/styleguide'
+import { RawHtml, A } from '@project-r/styleguide'
 
 import List, { Item } from '../../List'
 
 import { P } from '../Elements'
 
 class MembershipGiver extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
   }
-  render () {
+  render() {
     const { memberships, t, pkg } = this.props
     const { showGiveable, showGiven } = this.state
 
@@ -34,66 +32,84 @@ class MembershipGiver extends Component {
     return (
       <div>
         {!isGivePackage && hasGiveable && (
-          <A href='#' onClick={(e) => {
-            e.preventDefault()
-            this.setState(() => ({ showGiveable: !showGiveable }))
-          }}>
-            {t('memberships/giver/giveable/show')}<br />
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+              this.setState(() => ({ showGiveable: !showGiveable }))
+            }}
+          >
+            {t('memberships/giver/giveable/show')}
+            <br />
           </A>
         )}
         {hasGiveable && (isGivePackage || showGiveable) && (
           <div style={{ margin: '10px 0' }}>
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: !isGivePackage
-                ? t('memberships/give/description/before/notGive')
-                : t.first([
-                  `memberships/give/${pkg.name}/description/before/${giveable.length}`,
-                  `memberships/give/${pkg.name}/description/before/other`,
-                  `memberships/give/description/before/${giveable.length}`,
-                  `memberships/give/description/before/other`
-                ], {
-                  count: giveable.length
-                })
-            }} />
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: !isGivePackage
+                  ? t('memberships/give/description/before/notGive')
+                  : t.first(
+                      [
+                        `memberships/give/${pkg.name}/description/before/${giveable.length}`,
+                        `memberships/give/${pkg.name}/description/before/other`,
+                        `memberships/give/description/before/${giveable.length}`,
+                        `memberships/give/description/before/other`
+                      ],
+                      {
+                        count: giveable.length
+                      }
+                    )
+              }}
+            />
             <List>
               {giveable.map((membership, i) => (
                 <Item key={i}>
-                  <code>{membership.voucherCode}</code>
-                  {' '}({t('memberships/sequenceNumber/label', membership)})
+                  <code>{membership.voucherCode}</code> (
+                  {t('memberships/sequenceNumber/label', membership)})
                 </Item>
               ))}
             </List>
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t.first([
-                `memberships/give/${pkg.name}/description/after`,
-                'memberships/give/description/after'
-              ])
-            }} />
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: t.first([
+                  `memberships/give/${pkg.name}/description/after`,
+                  'memberships/give/description/after'
+                ])
+              }}
+            />
           </div>
         )}
         {hasGiven && (
-          <A href='#' onClick={(e) => {
-            e.preventDefault()
-            this.setState(() => ({ showGiven: !showGiven }))
-          }}>
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+              this.setState(() => ({ showGiven: !showGiven }))
+            }}
+          >
             {isGivePackage
               ? t.pluralize('memberships/giver/given', {
-                count: given.length
-              })
-              : t('memberships/giver/given/notGive')
-            }
+                  count: given.length
+                })
+              : t('memberships/giver/given/notGive')}
           </A>
         )}
         {hasGiven && showGiven && (
           <div style={{ margin: '10px 0' }}>
-            <RawHtml type={P} dangerouslySetInnerHTML={{
-              __html: t('memberships/giver/description')
-            }} />
+            <RawHtml
+              type={P}
+              dangerouslySetInnerHTML={{
+                __html: t('memberships/giver/description')
+              }}
+            />
             <List>
               {given.map((membership, i) => (
                 <Item key={i}>
-                  {membership.claimerName}
-                  {' '}({t('memberships/sequenceNumber/label', membership)})
+                  {membership.claimerName} (
+                  {t('memberships/sequenceNumber/label', membership)})
                 </Item>
               ))}
             </List>

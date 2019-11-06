@@ -7,7 +7,12 @@ import { css } from 'glamor'
 import { timeDay } from 'd3-time'
 import { withRouter } from 'next/router'
 
-import { NarrowContainer, Interaction, linkRule, mediaQueries } from '@project-r/styleguide'
+import {
+  NarrowContainer,
+  Interaction,
+  linkRule,
+  mediaQueries
+} from '@project-r/styleguide'
 
 import { Content } from '../Frame'
 import { Link } from '../../lib/routes'
@@ -52,11 +57,21 @@ const Overview = compose(
   withT,
   withRouter,
   graphql(query, {
-    props: ({ data, ownProps: { router: { query: { slug } } } }) => {
+    props: ({
+      data,
+      ownProps: {
+        router: {
+          query: { slug }
+        }
+      }
+    }) => {
       const error = data.error
       const events =
         data.events &&
-        data.events.map(event => ({ ...event, __parsedDate: parseDate(event.date) }))
+        data.events.map(event => ({
+          ...event,
+          __parsedDate: parseDate(event.date)
+        }))
       let event
 
       if (slug && events && !error) {
@@ -78,11 +93,7 @@ const Overview = compose(
     render={() => {
       if (event) {
         if (event === 404) {
-          return (
-            <StatusError
-              statusCode={404}
-              serverContext={serverContext} />
-          )
+          return <StatusError statusCode={404} serverContext={serverContext} />
         }
         return (
           <NarrowContainer>
@@ -126,11 +137,15 @@ const Overview = compose(
             {!!upcoming.length && (
               <H3 {...styles.sectionTitle}>{t('events/upcoming')}</H3>
             )}
-            {upcoming.map(event => <Event key={event.slug} data={event} />)}
+            {upcoming.map(event => (
+              <Event key={event.slug} data={event} />
+            ))}
             {!!past.length && (
               <H3 {...styles.sectionTitle}>{t('events/past')}</H3>
             )}
-            {past.map(event => <Event key={event.slug} data={event} />)}
+            {past.map(event => (
+              <Event key={event.slug} data={event} />
+            ))}
           </Content>
         </NarrowContainer>
       )

@@ -3,10 +3,7 @@ import { css } from 'glamor'
 
 import GroupedFormats from './GroupedFormats'
 
-import {
-  Center,
-  mediaQueries
-} from '@project-r/styleguide'
+import { Center, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({

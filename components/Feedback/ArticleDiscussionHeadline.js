@@ -7,11 +7,7 @@ import withT from '../../lib/withT'
 
 import Link from '../Link/Href'
 
-import {
-  Interaction,
-  inQuotes,
-  linkRule
-} from '@project-r/styleguide'
+import { Interaction, inQuotes, linkRule } from '@project-r/styleguide'
 
 const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
   const articleMeta = meta || documentMeta
@@ -29,20 +25,24 @@ const ArticleDiscussionHeadline = ({ t, discussionId, meta, documentMeta }) => {
 
   return (
     <Interaction.H3>
-      <WithMembership render={() => (
-        <Fragment>
-          {t.elements('feedback/autoArticle/selected/headline', {
-            link: ArticleLink
-          })}
-        </Fragment>
-      )} />
-      <WithoutMembership render={() => (
-        <Fragment>
-          {t.elements('feedback/autoArticle/selected/headline', {
-            link: <Fragment>{inQuotes(articleMeta.title)}</Fragment>
-          })}
-        </Fragment>
-      )} />
+      <WithMembership
+        render={() => (
+          <Fragment>
+            {t.elements('feedback/autoArticle/selected/headline', {
+              link: ArticleLink
+            })}
+          </Fragment>
+        )}
+      />
+      <WithoutMembership
+        render={() => (
+          <Fragment>
+            {t.elements('feedback/autoArticle/selected/headline', {
+              link: <Fragment>{inQuotes(articleMeta.title)}</Fragment>
+            })}
+          </Fragment>
+        )}
+      />
     </Interaction.H3>
   )
 }

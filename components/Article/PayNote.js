@@ -153,7 +153,7 @@ const BuyButton = ({ variation, position }) => {
       <Translation
         baseKey={variation.key}
         position={position}
-        element="buy/button"
+        element='buy/button'
       />
     </Button>
   )
@@ -166,7 +166,7 @@ const TrialLink = compose(withT)(({ t, variation }) => {
       {t.elements(`${tKey}/text`, {
         link: (
           <a
-            key="trial"
+            key='trial'
             href={routes.find(r => r.name === 'trial').toPath()}
             onClick={trackEventOnClick(
               ['PayNote', 'preview after', variation],
@@ -247,7 +247,7 @@ export const PayNote = compose(
     <Translation
       baseKey={variation.key}
       position={!isTrialThankYou && position}
-      element="title"
+      element='title'
     />
   )
   const body = (

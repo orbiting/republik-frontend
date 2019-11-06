@@ -5,11 +5,7 @@ import { Item } from '../../components/Testimonial/List'
 
 const ProfileLink = ({ children, slug }) => {
   return (
-    <Link
-      route='profile'
-      params={{ slug }}
-      passHref
-    >
+    <Link route='profile' params={{ slug }} passHref>
       {children}
     </Link>
   )
@@ -19,15 +15,33 @@ const Employee = ({ name, title, user, style, minColumns, maxColumns }) => {
   const displayName = name + (title ? `, ${title}` : '')
   const columnProps = { minColumns, maxColumns }
   if (!user) {
-    return <Item name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
+    return (
+      <Item
+        name={displayName}
+        style={{ cursor: 'default', ...style }}
+        {...columnProps}
+      />
+    )
   }
   const { portrait, slug } = user
   if (!slug) {
-    return <Item image={portrait} name={displayName} style={{ cursor: 'default', ...style }} {...columnProps} />
+    return (
+      <Item
+        image={portrait}
+        name={displayName}
+        style={{ cursor: 'default', ...style }}
+        {...columnProps}
+      />
+    )
   }
   return (
     <ProfileLink slug={slug}>
-      <Item image={portrait} name={displayName} style={style} {...columnProps} />
+      <Item
+        image={portrait}
+        name={displayName}
+        style={style}
+        {...columnProps}
+      />
     </ProfileLink>
   )
 }

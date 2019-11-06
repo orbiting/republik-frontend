@@ -14,32 +14,28 @@ import PaymentForm, { query } from '../Payment/Form'
 import loadStripe from '../Payment/stripe'
 import { P } from './Elements'
 
-import {
-  Button, InlineSpinner, colors
-} from '@project-r/styleguide'
+import { Button, InlineSpinner, colors } from '@project-r/styleguide'
 
-import {
-  PUBLIC_BASE_URL
-} from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
-const objectValues = (object) => Object.keys(object).map(key => object[key])
+const objectValues = object => Object.keys(object).map(key => object[key])
 
 class PaymentSources extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {
       values: {},
       dirty: {},
       errors: {}
     }
-    this.paymentRef = (ref) => {
-      this.payment = ref && ref.getWrappedInstance
-        ? ref.getWrappedInstance()
-        : ref
+    this.paymentRef = ref => {
+      this.payment =
+        ref && ref.getWrappedInstance ? ref.getWrappedInstance() : ref
     }
   }
-  addSource (source) {
-    this.props.addSource(source)
+  addSource(source) {
+    this.props
+      .addSource(source)
       .then(() => {
         this.setState({
           loading: false,
@@ -59,24 +55,25 @@ class PaymentSources extends Component {
         })
       })
   }
-  createStripeSource () {
+  createStripeSource() {
     const { me, t, total } = this.props
     this.setState({
       loading: t('account/paymentSource/saving'),
       remoteError: undefined
     })
-    this.payment.createStripeSource({
-      total,
-      metadata: {
-        userId: me.id
-      },
-      on3DSecure: () => {
-        this.setState({
-          loading: t('account/paymentSource/3dsecure')
-        })
-      },
-      returnUrl: `${PUBLIC_BASE_URL}/account?stripe=1`
-    })
+    this.payment
+      .createStripeSource({
+        total,
+        metadata: {
+          userId: me.id
+        },
+        on3DSecure: () => {
+          this.setState({
+            loading: t('account/paymentSource/3dsecure')
+          })
+        },
+        returnUrl: `${PUBLIC_BASE_URL}/account?stripe=1`
+      })
       .then(source => {
         this.addSource(source)
       })
@@ -87,7 +84,7 @@ class PaymentSources extends Component {
         })
       })
   }
-  checkStripeSource ({ query }) {
+  checkStripeSource({ query }) {
     const { t } = this.props
 
     loadStripe()
@@ -114,27 +111,18 @@ class PaymentSources extends Component {
         }))
       })
   }
-  componentDidMount () {
+  componentDidMount() {
     const { query } = this.props
     if (query.stripe) {
       this.checkStripeSource({ query })
-      Router.replaceRoute(
-        'account',
-        {},
-        { shallow: true }
-      )
+      Router.replaceRoute('account', {}, { shallow: true })
     }
   }
-  render () {
+  render() {
     const { t, me } = this.props
-    const {
-      values, errors, dirty,
-      loading, remoteError
-    } = this.state
+    const { values, errors, dirty, loading, remoteError } = this.state
 
-    const errorMessages = objectValues(
-      errors
-    ).filter(Boolean)
+    const errorMessages = objectValues(errors).filter(Boolean)
 
     return (
       <Fragment>
@@ -163,11 +151,10 @@ class PaymentSources extends Component {
           }}
           values={values}
           errors={errors}
-          dirty={dirty} />
+          dirty={dirty}
+        />
         {!!remoteError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>
-            {remoteError}
-          </P>
+          <P style={{ color: colors.error, marginBottom: 40 }}>{remoteError}</P>
         )}
         {loading && (
           <div>
@@ -180,7 +167,8 @@ class PaymentSources extends Component {
           <Fragment>
             {!!this.state.showErrors && errorMessages.length > 0 && (
               <div style={{ color: colors.error, marginBottom: 40 }}>
-                {t('account/paymentSource/error')}<br />
+                {t('account/paymentSource/error')}
+                <br />
                 <ul>
                   {errorMessages.map((error, i) => (
                     <li key={i}>{error}</li>
@@ -207,7 +195,8 @@ class PaymentSources extends Component {
                   return
                 }
                 this.createStripeSource()
-              }}>
+              }}
+            >
               {t('account/paymentSource/save')}
             </Button>
           </Fragment>
@@ -221,17 +210,17 @@ class PaymentSources extends Component {
 }
 
 const addSource = gql`
-mutation addPaymentSource($sourceId: String!, $pspPayload: JSON!) {
-  addPaymentSource(sourceId: $sourceId, pspPayload: $pspPayload) {
-    id
-    last4
-    brand
-    isDefault
-    status
-    expMonth
-    expYear
+  mutation addPaymentSource($sourceId: String!, $pspPayload: JSON!) {
+    addPaymentSource(sourceId: $sourceId, pspPayload: $pspPayload) {
+      id
+      last4
+      brand
+      isDefault
+      status
+      expMonth
+      expYear
+    }
   }
-}
 `
 
 export default compose(
@@ -245,9 +234,11 @@ export default compose(
             sourceId: source.id,
             pspPayload: source
           },
-          refetchQueries: [{
-            query
-          }]
+          refetchQueries: [
+            {
+              query
+            }
+          ]
         })
       }
     })

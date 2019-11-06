@@ -42,20 +42,20 @@ export const RawContainer = ({ children, style, imprint }) => (
 
 const Container = ({ children, style = {}, imprint }) => {
   const heightStyle = {}
-  const heightKey = style.minHeight
-    ? 'height'
-    : 'minHeight'
+  const heightKey = style.minHeight ? 'height' : 'minHeight'
   const isDesktop = useMediaQuery(mediaQueries.mUp)
   const height = useWindowSize()[1]
   if (height) {
-    heightStyle[heightKey] = height - (isDesktop ? HEADER_HEIGHT : HEADER_HEIGHT_MOBILE)
+    heightStyle[heightKey] =
+      height - (isDesktop ? HEADER_HEIGHT : HEADER_HEIGHT_MOBILE)
   }
 
   return (
     <div
       {...styles.container}
       {...styles[heightKey]}
-      style={{ ...heightStyle, ...style }}>
+      style={{ ...heightStyle, ...style }}
+    >
       {children}
       <Footer imprint={imprint} />
     </div>

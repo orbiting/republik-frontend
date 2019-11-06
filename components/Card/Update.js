@@ -3,7 +3,14 @@ import { withRouter } from 'next/router'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import { Loader, Interaction, A, InlineSpinner, Button, RawHtml } from '@project-r/styleguide'
+import {
+  Loader,
+  Interaction,
+  A,
+  InlineSpinner,
+  Button,
+  RawHtml
+} from '@project-r/styleguide'
 
 import withT from '../../lib/withT'
 import { Link } from '../../lib/routes'
@@ -21,31 +28,53 @@ import { styles as formStyles } from './Form/styles'
 const { H1, H2, P } = Interaction
 
 const maybeCard = (data, apply) => {
-  return data.me &&
+  return (
+    data.me &&
     data.me.cards.nodes.length > 0 &&
     data.me.cards.nodes[0] &&
     apply(data.me.cards.nodes[0])
+  )
 }
 
-const initialVestedInterests = (data) => {
+const initialVestedInterests = data => {
   const records =
     maybeCard(data, card => card.payload.vestedInterests) ||
     maybeCard(data, card => card.payload.vestedInterestsSmartvote) ||
     []
 
-  return records.map((vestedInterest, index) => ({ id: `interest${index}`, ...vestedInterest }))
+  return records.map((vestedInterest, index) => ({
+    id: `interest${index}`,
+    ...vestedInterest
+  }))
 }
 
-const Update = (props) => {
-  const { data, t, router: { query: { locale } } } = props
+const Update = props => {
+  const {
+    data,
+    t,
+    router: {
+      query: { locale }
+    }
+  } = props
 
-  const statementId = maybeCard(data, card => card.statement && card.statement.id)
+  const statementId = maybeCard(
+    data,
+    card => card.statement && card.statement.id
+  )
   const group = maybeCard(data, card => card.group)
   const [portrait, setPortrait] = useState({ values: {} })
-  const [statement, setStatement] = useState({ value: maybeCard(data, card => card.payload.statement) || '' })
-  const [budget, setBudget] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudget) }))
-  const [budgetComment, setBudgetComment] = useState(() => ({ value: maybeCard(data, card => card.payload.campaignBudgetComment) }))
-  const [vestedInterests, setVestedInterests] = useState(() => ({ value: initialVestedInterests(data) }))
+  const [statement, setStatement] = useState({
+    value: maybeCard(data, card => card.payload.statement) || ''
+  })
+  const [budget, setBudget] = useState(() => ({
+    value: maybeCard(data, card => card.payload.campaignBudget)
+  }))
+  const [budgetComment, setBudgetComment] = useState(() => ({
+    value: maybeCard(data, card => card.payload.campaignBudgetComment)
+  }))
+  const [vestedInterests, setVestedInterests] = useState(() => ({
+    value: initialVestedInterests(data)
+  }))
   const payloadFinancing = maybeCard(data, card => card.payload.financing) || {}
   const hasPayloadFinancingValues = Object.keys(payloadFinancing).length
 
@@ -56,7 +85,9 @@ const Update = (props) => {
   const [autoUpdateCard, setAutoUpdateCard] = useState(false)
   const [isDirty, setIsDirty] = useState(false)
 
-  const [financingExpanded, setFinancingExpanded] = useState(!hasPayloadFinancingValues)
+  const [financingExpanded, setFinancingExpanded] = useState(
+    !hasPayloadFinancingValues
+  )
 
   useEffect(() => {
     if (autoUpdateCard) {
@@ -65,12 +96,13 @@ const Update = (props) => {
       if (errorMessages.length === 0) {
         setLoading(true)
 
-        props.updateCard({
-          id: card.id,
-          portrait: portrait.values.portrait,
-          statement: statement.value,
-          payload: { financing: financing.value }
-        })
+        props
+          .updateCard({
+            id: card.id,
+            portrait: portrait.values.portrait,
+            statement: statement.value,
+            payload: { financing: financing.value }
+          })
           .then(() => {
             setIsDirty(false)
             setLoading(false)
@@ -92,7 +124,9 @@ const Update = (props) => {
   if (!me || me.cards.nodes.length === 0) {
     return (
       <>
-        <H2 {...formStyles.heading}>{t('components/Card/Update/nothing/title')}</H2>
+        <H2 {...formStyles.heading}>
+          {t('components/Card/Update/nothing/title')}
+        </H2>
         <P {...formStyles.paragraph}>
           {t('components/Card/Update/nothing/lead')}
         </P>
@@ -107,7 +141,7 @@ const Update = (props) => {
     )
   }
 
-  const [ card ] = me.cards.nodes
+  const [card] = me.cards.nodes
 
   const handlePortrait = ({ values, errors }) => {
     setIsDirty(true)
@@ -122,9 +156,7 @@ const Update = (props) => {
     setStatement({
       ...statement,
       value,
-      error: (
-        (value.trim().length <= 0 && 'Statement fehlt')
-      ),
+      error: value.trim().length <= 0 && 'Statement fehlt',
       dirty: shouldValidate
     })
   }
@@ -195,7 +227,9 @@ const Update = (props) => {
 
   const errorMessages = findErrorMessages()
 
-  const titleBaseKey = `components/Card/Update${hasPayloadFinancingValues ? '/financing' : ''}`
+  const titleBaseKey = `components/Card/Update${
+    hasPayloadFinancingValues ? '/financing' : ''
+  }`
 
   return (
     <>
@@ -210,15 +244,10 @@ const Update = (props) => {
 
       <P {...formStyles.paragraph}>
         <Link route='index'>
-          <Button primary>
-            {t('components/Card/Update/read')}
-          </Button>
-        </Link>
-        {' '}
+          <Button primary>{t('components/Card/Update/read')}</Button>
+        </Link>{' '}
         <Link route='onboarding' params={{ context: 'card' }}>
-          <Button>
-            {t('components/Card/Update/onboarding')}
-          </Button>
+          <Button>{t('components/Card/Update/onboarding')}</Button>
         </Link>
       </P>
 
@@ -228,7 +257,8 @@ const Update = (props) => {
             user={me}
             values={portrait.values}
             errors={portrait.errors}
-            onChange={handlePortrait} />
+            onChange={handlePortrait}
+          />
         </div>
         <div {...formStyles.details}>
           <Details card={card} user={me} />
@@ -236,58 +266,75 @@ const Update = (props) => {
       </div>
 
       <div {...formStyles.section}>
-        {statementId && group
-          ? <P>
-            <Link route='cardGroup' params={{ group: group.slug, suffix: 'diskussion', focus: statementId }} passHref>
-              <A>
-                Ihr Statement im «Wahltindär: {group.name}».
-              </A>
+        {statementId && group ? (
+          <P>
+            <Link
+              route='cardGroup'
+              params={{
+                group: group.slug,
+                suffix: 'diskussion',
+                focus: statementId
+              }}
+              passHref
+            >
+              <A>Ihr Statement im «Wahltindär: {group.name}».</A>
             </Link>
           </P>
-          : <>
+        ) : (
+          <>
             <P>{t('components/Card/Claim/statement/question')}</P>
             <Statement
               label={t('components/Card/Claim/statement/label')}
               statement={statement}
-              handleStatement={handleStatement} />
-          </>}
+              handleStatement={handleStatement}
+            />
+          </>
+        )}
       </div>
 
-      {false && <div {...formStyles.section}>
-        <CampaignBudget
-          budget={budget}
-          handleBudget={handleBudget}
-          budgetComment={budgetComment}
-          handleBudgetComment={handleBudgetComment} />
-      </div>}
+      {false && (
+        <div {...formStyles.section}>
+          <CampaignBudget
+            budget={budget}
+            handleBudget={handleBudget}
+            budgetComment={budgetComment}
+            handleBudgetComment={handleBudgetComment}
+          />
+        </div>
+      )}
 
-      {false && <div {...formStyles.section}>
-        <VestedInterests
-          vestedInterests={vestedInterests}
-          handleVestedInterests={handleVestedInterests} />
-      </div>}
+      {false && (
+        <div {...formStyles.section}>
+          <VestedInterests
+            vestedInterests={vestedInterests}
+            handleVestedInterests={handleVestedInterests}
+          />
+        </div>
+      )}
 
-      {financingExpanded
-        ? <Financing
-          collapsed
-          financing={financing}
-          onChange={handleFinancing} />
-        : <P style={{ marginTop: 40, marginBottom: 40 }}>
-          <A href='#' onClick={(e) => {
-            e.preventDefault()
-            setFinancingExpanded(true)
-          }}>
+      {financingExpanded ? (
+        <Financing collapsed financing={financing} onChange={handleFinancing} />
+      ) : (
+        <P style={{ marginTop: 40, marginBottom: 40 }}>
+          <A
+            href='#'
+            onClick={e => {
+              e.preventDefault()
+              setFinancingExpanded(true)
+            }}
+          >
             {t.first([
               `components/Card/Form/Financing/headline/${locale}`,
               'components/Card/Form/Financing/headline'
             ])}
           </A>
         </P>
-      }
+      )}
 
       {showErrors && errorMessages.length > 0 && (
         <div {...formStyles.errorMessages}>
-          Fehler<br />
+          Fehler
+          <br />
           <ul>
             {errorMessages.map((error, i) => (
               <li key={i}>{error}</li>
@@ -297,17 +344,19 @@ const Update = (props) => {
       )}
 
       <div {...formStyles.button}>
-        {loading
-          ? <InlineSpinner />
-          : <Button
+        {loading ? (
+          <InlineSpinner />
+        ) : (
+          <Button
             primary={isDirty}
             type='submit'
             block
             onClick={updateCard}
-            disabled={showErrors && errorMessages.length > 0}>
+            disabled={showErrors && errorMessages.length > 0}
+          >
             {t('components/Card/Update/submit')}
           </Button>
-        }
+        )}
       </div>
 
       {serverError && <ErrorMessage error={serverError} />}
@@ -336,7 +385,7 @@ const ME_CARD = gql`
       id
       name
       isUserOfCurrentSession
-      portrait(properties:{width:600 height:800 bw:false})
+      portrait(properties: { width: 600, height: 800, bw: false })
       cards(first: 1) {
         nodes {
           ...Card
@@ -370,15 +419,18 @@ const UPDATE_CARD = gql`
   ${fragmentCard}
 `
 
-const withUpdateCard = graphql(
-  UPDATE_CARD,
-  {
-    props: ({ mutate }) => ({
-      updateCard: ({ id, portrait, statement, payload }) => mutate({
+const withUpdateCard = graphql(UPDATE_CARD, {
+  props: ({ mutate }) => ({
+    updateCard: ({ id, portrait, statement, payload }) =>
+      mutate({
         variables: { id, portrait, statement, payload }
       })
-    })
-  }
-)
+  })
+})
 
-export default compose(withRouter, withT, withMeCard, withUpdateCard)(Update)
+export default compose(
+  withRouter,
+  withT,
+  withMeCard,
+  withUpdateCard
+)(Update)

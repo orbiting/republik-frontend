@@ -5,10 +5,7 @@ import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Trial from '../components/Trial/Page'
 import withT from '../lib/withT'
-import {
-  CDN_FRONTEND_BASE_URL,
-  PUBLIC_BASE_URL
-} from '../lib/constants'
+import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
 
 const Page = ({ router, t }) => {
   const { campaign } = router.query
@@ -18,10 +15,7 @@ const Page = ({ router, t }) => {
       `trial/meta/${campaign}/pageTitle`,
       'trial/meta/pageTitle'
     ]),
-    title: t.first([
-      `trial/meta/${campaign}/title`,
-      'trial/meta/title'
-    ]),
+    title: t.first([`trial/meta/${campaign}/title`, 'trial/meta/title']),
     description: t.first([
       `trial/meta/${campaign}/description`,
       'trial/meta/description'
@@ -37,4 +31,7 @@ const Page = ({ router, t }) => {
   )
 }
 
-export default compose(withRouter, withT)(Page)
+export default compose(
+  withRouter,
+  withT
+)(Page)

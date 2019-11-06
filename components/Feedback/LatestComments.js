@@ -39,41 +39,44 @@ const LatestComments = ({ t, data, fetchMore }) => {
         const { pageInfo } = comments
         return (
           <div>
-            {comments && comments.nodes
-              .map(
-                node => {
-                  const {
-                    id,
-                    discussion,
-                    preview,
-                    displayAuthor,
-                    createdAt,
-                    updatedAt,
-                    tags,
-                    parentIds
-                  } = node
-                  const meta = (discussion && discussion.document && discussion.document.meta) || {}
-                  const isGeneral = discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
-                  const newPage = !isGeneral && meta.template === 'discussion'
+            {comments &&
+              comments.nodes.map(node => {
+                const {
+                  id,
+                  discussion,
+                  preview,
+                  displayAuthor,
+                  createdAt,
+                  updatedAt,
+                  tags,
+                  parentIds
+                } = node
+                const meta =
+                  (discussion &&
+                    discussion.document &&
+                    discussion.document.meta) ||
+                  {}
+                const isGeneral =
+                  discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID
+                const newPage = !isGeneral && meta.template === 'discussion'
 
-                  return (
-                    <CommentTeaser
-                      key={id}
-                      id={id}
-                      t={t}
-                      displayAuthor={displayAuthor}
-                      preview={preview}
-                      createdAt={createdAt}
-                      updatedAt={updatedAt}
-                      tags={tags}
-                      parentIds={parentIds}
-                      Link={CommentLink}
-                      discussion={discussion}
-                      newPage={newPage}
-                    />
-                  )
-                }
-              )}
+                return (
+                  <CommentTeaser
+                    key={id}
+                    id={id}
+                    t={t}
+                    displayAuthor={displayAuthor}
+                    preview={preview}
+                    createdAt={createdAt}
+                    updatedAt={updatedAt}
+                    tags={tags}
+                    parentIds={parentIds}
+                    Link={CommentLink}
+                    discussion={discussion}
+                    newPage={newPage}
+                  />
+                )
+              })}
             {pageInfo.hasNextPage && (
               <button
                 {...styles.button}
@@ -87,7 +90,8 @@ const LatestComments = ({ t, data, fetchMore }) => {
             )}
           </div>
         )
-      }} />
+      }}
+    />
   )
 }
 

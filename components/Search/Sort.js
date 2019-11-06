@@ -6,11 +6,7 @@ import withT from '../../lib/withT'
 import ArrowDown from 'react-icons/lib/md/arrow-downward'
 import ArrowUp from 'react-icons/lib/md/arrow-upward'
 
-import {
-  colors,
-  fontStyles,
-  mediaQueries
-} from '@project-r/styleguide'
+import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({
@@ -40,7 +36,7 @@ const styles = {
 }
 
 class SortButton extends Component {
-  constructor (props, ...args) {
+  constructor(props, ...args) {
     super(props, ...args)
 
     this.state = {
@@ -48,12 +44,24 @@ class SortButton extends Component {
     }
   }
 
-  render () {
-    const { t, sortKey, label, direction, selected, disabled, onClickHandler } = this.props
+  render() {
+    const {
+      t,
+      sortKey,
+      label,
+      direction,
+      selected,
+      disabled,
+      onClickHandler
+    } = this.props
     const { internalDirection } = this.state
     const resolvedDirection = internalDirection || direction
     const DirectionIcon =
-      resolvedDirection === 'ASC' ? ArrowUp : resolvedDirection === 'DESC' ? ArrowDown : null
+      resolvedDirection === 'ASC'
+        ? ArrowUp
+        : resolvedDirection === 'DESC'
+        ? ArrowDown
+        : null
     const color = selected ? colors.primary : null
     const visibility = disabled ? 'hidden' : null
 
@@ -65,7 +73,11 @@ class SortButton extends Component {
           if (disabled) return
           const toggledDirection = !selected
             ? resolvedDirection
-            : resolvedDirection === 'ASC' ? 'DESC' : resolvedDirection === 'DESC' ? 'ASC' : null
+            : resolvedDirection === 'ASC'
+            ? 'DESC'
+            : resolvedDirection === 'DESC'
+            ? 'ASC'
+            : null
           onClickHandler && onClickHandler(sortKey, toggledDirection)
           this.setState({
             internalDirection: toggledDirection
@@ -74,7 +86,11 @@ class SortButton extends Component {
       >
         {label}
         {DirectionIcon && (
-          <span {...styles.icon} role='button' title={t(`search/sort/${resolvedDirection}/aria`)}>
+          <span
+            {...styles.icon}
+            role='button'
+            title={t(`search/sort/${resolvedDirection}/aria`)}
+          >
             <DirectionIcon />
           </span>
         )}
@@ -96,15 +112,16 @@ SortButton.defaultProps = {
 }
 
 class Sort extends Component {
-  render () {
+  render() {
     const { t, sort, searchQuery, isFilterEnabled, onClickHandler } = this.props
     const sortKey = sort ? sort.key : 'publishedAt'
     const buttons = [
       {
         sortKey: 'publishedAt',
         label: 'Zeit',
-        direction: sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: (!searchQuery && !isFilterEnabled),
+        direction:
+          sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
+        disabled: !searchQuery && !isFilterEnabled,
         selected: sortKey === 'publishedAt'
       },
       {
@@ -112,7 +129,6 @@ class Sort extends Component {
         label: 'Relevanz',
         disabled: !searchQuery,
         selected: sortKey === 'relevance'
-
       }
       // TODO: enable these sort keys once backend supports them.
       /*
@@ -136,7 +152,8 @@ class Sort extends Component {
             selected={selected}
             label={label}
             direction={direction}
-            onClickHandler={onClickHandler} />
+            onClickHandler={onClickHandler}
+          />
         ))}
       </div>
     )

@@ -7,10 +7,7 @@ import withT from '../lib/withT'
 import withMe from '../lib/apollo/withMe'
 import { routes } from '../lib/routes'
 import { useDebounce } from '../lib/hooks/useDebounce'
-import {
-  PUBLIC_BASE_URL,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 import Frame from '../components/Frame'
 import Meta from '../components/Frame/Meta'
@@ -23,19 +20,90 @@ import { useCardPreferences } from '../components/Card/Preferences'
 import medianSmartspiders from '../components/Card/medianSmartspiders'
 
 const query = gql`
-query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float], $elected: Boolean) {
-  cardGroup(slug: $slug) {
-    id
-    name
-    slug
-    discussion {
+  query getCardGroup(
+    $slug: String!
+    $after: String
+    $top: [ID!]
+    $mustHave: [CardFiltersMustHaveInput!]
+    $smartspider: [Float]
+    $elected: Boolean
+  ) {
+    cardGroup(slug: $slug) {
       id
-      title
+      name
+      slug
+      discussion {
+        id
+        title
+      }
+      all: cards(first: 0) {
+        totalCount
+      }
+      cards(
+        first: 50
+        after: $after
+        focus: $top
+        filters: { mustHave: $mustHave, elected: $elected }
+        sort: { smartspider: $smartspider }
+      ) {
+        totalCount
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        nodes {
+          id
+          ...Card
+        }
+      }
     }
-    all: cards(first: 0) {
+  }
+
+  ${cardFragment}
+`
+
+const subscribedByMeQuery = gql`
+  query getSubscribedCardGroup($slug: String!) {
+    cardGroup(slug: $slug) {
+      id
+      cards(first: 5000, filters: { subscribedByMe: true }) {
+        totalCount
+        nodes {
+          id
+          ...Card
+          user {
+            id
+            subscribedByMe {
+              id
+              createdAt
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ${cardFragment}
+`
+
+const specialQuery = gql`
+  query getSpecialCards(
+    $after: String
+    $top: [ID!]
+    $mustHave: [CardFiltersMustHaveInput!]
+    $smartspider: [Float]
+    $elected: Boolean
+  ) {
+    all: cards(first: 0, filters: { elected: $elected }) {
       totalCount
     }
-    cards(first: 50, after: $after, focus: $top, filters: {mustHave: $mustHave, elected: $elected}, sort: {smartspider: $smartspider}) {
+    cards(
+      first: 50
+      after: $after
+      focus: $top
+      filters: { mustHave: $mustHave, elected: $elected }
+      sort: { smartspider: $smartspider }
+    ) {
       totalCount
       pageInfo {
         hasNextPage
@@ -44,19 +112,24 @@ query getCardGroup($slug: String!, $after: String, $top: [ID!], $mustHave: [Card
       nodes {
         id
         ...Card
+        group {
+          id
+          name
+          slug
+          discussion {
+            id
+          }
+        }
       }
     }
   }
-}
 
-${cardFragment}
+  ${cardFragment}
 `
 
-const subscribedByMeQuery = gql`
-query getSubscribedCardGroup($slug: String!) {
-  cardGroup(slug: $slug) {
-    id
-    cards(first: 5000, filters: {subscribedByMe: true}) {
+const subscribedByMeSpecialQuery = gql`
+  query getSubscribedSpecialCards($elected: Boolean) {
+    cards(first: 5000, filters: { subscribedByMe: true, elected: $elected }) {
       totalCount
       nodes {
         id
@@ -71,59 +144,8 @@ query getSubscribedCardGroup($slug: String!) {
       }
     }
   }
-}
 
-${cardFragment}
-`
-
-const specialQuery = gql`
-query getSpecialCards($after: String, $top: [ID!], $mustHave: [CardFiltersMustHaveInput!], $smartspider: [Float], $elected: Boolean) {
-  all: cards(first: 0, filters: {elected: $elected}) {
-    totalCount
-  }
-  cards(first: 50, after: $after, focus: $top, filters: {mustHave: $mustHave, elected: $elected}, sort: {smartspider: $smartspider}) {
-    totalCount
-    pageInfo {
-      hasNextPage
-      endCursor
-    }
-    nodes {
-      id
-      ...Card
-      group {
-        id
-        name
-        slug
-        discussion {
-          id
-        }
-      }
-    }
-  }
-}
-
-${cardFragment}
-`
-
-const subscribedByMeSpecialQuery = gql`
-query getSubscribedSpecialCards($elected: Boolean) {
-  cards(first: 5000, filters: {subscribedByMe: true, elected: $elected}) {
-    totalCount
-    nodes {
-      id
-      ...Card
-      user {
-        id
-        subscribedByMe {
-          id
-          createdAt
-        }
-      }
-    }
-  }
-}
-
-${cardFragment}
+  ${cardFragment}
 `
 
 const specialGroups = {
@@ -134,56 +156,84 @@ const specialGroups = {
   }
 }
 
-const Inner = ({ data, fetchMore, subscribedByMeData, t, serverContext, variables, mySmartspider, medianSmartspider, query }) => {
-  const loading = (
+const Inner = ({
+  data,
+  fetchMore,
+  subscribedByMeData,
+  t,
+  serverContext,
+  variables,
+  mySmartspider,
+  medianSmartspider,
+  query
+}) => {
+  const loading =
     (subscribedByMeData && subscribedByMeData.loading) ||
     (data.loading && (!data.cardGroup || !data.cardGroup.cards))
-  )
   const Wrapper = loading ? Container : Fragment
   const error = data.error || (subscribedByMeData && subscribedByMeData.error)
 
-  return <Wrapper>
-    <Loader loading={loading} error={error} render={() => {
-      if (!data.cardGroup) {
-        return (
-          <StatusError
-            statusCode={404}
-            serverContext={serverContext} />
-        )
-      }
-      const meta = !(query.suffix === 'diskussion' && query.focus) && <Meta data={{
-        title: t.first([
-          `pages/cardGroup/title/${data.cardGroup.slug}`,
-          'pages/cardGroup/title'
-        ], {
-          name: data.cardGroup.name
-        }),
-        description: t.first([
-          `pages/cardGroup/description/${data.cardGroup.slug}`,
-          'pages/cardGroup/description'
-        ], {
-          name: data.cardGroup.name,
-          count: data.cardGroup.cards.totalCount
-        }),
-        url: `${PUBLIC_BASE_URL}${routes.find(r => r.name === 'cardGroup').toPath({
-          group: data.cardGroup.slug
-        })}`,
-        image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
-      }} />
-      return (
-        <>
-          {meta}
-          <Group
-            group={data.cardGroup}
-            subscribedByMeCards={subscribedByMeData && subscribedByMeData.cards}
-            variables={variables}
-            mySmartspider={mySmartspider}
-            medianSmartspider={medianSmartspider}
-            fetchMore={fetchMore} />
-        </>
-      )
-    }} />
-  </Wrapper>
+  return (
+    <Wrapper>
+      <Loader
+        loading={loading}
+        error={error}
+        render={() => {
+          if (!data.cardGroup) {
+            return (
+              <StatusError statusCode={404} serverContext={serverContext} />
+            )
+          }
+          const meta = !(query.suffix === 'diskussion' && query.focus) && (
+            <Meta
+              data={{
+                title: t.first(
+                  [
+                    `pages/cardGroup/title/${data.cardGroup.slug}`,
+                    'pages/cardGroup/title'
+                  ],
+                  {
+                    name: data.cardGroup.name
+                  }
+                ),
+                description: t.first(
+                  [
+                    `pages/cardGroup/description/${data.cardGroup.slug}`,
+                    'pages/cardGroup/description'
+                  ],
+                  {
+                    name: data.cardGroup.name,
+                    count: data.cardGroup.cards.totalCount
+                  }
+                ),
+                url: `${PUBLIC_BASE_URL}${routes
+                  .find(r => r.name === 'cardGroup')
+                  .toPath({
+                    group: data.cardGroup.slug
+                  })}`,
+                image: `${CDN_FRONTEND_BASE_URL}/static/social-media/republik-wahltindaer-09.png`
+              }}
+            />
+          )
+          return (
+            <>
+              {meta}
+              <Group
+                group={data.cardGroup}
+                subscribedByMeCards={
+                  subscribedByMeData && subscribedByMeData.cards
+                }
+                variables={variables}
+                mySmartspider={mySmartspider}
+                medianSmartspider={medianSmartspider}
+                fetchMore={fetchMore}
+              />
+            </>
+          )
+        }}
+      />
+    </Wrapper>
+  )
 }
 
 const Query = compose(
@@ -211,29 +261,33 @@ const Query = compose(
     }),
     props: ({ data }) => ({
       data,
-      fetchMore: ({ endCursor }) => data.fetchMore({
-        variables: {
-          after: endCursor
-        },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          return {
-            ...previousResult,
-            ...fetchMoreResult,
-            cardGroup: {
-              ...previousResult.cardGroup,
-              ...fetchMoreResult.cardGroup,
-              cards: {
-                ...previousResult.cardGroup.cards,
-                ...fetchMoreResult.cardGroup.cards,
-                nodes: [
-                  ...previousResult.cardGroup.cards.nodes,
-                  ...fetchMoreResult.cardGroup.cards.nodes
-                ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+      fetchMore: ({ endCursor }) =>
+        data.fetchMore({
+          variables: {
+            after: endCursor
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            return {
+              ...previousResult,
+              ...fetchMoreResult,
+              cardGroup: {
+                ...previousResult.cardGroup,
+                ...fetchMoreResult.cardGroup,
+                cards: {
+                  ...previousResult.cardGroup.cards,
+                  ...fetchMoreResult.cardGroup.cards,
+                  nodes: [
+                    ...previousResult.cardGroup.cards.nodes,
+                    ...fetchMoreResult.cardGroup.cards.nodes
+                  ].filter(
+                    (value, index, all) =>
+                      index === all.findIndex(other => value.id === other.id)
+                  )
+                }
               }
             }
           }
-        }
-      })
+        })
     })
   }),
   graphql(subscribedByMeSpecialQuery, {
@@ -258,7 +312,12 @@ const Query = compose(
         ...specialGroups[slug].forcedVariables
       }
     }),
-    props: ({ data, ownProps: { variables: { slug } } }) => ({
+    props: ({
+      data,
+      ownProps: {
+        variables: { slug }
+      }
+    }) => ({
       data: {
         ...data,
         cardGroup: {
@@ -268,30 +327,41 @@ const Query = compose(
           all: data.all
         }
       },
-      fetchMore: ({ endCursor }) => data.fetchMore({
-        variables: {
-          after: endCursor
-        },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          return {
-            ...previousResult,
-            ...fetchMoreResult,
-            cards: {
-              ...previousResult.cards,
-              ...fetchMoreResult.cards,
-              nodes: [
-                ...previousResult.cards.nodes,
-                ...fetchMoreResult.cards.nodes
-              ].filter((value, index, all) => index === all.findIndex(other => value.id === other.id))
+      fetchMore: ({ endCursor }) =>
+        data.fetchMore({
+          variables: {
+            after: endCursor
+          },
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            return {
+              ...previousResult,
+              ...fetchMoreResult,
+              cards: {
+                ...previousResult.cards,
+                ...fetchMoreResult.cards,
+                nodes: [
+                  ...previousResult.cards.nodes,
+                  ...fetchMoreResult.cards.nodes
+                ].filter(
+                  (value, index, all) =>
+                    index === all.findIndex(other => value.id === other.id)
+                )
+              }
             }
           }
-        }
-      })
+        })
     })
   })
 )(Inner)
 
-const Page = ({ serverContext, router: { query, query: { group, top, stale, party } }, me }) => {
+const Page = ({
+  serverContext,
+  router: {
+    query,
+    query: { group, top, stale, party }
+  },
+  me
+}) => {
   const [preferences] = useCardPreferences({})
   const [slowPreferences] = useDebounce(preferences, 500)
   const meRef = useRef(me)
@@ -303,7 +373,8 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
     topRef.current = top
   }
 
-  const medianSmartspider = party && medianSmartspiders.find(m => m.value === party)
+  const medianSmartspider =
+    party && medianSmartspiders.find(m => m.value === party)
 
   return (
     <Frame footer={false} pullable={false} raw>
@@ -326,9 +397,10 @@ const Page = ({ serverContext, router: { query, query: { group, top, stale, part
           smartspider: medianSmartspider
             ? medianSmartspider.smartspider
             : slowPreferences.mySmartspider && slowPreferences.mySmartspiderSort
-              ? slowPreferences.mySmartspider
-              : undefined
-        }} />
+            ? slowPreferences.mySmartspider
+            : undefined
+        }}
+      />
     </Frame>
   )
 }

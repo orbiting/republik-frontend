@@ -46,7 +46,7 @@ const mergeConnection = (data, connection) => ({
 const bookmarkIcon = <IconDefault size={22} key='icon' />
 
 class Page extends Component {
-  render () {
+  render() {
     const { t } = this.props
     const meta = {
       title: t('nav/bookmarks')
@@ -66,11 +66,13 @@ class Page extends Component {
             placeholder={
               <Interaction.P style={{ marginBottom: 60 }}>
                 {t.elements('pages/bookmarks/placeholder', {
-                  feedLink: <Link route='feed' key='link'>
-                    <a {...linkRule}>
-                      {t('pages/bookmarks/placeholder/feedText')}
-                    </a>
-                  </Link>,
+                  feedLink: (
+                    <Link route='feed' key='link'>
+                      <a {...linkRule}>
+                        {t('pages/bookmarks/placeholder/feedText')}
+                      </a>
+                    </Link>
+                  ),
                   bookmarkIcon
                 })}
               </Interaction.P>

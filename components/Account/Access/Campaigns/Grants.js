@@ -16,19 +16,20 @@ const Grants = ({ campaign, revokeAccess, t }) => {
 
   return (
     <Fragment>
-      {<H3 style={{ marginTop: 30 }}>
-        {t.pluralize(
-          'Account/Access/Campaigns/Grants/title',
-          { count: campaign.slots.used }
-        )}
-      </H3>
+      {
+        <H3 style={{ marginTop: 30 }}>
+          {t.pluralize('Account/Access/Campaigns/Grants/title', {
+            count: campaign.slots.used
+          })}
+        </H3>
       }
       <List>
         {campaign.grants.map((grant, key) => (
           <Grant
             key={`grant-${key}`}
             grant={grant}
-            revokeAccess={revokeAccess} />
+            revokeAccess={revokeAccess}
+          />
         ))}
       </List>
     </Fragment>

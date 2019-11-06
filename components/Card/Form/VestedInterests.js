@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import { css } from 'glamor'
 
@@ -12,7 +11,7 @@ const styles = {
   })
 }
 
-const Form = (props) => {
+const Form = props => {
   const [name, setName] = useState({ value: props.name })
   const [entity, setEntity] = useState({ value: props.entity })
   const [position, setPosition] = useState({ value: props.position })
@@ -21,9 +20,7 @@ const Form = (props) => {
     setName({
       ...name,
       value,
-      error: (
-        (value.trim().length === 0 && 'Name fehlt')
-      ),
+      error: value.trim().length === 0 && 'Name fehlt',
       dirty: shouldValidate
     })
   }
@@ -32,9 +29,7 @@ const Form = (props) => {
     setEntity({
       ...entity,
       value,
-      error: (
-        (value.trim().length === 0 && 'Rechtsform fehlt')
-      ),
+      error: value.trim().length === 0 && 'Rechtsform fehlt',
       dirty: shouldValidate
     })
   }
@@ -43,9 +38,7 @@ const Form = (props) => {
     setPosition({
       ...position,
       value,
-      error: (
-        (value.trim().length === 0 && 'Position fehlt')
-      ),
+      error: value.trim().length === 0 && 'Position fehlt',
       dirty: shouldValidate
     })
   }
@@ -57,28 +50,23 @@ const Form = (props) => {
     handleEntity(entity.value, true)
     handlePosition(position.value, true)
 
-    const errors = [
-      name.error,
-      entity.error,
-      position.error
-    ].filter(Boolean)
+    const errors = [name.error, entity.error, position.error].filter(Boolean)
 
     if (errors.length > 0) {
       return
     }
 
-    props.onCommit(
-      props.id,
-      { name: name.value, entity: entity.value, position: position.value }
-    )
+    props.onCommit(props.id, {
+      name: name.value,
+      entity: entity.value,
+      position: position.value
+    })
   }
 
   const cancel = e => {
     e && e.preventDefault && e.preventDefault()
 
-    props.onCancel(
-      props.id
-    )
+    props.onCancel(props.id)
   }
 
   return (
@@ -88,24 +76,36 @@ const Form = (props) => {
         value={name.value}
         error={name.dirty && name.error}
         dirty={name.dirty}
-        onChange={(_, value, shouldValidate) => handleName(value, shouldValidate)} />
+        onChange={(_, value, shouldValidate) =>
+          handleName(value, shouldValidate)
+        }
+      />
       <Field
         label='Rechtsform'
         value={entity.value}
         error={entity.dirty && entity.error}
         dirty={entity.dirty}
-        onChange={(_, value, shouldValidate) => handleEntity(value, shouldValidate)} />
+        onChange={(_, value, shouldValidate) =>
+          handleEntity(value, shouldValidate)
+        }
+      />
       <Field
         label='Position'
         value={position.value}
         error={position.dirty && position.error}
         dirty={position.dirty}
-        onChange={(_, value, shouldValidate) => handlePosition(value, shouldValidate)} />
+        onChange={(_, value, shouldValidate) =>
+          handlePosition(value, shouldValidate)
+        }
+      />
 
       <P>
-        <A href='#uebernehmen' onClick={commit}>Übernehmen</A>
-        {' '}
-        <A href='#abbrechen' onClick={cancel}>Abbrechen</A>
+        <A href='#uebernehmen' onClick={commit}>
+          Übernehmen
+        </A>{' '}
+        <A href='#abbrechen' onClick={cancel}>
+          Abbrechen
+        </A>
       </P>
     </div>
   )
@@ -140,7 +140,9 @@ const VestedInterests = ({ vestedInterests, handleVestedInterests }) => {
   const removeInterest = (e, id) => {
     e && e.preventDefault && e.preventDefault()
 
-    const updatedInterests = [...interests].filter(interest => interest.id !== id)
+    const updatedInterests = [...interests].filter(
+      interest => interest.id !== id
+    )
     setInterests([...updatedInterests])
   }
 
@@ -172,20 +174,33 @@ const VestedInterests = ({ vestedInterests, handleVestedInterests }) => {
     <>
       <H2>Interessenbindungen</H2>
       <ul>
-        {interests.map((interest) => {
+        {interests.map(interest => {
           return (
             <li key={interest.id}>
               {interest.id === isEditing ? (
-                <Form {...interest} onCommit={replaceInterest} onCancel={cancelEditing} />
+                <Form
+                  {...interest}
+                  onCommit={replaceInterest}
+                  onCancel={cancelEditing}
+                />
               ) : (
                 <>
                   <P>
                     {interest.name} ({interest.entity}); {interest.position}
                   </P>
                   <P>
-                    <A href='#aendern' onClick={e => editInterest(e, interest.id)}>Ändern</A>
-                    {' '}
-                    <A href='#entfernen' onClick={e => removeInterest(e, interest.id)}>Entfernen</A>
+                    <A
+                      href='#aendern'
+                      onClick={e => editInterest(e, interest.id)}
+                    >
+                      Ändern
+                    </A>{' '}
+                    <A
+                      href='#entfernen'
+                      onClick={e => removeInterest(e, interest.id)}
+                    >
+                      Entfernen
+                    </A>
                   </P>
                 </>
               )}

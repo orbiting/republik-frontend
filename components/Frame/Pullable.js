@@ -22,21 +22,24 @@ const styles = {
 const Container = props => (
   <div
     {...styles.container}
-    {...(props.shouldReset ? css({
-      transition: `height ${props.resetDuration}ms ${props.resetEase}`
-    }) : undefined)}
+    {...(props.shouldReset
+      ? css({
+          transition: `height ${props.resetDuration}ms ${props.resetEase}`
+        })
+      : undefined)}
     style={{
       height: props.height,
       backgroundColor: props.dark
         ? colors.negative.primaryBg
         : colors.secondaryBg
-    }}>
+    }}
+  >
     {props.children}
   </div>
 )
 
 class Pullable extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -53,7 +56,7 @@ class Pullable extends React.Component {
     }
     this.clearTouchStatus()
 
-    this.onTouchStart = (e) => {
+    this.onTouchStart = e => {
       if (this.props.disabled || this.ignoreTouches) return
 
       if (this.state.status === 'ready' && this.props.shouldPullToRefresh()) {
@@ -63,8 +66,9 @@ class Pullable extends React.Component {
       }
     }
 
-    this.onTouchMove = (e) => {
-      if (this.props.disabled || this.ignoreTouches || this.pullStartY === null) return
+    this.onTouchMove = e => {
+      if (this.props.disabled || this.ignoreTouches || this.pullStartY === null)
+        return
 
       this.pullMoveY = e.touches[0].screenY
       this.dist = this.pullMoveY - this.pullStartY
@@ -72,18 +76,24 @@ class Pullable extends React.Component {
       if (this.dist > 0) {
         e.preventDefault()
 
-        this.distResisted = Math.min(this.dist / this.props.resistance, this.props.distThreshold)
+        this.distResisted = Math.min(
+          this.dist / this.props.resistance,
+          this.props.distThreshold
+        )
 
-        this.setState({
-          status: 'pulling',
-          height: this.distResisted
-        }, () => {
-          if (this.distResisted === this.props.distThreshold) this.refresh()
-        })
+        this.setState(
+          {
+            status: 'pulling',
+            height: this.distResisted
+          },
+          () => {
+            if (this.distResisted === this.props.distThreshold) this.refresh()
+          }
+        )
       }
     }
 
-    this.onTouchEnd = (e) => {
+    this.onTouchEnd = e => {
       if (this.props.disabled || this.ignoreTouches) return
 
       if (this.state.status === 'pulling') {
@@ -117,25 +127,28 @@ class Pullable extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('touchstart', this.onTouchStart)
     window.addEventListener('touchmove', this.onTouchMove, { passive: false })
     window.addEventListener('touchend', this.onTouchEnd)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('touchstart', this.onTouchStart)
-    window.removeEventListener('touchmove', this.onTouchMove, { passive: false })
+    window.removeEventListener('touchmove', this.onTouchMove, {
+      passive: false
+    })
     window.removeEventListener('touchend', this.onTouchEnd)
 
     clearTimeout(this.refreshCompletedTimeout)
     clearTimeout(this.resetTimeout)
   }
 
-  render () {
+  render() {
     const { status, height } = this.state
     const shouldSpin = status === 'refreshing' || status === 'refreshCompleted'
-    const shouldReset = status === 'pullAborted' || status === 'refreshCompleted'
+    const shouldReset =
+      status === 'pullAborted' || status === 'refreshCompleted'
 
     return (
       <Fragment>
@@ -146,9 +159,7 @@ class Pullable extends React.Component {
           shouldReset={shouldReset}
           dark={this.props.dark}
         >
-          {shouldSpin
-            ? <InlineSpinner size={32} />
-            : <DownIcon size={32} />}
+          {shouldSpin ? <InlineSpinner size={32} /> : <DownIcon size={32} />}
         </Container>
         {this.props.children}
       </Fragment>

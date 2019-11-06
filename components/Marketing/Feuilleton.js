@@ -24,10 +24,7 @@ import { Link, Router } from '../../lib/routes'
 import Employee from '../Imprint/Employee'
 import { RawList as FaqList } from '../Faq/List'
 
-import {
-  List as TestimonialList,
-  testimonialFields
-} from '../Testimonial/List'
+import { List as TestimonialList, testimonialFields } from '../Testimonial/List'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -108,9 +105,7 @@ const Subheader = ({ children }) => (
   <Interaction.H2 {...styles.subheader}>{children}</Interaction.H2>
 )
 
-const QuoteContainer = ({ children }) => (
-  <div {...styles.quote}>{children}</div>
-)
+const QuoteContainer = ({ children }) => <div {...styles.quote}>{children}</div>
 
 const FeuilletonMarketingPage = ({
   t,
@@ -144,15 +139,15 @@ const FeuilletonMarketingPage = ({
             </button>
           </Link>
         </div>
-        <div {...sharedStyles.signIn} {...sharedStyles.links}>{
-          t.elements(
-            'marketing/signin',
-            { link: <Link key='link' route={'signin'}>
-              <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
-            </Link>
-            }
-          )
-        }</div>
+        <div {...sharedStyles.signIn} {...sharedStyles.links}>
+          {t.elements('marketing/signin', {
+            link: (
+              <Link key='link' route={'signin'}>
+                <Editorial.A>{t('marketing/signin/link')}</Editorial.A>
+              </Link>
+            )
+          })}
+        </div>
       </Container>
       <Center>
         <Subheader>{t('marketing/feuilleton/what/title')}</Subheader>
@@ -205,26 +200,28 @@ const FeuilletonMarketingPage = ({
             }}
           />
         </Editorial.P>
-        {employees && employees.length && <Fragment>
-          <Subheader>{t('marketing/feuilleton/who/title')}</Subheader>
-          <div {...styles.employees}>
-            {employees.map((employee, index) => (
-              <Employee
-                {...employee}
-                singleRow
-                key={index}
-                style={{ width: `${100 / employees.length}%` }}
+        {employees && employees.length && (
+          <Fragment>
+            <Subheader>{t('marketing/feuilleton/who/title')}</Subheader>
+            <div {...styles.employees}>
+              {employees.map((employee, index) => (
+                <Employee
+                  {...employee}
+                  singleRow
+                  key={index}
+                  style={{ width: `${100 / employees.length}%` }}
+                />
+              ))}
+            </div>
+            <Editorial.P>
+              <RawHtml
+                dangerouslySetInnerHTML={{
+                  __html: t('marketing/feuilleton/who/text')
+                }}
               />
-            ))}
-          </div>
-          <Editorial.P>
-            <RawHtml
-              dangerouslySetInnerHTML={{
-                __html: t('marketing/feuilleton/who/text')
-              }}
-            />
-          </Editorial.P>
-        </Fragment>}
+            </Editorial.P>
+          </Fragment>
+        )}
         <QuoteContainer>
           <PullQuote {...styles.pullQuoteText}>
             <Editorial.Format {...styles.format}>
@@ -241,14 +238,11 @@ const FeuilletonMarketingPage = ({
 
         <div {...styles.communityWidget}>
           <Interaction.H3 style={{ marginBottom: 10 }}>
-            {t(
-              'marketing/community/title',
-              {
-                count: membershipStats
-                  ? countFormat(membershipStats.count)
-                  : t('marketing/community/defaultCount')
-              }
-            )}
+            {t('marketing/community/title', {
+              count: membershipStats
+                ? countFormat(membershipStats.count)
+                : t('marketing/community/defaultCount')
+            })}
           </Interaction.H3>
           <TestimonialList
             singleRow
@@ -257,12 +251,13 @@ const FeuilletonMarketingPage = ({
             statements={data.statements ? data.statements.nodes : []}
             loading={data.loading}
             t={t}
-            onSelect={(id) => {
+            onSelect={id => {
               Router.push(`/community?id=${id}`).then(() => {
                 window.scrollTo(0, 0)
               })
               return false
-            }} />
+            }}
+          />
           <div style={{ marginTop: 10 }} {...sharedStyles.links}>
             <Link route='community' passHref>
               <Editorial.A>{t('marketing/community/link')}</Editorial.A>
@@ -270,17 +265,19 @@ const FeuilletonMarketingPage = ({
           </div>
         </div>
       </Center>
-      {data.faqs && data.faqs.length && <Center style={{ marginBottom: 80 }}>
-        <Interaction.H3 style={{ marginBottom: 10 }}>{t('marketing/feuilleton/faq/title')}</Interaction.H3>
-        <FaqList data={data} flat />
-        <div {...sharedStyles.links} style={{ marginTop: 10 }}>
-          <Link route='faq' passHref>
-            <Editorial.A>
-              {t('marketing/feuilleton/faq/link')}
-            </Editorial.A>
-          </Link>
-        </div>
-      </Center>}
+      {data.faqs && data.faqs.length && (
+        <Center style={{ marginBottom: 80 }}>
+          <Interaction.H3 style={{ marginBottom: 10 }}>
+            {t('marketing/feuilleton/faq/title')}
+          </Interaction.H3>
+          <FaqList data={data} flat />
+          <div {...sharedStyles.links} style={{ marginTop: 10 }}>
+            <Link route='faq' passHref>
+              <Editorial.A>{t('marketing/feuilleton/faq/link')}</Editorial.A>
+            </Link>
+          </div>
+        </Center>
+      )}
     </Fragment>
   )
 }
@@ -293,14 +290,18 @@ export default compose(
       return {
         data: {
           ...data,
-          employees: employees && employees
-            .filter(employee => employee.title && employee.title.match(/feuilleton/i)),
-          faqs: faqs && faqs
-            .filter(faq => faqQs.indexOf(faq.question) !== -1)
-            .sort((a, b) => ascending(
-              faqQs.indexOf(a.question),
-              faqQs.indexOf(b.question)
-            ))
+          employees:
+            employees &&
+            employees.filter(
+              employee => employee.title && employee.title.match(/feuilleton/i)
+            ),
+          faqs:
+            faqs &&
+            faqs
+              .filter(faq => faqQs.indexOf(faq.question) !== -1)
+              .sort((a, b) =>
+                ascending(faqQs.indexOf(a.question), faqQs.indexOf(b.question))
+              )
         }
       }
     }

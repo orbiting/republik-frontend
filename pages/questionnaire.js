@@ -6,9 +6,7 @@ import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { t } from '../lib/withT'
 import { Link } from '../lib/routes'
 
-import {
-  A
-} from '@project-r/styleguide'
+import { A } from '@project-r/styleguide'
 
 const meta = {
   title: t('questionnaire/title'),

@@ -4,10 +4,7 @@ import Frame from '../components/Frame'
 import Page from '../components/About/Page'
 import withT from '../lib/withT'
 
-import {
-  PUBLIC_BASE_URL,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const AboutPage = ({ t }) => {
   const meta = {
@@ -23,6 +20,4 @@ const AboutPage = ({ t }) => {
   )
 }
 
-export default compose(
-  withT
-)(AboutPage)
+export default compose(withT)(AboutPage)

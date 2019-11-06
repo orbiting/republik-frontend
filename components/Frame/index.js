@@ -1,15 +1,18 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import { Container, RawHtml, fontFamilies, mediaQueries, colors } from '@project-r/styleguide'
+import {
+  Container,
+  RawHtml,
+  fontFamilies,
+  mediaQueries,
+  colors
+} from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
 import Box from './Box'
 import ProlongBox from './ProlongBox'
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
@@ -62,13 +65,13 @@ const styles = {
 }
 
 export const MainContainer = ({ children }) => (
-  <Container style={{ maxWidth: '840px' }}>
-    {children}
-  </Container>
+  <Container style={{ maxWidth: '840px' }}>{children}</Container>
 )
 
 export const Content = ({ children, style }) => (
-  <div {...styles.content} style={style}>{children}</div>
+  <div {...styles.content} style={style}>
+    {children}
+  </div>
 )
 
 const Index = ({
@@ -96,14 +99,15 @@ const Index = ({
     {/* body growing only needed when rendering a footer */}
     <div
       {...(footer || inNativeApp ? styles.bodyGrower : undefined)}
-      {...(!cover
-        ? styles.padHeader
-        : undefined
-      )}
+      {...(!cover ? styles.padHeader : undefined)}
     >
-      {dark && <style dangerouslySetInnerHTML={{
-        __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
-      }} />}
+      {dark && (
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
+          }}
+        />
+      )}
       {!!meta && <Meta data={meta} />}
       <Header
         dark={dark && !inNativeIOSApp}
@@ -122,14 +126,17 @@ const Index = ({
           <RawHtml
             dangerouslySetInnerHTML={{
               __html: t('noscript')
-            }} />
+            }}
+          />
         </Box>
       </noscript>
-      {me && me.prolongBeforeDate !== null &&
+      {me && me.prolongBeforeDate !== null && (
         <ProlongBox
           t={t}
           prolongBeforeDate={me.prolongBeforeDate}
-          dark={dark} />}
+          dark={dark}
+        />
+      )}
       {raw ? (
         children
       ) : (

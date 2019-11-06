@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from 'glamor'
 
-import {
-  fontFamilies
-} from '@project-r/styleguide'
+import { fontFamilies } from '@project-r/styleguide'
 
 const mqMedium = '@media (min-width: 600px)'
 const mqLarge = '@media (min-width: 900px)'
@@ -54,7 +52,8 @@ const leadStyle = css({
     right: 0,
     height: '40%',
     color: '#fff',
-    backgroundImage: 'linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.80) 100%)'
+    backgroundImage:
+      'linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.80) 100%)'
   }
 })
 const leadContainerStyle = css({
@@ -77,16 +76,17 @@ const leadCenterStyle = css({
 const Cover = ({ image, children }) => (
   <div
     {...coverStyle}
-    {...css({ [mqLarge]: { backgroundImage: `url('${image.src}')` } })}>
+    {...css({ [mqLarge]: { backgroundImage: `url('${image.src}')` } })}
+  >
     <img {...coverImageStyle} src={image.src} alt={image.alt} />
-    {!!children && <div {...leadStyle}>
-      <div {...leadContainerStyle}>
-        <div {...leadCenterStyle}>
-          {children}
+    {!!children && (
+      <div {...leadStyle}>
+        <div {...leadContainerStyle}>
+          <div {...leadCenterStyle}>{children}</div>
         </div>
+        {!!image.credit && <div {...creditStyle}>{image.credit}</div>}
       </div>
-      {!!image.credit && <div {...creditStyle}>{image.credit}</div>}
-    </div>}
+    )}
   </div>
 )
 

@@ -31,51 +31,49 @@ export const AnchorLink = ({ children, id }) => (
   <a
     {...linkRule}
     href={'/konto#' + id}
-    onClick={(e) => {
+    onClick={e => {
       if (shouldIgnoreClick(e)) {
         return
       }
 
       e.preventDefault()
       const fragment = '#' + id
-      Router
-        .pushRoute('/konto' + fragment)
-        .then(() => {
-          focusSelector(fragment, 'beginning')
-        })
-    }}>
+      Router.pushRoute('/konto' + fragment).then(() => {
+        focusSelector(fragment, 'beginning')
+      })
+    }}
+  >
     {children}
   </a>
 )
 
 const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
   <ul {...styles.anchorList}>
-    {!inNativeIOSApp && memberships && memberships.length > 0 &&
+    {!inNativeIOSApp && memberships && memberships.length > 0 && (
       <li {...styles.anchorListItem}>
         <AnchorLink id='abos'>
-          {t.pluralize(
-            'memberships/title',
-            { count: memberships.length }
-          )}
+          {t.pluralize('memberships/title', { count: memberships.length })}
         </AnchorLink>
-      </li>}
-    {accessCampaigns && accessCampaigns.length > 0 &&
+      </li>
+    )}
+    {accessCampaigns && accessCampaigns.length > 0 && (
       <li {...styles.anchorListItem}>
         <AnchorLink id='teilen'>
           {t('Account/Access/Campaigns/title')}
         </AnchorLink>
-      </li>}
+      </li>
+    )}
     <li {...styles.anchorListItem}>
       <AnchorLink id='email'>{t('Account/Update/email/label')}</AnchorLink>
     </li>
     <li {...styles.anchorListItem}>
       <AnchorLink id='account'>{t('Account/Update/title')}</AnchorLink>
     </li>
-    {!inNativeIOSApp &&
+    {!inNativeIOSApp && (
       <li {...styles.anchorListItem}>
         <AnchorLink id='pledges'>{t('account/pledges/title')}</AnchorLink>
       </li>
-    }
+    )}
     <li {...styles.anchorListItem}>
       <AnchorLink id='newsletter'>
         {t('account/newsletterSubscriptions/title')}
@@ -87,16 +85,15 @@ const Anchors = ({ memberships, accessCampaigns, t, inNativeIOSApp }) => (
       </AnchorLink>
     </li>
     <li {...styles.anchorListItem}>
-      <AnchorLink id='position'>
-        {t('account/progress/title')}
-      </AnchorLink>
+      <AnchorLink id='position'>{t('account/progress/title')}</AnchorLink>
     </li>
-    {APP_OPTIONS &&
+    {APP_OPTIONS && (
       <li {...styles.anchorListItem}>
         <AnchorLink id='anmeldung'>
           {t('account/authSettings/title')}
         </AnchorLink>
-      </li>}
+      </li>
+    )}
   </ul>
 )
 

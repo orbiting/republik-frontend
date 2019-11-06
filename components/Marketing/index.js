@@ -16,15 +16,9 @@ import {
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
-import {
-  CROWDFUNDING,
-  TRIAL_CAMPAIGN
-} from '../../lib/constants'
+import { CROWDFUNDING, TRIAL_CAMPAIGN } from '../../lib/constants'
 
-import {
-  List as TestimonialList,
-  testimonialFields
-} from '../Testimonial/List'
+import { List as TestimonialList, testimonialFields } from '../Testimonial/List'
 
 import TeaserBlock, { GAP as TEASER_BLOCK_GAP } from '../Overview/TeaserBlock'
 import { getTeasersFromDocument } from '../Overview/utils'
@@ -36,10 +30,7 @@ import TrialForm from '../Trial/Form'
 import { buttonStyles, sharedStyles } from './styles'
 
 import ErrorMessage from '../ErrorMessage'
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE
-} from '../constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
 const MAX_STATEMENTS = 5
 
@@ -103,7 +94,8 @@ const styles = {
     height: 100,
     left: 0,
     right: 0,
-    background: 'linear-gradient(0deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0) 100%)',
+    background:
+      'linear-gradient(0deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0) 100%)',
     pointerEvents: 'none'
   }),
   lead: css({
@@ -132,42 +124,57 @@ const styles = {
 }
 
 const MarketingPage = props => {
-  const [ highlight, setHighlight ] = useState()
+  const [highlight, setHighlight] = useState()
   // ensure the highlighFunction is not dedected as an state update function
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
-  const { t, data: { loading, error, meGuidance, membershipStats, front, statements } } = props
+  const {
+    t,
+    data: { loading, error, meGuidance, membershipStats, front, statements }
+  } = props
 
   const hasActiveMembership = meGuidance && !!meGuidance.activeMembership
-  const hasAccessGrant = meGuidance && meGuidance.accessGrants && meGuidance.accessGrants.length > 0
+  const hasAccessGrant =
+    meGuidance && meGuidance.accessGrants && meGuidance.accessGrants.length > 0
   const hasActiveMembershipOrAccessGrant = hasActiveMembership || hasAccessGrant
 
   return (
     <Fragment>
       {!loading && meGuidance && !hasActiveMembership && <UserGuidance />}
-      {!error && <div {...styles.overviewOverflow}>
-        <div {...styles.overviewContainer}>
-          <Container style={{
-            maxWidth: 1200,
-            padding: 0
-          }}>
-            <h1 {...styles.lead}>
-              <RawHtml dangerouslySetInnerHTML={{
-                __html: t('marketing/overview/title')
-              }} />
-            </h1>
-            <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
-              <Loader loading={loading} style={{ minHeight: 500 }} render={() => (
-                <TeaserBlock
-                  teasers={getTeasersFromDocument(front)}
-                  highlight={highlight}
-                  onHighlight={onHighlight}
-                  maxHeight={500} />
-              )} />
-            </div>
-            <div {...styles.overviewBottomShadow} />
-          </Container>
+      {!error && (
+        <div {...styles.overviewOverflow}>
+          <div {...styles.overviewContainer}>
+            <Container
+              style={{
+                maxWidth: 1200,
+                padding: 0
+              }}
+            >
+              <h1 {...styles.lead}>
+                <RawHtml
+                  dangerouslySetInnerHTML={{
+                    __html: t('marketing/overview/title')
+                  }}
+                />
+              </h1>
+              <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+                <Loader
+                  loading={loading}
+                  style={{ minHeight: 500 }}
+                  render={() => (
+                    <TeaserBlock
+                      teasers={getTeasersFromDocument(front)}
+                      highlight={highlight}
+                      onHighlight={onHighlight}
+                      maxHeight={500}
+                    />
+                  )}
+                />
+              </div>
+              <div {...styles.overviewBottomShadow} />
+            </Container>
+          </div>
         </div>
-      </div>}
+      )}
       <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
           <div>
@@ -195,28 +202,27 @@ const MarketingPage = props => {
         <div {...sharedStyles.signIn} {...sharedStyles.links}>
           {!meGuidance && (
             <Fragment>
-              {t.elements(
-                'marketing/signin',
-                {
-                  link: <Link key='link' route={'signin'} passHref>
-                    <Editorial.A>{t('marketing/signin/link') }</Editorial.A>
+              {t.elements('marketing/signin', {
+                link: (
+                  <Link key='link' route={'signin'} passHref>
+                    <Editorial.A>{t('marketing/signin/link')}</Editorial.A>
                   </Link>
-                }
-              )}
+                )
+              })}
               {' – '}
             </Fragment>
           )}
           {t.elements('marketing/claim', {
             claimLink: (
               <Link route='claim' key='claim' passHref>
-                <Editorial.A>
-                  {t('marketing/claim/link')}
-                </Editorial.A>
+                <Editorial.A>{t('marketing/claim/link')}</Editorial.A>
               </Link>
             )
           })}
         </div>
-        {error && <ErrorMessage error={error} style={{ textAlign: 'center' }} />}
+        {error && (
+          <ErrorMessage error={error} style={{ textAlign: 'center' }} />
+        )}
       </Container>
 
       <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
@@ -224,13 +230,18 @@ const MarketingPage = props => {
           Ein Projekt gegen den Zynismus
         </Editorial.Subhead>
         <Editorial.P>
-          Unser Journalismus verteidigt die Institutionen der Demokratie gegen den Vormarsch der Autoritären. Wir lassen uns nicht von Angst leiten, sondern von den Werten der Aufklärung.
+          Unser Journalismus verteidigt die Institutionen der Demokratie gegen
+          den Vormarsch der Autoritären. Wir lassen uns nicht von Angst leiten,
+          sondern von den Werten der Aufklärung.
         </Editorial.P>
         <Editorial.P>
-          Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik politisch nicht festgelegt, aber keineswegs neutral.
+          Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und
+          Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik
+          politisch nicht festgelegt, aber keineswegs neutral.
         </Editorial.P>
         <Editorial.P>
-          Wir stehen für die Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.
+          Wir stehen für die Treue zu Fakten, für Offenheit gegenüber Kritik,
+          für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.
         </Editorial.P>
 
         <Interaction.H3 style={{ marginBottom: '17px' }}>
@@ -238,23 +249,28 @@ const MarketingPage = props => {
         </Interaction.H3>
         <Accordion
           crowdfundingName={CROWDFUNDING}
-          filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']} />
+          filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']}
+        />
 
         <div {...sharedStyles.spacer} />
-        <Interaction.H3>
-          {t('marketing/trial/title')}
-        </Interaction.H3>
+        <Interaction.H3>{t('marketing/trial/title')}</Interaction.H3>
         <TrialForm
           accessCampaignId={TRIAL_CAMPAIGN}
-          beforeRequestAccess={() => Router.replaceRoute('index', { stale: 'marketing' })}
-          narrow />
+          beforeRequestAccess={() =>
+            Router.replaceRoute('index', { stale: 'marketing' })
+          }
+          narrow
+        />
 
         <div {...sharedStyles.spacer} />
         <Editorial.Subhead {...styles.h2}>
           Unser Magazin ist unabhängig und werbefrei
         </Editorial.Subhead>
         <Editorial.P>
-          Das einzige Produkt ist vernünftiger Journalismus. Und unser einziger Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
+          Das einzige Produkt ist vernünftiger Journalismus. Und unser einziger
+          Kunde sind Sie. Wir bieten Ihnen Einordnung und Vertiefung anstelle
+          einer Flut von Nachrichten. Wir wollen Sie inspirieren, bereichern und
+          überraschen – mit Beiträgen zu den drängenden Fragen der Gegenwart.
         </Editorial.P>
       </Container>
 
@@ -264,13 +280,19 @@ const MarketingPage = props => {
 
       <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
         <Editorial.P>
-          Wir sind kompromisslos in der Qualität bei Sprache und Bild. Wir respektieren Ihre digitale Privatsphäre und schützen Ihre persönlichen Daten.
+          Wir sind kompromisslos in der Qualität bei Sprache und Bild. Wir
+          respektieren Ihre digitale Privatsphäre und schützen Ihre persönlichen
+          Daten.
         </Editorial.P>
         <Editorial.P>
-          Unsere Community respektiert abweichende Meinungen und debattiert konstruktiv. Bei uns reden Expertinnen, Leser und Journalistinnen miteinander. Es zählt das beste Argument.
+          Unsere Community respektiert abweichende Meinungen und debattiert
+          konstruktiv. Bei uns reden Expertinnen, Leser und Journalistinnen
+          miteinander. Es zählt das beste Argument.
         </Editorial.P>
         <Editorial.P>
-          Wir pflegen eine offene Fehlerkultur und begegnen Ihnen auf Augenhöhe. Und wir hören auf Sie, wenn es um die Weiterentwicklung der Republik geht.
+          Wir pflegen eine offene Fehlerkultur und begegnen Ihnen auf Augenhöhe.
+          Und wir hören auf Sie, wenn es um die Weiterentwicklung der Republik
+          geht.
         </Editorial.P>
 
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
@@ -300,41 +322,51 @@ const MarketingPage = props => {
           Ohne Journalismus keine Demokratie
         </Editorial.Subhead>
         <Editorial.P>
-          Den traditionellen Verlagen geht es je länger, desto schlechter. Ihre werbegetriebenen Geschäftsmodelle funktionieren nicht mehr. Das Resultat dieser Entwicklung ist Abbau und Konzentration. Vielfalt und Unabhängigkeit gehen verloren. Die vierte Gewalt ist heute existenziell bedroht.
+          Den traditionellen Verlagen geht es je länger, desto schlechter. Ihre
+          werbegetriebenen Geschäftsmodelle funktionieren nicht mehr. Das
+          Resultat dieser Entwicklung ist Abbau und Konzentration. Vielfalt und
+          Unabhängigkeit gehen verloren. Die vierte Gewalt ist heute
+          existenziell bedroht.
         </Editorial.P>
         <Editorial.P>
-          Nur gemeinsam können wir etwas dagegen tun. Dafür braucht es nicht nur Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen, der bereit ist, etwas Geld in unabhängigen, werbefreien Journalismus zu investieren. Bauen wir zusammen ein neues Geschäftsmodell!
+          Nur gemeinsam können wir etwas dagegen tun. Dafür braucht es nicht nur
+          Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Menschen,
+          der bereit ist, etwas Geld in unabhängigen, werbefreien Journalismus
+          zu investieren. Bauen wir zusammen ein neues Geschäftsmodell!
         </Editorial.P>
 
-        {!error && <Fragment>
-          <Interaction.H3 style={{ marginBottom: 10 }}>
-            {t(
-              'marketing/community/title',
-              {
+        {!error && (
+          <Fragment>
+            <Interaction.H3 style={{ marginBottom: 10 }}>
+              {t('marketing/community/title', {
                 count: membershipStats
                   ? countFormat(membershipStats.count)
                   : t('marketing/community/defaultCount')
-              }
-            )}
-          </Interaction.H3>
-          <TestimonialList
-            singleRow
-            minColumns={3}
-            first={MAX_STATEMENTS}
-            statements={statements && statements.nodes}
-            loading={loading || !statements}
-            t={t} />
-          <div style={{ marginTop: 10 }} {...sharedStyles.links}>
-            <Link route='community' passHref>
-              <Editorial.A>
-                {t('marketing/community/link')}
-              </Editorial.A>
-            </Link>
-          </div>
-        </Fragment>}
+              })}
+            </Interaction.H3>
+            <TestimonialList
+              singleRow
+              minColumns={3}
+              first={MAX_STATEMENTS}
+              statements={statements && statements.nodes}
+              loading={loading || !statements}
+              t={t}
+            />
+            <div style={{ marginTop: 10 }} {...sharedStyles.links}>
+              <Link route='community' passHref>
+                <Editorial.A>{t('marketing/community/link')}</Editorial.A>
+              </Link>
+            </div>
+          </Fragment>
+        )}
 
         <Editorial.P>
-          Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig Besitzerin des Unternehmens. Sie sind Mitglied der Project R Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines Monatsabos vor.
+          Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig
+          Besitzerin des Unternehmens. Sie sind Mitglied der Project R
+          Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie
+          wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich
+          Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines
+          Monatsabos vor.
         </Editorial.P>
       </Container>
       <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>

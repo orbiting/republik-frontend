@@ -39,20 +39,14 @@ const ShareButtons = ({
   grid
 }) => {
   const [copyLinkSuffix, setLinkCopySuffix] = useState()
-  useEffect(
-    () => {
-      if (copyLinkSuffix === 'success') {
-        const timeout = setTimeout(
-          () => {
-            setLinkCopySuffix()
-          },
-          5 * 1000
-        )
-        return () => clearTimeout(timeout)
-      }
-    },
-    [copyLinkSuffix]
-  )
+  useEffect(() => {
+    if (copyLinkSuffix === 'success') {
+      const timeout = setTimeout(() => {
+        setLinkCopySuffix()
+      }, 5 * 1000)
+      return () => clearTimeout(timeout)
+    }
+  }, [copyLinkSuffix])
 
   const emailAttache = emailAttachUrl ? `\n\n${url}` : ''
 
@@ -94,8 +88,12 @@ const ShareButtons = ({
       href: url,
       icon: 'copyLink',
       title: t('article/actionbar/link/title'),
-      label: t(`article/actionbar/link/label${copyLinkSuffix ? `/${copyLinkSuffix}` : ''}`),
-      onClick: (e) => {
+      label: t(
+        `article/actionbar/link/label${
+          copyLinkSuffix ? `/${copyLinkSuffix}` : ''
+        }`
+      ),
+      onClick: e => {
         e.preventDefault()
         copyToClipboard(url)
           .then(() => setLinkCopySuffix('success'))
@@ -116,26 +114,25 @@ const ShareButtons = ({
           size={32}
           stacked
           {...props}
-          onClick={(e) => {
-            track([
-              'trackEvent',
-              eventCategory,
-              props.icon,
-              url
-            ])
+          onClick={e => {
+            track(['trackEvent', eventCategory, props.icon, url])
             if (props.onClick) {
               return props.onClick(e)
             }
             onClose && onClose()
           }}
-          style={grid ? {
-            padding: 0,
-            width: '33%',
-            ...props.style
-          } : {
-            marginRight: 20,
-            ...props.style
-          }}
+          style={
+            grid
+              ? {
+                  padding: 0,
+                  width: '33%',
+                  ...props.style
+                }
+              : {
+                  marginRight: 20,
+                  ...props.style
+                }
+          }
         >
           {props.label}
         </IconLink>

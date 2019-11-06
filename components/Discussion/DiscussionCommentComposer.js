@@ -64,20 +64,27 @@ const DiscussionCommentComposer = props => {
     } catch (e) {}
   }, [])
 
-  const timeAheadFromNow = dateString => timeahead(t, (now - Date.parse(dateString)) / 1000)
+  const timeAheadFromNow = dateString =>
+    timeahead(t, (now - Date.parse(dateString)) / 1000)
 
   return (
     <Loader
       loading={discussionPreferences.loading}
-      error={discussionPreferences.error || (discussionPreferences.discussion === null && t('discussion/missing'))}
+      error={
+        discussionPreferences.error ||
+        (discussionPreferences.discussion === null && t('discussion/missing'))
+      }
       render={() => {
         const { discussion } = discussionPreferences
 
-        const disableTopLevelComments = !!discussion.rules.disableTopLevelComments && parentId === null
+        const disableTopLevelComments =
+          !!discussion.rules.disableTopLevelComments && parentId === null
         if (!me || disableTopLevelComments) {
           return null
         } else if (discussionClosed) {
-          return <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
+          return (
+            <Box style={{ padding: '15px 20px' }}>{t('discussion/closed')}</Box>
+          )
         } else {
           if (!discussionUserCanComment) {
             return (
@@ -86,7 +93,9 @@ const DiscussionCommentComposer = props => {
                   {t.elements('submitComment/notEligible', {
                     pledgeLink: (
                       <Link route='pledge' key='pledge' passHref>
-                        <Editorial.A>{t('submitComment/notEligible/pledgeText')}</Editorial.A>
+                        <Editorial.A>
+                          {t('submitComment/notEligible/pledgeText')}
+                        </Editorial.A>
                       </Link>
                     )
                   })}
@@ -95,12 +104,15 @@ const DiscussionCommentComposer = props => {
             )
           }
 
-          const waitUntilDate = discussion.userWaitUntil && new Date(discussion.userWaitUntil)
+          const waitUntilDate =
+            discussion.userWaitUntil && new Date(discussion.userWaitUntil)
           if (waitUntilDate && waitUntilDate > new Date()) {
             return (
               <Box style={{ padding: '15px 20px' }}>
                 <Interaction.P>
-                  {t('styleguide/CommentComposer/wait', { time: timeAheadFromNow(waitUntilDate) })}
+                  {t('styleguide/CommentComposer/wait', {
+                    time: timeAheadFromNow(waitUntilDate)
+                  })}
                 </Interaction.P>
               </Box>
             )
@@ -108,14 +120,21 @@ const DiscussionCommentComposer = props => {
 
           // workaround to know if there is a userPreference record with potentially credential null
           const noPreferences = discussion.userPreference.notifications === null
-          const autoCredential = noPreferences && !discussion.userPreference.anonymity && discussionPreferences.me && discussionPreferences.me.credentials.find(c => c.isListed)
+          const autoCredential =
+            noPreferences &&
+            !discussion.userPreference.anonymity &&
+            discussionPreferences.me &&
+            discussionPreferences.me.credentials.find(c => c.isListed)
           const displayAuthor = {
             ...discussionDisplayAuthor,
-            ...autoCredential ? { credential: autoCredential } : {}
+            ...(autoCredential ? { credential: autoCredential } : {})
           }
           const submitComment = ({ text, tags }) => {
             if (autoCredential) {
-              props.setDiscussionPreferences(undefined, autoCredential.description)
+              props.setDiscussionPreferences(
+                undefined,
+                autoCredential.description
+              )
             }
             return props.submitComment(null, text, tags).then(
               () => {

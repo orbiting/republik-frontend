@@ -39,11 +39,7 @@ const menuStyle = css({
 })
 
 const Popover = ({ items, expanded, id, children }) => (
-  <div
-    id={id}
-    aria-expanded={expanded}
-    {...menuStyle}
-  >
+  <div id={id} aria-expanded={expanded} {...menuStyle}>
     {children}
   </div>
 )

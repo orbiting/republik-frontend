@@ -95,11 +95,17 @@ const ActionBar = ({
     discussionPath,
     discussionQuery,
     discussionCount
-  } = getDiscussionIconLinkProps(linkedDiscussion, ownDiscussion, template, path)
+  } = getDiscussionIconLinkProps(
+    linkedDiscussion,
+    ownDiscussion,
+    template,
+    path
+  )
 
-  const displayConsumptionMinutes = estimatedConsumptionMinutes > estimatedReadingMinutes
-    ? estimatedConsumptionMinutes
-    : estimatedReadingMinutes
+  const displayConsumptionMinutes =
+    estimatedConsumptionMinutes > estimatedReadingMinutes
+      ? estimatedConsumptionMinutes
+      : estimatedReadingMinutes
 
   return (
     <Fragment>
@@ -111,25 +117,38 @@ const ActionBar = ({
           small
           style={{ marginLeft: '-4px', paddingRight: '3px' }}
         />
-        {icons
-          .filter(Boolean)
-          .map((props, i) => (
-            <ActionLink key={props.icon} path={path} hasAudio={hasAudio} indicateGallery={indicateGallery} {...props}>
-              <IconLink
-                size={20}
-                fill={props.color || colors.lightText}
-                {...props}
-              />
-            </ActionLink>
-          ))}
+        {icons.filter(Boolean).map((props, i) => (
+          <ActionLink
+            key={props.icon}
+            path={path}
+            hasAudio={hasAudio}
+            indicateGallery={indicateGallery}
+            {...props}
+          >
+            <IconLink
+              size={20}
+              fill={props.color || colors.lightText}
+              {...props}
+            />
+          </ActionLink>
+        ))}
         {displayConsumptionMinutes > 1 && (
-          <ReadingTime minutes={displayConsumptionMinutes} small style={{ marginBottom: '-1px' }} />
+          <ReadingTime
+            minutes={displayConsumptionMinutes}
+            small
+            style={{ marginBottom: '-1px' }}
+          />
         )}
         {userProgress && estimatedReadingMinutes > 1 && (
           <UserProgress
-            userProgress={!userProgress.percentage && userProgress.max && userProgress.max.percentage === 1
-              ? userProgress.max
-              : userProgress} />
+            userProgress={
+              !userProgress.percentage &&
+              userProgress.max &&
+              userProgress.max.percentage === 1
+                ? userProgress.max
+                : userProgress
+            }
+          />
         )}
         {discussionId && (
           <DiscussionIconLinkWithoutEnhancer
@@ -157,6 +176,4 @@ ActionBar.propTypes = {
   linkedDiscussion: PropTypes.object
 }
 
-export default compose(
-  withT
-)(ActionBar)
+export default compose(withT)(ActionBar)

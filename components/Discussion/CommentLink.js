@@ -2,7 +2,10 @@ import React from 'react'
 
 import { routes, Link, matchPath } from '../../lib/routes'
 
-import { GENERAL_FEEDBACK_DISCUSSION_ID, PUBLIC_BASE_URL } from '../../lib/constants'
+import {
+  GENERAL_FEEDBACK_DISCUSSION_ID,
+  PUBLIC_BASE_URL
+} from '../../lib/constants'
 
 const getFocusRoute = (discussion, commentId) => {
   if (discussion.id === GENERAL_FEEDBACK_DISCUSSION_ID) {
@@ -35,35 +38,32 @@ const getFocusRoute = (discussion, commentId) => {
 export const getFocusUrl = (discussion, commentId) => {
   const focusRoute = getFocusRoute(discussion, commentId)
   if (focusRoute) {
-    return `${PUBLIC_BASE_URL}${
-      routes
-        .find(r => r.name === focusRoute.route)
-        .getAs(focusRoute.params)
-    }`
+    return `${PUBLIC_BASE_URL}${routes
+      .find(r => r.name === focusRoute.route)
+      .getAs(focusRoute.params)}`
   }
 }
 
-const CommentLink = ({
-  displayAuthor,
-  commentId,
-  discussion,
-  ...props
-}) => {
+const CommentLink = ({ displayAuthor, commentId, discussion, ...props }) => {
   if (displayAuthor) {
     /*
      * If the slug is not available, it means the profile is not accessible.
      */
     if (displayAuthor.slug) {
       return (
-        <Link {...props}
+        <Link
+          {...props}
           route='profile'
-          params={{ slug: displayAuthor.slug }} />
+          params={{ slug: displayAuthor.slug }}
+        />
       )
     }
   } else if (discussion) {
     const focusRoute = getFocusRoute(discussion, commentId)
     if (focusRoute) {
-      return <Link {...props} route={focusRoute.route} params={focusRoute.params} />
+      return (
+        <Link {...props} route={focusRoute.route} params={focusRoute.params} />
+      )
     }
   }
 

@@ -200,11 +200,10 @@ const forceRefRedraw = ref => {
   }
 }
 
-const isActiveRoute = (active, route, params = {}) => (
-  !!active && active.route === route && Object.keys(params).every(
-    key => active.params[key] === params[key]
-  )
-)
+const isActiveRoute = (active, route, params = {}) =>
+  !!active &&
+  active.route === route &&
+  Object.keys(params).every(key => active.params[key] === params[key])
 
 const isFront = router => {
   const active = matchPath(router.asPath)
@@ -212,16 +211,13 @@ const isFront = router => {
   return isActiveRoute(active, 'index', {})
 }
 
-const hasBackButton = props => (
-  props.inNativeIOSApp &&
-  props.me &&
-  !isFront(props.router)
-)
+const hasBackButton = props =>
+  props.inNativeIOSApp && props.me && !isFront(props.router)
 
 let routeChangeStarted
 
 class Header extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -255,22 +251,22 @@ class Header extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
     this.measure()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.measure()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const backButton = hasBackButton(nextProps)
     if (this.state.backButton !== backButton) {
       this.setState({
@@ -289,7 +285,7 @@ class Header extends Component {
     }
   }
 
-  render () {
+  render() {
     const {
       router,
       t,
@@ -312,17 +308,18 @@ class Header extends Component {
     // up to the higher-order component. Otherwise it's managed inside the component.
     const expanded = !!(onPrimaryNavExpandedChange
       ? primaryNavExpanded
-      : this.state.expanded
-    )
+      : this.state.expanded)
     const secondaryVisible = showSecondary && !expanded
     const dark = this.props.dark && !expanded
 
     const opaque = this.state.opaque || expanded
     const barStyle = opaque ? merge(styles.bar, styles.barOpaque) : styles.bar
 
-    const bgStyle = opaque ? {
-      backgroundColor: dark ? colors.negative.primaryBg : '#fff'
-    } : undefined
+    const bgStyle = opaque
+      ? {
+          backgroundColor: dark ? colors.negative.primaryBg : '#fff'
+        }
+      : undefined
     const hrColor = dark ? colors.negative.containerBg : colors.divider
     const hrColorStyle = {
       color: hrColor,
@@ -341,143 +338,176 @@ class Header extends Component {
 
     return (
       <Fragment>
-        <div {...barStyle} ref={inNativeIOSApp ? forceRefRedraw : undefined} style={bgStyle}>
-          {opaque && <Fragment>
-            <div {...styles.center} style={{ opacity: secondaryVisible ? 0 : 1 }}>
-              <a
-                {...styles.logo}
-                aria-label={t('header/logo/magazine/aria')}
-                href={'/'}
-                onClick={e => {
-                  if (shouldIgnoreClick(e)) {
-                    return
-                  }
-                  e.preventDefault()
-                  if (router.pathname === '/') {
-                    window.scrollTo(0, 0)
-                    if (expanded) {
-                      toggleExpanded()
+        <div
+          {...barStyle}
+          ref={inNativeIOSApp ? forceRefRedraw : undefined}
+          style={bgStyle}
+        >
+          {opaque && (
+            <Fragment>
+              <div
+                {...styles.center}
+                style={{ opacity: secondaryVisible ? 0 : 1 }}
+              >
+                <a
+                  {...styles.logo}
+                  aria-label={t('header/logo/magazine/aria')}
+                  href={'/'}
+                  onClick={e => {
+                    if (shouldIgnoreClick(e)) {
+                      return
                     }
-                  } else {
-                    Router.pushRoute('index').then(() => window.scrollTo(0, 0))
-                  }
+                    e.preventDefault()
+                    if (router.pathname === '/') {
+                      window.scrollTo(0, 0)
+                      if (expanded) {
+                        toggleExpanded()
+                      }
+                    } else {
+                      Router.pushRoute('index').then(() =>
+                        window.scrollTo(0, 0)
+                      )
+                    }
+                  }}
+                >
+                  <Logo fill={logoFill} />
+                </a>
+              </div>
+              <div
+                {...styles.leftItem}
+                style={{
+                  opacity: secondaryVisible || backButton ? 0 : 1
                 }}
               >
-                <Logo fill={logoFill} />
-              </a>
-            </div>
-            <div {...styles.leftItem} style={{
-              opacity: (secondaryVisible || backButton) ? 0 : 1
-            }}>
-              <User
-                dark={dark}
-                me={me}
-                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                onClick={toggleExpanded}
-              />
-            </div>
-            {(inNativeIOSApp || backButton) && <a
-              style={{
-                opacity: backButton ? 1 : 0,
-                pointerEvents: backButton ? undefined : 'none',
-                href: '#back'
-              }}
-              title={t('header/back')}
-              onClick={(e) => {
-                e.preventDefault()
-                if (backButton) {
-                  routeChangeStarted = false
-                  window.history.back()
-                  setTimeout(
-                    () => {
-                      if (!routeChangeStarted) {
-                        Router.replaceRoute(
-                          'index'
-                        ).then(() => window.scrollTo(0, 0))
-                      }
-                    },
-                    200
-                  )
-                }
-              }}
-              {...styles.leftItem} {...styles.back}>
-              <BackIcon size={25} fill={textFill} />
-            </a>}
-            {secondaryNav && !HeaderAudioPlayer && (
-              <div {...styles.secondary} style={{
-                left: backButton ? 40 : undefined,
-                opacity: secondaryVisible ? 1 : 0,
-                pointerEvents: secondaryVisible ? undefined : 'none'
-              }}>
-                {renderSecondaryNav && secondaryNav}
+                <User
+                  dark={dark}
+                  me={me}
+                  title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                  onClick={toggleExpanded}
+                />
               </div>
-            )}
-            {isMember && <button
-              {...styles.search}
-              role='button'
-              title={t('header/nav/search/aria')}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                if (router.pathname === '/search') {
-                  window.scrollTo(0, 0)
-                } else {
-                  Router.pushRoute('search').then(() => window.scrollTo(0, 0))
-                }
-              }}>
-              <Search
-                fill={textFill}
-                size={28} />
-            </button>}
-            <div {...styles.hamburger} style={bgStyle}>
-              <Toggle
-                dark={dark}
-                expanded={expanded}
-                id='primary-menu'
-                title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
-                onClick={toggleExpanded}
-              />
-            </div>
-          </Fragment>}
+              {(inNativeIOSApp || backButton) && (
+                <a
+                  style={{
+                    opacity: backButton ? 1 : 0,
+                    pointerEvents: backButton ? undefined : 'none',
+                    href: '#back'
+                  }}
+                  title={t('header/back')}
+                  onClick={e => {
+                    e.preventDefault()
+                    if (backButton) {
+                      routeChangeStarted = false
+                      window.history.back()
+                      setTimeout(() => {
+                        if (!routeChangeStarted) {
+                          Router.replaceRoute('index').then(() =>
+                            window.scrollTo(0, 0)
+                          )
+                        }
+                      }, 200)
+                    }
+                  }}
+                  {...styles.leftItem}
+                  {...styles.back}
+                >
+                  <BackIcon size={25} fill={textFill} />
+                </a>
+              )}
+              {secondaryNav && !HeaderAudioPlayer && (
+                <div
+                  {...styles.secondary}
+                  style={{
+                    left: backButton ? 40 : undefined,
+                    opacity: secondaryVisible ? 1 : 0,
+                    pointerEvents: secondaryVisible ? undefined : 'none'
+                  }}
+                >
+                  {renderSecondaryNav && secondaryNav}
+                </div>
+              )}
+              {isMember && (
+                <button
+                  {...styles.search}
+                  role='button'
+                  title={t('header/nav/search/aria')}
+                  onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    if (router.pathname === '/search') {
+                      window.scrollTo(0, 0)
+                    } else {
+                      Router.pushRoute('search').then(() =>
+                        window.scrollTo(0, 0)
+                      )
+                    }
+                  }}
+                >
+                  <Search fill={textFill} size={28} />
+                </button>
+              )}
+              <div {...styles.hamburger} style={bgStyle}>
+                <Toggle
+                  dark={dark}
+                  expanded={expanded}
+                  id='primary-menu'
+                  title={t(`header/nav/${expanded ? 'close' : 'open'}/aria`)}
+                  onClick={toggleExpanded}
+                />
+              </div>
+            </Fragment>
+          )}
           {HeaderAudioPlayer && (
             <HeaderAudioPlayer
-              style={{ ...bgStyle, position: 'absolute', width: '100%', bottom: 0 }}
+              style={{
+                ...bgStyle,
+                position: 'absolute',
+                width: '100%',
+                bottom: 0
+              }}
               controlsPadding={this.state.mobile ? 10 : 20}
               height={this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT}
             />
           )}
         </div>
-        {opaque && <hr
-          {...styles.stickyWithFallback}
-          {...styles.hr}
-          {...styles[formatColor ? 'hrThick' : 'hrThin']}
-          style={formatColor ? {
-            color: formatColor,
-            backgroundColor: formatColor
-          } : hrColorStyle} />}
-        <Popover expanded={expanded}>
-          <NavPopover
-            me={me}
-            router={router}
-            closeHandler={this.close}
+        {opaque && (
+          <hr
+            {...styles.stickyWithFallback}
+            {...styles.hr}
+            {...styles[formatColor ? 'hrThick' : 'hrThin']}
+            style={
+              formatColor
+                ? {
+                    color: formatColor,
+                    backgroundColor: formatColor
+                  }
+                : hrColorStyle
+            }
           />
+        )}
+        <Popover expanded={expanded}>
+          <NavPopover me={me} router={router} closeHandler={this.close} />
         </Popover>
-        <LoadingBar onRouteChangeStart={() => {
-          routeChangeStarted = true
-        }} />
+        <LoadingBar
+          onRouteChangeStart={() => {
+            routeChangeStarted = true
+          }}
+        />
         {!!cover && <div {...styles.cover}>{cover}</div>}
-        {inNativeApp && pullable && <Pullable dark={dark} onRefresh={() => {
-          if (inNativeIOSApp) {
-            postMessage({ type: 'haptic', payload: { type: 'impact' } })
-          }
-          // give the browser 3 frames (1000/30fps) to start animating the spinner
-          setTimeout(
-            () => {
-              window.location.reload(true)
-            },
-            33 * 3
-          )
-        }} />}
+        {inNativeApp && pullable && (
+          <Pullable
+            dark={dark}
+            onRefresh={() => {
+              if (inNativeIOSApp) {
+                postMessage({ type: 'haptic', payload: { type: 'impact' } })
+              }
+              // give the browser 3 frames (1000/30fps) to start animating the spinner
+              setTimeout(() => {
+                window.location.reload(true)
+              }, 33 * 3)
+            }}
+          />
+        )}
       </Fragment>
     )
   }

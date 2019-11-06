@@ -14,30 +14,35 @@ import Meta from '../Frame/Meta'
 
 import ErrorFrame from './Frame'
 
-import {
-  Interaction
-} from '@project-r/styleguide'
+import { Interaction } from '@project-r/styleguide'
 
 const getRedirect = gql`
-query getRedirect($path: String!) {
-  redirection(path: $path) {
-    target
-    status
+  query getRedirect($path: String!) {
+    redirection(path: $path) {
+      target
+      status
+    }
   }
-}
 `
 
 const StatusError = ({ statusCode, t, loading, children }) => (
-  <Loader loading={loading} render={() => (
-    <Fragment>
-      <Meta data={{ title: statusCode }} />
-      <ErrorFrame statusCode={statusCode}>
-        {children || <Interaction.P>{t(`error/${statusCode}`, undefined, null)}</Interaction.P>}
-        <div style={{ height: 60 }} />
-        <Me />
-      </ErrorFrame>
-    </Fragment>
-  )} />
+  <Loader
+    loading={loading}
+    render={() => (
+      <Fragment>
+        <Meta data={{ title: statusCode }} />
+        <ErrorFrame statusCode={statusCode}>
+          {children || (
+            <Interaction.P>
+              {t(`error/${statusCode}`, undefined, null)}
+            </Interaction.P>
+          )}
+          <div style={{ height: 60 }} />
+          <Me />
+        </ErrorFrame>
+      </Fragment>
+    )}
+  />
 )
 
 export default compose(
@@ -51,30 +56,37 @@ export default compose(
         path: asPath.split('#')[0]
       }
     }),
-    props: ({ data, ownProps: { serverContext, statusCode, router, inNativeApp, inNativeIOSApp, me } }) => {
-      const redirection =
-        !data.error &&
-        !data.loading &&
-        data.redirection
+    props: ({
+      data,
+      ownProps: {
+        serverContext,
+        statusCode,
+        router,
+        inNativeApp,
+        inNativeIOSApp,
+        me
+      }
+    }) => {
+      const redirection = !data.error && !data.loading && data.redirection
 
       let loading = data.loading
 
       if (redirection) {
         const { target, status } = redirection
-        const targetIsExternal = target.startsWith('http') && !target.startsWith(PUBLIC_BASE_URL)
-        const restrictedIOSPath = inNativeIOSApp && target.match(/^\/angebote(\?|$)/)
+        const targetIsExternal =
+          target.startsWith('http') && !target.startsWith(PUBLIC_BASE_URL)
+        const restrictedIOSPath =
+          inNativeIOSApp && target.match(/^\/angebote(\?|$)/)
 
         loading = true
 
         if (serverContext) {
           if (!inNativeApp || (!targetIsExternal && !restrictedIOSPath)) {
-            serverContext.res.redirect(
-              status || 302,
-              target
-            )
+            serverContext.res.redirect(status || 302, target)
             serverContext.res.end()
           }
-        } else if (process.browser) { // SSR does two two-passes: data (with serverContext) & render (without)
+        } else if (process.browser) {
+          // SSR does two two-passes: data (with serverContext) & render (without)
           let clientTarget = target
           let afterRouting
           if (inNativeApp && (targetIsExternal || restrictedIOSPath)) {

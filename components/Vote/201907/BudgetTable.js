@@ -38,9 +38,7 @@ const styles = {
     minWidth: '100%',
     marginTop: 15,
     fontSize: 14,
-    '@media (max-width: 600px)': {
-
-    },
+    '@media (max-width: 600px)': {},
     '& th': {
       fontFamily: fontFamilies.sansSerifMedium,
       fontWeight: 'normal'
@@ -58,9 +56,7 @@ const styles = {
 
 const Table = ({ children }) => (
   <div style={{ overflowX: 'auto', overflowY: 'hidden' }}>
-    <table {...styles.table}>
-      {children}
-    </table>
+    <table {...styles.table}>{children}</table>
   </div>
 )
 
@@ -85,12 +81,12 @@ const BudgetTable = ({ vt, data, total, pk, sk, fraction }) => {
             <td {...styles.num}>{countFormat(sk / 1000)}</td>
             <td {...styles.num}>{countFormat(total / 1000)}</td>
             <td {...styles.num}>
-              {singleRow ? `~${percentFormatTotal(fraction)}` : percentFormat(fraction)}
+              {singleRow
+                ? `~${percentFormatTotal(fraction)}`
+                : percentFormat(fraction)}
             </td>
           </tr>
-        )
-
-        )}
+        ))}
         {!singleRow && (
           <tr>
             <th {...styles.groupTd}>Total</th>

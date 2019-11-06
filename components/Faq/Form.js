@@ -15,22 +15,25 @@ import FieldSet, { styles as fieldSetStyles } from '../FieldSet'
 import Poller from '../Auth/Poller'
 
 import {
-  Interaction, InlineSpinner, Field, Button
+  Interaction,
+  InlineSpinner,
+  Field,
+  Button
 } from '@project-r/styleguide'
 
 import { H2 } from './List'
 const { P } = Interaction
 
 const submitQuestion = gql`
-mutation submitQuestion($question: String!) {
-  submitQuestion(question: $question) {
-    success
+  mutation submitQuestion($question: String!) {
+    submitQuestion(question: $question) {
+      success
+    }
   }
-}
 `
 
 class QuestionForm extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {
       loading: false,
@@ -41,28 +44,29 @@ class QuestionForm extends Component {
       dirty: {}
     }
   }
-  handleEmail (value, shouldValidate, t) {
-    this.setState(FieldSet.utils.mergeField({
-      field: 'email',
-      value,
-      error: (
-        (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
-        (!isEmail(value) && t('pledge/contact/email/error/invalid'))
-      ),
-      dirty: shouldValidate
-    }))
+  handleEmail(value, shouldValidate, t) {
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'email',
+        value,
+        error:
+          (value.trim().length <= 0 && t('pledge/contact/email/error/empty')) ||
+          (!isEmail(value) && t('pledge/contact/email/error/invalid')),
+        dirty: shouldValidate
+      })
+    )
   }
-  handleQuestion (value, shouldValidate, t) {
-    this.setState(FieldSet.utils.mergeField({
-      field: 'question',
-      value,
-      error: (
-        value.trim().length <= 5 && t('faq/form/question/error')
-      ),
-      dirty: shouldValidate
-    }))
+  handleQuestion(value, shouldValidate, t) {
+    this.setState(
+      FieldSet.utils.mergeField({
+        field: 'question',
+        value,
+        error: value.trim().length <= 5 && t('faq/form/question/error'),
+        dirty: shouldValidate
+      })
+    )
   }
-  checkUserFields ({ me, t }) {
+  checkUserFields({ me, t }) {
     const defaultValues = {
       email: (me && me.email) || ''
     }
@@ -72,7 +76,7 @@ class QuestionForm extends Component {
     }
     this.handleEmail(values.email, false, t)
   }
-  send (newTokenType) {
+  send(newTokenType) {
     const { me } = this.props
     const { values } = this.state
 
@@ -90,14 +94,18 @@ class QuestionForm extends Component {
     }
 
     if (me && me.email !== values.email) {
-      this.props.signOut().then(() => {
-        this.send()
-      }).catch(catchError)
+      this.props
+        .signOut()
+        .then(() => {
+          this.send()
+        })
+        .catch(catchError)
       return
     }
 
     if (!me) {
-      this.props.signIn(values.email, 'faq', undefined, newTokenType)
+      this.props
+        .signIn(values.email, 'faq', undefined, newTokenType)
         .then(({ data }) => {
           this.setState(() => ({
             polling: true,
@@ -111,7 +119,7 @@ class QuestionForm extends Component {
     this.props
       .mutate({ variables: { question: values.question } })
       .then(() => {
-        this.setState((state) => ({
+        this.setState(state => ({
           loading: false,
           success: true,
           values: {
@@ -127,27 +135,27 @@ class QuestionForm extends Component {
         }))
       })
   }
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.me !== this.props.me) {
       this.checkUserFields(nextProps)
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.checkUserFields(this.props)
-    this.handleQuestion(
-      this.state.values.question || '',
-      false,
-      this.props.t
-    )
+    this.handleQuestion(this.state.values.question || '', false, this.props.t)
   }
-  render () {
+  render() {
     const { t } = this.props
 
     const {
-      dirty, values, errors,
+      dirty,
+      values,
+      errors,
       success,
-      polling, signInResponse,
-      loading, serverError
+      polling,
+      signInResponse,
+      loading,
+      serverError
     } = this.state
 
     const errorMessages = Object.keys(errors)
@@ -157,52 +165,57 @@ class QuestionForm extends Component {
     return (
       <div>
         <H2>{t('faq/form/title')}</H2>
-        <form onSubmit={event => {
-          event.preventDefault()
-          if (errorMessages.length) {
-            this.setState((state) => ({
-              dirty: {
-                email: true,
-                question: true
-              }
-            }))
-            return
-          }
-          this.send()
-        }}>
-          <Field label={t('pledge/contact/email/label')}
+        <form
+          onSubmit={event => {
+            event.preventDefault()
+            if (errorMessages.length) {
+              this.setState(state => ({
+                dirty: {
+                  email: true,
+                  question: true
+                }
+              }))
+              return
+            }
+            this.send()
+          }}
+        >
+          <Field
+            label={t('pledge/contact/email/label')}
             name='email'
             type='email'
             error={dirty.email && errors.email}
             value={values.email}
             onChange={(_, value, shouldValidate) => {
               this.handleEmail(value, shouldValidate, t)
-            }} />
+            }}
+          />
           <br />
-          <Field label={t('faq/form/question/label')}
+          <Field
+            label={t('faq/form/question/label')}
             name='question'
             renderInput={({ ref, ...inputProps }) => (
               <AutosizeInput
                 {...inputProps}
                 {...fieldSetStyles.autoSize}
-                inputRef={ref} />
+                inputRef={ref}
+              />
             )}
             error={dirty.question && errors.question}
             value={values.question}
             onChange={(_, value, shouldValidate) => {
               this.handleQuestion(value, shouldValidate, t)
-            }} />
-          <br /><br />
-          {loading
-            ? <InlineSpinner />
-            : (
-              <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
-                <Button type='submit'>
-                  {t('faq/form/question/submit')}
-                </Button>
-              </div>
-            )
-          }
+            }}
+          />
+          <br />
+          <br />
+          {loading ? (
+            <InlineSpinner />
+          ) : (
+            <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
+              <Button type='submit'>{t('faq/form/question/submit')}</Button>
+            </div>
+          )}
 
           {!!polling && (
             <Poller
@@ -216,25 +229,24 @@ class QuestionForm extends Component {
                   loading: false
                 }))
               }}
-              onTokenTypeChange={(altTokenType) => {
+              onTokenTypeChange={altTokenType => {
                 this.send(altTokenType)
               }}
-              onSuccess={(me) => {
+              onSuccess={me => {
                 this.setState(() => ({
                   polling: false
                 }))
                 this.send()
-              }} />
+              }}
+            />
           )}
           {!!serverError && <ErrorMessage error={serverError} />}
-          {!!success && <div style={{ marginTop: 20 }}>
-            <Interaction.H3>
-              {t('faq/form/merci/title')}
-            </Interaction.H3>
-            <P>
-              {t('faq/form/merci/text')}
-            </P>
-          </div>}
+          {!!success && (
+            <div style={{ marginTop: 20 }}>
+              <Interaction.H3>{t('faq/form/merci/title')}</Interaction.H3>
+              <P>{t('faq/form/merci/text')}</P>
+            </div>
+          )}
         </form>
       </div>
     )

@@ -134,7 +134,7 @@ const styles = {
 }
 
 class Footer extends Component {
-  render () {
+  render() {
     const { t, me, signOut, inNativeApp, inNativeIOSApp, black } = this.props
     return (
       <div {...merge(styles.bg, black && styles.bgBlack)}>
@@ -154,7 +154,9 @@ class Footer extends Component {
               >
                 {intersperse(
                   t('footer/contact/address').split('\n'),
-                  (item, i) => <br key={i} />
+                  (item, i) => (
+                    <br key={i} />
+                  )
                 )}
               </a>
               <br />
@@ -184,15 +186,17 @@ class Footer extends Component {
                 {t('footer/about/manifest')}
               </a>
               <br />
-              <a href='https://project-r.construction/' rel='noopener' target='_blank'>
+              <a
+                href='https://project-r.construction/'
+                rel='noopener'
+                target='_blank'
+              >
                 {t('footer/about/projecR')}
               </a>
               <br />
               <a href='/etat'>{t('footer/researchBudget')}</a>
               <br />
-              <a href='/whistleblower'>
-                {t('footer/whistleblower')}
-              </a>
+              <a href='/whistleblower'>{t('footer/whistleblower')}</a>
             </div>
             <div {...styles.column}>
               <div {...styles.title}>{t('footer/legal/title')}</div>
@@ -222,33 +226,37 @@ class Footer extends Component {
                 <a>{t(me ? 'footer/me/signedIn' : 'footer/me/signIn')}</a>
               </Link>
               <br />
-              {me && me.accessCampaigns.length > 0 &&
+              {me && me.accessCampaigns.length > 0 && (
                 <Fragment>
                   <a
                     href='/konto#teilen'
-                    onClick={(e) => {
+                    onClick={e => {
                       if (shouldIgnoreClick(e)) {
                         return
                       }
 
                       Router.pushRoute('/konto#teilen')
-                    }}>
+                    }}
+                  >
                     {t('footer/me/share')}
                   </a>
                   <br />
                 </Fragment>
-              }
-              {!!me && <Fragment>
-                <Link route='profile' params={{ slug: me.username || me.id }}>
-                  <a>{t('footer/me/profile')}</a>
-                </Link>
-                <br />
-              </Fragment>}
+              )}
+              {!!me && (
+                <Fragment>
+                  <Link route='profile' params={{ slug: me.username || me.id }}>
+                    <a>{t('footer/me/profile')}</a>
+                  </Link>
+                  <br />
+                </Fragment>
+              )}
               {!inNativeIOSApp && (
                 <Fragment>
                   <Link
                     route='pledge'
-                    params={me ? { group: 'GIVE' } : undefined}>
+                    params={me ? { group: 'GIVE' } : undefined}
+                  >
                     <a>{t(me ? 'footer/me/give' : 'footer/offers')}</a>
                   </Link>
                   <br />
@@ -315,4 +323,9 @@ class Footer extends Component {
   }
 }
 
-export default compose(withT, withMe, withSignOut, withInNativeApp)(Footer)
+export default compose(
+  withT,
+  withMe,
+  withSignOut,
+  withInNativeApp
+)(Footer)

@@ -6,11 +6,7 @@ import ArrowDownIcon from 'react-icons/lib/md/keyboard-arrow-down'
 import ArrowUpIcon from 'react-icons/lib/md/keyboard-arrow-up'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
-import {
-  mediaQueries,
-  fontFamilies,
-  colors
-} from '@project-r/styleguide'
+import { mediaQueries, fontFamilies, colors } from '@project-r/styleguide'
 
 const plainStyle = {
   backgroundColor: 'transparent',
@@ -115,10 +111,7 @@ const SeriesNavButton = ({
         </span>
       </span>
     </button>
-    <div
-      {...styles.menu}
-      aria-expanded={expanded}
-    >
+    <div {...styles.menu} aria-expanded={expanded}>
       <SeriesNavPanel t={t} series={series} />
     </div>
   </Fragment>

@@ -37,7 +37,7 @@ const map = {
   GPS: '#84B547',
   GRÜNE: '#84B547',
   'BASTA!': '#84B547',
-  'JGBNW': '#84B547',
+  JGBNW: '#84B547',
   JG: '#84B547',
   BDP: '#E6C820',
   JBDP: '#E6C820',

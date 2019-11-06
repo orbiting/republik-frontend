@@ -4,16 +4,9 @@ import { css } from 'glamor'
 import Play from './Icons/Play'
 
 import { scrollIt } from '../lib/utils/scroll'
-import {
-  HEADER_HEIGHT,
-  HEADER_HEIGHT_MOBILE,
-  ZINDEX_HEADER
-} from './constants'
+import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE, ZINDEX_HEADER } from './constants'
 
-import {
-  VideoPlayer,
-  mediaQueries
-} from '@project-r/styleguide'
+import { VideoPlayer, mediaQueries } from '@project-r/styleguide'
 
 const blinkBg = css.keyframes({
   'from, to': {
@@ -49,7 +42,7 @@ const styles = {
   maxWidth: css({
     position: 'relative',
     margin: '0 auto',
-    maxWidth: `${MAX_HEIGHT_VH * (ASPECT_RATIO)}vh`,
+    maxWidth: `${MAX_HEIGHT_VH * ASPECT_RATIO}vh`,
     overflow: 'hidden',
     textAlign: 'center'
   }),
@@ -77,7 +70,7 @@ const styles = {
 }
 
 class VideoCover extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -96,9 +89,11 @@ class VideoCover extends Component {
         }
       })
     }
-    this.ref = ref => { this.player = ref }
+    this.ref = ref => {
+      this.player = ref
+    }
   }
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('resize', this.measure)
     this.measure()
     if (this.props.forceAutoPlay && this.player) {
@@ -110,31 +105,38 @@ class VideoCover extends Component {
       })
     }
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.measure)
     if (this.checkPlaying === undefined) {
       clearTimeout(this.checkPlaying)
     }
   }
-  render () {
+  render() {
     const { src, cursor, limited, backgroundAutoPlay, muted, loop } = this.props
     const {
-      playing, ended,
-      videoHeight, windowHeight,
-      mobile, cover
+      playing,
+      ended,
+      videoHeight,
+      windowHeight,
+      mobile,
+      cover
     } = this.state
 
-    const limitedHeight = (!!limited || !playing || !videoHeight)
+    const limitedHeight = !!limited || !playing || !videoHeight
     const heightStyle = {
       height: playing && !ended && !limitedHeight ? windowHeight : videoHeight,
       maxHeight: limitedHeight ? `${MAX_HEIGHT_VH}vh` : undefined
     }
     return (
-      <div {...styles.wrapper} style={{
-        ...heightStyle,
-        zIndex: !limitedHeight ? ZINDEX_HEADER + 1 : undefined
-      }}>
-        <div {...styles.cover}
+      <div
+        {...styles.wrapper}
+        style={{
+          ...heightStyle,
+          zIndex: !limitedHeight ? ZINDEX_HEADER + 1 : undefined
+        }}
+      >
+        <div
+          {...styles.cover}
           style={{ opacity: cover ? 1 : 0 }}
           onClick={() => {
             this.setState(() => {
@@ -144,7 +146,8 @@ class VideoCover extends Component {
                 cover: false
               }
             })
-          }}>
+          }}
+        >
           <div {...styles.maxWidth}>
             <img src={src.thumbnail} {...styles.poster} style={heightStyle} />
             {!!cursor && <div {...styles.cursor} />}
@@ -153,13 +156,19 @@ class VideoCover extends Component {
             </div>
           </div>
         </div>
-        <VideoPlayer ref={this.ref} src={src}
+        <VideoPlayer
+          ref={this.ref}
+          src={src}
           showPlay={!cover && playing !== undefined}
           autoPlay={backgroundAutoPlay}
-          attributes={backgroundAutoPlay ? {
-            playsInline: true,
-            'webkit-playsinline': ''
-          } : {}}
+          attributes={
+            backgroundAutoPlay
+              ? {
+                  playsInline: true,
+                  'webkit-playsinline': ''
+                }
+              : {}
+          }
           forceMuted={muted}
           loop={loop}
           onPlay={() => {
@@ -177,7 +186,7 @@ class VideoCover extends Component {
               playing: false
             }))
           }}
-          onProgress={(progress) => {
+          onProgress={progress => {
             if (loop) {
               return
             }
@@ -188,36 +197,43 @@ class VideoCover extends Component {
               videoHeight &&
               !(this.player && this.player.scrubbing)
             ) {
-              this.setState(() => ({ ended: true }), () => {
-                const topFixed = mobile
-                  ? HEADER_HEIGHT_MOBILE
-                  : HEADER_HEIGHT
-                const duration = 800
+              this.setState(
+                () => ({ ended: true }),
+                () => {
+                  const topFixed = mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+                  const duration = 800
 
-                let top = 0
-                if (this.player && this.player.video) {
-                  top = window.pageYOffset + this.player.video.getBoundingClientRect().top
-                }
+                  let top = 0
+                  if (this.player && this.player.video) {
+                    top =
+                      window.pageYOffset +
+                      this.player.video.getBoundingClientRect().top
+                  }
 
-                scrollIt(
-                  top + Math.min(this.state.videoHeight, this.state.windowHeight * MAX_HEIGHT) - topFixed + 10,
-                  duration
-                )
-                setTimeout(
-                  () => {
+                  scrollIt(
+                    top +
+                      Math.min(
+                        this.state.videoHeight,
+                        this.state.windowHeight * MAX_HEIGHT
+                      ) -
+                      topFixed +
+                      10,
+                    duration
+                  )
+                  setTimeout(() => {
                     this.setState(() => ({
                       playing: false
                     }))
-                  },
-                  duration / 2
-                )
-              })
+                  }, duration / 2)
+                }
+              )
             }
             if (progress > 0.999 && !cover) {
               this.setState(() => ({ cover: true }))
             }
           }}
-          style={heightStyle.height ? heightStyle : { height: '100%' }} />
+          style={heightStyle.height ? heightStyle : { height: '100%' }}
+        />
       </div>
     )
   }

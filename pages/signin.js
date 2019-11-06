@@ -13,15 +13,15 @@ import { Link } from '../lib/routes'
 import { Interaction, Editorial } from '@project-r/styleguide'
 
 class SigninPage extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.redirectUser()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.redirectUser()
   }
 
-  redirectUser () {
+  redirectUser() {
     const { isMember, me } = this.props
     if (isMember) {
       window.location = '/'
@@ -32,7 +32,7 @@ class SigninPage extends Component {
     }
   }
 
-  render () {
+  render() {
     const { t, me, inNativeIOSApp, router } = this.props
     const meta = {
       title: t('pages/signin/title')
@@ -41,29 +41,36 @@ class SigninPage extends Component {
     return (
       <Frame meta={meta}>
         <PageCenter>
-          {me
-            ? <Loader loading />
-            : <SignIn email={router.query.email} beforeForm={inNativeIOSApp
-              ? (
-                <Fragment>
-                  <Interaction.P style={{ marginBottom: 20 }}>
-                    {t('withMembership/ios/unauthorized/signIn')}
-                  </Interaction.P>
-                  <Interaction.P>
-                    {t.elements('withMembership/ios/unauthorized/claimText', {
-                      claimLink: (
-                        <Link route='claim' key='claim' passHref>
-                          <Editorial.A>
-                            {t('withMembership/ios/unauthorized/claimLink')}
-                          </Editorial.A>
-                        </Link>
-                      )
-                    })}
-                  </Interaction.P>
-                </Fragment>
-              )
-              : undefined
-            } noReload />}
+          {me ? (
+            <Loader loading />
+          ) : (
+            <SignIn
+              email={router.query.email}
+              beforeForm={
+                inNativeIOSApp ? (
+                  <Fragment>
+                    <Interaction.P style={{ marginBottom: 20 }}>
+                      {t('withMembership/ios/unauthorized/signIn')}
+                    </Interaction.P>
+                    <Interaction.P>
+                      {t.elements('withMembership/ios/unauthorized/claimText', {
+                        claimLink: (
+                          <Link route='claim' key='claim' passHref>
+                            <Editorial.A>
+                              {t('withMembership/ios/unauthorized/claimLink')}
+                            </Editorial.A>
+                          </Link>
+                        )
+                      })}
+                    </Interaction.P>
+                  </Fragment>
+                ) : (
+                  undefined
+                )
+              }
+              noReload
+            />
+          )}
         </PageCenter>
       </Frame>
     )

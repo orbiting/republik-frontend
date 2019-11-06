@@ -33,7 +33,7 @@ import RawHtmlTranslation from '../RawHtmlTranslation'
 
 const { H1, P } = Interaction
 
-export const gotoMerci = (query) => {
+export const gotoMerci = query => {
   // workaround for apollo cache issues
   // - can't manage to clear all query caches
   // - couldn't clear myAddress query,
@@ -45,7 +45,11 @@ export const gotoMerci = (query) => {
   })
 }
 
-export const encodeSignInResponseQuery = ({ phrase, tokenType, alternativeFirstFactors }) => {
+export const encodeSignInResponseQuery = ({
+  phrase,
+  tokenType,
+  alternativeFirstFactors
+}) => {
   const query = {
     phrase,
     tokenType
@@ -56,7 +60,7 @@ export const encodeSignInResponseQuery = ({ phrase, tokenType, alternativeFirstF
   return query
 }
 
-const parseSignInResponseQuery = (query) => {
+const parseSignInResponseQuery = query => {
   if (query.signInError) {
     return {
       signInError: query.signInError
@@ -66,15 +70,13 @@ const parseSignInResponseQuery = (query) => {
     signInResponse: {
       phrase: query.phrase,
       tokenType: query.tokenType || 'EMAIL_TOKEN',
-      alternativeFirstFactors: query.aff
-        ? query.aff.split(',')
-        : []
+      alternativeFirstFactors: query.aff ? query.aff.split(',') : []
     }
   }
 }
 
 class Merci extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { query } = this.props
 
@@ -85,15 +87,15 @@ class Merci extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.maybeRelocateToOnboarding()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.maybeRelocateToOnboarding()
   }
 
-  maybeRelocateToOnboarding () {
+  maybeRelocateToOnboarding() {
     const { me, query } = this.props
 
     if (me && ONBOARDING_PACKAGES.includes(query.package) && !query.claim) {
@@ -105,105 +107,134 @@ class Merci extends Component {
     }
   }
 
-  render () {
+  render() {
     const { me, t, query } = this.props
     const {
-      polling, email,
-      signInResponse, signInError, signInLoading
+      polling,
+      email,
+      signInResponse,
+      signInError,
+      signInLoading
     } = this.state
     if (query.claim) {
       return (
-        <MainContainer><Content>
-          <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
-        </Content></MainContainer>
+        <MainContainer>
+          <Content>
+            <ClaimPledge t={t} me={me} id={query.claim} pkg={query.package} />
+          </Content>
+        </MainContainer>
       )
     }
     if (polling) {
       return (
-        <MainContainer><Content>
-          <P style={{ marginBottom: 15 }}>
-            {t('merci/postpay/lead')}
-          </P>
-          <Poller
-            tokenType={signInResponse.tokenType}
-            email={email}
-            phrase={signInResponse.phrase}
-            alternativeFirstFactors={signInResponse.alternativeFirstFactors}
-            onSuccess={() => {
-              this.setState({
-                polling: false
-              })
-            }} />
-          <P>
-            {!!query.id && (
-              <Link route='account' params={{ claim: query.id, package: query.package }}>
-                <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
-              </Link>
-            )}
-          </P>
-        </Content></MainContainer>
+        <MainContainer>
+          <Content>
+            <P style={{ marginBottom: 15 }}>{t('merci/postpay/lead')}</P>
+            <Poller
+              tokenType={signInResponse.tokenType}
+              email={email}
+              phrase={signInResponse.phrase}
+              alternativeFirstFactors={signInResponse.alternativeFirstFactors}
+              onSuccess={() => {
+                this.setState({
+                  polling: false
+                })
+              }}
+            />
+            <P>
+              {!!query.id && (
+                <Link
+                  route='account'
+                  params={{ claim: query.id, package: query.package }}
+                >
+                  <a {...linkRule}>
+                    <br />
+                    <br />
+                    {t('merci/postpay/reclaim')}
+                  </a>
+                </Link>
+              )}
+            </P>
+          </Content>
+        </MainContainer>
       )
     }
 
     if (signInError && email && query.id) {
       return (
-        <MainContainer><Content>
-          <H1>{t('merci/postpay/signInError/title')}</H1>
-          <P>
-            <RawHtmlTranslation
-              translationKey='merci/postpay/signInError/text'
-              replacements={{
-                email: query.email,
-                contactEmailLink: <a key='contact' {...linkRule} href={
-                  `mailto:${EMAIL_CONTACT}?subject=${
-                    encodeURIComponent(
-                      t('merci/postpay/signInError/email/subject')
-                    )}&body=${
-                    encodeURIComponent(
-                      t(
-                        'merci/postpay/signInError/email/body',
-                        {
+        <MainContainer>
+          <Content>
+            <H1>{t('merci/postpay/signInError/title')}</H1>
+            <P>
+              <RawHtmlTranslation
+                translationKey='merci/postpay/signInError/text'
+                replacements={{
+                  email: query.email,
+                  contactEmailLink: (
+                    <a
+                      key='contact'
+                      {...linkRule}
+                      href={`mailto:${EMAIL_CONTACT}?subject=${encodeURIComponent(
+                        t('merci/postpay/signInError/email/subject')
+                      )}&body=${encodeURIComponent(
+                        t('merci/postpay/signInError/email/body', {
                           pledgeId: query.id,
                           email: email,
                           error: signInError
-                        }
-                      )
-                    )}`
-                }>{EMAIL_CONTACT}</a>
-              }} />
-          </P>
-          {!!signInError && <ErrorMessage error={signInError} />}
-          <div style={{ margin: '20px 0' }}>
-            {signInLoading ? <InlineSpinner /> : <Button
-              block
-              disabled={signInLoading}
-              onClick={() => {
-                if (signInLoading) {
-                  return
-                }
-                this.setState(() => ({
-                  signInLoading: true
-                }))
-                this.props.signIn(email)
-                  .then(({ data }) => {
+                        })
+                      )}`}
+                    >
+                      {EMAIL_CONTACT}
+                    </a>
+                  )
+                }}
+              />
+            </P>
+            {!!signInError && <ErrorMessage error={signInError} />}
+            <div style={{ margin: '20px 0' }}>
+              {signInLoading ? (
+                <InlineSpinner />
+              ) : (
+                <Button
+                  block
+                  disabled={signInLoading}
+                  onClick={() => {
+                    if (signInLoading) {
+                      return
+                    }
                     this.setState(() => ({
-                      polling: true,
-                      signInLoading: false,
-                      signInResponse: data.signIn
+                      signInLoading: true
                     }))
-                  })
-                  .catch(error => {
-                    this.setState(() => ({
-                      signInError: error,
-                      signInLoading: false
-                    }))
-                  })
-              }}>{t('merci/postpay/signInError/retry')}</Button>}
-          </div>
-          <Link route='account' params={{ claim: query.id }}>
-            <a {...linkRule}><br /><br />{t('merci/postpay/reclaim')}</a>
-          </Link>
-        </Content></MainContainer>
+                    this.props
+                      .signIn(email)
+                      .then(({ data }) => {
+                        this.setState(() => ({
+                          polling: true,
+                          signInLoading: false,
+                          signInResponse: data.signIn
+                        }))
+                      })
+                      .catch(error => {
+                        this.setState(() => ({
+                          signInError: error,
+                          signInLoading: false
+                        }))
+                      })
+                  }}
+                >
+                  {t('merci/postpay/signInError/retry')}
+                </Button>
+              )}
+            </div>
+            <Link route='account' params={{ claim: query.id }}>
+              <a {...linkRule}>
+                <br />
+                <br />
+                {t('merci/postpay/reclaim')}
+              </a>
+            </Link>
+          </Content>
+        </MainContainer>
       )
     }
 
@@ -222,44 +253,52 @@ class Merci extends Component {
 
     return (
       <Fragment>
-        <MainContainer><Content style={{ paddingBottom: 0 }}>
-          <H1>
-            {t.first(
-              [
-                `merci/title/package/${query.package || 'UNKOWN'}${noNameSuffix}`,
-                `merci/title${noNameSuffix}`
-              ],
-              {
-                name: me && me.name
-              }
-            )}
-          </H1>
-          <RawHtml
-            type={Lead}
-            dangerouslySetInnerHTML={{
-              __html: t.first([
-                `merci/lead/package/${query.package || 'UNKOWN'}`,
-                'merci/lead'
-              ])
-            }}
-          />
-          <WithMembership render={() => (
-            <div style={{ marginTop: 10 }}>
-              <Link route='index'>
-                <Button primary style={buttonStyle}>
-                  {t('merci/action/read')}
-                </Button>
-              </Link>
-              {me && !me.hasPublicProfile && (
-                <Link route='profile' params={{ slug: me.username || me.id }}>
-                  <Button style={buttonStyle}>
-                    {t('merci/action/profile')}
-                  </Button>
-                </Link>
+        <MainContainer>
+          <Content style={{ paddingBottom: 0 }}>
+            <H1>
+              {t.first(
+                [
+                  `merci/title/package/${query.package ||
+                    'UNKOWN'}${noNameSuffix}`,
+                  `merci/title${noNameSuffix}`
+                ],
+                {
+                  name: me && me.name
+                }
               )}
-            </div>
-          )} />
-        </Content></MainContainer>
+            </H1>
+            <RawHtml
+              type={Lead}
+              dangerouslySetInnerHTML={{
+                __html: t.first([
+                  `merci/lead/package/${query.package || 'UNKOWN'}`,
+                  'merci/lead'
+                ])
+              }}
+            />
+            <WithMembership
+              render={() => (
+                <div style={{ marginTop: 10 }}>
+                  <Link route='index'>
+                    <Button primary style={buttonStyle}>
+                      {t('merci/action/read')}
+                    </Button>
+                  </Link>
+                  {me && !me.hasPublicProfile && (
+                    <Link
+                      route='profile'
+                      params={{ slug: me.username || me.id }}
+                    >
+                      <Button style={buttonStyle}>
+                        {t('merci/action/profile')}
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              )}
+            />
+          </Content>
+        </MainContainer>
         <Account query={query} merci />
       </Fragment>
     )

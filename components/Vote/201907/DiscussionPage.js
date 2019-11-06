@@ -31,24 +31,29 @@ const DiscussionPage = ({ router, data, vt }) => {
 
   return (
     <Frame meta={meta}>
-      <Loader loading={data.loading} error={data.error} render={() => {
-        const discussionId = (data[DISCUSSION_SLUG] && data[DISCUSSION_SLUG].discussion.id)
-        return (
-          <Fragment>
-            <Title>{ vt('vote/201907/discussion/title') }</Title>
-            <Section>
-              <Body dangerousHTML={vt('vote/201907/discussion/intro')} />
-            </Section>
-            <div {...styles.discussion}>
-              <Discussion
-                discussionId={discussionId}
-                focusId={router.query.focus}
-                mute={!!router.query.mute}
-              />
-            </div>
-          </Fragment>
-        )
-      }} />
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const discussionId =
+            data[DISCUSSION_SLUG] && data[DISCUSSION_SLUG].discussion.id
+          return (
+            <Fragment>
+              <Title>{vt('vote/201907/discussion/title')}</Title>
+              <Section>
+                <Body dangerousHTML={vt('vote/201907/discussion/intro')} />
+              </Section>
+              <div {...styles.discussion}>
+                <Discussion
+                  discussionId={discussionId}
+                  focusId={router.query.focus}
+                  mute={!!router.query.mute}
+                />
+              </div>
+            </Fragment>
+          )
+        }}
+      />
     </Frame>
   )
 }

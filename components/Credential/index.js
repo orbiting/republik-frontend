@@ -15,15 +15,24 @@ const styles = {
 
 const Credential = ({ description, verified, t, textColor }) => (
   <span
-    title={(verified && t('styleguide/comment/header/verifiedCredential', undefined, '')) || undefined}
-    style={textColor
-      ? { color: verified ? colors.text : colors.lightText }
-      : undefined
-    }>
+    title={
+      (verified &&
+        t('styleguide/comment/header/verifiedCredential', undefined, '')) ||
+      undefined
+    }
+    style={
+      textColor
+        ? { color: verified ? colors.text : colors.lightText }
+        : undefined
+    }
+  >
     {description}
-    {verified && <MdCheck
-      {...styles.check}
-      {...(textColor ? { fill: colors.primary } : undefined)} />}
+    {verified && (
+      <MdCheck
+        {...styles.check}
+        {...(textColor ? { fill: colors.primary } : undefined)}
+      />
+    )}
   </span>
 )
 

@@ -7,7 +7,13 @@ import Comments from './Comments'
 const depth = 3
 const parentId = null
 
-const Discussion = ({ discussionId, focusId = null, mute, meta, sharePath }) => {
+const Discussion = ({
+  discussionId,
+  focusId = null,
+  mute,
+  meta,
+  sharePath
+}) => {
   /*
    * DiscussionOrder ('DATE' | 'VOTES' | 'REPLIES')
    */

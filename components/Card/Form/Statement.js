@@ -12,12 +12,16 @@ const Statement = ({ statement, handleStatement, label }) => (
       <AutosizeInput
         {...inputProps}
         {...fieldSetStyles.autoSize}
-        inputRef={ref} />
+        inputRef={ref}
+      />
     )}
     value={statement.value}
     error={statement.dirty && statement.error}
     dirty={statement.dirty}
-    onChange={(_, value, shouldValidate) => handleStatement(value, shouldValidate)} />
+    onChange={(_, value, shouldValidate) =>
+      handleStatement(value, shouldValidate)
+    }
+  />
 )
 
 export default Statement

@@ -13,38 +13,33 @@ const hasAncestor = (node, predicate) => {
 }
 
 class AreaLink extends Component {
-  constructor (props, ...rest) {
+  constructor(props, ...rest) {
     super(props, ...rest)
     this.linkClicked = this.linkClicked.bind(this)
   }
-  linkClicked (e) {
+  linkClicked(e) {
     if (hasAncestor(e.target, node => node.nodeName === 'A')) {
       // ignore click for specific links
       // the area link links areas that are not part of an A tag
       return
     }
 
-    const {
-      route,
-      params,
-      replace,
-      scroll
-    } = this.props
+    const { route, params, replace, scroll } = this.props
     const changeMethod = replace ? 'replaceRoute' : 'pushRoute'
 
     Router[changeMethod](route, params)
-      .then((success) => {
+      .then(success => {
         if (!success) return
         if (scroll) {
           window.scrollTo(0, 0)
           document.body.focus()
         }
       })
-      .catch((err) => {
+      .catch(err => {
         if (this.props.onError) this.props.onError(err)
       })
   }
-  render () {
+  render() {
     const { children, passHref } = this.props
     const child = Children.only(children)
     if (passHref) {

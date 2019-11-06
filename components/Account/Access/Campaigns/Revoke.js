@@ -6,7 +6,7 @@ import { A, InlineSpinner } from '@project-r/styleguide'
 import withT from '../../../../lib/withT'
 
 class Revoke extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -29,7 +29,7 @@ class Revoke extends Component {
       })
     }
 
-    this.onClickRevoke = (event) => {
+    this.onClickRevoke = event => {
       event.preventDefault()
 
       this.setState({
@@ -37,15 +37,16 @@ class Revoke extends Component {
         mutationError: false
       })
 
-      return this.props.revokeAccess({
-        id: this.props.grant.id
-      })
+      return this.props
+        .revokeAccess({
+          id: this.props.grant.id
+        })
         .then(this.hasMutated)
         .catch(this.catchMutationError)
     }
   }
 
-  render () {
+  render() {
     const { t } = this.props
     const { isMutating, mutationError } = this.state
 
@@ -59,12 +60,13 @@ class Revoke extends Component {
 
     return (
       <div style={{ height: 25 }}>
-        {isMutating
-          ? <InlineSpinner size={25} />
-          : <A href='#' onClick={this.onClickRevoke}>
+        {isMutating ? (
+          <InlineSpinner size={25} />
+        ) : (
+          <A href='#' onClick={this.onClickRevoke}>
             {t('Account/Access/Campaigns/Revoke/link/revoke')}
           </A>
-        }
+        )}
       </div>
     )
   }

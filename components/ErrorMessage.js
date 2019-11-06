@@ -1,9 +1,7 @@
 import React from 'react'
 import { errorToString } from '../lib/utils/errors'
 
-import {
-  Interaction, colors
-} from '@project-r/styleguide'
+import { Interaction, colors } from '@project-r/styleguide'
 
 const { P } = Interaction
 

@@ -7,15 +7,17 @@ import Front from '../components/Front'
 import Marketing from '../components/Marketing'
 import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
-import withMembership, { UnauthorizedPage } from '../components/Auth/withMembership'
+import withMembership, {
+  UnauthorizedPage
+} from '../components/Auth/withMembership'
 
-import {
-  PUBLIC_BASE_URL,
-  CDN_FRONTEND_BASE_URL
-} from '../lib/constants'
+import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
 const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
-  if (router.query.stale !== 'marketing' && (isMember || router.query.extractId)) {
+  if (
+    router.query.stale !== 'marketing' &&
+    (isMember || router.query.extractId)
+  ) {
     // does it's own meta
     return <Front extractId={router.query.extractId} finite />
   }

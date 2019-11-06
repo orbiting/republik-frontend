@@ -20,7 +20,14 @@ const styles = {
   })
 }
 
-const DocumentList = ({ documents, totalCount, hasMore, loadMore, feedProps, t }) => {
+const DocumentList = ({
+  documents,
+  totalCount,
+  hasMore,
+  loadMore,
+  feedProps,
+  t
+}) => {
   const [
     { containerRef, infiniteScroll, loadingMore, loadingMoreError },
     setInfiniteScroll
@@ -34,21 +41,20 @@ const DocumentList = ({ documents, totalCount, hasMore, loadMore, feedProps, t }
       <div {...styles.more}>
         {loadingMoreError && <ErrorMessage error={loadingMoreError} />}
         {loadingMore && <Spinner />}
-        {!infiniteScroll && hasMore &&
-        <A href='#' onClick={event => {
-          event && event.preventDefault()
-          setInfiniteScroll(true)
-        }}>
-          {
-            t('feed/loadMore',
-              {
-                count: documents.length,
-                remaining: totalCount - documents.length
-              }
-            )
-          }
-        </A>
-        }
+        {!infiniteScroll && hasMore && (
+          <A
+            href='#'
+            onClick={event => {
+              event && event.preventDefault()
+              setInfiniteScroll(true)
+            }}
+          >
+            {t('feed/loadMore', {
+              count: documents.length,
+              remaining: totalCount - documents.length
+            })}
+          </A>
+        )}
       </div>
     </>
   )

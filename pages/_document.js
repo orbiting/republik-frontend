@@ -1,9 +1,5 @@
 import React from 'react'
-import Document, {
-  Head as DefaultHead,
-  Main,
-  NextScript
-} from 'next/document'
+import Document, { Head as DefaultHead, Main, NextScript } from 'next/document'
 import { renderStaticOptimized } from 'glamor/server'
 import { fontFaces, DEFAULT_FONT_SIZE } from '@project-r/styleguide'
 import { matchUserAgent } from '../lib/withInNativeApp'
@@ -11,12 +7,17 @@ import { matchUserAgent } from '../lib/withInNativeApp'
 // filter our preload links (js files)
 // see https://github.com/zeit/next.js/issues/5054
 class NoJsHead extends DefaultHead {
-  render () {
+  render() {
     const res = super.render()
 
-    function transform (node) {
+    function transform(node) {
       // remove all link preloads
-      if (node && node.type === 'link' && node.props && node.props.rel === 'preload') {
+      if (
+        node &&
+        node.type === 'link' &&
+        node.props &&
+        node.props.rel === 'preload'
+      ) {
         return null
       }
       if (node && node.props && node.props.children) {
@@ -40,7 +41,7 @@ class NoJsHead extends DefaultHead {
 }
 
 export default class MyDocument extends Document {
-  static async getInitialProps ({ renderPage, pathname, query, req, res }) {
+  static async getInitialProps({ renderPage, pathname, query, req, res }) {
     const page = renderPage()
     const styles = renderStaticOptimized(() => page.html)
     const nojs = pathname === '/' && !!query.extractId
@@ -57,72 +58,110 @@ export default class MyDocument extends Document {
       nojs
     }
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { __NEXT_DATA__, env } = props
     if (env) {
       __NEXT_DATA__.env = this.props.env
     }
   }
-  render () {
-    const { css, inNativeApp, env: {
-      PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL
-    }, nojs } = this.props
-    const piwik = (
-      !!PIWIK_URL_BASE &&
-      !!PIWIK_SITE_ID
-    )
+  render() {
+    const {
+      css,
+      inNativeApp,
+      env: { PIWIK_URL_BASE, PIWIK_SITE_ID, PUBLIC_BASE_URL },
+      nojs
+    } = this.props
+    const piwik = !!PIWIK_URL_BASE && !!PIWIK_SITE_ID
     const Head = nojs ? NoJsHead : DefaultHead
     return (
       <html lang='de'>
         <Head>
           <meta
             name='viewport'
-            content={`width=device-width, initial-scale=1${inNativeApp ? ', maximum-scale=1.0, user-scalable=0' : ''}`}
+            content={`width=device-width, initial-scale=1${
+              inNativeApp ? ', maximum-scale=1.0, user-scalable=0' : ''
+            }`}
           />
-          <meta
-            httpEquiv='X-UA-Compatible'
-            content='IE=edge'
-          />
+          <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
           <style
             dangerouslySetInnerHTML={{
-              __html: [fontFaces(), `html, body { font-size: ${DEFAULT_FONT_SIZE}px }`].join('\n')
+              __html: [
+                fontFaces(),
+                `html, body { font-size: ${DEFAULT_FONT_SIZE}px }`
+              ].join('\n')
             }}
           />
-          {css
-            ? <style
-              dangerouslySetInnerHTML={{ __html: css }}
-            />
-            : null}
+          {css ? <style dangerouslySetInnerHTML={{ __html: css }} /> : null}
           <meta name='author' content='Republik' />
-          <link rel='apple-touch-icon' sizes='180x180' href={`${PUBLIC_BASE_URL}/static/apple-touch-icon.png`} />
-          <link rel='icon' type='image/png' href={`${PUBLIC_BASE_URL}/static/favicon-32x32.png`} sizes='32x32' />
-          <link rel='icon' type='image/png' href={`${PUBLIC_BASE_URL}/static/favicon-16x16.png`} sizes='16x16' />
-          <link rel='manifest' href={`${PUBLIC_BASE_URL}/static/manifest.json`} />
-          <link rel='mask-icon' href={`${PUBLIC_BASE_URL}/static/safari-pinned-tab.svg`} color='#000000' />
-          <link rel='shortcut icon' href={`${PUBLIC_BASE_URL}/static/favicon.ico`} />
-          { /* browserconfig.xml can contain other static references, we skip cdnifing it */ }
-          <meta name='msapplication-config' content='/static/browserconfig.xml' />
+          <link
+            rel='apple-touch-icon'
+            sizes='180x180'
+            href={`${PUBLIC_BASE_URL}/static/apple-touch-icon.png`}
+          />
+          <link
+            rel='icon'
+            type='image/png'
+            href={`${PUBLIC_BASE_URL}/static/favicon-32x32.png`}
+            sizes='32x32'
+          />
+          <link
+            rel='icon'
+            type='image/png'
+            href={`${PUBLIC_BASE_URL}/static/favicon-16x16.png`}
+            sizes='16x16'
+          />
+          <link
+            rel='manifest'
+            href={`${PUBLIC_BASE_URL}/static/manifest.json`}
+          />
+          <link
+            rel='mask-icon'
+            href={`${PUBLIC_BASE_URL}/static/safari-pinned-tab.svg`}
+            color='#000000'
+          />
+          <link
+            rel='shortcut icon'
+            href={`${PUBLIC_BASE_URL}/static/favicon.ico`}
+          />
+          {/* browserconfig.xml can contain other static references, we skip cdnifing it */}
+          <meta
+            name='msapplication-config'
+            content='/static/browserconfig.xml'
+          />
           <meta name='referrer' content='no-referrer' />
         </Head>
         <body>
-          {!nojs && <script dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }} />}
+          {!nojs && (
+            <script
+              dangerouslySetInnerHTML={{ __html: `var _paq = _paq || [];` }}
+            />
+          )}
           <Main />
           {!nojs && <NextScript />}
-          {!nojs && piwik && <script dangerouslySetInnerHTML={{ __html: `
+          {!nojs && piwik && (
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
             _paq.push(['enableLinkTracking']);
             (function() {
               _paq.push(['setTrackerUrl', '${PIWIK_URL_BASE}/piwik.php']);
               _paq.push(['setSiteId', '${PIWIK_SITE_ID}']);
               var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
               g.type='text/javascript'; g.async=true; g.defer=true; g.src='${PIWIK_URL_BASE}/piwik.js'; s.parentNode.insertBefore(g,s);
-            })();` }} />}
-          {!nojs && piwik && <noscript>
-            <img
-              src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`}
-              style={{ border: 0, position: 'fixed', left: -1 }}
-              alt='' />
-          </noscript>}
+            })();`
+              }}
+            />
+          )}
+          {!nojs && piwik && (
+            <noscript>
+              <img
+                src={`${PIWIK_URL_BASE}/piwik.php?idsite=${PIWIK_SITE_ID}&rec=1`}
+                style={{ border: 0, position: 'fixed', left: -1 }}
+                alt=''
+              />
+            </noscript>
+          )}
         </body>
       </html>
     )

@@ -1,13 +1,11 @@
 import loadScript from 'load-script'
-import {
-  STRIPE_PUBLISHABLE_KEY
-} from '../../lib/constants'
+import { STRIPE_PUBLISHABLE_KEY } from '../../lib/constants'
 
 let promise
 export default () => {
   if (!promise) {
     promise = new Promise((resolve, reject) => {
-      loadScript('https://js.stripe.com/v2/', (error) => {
+      loadScript('https://js.stripe.com/v2/', error => {
         if (error) {
           reject(error)
           promise = undefined

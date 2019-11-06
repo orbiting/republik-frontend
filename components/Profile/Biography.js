@@ -28,11 +28,7 @@ export default withT(({ user, isEditing, t, ...props }) => {
   }
   return (
     <Editorial.P {...styles.text}>
-      {isEditing
-        ? <FieldSet
-          {...props}
-          fields={fields(t)} />
-        : user.biography}
+      {isEditing ? <FieldSet {...props} fields={fields(t)} /> : user.biography}
     </Editorial.P>
   )
 })

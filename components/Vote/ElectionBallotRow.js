@@ -2,7 +2,15 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'react-apollo'
 import { css } from 'glamor'
-import { A, Checkbox, colors, DEFAULT_PROFILE_PICTURE, fontStyles, mediaQueries, Radio } from '@project-r/styleguide'
+import {
+  A,
+  Checkbox,
+  colors,
+  DEFAULT_PROFILE_PICTURE,
+  fontStyles,
+  mediaQueries,
+  Radio
+} from '@project-r/styleguide'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 import { Strong } from './text'
@@ -134,10 +142,8 @@ const styles = {
     width: '100%',
     display: 'flex',
     padding: 0
-
   }),
-  wrapperSelected: css({
-  }),
+  wrapperSelected: css({}),
   icon: css({
     marginTop: 0,
     width: 26,
@@ -155,7 +161,7 @@ const styles = {
 }
 
 class ElectionBallotRow extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       expanded: props.expanded || false
@@ -167,129 +173,157 @@ class ElectionBallotRow extends Component {
     }
   }
 
-  render () {
-    const { candidate, maxVotes, selected, onChange, disabled, interactive, mandatory, vt, t, showMeta, inNativeApp, profile } = this.props
+  render() {
+    const {
+      candidate,
+      maxVotes,
+      selected,
+      onChange,
+      disabled,
+      interactive,
+      mandatory,
+      vt,
+      t,
+      showMeta,
+      inNativeApp,
+      profile
+    } = this.props
     const { expanded } = this.state
     const SelectionComponent = maxVotes > 1 ? Checkbox : Radio
 
     const { user: d } = candidate
 
-    const summary =
+    const summary = (
       <Fragment>
+        <div>{candidate.yearOfBirth}</div>
         <div>
-          {candidate.yearOfBirth}
+          {(d.credentials.find(c => c.isListed) || {}).description ||
+            MISSING_VALUE}
         </div>
-        <div>
-          {(d.credentials.find(c => c.isListed) || {}).description || MISSING_VALUE}
-        </div>
-        <div>
-          {candidate.city}
-        </div>
+        <div>{candidate.city}</div>
       </Fragment>
+    )
 
-    const target = inNativeApp || profile
-      ? undefined
-      : '_blank'
+    const target = inNativeApp || profile ? undefined : '_blank'
 
     return (
       <div {...styles.wrapper} {...(expanded && styles.wrapperSelected)}>
         <div
-          onClick={e => { e.preventDefault(); interactive && this.toggleExpanded(d.id) }}
+          onClick={e => {
+            e.preventDefault()
+            interactive && this.toggleExpanded(d.id)
+          }}
         >
-          {
-            expanded
-              ? <div {...styles.icon}><ChevronDownIcon /></div>
-              : <div {...styles.icon}><ChevronRightIcon /></div>
-          }
+          {expanded ? (
+            <div {...styles.icon}>
+              <ChevronDownIcon />
+            </div>
+          ) : (
+            <div {...styles.icon}>
+              <ChevronRightIcon />
+            </div>
+          )}
         </div>
-        <div
-          {...styles.row}
-        >
+        <div {...styles.row}>
           <div
             {...styles.summary}
             style={{ cursor: onChange ? 'pointer' : 'default' }}
             onClick={onChange ? () => onChange(candidate) : undefined}
           >
             <div>
-              {interactive
-                ? <A href='#' onClick={e => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  this.toggleExpanded(d.id)
-                }}>{ d.name }</A>
-                : d.name
-              }
+              {interactive ? (
+                <A
+                  href='#'
+                  onClick={e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    this.toggleExpanded(d.id)
+                  }}
+                >
+                  {d.name}
+                </A>
+              ) : (
+                d.name
+              )}
             </div>
-            {
-              summary
-            }
-            { showMeta &&
+            {summary}
+            {showMeta && (
               <div>
                 <div style={{ width: 36, height: 18 }}>
-                  {candidate.recommendation &&
-                  <StarsIcon size={18} />
-                  }
-                  {mandatory &&
-                  <FavoriteIcon size={18} />
-                  }
+                  {candidate.recommendation && <StarsIcon size={18} />}
+                  {mandatory && <FavoriteIcon size={18} />}
                 </div>
               </div>
-            }
+            )}
           </div>
-          { expanded &&
-          <div
-            {...styles.summaryWrapper}
-          >
-            <div {...styles.summaryMobile}>
-              { summary }
-            </div>
-            <div {...styles.details}>
-              <div {...styles.profile}>
-                <div>
-                  <div style={{ backgroundImage: `url(${d.portrait || DEFAULT_PROFILE_PICTURE})` }} {...styles.portrait} />
+          {expanded && (
+            <div {...styles.summaryWrapper}>
+              <div {...styles.summaryMobile}>{summary}</div>
+              <div {...styles.details}>
+                <div {...styles.profile}>
                   <div>
-                    {!profile && <div {...styles.profileFooter}>
-                      <A href={`/~${d.username || d.id}`} target={target}>Profil</A>
-                    </div>}
-                    {candidate.comment && candidate.comment.id &&
-                      <div>
-                        <Link route='voteDiscuss' params={{
-                          discussion: candidate.election.slug,
-                          focus: candidate.comment.id
-                        }} passHref>
-                          <A target={target}>{ vt('vote/election/discussion') }</A>
-                        </Link>
-                      </div>
-                    }
+                    <div
+                      style={{
+                        backgroundImage: `url(${d.portrait ||
+                          DEFAULT_PROFILE_PICTURE})`
+                      }}
+                      {...styles.portrait}
+                    />
+                    <div>
+                      {!profile && (
+                        <div {...styles.profileFooter}>
+                          <A href={`/~${d.username || d.id}`} target={target}>
+                            Profil
+                          </A>
+                        </div>
+                      )}
+                      {candidate.comment && candidate.comment.id && (
+                        <div>
+                          <Link
+                            route='voteDiscuss'
+                            params={{
+                              discussion: candidate.election.slug,
+                              focus: candidate.comment.id
+                            }}
+                            passHref
+                          >
+                            <A target={target}>
+                              {vt('vote/election/discussion')}
+                            </A>
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div {...styles.statement}>
+                    {d.statement || MISSING_VALUE}
                   </div>
                 </div>
-                <div {...styles.statement}>
-                  {d.statement || MISSING_VALUE}
-                </div>
+                {d.disclosures && (
+                  <div {...styles.moreInfo}>
+                    <Strong>{t('profile/disclosures/label')}:</Strong>{' '}
+                    {d.disclosures}
+                  </div>
+                )}
+                {candidate.recommendation && (
+                  <div {...styles.moreInfo}>
+                    <Strong>{vt('vote/election/recommendation')}</Strong>{' '}
+                    {candidate.recommendation}
+                  </div>
+                )}
               </div>
-              { d.disclosures &&
-              <div {...styles.moreInfo}>
-                <Strong>{ t('profile/disclosures/label') }:</Strong> { d.disclosures }
-              </div>
-              }
-              { candidate.recommendation &&
-              <div {...styles.moreInfo}>
-                <Strong>{ vt('vote/election/recommendation') }</Strong> { candidate.recommendation }
-              </div>
-              }
             </div>
+          )}
+        </div>
+        {maxVotes > 0 && onChange && (
+          <div {...styles.selection}>
+            <SelectionComponent
+              disabled={maxVotes > 1 && !selected && disabled}
+              checked={selected}
+              onChange={() => onChange(candidate)}
+            />
           </div>
-          }
-        </div>
-        { maxVotes > 0 && onChange &&
-        <div {...styles.selection}>
-          <SelectionComponent
-            disabled={maxVotes > 1 && !selected && disabled}
-            checked={selected}
-            onChange={() => onChange(candidate)}
-          />
-        </div>
-        }
+        )}
       </div>
     )
   }

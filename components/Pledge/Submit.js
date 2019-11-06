@@ -19,13 +19,15 @@ import { query as addressQuery } from '../Account/UpdateMe'
 
 import FieldSet from '../FieldSet'
 
-import {
-  PUBLIC_BASE_URL
-} from '../../lib/constants'
+import { PUBLIC_BASE_URL } from '../../lib/constants'
 
 import {
-  Interaction, Button, Checkbox,
-  colors, InlineSpinner, Label
+  Interaction,
+  Button,
+  Checkbox,
+  colors,
+  InlineSpinner,
+  Label
 } from '@project-r/styleguide'
 
 import PaymentForm from '../Payment/Form'
@@ -34,32 +36,32 @@ import Consents, { getConsentsError } from './Consents'
 
 const { P } = Interaction
 
-const objectValues = (object) => Object.keys(object).map(key => object[key])
+const objectValues = object => Object.keys(object).map(key => object[key])
 const simpleHash = (object, delimiter = '|') => {
-  return objectValues(object).map(value => {
-    if (value && typeof value === 'object') {
-      return simpleHash(value, delimiter === '|' ? '$' : `$${delimiter}`)
-    }
-    return `${value}`
-  }).join(delimiter)
+  return objectValues(object)
+    .map(value => {
+      if (value && typeof value === 'object') {
+        return simpleHash(value, delimiter === '|' ? '$' : `$${delimiter}`)
+      }
+      return `${value}`
+    })
+    .join(delimiter)
 }
 
-const getRequiredConsents = ({ requiresStatutes }) => [
-  'PRIVACY', 'TOS', requiresStatutes && 'STATUTE'
-].filter(Boolean)
+const getRequiredConsents = ({ requiresStatutes }) =>
+  ['PRIVACY', 'TOS', requiresStatutes && 'STATUTE'].filter(Boolean)
 
 class Submit extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       emailVerify: false,
       consents: [],
       values: {
         country: COUNTRIES[0],
-        name: [
-          props.user.firstName,
-          props.user.lastName
-        ].filter(Boolean).join(' '),
+        name: [props.user.firstName, props.user.lastName]
+          .filter(Boolean)
+          .join(' '),
         ...(props.customMe && props.customMe.address)
       },
       errors: {},
@@ -75,25 +77,18 @@ class Submit extends Component {
       this.state.pledgeHash = hash
       this.state.pledgeId = props.basePledge.id
     }
-    this.paymentRef = (ref) => {
-      this.payment = ref && ref.getWrappedInstance
-        ? ref.getWrappedInstance()
-        : ref
+    this.paymentRef = ref => {
+      this.payment =
+        ref && ref.getWrappedInstance ? ref.getWrappedInstance() : ref
     }
   }
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    const {
-      dirty
-    } = this.state
-    const nextName = [
-      nextProps.user.firstName,
-      nextProps.user.lastName
-    ].filter(Boolean).join(' ')
-    if (
-      nextName !== this.state.values.name &&
-      !dirty.name
-    ) {
-      this.setState((state) => ({
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { dirty } = this.state
+    const nextName = [nextProps.user.firstName, nextProps.user.lastName]
+      .filter(Boolean)
+      .join(' ')
+    if (nextName !== this.state.values.name && !dirty.name) {
+      this.setState(state => ({
         values: {
           ...state.values,
           name: nextName
@@ -104,17 +99,16 @@ class Submit extends Component {
     const addressFields = getAddressFields(this.props.t)
     const addressDirty = addressFields.find(field => dirty[field.name])
     if (!addressDirty) {
-      const nextAddress = (nextProps.customMe && nextProps.customMe.address) || addressFields.reduce(
-        (values, field) => {
+      const nextAddress =
+        (nextProps.customMe && nextProps.customMe.address) ||
+        addressFields.reduce((values, field) => {
           values[field.name] = ''
           return values
-        },
-        {}
-      )
+        }, {})
       if (
         nextAddress !== (this.props.customMe && this.props.customMe.address)
       ) {
-        this.setState((state) => ({
+        this.setState(state => ({
           values: {
             ...state.values,
             ...nextAddress
@@ -123,35 +117,33 @@ class Submit extends Component {
       }
     }
   }
-  submitVariables (props) {
+  submitVariables(props) {
     const { user, total, options, reason, accessToken, customMe } = props
 
     return {
       total,
       options: options.map(option => ({
         ...option,
-        autoPay: option.autoPay !== undefined
-          ? this.getAutoPayValue()
-          : undefined
+        autoPay:
+          option.autoPay !== undefined ? this.getAutoPayValue() : undefined
       })),
       reason,
       user,
-      accessToken: customMe && customMe.isUserOfCurrentSession
-        ? undefined
-        : accessToken
+      accessToken:
+        customMe && customMe.isUserOfCurrentSession ? undefined : accessToken
     }
   }
-  withoutAddress () {
+  withoutAddress() {
     const { customMe } = this.props
     return customMe && customMe.hasAddress && !customMe.isUserOfCurrentSession
   }
-  submitPledge () {
+  submitPledge() {
     const { t, customMe } = this.props
     const errorMessages = this.getErrorMessages()
 
     if (errorMessages.length) {
       this.props.onError()
-      this.setState((state) => {
+      this.setState(state => {
         const dirty = {
           ...state.dirty
         }
@@ -185,10 +177,8 @@ class Submit extends Component {
       // - we need a pledgeResponse with pfAliasId and pfSHA
       // - this can be missing if returning from a PSP redirect
       // - in those cases we create a new pledge
-      (
-        this.state.values.paymentMethod !== 'POSTFINANCECARD' ||
-        this.state.pledgeResponse
-      )
+      (this.state.values.paymentMethod !== 'POSTFINANCECARD' ||
+        this.state.pledgeResponse)
     ) {
       this.payPledge(this.state.pledgeId, this.state.pledgeResponse)
       return
@@ -197,10 +187,11 @@ class Submit extends Component {
     this.setState(() => ({
       loading: t('pledge/submit/loading/submit')
     }))
-    this.props.submit({
-      ...variables,
-      consents: getRequiredConsents(this.props)
-    })
+    this.props
+      .submit({
+        ...variables,
+        consents: getRequiredConsents(this.props)
+      })
       .then(({ data }) => {
         if (data.submitPledge.emailVerify) {
           this.setState(() => ({
@@ -216,10 +207,7 @@ class Submit extends Component {
           pledgeResponse: data.submitPledge,
           submitError: undefined
         }))
-        this.payPledge(
-          data.submitPledge.pledgeId,
-          data.submitPledge
-        )
+        this.payPledge(data.submitPledge.pledgeId, data.submitPledge)
       })
       .catch(error => {
         const submitError = errorToString(error)
@@ -232,7 +220,7 @@ class Submit extends Component {
         }))
       })
   }
-  payPledge (pledgeId, pledgeResponse) {
+  payPledge(pledgeId, pledgeResponse) {
     const { paymentMethod } = this.state.values
 
     if (paymentMethod === 'PAYMENTSLIP') {
@@ -245,30 +233,36 @@ class Submit extends Component {
       this.payWithPayPal(pledgeId)
     }
   }
-  payWithPayPal (pledgeId) {
+  payWithPayPal(pledgeId) {
     const { t } = this.props
 
-    this.setState(() => ({
-      loading: t('pledge/submit/loading/paypal'),
-      pledgeId: pledgeId
-    }), () => {
-      this.payment.payPalForm.submit()
-    })
+    this.setState(
+      () => ({
+        loading: t('pledge/submit/loading/paypal'),
+        pledgeId: pledgeId
+      }),
+      () => {
+        this.payment.payPalForm.submit()
+      }
+    )
   }
-  payWithPostFinance (pledgeId, pledgeResponse) {
+  payWithPostFinance(pledgeId, pledgeResponse) {
     const { t } = this.props
 
-    this.setState(() => ({
-      loading: t('pledge/submit/loading/postfinance'),
-      pledgeId: pledgeId,
-      userId: pledgeResponse.userId,
-      pfAliasId: pledgeResponse.pfAliasId,
-      pfSHA: pledgeResponse.pfSHA
-    }), () => {
-      this.payment.postFinanceForm.submit()
-    })
+    this.setState(
+      () => ({
+        loading: t('pledge/submit/loading/postfinance'),
+        pledgeId: pledgeId,
+        userId: pledgeResponse.userId,
+        pfAliasId: pledgeResponse.pfAliasId,
+        pfSHA: pledgeResponse.pfSHA
+      }),
+      () => {
+        this.payment.postFinanceForm.submit()
+      }
+    )
   }
-  payWithPaymentSlip (pledgeId) {
+  payWithPaymentSlip(pledgeId) {
     const { values } = this.state
     this.pay({
       pledgeId,
@@ -277,22 +271,23 @@ class Submit extends Component {
       address: this.withoutAddress()
         ? undefined
         : {
-          name: values.name,
-          line1: values.line1,
-          line2: values.line2,
-          postalCode: values.postalCode,
-          city: values.city,
-          country: values.country
-        }
+            name: values.name,
+            line1: values.line1,
+            line2: values.line2,
+            postalCode: values.postalCode,
+            city: values.city,
+            country: values.country
+          }
     })
   }
-  pay (data) {
+  pay(data) {
     const { t, me, customMe, user, packageName } = this.props
 
     this.setState(() => ({
       loading: t('pledge/submit/loading/pay')
     }))
-    this.props.pay(data)
+    this.props
+      .pay(data)
       .then(({ data: { payPledge } }) => {
         const baseQuery = {
           package: packageName,
@@ -309,17 +304,22 @@ class Submit extends Component {
             })
             return
           }
-          this.props.signIn(user.email, 'pledge')
-            .then(({ data: { signIn } }) => gotoMerci({
-              ...baseQuery,
-              email: user.email,
-              ...encodeSignInResponseQuery(signIn)
-            }))
-            .catch(error => gotoMerci({
-              ...baseQuery,
-              email: user.email,
-              signInError: errorToString(error)
-            }))
+          this.props
+            .signIn(user.email, 'pledge')
+            .then(({ data: { signIn } }) =>
+              gotoMerci({
+                ...baseQuery,
+                email: user.email,
+                ...encodeSignInResponseQuery(signIn)
+              })
+            )
+            .catch(error =>
+              gotoMerci({
+                ...baseQuery,
+                email: user.email,
+                signInError: errorToString(error)
+              })
+            )
         } else {
           gotoMerci(baseQuery)
         }
@@ -331,7 +331,7 @@ class Submit extends Component {
         }))
       })
   }
-  payWithStripe (pledgeId) {
+  payWithStripe(pledgeId) {
     const { t, total } = this.props
     const { values } = this.state
 
@@ -348,18 +348,19 @@ class Submit extends Component {
       return
     }
 
-    this.payment.createStripeSource({
-      total,
-      metadata: {
-        pledgeId
-      },
-      on3DSecure: () => {
-        this.setState({
-          loading: t('pledge/submit/loading/stripe/3dsecure')
-        })
-      },
-      returnUrl: `${PUBLIC_BASE_URL}/angebote?${STRIPE_PLEDGE_ID_QUERY_KEY}=${pledgeId}&stripe=1`
-    })
+    this.payment
+      .createStripeSource({
+        total,
+        metadata: {
+          pledgeId
+        },
+        on3DSecure: () => {
+          this.setState({
+            loading: t('pledge/submit/loading/stripe/3dsecure')
+          })
+        },
+        returnUrl: `${PUBLIC_BASE_URL}/angebote?${STRIPE_PLEDGE_ID_QUERY_KEY}=${pledgeId}&stripe=1`
+      })
       .then(source => {
         this.setState({
           loading: false,
@@ -379,18 +380,11 @@ class Submit extends Component {
         })
       })
   }
-  getErrorMessages () {
-    const {
-      consents,
-      values
-    } = this.state
-    const {
-      t, options
-    } = this.props
+  getErrorMessages() {
+    const { consents, values } = this.state
+    const { t, options } = this.props
 
-    return ([
-      options.length < 1 && t('pledge/submit/package/error')
-    ])
+    return [options.length < 1 && t('pledge/submit/package/error')]
       .concat(objectValues(this.props.errors))
       .concat(objectValues(this.state.errors))
       .concat([
@@ -399,11 +393,8 @@ class Submit extends Component {
       ])
       .filter(Boolean)
   }
-  getAutoPayValue () {
-    const {
-      forceAutoPay,
-      options
-    } = this.props
+  getAutoPayValue() {
+    const { forceAutoPay, options } = this.props
     const {
       values: { paymentMethod },
       autoPay
@@ -420,19 +411,14 @@ class Submit extends Component {
     }
     return autoPay
   }
-  renderAutoPay () {
+  renderAutoPay() {
     const {
       values: { paymentMethod }
     } = this.state
     if (paymentMethod !== 'STRIPE') {
       return null
     }
-    const {
-      t,
-      packageName,
-      forceAutoPay,
-      options
-    } = this.props
+    const { t, packageName, forceAutoPay, options } = this.props
 
     if (options.every(option => option.autoPay === undefined)) {
       return null
@@ -442,28 +428,35 @@ class Submit extends Component {
       `pledge/submit/${packageName}/autoPay`,
       'pledge/submit/autoPay'
     ])
-    const note = t.first([
-      `pledge/submit/${packageName}/autoPay/note`,
-      'pledge/submit/autoPay/note'
-    ], undefined, null)
+    const note = t.first(
+      [
+        `pledge/submit/${packageName}/autoPay/note`,
+        'pledge/submit/autoPay/note'
+      ],
+      undefined,
+      null
+    )
 
     return (
       <div style={{ marginTop: 10 }}>
-        {forceAutoPay
-          ? note && <Label>{note}</Label>
-          : <Checkbox
+        {forceAutoPay ? (
+          note && <Label>{note}</Label>
+        ) : (
+          <Checkbox
             checked={this.getAutoPayValue()}
             onChange={(_, checked) => {
               this.setState({ autoPay: checked })
-            }}>
+            }}
+          >
             {label}
             {note && <br />}
             {note && <Label>{note}</Label>}
-          </Checkbox>}
+          </Checkbox>
+        )}
       </div>
     )
   }
-  render () {
+  render() {
     const {
       emailVerify,
       paymentError,
@@ -471,10 +464,7 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const {
-      me, user, t,
-      paymentMethods
-    } = this.props
+    const { me, user, t, paymentMethods } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -512,9 +502,11 @@ class Submit extends Component {
           }}
           values={this.state.values}
           errors={this.state.errors}
-          dirty={this.state.dirty} />
-        <br /><br />
-        {(emailVerify && !me) && (
+          dirty={this.state.dirty}
+        />
+        <br />
+        <br />
+        {emailVerify && !me && (
           <div style={{ marginBottom: 40 }}>
             <P style={{ marginBottom: 10 }}>
               {t('pledge/submit/emailVerify/note')}
@@ -522,15 +514,13 @@ class Submit extends Component {
             <SignIn context='pledge' email={user.email} />
           </div>
         )}
-        {(emailVerify && me) && (
+        {emailVerify && me && (
           <div style={{ marginBottom: 40 }}>
             <P>{t('pledge/submit/emailVerify/done')}</P>
           </div>
         )}
         {!!submitError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>
-            {submitError}
-          </P>
+          <P style={{ color: colors.error, marginBottom: 40 }}>{submitError}</P>
         )}
         {!!paymentError && (
           <P style={{ color: colors.error, marginBottom: 40 }}>
@@ -538,9 +528,7 @@ class Submit extends Component {
           </P>
         )}
         {!!signInError && (
-          <P style={{ color: colors.error, marginBottom: 40 }}>
-            {signInError}
-          </P>
+          <P style={{ color: colors.error, marginBottom: 40 }}>{signInError}</P>
         )}
         {loading ? (
           <div style={{ textAlign: 'center' }}>
@@ -552,7 +540,8 @@ class Submit extends Component {
           <div>
             {!!this.state.showErrors && errorMessages.length > 0 && (
               <div style={{ color: colors.error, marginBottom: 40 }}>
-                {t('pledge/submit/error/title')}<br />
+                {t('pledge/submit/error/title')}
+                <br />
                 <ul>
                   {errorMessages.map((error, i) => (
                     <li key={i}>{error}</li>
@@ -567,16 +556,19 @@ class Submit extends Component {
                 this.setState(() => ({
                   consents: keys
                 }))
-              }} />
+              }}
+            />
             {this.renderAutoPay()}
-            <br /><br />
+            <br />
+            <br />
             <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
               <Button
                 block
                 primary={!errorMessages.length}
                 onClick={() => {
                   this.submitPledge()
-                }}>
+                }}
+              >
                 {t('pledge/submit/button/pay', {
                   formattedChf: this.props.total
                     ? chfFormat(this.props.total / 100)
@@ -604,8 +596,24 @@ Submit.propTypes = {
 }
 
 const submitPledge = gql`
-  mutation submitPledge($total: Int!, $options: [PackageOptionInput!]!, $user: UserInput!, $reason: String, $consents: [String!], $accessToken: ID) {
-    submitPledge(pledge: {total: $total, options: $options, user: $user, reason: $reason, accessToken: $accessToken}, consents: $consents) {
+  mutation submitPledge(
+    $total: Int!
+    $options: [PackageOptionInput!]!
+    $user: UserInput!
+    $reason: String
+    $consents: [String!]
+    $accessToken: ID
+  ) {
+    submitPledge(
+      pledge: {
+        total: $total
+        options: $options
+        user: $user
+        reason: $reason
+        accessToken: $accessToken
+      }
+      consents: $consents
+    ) {
       pledgeId
       userId
       emailVerify
@@ -616,8 +624,24 @@ const submitPledge = gql`
 `
 
 const payPledge = gql`
-  mutation payPledge($pledgeId: ID!, $method: PaymentMethod!, $sourceId: String, $pspPayload: JSON, $address: AddressInput, $paperInvoice: Boolean) {
-    payPledge(pledgePayment: {pledgeId: $pledgeId, method: $method, sourceId: $sourceId, pspPayload: $pspPayload, address: $address, paperInvoice: $paperInvoice}) {
+  mutation payPledge(
+    $pledgeId: ID!
+    $method: PaymentMethod!
+    $sourceId: String
+    $pspPayload: JSON
+    $address: AddressInput
+    $paperInvoice: Boolean
+  ) {
+    payPledge(
+      pledgePayment: {
+        pledgeId: $pledgeId
+        method: $method
+        sourceId: $sourceId
+        pspPayload: $pspPayload
+        address: $address
+        paperInvoice: $paperInvoice
+      }
+    ) {
       pledgeId
       userId
       emailVerify
@@ -634,42 +658,41 @@ export const withPay = Component => {
   const EnhancedComponent = compose(
     graphql(payPledge, {
       props: ({ mutate }) => ({
-        pay: variables => mutate({
-          variables,
-          refetchQueries: [
-            { query: addressQuery }
-          ]
-        }).then(response => {
-          return new Promise((resolve, reject) => {
-            if (!pendingOrder) {
-              resolve(response)
-            } else {
-              pendingOrder.options.forEach(option => {
-                track([
-                  'addEcommerceItem',
-                  option.templateId, // (required) SKU: Product unique identifier
-                  undefined, // (optional) Product name
-                  undefined, // (optional) Product category
-                  option.price / 100, // (recommended) Product price
-                  option.amount // (optional, default to 1) Product quantity
-                ])
-              })
-              track([
-                'trackEcommerceOrder',
-                response.data.payPledge.pledgeId, // (required) Unique Order ID
-                pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
-                undefined, // (optional) Order sub total (excludes shipping)
-                undefined, // (optional) Tax amount
-                undefined, // (optional) Shipping amount
-                !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
-              ])
-              // give piwik a second to track
-              setTimeout(() => {
+        pay: variables =>
+          mutate({
+            variables,
+            refetchQueries: [{ query: addressQuery }]
+          }).then(response => {
+            return new Promise((resolve, reject) => {
+              if (!pendingOrder) {
                 resolve(response)
-              }, 1000)
-            }
+              } else {
+                pendingOrder.options.forEach(option => {
+                  track([
+                    'addEcommerceItem',
+                    option.templateId, // (required) SKU: Product unique identifier
+                    undefined, // (optional) Product name
+                    undefined, // (optional) Product category
+                    option.price / 100, // (recommended) Product price
+                    option.amount // (optional, default to 1) Product quantity
+                  ])
+                })
+                track([
+                  'trackEcommerceOrder',
+                  response.data.payPledge.pledgeId, // (required) Unique Order ID
+                  pendingOrder.total / 100, // (required) Order Revenue grand total (includes tax, shipping, and subtracted discount)
+                  undefined, // (optional) Order sub total (excludes shipping)
+                  undefined, // (optional) Tax amount
+                  undefined, // (optional) Shipping amount
+                  !!pendingOrder.reason // (optional) Discount offered (set to false for unspecified parameter)
+                ])
+                // give piwik a second to track
+                setTimeout(() => {
+                  resolve(response)
+                }, 1000)
+              }
+            })
           })
-        })
       })
     }),
     withSignIn

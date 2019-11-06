@@ -10,7 +10,7 @@ const styles = {
 }
 
 class TextInputProgress extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const { radius, strokeWidth } = this.props
@@ -19,16 +19,14 @@ class TextInputProgress extends Component {
     this.circumference = this.normalizedRadius * 2 * Math.PI
   }
 
-  render () {
+  render() {
     const { radius, stroke, strokeWidth, progress } = this.props
 
-    const strokeDashoffset = this.circumference - progress / 100 * this.circumference
+    const strokeDashoffset =
+      this.circumference - (progress / 100) * this.circumference
 
     return (
-      <svg
-        height={radius * 2}
-        width={radius * 2}
-      >
+      <svg height={radius * 2} width={radius * 2}>
         <circle
           {...styles.circle}
           stroke={stroke}

@@ -25,7 +25,11 @@ const upsertDocumentProgressMutation = gql`
     $percentage: Float!
     $nodeId: String!
   ) {
-    upsertDocumentProgress(documentId: $documentId, percentage: $percentage, nodeId: $nodeId) {
+    upsertDocumentProgress(
+      documentId: $documentId
+      percentage: $percentage
+      nodeId: $nodeId
+    ) {
       id
       document {
         id
@@ -65,10 +69,7 @@ export const revokeConsentMutation = gql`
 `
 
 const upsertMediaProgressMutation = gql`
-  mutation upsertMediaProgress(
-    $mediaId: ID!
-    $secs: Float!
-  ) {
+  mutation upsertMediaProgress($mediaId: ID!, $secs: Float!) {
     upsertMediaProgress(mediaId: $mediaId, secs: $secs) {
       id
       mediaId

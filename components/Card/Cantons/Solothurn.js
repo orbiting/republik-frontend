@@ -3,7 +3,7 @@ import React from 'react'
 const SvgSolothurn = props => (
   <svg
     width={props.size}
-    height={props.size * 472.345 / 470.754}
+    height={(props.size * 472.345) / 470.754}
     viewBox='-206.335 -206.723 470.754 472.345'
     {...props}
   >

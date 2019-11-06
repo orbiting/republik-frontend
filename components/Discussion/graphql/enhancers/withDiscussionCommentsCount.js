@@ -11,11 +11,15 @@ import { discussionCommentsCountQuery } from '../documents'
  *   }
  */
 
-export const withDiscussionCommentsCount = graphql(discussionCommentsCountQuery, {
-  options: {
-    pollInterval: DISCUSSION_POLL_INTERVAL_MS
-  },
-  props: ({ data: { discussion } }) => ({
-    discussionCommentsCount: discussion && discussion.comments && discussion.comments.totalCount
-  })
-})
+export const withDiscussionCommentsCount = graphql(
+  discussionCommentsCountQuery,
+  {
+    options: {
+      pollInterval: DISCUSSION_POLL_INTERVAL_MS
+    },
+    props: ({ data: { discussion } }) => ({
+      discussionCommentsCount:
+        discussion && discussion.comments && discussion.comments.totalCount
+    })
+  }
+)

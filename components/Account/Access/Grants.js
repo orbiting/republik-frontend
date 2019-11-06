@@ -19,45 +19,40 @@ const AccessGrants = ({ accessGrants, inNativeIOSApp, t }) => {
   const maxEndAt =
     accessGrants.length > 0 &&
     accessGrants.reduce(
-      (acc, grant) => new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
+      (acc, grant) =>
+        new Date(grant.endAt) > acc ? new Date(grant.endAt) : acc,
       new Date()
     )
 
-  return accessGrants.length > 0 && (
-    <Box>
-      <MainContainer>
-        <P>{
-          t.elements('Account/Access/Grants/message/claimed', {
-            maxEndAt: <span>
-              {dayFormat(new Date(maxEndAt))}
-            </span>
-          })
-        }</P>
-        {!inNativeIOSApp &&
+  return (
+    accessGrants.length > 0 && (
+      <Box>
+        <MainContainer>
           <P>
-            <Link route='pledge' key='pledge' passHref>
-              <Editorial.A>
-                {t('Account/Access/Grants/link/pledges')}
-              </Editorial.A>
-            </Link>
+            {t.elements('Account/Access/Grants/message/claimed', {
+              maxEndAt: <span>{dayFormat(new Date(maxEndAt))}</span>
+            })}
           </P>
-        }
-      </MainContainer>
-    </Box>
+          {!inNativeIOSApp && (
+            <P>
+              <Link route='pledge' key='pledge' passHref>
+                <Editorial.A>
+                  {t('Account/Access/Grants/link/pledges')}
+                </Editorial.A>
+              </Link>
+            </P>
+          )}
+        </MainContainer>
+      </Box>
+    )
   )
 }
 
 export default compose(
   graphql(query, {
     props: ({ data }) => ({
-      accessGrants: (
-        (
-          !data.loading &&
-          !data.error &&
-          data.me &&
-          data.me.accessGrants
-        ) || []
-      )
+      accessGrants:
+        (!data.loading && !data.error && data.me && data.me.accessGrants) || []
     })
   }),
   withT,

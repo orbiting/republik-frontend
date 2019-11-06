@@ -15,15 +15,20 @@ const Campaign = ({ campaign, grantAccess, revokeAccess, t }) => {
     <div style={{ marginBottom: 40 }}>
       <H2>{campaign.title}</H2>
       <P>{campaign.description}</P>
-      <P>{t.elements(
-        'Account/Access/Campaigns/Campaign/claimNotice', {
-          linkClaim: <Link
-            key={`campaign-claim-notice-${campaign.id}`}
-            route='claim'
-            params={{ context: 'access' }}
-            passHref>
-            <A>{t('Account/Access/Campaigns/Campaign/claimNotice/linkClaim')}</A>
-          </Link>
+      <P>
+        {t.elements('Account/Access/Campaigns/Campaign/claimNotice', {
+          linkClaim: (
+            <Link
+              key={`campaign-claim-notice-${campaign.id}`}
+              route='claim'
+              params={{ context: 'access' }}
+              passHref
+            >
+              <A>
+                {t('Account/Access/Campaigns/Campaign/claimNotice/linkClaim')}
+              </A>
+            </Link>
+          )
         })}
       </P>
       <Grants campaign={campaign} revokeAccess={revokeAccess} />

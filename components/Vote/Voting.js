@@ -83,35 +83,39 @@ const styles = {
 const messageDateFormat = timeFormat('%e. %B %Y')
 
 class Voting extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       pollState: POLL_STATES.START,
       selectedValue: null
     }
 
-    this.reset = (e) => {
+    this.reset = e => {
       e.preventDefault()
-      this.setState(
-        {
-          selectedValue: null,
-          error: null,
-          pollState: POLL_STATES.START
-        }
-      )
+      this.setState({
+        selectedValue: null,
+        error: null,
+        pollState: POLL_STATES.START
+      })
     }
 
     this.renderConfirmation = () => {
       const { pollState, selectedValue } = this.state
-      const { vt, data: { voting } } = this.props
+      const {
+        vt,
+        data: { voting }
+      } = this.props
       if (pollState === POLL_STATES.READY) {
         return (
           <div {...styles.confirm}>
             <P>
-              { selectedValue
-                ? `Mit ${vt(`vote/voting/option${voting.options.find(o => o.id === selectedValue).label}`)} stimmen?`
-                : 'Leer einlegen?'
-              }
+              {selectedValue
+                ? `Mit ${vt(
+                    `vote/voting/option${
+                      voting.options.find(o => o.id === selectedValue).label
+                    }`
+                  )} stimmen?`
+                : 'Leer einlegen?'}
             </P>
           </div>
         )
@@ -122,7 +126,9 @@ class Voting extends React.Component {
 
     this.submitVotingBallot = async () => {
       const { submitVotingBallot } = this.props
-      const { data: { voting } } = this.props
+      const {
+        data: { voting }
+      } = this.props
       const { selectedValue } = this.state
 
       this.setState({ updating: true })
@@ -133,7 +139,8 @@ class Voting extends React.Component {
             updating: false,
             error: null
           }))
-        }).catch((error) => {
+        })
+        .catch(error => {
           this.setState(() => ({
             pollState: POLL_STATES.DIRTY,
             updating: false,
@@ -146,7 +153,11 @@ class Voting extends React.Component {
       const { vt } = this.props
       const { pollState, updating } = this.state
 
-      const resetLink = <A href='#' {...styles.link} onClick={this.reset}>{ vt('vote/voting/labelReset') }</A>
+      const resetLink = (
+        <A href='#' {...styles.link} onClick={this.reset}>
+          {vt('vote/voting/labelReset')}
+        </A>
+      )
 
       switch (pollState) {
         case POLL_STATES.START:
@@ -162,9 +173,9 @@ class Voting extends React.Component {
                   }))
                 }}
               >
-                { vt('vote/voting/labelVote') }
+                {vt('vote/voting/labelVote')}
               </Button>
-              <div {...styles.link}>{ vt('vote/voting/help') }</div>
+              <div {...styles.link}>{vt('vote/voting/help')}</div>
             </Fragment>
           )
         case POLL_STATES.DIRTY:
@@ -180,9 +191,9 @@ class Voting extends React.Component {
                   }))
                 }}
               >
-                { vt('vote/voting/labelVote') }
+                {vt('vote/voting/labelVote')}
               </Button>
-              { resetLink }
+              {resetLink}
             </Fragment>
           )
         case POLL_STATES.READY:
@@ -196,22 +207,26 @@ class Voting extends React.Component {
                   this.submitVotingBallot()
                 }}
               >
-                { updating
-                  ? <InlineSpinner size={40} />
-                  : vt('vote/voting/labelConfirm') }
+                {updating ? (
+                  <InlineSpinner size={40} />
+                ) : (
+                  vt('vote/voting/labelConfirm')
+                )}
               </Button>
-              { updating ? <A>&nbsp;</A> : resetLink }
+              {updating ? <A>&nbsp;</A> : resetLink}
             </Fragment>
           )
         default:
-          return (
-            null
-          )
+          return null
       }
     }
 
     this.renderVotingBody = () => {
-      const { vt, data: { voting }, me } = this.props
+      const {
+        vt,
+        data: { voting },
+        me
+      } = this.props
       const { selectedValue } = this.state
       const { P } = Interaction
 
@@ -257,44 +272,44 @@ class Voting extends React.Component {
                     })
                   }
                 >
-                  <span {...styles.optionText}>{ vt(`vote/voting/option${label}`) }</span>
+                  <span {...styles.optionText}>
+                    {vt(`vote/voting/option${label}`)}
+                  </span>
                 </Radio>
                 <br />
               </Fragment>
             ))}
-            {
-              this.renderConfirmation()
-            }
-            <div {...styles.cardActions}>
-              { this.renderActions() }
-            </div>
+            {this.renderConfirmation()}
+            <div {...styles.cardActions}>{this.renderActions()}</div>
           </div>
         )
       }
     }
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return (
-      <Loader loading={data.loading} error={data.error} render={() => {
-        const { voting } = data
-        if (!voting) { return null }
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const { voting } = data
+          if (!voting) {
+            return null
+          }
 
-        const { error } = this.state
+          const { error } = this.state
 
-        return (
-          <div {...styles.card}>
-            <H3>{ voting.description }</H3>
-            { error &&
-            <ErrorMessage error={error} />
-            }
-            {
-              this.renderVotingBody()
-            }
-          </div>
-        )
-      }} />
+          return (
+            <div {...styles.card}>
+              <H3>{voting.description}</H3>
+              {error && <ErrorMessage error={error} />}
+              {this.renderVotingBody()}
+            </div>
+          )
+        }}
+      />
     )
   }
 }
@@ -319,7 +334,7 @@ const submitVotingBallotMutation = gql`
     submitVotingBallot(votingId: $votingId, optionId: $optionId) {
       id
       userHasSubmitted
-      userSubmitDate    
+      userSubmitDate
     }
   }
 `

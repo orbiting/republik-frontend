@@ -30,8 +30,7 @@ const FontSizeSync = () => {
     // resize on browser: back button for IE, Edge
     setRootFontSize()
     return () => {
-      document.documentElement.style.fontSize =
-        DEFAULT_FONT_SIZE + 'px'
+      document.documentElement.style.fontSize = DEFAULT_FONT_SIZE + 'px'
       if (lastStyleTag.current) {
         document.head.removeChild(lastStyleTag.current)
       }
@@ -41,7 +40,7 @@ const FontSizeSync = () => {
     <NextHead>
       <script
         dangerouslySetInnerHTML={{
-          __html: `try {document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'} catch (e) {}`,
+          __html: `try {document.documentElement.style.fontSize = (localStorage.getItem('${FONT_SIZE_KEY}') || ${DEFAULT_FONT_SIZE}) + 'px'} catch (e) {}`
         }}
       />
     </NextHead>

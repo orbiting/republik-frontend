@@ -2,14 +2,25 @@ import React from 'react'
 import Frame from '../../components/Frame'
 import Discussion from '../../components/Discussion/Discussion'
 import { withRouter } from 'next/router'
-import { A, colors, Interaction, Center, mediaQueries, fontStyles } from '@project-r/styleguide'
+import {
+  A,
+  colors,
+  Interaction,
+  Center,
+  mediaQueries,
+  fontStyles
+} from '@project-r/styleguide'
 import { css } from 'glamor'
 import { Link } from '../../lib/routes'
 import { compose, graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 
-import { ELECTION_COOP_MEMBERS_SLUG, ELECTION_COOP_PRESIDENT_SLUG, VOTING_COOP_BOARD_SLUG } from '../../lib/constants'
+import {
+  ELECTION_COOP_MEMBERS_SLUG,
+  ELECTION_COOP_PRESIDENT_SLUG,
+  VOTING_COOP_BOARD_SLUG
+} from '../../lib/constants'
 import voteT from './voteT'
 import { Body, Section, Strong, Title } from './text'
 import Loader from '../Loader'
@@ -58,61 +69,79 @@ const DiscussionPage = ({ router, data, vt }) => {
 
   return (
     <Frame meta={meta}>
-      <Loader loading={data.loading} error={data.error} render={() => {
-        const isValid = DISCUSSION_TITLES[router.query.discussion]
-        const selectedDiscussion = isValid ? router.query.discussion : VOTING_COOP_BOARD_SLUG
-        const discussionId = (data[selectedDiscussion] && data[selectedDiscussion].discussion.id)
-        const translationKey = DISCUSSION_TITLES[selectedDiscussion]
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const isValid = DISCUSSION_TITLES[router.query.discussion]
+          const selectedDiscussion = isValid
+            ? router.query.discussion
+            : VOTING_COOP_BOARD_SLUG
+          const discussionId =
+            data[selectedDiscussion] && data[selectedDiscussion].discussion.id
+          const translationKey = DISCUSSION_TITLES[selectedDiscussion]
 
-        return (
-          <Center>
-            <Title>{ vt('vote/discussion/title') }</Title>
-            <Section>
-              <Body dangerousHTML={vt('vote/discussion/intro')} />
-            </Section>
-            <div>
-              <div {...styles.tabBarWRapper}>
-                <div {...styles.tabBar}>
-                  {
-                    [
+          return (
+            <Center>
+              <Title>{vt('vote/discussion/title')}</Title>
+              <Section>
+                <Body dangerousHTML={vt('vote/discussion/intro')} />
+              </Section>
+              <div>
+                <div {...styles.tabBarWRapper}>
+                  <div {...styles.tabBar}>
+                    {[
                       VOTING_COOP_BOARD_SLUG,
                       ELECTION_COOP_PRESIDENT_SLUG,
                       ELECTION_COOP_MEMBERS_SLUG
-                    ].map(id =>
+                    ].map(id => (
                       <div key={id} {...styles.tab}>
                         <P>
-                          <Link route='voteDiscuss' params={{
-                            discussion: (data[id] && data[id].discussion.slug) || id
-                          }} passHref scroll={false}>
-                            { selectedDiscussion === id ? (
+                          <Link
+                            route='voteDiscuss'
+                            params={{
+                              discussion:
+                                (data[id] && data[id].discussion.slug) || id
+                            }}
+                            passHref
+                            scroll={false}
+                          >
+                            {selectedDiscussion === id ? (
                               <Strong>
-                                { vt(`${DISCUSSION_TITLES[id]}Title`) }
-                                <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
+                                {vt(`${DISCUSSION_TITLES[id]}Title`)}
+                                <span {...styles.count}>
+                                  <Icon size={17} fill={colors.primary} />{' '}
+                                  {data[id] &&
+                                    data[id].discussion.comments.totalCount}
+                                </span>
                               </Strong>
                             ) : (
                               <A>
-                                { vt(`${DISCUSSION_TITLES[id]}Title`) }
-                                <span {...styles.count}><Icon size={17} fill={colors.primary} /> {data[id] && data[id].discussion.comments.totalCount}</span>
+                                {vt(`${DISCUSSION_TITLES[id]}Title`)}
+                                <span {...styles.count}>
+                                  <Icon size={17} fill={colors.primary} />{' '}
+                                  {data[id] &&
+                                    data[id].discussion.comments.totalCount}
+                                </span>
                               </A>
-                            )
-                            }
+                            )}
                           </Link>
                         </P>
                       </div>
-                    )
-                  }
+                    ))}
+                  </div>
                 </div>
+                <Body dangerousHTML={vt(`${translationKey}Intro`)} />
+                <Discussion
+                  discussionId={discussionId}
+                  focusId={router.query.focus}
+                  mute={!!router.query.mute}
+                />
               </div>
-              <Body dangerousHTML={vt(`${translationKey}Intro`)} />
-              <Discussion
-                discussionId={discussionId}
-                focusId={router.query.focus}
-                mute={!!router.query.mute}
-              />
-            </div>
-          </Center>
-        )
-      }} />
+            </Center>
+          )
+        }}
+      />
     </Frame>
   )
 }

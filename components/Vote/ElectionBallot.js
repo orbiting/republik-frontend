@@ -11,25 +11,30 @@ const styles = {
 }
 
 class ElectionBallot extends React.Component {
-  render () {
-    const { candidacies, selected, mandatory, maxVotes, onChange, showMeta } = this.props
+  render() {
+    const {
+      candidacies,
+      selected,
+      mandatory,
+      maxVotes,
+      onChange,
+      showMeta
+    } = this.props
 
     return (
       <div {...styles.table}>
-        {candidacies
-          .map(d =>
-            <ElectionBallotRow
-              key={d.id}
-              maxVotes={maxVotes}
-              selected={selected.some(c => d.id === c.id)}
-              mandatory={mandatory.some(c => d.user.id === c.user.id)}
-              onChange={onChange}
-              candidate={d}
-              disabled={selected.length >= maxVotes}
-              showMeta={showMeta}
-            />
-          )
-        }
+        {candidacies.map(d => (
+          <ElectionBallotRow
+            key={d.id}
+            maxVotes={maxVotes}
+            selected={selected.some(c => d.id === c.id)}
+            mandatory={mandatory.some(c => d.user.id === c.user.id)}
+            onChange={onChange}
+            candidate={d}
+            disabled={selected.length >= maxVotes}
+            showMeta={showMeta}
+          />
+        ))}
       </div>
     )
   }

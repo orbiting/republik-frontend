@@ -12,13 +12,17 @@ import { Item as AccountItem, P } from '../Elements'
 import TokenPackageLink from '../../Link/TokenPackage'
 
 import {
-  InlineSpinner, colors, linkRule, Interaction, A
+  InlineSpinner,
+  colors,
+  linkRule,
+  Interaction,
+  A
 } from '@project-r/styleguide'
 
 const dayFormat = timeFormat('%d. %B %Y')
 
 class Actions extends Component {
-  constructor (...args) {
+  constructor(...args) {
     super(...args)
     this.state = {
       isCancelling: false,
@@ -27,12 +31,9 @@ class Actions extends Component {
       errors: {}
     }
   }
-  render () {
+  render() {
     const { t, membership, prolong, waitingMemberships } = this.props
-    const {
-      updating,
-      remoteError
-    } = this.state
+    const { updating, remoteError } = this.state
 
     if (updating) {
       return <InlineSpinner />
@@ -42,54 +43,71 @@ class Actions extends Component {
       <Fragment>
         {membership.active &&
           membership.renew &&
-          membership.type.name === 'MONTHLY_ABO' &&
+          membership.type.name === 'MONTHLY_ABO' && (
+            <P>
+              <Interaction.Cursive>
+                {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
+                  buyLink: (
+                    <Link route='pledge' params={{ package: 'ABO' }}>
+                      <a {...linkRule}>
+                        {t(
+                          'memberships/MONTHLY_ABO/manage/upgrade/link/buyText'
+                        )}
+                      </a>
+                    </Link>
+                  )
+                })}
+              </Interaction.Cursive>
+            </P>
+          )}
+        {!prolong &&
+          membership.active &&
+          membership.renew &&
+          waitingMemberships && (
+            <P>{t('memberships/manage/prolong/awaiting')}</P>
+          )}
+        {!membership.renew && !!membership.periods.length && !prolong && (
           <P>
-            <Interaction.Cursive>
-              {t.elements('memberships/MONTHLY_ABO/manage/upgrade/link', {
-                buyLink: <Link route='pledge' params={{ package: 'ABO' }}>
-                  <a {...linkRule}>
-                    {t('memberships/MONTHLY_ABO/manage/upgrade/link/buyText')}
-                  </a>
-                </Link>
-              })}
-            </Interaction.Cursive>
-          </P>}
-        {!prolong && membership.active && membership.renew && waitingMemberships && <P>
-          {t('memberships/manage/prolong/awaiting')}
-        </P>}
-        {!membership.renew && !!membership.periods.length && !prolong && <P>
-          <A href='#reactivate' onClick={(e) => {
-            e.preventDefault()
-            this.setState({
-              updating: true
-            })
-            this.props.reactivate({
-              id: membership.id
-            })
-              .then(() => {
+            <A
+              href='#reactivate'
+              onClick={e => {
+                e.preventDefault()
                 this.setState({
-                  updating: false,
-                  remoteError: undefined
+                  updating: true
                 })
-              })
-              .catch(error => {
-                this.setState({
-                  updating: false,
-                  remoteError: errorToString(error)
-                })
-              })
-          }}>
-            {t.first([
-              `memberships/${membership.type.name}/manage/reactivate`,
-              'memberships/manage/reactivate'
-            ])}
-          </A>
-        </P>}
-        {prolong &&
+                this.props
+                  .reactivate({
+                    id: membership.id
+                  })
+                  .then(() => {
+                    this.setState({
+                      updating: false,
+                      remoteError: undefined
+                    })
+                  })
+                  .catch(error => {
+                    this.setState({
+                      updating: false,
+                      remoteError: errorToString(error)
+                    })
+                  })
+              }}
+            >
+              {t.first([
+                `memberships/${membership.type.name}/manage/reactivate`,
+                'memberships/manage/reactivate'
+              ])}
+            </A>
+          </P>
+        )}
+        {prolong && (
           <P>
-            <TokenPackageLink params={{
-              package: 'PROLONG'
-            }} passHref>
+            <TokenPackageLink
+              params={{
+                package: 'PROLONG'
+              }}
+              passHref
+            >
               <A>
                 {t.first([
                   `memberships/${membership.type.name}/manage/prolong/link`,
@@ -98,71 +116,84 @@ class Actions extends Component {
               </A>
             </TokenPackageLink>
           </P>
-        }
-        {membership.active && membership.renew && <P>
-          <Link route='cancel' params={{ membershipId: membership.id }} passHref>
-            <A>
-              {t.first([
-                `memberships/${membership.type.name}/manage/cancel/link`,
-                'memberships/manage/cancel/link'
-              ])}
-            </A>
-          </Link>
-        </P>}
-        {!!remoteError &&
-          <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>}
+        )}
+        {membership.active && membership.renew && (
+          <P>
+            <Link
+              route='cancel'
+              params={{ membershipId: membership.id }}
+              passHref
+            >
+              <A>
+                {t.first([
+                  `memberships/${membership.type.name}/manage/cancel/link`,
+                  'memberships/manage/cancel/link'
+                ])}
+              </A>
+            </Link>
+          </P>
+        )}
+        {!!remoteError && (
+          <P style={{ color: colors.error, marginTop: 10 }}>{remoteError}</P>
+        )}
       </Fragment>
     )
   }
 }
 
 const cancelMembership = gql`
-mutation cancelMembership($id: ID!, $reason: String) {
-  cancelMembership(id: $id, reason: $reason) {
-    id
-    active
-    renew
+  mutation cancelMembership($id: ID!, $reason: String) {
+    cancelMembership(id: $id, reason: $reason) {
+      id
+      active
+      renew
+    }
   }
-}
 `
 
 const reactivateMembership = gql`
-mutation reactivateMembership($id: ID!) {
-  reactivateMembership(id: $id) {
-    id
-    active
-    renew
+  mutation reactivateMembership($id: ID!) {
+    reactivateMembership(id: $id) {
+      id
+      active
+      renew
+    }
   }
-}
 `
 
 const ManageActions = compose(
   withT,
   graphql(cancelMembership, {
     props: ({ mutate }) => ({
-      cancel: (variables) =>
-        mutate({ variables })
+      cancel: variables => mutate({ variables })
     })
   }),
   graphql(reactivateMembership, {
     props: ({ mutate }) => ({
-      reactivate: (variables) =>
-        mutate({ variables })
+      reactivate: variables => mutate({ variables })
     })
   })
 )(Actions)
 
-const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title, compact, actions }) => {
+const Manage = ({
+  t,
+  membership,
+  highlighted,
+  prolong,
+  waitingMemberships,
+  title,
+  compact,
+  actions
+}) => {
   const createdAt = new Date(membership.createdAt)
   const latestPeriod =
     membership.periods &&
     membership.periods.length > 0 &&
-    membership.periods
-      .reduce((acc, period) => {
-        return acc && new Date(period.endDate) < new Date(acc.endDate)
-          ? acc
-          : period
-      })
+    membership.periods.reduce((acc, period) => {
+      return acc && new Date(period.endDate) < new Date(acc.endDate)
+        ? acc
+        : period
+    })
 
   const latestPeriodEndDate = latestPeriod && new Date(latestPeriod.endDate)
   const formattedEndDate = latestPeriod && dayFormat(latestPeriodEndDate)
@@ -174,24 +205,27 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
       highlighted={highlighted}
       createdAt={createdAt}
       title={
-        title || t(
-          `memberships/title/${membership.type.name}`,
-          { sequenceNumber: membership.sequenceNumber }
-        )
-      }>
-      {membership.active && !!latestPeriod && !overdue &&
-        <P>
-          {membership.active && !membership.overdue && t.first(
-            [
-              `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`,
-              `memberships/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`
-            ],
-            { formattedEndDate },
-            ''
-          )}
-        </P>
+        title ||
+        t(`memberships/title/${membership.type.name}`, {
+          sequenceNumber: membership.sequenceNumber
+        })
       }
-      {membership.active && !!latestPeriod && overdue &&
+    >
+      {membership.active && !!latestPeriod && !overdue && (
+        <P>
+          {membership.active &&
+            !membership.overdue &&
+            t.first(
+              [
+                `memberships/${membership.type.name}/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`,
+                `memberships/latestPeriod/renew/${membership.renew}/autoPay/${membership.autoPay}`
+              ],
+              { formattedEndDate },
+              ''
+            )}
+        </P>
+      )}
+      {membership.active && !!latestPeriod && overdue && (
         <P>
           {t.first(
             [
@@ -201,8 +235,8 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
             { formattedEndDate }
           )}
         </P>
-      }
-      {!membership.active && !membership.renew && !!latestPeriod && overdue &&
+      )}
+      {!membership.active && !membership.renew && !!latestPeriod && overdue && (
         <P>
           {t.first(
             [
@@ -212,8 +246,14 @@ const Manage = ({ t, membership, highlighted, prolong, waitingMemberships, title
             { formattedEndDate }
           )}
         </P>
-      }
-      {actions && <ManageActions membership={membership} prolong={prolong} waitingMemberships={waitingMemberships} />}
+      )}
+      {actions && (
+        <ManageActions
+          membership={membership}
+          prolong={prolong}
+          waitingMemberships={waitingMemberships}
+        />
+      )}
     </AccountItem>
   )
 }
@@ -229,6 +269,4 @@ Manage.defaultProps = {
   actions: true
 }
 
-export default compose(
-  withT
-)(Manage)
+export default compose(withT)(Manage)

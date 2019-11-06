@@ -26,10 +26,7 @@ module.exports = withBundleAnalyzer({
     config.entry = async () => {
       const entries = await entryFactory()
 
-      if (
-        entries['main.js'] &&
-        !entries['main.js'].includes(polyfillPath)
-      ) {
+      if (entries['main.js'] && !entries['main.js'].includes(polyfillPath)) {
         entries['main.js'].unshift(polyfillPath)
       }
 
@@ -38,9 +35,10 @@ module.exports = withBundleAnalyzer({
     return config
   },
   poweredByHeader: false,
-  assetPrefix: NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
-    ? CDN_FRONTEND_BASE_URL
-    : '',
+  assetPrefix:
+    NODE_ENV === 'production' && CDN_FRONTEND_BASE_URL
+      ? CDN_FRONTEND_BASE_URL
+      : '',
   useFileSystemPublicRoutes: false
   // , onDemandEntries: {
   //   // wait 5 minutes before disposing entries

@@ -1,11 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 
 import {
-  DEFAULT_FONT_SIZE, Overlay, OverlayBody,
-  OverlayToolbar, OverlayToolbarConfirm,
-  Interaction, Slider, mediaQueries,
-  fontStyles, colors,
-  Editorial, Collapsable
+  DEFAULT_FONT_SIZE,
+  Overlay,
+  OverlayBody,
+  OverlayToolbar,
+  OverlayToolbarConfirm,
+  Interaction,
+  Slider,
+  mediaQueries,
+  fontStyles,
+  colors,
+  Editorial,
+  Collapsable
 } from '@project-r/styleguide'
 
 import MdClose from 'react-icons/lib/md/close'
@@ -19,7 +26,9 @@ import track from '../../lib/piwik'
 const FontSizeOverlay = ({ t, onClose }) => {
   const [fontSize, setFontSize] = useFontSize(DEFAULT_FONT_SIZE)
   const fontPercentage = useRef()
-  fontPercentage.current = `${Math.round(100 * fontSize / DEFAULT_FONT_SIZE)}%`
+  fontPercentage.current = `${Math.round(
+    (100 * fontSize) / DEFAULT_FONT_SIZE
+  )}%`
 
   const styles = {
     label: css({
@@ -50,18 +59,15 @@ const FontSizeOverlay = ({ t, onClose }) => {
     })
   }
 
-  const trackFontSize = (action) => {
-    track([
-      'trackEvent',
-      'FontSize',
-      action,
-      fontPercentage.current
-    ])
+  const trackFontSize = action => {
+    track(['trackEvent', 'FontSize', action, fontPercentage.current])
   }
 
   useEffect(() => {
     trackFontSize('openOverlay')
-    return () => { trackFontSize('closeOverlay') }
+    return () => {
+      trackFontSize('closeOverlay')
+    }
   }, [])
 
   return (
@@ -84,20 +90,28 @@ const FontSizeOverlay = ({ t, onClose }) => {
             max='48'
             step='0.8'
             title={fontPercentage.current}
-            onChange={(e, newValue) => { setFontSize(newValue) }}
-            fullWidth />
+            onChange={(e, newValue) => {
+              setFontSize(newValue)
+            }}
+            fullWidth
+          />
           <br />
         </div>
         <div>
           <p>{t('article/actionbar/fontSize/example')}</p>
           <div {...styles.preview}>
-            <Editorial.Subhead {...styles.subhead}>Hinter den Wortbergen</Editorial.Subhead>
+            <Editorial.Subhead {...styles.subhead}>
+              Hinter den Wortbergen
+            </Editorial.Subhead>
             <Collapsable t={t} alwaysCollapsed>
               <Editorial.P {...styles.paragraph}>
-                Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und Konsonantien leben die Blindtexte.
-                Abgeschieden wohnen sie in Buchstabhausen an der Küste des Semantik, eines grossen Sprachozeans. Ein
-                kleines Bächlein namens Duden fliesst durch ihren Ort und versorgt sie mit den nötigen Regelialien. Es
-                ist ein paradiesmatisches Land, in dem einem gebratene Satzteile in den Mund fliegen.
+                Weit hinten, hinter den Wortbergen, fern der Länder Vokalien und
+                Konsonantien leben die Blindtexte. Abgeschieden wohnen sie in
+                Buchstabhausen an der Küste des Semantik, eines grossen
+                Sprachozeans. Ein kleines Bächlein namens Duden fliesst durch
+                ihren Ort und versorgt sie mit den nötigen Regelialien. Es ist
+                ein paradiesmatisches Land, in dem einem gebratene Satzteile in
+                den Mund fliegen.
               </Editorial.P>
             </Collapsable>
           </div>

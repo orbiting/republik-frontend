@@ -63,7 +63,7 @@ const memberShipQuery = gql`
   }
 `
 
-const TRY_TO_BUY_RATIO = 0.8
+const TRY_TO_BUY_RATIO = 0
 
 const TRY_VARIATIONS = [
   '191023-v1',

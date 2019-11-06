@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 
@@ -9,14 +9,14 @@ import Track from '../components/Track'
 class WebApp extends App {
   render () {
     const { Component, pageProps, apolloClient, headers, serverContext } = this.props
-    return <Container>
+    return (
       <ApolloProvider client={apolloClient}>
         <HeadersProvider headers={headers}>
           <Component serverContext={serverContext} {...pageProps} />
           <Track />
         </HeadersProvider>
       </ApolloProvider>
-    </Container>
+    )
   }
 }
 

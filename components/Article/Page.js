@@ -8,12 +8,17 @@ import ArticleActionBar from '../ActionBar/Article'
 import Loader from '../Loader'
 import RelatedEpisodes from './RelatedEpisodes'
 import SeriesNavButton from './SeriesNavButton'
-import * as PayNote from './PayNote'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
+import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
+import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
+import FontSizeSync from '../FontSize/Sync'
+import { getRandomInt } from '../../lib/utils/helpers'
+import { splitByTitle } from '../../lib/utils/mdast'
+import withMemberStatus from '../../lib/withMemberStatus'
 
 import Discussion from '../Discussion/Discussion'
 import Feed from '../Feed/Format'
@@ -25,9 +30,7 @@ import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
 
 import Progress from './Progress'
-import {
-  userProgressFragment
-} from './Progress/api'
+import { userProgressFragment } from './Progress/api'
 
 import {
   AudioPlayer,
@@ -48,9 +51,7 @@ import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
 
-import {
-  onDocumentFragment
-} from '../Bookmarks/fragments'
+import { onDocumentFragment } from '../Bookmarks/fragments'
 
 /*
  * import all react-apollo and graphql-tag functions
@@ -64,9 +65,6 @@ import gql from 'graphql-tag'
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
 /* eslint-enable */
-
-import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
-import FontSizeSync from '../FontSize/Sync'
 
 const schemaCreators = {
   editorial: createArticleSchema,
@@ -97,11 +95,13 @@ const styles = {
   prepublicationNotice: css({
     backgroundColor: colors.social
   }),
-  bar: css({
-    display: 'inline-block',
-    marginTop: '15px',
+  titleBlock: css({
+    marginBottom: 20
+  }),
+  actionBar: css({
+    marginBottom: 20,
     [mediaQueries.mUp]: {
-      marginTop: '20px'
+      marginBottom: 50
     }
   })
 }
@@ -204,7 +204,9 @@ const runMetaFromQuery = (code, query) => {
     fn = new Function('query', code)
     return fn(query)
   } catch (e) {
-    typeof console !== 'undefined' && console.warn && console.warn('meta.fromQuery exploded', e)
+    typeof console !== 'undefined' &&
+      console.warn &&
+      console.warn('meta.fromQuery exploded', e)
   }
   return undefined
 }
@@ -212,7 +214,7 @@ const runMetaFromQuery = (code, query) => {
 const EmptyComponent = ({ children }) => children
 
 class ArticlePage extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.barRef = ref => {
@@ -280,15 +282,15 @@ class ArticlePage extends Component {
         this.setState({ isAwayFromBottomBar })
       }
 
-      const headerHeight = this.state.mobile ? HEADER_HEIGHT_MOBILE : HEADER_HEIGHT
+      const headerHeight = this.state.mobile
+        ? HEADER_HEIGHT_MOBILE
+        : HEADER_HEIGHT
 
       if (
         isAwayFromBottomBar &&
-        (
-          this.state.showSeriesNav
-            ? y > headerHeight
-            : y + headerHeight > this.y + this.barHeight
-        )
+        (this.state.showSeriesNav
+          ? y > headerHeight
+          : y + headerHeight > this.y + this.barHeight)
       ) {
         if (!this.state.showSecondary) {
           this.setState({ showSecondary: true })
@@ -339,29 +341,42 @@ class ArticlePage extends Component {
       const ProgressComponent = isMember ? Progress : EmptyComponent
       const article = data && data.article
       const audioSource = article && article.meta && article.meta.audioSource
-      const headerAudioPlayer = audioSource ? ({ style, height, controlsPadding }) => (
-        <ProgressComponent article={article} isArticle={false}>
-          <AudioPlayer
-            mediaId={audioSource.mediaId}
-            durationMs={audioSource.durationMs}
-            src={audioSource}
-            closeHandler={this.toggleAudio}
-            autoPlay
-            download
-            scrubberPosition='bottom'
-            timePosition='left'
-            t={t}
-            style={style}
-            controlsPadding={controlsPadding}
-            height={height}
-          />
-        </ProgressComponent>
-      ) : null
+      const headerAudioPlayer = audioSource
+        ? ({ style, height, controlsPadding }) => (
+            <ProgressComponent article={article} isArticle={false}>
+              <AudioPlayer
+                mediaId={audioSource.mediaId}
+                durationMs={audioSource.durationMs}
+                src={audioSource}
+                closeHandler={this.toggleAudio}
+                autoPlay
+                download
+                scrubberPosition="bottom"
+                timePosition="left"
+                t={t}
+                style={style}
+                controlsPadding={controlsPadding}
+                height={height}
+              />
+            </ProgressComponent>
+          )
+        : null
       return headerAudioPlayer
     }
   }
 
-  deriveStateFromProps ({ t, data: { article }, inNativeApp, inNativeIOSApp, inIOS, router, isMember }, state) {
+  deriveStateFromProps(
+    {
+      t,
+      data: { article },
+      inNativeApp,
+      inNativeIOSApp,
+      inIOS,
+      router,
+      isMember
+    },
+    state
+  ) {
     const meta = article && {
       ...article.meta,
       url: `${PUBLIC_BASE_URL}${article.meta.path}`,
@@ -383,13 +398,12 @@ class ArticlePage extends Component {
         dossierUrl={meta.dossier && meta.dossier.meta.path}
         onAudioClick={meta.audioSource && this.toggleAudio}
         onGalleryClick={meta.indicateGallery && this.showGallery}
-        onPdfClick={hasPdf && countImages(article.content) > 0
-          ? this.togglePdf
-          : undefined
+        onPdfClick={
+          hasPdf && countImages(article.content) > 0
+            ? this.togglePdf
+            : undefined
         }
-        pdfUrl={hasPdf
-          ? getPdfUrl(meta)
-          : undefined}
+        pdfUrl={hasPdf ? getPdfUrl(meta) : undefined}
         inNativeApp={inNativeApp}
         inIOS={inIOS}
         documentId={article.id}
@@ -399,29 +413,26 @@ class ArticlePage extends Component {
       />
     )
 
-    const schema = meta && getSchemaCreator(meta.template)({
-      t,
-      dynamicComponentRequire,
-      titleBlockAppend: (
-        <div ref={this.barRef} {...styles.bar}>
-          {actionBar}
-        </div>
-      ),
-      onAudioCoverClick: this.toggleAudio,
-      getVideoPlayerProps: inNativeApp && !inNativeIOSApp
-        ? props => ({
-          ...props,
-          fullWindow: true,
-          onFull: isFull => {
-            postMessage({
-              type: isFull
-                ? 'fullscreen-enter'
-                : 'fullscreen-exit'
-            })
-          }
-        })
-        : undefined
-    })
+    const schema =
+      meta &&
+      getSchemaCreator(meta.template)({
+        t,
+        dynamicComponentRequire,
+        titleMargin: false,
+        onAudioCoverClick: this.toggleAudio,
+        getVideoPlayerProps:
+          inNativeApp && !inNativeIOSApp
+            ? props => ({
+                ...props,
+                fullWindow: true,
+                onFull: isFull => {
+                  postMessage({
+                    type: isFull ? 'fullscreen-enter' : 'fullscreen-exit'
+                  })
+                }
+              })
+            : undefined
+      })
 
     const showSeriesNav = isMember && meta && !!meta.series
     const id = article && article.id
@@ -432,35 +443,35 @@ class ArticlePage extends Component {
       meta,
       actionBar,
       showSeriesNav,
-      autoPlayAudioSource: id !== state.id
-        ? router.query.audio === '1'
-        : state.autoPlayAudioSource
+      autoPlayAudioSource:
+        id !== state.id ? router.query.audio === '1' : state.autoPlayAudioSource
     }
   }
 
-  autoPlayAudioSource () {
+  autoPlayAudioSource() {
     const { autoPlayAudioSource, meta } = this.state
     if (autoPlayAudioSource && meta) {
-      this.setState({
-        autoPlayAudioSource: false
-      }, () => {
-        this.toggleAudio()
-      })
+      this.setState(
+        {
+          autoPlayAudioSource: false
+        },
+        () => {
+          this.toggleAudio()
+        }
+      )
     }
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const currentArticle = this.props.data.article || {}
     const nextArticle = nextProps.data.article || {}
 
-    if (
-      currentArticle.id !== nextArticle.id
-    ) {
+    if (currentArticle.id !== nextArticle.id) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('scroll', this.onScroll)
     window.addEventListener('resize', this.measure)
 
@@ -468,46 +479,65 @@ class ArticlePage extends Component {
     this.autoPlayAudioSource()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.measure()
     this.autoPlayAudioSource()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
   }
 
-  getChildContext () {
-    const { data: { article } } = this.props
+  getChildContext() {
+    const {
+      data: { article }
+    } = this.props
     return {
       // userProgress: article && article.userProgress,
       userBookmark: article && article.userBookmark
     }
   }
 
-  render () {
-    const { router, t, data, data: { article }, isMember, isEditor, inNativeApp, inIOS } = this.props
+  render() {
+    const {
+      router,
+      t,
+      data,
+      data: { article },
+      isMember,
+      isEditor,
+      inNativeApp,
+      payNoteSeed,
+      hasActiveMembership
+    } = this.props
 
-    const { meta, actionBar, schema, headerAudioPlayer, isAwayFromBottomBar, showSeriesNav } = this.state
+    const {
+      meta,
+      actionBar,
+      schema,
+      headerAudioPlayer,
+      showSeriesNav
+    } = this.state
 
     const actionBarNav = actionBar
       ? React.cloneElement(actionBar, {
-        animate: false,
-        estimatedReadingMinutes: undefined,
-        estimatedConsumptionMinutes: undefined,
-        onPdfClick: undefined,
-        pdfUrl: undefined
-      })
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          onPdfClick: undefined,
+          pdfUrl: undefined
+        })
       : undefined
     const actionBarEnd = actionBar
       ? React.cloneElement(actionBar, {
-        animate: false,
-        estimatedReadingMinutes: undefined,
-        estimatedConsumptionMinutes: undefined,
-        grandSharing: !inNativeApp
-      })
+          animate: false,
+          estimatedReadingMinutes: undefined,
+          estimatedConsumptionMinutes: undefined,
+          grandSharing: !inNativeApp
+        })
       : undefined
+
     const series = meta && meta.series
     const episodes = series && series.episodes
 
@@ -520,40 +550,68 @@ class ArticlePage extends Component {
       />
     )
 
-    const formatMeta = meta && (
-      meta.template === 'format'
-        ? meta
-        : meta.format && meta.format.meta
-    )
-    const formatColor = formatMeta && (formatMeta.color || colors[formatMeta.kind])
-    const MissingNode = isEditor
-      ? undefined
-      : ({ children }) => children
+    const formatMeta =
+      meta &&
+      (meta.template === 'format' ? meta : meta.format && meta.format.meta)
+    const formatColor =
+      formatMeta && (formatMeta.color || colors[formatMeta.kind])
+    const MissingNode = isEditor ? undefined : ({ children }) => children
 
     if (router.query.extract) {
-      return <Loader loading={data.loading} error={data.error} render={() => {
-        if (!article) {
-          return <StatusError
-            statusCode={404}
-            serverContext={this.props.serverContext} />
-        }
+      return (
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            if (!article) {
+              return (
+                <StatusError
+                  statusCode={404}
+                  serverContext={this.props.serverContext}
+                />
+              )
+            }
 
-        return <Extract
-          ranges={router.query.extract}
-          schema={schema}
-          unpack={router.query.unpack}
-          mdast={{
-            ...article.content,
-            format: meta.format
-          }} />
-      }} />
+            return (
+              <Extract
+                ranges={router.query.extract}
+                schema={schema}
+                unpack={router.query.unpack}
+                mdast={{
+                  ...article.content,
+                  format: meta.format
+                }}
+              />
+            )
+          }}
+        />
+      )
     }
+
+    const payNote = !hasActiveMembership && (
+      <PayNote seed={payNoteSeed} series={series} position="before" />
+    )
+    const payNoteAfter =
+      payNote && React.cloneElement(payNote, { position: 'after' })
+
+    const splitContent = article && splitByTitle(article.content)
+    const renderSchema = content =>
+      renderMdast(
+        {
+          ...content,
+          format: meta.format
+        },
+        schema,
+        { MissingNode }
+      )
 
     return (
       <Frame
         raw
         // Meta tags for a focus comment are rendered in Discussion/Commments.js
-        meta={meta && meta.discussionId && router.query.focus ? undefined : meta}
+        meta={
+          meta && meta.discussionId && router.query.focus ? undefined : meta
+        }
         onPrimaryNavExpandedChange={this.onPrimaryNavExpandedChange}
         primaryNavExpanded={this.state.primaryNavExpanded}
         secondaryNav={seriesNavButton || actionBarNav}
@@ -561,102 +619,136 @@ class ArticlePage extends Component {
         formatColor={formatColor}
         headerAudioPlayer={headerAudioPlayer}
       >
-        <Loader loading={data.loading} error={data.error} render={() => {
-          if (!article) {
-            return <StatusError
-              statusCode={404}
-              serverContext={this.props.serverContext} />
-          }
+        <Loader
+          loading={data.loading}
+          error={data.error}
+          render={() => {
+            if (!article) {
+              return (
+                <StatusError
+                  statusCode={404}
+                  serverContext={this.props.serverContext}
+                />
+              )
+            }
 
-          const isFormat = meta.template === 'format'
-          const isNewsletterSource = router.query.utm_source && router.query.utm_source === 'newsletter'
-          const payNoteVariation = series
-            ? 'series'
-            : this.props.payNoteVariation
+            const isFormat = meta.template === 'format'
+            const isNewsletterSource =
+              router.query.utm_source &&
+              router.query.utm_source === 'newsletter'
+            const ownDiscussion = meta.ownDiscussion
+            const linkedDiscussion =
+              meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
-          const ownDiscussion = meta.ownDiscussion
-          const linkedDiscussion = meta.linkedDiscussion && !meta.linkedDiscussion.closed
+            const ProgressComponent =
+              isMember && !isFormat && meta.template !== 'discussion'
+                ? Progress
+                : EmptyComponent
 
-          const ProgressComponent = isMember && !isFormat && meta.template !== 'discussion'
-            ? Progress
-            : EmptyComponent
+            const titleNode =
+              splitContent.title &&
+              splitContent.title.children[
+                splitContent.title.children.length - 1
+              ]
+            const titleAlign =
+              (titleNode && titleNode.data && titleNode.data.center) || isFormat
+                ? 'center'
+                : undefined
 
-          return (
-            <Fragment>
-              <FontSizeSync />
-              {meta.prepublication && (
-                <div {...styles.prepublicationNotice}>
+            return (
+              <Fragment>
+                <FontSizeSync />
+                {meta.prepublication && (
+                  <div {...styles.prepublicationNotice}>
+                    <Center>
+                      <Interaction.P>
+                        {t('article/prepublication/notice')}
+                      </Interaction.P>
+                    </Center>
+                  </div>
+                )}
+                {this.state.showPdf && (
+                  <PdfOverlay article={article} onClose={this.togglePdf} />
+                )}
+                <ArticleGallery
+                  article={article}
+                  show={!!router.query.gallery}
+                  ref={this.galleryRef}
+                >
+                  <ProgressComponent article={article}>
+                    {splitContent.title && (
+                      <div {...styles.titleBlock}>
+                        {renderSchema(splitContent.title)}
+                        <Center>
+                          <div
+                            ref={this.barRef}
+                            {...styles.actionBar}
+                            style={{
+                              textAlign: titleAlign,
+                              marginTop: isFormat ? 20 : 0
+                            }}
+                          >
+                            {actionBar}
+                          </div>
+                        </Center>
+                        {!isFormat && !isNewsletterSource && payNote}
+                      </div>
+                    )}
+                    <SSRCachingBoundary
+                      cacheKey={`${article.id}${isMember ? ':isMember' : ''}`}
+                    >
+                      {() => renderSchema(splitContent.main)}
+                    </SSRCachingBoundary>
+                  </ProgressComponent>
+                </ArticleGallery>
+                {meta.template === 'article' &&
+                  ownDiscussion &&
+                  !ownDiscussion.closed &&
+                  !linkedDiscussion &&
+                  isMember && (
+                    <Center>
+                      <AutoDiscussionTeaser discussionId={ownDiscussion.id} />
+                    </Center>
+                  )}
+                {meta.template === 'discussion' && ownDiscussion && (
                   <Center>
-                    <Interaction.P>
-                      {t('article/prepublication/notice')}
-                    </Interaction.P>
+                    <Discussion
+                      discussionId={ownDiscussion.id}
+                      focusId={router.query.focus}
+                      mute={!!router.query.mute}
+                    />
                   </Center>
-                </div>
-              )}
-              {!isFormat && !isNewsletterSource && (
-                <PayNote.Before
-                  variation={payNoteVariation}
-                  expanded={isAwayFromBottomBar} />
-              )}
-              {this.state.showPdf &&
-              <PdfOverlay
-                article={article}
-                onClose={this.togglePdf} />}
-              <ArticleGallery article={article} show={!!router.query.gallery} ref={this.galleryRef}>
-                <ProgressComponent article={article}>
-                  <SSRCachingBoundary
-                    cacheKey={`${article.id}${isMember ? ':isMember' : ''}${inIOS ? ':inIOS' : ''}`}>
-                    {() => renderMdast({
-                      ...article.content,
-                      format: meta.format
-                    },
-                    schema, { MissingNode })}
-                  </SSRCachingBoundary>
-                </ProgressComponent>
-              </ArticleGallery>
-              {meta.template === 'article' && ownDiscussion && !ownDiscussion.closed && !linkedDiscussion && isMember && (
-                <Center>
-                  <AutoDiscussionTeaser
-                    discussionId={ownDiscussion.id}
+                )}
+                {isMember && (
+                  <Fragment>
+                    {meta.template === 'article' && (
+                      <Center>
+                        <div ref={this.bottomBarRef}>{actionBarEnd}</div>
+                      </Center>
+                    )}
+                  </Fragment>
+                )}
+                {isMember && episodes && (
+                  <RelatedEpisodes
+                    title={series.title}
+                    episodes={episodes}
+                    path={meta.path}
                   />
-                </Center>
-              )}
-              {!isFormat && (
-                <PayNote.After
-                  variation={payNoteVariation}
-                  bottomBarRef={this.bottomBarRef} />
-              )}
-              {meta.template === 'discussion' && ownDiscussion && <Center>
-                <Discussion
-                  discussionId={ownDiscussion.id}
-                  focusId={router.query.focus}
-                  mute={!!router.query.mute} />
-              </Center>}
-              {isMember && (
-                <Fragment>
-                  {meta.template === 'article' && <Center>
-                    <div ref={this.bottomBarRef} {...styles.bar}>
-                      {actionBarEnd}
-                    </div>
-                  </Center>}
-                </Fragment>
-              )}
-              {isMember && episodes && <RelatedEpisodes
-                title={series.title}
-                episodes={episodes}
-                path={meta.path} />}
-              {isFormat && <Feed formatId={article.id} />}
-              {(isMember || isFormat) && (
-                <Fragment>
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                </Fragment>
-              )}
-            </Fragment>
-          )
-        }} />
+                )}
+                {isFormat && <Feed formatId={article.id} />}
+                {(hasActiveMembership || isFormat) && (
+                  <Fragment>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                  </Fragment>
+                )}
+                {!isFormat && payNoteAfter}
+              </Fragment>
+            )
+          }}
+        />
       </Frame>
     )
   }
@@ -679,6 +771,7 @@ ArticlePage.childContextTypes = {
 const ComposedPage = compose(
   withT,
   withMembership,
+  withMemberStatus,
   withEditor,
   withInNativeApp,
   withRouter,
@@ -693,7 +786,7 @@ const ComposedPage = compose(
 
 ComposedPage.getInitialProps = () => {
   return {
-    payNoteVariation: PayNote.getRandomVariation()
+    payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }
 }
 

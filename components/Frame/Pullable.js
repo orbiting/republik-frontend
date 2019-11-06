@@ -9,8 +9,6 @@ import { InlineSpinner, colors } from '@project-r/styleguide'
 
 import DownIcon from 'react-icons/lib/md/arrow-downward'
 
-import { negativeColors } from './constants'
-
 const styles = {
   container: css({
     display: 'flex',
@@ -30,7 +28,7 @@ const Container = props => (
     style={{
       height: props.height,
       backgroundColor: props.dark
-        ? negativeColors.primaryBg
+        ? colors.negative.primaryBg
         : colors.secondaryBg
     }}>
     {props.children}

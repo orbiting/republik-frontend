@@ -9,7 +9,8 @@ import {
   Editorial,
   Loader,
   fontStyles,
-  mediaQueries
+  mediaQueries,
+  colors
 } from '@project-r/styleguide'
 
 import { countFormat } from '../../lib/utils/format'
@@ -34,7 +35,6 @@ import TrialForm from '../Trial/Form'
 
 import { buttonStyles, sharedStyles } from './styles'
 
-import { negativeColors } from '../Frame/constants'
 import ErrorMessage from '../ErrorMessage'
 import {
   HEADER_HEIGHT,
@@ -94,8 +94,8 @@ const styles = {
   }),
   overviewContainer: css({
     padding: '30px 0 0',
-    backgroundColor: negativeColors.containerBg,
-    color: negativeColors.text
+    backgroundColor: colors.negative.containerBg,
+    color: colors.negative.text
   }),
   overviewBottomShadow: css({
     position: 'absolute',
@@ -113,7 +113,7 @@ const styles = {
     ...fontStyles.serifRegular,
     fontSize: 26,
     lineHeight: '32px',
-    color: negativeColors.text,
+    color: colors.negative.text,
     textAlign: 'center',
     [mediaQueries.mUp]: {
       fontSize: 30,
@@ -123,7 +123,7 @@ const styles = {
     }
   }),
   cards: css({
-    background: negativeColors.primaryBg,
+    background: colors.negative.primaryBg,
     margin: '30px 0',
     [mediaQueries.mUp]: {
       margin: '50px 0'

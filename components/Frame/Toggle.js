@@ -6,7 +6,6 @@ import {
   HEADER_HEIGHT_MOBILE,
   ZINDEX_FRAME_TOGGLE
 } from '../constants'
-import { negativeColors } from './constants'
 
 const INNER_SIZE = 24
 
@@ -84,10 +83,10 @@ const styles = {
   }),
   dark: css({
     '& span': {
-      backgroundColor: negativeColors.text,
+      backgroundColor: colors.negative.text,
       '@media (hover)': {
         ':hover': {
-          backgroundColor: negativeColors.text
+          backgroundColor: colors.negative.text
         }
       }
     }

@@ -16,7 +16,6 @@ import {
 import StatusError from '../components/StatusError'
 import withMembership from '../components/Auth/withMembership'
 import Frame from '../components/Frame'
-import { negativeColors } from '../components/Frame/constants'
 
 import Front from '../components/Front'
 import TeaserBlock from '../components/Overview/TeaserBlock'
@@ -28,7 +27,8 @@ import { getTeasersFromDocument } from '../components/Overview/utils'
 import {
   Button,
   Interaction,
-  Loader
+  Loader,
+  colors
 } from '@project-r/styleguide'
 
 const texts = {
@@ -154,7 +154,7 @@ class FrontOverview extends Component {
 
     return (
       <Frame meta={meta} dark>
-        <Interaction.H1 style={{ color: negativeColors.text, marginBottom: 5 }}>
+        <Interaction.H1 style={{ color: colors.negative.text, marginBottom: 5 }}>
           {t.first([`overview/${year}/title`, 'overview/title'], { year })}
         </Interaction.H1>
 
@@ -175,7 +175,7 @@ class FrontOverview extends Component {
                 // a no-op for mobile safari
                 // - causes mouse enter and leave to be triggered
               }}>
-                <Interaction.H2 style={{ color: negativeColors.text, marginBottom: 5, marginTop: 0 }}>
+                <Interaction.H2 style={{ color: colors.negative.text, marginBottom: 5, marginTop: 0 }}>
                   {month}
                 </Interaction.H2>
                 <P style={{ marginBottom: 20 }}>

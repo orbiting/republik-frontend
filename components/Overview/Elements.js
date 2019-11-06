@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { negativeColors } from '../Frame/constants'
 
 import { css } from 'glamor'
-import { fontStyles, mediaQueries, Editorial } from '@project-r/styleguide'
+import { fontStyles, mediaQueries, Editorial, colors } from '@project-r/styleguide'
 
 const styles = {
   p: css({
@@ -10,7 +9,7 @@ const styles = {
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifRegular21
     },
-    color: negativeColors.text,
+    color: colors.negative.text,
     margin: 0
   })
 }
@@ -19,7 +18,7 @@ export const P = ({ children, ...props }) =>
   <p {...styles.p} {...props}>{children}</p>
 
 export const A = ({ children, ...props }) =>
-  <Editorial.A style={{ color: negativeColors.text }} {...props}>{children}</Editorial.A>
+  <Editorial.A style={{ color: colors.negative.text }} {...props}>{children}</Editorial.A>
 
 export class Highlight extends Component {
   highlight = (data) => {
@@ -39,7 +38,7 @@ export class Highlight extends Component {
   render () {
     const { children, highlight, onHighlight } = this.props
     const isHighlighted = highlight === this.highlight
-    const color = isHighlighted ? negativeColors.lightText : '#fff'
+    const color = isHighlighted ? colors.negative.lightText : '#fff'
     return (
       <Editorial.A
         style={{

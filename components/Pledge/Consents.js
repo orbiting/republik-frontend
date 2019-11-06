@@ -20,8 +20,10 @@ export const getConsentsError = (t, required, accepted) => (
   !check(required, accepted) && t(`pledge/consents/error/${stringifyCombo(required)}`)
 )
 
-const Consents = withT(({ t, accepted, onChange, required, disabled }) => (
+const Consents = withT(({ t, accepted, onChange, required, disabled, error, darkMode }) => (
   <Checkbox
+    white={darkMode}
+    error={error}
     disabled={disabled}
     checked={check(required, accepted)}
     onChange={(_, checked) => {
@@ -30,9 +32,12 @@ const Consents = withT(({ t, accepted, onChange, required, disabled }) => (
         : []
       )
     }}>
-    <RawHtml dangerouslySetInnerHTML={{
-      __html: t(`pledge/consents/label/${stringifyCombo(required)}`)
-    }} />
+    <RawHtml
+      white={darkMode}
+      error={error}
+      dangerouslySetInnerHTML={{
+        __html: t(`pledge/consents/label/${stringifyCombo(required)}`)
+      }} />
   </Checkbox>
 ))
 

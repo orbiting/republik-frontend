@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'react-apollo'
-import { Container, RawHtml, fontFamilies, mediaQueries } from '@project-r/styleguide'
+import { Container, RawHtml, fontFamilies, mediaQueries, colors } from '@project-r/styleguide'
 import Meta from './Meta'
 import Header from './Header'
 import Footer from './Footer'
@@ -14,7 +14,6 @@ import { css } from 'glamor'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 import withInNativeApp from '../../lib/withInNativeApp'
-import { negativeColors } from './constants'
 
 import 'glamor/reset'
 
@@ -103,7 +102,7 @@ const Index = ({
       )}
     >
       {dark && <style dangerouslySetInnerHTML={{
-        __html: `html, body { background-color: ${negativeColors.containerBg}; color: ${negativeColors.text}; }`
+        __html: `html, body { background-color: ${colors.negative.containerBg}; color: ${colors.negative.text}; }`
       }} />}
       {!!meta && <Meta data={meta} />}
       <Header

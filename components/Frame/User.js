@@ -4,7 +4,6 @@ import { colors, mediaQueries, fontStyles } from '@project-r/styleguide'
 import { HEADER_HEIGHT, HEADER_HEIGHT_MOBILE } from '../constants'
 import PersonIcon from 'react-icons/lib/md/person-outline'
 import withT from '../../lib/withT'
-import { negativeColors } from './constants'
 
 const BUTTON_SIZE = 40
 const BUTTON_SIZE_MOBILE = 30
@@ -80,7 +79,7 @@ const getInitials = me => (
 ).slice(0, 2).filter(Boolean).map(s => s[0]).join('')
 
 const User = ({ t, me, onClick, title, dark }) => {
-  const color = dark ? negativeColors.text : colors.text
+  const color = dark ? colors.negative.text : colors.text
   return (
     <div {...styles.user}>
       <a

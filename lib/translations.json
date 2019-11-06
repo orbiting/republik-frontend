@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-04T15:58:58.662Z",
+  "updated": "2019-11-06T10:59:45.372Z",
   "title": "live",
   "data": [
     {
@@ -5691,10 +5691,6 @@
       "value": "In der Debatte können Sie den Politiker entfolgen."
     },
     {
-      "key": "nav/cardGroups",
-      "value": "Wahltindär"
-    },
-    {
       "key": "components/Card/electionPlausibility/title",
       "value": "Rating des Listen­platzes: {text} {emoji}"
     },
@@ -5773,14 +5769,6 @@
     {
       "key": "components/Card/Details/lobbywatch/note",
       "value": "Interessenbindungen von diesem bisherigen Mitglied der Bundesversammlung."
-    },
-    {
-      "key": "Onboarding/Page/more/cards",
-      "value": "Lust (weiter)zuwischen? {link}."
-    },
-    {
-      "key": "Onboarding/Page/more/cards/link",
-      "value": "Zum «Wahltindär»"
     },
     {
       "key": "components/Card/Group/preferences",
@@ -6307,316 +6295,76 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/191023-v1/before/title",
-      "value": "Suchen Sie klaren und kühnen Journalismus mit Sorgfalt, Tiefe und Witz?"
-    },
-    {
-      "key": "article/tryNote/191023-v1/before",
-      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Entspricht das Ihrer Idee von gutem Journalismus? <b>Testen Sie die Republik 14 Tage lang gratis</b> und wenn sie überzeugt sind, kommen sie anschliessend an Bord (Testabo endet automatisch). "
-    },
-    {
-      "key": "article/tryNote/191023-v1/after/title",
-      "value": "Sie wollen mehr mutigen Journalismus mit Sorgfalt, Tiefe und Witz?"
-    },
-    {
-      "key": "article/tryNote/191023-v1/after",
-      "value": "Werden Sie Teil der Republik. <b>Testen Sie uns jetzt 14 Tage lang gratis</b>, ausführlich und unverbindlich. Und wenn sie überzeugt sind, kommen sie anschliessend an Bord. "
-    },
-    {
-      "key": "article/tryNote/191023-v2/before/title",
-      "value": "Suchen auch Sie eine klarere Art von Journalismus?"
-    },
-    {
-      "key": "article/tryNote/191023-v2/before",
-      "value": "Dann kommen Sie zur Republik. Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Trifft das ihren Anspruch und Geschmack? <b>Testen Sie die Republik 14 Tage lang gratis</b> - und wenn sie überzeugt sind, kommen sie an Bord."
-    },
-    {
-      "key": "article/tryNote/191023-v2/after/title",
-      "value": "Wollen Sie mehr Republik?"
-    },
-    {
-      "key": "article/tryNote/191023-v2/after",
-      "value": "Dann werden Sie doch einfach Teil von uns. <b>Testen Sie die Republik 14 Tage lang gratis</b>, ausführlich und unverbindlich. Und und wenn sie überzeugt sind, kommen sie anschliessend an Bord."
-    },
-    {
-      "key": "article/tryNote/191023-v3/before/title",
-      "value": "Schon {count} Menschen abonnieren kühnen Journalismus mit Tiefe und Witz. Und Sie?"
-    },
-    {
-      "key": "article/tryNote/191023-v3/before",
-      "value": "Kommen Sie zur Republik! Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Entspricht das auch Ihrer Idee von gutem Journalismus? <b>Testen Sie die Republik 14 Tage lang gratis</b> - und wenn sie überzeugt sind, kommen sie an Bord."
-    },
-    {
-      "key": "article/tryNote/191023-v3/after/title",
-      "value": "Kommen Sie zur Republik? Probieren Sie es doch einfach aus!"
-    },
-    {
-      "key": "article/tryNote/191023-v3/after",
-      "value": "Wenn Sie wirklich wissen wollen, ob unser digitales Magazin ihren Anspruch und Geschmack trifft: <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v4/before/title",
-      "value": "Vermissen Sie klaren und kühnen Journalismus mit Sorgfalt, Tiefe und Witz? Dann lesen Sie uns doch regelmässig."
-    },
-    {
-      "key": "article/tryNote/191023-v4/before",
-      "value": "Kommen Sie öfter zur Republik! Unser digitales Magazin berichtet 6 mal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. Trifft das ihren Anspruch und Geschmack? <b>Testen Sie die Republik 14 Tage lang gratis</b> - und  wenn sie überzeugt sind, kommen sie anschliessend an Bord. "
-    },
-    {
-      "key": "article/tryNote/191023-v4/after/title",
-      "value": "Lesen Sie uns ab heute öfter? Probieren Sie es doch einfach aus!"
-    },
-    {
-      "key": "article/tryNote/191023-v4/after",
-      "value": "Wenn Sie wirklich wissen wollen, ob die Republik das ist, was Sie suchen: <b>testen Sie uns einfach 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v5/before/title",
-      "value": "Die Republik verfolgt einen neuen Ansatz im Journalismus - unterstützen Sie ihn?"
-    },
-    {
-      "key": "article/tryNote/191023-v5/before",
-      "value": "Unser Online-Magazin arbeitet so transparent und kompromisslos wie kein anderer Medientitel in der Schweiz: wir haben keine Werbung, keine Klick-Wirtschaft und auch keine unbekannten Geldgeber. Dafür aber eine 100%ige Finanzierung durch unsere Leser und Gönner. Wenn Sie das einen guten Ansatz finden: <b>testen Sie ihn doch 14 Tage lang gratis</b> und unverbindlich - und entscheiden sich anschliessend ob Sie ihn unterstützen."
-    },
-    {
-      "key": "article/tryNote/191023-v5/after/title",
-      "value": "Unterstützen Sie unseren mutigen Ansatz im Journalismus?"
-    },
-    {
-      "key": "article/tryNote/191023-v5/after",
-      "value": "Wenn Sie 100%ige Finanzierung durch Leser und Gönner, statt Werbung und Wirtschaft einen guten Ansatz finden: dann <b>testen Sie die Republik doch einfach 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v6/before/title",
-      "value": "Wie gross ist Ihr Interesse an wirklich transparentem Journalismus?"
-    },
-    {
-      "key": "article/tryNote/191023-v6/before",
-      "value": "Unser Online-Magazin arbeitet so offen und kompromisslos wie kein anderer Medientitel in der Schweiz: wir haben keine Werbung, keine Klick-Wirtschaft und auch keine unbekannten Geldgeber. Dafür aber eine 100%ige Finanzierung durch unsere Leser und Gönner. Nur mit diesem Geld entwickeln wir 6 mal pro Woche mutige Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten. Wenn Sie das einen guten Ansatz finden: <b>testen Sie ihn 14 Tage lang gratis</b> und unverbindlich näher aus."
-    },
-    {
-      "key": "article/tryNote/191023-v6/after/title",
-      "value": "Wollen Sie mehr eigenständigen Journalismus?"
-    },
-    {
-      "key": "article/tryNote/191023-v6/after",
-      "value": "Wenn Sie mehr kompromisslose und vollständig unabhängige Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten und einen vertieften Einblick in unser Magazin wollen: dann <b>testen Sie die Republik jetzt 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v7/before/title",
-      "value": "Wirklich kompromisslosen Journalismus gibt es nur mit - Ihnen!"
-    },
-    {
-      "key": "article/tryNote/191023-v7/before",
-      "value": "Unser Online-Magazin arbeitet so mutig und transparent wie kein anderer Medientitel in der Schweiz. Dank 100%iger Finanzierung durch unsere Leser und Gönner sind wir niemandem verpflichtet ausser ihnen, unserem Gewissen und dem Kampf gegen die Langeweile. Weder Werbetreibende noch einzelne Eigentümer haben Einfluss auf unsere Berichterstattung. Wie das funktioniert? Wenn uns viele dabei unterstützen. Auch Sie? <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v7/after/title",
-      "value": "Leisten auch Sie Ihren Beitrag zu kompromisslosem Journalismus?"
-    },
-    {
-      "key": "article/tryNote/191023-v7/after",
-      "value": "Wenn Sie mehr unabhängige Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten ohne Werbung und intransparente Finanzierung wollen: dann <b>testen Sie die Republik jetzt 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v8/before/title",
-      "value": "Mehr als nur Leser sein? Dann kommen Sie zur Republik!"
-    },
-    {
-      "key": "article/tryNote/191023-v8/before",
-      "value": "Unser Online-Magazin basiert zu 100% auf der Finanzierung durch unsere Leser und Gönner - die wir Verleger nennen. Denn: Republik-Leserinnen finanzieren nicht nur kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten. Sie sind auch Teil der Republik-Verlagsgenossenschaft, und damit mutig in unsere Arbeit eingebunden. Werden auch Sie Verleger? <b>Testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich - und wenn sie uns mögen kommen sie anschliessend an Bord."
-    },
-    {
-      "key": "article/tryNote/191023-v8/after/title",
-      "value": "Bereit für Ihren Einstieg ins Verlegertum?"
-    },
-    {
-      "key": "article/tryNote/191023-v8/after",
-      "value": "Noch mehr kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten ohne Werbung und intransparente Finanzierung gibt es nur mit noch mehr Verlegern. <b>Testen Sie die Republik jetzt 14 Tage lang gratis</b> und unverbindlich - und wenn sie uns mögen kommen sie anschliessend an Bord."
-    },
-    {
-      "key": "article/tryNote/191023-v9/before/title",
-      "value": "Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang unverbindlich!"
-    },
-    {
-      "key": "article/tryNote/191023-v9/before",
-      "value": "Unser digitales Magazin berichtet 6 mal pro Woche klar, mutig und kompromisslos über Politik, Wirtschaft, Gesellschaft und Kultur. Ohne Werbung und stürmende Nachrichten, aber mit viel Hintergrund und Informationen, die sie so nirgendwo sonst finden. Wenn Sie es also wirklich wissen wollen - dann lesen Sie die Republik. Und wenn Sie wirklich wissen wollen, ob die Republik etwas für Sie ist, dann <b>testen Sie uns jetzt ganz einfach 14 Tage lang gratis und unverbindlich.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v9/after/title",
-      "value": "Sie wissen noch nicht, ob die Republik auch für Sie ist? Dann testen Sie uns doch einfach weiter!"
-    },
-    {
-      "key": "article/tryNote/191023-v9/after",
-      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v10/before/title",
-      "value": "Wenn Sie es wirklich wissen wollen - dann testen Sie uns einfach!"
-    },
-    {
-      "key": "article/tryNote/191023-v10/before",
-      "value": "Wir liefern Ihnen 6 x pro Woche das wirklich Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als Online-Magazin und in Podcasts. Ganz ohne Werbung und versteckte Finanziers, dafür zu 100% bezahlt von unseren Lesern und Gönnern. Wenn Sie es also wirklich wissen wollen, <b>testen Sie die Republik jetzt einfach 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v10/after/title",
-      "value": "Wollen Sie es jetzt wirklich wissen?"
-    },
-    {
-      "key": "article/tryNote/191023-v10/after",
-      "value": "Kompromisslose Analysen, Reportagen, Rezensionen und Interviews. Als Online-Magazin und in Podcasts. 100% werbefrei und zu 100% bezahlt von unseren Lesern und Gönnern. Sie wollen mehr davon? <b>Testen Sie die Republik jetzt einfach 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v11/before/title",
-      "value": "Kompromisslose Analysen und mutiger Journalismus ohne Werbung? Kommen Sie zur Republik!"
-    },
-    {
-      "key": "article/tryNote/191023-v11/before",
-      "value": "Wir liefern Ihnen 6 x pro Woche das wirklich Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Frech, aber mit grosser Sorgfalt, mutig und mit Witz, aber ohne Werbung. Als Online-Magazin und in Podcasts. Selbst ausprobieren? Dann <b>testen Sie die Republik jetzt einfach 14 Tage lang gratis</b> und unverbindlich (Testabo endet automatisch)."
-    },
-    {
-      "key": "article/tryNote/191023-v11/after/title",
-      "value": "Mehr Republik auch für Sie? Probieren Sie es einfach aus!"
-    },
-    {
-      "key": "article/tryNote/191023-v11/after",
-      "value": "Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Sie können es einfach und unverbindlich <b>14 Tage lang gratis ausprobieren</b> (Testabo endet automatisch)."
-    },
-    {
-      "key": "article/tryNote/191023-v12/before/title",
-      "value": "Offene und transparente Informationen sind wichtig für die echte Meinungsbildung. Oder?"
-    },
-    {
-      "key": "article/tryNote/191023-v12/before",
-      "value": "Wir liefern Ihnen 6 x pro Woche das wirklich Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als Online-Magazin und in Podcasts. Ganz ohne Werbung und versteckte Finanziers, dafür zu 100% bezahlt von unseren Lesern und Gönnern. Noch nicht überzeugt? Dann <b>testen Sie die Republik jetzt einfach 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v12/after/title",
-      "value": "Wollen Sie regelmässig kompromisslosen Input? Probieren Sie es einfach aus!"
-    },
-    {
-      "key": "article/tryNote/191023-v12/after",
-      "value": "Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In mutigen und transparenten Analysen, Reportagen, Rezensionen und Interviews. Als Online-Magazin und in Podcasts. <b>Testen Sie die Republik jetzt einfach 14 Tage lang gratis.</b>"
-    },
-    {
-      "key": "article/tryNote/191023-v13/before/title",
-      "value": "Nur Leser wie Sie machen die Republik möglich. Kommen Sie an Bord!"
-    },
-    {
-      "key": "article/tryNote/191023-v13/before",
-      "value": "Unser digitales Magazin berichtet 6 mal pro Woche klar, kühn, hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur. Zu 100% ohne Werbung oder klandestine Finanziers. Zu 100% finanziert durch unsere Leser und Gönner, ohne die die Republik nicht möglich wäre. <b>Testen Sie die Republik 14 Tage lang gratis</b> und unverbindlich - und wenn sie überzeugt sind, helfen Sie anschliessend mit die Republik möglich zu machen."
-    },
-    {
-      "key": "article/tryNote/191023-v13/after/title",
-      "value": "{count} Menschen machen die Republik heute schon möglich. Und Sie?\n"
-    },
-    {
-      "key": "article/tryNote/191023-v13/after",
-      "value": "Sie sind noch nicht überzeugt und wollen mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. Und wenn sie überzeugt sind, stossen Sie anschliessend zu uns."
-    },
-    {
-      "key": "article/tryNote/191023-v14/before/title",
-      "value": "Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!"
-    },
-    {
-      "key": "article/tryNote/191023-v14/before",
-      "value": "Unser Magazin liefert 6 mal pro Woche kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten. Aber: Die Republik ist nicht nur das. Wir sind auch ein Projekt gegen den Zynismus, den Vormarsch der Autoritären und gegen die Diktatur der Angst. Wir stehen für die Verteidigung der demokratischen Institutionen und die Werte der Aufklärung. An diesem einzigartigen Medienprojekt sind schon heute {count} Menschen beteiligt. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> - und entscheiden anschliessend ob Sie Teil der Republik werden."
-    },
-    {
-      "key": "article/tryNote/191023-v14/after/title",
-      "value": "Kommen Sie an Bord der Republik? Probieren Sie es doch einfach aus."
-    },
-    {
-      "key": "article/tryNote/191023-v14/after",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> - und entscheiden anschliessend (Testabo endet automatisch)."
-    },
-    {
-      "key": "article/tryNote/191023-v15/before/title",
-      "value": "Schon {count} Verleger gehören zur Republik. Werden Sie Teil davon."
-    },
-    {
-      "key": "article/tryNote/191023-v15/before",
-      "value": "Unser digitales Magazin berichtet 6 mal pro Woche klar, kühn, hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur. Zu 100% ohne Werbung oder klandestine Finanziers. Zu 100% finanziert durch unsere Leser und Gönner - unseren Verlegern. Werden Sie auch ein Teil davon? <b>Testen Sie die Republik 14 Tage lang gratis</b> und unverbindlich - und wenn sie überzeugt sind, machen Sie anschliessend den nächsten Schritt."
-    },
-    {
-      "key": "article/tryNote/191023-v15/after/title",
-      "value": "Werden Sie auch ein Teil der Republik? Probieren Sie es einfach aus."
-    },
-    {
-      "key": "article/tryNote/191023-v15/after",
-      "value": "Unsere kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten werden zu 100% durch unsere Leser und Gönner finanziert. Kommen Sie auch dazu? <b>Testen Sie die Republik 14 Tage lang gratis</b> und unverbindlich - und wenn sie überzeugt sind, machen Sie anschliessend den nächsten Schritt."
-    },
-    {
-      "key": "article/tryNote/191023-v16/before/title",
-      "value": "Investieren Sie heute in eine gute Sache. Werden Sie Leser und Verleger der Republik!"
-    },
-    {
-      "key": "article/tryNote/191023-v16/before",
-      "value": "Die Republik arbeitet ohne Werbung, Klick-Wirtschaft und versteckte Geldgeber aus der Wirtschaft. Dafür mit einer 100%ig transparenten Finanzierung durch unsere Leser und Gönner. Geld, mit dem wir 6 mal pro Woche kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten entwickeln. Ein Mitgliedschaft der Republik ist für Sie deshalb nicht nur ein digitales Magazin mit journalistischem Tiefgang. Es ist auch einfach eine gute Sache. <b>Testen Sie es 14 Tage lang einfach gratis selbst</b> (Testabo endet automatisch!)."
-    },
-    {
-      "key": "article/tryNote/191023-v16/after/title",
-      "value": "Wollen Sie auch in eine gute Sache investieren? Machen Sie einfach die Probe aufs Exempel."
-    },
-    {
-      "key": "article/tryNote/191023-v16/after",
-      "value": "Ein Mitgliedschaft der Republik bringt Ihnen nicht nur journalistischem Tiefgang statt Nachrichtenbreite. Sie investieren damit auch in eine gute Sache. Noch nicht überzeugt? Dann <b>testen Sie uns ganz einfach 14 Tage lang gratis</b> (Testabo endet automatisch!)."
-    },
-    {
-      "key": "article/tryNote/191023-v17/before/title",
-      "value": "Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!"
-    },
-    {
-      "key": "article/tryNote/191023-v17/before",
-      "value": "Die Republik arbeitet ohne Werbung, Klick-Wirtschaft und versteckte Geldgeber aus der Wirtschaft. Dafür mit einer 100%ig transparenten Leser- und Gönner-Finanzierung für kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten. Ein Mitgliedschaft ist für Sie deshalb nicht nur ein digitales Magazin mit journalistischem Tiefgang statt Nachrichtenbreite. Sondern auch einfach eine gute Sache. <b>Testen Sie die Republik 14 Tage lang gratis</b> und unverbindlich (Testabo endet automatisch!)."
-    },
-    {
-      "key": "article/tryNote/191023-v17/after/title",
-      "value": "Werden Sie Verlegerin einer guten Sache? Sie können es unverbindlich versuchen."
-    },
-    {
-      "key": "article/tryNote/191023-v17/after",
-      "value": "Kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten mit journalistischem Tiefgang statt Nachrichtenbreite. <b>Testen Sie die Republik einfach 14 Tage lang gratis</b> (Testabo endet automatisch!)."
-    },
-    {
-      "key": "article/tryNote/191023-v18/before/title",
-      "value": "Schön, dass Sie diesen Artikel lesen! Aber die Republik kann noch mehr."
-    },
-    {
-      "key": "article/tryNote/191023-v18/before",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein Projekt gegen den Zynismus, den Vormarsch der Autoritären und gegen die Diktatur der Angst. Wir stehen für die Verteidigung der demokratischen Institutionen und die Werte der Aufklärung: für Treue zu Fakten, für Lösungen von Fall zu Fall, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen. Das Projekt Republik ist für Menschen gemacht, die genau das wollen - und braucht Menschen, die genau das wollen. Sie? <b>Testen Sie uns einfach 14 Tage lang gratis</b> - und entscheiden anschliessend ob Sie Teil der Republik werden."
-    },
-    {
-      "key": "article/tryNote/191023-v18/after/title",
-      "value": "Werden Sie Teil des Projekts Republik? Testen Sie es einfach aus!"
-    },
-    {
-      "key": "article/tryNote/191023-v18/after",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein Projekt gegen den Zynismus, den Vormarsch der Autoritären und gegen die Diktatur der Angst. Sie sind noch nicht sicher, ob Sie dazu gehören wollen? Dann <b>testen Sie uns 14 Tage lang gratis</b> - und entscheiden anschliessend."
-    },
-    {
-      "key": "article/tryNote/191023-v19/before/title",
-      "value": "Sie sind auch gegen den Zynismus, das Autoritäre und die Diktatur der Angst? Dann kommen Sie zu uns!"
-    },
-    {
-      "key": "article/tryNote/191023-v19/before",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein Projekt gegen den Zynismus, den Vormarsch der Autoritären und gegen die Diktatur der Angst. Wir stehen für die Verteidigung der demokratischen Institutionen und die Werte der Aufklärung: für Treue zu Fakten, für Lösungen von Fall zu Fall, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen. Das Projekt Republik ist für Menschen gemacht, die genau das wollen - und braucht Menschen, die genau das wollen. Sie? <b>Testen Sie es 14 Tage lang gratis</b> und unverbindlich."
-    },
-    {
-      "key": "article/tryNote/191023-v19/after/title",
-      "value": "Weniger Zynismus und mehr mutige Aufklärung? Dann kommen Sie zu uns!"
-    },
-    {
-      "key": "article/tryNote/191023-v19/after",
-      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein Projekt gegen den Vormarsch der Autoritären und gegen die Diktatur der Angst. Sind Sie dabei? <b>Testen Sie es einfach 14 Tage lang gratis</b> - und entscheiden anschliessend (Testabo endet automatisch)."
-    },
-    {
       "key": "article/tryNote/thankYou/title",
       "value": "Herzlich willkommen!"
     },
     {
       "key": "article/tryNote/thankYou",
-      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück und über das Ausklappmenü kommen Sie zu Ihrem Konto und Einrichtungsassistent."
+      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
+    },
+    {
+      "key": "article/tryNote/191106-v1/before/title",
+      "value": "Schon {count} Menschen abonnieren kompromisslosen Journalismus mit Tiefe und Witz. Und Sie?"
+    },
+    {
+      "key": "article/tryNote/191106-v1/before",
+      "value": "Kommen Sie zur Republik! Unser digitales Magazin berichtet sechsmal pro Woche so hintergründig, mutig und transparent über Politik, Wirtschaft, Gesellschaft und Kultur wie kein anderes Medium in der Schweiz. <b>Testen Sie die Republik 14 Tage lang gratis</b> – und wenn Sie überzeugt sind, kommen Sie an Bord."
+    },
+    {
+      "key": "article/tryNote/191106-v1/after/title",
+      "value": "Wirklich kompromisslosen Journalismus gibt es nur mit Ihnen!"
+    },
+    {
+      "key": "article/tryNote/191106-v1/after",
+      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b> Leserinnenfinanziert und ohne Werbung."
+    },
+    {
+      "key": "article/tryNote/191106-v2/before/title",
+      "value": "Testen Sie die Republik 14 Tage lang gratis und unverbindlich."
+    },
+    {
+      "key": "article/tryNote/191106-v2/after/title",
+      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
+    },
+    {
+      "key": "article/tryNote/191106-v2-campaign-www/before/title",
+      "value": "Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich."
+    },
+    {
+      "key": "article/tryNote/191106-v2-campaign-www/after/title",
+      "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
+    },
+    {
+      "key": "article/tryNote/191106-v3/before/title",
+      "value": "Transparente und unabhängige Informationen sind wichtig für die echte Meinungsbildung. Oder?"
+    },
+    {
+      "key": "article/tryNote/191106-v3/before",
+      "value": "Das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. In kompromisslosen Analysen, Reportagen, Rezensionen und Interviews. Als digitales Magazin und in Podcasts. Ohne Werbung. <b>Testen Sie die Republik jetzt 14 Tage lang gratis.</b>"
+    },
+    {
+      "key": "article/tryNote/191106-v3/after/title",
+      "value": "{count} Menschen machen die Republik heute schon möglich. Und Sie?"
+    },
+    {
+      "key": "article/tryNote/191106-v3/after",
+      "value": "Sind Sie noch nicht überzeugt und wollen Sie mehr wissen? Dann <b>testen Sie die Republik einfach 14 Tage lang gratis</b> und unverbindlich. "
+    },
+    {
+      "key": "article/tryNote/191106-v4/before/title",
+      "value": "Werden Sie Teil eines einzigartigen Medienprojekts. Kommen Sie an Bord der Republik!"
+    },
+    {
+      "key": "article/tryNote/191106-v4/before",
+      "value": "Die Republik ist mehr als ein Magazin. Wir sind ein einzigartiges Medienprojekt in der Schweiz, an dem heute schon {count} Menschen aktiv teilhaben. Sie jetzt auch? <b>Testen Sie uns 14 Tage lang gratis</b> – und entscheiden Sie anschliessend."
+    },
+    {
+      "key": "article/tryNote/191106-v4/after/title",
+      "value": "Sie finden unabhängigen Journalismus wichtig für unsere Gesellschaft und Demokratie? Dann werden Sie Leserin und Verlegerin der Republik!"
+    },
+    {
+      "key": "article/tryNote/191106-v4/after",
+      "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
     }
   ]
 }

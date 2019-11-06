@@ -63,29 +63,9 @@ const memberShipQuery = gql`
   }
 `
 
-const TRY_TO_BUY_RATIO = 0
+const TRY_TO_BUY_RATIO = 0.5
 
-const TRY_VARIATIONS = [
-  '191023-v1',
-  '191023-v2',
-  '191023-v3',
-  '191023-v4',
-  '191023-v5',
-  '191023-v6',
-  '191023-v7',
-  '191023-v8',
-  '191023-v9',
-  '191023-v10',
-  '191023-v11',
-  '191023-v12',
-  '191023-v13',
-  '191023-v14',
-  '191023-v15',
-  '191023-v16',
-  '191023-v17',
-  '191023-v18',
-  '191023-v19'
-]
+const TRY_VARIATIONS = ['191106-v1', '191106-v2', '191106-v3', '191106-v4']
 
 const BUY_VARIATIONS = [
   '190305-v1',
@@ -155,7 +135,7 @@ const Translation = compose(
   return (
     <RawHtml
       dangerouslySetInnerHTML={{
-        __html: t(tKey, { count: count })
+        __html: t(tKey, { count: count }, '')
       }}
     />
   )

@@ -17,6 +17,7 @@ import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
 import { CROWDFUNDING, TRIAL_CAMPAIGN } from '../../lib/constants'
+import VbzPoster from './VbzPoster'
 
 import { List as TestimonialList, testimonialFields } from '../Testimonial/List'
 
@@ -157,6 +158,7 @@ const MarketingPage = props => {
                 />
               </h1>
               <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+                <VbzPoster />
                 <Loader
                   loading={loading}
                   style={{ minHeight: 500 }}
@@ -178,20 +180,20 @@ const MarketingPage = props => {
       <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
           <div>
-            <Link route='pledge' params={{ package: 'ABO' }}>
+            <Link route="pledge" params={{ package: 'ABO' }}>
               <button {...buttonStyles.primary}>
                 {t('marketing/join/ABO/button/label')}
               </button>
             </Link>
           </div>
           {hasActiveMembershipOrAccessGrant ? (
-            <Link route='index'>
+            <Link route="index">
               <button {...buttonStyles.standard}>
                 {t('marketing/magazine/button/label')}
               </button>
             </Link>
           ) : (
-            <Link route='trial'>
+            <Link route="trial">
               <button {...buttonStyles.standard}>
                 {t('marketing/trial/button/label')}
               </button>
@@ -297,20 +299,20 @@ const MarketingPage = props => {
 
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
           <div>
-            <Link route='pledge'>
+            <Link route="pledge">
               <button {...buttonStyles.primary}>
                 {t('marketing/join/button/label')}
               </button>
             </Link>
           </div>
           {hasActiveMembershipOrAccessGrant ? (
-            <Link route='index'>
+            <Link route="index">
               <button {...buttonStyles.standard}>
                 {t('marketing/magazine/button/label')}
               </button>
             </Link>
           ) : (
-            <Link route='trial'>
+            <Link route="trial">
               <button {...buttonStyles.standard}>
                 {t('marketing/trial/button/label')}
               </button>
@@ -374,13 +376,13 @@ const MarketingPage = props => {
 
         <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
           <div>
-            <Link route='pledge' params={{ package: 'ABO' }}>
+            <Link route="pledge" params={{ package: 'ABO' }}>
               <button {...buttonStyles.primary}>
                 {t('marketing/join/ABO/button/label')}
               </button>
             </Link>
           </div>
-          <Link route='pledge' params={{ package: 'MONTHLY_ABO' }}>
+          <Link route="pledge" params={{ package: 'MONTHLY_ABO' }}>
             <button {...buttonStyles.standard}>
               {t('marketing/monthly/button/label')}
             </button>

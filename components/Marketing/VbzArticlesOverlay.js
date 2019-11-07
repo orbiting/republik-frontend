@@ -95,9 +95,7 @@ export default ({ onClose }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
       <OverlayToolbar>
-        <Interaction.Emphasis
-          style={{ padding: '15px 20px', fontSize: 16, color: colors.text }}
-        >
+        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
           Die Republik durch 9 Artikel entdecken
         </Interaction.Emphasis>
         <OverlayToolbarConfirm

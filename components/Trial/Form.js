@@ -16,7 +16,13 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import { MdArrowForward } from 'react-icons/lib/md'
-import { Button, Field, InlineSpinner, colors } from '@project-r/styleguide'
+import {
+  Button,
+  Field,
+  InlineSpinner,
+  colors,
+  mediaQueries
+} from '@project-r/styleguide'
 
 const styles = {
   errorMessages: css({
@@ -33,6 +39,20 @@ const styles = {
     marginTop: 40,
     width: 170,
     textAlign: 'center'
+  }),
+  buttonRow: css({
+    width: 210,
+    display: 'block',
+    ':first-child': {
+      margin: '0 0 10px'
+    },
+    [mediaQueries.mUp]: {
+      width: 'inherit',
+      display: 'inline-block',
+      ':first-child': {
+        margin: '0 10px 0 0'
+      }
+    }
   })
 }
 
@@ -57,13 +77,14 @@ const Form = props => {
     return (
       <div style={narrow ? { marginTop: 20 } : undefined}>
         <Button
+          {...styles.buttonRow}
           primary
-          style={{ marginRight: 10 }}
           onClick={() => Router.pushRoute('index')}
         >
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         <Button
+          {...styles.buttonRow}
           white={minimal && darkMode}
           secondary={minimal && !darkMode}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}

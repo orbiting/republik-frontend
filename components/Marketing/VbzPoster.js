@@ -11,20 +11,19 @@ import VbzArticlesOverlay from './VbzArticlesOverlay'
 const styles = {
   container: css({
     backgroundColor: '#2c2e35',
-    width: 270,
-    height: 400,
     display: 'inline-bock',
     position: 'relative',
-    padding: '0 60px 0 60px',
     textAlign: 'center',
     margin: '0 auto',
+    width: 200,
+    height: 300,
     '& .hole': {
       borderRadius: '50%',
-      height: 10,
-      width: 10,
+      top: '6%',
+      height: 8,
+      width: 8,
       backgroundColor: '#111',
-      position: 'absolute',
-      top: 20
+      position: 'absolute'
     },
     '@media (hover)': {
       ':hover': {
@@ -35,30 +34,51 @@ const styles = {
           border: '1px solid white'
         }
       }
+    },
+    [mediaQueries.mUp]: {
+      width: 270,
+      height: 400,
+      '& .hole': {
+        height: 8,
+        width: 8
+      }
     }
   }),
   titleContainer: css({
     position: 'absolute',
-    top: 30,
-    left: 45,
-    right: 45,
-    height: 320,
+    top: 22,
+    left: 35,
+    right: 35,
+    height: 240,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [mediaQueries.mUp]: {
+      top: 30,
+      left: 45,
+      right: 45,
+      height: 320
+    }
   }),
   title: css({
-    ...fontStyles.serifTitle26,
+    ...fontStyles.serifTitle22,
     color: '#ffffff',
-    margin: 0
+    margin: 0,
+    [mediaQueries.mUp]: {
+      ...fontStyles.serifTitle26
+    }
   }),
   caption: css({
     ...fontStyles.sansSerifRegular11,
     fontWeight: 'bold',
     position: 'absolute',
-    top: 320,
-    left: 0,
-    width: '100%'
+    top: 240,
+    left: 45,
+    right: 45,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular13,
+      top: 320
+    }
   })
 }
 
@@ -68,12 +88,12 @@ export default () => {
   return (
     <>
       <div {...styles.container} onClick={() => setShowOverlay(true)}>
-        <span className="hole" style={{ left: 45 }} />
-        <span className="hole" style={{ right: 45 }} />
+        <span className="hole" style={{ left: '17%' }} />
+        <span className="hole" style={{ right: '17%' }} />
         <div {...styles.titleContainer}>
           <div {...styles.title}>Wollen Sie es wirklich wissen?</div>
         </div>
-        <div {...styles.caption}>Republik durch 9 Artikel entdecken</div>
+        <div {...styles.caption}>Die Republik durch 9 Artikel entdecken.</div>
       </div>
       {showOverlay && (
         <VbzArticlesOverlay onClose={() => setShowOverlay(false)} />

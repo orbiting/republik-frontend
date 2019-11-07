@@ -121,6 +121,25 @@ const styles = {
     [mediaQueries.mUp]: {
       margin: '50px 0'
     }
+  }),
+  heroContainer: css({
+    [mediaQueries.mUp]: {
+      display: 'flex',
+      flexDirection: 'row'
+    }
+  }),
+  poster: css({
+    [mediaQueries.mUp]: {
+      width: '25%',
+      minWidth: 270
+    }
+  }),
+  teasers: css({
+    [mediaQueries.mUp]: {
+      width: '75%',
+      minWidth: 'calc(100% - 270px)',
+      height: 420
+    }
   })
 }
 
@@ -157,20 +176,26 @@ const MarketingPage = props => {
                   }}
                 />
               </h1>
-              <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
-                <VbzPoster />
-                <Loader
-                  loading={loading}
-                  style={{ minHeight: 500 }}
-                  render={() => (
-                    <TeaserBlock
-                      teasers={getTeasersFromDocument(front)}
-                      highlight={highlight}
-                      onHighlight={onHighlight}
-                      maxHeight={500}
+              <div {...styles.heroContainer}>
+                <div {...styles.poster}>
+                  <VbzPoster />
+                </div>
+                <div {...styles.teasers}>
+                  <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
+                    <Loader
+                      loading={loading}
+                      style={{ minHeight: 420 }}
+                      render={() => (
+                        <TeaserBlock
+                          teasers={getTeasersFromDocument(front)}
+                          highlight={highlight}
+                          onHighlight={onHighlight}
+                          maxHeight={500}
+                        />
+                      )}
                     />
-                  )}
-                />
+                  </div>
+                </div>
               </div>
               <div {...styles.overviewBottomShadow} />
             </Container>

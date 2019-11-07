@@ -40,15 +40,18 @@ const styles = {
     width: 170,
     textAlign: 'center'
   }),
+  successActions: css({
+    display: 'flex',
+    flexDirection: 'column',
+    [mediaQueries.mUp]: {
+      display: 'inherit'
+    }
+  }),
   buttonRow: css({
-    width: 210,
-    display: 'block',
     ':first-child': {
       margin: '0 0 10px'
     },
     [mediaQueries.mUp]: {
-      width: 'inherit',
-      display: 'inline-block',
       ':first-child': {
         margin: '0 10px 0 0'
       }
@@ -75,7 +78,10 @@ const Form = props => {
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
     return (
-      <div style={narrow ? { marginTop: 20 } : undefined}>
+      <div
+        {...styles.successActions}
+        style={narrow ? { marginTop: 20 } : undefined}
+      >
         <Button
           {...styles.buttonRow}
           primary

@@ -40,19 +40,15 @@ const styles = {
     width: 170,
     textAlign: 'center'
   }),
-  successActions: css({
+  buttonRow: css({
     display: 'flex',
     flexDirection: 'column',
-    [mediaQueries.mUp]: {
-      display: 'inherit'
-    }
-  }),
-  buttonRow: css({
-    ':first-child': {
+    '& :first-child': {
       margin: '0 0 10px'
     },
     [mediaQueries.mUp]: {
-      ':first-child': {
+      display: 'inherit',
+      '& :first-child': {
         margin: '0 10px 0 0'
       }
     }
@@ -78,19 +74,11 @@ const Form = props => {
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
     return (
-      <div
-        {...styles.successActions}
-        style={narrow ? { marginTop: 20 } : undefined}
-      >
-        <Button
-          {...styles.buttonRow}
-          primary
-          onClick={() => Router.pushRoute('index')}
-        >
+      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
+        <Button primary onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         <Button
-          {...styles.buttonRow}
           white={minimal && darkMode}
           secondary={minimal && !darkMode}
           onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}

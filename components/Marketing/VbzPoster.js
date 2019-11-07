@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
-import { css, merge } from 'glamor'
-import {
-  Editorial,
-  Interaction,
-  mediaQueries,
-  fontStyles
-} from '@project-r/styleguide'
+import { css } from 'glamor'
+import { mediaQueries, fontStyles } from '@project-r/styleguide'
 import VbzArticlesOverlay from './VbzArticlesOverlay'
 
 const styles = {
@@ -17,6 +12,7 @@ const styles = {
     margin: '0 auto',
     width: 200,
     height: 300,
+    boxShadow: '0px 10px 28px -6px rgba(0,0,0,0.75)',
     '& .hole': {
       borderRadius: '50%',
       top: '6%',
@@ -38,6 +34,7 @@ const styles = {
     [mediaQueries.mUp]: {
       width: 270,
       height: 400,
+      boxShadow: 'none',
       '& .hole': {
         height: 8,
         width: 8
@@ -69,14 +66,15 @@ const styles = {
     }
   }),
   caption: css({
-    ...fontStyles.sansSerifRegular11,
+    ...fontStyles.sansSerifRegular12,
     fontWeight: 'bold',
     position: 'absolute',
     top: 240,
-    left: 45,
-    right: 45,
+    left: 40,
+    right: 40,
     [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular13,
+      ...fontStyles.sansSerifMedium15,
+      lineHeight: 1.25,
       top: 320
     }
   })

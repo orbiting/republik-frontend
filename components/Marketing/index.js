@@ -99,6 +99,20 @@ const styles = {
       'linear-gradient(0deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 30%, rgba(17,17,17,0) 100%)',
     pointerEvents: 'none'
   }),
+  overviewTopShadow: css({
+    position: 'absolute',
+    top: 100,
+    height: 350,
+    zIndex: 2,
+    left: 0,
+    right: 0,
+    background:
+      'linear-gradient(180deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 67%, rgba(17,17,17,0) 100%)',
+    pointerEvents: 'none',
+    [mediaQueries.mUp]: {
+      display: 'none'
+    }
+  }),
   lead: css({
     maxWidth: 700,
     padding: '0 15px',
@@ -123,21 +137,33 @@ const styles = {
     }
   }),
   heroContainer: css({
+    position: 'relative',
+    height: 600,
     [mediaQueries.mUp]: {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      height: 'auto'
     }
   }),
   poster: css({
+    position: 'absolute',
+    top: 30,
+    left: 0,
+    right: 0,
+    margin: '0 auto',
+    zIndex: 3,
     [mediaQueries.mUp]: {
-      width: '25%',
-      minWidth: 270
+      width: 270,
+      margin: '0 0  0 10px',
+      position: 'static'
     }
   }),
   teasers: css({
+    position: 'absolute',
+    top: 100,
     [mediaQueries.mUp]: {
-      width: '75%',
-      minWidth: 'calc(100% - 270px)',
+      position: 'static',
+      width: 'calc(100% - 270px)',
       height: 420
     }
   })
@@ -180,6 +206,7 @@ const MarketingPage = props => {
                 <div {...styles.poster}>
                   <VbzPoster />
                 </div>
+                <div {...styles.overviewTopShadow} />
                 <div {...styles.teasers}>
                   <div style={{ padding: `0 ${TEASER_BLOCK_GAP}px` }}>
                     <Loader

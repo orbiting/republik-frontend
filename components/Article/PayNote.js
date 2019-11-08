@@ -21,7 +21,7 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
-import { TRIAL_CAMPAIGN } from '../../lib/constants'
+import { TRIAL_PAYNOTE_CAMPAIGN, TRIAL_CAMPAIGN } from '../../lib/constants'
 
 const styles = {
   banner: css({
@@ -214,7 +214,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
       onSuccess={() => {
         return false
       }}
-      accessCampaignId={TRIAL_CAMPAIGN}
+      accessCampaignId={TRIAL_PAYNOTE_CAMPAIGN || TRIAL_CAMPAIGN}
       payload={payload}
       darkMode={darkMode}
       minimal

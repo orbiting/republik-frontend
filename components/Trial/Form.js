@@ -299,7 +299,7 @@ Form.propTypes = {
 }
 
 const REQUEST_ACCESS = gql`
-  mutation requestAccess($campaignId: ID!, $payload: JSON) {
+  mutation requestAccess($campaignId: ID!, $payload: AccessGrantPayloadInput) {
     requestAccess(campaignId: $campaignId, payload: $payload) {
       id
       endAt

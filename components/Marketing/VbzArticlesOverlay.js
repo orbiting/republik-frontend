@@ -1,6 +1,8 @@
 import React from 'react'
 import {
   Interaction,
+  Editorial,
+  RawHtml,
   Overlay,
   OverlayBody,
   OverlayToolbar,
@@ -12,6 +14,7 @@ import {
 } from '@project-r/styleguide'
 import MdClose from 'react-icons/lib/md/close'
 import { css } from 'glamor'
+import withT from '../../lib/withT'
 
 const styles = {
   articleContainer: css({
@@ -42,6 +45,7 @@ const styles = {
     textDecoration: 'none'
   }),
   footer: css({
+    color: colors.negative.text,
     padding: 20
   })
 }
@@ -91,32 +95,40 @@ const articles = [
   }
 ]
 
-export default ({ onClose }) => {
+export default withT(({ t, onClose }) => {
   return (
-    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 400, minHeight: 'none' }}>
+    <Overlay onClose={onClose} mUpStyle={{ maxWidth: 600, minHeight: 'none' }}>
       <OverlayToolbar>
         <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
-          Die Republik durch 9 Artikel entdecken
+          {t('marketing/vbz/overlay/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
           onClick={onClose}
           label={<MdClose size={24} fill='#000' />}
         />
       </OverlayToolbar>
-      <OverlayBody style={{ padding: '48px 0 0' }}>
-        <div {...styles.articleContainer}>
-          {articles.map((article, index) => {
-            return (
-              <A href={article.url} key={index}>
-                <div {...styles.article}>{article.headline}</div>
-              </A>
-            )
-          })}
+      <OverlayBody
+        style={{
+          padding: '48px 0 0',
+          backgroundColor: colors.negative.primaryBg
+        }}
+      >
+        {articles.map((article, index) => {
+          return (
+            <A href={article.url} key={index}>
+              <div {...styles.article}>{article.headline}</div>
+            </A>
+          )
+        })}
+        <div {...styles.footer}>
+          <RawHtml
+            white
+            dangerouslySetInnerHTML={{
+              __html: t('marketing/vbz/overlay/footnote')
+            }}
+          />
         </div>
-        <Interaction.P {...styles.footer}>
-          More about die Republik <A>here</A>.
-        </Interaction.P>
       </OverlayBody>
     </Overlay>
   )
-}
+})

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { css } from 'glamor'
 import { mediaQueries, fontStyles } from '@project-r/styleguide'
 import VbzArticlesOverlay from './VbzArticlesOverlay'
+import withT from '../../lib/withT'
 
 const styles = {
   container: css({
@@ -58,44 +59,44 @@ const styles = {
     }
   }),
   title: css({
-    ...fontStyles.serifTitle22,
+    ...fontStyles.serifTitle30,
     color: '#ffffff',
     margin: 0,
     [mediaQueries.mUp]: {
-      ...fontStyles.serifTitle26
+      ...fontStyles.serifTitle38
     }
   }),
   caption: css({
     ...fontStyles.sansSerifRegular12,
     fontWeight: 'bold',
     position: 'absolute',
-    top: 240,
+    bottom: 20,
     left: 40,
     right: 40,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifMedium15,
-      lineHeight: 1.25,
-      top: 320
+      bottom: 40,
+      lineHeight: 1.25
     }
   })
 }
 
-export default () => {
+export default withT(({ t }) => {
   const [showOverlay, setShowOverlay] = useState(false)
 
   return (
     <>
       <div {...styles.container} onClick={() => setShowOverlay(true)}>
-        <span className="hole" style={{ left: '17%' }} />
-        <span className="hole" style={{ right: '17%' }} />
+        <span className='hole' style={{ left: '17%' }} />
+        <span className='hole' style={{ right: '17%' }} />
         <div {...styles.titleContainer}>
           <div {...styles.title}>Wollen Sie es wirklich wissen?</div>
         </div>
-        <div {...styles.caption}>Die Republik durch 9 Artikel entdecken.</div>
+        <div {...styles.caption}>{t('marketing/vbz/poster/hint')}</div>
       </div>
       {showOverlay && (
         <VbzArticlesOverlay onClose={() => setShowOverlay(false)} />
       )}
     </>
   )
-}
+})

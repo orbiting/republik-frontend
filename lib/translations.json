@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-06T10:59:45.372Z",
+  "updated": "2019-11-08T17:50:33.851Z",
   "title": "live",
   "data": [
     {
@@ -6365,6 +6365,18 @@
     {
       "key": "article/tryNote/191106-v4/after",
       "value": "Mit einer Testmitgliedschaft lesen Sie ab sofort und 14 Tage lang kompromisslose Analysen, Reportagen, Interviews, Kulturrezensionen und Bundeshausnachrichten <b>unverbindlich und gratis.</b>"
+    },
+    {
+      "key": "marketing/vbz/poster/hint",
+      "value": "Republik entdecken: Lesen Sie jetzt neun ausgewählte Beiträge kostenlos."
+    },
+    {
+      "key": "marketing/vbz/overlay/title",
+      "value": "Neun ausgewählte Beiträge für Sie"
+    },
+    {
+      "key": "marketing/vbz/overlay/footnote",
+      "value": "Diese Beiträge sind Teil unserer aktuellen <a href=\"/wseww-meta\">Bekanntmachungskampagne im ÖV und in den sozialen Netzwerken</a>."
     }
   ]
 }

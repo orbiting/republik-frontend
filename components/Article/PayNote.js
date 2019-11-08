@@ -21,7 +21,13 @@ import withInNativeApp from '../../lib/withInNativeApp'
 import gql from 'graphql-tag'
 import { countFormat } from '../../lib/utils/format'
 import withMemberStatus from '../../lib/withMemberStatus'
-import { TRIAL_PAYNOTE_CAMPAIGN, TRIAL_CAMPAIGN } from '../../lib/constants'
+import { TRIAL_CAMPAIGNS, TRIAL_CAMPAIGN } from '../../lib/constants'
+import { parseJSONObject } from '../../lib/safeJSON'
+
+const trailCampaignes = parseJSONObject(TRIAL_CAMPAIGNS)
+const trialAccessCampaignId =
+  (trailCampaignes.paynote && trailCampaignes.paynote.accessCampaignId) ||
+  TRIAL_CAMPAIGN
 
 const styles = {
   banner: css({
@@ -214,7 +220,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
       onSuccess={() => {
         return false
       }}
-      accessCampaignId={TRIAL_PAYNOTE_CAMPAIGN || TRIAL_CAMPAIGN}
+      accessCampaignId={trialAccessCampaignId}
       payload={payload}
       darkMode={darkMode}
       minimal

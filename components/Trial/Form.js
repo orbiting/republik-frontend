@@ -16,7 +16,13 @@ import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
 import { MdArrowForward } from 'react-icons/lib/md'
-import { Button, Field, InlineSpinner, colors } from '@project-r/styleguide'
+import {
+  Button,
+  Field,
+  InlineSpinner,
+  colors,
+  mediaQueries
+} from '@project-r/styleguide'
 
 const styles = {
   errorMessages: css({
@@ -33,6 +39,19 @@ const styles = {
     marginTop: 40,
     width: 170,
     textAlign: 'center'
+  }),
+  buttonRow: css({
+    display: 'flex',
+    flexDirection: 'column',
+    '& :first-child': {
+      margin: '0 0 10px'
+    },
+    [mediaQueries.mUp]: {
+      display: 'inherit',
+      '& :first-child': {
+        margin: '0 10px 0 0'
+      }
+    }
   })
 }
 
@@ -55,12 +74,8 @@ const Form = props => {
 
   if (viaActiveMembership.until || viaAccessGrant.until) {
     return (
-      <div style={narrow ? { marginTop: 20 } : undefined}>
-        <Button
-          primary
-          style={{ marginRight: 10 }}
-          onClick={() => Router.pushRoute('index')}
-        >
+      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
+        <Button primary onClick={() => Router.pushRoute('index')}>
           {t('Trial/Form/authorized/withAccess/button/label')}
         </Button>
         <Button

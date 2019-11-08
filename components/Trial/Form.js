@@ -98,6 +98,7 @@ const Form = props => {
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
   const [autoRequestAccess, setAutoRequestAccess] = useState(false)
+  const [payload] = useState(props.payload)
 
   useEffect(() => {
     autoRequestAccess && !signingIn && me && requestAccess()
@@ -150,7 +151,7 @@ const Form = props => {
     beforeRequestAccess && beforeRequestAccess()
 
     props
-      .requestAccess()
+      .requestAccess({ payload })
       .then(() => {
         const shouldRedirect = onSuccess ? onSuccess() : true
         if (shouldRedirect) {
@@ -298,8 +299,8 @@ Form.propTypes = {
 }
 
 const REQUEST_ACCESS = gql`
-  mutation requestAccess($campaignId: ID!) {
-    requestAccess(campaignId: $campaignId) {
+  mutation requestAccess($campaignId: ID!, $payload: JSON) {
+    requestAccess(campaignId: $campaignId, payload: $payload) {
       id
       endAt
     }
@@ -308,9 +309,9 @@ const REQUEST_ACCESS = gql`
 
 const withRequestAccess = graphql(REQUEST_ACCESS, {
   props: ({ mutate, ownProps: { accessCampaignId } }) => ({
-    requestAccess: () =>
+    requestAccess: ({ payload }) =>
       mutate({
-        variables: { campaignId: accessCampaignId }
+        variables: { campaignId: accessCampaignId, payload }
       })
   })
 })

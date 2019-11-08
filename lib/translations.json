@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-08T17:50:33.851Z",
+  "updated": "2019-11-08T18:09:05.379Z",
   "title": "live",
   "data": [
     {
@@ -6377,6 +6377,54 @@
     {
       "key": "marketing/vbz/overlay/footnote",
       "value": "Diese Beiträge sind Teil unserer aktuellen <a href=\"/wseww-meta\">Bekanntmachungskampagne im ÖV und in den sozialen Netzwerken</a>."
+    },
+    {
+      "key": "article/payNote/191108-v1/before/title",
+      "value": "Kommen Sie zur Republik!"
+    },
+    {
+      "key": "article/payNote/191108-v1/before",
+      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Dafür brauchen wir Sie als Abonnentin!"
+    },
+    {
+      "key": "article/payNote/191108-v1/before/buy/button",
+      "value": "Ich bin dabei."
+    },
+    {
+      "key": "article/payNote/191108-v1/after/title",
+      "value": "{count} Menschen machen die Republik heute schon möglich. "
+    },
+    {
+      "key": "article/payNote/191108-v1/after",
+      "value": "Wollen auch Sie, dass die noch junge Republik weiterhin unabhängigen, transparenten Journalismus betreiben kann? Dann kommen Sie als Abonnent an Bord! "
+    },
+    {
+      "key": "article/payNote/191108-v1/after/buy/button",
+      "value": "Ja - ich bin dabei!"
+    },
+    {
+      "key": "article/payNote/191108-v2/before/title",
+      "value": "Wir sind die Republik."
+    },
+    {
+      "key": "article/payNote/191108-v2/before",
+      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+    },
+    {
+      "key": "article/payNote/191108-v2/before/buy/button",
+      "value": "Natürlich!"
+    },
+    {
+      "key": "article/payNote/191108-v2/after/title",
+      "value": "Sie haben in diesem Artikel viele Worte gelesen aber die wichtigsten drei fehlten."
+    },
+    {
+      "key": "article/payNote/191108-v2/after",
+      "value": "Seit je beruht jede funktionierende Gemeinschaft auf diesen drei Worten. Liebende sagen sie zueinander. Gute Politiker sagen sie ihren Wählern, gute Priester ihrer Gemeinde, gute Eltern ihrem Kind. Sie lauten: Fürchte dich nicht! – Wir von der Republik glauben, dass auch im Journalismus gilt, was Franklin D. Roosevelt einst zur Politik sagte: «Wir haben nichts zu fürchten als die Furcht selbst.»"
+    },
+    {
+      "key": "article/payNote/191108-v2/after/buy/button",
+      "value": "Ich bin an Bord."
     }
   ]
 }

@@ -67,17 +67,7 @@ const TRY_TO_BUY_RATIO = 0.5
 
 const TRY_VARIATIONS = ['191106-v1', '191106-v2', '191106-v3', '191106-v4']
 
-const BUY_VARIATIONS = [
-  '190305-v1',
-  '190305-v2',
-  '190305-v3',
-  '190305-v4',
-  '190305-v5',
-  '190305-v6',
-  '190305-v7',
-  '190305-v8',
-  '190305-v9'
-]
+const BUY_VARIATIONS = ['191108-v1', '191108-v2']
 
 const BUY_SERIES = 'series'
 

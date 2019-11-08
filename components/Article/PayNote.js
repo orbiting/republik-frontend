@@ -89,10 +89,12 @@ export const MAX_PAYNOTE_SEED = Math.max(
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
 const getTryVariation = (seed, isThankYou) => {
+  const variation = getElementFromSeed(TRY_VARIATIONS, seed)
   return {
+    keyShort: variation,
     key: isThankYou
       ? 'article/tryNote/thankYou'
-      : `article/tryNote/${getElementFromSeed(TRY_VARIATIONS, seed)}`,
+      : `article/tryNote/${variation}`,
     cta: 'try'
   }
 }
@@ -102,6 +104,7 @@ const getBuyVariation = (seed, isSeries) => {
     ? BUY_SERIES
     : getElementFromSeed(BUY_VARIATIONS, seed)
   return {
+    keyShort: variation,
     key: `article/payNote/${variation}`,
     cta: 'buy'
   }
@@ -194,7 +197,7 @@ const BuyNoteCta = compose(withMemberStatus)(
   }
 )
 
-const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
+const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
   return (
     <TrialForm
       beforeSignIn={() => {
@@ -212,17 +215,18 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode }) => {
         return false
       }}
       accessCampaignId={TRIAL_CAMPAIGN}
+      payload={payload}
       darkMode={darkMode}
       minimal
     />
   )
 })
 
-const PayNoteCta = ({ variation, position, darkMode }) => {
+const PayNoteCta = ({ variation, payload, position, darkMode }) => {
   return (
     <div {...styles.cta}>
       {variation.cta === 'try' ? (
-        <TryNoteCta darkMode={darkMode} />
+        <TryNoteCta darkMode={darkMode} payload={payload} />
       ) : (
         <BuyNoteCta variation={variation} position={position} />
       )}
@@ -234,49 +238,73 @@ export const PayNote = compose(
   withRouter,
   withInNativeApp,
   withMemberStatus
-)(({ router, inNativeIOSApp, isEligibleForTrial, seed, series, position }) => {
-  const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
-  const variation = getPayNoteVariation(
+)(
+  ({
+    router,
     inNativeIOSApp,
-    isTrialThankYou,
     isEligibleForTrial,
+    seed,
+    documentId,
+    repoId,
     series,
-    seed
-  )
-  const lead = (
-    <Translation
-      baseKey={variation.key}
-      position={!isTrialThankYou && position}
-      element='title'
-    />
-  )
-  const body = (
-    <Translation
-      baseKey={variation.key}
-      position={!isTrialThankYou && position}
-    />
-  )
-  const isBefore = position === 'before'
-  const cta = !!variation.cta && (
-    <PayNoteCta darkMode={isBefore} variation={variation} position={position} />
-  )
+    position
+  }) => {
+    const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
+    const variation = getPayNoteVariation(
+      inNativeIOSApp,
+      isTrialThankYou,
+      isEligibleForTrial,
+      series,
+      seed
+    )
+    const lead = (
+      <Translation
+        baseKey={variation.key}
+        position={!isTrialThankYou && position}
+        element='title'
+      />
+    )
+    const body = (
+      <Translation
+        baseKey={variation.key}
+        position={!isTrialThankYou && position}
+      />
+    )
+    const payload = {
+      documentId,
+      repoId,
+      variation: variation.keyShort,
+      position
+    }
+    const isBefore = position === 'before'
+    const cta = !!variation.cta && (
+      <PayNoteCta
+        darkMode={isBefore}
+        variation={variation}
+        payload={payload}
+        position={position}
+      />
+    )
 
-  return (
-    <div
-      {...styles.banner}
-      style={{
-        backgroundColor: isBefore ? colors.negative.primaryBg : colors.primaryBg
-      }}
-    >
-      <Center>
-        <Interaction.P
-          {...styles.body}
-          style={{ color: isBefore ? colors.negative.text : '#000000' }}
-        >
-          <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
-        </Interaction.P>
-        {cta}
-      </Center>
-    </div>
-  )
-})
+    return (
+      <div
+        {...styles.banner}
+        style={{
+          backgroundColor: isBefore
+            ? colors.negative.primaryBg
+            : colors.primaryBg
+        }}
+      >
+        <Center>
+          <Interaction.P
+            {...styles.body}
+            style={{ color: isBefore ? colors.negative.text : '#000000' }}
+          >
+            <Interaction.Emphasis>{lead}</Interaction.Emphasis> {body}
+          </Interaction.P>
+          {cta}
+        </Center>
+      </div>
+    )
+  }
+)

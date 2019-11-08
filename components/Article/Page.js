@@ -110,6 +110,7 @@ const getDocument = gql`
   query getDocument($path: String!) {
     article: document(path: $path) {
       id
+      repoId
       content
       ...BookmarkOnDocument
       ...UserProgressOnDocument
@@ -436,9 +437,11 @@ class ArticlePage extends Component {
 
     const showSeriesNav = isMember && meta && !!meta.series
     const id = article && article.id
+    const repoId = article && article.repoId
 
     return {
       id,
+      repoId,
       schema,
       meta,
       actionBar,
@@ -513,6 +516,8 @@ class ArticlePage extends Component {
     } = this.props
 
     const {
+      id: documentId,
+      repoId,
       meta,
       actionBar,
       schema,
@@ -589,7 +594,13 @@ class ArticlePage extends Component {
     }
 
     const payNote = !hasActiveMembership && (
-      <PayNote seed={payNoteSeed} series={series} position='before' />
+      <PayNote
+        seed={payNoteSeed}
+        documentId={documentId}
+        repoId={repoId}
+        series={series}
+        position='before'
+      />
     )
     const payNoteAfter =
       payNote && React.cloneElement(payNote, { position: 'after' })

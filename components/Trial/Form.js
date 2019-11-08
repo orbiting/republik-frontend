@@ -59,6 +59,7 @@ const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = props => {
   const {
+    payload,
     beforeRequestAccess,
     beforeSignIn,
     onSuccess,
@@ -98,7 +99,6 @@ const Form = props => {
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
   const [autoRequestAccess, setAutoRequestAccess] = useState(false)
-  const [payload] = useState(props.payload)
 
   useEffect(() => {
     autoRequestAccess && !signingIn && me && requestAccess()

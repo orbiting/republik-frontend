@@ -15,7 +15,7 @@ import {
 import withT from '../../lib/withT'
 import withMe, { meQuery } from '../../lib/apollo/withMe'
 import { scrollIt } from '../../lib/utils/scroll'
-import { MdDone } from 'react-icons/lib/md'
+import MdDone from 'react-icons/lib/md/done'
 
 const { H3, P, Emphasis } = Interaction
 

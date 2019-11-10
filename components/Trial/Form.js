@@ -15,7 +15,7 @@ import { Router } from '../../lib/routes'
 import withMe from '../../lib/apollo/withMe'
 import withT from '../../lib/withT'
 
-import { MdArrowForward } from 'react-icons/lib/md'
+import MdArrowForward from 'react-icons/lib/md/arrow-forward'
 import {
   Button,
   Field,
@@ -59,6 +59,7 @@ const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 
 const Form = props => {
   const {
+    payload,
     beforeRequestAccess,
     beforeSignIn,
     onSuccess,
@@ -150,7 +151,7 @@ const Form = props => {
     beforeRequestAccess && beforeRequestAccess()
 
     props
-      .requestAccess()
+      .requestAccess({ payload })
       .then(() => {
         const shouldRedirect = onSuccess ? onSuccess() : true
         if (shouldRedirect) {
@@ -298,8 +299,8 @@ Form.propTypes = {
 }
 
 const REQUEST_ACCESS = gql`
-  mutation requestAccess($campaignId: ID!) {
-    requestAccess(campaignId: $campaignId) {
+  mutation requestAccess($campaignId: ID!, $payload: JSON) {
+    requestAccess(campaignId: $campaignId, payload: $payload) {
       id
       endAt
     }
@@ -308,9 +309,9 @@ const REQUEST_ACCESS = gql`
 
 const withRequestAccess = graphql(REQUEST_ACCESS, {
   props: ({ mutate, ownProps: { accessCampaignId } }) => ({
-    requestAccess: () =>
+    requestAccess: ({ payload }) =>
       mutate({
-        variables: { campaignId: accessCampaignId }
+        variables: { campaignId: accessCampaignId, payload }
       })
   })
 })

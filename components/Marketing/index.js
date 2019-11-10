@@ -315,22 +315,11 @@ const MarketingPage = props => {
 
       <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
         <Editorial.Subhead {...styles.h2}>
-          Ein Projekt gegen den Zynismus
+          {t('marketing/lead/title')}
         </Editorial.Subhead>
-        <Editorial.P>
-          Unser Journalismus verteidigt die Institutionen der Demokratie gegen
-          den Vormarsch der Autoritären. Wir lassen uns nicht von Angst leiten,
-          sondern von den Werten der Aufklärung.
-        </Editorial.P>
-        <Editorial.P>
-          Die Schweiz ist erfolgreich, wenn Liberale und Linke, Progressive und
-          Konservative gemeinsam um Lösungen ringen. Deshalb ist die Republik
-          politisch nicht festgelegt, aber keineswegs neutral.
-        </Editorial.P>
-        <Editorial.P>
-          Wir stehen für die Treue zu Fakten, für Offenheit gegenüber Kritik,
-          für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.
-        </Editorial.P>
+        <Editorial.P>{t('marketing/lead/p1')}</Editorial.P>
+        <Editorial.P>{t('marketing/lead/p2')}</Editorial.P>
+        <Editorial.P>{t('marketing/lead/p3')}</Editorial.P>
 
         {!inNativeIOSApp && (
           <>

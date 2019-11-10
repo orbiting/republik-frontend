@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-10T23:22:31.813Z",
+  "updated": "2019-11-10T23:44:30.322Z",
   "title": "live",
   "data": [
     {
@@ -6449,6 +6449,22 @@
     {
       "key": "Trial/Page/unauthorized/wseww/intro",
       "value": "Vierzehn Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. Vierzehn Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Abonnentinnen."
+    },
+    {
+      "key": "marketing/lead/title",
+      "value": "Ein Projekt für die Zukunft des Journalismus"
+    },
+    {
+      "key": "marketing/lead/p1",
+      "value": "Menschen brauchen vernünftige Informationen, um vernünftige Entscheidungen zu treffen."
+    },
+    {
+      "key": "marketing/lead/p2",
+      "value": "Guter Journalismus bringt interessante Ideen, kluge Köpfe und verschiedene Blickwinkel zusammen. Und schafft so eine Basis für eine funktionierende Demokratie."
+    },
+    {
+      "key": "marketing/lead/p3",
+      "value": "Wir stehen für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
     }
   ]
 }

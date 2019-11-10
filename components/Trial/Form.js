@@ -198,6 +198,8 @@ const Form = props => {
               }}
             >
               <Field
+                name='email'
+                type='email'
                 black={minimal && !darkMode}
                 white={minimal && darkMode}
                 label={t('Trial/Form/email/label')}

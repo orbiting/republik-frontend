@@ -5,24 +5,18 @@ import { withRouter } from 'next/router'
 import Frame from '../components/Frame'
 import Front from '../components/Front'
 import Marketing from '../components/Marketing'
-import withInNativeApp from '../lib/withInNativeApp'
 import withT from '../lib/withT'
-import withMembership, {
-  UnauthorizedPage
-} from '../components/Auth/withMembership'
+import withMembership from '../components/Auth/withMembership'
 
 import { PUBLIC_BASE_URL, CDN_FRONTEND_BASE_URL } from '../lib/constants'
 
-const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
+const IndexPage = ({ t, isMember, router }) => {
   if (
     router.query.stale !== 'marketing' &&
     (isMember || router.query.extractId)
   ) {
     // does it's own meta
     return <Front extractId={router.query.extractId} finite />
-  }
-  if (inNativeIOSApp) {
-    return <UnauthorizedPage me={me} />
   }
   const meta = {
     pageTitle: t('pages/index/pageTitle'),
@@ -40,7 +34,6 @@ const IndexPage = ({ t, me, isMember, inNativeIOSApp, router }) => {
 
 export default compose(
   withMembership,
-  withInNativeApp,
   withT,
   withRouter
 )(IndexPage)

@@ -9,6 +9,7 @@ import { format } from 'url'
 import withTrialEligibility from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
+import withMembership from '../Auth/withMembership'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import { Router } from '../../lib/routes'
@@ -60,11 +61,11 @@ const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 const Form = props => {
   const {
     payload,
-    beforeRequestAccess,
     beforeSignIn,
     onSuccess,
     narrow,
     trialEligibility,
+    isMember,
     me,
     meRefetch,
     t,
@@ -72,23 +73,6 @@ const Form = props => {
     darkMode
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
-
-  if (viaActiveMembership.until || viaAccessGrant.until) {
-    return (
-      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
-        <Button primary onClick={() => Router.pushRoute('index')}>
-          {t('Trial/Form/authorized/withAccess/button/label')}
-        </Button>
-        <Button
-          white={minimal && darkMode}
-          secondary={minimal && !darkMode}
-          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
-        >
-          {t('Trial/Form/authorized/withAccess/setup/label')}
-        </Button>
-      </div>
-    )
-  }
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
@@ -148,22 +132,22 @@ const Form = props => {
 
     setSigningIn(false)
 
-    beforeRequestAccess && beforeRequestAccess()
-
-    props
-      .requestAccess({ payload })
-      .then(() => {
-        const shouldRedirect = onSuccess ? onSuccess() : true
-        if (shouldRedirect) {
-          window.location = format({
-            pathname: `/einrichten`,
-            query: { context: 'trial' }
-          })
-        } else {
-          meRefetch()
-        }
-      })
-      .catch(catchError)
+    if (!isMember) {
+      props
+        .requestAccess({ payload })
+        .then(() => {
+          const shouldRedirect = onSuccess ? onSuccess() : true
+          if (shouldRedirect) {
+            window.location = format({
+              pathname: `/einrichten`,
+              query: { context: 'trial' }
+            })
+          } else {
+            meRefetch()
+          }
+        })
+        .catch(catchError)
+    }
   }
 
   const catchError = error => {
@@ -180,6 +164,23 @@ const Form = props => {
 
   const onSuccessSwitchBoard = () => {
     setSigningIn(false)
+  }
+
+  if (viaActiveMembership.until || viaAccessGrant.until || isMember) {
+    return (
+      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
+        <Button primary onClick={() => Router.pushRoute('index')}>
+          {t('Trial/Form/authorized/withAccess/button/label')}
+        </Button>
+        <Button
+          white={minimal && darkMode}
+          secondary={minimal && !darkMode}
+          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
+        >
+          {t('Trial/Form/authorized/withAccess/setup/label')}
+        </Button>
+      </div>
+    )
   }
 
   const consentErrors = getConsentsError(t, REQUIRED_CONSENTS, consents)
@@ -296,7 +297,7 @@ const Form = props => {
 
 Form.propTypes = {
   accessCampaignId: PropTypes.string.isRequired,
-  beforeRequestAccess: PropTypes.func,
+  beforeSignIn: PropTypes.func,
   narrow: PropTypes.bool
 }
 
@@ -320,6 +321,7 @@ const withRequestAccess = graphql(REQUEST_ACCESS, {
 
 export default compose(
   withTrialEligibility,
+  withMembership,
   withRequestAccess,
   withSignIn,
   withMe,

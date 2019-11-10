@@ -12,7 +12,9 @@ import {
   mediaQueries,
   colors
 } from '@project-r/styleguide'
+import NativeRouter, { withRouter } from 'next/router'
 
+import withInNativeApp from '../../lib/withInNativeApp'
 import { countFormat } from '../../lib/utils/format'
 import withT from '../../lib/withT'
 import { Router, Link } from '../../lib/routes'
@@ -27,6 +29,7 @@ import Accordion from '../Pledge/Accordion'
 import Cards from './Cards'
 import UserGuidance from '../Account/UserGuidance'
 import TrialForm from '../Trial/Form'
+import SignIn from '../Auth/SignIn'
 
 import { buttonStyles, sharedStyles } from './styles'
 
@@ -175,7 +178,10 @@ const MarketingPage = props => {
   const onHighlight = highlighFunction => setHighlight(() => highlighFunction)
   const {
     t,
-    data: { loading, error, meGuidance, membershipStats, front, statements }
+    data: { loading, error, meGuidance, membershipStats, front, statements },
+    inNativeApp,
+    inNativeIOSApp,
+    router
   } = props
 
   const hasActiveMembership = meGuidance && !!meGuidance.activeMembership
@@ -185,7 +191,9 @@ const MarketingPage = props => {
 
   return (
     <Fragment>
-      {!loading && meGuidance && !hasActiveMembership && <UserGuidance />}
+      {!loading && meGuidance && !hasActiveMembership && !inNativeIOSApp && (
+        <UserGuidance />
+      )}
       {!error && (
         <div {...styles.overviewOverflow}>
           <div {...styles.overviewContainer}>
@@ -231,49 +239,75 @@ const MarketingPage = props => {
       )}
       <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
         <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
-          <div>
-            <Link route="pledge" params={{ package: 'ABO' }}>
-              <button {...buttonStyles.primary}>
-                {t('marketing/join/ABO/button/label')}
-              </button>
-            </Link>
-          </div>
-          {hasActiveMembershipOrAccessGrant ? (
-            <Link route="index">
-              <button {...buttonStyles.standard}>
-                {t('marketing/magazine/button/label')}
-              </button>
-            </Link>
+          {inNativeApp && !meGuidance ? (
+            <>
+              <SignIn
+                email={router.query.email}
+                beforeForm={
+                  <Interaction.P>
+                    {t.elements('withMembership/ios/unauthorized/claimText', {
+                      claimLink: (
+                        <Link route='claim' key='claim' passHref>
+                          <Editorial.A>
+                            {t('withMembership/ios/unauthorized/claimLink')}
+                          </Editorial.A>
+                        </Link>
+                      )
+                    })}
+                  </Interaction.P>
+                }
+              />
+            </>
           ) : (
-            <Link route="trial">
-              <button {...buttonStyles.standard}>
-                {t('marketing/trial/button/label')}
-              </button>
-            </Link>
-          )}
-        </div>
-        {hasActiveMembershipOrAccessGrant}
-        <div {...sharedStyles.signIn} {...sharedStyles.links}>
-          {!meGuidance && (
-            <Fragment>
-              {t.elements('marketing/signin', {
-                link: (
-                  <Link key='link' route={'signin'} passHref>
-                    <Editorial.A>{t('marketing/signin/link')}</Editorial.A>
+            <>
+              {!inNativeIOSApp && (
+                <div>
+                  <Link route='pledge' params={{ package: 'ABO' }}>
+                    <button {...buttonStyles.primary}>
+                      {t('marketing/join/ABO/button/label')}
+                    </button>
                   </Link>
-                )
-              })}
-              {' – '}
-            </Fragment>
+                </div>
+              )}
+              {hasActiveMembershipOrAccessGrant ? (
+                <Link route='index'>
+                  <button {...buttonStyles.standard}>
+                    {t('marketing/magazine/button/label')}
+                  </button>
+                </Link>
+              ) : (
+                <Link route='trial'>
+                  <button {...buttonStyles.standard}>
+                    {t('marketing/trial/button/label')}
+                  </button>
+                </Link>
+              )}
+            </>
           )}
-          {t.elements('marketing/claim', {
-            claimLink: (
-              <Link route='claim' key='claim' passHref>
-                <Editorial.A>{t('marketing/claim/link')}</Editorial.A>
-              </Link>
-            )
-          })}
         </div>
+        {!inNativeApp && (
+          <div {...sharedStyles.signIn} {...sharedStyles.links}>
+            {!meGuidance && (
+              <Fragment>
+                {t.elements('marketing/signin', {
+                  link: (
+                    <Link key='link' route={'signin'} passHref>
+                      <Editorial.A>{t('marketing/signin/link')}</Editorial.A>
+                    </Link>
+                  )
+                })}
+                {' – '}
+              </Fragment>
+            )}
+            {t.elements('marketing/claim', {
+              claimLink: (
+                <Link route='claim' key='claim' passHref>
+                  <Editorial.A>{t('marketing/claim/link')}</Editorial.A>
+                </Link>
+              )
+            })}
+          </div>
+        )}
         {error && (
           <ErrorMessage error={error} style={{ textAlign: 'center' }} />
         )}
@@ -298,21 +332,33 @@ const MarketingPage = props => {
           für Respektlosigkeit gegenüber der Macht und Respekt vor dem Menschen.
         </Editorial.P>
 
-        <Interaction.H3 style={{ marginBottom: '17px' }}>
-          {t('marketing/offers/title')}
-        </Interaction.H3>
-        <Accordion
-          crowdfundingName={CROWDFUNDING}
-          filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']}
-        />
+        {!inNativeIOSApp && (
+          <>
+            <Interaction.H3 style={{ marginBottom: '17px' }}>
+              {t('marketing/offers/title')}
+            </Interaction.H3>
+            <Accordion
+              crowdfundingName={CROWDFUNDING}
+              filter={['ABO', 'BENEFACTOR', 'MONTHLY_ABO']}
+            />
 
-        <div {...sharedStyles.spacer} />
+            <div {...sharedStyles.spacer} />
+          </>
+        )}
         <Interaction.H3>{t('marketing/trial/title')}</Interaction.H3>
         <TrialForm
           accessCampaignId={TRIAL_CAMPAIGN}
-          beforeRequestAccess={() =>
-            Router.replaceRoute('index', { stale: 'marketing' })
-          }
+          beforeSignIn={() => {
+            // use native router for shadow routing
+            NativeRouter.push(
+              {
+                pathname: '/',
+                query: { stale: 'marketing' }
+              },
+              router.asPath,
+              { shallow: true }
+            )
+          }}
           narrow
         />
 
@@ -349,28 +395,30 @@ const MarketingPage = props => {
           geht.
         </Editorial.P>
 
-        <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
-          <div>
-            <Link route="pledge">
-              <button {...buttonStyles.primary}>
-                {t('marketing/join/button/label')}
-              </button>
-            </Link>
+        {!inNativeIOSApp && (
+          <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
+            <div>
+              <Link route='pledge'>
+                <button {...buttonStyles.primary}>
+                  {t('marketing/join/button/label')}
+                </button>
+              </Link>
+            </div>
+            {hasActiveMembershipOrAccessGrant ? (
+              <Link route='index'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/magazine/button/label')}
+                </button>
+              </Link>
+            ) : (
+              <Link route='trial'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/trial/button/label')}
+                </button>
+              </Link>
+            )}
           </div>
-          {hasActiveMembershipOrAccessGrant ? (
-            <Link route="index">
-              <button {...buttonStyles.standard}>
-                {t('marketing/magazine/button/label')}
-              </button>
-            </Link>
-          ) : (
-            <Link route="trial">
-              <button {...buttonStyles.standard}>
-                {t('marketing/trial/button/label')}
-              </button>
-            </Link>
-          )}
-        </div>
+        )}
 
         <Editorial.Subhead {...styles.h2}>
           Ohne Journalismus keine Demokratie
@@ -414,40 +462,56 @@ const MarketingPage = props => {
           </Fragment>
         )}
 
-        <Editorial.P>
-          Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig
-          Besitzerin des Unternehmens. Sie sind Mitglied der Project R
-          Genossenschaft, die das grösste Aktienpaket an der Republik hält. Sie
-          wollen nicht Teil einer Genossenschaft sein, sondern ausschliesslich
-          Zugriff auf das Magazin haben? Dann schlagen wir Ihnen den Kauf eines
-          Monatsabos vor.
-        </Editorial.P>
+        {inNativeIOSApp ? (
+          <>
+            <div {...sharedStyles.spacer} />
+            <Link route='trial'>
+              <button {...buttonStyles.standard}>
+                {t('marketing/trial/button/label')}
+              </button>
+            </Link>
+            <div {...sharedStyles.spacer} />
+          </>
+        ) : (
+          <Editorial.P>
+            Sobald Sie eine Mitgliedschaft kaufen, werden Sie ein klein wenig
+            Besitzerin des Unternehmens. Sie sind Mitglied der Project R
+            Genossenschaft, die das grösste Aktienpaket an der Republik hält.
+            Sie wollen nicht Teil einer Genossenschaft sein, sondern
+            ausschliesslich Zugriff auf das Magazin haben? Dann schlagen wir
+            Ihnen den Kauf eines Monatsabos vor.
+          </Editorial.P>
+        )}
       </Container>
-      <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-        <div {...sharedStyles.spacer} />
+      {!inNativeIOSApp && (
+        <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+          <div {...sharedStyles.spacer} />
 
-        <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
-          <div>
-            <Link route="pledge" params={{ package: 'ABO' }}>
-              <button {...buttonStyles.primary}>
-                {t('marketing/join/ABO/button/label')}
+          <div {...sharedStyles.actions} style={{ marginTop: 0 }}>
+            <div>
+              <Link route='pledge' params={{ package: 'ABO' }}>
+                <button {...buttonStyles.primary}>
+                  {t('marketing/join/ABO/button/label')}
+                </button>
+              </Link>
+            </div>
+            <Link route='pledge' params={{ package: 'MONTHLY_ABO' }}>
+              <button {...buttonStyles.standard}>
+                {t('marketing/monthly/button/label')}
               </button>
             </Link>
           </div>
-          <Link route="pledge" params={{ package: 'MONTHLY_ABO' }}>
-            <button {...buttonStyles.standard}>
-              {t('marketing/monthly/button/label')}
-            </button>
-          </Link>
-        </div>
 
-        <div {...sharedStyles.spacer} />
-      </Container>
+          <div {...sharedStyles.spacer} />
+        </Container>
+      )}
     </Fragment>
   )
 }
 
 export default compose(
   withT,
+  withInNativeApp,
+  withRouter,
   graphql(query)
 )(MarketingPage)

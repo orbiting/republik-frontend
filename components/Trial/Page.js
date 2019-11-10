@@ -40,9 +40,14 @@ const getTranslationKey = (name, { isAuthorized, hasAccess, campaign }) => {
 }
 
 const Page = props => {
-  const { trialEligibility, me, router, t } = props
+  const {
+    trialEligibility,
+    me,
+    router: { query },
+    t
+  } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
-  const { campaign } = router.query
+  const campaign = query.campaign || query.utm_campaign
 
   const until = viaActiveMembership.until || viaAccessGrant.until
   const isAuthorized = !!me

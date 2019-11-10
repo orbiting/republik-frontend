@@ -11,7 +11,7 @@ import SeriesNavButton from './SeriesNavButton'
 import PdfOverlay, { getPdfUrl, countImages } from './PdfOverlay'
 import Extract from './Extract'
 import withT from '../../lib/withT'
-import { PayNote, MAX_PAYNOTE_SEED } from './PayNote'
+import { PayNote, MAX_PAYNOTE_SEED, TRY_TO_BUY_RATIO } from './PayNote'
 import withInNativeApp, { postMessage } from '../../lib/withInNativeApp'
 import { cleanAsPath } from '../../lib/routes'
 import { createRequire } from '@project-r/styleguide/lib/components/DynamicComponent'
@@ -512,6 +512,7 @@ class ArticlePage extends Component {
       isEditor,
       inNativeApp,
       payNoteSeed,
+      payNoteTrial,
       hasActiveMembership
     } = this.props
 
@@ -596,6 +597,7 @@ class ArticlePage extends Component {
     const payNote = !hasActiveMembership && (
       <PayNote
         seed={payNoteSeed}
+        trial={payNoteTrial}
         documentId={documentId}
         repoId={repoId}
         series={series}
@@ -797,6 +799,7 @@ const ComposedPage = compose(
 
 ComposedPage.getInitialProps = () => {
   return {
+    payNoteTrial: Math.random() > TRY_TO_BUY_RATIO,
     payNoteSeed: getRandomInt(MAX_PAYNOTE_SEED)
   }
 }

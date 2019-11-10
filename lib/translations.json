@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-08T18:09:05.379Z",
+  "updated": "2019-11-10T23:22:31.813Z",
   "title": "live",
   "data": [
     {
@@ -5219,22 +5219,6 @@
       "value": "Ihr Konto unter {email} hat bereits bis zum {until} Zugriff auf alle unsere Inhalte."
     },
     {
-      "key": "Trial/Page/authorized/withoutAccess/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/authorized/withoutAccess/intro",
-      "value": "Sie haben kein Abonnement oder Mitgliedschaft. Gerne laden wir Sie auf einen Streifzug durch die Republik ein."
-    },
-    {
-      "key": "Trial/Page/unauthorized/heading",
-      "value": "Danke für Ihre Neugier!"
-    },
-    {
-      "key": "Trial/Page/unauthorized/intro",
-      "value": "Bitte tragen Sie unten Ihre E-Mail-Adresse ein. Im Gegenzug laden wir Sie auf einen Streifzug durch die Republik ein."
-    },
-    {
       "key": "Trial/Form/email/error/empty",
       "value": "E-Mail-Adresse fehlt"
     },
@@ -6295,11 +6279,19 @@
       "value": "Sie haben alle auf Ihre Präferenzen Passenden durchgeswipt."
     },
     {
-      "key": "article/tryNote/thankYou/title",
+      "key": "article/tryNote/thankYou/before/title",
       "value": "Herzlich willkommen!"
     },
     {
-      "key": "article/tryNote/thankYou",
+      "key": "article/tryNote/thankYou/before",
+      "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
+    },
+    {
+      "key": "article/tryNote/thankYou/after/title",
+      "value": "Herzlich willkommen!"
+    },
+    {
+      "key": "article/tryNote/thankYou/after",
       "value": "Sie können sich in den kommenden Tagen ohne Einschränkung bei uns umsehen. Das Logo führt Sie jetzt jederzeit zur Frontseite zurück, und über das Ausklappmenü kommen Sie zu Ihrem Konto und Ihrem Einrichtungsassistenten."
     },
     {
@@ -6327,11 +6319,11 @@
       "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-www/before/title",
+      "key": "article/tryNote/191106-v2-campaign-wseww/before/title",
       "value": "Wollen Sie es wirklich wissen? Dann testen Sie die Republik einfach 14 Tage lang gratis und unverbindlich."
     },
     {
-      "key": "article/tryNote/191106-v2-campaign-www/after/title",
+      "key": "article/tryNote/191106-v2-campaign-wseww/after/title",
       "value": "Sie wissen immer noch nicht, ob die Republik auch etwas für Sie ist? Dann testen Sie uns. Für 14 Tage, gratis und unverbindlich."
     },
     {
@@ -6425,6 +6417,38 @@
     {
       "key": "article/payNote/191108-v2/after/buy/button",
       "value": "Ich bin an Bord."
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/intro",
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Artikel, alle Podcasts, alle Diskussionen - auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Abonnenten."
+    },
+    {
+      "key": "Trial/Page/unauthorized/heading",
+      "value": "Danke für Ihre Neugier!"
+    },
+    {
+      "key": "Trial/Page/unauthorized/intro",
+      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Artikel, alle Podcasts, alle Diskussionen - auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Abonnenten."
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/wseww/heading",
+      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
+    },
+    {
+      "key": "Trial/Page/authorized/withoutAccess/wseww/intro",
+      "value": "Vierzehn Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. Vierzehn Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Abonnentinnen."
+    },
+    {
+      "key": "Trial/Page/unauthorized/wseww/heading",
+      "value": "Sie wissen noch nicht, ob Sie es wirklich wissen wollen? Dann testen Sie uns!"
+    },
+    {
+      "key": "Trial/Page/unauthorized/wseww/intro",
+      "value": "Vierzehn Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. Vierzehn Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Abonnentinnen."
     }
   ]
 }

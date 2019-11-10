@@ -11,7 +11,7 @@ const styles = {
     position: 'relative',
     textAlign: 'center',
     margin: '0 auto',
-    width: 200,
+    width: 220,
     height: 300,
     boxShadow: '0px 10px 28px -6px rgba(0,0,0,0.75)',
     '& .hole': {
@@ -44,7 +44,7 @@ const styles = {
   }),
   titleContainer: css({
     position: 'absolute',
-    top: 22,
+    top: 15,
     left: 35,
     right: 35,
     height: 240,
@@ -70,12 +70,11 @@ const styles = {
     ...fontStyles.sansSerifRegular12,
     fontWeight: 'bold',
     position: 'absolute',
-    bottom: 20,
-    left: 40,
-    right: 40,
+    bottom: 30,
+    left: 30,
+    right: 30,
     [mediaQueries.mUp]: {
       ...fontStyles.sansSerifMedium15,
-      bottom: 40,
       lineHeight: 1.25
     }
   })

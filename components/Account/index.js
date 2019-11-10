@@ -23,6 +23,7 @@ import ProgressSettings from './ProgressSettings'
 import PledgeList from './PledgeList'
 import Onboarding from './Onboarding'
 import SignIn from '../Auth/SignIn'
+import withMembership from '../Auth/withMembership'
 import Box from '../Frame/Box'
 
 import { H1, Interaction, mediaQueries } from '@project-r/styleguide'
@@ -84,7 +85,8 @@ class Account extends Component {
       recurringAmount,
       hasPledges,
       merci,
-      inNativeIOSApp
+      inNativeIOSApp,
+      isMember
     } = this.props
 
     return (
@@ -126,7 +128,7 @@ class Account extends Component {
                     </Box>
                   )}
 
-                  {hasActiveMemberships && (
+                  {isMember && (
                     <AccountAnchor id='onboarding'>
                       <Onboarding />
                     </AccountAnchor>
@@ -199,6 +201,7 @@ export default compose(
   withMe,
   withT,
   withInNativeApp,
+  withMembership,
   graphql(query, {
     props: ({ data }) => {
       const isReady = !data.loading && !data.error && data.me

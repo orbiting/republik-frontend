@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-10T23:44:30.322Z",
+  "updated": "2019-11-10T23:50:43.670Z",
   "title": "live",
   "data": [
     {
@@ -421,10 +421,6 @@
     {
       "key": "marketing/offers/claim",
       "value": "Gutschein einlösen"
-    },
-    {
-      "key": "marketing/overview/title",
-      "value": "Die Republik ist ein digitales Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     },
     {
       "key": "marketing/overview/more",
@@ -6465,6 +6461,10 @@
     {
       "key": "marketing/lead/p3",
       "value": "Wir stehen für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
+    },
+    {
+      "key": "marketing/overview/title",
+      "value": "Das digitale Magazin für Politik, Wirtschaft, Gesellschaft und Kultur. Finanziert von seinen Leserinnen."
     }
   ]
 }

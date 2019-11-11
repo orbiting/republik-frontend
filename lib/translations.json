@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-11T09:33:32.787Z",
+  "updated": "2019-11-11T10:12:42.292Z",
   "title": "live",
   "data": [
     {
@@ -6356,11 +6356,11 @@
     },
     {
       "key": "marketing/vbz/poster/hint",
-      "value": "Republik entdecken: Lesen Sie jetzt neun ausgewählte Beiträge kostenlos."
+      "value": "Die Republik entdecken: Lesen Sie jetzt 9 ausgewählte Beiträge kostenlos."
     },
     {
       "key": "marketing/vbz/overlay/title",
-      "value": "Neun ausgewählte Beiträge für Sie"
+      "value": "9 ausgewählte Beiträge für Sie"
     },
     {
       "key": "marketing/vbz/overlay/footnote",
@@ -6372,7 +6372,7 @@
     },
     {
       "key": "article/payNote/191108-v1/before",
-      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse in der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
+      "value": "Unser digitales Magazin arbeitet unabhängig: keine Werbung, keine Klick-Wirtschaft, keine Kompromisse bei der Qualität. Dafür brauchen wir Sie als Abonnentin oder Mitglied!"
     },
     {
       "key": "article/payNote/191108-v1/before/buy/button",
@@ -6388,7 +6388,7 @@
     },
     {
       "key": "article/payNote/191108-v1/after/buy/button",
-      "value": "Ja - ich bin dabei!"
+      "value": "Ja – ich bin dabei!"
     },
     {
       "key": "article/payNote/191108-v2/before/title",
@@ -6396,7 +6396,7 @@
     },
     {
       "key": "article/payNote/191108-v2/before",
-      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur, und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
+      "value": "Ein digitales Magazin für Politik, Gesellschaft, Wirtschaft, Kultur – und ein Projekt gegen die Wahrscheinlichkeit: Wir wollen im winzigen Schweizer Markt ausschliesslich von unseren Leserinnen finanziert sein. Wollen Sie Teil dieses Abenteuers sein?"
     },
     {
       "key": "article/payNote/191108-v2/before/buy/button",
@@ -6404,7 +6404,7 @@
     },
     {
       "key": "article/payNote/191108-v2/after/title",
-      "value": "Sie haben in diesem Artikel viele Worte gelesen aber die wichtigsten drei fehlten."
+      "value": "Sie haben in diesem Artikel viele Worte gelesen, aber die wichtigsten drei fehlten."
     },
     {
       "key": "article/payNote/191108-v2/after",
@@ -6420,7 +6420,7 @@
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/intro",
-      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Artikel, alle Podcasts, alle Diskussionen - auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie die Republik 14 Tage lang testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/unauthorized/heading",
@@ -6428,7 +6428,7 @@
     },
     {
       "key": "Trial/Page/unauthorized/intro",
-      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Artikel, alle Podcasts, alle Diskussionen - auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "Hier können Sie Ihre E-Mail-Adresse eintragen, um die Republik 14 Tage lang zu testen. Alle Artikel, alle Podcasts, alle Diskussionen – auf der Website und in der App. Gratis, unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/wseww/heading",
@@ -6436,7 +6436,7 @@
     },
     {
       "key": "Trial/Page/authorized/withoutAccess/wseww/intro",
-      "value": "Vierzehn Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. Vierzehn Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "Trial/Page/unauthorized/wseww/heading",
@@ -6444,7 +6444,7 @@
     },
     {
       "key": "Trial/Page/unauthorized/wseww/intro",
-      "value": "Vierzehn Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. Vierzehn Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
+      "value": "14 Tage lang gratis das Wesentliche aus Politik, Wirtschaft, Gesellschaft und Kultur. 14 Tage lang kompromisslose Analysen, Reportagen und Interviews. Digital geliefert an den Leseplatz Ihrer Wahl – unverbindlich und ohne Werbung, finanziert von unseren Leserinnen."
     },
     {
       "key": "marketing/lead/title",
@@ -6460,7 +6460,7 @@
     },
     {
       "key": "marketing/lead/p3",
-      "value": "Die Republik  steht für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
+      "value": "Die Republik steht für Treue zu Fakten, für Offenheit gegenüber Kritik, für Respektlosigkeit gegenüber der Macht und Respekt vor den Menschen."
     },
     {
       "key": "marketing/overview/title",

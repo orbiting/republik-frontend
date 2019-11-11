@@ -84,6 +84,7 @@ const Form = props => {
   const [serverError, setServerError] = useState('')
   const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)
+  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
@@ -169,9 +170,15 @@ const Form = props => {
 
   const onSuccessSwitchBoard = () => {
     setSigningIn(false)
+    setSuccess(true)
   }
 
-  if (viaActiveMembership.until || viaAccessGrant.until || isMember) {
+  if (
+    success ||
+    viaActiveMembership.until ||
+    viaAccessGrant.until ||
+    isMember
+  ) {
     return (
       <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
         <Button primary onClick={() => Router.pushRoute('index')}>

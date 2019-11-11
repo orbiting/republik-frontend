@@ -11,11 +11,11 @@ import { getSmallImgSrc } from './utils'
 
 const SIZES = [
   { minWidth: 0, columns: 3 },
-  { minWidth: 330, columns: 4 },
-  { minWidth: 450, columns: 5 },
-  { minWidth: 570, columns: 6 },
-  { minWidth: 690, columns: 7 },
-  { minWidth: 810, columns: 8 }
+  { minWidth: 330, columns: 3 },
+  { minWidth: 450, columns: 3 },
+  { minWidth: 570, columns: 4 },
+  { minWidth: 690, columns: 5 },
+  { minWidth: 810, columns: 6 }
 ]
 
 export const GAP = 10

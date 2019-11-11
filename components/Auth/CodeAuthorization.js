@@ -191,13 +191,16 @@ class CodeAuthorization extends Component {
                 black={minimal && !darkMode}
                 white={minimal && darkMode}
                 icon={
-                  minimal && (
+                  minimal &&
+                  (loading ? (
+                    <InlineSpinner size='30px' />
+                  ) : (
                     <MdDone
                       style={{ cursor: 'pointer' }}
                       size={30}
                       onClick={onSubmit}
                     />
-                  )
+                  ))
                 }
                 onChange={(_, value, shouldValidate) => {
                   this.setState(

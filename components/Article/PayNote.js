@@ -69,21 +69,15 @@ const memberShipQuery = gql`
   }
 `
 
-const TRY_TO_BUY_RATIO = 0.5
+export const TRY_TO_BUY_RATIO = 0.5
 
 const TRY_VARIATIONS = ['191106-v1', '191106-v2', '191106-v3', '191106-v4']
+// make sure to include in MAX_PAYNOTE_SEED if you add one with more
+const TRY_VARIATIONS_CAMPAIGN = {
+  wseww: ['191106-v1', '191106-v2-campaign-wseww', '191106-v3', '191106-v4']
+}
 
-const BUY_VARIATIONS = [
-  '190305-v1',
-  '190305-v2',
-  '190305-v3',
-  '190305-v4',
-  '190305-v5',
-  '190305-v6',
-  '190305-v7',
-  '190305-v8',
-  '190305-v9'
-]
+const BUY_VARIATIONS = ['191108-v1', '191108-v2']
 
 const BUY_SERIES = 'series'
 
@@ -94,18 +88,19 @@ export const MAX_PAYNOTE_SEED = Math.max(
 
 const goTo = route => Router.pushRoute(route).then(() => window.scrollTo(0, 0))
 
-const getTryVariation = (seed, isThankYou) => {
-  const variation = getElementFromSeed(TRY_VARIATIONS, seed)
+const getTryVariation = (seed, { query }) => {
+  const variations =
+    TRY_VARIATIONS_CAMPAIGN[query.campaign || query.utm_campaign] ||
+    TRY_VARIATIONS
+  const variation = getElementFromSeed(variations, seed)
   return {
     keyShort: variation,
-    key: isThankYou
-      ? 'article/tryNote/thankYou'
-      : `article/tryNote/${variation}`,
+    key: `article/tryNote/${variation}`,
     cta: 'try'
   }
 }
 
-const getBuyVariation = (seed, isSeries) => {
+const getBuyVariation = (seed, { isSeries }) => {
   const variation = isSeries
     ? BUY_SERIES
     : getElementFromSeed(BUY_VARIATIONS, seed)
@@ -116,23 +111,29 @@ const getBuyVariation = (seed, isSeries) => {
   }
 }
 
-const showTry = seed => seed / MAX_PAYNOTE_SEED < TRY_TO_BUY_RATIO
-
-const getPayNoteVariation = (
+const getPayNoteVariation = ({
   inNativeIOSApp,
   isTrialThankYou,
   isEligibleForTrial,
   isSeries,
-  seed
-) => {
+  seed,
+  trial,
+  query
+}) => {
   if (inNativeIOSApp) {
     return {
       key: 'article/payNote/ios'
     }
   }
-  return isTrialThankYou || (isEligibleForTrial && showTry(seed))
-    ? getTryVariation(seed, isTrialThankYou)
-    : getBuyVariation(seed, isSeries)
+  if (query.trialSignup && !isEligibleForTrial) {
+    return {
+      key: 'article/tryNote/thankYou',
+      cta: 'try'
+    }
+  }
+  return isEligibleForTrial && trial
+    ? getTryVariation(seed, { query })
+    : getBuyVariation(seed, { query, isSeries })
 }
 
 const Translation = compose(
@@ -211,7 +212,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
         NativeRouter.push(
           {
             pathname: '/article',
-            query: { trialSignup: 1 }
+            query: { ...router.query, trialSignup: 1 }
           },
           router.asPath,
           { shallow: true }
@@ -246,36 +247,32 @@ export const PayNote = compose(
   withMemberStatus
 )(
   ({
-    router,
+    router: { query },
     inNativeIOSApp,
     isEligibleForTrial,
     seed,
+    trial,
     documentId,
     repoId,
     series,
     position
   }) => {
-    const isTrialThankYou = !isEligibleForTrial && router.query.trialSignup
-    const variation = getPayNoteVariation(
+    const variation = getPayNoteVariation({
       inNativeIOSApp,
-      isTrialThankYou,
       isEligibleForTrial,
       series,
-      seed
-    )
+      trial,
+      seed,
+      query
+    })
     const lead = (
       <Translation
         baseKey={variation.key}
-        position={!isTrialThankYou && position}
+        position={position}
         element='title'
       />
     )
-    const body = (
-      <Translation
-        baseKey={variation.key}
-        position={!isTrialThankYou && position}
-      />
-    )
+    const body = <Translation baseKey={variation.key} position={position} />
     const payload = {
       documentId,
       repoId,

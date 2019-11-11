@@ -9,6 +9,7 @@ import { format } from 'url'
 import withTrialEligibility from './withTrialEligibility'
 import ErrorMessage from '../ErrorMessage'
 import { withSignIn } from '../Auth/SignIn'
+import withMembership from '../Auth/withMembership'
 import SwitchBoard from '../Auth/SwitchBoard'
 import Consents, { getConsentsError } from '../Pledge/Consents'
 import { Router } from '../../lib/routes'
@@ -23,6 +24,8 @@ import {
   colors,
   mediaQueries
 } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
+import { getUtmParams } from '../../lib/utils/url'
 
 const styles = {
   errorMessages: css({
@@ -60,11 +63,12 @@ const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 const Form = props => {
   const {
     payload,
-    beforeRequestAccess,
+    router: { query },
     beforeSignIn,
     onSuccess,
     narrow,
     trialEligibility,
+    isMember,
     me,
     meRefetch,
     t,
@@ -73,28 +77,14 @@ const Form = props => {
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
-  if (viaActiveMembership.until || viaAccessGrant.until) {
-    return (
-      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
-        <Button primary onClick={() => Router.pushRoute('index')}>
-          {t('Trial/Form/authorized/withAccess/button/label')}
-        </Button>
-        <Button
-          white={minimal && darkMode}
-          secondary={minimal && !darkMode}
-          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
-        >
-          {t('Trial/Form/authorized/withAccess/setup/label')}
-        </Button>
-      </div>
-    )
-  }
+  const utmParams = getUtmParams(query)
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
   const [serverError, setServerError] = useState('')
   const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)
+  const [showButtons, setShowButtons] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
@@ -148,22 +138,23 @@ const Form = props => {
 
     setSigningIn(false)
 
-    beforeRequestAccess && beforeRequestAccess()
-
-    props
-      .requestAccess({ payload })
-      .then(() => {
-        const shouldRedirect = onSuccess ? onSuccess() : true
-        if (shouldRedirect) {
-          window.location = format({
-            pathname: `/einrichten`,
-            query: { context: 'trial' }
-          })
-        } else {
-          meRefetch()
-        }
-      })
-      .catch(catchError)
+    if (!isMember) {
+      props
+        .requestAccess({ payload: { ...payload, ...utmParams } })
+        .then(() => {
+          const shouldRedirect = onSuccess ? onSuccess() : true
+          if (shouldRedirect) {
+            window.location = format({
+              pathname: `/einrichten`,
+              query: { context: 'trial' }
+            })
+          } else {
+            minimal && setShowButtons(true)
+            meRefetch()
+          }
+        })
+        .catch(catchError)
+    }
   }
 
   const catchError = error => {
@@ -182,6 +173,28 @@ const Form = props => {
     setSigningIn(false)
   }
 
+  if (
+    showButtons ||
+    viaActiveMembership.until ||
+    viaAccessGrant.until ||
+    isMember
+  ) {
+    return (
+      <div {...styles.buttonRow} style={narrow ? { marginTop: 20 } : undefined}>
+        <Button primary onClick={() => Router.pushRoute('index')}>
+          {t('Trial/Form/authorized/withAccess/button/label')}
+        </Button>
+        <Button
+          white={minimal && darkMode}
+          secondary={minimal && !darkMode}
+          onClick={() => Router.pushRoute('onboarding', { context: 'trial' })}
+        >
+          {t('Trial/Form/authorized/withAccess/setup/label')}
+        </Button>
+      </div>
+    )
+  }
+
   const consentErrors = getConsentsError(t, REQUIRED_CONSENTS, consents)
 
   const errorMessages = [email.error].concat(consentErrors).filter(Boolean)
@@ -198,6 +211,8 @@ const Form = props => {
               }}
             >
               <Field
+                name='email'
+                type='email'
                 black={minimal && !darkMode}
                 white={minimal && darkMode}
                 label={t('Trial/Form/email/label')}
@@ -206,13 +221,16 @@ const Form = props => {
                 dirty={email.dirty}
                 disabled={signingIn}
                 icon={
-                  minimal && (
+                  minimal &&
+                  (loading ? (
+                    <InlineSpinner size='30px' />
+                  ) : (
                     <MdArrowForward
                       style={{ cursor: 'pointer' }}
                       size={30}
                       onClick={requestAccess}
                     />
-                  )
+                  ))
                 }
                 onChange={(_, value, shouldValidate) =>
                   handleEmail(value, shouldValidate)
@@ -294,7 +312,7 @@ const Form = props => {
 
 Form.propTypes = {
   accessCampaignId: PropTypes.string.isRequired,
-  beforeRequestAccess: PropTypes.func,
+  beforeSignIn: PropTypes.func,
   narrow: PropTypes.bool
 }
 
@@ -318,8 +336,10 @@ const withRequestAccess = graphql(REQUEST_ACCESS, {
 
 export default compose(
   withTrialEligibility,
+  withMembership,
   withRequestAccess,
   withSignIn,
+  withRouter,
   withMe,
   withT
 )(Form)

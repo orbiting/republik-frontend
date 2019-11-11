@@ -214,7 +214,9 @@ const Form = props => {
                 dirty={email.dirty}
                 disabled={signingIn}
                 icon={
-                  minimal && (
+                  minimal && loading ? (
+                    <InlineSpinner size='30px' />
+                  ) : (
                     <MdArrowForward
                       style={{ cursor: 'pointer' }}
                       size={30}

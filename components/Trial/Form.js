@@ -84,7 +84,7 @@ const Form = props => {
   const [serverError, setServerError] = useState('')
   const [phrase, setPhrase] = useState('')
   const [signingIn, setSigningIn] = useState(false)
-  const [success, setSuccess] = useState(false)
+  const [showButtons, setShowButtons] = useState(false)
   const [loading, setLoading] = useState(false)
   const [tokenType, setTokenType] = useState('EMAIL_CODE')
   const [showErrors, setShowErrors] = useState(false)
@@ -170,11 +170,11 @@ const Form = props => {
 
   const onSuccessSwitchBoard = () => {
     setSigningIn(false)
-    setSuccess(true)
+    minimal && setShowButtons(true)
   }
 
   if (
-    success ||
+    showButtons ||
     viaActiveMembership.until ||
     viaAccessGrant.until ||
     isMember
@@ -221,7 +221,8 @@ const Form = props => {
                 dirty={email.dirty}
                 disabled={signingIn}
                 icon={
-                  minimal && loading ? (
+                  minimal &&
+                  (loading ? (
                     <InlineSpinner size='30px' />
                   ) : (
                     <MdArrowForward
@@ -229,7 +230,7 @@ const Form = props => {
                       size={30}
                       onClick={requestAccess}
                     />
-                  )
+                  ))
                 }
                 onChange={(_, value, shouldValidate) =>
                   handleEmail(value, shouldValidate)

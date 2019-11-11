@@ -28,6 +28,8 @@ const styles = {
   }),
   article: css({
     ...fontStyles.serifTitle20,
+    display: 'block',
+    textDecoration: 'none',
     background: colors.negative.primaryBg,
     color: colors.negative.text,
     padding: 20,
@@ -42,10 +44,6 @@ const styles = {
       ...fontStyles.serifTitle22,
       padding: '30px 20px'
     }
-  }),
-  link: css({
-    color: colors.negative.text,
-    textDecoration: 'none'
   }),
   footer: css({
     color: colors.negative.text,
@@ -129,8 +127,9 @@ export default compose(
                 query: getUtmParams(query, { utm_campaign: 'wseww' })
               }}
               key={index}
+              passHref
             >
-              <div {...styles.article}>{article.headline}</div>
+              <a {...styles.article}>{article.headline}</a>
             </Link>
           )
         })}

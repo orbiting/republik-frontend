@@ -24,6 +24,7 @@ import {
   colors,
   mediaQueries
 } from '@project-r/styleguide'
+import { withRouter } from 'next/router'
 
 const styles = {
   errorMessages: css({
@@ -61,6 +62,7 @@ const REQUIRED_CONSENTS = ['PRIVACY', 'TOS']
 const Form = props => {
   const {
     payload,
+    router: { query },
     beforeSignIn,
     onSuccess,
     narrow,
@@ -73,6 +75,10 @@ const Form = props => {
     darkMode
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
+
+  const utmParams = Object.keys(query)
+    .filter(key => key.startsWith('utm_'))
+    .reduce((acc, key) => Object.assign(acc, { [key]: query[key] }), {})
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })
@@ -134,7 +140,7 @@ const Form = props => {
 
     if (!isMember) {
       props
-        .requestAccess({ payload })
+        .requestAccess({ payload: { ...payload, ...utmParams } })
         .then(() => {
           const shouldRedirect = onSuccess ? onSuccess() : true
           if (shouldRedirect) {
@@ -324,6 +330,7 @@ export default compose(
   withMembership,
   withRequestAccess,
   withSignIn,
+  withRouter,
   withMe,
   withT
 )(Form)

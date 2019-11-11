@@ -212,7 +212,7 @@ const TryNoteCta = compose(withRouter)(({ router, darkMode, payload }) => {
         NativeRouter.push(
           {
             pathname: '/article',
-            query: { trialSignup: 1 }
+            query: { ...router.query, trialSignup: 1 }
           },
           router.asPath,
           { shallow: true }

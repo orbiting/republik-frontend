@@ -25,6 +25,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import { withRouter } from 'next/router'
+import { getUtmParams } from '../../lib/utils/url'
 
 const styles = {
   errorMessages: css({
@@ -76,9 +77,7 @@ const Form = props => {
   } = props
   const { viaActiveMembership, viaAccessGrant } = trialEligibility
 
-  const utmParams = Object.keys(query)
-    .filter(key => key.startsWith('utm_'))
-    .reduce((acc, key) => Object.assign(acc, { [key]: query[key] }), {})
+  const utmParams = getUtmParams(query)
 
   const [consents, setConsents] = useState([])
   const [email, setEmail] = useState({ value: '' })

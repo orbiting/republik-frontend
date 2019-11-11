@@ -9,12 +9,15 @@ import {
   OverlayToolbarConfirm,
   colors,
   mediaQueries,
-  A,
   fontStyles
 } from '@project-r/styleguide'
 import MdClose from 'react-icons/lib/md/close'
 import { css } from 'glamor'
 import withT from '../../lib/withT'
+import Link from 'next/link'
+import { compose } from 'react-apollo'
+import { withRouter } from 'next/router'
+import { getUtmParams } from '../../lib/utils/url'
 
 const styles = {
   articleContainer: css({
@@ -53,53 +56,58 @@ const articles = [
   {
     headline:
       'Was China mit seinen 60 Milliarden in der Schweiz schon so alles gekauft hat.',
-    url: 'https://www.republik.ch/2019/09/16/das-china-dilemma'
+    path: '/2019/09/16/das-china-dilemma'
   },
   {
     headline:
       'Schwirrt der Kopf bei Quantenphysik? Gut, dann gehen wir jetzt einen Schritt weiter.',
-    url: 'https://www.republik.ch/2019/09/07/die-physiker'
+    path: '/2019/09/07/die-physiker'
   },
   {
     headline:
       'Google-Software im Klassenzimmer: Totalüberwachung von Minderjährigen?',
-    url: 'https://www.republik.ch/2019/07/02/der-spion-im-schulzimmer'
+    path: '/2019/07/02/der-spion-im-schulzimmer'
   },
   {
     headline: 'Grossbritannien: We have not even begun to fuck ourselves.',
-    url: 'https://www.republik.ch/2019/10/05/die-schlacht-um-england'
+    path: '/2019/10/05/die-schlacht-um-england'
   },
   {
     headline:
       'Keine kommende Katastrophe wurde je so gründlich untersucht wie die Klimaerwärmung. Und keine wurde so gründlich ignoriert. Wieso?',
-    url: 'https://www.republik.ch/2019/08/24/die-grosse-ueberforderung'
+    path: '/2019/08/24/die-grosse-ueberforderung'
   },
   {
     headline:
       'Neu im Nationalrat? Für wen lobbyieren Sie – und was ist Ihr Preis?',
-    url: 'https://www.republik.ch/2019/10/02/interessen-vertreten'
+    path: '/2019/10/02/interessen-vertreten'
   },
   {
     headline: 'Hat Facebook Sie schon radikalisiert?',
-    url:
-      'https://www.republik.ch/2019/10/03/die-infrastruktur-des-netzes-spielt-den-extremisten-in-die-haende'
+    path:
+      '/2019/10/03/die-infrastruktur-des-netzes-spielt-den-extremisten-in-die-haende'
   },
   {
     headline:
       'Deutschlands Autobauer haben die E-Mobilität lange ignoriert, jetzt kommt die Retourkutsche.',
-    url: 'https://www.republik.ch/2019/09/20/die-retourkutsche'
+    path: '/2019/09/20/die-retourkutsche'
   },
   {
     headline: 'Die Swisscom braucht dringend ein Näxt Big Sing.',
-    url: 'https://www.republik.ch/2019/08/15/se-naext-big-sing'
+    path: '/2019/08/15/se-naext-big-sing'
   }
 ]
 
-export default withT(({ t, onClose }) => {
+export default compose(
+  withT,
+  withRouter
+)(({ t, router: { query }, onClose }) => {
   return (
     <Overlay onClose={onClose} mUpStyle={{ maxWidth: 600, minHeight: 'none' }}>
       <OverlayToolbar>
-        <Interaction.Emphasis style={{ padding: '15px 20px', fontSize: 16 }}>
+        <Interaction.Emphasis
+          style={{ padding: '15px 20px', fontSize: 16, color: colors.text }}
+        >
           {t('marketing/vbz/overlay/title')}
         </Interaction.Emphasis>
         <OverlayToolbarConfirm
@@ -115,9 +123,12 @@ export default withT(({ t, onClose }) => {
       >
         {articles.map((article, index) => {
           return (
-            <A href={article.url} key={index}>
+            <Link
+              href={{ pathname: article.path, query: getUtmParams(query) }}
+              key={index}
+            >
               <div {...styles.article}>{article.headline}</div>
-            </A>
+            </Link>
           )
         })}
         <div {...styles.footer}>

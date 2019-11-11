@@ -120,18 +120,18 @@ const getPayNoteVariation = ({
   trial,
   query
 }) => {
-  if (inNativeIOSApp) {
-    return {
-      key: 'article/payNote/ios'
-    }
-  }
   if (query.trialSignup && !isEligibleForTrial) {
     return {
       key: 'article/tryNote/thankYou',
       cta: 'try'
     }
   }
-  return isEligibleForTrial && trial
+  if (inNativeIOSApp && !isEligibleForTrial) {
+    return {
+      key: 'article/payNote/ios'
+    }
+  }
+  return isEligibleForTrial && (inNativeIOSApp || trial)
     ? getTryVariation(seed, { query })
     : getBuyVariation(seed, { query, isSeries })
 }

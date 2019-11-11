@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 import { css } from 'glamor'
 import {
   Container,
+  Button,
   RawHtml,
   Interaction,
   Editorial,
@@ -237,55 +238,30 @@ const MarketingPage = props => {
           </div>
         </div>
       )}
-      <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
-        <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
-          {inNativeApp && !meGuidance ? (
-            <>
-              <SignIn
-                email={router.query.email}
-                beforeForm={
-                  <Interaction.P>
-                    {t.elements('withMembership/ios/unauthorized/claimText', {
-                      claimLink: (
-                        <Link route='claim' key='claim' passHref>
-                          <Editorial.A>
-                            {t('withMembership/ios/unauthorized/claimLink')}
-                          </Editorial.A>
-                        </Link>
-                      )
-                    })}
-                  </Interaction.P>
-                }
-              />
-            </>
-          ) : (
-            <>
-              {!inNativeIOSApp && (
-                <div>
-                  <Link route='pledge' params={{ package: 'ABO' }}>
-                    <button {...buttonStyles.primary}>
-                      {t('marketing/join/ABO/button/label')}
-                    </button>
-                  </Link>
-                </div>
-              )}
-              {hasActiveMembershipOrAccessGrant ? (
-                <Link route='index'>
-                  <button {...buttonStyles.standard}>
-                    {t('marketing/magazine/button/label')}
-                  </button>
-                </Link>
-              ) : (
-                <Link route='trial'>
-                  <button {...buttonStyles.standard}>
-                    {t('marketing/trial/button/label')}
-                  </button>
-                </Link>
-              )}
-            </>
-          )}
-        </div>
-        {!inNativeApp && (
+      {!inNativeApp && (
+        <Container style={{ maxWidth: MEDIUM_MAX_WIDTH }}>
+          <div {...sharedStyles.actions} style={{ marginTop: 15 }}>
+            <div>
+              <Link route='pledge' params={{ package: 'ABO' }}>
+                <button {...buttonStyles.primary}>
+                  {t('marketing/join/ABO/button/label')}
+                </button>
+              </Link>
+            </div>
+            {hasActiveMembershipOrAccessGrant ? (
+              <Link route='index'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/magazine/button/label')}
+                </button>
+              </Link>
+            ) : (
+              <Link route='trial'>
+                <button {...buttonStyles.standard}>
+                  {t('marketing/trial/button/label')}
+                </button>
+              </Link>
+            )}
+          </div>
           <div {...sharedStyles.signIn} {...sharedStyles.links}>
             {!meGuidance && (
               <Fragment>
@@ -307,13 +283,54 @@ const MarketingPage = props => {
               )
             })}
           </div>
-        )}
-        {error && (
-          <ErrorMessage error={error} style={{ textAlign: 'center' }} />
-        )}
-      </Container>
+          {error && (
+            <ErrorMessage error={error} style={{ textAlign: 'center' }} />
+          )}
+        </Container>
+      )}
 
       <Container style={{ maxWidth: SMALL_MAX_WIDTH }}>
+        {inNativeApp && (
+          <>
+            <div style={{ marginTop: 30 }} />
+            {!meGuidance ? (
+              <SignIn
+                email={router.query.email}
+                beforeForm={
+                  <Interaction.P>
+                    {t.elements('withMembership/ios/unauthorized/claimText', {
+                      claimLink: (
+                        <Link route='claim' key='claim' passHref>
+                          <Editorial.A>
+                            {t('withMembership/ios/unauthorized/claimLink')}
+                          </Editorial.A>
+                        </Link>
+                      )
+                    })}
+                  </Interaction.P>
+                }
+              />
+            ) : hasActiveMembershipOrAccessGrant ? (
+              <Link route='index' passHref>
+                <Button primary>{t('marketing/magazine/button/label')}</Button>
+              </Link>
+            ) : (
+              t.elements('marketing/claim', {
+                claimLink: (
+                  <Link route='claim' key='claim' passHref>
+                    <Editorial.A>{t('marketing/claim/link')}</Editorial.A>
+                  </Link>
+                )
+              })
+            )}
+
+            {error && (
+              <ErrorMessage error={error} style={{ textAlign: 'center' }} />
+            )}
+            <div {...sharedStyles.spacer} />
+          </>
+        )}
+
         <Editorial.Subhead {...styles.h2}>
           {t('marketing/lead/title')}
         </Editorial.Subhead>

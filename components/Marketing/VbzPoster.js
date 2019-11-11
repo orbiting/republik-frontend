@@ -7,6 +7,7 @@ import withT from '../../lib/withT'
 const styles = {
   container: css({
     backgroundColor: '#2c2e35',
+    border: '1px solid #2c2e35',
     display: 'inline-bock',
     position: 'relative',
     textAlign: 'center',
@@ -25,7 +26,7 @@ const styles = {
     '@media (hover)': {
       ':hover': {
         backgroundColor: '#111',
-        border: '1px solid white',
+        borderColor: 'white',
         cursor: 'pointer',
         '& .hole': {
           border: '1px solid white'

@@ -149,6 +149,7 @@ const Form = props => {
               query: { context: 'trial' }
             })
           } else {
+            minimal && setShowButtons(true)
             meRefetch()
           }
         })
@@ -170,7 +171,6 @@ const Form = props => {
 
   const onSuccessSwitchBoard = () => {
     setSigningIn(false)
-    minimal && setShowButtons(true)
   }
 
   if (

@@ -124,7 +124,10 @@ export default compose(
         {articles.map((article, index) => {
           return (
             <Link
-              href={{ pathname: article.path, query: getUtmParams(query) }}
+              href={{
+                pathname: article.path,
+                query: getUtmParams(query, { utm_campaign: 'wseww' })
+              }}
               key={index}
             >
               <div {...styles.article}>{article.headline}</div>

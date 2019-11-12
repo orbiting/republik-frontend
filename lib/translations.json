@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-11T16:02:36.781Z",
+  "updated": "2019-11-12T09:13:38.384Z",
   "title": "live",
   "data": [
     {
@@ -6140,7 +6140,7 @@
     },
     {
       "key": "marketing/vbz/overlay/footnote",
-      "value": "Diese Beiträge sind Teil unserer aktuellen Bekanntmachungskampagne im ÖV und digital."
+      "value": "Diese Beiträge sind Teil unserer <a href='https://www.republik.ch/2019/11/12/wollen-sie-es-wirklich-wissen'>aktuellen Bekanntmachungskampagne</a> im ÖV und digital."
     },
     {
       "key": "article/payNote/191108-v1/before/title",

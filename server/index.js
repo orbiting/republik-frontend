@@ -135,23 +135,16 @@ app.prepare().then(() => {
   })
 
   // iOS app universal links setup
+  // - manual mapping needed to set content type json
   server.use('/.well-known/apple-app-site-association', (req, res) => {
     res.set('Content-Type', 'application/json')
     res.sendFile(
       path.join(
         __dirname,
-        '../static',
+        '../public',
         '.well-known',
         'apple-app-site-association'
       )
-    )
-  })
-
-  // android app universal links setup
-  server.use('/.well-known/assetlinks.json', (req, res) => {
-    res.set('Content-Type', 'application/json')
-    res.sendFile(
-      path.join(__dirname, '../static', '.well-known', 'assetlinks.json')
     )
   })
 

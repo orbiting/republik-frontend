@@ -17,6 +17,8 @@ export const SUPPORTED_FILTER = {
   isSeriesMaster: ['true']
 }
 
+export const SEARCH_TABS = ['type', 'hasAudio']
+
 export const SUPPORTED_SORT = {
   relevance: [],
   publishedAt: ['ASC', 'DESC']

@@ -1,17 +1,10 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
-import debounce from 'lodash/debounce'
 
 import { Router } from '../../lib/routes'
 import track from '../../lib/piwik'
 
-import { DEFAULT_FILTERS } from './constants'
-import {
-  deserializeFilters,
-  serializeFilters,
-  deserializeSort,
-  serializeSort
-} from './serialize'
+import { deserializeSort, serializeSort } from './serialize'
 
 import Input from './Input'
 import Results from './Results'
@@ -33,12 +26,8 @@ class Search extends Component {
 
     this.state = {
       loading: false,
-      loadingFilters: false,
       searchQuery: '',
-      filterQuery: '',
       submittedQuery: '',
-      filters: DEFAULT_FILTERS,
-      serializedFilters: '',
       sort: {
         key: 'publishedAt'
       },
@@ -49,38 +38,22 @@ class Search extends Component {
       trackingId: undefined
     }
 
-    this.loadFilters = debounce(() => {
-      this.setState({
-        filters:
-          this.state.filterQuery !== this.state.searchQuery
-            ? DEFAULT_FILTERS
-            : this.state.filters,
-        filterQuery: this.state.searchQuery,
-        loadingFilters: false,
-        preloadedAggregations: null
-      })
-    }, 200)
-
     this.onInputChange = (_, value) => {
       if (value === this.state.searchQuery) {
         return
       }
       this.setState({
         searchQuery: value,
-        loadingFilters: true,
         allowFocus: true
       })
-      this.loadFilters()
     }
 
-    this.onSearch = () => {
+    this.refreshSearch = () => {
       const sort = {
         key: 'relevance'
       }
       this.setState({
         submittedQuery: this.state.searchQuery,
-        filterQuery: this.state.searchQuery,
-        filters: DEFAULT_FILTERS,
         sort,
         allowFocus: !this.state.isMobile
       })
@@ -93,13 +66,11 @@ class Search extends Component {
       ])
     }
 
-    this.onReset = () => {
+    this.resetSearch = () => {
       this.clearUrl()
       this.setState({
         searchQuery: '',
         submittedQuery: '',
-        filterQuery: '',
-        filters: DEFAULT_FILTERS,
         allowFocus: true,
         preloadedAggregations: null
       })
@@ -108,7 +79,7 @@ class Search extends Component {
     this.onSubmit = e => {
       e.preventDefault()
       e.stopPropagation()
-      this.onSearch()
+      this.refreshSearch()
     }
 
     this.onSearchLoaded = search => {
@@ -150,62 +121,13 @@ class Search extends Component {
       this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
-    this.onFilterClick = (
-      filterBucketKey,
-      filterBucketValue,
-      selected,
-      count
-    ) => {
-      const filter = {
-        key: filterBucketKey,
-        value: filterBucketValue
-      }
-
-      let filters = [...this.state.filters].filter(
-        filter => !(filter.key === 'template' && filter.value === 'front')
-      )
-
-      if (selected) {
-        filters = filters.filter(filter => filter.key !== filterBucketKey)
-      } else {
-        if (
-          !filters.find(
-            filter =>
-              filter.key === filterBucketKey &&
-              filter.value === filterBucketValue
-          )
-        ) {
-          filters.push(filter)
-        }
-      }
-
-      const serializedFilters = serializeFilters(filters)
-      this.setState({
-        filters: filters.concat(DEFAULT_FILTERS),
-        serializedFilters,
-        submittedQuery: this.state.searchQuery,
-        filterQuery: this.state.searchQuery,
-        allowFocus: !this.state.isMobile,
-        preloadedAggregations: null
-      })
-      this.updateUrl(serializedFilters, this.state.serializedSort)
-      if (!selected) {
-        track([
-          'trackSiteSearch',
-          this.state.searchQuery,
-          decodeURIComponent(serializedFilters),
-          count
-        ])
-      }
-    }
-
     this.pushUrl = params => {
       Router.replaceRoute('search', params, { shallow: true })
     }
 
-    this.updateUrl = (filters, sort) => {
+    this.updateUrl = sort => {
       const searchQuery = encodeURIComponent(this.state.searchQuery)
-      this.pushUrl({ q: searchQuery, filters, sort })
+      this.pushUrl({ q: searchQuery, undefined, sort })
     }
 
     this.clearUrl = () => {
@@ -220,7 +142,6 @@ class Search extends Component {
     }
 
     this.setStateFromQuery = query => {
-      let filters = DEFAULT_FILTERS
       let newState = {}
       const decodedQuery = !!query.q && decodeURIComponent(query.q)
 
@@ -228,23 +149,7 @@ class Search extends Component {
         newState = {
           ...newState,
           searchQuery: decodedQuery,
-          submittedQuery: decodedQuery,
-          filterQuery: decodedQuery
-        }
-      }
-
-      if (query.filters) {
-        const rawFilters =
-          typeof query.filters === 'string' ? query.filters : query.filters[0]
-        const sanitizedFilters = deserializeFilters(rawFilters)
-        const serializedFilters = serializeFilters(sanitizedFilters)
-
-        if (serializedFilters !== this.state.serializedFilters) {
-          newState = {
-            ...newState,
-            filters: filters.concat(sanitizedFilters),
-            serializedFilters
-          }
+          submittedQuery: decodedQuery
         }
       }
 
@@ -263,7 +168,7 @@ class Search extends Component {
         }
       }
 
-      if (newState.submittedQuery || newState.filters || newState.sort) {
+      if (newState.submittedQuery || newState.sort) {
         this.setState(newState)
       }
     }
@@ -288,13 +193,10 @@ class Search extends Component {
   render() {
     const {
       searchQuery,
-      filterQuery,
       submittedQuery,
       preloadedAggregations,
       totalCount,
-      filters,
       sort,
-      loadingFilters,
       allowFocus,
       trackingId
     } = this.state
@@ -307,23 +209,18 @@ class Search extends Component {
             allowSearch={searchQuery !== submittedQuery}
             allowFocus={allowFocus}
             onChange={this.onInputChange}
-            onSearch={this.onSearch}
-            onReset={this.onReset}
+            onSearch={this.refreshSearch}
+            onReset={this.resetSearch}
           />
         </form>
         <Results
           searchQuery={submittedQuery}
-          filterQuery={filterQuery}
           sort={sort}
-          loadingFilters={loadingFilters}
-          filters={filters}
           preloadedTotalCount={totalCount}
           preloadedAggregations={preloadedAggregations}
-          onSearch={this.onSearch}
+          onSearch={this.refreshSearch}
           onSortClick={this.onSortClick}
-          onFilterClick={this.onFilterClick}
           onTotalCountLoaded={this.onTotalCountLoaded}
-          onAggregationsLoaded={this.onAggregationsLoaded}
           onLoadMoreClick={this.onLoadMoreClick}
           onSearchLoaded={this.onSearchLoaded}
           trackingId={trackingId}

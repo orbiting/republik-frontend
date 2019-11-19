@@ -9,7 +9,6 @@ import CommentLink from '../Discussion/CommentLink'
 import Loader from '../../components/Loader'
 import Link from '../Link/Href'
 
-import Filter from './Filter'
 import Sort from './Sort'
 import UserTeaser from './UserTeaser'
 
@@ -72,64 +71,13 @@ const styles = {
   })
 }
 
-const FilterSortPanel = ({
-  aggregations,
-  filterQuery,
-  filters,
-  loadingFilters,
-  minHeight,
-  isFilterEnabled,
-  searchQuery,
-  setPanelRef,
-  sort,
-  t,
-  totalCount,
-  onFilterClick,
-  onSearch,
-  onSortClick
-}) => {
-  const resultsOutdated = searchQuery !== filterQuery
-  const showResults = !!searchQuery || isFilterEnabled
+const SortPanel = ({ searchQuery, sort, totalCount, onSortClick }) => {
   return (
-    <div ref={setPanelRef} style={{ minHeight }}>
-      <Filter
-        aggregations={aggregations}
-        searchQuery={filterQuery || searchQuery}
-        filters={filters}
-        loadingFilters={loadingFilters}
-        allowCompact={showResults}
-        onClickHandler={onFilterClick}
-      />
-      {filterQuery && (
-        <div {...styles.countPreloaded} aria-live='assertive'>
-          {totalCount > 0 && (
-            <Fragment>
-              {resultsOutdated && (
-                <button {...styles.button} {...linkRule} onClick={onSearch}>
-                  {t.pluralize('search/preloaded/showresults', {
-                    count: totalCount
-                  })}
-                </button>
-              )}
-              {!resultsOutdated && (
-                <Fragment>
-                  {t.pluralize('search/preloaded/results', {
-                    count: totalCount
-                  })}
-                </Fragment>
-              )}
-            </Fragment>
-          )}
-          {resultsOutdated && totalCount === 0 && (
-            <Fragment>{t('search/preloaded/results/0')}</Fragment>
-          )}
-        </div>
-      )}
-      {!resultsOutdated && showResults && totalCount > 1 && (
+    <div>
+      {totalCount > 1 && (
         <Sort
           sort={sort}
           searchQuery={searchQuery}
-          isFilterEnabled={isFilterEnabled}
           onClickHandler={onSortClick}
         />
       )}
@@ -140,54 +88,11 @@ const FilterSortPanel = ({
 class Results extends Component {
   constructor(props, ...args) {
     super(props, ...args)
-
-    this.state = {
-      minHeight: null
-    }
-
-    this.setPanelRef = ref => {
-      this.panelRef = ref
-    }
-
-    this.measure = () => {
-      if (this.panelRef) {
-        const { searchQuery, filterQuery } = this.props
-        const shouldMeasure = searchQuery === filterQuery
-        const currentMinHeight = this.panelRef.style.minHeight
-        this.panelRef.style.minHeight = 0
-        const minHeight = this.panelRef.getBoundingClientRect().height
-        this.panelRef.style.minHeight = currentMinHeight
-        if (shouldMeasure && minHeight !== this.state.minHeight) {
-          this.setState({ minHeight })
-        }
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.measure()
-  }
-
-  componentDidUpdate() {
-    this.measure()
   }
 
   UNSAFE_componentWillReceiveProps(props) {
     if (props.data && props.data.search) {
       this.props.onSearchLoaded && this.props.onSearchLoaded(props.data.search)
-    }
-    if (!props.dataAggregations || !props.dataAggregations.search) return
-
-    const { search: nextSearchAggs } = props.dataAggregations
-    const { search: searchAggs = {} } = this.props.dataAggregations || {}
-
-    if (searchAggs.totalCount !== nextSearchAggs.totalCount) {
-      this.props.onTotalCountLoaded &&
-        this.props.onTotalCountLoaded(nextSearchAggs.totalCount)
-    }
-    if (searchAggs.aggregations !== nextSearchAggs.aggregations) {
-      this.props.onAggregationsLoaded &&
-        this.props.onAggregationsLoaded(nextSearchAggs.aggregations)
     }
   }
 
@@ -195,82 +100,14 @@ class Results extends Component {
     const {
       t,
       data,
-      dataAggregations,
       searchQuery,
-      filterQuery,
       sort,
-      onSearch,
       onSortClick,
-      filters,
-      onFilterClick,
-      loadingFilters,
-      onLoadMoreClick,
-      preloadedTotalCount,
-      preloadedAggregations
+      onLoadMoreClick
     } = this.props
-
-    const isFilterEnabled =
-      filters &&
-      !!filters.length &&
-      !!filters.find(
-        filter => !(filter.key === 'template' && filter.value === 'front')
-      )
-
-    const resultsOutdated = searchQuery !== filterQuery
-    const opacity = resultsOutdated ? 0.5 : 1
-    const { minHeight } = this.state
-    const keepCachedAggregations =
-      preloadedTotalCount !== 0 && preloadedAggregations !== null
 
     return (
       <div {...styles.container}>
-        {resultsOutdated && !keepCachedAggregations && (
-          <Loader
-            loading={dataAggregations && dataAggregations.loading}
-            error={dataAggregations && dataAggregations.error}
-            render={() => {
-              const { search } = dataAggregations
-              const { aggregations, totalCount } = search
-
-              return (
-                <FilterSortPanel
-                  aggregations={aggregations}
-                  filterQuery={filterQuery}
-                  filters={filters}
-                  loadingFilters={loadingFilters}
-                  minHeight={minHeight}
-                  isFilterEnabled={isFilterEnabled}
-                  searchQuery={searchQuery}
-                  setPanelRef={this.setPanelRef}
-                  sort={sort}
-                  t={t}
-                  totalCount={totalCount}
-                  onFilterClick={onFilterClick}
-                  onSearch={onSearch}
-                  onSortClick={onSortClick}
-                />
-              )
-            }}
-          />
-        )}
-        {keepCachedAggregations && (
-          <FilterSortPanel
-            aggregations={preloadedAggregations}
-            filterQuery={filterQuery}
-            filters={filters}
-            loadingFilters={loadingFilters}
-            minHeight={minHeight}
-            isFilterEnabled={isFilterEnabled}
-            searchQuery={searchQuery}
-            setPanelRef={this.setPanelRef}
-            sort={sort}
-            t={t}
-            totalCount={preloadedTotalCount}
-            onFilterClick={onFilterClick}
-            onSearch={onSearch}
-            onSortClick={onSortClick}
-          />
-        )}
         <Loader
           loading={data.loading}
           error={data.error}
@@ -281,9 +118,9 @@ class Results extends Component {
             if (!search) {
               return null
             }
-            const { aggregations, nodes, totalCount, pageInfo } = search
+            const { nodes, totalCount, pageInfo } = search
 
-            if (totalCount === 0 && !resultsOutdated) {
+            if (totalCount === 0) {
               return (
                 <div {...styles.empty}>
                   <RawHtml
@@ -297,26 +134,14 @@ class Results extends Component {
 
             return (
               <Fragment>
-                {!resultsOutdated && !keepCachedAggregations && (
-                  <FilterSortPanel
-                    aggregations={aggregations}
-                    filterQuery={filterQuery}
-                    filters={filters}
-                    loadingFilters={loadingFilters}
-                    minHeight={minHeight}
-                    isFilterEnabled={isFilterEnabled}
-                    searchQuery={searchQuery}
-                    setPanelRef={this.setPanelRef}
-                    sort={sort}
-                    t={t}
-                    totalCount={totalCount}
-                    onFilterClick={onFilterClick}
-                    onSearch={onSearch}
-                    onSortClick={onSortClick}
-                  />
-                )}
-                {(!!searchQuery || isFilterEnabled) && (
-                  <div {...styles.results} style={{ opacity }}>
+                <SortPanel
+                  sort={sort}
+                  totalCount={totalCount}
+                  searchQuery={searchQuery}
+                  onSortClick={onSortClick}
+                />
+                {!!searchQuery && (
+                  <div {...styles.results}>
                     {nodes &&
                       nodes.map((node, index) => {
                         const titleHighlight =
@@ -441,22 +266,11 @@ Results.propTypes = {
   data: PropTypes.object,
   dataAggregations: PropTypes.object,
   searchQuery: PropTypes.string,
-  filterQuery: PropTypes.string,
   sort: PropTypes.shape({
     key: PropTypes.string.isRequired,
     direction: PropTypes.oneOf(['ASC', 'DESC'])
   }),
-  onSearch: PropTypes.func,
   onSortClick: PropTypes.func,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      not: PropTypes.bool
-    })
-  ),
-  onFilterClick: PropTypes.func,
-  loadingFilters: PropTypes.bool,
   onLoadMoreClick: PropTypes.func,
   fetchMore: PropTypes.func,
   onSearchLoaded: PropTypes.func,

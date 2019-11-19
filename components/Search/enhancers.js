@@ -5,16 +5,10 @@ import { documentFragment } from '../Feed/DocumentListContainer'
 const getSearchAggregations = gql`
   query getSearchAggregations(
     $search: String
-    $filters: [SearchGenericFilterInput!]
     $types: [String!]
     $trackingId: ID
   ) {
-    search(
-      first: 1
-      search: $search
-      filters: $filters
-      trackingId: $trackingId
-    ) {
+    search(first: 1, search: $search, trackingId: $trackingId) {
       totalCount
       trackingId
       aggregations(keys: $types) {
@@ -36,7 +30,6 @@ const getSearchResults = gql`
     $search: String
     $after: String
     $sort: SearchSortInput
-    $filters: [SearchGenericFilterInput!]
     $trackingId: ID
   ) {
     search(
@@ -44,7 +37,6 @@ const getSearchResults = gql`
       after: $after
       search: $search
       sort: $sort
-      filters: $filters
       trackingId: $trackingId
     ) {
       totalCount
@@ -141,7 +133,6 @@ export const withAggregations = graphql(getSearchAggregations, {
   options: props => ({
     variables: {
       search: props.filterQuery,
-      filters: props.filters,
       keys: props.keys,
       trackingId: props.trackingId
     }
@@ -156,7 +147,6 @@ export const withResults = graphql(getSearchResults, {
     variables: {
       search: props.searchQuery,
       sort: props.sort,
-      filters: props.filters,
       trackingId: props.trackingId
     }
   }),
@@ -168,7 +158,6 @@ export const withResults = graphql(getSearchResults, {
           after,
           search: ownProps.searchQuery,
           sort: ownProps.sort,
-          filters: ownProps.filters,
           trackingId: ownProps.trackingId
         },
         updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {

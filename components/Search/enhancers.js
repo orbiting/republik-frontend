@@ -6,6 +6,7 @@ const getSearchAggregations = gql`
   query getSearchAggregations(
     $search: String
     $filters: [SearchGenericFilterInput!]
+    $types: [String!]
     $trackingId: ID
   ) {
     search(
@@ -16,7 +17,7 @@ const getSearchAggregations = gql`
     ) {
       totalCount
       trackingId
-      aggregations {
+      aggregations(keys: $types) {
         key
         count
         label
@@ -141,6 +142,7 @@ export const withAggregations = graphql(getSearchAggregations, {
     variables: {
       search: props.filterQuery,
       filters: props.filters,
+      keys: props.keys,
       trackingId: props.trackingId
     }
   }),

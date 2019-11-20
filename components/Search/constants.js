@@ -1,25 +1,29 @@
-export const DEFAULT_FILTERS = [{ key: 'template', value: 'front', not: true }]
-
-export const SUPPORTED_FILTER = {
-  template: [
-    'article',
-    'discussion',
-    'editorialNewsletter',
-    'format',
-    'dossier'
-  ],
-  kind: ['meta', 'scribble'],
-  textLength: ['short', 'medium', 'long', 'epic'],
-  type: ['Comment', 'User'],
-  audioSource: ['true'],
-  hasAudio: ['true'],
-  hasVideo: ['true'],
-  isSeriesMaster: ['true']
-}
-
-export const SEARCH_TABS = ['type', 'hasAudio']
+export const SUPPORTED_FILTERS = [
+  {
+    key: 'type',
+    value: 'Document'
+  },
+  {
+    key: 'hasAudio',
+    value: 'true'
+  },
+  {
+    key: 'type',
+    value: 'User'
+  },
+  {
+    key: 'type',
+    value: 'Comment'
+  }
+]
 
 export const SUPPORTED_SORT = {
   relevance: [],
   publishedAt: ['ASC', 'DESC']
 }
+
+export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio']
+
+export const QUERY_PARAM = 'q'
+export const FILTER_KEY_PARAM = 'fkey'
+export const FILTER_VALUE_PARAM = 'fvalue'

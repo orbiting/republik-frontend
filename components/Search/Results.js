@@ -12,7 +12,7 @@ import Link from '../Link/Href'
 import Sort from './Sort'
 import UserTeaser from './UserTeaser'
 
-import { withAggregations, withResults } from './enhancers'
+import { withResults } from './enhancers'
 
 import {
   colors,
@@ -264,7 +264,6 @@ class Results extends Component {
 Results.propTypes = {
   t: PropTypes.func,
   data: PropTypes.object,
-  dataAggregations: PropTypes.object,
   searchQuery: PropTypes.string,
   sort: PropTypes.shape({
     key: PropTypes.string.isRequired,
@@ -279,6 +278,5 @@ Results.propTypes = {
 
 export default compose(
   withT,
-  withAggregations,
   withResults
 )(Results)

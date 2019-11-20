@@ -10,6 +10,7 @@ import Input from './Input'
 import Results from './Results'
 
 import { Center, mediaQueries } from '@project-r/styleguide'
+import Filters from './Filters'
 
 const styles = {
   container: css({
@@ -213,11 +214,10 @@ class Search extends Component {
             onReset={this.resetSearch}
           />
         </form>
+        <Filters />
         <Results
           searchQuery={submittedQuery}
           sort={sort}
-          preloadedTotalCount={totalCount}
-          preloadedAggregations={preloadedAggregations}
           onSearch={this.refreshSearch}
           onSortClick={this.onSortClick}
           onTotalCountLoaded={this.onTotalCountLoaded}

@@ -10,7 +10,6 @@ import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 
 const styles = {
   container: css({
-    borderTop: `1px solid ${colors.text}`,
     paddingTop: '3px'
   }),
   button: css({

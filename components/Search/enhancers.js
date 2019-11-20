@@ -4,14 +4,14 @@ import { documentFragment } from '../Feed/DocumentListContainer'
 
 const getSearchAggregations = gql`
   query getSearchAggregations(
-    $search: String
-    $types: [String!]
+    $searchQuery: String
+    $keys: [String!]
     $trackingId: ID
   ) {
-    search(first: 1, search: $search, trackingId: $trackingId) {
+    search(first: 1, search: $searchQuery, trackingId: $trackingId) {
       totalCount
       trackingId
-      aggregations(keys: $types) {
+      aggregations(keys: $keys) {
         key
         count
         label
@@ -129,14 +129,6 @@ const getSearchResults = gql`
 `
 
 export const withAggregations = graphql(getSearchAggregations, {
-  skip: props => props.searchQuery === props.filterQuery,
-  options: props => ({
-    variables: {
-      search: props.filterQuery,
-      keys: props.keys,
-      trackingId: props.trackingId
-    }
-  }),
   props: ({ data, ownProps }) => ({
     dataAggregations: data
   })

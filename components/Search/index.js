@@ -136,7 +136,6 @@ class Search extends Component {
         <Filters />
         <Results
           sort={sort}
-          onSearch={this.refreshSearch}
           onSortClick={this.onSortClick}
           onTotalCountLoaded={this.onTotalCountLoaded}
           onLoadMoreClick={this.onLoadMoreClick}

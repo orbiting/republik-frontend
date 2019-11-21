@@ -1,7 +1,13 @@
 import React from 'react'
 import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
-import { FILTER_KEY_PARAM, FILTER_VALUE_PARAM, QUERY_PARAM } from './constants'
+import {
+  FILTER_KEY_PARAM,
+  FILTER_VALUE_PARAM,
+  QUERY_PARAM,
+  SORT_DIRECTION_PARAM,
+  SORT_KEY_PARAM
+} from './constants'
 
 export default WrappedComponent =>
   compose(withRouter)(({ router: { query }, ...props }) => {
@@ -9,6 +15,10 @@ export default WrappedComponent =>
     const filter = query[FILTER_KEY_PARAM] && {
       key: query[FILTER_KEY_PARAM],
       value: query[FILTER_VALUE_PARAM]
+    }
+    const sort = query[SORT_KEY_PARAM] && {
+      key: query[SORT_KEY_PARAM],
+      direction: query[SORT_DIRECTION_PARAM]
     }
 
     const updateURL = newParams => {
@@ -20,27 +30,28 @@ export default WrappedComponent =>
         }
       })
     }
-    const onSearchQueryChange = q => {
-      console.log('submit', q)
-      updateURL({ [QUERY_PARAM]: q })
-    }
+    const onSearchQueryChange = q => updateURL({ [QUERY_PARAM]: q })
     const onFilterChange = filter =>
       updateURL({
         [FILTER_KEY_PARAM]: filter.key,
         [FILTER_VALUE_PARAM]: filter.value
       })
+    const onSortChange = sort =>
+      updateURL({
+        [SORT_KEY_PARAM]: sort.key,
+        [SORT_DIRECTION_PARAM]: sort.direction
+      })
 
-    const resetURL = () => {
-      console.log('reset')
-      Router.push({ pathname: '/suche' })
-    }
+    const resetURL = () => Router.push({ pathname: '/suche' })
 
     return (
       <WrappedComponent
         searchQuery={searchQuery}
         filter={filter}
+        sort={sort}
         onSearchQueryChange={onSearchQueryChange}
         onFilterChange={onFilterChange}
+        onSortChange={onSortChange}
         resetURL={resetURL}
         {...props}
       />

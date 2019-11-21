@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
@@ -13,10 +13,13 @@ const Form = compose(
 )(({ searchQuery, onSearchQueryChange, resetURL, t }) => {
   const [query, setQuery] = useState(searchQuery)
   const canSubmit = query && query !== searchQuery
+  const ref = useRef()
+  useEffect(() => ref.current && ref.current.focus())
 
   return (
     <form onSubmit={() => canSubmit && onSearchQueryChange(query)}>
       <Field
+        inputRef={ref}
         label={t('search/input/label')}
         value={query}
         onChange={(_, value) => setQuery(value)}

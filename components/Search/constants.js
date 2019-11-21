@@ -27,3 +27,5 @@ export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio']
 export const QUERY_PARAM = 'q'
 export const FILTER_KEY_PARAM = 'fkey'
 export const FILTER_VALUE_PARAM = 'fvalue'
+export const SORT_KEY_PARAM = 'skey'
+export const SORT_DIRECTION_PARAM = 'sdir'

@@ -318,8 +318,15 @@ class CustomizePackage extends Component {
     const hasTotebag = !!pkg.options.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
-    const hasGoodies = !!pkg.options.find(
-      option => option.reward && option.reward.__typename === 'Goodie'
+    const deliveryNote = t(
+      `pledge/notice/goodies/delivery/${pkg.options
+        .filter(
+          option => option.reward && option.reward.__typename === 'Goodie'
+        )
+        .map(option => option.reward.name)
+        .join('_')}`,
+      undefined,
+      null
     )
 
     const onPriceChange = (_, value, shouldValidate) => {
@@ -439,6 +446,19 @@ class CustomizePackage extends Component {
       configurableFields.length &&
       (optionGroups.length > 1 || !optionGroups[0].group)
 
+    const descriptions = t
+      .first(
+        [
+          ownMembership &&
+            `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
+          ownMembership &&
+            `package/${pkg.name}/${ownMembership.type.name}/description`,
+          `package/${crowdfundingName}/${pkg.name}/description`,
+          `package/${pkg.name}/description`
+        ].filter(Boolean)
+      )
+      .split(/\n+/)
+
     return (
       <div>
         <div style={{ marginTop: 20, marginBottom: 10 }}>
@@ -473,17 +493,13 @@ class CustomizePackage extends Component {
               src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
             />
           )}
-          {t.first(
-            [
-              ownMembership &&
-                `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
-              ownMembership &&
-                `package/${pkg.name}/${ownMembership.type.name}/description`,
-              `package/${crowdfundingName}/${pkg.name}/description`,
-              `package/${pkg.name}/description`
-            ].filter(Boolean)
-          )}
+          {descriptions[0]}
         </P>
+        {descriptions.slice(1).map((text, i) => (
+          <P key={i} style={{ marginBottom: 10 }}>
+            {text}
+          </P>
+        ))}
         {optionGroups.map(
           (
             {
@@ -509,7 +525,7 @@ class CustomizePackage extends Component {
                   <Radio
                     value='0'
                     checked={!selectedGroupOption}
-                    onChange={event => {
+                    onChange={() => {
                       if (userPrice) {
                         this.resetUserPrice()
                       }
@@ -703,7 +719,7 @@ class CustomizePackage extends Component {
                             <Radio
                               value='1'
                               checked={!!value}
-                              onChange={event => {
+                              onChange={() => {
                                 onFieldChange(undefined, 1, dirty[fieldKey])
                               }}
                             >
@@ -842,9 +858,9 @@ class CustomizePackage extends Component {
             )
           }
         )}
-        {hasGoodies && (
+        {deliveryNote && (
           <div style={{ marginBottom: 20 }}>
-            <Label>{t('pledge/notice/goodies/delivery')}</Label>
+            <Label>{deliveryNote}</Label>
           </div>
         )}
         {!!userPrice && (

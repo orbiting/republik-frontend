@@ -25,13 +25,9 @@ class Search extends Component {
 
     this.state = {
       loading: false,
-      searchQuery: '',
-      submittedQuery: '',
       sort: {
         key: 'publishedAt'
       },
-      serializedSort: '',
-      totalCount: 0,
       isMobile: true,
       allowFocus: true,
       trackingId: undefined

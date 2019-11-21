@@ -34,7 +34,7 @@ const getSearchResults = gql`
     $trackingId: ID
   ) {
     search(
-      first: 100
+      first: 10
       after: $after
       search: $searchQuery
       sort: $sort
@@ -143,7 +143,6 @@ export const withResults = graphql(getSearchResults, {
       data.fetchMore({
         variables: {
           after,
-          search: ownProps.searchQuery,
           sort: ownProps.sort,
           trackingId: ownProps.trackingId
         },

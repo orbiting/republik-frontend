@@ -42,6 +42,7 @@ const Filters = compose(withAggregations)(
       <ul>
         {SUPPORTED_FILTERS.map((filter, key) => {
           const agg = findAggregation(aggregations, filter)
+          // TODO: handle case where agg = undefined (maybe in backend?)
           return (
             <li key={key}>
               <a onClick={() => changeFilter(filter)}>

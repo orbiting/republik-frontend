@@ -88,33 +88,35 @@ const ResultsList = ({ nodes }) => {
   )
 }
 
-const ResultsFooter = compose(withT)(
-  ({ t, search: { nodes, totalCount, pageInfo, fetchMore } }) => {
-    return (
-      <div {...styles.countLoaded}>
-        {nodes.length === totalCount
-          ? t.pluralize('search/pageInfo/total', {
-              count: totalCount
-            })
-          : t('search/pageInfo/loadedTotal', {
-              loaded: nodes.length,
-              total: totalCount
-            })}
-        {pageInfo.hasNextPage && (
-          <button
-            {...styles.button}
-            {...linkRule}
-            onClick={() => fetchMore({ after: pageInfo.endCursor })}
-          >
-            {t('search/pageInfo/loadMore')}
-          </button>
-        )}
-      </div>
-    )
-  }
-)
+const ResultsFooter = compose(withT)(({ t, data }) => {
+  const {
+    search: { nodes, totalCount, pageInfo }
+  } = data
 
-const Results = compose(withResults)(({ data, fetchMore }) => {
+  return (
+    <div {...styles.countLoaded}>
+      {nodes.length === totalCount
+        ? t.pluralize('search/pageInfo/total', {
+            count: totalCount
+          })
+        : t('search/pageInfo/loadedTotal', {
+            loaded: nodes.length,
+            total: totalCount
+          })}
+      {pageInfo.hasNextPage && (
+        <button
+          {...styles.button}
+          {...linkRule}
+          onClick={() => data.fetchMore({ after: pageInfo.endCursor })}
+        >
+          {t('search/pageInfo/loadMore')}
+        </button>
+      )}
+    </div>
+  )
+})
+
+const Results = compose(withResults)(({ data }) => {
   return (
     <div {...styles.container}>
       <Loader
@@ -135,7 +137,7 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
           return (
             <div {...styles.results}>
               <ResultsList nodes={nodes} />
-              <ResultsFooter search={search} fetchMore={fetchMore} />
+              <ResultsFooter data={data} />
             </div>
           )
         }}

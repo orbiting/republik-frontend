@@ -43,9 +43,11 @@ const Filters = compose(withAggregations)(
         {SUPPORTED_FILTERS.map((filter, key) => {
           const agg = findAggregation(aggregations, filter)
           return (
-            <li key={key} onClick={() => changeFilter(filter)}>
-              {isSameFilter(filter, selected) && 'SELECTED'} {agg.label}{' '}
-              {agg.count}
+            <li key={key}>
+              <a onClick={() => changeFilter(filter)}>
+                {isSameFilter(filter, selected) && 'SELECTED'} {agg.label}{' '}
+                {agg.count}
+              </a>
             </li>
           )
         })}

@@ -4,8 +4,6 @@ import { css } from 'glamor'
 import { Router } from '../../lib/routes'
 import track from '../../lib/piwik'
 
-import { deserializeSort, serializeSort } from './serialize'
-
 import Form from './Form'
 import Filters from './Filters'
 import Results from './Results'
@@ -39,48 +37,16 @@ class Search extends Component {
       trackingId: undefined
     }
 
-    this.onInputChange = (_, value) => {
-      if (value === this.state.searchQuery) {
-        return
-      }
-      this.setState({
-        searchQuery: value,
-        allowFocus: true
-      })
-    }
-
     this.refreshSearch = () => {
-      const sort = {
-        key: 'relevance'
-      }
       this.setState({
-        submittedQuery: this.state.searchQuery,
-        sort,
         allowFocus: !this.state.isMobile
       })
-      this.updateUrl(undefined, serializeSort(sort))
       track([
         'trackSiteSearch',
         this.state.searchQuery,
         false,
         this.state.totalCount
       ])
-    }
-
-    this.resetSearch = () => {
-      this.clearUrl()
-      this.setState({
-        searchQuery: '',
-        submittedQuery: '',
-        allowFocus: true,
-        preloadedAggregations: null
-      })
-    }
-
-    this.onSubmit = e => {
-      e.preventDefault()
-      e.stopPropagation()
-      this.refreshSearch()
     }
 
     this.onSearchLoaded = search => {
@@ -92,12 +58,6 @@ class Search extends Component {
       }
     }
 
-    this.onLoadMoreClick = () => {
-      this.setState({
-        allowFocus: false
-      })
-    }
-
     this.onSortClick = (sortKey, sortDirection) => {
       let sort = {
         key: sortKey
@@ -105,9 +65,6 @@ class Search extends Component {
       if (sortDirection) {
         sort.direction = sortDirection
       }
-      const serializedSort = serializeSort(sort)
-      this.setState({ sort, serializedSort })
-      this.updateUrl(this.state.serializedFilters, serializedSort)
     }
 
     this.handleResize = () => {
@@ -128,20 +85,11 @@ class Search extends Component {
   }
 
   render() {
-    const { sort, trackingId } = this.state
-
     return (
       <Center {...styles.container}>
         <Form />
         <Filters />
-        <Results
-          sort={sort}
-          onSortClick={this.onSortClick}
-          onTotalCountLoaded={this.onTotalCountLoaded}
-          onLoadMoreClick={this.onLoadMoreClick}
-          onSearchLoaded={this.onSearchLoaded}
-          trackingId={trackingId}
-        />
+        <Results />
       </Center>
     )
   }

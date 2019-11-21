@@ -27,16 +27,18 @@ const getSearchAggregations = gql`
 
 const getSearchResults = gql`
   query getSearchResults(
-    $search: String
+    $searchQuery: String
     $after: String
     $sort: SearchSortInput
+    $filters: [SearchGenericFilterInput!]
     $trackingId: ID
   ) {
     search(
       first: 100
       after: $after
-      search: $search
+      search: $searchQuery
       sort: $sort
+      filters: $filters
       trackingId: $trackingId
     ) {
       totalCount
@@ -135,13 +137,6 @@ export const withAggregations = graphql(getSearchAggregations, {
 })
 
 export const withResults = graphql(getSearchResults, {
-  options: props => ({
-    variables: {
-      search: props.searchQuery,
-      sort: props.sort,
-      trackingId: props.trackingId
-    }
-  }),
   props: ({ data, ownProps }) => ({
     data,
     fetchMore: ({ after }) =>

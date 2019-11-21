@@ -34,6 +34,20 @@ const styles = {
   })
 }
 
+const SortPanel = ({ searchQuery, sort, totalCount, onSortClick }) => {
+  return (
+    <div>
+      {totalCount > 1 && (
+        <Sort
+          sort={sort}
+          searchQuery={searchQuery}
+          onClickHandler={onSortClick}
+        />
+      )}
+    </div>
+  )
+}
+
 class SortButton extends Component {
   constructor(props, ...args) {
     super(props, ...args)

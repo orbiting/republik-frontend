@@ -32,7 +32,7 @@ const Filters = compose(withAggregations)(
     changeFilter
   }) => {
     if (!selected) {
-      // rerouting doesn't work server-side for now
+      // TODO ? rerouting doesn't work server-side
       typeof document !== 'undefined' &&
         changeFilter(findFilterWithResults(aggregations))
       return null

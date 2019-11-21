@@ -66,13 +66,10 @@ const styles = {
   })
 }
 
-export const UserTeaser = ({
-  id,
-  slug,
-  firstName,
-  lastName,
-  credentials,
-  portrait
+export const UserResult = ({
+  node: {
+    entity: { id, slug, firstName, lastName, credentials, portrait }
+  }
 }) => {
   const credential = credentials && credentials.find(c => c.isListed)
   return (
@@ -114,4 +111,4 @@ export const UserTeaser = ({
   )
 }
 
-export default UserTeaser
+export default UserResult

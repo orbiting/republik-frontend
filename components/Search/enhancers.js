@@ -34,7 +34,7 @@ const getSearchResults = gql`
     $trackingId: ID
   ) {
     search(
-      first: 10
+      first: 100
       after: $after
       search: $searchQuery
       sort: $sort

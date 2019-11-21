@@ -31,7 +31,7 @@ const Filters = compose(withAggregations)(
     selected,
     changeFilter
   }) => {
-    if (!selected) {
+    if (typeof document !== 'undefined' && !selected) {
       changeFilter(findFilterWithResults(aggregations))
       return null
     }

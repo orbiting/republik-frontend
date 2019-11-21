@@ -129,7 +129,7 @@ const getSearchResults = gql`
 `
 
 export const withAggregations = graphql(getSearchAggregations, {
-  props: ({ data, ownProps }) => ({
+  props: ({ data }) => ({
     dataAggregations: data
   })
 })

@@ -11,9 +11,7 @@ export default WrappedComponent =>
       value: query[FILTER_VALUE_PARAM]
     }
 
-    const refreshQuery = newParams => {
-      if (typeof document === 'undefined') return
-
+    const updateURL = newParams => {
       Router.push({
         pathname: '/suche',
         query: {
@@ -22,12 +20,20 @@ export default WrappedComponent =>
         }
       })
     }
-    const onSearchQueryChange = q => refreshQuery({ [QUERY_PARAM]: q })
+    const onSearchQueryChange = q => {
+      console.log('submit', q)
+      updateURL({ [QUERY_PARAM]: q })
+    }
     const onFilterChange = filter =>
-      refreshQuery({
+      updateURL({
         [FILTER_KEY_PARAM]: filter.key,
         [FILTER_VALUE_PARAM]: filter.value
       })
+
+    const resetURL = () => {
+      console.log('reset')
+      Router.push({ pathname: '/suche' })
+    }
 
     return (
       <WrappedComponent
@@ -35,6 +41,7 @@ export default WrappedComponent =>
         filter={filter}
         onSearchQueryChange={onSearchQueryChange}
         onFilterChange={onFilterChange}
+        resetURL={resetURL}
         {...props}
       />
     )

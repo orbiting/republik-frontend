@@ -13,7 +13,7 @@ const styles = {
     paddingTop: '3px'
   }),
   button: css({
-    ...fontStyles.sansSerifRegular14,
+    ...fontStyles.sansSerifRegular16,
     outline: 'none',
     color: colors.text,
     WebkitAppearance: 'none',
@@ -64,7 +64,6 @@ class SortButton extends Component {
       label,
       direction,
       selected,
-      disabled,
       onClickHandler
     } = this.props
     const { internalDirection } = this.state
@@ -76,14 +75,12 @@ class SortButton extends Component {
         ? ArrowDown
         : null
     const color = selected ? colors.primary : null
-    const visibility = disabled ? 'hidden' : null
 
     return (
       <button
         {...styles.button}
-        style={{ color, visibility }}
+        style={{ color }}
         onClick={() => {
-          if (disabled) return
           const toggledDirection = !selected
             ? resolvedDirection
             : resolvedDirection === 'ASC'
@@ -126,7 +123,7 @@ SortButton.defaultProps = {
 
 class Sort extends Component {
   render() {
-    const { t, sort, searchQuery, onClickHandler } = this.props
+    const { t, sort, onClickHandler } = this.props
     const sortKey = sort ? sort.key : 'publishedAt'
     const buttons = [
       {
@@ -134,22 +131,19 @@ class Sort extends Component {
         label: 'Zeit',
         direction:
           sortKey === 'publishedAt' && sort.direction ? sort.direction : 'DESC',
-        disabled: !searchQuery,
         selected: sortKey === 'publishedAt'
       },
       {
         sortKey: 'relevance',
         label: 'Relevanz',
-        disabled: !searchQuery,
         selected: sortKey === 'relevance'
       }
     ]
     return (
       <div {...styles.container}>
-        {buttons.map(({ sortKey, label, direction, selected, disabled }) => (
+        {buttons.map(({ sortKey, label, direction, selected }) => (
           <SortButton
             t={t}
-            disabled={disabled}
             key={sortKey}
             sortKey={sortKey}
             selected={selected}

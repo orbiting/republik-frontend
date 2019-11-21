@@ -92,7 +92,7 @@ const ResultsFooter = compose(withT)(
   ({ t, search: { nodes, totalCount, pageInfo, fetchMore } }) => {
     return (
       <div {...styles.countLoaded}>
-        {nodes && nodes.length === totalCount
+        {nodes.length === totalCount
           ? t.pluralize('search/pageInfo/total', {
               count: totalCount
             })
@@ -128,19 +128,15 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
           }
           const { nodes, totalCount } = search
 
-          if (totalCount === 0) {
+          if (!nodes || !totalCount) {
             return <EmptyState />
           }
 
           return (
-            <Fragment>
-              {!!nodes && (
-                <div {...styles.results}>
-                  <ResultsList nodes={nodes} />
-                  <ResultsFooter search={search} fetchMore={fetchMore} />
-                </div>
-              )}
-            </Fragment>
+            <div {...styles.results}>
+              <ResultsList nodes={nodes} />
+              <ResultsFooter search={search} fetchMore={fetchMore} />
+            </div>
           )
         }}
       />

@@ -20,6 +20,7 @@ export default ({ node }) => {
   const descHighlight = node.highlights.find(
     highlight => highlight.path === 'meta.description'
   )
+  // TODO: show 1st highlight if neither title nor teaser have highlights
   const actionBar = node.entity.meta ? (
     <ActionBar
       documentId={node.entity.id}

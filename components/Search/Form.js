@@ -18,6 +18,7 @@ const Form = compose(
     canSubmit && onSearchQueryChange(query)
   }
   // TODO: autofocus (ask @Thomas)
+  // TODO: clear this whole mobile focus thing
 
   return (
     <form onSubmit={e => submitQuery(e)}>

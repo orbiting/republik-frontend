@@ -24,10 +24,6 @@ class Search extends Component {
     super(props, ...args)
 
     this.state = {
-      loading: false,
-      sort: {
-        key: 'publishedAt'
-      },
       isMobile: true,
       allowFocus: true,
       trackingId: undefined
@@ -37,6 +33,7 @@ class Search extends Component {
       this.setState({
         allowFocus: !this.state.isMobile
       })
+      // TODO: handle this in the results component
       track([
         'trackSiteSearch',
         this.state.searchQuery,
@@ -51,15 +48,6 @@ class Search extends Component {
         this.setState({
           trackingId
         })
-      }
-    }
-
-    this.onSortClick = (sortKey, sortDirection) => {
-      let sort = {
-        key: sortKey
-      }
-      if (sortDirection) {
-        sort.direction = sortDirection
       }
     }
 

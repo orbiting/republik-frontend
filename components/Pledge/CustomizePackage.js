@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 import { nest } from 'd3-collection'
-import { sum, min } from 'd3-array'
+import { sum, min, ascending } from 'd3-array'
 import { timeDay } from 'd3-time'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -324,6 +324,7 @@ class CustomizePackage extends Component {
           option => option.reward && option.reward.__typename === 'Goodie'
         )
         .map(option => option.reward.name)
+        .sort((a, b) => ascending(a, b))
         .join('_')}`,
       undefined,
       null

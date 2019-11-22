@@ -22,14 +22,16 @@ export default WrappedComponent =>
     }
 
     const updateURL = newParams => {
-      Router.pushRoute(
-        'search',
-        {
-          ...query,
-          ...newParams
-        },
-        { shallow: true }
-      )
+      // TODO ? rerouting doesn't work server-side
+      typeof document !== 'undefined' &&
+        Router.pushRoute(
+          'search',
+          {
+            ...query,
+            ...newParams
+          },
+          { shallow: true }
+        )
     }
     const onSearchQueryChange = q => updateURL({ [QUERY_PARAM]: q })
     const onFilterChange = filter =>

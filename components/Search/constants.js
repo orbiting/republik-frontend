@@ -19,16 +19,16 @@ export const SUPPORTED_FILTERS = [
 
 export const SUPPORTED_SORT = [
   {
-    key: 'relevance',
-    sort: []
+    key: 'relevance'
   },
   {
     key: 'publishedAt',
-    sort: ['ASC', 'DESC']
+    directions: ['DESC', 'ASC']
   }
 ]
 
 export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio']
+export const DEFAULT_SORT = 'relevance'
 
 export const QUERY_PARAM = 'q'
 export const FILTER_KEY_PARAM = 'fkey'

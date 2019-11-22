@@ -19,7 +19,6 @@ import {
   RawHtml
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
-import Sort from './Sort'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -135,7 +134,6 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 
           return (
             <div {...styles.results}>
-              {totalCount > 1 && <Fragment />}
               <ResultsList nodes={nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />
             </div>
@@ -148,7 +146,7 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 
 const ResultsWrapper = compose(withSearchRouter)(
   ({ searchQuery, filter, sort }) => {
-    return searchQuery && filter ? (
+    return searchQuery && filter && sort ? (
       <Results searchQuery={searchQuery} filters={[filter]} sort={sort} />
     ) : null
   }

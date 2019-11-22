@@ -5,6 +5,7 @@ import withSearchRouter from './withSearchRouter'
 import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_FILTERS } from './constants'
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import { findByKey } from '../../lib/utils/helpers'
 
 // TODO: clean/mobile-friendly x-scroll for the tabs
 const styles = {
@@ -30,13 +31,11 @@ const styles = {
   })
 }
 
-const findByKeyValue = (array, key, value) => array.find(e => e[key] === value)
-
 const findAggregation = (aggregations, filter) => {
-  const agg = findByKeyValue(aggregations, 'key', filter.key)
+  const agg = findByKey(aggregations, 'key', filter.key)
   return !agg || !agg.buckets
     ? agg
-    : findByKeyValue(agg.buckets, 'value', filter.value)
+    : findByKey(agg.buckets, 'value', filter.value)
 }
 
 const isSameFilter = (filterA, filterB) =>
@@ -58,9 +57,7 @@ const Filters = compose(withAggregations)(
     if (!aggregations) return null
 
     if (!selected) {
-      // TODO ? rerouting doesn't work server-side
-      typeof document !== 'undefined' &&
-        changeFilter(findFilterWithResults(aggregations))
+      changeFilter(findFilterWithResults(aggregations))
       return null
     }
 

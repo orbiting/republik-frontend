@@ -11,7 +11,7 @@ import { findByKey } from '../../lib/utils/helpers'
 const styles = {
   list: css({
     listStyle: 'none',
-    padding: '0 0 20px',
+    padding: '0 0 40px',
     margin: 0,
     overflowX: 'auto',
     whiteSpace: 'nowrap'

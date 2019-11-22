@@ -31,7 +31,7 @@ const styles = {
     paddingTop: 0
   }),
   results: css({
-    paddingTop: 60
+    paddingTop: 5
   }),
   empty: css({
     ...fontStyles.sansSerifRegular16,

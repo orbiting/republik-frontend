@@ -162,7 +162,7 @@ const styles = {
   packageImage: css({
     float: 'right',
     maxWidth: 150,
-    maxHeight: 200,
+    maxHeight: 170,
     paddingLeft: 10,
     [mediaQueries.mUp]: {
       paddingLeft: 30
@@ -459,9 +459,22 @@ class CustomizePackage extends Component {
       `package/${pkg.name}/description`
     ].filter(Boolean)
     const description = t.first(descriptionKeys)
-    const descriptionGoodies =
+    const goodiesDescription =
       !!goodies.length &&
       t.first(descriptionKeys.map(key => `${key}/goodies`), undefined, null)
+    const goodiesImage =
+      (hasNotebook && hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`}
+        />
+      )) ||
+      (hasNotebook && !hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
+        />
+      ))
 
     return (
       <div>
@@ -485,18 +498,7 @@ class CustomizePackage extends Component {
           </A>
         </div>
         <P style={{ marginBottom: 10 }}>
-          {hasNotebook && hasTotebag && (
-            <img
-              {...styles.packageImage}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`}
-            />
-          )}
-          {hasNotebook && !hasTotebag && (
-            <img
-              {...styles.packageImage}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
-            />
-          )}
+          {!goodiesDescription && goodiesImage}
           {description}
         </P>
         {optionGroups.map(
@@ -571,7 +573,12 @@ class CustomizePackage extends Component {
                     {t('package/customize/group/aboGive')}
                   </P>
                 )}
-                {isGoodies && descriptionGoodies && <P>{descriptionGoodies}</P>}
+                {isGoodies && goodiesDescription && (
+                  <P>
+                    {goodiesImage}
+                    {goodiesDescription}
+                  </P>
+                )}
                 {membership && (
                   <ManageMembership
                     title={

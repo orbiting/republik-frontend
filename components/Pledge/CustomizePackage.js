@@ -318,14 +318,12 @@ class CustomizePackage extends Component {
     const hasTotebag = !!pkg.options.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
+    const goodies = pkg.options
+      .filter(option => option.reward && option.reward.__typename === 'Goodie')
+      .map(option => option.reward.name)
+      .sort((a, b) => ascending(a, b))
     const deliveryNote = t(
-      `pledge/notice/goodies/delivery/${pkg.options
-        .filter(
-          option => option.reward && option.reward.__typename === 'Goodie'
-        )
-        .map(option => option.reward.name)
-        .sort((a, b) => ascending(a, b))
-        .join('_')}`,
+      `pledge/notice/goodies/delivery/${goodies.join('_')}`,
       undefined,
       null
     )
@@ -447,18 +445,18 @@ class CustomizePackage extends Component {
       configurableFields.length &&
       (optionGroups.length > 1 || !optionGroups[0].group)
 
-    const descriptions = t
-      .first(
-        [
-          ownMembership &&
-            `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
-          ownMembership &&
-            `package/${pkg.name}/${ownMembership.type.name}/description`,
-          `package/${crowdfundingName}/${pkg.name}/description`,
-          `package/${pkg.name}/description`
-        ].filter(Boolean)
-      )
-      .split(/\n+/)
+    const descriptionKeys = [
+      ownMembership &&
+        `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
+      ownMembership &&
+        `package/${pkg.name}/${ownMembership.type.name}/description`,
+      `package/${crowdfundingName}/${pkg.name}/description`,
+      `package/${pkg.name}/description`
+    ].filter(Boolean)
+    const description = t.first(descriptionKeys)
+    const descriptionGoodies =
+      !!goodies.length &&
+      t.first(descriptionKeys.map(key => `${key}/goodies`), undefined, null)
 
     return (
       <div>
@@ -494,13 +492,9 @@ class CustomizePackage extends Component {
               src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
             />
           )}
-          {descriptions[0]}
+          {description}
         </P>
-        {descriptions.slice(1).map((text, i) => (
-          <P key={i} style={{ marginBottom: 10 }}>
-            {text}
-          </P>
-        ))}
+        {descriptionGoodies && <P>{descriptionGoodies}</P>}
         {optionGroups.map(
           (
             {

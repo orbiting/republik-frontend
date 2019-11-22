@@ -119,9 +119,20 @@ class Pledge extends Component {
   getPkg(base) {
     const { query } = base || this.props
     const { packages } = this.props
-    return query.package
+    let pkg = query.package
       ? packages.find(pkg => pkg.name === query.package.toUpperCase())
       : null
+    if (pkg && query.userPrice) {
+      // do not offer goodies when userPrice
+      pkg = {
+        ...pkg,
+        options: pkg.options.filter(
+          option => option.reward.__typename !== 'Goodie'
+        )
+      }
+    }
+
+    return pkg
   }
   submitPledgeProps({ values, query, pledge }) {
     const { customMe } = this.props

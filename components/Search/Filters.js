@@ -50,13 +50,13 @@ const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS[0]
 
 const Filters = compose(withAggregations)(
-  ({
-    dataAggregations: {
-      search: { aggregations }
-    },
-    selected,
-    changeFilter
-  }) => {
+  ({ dataAggregations, selected, changeFilter }) => {
+    const { search } = dataAggregations
+    if (!search) return null
+
+    const { aggregations } = search
+    if (!aggregations) return null
+
     if (!selected) {
       // TODO ? rerouting doesn't work server-side
       typeof document !== 'undefined' &&

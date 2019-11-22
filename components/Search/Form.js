@@ -13,10 +13,14 @@ const Form = compose(
 )(({ searchQuery, onSearchQueryChange, resetURL, t }) => {
   const [query, setQuery] = useState(searchQuery)
   const canSubmit = query && query !== searchQuery
+  const submitQuery = e => {
+    e.preventDefault()
+    canSubmit && onSearchQueryChange(query)
+  }
   // TODO: autofocus (ask @Thomas)
 
   return (
-    <form onSubmit={() => canSubmit && onSearchQueryChange(query)}>
+    <form onSubmit={e => submitQuery(e)}>
       <Field
         label={t('search/input/label')}
         value={query}

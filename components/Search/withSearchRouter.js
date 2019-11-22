@@ -22,13 +22,14 @@ export default WrappedComponent =>
     }
 
     const updateURL = newParams => {
-      Router.push({
-        pathname: '/suche',
-        query: {
+      Router.pushRoute(
+        'search',
+        {
           ...query,
           ...newParams
-        }
-      })
+        },
+        { shallow: true }
+      )
     }
     const onSearchQueryChange = q => updateURL({ [QUERY_PARAM]: q })
     const onFilterChange = filter =>
@@ -42,7 +43,7 @@ export default WrappedComponent =>
         [SORT_DIRECTION_PARAM]: sort.direction
       })
 
-    const resetURL = () => Router.push({ pathname: '/suche' })
+    const resetURL = () => Router.pushRoute('search')
 
     return (
       <WrappedComponent

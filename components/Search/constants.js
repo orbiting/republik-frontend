@@ -17,10 +17,16 @@ export const SUPPORTED_FILTERS = [
   }
 ]
 
-export const SUPPORTED_SORT = {
-  relevance: [],
-  publishedAt: ['ASC', 'DESC']
-}
+export const SUPPORTED_SORT = [
+  {
+    key: 'relevance',
+    sort: []
+  },
+  {
+    key: 'publishedAt',
+    sort: ['ASC', 'DESC']
+  }
+]
 
 export const DEFAULT_AGGREGATION_KEYS = ['type', 'hasAudio']
 

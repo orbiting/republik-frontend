@@ -123,11 +123,11 @@ class Pledge extends Component {
       ? packages.find(pkg => pkg.name === query.package.toUpperCase())
       : null
     if (pkg && query.userPrice) {
-      // do not offer goodies when userPrice
+      // do not offer goodies unless userPrice true
       pkg = {
         ...pkg,
         options: pkg.options.filter(
-          option => option.reward.__typename !== 'Goodie'
+          option => option.reward.__typename !== 'Goodie' || option.userPrice
         )
       }
     }

@@ -443,7 +443,12 @@ class Pledge extends Component {
                 </div>
                 {pkg && (
                   <Fragment>
-                    <H2>{t('pledge/contact/title')}</H2>
+                    <H2>
+                      {t.first([
+                        `pledge/contact/title/${pkg.name}`,
+                        'pledge/contact/title'
+                      ])}
+                    </H2>
                     <div style={{ marginTop: 10, marginBottom: 40 }}>
                       {me ? (
                         <Fragment>

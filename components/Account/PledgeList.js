@@ -139,6 +139,17 @@ class PledgeList extends Component {
                           ],
                           {
                             formattedTotal: chfFormat(payment.total / 100),
+                            dateSuffix:
+                              pledge.payments.length === 1
+                                ? ''
+                                : t(
+                                    'account/pledges/payment/status/generic/PAID/dateSuffix',
+                                    {
+                                      createdAt: dayFormat(
+                                        new Date(payment.createdAt)
+                                      )
+                                    }
+                                  ),
                             hrid: payment.hrid,
                             method: t(
                               `account/pledges/payment/method/${payment.method}`

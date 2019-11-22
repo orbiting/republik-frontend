@@ -19,6 +19,7 @@ const Form = compose(
   }
   // TODO: autofocus (ask @Thomas)
   // TODO: clear this whole mobile focus thing
+  // TODO: fix issue with clearing form
 
   return (
     <form onSubmit={e => submitQuery(e)}>

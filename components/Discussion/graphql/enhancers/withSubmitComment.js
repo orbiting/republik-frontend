@@ -89,7 +89,6 @@ export const withSubmitComment = compose(
             const variables = {
               discussionId,
               parentId: ownParentId,
-              after: null,
               orderBy,
               depth,
               focusId

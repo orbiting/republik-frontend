@@ -319,7 +319,12 @@ class CustomizePackage extends Component {
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
     const goodies = pkg.options
-      .filter(option => option.reward && option.reward.__typename === 'Goodie')
+      .filter(
+        option =>
+          option.reward &&
+          option.reward.__typename === 'Goodie' &&
+          option.maxAmount > 0
+      )
       .map(option => option.reward.name)
       .sort((a, b) => ascending(a, b))
     const deliveryNote = t(
@@ -461,7 +466,11 @@ class CustomizePackage extends Component {
     const description = t.first(descriptionKeys)
     const goodiesDescription =
       !!goodies.length &&
-      t.first(descriptionKeys.map(key => `${key}/goodies`), undefined, null)
+      t.first(
+        descriptionKeys.map(key => `${key}/goodies/${goodies.join('_')}`),
+        undefined,
+        null
+      )
     const goodiesImage =
       (hasNotebook && hasTotebag && (
         <img

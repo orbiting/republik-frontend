@@ -19,7 +19,11 @@ const Form = compose(
   }
   // TODO: autofocus (ask @Thomas)
   // TODO: clear this whole mobile focus thing
-  // TODO: fix issue with clearing form
+
+  const reset = () => {
+    setQuery(undefined)
+    resetURL()
+  }
 
   return (
     <form onSubmit={e => submitQuery(e)}>
@@ -29,7 +33,7 @@ const Form = compose(
         onChange={(_, value) => setQuery(value)}
         icon={
           query && (
-            <Close style={{ cursor: 'pointer' }} size={30} onClick={resetURL} />
+            <Close style={{ cursor: 'pointer' }} size={30} onClick={reset} />
           )
         }
       />

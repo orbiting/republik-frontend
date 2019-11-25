@@ -524,7 +524,7 @@ class CustomizePackage extends Component {
               isGoodies,
               additionalPeriods
             },
-            i
+            gi
           ) => {
             const reset = group &&
               optionGroups.filter(og => !og.isGoodies).length > 1 &&
@@ -572,8 +572,8 @@ class CustomizePackage extends Component {
                 </Fragment>
               )
 
-            const nextGroup = optionGroups[i + 1]
-            const prevGroup = optionGroups[i - 1]
+            const nextGroup = optionGroups[gi + 1]
+            const prevGroup = optionGroups[gi - 1]
 
             return (
               <Fragment key={groupKey}>
@@ -765,7 +765,7 @@ class CustomizePackage extends Component {
                         <div>
                           <Field
                             ref={
-                              i === 0 && !group
+                              i === 0 && !group && gi === 0
                                 ? this.focusRefSetter
                                 : undefined
                             }

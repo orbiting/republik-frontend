@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import withT from '../../lib/withT'
 
 import Close from 'react-icons/lib/md/close'
@@ -17,8 +17,13 @@ const Form = compose(
     e.preventDefault()
     canSubmit && onSearchQueryChange(query)
   }
-  // TODO: autofocus (ask @Thomas)
-  // TODO: clear this whole mobile focus thing
+
+  const [focusRef, setFocusRef] = useState(null)
+  useEffect(() => {
+    focusRef && focusRef.input && focusRef.input.focus()
+    return
+  }, [focusRef])
+  // TODO: why no focus on mobile? (@Thomas)
 
   const reset = () => {
     setQuery(undefined)
@@ -28,6 +33,7 @@ const Form = compose(
   return (
     <form onSubmit={e => submitQuery(e)}>
       <Field
+        ref={setFocusRef}
         label={t('search/input/label')}
         value={query}
         onChange={(_, value) => setQuery(value)}

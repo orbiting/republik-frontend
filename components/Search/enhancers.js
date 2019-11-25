@@ -146,7 +146,7 @@ export const withResults = graphql(getSearchResults, {
           sort: ownProps.sort,
           trackingId: ownProps.trackingId
         },
-        updateQuery: (previousResult, { fetchMoreResult, queryVariables }) => {
+        updateQuery: (previousResult, { fetchMoreResult }) => {
           const nodes = [
             ...previousResult.search.nodes,
             ...fetchMoreResult.search.nodes

@@ -71,6 +71,7 @@ export const UserResult = ({
     entity: { id, slug, firstName, lastName, credentials, portrait }
   }
 }) => {
+  // TODO: show highlight if needed
   const credential = credentials && credentials.find(c => c.isListed)
   return (
     <div {...styles.root}>

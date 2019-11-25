@@ -15,6 +15,7 @@ import {
   SUPPORTED_SORT
 } from './constants'
 import { withAggregations } from './enhancers'
+import { findAggregation } from './Filters'
 
 const styles = {
   container: css({
@@ -89,12 +90,13 @@ const SortButton = compose(withT)(({ t, sort, selected, changeSort }) => {
 })
 
 const Sort = compose(withAggregations)(
-  ({ dataAggregations, selected, changeSort }) => {
+  ({ dataAggregations, filter, selected, changeSort }) => {
     const { search } = dataAggregations
     if (!search) return null
 
-    const { totalCount, aggregations } = search
-    if (totalCount === 0 || !aggregations) return null
+    const { aggregations } = search
+    const currentAgg = findAggregation(aggregations, filter)
+    if (!currentAgg || currentAgg.count === 0) return null
 
     if (!selected) {
       changeSort(findByKey(SUPPORTED_SORT, 'key', DEFAULT_SORT))
@@ -124,6 +126,7 @@ const SortWrapper = compose(withSearchRouter)(
     return searchQuery && filter ? (
       <Sort
         searchQuery={searchQuery}
+        filter={filter}
         trackingId={trackingId}
         keys={DEFAULT_AGGREGATION_KEYS}
         selected={sort}

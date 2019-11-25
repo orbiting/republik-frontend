@@ -39,7 +39,7 @@ const styles = {
   })
 }
 
-const findAggregation = (aggregations, filter) => {
+export const findAggregation = (aggregations, filter) => {
   const agg = findByKey(aggregations, 'key', filter.key)
   return !agg || !agg.buckets
     ? agg

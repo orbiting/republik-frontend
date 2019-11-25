@@ -170,7 +170,11 @@ const Inner = ({
   const loading =
     (subscribedByMeData && subscribedByMeData.loading) ||
     (data.loading && (!data.cardGroup || !data.cardGroup.cards))
-  const Wrapper = loading ? Container : Fragment
+  const Wrapper = loading
+    ? ({ children }) => (
+        <Container style={{ minHeight: 400 }}>{children}</Container>
+      )
+    : Fragment
   const error = data.error || (subscribedByMeData && subscribedByMeData.error)
 
   return (

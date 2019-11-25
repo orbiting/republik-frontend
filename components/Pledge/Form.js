@@ -162,10 +162,12 @@ class Pledge extends Component {
               amount:
                 values[fieldKey] === undefined
                   ? option.defaultAmount
-                  : values[fieldKey],
+                  : // can be '', but PackageOptionInput needs Int! here
+                    +values[fieldKey],
               periods:
                 values[fieldKeyPeriods] !== undefined
-                  ? values[fieldKeyPeriods]
+                  ? // can be '', but PackageOptionInput needs Int here
+                    +values[fieldKeyPeriods]
                   : option.reward && option.reward.defaultPeriods,
               price: option.price,
               templateId: option.templateId,

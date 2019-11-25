@@ -25,6 +25,7 @@ export default WrappedComponent =>
 
     const updateURL = newParams => {
       // TODO: rerouting doesn't work server-side (@Thomas)
+      // if works that way, but could be better (maybe)
       typeof document !== 'undefined' &&
         Router.pushRoute(
           'search',

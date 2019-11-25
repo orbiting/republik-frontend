@@ -15,8 +15,7 @@ import {
   colors,
   fontStyles,
   linkRule,
-  mediaQueries,
-  RawHtml
+  mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
 
@@ -32,12 +31,6 @@ const styles = {
   }),
   results: css({
     paddingTop: 5
-  }),
-  empty: css({
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular19
-    }
   }),
   countLoaded: css({
     borderTop: `1px solid ${colors.text}`,
@@ -59,16 +52,6 @@ const styles = {
     padding: 0
   })
 }
-
-export const EmptyState = compose(withT)(({ t }) => (
-  <div {...styles.empty}>
-    <RawHtml
-      dangerouslySetInnerHTML={{
-        __html: t('search/results/empty')
-      }}
-    />
-  </div>
-))
 
 const ResultsList = ({ nodes }) => {
   const nodeType = nodes[0].entity.__typename
@@ -127,9 +110,7 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 
           const { nodes, totalCount } = search
 
-          return !nodes || !totalCount ? (
-            <EmptyState />
-          ) : (
+          return !nodes || !totalCount ? null : (
             <div {...styles.results}>
               <ResultsList nodes={nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />

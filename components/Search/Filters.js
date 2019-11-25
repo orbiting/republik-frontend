@@ -4,10 +4,10 @@ import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_FILTERS } from './constants'
 import { css, merge } from 'glamor'
-import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
 import track from '../../lib/piwik'
-import { EmptyState } from './Results'
+import withT from '../../lib/withT'
 
 // TODO: clean/mobile-friendly x-scroll for the tabs
 const styles = {
@@ -30,6 +30,12 @@ const styles = {
   }),
   listItemSelected: css({
     textDecoration: 'underline'
+  }),
+  empty: css({
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular19
+    }
   })
 }
 
@@ -49,6 +55,16 @@ const hasResults = (aggregations, filter) =>
 const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
   SUPPORTED_FILTERS[0]
+
+const EmptyState = compose(withT)(({ t }) => (
+  <div {...styles.empty}>
+    <RawHtml
+      dangerouslySetInnerHTML={{
+        __html: t('search/results/empty')
+      }}
+    />
+  </div>
+))
 
 const Filters = compose(withAggregations)(
   ({

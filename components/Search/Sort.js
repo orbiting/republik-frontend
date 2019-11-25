@@ -9,7 +9,12 @@ import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
 import { findByKey } from '../../lib/utils/helpers'
-import { DEFAULT_SORT, SUPPORTED_SORT } from './constants'
+import {
+  DEFAULT_AGGREGATION_KEYS,
+  DEFAULT_SORT,
+  SUPPORTED_SORT
+} from './constants'
+import { withAggregations } from './enhancers'
 
 const styles = {
   container: css({
@@ -83,33 +88,47 @@ const SortButton = compose(withT)(({ t, sort, selected, changeSort }) => {
   )
 })
 
-const Sort = ({ selected, changeSort }) => {
-  if (!selected) {
-    changeSort(findByKey(SUPPORTED_SORT, 'key', DEFAULT_SORT))
-    return null
-  }
+const Sort = compose(withAggregations)(
+  ({ dataAggregations, selected, changeSort }) => {
+    const { search } = dataAggregations
+    if (!search) return null
 
-  return (
-    <div {...styles.container}>
-      {SUPPORTED_SORT.map((sort, key) => {
-        return (
-          <Fragment key={key}>
-            <SortButton
-              sort={sort}
-              selected={selected}
-              changeSort={changeSort}
-            />
-          </Fragment>
-        )
-      })}
-    </div>
-  )
-}
+    const { totalCount, aggregations } = search
+    if (totalCount === 0 || !aggregations) return null
+
+    if (!selected) {
+      changeSort(findByKey(SUPPORTED_SORT, 'key', DEFAULT_SORT))
+      return null
+    }
+
+    return (
+      <div {...styles.container}>
+        {SUPPORTED_SORT.map((sort, key) => {
+          return (
+            <Fragment key={key}>
+              <SortButton
+                sort={sort}
+                selected={selected}
+                changeSort={changeSort}
+              />
+            </Fragment>
+          )
+        })}
+      </div>
+    )
+  }
+)
 
 const SortWrapper = compose(withSearchRouter)(
-  ({ searchQuery, filter, sort, onSortChange }) => {
+  ({ searchQuery, trackingId, filter, sort, onSortChange }) => {
     return searchQuery && filter ? (
-      <Sort selected={sort} changeSort={onSortChange} />
+      <Sort
+        searchQuery={searchQuery}
+        trackingId={trackingId}
+        keys={DEFAULT_AGGREGATION_KEYS}
+        selected={sort}
+        changeSort={onSortChange}
+      />
     ) : null
   }
 )

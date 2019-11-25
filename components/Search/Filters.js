@@ -67,9 +67,11 @@ const Filters = compose(withAggregations)(
       changeTrackingId(newTrackingId)
     }
 
-    const { aggregations, totalCount } = search
+    const { totalCount, aggregations } = search
 
-    track(['trackSiteSearch', searchQuery, false, totalCount])
+    // TODO: doesn't work server side
+    // TODO: can we put this in the graphql query??
+    // track(['trackSiteSearch', searchQuery, false, totalCount])
 
     if (totalCount === 0 || !aggregations) return <EmptyState />
 

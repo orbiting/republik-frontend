@@ -2,25 +2,28 @@ import React from 'react'
 import { colors, TeaserFeed } from '@project-r/styleguide'
 import ActionBar from '../ActionBar/Feed'
 import Link from '../Link/Href'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 
 const styles = {
   highlight: css({
     '& em': {
       background: colors.primaryBg,
-      fontStyle: 'normal'
+      fontStyle: 'inherit'
     }
+  }),
+  textHighlight: css({
+    fontStyle: 'italic'
   })
 }
 
+const findHighlight = (node, path) =>
+  node.highlights.find(highlight => highlight.path === path)
+
 export default ({ node }) => {
-  const titleHighlight = node.highlights.find(
-    highlight => highlight.path === 'meta.title'
-  )
-  const descHighlight = node.highlights.find(
-    highlight => highlight.path === 'meta.description'
-  )
-  // TODO: show 1st highlight if neither title nor teaser have highlights
+  const titleHighlight = findHighlight(node, 'meta.title')
+  const descHighlight = findHighlight(node, 'meta.description')
+  const textHighlight = findHighlight(node, 'contentString')
+
   const actionBar = node.entity.meta ? (
     <ActionBar
       documentId={node.entity.id}
@@ -46,11 +49,12 @@ export default ({ node }) => {
         )
       }
       description={
-        descHighlight ? (
+        !titleHighlight ? (
           <span
-            {...styles.highlight}
+            {...merge(styles.highlight, !descHighlight && styles.textHighlight)}
             dangerouslySetInnerHTML={{
-              __html: descHighlight.fragments[0]
+              __html: (descHighlight ? descHighlight : textHighlight)
+                .fragments[0]
             }}
           />
         ) : (

@@ -70,7 +70,7 @@ const Filters = compose(withAggregations)(
     const { totalCount, aggregations } = search
 
     // TODO: doesn't work server side
-    // TODO: can we put this in the graphql query??
+    // TODO: should we put this in the graphql query??
     // track(['trackSiteSearch', searchQuery, false, totalCount])
 
     if (totalCount === 0 || !aggregations) return <EmptyState />

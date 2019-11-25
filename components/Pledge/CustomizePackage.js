@@ -1150,22 +1150,6 @@ class CustomizePackage extends Component {
                   <br />
                 </Fragment>
               )}
-              {ownMembership && (
-                <Fragment>
-                  <Link
-                    route='cancel'
-                    params={{ membershipId: ownMembership.id }}
-                    passHref
-                  >
-                    <Editorial.A>
-                      {t.first([
-                        `memberships/${ownMembership.type.name}/manage/cancel/link`,
-                        'memberships/manage/cancel/link'
-                      ])}
-                    </Editorial.A>
-                  </Link>
-                </Fragment>
-              )}
             </div>
           )}
         </div>

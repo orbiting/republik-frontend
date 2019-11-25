@@ -64,7 +64,7 @@ export default WrappedComponent =>
         onSearchQueryChange={onSearchQueryChange}
         onFilterChange={onFilterChange}
         onSortChange={onSortChange}
-        onTrackingIdChange={onTrackingIdChange()}
+        onTrackingIdChange={onTrackingIdChange}
         resetURL={resetURL}
         {...props}
       />

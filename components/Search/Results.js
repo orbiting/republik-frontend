@@ -19,7 +19,6 @@ import {
   RawHtml
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
-import track from '../../lib/piwik'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -128,7 +127,7 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 
           const { nodes, totalCount } = search
 
-          !nodes || !totalCount ? (
+          return !nodes || !totalCount ? (
             <EmptyState />
           ) : (
             <div {...styles.results}>

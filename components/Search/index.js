@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { css } from 'glamor'
 
-import track from '../../lib/piwik'
-
 import Form from './Form'
 import Filters from './Filters'
 import Sort from './Sort'

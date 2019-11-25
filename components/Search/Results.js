@@ -19,6 +19,7 @@ import {
   RawHtml
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
+import track from '../../lib/piwik'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -60,7 +61,7 @@ const styles = {
   })
 }
 
-const EmptyState = compose(withT)(({ t }) => (
+export const EmptyState = compose(withT)(({ t }) => (
   <div {...styles.empty}>
     <RawHtml
       dangerouslySetInnerHTML={{
@@ -123,16 +124,13 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
         render={() => {
           const { search } = data
 
-          if (!search) {
-            return null
-          }
+          if (!search) return null
+
           const { nodes, totalCount } = search
 
-          if (!nodes || !totalCount) {
-            return <EmptyState />
-          }
-
-          return (
+          !nodes || !totalCount ? (
+            <EmptyState />
+          ) : (
             <div {...styles.results}>
               <ResultsList nodes={nodes} />
               <ResultsFooter search={search} fetchMore={fetchMore} />
@@ -145,9 +143,14 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 })
 
 const ResultsWrapper = compose(withSearchRouter)(
-  ({ searchQuery, filter, sort }) => {
+  ({ searchQuery, filter, sort, trackingId }) => {
     return searchQuery && filter && sort ? (
-      <Results searchQuery={searchQuery} filters={[filter]} sort={sort} />
+      <Results
+        searchQuery={searchQuery}
+        filters={[filter]}
+        sort={sort}
+        trackingId={trackingId}
+      />
     ) : null
   }
 )

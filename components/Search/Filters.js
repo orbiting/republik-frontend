@@ -6,6 +6,8 @@ import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_FILTERS } from './constants'
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
+import track from '../../lib/piwik'
+import { EmptyState } from './Results'
 
 // TODO: clean/mobile-friendly x-scroll for the tabs
 const styles = {
@@ -49,12 +51,27 @@ const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS[0]
 
 const Filters = compose(withAggregations)(
-  ({ dataAggregations, selected, changeFilter }) => {
+  ({
+    dataAggregations,
+    trackingId,
+    searchQuery,
+    selected,
+    changeFilter,
+    changeTrackingId
+  }) => {
     const { search } = dataAggregations
     if (!search) return null
 
-    const { aggregations } = search
-    if (!aggregations) return null
+    const newTrackingId = search.trackingId
+    if (!!newTrackingId && trackingId !== newTrackingId) {
+      changeTrackingId(newTrackingId)
+    }
+
+    const { aggregations, totalCount } = search
+
+    track(['trackSiteSearch', searchQuery, false, totalCount])
+
+    if (totalCount === 0 || !aggregations) return <EmptyState />
 
     if (!selected) {
       changeFilter(findFilterWithResults(aggregations))
@@ -86,13 +103,15 @@ const Filters = compose(withAggregations)(
 )
 
 const FiltersWrapper = compose(withSearchRouter)(
-  ({ searchQuery, filter, onFilterChange }) => {
+  ({ searchQuery, filter, trackingId, onFilterChange, onTrackingIdChange }) => {
     return searchQuery ? (
       <Filters
         searchQuery={searchQuery}
+        trackingId={trackingId}
         keys={DEFAULT_AGGREGATION_KEYS}
         selected={filter}
         changeFilter={onFilterChange}
+        changeTrackingId={onTrackingIdChange}
       />
     ) : null
   }

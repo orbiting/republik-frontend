@@ -6,7 +6,8 @@ import {
   FILTER_VALUE_PARAM,
   QUERY_PARAM,
   SORT_DIRECTION_PARAM,
-  SORT_KEY_PARAM
+  SORT_KEY_PARAM,
+  TRACKING_PARAM
 } from './constants'
 
 export default WrappedComponent =>
@@ -20,6 +21,7 @@ export default WrappedComponent =>
       key: query[SORT_KEY_PARAM],
       direction: query[SORT_DIRECTION_PARAM]
     }
+    const trackingId = query[TRACKING_PARAM]
 
     const updateURL = newParams => {
       // TODO: rerouting doesn't work server-side (@Thomas)
@@ -33,17 +35,23 @@ export default WrappedComponent =>
           { shallow: true }
         )
     }
+
     const onSearchQueryChange = q => updateURL({ [QUERY_PARAM]: q })
+
     const onFilterChange = filter =>
       updateURL({
         [FILTER_KEY_PARAM]: filter.key,
         [FILTER_VALUE_PARAM]: filter.value
       })
+
     const onSortChange = sort =>
       updateURL({
         [SORT_KEY_PARAM]: sort.key,
         [SORT_DIRECTION_PARAM]: sort.direction
       })
+
+    const onTrackingIdChange = trackingId =>
+      updateURL({ [TRACKING_PARAM]: trackingId })
 
     const resetURL = () => Router.pushRoute('search')
 
@@ -52,9 +60,11 @@ export default WrappedComponent =>
         searchQuery={searchQuery}
         filter={filter}
         sort={sort}
+        trackingId={trackingId}
         onSearchQueryChange={onSearchQueryChange}
         onFilterChange={onFilterChange}
         onSortChange={onSortChange}
+        onTrackingIdChange={onTrackingIdChange()}
         resetURL={resetURL}
         {...props}
       />

@@ -25,30 +25,13 @@ class Search extends Component {
 
     this.state = {
       isMobile: true,
-      allowFocus: true,
-      trackingId: undefined
+      allowFocus: true
     }
 
     this.refreshSearch = () => {
       this.setState({
         allowFocus: !this.state.isMobile
       })
-      // TODO: handle this in the results component
-      track([
-        'trackSiteSearch',
-        this.state.searchQuery,
-        false,
-        this.state.totalCount
-      ])
-    }
-
-    this.onSearchLoaded = search => {
-      const { trackingId } = search
-      if (!!trackingId && trackingId !== this.state.trackingId) {
-        this.setState({
-          trackingId
-        })
-      }
     }
 
     this.handleResize = () => {

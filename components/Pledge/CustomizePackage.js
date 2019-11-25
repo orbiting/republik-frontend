@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { css } from 'glamor'
 import AutosizeInput from 'react-textarea-autosize'
 import { nest } from 'd3-collection'
-import { sum, min } from 'd3-array'
+import { sum, min, ascending } from 'd3-array'
 import { timeDay } from 'd3-time'
 import { compose } from 'react-apollo'
 import { withRouter } from 'next/router'
@@ -162,7 +162,7 @@ const styles = {
   packageImage: css({
     float: 'right',
     maxWidth: 150,
-    maxHeight: 200,
+    maxHeight: 170,
     paddingLeft: 10,
     [mediaQueries.mUp]: {
       paddingLeft: 30
@@ -318,8 +318,19 @@ class CustomizePackage extends Component {
     const hasTotebag = !!pkg.options.find(
       option => option.reward && option.reward.name === 'TOTEBAG'
     )
-    const hasGoodies = !!pkg.options.find(
-      option => option.reward && option.reward.__typename === 'Goodie'
+    const goodies = pkg.options
+      .filter(
+        option =>
+          option.reward &&
+          option.reward.__typename === 'Goodie' &&
+          option.maxAmount > 0
+      )
+      .map(option => option.reward.name)
+      .sort((a, b) => ascending(a, b))
+    const deliveryNote = t(
+      `pledge/notice/goodies/delivery/${goodies.join('_')}`,
+      undefined,
+      null
     )
 
     const onPriceChange = (_, value, shouldValidate) => {
@@ -403,12 +414,15 @@ class CustomizePackage extends Component {
       })
 
     const optionGroups = nest()
-      .key(d => (d.option.optionGroup ? d.option.optionGroup : ''))
+      .key(d =>
+        d.option.optionGroup ? d.option.optionGroup : d.option.reward.__typename
+      )
       .entries(configurableFields)
-      .map(({ key: group, values: fields }) => {
+      .map(({ key: groupKey, values: fields }) => {
         const options = fields
           .map(field => field.option)
           .filter((o, i, a) => a.indexOf(o) === i)
+        const group = options[0].optionGroup
         const selectedGroupOption =
           group &&
           options.find(option => {
@@ -426,18 +440,50 @@ class CustomizePackage extends Component {
 
         return {
           group,
+          groupKey,
           checkboxGroup,
           options,
           fields,
           selectedGroupOption,
           membership,
           isAboGive,
+          isGoodies: groupKey === 'Goodie',
           additionalPeriods
         }
       })
     const multipleThings =
       configurableFields.length &&
       (optionGroups.length > 1 || !optionGroups[0].group)
+
+    const descriptionKeys = [
+      ownMembership &&
+        `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
+      ownMembership &&
+        `package/${pkg.name}/${ownMembership.type.name}/description`,
+      `package/${crowdfundingName}/${pkg.name}/description`,
+      `package/${pkg.name}/description`
+    ].filter(Boolean)
+    const description = t.first(descriptionKeys)
+    const goodiesDescription =
+      !!goodies.length &&
+      t.first(
+        descriptionKeys.map(key => `${key}/goodies/${goodies.join('_')}`),
+        undefined,
+        null
+      )
+    const goodiesImage =
+      (hasNotebook && hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`}
+        />
+      )) ||
+      (hasNotebook && !hasTotebag && (
+        <img
+          {...styles.packageImage}
+          src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
+        />
+      ))
 
     return (
       <div>
@@ -461,95 +507,85 @@ class CustomizePackage extends Component {
           </A>
         </div>
         <P style={{ marginBottom: 10 }}>
-          {hasNotebook && hasTotebag && (
-            <img
-              {...styles.packageImage}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine_totebag.jpg`}
-            />
-          )}
-          {hasNotebook && !hasTotebag && (
-            <img
-              {...styles.packageImage}
-              src={`${CDN_FRONTEND_BASE_URL}/static/packages/moleskine.jpg`}
-            />
-          )}
-          {t.first(
-            [
-              ownMembership &&
-                `package/${crowdfundingName}/${pkg.name}/${ownMembership.type.name}/description`,
-              ownMembership &&
-                `package/${pkg.name}/${ownMembership.type.name}/description`,
-              `package/${crowdfundingName}/${pkg.name}/description`,
-              `package/${pkg.name}/description`
-            ].filter(Boolean)
-          )}
+          {!goodiesDescription && goodiesImage}
+          {description}
         </P>
         {optionGroups.map(
           (
             {
               group,
+              groupKey,
               checkboxGroup,
               fields,
               options,
               selectedGroupOption,
               membership,
               isAboGive,
+              isGoodies,
               additionalPeriods
             },
             i
           ) => {
-            const reset = group && optionGroups.length > 1 && !checkboxGroup && (
-              <Fragment>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  <Radio
-                    value='0'
-                    checked={!selectedGroupOption}
-                    onChange={event => {
-                      if (userPrice) {
-                        this.resetUserPrice()
-                      }
-                      onChange(
-                        this.calculateNextPrice(
-                          options.reduce((fields, option) => {
-                            return FieldSet.utils.mergeField({
-                              field: getOptionFieldKey(option),
-                              value: 0,
-                              error: undefined,
-                              dirty: false
-                            })(fields)
-                          }, {})
-                        )
-                      )
+            const reset = group &&
+              optionGroups.filter(og => !og.isGoodies).length > 1 &&
+              !checkboxGroup && (
+                <Fragment>
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      whiteSpace: 'nowrap'
                     }}
                   >
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        verticalAlign: 'top',
-                        marginRight: 20,
-                        whiteSpace: 'nowrap'
+                    <Radio
+                      value='0'
+                      checked={!selectedGroupOption}
+                      onChange={() => {
+                        if (userPrice) {
+                          this.resetUserPrice()
+                        }
+                        onChange(
+                          this.calculateNextPrice(
+                            options.reduce((fields, option) => {
+                              return FieldSet.utils.mergeField({
+                                field: getOptionFieldKey(option),
+                                value: 0,
+                                error: undefined,
+                                dirty: false
+                              })(fields)
+                            }, {})
+                          )
+                        )
                       }}
                     >
-                      {t(`option/${pkg.name}/resetGroup`, {}, null)}
-                    </span>
-                  </Radio>
-                </span>
-              </Fragment>
-            )
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          verticalAlign: 'top',
+                          marginRight: 20,
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {t(`option/${pkg.name}/resetGroup`, {}, null)}
+                      </span>
+                    </Radio>
+                  </span>
+                </Fragment>
+              )
 
             const nextGroup = optionGroups[i + 1]
             const prevGroup = optionGroups[i - 1]
 
             return (
-              <Fragment key={group}>
+              <Fragment key={groupKey}>
                 {isAboGive && (!prevGroup || !prevGroup.isAboGive) && (
                   <P style={{ marginTop: 30 }}>
                     {t('package/customize/group/aboGive')}
+                  </P>
+                )}
+                {isGoodies && goodiesDescription && (
+                  <P>
+                    {goodiesImage}
+                    {goodiesDescription}
                   </P>
                 )}
                 {membership && (
@@ -703,7 +739,7 @@ class CustomizePackage extends Component {
                             <Radio
                               value='1'
                               checked={!!value}
-                              onChange={event => {
+                              onChange={() => {
                                 onFieldChange(undefined, 1, dirty[fieldKey])
                               }}
                             >
@@ -720,8 +756,8 @@ class CustomizePackage extends Component {
                         {...styles.span}
                         style={{
                           width:
-                            configurableFields.length === 1 ||
-                            (configurableFields.length === 3 && i === 0)
+                            fields.length === 1 ||
+                            (fields.length === 3 && i === 0)
                               ? '100%'
                               : '50%'
                         }}
@@ -842,9 +878,9 @@ class CustomizePackage extends Component {
             )
           }
         )}
-        {hasGoodies && (
+        {deliveryNote && (
           <div style={{ marginBottom: 20 }}>
-            <Label>{t('pledge/notice/goodies/delivery')}</Label>
+            <Label>{deliveryNote}</Label>
           </div>
         )}
         {!!userPrice && (
@@ -1112,22 +1148,6 @@ class CustomizePackage extends Component {
                     {t('package/customize/price/payLess')}
                   </Editorial.A>
                   <br />
-                </Fragment>
-              )}
-              {ownMembership && (
-                <Fragment>
-                  <Link
-                    route='cancel'
-                    params={{ membershipId: ownMembership.id }}
-                    passHref
-                  >
-                    <Editorial.A>
-                      {t.first([
-                        `memberships/${ownMembership.type.name}/manage/cancel/link`,
-                        'memberships/manage/cancel/link'
-                      ])}
-                    </Editorial.A>
-                  </Link>
                 </Fragment>
               )}
             </div>

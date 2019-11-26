@@ -937,6 +937,7 @@ const Group = ({
       <div
         style={{
           position: 'absolute',
+          opacity: windowWidth ? 1 : 0,
           zIndex: ZINDEX_HEADER + allCards.length + 1
         }}
       >

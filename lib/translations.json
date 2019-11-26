@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-25T11:12:02.961Z",
+  "updated": "2019-11-26T10:55:58.287Z",
   "title": "live",
   "data": [
     {
@@ -2736,11 +2736,11 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY",
@@ -6251,7 +6251,7 @@
       "value": "Es freut uns, dass Sie dabei sind! Mit Ihrem jährlichen Beitrag sind Sie Mitglied der Project R Genossenschaft. Und damit zu einem kleinen Teil Verlegerin oder Verleger der Republik. Sie erhalten ab sofort unser Magazin."
     },
     {
-      "key": "package/ABO/description/goodies",
+      "key": "package/ABO/description/goodies/TABLEBOOK",
       "value": "Ausserdem haben Sie die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
     },
     {
@@ -6259,15 +6259,19 @@
       "value": "Vielleicht das einzige Geschenk, das Sie Freunden und Feinden gleichermassen herzlich machen können: ein Jahr Mitgliedschaft bei der Project R Genossenschaft. Und damit Zugang zur Republik."
     },
     {
-      "key": "package/ABO_GIVE/description/goodies",
+      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TABLEBOOK_TOTEBAG",
       "value": "Etwas Handfestes dazuschenken? Für begrenzte Zeit ist jetzt unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) für Verlegerinnen bestellbar. Ausserdem gibt es die Republik-Tasche oder das Republik-Notizbuch für je CHF 20."
+    },
+    {
+      "key": "package/ABO_GIVE/description/goodies/NOTEBOOK_TOTEBAG",
+      "value": "Etwas Handfestes dazu schenken? Entweder die Republik-Tasche (mit Logo und Manifest) oder das Republik-Notizbuch. Für je CHF 20."
     },
     {
       "key": "package/BENEFACTOR/description",
       "value": "Sie wollen nicht nur ein unabhängiges Magazin lesen, sondern Sie wollen sich auch energisch dafür einsetzen, dass dieses existiert. Mit Ihrer Gönner-Mitgliedschaft werden Sie automatisch Mitglied der Project R Genossenschaft. Und damit Verleger oder Verlegerin der Republik. Um uns für Ihre Unterstützung zu revanchieren, schicken wir Ihnen postwendend das Start-up-Verleger-Paket zu. Darin finden Sie unser Manifest, den exklusiven Republik-Anstecker in Gold sowie ein signiertes «Handbuch für Journalismus im 21. Jahrhundert»."
     },
     {
-      "key": "package/BENEFACTOR/description/goodies",
+      "key": "package/BENEFACTOR/description/goodies/TABLEBOOK",
       "value": "Als Verleger haben Sie zusätzlich exklusiv und für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen."
     },
     {
@@ -6275,7 +6279,7 @@
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen."
     },
     {
-      "key": "package/PROLONG/description/goodies",
+      "key": "package/PROLONG/description/goodies/TABLEBOOK",
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
     },
     {
@@ -6283,7 +6287,7 @@
       "value": "Eine funktionierende Demokratie braucht funktionierende Medien. Und dafür braucht es nicht nur Journalistinnen und Journalisten, sondern auch Sie. Als Leserin. Als Bürger. Als Verlegerin, die bereit ist, langfristig auf unabhängigen Journalismus zu setzen. Durch Ihren jährlichen Beitrag werden Sie Mitglied der Project R Genossenschaft."
     },
     {
-      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies",
+      "key": "package/PROLONG/ABO_GIVE_MONTHS/description/goodies/TABLEBOOK",
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
     },
     {

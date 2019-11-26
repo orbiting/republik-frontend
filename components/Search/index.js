@@ -32,6 +32,7 @@ class Search extends Component {
       })
     }
 
+    // useWindowSize (check in iOS that it works)
     this.handleResize = () => {
       const isMobile = window.innerWidth < mediaQueries.mBreakPoint
       if (isMobile !== this.state.isMobile) {

@@ -86,11 +86,14 @@ const Filters = compose(withAggregations)(
     const { totalCount, aggregations } = search
 
     // TODO: doesn't work server side (e.g. hard reload)
+    // useEffect
     // track(['trackSiteSearch', searchQuery, false, totalCount])
 
     if (totalCount === 0 || !aggregations) return <EmptyState />
 
+    // useEffect
     if (!selected) {
+      // no key in URL = 1st tab
       changeFilter(findFilterWithResults(aggregations))
       return null
     }

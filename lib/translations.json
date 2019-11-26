@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-25T16:34:59.980Z",
+  "updated": "2019-11-26T10:55:58.287Z",
   "title": "live",
   "data": [
     {
@@ -2736,11 +2736,11 @@
     },
     {
       "key": "pledge/consents/label/PRIVACY_STATUTE_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>, den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> und den <a href=\"/statuten\" target=\"_blank\">Statuten der Project R Genossenschaft</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY_TOS",
-      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a>s und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
+      "value": "Ich erkläre mich mit den <a href=\"/agb\" target=\"_blank\">AGB</a> und den <a href=\"/datenschutz\" target=\"_blank\">Datenschutzbestimmungen</a> einverstanden."
     },
     {
       "key": "pledge/consents/label/PRIVACY",

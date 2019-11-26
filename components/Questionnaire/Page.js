@@ -4,8 +4,7 @@ import Loader from '../Loader'
 import { withRouter } from 'next/router'
 
 import { css } from 'glamor'
-import { compose, graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { compose } from 'react-apollo'
 import CheckCircle from 'react-icons/lib/md/check-circle'
 
 import {
@@ -30,6 +29,12 @@ import { errorToString } from '../../lib/utils/errors'
 import { Link, Router } from '../../lib/routes'
 import StatusError from '../StatusError'
 import Results from './Results'
+import {
+  withAnswerMutation,
+  withQuestionnaire,
+  withQuestionnaireMutation,
+  withQuestionnaireReset
+} from './enhancers'
 
 const { Headline, P } = Interaction
 
@@ -282,151 +287,12 @@ class Page extends Component {
   }
 }
 
-const submitAnswerMutation = gql`
-  mutation submitAnswer($answerId: ID!, $questionId: ID!, $payload: JSON) {
-    submitAnswer(
-      answer: { id: $answerId, questionId: $questionId, payload: $payload }
-    ) {
-      ... on QuestionInterface {
-        id
-        userAnswer {
-          id
-          payload
-        }
-      }
-    }
-  }
-`
-
-const resetQuestionnaireMutation = gql`
-  mutation resetQuestionnaire($id: ID!) {
-    resetQuestionnaire(id: $id) {
-      id
-    }
-  }
-`
-
-const submitQuestionnaireMutation = gql`
-  mutation submitQuestionnaire($id: ID!) {
-    submitQuestionnaire(id: $id) {
-      id
-      userSubmitDate
-      userHasSubmitted
-    }
-  }
-`
-
-const query = gql`
-  query getQuestionnaire($slug: String!) {
-    questionnaire(slug: $slug) {
-      id
-      beginDate
-      endDate
-      userHasSubmitted
-      userSubmitDate
-      questions {
-        ... on QuestionInterface {
-          id
-          order
-          text
-          userAnswer {
-            id
-            payload
-          }
-        }
-        ... on QuestionTypeText {
-          maxLength
-        }
-        ... on QuestionTypeChoice {
-          cardinality
-          options {
-            label
-            value
-            category
-          }
-        }
-        ... on QuestionTypeRange {
-          kind
-          ticks {
-            label
-            value
-          }
-        }
-        ... on QuestionTypeDocument {
-          template
-        }
-      }
-    }
-  }
-`
-
 export default compose(
   withT,
   withRouter,
   withAuthorization(['supporter', 'editor'], 'showResults'),
-  graphql(submitQuestionnaireMutation, {
-    props: ({ mutate }) => ({
-      submitQuestionnaire: id => {
-        return mutate({
-          variables: {
-            id
-          }
-        })
-      }
-    })
-  }),
-  graphql(resetQuestionnaireMutation, {
-    props: ({ mutate, ownProps: { router } }) => ({
-      resetQuestionnaire: id => {
-        return mutate({
-          variables: {
-            id
-          },
-          refetchQueries: [{ query, variables: { slug: router.query.slug } }]
-        })
-      }
-    })
-  }),
-  graphql(submitAnswerMutation, {
-    props: ({ mutate, ownProps: { router } }) => ({
-      submitAnswer: (questionId, payload, answerId) => {
-        return mutate({
-          variables: {
-            answerId,
-            questionId,
-            payload
-          },
-          optimisticResponse: {
-            __typename: 'Mutation',
-            submitAnswer: {
-              __typename: 'QuestionInterface',
-              id: questionId,
-              userAnswer: {
-                __typename: 'Answer',
-                id: answerId,
-                payload
-              }
-            }
-          },
-          update: (proxy, { data: { submitAnswer } }) => {
-            const queryObj = { query, variables: { slug: router.query.slug } }
-            const data = proxy.readQuery(queryObj)
-            const questionIx = data.questionnaire.questions.findIndex(
-              q => q.id === questionId
-            )
-            data.questionnaire.questions[questionIx].userAnswer =
-              submitAnswer.userAnswer
-            proxy.writeQuery({ ...queryObj, data })
-          }
-        })
-      }
-    })
-  }),
-  graphql(query, {
-    options: ({ router }) => ({
-      variables: {
-        slug: router.query.slug
-      }
-    })
-  })
+  withQuestionnaire,
+  withQuestionnaireMutation,
+  withQuestionnaireReset,
+  withAnswerMutation
 )(Page)

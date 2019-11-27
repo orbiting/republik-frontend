@@ -162,7 +162,9 @@ class UpdateMe extends Component {
       error,
       style,
       acceptedStatue,
-      hasMemberships
+      hasMemberships,
+      headline,
+      subHead
     } = this.props
     const { values, dirty, errors, updating, isEditing } = this.state
 
@@ -187,8 +189,11 @@ class UpdateMe extends Component {
               {!isEditing ? (
                 <div>
                   <H2 style={{ marginBottom: 30 }}>
-                    {t('Account/Update/title')}
+                    {headline ? headline : t('Account/Update/title')}
                   </H2>
+                  {!!subHead && (
+                    <P style={{ margin: '-15px 0 20px' }}>{subHead}</P>
+                  )}
                   <P>
                     {intersperse(
                       [me.name, me.phoneNumber].filter(Boolean),

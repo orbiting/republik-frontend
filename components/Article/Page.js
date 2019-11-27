@@ -124,6 +124,7 @@ const getDocument = gql`
             title
             template
             path
+            color
           }
           linkedDocuments {
             totalCount

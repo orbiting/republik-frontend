@@ -52,7 +52,7 @@ const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => (
             <Link route={d.meta.path} passHref key={d.meta.path}>
               <a {...styles.link} href={d.meta.path}>
                 <FormatTag
-                  color={color}
+                  color={d.meta.color || color}
                   label={d.meta.title}
                   count={d.linkedDocuments.totalCount}
                 />

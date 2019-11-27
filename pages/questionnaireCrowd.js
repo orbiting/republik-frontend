@@ -15,6 +15,10 @@ import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActio
 import Frame from '../components/Frame'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import UpdateMe from '../components/Account/UpdateMe'
+import {
+  withMyDetails,
+  withMyDetailsMutation
+} from '../components/Account/enhancers'
 
 const meta = {
   title: 'Make me a star',
@@ -59,7 +63,7 @@ class QuestionnaireCrowdPage extends Component {
     this.setState({ submitting: true })
     const {
       submitQuestionnaire,
-      data: {
+      questionnaireData: {
         questionnaire: { id }
       }
     } = this.props
@@ -71,6 +75,9 @@ class QuestionnaireCrowdPage extends Component {
 
   render() {
     const { error, updating, submitting } = this.state
+    const submitted =
+      this.props.questionnaireData &&
+      this.props.questionnaireData.questionnaire.userHasSubmitted
     const slug = this.props.router.query.slug
     const thankYou = <ThankYou />
     return (
@@ -85,19 +92,22 @@ class QuestionnaireCrowdPage extends Component {
           updating={updating}
           submitting={submitting}
         />
-        <div style={{ marginTop: 50 }}>
-          <UpdateMe
-            {...this.props}
-            externalSubmit
-            headline={'Please confirm your address on Earth:'}
-            subHead={"We won't contact you unless it's really important."}
-          />
-        </div>
-        <QuestionnaireActions
-          onSubmit={this.handleSubmit}
-          updating={updating}
-          submitting={submitting}
-        />
+        {!submitted && (
+          <div style={{ marginTop: 50 }}>
+            <UpdateMe
+              {...this.props}
+              externalSubmit
+              headline={'Please confirm your address on Earth:'}
+              subHead={"We won't contact you unless it's really important."}
+              onChange={() => undefined}
+            />
+            <QuestionnaireActions
+              onSubmit={this.handleSubmit}
+              updating={updating}
+              submitting={submitting}
+            />
+          </div>
+        )}
       </Frame>
     )
   }
@@ -107,5 +117,7 @@ export default compose(
   withRouter,
   withQuestionnaire,
   withQuestionnaireMutation,
+  withMyDetails,
+  withMyDetailsMutation,
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

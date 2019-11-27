@@ -80,6 +80,7 @@ const getQuestionnaire = gql`
 `
 
 export const withQuestionnaire = graphql(getQuestionnaire, {
+  name: 'questionnaireData',
   options: ({ router }) => ({
     variables: {
       slug: router.query.slug

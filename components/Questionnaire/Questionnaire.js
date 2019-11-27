@@ -102,7 +102,7 @@ class Questionnaire extends Component {
     this.setState({ submitting: true })
     const {
       submitQuestionnaire,
-      data: {
+      questionnaireData: {
         questionnaire: { id }
       }
     } = this.props
@@ -114,7 +114,7 @@ class Questionnaire extends Component {
   handleReset = e => {
     const {
       resetQuestionnaire,
-      data: {
+      questionnaireData: {
         questionnaire: { id }
       }
     } = this.props
@@ -124,7 +124,7 @@ class Questionnaire extends Component {
 
   render() {
     const {
-      data,
+      questionnaireData,
       t,
       showResults,
       pageClosed,
@@ -135,14 +135,14 @@ class Questionnaire extends Component {
 
     return (
       <Loader
-        loading={data.loading}
-        error={data.error}
+        loading={questionnaireData.loading}
+        error={questionnaireData.error}
         render={() => {
           const now = new Date()
           // handle not found or not started
           if (
-            !data.questionnaire ||
-            new Date(data.questionnaire.beginDate) > now
+            !questionnaireData.questionnaire ||
+            new Date(questionnaireData.questionnaire.beginDate) > now
           ) {
             return (
               <StatusError
@@ -152,12 +152,13 @@ class Questionnaire extends Component {
             )
           }
 
-          const hasEnded = now > new Date(data.questionnaire.endDate)
+          const hasEnded =
+            now > new Date(questionnaireData.questionnaire.endDate)
 
           // handle already submitted
           const {
             questionnaire: { userHasSubmitted, questions }
-          } = data
+          } = questionnaireData
           const error = this.state.error || this.props.error
           const submitting = this.state.submitting || this.props.submitting
           const updating = this.state.updating || this.props.updating

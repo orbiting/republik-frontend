@@ -10,8 +10,6 @@ import {
   colors,
   Interaction,
   mediaQueries,
-  Button,
-  A,
   InlineSpinner,
   fontFamilies,
   RawHtml
@@ -26,6 +24,8 @@ import StatusError from '../StatusError'
 import { withQuestionnaireMutation, withQuestionnaireReset } from './enhancers'
 import Questions from './Questions'
 import QuestionnaireClosed from './QuestionnaireClosed'
+import QuestionnaireActions from './QuestionnaireActions'
+import { withRouter } from 'next/router'
 
 const { Headline, P } = Interaction
 
@@ -45,14 +45,6 @@ const styles = {
     [mediaQueries.onlyS]: {
       top: HEADER_HEIGHT_MOBILE - 1
     }
-  }),
-  actions: css({
-    textAlign: 'center',
-    margin: '20px auto 20px auto'
-  }),
-  reset: css({
-    textAlign: 'center',
-    marginTop: 10
   }),
   strong: css({
     fontFamily: fontFamilies.sansSerifMedium
@@ -78,7 +70,12 @@ const styles = {
   })
 }
 
-class Page extends Component {
+export const actionStyles = css({
+  textAlign: 'center',
+  margin: '20px auto 20px auto'
+})
+
+class Questionnaire extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -130,7 +127,6 @@ class Page extends Component {
     const {
       data,
       t,
-      meta,
       showResults,
       pageClosed,
       questionnaireName,
@@ -139,131 +135,116 @@ class Page extends Component {
     } = this.props
 
     return (
-      <Frame meta={meta}>
-        <Loader
-          loading={data.loading}
-          error={data.error}
-          render={() => {
-            const now = new Date()
-            // handle not found or not started
-            if (
-              !data.questionnaire ||
-              new Date(data.questionnaire.beginDate) > now
-            ) {
-              return (
-                <StatusError
-                  statusCode={404}
-                  serverContext={this.props.serverContext}
-                />
-              )
-            }
-
-            const hasEnded = now > new Date(data.questionnaire.endDate)
-
-            // handle already submitted
-            const {
-              questionnaire: { userHasSubmitted, questions }
-            } = data
-            const { error, submitting, updating } = this.state
-            if (!submitting && (hasEnded || userHasSubmitted)) {
-              return pageClosed ? (
-                pageClosed
-              ) : (
-                <QuestionnaireClosed
-                  submitted={userHasSubmitted}
-                  showResults={showResults}
-                />
-              )
-            }
-
-            // handle questions
-            const questionCount = questions.filter(Boolean).length
-            const userAnswerCount = questions
-              .map(q => q.userAnswer)
-              .filter(Boolean).length
-            const questionnairePath = questionnaireName
-              ? `/${questionnaireName}/`
-              : '/'
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        render={() => {
+          const now = new Date()
+          // handle not found or not started
+          if (
+            !data.questionnaire ||
+            new Date(data.questionnaire.beginDate) > now
+          ) {
             return (
-              <div>
-                <Headline>
-                  {t(`questionnaire${questionnairePath}title`)}
-                </Headline>
-                <div {...styles.intro}>
-                  <RawHtml
-                    type={P}
-                    dangerouslySetInnerHTML={{
-                      __html: t(`questionnaire${questionnairePath}intro`)
-                    }}
-                  />
-                  <br />
-                </div>
-                {!hideCount && (
-                  <div {...styles.count}>
-                    {error ? (
-                      <P {...styles.error}>{errorToString(error)}</P>
-                    ) : (
-                      <>
-                        <P {...styles.strong}>
-                          {t('questionnaire/header', {
-                            questionCount,
-                            userAnswerCount
-                          })}
-                        </P>
-                        {questionCount === userAnswerCount ? (
-                          <div {...styles.progressIcon}>
-                            <CheckCircle size={22} color={colors.primary} />
-                          </div>
-                        ) : updating || submitting ? (
-                          <div style={{ marginLeft: 5, marginTop: 3 }}>
-                            <InlineSpinner size={24} />
-                          </div>
-                        ) : null}
-                      </>
-                    )}
-                  </div>
-                )}
-                <Questions
-                  questions={questions}
-                  disabled={userHasSubmitted}
-                  processSubmit={this.processSubmit}
-                />
-                {!externalSubmit && (
-                  <div {...styles.actions}>
-                    <Button
-                      primary
-                      onClick={this.handleSubmit}
-                      disabled={updating || submitting || userAnswerCount < 1}
-                    >
-                      {updating || submitting ? (
-                        <InlineSpinner size={40} />
-                      ) : (
-                        t('questionnaire/submit')
-                      )}
-                    </Button>
-                    <div {...styles.reset}>
-                      {userAnswerCount < 1 ? (
-                        t('questionnaire/invalid')
-                      ) : (
-                        <A href='#' onClick={this.handleReset}>
-                          {t('questionnaire/cancel')}
-                        </A>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <StatusError
+                statusCode={404}
+                serverContext={this.props.serverContext}
+              />
             )
-          }}
-        />
-      </Frame>
+          }
+
+          const hasEnded = now > new Date(data.questionnaire.endDate)
+
+          // handle already submitted
+          const {
+            questionnaire: { userHasSubmitted, questions }
+          } = data
+          const error = this.state.error || this.props.error
+          const submitting = this.state.submitting || this.props.submitting
+          const updating = this.state.updating || this.props.updating
+
+          if (!submitting && (hasEnded || userHasSubmitted)) {
+            return pageClosed ? (
+              pageClosed
+            ) : (
+              <QuestionnaireClosed
+                submitted={userHasSubmitted}
+                showResults={showResults}
+              />
+            )
+          }
+
+          // handle questions
+          const questionCount = questions.filter(Boolean).length
+          const userAnswerCount = questions
+            .map(q => q.userAnswer)
+            .filter(Boolean).length
+          const questionnairePath = questionnaireName
+            ? `/${questionnaireName}/`
+            : '/'
+          return (
+            <div>
+              <Headline>{t(`questionnaire${questionnairePath}title`)}</Headline>
+              <div {...styles.intro}>
+                <RawHtml
+                  type={P}
+                  dangerouslySetInnerHTML={{
+                    __html: t(`questionnaire${questionnairePath}intro`)
+                  }}
+                />
+                <br />
+              </div>
+              {!hideCount && (
+                <div {...styles.count}>
+                  {error ? (
+                    <P {...styles.error}>{errorToString(error)}</P>
+                  ) : (
+                    <>
+                      <P {...styles.strong}>
+                        {t('questionnaire/header', {
+                          questionCount,
+                          userAnswerCount
+                        })}
+                      </P>
+                      {questionCount === userAnswerCount ? (
+                        <div {...styles.progressIcon}>
+                          <CheckCircle size={22} color={colors.primary} />
+                        </div>
+                      ) : updating || submitting ? (
+                        <div style={{ marginLeft: 5, marginTop: 3 }}>
+                          <InlineSpinner size={24} />
+                        </div>
+                      ) : null}
+                    </>
+                  )}
+                </div>
+              )}
+              <Questions
+                questions={questions}
+                disabled={userHasSubmitted}
+                processSubmit={this.processSubmit}
+              />
+              {!externalSubmit && (
+                <QuestionnaireActions
+                  onSubmit={this.handleSubmit}
+                  onReset={this.handleReset}
+                  updating={updating}
+                  submitting={submitting}
+                  invalid={userAnswerCount < 1}
+                />
+              )}
+            </div>
+          )
+        }}
+      />
     )
   }
 }
 
 export default compose(
   withT,
+  withRouter,
   withAuthorization(['supporter', 'editor'], 'showResults'),
   withQuestionnaireMutation,
   withQuestionnaireReset
-)(Page)
+)(Questionnaire)

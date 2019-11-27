@@ -30,9 +30,9 @@ export const VOTING_COOP_201912_REPORT_SLUG = 'gen1819report'
 
 export const VOTINGS_COOP_201912 = [
   { slug: VOTING_COOP_201912_REPORT_SLUG, id: 'report1819' },
-  { slug: 'gen1819accounts', id: 'accounts1819' },
-  { slug: 'gen19discharge', id: 'discharge19' },
-  { slug: 'gen1920revision', id: 'revision1920' }
+  { slug: 'gen1819accounts', id: 'gen1819accounts' },
+  { slug: 'gen19discharge', id: 'gen19discharge' },
+  { slug: 'gen1920revision', id: 'gen1920revision' }
 ]
 
 export const ELECTIONS = [

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Frame from '../Frame'
 import Loader from '../Loader'
 
 import { css } from 'glamor'

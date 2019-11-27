@@ -21,7 +21,7 @@ const styles = {
 export default compose(withT)(
   ({ t, onSubmit, onReset, updating, submitting, invalid }) => {
     return (
-      <div {...styles}>
+      <div {...styles.actions}>
         <Button
           primary
           onClick={onSubmit}

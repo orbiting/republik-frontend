@@ -253,6 +253,7 @@ class UpdateMe extends Component {
                     dirty={dirty}
                     onChange={fields => {
                       this.setState(FieldSet.utils.mergeFields(fields))
+                      onChange && onChange(values, errors)
                     }}
                     fields={meFields}
                   />
@@ -268,6 +269,7 @@ class UpdateMe extends Component {
                     dirty={dirty}
                     onChange={fields => {
                       this.setState(FieldSet.utils.mergeFields(fields))
+                      onChange && onChange(values, errors)
                     }}
                   />
                   <br />

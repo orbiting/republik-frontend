@@ -15,10 +15,7 @@ import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActio
 import Frame from '../components/Frame'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import UpdateMe from '../components/Account/UpdateMe'
-import {
-  withMyDetails,
-  withMyDetailsMutation
-} from '../components/Account/enhancers'
+import { withMyDetailsMutation } from '../components/Account/enhancers'
 
 const meta = {
   title: 'Make me a star',
@@ -73,6 +70,13 @@ class QuestionnaireCrowdPage extends Component {
     )
   }
 
+  onDetailsChange = (values, errors) => {
+    this.setState({
+      detailsValues: values,
+      detailsErrors: errors
+    })
+  }
+
   render() {
     const { error, updating, submitting } = this.state
     const submitted =
@@ -95,8 +99,6 @@ class QuestionnaireCrowdPage extends Component {
         {!submitted && (
           <div style={{ marginTop: 50 }}>
             <UpdateMe
-              {...this.props}
-              externalSubmit
               headline={'Please confirm your address on Earth:'}
               subHead={"We won't contact you unless it's really important."}
               onChange={() => undefined}
@@ -117,7 +119,6 @@ export default compose(
   withRouter,
   withQuestionnaire,
   withQuestionnaireMutation,
-  withMyDetails,
   withMyDetailsMutation,
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

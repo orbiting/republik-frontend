@@ -83,7 +83,7 @@ export const withQuestionnaire = graphql(getQuestionnaire, {
   name: 'questionnaireData',
   options: ({ router }) => ({
     variables: {
-      slug: router.query.slug
+      slug: router && router.query.slug
     }
   })
 })
@@ -108,7 +108,10 @@ export const withQuestionnaireReset = graphql(resetQuestionnaireMutation, {
           id
         },
         refetchQueries: [
-          { query: getQuestionnaire, variables: { slug: router.query.slug } }
+          {
+            query: getQuestionnaire,
+            variables: { slug: router && router.query.slug }
+          }
         ]
       })
     }

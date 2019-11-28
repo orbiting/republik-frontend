@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
-import withT, { t } from '../lib/withT'
+import { t } from '../lib/withT'
 
 import { enforceMembership } from '../components/Auth/withMembership'
 import { withQuestionnaire } from '../components/Questionnaire/enhancers'
@@ -13,11 +13,10 @@ import Frame from '../components/Frame'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import { query, withMyDetails } from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
-import AddressForm, { COUNTRIES } from '../components/Account/AddressForm'
+import { COUNTRIES } from '../components/Account/AddressForm'
 import FieldSet from '../components/FieldSet'
-import { A, colors, Interaction, Label, Loader } from '@project-r/styleguide'
-import { intersperse } from '../lib/utils/helpers'
 import gql from 'graphql-tag'
+import DetailsForm from '../components/Account/DetailsForm'
 
 const mutation = gql`
   mutation updateMe(
@@ -61,16 +60,7 @@ const meta = {
   twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
 }
 
-const { H2, P } = Interaction
-
 const DEFAULT_COUNTRY = COUNTRIES[0]
-
-const fields = t => [
-  {
-    label: t('Account/Update/phone/label'),
-    name: 'phoneNumber'
-  }
-]
 
 const getValues = me => {
   let addressState = {}
@@ -133,7 +123,6 @@ class QuestionnaireCrowdPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isEditing: false,
       showErrors: false,
       values: {
         country: DEFAULT_COUNTRY
@@ -143,20 +132,21 @@ class QuestionnaireCrowdPage extends Component {
     }
   }
 
-  startEditing() {
-    const { me } = this.props.detailsData
+  onDetailsEdit() {
     this.setState(state => ({
-      isEditing: true,
       values: {
         ...state.values,
-        ...getValues(me)
+        ...getValues(this.props.detailsData.me)
       }
     }))
   }
 
+  onDetailsChange(fields) {
+    this.setState(FieldSet.utils.mergeFields(fields))
+  }
+
   submit(errorMessages) {
     const {
-      t,
       detailsData: { me },
       submitForm,
       questionnaireData: {
@@ -200,17 +190,15 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   render() {
-    const { t, detailsData, questionnaireData, router } = this.props
-    const { loading } = detailsData
-    const me = loading ? undefined : detailsData.me
+    const { detailsData, questionnaireData, router } = this.props
     const {
       serverError,
       updating,
       submitting,
       values,
       dirty,
-      isEditing,
-      errors
+      errors,
+      showErrors
     } = this.state
     const submitted =
       questionnaireData && questionnaireData.questionnaire.userHasSubmitted
@@ -236,129 +224,15 @@ class QuestionnaireCrowdPage extends Component {
         />
         {!submitted && (
           <div style={{ marginTop: 50 }}>
-            <Loader
-              loading={loading || !me}
-              error={serverError}
-              render={() => {
-                const meFields = fields(t)
-
-                return (
-                  <div>
-                    <H2 style={{ marginBottom: 30 }}>
-                      Please confirm your address on Earth:
-                    </H2>
-                    <P style={{ margin: '-15px 0 20px' }}>
-                      {"We won't contact you unless it's really important."}
-                    </P>
-                    {!isEditing ? (
-                      <div>
-                        {!!me.phoneNumber && (
-                          <>
-                            <P>
-                              <Label>{t('Account/Update/phone/label')}</Label>
-                              <br />
-                            </P>
-                            <P>
-                              {me.phoneNumber}
-                              <br />
-                            </P>
-                          </>
-                        )}
-                        {!!me.address && (
-                          <>
-                            <P>
-                              <Label>{t('Account/Update/address/label')}</Label>
-                              <br />
-                            </P>
-                            <P>
-                              {intersperse(
-                                [
-                                  me.address.name,
-                                  me.address.line1,
-                                  me.address.line2,
-                                  `${me.address.postalCode} ${me.address.city}`,
-                                  me.address.country
-                                ].filter(Boolean),
-                                (_, i) => (
-                                  <br key={i} />
-                                )
-                              )}
-                            </P>
-                          </>
-                        )}
-                        <br />
-                        <A
-                          href='#'
-                          onClick={e => {
-                            e.preventDefault()
-                            this.startEditing()
-                          }}
-                        >
-                          {t('Account/Update/edit')}
-                        </A>
-                      </div>
-                    ) : (
-                      <div>
-                        <br />
-                        <FieldSet
-                          values={values}
-                          errors={errors}
-                          dirty={dirty}
-                          onChange={fields =>
-                            this.setState(FieldSet.utils.mergeFields(fields))
-                          }
-                          fields={meFields}
-                        />
-                        <br />
-                        <br />
-                        <br />
-                        <AddressForm
-                          values={values}
-                          errors={errors}
-                          dirty={dirty}
-                          onChange={fields =>
-                            this.setState(FieldSet.utils.mergeFields(fields))
-                          }
-                        />
-                        <br />
-                        <br />
-                        <br />
-                        {!updating && (
-                          <div>
-                            {!!this.state.showErrors &&
-                              errorMessages.length > 0 && (
-                                <div
-                                  style={{
-                                    color: colors.error,
-                                    marginBottom: 40
-                                  }}
-                                >
-                                  {t('pledge/submit/error/title')}
-                                  <br />
-                                  <ul>
-                                    {errorMessages.map((error, i) => (
-                                      <li key={i}>{error}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              )}
-                            {!!this.state.error && (
-                              <div
-                                style={{
-                                  color: colors.error,
-                                  marginBottom: 40
-                                }}
-                              >
-                                {this.state.error}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )
-              }}
+            <DetailsForm
+              data={detailsData}
+              values={values}
+              errors={errors}
+              dirty={dirty}
+              onDetailsEdit={() => this.onDetailsEdit()}
+              onChange={fields => this.onDetailsChange(fields)}
+              errorMessages={errorMessages}
+              showErrors={!updating && !!showErrors}
             />
             <QuestionnaireActions
               onSubmit={() => {
@@ -375,7 +249,6 @@ class QuestionnaireCrowdPage extends Component {
 }
 
 export default compose(
-  withT,
   withRouter,
   withQuestionnaire,
   withMyDetails,

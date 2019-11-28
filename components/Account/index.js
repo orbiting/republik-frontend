@@ -36,6 +36,7 @@ import PaymentSources from './PaymentSources'
 import { APP_OPTIONS } from '../../lib/constants'
 
 import { HEADER_HEIGHT_MOBILE, HEADER_HEIGHT } from '../constants'
+import { withMyDetails } from './enhancers'
 
 const { H2, P } = Interaction
 
@@ -78,6 +79,7 @@ class Account extends Component {
       me,
       t,
       query,
+      detailsData,
       hasMemberships,
       hasActiveMemberships,
       hasAccessGrants,
@@ -153,6 +155,7 @@ class Account extends Component {
 
                   <AccountAnchor id='account'>
                     <UpdateMe
+                      detailsData={detailsData}
                       acceptedStatue={acceptedStatue}
                       hasMemberships={hasMemberships}
                     />
@@ -199,6 +202,7 @@ class Account extends Component {
 }
 export default compose(
   withMe,
+  withMyDetails,
   withT,
   withInNativeApp,
   withMembership,

@@ -18,7 +18,7 @@ import {
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
-import { withMyDetails, withMyDetailsMutation } from './enhancers'
+import { withMyDetailsMutation } from './enhancers'
 
 const { H2, P } = Interaction
 
@@ -116,7 +116,9 @@ class UpdateMe extends Component {
     }
   }
   startEditing() {
-    const { me } = this.props.detailsData
+    const {
+      detailsData: { me }
+    } = this.props
     this.setState(state => ({
       isEditing: true,
       values: {
@@ -131,7 +133,7 @@ class UpdateMe extends Component {
     })
   }
   autoEdit() {
-    if (this.props.detailsData.me && !this.checked) {
+    if (this.props.me && !this.checked) {
       this.checked = true
       const {
         t,
@@ -141,7 +143,7 @@ class UpdateMe extends Component {
 
       const errors = FieldSet.utils.getErrors(
         fields(t).concat(hasMemberships || me.address ? addressFields(t) : []),
-        getValues(this.props.detailsData.me)
+        getValues(this.props.me)
       )
 
       const errorMessages = Object.keys(errors)
@@ -157,16 +159,8 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render() {
-    const {
-      t,
-      detailsData,
-      style,
-      hasMemberships,
-      headline,
-      subHead,
-      onChange
-    } = this.props
-    const { values, dirty, errors, updating, isEditing } = this.state
+    const { t, detailsData, style, hasMemberships } = this.props
+    const { values, dirty, updating, isEditing, errors } = this.state
     const { loading, error } = detailsData
     const me = loading ? undefined : detailsData.me
 
@@ -188,12 +182,11 @@ class UpdateMe extends Component {
 
           return (
             <div style={style}>
-              <H2 style={{ marginBottom: 30 }}>
-                {headline ? headline : t('Account/Update/title')}
-              </H2>
-              {!!subHead && <P style={{ margin: '-15px 0 20px' }}>{subHead}</P>}
               {!isEditing ? (
                 <div>
+                  <H2 style={{ marginBottom: 30 }}>
+                    {t('Account/Update/title')}
+                  </H2>
                   <P>
                     {intersperse(
                       [me.name, me.phoneNumber].filter(Boolean),
@@ -246,6 +239,7 @@ class UpdateMe extends Component {
                 </div>
               ) : (
                 <div>
+                  <H2>{t('Account/Update/title')}</H2>
                   <br />
                   <FieldSet
                     values={values}
@@ -253,7 +247,6 @@ class UpdateMe extends Component {
                     dirty={dirty}
                     onChange={fields => {
                       this.setState(FieldSet.utils.mergeFields(fields))
-                      onChange && onChange(values, errors)
                     }}
                     fields={meFields}
                   />
@@ -269,7 +262,6 @@ class UpdateMe extends Component {
                     dirty={dirty}
                     onChange={fields => {
                       this.setState(FieldSet.utils.mergeFields(fields))
-                      onChange && onChange(values, errors)
                     }}
                   />
                   <br />
@@ -299,78 +291,74 @@ class UpdateMe extends Component {
                           {this.state.error}
                         </div>
                       )}
-                      {!onChange && (
-                        <div
-                          style={{ opacity: errorMessages.length ? 0.5 : 1 }}
-                        >
-                          <Button
-                            onClick={() => {
-                              if (errorMessages.length) {
-                                this.setState(state =>
-                                  Object.keys(state.errors).reduce(
-                                    (nextState, key) => {
-                                      nextState.dirty[key] = true
-                                      return nextState
-                                    },
-                                    {
-                                      showErrors: true,
-                                      dirty: {}
-                                    }
-                                  )
+                      <div style={{ opacity: errorMessages.length ? 0.5 : 1 }}>
+                        <Button
+                          onClick={() => {
+                            if (errorMessages.length) {
+                              this.setState(state =>
+                                Object.keys(state.errors).reduce(
+                                  (nextState, key) => {
+                                    nextState.dirty[key] = true
+                                    return nextState
+                                  },
+                                  {
+                                    showErrors: true,
+                                    dirty: {}
+                                  }
                                 )
-                                return
-                              }
-                              this.setState(() => ({ updating: true }))
+                              )
+                              return
+                            }
+                            this.setState(() => ({ updating: true }))
 
-                              this.props
-                                .update({
-                                  firstName: values.firstName,
-                                  lastName: values.lastName,
-                                  phoneNumber: values.phoneNumber,
-                                  birthday:
-                                    values.birthday && values.birthday.length
-                                      ? values.birthday.trim()
-                                      : null,
-                                  address: isEmptyAddress(values, me)
-                                    ? undefined
-                                    : {
-                                        name: values.name,
-                                        line1: values.line1,
-                                        line2: values.line2,
-                                        postalCode: values.postalCode,
-                                        city: values.city,
-                                        country: values.country
-                                      }
-                                })
-                                .then(() => {
-                                  this.setState(() => ({
-                                    updating: false,
-                                    isEditing: false
-                                  }))
-                                })
-                                .catch(error => {
-                                  this.setState(() => ({
-                                    updating: false,
-                                    error: errorToString(error)
-                                  }))
-                                })
+                            this.props
+                              .updateDetails({
+                                firstName: values.firstName,
+                                lastName: values.lastName,
+                                phoneNumber: values.phoneNumber,
+                                birthday:
+                                  values.birthday && values.birthday.length
+                                    ? values.birthday.trim()
+                                    : null,
+                                address: isEmptyAddress(values, me)
+                                  ? undefined
+                                  : {
+                                      name: values.name,
+                                      line1: values.line1,
+                                      line2: values.line2,
+                                      postalCode: values.postalCode,
+                                      city: values.city,
+                                      country: values.country
+                                    }
+                              })
+                              .then(() => {
+                                this.setState(() => ({
+                                  updating: false,
+                                  isEditing: false
+                                }))
+                              })
+                              .catch(error => {
+                                this.setState(() => ({
+                                  updating: false,
+                                  error: errorToString(error)
+                                }))
+                              })
+                          }}
+                        >
+                          {t('Account/Update/submit')}
+                        </Button>
+                        <div style={{ marginTop: 10 }}>
+                          <A
+                            href='#'
+                            onClick={e => {
+                              e.preventDefault()
+                              this.stopEditing()
                             }}
                           >
-                            {t('Account/Update/submit')}
-                          </Button>
-                          <div style={{ marginTop: 10 }}>
-                            <A
-                              href='#'
-                              onClick={e => {
-                                e.preventDefault()
-                                this.stopEditing()
-                              }}
-                            >
-                              {t('Account/Update/cancel')}
-                            </A>
-                          </div>
+                            {t('Account/Update/cancel')}
+                          </A>
                         </div>
-                      )}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -384,7 +372,6 @@ class UpdateMe extends Component {
 }
 
 export default compose(
-  withMyDetails,
   withMyDetailsMutation,
   withT
 )(UpdateMe)

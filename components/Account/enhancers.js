@@ -48,7 +48,7 @@ export const withMyDetails = graphql(query, {
 
 export const withMyDetailsMutation = graphql(mutation, {
   props: ({ mutate }) => ({
-    update: variables =>
+    updateDetails: variables =>
       mutate({
         variables,
         refetchQueries: [

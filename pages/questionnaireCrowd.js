@@ -5,7 +5,10 @@ import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
 import { t } from '../lib/withT'
 
 import { enforceMembership } from '../components/Auth/withMembership'
-import { withQuestionnaire } from '../components/Questionnaire/enhancers'
+import {
+  withQuestionnaire,
+  withQuestionnaireMutation
+} from '../components/Questionnaire/enhancers'
 import { description } from './questionnaire'
 import { withRouter } from 'next/router'
 import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActions'
@@ -123,6 +126,7 @@ class QuestionnaireCrowdPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      isEditing: false,
       showErrors: false,
       values: {
         country: DEFAULT_COUNTRY
@@ -134,6 +138,7 @@ class QuestionnaireCrowdPage extends Component {
 
   onDetailsEdit() {
     this.setState(state => ({
+      isEditing: true,
       values: {
         ...state.values,
         ...getValues(this.props.detailsData.me)
@@ -145,17 +150,7 @@ class QuestionnaireCrowdPage extends Component {
     this.setState(FieldSet.utils.mergeFields(fields))
   }
 
-  submit(errorMessages) {
-    const {
-      detailsData: { me },
-      submitForm,
-      questionnaireData: {
-        questionnaire: { id }
-      }
-    } = this.props
-
-    const { values } = this.state
-
+  processErrors(errorMessages) {
     if (errorMessages.length) {
       this.setState(state =>
         Object.keys(state.errors).reduce(
@@ -169,11 +164,33 @@ class QuestionnaireCrowdPage extends Component {
           }
         )
       )
-      return
+      return true
     }
+  }
+
+  processSubmit() {
+    const {
+      detailsData: { me },
+      submitForm,
+      submitQuestionnaire,
+      questionnaireData: {
+        questionnaire: { id }
+      }
+    } = this.props
+
+    const { values, isEditing } = this.state
+
+    return isEditing
+      ? submitForm({ ...getMutation(values, me), questionnaireId: id })
+      : submitQuestionnaire(id)
+  }
+
+  submit(errorMessages) {
+    const hasErrors = this.processErrors(errorMessages)
+    if (hasErrors) return
 
     this.setState({ updating: true })
-    submitForm({ ...getMutation(values, me), questionnaireId: id })
+    this.processSubmit()
       .then(() =>
         this.setState(() => ({
           updating: false,
@@ -198,7 +215,8 @@ class QuestionnaireCrowdPage extends Component {
       values,
       dirty,
       errors,
-      showErrors
+      showErrors,
+      isEditing
     } = this.state
     const submitted =
       questionnaireData && questionnaireData.questionnaire.userHasSubmitted
@@ -231,6 +249,7 @@ class QuestionnaireCrowdPage extends Component {
               dirty={dirty}
               onDetailsEdit={() => this.onDetailsEdit()}
               onChange={fields => this.onDetailsChange(fields)}
+              isEditing={isEditing}
               errorMessages={errorMessages}
               showErrors={!updating && !!showErrors}
             />
@@ -253,5 +272,6 @@ export default compose(
   withQuestionnaire,
   withMyDetails,
   withMutation,
+  withQuestionnaireMutation,
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

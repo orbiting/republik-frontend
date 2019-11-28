@@ -22,6 +22,7 @@ export default compose(withT)(
     values,
     errors,
     dirty,
+    isEditing,
     onDetailsEdit,
     onChange,
     errorMessages,
@@ -30,11 +31,8 @@ export default compose(withT)(
     const { loading, error } = data
     const me = loading ? undefined : data.me
 
-    const [isEditing, setEditing] = useState(false)
-
     const startEditing = e => {
       e.preventDefault()
-      setEditing(true)
       onDetailsEdit()
     }
 

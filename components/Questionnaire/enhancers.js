@@ -141,8 +141,8 @@ export const withAnswerMutation = graphql(submitAnswerMutation, {
         },
         update: (proxy, { data: { submitAnswer } }) => {
           const queryObj = {
-            getQuestionnaire,
-            variables: { slug: router && router.query.slug }
+            query: getQuestionnaire,
+            variables: { slug: router.query.slug }
           }
           const data = proxy.readQuery(queryObj)
           const questionIx = data.questionnaire.questions.findIndex(

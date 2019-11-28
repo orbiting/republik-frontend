@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { A, colors, Interaction, Label, Loader } from '@project-r/styleguide'
 import { intersperse } from '../../lib/utils/helpers'
 import AddressForm from './AddressForm'

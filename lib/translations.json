@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-27T13:29:18.185Z",
+  "updated": "2019-11-28T16:38:23.177Z",
   "title": "live",
   "data": [
     {
@@ -4045,6 +4045,26 @@
     {
       "key": "questionnaire/crowd/intro",
       "value": "1. Fill in this questionnaire ✅<br /> 2. Board our rocket to the Moon 🚀"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/title",
+      "value": "Vielen Dank!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/intro",
+      "value": "<p>Wir werden uns bei Ihnen melden.</p><p>Was Sie jetzt schon mal tun können:</p>"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/1",
+      "value": "<a href='https://www.republik.ch/angebote?package=ABO_GIVE'>Verschenken Sie Jahresmitgliedschaften</a> zu Weihnachten, jetzt exklusiv mit Buch!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/2",
+      "value": "Zu teuer? Sie können auch <a href='https://www.republik.ch/angebote?package=ABO_GIVE_MONTHS'>Monats-Abos verschenken</a>"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/3",
+      "value": "Das wichtigste: bleiben Sie neugierig!"
     },
     {
       "key": "pages/meta/questionnaire/counterText",

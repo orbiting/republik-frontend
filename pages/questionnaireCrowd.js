@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
-import { t } from '../lib/withT'
+import withT, { t } from '../lib/withT'
 
 import { enforceMembership } from '../components/Auth/withMembership'
 import {
@@ -20,6 +20,11 @@ import { COUNTRIES } from '../components/Account/AddressForm'
 import FieldSet from '../components/FieldSet'
 import gql from 'graphql-tag'
 import DetailsForm from '../components/Account/DetailsForm'
+import { Interaction, RawHtml, colors } from '@project-r/styleguide'
+import { css } from 'glamor'
+import MdArrow from 'react-icons/lib/md/trending-flat'
+
+const { Headline, P } = Interaction
 
 const mutation = gql`
   mutation updateMe(
@@ -64,6 +69,24 @@ const meta = {
 }
 
 const DEFAULT_COUNTRY = COUNTRIES[0]
+
+const styles = {
+  intro: css({
+    margin: '35px 0 70px'
+  }),
+  arrow: css({
+    marginRight: 15,
+    minWidth: 16,
+    color: colors.lightText
+  }),
+  thankYouItem: css({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'left',
+    alignItems: 'center',
+    marginBottom: 20
+  })
+}
 
 const getValues = me => {
   let addressState = {}
@@ -118,9 +141,40 @@ const getMutation = (values, me) => {
   }
 }
 
-const ThankYou = () => {
-  return <div>Vielen Dank for helping</div>
-}
+const ThankYouItem = compose(withT)(({ t, tKey }) => {
+  return (
+    <div {...styles.thankYouItem}>
+      <MdArrow {...styles.arrow} />
+      <RawHtml
+        type={P}
+        dangerouslySetInnerHTML={{
+          __html: t(tKey)
+        }}
+      />
+    </div>
+  )
+})
+
+const ThankYou = compose(withT)(({ t }) => {
+  return (
+    <div>
+      <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
+      <div>
+        <div {...styles.intro}>
+          <RawHtml
+            type={P}
+            dangerouslySetInnerHTML={{
+              __html: t('questionnaire/crowd/submitted/intro')
+            }}
+          />
+        </div>
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/list/3' />
+      </div>
+    </div>
+  )
+})
 
 class QuestionnaireCrowdPage extends Component {
   constructor(props) {
@@ -204,6 +258,7 @@ class QuestionnaireCrowdPage extends Component {
           serverError: errorToString(error)
         }))
       })
+      .then(() => window.scrollTo(0, 0))
   }
 
   render() {

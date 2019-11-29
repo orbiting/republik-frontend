@@ -90,7 +90,8 @@ const defaultProps = {
     ...data,
     documents: connection
   }),
-  mapNodes: e => e
+  mapNodes: e => e,
+  placeholder: null
 }
 
 export const makeLoadMore = ({

@@ -42,26 +42,31 @@ const styles = {
   })
 }
 
-const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => (
-  <div {...styles.container}>
-    {linkedDocuments.nodes
-      .filter(d => d.meta.template === 'format')
-      .map(d => {
-        return (
-          <div key={d.id} {...styles.item}>
-            <Link route={d.meta.path} passHref key={d.meta.path}>
-              <a {...styles.link} href={d.meta.path}>
-                <FormatTag
-                  color={d.meta.color || color}
-                  label={d.meta.title}
-                  count={d.linkedDocuments.totalCount}
-                />
-              </a>
-            </Link>
-          </div>
-        )
-      })}
-  </div>
-)
+const SectionNav = ({ color, linkedDocuments = { nodes: [] } }) => {
+  if (linkedDocuments.nodes.length < 1) {
+    return null
+  }
+  return (
+    <div {...styles.container}>
+      {linkedDocuments.nodes
+        .filter(d => d.meta.template === 'format')
+        .map(d => {
+          return (
+            <div key={d.id} {...styles.item}>
+              <Link route={d.meta.path} passHref key={d.meta.path}>
+                <a {...styles.link} href={d.meta.path}>
+                  <FormatTag
+                    color={d.meta.color || color}
+                    label={d.meta.title}
+                    count={d.linkedDocuments.totalCount}
+                  />
+                </a>
+              </Link>
+            </div>
+          )
+        })}
+    </div>
+  )
+}
 
 export default SectionNav

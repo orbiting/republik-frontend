@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-26T10:55:58.287Z",
+  "updated": "2019-11-29T11:10:27.391Z",
   "title": "live",
   "data": [
     {
@@ -2895,6 +2895,14 @@
       "value": "Ältere Beiträge laden\n"
     },
     {
+      "key": "feed/title/1",
+      "value": "Ein Beitrag"
+    },
+    {
+      "key": "feed/title/other",
+      "value": "{count} Beiträge"
+    },
+    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
@@ -4037,6 +4045,34 @@
     {
       "key": "questionnaire/choice/helpMultiple",
       "value": "Sie dürfen mehrere Optionen auswählen."
+    },
+    {
+      "key": "questionnaire/crowd/title",
+      "value": "Republik Moonshot"
+    },
+    {
+      "key": "questionnaire/crowd/intro",
+      "value": "1. Fill in this questionnaire ✅<br /> 2. Board our rocket to the Moon 🚀"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/title",
+      "value": "Vielen Dank!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/intro",
+      "value": "<p>Wir werden uns bei Ihnen melden.</p><p>Was Sie jetzt schon mal tun können:</p>"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/1",
+      "value": "<a href='https://www.republik.ch/angebote?package=ABO_GIVE'>Verschenken Sie Jahresmitgliedschaften</a> zu Weihnachten, jetzt exklusiv mit Buch!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/2",
+      "value": "Zu teuer? Sie können auch <a href='https://www.republik.ch/angebote?package=ABO_GIVE_MONTHS'>Monats-Abos verschenken</a>"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/list/3",
+      "value": "Das wichtigste: bleiben Sie neugierig!"
     },
     {
       "key": "pages/meta/questionnaire/counterText",

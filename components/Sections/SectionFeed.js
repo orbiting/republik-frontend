@@ -12,10 +12,12 @@ import { WithoutMembership, WithActiveMembership } from '../Auth/withMembership'
 
 import DocumentListContainer from '../Feed/DocumentListContainer'
 
-const Feed = ({ t, formats, totalCount }) => {
+const SectionFeed = ({ t, formats }) => {
   const getFeedDocuments = `
-    query {
-      documents(formats: ["${formats.join('","')}"]) {
+  query getBookmarkedDocuments($cursor: String) {
+      documents(formats: ["${formats.join(
+        '","'
+      )}"], first: 30, after: $cursor) {
         totalCount
         pageInfo {
           endCursor
@@ -75,4 +77,4 @@ const Feed = ({ t, formats, totalCount }) => {
   )
 }
 
-export default compose(withT)(Feed)
+export default compose(withT)(SectionFeed)

@@ -17,7 +17,7 @@ const SectionFeed = ({ t, formats }) => {
   query getSectionDocuments($cursor: String, $formats: [String!]) {
       documents(formats: ["${formats.join(
         '","'
-      )}"], first: 30, after: $cursor) {
+      )}"], feed: true, first: 30, after: $cursor) {
         totalCount
         pageInfo {
           endCursor

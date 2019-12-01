@@ -47,6 +47,10 @@
       "value": "Verschenken"
     },
     {
+      "key": "nav/donate",
+      "value": "Spenden"
+    },
+    {
       "key": "nav/share",
       "value": "Republik teilen"
     },

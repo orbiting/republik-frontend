@@ -27,7 +27,7 @@ import MdArrow from 'react-icons/lib/md/trending-flat'
 const { Headline, P } = Interaction
 
 const mutation = gql`
-  mutation updateMe(
+  mutation submitQuestionnaireAndUpdateMe(
     $questionnaireId: ID!
     $phoneNumber: String
     $address: AddressInput

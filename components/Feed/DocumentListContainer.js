@@ -90,7 +90,8 @@ const defaultProps = {
     ...data,
     documents: connection
   }),
-  mapNodes: e => e
+  mapNodes: e => e,
+  placeholder: null
 }
 
 export const makeLoadMore = ({
@@ -139,7 +140,8 @@ class DocumentListContainer extends Component {
       placeholder,
       help,
       feedProps,
-      refetchOnUnmount
+      refetchOnUnmount,
+      showTotal
     } = this.props
 
     return (
@@ -160,7 +162,6 @@ class DocumentListContainer extends Component {
                   const hasMore = connection.pageInfo.hasNextPage
                   return (
                     <>
-                      {help}
                       <DocumentList
                         documents={connection.nodes.map(mapNodes)}
                         totalCount={connection.totalCount}
@@ -173,6 +174,8 @@ class DocumentListContainer extends Component {
                           mapNodes
                         })}
                         feedProps={feedProps}
+                        showTotal={showTotal}
+                        help={help}
                       />
                     </>
                   )
@@ -193,8 +196,9 @@ DocumentListContainer.propTypes = {
   getConnection: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element,
-  help: PropTypes.element,
-  refetchOnUnmount: PropTypes.bool
+  refetchOnUnmount: PropTypes.bool,
+  showTotal: PropTypes.bool,
+  help: PropTypes.element
 }
 
 export default DocumentListContainer

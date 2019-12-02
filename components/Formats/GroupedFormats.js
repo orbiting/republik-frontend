@@ -17,7 +17,7 @@ import {
 
 const styles = {
   h2: css({
-    ...fontStyles.sansSerifRegular13,
+    ...fontStyles.sansSerifRegular14,
     color: '#979797',
     margin: '0 0 15px 0',
     [mediaQueries.mUp]: {

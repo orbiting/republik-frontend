@@ -1,5 +1,20 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
+import { BOOKMARKS_COLLECTION_NAME } from '../Bookmarks/fragments'
+
+export const userDetailsFragment = `
+  fragment Details on User {
+    phoneNumber
+    address {
+      name
+      line1
+      line2
+      postalCode
+      city
+      country
+    }
+  }
+`
 
 const mutation = gql`
   mutation updateMe(
@@ -27,19 +42,21 @@ export const query = gql`
       name
       firstName
       lastName
-      phoneNumber
       email
       birthday
-      address {
-        name
-        line1
-        line2
-        postalCode
-        city
-        country
-      }
+      ...Details
     }
   }
+  ${userDetailsFragment}
+`
+
+export const onDocumentFragment = `
+fragment BookmarkOnDocument on Document {
+  userBookmark: userCollectionItem(collectionName: "${BOOKMARKS_COLLECTION_NAME}") {
+    id
+    createdAt
+  }
+}
 `
 
 export const withMyDetails = graphql(query, {

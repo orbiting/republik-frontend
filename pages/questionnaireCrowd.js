@@ -14,7 +14,11 @@ import { withRouter } from 'next/router'
 import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActions'
 import Frame from '../components/Frame'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
-import { query, withMyDetails } from '../components/Account/enhancers'
+import {
+  query,
+  userDetailsFragment,
+  withMyDetails
+} from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
 import { COUNTRIES } from '../components/Account/AddressForm'
 import FieldSet from '../components/FieldSet'
@@ -34,6 +38,7 @@ const mutation = gql`
   ) {
     updateMe(phoneNumber: $phoneNumber, address: $address) {
       id
+      ...Details
     }
     submitQuestionnaire(id: $questionnaireId) {
       id
@@ -41,18 +46,14 @@ const mutation = gql`
       userHasSubmitted
     }
   }
+  ${userDetailsFragment}
 `
 
 const withMutation = graphql(mutation, {
   props: ({ mutate }) => ({
     submitForm: variables =>
       mutate({
-        variables,
-        refetchQueries: [
-          {
-            query
-          }
-        ]
+        variables
       })
   })
 })
@@ -97,10 +98,11 @@ const getValues = me => {
       line2: me.address.line2,
       postalCode: me.address.postalCode,
       city: me.address.city,
-      country: me.address.country || DEFAULT_COUNTRY
+      country: me.address.country
     }
   } else if (me) {
     addressState.name = [me.firstName, me.lastName].filter(Boolean).join(' ')
+    addressState.country = DEFAULT_COUNTRY
   }
 
   return {

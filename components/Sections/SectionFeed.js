@@ -12,49 +12,47 @@ import { WithoutMembership, WithActiveMembership } from '../Auth/withMembership'
 
 import DocumentListContainer from '../Feed/DocumentListContainer'
 
-const SectionFeed = ({ t, formats }) => {
-  const getFeedDocuments = `
+const getFeedDocuments = gql`
   query getSectionDocuments($cursor: String, $formats: [String!]) {
-      documents(formats: ["${formats.join(
-        '","'
-      )}"], feed: true, first: 30, after: $cursor) {
-        totalCount
-        pageInfo {
-          endCursor
-          hasNextPage
-        }  
-        nodes {
-          id
-          ...BookmarkOnDocument
-          meta {
-            credits
-            title
-            description
-            publishDate
-            path
-            format {
-              id
-              meta {
-                kind
-                color
-                title
-              }
+    documents(formats: $formats, feed: true, first: 30, after: $cursor) {
+      totalCount
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        id
+        ...BookmarkOnDocument
+        meta {
+          credits
+          title
+          description
+          publishDate
+          path
+          format {
+            id
+            meta {
+              kind
+              color
+              title
             }
-            estimatedReadingMinutes
-            estimatedConsumptionMinutes
-            indicateChart
-            indicateGallery
-            indicateVideo
-            audioSource {
-              mp3
-            }
+          }
+          estimatedReadingMinutes
+          estimatedConsumptionMinutes
+          indicateChart
+          indicateGallery
+          indicateVideo
+          audioSource {
+            mp3
           }
         }
       }
     }
-    ${bookmarkOnDocumentFragment}
-  `
+  }
+  ${bookmarkOnDocumentFragment}
+`
 
+const SectionFeed = ({ t, formats }) => {
   const help = (
     <WithoutMembership
       render={() => (
@@ -71,7 +69,8 @@ const SectionFeed = ({ t, formats }) => {
         feedProps={{ showHeader: false }}
         help={help}
         showTotal={true}
-        query={gql(getFeedDocuments)}
+        query={getFeedDocuments}
+        variables={{ formats }}
       />
     </Center>
   )

@@ -91,6 +91,7 @@ const defaultProps = {
     documents: connection
   }),
   mapNodes: e => e,
+  variables: {},
   placeholder: null
 }
 
@@ -134,6 +135,7 @@ class DocumentListContainer extends Component {
   render() {
     const {
       query,
+      variables,
       getConnection,
       mergeConnection,
       mapNodes,
@@ -145,7 +147,7 @@ class DocumentListContainer extends Component {
     } = this.props
 
     return (
-      <Query query={query}>
+      <Query query={query} variables={variables}>
         {({ loading, error, data, fetchMore, refetch }) => (
           <LifecycleWrapper
             onComponentWillUnmount={refetchOnUnmount ? refetch : noop}
@@ -193,6 +195,7 @@ DocumentListContainer.defaultProps = defaultProps
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
+  variables: PropTypes.object,
   getConnection: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element,

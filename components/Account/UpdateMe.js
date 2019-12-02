@@ -18,7 +18,7 @@ import {
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
-import { withMyDetailsMutation } from './enhancers'
+import { withMyDetails, withMyDetailsMutation } from './enhancers'
 
 const { H2, P } = Interaction
 
@@ -372,6 +372,7 @@ class UpdateMe extends Component {
 }
 
 export default compose(
+  withMyDetails,
   withMyDetailsMutation,
   withT
 )(UpdateMe)

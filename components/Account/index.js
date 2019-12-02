@@ -202,7 +202,6 @@ class Account extends Component {
 }
 export default compose(
   withMe,
-  withMyDetails,
   withT,
   withInNativeApp,
   withMembership,

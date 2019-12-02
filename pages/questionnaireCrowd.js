@@ -159,15 +159,12 @@ const ThankYou = compose(withT)(({ t }) => {
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
+      <div {...styles.intro}>
+        <P>{t('questionnaire/crowd/submitted/intro/1')}</P>
+        <br />
+        <P>{t('questionnaire/crowd/submitted/intro/2')}</P>
+      </div>
       <div>
-        <div {...styles.intro}>
-          <RawHtml
-            type={P}
-            dangerouslySetInnerHTML={{
-              __html: t('questionnaire/crowd/submitted/intro')
-            }}
-          />
-        </div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/3' />

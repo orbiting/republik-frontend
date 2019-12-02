@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-28T16:38:23.177Z",
+  "updated": "2019-12-02T14:42:28.418Z",
   "title": "live",
   "data": [
     {
@@ -45,6 +45,10 @@
     {
       "key": "nav/give",
       "value": "Verschenken"
+    },
+    {
+      "key": "nav/donate",
+      "value": "Spenden"
     },
     {
       "key": "nav/share",
@@ -2895,6 +2899,14 @@
       "value": "Ältere Beiträge laden\n"
     },
     {
+      "key": "feed/title/1",
+      "value": "Ein Beitrag"
+    },
+    {
+      "key": "feed/title/other",
+      "value": "{count} Beiträge"
+    },
+    {
       "key": "feed/loadMore",
       "value": "Das waren die neuesten {count} Beiträge. Weitere {remaining} anschauen?"
     },
@@ -3307,6 +3319,10 @@
       "value": "Guten Tag, {name}"
     },
     {
+      "key": "merci/title/package/TABLEBOOK",
+      "value": "Guten Tag, {name}"
+    },
+    {
       "key": "merci/title/package/ABO_GIVE/noName",
       "value": "Guten Tag"
     },
@@ -3316,6 +3332,10 @@
     },
     {
       "key": "merci/title/package/DONATE/noName",
+      "value": "Guten Tag"
+    },
+    {
+      "key": "merci/title/package/TABLEBOOK/noName",
       "value": "Guten Tag"
     },
     {
@@ -3333,6 +3353,10 @@
     {
       "key": "merci/lead/package/DONATE",
       "value": "Vielen Dank für Ihre Grosszügigkeit!<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
+    },
+    {
+      "key": "merci/lead/package/TABLEBOOK",
+      "value": "Vielen Dank für Ihre Grosszügigkeit! Sie erhalten ein E-Mail mit den Details zu Ihrer Bestellung.<br /><br />Auf dieser Seite finden Sie alles, was wir von Ihnen wissen: Ihre Einkäufe, Ihre persönlichen Angaben und Ihre Newsletter-Einstellungen.<br />"
     },
     {
       "key": "merci/action/read",
@@ -4051,8 +4075,12 @@
       "value": "Vielen Dank!"
     },
     {
-      "key": "questionnaire/crowd/submitted/intro",
-      "value": "<p>Wir werden uns bei Ihnen melden.</p><p>Was Sie jetzt schon mal tun können:</p>"
+      "key": "questionnaire/crowd/submitted/intro/1",
+      "value": "Wir werden uns bei Ihnen melden."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/intro/2",
+      "value": "Was Sie jetzt schon mal tun können:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
@@ -4165,6 +4193,10 @@
     {
       "key": "option/PROLONG/additionalPeriods/give",
       "value": "{name} wird per E-Mail über die geschenkte Verlängerung informiert."
+    },
+    {
+      "key": "package/TABLEBOOK/title",
+      "value": "Buch «Republik bei Stromausfall»"
     },
     {
       "key": "memberships/title/ABO",
@@ -4321,6 +4353,14 @@
     {
       "key": "pledge/form/instruction/PROLONG/accountText",
       "value": "Konto"
+    },
+    {
+      "key": "pledge/form/instruction/TABLEBOOK/notAvailable",
+      "value": "Das Buch «Republik bei Stromausfall» kann nur in Verbindung mit einer Jahresmitgliedschaft oder einer Verlängerung bestellt werden."
+    },
+    {
+      "key": "pledge/form/instruction/TABLEBOOK/signIn",
+      "value": "Die «Republik bei Stromausfall» ist nur für Mitglieder bestellbar. Bitte melden Sie sich an oder entscheiden Sie sich jetzt für eine Jahresmitgliedschaft."
     },
     {
       "key": "pledge/meta/title",
@@ -6319,12 +6359,16 @@
       "value": "Sie haben ausserdem für begrenzte Zeit die Möglichkeit, unser Buch «Republik bei Stromausfall» (limitierte Edition, CHF 58) vorzubestellen. "
     },
     {
+      "key": "package/TABLEBOOK/description",
+      "value": "Die «Republik bei Stromausfall» ist eine auf 2000 Exemplare limitierte, gedruckte Edition der liebsten Geschichten und Bilder unserer Autorinnen und Autoren – auf rund 600 Seiten. Wie es sich für einen Sammel­band gehört, enthält er ein launiges Vorwort. Und jedem ausgewählten Text ist ein kleiner persönlicher Essay vorangestellt."
+    },
+    {
       "key": "pledge/notice/goodies/delivery/TABLEBOOK",
-      "value": "Versandstart für «Republik bei Stromausfall» ist der 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden."
+      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TABLEBOOK_TOTEBAG",
-      "value": "Versandstart für «Republik bei Stromausfall» ist der 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
+      "value": "Versandstart für «Republik bei Stromausfall» ist am 13. Dezember. Bestellungen bis zum 18. Dezember können noch vor Weihnachten geliefert werden. Notizbücher oder Taschen liefern wir innerhalb von 7 Werktagen."
     },
     {
       "key": "pledge/notice/goodies/delivery/NOTEBOOK_TOTEBAG",

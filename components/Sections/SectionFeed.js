@@ -14,10 +14,10 @@ import DocumentListContainer from '../Feed/DocumentListContainer'
 
 const SectionFeed = ({ t, formats }) => {
   const getFeedDocuments = `
-  query getBookmarkedDocuments($cursor: String) {
+  query getSectionDocuments($cursor: String, $formats: [String!]) {
       documents(formats: ["${formats.join(
         '","'
-      )}"], first: 30, after: $cursor) {
+      )}"], feed: true, first: 30, after: $cursor) {
         totalCount
         pageInfo {
           endCursor

@@ -173,14 +173,14 @@ class Filter extends Component {
 
     const templateFilters =
       aggregation.template &&
-      aggregation.template.buckets.map(bucket =>
-        filterButtonProps('template', bucket)
-      )
+      aggregation.template.buckets
+        .filter(bucket => SUPPORTED_FILTER.template.includes(bucket.value))
+        .map(bucket => filterButtonProps('template', bucket))
 
     const kindFilters =
       aggregation.kind &&
       aggregation.kind.buckets
-        .filter(bucket => SUPPORTED_FILTER.kind.indexOf(bucket.value) > -1)
+        .filter(bucket => SUPPORTED_FILTER.kind.includes(bucket.value))
         .map(bucket => filterButtonProps('kind', bucket))
 
     const typeFilters =

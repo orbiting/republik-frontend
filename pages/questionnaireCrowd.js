@@ -15,7 +15,6 @@ import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActio
 import Frame from '../components/Frame'
 import Questionnaire from '../components/Questionnaire/Questionnaire'
 import {
-  query,
   userDetailsFragment,
   withMyDetails
 } from '../components/Account/enhancers'

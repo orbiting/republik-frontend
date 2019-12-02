@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose } from 'react-apollo'
 import { enforceMembership } from '../components/Auth/withMembership'
 import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
@@ -30,14 +30,12 @@ export const description = t.elements('pages/meta/questionnaire/unauthorized', {
   )
 })
 
-class QuestionnairePage extends Component {
-  render() {
-    return (
-      <Frame meta={meta}>
-        <Questionnaire {...this.props} />
-      </Frame>
-    )
-  }
+const QuestionnairePage = () => {
+  return (
+    <Frame meta={meta}>
+      <Questionnaire {...this.props} />
+    </Frame>
+  )
 }
 
 export default compose(

@@ -65,27 +65,28 @@ export default compose(withT)(
                       </P>
                     </>
                   )}
-                  {!!me.address && (
-                    <>
-                      <P>
-                        <Label>{t('Account/Update/address/label')}</Label>
-                        <br />
-                      </P>
-                      <P>
-                        {intersperse(
-                          [
-                            me.address.name,
-                            me.address.line1,
-                            me.address.line2,
-                            `${me.address.postalCode} ${me.address.city}`,
-                            me.address.country
-                          ].filter(Boolean),
-                          (_, i) => (
-                            <br key={i} />
-                          )
-                        )}
-                      </P>
-                    </>
+
+                  <P>
+                    <Label>{t('Account/Update/address/label')}</Label>
+                    <br />
+                  </P>
+                  {!me.address ? (
+                    <P>{me.name}</P>
+                  ) : (
+                    <P>
+                      {intersperse(
+                        [
+                          me.address.name,
+                          me.address.line1,
+                          me.address.line2,
+                          `${me.address.postalCode} ${me.address.city}`,
+                          me.address.country
+                        ].filter(Boolean),
+                        (_, i) => (
+                          <br key={i} />
+                        )
+                      )}
+                    </P>
                   )}
                   <br />
                   <A href='#' onClick={startEditing}>

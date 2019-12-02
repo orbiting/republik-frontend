@@ -278,20 +278,7 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
                           {Flag && <Flag size={SIZE} {...styles.flag} />}
                           <strong>{cardGroup.name}</strong>
                           <br />
-                          <span>
-                            {t.pluralize.elements(
-                              'pages/cardGroups/cardCount',
-                              {
-                                count: (
-                                  <span key='count' {...styles.cardCount}>
-                                    {cardGroup.cards.totalCount}
-                                  </span>
-                                )
-                              }
-                            )}
-                          </span>
                           <span {...styles.cardCount}>
-                            <br />
                             {!!(
                               cardGroup.nElected.totalCount ||
                               cardGroup.sElected.totalCount
@@ -349,26 +336,6 @@ const Page = ({ data, data: { cardGroups }, router, t }) => (
       <br />
       <br />
     </Container>
-
-    <Center style={{ marginBottom: 30 }}>
-      <Interaction.H3 {...styles.discussionFeedHeadline}>
-        {t('pages/cardGroups/latestComments')}
-      </Interaction.H3>
-      <Loader
-        loading={data.loading}
-        error={data.error}
-        render={() => {
-          return (
-            <LatestComments
-              discussionIds={data.cardGroups.nodes.map(
-                card => card.discussion.id
-              )}
-              toDepth={0}
-            />
-          )
-        }}
-      />
-    </Center>
   </Frame>
 )
 

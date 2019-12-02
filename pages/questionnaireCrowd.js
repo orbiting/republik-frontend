@@ -97,7 +97,7 @@ const getValues = me => {
       line2: me.address.line2,
       postalCode: me.address.postalCode,
       city: me.address.city,
-      country: me.address.country
+      country: me.address.country || DEFAULT_COUNTRY
     }
   } else if (me) {
     addressState.name = [me.firstName, me.lastName].filter(Boolean).join(' ')
@@ -182,21 +182,16 @@ class QuestionnaireCrowdPage extends Component {
     this.state = {
       isEditing: false,
       showErrors: false,
-      values: {
-        country: DEFAULT_COUNTRY
-      },
+      values: {},
       errors: {},
       dirty: {}
     }
   }
 
   onDetailsEdit() {
-    this.setState(state => ({
+    this.setState(() => ({
       isEditing: true,
-      values: {
-        ...state.values,
-        ...getValues(this.props.detailsData.me)
-      }
+      values: getValues(this.props.detailsData.me)
     }))
   }
 

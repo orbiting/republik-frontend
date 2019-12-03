@@ -142,6 +142,13 @@ const getMutation = (values, me) => {
   }
 }
 
+const isWillingToHelp = questions => {
+  if (!questions || !questions.length) return
+
+  const answer1 = questions[0].userAnswer
+  return answer1 && answer1.payload.value[0] === 'true'
+}
+
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
   return (
     <div {...styles.thankYouItem}>
@@ -169,6 +176,22 @@ const ThankYou = compose(withT)(({ t }) => {
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/3' />
+      </div>
+    </div>
+  )
+})
+
+const NoThanks = compose(withT)(({ t }) => {
+  return (
+    <div>
+      <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
+      <div {...styles.intro}>
+        <P>{t('questionnaire/crowd/submitted/declined/intro')}</P>
+      </div>
+      <div>
+        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/1' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/2' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/3' />
       </div>
     </div>
   )
@@ -275,7 +298,12 @@ class QuestionnaireCrowdPage extends Component {
         .map(key => errors[key])
         .filter(Boolean)
 
-    const thankYou = <ThankYou />
+    const willingToHelp =
+      questionnaireData &&
+      questionnaireData.questionnaire &&
+      isWillingToHelp(questionnaireData.questionnaire.questions)
+
+    const thankYou = willingToHelp ? <ThankYou /> : <NoThanks />
     return (
       <Frame meta={meta}>
         <Questionnaire
@@ -287,20 +315,24 @@ class QuestionnaireCrowdPage extends Component {
           error={serverError}
           updating={updating}
           submitting={submitting}
+          sliceAt={1}
+          showSlice2={willingToHelp}
         />
         {!submitted && (
           <div style={{ marginTop: 50 }}>
-            <DetailsForm
-              data={detailsData}
-              values={values}
-              errors={errors}
-              dirty={dirty}
-              onDetailsEdit={() => this.onDetailsEdit()}
-              onChange={fields => this.onDetailsChange(fields)}
-              isEditing={isEditing}
-              errorMessages={errorMessages}
-              showErrors={!updating && !!showErrors}
-            />
+            {willingToHelp && (
+              <DetailsForm
+                data={detailsData}
+                values={values}
+                errors={errors}
+                dirty={dirty}
+                onDetailsEdit={() => this.onDetailsEdit()}
+                onChange={fields => this.onDetailsChange(fields)}
+                isEditing={isEditing}
+                errorMessages={errorMessages}
+                showErrors={!updating && !!showErrors}
+              />
+            )}
             <QuestionnaireActions
               onSubmit={() => {
                 this.submit(errorMessages)

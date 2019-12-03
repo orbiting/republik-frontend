@@ -16,7 +16,7 @@ const QUESTION_TYPES = {
   QuestionTypeRange: RangeQuestion
 }
 
-export default compose(
+const QuestionList = compose(
   withRouter,
   withAnswerMutation
 )(({ router, submitAnswer, processSubmit, questions, disabled }) => {
@@ -38,3 +38,33 @@ export default compose(
     </>
   )
 })
+
+export default ({
+  processSubmit,
+  questions,
+  disabled,
+  sliceAt,
+  showSlice2
+}) => {
+  const questions1 = sliceAt ? questions.slice(0, sliceAt) : questions
+  const questions2 = sliceAt && questions.slice(sliceAt)
+
+  return (
+    <>
+      <QuestionList
+        questions={questions1}
+        disabled={disabled}
+        processSubmit={processSubmit}
+      />
+      {showSlice2 && (
+        <>
+          <QuestionList
+            questions={questions2}
+            disabled={disabled}
+            processSubmit={processSubmit}
+          />
+        </>
+      )}
+    </>
+  )
+}

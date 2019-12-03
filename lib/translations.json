@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-03T09:03:51.807Z",
+  "updated": "2019-12-03T10:45:13.510Z",
   "title": "live",
   "data": [
     {
@@ -4097,6 +4097,22 @@
     {
       "key": "questionnaire/crowd/submitted/list/3",
       "value": "Das wichtigste: bleiben Sie neugierig!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/intro",
+      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, die Republik bekannter zu machen."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/1",
+      "value": "Sie können das Überleben auch durch <a href='https://www.republik.ch/angebote?package=DONATE'>eine Spende</a> sichern."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/2",
+      "value": "Oder werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/3",
+      "value": "<a href='https://www.republik.ch/'>Zurück zum Magazin</a>"
     },
     {
       "key": "pages/meta/questionnaire/counterText",

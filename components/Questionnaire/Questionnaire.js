@@ -130,7 +130,9 @@ class Questionnaire extends Component {
       pageClosed,
       questionnaireName,
       externalSubmit,
-      hideCount
+      hideCount,
+      sliceAt,
+      showSlice2
     } = this.props
 
     return (
@@ -223,6 +225,8 @@ class Questionnaire extends Component {
                 questions={questions}
                 disabled={userHasSubmitted}
                 processSubmit={this.processSubmit}
+                sliceAt={sliceAt}
+                showSlice2={showSlice2}
               />
               {!externalSubmit && (
                 <QuestionnaireActions

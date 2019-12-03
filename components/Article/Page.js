@@ -427,6 +427,7 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         inIOS={inIOS}
         documentId={article.id}
+        userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
@@ -488,7 +489,10 @@ class ArticlePage extends Component {
     const currentArticle = this.props.data.article || {}
     const nextArticle = nextProps.data.article || {}
 
-    if (currentArticle.id !== nextArticle.id) {
+    if (
+      currentArticle.id !== nextArticle.id ||
+      currentArticle.userBookmark !== nextArticle.userBookmark
+    ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
@@ -509,16 +513,6 @@ class ArticlePage extends Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
-  }
-
-  getChildContext() {
-    const {
-      data: { article }
-    } = this.props
-    return {
-      // userProgress: article && article.userProgress,
-      userBookmark: article && article.userBookmark
-    }
   }
 
   render() {
@@ -808,20 +802,6 @@ class ArticlePage extends Component {
       </Frame>
     )
   }
-}
-
-ArticlePage.childContextTypes = {
-  // userProgress: PropTypes.shape({
-  //   id: PropTypes.string.isRequired,
-  //   percentage: PropTypes.number.isRequired,
-  //   nodeId: PropTypes.string.isRequired,
-  //   updatedAt: PropTypes.string.isRequired,
-  //   createdAt: PropTypes.string.isRequired
-  // }),
-  userBookmark: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired
-  })
 }
 
 const ComposedPage = compose(

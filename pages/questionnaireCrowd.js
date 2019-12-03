@@ -355,7 +355,8 @@ class QuestionnaireCrowdPage extends Component {
         .filter(Boolean)
 
     const willingToHelp = willingnessStatus === 'true'
-    const thankYou = willingToHelp ? <ThankYou /> : <NoThanks />
+    const thankYou =
+      !willingnessStatus || willingToHelp ? <ThankYou /> : <NoThanks />
 
     return (
       <Frame meta={meta}>
@@ -376,9 +377,10 @@ class QuestionnaireCrowdPage extends Component {
           onQuestionnaireChange={() => this.onQuestionnaireChange()}
         />
         {!submitted && willingnessStatus && (
-          <div style={{ marginTop: 50 }}>
+          <>
             {willingToHelp && (
               <DetailsForm
+                style={{ marginTop: 50 }}
                 data={detailsData}
                 values={values}
                 errors={errors}
@@ -386,6 +388,16 @@ class QuestionnaireCrowdPage extends Component {
                 onChange={fields => this.onDetailsChange(fields)}
                 errorMessages={errorMessages}
                 showErrors={!updating && !!showErrors}
+              />
+            )}
+            {notConvinced && (
+              <iframe
+                src='https://giphy.com/embed/HGe4zsOVo7Jvy'
+                width='480'
+                height='354'
+                frameBorder='0'
+                className='giphy-embed'
+                allowFullScreen
               />
             )}
             <QuestionnaireActions
@@ -396,7 +408,7 @@ class QuestionnaireCrowdPage extends Component {
               submitting={submitting}
               style={{ textAlign: 'left' }}
             />
-          </div>
+          </>
         )}
       </Frame>
     )

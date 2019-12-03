@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-03T13:47:02.397Z",
+  "updated": "2019-12-03T16:59:06.381Z",
   "title": "live",
   "data": [
     {
@@ -4073,14 +4073,6 @@
     {
       "key": "questionnaire/crowd/intro",
       "value": "1. Fill in this questionnaire ✅<br /> 2. Board our rocket to the Moon 🚀"
-    },
-    {
-      "key": "questionnaire/crowd/alt/title",
-      "value": "Oh."
-    },
-    {
-      "key": "questionnaire/crowd/alt/intro",
-      "value": "<iframe src=\"https://giphy.com/embed/l0Iy797ZhIvLhm0Io\" width=\"480\" height=\"354\" frameBorder=\"0\" class=\"giphy-embed\" allowFullScreen></iframe><p><a href=\"https://giphy.com/gifs/asian-lucy-liu-american-history-month-l0Iy797ZhIvLhm0Io\">via GIPHY</a></p>"
     },
     {
       "key": "questionnaire/crowd/question1/alt",

@@ -15,7 +15,17 @@ const fields = t => [
 ]
 
 export default compose(withT)(
-  ({ t, data, values, errors, dirty, onChange, errorMessages, showErrors }) => {
+  ({
+    t,
+    data,
+    values,
+    errors,
+    dirty,
+    onChange,
+    errorMessages,
+    showErrors,
+    style
+  }) => {
     const { loading, error } = data
     const me = loading ? undefined : data.me
     // TODO: ask @Clara & @Carla if always show form or not
@@ -28,7 +38,7 @@ export default compose(withT)(
           const meFields = fields(t)
 
           return (
-            <div>
+            <div style={style}>
               <H2 style={{ marginBottom: 30 }}>
                 Please confirm your address on Earth:
               </H2>

@@ -142,11 +142,11 @@ const getMutation = (values, me) => {
   }
 }
 
-const isWillingToHelp = questions => {
+const getWillingnessToHelp = questions => {
   if (!questions || !questions.length) return
 
   const answer1 = questions[0].userAnswer
-  return answer1 && answer1.payload.value[0] === 'true'
+  return answer1 && answer1.payload.value[0]
 }
 
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
@@ -298,11 +298,12 @@ class QuestionnaireCrowdPage extends Component {
         .map(key => errors[key])
         .filter(Boolean)
 
-    const willingToHelp =
+    const willingnessStatus =
       questionnaireData &&
       questionnaireData.questionnaire &&
-      isWillingToHelp(questionnaireData.questionnaire.questions)
+      getWillingnessToHelp(questionnaireData.questionnaire.questions)
 
+    const willingToHelp = willingnessStatus === 'true'
     const thankYou = willingToHelp ? <ThankYou /> : <NoThanks />
     return (
       <Frame meta={meta}>
@@ -318,7 +319,7 @@ class QuestionnaireCrowdPage extends Component {
           sliceAt={1}
           showSlice2={willingToHelp}
         />
-        {!submitted && (
+        {!submitted && willingnessStatus && (
           <div style={{ marginTop: 50 }}>
             {willingToHelp && (
               <DetailsForm
@@ -339,6 +340,7 @@ class QuestionnaireCrowdPage extends Component {
               }}
               updating={updating}
               submitting={submitting}
+              style={{ textAlign: 'left' }}
             />
           </div>
         )}

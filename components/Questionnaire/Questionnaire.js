@@ -81,14 +81,16 @@ class Questionnaire extends Component {
   }
 
   processSubmit = (fn, ...args) => {
+    const { onQuestionnaireChange } = this.props
     this.setState({ updating: true })
     return fn(...args)
-      .then(() =>
-        this.setState(() => ({
+      .then(() => {
+        onQuestionnaireChange && onQuestionnaireChange()
+        return this.setState(() => ({
           updating: false,
           error: null
         }))
-      )
+      })
       .catch(error => {
         this.setState(() => ({
           updating: false,

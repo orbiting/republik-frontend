@@ -19,7 +19,10 @@ import {
   withMyDetails
 } from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
-import { COUNTRIES } from '../components/Account/AddressForm'
+import {
+  COUNTRIES,
+  fields as addressFields
+} from '../components/Account/AddressForm'
 import FieldSet from '../components/FieldSet'
 import gql from 'graphql-tag'
 import DetailsForm from '../components/Account/DetailsForm'
@@ -58,7 +61,7 @@ const withMutation = graphql(mutation, {
 })
 
 const meta = {
-  title: 'This was harder than it looked',
+  title: 'Crowd Umfrage',
   description: t('questionnaire/description'),
   facebookTitle: t('pages/meta/questionnaire/socialTitle'),
   facebookDescription: t('pages/meta/questionnaire/socialDescription'),
@@ -149,6 +152,19 @@ const getWillingnessToHelp = questions => {
   return answer1 && answer1.payload.value[0]
 }
 
+const adaptedQuestionnaire = (data, notConvinced) => {
+  if (!data || !notConvinced) return data
+
+  data.questionnaire.questions[0].text = t('questionnaire/crowd/question1/alt')
+  data.questionnaire.questions[0].options[0].label = t(
+    'questionnaire/crowd/question1/label1/alt'
+  )
+  data.questionnaire.questions[0].options[1].label = t(
+    'questionnaire/crowd/question1/label2/alt'
+  )
+  return data
+}
+
 const ThankYouItem = compose(withT)(({ t, tKey }) => {
   return (
     <div {...styles.thankYouItem}>
@@ -200,8 +216,9 @@ const NoThanks = compose(withT)(({ t }) => {
 class QuestionnaireCrowdPage extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
-      isEditing: false,
+      notConvinced: false,
       showErrors: false,
       values: {},
       errors: {},
@@ -209,15 +226,24 @@ class QuestionnaireCrowdPage extends Component {
     }
   }
 
-  onDetailsEdit() {
-    this.setState(() => ({
-      isEditing: true,
-      values: getValues(this.props.detailsData.me)
-    }))
-  }
-
   onDetailsChange(fields) {
     this.setState(FieldSet.utils.mergeFields(fields))
+  }
+
+  onQuestionnaireChange() {
+    const {
+      questionnaireData: { questionnaire }
+    } = this.props
+
+    const willingness = getWillingnessToHelp(questionnaire.questions)
+    const isWilling = willingness === 'true'
+    this.setState({
+      willingnessStatus: willingness,
+      notConvinced: this.state.notConvinced || !isWilling,
+      showErrors: isWilling ? this.state.showErrors : false,
+      errors: isWilling ? this.state.errors : {},
+      dirty: isWilling ? this.state.dirty : {}
+    })
   }
 
   processErrors(errorMessages) {
@@ -248,9 +274,9 @@ class QuestionnaireCrowdPage extends Component {
       }
     } = this.props
 
-    const { values, isEditing } = this.state
+    const { values, willingnessStatus } = this.state
 
-    return isEditing
+    return willingnessStatus === 'true'
       ? submitForm({ ...getMutation(values, me), questionnaireId: id })
       : submitQuestionnaire(id)
   }
@@ -277,6 +303,32 @@ class QuestionnaireCrowdPage extends Component {
       .then(() => window.scrollTo(0, 0))
   }
 
+  init() {
+    const { questionnaireData, detailsData } = this.props
+    if (
+      questionnaireData &&
+      questionnaireData.questionnaire &&
+      detailsData &&
+      detailsData.me &&
+      !this.initialised
+    ) {
+      this.initialised = true
+      this.setState(() => ({
+        willingnessStatus: getWillingnessToHelp(
+          questionnaireData.questionnaire.questions
+        ),
+        values: getValues(detailsData.me)
+      }))
+    }
+  }
+
+  componentDidMount() {
+    this.init()
+  }
+  componentDidUpdate() {
+    this.init()
+  }
+
   render() {
     const { detailsData, questionnaireData, router } = this.props
     const {
@@ -287,28 +339,31 @@ class QuestionnaireCrowdPage extends Component {
       dirty,
       errors,
       showErrors,
-      isEditing
+      willingnessStatus,
+      notConvinced
     } = this.state
+
     const submitted =
       questionnaireData && questionnaireData.questionnaire.userHasSubmitted
+
     const slug = router.query.slug
+
     const errorMessages =
       errors &&
       Object.keys(errors)
         .map(key => errors[key])
         .filter(Boolean)
 
-    const willingnessStatus =
-      questionnaireData &&
-      questionnaireData.questionnaire &&
-      getWillingnessToHelp(questionnaireData.questionnaire.questions)
-
     const willingToHelp = willingnessStatus === 'true'
     const thankYou = willingToHelp ? <ThankYou /> : <NoThanks />
+
     return (
       <Frame meta={meta}>
         <Questionnaire
-          {...this.props}
+          questionnaireData={adaptedQuestionnaire(
+            questionnaireData,
+            notConvinced
+          )}
           externalSubmit
           hideCount
           questionnaireName={slug}
@@ -318,6 +373,7 @@ class QuestionnaireCrowdPage extends Component {
           submitting={submitting}
           sliceAt={1}
           showSlice2={willingToHelp}
+          onQuestionnaireChange={() => this.onQuestionnaireChange()}
         />
         {!submitted && willingnessStatus && (
           <div style={{ marginTop: 50 }}>
@@ -327,9 +383,7 @@ class QuestionnaireCrowdPage extends Component {
                 values={values}
                 errors={errors}
                 dirty={dirty}
-                onDetailsEdit={() => this.onDetailsEdit()}
                 onChange={fields => this.onDetailsChange(fields)}
-                isEditing={isEditing}
                 errorMessages={errorMessages}
                 showErrors={!updating && !!showErrors}
               />

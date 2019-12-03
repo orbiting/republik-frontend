@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import { compose } from 'react-apollo'
 
 import { Button, A, InlineSpinner } from '@project-r/styleguide'
@@ -12,16 +12,26 @@ const styles = {
     textAlign: 'center',
     margin: '20px auto 20px auto'
   }),
+  actionsLeft: css({
+    textAlign: 'left'
+  }),
   reset: css({
     textAlign: 'center',
     marginTop: 10
+  }),
+  resetLeft: css({
+    display: 'inline-block',
+    textAlign: 'left',
+    lineHeight: '60px',
+    marginTop: 10,
+    marginLeft: 20
   })
 }
 
 export default compose(withT)(
-  ({ t, onSubmit, onReset, updating, submitting, invalid, style }) => {
+  ({ t, onSubmit, onReset, updating, submitting, invalid, leftAlign }) => {
     return (
-      <div {...styles.actions} style={style}>
+      <div {...merge(styles.actions, leftAlign && styles.actionsLeft)}>
         <Button
           primary
           onClick={onSubmit}
@@ -34,7 +44,7 @@ export default compose(withT)(
           )}
         </Button>
         {!!onReset && (
-          <div {...styles.reset}>
+          <div {...merge(styles.reset, leftAlign && styles.resetLeft)}>
             {invalid ? (
               t('questionnaire/invalid')
             ) : (

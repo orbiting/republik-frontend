@@ -9,7 +9,7 @@ const { H2, P } = Interaction
 
 const fields = t => [
   {
-    label: t('Account/Update/phone/label'),
+    label: t('Account/Update/phone/label/alt'),
     name: 'phoneNumber'
   }
 ]

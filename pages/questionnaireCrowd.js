@@ -7,9 +7,10 @@ import withT, { t } from '../lib/withT'
 import { enforceMembership } from '../components/Auth/withMembership'
 import {
   withQuestionnaire,
-  withQuestionnaireMutation
+  withQuestionnaireMutation,
+  withQuestionnaireReset
 } from '../components/Questionnaire/enhancers'
-import { description } from './questionnaire'
+import questionnaire, { description } from './questionnaire'
 import { withRouter } from 'next/router'
 import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActions'
 import Frame from '../components/Frame'
@@ -213,17 +214,19 @@ const NoThanks = compose(withT)(({ t }) => {
   )
 })
 
+const initState = {
+  willingnessStatus: undefined,
+  notConvinced: false,
+  showErrors: false,
+  values: {},
+  errors: {},
+  dirty: {}
+}
+
 class QuestionnaireCrowdPage extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      notConvinced: false,
-      showErrors: false,
-      values: {},
-      errors: {},
-      dirty: {}
-    }
+    this.state = initState
   }
 
   onDetailsChange(fields) {
@@ -303,6 +306,23 @@ class QuestionnaireCrowdPage extends Component {
       .then(() => window.scrollTo(0, 0))
   }
 
+  reset() {
+    const {
+      resetQuestionnaire,
+      questionnaireData: {
+        questionnaire: { id }
+      },
+      detailsData: { me }
+    } = this.props
+
+    resetQuestionnaire(id).then(() =>
+      this.setState({
+        ...initState,
+        values: getValues(me)
+      })
+    )
+  }
+
   init() {
     const { questionnaireData, detailsData } = this.props
     if (
@@ -330,7 +350,12 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   render() {
-    const { detailsData, questionnaireData, router } = this.props
+    const {
+      detailsData,
+      questionnaireData,
+      resetQuestionnaire,
+      router
+    } = this.props
     const {
       serverError,
       updating,
@@ -404,9 +429,10 @@ class QuestionnaireCrowdPage extends Component {
               onSubmit={() => {
                 this.submit(errorMessages)
               }}
+              onReset={() => this.reset()}
               updating={updating}
               submitting={submitting}
-              style={{ textAlign: 'left' }}
+              leftAlign
             />
           </>
         )}
@@ -421,5 +447,6 @@ export default compose(
   withMyDetails,
   withMutation,
   withQuestionnaireMutation,
+  withQuestionnaireReset,
   enforceMembership(meta, { title: t('questionnaire/title'), description })
 )(QuestionnaireCrowdPage)

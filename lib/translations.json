@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-03T16:59:06.381Z",
+  "updated": "2019-12-03T17:00:53.317Z",
   "title": "live",
   "data": [
     {
@@ -761,6 +761,10 @@
     {
       "key": "Account/Update/phone/label",
       "value": "Telefonnummer (Optional)"
+    },
+    {
+      "key": "Account/Update/phone/label/alt",
+      "value": "Telefonnummer"
     },
     {
       "key": "Account/Update/birthday/hint/statute",

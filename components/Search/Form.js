@@ -9,6 +9,13 @@ import withSearchRouter from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
 import { preselectFilter } from './Filters'
+import track from '../../lib/piwik'
+
+const trackSearch = (query, data) => {
+  if (data.loading || data.error) return
+  const totalCount = data.search && data.search.totalCount
+  track(['trackSiteSearch', query, false, totalCount])
+}
 
 const Form = compose(
   withSearchRouter,
@@ -29,8 +36,11 @@ const Form = compose(
 
     useEffect(() => {
       focusRef && focusRef.input && focusRef.input.focus()
-      return
     }, [focusRef])
+
+    useEffect(() => {
+      trackSearch(urlQuery, dataAggregations)
+    }, [urlQuery])
 
     const submitForm = e => {
       e.preventDefault()

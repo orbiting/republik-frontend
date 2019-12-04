@@ -18,7 +18,6 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
-import track from '../../lib/piwik'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -52,12 +51,6 @@ const styles = {
     cursor: 'pointer',
     padding: 0
   })
-}
-
-const trackSearch = (query, data) => {
-  if (data.loading || data.error) return
-  const totalCount = data.search && data.search.totalCount
-  track(['trackSiteSearch', query, false, totalCount])
 }
 
 const ResultsList = ({ nodes }) => {
@@ -105,10 +98,6 @@ const ResultsFooter = compose(withT)(
 )
 
 const Results = compose(withResults)(({ data, fetchMore, searchQuery }) => {
-  React.useEffect(() => {
-    trackSearch(searchQuery, data)
-  }, [data])
-
   return (
     <div {...styles.container}>
       <Loader

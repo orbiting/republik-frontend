@@ -3,6 +3,7 @@ import { compose } from 'react-apollo'
 import Router, { withRouter } from 'next/router'
 import {
   DEFAULT_FILTER,
+  DEFAULT_SORT,
   FILTER_KEY_PARAM,
   FILTER_VALUE_PARAM,
   QUERY_PARAM,
@@ -17,8 +18,8 @@ export default WrappedComponent =>
       key: query[FILTER_KEY_PARAM] || DEFAULT_FILTER.key,
       value: query[FILTER_VALUE_PARAM] || DEFAULT_FILTER.value
     }
-    const urlSort = query[SORT_KEY_PARAM] && {
-      key: query[SORT_KEY_PARAM],
+    const urlSort = {
+      key: query[SORT_KEY_PARAM] || DEFAULT_SORT,
       direction: query[SORT_DIRECTION_PARAM]
     }
 
@@ -45,11 +46,13 @@ export default WrappedComponent =>
       })
     }
 
-    const updateUrlSort = sort =>
-      updateURL({
-        [SORT_KEY_PARAM]: sort.key,
-        [SORT_DIRECTION_PARAM]: sort.direction
+    const updateUrlSort = sort => {
+      const isDefault = sort.key === DEFAULT_SORT
+      return updateURL({
+        [SORT_KEY_PARAM]: isDefault ? undefined : sort.key,
+        [SORT_DIRECTION_PARAM]: isDefault ? undefined : sort.direction
       })
+    }
 
     const resetUrl = () => Router.pushRoute('search')
 

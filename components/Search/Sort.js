@@ -8,12 +8,7 @@ import ArrowUp from 'react-icons/lib/md/arrow-upward'
 import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
-import { findByKey } from '../../lib/utils/helpers'
-import {
-  DEFAULT_AGGREGATION_KEYS,
-  DEFAULT_SORT,
-  SUPPORTED_SORT
-} from './constants'
+import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_SORT } from './constants'
 import { withAggregations } from './enhancers'
 import { findAggregation } from './Filters'
 
@@ -55,22 +50,22 @@ const getNextDirection = (sort, directions) => {
   return index === directions.length - 1 ? directions[0] : directions[index + 1]
 }
 
-const SortButton = compose(withT)(({ t, sort, selected, changeSort }) => {
-  const isSelected = selected.key === sort.key
-  const color = isSelected ? colors.primary : null
+const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
+  const selected = urlSort.key === sort.key
+  const color = selected ? colors.primary : null
   const label = t(`search/sort/${sort.key}`)
-  const direction = isSelected ? selected.direction : getDefaultDirection(sort)
+  const direction = selected ? urlSort.direction : getDefaultDirection(sort)
 
   return (
     <button
       {...styles.button}
       style={{ color }}
       onClick={() => {
-        changeSort({
+        updateUrlSort({
           key: sort.key,
           direction:
-            isSelected && direction
-              ? getNextDirection(selected, sort.directions)
+            selected && direction
+              ? getNextDirection(urlSort, sort.directions)
               : direction
         })
       }}
@@ -90,18 +85,13 @@ const SortButton = compose(withT)(({ t, sort, selected, changeSort }) => {
 })
 
 const Sort = compose(withAggregations)(
-  ({ dataAggregations, filter, selected, changeSort }) => {
+  ({ dataAggregations, filter, urlSort, updateUrlSort }) => {
     const { search } = dataAggregations
     if (!search) return null
 
     const { aggregations } = search
     const currentAgg = findAggregation(aggregations, filter)
     if (!currentAgg || currentAgg.count === 0) return null
-
-    if (!selected) {
-      changeSort(findByKey(SUPPORTED_SORT, 'key', DEFAULT_SORT))
-      return null
-    }
 
     return (
       <div {...styles.container}>
@@ -110,8 +100,8 @@ const Sort = compose(withAggregations)(
             <Fragment key={key}>
               <SortButton
                 sort={sort}
-                selected={selected}
-                changeSort={changeSort}
+                urlSort={urlSort}
+                updateUrlSort={updateUrlSort}
               />
             </Fragment>
           )
@@ -122,15 +112,14 @@ const Sort = compose(withAggregations)(
 )
 
 const SortWrapper = compose(withSearchRouter)(
-  ({ searchQuery, trackingId, filter, sort, onSortChange }) => {
-    return searchQuery && filter ? (
+  ({ urlQuery, urlFilter, urlSort, updateUrlSort }) => {
+    return urlQuery && urlFilter ? (
       <Sort
-        searchQuery={searchQuery}
-        filter={filter}
-        trackingId={trackingId}
+        searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
-        selected={sort}
-        changeSort={onSortChange}
+        filter={urlFilter}
+        urlSort={urlSort}
+        updateUrlSort={updateUrlSort}
       />
     ) : null
   }

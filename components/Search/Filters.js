@@ -12,15 +12,11 @@ import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
 import withT from '../../lib/withT'
 
-// TODO: clean/mobile-friendly x-scroll for the tabs
-// TODO: 2 rows
 const styles = {
   list: css({
     listStyle: 'none',
     padding: '0 0 40px',
-    margin: 0,
-    overflowX: 'auto',
-    whiteSpace: 'nowrap'
+    margin: 0
   }),
   listItem: css({
     display: 'inline-block',

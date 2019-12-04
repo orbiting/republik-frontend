@@ -42,7 +42,7 @@ const Form = compose(
       trackSearch(urlQuery, dataAggregations)
     }, [urlQuery])
 
-    const submitForm = e => {
+    const submit = e => {
       e.preventDefault()
       if (!searchQuery && searchQuery === urlQuery) return
 
@@ -61,7 +61,7 @@ const Form = compose(
     }
 
     return (
-      <form onSubmit={e => submitForm(e)}>
+      <form onSubmit={submit}>
         <Field
           ref={setFocusRef}
           label={t('search/input/label')}

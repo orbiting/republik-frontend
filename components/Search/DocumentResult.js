@@ -18,9 +18,9 @@ const styles = {
 }
 
 export default ({ node }) => {
-  // todo handle author highlight
   const titleHighlight = findHighlight(node, 'meta.title')
   const descHighlight = findHighlight(node, 'meta.description')
+  const authorHighlight = findHighlight(node, 'meta.authors')
   const textHighlight = findHighlight(node, 'contentString')
 
   const actionBar = node.entity.meta ? (
@@ -48,7 +48,7 @@ export default ({ node }) => {
         )
       }
       description={
-        !titleHighlight ? (
+        !titleHighlight && !authorHighlight ? (
           <span
             {...merge(styles.highlight, !descHighlight && styles.textHighlight)}
             dangerouslySetInnerHTML={{

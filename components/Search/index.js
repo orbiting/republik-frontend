@@ -21,7 +21,5 @@ export default () => (
   <Center {...styles.container}>
     <Form />
     <Filters />
-    <Sort />
-    <Results />
   </Center>
 )

@@ -2,14 +2,18 @@ import React from 'react'
 import { withAggregations } from './enhancers'
 import { compose } from 'react-apollo'
 import withSearchRouter from './withSearchRouter'
-import { DEFAULT_AGGREGATION_KEYS, SUPPORTED_FILTERS } from './constants'
+import {
+  DEFAULT_AGGREGATION_KEYS,
+  DEFAULT_FILTER,
+  SUPPORTED_FILTERS
+} from './constants'
 import { css, merge } from 'glamor'
 import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
-import track from '../../lib/piwik'
 import withT from '../../lib/withT'
 
 // TODO: clean/mobile-friendly x-scroll for the tabs
+// TODO: 2 rows
 const styles = {
   list: css({
     listStyle: 'none',
@@ -54,7 +58,13 @@ const hasResults = (aggregations, filter) =>
 
 const findFilterWithResults = aggregations =>
   SUPPORTED_FILTERS.find(filter => hasResults(aggregations, filter)) ||
-  SUPPORTED_FILTERS[0]
+  DEFAULT_FILTER
+
+export const preselectFilter = dataAggregations => {
+  const aggregations =
+    dataAggregations.search && dataAggregations.search.aggregations
+  return aggregations ? findFilterWithResults(aggregations) : DEFAULT_FILTER
+}
 
 const EmptyState = compose(withT)(({ t }) => (
   <div {...styles.empty}>
@@ -67,47 +77,22 @@ const EmptyState = compose(withT)(({ t }) => (
 ))
 
 const Filters = compose(withAggregations)(
-  ({
-    dataAggregations,
-    trackingId,
-    searchQuery,
-    selected,
-    changeFilter,
-    changeTrackingId
-  }) => {
+  ({ dataAggregations, selected, updateUrlFilter }) => {
     const { search } = dataAggregations
-    if (!search) return null
-
-    const newTrackingId = search.trackingId
-    if (!!newTrackingId && trackingId !== newTrackingId) {
-      changeTrackingId(newTrackingId)
-    }
+    if (!search) return <EmptyState />
 
     const { totalCount, aggregations } = search
-
-    // TODO: doesn't work server side (e.g. hard reload)
-    // useEffect
-    // track(['trackSiteSearch', searchQuery, false, totalCount])
-
     if (totalCount === 0 || !aggregations) return <EmptyState />
-
-    // useEffect
-    if (!selected) {
-      // no key in URL = 1st tab
-      changeFilter(findFilterWithResults(aggregations))
-      return null
-    }
 
     return (
       <ul {...styles.list}>
         {SUPPORTED_FILTERS.map((filter, key) => {
           const agg = findAggregation(aggregations, filter)
           // TODO: handle case where agg = undefined (maybe in backend?)
-          // TODO: use Link?
           return (
             <li
               key={key}
-              onClick={() => changeFilter(filter)}
+              onClick={() => updateUrlFilter(filter)}
               {...merge(
                 styles.listItem,
                 isSameFilter(filter, selected) && styles.listItemSelected
@@ -123,15 +108,13 @@ const Filters = compose(withAggregations)(
 )
 
 const FiltersWrapper = compose(withSearchRouter)(
-  ({ searchQuery, filter, trackingId, onFilterChange, onTrackingIdChange }) => {
-    return searchQuery ? (
+  ({ urlQuery, urlFilter, updateUrlFilter }) => {
+    return urlQuery ? (
       <Filters
-        searchQuery={searchQuery}
-        trackingId={trackingId}
+        searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
-        selected={filter}
-        changeFilter={onFilterChange}
-        changeTrackingId={onTrackingIdChange}
+        selected={urlFilter}
+        updateUrlFilter={updateUrlFilter}
       />
     ) : null
   }

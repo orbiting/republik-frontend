@@ -18,6 +18,7 @@ import {
   mediaQueries
 } from '@project-r/styleguide'
 import withSearchRouter from './withSearchRouter'
+import track from '../../lib/piwik'
 
 const RESULT_COMPONENTS = {
   Document: DocumentResult,
@@ -98,6 +99,12 @@ const ResultsFooter = compose(withT)(
 )
 
 const Results = compose(withResults)(({ data, fetchMore }) => {
+  /*const trackSearch = () => {
+    const totalCount =
+      dataAggregations.search && dataAggregations.search.totalCount
+    track(['trackSiteSearch', searchQuery, false, totalCount])
+  }*/
+
   return (
     <div {...styles.container}>
       <Loader

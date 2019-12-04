@@ -7,8 +7,7 @@ import {
   FILTER_VALUE_PARAM,
   QUERY_PARAM,
   SORT_DIRECTION_PARAM,
-  SORT_KEY_PARAM,
-  TRACKING_PARAM
+  SORT_KEY_PARAM
 } from './constants'
 
 export default WrappedComponent =>
@@ -22,7 +21,6 @@ export default WrappedComponent =>
       key: query[SORT_KEY_PARAM],
       direction: query[SORT_DIRECTION_PARAM]
     }
-    const urlTrackingId = query[TRACKING_PARAM]
 
     const updateURL = newParams => {
       return Router.pushRoute(
@@ -53,9 +51,6 @@ export default WrappedComponent =>
         [SORT_DIRECTION_PARAM]: sort.direction
       })
 
-    const updateUrlTrackingId = trackingId =>
-      updateURL({ [TRACKING_PARAM]: trackingId })
-
     const resetUrl = () => Router.pushRoute('search')
 
     return (
@@ -63,11 +58,9 @@ export default WrappedComponent =>
         urlQuery={urlQuery}
         urlFilter={urlFilter}
         urlSort={urlSort}
-        urlTrackingId={urlTrackingId}
         updateUrlQuery={updateUrlQuery}
         updateUrlFilter={updateUrlFilter}
         updateUrlSort={updateUrlSort}
-        updateUrlTrackingId={updateUrlTrackingId}
         resetUrl={resetUrl}
         {...props}
       />

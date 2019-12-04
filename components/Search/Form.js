@@ -17,10 +17,8 @@ const Form = compose(
 )(
   ({
     urlQuery,
-    urlTrackingId,
     updateUrlQuery,
     updateUrlFilter,
-    updateUrlTrackingId,
     resetUrl,
     dataAggregations,
     t,
@@ -34,14 +32,6 @@ const Form = compose(
       return
     }, [focusRef])
 
-    const updateTrackingId = () => {
-      const trackingId =
-        dataAggregations.search && dataAggregations.search.trackingId
-      trackingId &&
-        trackingId !== urlTrackingId &&
-        updateUrlTrackingId(trackingId)
-    }
-
     const submitForm = e => {
       e.preventDefault()
       if (!searchQuery && searchQuery === urlQuery) return
@@ -49,7 +39,6 @@ const Form = compose(
       updateUrlQuery(searchQuery).then(() =>
         updateUrlFilter(preselectFilter(dataAggregations))
       )
-      // updateTrackingId()
     }
 
     const update = (_, value) => {

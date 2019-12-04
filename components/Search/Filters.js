@@ -77,7 +77,7 @@ const EmptyState = compose(withT)(({ t }) => (
 ))
 
 const Filters = compose(withAggregations)(
-  ({ dataAggregations, selected, updateUrlFilter }) => {
+  ({ dataAggregations, urlFilter, updateUrlFilter }) => {
     const { search } = dataAggregations
     if (!search) return <EmptyState />
 
@@ -95,7 +95,7 @@ const Filters = compose(withAggregations)(
               onClick={() => updateUrlFilter(filter)}
               {...merge(
                 styles.listItem,
-                isSameFilter(filter, selected) && styles.listItemSelected
+                isSameFilter(filter, urlFilter) && styles.listItemSelected
               )}
             >
               {agg.label} <small>{agg.count}</small>
@@ -113,7 +113,7 @@ const FiltersWrapper = compose(withSearchRouter)(
       <Filters
         searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
-        selected={urlFilter}
+        urlFilter={urlFilter}
         updateUrlFilter={updateUrlFilter}
       />
     ) : null

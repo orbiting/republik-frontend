@@ -11,6 +11,9 @@ import {
   SORT_KEY_PARAM
 } from './constants'
 
+export const isDefaultFilter = filter =>
+  filter.key === DEFAULT_FILTER.key && filter.value === DEFAULT_FILTER.value
+
 export default WrappedComponent =>
   compose(withRouter)(({ router: { query }, ...props }) => {
     const urlQuery = query[QUERY_PARAM]
@@ -37,9 +40,7 @@ export default WrappedComponent =>
     const updateUrlQuery = q => updateURL({ [QUERY_PARAM]: q })
 
     const updateUrlFilter = filter => {
-      const isDefault =
-        filter.key === DEFAULT_FILTER.key &&
-        filter.value === DEFAULT_FILTER.value
+      const isDefault = isDefaultFilter(filter)
       return updateURL({
         [FILTER_KEY_PARAM]: isDefault ? undefined : filter.key,
         [FILTER_VALUE_PARAM]: isDefault ? undefined : filter.value

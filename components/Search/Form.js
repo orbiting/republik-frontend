@@ -5,7 +5,7 @@ import Close from 'react-icons/lib/md/close'
 
 import { Field } from '@project-r/styleguide'
 import { compose } from 'react-apollo'
-import withSearchRouter from './withSearchRouter'
+import withSearchRouter, { isDefaultFilter } from './withSearchRouter'
 import { withAggregations } from './enhancers'
 import { DEFAULT_AGGREGATION_KEYS } from './constants'
 import { preselectFilter } from './Filters'
@@ -25,6 +25,7 @@ const Form = compose(
   ({
     urlQuery,
     updateUrlQuery,
+    urlFilter,
     updateUrlFilter,
     resetUrl,
     dataAggregations,
@@ -42,13 +43,15 @@ const Form = compose(
       trackSearch(urlQuery, dataAggregations)
     }, [urlQuery])
 
+    const updateFilter = () =>
+      isDefaultFilter(urlFilter) &&
+      updateUrlFilter(preselectFilter(dataAggregations))
+
     const submit = e => {
       e.preventDefault()
-      if (!searchQuery && searchQuery === urlQuery) return
-
-      updateUrlQuery(searchQuery).then(() =>
-        updateUrlFilter(preselectFilter(dataAggregations))
-      )
+      searchQuery &&
+        searchQuery !== urlQuery &&
+        updateUrlQuery(searchQuery).then(updateFilter)
     }
 
     const update = (_, value) => {
@@ -78,7 +81,7 @@ const Form = compose(
   }
 )
 
-const FormWrapper = compose(withSearchRouter)(({ urlQuery }) => {
+const FormWrapper = compose(withSearchRouter)(({ urlQuery, urlFilter }) => {
   const [searchQuery, setSearchQuery] = useState(urlQuery)
 
   return (
@@ -86,6 +89,7 @@ const FormWrapper = compose(withSearchRouter)(({ urlQuery }) => {
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}
       keys={DEFAULT_AGGREGATION_KEYS}
+      urlFilter={urlFilter}
     />
   )
 })

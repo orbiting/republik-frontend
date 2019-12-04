@@ -8,9 +8,9 @@ import {
   SUPPORTED_FILTERS
 } from './constants'
 import { css, merge } from 'glamor'
-import { fontStyles, mediaQueries, RawHtml } from '@project-r/styleguide'
+import { fontStyles, mediaQueries } from '@project-r/styleguide'
 import { findByKey } from '../../lib/utils/helpers'
-import withT from '../../lib/withT'
+import EmptyState from './EmptyState'
 
 const styles = {
   list: css({
@@ -30,12 +30,6 @@ const styles = {
   }),
   listItemSelected: css({
     textDecoration: 'underline'
-  }),
-  empty: css({
-    ...fontStyles.sansSerifRegular16,
-    [mediaQueries.mUp]: {
-      ...fontStyles.sansSerifRegular19
-    }
   })
 }
 
@@ -62,16 +56,6 @@ export const preselectFilter = dataAggregations => {
   return aggregations ? findFilterWithResults(aggregations) : DEFAULT_FILTER
 }
 
-const EmptyState = compose(withT)(({ t }) => (
-  <div {...styles.empty}>
-    <RawHtml
-      dangerouslySetInnerHTML={{
-        __html: t('search/results/empty')
-      }}
-    />
-  </div>
-))
-
 const Filters = compose(withAggregations)(
   ({ dataAggregations, urlFilter, updateUrlFilter }) => {
     const { search } = dataAggregations
@@ -84,8 +68,8 @@ const Filters = compose(withAggregations)(
       <ul {...styles.list}>
         {SUPPORTED_FILTERS.map((filter, key) => {
           const agg = findAggregation(aggregations, filter)
-          // TODO: handle case where agg = undefined (maybe in backend?)
-          return (
+          // TODO: handle case where agg is undefined (maybe in backend?)
+          return agg ? (
             <li
               key={key}
               onClick={() => updateUrlFilter(filter)}
@@ -96,7 +80,7 @@ const Filters = compose(withAggregations)(
             >
               {agg.label} <small>{agg.count}</small>
             </li>
-          )
+          ) : null
         })}
       </ul>
     )

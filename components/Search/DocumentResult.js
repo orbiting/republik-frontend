@@ -1,8 +1,9 @@
 import React from 'react'
-import { colors, TeaserFeed } from '@project-r/styleguide'
+import { colors, fontStyles, TeaserFeed } from '@project-r/styleguide'
 import ActionBar from '../ActionBar/Feed'
 import Link from '../Link/Href'
 import { css, merge } from 'glamor'
+import { findHighlight } from '../../lib/utils/mdast'
 
 const styles = {
   highlight: css({
@@ -12,14 +13,12 @@ const styles = {
     }
   }),
   textHighlight: css({
-    fontStyle: 'italic'
+    ...fontStyles.serifItalic
   })
 }
 
-const findHighlight = (node, path) =>
-  node.highlights.find(highlight => highlight.path === path)
-
 export default ({ node }) => {
+  // todo handle author highlight
   const titleHighlight = findHighlight(node, 'meta.title')
   const descHighlight = findHighlight(node, 'meta.description')
   const textHighlight = findHighlight(node, 'contentString')

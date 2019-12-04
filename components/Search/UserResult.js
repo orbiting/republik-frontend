@@ -1,9 +1,15 @@
 import React from 'react'
-import { css } from 'glamor'
+import { css, merge } from 'glamor'
 import MdCheck from 'react-icons/lib/md/check'
 import { Link } from '../../lib/routes'
 
-import { colors, fontStyles, mediaQueries } from '@project-r/styleguide'
+import {
+  colors,
+  Editorial,
+  fontStyles,
+  mediaQueries
+} from '@project-r/styleguide'
+import { findHighlight } from '../../lib/utils/mdast'
 
 export const profilePictureSize = 70
 export const profilePictureMargin = 10
@@ -16,6 +22,12 @@ const styles = {
     borderTop: `1px solid ${colors.text}`,
     margin: '0 0 40px 0',
     paddingTop: 12
+  }),
+  highlight: css({
+    '& em': {
+      background: colors.primaryBg,
+      fontStyle: 'inherit'
+    }
   }),
   profilePicture: css({
     display: 'block',
@@ -63,51 +75,74 @@ const styles = {
   link: css({
     color: 'inherit',
     textDecoration: 'none'
+  }),
+  textHighlight: css({
+    ...fontStyles.serifItalic
   })
 }
 
-export const UserResult = ({
-  node: {
+export const UserResult = ({ node }) => {
+  const {
     entity: { id, slug, firstName, lastName, credentials, portrait }
-  }
-}) => {
-  // TODO: show highlight if needed
+  } = node
+  const nameHighlight = findHighlight(node, 'name')
+  const textHighlight =
+    findHighlight(node, 'biography') || findHighlight(node, 'statement')
   const credential = credentials && credentials.find(c => c.isListed)
   return (
-    <div {...styles.root}>
-      {portrait && (
-        <Link route='profile' params={{ slug: slug || id }}>
-          <a {...styles.link}>
-            <img
-              {...styles.profilePicture}
-              src={portrait}
-              alt={`${firstName} ${lastName}`}
-            />
-          </a>
-        </Link>
-      )}
-      <div {...styles.meta}>
-        <div {...styles.name}>
+    <div>
+      <div {...styles.root}>
+        {portrait && (
           <Link route='profile' params={{ slug: slug || id }}>
             <a {...styles.link}>
-              {firstName} {lastName}
+              <img
+                {...styles.profilePicture}
+                src={portrait}
+                alt={`${firstName} ${lastName}`}
+              />
             </a>
           </Link>
-        </div>
-        {credential && (
-          <div {...styles.description}>
-            <div
-              {...styles.descriptionText}
-              style={{
-                color: credential.verified ? colors.text : colors.lightText
-              }}
-            >
-              {credential.description}
-            </div>
-            {credential.verified && <MdCheck {...styles.verifiedCheck} />}
-          </div>
         )}
+        <div {...styles.meta}>
+          <div {...styles.name}>
+            <Link route='profile' params={{ slug: slug || id }}>
+              <a {...styles.link}>
+                <span
+                  {...styles.highlight}
+                  dangerouslySetInnerHTML={{
+                    __html: nameHighlight
+                      ? nameHighlight.fragments[0]
+                      : `${firstName} ${lastName}`
+                  }}
+                />
+              </a>
+            </Link>
+          </div>
+          {credential && (
+            <div {...styles.description}>
+              <div
+                {...styles.descriptionText}
+                style={{
+                  color: credential.verified ? colors.text : colors.lightText
+                }}
+              >
+                {credential.description}
+              </div>
+              {credential.verified && <MdCheck {...styles.verifiedCheck} />}
+            </div>
+          )}
+        </div>
       </div>
+      {!nameHighlight && textHighlight && (
+        <Editorial.P style={{ margin: '-20px 0 10px' }}>
+          <span
+            {...merge(styles.textHighlight, styles.highlight)}
+            dangerouslySetInnerHTML={{
+              __html: textHighlight.fragments[0]
+            }}
+          />
+        </Editorial.P>
+      )}
     </div>
   )
 }

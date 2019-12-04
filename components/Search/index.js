@@ -22,5 +22,6 @@ export default () => (
     <Form />
     <Filters />
     <Sort />
+    <Results />
   </Center>
 )

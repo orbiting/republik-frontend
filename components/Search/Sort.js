@@ -85,12 +85,12 @@ const SortButton = compose(withT)(({ t, sort, urlSort, updateUrlSort }) => {
 })
 
 const Sort = compose(withAggregations)(
-  ({ dataAggregations, filter, urlSort, updateUrlSort }) => {
+  ({ dataAggregations, urlFilter, urlSort, updateUrlSort }) => {
     const { search } = dataAggregations
     if (!search) return null
 
     const { aggregations } = search
-    const currentAgg = findAggregation(aggregations, filter)
+    const currentAgg = findAggregation(aggregations, urlFilter)
     if (!currentAgg || currentAgg.count === 0) return null
 
     return (
@@ -117,7 +117,7 @@ const SortWrapper = compose(withSearchRouter)(
       <Sort
         searchQuery={urlQuery}
         keys={DEFAULT_AGGREGATION_KEYS}
-        filter={urlFilter}
+        urlFilter={urlFilter}
         urlSort={urlSort}
         updateUrlSort={updateUrlSort}
       />

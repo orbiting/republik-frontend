@@ -54,6 +54,12 @@ const styles = {
   })
 }
 
+const trackSearch = (query, data) => {
+  if (data.loading || data.error) return
+  const totalCount = data.search && data.search.totalCount
+  track(['trackSiteSearch', query, false, totalCount])
+}
+
 const ResultsList = ({ nodes }) => {
   const nodeType = nodes[0].entity.__typename
 
@@ -98,12 +104,10 @@ const ResultsFooter = compose(withT)(
   }
 )
 
-const Results = compose(withResults)(({ data, fetchMore }) => {
-  /*const trackSearch = () => {
-    const totalCount =
-      dataAggregations.search && dataAggregations.search.totalCount
-    track(['trackSiteSearch', searchQuery, false, totalCount])
-  }*/
+const Results = compose(withResults)(({ data, fetchMore, searchQuery }) => {
+  React.useEffect(() => {
+    trackSearch(searchQuery, data)
+  }, [data])
 
   return (
     <div {...styles.container}>
@@ -130,14 +134,9 @@ const Results = compose(withResults)(({ data, fetchMore }) => {
 })
 
 const ResultsWrapper = compose(withSearchRouter)(
-  ({ searchQuery, filter, sort, trackingId }) => {
-    return searchQuery && filter && sort ? (
-      <Results
-        searchQuery={searchQuery}
-        filters={[filter]}
-        sort={sort}
-        trackingId={trackingId}
-      />
+  ({ urlQuery, urlFilter, urlSort }) => {
+    return urlQuery && urlFilter && urlSort ? (
+      <Results searchQuery={urlQuery} filters={[urlFilter]} sort={urlSort} />
     ) : null
   }
 )

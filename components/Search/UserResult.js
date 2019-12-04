@@ -85,6 +85,7 @@ export const UserResult = ({ node }) => {
   const {
     entity: { id, slug, firstName, lastName, credentials, portrait }
   } = node
+  // TODO: show comments/article count on search page
   const nameHighlight = findHighlight(node, 'name')
   const textHighlight =
     findHighlight(node, 'biography') || findHighlight(node, 'statement')

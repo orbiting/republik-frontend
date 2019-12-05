@@ -10,7 +10,7 @@ import {
   withQuestionnaireMutation,
   withQuestionnaireReset
 } from '../components/Questionnaire/enhancers'
-import questionnaire, { description } from './questionnaire'
+import { description } from './questionnaire'
 import { withRouter } from 'next/router'
 import QuestionnaireActions from '../components/Questionnaire/QuestionnaireActions'
 import Frame from '../components/Frame'
@@ -21,8 +21,8 @@ import {
 } from '../components/Account/enhancers'
 import { errorToString } from '../lib/utils/errors'
 import {
-  COUNTRIES,
-  fields as addressFields
+  DEFAULT_COUNTRY,
+  isEmptyAddress
 } from '../components/Account/AddressForm'
 import FieldSet from '../components/FieldSet'
 import gql from 'graphql-tag'
@@ -41,7 +41,7 @@ const mutation = gql`
   ) {
     updateMe(phoneNumber: $phoneNumber, address: $address) {
       id
-      ...Details
+      ...PhoneAndAddressOnUser
     }
     submitQuestionnaire(id: $questionnaireId) {
       id
@@ -71,8 +71,6 @@ const meta = {
   facebookImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/facebookImage.png`,
   twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
 }
-
-const DEFAULT_COUNTRY = COUNTRIES[0]
 
 const styles = {
   intro: css({
@@ -112,22 +110,6 @@ const getValues = me => {
     phoneNumber: me.phoneNumber || '',
     ...addressState
   }
-}
-
-const isEmptyAddress = (values, me) => {
-  const addressString = [
-    values.name,
-    values.line1,
-    values.line2,
-    values.postalCode,
-    values.city,
-    values.country
-  ]
-    .join('')
-    .trim()
-  const emptyAddressString = [me.name, DEFAULT_COUNTRY].join('').trim()
-
-  return addressString === emptyAddressString
 }
 
 const getMutation = (values, me) => {

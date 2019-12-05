@@ -5,7 +5,11 @@ import { errorToString } from '../../lib/utils/errors'
 import { swissTime } from '../../lib/utils/format'
 
 import withT from '../../lib/withT'
-import AddressForm, { COUNTRIES, fields as addressFields } from './AddressForm'
+import AddressForm, {
+  DEFAULT_COUNTRY,
+  fields as addressFields,
+  isEmptyAddress
+} from './AddressForm'
 
 import {
   Loader,
@@ -24,8 +28,6 @@ const { H2, P } = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
-
-const DEFAULT_COUNTRY = COUNTRIES[0]
 
 const fields = t => [
   {
@@ -84,22 +86,6 @@ const getValues = me => {
     birthday: me.birthday || '',
     ...addressState
   }
-}
-
-const isEmptyAddress = (values, me) => {
-  const addressString = [
-    values.name,
-    values.line1,
-    values.line2,
-    values.postalCode,
-    values.city,
-    values.country
-  ]
-    .join('')
-    .trim()
-  const emptyAddressString = [me.name, DEFAULT_COUNTRY].join('').trim()
-
-  return addressString === emptyAddressString
 }
 
 class UpdateMe extends Component {

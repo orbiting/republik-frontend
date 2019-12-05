@@ -161,8 +161,7 @@ class UpdateMe extends Component {
   render() {
     const { t, detailsData, style, hasMemberships } = this.props
     const { values, dirty, updating, isEditing, errors } = this.state
-    const { loading, error } = detailsData
-    const me = loading ? undefined : detailsData.me
+    const { loading, error, me } = detailsData
 
     return (
       <Loader

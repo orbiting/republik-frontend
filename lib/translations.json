@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-05T11:57:39.676Z",
+  "updated": "2019-12-05T12:54:00.556Z",
   "title": "live",
   "data": [
     {
@@ -4104,7 +4104,7 @@
     },
     {
       "key": "questionnaire/crowd/submitted/share",
-      "value": "Teilen Sie Ihre Erneuerung"
+      "value": "Teilen Sie Ihre Erneuerung auf sozialen Medien."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",

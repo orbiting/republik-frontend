@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { compose, graphql } from 'react-apollo'
 
-import { CDN_FRONTEND_BASE_URL } from '../lib/constants'
+import { CDN_FRONTEND_BASE_URL, PUBLIC_BASE_URL } from '../lib/constants'
 import withT, { t } from '../lib/withT'
 
 import { enforceMembership } from '../components/Auth/withMembership'
@@ -36,6 +36,7 @@ import {
 } from '@project-r/styleguide'
 import { css } from 'glamor'
 import MdArrow from 'react-icons/lib/md/trending-flat'
+import ShareButtons from '../components/ActionBar/ShareButtons'
 
 const { Headline, P } = Interaction
 
@@ -96,6 +97,10 @@ const styles = {
     justifyContent: 'left',
     alignItems: 'center',
     marginBottom: 20
+  }),
+  socialButtons: css({
+    marginLeft: 30,
+    marginTop: 30
   })
 }
 
@@ -177,6 +182,14 @@ const ThankYou = compose(withT)(({ t }) => {
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/share' />
+        <div {...styles.socialButtons}>
+          <ShareButtons
+            url={`${PUBLIC_BASE_URL}`}
+            tweet=''
+            socialMediaOnly
+            eventCategory='KomplizenShareButtons'
+          />
+        </div>
       </div>
     </div>
   )

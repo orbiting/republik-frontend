@@ -6,9 +6,11 @@ import {
   fontStyles,
   Interaction,
   mediaQueries,
-  RawHtml
+  RawHtml,
+  A
 } from '@project-r/styleguide'
 import withInNativeApp from '../../lib/withInNativeApp'
+import Collapsible from './Collapsible'
 
 const { H2, Headline } = Interaction
 
@@ -35,6 +37,7 @@ export const Title = ({ children }) => (
 export const Heading = ({ children }) => (
   <H2
     {...css({
+      marginTop: 100,
       marginBottom: 20
     })}
   >
@@ -179,3 +182,27 @@ export const Caption = ({ children }) => (
     {children}
   </div>
 )
+
+const styles = {
+  list: css({
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular21
+    }
+  })
+}
+
+export const mdComponents = {
+  h1: Title,
+  h2: Heading,
+  a: A,
+  p: PMedium,
+  small: PSmall,
+  strong: ({ children }) => (
+    <span style={{ fontFamily: fontFamilies.sansSerifBold }}>{children}</span>
+  ),
+  ul: ({ children }) => <ul {...styles.list}>{children}</ul>,
+  ol: ({ children }) => <ol {...styles.list}>{children}</ol>,
+  li: ({ children }) => <li>{children}</li>,
+  img: props => <img {...props} style={{ width: '100%' }} />
+}

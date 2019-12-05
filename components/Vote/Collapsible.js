@@ -4,7 +4,7 @@ import { css } from 'glamor'
 import ChevronRightIcon from 'react-icons/lib/md/chevron-right'
 import ChevronDownIcon from 'react-icons/lib/md/expand-more'
 
-import { fontStyles, mediaQueries } from '@project-r/styleguide'
+import { fontFamilies, fontStyles, mediaQueries } from '@project-r/styleguide'
 import voteT from './voteT'
 
 const styles = {
@@ -23,6 +23,19 @@ const styles = {
     width: 26,
     marginLeft: -6,
     display: 'inline-block'
+  }),
+  text: css({
+    marginTop: 10,
+    marginLeft: 20,
+    ...fontStyles.sansSerifRegular16,
+    [mediaQueries.mUp]: {
+      ...fontStyles.sansSerifRegular16,
+      lineHeight: 1.4
+    },
+    '& strong': {
+      fontFamily: fontFamilies.sansSerifMedium,
+      fontWeight: 'normal'
+    }
   })
 }
 
@@ -58,7 +71,7 @@ class Collapsible extends React.Component {
           )}
           {label || vt('common/moreInfo')}
         </div>
-        {collapsed || <div>{children}</div>}
+        {collapsed || <div {...styles.text}>{children}</div>}
       </div>
     )
   }

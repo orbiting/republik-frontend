@@ -1,5 +1,5 @@
 {
-  "updated": "2019-07-16T11:24:20.648Z",
+  "updated": "2019-12-04T16:53:32.694Z",
   "title": "live",
   "data": [
     {
@@ -241,6 +241,26 @@
     {
       "key": "vote/201907/ended",
       "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 17. Juli."
+    },
+    {
+      "key": "vote/201912/title",
+      "value": "Ihr Geld – Ihre Stimme!"
+    },
+    {
+      "key": "vote/201912/thankyou",
+      "value": "Alles erledigt. Vielen Dank für Ihre Stimme!"
+    },
+    {
+      "key": "vote/201912/nextsteps",
+      "value": "Die Resultate der Abstimmung werden am 27. Dezember hier publiziert. Für Fragen und Rückmeldungen schreiben Sie uns in der <a href='/vote/dez19/diskutieren'>Abstimmungsdebatte</a>."
+    },
+    {
+      "key": "vote/201912/back",
+      "value": "Zur Verlagsetage"
+    },
+    {
+      "key": "vote/201912/ended",
+      "value": "Die Urnen sind geschlossen. Die Resultate der Urabstimmung finden Sie hier ab dem 27. Dezember."
     },
     {
       "key": "info/description",

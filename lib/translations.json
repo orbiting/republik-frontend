@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-05T12:54:00.556Z",
+  "updated": "2019-12-05T13:44:12.438Z",
   "title": "live",
   "data": [
     {
@@ -4079,6 +4079,10 @@
       "value": "Komplizen Formular"
     },
     {
+      "key": "questionnaire/crowd/description",
+      "value": "Werden Sie Komplize der Republik und sagen Sie uns, was Sie tun möchten."
+    },
+    {
       "key": "questionnaire/crowd/intro",
       "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik - und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, ihnen die passende Unterstützungsmöglichkeit vorzuschlagen."
     },
@@ -4149,6 +4153,10 @@
     {
       "key": "pages/meta/questionnaire/socialDescription",
       "value": "Um an der Umfrage teilzunehmen, müssen Sie Mitglied oder Abonnentin sein."
+    },
+    {
+      "key": "pages/meta/questionnaire/crowd/socialTitle",
+      "value": "Das 1-Minuten Formular"
     },
     {
       "key": "pages/meta/behind/gallery",

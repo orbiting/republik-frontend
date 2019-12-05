@@ -70,17 +70,13 @@ const withMutation = graphql(mutation, {
 
 const meta = {
   title: t('questionnaire/crowd/title'),
-  description: t('questionnaire/description'),
-  facebookTitle: t('pages/meta/questionnaire/socialTitle'),
-  facebookDescription: t('pages/meta/questionnaire/socialDescription'),
-  twitterTitle: t('pages/meta/questionnaire/socialTitle'),
-  twitterDescription: t('pages/meta/questionnaire/socialDescription'),
-  facebookImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/facebookImage.png`,
-  twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
+  description: t('questionnaire/crowd/description'),
+  image: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/crowd/image.png`,
+  facebookTitle: t('pages/meta/questionnaire/crowd/socialTitle'),
+  twitterTitle: t('pages/meta/questionnaire/crowd/socialTitle')
 }
 
-// TODO: host on S3
-const gifLink = 'https://i.giphy.com/media/BmMU3LOfNMMeI/source.gif'
+const gifLink = `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/crowd/schade.gif`
 
 const styles = {
   intro: css({
@@ -394,7 +390,7 @@ class QuestionnaireCrowdPage extends Component {
         />
         {!submitted && willingnessStatus && (
           <>
-            {willingToHelp && (
+            {willingToHelp ? (
               <DetailsForm
                 style={{ marginTop: 50 }}
                 data={detailsData}
@@ -405,8 +401,7 @@ class QuestionnaireCrowdPage extends Component {
                 errorMessages={errorMessages}
                 showErrors={!updating && !!showErrors}
               />
-            )}
-            {notConvinced && (
+            ) : (
               <Figure>
                 <FigureImage src={gifLink} maxWidth={500} alt='Schade' />
               </Figure>

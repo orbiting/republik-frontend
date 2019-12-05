@@ -21,13 +21,15 @@ import { splitByTitle } from '../../lib/utils/mdast'
 import withMemberStatus from '../../lib/withMemberStatus'
 
 import Discussion from '../Discussion/Discussion'
-import Feed from '../Feed/Format'
+import FormatFeed from '../Feed/Format'
 import StatusError from '../StatusError'
 import SSRCachingBoundary from '../SSRCachingBoundary'
 import withMembership from '../Auth/withMembership'
 import { withEditor } from '../Auth/checkRoles'
 import ArticleGallery from '../Gallery/ArticleGallery'
 import AutoDiscussionTeaser from './AutoDiscussionTeaser'
+import SectionNav from '../Sections/SectionNav'
+import SectionFeed from '../Sections/SectionFeed'
 
 import Progress from './Progress'
 import { userProgressFragment } from './Progress/api'
@@ -50,6 +52,7 @@ import createFormatSchema from '@project-r/styleguide/lib/templates/Format'
 import createDossierSchema from '@project-r/styleguide/lib/templates/Dossier'
 import createDiscussionSchema from '@project-r/styleguide/lib/templates/Discussion'
 import createNewsletterSchema from '@project-r/styleguide/lib/templates/EditorialNewsletter/web'
+import createSectionSchema from '@project-r/styleguide/lib/templates/Section'
 
 import { onDocumentFragment } from '../Bookmarks/fragments'
 
@@ -64,6 +67,7 @@ import gql from 'graphql-tag'
 
 import * as reactApollo from 'react-apollo'
 import * as graphqlTag from 'graphql-tag'
+import { Breakout } from '@project-r/styleguide/lib/components/Center'
 /* eslint-enable */
 
 const schemaCreators = {
@@ -73,7 +77,8 @@ const schemaCreators = {
   format: createFormatSchema,
   dossier: createDossierSchema,
   discussion: createDiscussionSchema,
-  editorialNewsletter: createNewsletterSchema
+  editorialNewsletter: createNewsletterSchema,
+  section: createSectionSchema
 }
 
 const dynamicComponentRequire = createRequire().alias({
@@ -112,6 +117,20 @@ const getDocument = gql`
       id
       repoId
       content
+      linkedDocuments {
+        nodes {
+          id
+          meta {
+            title
+            template
+            path
+            color
+          }
+          linkedDocuments {
+            totalCount
+          }
+        }
+      }
       ...BookmarkOnDocument
       ...UserProgressOnDocument
       meta {
@@ -408,6 +427,7 @@ class ArticlePage extends Component {
         inNativeApp={inNativeApp}
         inIOS={inIOS}
         documentId={article.id}
+        userBookmark={article.userBookmark}
         showBookmark={isMember}
         estimatedReadingMinutes={meta.estimatedReadingMinutes}
         estimatedConsumptionMinutes={meta.estimatedConsumptionMinutes}
@@ -469,7 +489,10 @@ class ArticlePage extends Component {
     const currentArticle = this.props.data.article || {}
     const nextArticle = nextProps.data.article || {}
 
-    if (currentArticle.id !== nextArticle.id) {
+    if (
+      currentArticle.id !== nextArticle.id ||
+      currentArticle.userBookmark !== nextArticle.userBookmark
+    ) {
       this.setState(this.deriveStateFromProps(nextProps, this.state))
     }
   }
@@ -490,16 +513,6 @@ class ArticlePage extends Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll)
     window.removeEventListener('resize', this.measure)
-  }
-
-  getChildContext() {
-    const {
-      data: { article }
-    } = this.props
-    return {
-      // userProgress: article && article.userProgress,
-      userBookmark: article && article.userBookmark
-    }
   }
 
   render() {
@@ -561,6 +574,8 @@ class ArticlePage extends Component {
       (meta.template === 'format' ? meta : meta.format && meta.format.meta)
     const formatColor =
       formatMeta && (formatMeta.color || colors[formatMeta.kind])
+
+    const sectionColor = meta && meta.template === 'section' && meta.color
     const MissingNode = isEditor ? undefined : ({ children }) => children
 
     if (router.query.extract) {
@@ -646,6 +661,7 @@ class ArticlePage extends Component {
             }
 
             const isFormat = meta.template === 'format'
+            const isSection = meta.template === 'section'
             const isNewsletterSource =
               router.query.utm_source &&
               router.query.utm_source === 'newsletter'
@@ -654,7 +670,10 @@ class ArticlePage extends Component {
               meta.linkedDiscussion && !meta.linkedDiscussion.closed
 
             const ProgressComponent =
-              isMember && !isFormat && meta.template !== 'discussion'
+              isMember &&
+              !isSection &&
+              !isFormat &&
+              meta.template !== 'discussion'
                 ? Progress
                 : EmptyComponent
 
@@ -664,7 +683,9 @@ class ArticlePage extends Component {
                 splitContent.title.children.length - 1
               ]
             const titleAlign =
-              (titleNode && titleNode.data && titleNode.data.center) || isFormat
+              (titleNode && titleNode.data && titleNode.data.center) ||
+              isFormat ||
+              isSection
                 ? 'center'
                 : undefined
 
@@ -698,13 +719,24 @@ class ArticlePage extends Component {
                             {...styles.actionBar}
                             style={{
                               textAlign: titleAlign,
-                              marginTop: isFormat ? 20 : 0
+                              marginTop: isSection || isFormat ? 20 : 0
                             }}
                           >
                             {actionBar}
                           </div>
+                          {isSection && (
+                            <Breakout size='breakout'>
+                              <SectionNav
+                                color={sectionColor}
+                                linkedDocuments={article.linkedDocuments}
+                              />
+                            </Breakout>
+                          )}
                         </Center>
-                        {!isFormat && !isNewsletterSource && payNote}
+                        {!isSection &&
+                          !isFormat &&
+                          !isNewsletterSource &&
+                          payNote}
                       </div>
                     )}
                     <SSRCachingBoundary
@@ -748,7 +780,12 @@ class ArticlePage extends Component {
                     path={meta.path}
                   />
                 )}
-                {isFormat && <Feed formatId={article.id} />}
+                {isSection && (
+                  <SectionFeed
+                    formats={article.linkedDocuments.nodes.map(n => n.id)}
+                  />
+                )}
+                {isFormat && <FormatFeed formatId={article.id} />}
                 {(hasActiveMembership || isFormat) && (
                   <Fragment>
                     <br />
@@ -757,7 +794,7 @@ class ArticlePage extends Component {
                     <br />
                   </Fragment>
                 )}
-                {!isFormat && payNoteAfter}
+                {!isSection && !isFormat && payNoteAfter}
               </Fragment>
             )
           }}
@@ -765,20 +802,6 @@ class ArticlePage extends Component {
       </Frame>
     )
   }
-}
-
-ArticlePage.childContextTypes = {
-  // userProgress: PropTypes.shape({
-  //   id: PropTypes.string.isRequired,
-  //   percentage: PropTypes.number.isRequired,
-  //   nodeId: PropTypes.string.isRequired,
-  //   updatedAt: PropTypes.string.isRequired,
-  //   createdAt: PropTypes.string.isRequired
-  // }),
-  userBookmark: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired
-  })
 }
 
 const ComposedPage = compose(

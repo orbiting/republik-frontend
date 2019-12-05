@@ -119,9 +119,20 @@ class Pledge extends Component {
   getPkg(base) {
     const { query } = base || this.props
     const { packages } = this.props
-    return query.package
+    let pkg = query.package
       ? packages.find(pkg => pkg.name === query.package.toUpperCase())
       : null
+    if (pkg && query.userPrice) {
+      // do not offer goodies unless userPrice true
+      pkg = {
+        ...pkg,
+        options: pkg.options.filter(
+          option => option.reward.__typename !== 'Goodie' || option.userPrice
+        )
+      }
+    }
+
+    return pkg
   }
   submitPledgeProps({ values, query, pledge }) {
     const { customMe } = this.props
@@ -151,10 +162,12 @@ class Pledge extends Component {
               amount:
                 values[fieldKey] === undefined
                   ? option.defaultAmount
-                  : values[fieldKey],
+                  : // can be '', but PackageOptionInput needs Int! here
+                    +values[fieldKey],
               periods:
                 values[fieldKeyPeriods] !== undefined
-                  ? values[fieldKeyPeriods]
+                  ? // can be '', but PackageOptionInput needs Int here
+                    +values[fieldKeyPeriods]
                   : option.reward && option.reward.defaultPeriods,
               price: option.price,
               templateId: option.templateId,
@@ -432,7 +445,12 @@ class Pledge extends Component {
                 </div>
                 {pkg && (
                   <Fragment>
-                    <H2>{t('pledge/contact/title')}</H2>
+                    <H2>
+                      {t.first([
+                        `pledge/contact/title/${pkg.name}`,
+                        'pledge/contact/title'
+                      ])}
+                    </H2>
                     <div style={{ marginTop: 10, marginBottom: 40 }}>
                       {me ? (
                         <Fragment>

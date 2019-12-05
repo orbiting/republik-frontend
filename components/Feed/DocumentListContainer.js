@@ -90,7 +90,9 @@ const defaultProps = {
     ...data,
     documents: connection
   }),
-  mapNodes: e => e
+  mapNodes: e => e,
+  variables: {},
+  placeholder: null
 }
 
 export const makeLoadMore = ({
@@ -133,17 +135,19 @@ class DocumentListContainer extends Component {
   render() {
     const {
       query,
+      variables,
       getConnection,
       mergeConnection,
       mapNodes,
       placeholder,
       help,
       feedProps,
-      refetchOnUnmount
+      refetchOnUnmount,
+      showTotal
     } = this.props
 
     return (
-      <Query query={query}>
+      <Query query={query} variables={variables}>
         {({ loading, error, data, fetchMore, refetch }) => (
           <LifecycleWrapper
             onComponentWillUnmount={refetchOnUnmount ? refetch : noop}
@@ -160,7 +164,6 @@ class DocumentListContainer extends Component {
                   const hasMore = connection.pageInfo.hasNextPage
                   return (
                     <>
-                      {help}
                       <DocumentList
                         documents={connection.nodes.map(mapNodes)}
                         totalCount={connection.totalCount}
@@ -173,6 +176,8 @@ class DocumentListContainer extends Component {
                           mapNodes
                         })}
                         feedProps={feedProps}
+                        showTotal={showTotal}
+                        help={help}
                       />
                     </>
                   )
@@ -190,11 +195,13 @@ DocumentListContainer.defaultProps = defaultProps
 
 DocumentListContainer.propTypes = {
   query: PropTypes.object.isRequired,
+  variables: PropTypes.object,
   getConnection: PropTypes.func.isRequired,
   mapNodes: PropTypes.func.isRequired,
   placeholder: PropTypes.element,
-  help: PropTypes.element,
-  refetchOnUnmount: PropTypes.bool
+  refetchOnUnmount: PropTypes.bool,
+  showTotal: PropTypes.bool,
+  help: PropTypes.element
 }
 
 export default DocumentListContainer

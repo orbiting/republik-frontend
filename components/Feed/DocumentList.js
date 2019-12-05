@@ -5,7 +5,7 @@ import withT from '../../lib/withT'
 import PropTypes from 'prop-types'
 import withInNativeApp from '../../lib/withInNativeApp'
 
-import { A, Spinner } from '@project-r/styleguide'
+import { A, Spinner, Interaction } from '@project-r/styleguide'
 import Feed from './Feed'
 
 import ErrorMessage from '../ErrorMessage'
@@ -26,6 +26,8 @@ const DocumentList = ({
   hasMore,
   loadMore,
   feedProps,
+  showTotal,
+  help,
   t
 }) => {
   const [
@@ -33,8 +35,24 @@ const DocumentList = ({
     setInfiniteScroll
   ] = useInfiniteScroll({ hasMore, loadMore })
 
+  if (totalCount < 1) {
+    return null
+  }
+
   return (
     <>
+      {showTotal && (
+        <>
+          <Interaction.H2>
+            {t.pluralize('feed/title', {
+              count: totalCount
+            })}
+          </Interaction.H2>
+          <br />
+          <br />
+        </>
+      )}
+      {help}
       <div ref={containerRef}>
         <Feed documents={documents} {...feedProps} />
       </div>
@@ -66,7 +84,9 @@ DocumentList.propTypes = {
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool,
   t: PropTypes.func.isRequired,
-  feedProps: PropTypes.object
+  feedProps: PropTypes.object,
+  showTotal: PropTypes.bool,
+  help: PropTypes.element
 }
 
 export default compose(

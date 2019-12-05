@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-03T17:00:53.317Z",
+  "updated": "2019-12-05T09:13:15.200Z",
   "title": "live",
   "data": [
     {
@@ -4587,8 +4587,16 @@
       "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
     },
     {
+      "key": "crowdfunding/status/goal/SURVIVE/people",
+      "value": "von {count} aktive Verlegerinnen am 31. März"
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/money",
+      "value": "von {count} Investitionen und Grosszügigkeit "
+    },
+    {
       "key": "crowdfunding/status/goal/money",
-      "value": "von {formattedCHF}"
+      "value": "von {count}"
     },
     {
       "key": "crowdfunding/status/time/label",
@@ -4733,6 +4741,10 @@
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
       "value": "Ein detaillierter Überblick folgt Ende Monat."
+    },
+    {
+      "key": "crowdfunding/status/time/label/SURVIVE",
+      "value": "bis zur Entscheidung"
     },
     {
       "key": "nav/bookmarks",

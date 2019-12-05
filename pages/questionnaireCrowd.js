@@ -27,7 +27,13 @@ import {
 import FieldSet from '../components/FieldSet'
 import gql from 'graphql-tag'
 import DetailsForm from '../components/Account/DetailsForm'
-import { Interaction, RawHtml, colors } from '@project-r/styleguide'
+import {
+  Interaction,
+  RawHtml,
+  colors,
+  Figure,
+  FigureImage
+} from '@project-r/styleguide'
 import { css } from 'glamor'
 import MdArrow from 'react-icons/lib/md/trending-flat'
 
@@ -62,7 +68,7 @@ const withMutation = graphql(mutation, {
 })
 
 const meta = {
-  title: 'Crowd Umfrage',
+  title: t('questionnaire/crowd/title'),
   description: t('questionnaire/description'),
   facebookTitle: t('pages/meta/questionnaire/socialTitle'),
   facebookDescription: t('pages/meta/questionnaire/socialDescription'),
@@ -71,6 +77,9 @@ const meta = {
   facebookImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/facebookImage.png`,
   twitterImage: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/2018/twitterImage.png`
 }
+
+// TODO: host on S3
+const gifLink = 'https://i.giphy.com/media/BmMU3LOfNMMeI/source.gif'
 
 const styles = {
   intro: css({
@@ -324,12 +333,7 @@ class QuestionnaireCrowdPage extends Component {
   }
 
   render() {
-    const {
-      detailsData,
-      questionnaireData,
-      resetQuestionnaire,
-      router
-    } = this.props
+    const { detailsData, questionnaireData, router } = this.props
     const {
       serverError,
       updating,
@@ -390,14 +394,9 @@ class QuestionnaireCrowdPage extends Component {
               />
             )}
             {notConvinced && (
-              <iframe
-                src='https://giphy.com/embed/HGe4zsOVo7Jvy'
-                width='480'
-                height='354'
-                frameBorder='0'
-                className='giphy-embed'
-                allowFullScreen
-              />
+              <Figure>
+                <FigureImage src={gifLink} maxWidth={500} alt='Schade' />
+              </Figure>
             )}
             <QuestionnaireActions
               onSubmit={() => {

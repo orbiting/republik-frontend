@@ -146,9 +146,11 @@ const getWillingnessToHelp = questions => {
 }
 
 const adaptedQuestionnaire = (data, notConvinced) => {
-  if (!data || !notConvinced) return data
-
-  data.questionnaire.questions[0].text = t('questionnaire/crowd/question1/alt')
+  if (data) {
+    data.questionnaire.questions[0].text = notConvinced
+      ? t('questionnaire/crowd/question1/alt')
+      : t('questionnaire/crowd/question1')
+  }
   return data
 }
 
@@ -167,7 +169,6 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
 })
 
 const ThankYou = compose(withT)(({ t }) => {
-  // TODO: share on social media
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
@@ -234,7 +235,7 @@ class QuestionnaireCrowdPage extends Component {
     const isWilling = willingness === 'true'
     this.setState({
       willingnessStatus: willingness,
-      notConvinced: this.state.notConvinced || !isWilling,
+      notConvinced: !isWilling,
       showErrors: isWilling ? this.state.showErrors : false,
       errors: isWilling ? this.state.errors : {},
       dirty: isWilling ? this.state.dirty : {}

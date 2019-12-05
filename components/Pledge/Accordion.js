@@ -141,7 +141,7 @@ const query = gql`
   }
 `
 
-const PackageItem = ({
+export const PackageItem = ({
   t,
   hover,
   setHover,
@@ -150,7 +150,8 @@ const PackageItem = ({
   title,
   price,
   onClick,
-  href
+  href,
+  style
 }) => (
   <a
     {...merge(styles.package, hover === name && styles.packageHighlighted)}
@@ -158,6 +159,7 @@ const PackageItem = ({
     onMouseOut={() => setHover(undefined)}
     onClick={onClick}
     href={href}
+    style={style}
   >
     <div {...styles.packageHeader}>
       <div {...styles.packageTitle}>

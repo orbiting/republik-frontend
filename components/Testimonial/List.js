@@ -508,7 +508,7 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
 }
 `
 
-const ListWithQuery = compose(
+export const ListWithQuery = compose(
   withT,
   graphql(query, {
     props: ({ data }) => {

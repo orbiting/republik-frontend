@@ -1,5 +1,5 @@
 {
-  "updated": "2019-11-29T11:10:27.391Z",
+  "updated": "2019-12-04T17:39:58.613Z",
   "title": "live",
   "data": [
     {
@@ -761,6 +761,10 @@
     {
       "key": "Account/Update/phone/label",
       "value": "Telefonnummer (Optional)"
+    },
+    {
+      "key": "Account/Update/phone/label/alt",
+      "value": "Telefonnummer"
     },
     {
       "key": "Account/Update/birthday/hint/statute",
@@ -3363,6 +3367,10 @@
       "value": "Magazin lesen"
     },
     {
+      "key": "merci/action/questionnaire",
+      "value": "Komplize werden\n"
+    },
+    {
       "key": "merci/action/profile",
       "value": "Gesicht zeigen"
     },
@@ -4071,12 +4079,28 @@
       "value": "1. Fill in this questionnaire ✅<br /> 2. Board our rocket to the Moon 🚀"
     },
     {
+      "key": "questionnaire/crowd/question1/alt",
+      "value": "Are you sure? We have cookies 🍪"
+    },
+    {
+      "key": "questionnaire/crowd/question1/label1/alt",
+      "value": "Maybe I could help a little…"
+    },
+    {
+      "key": "questionnaire/crowd/question1/label2/alt",
+      "value": "I'm sure."
+    },
+    {
       "key": "questionnaire/crowd/submitted/title",
       "value": "Vielen Dank!"
     },
     {
-      "key": "questionnaire/crowd/submitted/intro",
-      "value": "<p>Wir werden uns bei Ihnen melden.</p><p>Was Sie jetzt schon mal tun können:</p>"
+      "key": "questionnaire/crowd/submitted/intro/1",
+      "value": "Wir werden uns bei Ihnen melden."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/intro/2",
+      "value": "Was Sie jetzt schon mal tun können:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
@@ -4089,6 +4113,22 @@
     {
       "key": "questionnaire/crowd/submitted/list/3",
       "value": "Das wichtigste: bleiben Sie neugierig!"
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/intro",
+      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, die Republik bekannter zu machen."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/1",
+      "value": "Sie können das Überleben auch durch <a href='https://www.republik.ch/angebote?package=DONATE'>eine Spende</a> sichern."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/2",
+      "value": "Oder werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
+    },
+    {
+      "key": "questionnaire/crowd/submitted/declined/list/3",
+      "value": "<a href='https://www.republik.ch/'>Zurück zum Magazin</a>"
     },
     {
       "key": "pages/meta/questionnaire/counterText",
@@ -4547,8 +4587,16 @@
       "value": "bereits verlängerte Mitgliedschaften. Ziel: {count}."
     },
     {
+      "key": "crowdfunding/status/goal/SURVIVE/people",
+      "value": "von {count} aktive Verlegerinnen am 31. März"
+    },
+    {
+      "key": "crowdfunding/status/goal/SURVIVE/money",
+      "value": "von {count} Investitionen und Grosszügigkeit "
+    },
+    {
       "key": "crowdfunding/status/goal/money",
-      "value": "von {formattedCHF}"
+      "value": "von {count}"
     },
     {
       "key": "crowdfunding/status/time/label",
@@ -4693,6 +4741,10 @@
     {
       "key": "crowdfunding/status/time/ended/PROLONG",
       "value": "Ein detaillierter Überblick folgt Ende Monat."
+    },
+    {
+      "key": "crowdfunding/status/time/label/SURVIVE",
+      "value": "bis zur Entscheidung"
     },
     {
       "key": "nav/bookmarks",

@@ -17,6 +17,7 @@ import Bar from './Bar'
 
 const styles = {
   primaryNumber: css({
+    color: '#fff',
     display: 'block',
     marginBottom: -3,
     [mediaQueries.mUp]: {
@@ -27,6 +28,7 @@ const styles = {
     lineHeight: 1
   }),
   secondaryNumber: css({
+    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
@@ -36,6 +38,7 @@ const styles = {
     lineHeight: 1
   }),
   smallNumber: css({
+    color: '#fff',
     display: 'block',
     [mediaQueries.mUp]: {
       marginBottom: -3
@@ -162,7 +165,7 @@ class Status extends Component {
         <div style={{ paddingTop: 10 }}>
           <P>
             <span {...styles.smallNumber}>{countFormat(status.people)}</span>
-            <Label>
+            <Label style={{ color: '#fff' }}>
               {t.elements('crowdfunding/status/goal/people', {
                 count: createHoverGoalCount(countFormat, goal.people)
               })}
@@ -204,9 +207,9 @@ class Status extends Component {
                 <span
                   {...styles[i === 0 ? 'primaryNumber' : 'secondaryNumber']}
                 >
-                  {countFormat(status[accessor])}
+                  {format(status[accessor])}
                 </span>
-                <Label>
+                <Label style={{ color: '#fff' }}>
                   {t.first.elements(
                     [
                       `crowdfunding/status/goal/${crowdfundingName}/${accessor}`,
@@ -223,7 +226,7 @@ class Status extends Component {
               </P>
               <Bar
                 goals={goalsByPeople}
-                showLast={this.state.showGoal}
+                showLast={this.state.showGoal && i === 0}
                 status={status}
                 accessor={accessor}
                 format={format}
@@ -263,7 +266,12 @@ class Status extends Component {
                 ])}
           </span>
           {isRunning ? (
-            <Label>{t('crowdfunding/status/time/label')}</Label>
+            <Label style={{ color: '#fff' }}>
+              {t.first([
+                `crowdfunding/status/time/label/${crowdfundingName}`,
+                'crowdfunding/status/time/label'
+              ])}
+            </Label>
           ) : (
             <br />
           )}

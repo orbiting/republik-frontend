@@ -139,12 +139,6 @@ const adaptedQuestionnaire = (data, notConvinced) => {
   if (!data || !notConvinced) return data
 
   data.questionnaire.questions[0].text = t('questionnaire/crowd/question1/alt')
-  data.questionnaire.questions[0].options[0].label = t(
-    'questionnaire/crowd/question1/label1/alt'
-  )
-  data.questionnaire.questions[0].options[1].label = t(
-    'questionnaire/crowd/question1/label2/alt'
-  )
   return data
 }
 
@@ -163,18 +157,17 @@ const ThankYouItem = compose(withT)(({ t, tKey }) => {
 })
 
 const ThankYou = compose(withT)(({ t }) => {
+  // TODO: share on social media
   return (
     <div>
       <Headline>{t('questionnaire/crowd/submitted/title')}</Headline>
       <div {...styles.intro}>
-        <P>{t('questionnaire/crowd/submitted/intro/1')}</P>
-        <br />
-        <P>{t('questionnaire/crowd/submitted/intro/2')}</P>
+        <P>{t('questionnaire/crowd/submitted/intro')}</P>
       </div>
       <div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/list/2' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/list/3' />
+        <ThankYouItem tKey='questionnaire/crowd/submitted/share' />
       </div>
     </div>
   )
@@ -190,7 +183,6 @@ const NoThanks = compose(withT)(({ t }) => {
       <div>
         <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/1' />
         <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/2' />
-        <ThankYouItem tKey='questionnaire/crowd/submitted/declined/list/3' />
       </div>
     </div>
   )

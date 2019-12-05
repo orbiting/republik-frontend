@@ -28,7 +28,6 @@ export default compose(withT)(
   }) => {
     const { loading, error } = data
     const me = loading ? undefined : data.me
-    // TODO: ask @Clara & @Carla if always show form or not
 
     return (
       <Loader
@@ -40,11 +39,8 @@ export default compose(withT)(
           return (
             <div style={style}>
               <H2 style={{ marginBottom: 30 }}>
-                Please confirm your address on Earth:
+                {t('Account/Update/details/title')}
               </H2>
-              <P style={{ margin: '-15px 0 20px' }}>
-                {"We won't contact you unless it's really important."}
-              </P>
               <div>
                 <br />
                 <FieldSet

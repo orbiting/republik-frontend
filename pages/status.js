@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import { csvParse } from 'd3-dsv'
 
-import { Button, Interaction, Loader } from '@project-r/styleguide'
+import { Button, Interaction, Editorial, Loader } from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
@@ -227,6 +227,9 @@ CTA
                   '& text': {
                     fill: '#fff !important'
                   },
+                  '& line': {
+                    stroke: 'rgba(255, 255, 255, 0.4) !important'
+                  },
                   '& div': {
                     color: '#fff !important'
                   }
@@ -248,7 +251,7 @@ CTA
                       '#5aae61',
                       '#fdb863',
                       '#a6dba0',
-                      '#E7E7E7',
+                      '#656565',
                       '#9970ab'
                     ],
                     padding: 30,
@@ -311,10 +314,16 @@ CTA
                     ])
                   }, [])}
                 />
+                <Editorial.Note style={{ marginTop: 10, color: '#fff' }}>
+                  Erneuerungsquoten basierend auf allen Jahresmitgliedschaften
+                  die zwischen dem 1. Dezember und 31. März erneuert werden
+                  könnten. Als offen gelten Jahresmitgliedschaften wo noch keine
+                  Verlängerungszahlung initiiert wurde.
+                </Editorial.Note>
               </div>
 
               {md(mdComponents)`
-## 5732 sind treu
+## ${lastMonth.active} sind treu
 `}
 
               <TestimonialList singleRow minColumns={3} />

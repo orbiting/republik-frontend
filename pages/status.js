@@ -1,17 +1,18 @@
 import React, { Fragment } from 'react'
-import Frame from '../components/Frame'
 import { css } from 'glamor'
-
-import md from 'markdown-in-js'
-import { light as mdComponents } from '../lib/utils/mdComponents'
-
+import gql from 'graphql-tag'
+import { compose, graphql } from 'react-apollo'
 import { csvParse } from 'd3-dsv'
 
-import { Button, Interaction } from '@project-r/styleguide'
+import { Button, Interaction, Loader } from '@project-r/styleguide'
+import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
+
+import md from 'markdown-in-js'
+
+import Frame from '../components/Frame'
+import { light as mdComponents } from '../lib/utils/mdComponents'
 
 import { PackageItem } from '../components/Pledge/Accordion'
-
-import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
 import { RawStatus } from '../components/CrowdfundingStatus'
 import { t } from '../lib/withT'
@@ -20,7 +21,9 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING } from '../lib/constants'
 
-export default () => {
+const ACTIVE_BEYOND = 4033
+
+const Page = ({ data }) => {
   const meta = {
     title: 'Stand der Dinge',
     description: ''
@@ -28,68 +31,77 @@ export default () => {
 
   return (
     <Frame meta={meta} dark>
-      <div style={{ marginBottom: 60 }}>
-        <RawStatus
-          t={t}
-          people
-          money
-          crowdfundingName='SURVIVE'
-          crowdfunding={{
-            endDate: '2020-03-31T10:00:00.000Z',
-            goals: [
-              {
-                people: 19000, // 17223 + 1700,
-                money: 230000000,
-                description:
-                  'Wenn wir das Ziel von 20‘000 Mitgliedschaften und 4 Millionen erreichen haben wir die Trendwende geschaft.'
-              }
-            ],
-            status: {
-              people: 4032 + 1700,
-              money: 80211200
-            }
-          }}
-        />
-      </div>
-      {md(mdComponents)`
+      <Loader
+        loading={data.loading}
+        error={data.error}
+        style={{ minHeight: `calc(90vh)` }}
+        render={() => {
+          const { buckets } = data.membershipStats.evolution
+          const firstMonth = buckets[0]
+          const lastMonth = buckets[buckets.length - 1]
+
+          return (
+            <>
+              <div style={{ marginBottom: 60 }}>
+                <RawStatus
+                  t={t}
+                  people
+                  money
+                  crowdfundingName='SURVIVE'
+                  crowdfunding={{
+                    endDate: '2020-03-31T10:00:00.000Z',
+                    goals: [
+                      {
+                        people: 19000, // 17223 + 1700,
+                        money: 230000000
+                      }
+                    ],
+                    status: {
+                      people: lastMonth.active,
+                      money: data.revenueStats.surplus.total
+                    }
+                  }}
+                />
+              </div>
+              {md(mdComponents)`
 
 # Die Republik braucht Ihre Unterstützung, Ihren Mut und Ihren Einsatz, damit sie in Zukunft bestehen kann
 
       `}
-      <div style={{ marginTop: 20, marginBottom: 40 }}>
-        <PackageItem
-          t={t}
-          style={{ color: '#fff' }}
-          crowdfundingName={CROWDFUNDING}
-          name='PROLONG'
-          setHover={() => {}}
-          price={24000}
-        />
-        <PackageItem
-          t={t}
-          style={{ color: '#fff' }}
-          crowdfundingName={CROWDFUNDING}
-          name='PROLONG'
-          setHover={() => {}}
-          title='Grosszügig verlängern'
-          price={48000}
-        />
-        <PackageItem
-          t={t}
-          style={{ color: '#fff' }}
-          crowdfundingName={CROWDFUNDING}
-          name='BENEFACTOR'
-          setHover={() => {}}
-          title='Gönner werden'
-          price={100000}
-        />
-        <br />
-        <Button primary block>
-          Treu bleiben
-        </Button>
-      </div>
+              <div style={{ marginTop: 20, marginBottom: 40 }}>
+                <PackageItem
+                  t={t}
+                  style={{ color: '#fff' }}
+                  crowdfundingName={CROWDFUNDING}
+                  name='PROLONG'
+                  setHover={() => {}}
+                  price={24000}
+                />
+                <PackageItem
+                  t={t}
+                  style={{ color: '#fff' }}
+                  crowdfundingName={CROWDFUNDING}
+                  name='PROLONG'
+                  setHover={() => {}}
+                  title='Grosszügig verlängern'
+                  price={48000}
+                />
+                <PackageItem
+                  t={t}
+                  style={{ color: '#fff' }}
+                  crowdfundingName={CROWDFUNDING}
+                  name='BENEFACTOR'
+                  setHover={() => {}}
+                  title='Gönner werden'
+                  price={100000}
+                />
+                <br />
+                <Button primary block>
+                  Treu bleiben
+                </Button>
+              </div>
 
-      {md(mdComponents)`
+              {md(mdComponents)`
 Seit zwei Jahren ist die Republik jetzt da – als digitales Magazin, als Labor für den Journalismus.
 
 Drei entscheidende Ziele haben wir uns gesetzt: eine Startfinanzierung zu finden, eine funktionierende Redaktion mit Schlagkraft aufzubauen und ein Geschäftsmodell für unabhängigen, werbefreien und leserfinanzierten Journalismus zu entwickeln.
@@ -210,75 +222,105 @@ CTA
 ## Community
 
       `}
-      <div
-        {...css({
-          '& text': {
-            fill: '#fff !important'
-          },
-          '& div': {
-            color: '#fff !important'
-          }
-        })}
-      >
-        <ChartTitle style={{ color: '#fff' }}>
-          Wie gross ist die Republik Verlegerschaft per 31. April?
-        </ChartTitle>
-        <ChartLead style={{ color: '#fff' }}>
-          Anzahl bestehende, offene und neue Mitgliedschaften und Monatsabos per
-          Monatsende
-        </ChartLead>
-        <Chart
-          config={{
-            type: 'TimeBar',
-            color: 'action',
-            numberFormat: 's',
-            colorRange: ['#5aae61', '#fdb863', '#a6dba0', '#E7E7E7', '#9970ab'],
-            padding: 30,
-            x: 'date',
-            timeParse: '%d.%m.%Y',
-            timeFormat: '%b',
-            xTicks: ['31.12.2019', '31.01.2020', '29.02.2020', '31.03.2020'],
-            height: 300,
-            xAnnotations: [
-              {
-                x1: '31.03.2020',
-                x2: '31.03.2020',
-                label: 'durch 75% Erneuerung',
-                value: 14875
-              },
-              {
-                x1: '31.03.2020',
-                x2: '31.03.2020',
-                label: 'durch 50% Erneuerung',
-                value: 11250
-              }
-            ]
-          }}
-          values={csvParse(`date,action,value
-31.12.2019,Bestehende,16060
-31.12.2019,Grosszügige,2060
-31.12.2019,Neue,38
-31.12.2019,offen,300
-31.01.2020,Bestehende,13940
-31.01.2020,Grosszügige,2060
-31.01.2020,offen,2500
-29.02.2020,Bestehende,5940
-29.02.2020,Grosszügige,2060
-29.02.2020,offen,10500
-31.03.2020,Bestehende,3940
-31.03.2020,Grosszügige,2060
-31.03.2020,offen,12500`)}
-        />
-      </div>
+              <div
+                {...css({
+                  '& text': {
+                    fill: '#fff !important'
+                  },
+                  '& div': {
+                    color: '#fff !important'
+                  }
+                })}
+              >
+                <ChartTitle style={{ color: '#fff' }}>
+                  Wie gross ist die Republik Verlegerschaft per 31. April?
+                </ChartTitle>
+                <ChartLead style={{ color: '#fff' }}>
+                  Anzahl bestehende, offene und neue Mitgliedschaften und
+                  Monatsabos per Monatsende
+                </ChartLead>
+                <Chart
+                  config={{
+                    type: 'TimeBar',
+                    color: 'action',
+                    numberFormat: 's',
+                    colorRange: [
+                      '#5aae61',
+                      '#fdb863',
+                      '#a6dba0',
+                      '#E7E7E7',
+                      '#9970ab'
+                    ],
+                    padding: 30,
+                    x: 'date',
+                    timeParse: '%Y-%m',
+                    timeFormat: '%b',
+                    xTicks: ['2019-12', '2020-01', '2020-02', '2020-03'],
+                    height: 300,
+                    xAnnotations: [
+                      {
+                        x1: '2020-03',
+                        x2: '2020-03',
+                        label: 'durch 75% Erneuerung',
+                        value:
+                          ACTIVE_BEYOND +
+                          (firstMonth.active -
+                            ACTIVE_BEYOND +
+                            firstMonth.renewalPending +
+                            firstMonth.lossExpired +
+                            firstMonth.lossCancelled) *
+                            0.75
+                      },
+                      {
+                        x1: '2020-03',
+                        x2: '2020-03',
+                        label: 'durch 50% Erneuerung',
+                        value:
+                          ACTIVE_BEYOND +
+                          (firstMonth.active -
+                            ACTIVE_BEYOND +
+                            firstMonth.renewalPending +
+                            firstMonth.lossExpired +
+                            firstMonth.lossCancelled) *
+                            0.5
+                      }
+                    ]
+                  }}
+                  values={buckets.reduce((values, month) => {
+                    return values.concat([
+                      {
+                        date: month.label,
+                        action: 'Bestehende',
+                        value: String(month.activeWithoutDonation)
+                      },
+                      {
+                        date: month.label,
+                        action: 'Grosszügige',
+                        value: String(month.activeWithDonation)
+                      },
+                      {
+                        date: month.label,
+                        action: 'Neue',
+                        value: String(month.new)
+                      },
+                      {
+                        date: month.label,
+                        action: 'offen',
+                        value: String(month.renewalPending)
+                      }
+                    ])
+                  }, [])}
+                />
+              </div>
 
-      {md(mdComponents)`
+              {md(mdComponents)`
 ## 5732 sind treu
 `}
 
-      <TestimonialList singleRow minColumns={3} />
-      <br />
+              <TestimonialList singleRow minColumns={3} />
+              <br />
 
-      {md(mdComponents)`
+              {md(mdComponents)`
 
 [Alle anschauen](/community)  
 [Statement abgeben](/~me)
@@ -294,6 +336,38 @@ ${(
 )}
 
       `}
+            </>
+          )
+        }}
+      />
     </Frame>
   )
 }
+
+export default compose(
+  graphql(gql`
+    {
+      revenueStats {
+        surplus(min: "2019-12-01T01:00:00Z") {
+          total
+          updatedAt
+        }
+      }
+      membershipStats {
+        evolution(min: "2019-12", max: "2020-03") {
+          buckets {
+            label
+            active
+            activeWithDonation
+            activeWithoutDonation
+            lossExpired
+            lossCancelled
+            new
+            renewalPending
+          }
+          updatedAt
+        }
+      }
+    }
+  `)
+)(Page)

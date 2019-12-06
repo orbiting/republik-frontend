@@ -234,6 +234,12 @@ class Status extends Component {
             </Fragment>
           ))}
         <P>
+          <span {...styles.smallNumber}>59 Komplizen</span>
+          <Label style={{ color: '#fff' }}>
+            Personen die bereit sind fürs uns zu werben
+          </Label>
+        </P>
+        <P>
           <span
             {...styles.smallNumber}
             style={isRunning ? undefined : { lineHeight: 1.3 }}

@@ -146,7 +146,7 @@ const getWillingnessToHelp = questions => {
 }
 
 const adaptedQuestionnaire = (data, notConvinced) => {
-  if (data) {
+  if (data && data.questionnaire) {
     data.questionnaire.questions[0].text = notConvinced
       ? t('questionnaire/crowd/question1/alt')
       : t('questionnaire/crowd/question1')

@@ -225,7 +225,7 @@ const PrimaryCTA = ({
     !questionnaire.userHasSubmitted
   ) {
     target = {
-      route: 'questionnaire',
+      route: 'questionnaireCrowd',
       params: { slug: questionnaireCrowdSlug }
     }
     text = 'Ich möchte der Republik helfen.'
@@ -557,7 +557,21 @@ Wir werden eine Kampagne machen müssen, in der Sie als Multiplikatoren, Botscha
 
 Unser Job dabei ist, Sie regelmässig, offen und klar über den Stand der Dinge zu informieren. Und ihnen die besten Werkzeuge in die Hand zu geben: Argumente, Flyer, Mailkanonen – kurz: Propagandamaterial.
 
-Falls Sie sich vorstellen könnten, dabei zu sein, haben wir eine kleines Formular für Sie vorbereitet. Es auszufüllen braucht genau eine Minute. Wir wären Ihnen dankbar, wenn Sie sich diese Minute nehmen würden. (LINK Formular)
+Falls Sie sich vorstellen könnten, dabei zu sein, haben wir eine kleines Formular für Sie vorbereitet. Es auszufüllen braucht genau eine Minute. Wir wären Ihnen dankbar, wenn Sie sich diese Minute nehmen würden.
+
+${
+  questionnaire && questionnaire.userHasSubmitted ? (
+    'Vielen Dank für ausfüllen.'
+  ) : (
+    <Link
+      route='questionnaireCrowd'
+      params={{ slug: questionnaireCrowdSlug }}
+      passHref
+    >
+      <Button primary>Jetzt ausfüllen</Button>
+    </Link>
+  )
+}
 
 ## Was wir bisher in der Kampagne erreicht haben:
 
@@ -646,6 +660,7 @@ const statusQuery = gql`
       }
     }
     questionnaire(slug: "${questionnaireCrowdSlug}") {
+      id
       turnout {
         submitted
       }
@@ -675,6 +690,7 @@ const actionsQuery = gql`
       }
     }
     questionnaire(slug: "${questionnaireCrowdSlug}") {
+      id
       userIsEligible
       userHasSubmitted
     }

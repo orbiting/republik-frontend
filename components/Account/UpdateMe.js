@@ -1,12 +1,15 @@
 import React, { Component, Fragment } from 'react'
-import { graphql, compose } from 'react-apollo'
-import gql from 'graphql-tag'
+import { compose } from 'react-apollo'
 import { intersperse } from '../../lib/utils/helpers'
 import { errorToString } from '../../lib/utils/errors'
 import { swissTime } from '../../lib/utils/format'
 
 import withT from '../../lib/withT'
-import AddressForm, { COUNTRIES, fields as addressFields } from './AddressForm'
+import AddressForm, {
+  DEFAULT_COUNTRY,
+  fields as addressFields,
+  isEmptyAddress
+} from './AddressForm'
 
 import {
   Loader,
@@ -19,15 +22,14 @@ import {
 } from '@project-r/styleguide'
 
 import FieldSet from '../FieldSet'
+import { withMyDetails, withMyDetailsMutation } from './enhancers'
 
 const { H2, P } = Interaction
 
 const birthdayFormat = '%d.%m.%Y'
 const birthdayParse = swissTime.parse(birthdayFormat)
 
-const DEFAULT_COUNTRY = COUNTRIES[0]
-
-const fields = (t, acceptedStatue) => [
+const fields = t => [
   {
     label: t('pledge/contact/firstName/label'),
     name: 'firstName',
@@ -86,22 +88,6 @@ const getValues = me => {
   }
 }
 
-const isEmptyAddress = (values, me) => {
-  const addressString = [
-    values.name,
-    values.line1,
-    values.line2,
-    values.postalCode,
-    values.city,
-    values.country
-  ]
-    .join('')
-    .trim()
-  const emptyAddressString = [me.name, DEFAULT_COUNTRY].join('').trim()
-
-  return addressString === emptyAddressString
-}
-
 class UpdateMe extends Component {
   constructor(props) {
     super(props)
@@ -116,7 +102,9 @@ class UpdateMe extends Component {
     }
   }
   startEditing() {
-    const { me } = this.props
+    const {
+      detailsData: { me }
+    } = this.props
     this.setState(state => ({
       isEditing: true,
       values: {
@@ -133,12 +121,14 @@ class UpdateMe extends Component {
   autoEdit() {
     if (this.props.me && !this.checked) {
       this.checked = true
-      const { t, acceptedStatue, hasMemberships, me } = this.props
+      const {
+        t,
+        hasMemberships,
+        detailsData: { me }
+      } = this.props
 
       const errors = FieldSet.utils.getErrors(
-        fields(t, acceptedStatue).concat(
-          hasMemberships || me.address ? addressFields(t) : []
-        ),
+        fields(t).concat(hasMemberships || me.address ? addressFields(t) : []),
         getValues(this.props.me)
       )
 
@@ -155,23 +145,16 @@ class UpdateMe extends Component {
     this.autoEdit()
   }
   render() {
-    const {
-      t,
-      me,
-      loading,
-      error,
-      style,
-      acceptedStatue,
-      hasMemberships
-    } = this.props
-    const { values, dirty, errors, updating, isEditing } = this.state
+    const { t, detailsData, style, hasMemberships } = this.props
+    const { values, dirty, updating, isEditing, errors } = this.state
+    const { loading, error, me } = detailsData
 
     return (
       <Loader
         loading={loading || !me}
         error={error}
         render={() => {
-          const meFields = fields(t, acceptedStatue)
+          const meFields = fields(t)
           let errorFilter = () => true
           if (!hasMemberships && !me.address && isEmptyAddress(values, me)) {
             errorFilter = key => meFields.find(field => field.name === key)
@@ -314,7 +297,7 @@ class UpdateMe extends Component {
                             this.setState(() => ({ updating: true }))
 
                             this.props
-                              .update({
+                              .updateDetails({
                                 firstName: values.firstName,
                                 lastName: values.lastName,
                                 phoneNumber: values.phoneNumber,
@@ -373,67 +356,8 @@ class UpdateMe extends Component {
   }
 }
 
-const mutation = gql`
-  mutation updateMe(
-    $birthday: Date
-    $firstName: String!
-    $lastName: String!
-    $phoneNumber: String
-    $address: AddressInput
-  ) {
-    updateMe(
-      birthday: $birthday
-      firstName: $firstName
-      lastName: $lastName
-      phoneNumber: $phoneNumber
-      address: $address
-    ) {
-      id
-    }
-  }
-`
-export const query = gql`
-  query myAddress {
-    me {
-      id
-      name
-      firstName
-      lastName
-      phoneNumber
-      email
-      birthday
-      address {
-        name
-        line1
-        line2
-        postalCode
-        city
-        country
-      }
-    }
-  }
-`
-
 export default compose(
-  graphql(mutation, {
-    props: ({ mutate }) => ({
-      update: variables =>
-        mutate({
-          variables,
-          refetchQueries: [
-            {
-              query
-            }
-          ]
-        })
-    })
-  }),
-  graphql(query, {
-    props: ({ data }) => ({
-      loading: data.loading,
-      error: data.error,
-      me: data.loading ? undefined : data.me
-    })
-  }),
+  withMyDetails,
+  withMyDetailsMutation,
   withT
 )(UpdateMe)

@@ -30,10 +30,10 @@ export const description = t.elements('pages/meta/questionnaire/unauthorized', {
   )
 })
 
-const QuestionnairePage = () => {
+const QuestionnairePage = props => {
   return (
     <Frame meta={meta}>
-      <Questionnaire {...this.props} />
+      <Questionnaire {...props} />
     </Frame>
   )
 }

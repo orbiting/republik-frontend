@@ -357,7 +357,9 @@ class QuestionnaireCrowdPage extends Component {
     } = this.state
 
     const submitted =
-      questionnaireData && questionnaireData.questionnaire.userHasSubmitted
+      questionnaireData &&
+      questionnaireData.questionnaire &&
+      questionnaireData.questionnaire.userHasSubmitted
 
     const slug = router.query.slug
 

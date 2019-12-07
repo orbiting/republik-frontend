@@ -66,7 +66,9 @@ const Page = ({ data }) => {
                         lastMonth.new +
                         lastMonth.subscriptionsRenewalPending,
                       money: data.revenueStats.surplus.total,
-                      support: 59
+                      support: data.questionnaire
+                        ? data.questionnaire.turnout.submitted
+                        : undefined
                     }
                   }}
                 />
@@ -275,7 +277,7 @@ CTA
                       '#FFD700',
                       '#CCAC00',
                       '#3CAD00',
-                      '#4B6359',
+                      '#2A7A00',
                       '#333333',
                       '#9970ab'
                     ],
@@ -376,9 +378,9 @@ ${(
 
 export default compose(
   graphql(gql`
-    {
+    query StatusPage {
       revenueStats {
-        surplus(min: "2019-12-01T01:00:00Z") {
+        surplus(min: "2019-11-30T23:00:00Z") {
           total
           updatedAt
         }
@@ -400,6 +402,11 @@ export default compose(
             subscriptionsRenewalPending
           }
           updatedAt
+        }
+      }
+      questionnaire(slug: "1-minute") {
+        turnout {
+          submitted
         }
       }
     }

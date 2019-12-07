@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-07T13:01:22.273Z",
+  "updated": "2019-12-07T15:53:34.380Z",
   "title": "live",
   "data": [
     {
@@ -4603,8 +4603,12 @@
       "value": "bis Deadline"
     },
     {
-      "key": "crowdfunding/status/goal/support",
+      "key": "crowdfunding/status/goal/support/other",
       "value": "{count} Komplizen"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/1",
+      "value": "{count} Komplize"
     },
     {
       "key": "crowdfunding/status/goal/support/label",

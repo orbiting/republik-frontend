@@ -236,7 +236,7 @@ class Status extends Component {
         {status.support !== undefined && (
           <P>
             <span {...styles.smallNumber}>
-              {t('crowdfunding/status/goal/support', {
+              {t.pluralize('crowdfunding/status/goal/support', {
                 count: status.support
               })}
             </span>

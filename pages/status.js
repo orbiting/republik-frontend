@@ -93,7 +93,11 @@ const Accordion = withT(
             </Link>
             <Link
               route='pledge'
-              params={{ package: 'PROLONG', price: 100000, token: query.token }}
+              params={{
+                package: 'PROLONG',
+                membershipType: 'BENEFACTOR_ABO',
+                token: query.token
+              }}
               passHref
             >
               <PackageItem

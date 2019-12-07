@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-07T20:45:57.895Z",
+  "updated": "2019-12-07T23:23:52.271Z",
   "title": "live",
   "data": [
     {
@@ -4303,24 +4303,12 @@
       "value": "Das Angebot"
     },
     {
-      "key": "package/customize/price/payMore",
-      "value": "Möchten Sie Ihr Investment erhöhen?"
-    },
-    {
       "key": "package/customize/price/payMore/normal",
       "value": "Reguläre {formattedCHF}"
     },
     {
       "key": "package/customize/price/payMore/bonus",
       "value": "Keine Geschenke! Ich zahle die zusätzlichen Tage: {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payMore/1.5",
-      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
-    },
-    {
-      "key": "package/customize/price/payMore/thx",
-      "value": "Danke!"
     },
     {
       "key": "package/customize/price/payLess",
@@ -6437,6 +6425,30 @@
     {
       "key": "prolongNecessary/before/linkText",
       "value": "jetzt verlängern"
+    },
+    {
+      "key": "package/customize/price/payMore",
+      "value": "Möchten Sie Ihr Investment erhöhen?"
+    },
+    {
+      "key": "package/customize/price/payMore/1.5",
+      "value": "Ich bin für Grosszügigkeit: {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/2",
+      "value": "Tollkühne {formattedCHF}"
+    },
+    {
+      "key": "package/customize/price/payMore/thx",
+      "value": "Danke!"
+    },
+    {
+      "key": "package/customize/price/payMore/thx/2",
+      "value": "Herzlichen Dank!"
+    },
+    {
+      "key": "package/customize/price/payRegular",
+      "value": "Auf den regulären Beitrag zurücksetzten"
     }
   ]
 }

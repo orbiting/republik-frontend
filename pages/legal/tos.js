@@ -15,7 +15,7 @@ export default () => {
       {md(mdComponents)`
 ## Allgemeine Geschäftsbedingungen 
 
-Stand November 2018, letzte Änderung 28. März 2018
+Stand November 2018, letzte Änderung 8. Dezember 2019
 
 ## 1. Geltungsbereich
 
@@ -30,31 +30,35 @@ Abonnenten/-innen, Mitglieder, Unterstützer/-innen und Besucher/-innen erkläre
 
 ## 2. Leistungsumfang
 
-Die Republik AG betreibt die Website www.republik.ch, auf welcher Besucher/-innen ein digitales Magazin «Republik» abonnieren und/oder Mitglied werden können sowie die Project R Genossenschaft unterstützen können. Für den Inhalt der Website ist die Republik AG verantwortlich. 
+Die Republik AG betreibt die Website www.republik.ch, auf welcher Besucher/-innen ein digitales Magazin «Republik» abonnieren oder Mitglied der Genossenschaft werden können, um damit deren Zweck zu unterstützen, und/oder die Project R Genossenschaft mit Spenden unterstützen können. Für den Inhalt der Website ist die Republik AG verantwortlich.
 
 Urheber- und Nutzungsrechte bleiben jederzeit bei der Republik AG und richten sich im Einzelnen nach Art. 9 der vorliegenden AGB.
 
-Benutzer/-innen entscheiden ausschliesslich in Eigenverantwortung, ob sie das digitale Magazin «Republik» abonnieren und/oder Mitglied bei der Project R Genossenschaft werden oder mit einer Spende die Project R Genossenschaft unterstützen wollen.
+Benutzer/-innen entscheiden ausschliesslich in Eigenverantwortung, ob sie das digitale Magazin «Republik» abonnieren, Mitglied bei der Project R Genossenschaft werden und/oder mit einer Spende die Project R Genossenschaft unterstützen wollen. 
+
+Nur wer ein Abonnement für das digitale Magazin «Republik» erwirbt hat auch einen Anspruch auf das Magazin. 
+
+Wer Mitglied der Project R Genossenschaft wird, stellt dieser mit dem Mitgliederbeitrag einen Beitrag zur freien Verfügung. Die Project R Genossenschaft finanziert mit den Mitgliederbeiträgen ihre Tätigkeit zur Verfolgung des Genossenschaftszwecks. Dieser Zweck soll insbesondere auch durch Förderung des digitalen Magazins «Republik» erreicht werden. Diese Förderung kann durch Käufe von Abonnements des digitalen Magazins «Republik» geschehen, welche den Mitgliedern der Genossenschaft Project R zugutekommen. Daraus ergibt sich für die Mitglieder der Genossenschaft Project R jedoch weder ein rechtlicher noch ein faktischer Anspruch auf ein Abonnement am Magazin «Republik».
 
 ## 3. Kommissionen und Gebühren
 
-Die Zahlungen der Abonnenten/-innen und Unterstützer/-innen laufen im Falle des Abonnements auf das Konto der Republik AG und im Falle des Lösens einer Mitgliedschaft oder bei einer Spende auf das Konto der Project R Genossenschaft, abzüglich Transaktionsgebühren. Die Gebühren sind von den durch die Abonnenten/-innen respektive Unterstützer/-innen gewählten Zahlungsmitteln abhängig.
+Die Zahlungen der Abonnenten/-innen für Abonnements laufen auf das Konto der Republik AG. Zahlungen von Mitgliedern für Mitgliederbeiträge und von Unterstützer/-innen in Form von Spenden laufen auf das Konto der Project R Genossenschaft. Allfällige Transaktionsgebühren werden von der Zahlung in Abzug gebracht. Die Gebühren sind von den durch die Abonnenten/-innen respektive Unterstützer/-innen gewählten Zahlungsmitteln abhängig.
 
 Die Abonnenten/-innen respektive Mitglieder oder Unterstützer/-innen erklären sich damit einverstanden, dass die Betreiberin unabhängige Dritte mit dem Inkasso der Einzahlungen seitens der Abonnenten/-innen respektive Unterstützer/-innen auf ein Schweizer Konto beauftragen kann. Zu diesem Zweck können die Abonnenten/-innen respektive Unterstützer/-innen auch über ein elektronisches Zahlungs-Gateway an einen Zahlungsprovider weitergeleitet werden.
 
 ## 4. Verwendung der Finanzierungsmittel, Einzahlungen und Auszahlungen
 
-Die von Abonnenten/-innen einbezahlten Beträge stehen der Republik AG zur freien Verfügung. 
+Die von Abonnenten/-innen einbezahlten Beträge stehen der Republik AG zur freien Verfügung.
 
-Die durch Mitglieder und Unterstützer/-innen einbezahlten Beträge stehen der Project R Genossenschaft zur Verfügung, wobei diese der Republik AG einen angemessenen Beitrag für die Abonnemente entrichtet. 
+Die durch Mitglieder und Unterstützer/-innen einbezahlten Beträge stehen der Project R Genossenschaft zur Verfügung, wobei diese bestrebt ist, der Republik AG einen angemessenen Beitrag zur Verfügung zu stellen.
 
-Rückzahlungen an die Abonnenten/-innen und Unterstützer/-innen dürfen nur im Rahmen von Art. 12 der vorliegenden AGB vorgenommen werden und erfolgen innert 30 Tagen über die jeweiligen Konten der entsprechenden Gesellschaft.
+Rückzahlungen an die Abonnenten/-innen, Mitglieder und Unterstützer/-innen dürfen nur im Rahmen von Art. 13 der vorliegenden AGB vorgenommen werden und erfolgen innert 30 Tagen über die jeweiligen Konten der entsprechenden Gesellschaft.
 
 ## 5. Persönliche Angaben
 
 Mitglieder und Unterstützer/-innen werden aufgefordert, vor der Überweisung Name, Vorname und E-Mail-Adresse, nach der Überweisung ihrer Zahlungen die Adresse, die für eine Mitgliedschaft in der Project R Genossenschaft erforderlich ist, zu erfassen. Finanzielle Unterstützungsleistungen von anonymer Seite werden nicht akzeptiert.
 
-Mitglieder und Unterstützer/-innen der Project R Genossenschaft können selber bestimmen, ob ihre Teilnahme und die Höhe des Beitrags veröffentlicht werden dürfen oder nicht. 
+Mitglieder und Unterstützer/-innen der Project R Genossenschaft können selber bestimmen, ob ihre Teilnahme und die Höhe des Beitrags veröffentlicht werden dürfen oder nicht.
 
 Werden im Profil oder in sonstigen Bereichen des Portals absichtlich falsche, irreführende oder widerrechtliche Angaben gemacht, behält sich die Betreiberin rechtliche Schritte vor.
 
@@ -86,7 +90,7 @@ Schadenersatzansprüche aus Unmöglichkeit der Leistung, aus Vertragsverletzung,
 
 Eine Haftung für indirekte Schäden oder Folgeschäden wird wegbedungen.
 
-Die Betreiberin übernimmt ferner keine Haftung für Leistungen Dritter, die sie im Rahmen der Vertragserfüllung bezieht. Sie haftet auch nicht für Schäden, die Mitglieder der Project R Genossenschaft, Abonnenten/-innen, Unterstützer/-innen und/oder Besucher/-innen durch das Verhalten von anderen Mitgliedern der Project R Genossenschaft, Unterstützern/-innen und/oder Besuchern/-innen erleiden.
+Die Betreiberin übernimmt ferner keine Haftung für Leistungen Dritter, die sie im Rahmen der Vertragserfüllung bezieht. Sie haftet auch nicht für Schäden, die Mitglieder der Project R Genossenschaft, Abonnenten/-innen, Unterstützer/-innen und/oder Besucher/-innen durch das Verhalten anderer Nutzer erleiden.
 
 ## 11. Salvatorische Klausel
 
@@ -94,11 +98,11 @@ Sollten einzelne Bestimmungen dieser AGB ganz oder teilweise unwirksam sein oder
 
 ## 12. Verlängerung
 
-Vorbehältlich einer ausdrücklichen Erklärung des Abonnenten/der Abonnentin, dass das Jahres- bzw. Monatsabonnement nicht fortgesetzt werden soll, verlängert sich das Jahresabonnement automatisch und ohne weiteren Hinweis jeweils um ein weiteres Jahr bzw. das Monatsabonnement automatisch und ohne weiteren Hinweis um einen weiteren Monat. Die Nichtverlängerung des Abonnements ist vom betreffenden Abonnenten/der betreffenden Abonnentin elektronisch (per E-Mail oder über das Mitgliedschaftsportal) bis spätestens zwei (2) Arbeitstage vor der Erneuerung des Abonnements zu übermitteln.
+Vorbehältlich einer ausdrücklichen Erklärung des Abonnenten/der Abonnentin bzw. des Mitglieds, dass das Abonnement bzw. die Mitgliedschaft nicht fortgesetzt werden soll, verlängert sich das Abonnement bzw. die Mitgliedschaft automatisch und ohne weiteren Hinweis jeweils um ein weiteres Jahr bzw. das Monatsabonnement automatisch und ohne weiteren Hinweis um einen weiteren Monat. Die Nichtverlängerung des Abonnements ist vom betreffenden Abonnenten/der betreffenden Abonnentin elektronisch (per E-Mail oder über das Mitgliedschaftsportal) bis spätestens zwei (2) Arbeitstage vor der Erneuerung des Abonnements zu übermitteln. Das gleiche gilt für Mitgliedschaften.
 
 ## 13. Rücktrittsrecht
 
-Abonnenten/-innen, Mitglieder und Unterstützer/-innen sind berechtigt, einen Kauf und die damit verbundene Zahlung innert 14 Tagen durch schriftliche Mitteilung an Republik AG, Sihlhallenstrasse 1, CH-8004 Zürich und Project R Genossenschaft Sihlhallenstrasse 1, CH-8004 Zürich ohne Angabe von Gründen zu widerrufen. Rückzahlungen erfolgen durch Gutschrift auf das Konto des/der betreffenden Unterstützers/-in auf dem ursprünglich gewählten Zahlungsweg. Hat die Betreiberin eine Dienstleistung erbracht, so muss ihr der Kunde / die Kundin Auslagen und Verwendungen ersetzen.
+Abonnenten/-innen, Mitglieder und Unterstützer/-innen sind berechtigt, einen Kauf eines Abonnements, die Mitgliedschaft oder Spende und die damit verbundene Zahlung innert 14 Tagen durch schriftliche Mitteilung an Republik AG, Sihlhallenstrasse 1, CH-8004 Zürich oder bei Mitgliedschaften und Spenden an Project R Genossenschaft Sihlhallenstrasse 1, CH-8004 Zürich ohne Angabe von Gründen zu widerrufen. Rückzahlungen erfolgen durch Gutschrift auf dessen/deren Konto auf dem ursprünglich gewählten Zahlungsweg. Hat die Betreiberin eine Dienstleistung erbracht, so muss ihr der Kunde / die Kundin Auslagen und Verwendungen ersetzen.
 
 ## 14. Gerichtsstand, anwendbares Recht
 

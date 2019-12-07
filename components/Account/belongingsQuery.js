@@ -4,16 +4,6 @@ export default gql`
   query myBelongings {
     me {
       id
-      customPackages {
-        id
-        name
-        options {
-          id
-          membership {
-            id
-          }
-        }
-      }
       memberships {
         id
         claimerName
@@ -24,6 +14,7 @@ export default gql`
         active
         overdue
         autoPay
+        canProlong
         user {
           id
         }

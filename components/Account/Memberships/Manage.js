@@ -32,7 +32,7 @@ class Actions extends Component {
     }
   }
   render() {
-    const { t, membership, prolong, waitingMemberships } = this.props
+    const { t, membership, waitingMemberships } = this.props
     const { updating, remoteError } = this.state
 
     if (updating) {
@@ -60,47 +60,49 @@ class Actions extends Component {
               </Interaction.Cursive>
             </P>
           )}
-        {!prolong &&
+        {!membership.canProlong &&
           membership.active &&
           membership.renew &&
           waitingMemberships && (
             <P>{t('memberships/manage/prolong/awaiting')}</P>
           )}
-        {!membership.renew && !!membership.periods.length && !prolong && (
-          <P>
-            <A
-              href='#reactivate'
-              onClick={e => {
-                e.preventDefault()
-                this.setState({
-                  updating: true
-                })
-                this.props
-                  .reactivate({
-                    id: membership.id
+        {!membership.renew &&
+          !!membership.periods.length &&
+          !membership.canProlong && (
+            <P>
+              <A
+                href='#reactivate'
+                onClick={e => {
+                  e.preventDefault()
+                  this.setState({
+                    updating: true
                   })
-                  .then(() => {
-                    this.setState({
-                      updating: false,
-                      remoteError: undefined
+                  this.props
+                    .reactivate({
+                      id: membership.id
                     })
-                  })
-                  .catch(error => {
-                    this.setState({
-                      updating: false,
-                      remoteError: errorToString(error)
+                    .then(() => {
+                      this.setState({
+                        updating: false,
+                        remoteError: undefined
+                      })
                     })
-                  })
-              }}
-            >
-              {t.first([
-                `memberships/${membership.type.name}/manage/reactivate`,
-                'memberships/manage/reactivate'
-              ])}
-            </A>
-          </P>
-        )}
-        {prolong && (
+                    .catch(error => {
+                      this.setState({
+                        updating: false,
+                        remoteError: errorToString(error)
+                      })
+                    })
+                }}
+              >
+                {t.first([
+                  `memberships/${membership.type.name}/manage/reactivate`,
+                  'memberships/manage/reactivate'
+                ])}
+              </A>
+            </P>
+          )}
+        {membership.canProlong && (
           <P>
             <TokenPackageLink
               params={{
@@ -179,7 +181,6 @@ const Manage = ({
   t,
   membership,
   highlighted,
-  prolong,
   waitingMemberships,
   title,
   compact,
@@ -250,7 +251,6 @@ const Manage = ({
       {actions && (
         <ManageActions
           membership={membership}
-          prolong={prolong}
           waitingMemberships={waitingMemberships}
         />
       )}
@@ -261,8 +261,7 @@ const Manage = ({
 Manage.propTypes = {
   title: PropTypes.string,
   membership: PropTypes.object.isRequired,
-  actions: PropTypes.bool.isRequired,
-  prolong: PropTypes.bool
+  actions: PropTypes.bool.isRequired
 }
 
 Manage.defaultProps = {

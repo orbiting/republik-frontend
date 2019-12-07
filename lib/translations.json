@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-07T15:53:34.380Z",
+  "updated": "2019-12-07T16:46:13.929Z",
   "title": "live",
   "data": [
     {
@@ -4515,14 +4515,6 @@
       "value": "Ist das nicht Ihre E-Mail-Adresse?"
     },
     {
-      "key": "prolongNecessary/before",
-      "value": "Mit der Republik ins zweite Jahr: {link}."
-    },
-    {
-      "key": "prolongNecessary/before/linkText",
-      "value": "jetzt verlängern"
-    },
-    {
       "key": "pledge/option/PROLONG/ABO/label",
       "value": "Jahresmitgliedschaft"
     },
@@ -6437,6 +6429,14 @@
     {
       "key": "option/TABLEBOOK/label/other",
       "value": "Republik bei Stromausfall"
+    },
+    {
+      "key": "prolongNecessary/before",
+      "value": "Der Republik treu bleiben: {link}."
+    },
+    {
+      "key": "prolongNecessary/before/linkText",
+      "value": "jetzt verlängern"
     }
   ]
 }

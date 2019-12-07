@@ -56,7 +56,8 @@ const ProlongBox = ({
   if (
     router.pathname === '/pledge' ||
     router.pathname === '/cancel' ||
-    router.pathname === '/meta'
+    router.pathname === '/meta' ||
+    router.pathname === '/status'
   ) {
     return null
   }

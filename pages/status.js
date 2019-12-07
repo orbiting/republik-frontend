@@ -220,7 +220,11 @@ const PrimaryCTA = ({
       params: { package: 'ABO' }
     }
     text = 'Mitglied werden'
-  } else if (questionnaire.userIsEligible && !questionnaire.userHasSubmitted) {
+  } else if (
+    questionnaire &&
+    questionnaire.userIsEligible &&
+    !questionnaire.userHasSubmitted
+  ) {
     target = {
       route: 'questionnaire',
       params: { slug: QSLUG }

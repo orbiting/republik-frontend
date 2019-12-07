@@ -112,6 +112,13 @@ const data = [
   },
   {
     Kategorie: 'Geldgeber',
+    Aktionärin: 'Adrian Gasser',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '5556'
+  },
+  {
+    Kategorie: 'Geldgeber',
     Aktionärin: 'Mettiss AG',
     Typ: 'B',
     'Nominal CHF': '0.40',
@@ -119,10 +126,24 @@ const data = [
   },
   {
     Kategorie: 'Geldgeber',
+    Aktionärin: 'Georg und Bertha Schwyzer-Winiker-Stiftung',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '3334'
+  },
+  {
+    Kategorie: 'Geldgeber',
     Aktionärin: 'Steff Fischer',
     Typ: 'B',
     'Nominal CHF': '0.40',
     Anzahl: '2778'
+  },
+  {
+    Kategorie: 'Geldgeber',
+    Aktionärin: 'Luzius Meisser',
+    Typ: 'B',
+    'Nominal CHF': '0.40',
+    Anzahl: '2223'
   }
 ]
 

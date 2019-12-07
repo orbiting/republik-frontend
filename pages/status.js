@@ -42,7 +42,6 @@ const Page = ({ data }) => {
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
           const { buckets } = data.membershipStats.evolution
-          const firstMonth = buckets[0]
           const lastMonth = buckets[buckets.length - 1]
 
           return (
@@ -62,7 +61,10 @@ const Page = ({ data }) => {
                       }
                     ],
                     status: {
-                      people: lastMonth.active,
+                      people:
+                        lastMonth.active +
+                        lastMonth.new +
+                        lastMonth.subscriptionsRenewalPending,
                       money: data.revenueStats.surplus.total,
                       support: 59
                     }
@@ -271,6 +273,7 @@ CTA
                     numberFormat: 's',
                     colorRange: [
                       '#FFD700',
+                      '#CCAC00',
                       '#3CAD00',
                       '#4B6359',
                       '#333333',
@@ -308,13 +311,21 @@ CTA
                       },
                       {
                         date: month.label,
+                        action: 'Neue grosszügige',
+                        value: String(month.newWithDonation)
+                      },
+                      {
+                        date: month.label,
                         action: 'Bestehende',
-                        value: String(month.activeWithoutDonation)
+                        value: String(
+                          month.activeWithoutDonation +
+                            month.subscriptionsRenewalPending
+                        )
                       },
                       {
                         date: month.label,
                         action: 'Neue',
-                        value: String(month.new)
+                        value: String(month.newWithoutDonation)
                       },
                       {
                         date: month.label,
@@ -333,7 +344,9 @@ CTA
               </div>
 
               {md(mdComponents)`
-## ${lastMonth.active} sind treu
+## ${lastMonth.active +
+                lastMonth.new +
+                lastMonth.subscriptionsRenewalPending} sind treu
 `}
 
               <TestimonialList singleRow minColumns={3} />
@@ -377,10 +390,14 @@ export default compose(
             active
             activeWithDonation
             activeWithoutDonation
+            loss
             lossExpired
             lossCancelled
             new
+            newWithDonation
+            newWithoutDonation
             renewalPending
+            subscriptionsRenewalPending
           }
           updatedAt
         }

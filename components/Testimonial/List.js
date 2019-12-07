@@ -494,8 +494,8 @@ export const testimonialFields = `
 `
 
 const query = gql`
-query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
-  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
+query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!, $membershipAfter: DateTime) {
+  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first, membershipAfter: $membershipAfter) {
     totalCount
     nodes {
       ${testimonialFields}
@@ -511,6 +511,9 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
 export const ListWithQuery = compose(
   withT,
   graphql(query, {
+    options: ({ ssr }) => ({
+      ssr
+    }),
     props: ({ data }) => {
       return {
         loading: data.loading,

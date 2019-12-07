@@ -25,8 +25,8 @@ import { CROWDFUNDING } from '../lib/constants'
 // Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
 // Abgerufen am 07.12.19 um 14:27
 const TOTAL_NOV19 = 16799 + 1730
-// Question 405 «Can Quite» plus Monatsabonnements
-const TOTAL_CAN_QUIT = 12896 + 1730
+// Question 405 «Can Quite»
+const TOTAL_CAN_QUIT = 12896
 
 const Page = ({ data }) => {
   const meta = {

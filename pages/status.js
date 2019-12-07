@@ -21,7 +21,12 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING } from '../lib/constants'
 
-const ACTIVE_BEYOND = 4033
+// Quelle «Mitglieder- und Abonnementzahlen» Dashboard
+// Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
+// Abgerufen am 07.12.19 um 14:27
+const TOTAL_NOV19 = 16799 + 1730
+// Question 405 «Can Quite» plus Monatsabonnements
+const TOTAL_CAN_QUIT = 12896 + 1730
 
 const Page = ({ data }) => {
   const meta = {
@@ -283,26 +288,14 @@ CTA
                         x2: '2020-03',
                         label: 'durch 75% Erneuerung',
                         value:
-                          ACTIVE_BEYOND +
-                          (firstMonth.active -
-                            ACTIVE_BEYOND +
-                            firstMonth.renewalPending +
-                            firstMonth.lossExpired +
-                            firstMonth.lossCancelled) *
-                            0.75
+                          TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.75
                       },
                       {
                         x1: '2020-03',
                         x2: '2020-03',
                         label: 'durch 50% Erneuerung',
                         value:
-                          ACTIVE_BEYOND +
-                          (firstMonth.active -
-                            ACTIVE_BEYOND +
-                            firstMonth.renewalPending +
-                            firstMonth.lossExpired +
-                            firstMonth.lossCancelled) *
-                            0.5
+                          TOTAL_NOV19 - TOTAL_CAN_QUIT + TOTAL_CAN_QUIT * 0.5
                       }
                     ]
                   }}

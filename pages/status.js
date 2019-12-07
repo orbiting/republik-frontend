@@ -28,7 +28,7 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING, STATUS_POLL_INTERVAL_MS } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
-import { Link } from '../lib/routes'
+import { Link, questionnaireCrowdSlug } from '../lib/routes'
 
 // Quelle «Mitglieder- und Abonnementzahlen» Dashboard
 // Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
@@ -37,7 +37,6 @@ const TOTAL_NOV19 = 16799 + 1730
 // Question 405 «Can Quite»
 const TOTAL_CAN_QUIT = 12896
 
-const QSLUG = '1-minute'
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
 const Accordion = withT(
@@ -227,7 +226,7 @@ const PrimaryCTA = ({
   ) {
     target = {
       route: 'questionnaire',
-      params: { slug: QSLUG }
+      params: { slug: questionnaireCrowdSlug }
     }
     text = 'Ich möchte der Republik helfen.'
   } else {
@@ -646,7 +645,7 @@ const statusQuery = gql`
         updatedAt
       }
     }
-    questionnaire(slug: "${QSLUG}") {
+    questionnaire(slug: "${questionnaireCrowdSlug}") {
       turnout {
         submitted
       }
@@ -675,7 +674,7 @@ const actionsQuery = gql`
         }
       }
     }
-    questionnaire(slug: "${QSLUG}") {
+    questionnaire(slug: "${questionnaireCrowdSlug}") {
       userIsEligible
       userHasSubmitted
     }

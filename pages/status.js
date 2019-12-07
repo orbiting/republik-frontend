@@ -28,6 +28,7 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 
 import { CROWDFUNDING, STATUS_POLL_INTERVAL_MS } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
+import { Link } from '../lib/routes'
 
 // Quelle «Mitglieder- und Abonnementzahlen» Dashboard
 // Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
@@ -39,10 +40,11 @@ const TOTAL_CAN_QUIT = 12896
 const QSLUG = '1-minute'
 const END_DATE = '2020-03-31T10:00:00.000Z'
 
-const Accordion = compose(withT)(
+const Accordion = withT(
   ({
     t,
     me,
+    query,
     shouldBuyProlong,
     isReactivating,
     defaultBenefactor,
@@ -54,45 +56,63 @@ const Accordion = compose(withT)(
       <div style={{ marginTop: 20, marginBottom: 40 }}>
         {shouldBuyProlong ? (
           <>
-            <PackageItem
-              t={t}
-              dark
-              crowdfundingName={CROWDFUNDING}
-              name='PROLONG'
-              title={isReactivating ? 'Zurückkehren' : undefined}
-              hover={hover}
-              setHover={setHover}
-              price={24000}
-            />
-            <PackageItem
-              t={t}
-              dark
-              crowdfundingName={CROWDFUNDING}
-              name='PROLONG-BIG'
-              hover={hover}
-              setHover={setHover}
-              title={
-                isReactivating
-                  ? 'Grosszügig zurückkehren'
-                  : 'Grosszügig verlängern'
-              }
-              price={48000}
-            />
-            <PackageItem
-              t={t}
-              dark
-              crowdfundingName={CROWDFUNDING}
-              name='PROLONG-BEN'
-              hover={hover}
-              setHover={setHover}
-              title={defaultBenefactor ? 'Gönner bleiben' : 'Gönner werden'}
-              price={100000}
-            />
+            <Link
+              route='pledge'
+              params={{ package: 'PROLONG', token: query.token }}
+              passHref
+            >
+              <PackageItem
+                t={t}
+                dark
+                crowdfundingName={CROWDFUNDING}
+                name='PROLONG'
+                title={isReactivating ? 'Zurückkehren' : undefined}
+                hover={hover}
+                setHover={setHover}
+                price={24000}
+              />
+            </Link>
+            <Link
+              route='pledge'
+              params={{ package: 'PROLONG', price: 48000, token: query.token }}
+              passHref
+            >
+              <PackageItem
+                t={t}
+                dark
+                crowdfundingName={CROWDFUNDING}
+                name='PROLONG-BIG'
+                hover={hover}
+                setHover={setHover}
+                title={
+                  isReactivating
+                    ? 'Grosszügig zurückkehren'
+                    : 'Grosszügig verlängern'
+                }
+                price={48000}
+              />
+            </Link>
+            <Link
+              route='pledge'
+              params={{ package: 'PROLONG', price: 100000, token: query.token }}
+              passHref
+            >
+              <PackageItem
+                t={t}
+                dark
+                crowdfundingName={CROWDFUNDING}
+                name='PROLONG-BEN'
+                hover={hover}
+                setHover={setHover}
+                title={defaultBenefactor ? 'Gönner bleiben' : 'Gönner werden'}
+                price={100000}
+              />
+            </Link>
           </>
         ) : (
           <>
             {me && me.activeMembership ? (
-              <>
+              <Link route='pledge' params={{ package: 'ABO_GIVE' }} passHref>
                 <PackageItem
                   t={t}
                   dark
@@ -102,52 +122,69 @@ const Accordion = compose(withT)(
                   setHover={setHover}
                   price={24000}
                 />
-              </>
+              </Link>
             ) : (
               <>
-                <PackageItem
-                  t={t}
-                  dark
-                  crowdfundingName={CROWDFUNDING}
-                  name='MONTHLY_ABO'
-                  hover={hover}
-                  setHover={setHover}
-                  price={24000}
-                />
-                <PackageItem
-                  t={t}
-                  dark
-                  crowdfundingName={CROWDFUNDING}
-                  name='ABO'
-                  hover={hover}
-                  setHover={setHover}
-                  price={24000}
-                />
-                <PackageItem
-                  t={t}
-                  dark
-                  crowdfundingName={CROWDFUNDING}
-                  name='BENEFACTOR'
-                  hover={hover}
-                  setHover={setHover}
-                  price={100000}
-                />
+                <Link
+                  route='pledge'
+                  params={{ package: 'MONTHLY_ABO' }}
+                  passHref
+                >
+                  <PackageItem
+                    t={t}
+                    dark
+                    crowdfundingName={CROWDFUNDING}
+                    name='MONTHLY_ABO'
+                    hover={hover}
+                    setHover={setHover}
+                    price={2200}
+                  />
+                </Link>
+                <Link route='pledge' params={{ package: 'ABO' }} passHref>
+                  <PackageItem
+                    t={t}
+                    dark
+                    crowdfundingName={CROWDFUNDING}
+                    name='ABO'
+                    hover={hover}
+                    setHover={setHover}
+                    price={24000}
+                  />
+                </Link>
+                <Link
+                  route='pledge'
+                  params={{ package: 'BENEFACTOR' }}
+                  passHref
+                >
+                  <PackageItem
+                    t={t}
+                    dark
+                    crowdfundingName={CROWDFUNDING}
+                    name='BENEFACTOR'
+                    hover={hover}
+                    setHover={setHover}
+                    price={100000}
+                  />
+                </Link>
               </>
             )}
           </>
         )}
-        <PackageItem
-          t={t}
-          dark
-          crowdfundingName={CROWDFUNDING}
-          name='DONATE'
-          hover={hover}
-          setHover={setHover}
-        />
+        <Link route='pledge' params={{ package: 'DONATE' }} passHref>
+          <PackageItem
+            t={t}
+            dark
+            crowdfundingName={CROWDFUNDING}
+            name='DONATE'
+            hover={hover}
+            setHover={setHover}
+          />
+        </Link>
         <PackageBuffer />
         <br />
         <PrimaryCTA
           me={me}
+          query={query}
           questionnaire={questionnaire}
           shouldBuyProlong={shouldBuyProlong}
           isReactivating={isReactivating}
@@ -166,32 +203,45 @@ const PrimaryCTA = ({
   isReactivating,
   defaultBenefactor,
   block,
+  query,
   children
 }) => {
+  let target
+  let text
+  if (shouldBuyProlong) {
+    target = {
+      route: 'pledge',
+      params: { package: 'PROLONG' }
+    }
+    text = isReactivating ? 'Zurückkehren' : 'Treu bleiben'
+  } else if (!(me && me.activeMembership)) {
+    target = {
+      route: 'pledge',
+      params: { package: 'ABO' }
+    }
+    text = 'Mitglied werden'
+  } else if (questionnaire.userIsEligible && !questionnaire.userHasSubmitted) {
+    target = {
+      route: 'questionnaire',
+      params: { slug: QSLUG }
+    }
+    text = 'Ich möchte der Republik helfen.'
+  } else {
+    return null
+  }
   if (children) {
-    return children
+    return (
+      <Link {...target} passHref>
+        {children}
+      </Link>
+    )
   }
   return (
-    <>
-      {shouldBuyProlong ? (
-        <Button primary block={block}>
-          {isReactivating ? 'Zurückkehren' : 'Treu bleiben'}
-        </Button>
-      ) : (
-        !(me && me.activeMembership) && (
-          <Button primary block={block}>
-            Mitglied werden
-          </Button>
-        )
-      )}
-      {!shouldBuyProlong &&
-        questionnaire.userIsEligible &&
-        !questionnaire.userHasSubmitted && (
-          <Button white block={block}>
-            Ich möchte der Republik helfen.
-          </Button>
-        )}
-    </>
+    <Link {...target} passHref>
+      <Button primary block={block}>
+        {text}
+      </Button>
+    </Link>
   )
 }
 
@@ -266,6 +316,7 @@ const Page = ({
       `}
               <Accordion
                 me={me}
+                query={query}
                 shouldBuyProlong={shouldBuyProlong}
                 isReactivating={isReactivating}
                 defaultBenefactor={defaultBenefactor}
@@ -290,6 +341,7 @@ Wir sind überzeugt, dass unsere Existenz einen Unterschied machen kann. Deshalb
 ${(
   <PrimaryCTA
     me={me}
+    query={query}
     questionnaire={questionnaire}
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
@@ -453,6 +505,7 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
 ${(
   <PrimaryCTA
     me={me}
+    query={query}
     questionnaire={questionnaire}
     shouldBuyProlong={shouldBuyProlong}
     isReactivating={isReactivating}
@@ -548,6 +601,7 @@ PS: Falls Sie noch **offene Fragen** haben: Wir haben ein rundes Dutzend der wic
 
               <Accordion
                 me={me}
+                query={query}
                 shouldBuyProlong={shouldBuyProlong}
                 isReactivating={isReactivating}
                 defaultBenefactor={defaultBenefactor}

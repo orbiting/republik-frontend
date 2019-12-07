@@ -233,12 +233,18 @@ class Status extends Component {
               />
             </Fragment>
           ))}
-        <P>
-          <span {...styles.smallNumber}>59 Komplizen</span>
-          <Label style={{ color: '#fff' }}>
-            Personen die bereit sind fürs uns zu werben
-          </Label>
-        </P>
+        {status.support !== undefined && (
+          <P>
+            <span {...styles.smallNumber}>
+              {t('crowdfunding/status/goal/support', {
+                count: status.support
+              })}
+            </span>
+            <Label style={{ color: '#fff' }}>
+              {t('crowdfunding/status/goal/support/label')}
+            </Label>
+          </P>
+        )}
         <P>
           <span
             {...styles.smallNumber}

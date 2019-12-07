@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-04T17:39:58.613Z",
+  "updated": "2019-12-07T13:01:22.273Z",
   "title": "live",
   "data": [
     {
@@ -837,6 +837,10 @@
     {
       "key": "Account/Update/email/updating",
       "value": "Neue E-Mail-Adresse wird gespeichert"
+    },
+    {
+      "key": "Account/Update/details/title",
+      "value": "Bitte überprüfen Sie Ihre Angaben und fügen Sie hinzu:"
     },
     {
       "key": "Account/noActiveMembership",
@@ -4072,63 +4076,55 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Republik Moonshot"
+      "value": "Komplizen Formular"
+    },
+    {
+      "key": "questionnaire/crowd/description",
+      "value": "Werden Sie Komplize der Republik und sagen Sie uns, was Sie tun möchten."
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "1. Fill in this questionnaire ✅<br /> 2. Board our rocket to the Moon 🚀"
+      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik - und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, ihnen die passende Unterstützungsmöglichkeit vorzuschlagen."
+    },
+    {
+      "key": "questionnaire/crowd/question1",
+      "value": "Um das Überleben der Republik sicher zu stellen, muss sie bekannter werden und mehr Menschen müssen sie abonnieren. Helfen Sie mit, für die Republik zu kämpfen?"
     },
     {
       "key": "questionnaire/crowd/question1/alt",
-      "value": "Are you sure? We have cookies 🍪"
-    },
-    {
-      "key": "questionnaire/crowd/question1/label1/alt",
-      "value": "Maybe I could help a little…"
-    },
-    {
-      "key": "questionnaire/crowd/question1/label2/alt",
-      "value": "I'm sure."
+      "value": "Nur um sicher zu gehen: Haben Sie sich vertippt?"
     },
     {
       "key": "questionnaire/crowd/submitted/title",
       "value": "Vielen Dank!"
     },
     {
-      "key": "questionnaire/crowd/submitted/intro/1",
-      "value": "Wir werden uns bei Ihnen melden."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/intro/2",
-      "value": "Was Sie jetzt schon mal tun können:"
+      "key": "questionnaire/crowd/submitted/intro",
+      "value": "Vielen Dank für Ihre Bereitschaft mit zu helfen für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten: "
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
-      "value": "<a href='https://www.republik.ch/angebote?package=ABO_GIVE'>Verschenken Sie Jahresmitgliedschaften</a> zu Weihnachten, jetzt exklusiv mit Buch!"
+      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie darüber."
     },
     {
       "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Zu teuer? Sie können auch <a href='https://www.republik.ch/angebote?package=ABO_GIVE_MONTHS'>Monats-Abos verschenken</a>"
+      "value": "Sie haben Ihr Abo noch nicht erneuert? Hier geht es zur <a href='https://www.republik.ch/angebote?package=PROLONG'>Erneuerung Ihres Jahresabos</a>."
     },
     {
-      "key": "questionnaire/crowd/submitted/list/3",
-      "value": "Das wichtigste: bleiben Sie neugierig!"
+      "key": "questionnaire/crowd/submitted/share",
+      "value": "Teilen Sie Ihre Erneuerung auf sozialen Medien."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
-      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, die Republik bekannter zu machen."
+      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, aktiv mitzumachen die Republik bekannter zu machen. Sie können das Überleben des Projektes auch durch eine Spende sichern."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/list/1",
-      "value": "Sie können das Überleben auch durch <a href='https://www.republik.ch/angebote?package=DONATE'>eine Spende</a> sichern."
+      "value": "Werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/list/2",
-      "value": "Oder werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/declined/list/3",
-      "value": "<a href='https://www.republik.ch/'>Zurück zum Magazin</a>"
+      "value": "Oder <a href='https://www.republik.ch/angebote?package=ABO_GIVE'>verschenken Sie eine Abo</a>."
     },
     {
       "key": "pages/meta/questionnaire/counterText",
@@ -4161,6 +4157,10 @@
     {
       "key": "pages/meta/questionnaire/socialDescription",
       "value": "Um an der Umfrage teilzunehmen, müssen Sie Mitglied oder Abonnentin sein."
+    },
+    {
+      "key": "pages/meta/questionnaire/crowd/socialTitle",
+      "value": "Das 1-Minuten Formular"
     },
     {
       "key": "pages/meta/behind/gallery",
@@ -4588,11 +4588,11 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "von {count} aktive Verlegerinnen am 31. März"
+      "value": "von {count} aktiven Verlegerinnen am 31. März"
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von {count} Investitionen und Grosszügigkeit "
+      "value": "von {count} Investitionen und Grosszügigkeit"
     },
     {
       "key": "crowdfunding/status/goal/money",
@@ -4601,6 +4601,14 @@
     {
       "key": "crowdfunding/status/time/label",
       "value": "bis Deadline"
+    },
+    {
+      "key": "crowdfunding/status/goal/support",
+      "value": "{count} Komplizen"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/label",
+      "value": "Personen, die bereit sind für uns zu werben"
     },
     {
       "key": "crowdfunding/status/time/days/1",

@@ -464,7 +464,7 @@ class Submit extends Component {
       signInError,
       loading
     } = this.state
-    const { me, user, t, paymentMethods } = this.props
+    const { me, user, t, query, paymentMethods } = this.props
 
     const errorMessages = this.getErrorMessages()
 
@@ -474,7 +474,8 @@ class Submit extends Component {
           key={me && me.id}
           ref={this.paymentRef}
           t={t}
-          loadSources={!!me}
+          loadSources={!!me || !!query.token}
+          accessToken={query.token}
           onlyChargable
           withoutAddress={this.withoutAddress()}
           payload={{

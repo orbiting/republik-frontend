@@ -25,7 +25,8 @@ import {
   mediaQueries,
   fontFamilies,
   Field,
-  A
+  A,
+  colors
 } from '@project-r/styleguide'
 
 const { P } = Interaction
@@ -125,6 +126,9 @@ const styles = {
     borderWidth: '0 12.5px 17px 12.5px',
     borderColor: 'transparent transparent #ffffff transparent'
   }),
+  itemArrowDark: css({
+    borderColor: `transparent transparent ${colors.negative.containerBg} transparent`
+  }),
   name: css({
     position: 'absolute',
     bottom: PADDING + 5,
@@ -163,7 +167,8 @@ export const Item = ({
   singleRow,
   minColumns,
   maxColumns,
-  style
+  style,
+  dark
 }) => {
   const itemStyles = minColumns
     ? getItemStyles(singleRow, minColumns, maxColumns)
@@ -195,7 +200,9 @@ export const Item = ({
         <span {...styles.aspectFade} style={{ opacity: isActive ? 0 : 1 }} />
       </span>
       {!isActive && <span {...styles.name}>{name}</span>}
-      {isActive && <span {...styles.itemArrow} />}
+      {isActive && (
+        <span {...merge(styles.itemArrow, dark && styles.itemArrowDark)} />
+      )}
     </Element>
   )
 }
@@ -308,7 +315,8 @@ export class List extends Component {
       singleRow,
       minColumns,
       showCredentials,
-      share
+      share,
+      dark
     } = this.props
     const { columns, open } = this.state
 
@@ -348,6 +356,7 @@ export class List extends Component {
                     share={share}
                     t={t}
                     data={openItem}
+                    dark={dark}
                   />
                 )
               }
@@ -370,6 +379,7 @@ export class List extends Component {
                 singleRow={singleRow}
                 minColumns={minColumns}
                 maxColumns={this.getMaxColumns()}
+                dark={dark}
                 href={id && `/community?id=${id}`}
                 onClick={e => {
                   if (shouldIgnoreClick(e)) {
@@ -400,6 +410,7 @@ export class List extends Component {
                     key={`detail${row}`}
                     share={share}
                     t={t}
+                    dark={dark}
                     data={openItem}
                   />
                 )
@@ -470,7 +481,12 @@ export class List extends Component {
                 )}
               </div>
               {singleRowOpenItem && (
-                <Detail t={t} share={share} data={singleRowOpenItem} />
+                <Detail
+                  t={t}
+                  share={share}
+                  data={singleRowOpenItem}
+                  dark={dark}
+                />
               )}
             </Fragment>
           )
@@ -494,8 +510,8 @@ export const testimonialFields = `
 `
 
 const query = gql`
-query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!) {
-  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first) {
+query statements($seed: Float, $search: String, $focus: String, $after: String, $first: Int!, $membershipAfter: DateTime) {
+  statements(seed: $seed, search: $search, focus: $focus, after: $after, first: $first, membershipAfter: $membershipAfter) {
     totalCount
     nodes {
       ${testimonialFields}
@@ -508,9 +524,12 @@ query statements($seed: Float, $search: String, $focus: String, $after: String, 
 }
 `
 
-const ListWithQuery = compose(
+export const ListWithQuery = compose(
   withT,
   graphql(query, {
+    options: ({ ssr }) => ({
+      ssr
+    }),
     props: ({ data }) => {
       return {
         loading: data.loading,

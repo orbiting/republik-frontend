@@ -71,7 +71,7 @@ const withMutation = graphql(mutation, {
 const meta = {
   title: t('questionnaire/crowd/title'),
   description: t('questionnaire/crowd/description'),
-  image: `${CDN_FRONTEND_BASE_URL}/static/social-media/umfrage/crowd/image.png`,
+  image: `${CDN_FRONTEND_BASE_URL}/static/social-media/logo.png`,
   facebookTitle: t('pages/meta/questionnaire/crowd/socialTitle'),
   twitterTitle: t('pages/meta/questionnaire/crowd/socialTitle')
 }

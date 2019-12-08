@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-05T15:19:36.809Z",
+  "updated": "2019-12-08T18:49:53.975Z",
   "title": "live",
   "data": [
     {
@@ -4076,11 +4076,11 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "1-Minuten-Formular"
+      "value": "Haben Sie eine Minute?"
     },
     {
       "key": "questionnaire/crowd/description",
-      "value": "Werden Sie Komplize der Republik und sagen Sie uns, was Sie tun möchten."
+      "value": "Die Republik muss bekannter werden. Helfen Sie uns, Ihnen zu helfen, uns zu helfen."
     },
     {
       "key": "questionnaire/crowd/intro",
@@ -4561,18 +4561,6 @@
     {
       "key": "crowdfunding/status/time/label",
       "value": "bis Deadline"
-    },
-    {
-      "key": "crowdfunding/status/goal/support/other",
-      "value": "{count} Komplizen"
-    },
-    {
-      "key": "crowdfunding/status/goal/support/1",
-      "value": "{count} Komplize"
-    },
-    {
-      "key": "crowdfunding/status/goal/support/label",
-      "value": "Personen, die bereit sind für uns zu werben"
     },
     {
       "key": "crowdfunding/status/time/days/1",
@@ -6436,11 +6424,35 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "werden am 31. März definitiv dabei sein. Ziel: {count}."
+      "value": "Verleger, die am 31. März dabei sind. Ziel: {count}"
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von Investoren und grosszügigen Verlegerinnen. Ziel: {count}."
+      "value": "von Investoren und grosszügigen Verlegerinnen erhalten. Ziel: {count}"
+    },
+    {
+      "key": "nav/cockpit",
+      "value": "Cockpit"
+    },
+    {
+      "key": "cockpit/ios",
+      "value": "In der App sind die meisten Unterstützungsmöglichkeiten nicht verfügbar. Für die Verlegerschaft gibt es ein kleines Formular mit dem Sie in einer Minute Komplize werden können."
+    },
+    {
+      "key": "cockpit/ios/cta",
+      "value": "Komplizin werden"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/other",
+      "value": "{count} Komplizen"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/1",
+      "value": "{count} Komplize"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/label",
+      "value": "Personen, die bereit sind, die Republik bekannter zu machen"
     }
   ]
 }

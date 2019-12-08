@@ -81,6 +81,37 @@ class Pledge extends Component {
       }
     }
 
+    if (query.membershipType) {
+      const pkg = this.getPkg()
+      if (pkg) {
+        const matchingOptions = pkg.options.filter(
+          option =>
+            option.membership &&
+            option.reward &&
+            option.reward.name === query.membershipType
+        )
+        if (matchingOptions.length) {
+          // we set all other options to the min amount (normally 0)
+          pkg.options
+            .filter(option => option.membership)
+            .forEach(option => {
+              values[getOptionFieldKey(option)] = option.minAmount
+            })
+          // set matching options to max amount (normally 1)
+          matchingOptions
+            // only first one if grouped
+            .filter(
+              (option, i, all) =>
+                !option.optionGroup ||
+                all.findIndex(o => o.optionGroup === option.optionGroup) === i
+            )
+            .forEach(option => {
+              values[getOptionFieldKey(option)] = option.maxAmount
+            })
+        }
+      }
+    }
+
     if (pledge) {
       values.email = pledge.user.email
       values.firstName = pledge.user.firstName
@@ -403,6 +434,9 @@ class Pledge extends Component {
                     [
                       ownMembership &&
                         `pledge/title/${pkg.name}/${ownMembership.type.name}`,
+                      ownMembership &&
+                        new Date(ownMembership.graceEndDate) < new Date() &&
+                        `pledge/title/${pkg.name}/reactivate`,
                       pkg && isMember && `pledge/title/${pkg.name}/member`,
                       pkg && `pledge/title/${pkg.name}`,
                       isMember && 'pledge/title/member',
@@ -709,6 +743,7 @@ const query = gql`
             active
             overdue
             autoPay
+            graceEndDate
             type {
               name
             }

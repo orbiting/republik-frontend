@@ -29,6 +29,7 @@ import { ListWithQuery as TestimonialList } from '../components/Testimonial/List
 import { CROWDFUNDING, STATUS_POLL_INTERVAL_MS } from '../lib/constants'
 import withMe from '../lib/apollo/withMe'
 import { Link, questionnaireCrowdSlug } from '../lib/routes'
+import { swissTime } from '../lib/utils/format'
 
 // Quelle «Mitglieder- und Abonnementzahlen» Dashboard
 // Stand Verlauf Mitgliedschaften und Verlauf Monatsabonnements per 31.11.2019
@@ -38,6 +39,8 @@ const TOTAL_NOV19 = 16799 + 1730
 const TOTAL_CAN_QUIT = 12896
 
 const END_DATE = '2020-03-31T10:00:00.000Z'
+
+const formatDateTime = swissTime.format('%d.%m.%Y %H:%M')
 
 const Accordion = withT(
   ({
@@ -275,8 +278,8 @@ const Page = ({
         error={data.error}
         style={{ minHeight: `calc(90vh)` }}
         render={() => {
-          const { buckets } = data.membershipStats.evolution
-          const lastMonth = buckets[buckets.length - 1]
+          const { evolution } = data.membershipStats
+          const lastMonth = evolution.buckets[evolution.buckets.length - 1]
 
           const shouldBuyProlong =
             canProlongOwn &&
@@ -463,7 +466,7 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
                       }
                     ]
                   }}
-                  values={buckets.reduce((values, month) => {
+                  values={evolution.buckets.reduce((values, month) => {
                     return values.concat([
                       {
                         date: month.label,
@@ -500,7 +503,8 @@ Doch dafür brauchen wir Sie. An Bord. Und an Deck.
                   Erneuerungsquoten basierend auf allen Jahresmitgliedschaften
                   die zwischen dem 1. Dezember und 31. März erneuert werden
                   könnten. Als offen gelten Jahresmitgliedschaften wo noch keine
-                  Verlängerungszahlung initiiert wurde.
+                  Verlängerungszahlung initiiert wurde. Datenstand:{' '}
+                  {formatDateTime(new Date(evolution.updatedAt))}
                 </Editorial.Note>
               </div>
 
@@ -617,8 +621,7 @@ PS: Falls Sie noch **offene Fragen** haben: Wir haben ein rundes Dutzend der wic
 
               {md(mdComponents)`
 
-[Alle anschauen](/community)  
-[Statement abgeben](/~me)
+[Alle anschauen](/community) – [Statement abgeben](/einrichten)
 
       `}
 

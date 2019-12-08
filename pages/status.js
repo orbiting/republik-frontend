@@ -566,7 +566,7 @@ Falls Sie sich vorstellen könnten, dabei zu sein, haben wir eine kleines Formul
 
 ${
   questionnaire && questionnaire.userHasSubmitted ? (
-    'Vielen Dank für ausfüllen.'
+    'Vielen Dank fürs Ausfüllen.'
   ) : (
     <Link
       route='questionnaireCrowd'

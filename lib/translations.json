@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T14:50:57.712Z",
+  "updated": "2019-12-08T18:08:32.152Z",
   "title": "live",
   "data": [
     {
@@ -4563,18 +4563,6 @@
       "value": "bis Deadline"
     },
     {
-      "key": "crowdfunding/status/goal/support/other",
-      "value": "{count} Komplizen"
-    },
-    {
-      "key": "crowdfunding/status/goal/support/1",
-      "value": "{count} Komplize"
-    },
-    {
-      "key": "crowdfunding/status/goal/support/label",
-      "value": "Personen, die bereit sind für uns zu werben"
-    },
-    {
       "key": "crowdfunding/status/time/days/1",
       "value": "1 Tag"
     },
@@ -6436,11 +6424,11 @@
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/people",
-      "value": "werden am 31. März definitiv dabei sein. Ziel: {count}."
+      "value": "Verleger, die am 31. März dabei sind. Ziel: {count}"
     },
     {
       "key": "crowdfunding/status/goal/SURVIVE/money",
-      "value": "von Investoren und grosszügigen Verlegerinnen. Ziel: {count}."
+      "value": "von Investoren und grosszügigen Verlegerinnen erhalten. Ziel: {count}"
     },
     {
       "key": "nav/cockpit",
@@ -6453,6 +6441,18 @@
     {
       "key": "cockpit/ios/cta",
       "value": "Komplizin werden"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/other",
+      "value": "{count} Komplizen"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/1",
+      "value": "{count} Komplize"
+    },
+    {
+      "key": "crowdfunding/status/goal/support/label",
+      "value": "Personen, die bereit sind, die Republik bekannter zu machen"
     }
   ]
 }

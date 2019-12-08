@@ -19,7 +19,6 @@ import Frame from '../components/Frame'
 import { light as mdComponents } from '../lib/utils/mdComponents'
 
 import { PackageItem, PackageBuffer } from '../components/Pledge/Accordion'
-import { withEditor } from '../components/Auth/checkRoles'
 
 import { RawStatus } from '../components/CrowdfundingStatus'
 import withT from '../lib/withT'
@@ -306,8 +305,7 @@ const Page = ({
   canProlongOwn,
   isReactivating,
   defaultBenefactor,
-  router: { query },
-  isEditor
+  router: { query }
 }) => {
   const meta = {
     pageTitle: '🚀 Republik Cockpit',
@@ -315,14 +313,6 @@ const Page = ({
     description:
       'Kämpfen wir gemeinsam um die Zukunft der Republik. Was Sie wissen müssen, wo wir stehen, und warum wir Sie brauchen.',
     image: `${CDN_FRONTEND_BASE_URL}/static/social-media/cockpit.jpg`
-  }
-
-  if (!isEditor) {
-    return (
-      <Frame meta={meta} dark>
-        Das Cockpit ist bald verfügbar.
-      </Frame>
-    )
   }
 
   return (
@@ -767,7 +757,6 @@ export default compose(
   withT,
   withMe,
   withRouter,
-  withEditor,
   graphql(statusQuery, {
     options: {
       pollInterval: +STATUS_POLL_INTERVAL_MS

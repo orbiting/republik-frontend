@@ -840,7 +840,7 @@
     },
     {
       "key": "Account/Update/details/title",
-      "value": "Bitte überprüfen Sie Ihre Angaben und fügen Sie hinzu:"
+      "value": "Bitte überprüfen Sie Ihre Angaben und korrigieren beziehungs­weise ergänzen Sie."
     },
     {
       "key": "Account/noActiveMembership",
@@ -4076,7 +4076,7 @@
     },
     {
       "key": "questionnaire/crowd/title",
-      "value": "Komplizen Formular"
+      "value": "1-Minuten-Formular"
     },
     {
       "key": "questionnaire/crowd/description",
@@ -4084,15 +4084,15 @@
     },
     {
       "key": "questionnaire/crowd/intro",
-      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik - und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, ihnen die passende Unterstützungsmöglichkeit vorzuschlagen."
+      "value": "Schön, sind Sie hier! Wir kämpfen bis Ende März für die Republik – und brauchen dabei Ihre Hilfe. Dieses kleine Formular hilft uns, Ihnen die passende Unterstützungs­möglichkeit vorzuschlagen."
     },
     {
       "key": "questionnaire/crowd/question1",
-      "value": "Um das Überleben der Republik sicher zu stellen, muss sie bekannter werden und mehr Menschen müssen sie abonnieren. Helfen Sie mit, für die Republik zu kämpfen?"
+      "value": "Um die Zukunft der Republik sicherzustellen, muss sie bekannter werden, und mehr Menschen müssen sie abonnieren. Helfen Sie mit?"
     },
     {
       "key": "questionnaire/crowd/question1/alt",
-      "value": "Nur um sicher zu gehen: Haben Sie sich vertippt?"
+      "value": "Nur um sicherzugehen: Haben Sie sich vertippt?"
     },
     {
       "key": "questionnaire/crowd/submitted/title",
@@ -4100,31 +4100,19 @@
     },
     {
       "key": "questionnaire/crowd/submitted/intro",
-      "value": "Vielen Dank für Ihre Bereitschaft mit zu helfen für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekanntmachung der Republik starten: "
+      "value": "Vielen Dank für Ihre Bereitschaft, mitzuhelfen und für die Republik zu kämpfen! Wir melden uns bald bei Ihnen. Bis dahin können Sie bereits mit der Bekannt­machung der Republik starten:"
     },
     {
       "key": "questionnaire/crowd/submitted/list/1",
-      "value": "Teilen Sie Ihren Lieblingsartikel mit Freunden und sprechen Sie darüber."
+      "value": "Teilen Sie Ihren Lieblings­artikel mit Freunden und sprechen Sie darüber."
     },
     {
       "key": "questionnaire/crowd/submitted/list/2",
-      "value": "Sie haben Ihr Abo noch nicht erneuert? Hier geht es zur <a href='https://www.republik.ch/angebote?package=PROLONG'>Erneuerung Ihres Jahresabos</a>."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/share",
-      "value": "Teilen Sie Ihre Erneuerung auf sozialen Medien."
+      "value": "Auf der Kampagnen­seite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten zur Mithilfe</a>."
     },
     {
       "key": "questionnaire/crowd/submitted/declined/intro",
-      "value": "Vielen Dank für Ihre Zeit. Wir verstehen, dass Sie keine Zeit haben, aktiv mitzumachen die Republik bekannter zu machen. Sie können das Überleben des Projektes auch durch eine Spende sichern."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/declined/list/1",
-      "value": "Werden Sie jetzt <a href='https://www.republik.ch/angebote?package=BENEFACTOR'>Gönnerin</a>."
-    },
-    {
-      "key": "questionnaire/crowd/submitted/declined/list/2",
-      "value": "Oder <a href='https://www.republik.ch/angebote?package=ABO_GIVE'>verschenken Sie eine Abo</a>."
+      "value": "Vielen Dank! Wir verstehen, dass Sie keine Zeit haben, aktiv dabei mitzuhelfen, die Republik bekannter zu machen. Sie können die Zukunft der Republik auch durch eine Spende sichern. Auf der Kampagnenseite finden Sie alle aktuellen <a href=\"/cockpit\">Informationen zur Kampagne und mehr Möglichkeiten für Ihre Unterstützung</a>."
     },
     {
       "key": "pages/meta/questionnaire/counterText",

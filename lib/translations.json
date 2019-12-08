@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-08T14:28:53.803Z",
+  "updated": "2019-12-08T14:50:57.712Z",
   "title": "live",
   "data": [
     {
@@ -6445,6 +6445,14 @@
     {
       "key": "nav/cockpit",
       "value": "Cockpit"
+    },
+    {
+      "key": "cockpit/ios",
+      "value": "In der App sind die meisten Unterstützungsmöglichkeiten nicht verfügbar. Für die Verlegerschaft gibt es ein kleines Formular mit dem Sie in einer Minute Komplize werden können."
+    },
+    {
+      "key": "cockpit/ios/cta",
+      "value": "Komplizin werden"
     }
   ]
 }

@@ -668,6 +668,7 @@ PS: Falls Sie noch **offene Fragen** haben: Wir haben ein rundes Dutzend der wic
                 ssr={false}
                 singleRow
                 minColumns={3}
+                dark
               />
               <br />
 

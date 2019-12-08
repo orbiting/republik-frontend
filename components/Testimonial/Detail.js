@@ -44,6 +44,7 @@ const styles = {
 const Detail = ({
   t,
   share,
+  dark,
   data: {
     id,
     slug,
@@ -68,7 +69,10 @@ const Detail = ({
           : {}
       }
     >
-      <H3 {...styles.detailTitle}>
+      <H3
+        {...styles.detailTitle}
+        style={{ color: dark ? colors.negative.text : colors.text }}
+      >
         {slug ? (
           <Link route='profile' params={{ slug }}>
             <a {...linkRule} style={{ color: 'inherit' }}>
@@ -92,12 +96,17 @@ const Detail = ({
           <VideoPlayer key={id} src={{ ...video, poster: portrait }} autoPlay />
         </div>
       ) : statement ? (
-        <SerifP>{inQuotes(statement)}</SerifP>
+        <SerifP style={{ color: dark ? colors.negative.text : colors.text }}>
+          {inQuotes(statement)}
+        </SerifP>
       ) : (
         <br />
       )}
       {!!sequenceNumber && (
-        <P {...styles.number}>
+        <P
+          {...styles.number}
+          style={{ color: dark ? colors.negative.text : colors.text }}
+        >
           {t('memberships/sequenceNumber/label', {
             sequenceNumber
           })}

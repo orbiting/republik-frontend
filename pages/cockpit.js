@@ -4,7 +4,13 @@ import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import { Button, Editorial, Loader, colors } from '@project-r/styleguide'
+import {
+  Button,
+  Editorial,
+  Interaction,
+  Loader,
+  colors
+} from '@project-r/styleguide'
 import { ChartTitle, ChartLead, Chart } from '@project-r/styleguide/chart'
 
 import md from 'markdown-in-js'
@@ -48,7 +54,10 @@ const Accordion = withT(
     const [hover, setHover] = React.useState()
 
     return (
-      <div style={{ marginTop: 20, marginBottom: 40 }}>
+      <div style={{ marginTop: 10, marginBottom: 40 }}>
+        <Interaction.P style={{ color: '#fff', marginBottom: 10 }}>
+          <strong>So können Sie uns jetzt unterstützen:</strong>
+        </Interaction.P>
         {shouldBuyProlong ? (
           <>
             <Link
@@ -175,6 +184,7 @@ const Accordion = withT(
             dark
             crowdfundingName={CROWDFUNDING}
             name='DONATE'
+            title='Spenden'
             hover={hover}
             setHover={setHover}
           />
@@ -310,7 +320,7 @@ const Page = ({
               </div>
               {md(mdComponents)`
 
-# Die Republik braucht Ihre Unterstützung, Ihren Mut und Ihren Einsatz, damit sie in Zukunft bestehen kann
+# Die Republik braucht Ihre Unterstützung, Ihren Mut und Ihren Einsatz, damit sie in Zukunft bestehen kann!
 
       `}
               <Accordion

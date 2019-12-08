@@ -259,6 +259,7 @@ const Page = ({
   actionsLoading,
   questionnaire,
   canProlongOwn,
+  isReactivating,
   defaultBenefactor,
   router: { query }
 }) => {
@@ -282,10 +283,6 @@ const Page = ({
             (!me ||
               (me.activeMembership &&
                 new Date(me.activeMembership.endDate) <= new Date(END_DATE)))
-          const isReactivating =
-            canProlongOwn &&
-            !(me && me.activeMembership) &&
-            (me || query.reactivate)
 
           return (
             <>
@@ -688,6 +685,7 @@ const actionsQuery = gql`
             user {
               id
             }
+            graceEndDate
           }
           defaultAmount
           reward {
@@ -717,29 +715,27 @@ export default compose(
   }),
   graphql(actionsQuery, {
     props: ({ data: { loading, me, questionnaire } }) => {
-      const canProlongOwn =
+      const isOptionWithOwn = o =>
+        o.membership && o.membership.user && o.membership.user.id === me.id
+      const customPackageWithOwn =
         me &&
         me.customPackages &&
-        me.customPackages.some(p =>
-          p.options.some(
-            o =>
-              o.membership &&
-              o.membership.user &&
-              o.membership.user.id === me.id
-          )
-        )
+        me.customPackages.find(p => p.options.some(isOptionWithOwn))
+      const ownMembership =
+        customPackageWithOwn &&
+        customPackageWithOwn.options.find(isOptionWithOwn).membership
       return {
         actionsLoading: loading,
         questionnaire,
-        canProlongOwn,
+        canProlongOwn: !!customPackageWithOwn,
+        isReactivating:
+          ownMembership && new Date(ownMembership.graceEndDate) < new Date(),
         defaultBenefactor:
-          canProlongOwn &&
+          !!customPackageWithOwn &&
           me.customPackages.some(p =>
             p.options.some(
               o =>
-                o.membership &&
-                o.membership.user &&
-                o.membership.user.id === me.id &&
+                isOptionWithOwn(o) &&
                 o.defaultAmount === 1 &&
                 o.reward.name === 'BENEFACTOR_ABO'
             )

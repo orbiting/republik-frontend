@@ -434,6 +434,9 @@ class Pledge extends Component {
                     [
                       ownMembership &&
                         `pledge/title/${pkg.name}/${ownMembership.type.name}`,
+                      ownMembership &&
+                        new Date(ownMembership.graceEndDate) < new Date() &&
+                        `pledge/title/${pkg.name}/reactivate`,
                       pkg && isMember && `pledge/title/${pkg.name}/member`,
                       pkg && `pledge/title/${pkg.name}`,
                       isMember && 'pledge/title/member',
@@ -740,6 +743,7 @@ const query = gql`
             active
             overdue
             autoPay
+            graceEndDate
             type {
               name
             }

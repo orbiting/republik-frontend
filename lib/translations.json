@@ -1,5 +1,5 @@
 {
-  "updated": "2019-12-07T23:23:52.271Z",
+  "updated": "2019-12-08T00:26:06.764Z",
   "title": "live",
   "data": [
     {
@@ -6449,6 +6449,10 @@
     {
       "key": "package/customize/price/payRegular",
       "value": "Auf den regulären Beitrag zurücksetzten"
+    },
+    {
+      "key": "pledge/title/PROLONG/reactivate",
+      "value": "Reaktivieren Sie Ihr Investment."
     }
   ]
 }
